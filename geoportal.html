@@ -359,8 +359,12 @@
         <h2>Leyenda</h2>
         <div class="legend">
           <div class="legend-item">
-            <span class="legend-swatch" style="background: #cf6a32;"></span>
-            Predios catastrales
+            <span class="legend-swatch" style="background: transparent; border: 2px solid #2d7dd2;"></span>
+            Predios urbanos
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background: transparent; border: 2px solid #2f8f5b;"></span>
+            Predios rurales
           </div>
           <div class="legend-item">
             <span class="legend-swatch" style="background: #2d7dd2;"></span>
@@ -489,12 +493,7 @@
     ).addTo(map);
 
     let cadastreLayer = L.geoJSON(null, {
-      style: {
-        color: "#92461f",
-        weight: 1.5,
-        fillColor: "#cf6a32",
-        fillOpacity: 0.35
-      },
+      style: getCadastreStyle,
       onEachFeature: bindFeatureInfo
     });
 
@@ -552,6 +551,18 @@
       return properties.tipo ? String(properties.tipo).trim() : "No disponible";
     }
 
+    function getCadastreStyle(feature) {
+      const landType = String(feature?.properties?.tipo || "").trim().toLowerCase();
+      const borderColor = landType === "urbano" ? "#2d7dd2" : "#2f8f5b";
+
+      return {
+        color: borderColor,
+        weight: 1.5,
+        fillColor: "transparent",
+        fillOpacity: 0
+      };
+    }
+
     function showAttributes(properties) {
       if (properties.cod_catast) {
         const ownerName = getOwnerName(properties);
@@ -606,12 +617,7 @@
       }
 
       cadastreLayer = L.geoJSON(data, {
-        style: {
-          color: "#92461f",
-          weight: 1.5,
-          fillColor: "#cf6a32",
-          fillOpacity: 0.35
-        },
+        style: getCadastreStyle,
         onEachFeature: bindFeatureInfo
       });
 
@@ -682,12 +688,7 @@
       }
 
       cadastreLayer = L.geoJSON(null, {
-        style: {
-          color: "#92461f",
-          weight: 1.5,
-          fillColor: "#cf6a32",
-          fillOpacity: 0.35
-        },
+        style: getCadastreStyle,
         onEachFeature: bindFeatureInfo
       });
 
