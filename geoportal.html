@@ -422,14 +422,17 @@
     crossorigin=""
   ></script>
   <script>
-    const map = L.map("map").setView([-2.17, -79.92], 13);
+    const map = L.map("map", {
+      zoomSnap: 1,
+      maxZoom: 18
+    }).setView([-2.17, -79.92], 13);
 
     const satelliteLayer = L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       {
         attribution: "Tiles &copy; Esri",
-        maxNativeZoom: 19,
-        maxZoom: 21,
+        maxNativeZoom: 18,
+        maxZoom: 18,
         detectRetina: true
       }
     );
@@ -438,8 +441,8 @@
       "https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
       {
         attribution: "Labels &copy; Esri",
-        maxNativeZoom: 19,
-        maxZoom: 21,
+        maxNativeZoom: 18,
+        maxZoom: 18,
         detectRetina: true,
         pane: "overlayPane"
       }
