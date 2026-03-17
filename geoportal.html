@@ -27,6 +27,12 @@
       box-sizing: border-box;
     }
 
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+    }
+
     body {
       margin: 0;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -39,10 +45,14 @@
     .layout {
       display: grid;
       grid-template-columns: 380px 1fr;
-      min-height: 100vh;
+      min-height: 100dvh;
+      height: 100dvh;
+      overflow: hidden;
     }
 
     .sidebar {
+      height: 100dvh;
+      min-height: 0;
       padding: 22px;
       background: var(--card);
       border-right: 1px solid var(--line);
@@ -224,11 +234,19 @@
 
     #map {
       width: 100%;
-      height: 100vh;
+      height: 100%;
     }
 
     .map-wrap {
       position: relative;
+      height: 100dvh;
+      min-height: 0;
+      overflow: hidden;
+      background: #dfe8e4;
+    }
+
+    .leaflet-tile-pane {
+      filter: saturate(1.08) contrast(1.06) brightness(0.98);
     }
 
     .map-overlay {
@@ -259,15 +277,22 @@
     @media (max-width: 960px) {
       .layout {
         grid-template-columns: 1fr;
+        height: 100dvh;
       }
 
       .sidebar {
+        height: auto;
+        max-height: 44dvh;
         border-right: none;
         border-bottom: 1px solid var(--line);
       }
 
+      .map-wrap {
+        height: 56dvh;
+      }
+
       #map {
-        height: 72vh;
+        height: 100%;
       }
     }
   </style>
@@ -401,7 +426,23 @@
 
     const satelliteLayer = L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-      { attribution: "Tiles &copy; Esri" }
+      {
+        attribution: "Tiles &copy; Esri",
+        maxNativeZoom: 19,
+        maxZoom: 21,
+        detectRetina: true
+      }
+    );
+
+    const satelliteLabelsLayer = L.tileLayer(
+      "https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+      {
+        attribution: "Labels &copy; Esri",
+        maxNativeZoom: 19,
+        maxZoom: 21,
+        detectRetina: true,
+        pane: "overlayPane"
+      }
     );
 
     satelliteLayer.addTo(map);
@@ -554,7 +595,7 @@
 
       return {
         color: borderColor,
-        weight: 1.5,
+        weight: 2,
         fillColor: "transparent",
         fillOpacity: 0
       };
@@ -673,6 +714,9 @@
 
         loadStatus.textContent =
           `Catastro cargado automaticamente con ${cadastreData.features.length} predios.`;
+        if (map.getZoom() > 18) {
+          map.setZoom(18);
+        }
       } catch (error) {
         loadStatus.textContent =
           "No se pudo cargar el GeoJSON. Si abriste el archivo con doble clic, publícalo en un servidor web o usa un servidor local.";
@@ -804,11 +848,21 @@
       coordsText.textContent = `Lat: ${lat.toFixed(5)} | Lng: ${lng.toFixed(5)}`;
     });
 
-    L.control.layers({ "Imagen satelital": satelliteLayer }, {
+    window.addEventListener("resize", () => {
+      map.invalidateSize();
+    });
+
+    L.control.layers(
+      {
+        "Imagen satelital": satelliteLayer,
+        "Etiquetas satelitales": satelliteLabelsLayer
+      },
+      {
       "Vias principales": roadsLayer,
       "Equipamientos municipales": facilitiesLayer,
       "Capa catastral": cadastreLayer
-    }).addTo(map);
+      }
+    ).addTo(map);
 
     updateStats();
     loadCadastreData();
