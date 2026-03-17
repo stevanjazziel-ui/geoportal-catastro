@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Geoportal Municipal Catastral</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <style>
+    :root {
+      --sand: #f4efe4;
+      --forest: #1d5c4d;
+      --forest-dark: #10382f;
+      --clay: #bd6a3a;
+      --ink: #1f2726;
+      --muted: #63716d;
+      --card: rgba(255, 252, 247, 0.95);
+      --line: rgba(16, 56, 47, 0.12);
+      --shadow: 0 20px 40px rgba(16, 56, 47, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(189, 106, 58, 0.14), transparent 28%),
+        linear-gradient(135deg, #f8f3e9, #e8efe8);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      padding: 22px;
+      background: var(--card);
+      border-right: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+      overflow-y: auto;
+      z-index: 2;
+    }
+
+    .brand {
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(29, 92, 77, 0.1);
+      color: var(--forest);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand h1 {
+      margin: 10px 0 8px;
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .brand p,
+    .helper,
+    .empty-state {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .panel {
+      margin-bottom: 16px;
+      padding: 16px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+    }
+
+    .panel h2 {
+      margin: 0 0 12px;
+      font-size: 1rem;
+    }
+
+    .search-row,
+    .toolbar {
+      display: flex;
+      gap: 8px;
+    }
+
+    input,
+    button,
+    select {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      font: inherit;
+    }
+
+    input[type="file"] {
+      padding: 9px 10px;
+      background: #fff;
+    }
+
+    button {
+      background: var(--forest);
+      color: #fff;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background: var(--forest-dark);
+    }
+
+    button.secondary {
+      background: #e8efe8;
+      color: var(--forest-dark);
+      border: 1px solid var(--line);
+    }
+
+    .status {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: #f7faf8;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .checkbox-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .stat-card {
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, #edf5f1, #fcfdfb);
+    }
+
+    .stat-card span {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .stat-card strong {
+      display: block;
+      margin-top: 6px;
+      font-size: 1.2rem;
+    }
+
+    .legend {
+      display: grid;
+      gap: 8px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .legend-swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    .attributes {
+      max-height: 240px;
+      overflow: auto;
+      display: grid;
+      gap: 8px;
+    }
+
+    .attribute-row {
+      padding-bottom: 8px;
+      border-bottom: 1px dashed var(--line);
+    }
+
+    .attribute-row strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 0.82rem;
+      color: var(--forest-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    #map {
+      width: 100%;
+      height: 100vh;
+    }
+
+    .map-wrap {
+      position: relative;
+    }
+
+    .map-overlay {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      z-index: 500;
+      width: min(360px, calc(100% - 36px));
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .map-overlay h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+
+    .coords {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 960px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+      }
+
+      #map {
+        height: 72vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="eyebrow">Municipal + Catastral</span>
+        <h1>Geoportal de Predios</h1>
+        <p>Base lista para visualizar capas municipales y cargar catastros desde shapefile.</p>
+      </div>
+
+      <section class="panel">
+        <h2>Catastro guardado</h2>
+        <p class="helper" style="margin-top: 10px;">
+          El geoportal carga automaticamente el archivo
+          <strong>CATASTRO_2026.geojson</strong> guardado en el proyecto.
+        </p>
+        <div class="toolbar" style="margin-top: 10px;">
+          <button id="reloadCadastreButton" type="button" class="secondary">Recargar catastro</button>
+        </div>
+        <div id="loadStatus" class="status">Iniciando carga del catastro...</div>
+      </section>
+
+      <section class="panel">
+        <h2>Filtro catastral</h2>
+        <input id="claveInput" type="text" placeholder="Buscar por clave catastral" />
+        <select id="typeFilter" style="margin-top: 10px;">
+          <option value="Todos">Todos</option>
+          <option value="Urbano">Urbano</option>
+          <option value="Rural">Rural</option>
+        </select>
+        <div class="toolbar" style="margin-top: 10px;">
+          <button id="applyFilterButton" type="button">Aplicar filtro</button>
+          <button id="clearFilterButton" type="button" class="secondary">Limpiar filtro</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Buscar ubicacion</h2>
+        <div class="search-row">
+          <input id="locationInput" type="text" placeholder="Ej: Municipio, barrio o direccion" />
+          <button id="searchButton" type="button">Ir</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Capas visibles</h2>
+        <div class="checkbox-list">
+          <label class="checkbox-item">
+            <input type="checkbox" id="toggleRoads" checked />
+            Vias principales
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" id="toggleFacilities" checked />
+            Equipamientos municipales
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" id="toggleCadastre" checked />
+            Capa catastral
+          </label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Indicadores</h2>
+        <div class="stats">
+          <div class="stat-card">
+            <span>Capas activas</span>
+            <strong id="activeLayers">2</strong>
+          </div>
+          <div class="stat-card">
+            <span>Predios cargados</span>
+            <strong id="parcelCount">0</strong>
+          </div>
+          <div class="stat-card">
+            <span>Elementos visibles</span>
+            <strong id="featureCount">6</strong>
+          </div>
+          <div class="stat-card">
+            <span>Seleccion actual</span>
+            <strong id="selectedFeature">Ninguna</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Leyenda</h2>
+        <div class="legend">
+          <div class="legend-item">
+            <span class="legend-swatch" style="background: #cf6a32;"></span>
+            Predios catastrales
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background: #2d7dd2;"></span>
+            Equipamientos municipales
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background: #496f5d;"></span>
+            Vias principales
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Ficha del elemento</h2>
+        <div id="attributesPanel" class="attributes">
+          <p class="empty-state">Haz clic en un predio, una via o un equipamiento para ver sus atributos.</p>
+        </div>
+      </section>
+    </aside>
+
+    <main class="map-wrap">
+      <div id="map"></div>
+      <div class="map-overlay">
+        <h3>Estado del mapa</h3>
+        <p id="coordsText" class="coords">Mueve el cursor sobre el mapa para ver coordenadas.</p>
+      </div>
+    </main>
+  </div>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+  <script>
+    const map = L.map("map").setView([-2.17, -79.92], 13);
+
+    const satelliteLayer = L.tileLayer(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      { attribution: "Tiles &copy; Esri" }
+    );
+
+    satelliteLayer.addTo(map);
+
+    const roadsData = {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          properties: { nombre: "Av. Principal", tipo: "Arterial" },
+          geometry: {
+            type: "LineString",
+            coordinates: [
+              [-79.929, -2.185],
+              [-79.923, -2.179],
+              [-79.914, -2.171]
+            ]
+          }
+        },
+        {
+          type: "Feature",
+          properties: { nombre: "Calle Central", tipo: "Colectora" },
+          geometry: {
+            type: "LineString",
+            coordinates: [
+              [-79.931, -2.175],
+              [-79.922, -2.173],
+              [-79.912, -2.169]
+            ]
+          }
+        }
+      ]
+    };
+
+    const facilitiesData = [
+      {
+        nombre: "Municipio",
+        categoria: "Administrativo",
+        coords: [-2.1892, -79.8892]
+      },
+      {
+        nombre: "Mercado Central",
+        categoria: "Comercial",
+        coords: [-2.1947, -79.8871]
+      },
+      {
+        nombre: "Unidad Educativa",
+        categoria: "Educacion",
+        coords: [-2.1828, -79.8974]
+      },
+      {
+        nombre: "Centro de Salud",
+        categoria: "Salud",
+        coords: [-2.1788, -79.9053]
+      }
+    ];
+
+    const roadsLayer = L.geoJSON(roadsData, {
+      style: {
+        color: "#496f5d",
+        weight: 4
+      },
+      onEachFeature: bindFeatureInfo
+    }).addTo(map);
+
+    const facilitiesLayer = L.layerGroup(
+      facilitiesData.map((item) => {
+        const marker = L.circleMarker(item.coords, {
+          radius: 7,
+          color: "#1b5a9b",
+          fillColor: "#2d7dd2",
+          fillOpacity: 0.9,
+          weight: 2
+        });
+        marker.feature = {
+          properties: {
+            nombre: item.nombre,
+            categoria: item.categoria,
+            tipo: "Equipamiento municipal"
+          }
+        };
+        marker.on("click", () => showAttributes(marker.feature.properties));
+        marker.bindPopup(`<strong>${item.nombre}</strong><br>${item.categoria}`);
+        return marker;
+      })
+    ).addTo(map);
+
+    let cadastreLayer = L.geoJSON(null, {
+      style: {
+        color: "#92461f",
+        weight: 1.5,
+        fillColor: "#cf6a32",
+        fillOpacity: 0.35
+      },
+      onEachFeature: bindFeatureInfo
+    });
+
+    const loadStatus = document.getElementById("loadStatus");
+    const reloadCadastreButton = document.getElementById("reloadCadastreButton");
+    const claveInput = document.getElementById("claveInput");
+    const applyFilterButton = document.getElementById("applyFilterButton");
+    const clearFilterButton = document.getElementById("clearFilterButton");
+    const typeFilter = document.getElementById("typeFilter");
+    const toggleRoads = document.getElementById("toggleRoads");
+    const toggleFacilities = document.getElementById("toggleFacilities");
+    const toggleCadastre = document.getElementById("toggleCadastre");
+    const activeLayers = document.getElementById("activeLayers");
+    const parcelCount = document.getElementById("parcelCount");
+    const featureCount = document.getElementById("featureCount");
+    const selectedFeature = document.getElementById("selectedFeature");
+    const attributesPanel = document.getElementById("attributesPanel");
+    const locationInput = document.getElementById("locationInput");
+    const searchButton = document.getElementById("searchButton");
+    const coordsText = document.getElementById("coordsText");
+    const cadastreGeoJsonUrl = encodeURI("./CATASTRO 2026/CATASTRO_2026.geojson");
+    let cadastreData = null;
+
+    function bindFeatureInfo(feature, layer) {
+      const properties = feature.properties || {};
+
+      layer.on("click", () => showAttributes(properties));
+
+      if (properties.cod_catast) {
+        const ownerName = getOwnerName(properties);
+        const landType = getLandType(properties);
+
+        layer.bindPopup(`
+          <strong>Clave:</strong> ${properties.cod_catast || "No disponible"}<br>
+          <strong>Propietario:</strong> ${ownerName}<br>
+          <strong>Tipo:</strong> ${landType}
+        `);
+        return;
+      }
+
+      const popupTitle = properties.nombre || "Elemento";
+      layer.bindPopup(`<strong>${popupTitle}</strong>`);
+    }
+
+    function getOwnerName(properties) {
+      const parts = [properties.nombre, properties.apellido]
+        .filter(Boolean)
+        .map((value) => String(value).trim())
+        .filter(Boolean);
+
+      return parts.length ? parts.join(" ") : "No disponible";
+    }
+
+    function getLandType(properties) {
+      return properties.tipo ? String(properties.tipo).trim() : "No disponible";
+    }
+
+    function showAttributes(properties) {
+      if (properties.cod_catast) {
+        const ownerName = getOwnerName(properties);
+        const landType = getLandType(properties);
+
+        selectedFeature.textContent = String(properties.cod_catast).slice(0, 12);
+        attributesPanel.innerHTML = `
+          <div class="attribute-row">
+            <strong>Clave catastral</strong>
+            <span>${properties.cod_catast || "No disponible"}</span>
+          </div>
+          <div class="attribute-row">
+            <strong>Propietario</strong>
+            <span>${ownerName}</span>
+          </div>
+          <div class="attribute-row">
+            <strong>Clasificacion</strong>
+            <span>${landType}</span>
+          </div>
+        `;
+        return;
+      }
+
+      const entries = Object.entries(properties);
+
+      if (!entries.length) {
+        attributesPanel.innerHTML =
+          '<p class="empty-state">El elemento no tiene atributos visibles.</p>';
+        selectedFeature.textContent = "Sin datos";
+        return;
+      }
+
+      const titleValue =
+        properties.clave || properties.nombre || properties.propietario || "Seleccionado";
+      selectedFeature.textContent = String(titleValue).slice(0, 12);
+
+      attributesPanel.innerHTML = entries
+        .map(
+          ([key, value]) => `
+            <div class="attribute-row">
+              <strong>${key}</strong>
+              <span>${value ?? ""}</span>
+            </div>
+          `
+        )
+        .join("");
+    }
+
+    function resetCadastreLayer(data, shouldZoom = true) {
+      if (map.hasLayer(cadastreLayer)) {
+        map.removeLayer(cadastreLayer);
+      }
+
+      cadastreLayer = L.geoJSON(data, {
+        style: {
+          color: "#92461f",
+          weight: 1.5,
+          fillColor: "#cf6a32",
+          fillOpacity: 0.35
+        },
+        onEachFeature: bindFeatureInfo
+      });
+
+      if (toggleCadastre.checked) {
+        cadastreLayer.addTo(map);
+      }
+
+      const bounds = cadastreLayer.getBounds();
+      if (shouldZoom && bounds.isValid()) {
+        map.fitBounds(bounds, { padding: [20, 20] });
+      }
+
+      const parcelTotal = Array.isArray(data.features) ? data.features.length : 0;
+      parcelCount.textContent = parcelTotal;
+      updateStats();
+    }
+
+    function applyCadastreFilters() {
+      if (!cadastreData) {
+        return;
+      }
+
+      const claveQuery = claveInput.value.trim().toLowerCase();
+      const selectedType = typeFilter.value;
+      const filteredFeatures = cadastreData.features.filter((feature) => {
+        const properties = feature.properties || {};
+        const matchesClave =
+          !claveQuery ||
+          String(properties.cod_catast || "").toLowerCase().includes(claveQuery);
+        const matchesType =
+          selectedType === "Todos" ||
+          String(properties.tipo || "").toLowerCase() === selectedType.toLowerCase();
+
+        return matchesClave && matchesType;
+      });
+
+      resetCadastreLayer(
+        { type: "FeatureCollection", features: filteredFeatures },
+        filteredFeatures.length > 0
+      );
+
+      loadStatus.textContent = `Mostrando ${filteredFeatures.length} predios del catastro.`;
+    }
+
+    async function loadCadastreData() {
+      loadStatus.textContent = "Cargando catastro guardado...";
+
+      try {
+        const response = await fetch(cadastreGeoJsonUrl);
+        if (!response.ok) {
+          throw new Error("No se pudo obtener el GeoJSON");
+        }
+
+        cadastreData = await response.json();
+        resetCadastreLayer(cadastreData);
+
+        loadStatus.textContent =
+          `Catastro cargado automaticamente con ${cadastreData.features.length} predios.`;
+      } catch (error) {
+        loadStatus.textContent =
+          "No se pudo cargar el GeoJSON. Si abriste el archivo con doble clic, publícalo en un servidor web o usa un servidor local.";
+      }
+    }
+
+    function clearCadastre() {
+      if (map.hasLayer(cadastreLayer)) {
+        map.removeLayer(cadastreLayer);
+      }
+
+      cadastreLayer = L.geoJSON(null, {
+        style: {
+          color: "#92461f",
+          weight: 1.5,
+          fillColor: "#cf6a32",
+          fillOpacity: 0.35
+        },
+        onEachFeature: bindFeatureInfo
+      });
+
+      parcelCount.textContent = "0";
+      loadStatus.textContent = "Sin capa catastral visible.";
+      selectedFeature.textContent = "Ninguna";
+      attributesPanel.innerHTML =
+        '<p class="empty-state">Haz clic en un predio, una via o un equipamiento para ver sus atributos.</p>';
+      updateStats();
+    }
+
+    function updateStats() {
+      let layers = 0;
+      let features = 0;
+
+      if (map.hasLayer(roadsLayer)) {
+        layers += 1;
+        features += roadsData.features.length;
+      }
+
+      if (map.hasLayer(facilitiesLayer)) {
+        layers += 1;
+        features += facilitiesData.length;
+      }
+
+      if (map.hasLayer(cadastreLayer)) {
+        layers += 1;
+        features += cadastreLayer.getLayers().length;
+      }
+
+      activeLayers.textContent = layers;
+      featureCount.textContent = features;
+    }
+
+    async function searchLocation() {
+      const query = locationInput.value.trim();
+      if (!query) return;
+
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`
+        );
+        const results = await response.json();
+
+        if (!results.length) {
+          loadStatus.textContent = "No se encontro la ubicacion buscada.";
+          return;
+        }
+
+        const { lat, lon, display_name } = results[0];
+        const target = [parseFloat(lat), parseFloat(lon)];
+
+        map.setView(target, 16);
+        L.marker(target).addTo(map).bindPopup(`<strong>${display_name}</strong>`).openPopup();
+      } catch (error) {
+        loadStatus.textContent = "No fue posible realizar la busqueda.";
+      }
+    }
+
+    reloadCadastreButton.addEventListener("click", loadCadastreData);
+    applyFilterButton.addEventListener("click", applyCadastreFilters);
+    clearFilterButton.addEventListener("click", () => {
+      claveInput.value = "";
+      typeFilter.value = "Todos";
+      if (cadastreData) {
+        resetCadastreLayer(cadastreData);
+        loadStatus.textContent = `Mostrando ${cadastreData.features.length} predios del catastro.`;
+      } else {
+        clearCadastre();
+      }
+    });
+
+    toggleRoads.addEventListener("change", () => {
+      if (toggleRoads.checked) {
+        roadsLayer.addTo(map);
+      } else {
+        map.removeLayer(roadsLayer);
+      }
+      updateStats();
+    });
+
+    toggleFacilities.addEventListener("change", () => {
+      if (toggleFacilities.checked) {
+        facilitiesLayer.addTo(map);
+      } else {
+        map.removeLayer(facilitiesLayer);
+      }
+      updateStats();
+    });
+
+    toggleCadastre.addEventListener("change", () => {
+      if (toggleCadastre.checked && cadastreLayer.getLayers().length) {
+        cadastreLayer.addTo(map);
+      } else {
+        map.removeLayer(cadastreLayer);
+      }
+      updateStats();
+    });
+
+    searchButton.addEventListener("click", searchLocation);
+    locationInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        searchLocation();
+      }
+    });
+    claveInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        applyCadastreFilters();
+      }
+    });
+
+    map.on("mousemove", (event) => {
+      const { lat, lng } = event.latlng;
+      coordsText.textContent = `Lat: ${lat.toFixed(5)} | Lng: ${lng.toFixed(5)}`;
+    });
+
+    L.control.layers({ "Imagen satelital": satelliteLayer }, {
+      "Vias principales": roadsLayer,
+      "Equipamientos municipales": facilitiesLayer,
+      "Capa catastral": cadastreLayer
+    }).addTo(map);
+
+    updateStats();
+    loadCadastreData();
+  </script>
+</body>
+</html>
