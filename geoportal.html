@@ -278,17 +278,31 @@
       <div class="brand">
         <span class="eyebrow">Municipal + Catastral</span>
         <h1>Geoportal de Predios</h1>
-        <p>Base lista para visualizar capas municipales y cargar catastros desde shapefile.</p>
+        <p>Visor web municipal para consultar predios, clasificacion urbana o rural y datos catastrales.</p>
       </div>
 
       <section class="panel">
-        <h2>Catastro guardado</h2>
+        <h2>Referencia del visor</h2>
         <p class="helper" style="margin-top: 10px;">
-          El geoportal carga automaticamente el archivo
-          <strong>CATASTRO_2026.geojson</strong> guardado en el proyecto.
+          El catastro se carga automaticamente desde el proyecto y se visualiza sobre imagen satelital.
         </p>
-        <div class="toolbar" style="margin-top: 10px;">
-          <button id="reloadCadastreButton" type="button" class="secondary">Recargar catastro</button>
+        <div class="legend" style="margin-top: 14px;">
+          <div class="legend-item">
+            <span class="legend-swatch" style="background: transparent; border: 2px solid #2d7dd2;"></span>
+            Predios urbanos
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background: transparent; border: 2px solid #2f8f5b;"></span>
+            Predios rurales
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background: #2d7dd2;"></span>
+            Equipamientos municipales
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background: #496f5d;"></span>
+            Vias principales
+          </div>
         </div>
         <div id="loadStatus" class="status">Iniciando carga del catastro...</div>
       </section>
@@ -351,28 +365,6 @@
           <div class="stat-card">
             <span>Seleccion actual</span>
             <strong id="selectedFeature">Ninguna</strong>
-          </div>
-        </div>
-      </section>
-
-      <section class="panel">
-        <h2>Leyenda</h2>
-        <div class="legend">
-          <div class="legend-item">
-            <span class="legend-swatch" style="background: transparent; border: 2px solid #2d7dd2;"></span>
-            Predios urbanos
-          </div>
-          <div class="legend-item">
-            <span class="legend-swatch" style="background: transparent; border: 2px solid #2f8f5b;"></span>
-            Predios rurales
-          </div>
-          <div class="legend-item">
-            <span class="legend-swatch" style="background: #2d7dd2;"></span>
-            Equipamientos municipales
-          </div>
-          <div class="legend-item">
-            <span class="legend-swatch" style="background: #496f5d;"></span>
-            Vias principales
           </div>
         </div>
       </section>
@@ -498,7 +490,6 @@
     });
 
     const loadStatus = document.getElementById("loadStatus");
-    const reloadCadastreButton = document.getElementById("reloadCadastreButton");
     const claveInput = document.getElementById("claveInput");
     const applyFilterButton = document.getElementById("applyFilterButton");
     const clearFilterButton = document.getElementById("clearFilterButton");
@@ -748,7 +739,6 @@
       }
     }
 
-    reloadCadastreButton.addEventListener("click", loadCadastreData);
     applyFilterButton.addEventListener("click", applyCadastreFilters);
     clearFilterButton.addEventListener("click", () => {
       claveInput.value = "";
