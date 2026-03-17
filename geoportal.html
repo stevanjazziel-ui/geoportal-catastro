@@ -310,11 +310,16 @@
       <section class="panel">
         <h2>Filtro catastral</h2>
         <input id="claveInput" type="text" placeholder="Buscar por clave catastral" />
-        <select id="typeFilter" style="margin-top: 10px;">
-          <option value="Todos">Todos</option>
-          <option value="Urbano">Urbano</option>
-          <option value="Rural">Rural</option>
-        </select>
+        <div class="checkbox-list" style="margin-top: 12px;">
+          <label class="checkbox-item">
+            <input type="checkbox" id="toggleUrbanOnly" checked />
+            Mostrar urbano
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" id="toggleRuralOnly" checked />
+            Mostrar rural
+          </label>
+        </div>
         <div class="toolbar" style="margin-top: 10px;">
           <button id="applyFilterButton" type="button">Aplicar filtro</button>
           <button id="clearFilterButton" type="button" class="secondary">Limpiar filtro</button>
@@ -493,7 +498,8 @@
     const claveInput = document.getElementById("claveInput");
     const applyFilterButton = document.getElementById("applyFilterButton");
     const clearFilterButton = document.getElementById("clearFilterButton");
-    const typeFilter = document.getElementById("typeFilter");
+    const toggleUrbanOnly = document.getElementById("toggleUrbanOnly");
+    const toggleRuralOnly = document.getElementById("toggleRuralOnly");
     const toggleRoads = document.getElementById("toggleRoads");
     const toggleFacilities = document.getElementById("toggleFacilities");
     const toggleCadastre = document.getElementById("toggleCadastre");
@@ -632,15 +638,15 @@
       }
 
       const claveQuery = claveInput.value.trim().toLowerCase();
-      const selectedType = typeFilter.value;
       const filteredFeatures = cadastreData.features.filter((feature) => {
         const properties = feature.properties || {};
+        const featureType = String(properties.tipo || "").toLowerCase();
         const matchesClave =
           !claveQuery ||
           String(properties.cod_catast || "").toLowerCase().includes(claveQuery);
         const matchesType =
-          selectedType === "Todos" ||
-          String(properties.tipo || "").toLowerCase() === selectedType.toLowerCase();
+          (toggleUrbanOnly.checked && featureType === "urbano") ||
+          (toggleRuralOnly.checked && featureType === "rural");
 
         return matchesClave && matchesType;
       });
@@ -742,7 +748,8 @@
     applyFilterButton.addEventListener("click", applyCadastreFilters);
     clearFilterButton.addEventListener("click", () => {
       claveInput.value = "";
-      typeFilter.value = "Todos";
+      toggleUrbanOnly.checked = true;
+      toggleRuralOnly.checked = true;
       if (cadastreData) {
         resetCadastreLayer(cadastreData);
         loadStatus.textContent = `Mostrando ${cadastreData.features.length} predios del catastro.`;
@@ -789,6 +796,8 @@
         applyCadastreFilters();
       }
     });
+    toggleUrbanOnly.addEventListener("change", applyCadastreFilters);
+    toggleRuralOnly.addEventListener("change", applyCadastreFilters);
 
     map.on("mousemove", (event) => {
       const { lat, lng } = event.latlng;
