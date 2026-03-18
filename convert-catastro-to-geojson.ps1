@@ -225,7 +225,7 @@ function Read-DbfFields {
   }
 }
 
-$selectedFields = @("cod_catast", "nombre", "apellido", "tipo")
+$selectedFields = @("cod_catast", "nombre", "apellido", "cedula", "tipo")
 
 $shpStream = [System.IO.File]::OpenRead($ShpPath)
 $dbfStream = [System.IO.File]::OpenRead($DbfPath)

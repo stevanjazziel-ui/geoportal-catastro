@@ -565,11 +565,13 @@
 
       if (properties.cod_catast) {
         const ownerName = getOwnerName(properties);
+        const nationalId = properties.cedula ? String(properties.cedula).trim() : "No disponible";
         const landType = getLandType(properties);
 
         layer.bindPopup(`
           <strong>Clave:</strong> ${properties.cod_catast || "No disponible"}<br>
           <strong>Propietario:</strong> ${ownerName}<br>
+          <strong>Cedula:</strong> ${nationalId}<br>
           <strong>Tipo:</strong> ${landType}
         `);
         return;
@@ -607,6 +609,7 @@
     function showAttributes(properties) {
       if (properties.cod_catast) {
         const ownerName = getOwnerName(properties);
+        const nationalId = properties.cedula ? String(properties.cedula).trim() : "No disponible";
         const landType = getLandType(properties);
 
         selectedFeature.textContent = String(properties.cod_catast).slice(0, 12);
@@ -618,6 +621,10 @@
           <div class="attribute-row">
             <strong>Propietario</strong>
             <span>${ownerName}</span>
+          </div>
+          <div class="attribute-row">
+            <strong>Cedula</strong>
+            <span>${nationalId}</span>
           </div>
           <div class="attribute-row">
             <strong>Clasificacion</strong>
