@@ -11,24 +11,25 @@
     crossorigin=""
   />
   <style>
-    @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap");
+    @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Orbitron:wght@500;700&family=Rajdhani:wght@500;600;700&display=swap");
 
     :root {
-      --bg: #040b12;
-      --bg-2: #091521;
-      --panel: rgba(11, 23, 36, 0.92);
-      --panel-strong: rgba(17, 35, 56, 0.9);
-      --line: rgba(101, 211, 255, 0.16);
-      --line-strong: rgba(101, 211, 255, 0.36);
-      --text: #e7f6ff;
-      --muted: #8ea5b8;
-      --accent: #35d0ff;
-      --accent-soft: rgba(53, 208, 255, 0.14);
-      --teal: #1ed8b5;
-      --gold: #ffb347;
-      --danger: #ff5c7c;
-      --shadow: 0 24px 56px rgba(0, 0, 0, 0.35);
-      --glow: 0 0 0 1px rgba(53, 208, 255, 0.12), 0 0 26px rgba(53, 208, 255, 0.1);
+      --bg: #080507;
+      --bg-2: #161013;
+      --panel: rgba(24, 14, 16, 0.9);
+      --panel-strong: rgba(36, 20, 19, 0.94);
+      --line: rgba(255, 120, 74, 0.2);
+      --line-strong: rgba(255, 193, 107, 0.38);
+      --text: #fff1e8;
+      --muted: #b69f95;
+      --accent: #ff7a45;
+      --accent-soft: rgba(255, 122, 69, 0.12);
+      --arc: #83ecff;
+      --ember: #ff4f3d;
+      --gold: #ffc46b;
+      --danger: #ff5050;
+      --shadow: 0 28px 60px rgba(0, 0, 0, 0.42);
+      --glow: 0 0 0 1px rgba(255, 122, 69, 0.12), 0 0 34px rgba(255, 122, 69, 0.14);
     }
 
     * {
@@ -43,15 +44,16 @@
 
     body {
       margin: 0;
-      font-family: "IBM Plex Sans", "Segoe UI", Tahoma, sans-serif;
+      font-family: "Rajdhani", "Segoe UI", Tahoma, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at 12% 10%, rgba(53, 208, 255, 0.2), transparent 26%),
-        radial-gradient(circle at 88% 18%, rgba(30, 216, 181, 0.18), transparent 22%),
-        linear-gradient(180deg, rgba(8, 18, 30, 0.96), rgba(4, 10, 18, 0.98)),
-        repeating-linear-gradient(90deg, rgba(90, 144, 180, 0.05) 0 1px, transparent 1px 88px),
-        repeating-linear-gradient(0deg, rgba(90, 144, 180, 0.04) 0 1px, transparent 1px 88px),
-        #040b12;
+        radial-gradient(circle at 14% 12%, rgba(255, 109, 60, 0.24), transparent 28%),
+        radial-gradient(circle at 80% 18%, rgba(131, 236, 255, 0.12), transparent 18%),
+        radial-gradient(circle at 52% 100%, rgba(255, 182, 83, 0.12), transparent 32%),
+        linear-gradient(180deg, rgba(18, 10, 10, 0.98), rgba(7, 4, 6, 1)),
+        repeating-linear-gradient(90deg, rgba(255, 156, 97, 0.04) 0 1px, transparent 1px 92px),
+        repeating-linear-gradient(0deg, rgba(255, 156, 97, 0.03) 0 1px, transparent 1px 92px),
+        #080507;
     }
 
     body::before {
@@ -59,7 +61,9 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      background: linear-gradient(180deg, transparent, rgba(4, 10, 18, 0.4) 68%, rgba(4, 10, 18, 0.76));
+      background:
+        linear-gradient(180deg, transparent, rgba(7, 4, 6, 0.45) 68%, rgba(7, 4, 6, 0.82)),
+        radial-gradient(circle at center, transparent 0 58%, rgba(255, 98, 59, 0.05) 74%, transparent 78%);
     }
 
     .layout {
@@ -77,8 +81,8 @@
       overflow-y: auto;
       padding: 22px 20px 24px;
       background:
-        linear-gradient(180deg, rgba(8, 18, 30, 0.92), rgba(5, 11, 18, 0.97)),
-        rgba(8, 18, 30, 0.92);
+        linear-gradient(180deg, rgba(25, 12, 14, 0.95), rgba(10, 6, 8, 0.98)),
+        rgba(25, 12, 14, 0.95);
       border-right: 1px solid var(--line);
       box-shadow: var(--shadow);
       z-index: 2;
@@ -90,7 +94,8 @@
       inset: 0;
       pointer-events: none;
       background:
-        radial-gradient(circle at top left, rgba(53, 208, 255, 0.14), transparent 24%),
+        radial-gradient(circle at top left, rgba(255, 109, 60, 0.16), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(255, 196, 107, 0.08), transparent 18%),
         linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 20%);
     }
 
@@ -99,8 +104,8 @@
       margin-bottom: 18px;
       padding: 18px;
       border: 1px solid var(--line);
-      border-radius: 24px;
-      background: linear-gradient(160deg, rgba(11, 23, 36, 0.96), rgba(16, 36, 56, 0.88));
+      border-radius: 24px 12px 24px 12px;
+      background: linear-gradient(155deg, rgba(34, 17, 18, 0.98), rgba(61, 23, 17, 0.9));
       box-shadow: var(--shadow), var(--glow);
       overflow: hidden;
       animation: panelRise 0.7s ease both;
@@ -112,7 +117,23 @@
       inset: auto -26% -54% auto;
       width: 240px;
       height: 240px;
-      background: radial-gradient(circle, rgba(53, 208, 255, 0.2), transparent 62%);
+      background: radial-gradient(circle, rgba(255, 196, 107, 0.2), transparent 62%);
+      pointer-events: none;
+    }
+
+    .brand::before {
+      content: "";
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 118px;
+      height: 118px;
+      border-radius: 999px;
+      border: 1px solid rgba(131, 236, 255, 0.2);
+      box-shadow:
+        inset 0 0 0 10px rgba(131, 236, 255, 0.05),
+        0 0 26px rgba(131, 236, 255, 0.12);
+      opacity: 0.75;
       pointer-events: none;
     }
 
@@ -130,9 +151,9 @@
       gap: 8px;
       padding: 8px 12px;
       border-radius: 999px;
-      background: rgba(53, 208, 255, 0.12);
-      border: 1px solid rgba(53, 208, 255, 0.26);
-      color: var(--accent);
+      background: rgba(255, 122, 69, 0.12);
+      border: 1px solid rgba(255, 122, 69, 0.28);
+      color: #ffc7a7;
       font-family: "IBM Plex Mono", monospace;
       font-size: 0.72rem;
       font-weight: 600;
@@ -146,9 +167,9 @@
       gap: 8px;
       padding: 7px 10px;
       border-radius: 999px;
-      background: rgba(30, 216, 181, 0.12);
-      border: 1px solid rgba(30, 216, 181, 0.24);
-      color: #b7fff1;
+      background: rgba(131, 236, 255, 0.1);
+      border: 1px solid rgba(131, 236, 255, 0.24);
+      color: #d6fbff;
       font-family: "IBM Plex Mono", monospace;
       font-size: 0.72rem;
       letter-spacing: 0.08em;
@@ -160,17 +181,18 @@
       width: 8px;
       height: 8px;
       border-radius: 999px;
-      background: var(--teal);
-      box-shadow: 0 0 14px rgba(30, 216, 181, 0.8);
+      background: var(--arc);
+      box-shadow: 0 0 16px rgba(131, 236, 255, 0.82);
     }
 
     .brand h1 {
       margin: 10px 0 10px;
       max-width: 8ch;
-      font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
-      font-size: 2.35rem;
-      line-height: 0.94;
-      letter-spacing: -0.04em;
+      font-family: "Orbitron", "Rajdhani", sans-serif;
+      font-size: 2.2rem;
+      line-height: 0.96;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
     }
 
     .brand p,
@@ -178,8 +200,8 @@
     .empty-state {
       margin: 0;
       color: var(--muted);
-      font-size: 0.94rem;
-      line-height: 1.56;
+      font-size: 0.98rem;
+      line-height: 1.48;
     }
 
     .brand-grid {
@@ -191,9 +213,9 @@
 
     .brand-metric {
       padding: 12px;
-      border-radius: 16px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(101, 211, 255, 0.12);
+      border-radius: 16px 8px 16px 8px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 122, 69, 0.05));
+      border: 1px solid rgba(255, 122, 69, 0.12);
       backdrop-filter: blur(10px);
     }
 
@@ -218,9 +240,9 @@
       position: relative;
       margin-bottom: 14px;
       padding: 16px 16px 15px;
-      background: linear-gradient(180deg, rgba(11, 23, 36, 0.92), rgba(8, 18, 30, 0.9));
+      background: linear-gradient(180deg, rgba(25, 12, 14, 0.92), rgba(13, 8, 10, 0.92));
       border: 1px solid var(--line);
-      border-radius: 20px;
+      border-radius: 22px 10px 22px 10px;
       box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
       overflow: hidden;
       animation: panelRise 0.7s ease both;
@@ -233,15 +255,28 @@
       left: 0;
       right: 0;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(53, 208, 255, 0.58), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255, 196, 107, 0.55), transparent);
+    }
+
+    .panel::after {
+      content: "";
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      width: 26px;
+      height: 26px;
+      border-top: 1px solid rgba(255, 196, 107, 0.25);
+      border-right: 1px solid rgba(255, 122, 69, 0.22);
+      opacity: 0.7;
     }
 
     .panel h2 {
       margin: 0 0 12px;
-      font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
-      font-size: 1rem;
-      letter-spacing: 0.02em;
-      color: #f4fbff;
+      font-family: "Orbitron", "Rajdhani", sans-serif;
+      font-size: 0.96rem;
+      letter-spacing: 0.08em;
+      color: #fff0d8;
+      text-transform: uppercase;
     }
 
     .search-row,
@@ -267,20 +302,20 @@
 
     input,
     select {
-      background: rgba(3, 12, 20, 0.74);
+      background: rgba(8, 8, 10, 0.72);
       color: var(--text);
       box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.01);
     }
 
     input::placeholder {
-      color: #6f879a;
+      color: #8d7369;
     }
 
     input:focus,
     select:focus {
       outline: none;
-      border-color: rgba(53, 208, 255, 0.44);
-      box-shadow: 0 0 0 4px rgba(53, 208, 255, 0.12);
+      border-color: rgba(255, 122, 69, 0.5);
+      box-shadow: 0 0 0 4px rgba(255, 122, 69, 0.12);
     }
 
     input[type="checkbox"] {
@@ -292,35 +327,36 @@
     }
 
     button {
-      background: linear-gradient(135deg, #16384f, #0fb2d8);
-      color: #ecfbff;
-      border: 1px solid rgba(83, 228, 255, 0.25);
+      background: linear-gradient(135deg, #6d1715, #c93722 60%, #ff8b4a);
+      color: #fff4e9;
+      border: 1px solid rgba(255, 173, 103, 0.28);
       font-weight: 700;
-      letter-spacing: 0.01em;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
       cursor: pointer;
       transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-      box-shadow: 0 10px 24px rgba(12, 122, 158, 0.24);
+      box-shadow: 0 12px 28px rgba(161, 41, 22, 0.34);
     }
 
     button:hover {
       transform: translateY(-1px);
-      border-color: rgba(83, 228, 255, 0.42);
-      box-shadow: 0 14px 28px rgba(12, 122, 158, 0.33);
+      border-color: rgba(255, 196, 107, 0.48);
+      box-shadow: 0 16px 30px rgba(161, 41, 22, 0.42);
     }
 
     button.secondary {
-      background: rgba(255, 255, 255, 0.04);
-      color: #d9eef8;
-      border: 1px solid rgba(101, 211, 255, 0.16);
+      background: linear-gradient(180deg, rgba(39, 20, 19, 0.8), rgba(15, 9, 10, 0.92));
+      color: #ffe6cf;
+      border: 1px solid rgba(255, 122, 69, 0.18);
       box-shadow: none;
     }
 
     .status {
       margin-top: 12px;
       padding: 12px 13px;
-      border-radius: 16px;
-      background: linear-gradient(180deg, rgba(7, 20, 30, 0.88), rgba(9, 26, 38, 0.92));
-      border: 1px solid rgba(101, 211, 255, 0.12);
+      border-radius: 18px 10px 18px 10px;
+      background: linear-gradient(180deg, rgba(18, 10, 12, 0.88), rgba(26, 13, 12, 0.92));
+      border: 1px solid rgba(255, 122, 69, 0.14);
       color: var(--muted);
       font-size: 0.9rem;
       line-height: 1.5;
@@ -333,7 +369,7 @@
 
     .result-row {
       padding-bottom: 10px;
-      border-bottom: 1px dashed rgba(101, 211, 255, 0.16);
+      border-bottom: 1px dashed rgba(255, 122, 69, 0.18);
     }
 
     .result-row:last-child {
@@ -345,7 +381,7 @@
       display: block;
       margin-bottom: 4px;
       font-size: 0.74rem;
-      color: #9fe9ff;
+      color: #ffc46b;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       font-family: "IBM Plex Mono", monospace;
@@ -362,15 +398,15 @@
       gap: 10px;
       padding: 10px 12px;
       border-radius: 14px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(101, 211, 255, 0.08);
-      color: #d9effa;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 122, 69, 0.1);
+      color: #f7dfd2;
       transition: border-color 0.18s ease, background 0.18s ease;
     }
 
     .checkbox-item:hover {
-      border-color: rgba(101, 211, 255, 0.22);
-      background: rgba(53, 208, 255, 0.06);
+      border-color: rgba(255, 173, 103, 0.22);
+      background: rgba(255, 122, 69, 0.07);
     }
 
     .stats {
@@ -381,16 +417,16 @@
 
     .stat-card {
       padding: 14px 14px 12px;
-      border-radius: 18px;
-      border: 1px solid rgba(101, 211, 255, 0.1);
-      background: linear-gradient(160deg, rgba(255, 255, 255, 0.04), rgba(10, 24, 37, 0.74));
+      border-radius: 18px 10px 18px 10px;
+      border: 1px solid rgba(255, 122, 69, 0.1);
+      background: linear-gradient(155deg, rgba(255, 255, 255, 0.04), rgba(77, 24, 16, 0.22));
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
     }
 
     .stat-card span {
       display: block;
       font-size: 0.7rem;
-      color: #86a3b8;
+      color: #b89b8c;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       font-family: "IBM Plex Mono", monospace;
@@ -413,7 +449,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      color: #d8edf8;
+      color: #f1ddd1;
       font-size: 0.9rem;
     }
 
@@ -422,7 +458,7 @@
       height: 14px;
       border-radius: 4px;
       border: 1px solid rgba(255, 255, 255, 0.18);
-      box-shadow: 0 0 12px rgba(53, 208, 255, 0.12);
+      box-shadow: 0 0 12px rgba(255, 122, 69, 0.12);
     }
 
     .attributes {
@@ -435,14 +471,14 @@
 
     .attribute-row {
       padding-bottom: 10px;
-      border-bottom: 1px dashed rgba(101, 211, 255, 0.16);
+      border-bottom: 1px dashed rgba(255, 122, 69, 0.18);
     }
 
     .attribute-row strong {
       display: block;
       margin-bottom: 3px;
       font-size: 0.74rem;
-      color: #9fe9ff;
+      color: #ffc46b;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       font-family: "IBM Plex Mono", monospace;
@@ -458,8 +494,8 @@
       height: 100dvh;
       min-height: 0;
       overflow: hidden;
-      background: #08111b;
-      border-left: 1px solid rgba(101, 211, 255, 0.12);
+      background: #12090b;
+      border-left: 1px solid rgba(255, 122, 69, 0.12);
     }
 
     .map-wrap::before {
@@ -467,12 +503,31 @@
       position: absolute;
       inset: 0;
       pointer-events: none;
-      background: linear-gradient(180deg, rgba(7, 17, 27, 0.08), rgba(7, 17, 27, 0.38));
+      background:
+        linear-gradient(180deg, rgba(10, 6, 7, 0.08), rgba(10, 6, 7, 0.42)),
+        radial-gradient(circle at 82% 18%, rgba(255, 196, 107, 0.08), transparent 20%);
       z-index: 350;
     }
 
+    .map-wrap::after {
+      content: "";
+      position: absolute;
+      top: 26px;
+      left: 24px;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 122, 69, 0.1);
+      box-shadow:
+        inset 0 0 0 16px rgba(255, 122, 69, 0.03),
+        inset 0 0 0 42px rgba(255, 196, 107, 0.02);
+      pointer-events: none;
+      z-index: 360;
+      opacity: 0.75;
+    }
+
     .leaflet-tile-pane {
-      filter: saturate(1.08) contrast(1.08) brightness(0.96);
+      filter: saturate(1.06) contrast(1.08) brightness(0.9) sepia(0.08);
     }
 
     .map-overlay {
@@ -482,9 +537,9 @@
       z-index: 500;
       width: min(380px, calc(100% - 36px));
       padding: 16px;
-      background: linear-gradient(180deg, rgba(6, 18, 28, 0.88), rgba(10, 24, 36, 0.94));
-      border: 1px solid rgba(101, 211, 255, 0.16);
-      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(27, 12, 12, 0.9), rgba(16, 9, 10, 0.96));
+      border: 1px solid rgba(255, 122, 69, 0.18);
+      border-radius: 22px 10px 22px 10px;
       box-shadow: var(--shadow), var(--glow);
       backdrop-filter: blur(12px);
     }
@@ -503,9 +558,9 @@
       gap: 8px;
       padding: 6px 10px;
       border-radius: 999px;
-      background: rgba(53, 208, 255, 0.12);
-      border: 1px solid rgba(53, 208, 255, 0.25);
-      color: #bff4ff;
+      background: rgba(255, 122, 69, 0.12);
+      border: 1px solid rgba(255, 122, 69, 0.24);
+      color: #ffd6bf;
       font-family: "IBM Plex Mono", monospace;
       font-size: 0.72rem;
       letter-spacing: 0.08em;
@@ -517,12 +572,12 @@
       width: 7px;
       height: 7px;
       border-radius: 999px;
-      background: var(--accent);
-      box-shadow: 0 0 14px rgba(53, 208, 255, 0.75);
+      background: var(--gold);
+      box-shadow: 0 0 16px rgba(255, 196, 107, 0.75);
     }
 
     .map-status {
-      color: var(--teal);
+      color: var(--arc);
       font-family: "IBM Plex Mono", monospace;
       font-size: 0.72rem;
       letter-spacing: 0.08em;
@@ -531,41 +586,43 @@
 
     .map-overlay h3 {
       margin: 0 0 8px;
-      font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
+      font-family: "Orbitron", "Rajdhani", sans-serif;
       font-size: 1.02rem;
-      color: #f4fbff;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #fff3db;
     }
 
     .coords {
       margin: 0;
-      color: #a8c1d3;
+      color: #d7c3ba;
       font-size: 0.9rem;
       font-family: "IBM Plex Mono", monospace;
     }
 
     .leaflet-control-zoom a,
     .leaflet-bar a {
-      background: rgba(7, 20, 31, 0.9);
-      color: #e7f6ff;
-      border-bottom: 1px solid rgba(101, 211, 255, 0.16);
+      background: rgba(21, 10, 12, 0.92);
+      color: #fff2ea;
+      border-bottom: 1px solid rgba(255, 122, 69, 0.16);
     }
 
     .leaflet-control-zoom a:hover,
     .leaflet-bar a:hover {
-      background: #0f2a40;
+      background: #541913;
       color: #fff;
     }
 
     .leaflet-bar {
-      border: 1px solid rgba(101, 211, 255, 0.16);
+      border: 1px solid rgba(255, 122, 69, 0.16);
       box-shadow: var(--shadow);
     }
 
     .leaflet-control-layers {
-      background: rgba(7, 20, 31, 0.92);
+      background: rgba(18, 10, 12, 0.94);
       color: var(--text);
-      border: 1px solid rgba(101, 211, 255, 0.16);
-      border-radius: 16px;
+      border: 1px solid rgba(255, 122, 69, 0.16);
+      border-radius: 18px 10px 18px 10px;
       box-shadow: var(--shadow);
     }
 
@@ -574,18 +631,18 @@
     }
 
     .leaflet-control-layers label {
-      color: #d9effa;
+      color: #ffe6d7;
     }
 
     .leaflet-popup-content-wrapper,
     .leaflet-popup-tip {
-      background: rgba(8, 18, 30, 0.96);
+      background: rgba(19, 11, 13, 0.96);
       color: var(--text);
-      border: 1px solid rgba(101, 211, 255, 0.14);
+      border: 1px solid rgba(255, 122, 69, 0.16);
     }
 
     .leaflet-popup-content {
-      font-family: "IBM Plex Sans", sans-serif;
+      font-family: "Rajdhani", sans-serif;
     }
 
     ::-webkit-scrollbar {
@@ -594,7 +651,7 @@
     }
 
     ::-webkit-scrollbar-thumb {
-      background: rgba(101, 211, 255, 0.18);
+      background: rgba(255, 122, 69, 0.22);
       border-radius: 999px;
     }
 
@@ -639,7 +696,7 @@
 
       .brand h1 {
         max-width: none;
-        font-size: 2rem;
+        font-size: 1.9rem;
       }
 
       .map-wrap {
@@ -657,14 +714,14 @@
     <aside class="sidebar">
       <div class="brand">
         <div class="brand-top">
-          <span class="eyebrow">Centro de Monitoreo</span>
-          <span class="brand-status">Operacion en linea</span>
+          <span class="eyebrow">HUD Territorial</span>
+          <span class="brand-status">Enlace operativo</span>
         </div>
-        <h1>Dashboard Territorial</h1>
-        <p>Centro de control geoespacial para consultar predios, clasificacion urbana o rural y capas administrativas sobre imagen satelital.</p>
+        <h1>HUD Catastral</h1>
+        <p>Interfaz tactica para explorar predios, clasificacion urbana o rural y capas administrativas sobre imagen satelital.</p>
         <div class="brand-grid">
           <div class="brand-metric">
-            <span>Base</span>
+            <span>Motor</span>
             <strong>Esri Satelital</strong>
           </div>
           <div class="brand-metric">
@@ -672,14 +729,14 @@
             <strong>Catastro 2026</strong>
           </div>
           <div class="brand-metric">
-            <span>Analisis</span>
+            <span>Analitica</span>
             <strong>Barrios y parroquias</strong>
           </div>
         </div>
       </div>
 
       <section class="panel">
-        <h2>Capas de referencia</h2>
+        <h2>Capas tacticas</h2>
         <p class="helper" style="margin-top: 10px;">
           El catastro, barrios urbanos, sectores rurales y parroquias se cargan automaticamente desde el proyecto.
         </p>
@@ -709,7 +766,7 @@
       </section>
 
       <section class="panel">
-        <h2>Consulta catastral</h2>
+        <h2>Scanner catastral</h2>
         <input id="claveInput" type="text" placeholder="Buscar por clave catastral" />
         <div class="checkbox-list" style="margin-top: 12px;">
           <label class="checkbox-item">
@@ -728,7 +785,7 @@
       </section>
 
       <section class="panel">
-        <h2>Busqueda rapida</h2>
+        <h2>Navegacion rapida</h2>
         <div class="search-row">
           <input id="locationInput" type="text" placeholder="Ej: Municipio, barrio o direccion" />
           <button id="searchButton" type="button">Ir</button>
@@ -736,7 +793,7 @@
       </section>
 
       <section class="panel">
-        <h2>Resolucion de coordenadas</h2>
+        <h2>Resolver coordenadas</h2>
         <input
           id="googleMapsUrlInput"
           type="text"
@@ -755,7 +812,7 @@
       </section>
 
       <section class="panel">
-        <h2>Control de capas</h2>
+        <h2>Modulos visibles</h2>
         <div class="checkbox-list">
           <label class="checkbox-item">
             <input type="checkbox" id="toggleCadastre" checked />
@@ -799,7 +856,7 @@
       </section>
 
       <section class="panel">
-        <h2>Inspeccion</h2>
+        <h2>Ficha del predio</h2>
         <div id="attributesPanel" class="attributes">
           <p class="empty-state">Haz clic en un predio, barrio, sector rural o parroquia para ver sus atributos.</p>
         </div>
@@ -810,8 +867,8 @@
       <div id="map"></div>
       <div class="map-overlay">
         <div class="map-overlay-top">
-          <span class="map-badge">Nodo satelital</span>
-          <span class="map-status">Live</span>
+          <span class="map-badge">Nucleo satelital</span>
+          <span class="map-status">En linea</span>
         </div>
         <h3>Estado del mapa</h3>
         <p id="coordsText" class="coords">Mueve el cursor sobre el mapa para ver coordenadas.</p>
