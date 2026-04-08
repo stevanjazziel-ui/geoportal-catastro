@@ -1,0 +1,13 @@
+# Fuentes GIS locales que no hacen falta para publicar el sitio
+*.shp
+*.shx
+*.dbf
+*.prj
+*.cpg
+*.sbn
+*.sbx
+*.shp.xml
+*.zip
+
+# Mantener los GeoJSON que consume la web
+!*.geojson

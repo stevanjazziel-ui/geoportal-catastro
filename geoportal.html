@@ -309,7 +309,7 @@
       <section class="panel">
         <h2>Referencia del visor</h2>
         <p class="helper" style="margin-top: 10px;">
-          El catastro se carga automaticamente desde el proyecto y se visualiza sobre imagen satelital.
+          El catastro, barrios urbanos, sectores rurales y parroquias se cargan automaticamente desde el proyecto.
         </p>
         <div class="legend" style="margin-top: 14px;">
           <div class="legend-item">
@@ -319,6 +319,18 @@
           <div class="legend-item">
             <span class="legend-swatch" style="background: transparent; border: 2px solid #2f8f5b;"></span>
             Predios rurales
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background: transparent; border: 2px solid #ff9f1c;"></span>
+            Barrios urbanos
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background: transparent; border: 2px solid #7b2cbf;"></span>
+            Sectores rurales
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background: transparent; border: 2px dashed #d90429;"></span>
+            Parroquias
           </div>
           <div class="legend-item">
             <span class="legend-swatch" style="background: #2d7dd2;"></span>
@@ -360,6 +372,21 @@
       </section>
 
       <section class="panel">
+        <h2>Enlace de Google Maps</h2>
+        <input
+          id="googleMapsUrlInput"
+          type="text"
+          placeholder="Pega aqui el enlace o coordenadas de Google Maps"
+        />
+        <div class="toolbar" style="margin-top: 10px;">
+          <button id="resolveGoogleMapsButton" type="button">Identificar sector</button>
+        </div>
+        <p class="helper" style="margin-top: 10px;">
+          Abre una nueva pestana con el barrio, sector rural o parroquia donde se ubica el punto.
+        </p>
+      </section>
+
+      <section class="panel">
         <h2>Capas visibles</h2>
         <div class="checkbox-list">
           <label class="checkbox-item">
@@ -373,6 +400,18 @@
           <label class="checkbox-item">
             <input type="checkbox" id="toggleCadastre" checked />
             Capa catastral
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" id="toggleUrbanNeighborhoods" checked />
+            Barrios urbanos
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" id="toggleRuralSectors" checked />
+            Sectores rurales
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" id="toggleParishes" checked />
+            Parroquias
           </label>
         </div>
       </section>
@@ -537,6 +576,18 @@
       style: getCadastreStyle,
       onEachFeature: bindFeatureInfo
     });
+    let urbanNeighborhoodsLayer = L.geoJSON(null, {
+      style: getUrbanNeighborhoodStyle,
+      onEachFeature: bindFeatureInfo
+    }).addTo(map);
+    let ruralSectorsLayer = L.geoJSON(null, {
+      style: getRuralSectorStyle,
+      onEachFeature: bindFeatureInfo
+    }).addTo(map);
+    let parishesLayer = L.geoJSON(null, {
+      style: getParishStyle,
+      onEachFeature: bindFeatureInfo
+    }).addTo(map);
 
     const loadStatus = document.getElementById("loadStatus");
     const claveInput = document.getElementById("claveInput");
@@ -547,6 +598,9 @@
     const toggleRoads = document.getElementById("toggleRoads");
     const toggleFacilities = document.getElementById("toggleFacilities");
     const toggleCadastre = document.getElementById("toggleCadastre");
+    const toggleUrbanNeighborhoods = document.getElementById("toggleUrbanNeighborhoods");
+    const toggleRuralSectors = document.getElementById("toggleRuralSectors");
+    const toggleParishes = document.getElementById("toggleParishes");
     const activeLayers = document.getElementById("activeLayers");
     const parcelCount = document.getElementById("parcelCount");
     const featureCount = document.getElementById("featureCount");
@@ -554,8 +608,13 @@
     const attributesPanel = document.getElementById("attributesPanel");
     const locationInput = document.getElementById("locationInput");
     const searchButton = document.getElementById("searchButton");
+    const googleMapsUrlInput = document.getElementById("googleMapsUrlInput");
+    const resolveGoogleMapsButton = document.getElementById("resolveGoogleMapsButton");
     const coordsText = document.getElementById("coordsText");
     const cadastreGeoJsonUrl = encodeURI("./CATASTRO 2026/CATASTRO_2026.geojson");
+    const urbanNeighborhoodsUrl = encodeURI("./BARRIOS URBANOS/BARRIOS_URBANOS.geojson");
+    const ruralSectorsUrl = encodeURI("./SECTORES RURALES/SECTORES_RURALES.geojson");
+    const parishesUrl = encodeURI("./PARROQUIAS/PARROQUIAS.geojson");
     let cadastreData = null;
 
     function bindFeatureInfo(feature, layer) {
@@ -577,8 +636,284 @@
         return;
       }
 
-      const popupTitle = properties.nombre || "Elemento";
+      const popupTitle = getFeatureDisplayName(properties);
       layer.bindPopup(`<strong>${popupTitle}</strong>`);
+    }
+
+    function getFeatureDisplayName(properties) {
+      return (
+        properties.nombre ||
+        properties.NOMBRE ||
+        properties.DPA_DESPAR ||
+        properties.PARROQUIA ||
+        "Elemento"
+      );
+    }
+
+    function isValidCoordinatePair(lat, lng) {
+      return (
+        Number.isFinite(lat) &&
+        Number.isFinite(lng) &&
+        lat >= -90 &&
+        lat <= 90 &&
+        lng >= -180 &&
+        lng <= 180
+      );
+    }
+
+    function extractCoordinatesFromGoogleMapsInput(input) {
+      if (!input) {
+        return null;
+      }
+
+      const rawInput = input.trim();
+      const decodedInput = decodeURIComponent(rawInput);
+
+      const directMatch = decodedInput.match(/(-?\d{1,2}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)/);
+      if (directMatch) {
+        const lat = parseFloat(directMatch[1]);
+        const lng = parseFloat(directMatch[2]);
+        if (isValidCoordinatePair(lat, lng)) {
+          return { lat, lng };
+        }
+      }
+
+      const atMatch = decodedInput.match(/@(-?\d{1,2}(?:\.\d+)?),(-?\d{1,3}(?:\.\d+)?)/);
+      if (atMatch) {
+        const lat = parseFloat(atMatch[1]);
+        const lng = parseFloat(atMatch[2]);
+        if (isValidCoordinatePair(lat, lng)) {
+          return { lat, lng };
+        }
+      }
+
+      const dataMatch = decodedInput.match(/!3d(-?\d{1,2}(?:\.\d+)?)!4d(-?\d{1,3}(?:\.\d+)?)/);
+      if (dataMatch) {
+        const lat = parseFloat(dataMatch[1]);
+        const lng = parseFloat(dataMatch[2]);
+        if (isValidCoordinatePair(lat, lng)) {
+          return { lat, lng };
+        }
+      }
+
+      try {
+        const parsedUrl = new URL(rawInput);
+        const queryCandidate =
+          parsedUrl.searchParams.get("q") ||
+          parsedUrl.searchParams.get("ll") ||
+          parsedUrl.searchParams.get("query") ||
+          "";
+        const queryMatch = queryCandidate.match(/(-?\d{1,2}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)/);
+
+        if (queryMatch) {
+          const lat = parseFloat(queryMatch[1]);
+          const lng = parseFloat(queryMatch[2]);
+          if (isValidCoordinatePair(lat, lng)) {
+            return { lat, lng };
+          }
+        }
+      } catch (error) {
+        return null;
+      }
+
+      return null;
+    }
+
+    function ringContainsPoint(point, ring) {
+      let isInside = false;
+      const [pointLng, pointLat] = point;
+
+      for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+        const xi = ring[i][0];
+        const yi = ring[i][1];
+        const xj = ring[j][0];
+        const yj = ring[j][1];
+
+        const intersects =
+          yi > pointLat !== yj > pointLat &&
+          pointLng < ((xj - xi) * (pointLat - yi)) / ((yj - yi) || Number.EPSILON) + xi;
+
+        if (intersects) {
+          isInside = !isInside;
+        }
+      }
+
+      return isInside;
+    }
+
+    function polygonContainsPoint(point, rings) {
+      if (!rings.length || !ringContainsPoint(point, rings[0])) {
+        return false;
+      }
+
+      for (let index = 1; index < rings.length; index += 1) {
+        if (ringContainsPoint(point, rings[index])) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    function geometryContainsPoint(geometry, lat, lng) {
+      if (!geometry) {
+        return false;
+      }
+
+      const point = [lng, lat];
+
+      if (geometry.type === "Polygon") {
+        return polygonContainsPoint(point, geometry.coordinates || []);
+      }
+
+      if (geometry.type === "MultiPolygon") {
+        return (geometry.coordinates || []).some((polygon) => polygonContainsPoint(point, polygon));
+      }
+
+      return false;
+    }
+
+    function findContainingFeature(layerGroup, lat, lng) {
+      let matchedFeature = null;
+
+      layerGroup.eachLayer((layer) => {
+        if (matchedFeature || !layer.feature) {
+          return;
+        }
+
+        const geometry = layer.feature.geometry;
+        if (geometryContainsPoint(geometry, lat, lng)) {
+          matchedFeature = layer.feature;
+        }
+      });
+
+      return matchedFeature;
+    }
+
+    function openLocationResultTab(result) {
+      const resultWindow = window.open("", "_blank");
+      if (!resultWindow) {
+        loadStatus.textContent = "El navegador bloqueo la nueva pestana. Permite ventanas emergentes e intenta de nuevo.";
+        return;
+      }
+
+      const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resultado del sector</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f8f3e9, #e8efe8);
+      color: #1f2726;
+    }
+    .card {
+      max-width: 680px;
+      margin: 24px;
+      padding: 28px;
+      background: rgba(255,255,255,0.94);
+      border: 1px solid rgba(16, 56, 47, 0.12);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(16, 56, 47, 0.12);
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 2rem;
+    }
+    p {
+      color: #63716d;
+    }
+    .row {
+      padding: 12px 0;
+      border-bottom: 1px dashed rgba(16, 56, 47, 0.12);
+    }
+    .row strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #10382f;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: 0.78rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Ubicacion identificada</h1>
+    <p>Resultado obtenido desde el enlace o coordenadas de Google Maps.</p>
+    <div class="row">
+      <strong>Sector o barrio principal</strong>
+      <span>${result.mainName}</span>
+    </div>
+    <div class="row">
+      <strong>Barrio urbano</strong>
+      <span>${result.urbanNeighborhood}</span>
+    </div>
+    <div class="row">
+      <strong>Sector rural</strong>
+      <span>${result.ruralSector}</span>
+    </div>
+    <div class="row">
+      <strong>Parroquia</strong>
+      <span>${result.parish}</span>
+    </div>
+    <div class="row">
+      <strong>Coordenadas</strong>
+      <span>${result.lat.toFixed(6)}, ${result.lng.toFixed(6)}</span>
+    </div>
+  </main>
+</body>
+</html>`;
+
+      resultWindow.document.open();
+      resultWindow.document.write(html);
+      resultWindow.document.close();
+    }
+
+    function resolveGoogleMapsLocation() {
+      const input = googleMapsUrlInput.value.trim();
+      const coordinates = extractCoordinatesFromGoogleMapsInput(input);
+
+      if (!coordinates) {
+        loadStatus.textContent = "No pude leer coordenadas del enlace. Usa un enlace de Google Maps que incluya latitud y longitud.";
+        return;
+      }
+
+      const urbanFeature = findContainingFeature(urbanNeighborhoodsLayer, coordinates.lat, coordinates.lng);
+      const ruralFeature = findContainingFeature(ruralSectorsLayer, coordinates.lat, coordinates.lng);
+      const parishFeature = findContainingFeature(parishesLayer, coordinates.lat, coordinates.lng);
+
+      const result = {
+        lat: coordinates.lat,
+        lng: coordinates.lng,
+        urbanNeighborhood: urbanFeature ? getFeatureDisplayName(urbanFeature.properties || {}) : "No identificado",
+        ruralSector: ruralFeature ? getFeatureDisplayName(ruralFeature.properties || {}) : "No identificado",
+        parish: parishFeature
+          ? getFeatureDisplayName(parishFeature.properties || {})
+          : "No identificado"
+      };
+
+      result.mainName =
+        result.ruralSector !== "No identificado"
+          ? result.ruralSector
+          : result.urbanNeighborhood !== "No identificado"
+            ? result.urbanNeighborhood
+            : result.parish;
+
+      map.setView([coordinates.lat, coordinates.lng], 16);
+      L.marker([coordinates.lat, coordinates.lng])
+        .addTo(map)
+        .bindPopup(`<strong>${result.mainName}</strong>`)
+        .openPopup();
+
+      openLocationResultTab(result);
+      loadStatus.textContent = `Ubicacion identificada: ${result.mainName}.`;
     }
 
     function getOwnerName(properties) {
@@ -601,6 +936,34 @@
       return {
         color: borderColor,
         weight: 2,
+        fillColor: "transparent",
+        fillOpacity: 0
+      };
+    }
+
+    function getUrbanNeighborhoodStyle() {
+      return {
+        color: "#ff9f1c",
+        weight: 2,
+        fillColor: "transparent",
+        fillOpacity: 0
+      };
+    }
+
+    function getRuralSectorStyle() {
+      return {
+        color: "#7b2cbf",
+        weight: 2,
+        fillColor: "transparent",
+        fillOpacity: 0
+      };
+    }
+
+    function getParishStyle() {
+      return {
+        color: "#d90429",
+        weight: 2.5,
+        dashArray: "8 6",
         fillColor: "transparent",
         fillOpacity: 0
       };
@@ -733,6 +1096,38 @@
       }
     }
 
+    async function loadAuxiliaryLayers() {
+      try {
+        const [urbanResponse, ruralResponse, parishesResponse] = await Promise.all([
+          fetch(urbanNeighborhoodsUrl),
+          fetch(ruralSectorsUrl),
+          fetch(parishesUrl)
+        ]);
+
+        if (urbanResponse.ok) {
+          const urbanData = await urbanResponse.json();
+          urbanNeighborhoodsLayer.clearLayers();
+          urbanNeighborhoodsLayer.addData(urbanData);
+        }
+
+        if (ruralResponse.ok) {
+          const ruralData = await ruralResponse.json();
+          ruralSectorsLayer.clearLayers();
+          ruralSectorsLayer.addData(ruralData);
+        }
+
+        if (parishesResponse.ok) {
+          const parishData = await parishesResponse.json();
+          parishesLayer.clearLayers();
+          parishesLayer.addData(parishData);
+        }
+
+        updateStats();
+      } catch (error) {
+        loadStatus.textContent = "El catastro cargo, pero una o mas capas auxiliares no pudieron abrirse.";
+      }
+    }
+
     function clearCadastre() {
       if (map.hasLayer(cadastreLayer)) {
         map.removeLayer(cadastreLayer);
@@ -765,9 +1160,24 @@
         features += facilitiesData.length;
       }
 
-      if (map.hasLayer(cadastreLayer)) {
+      if (map.hasLayer(cadastreLayer) && cadastreLayer.getLayers().length) {
         layers += 1;
         features += cadastreLayer.getLayers().length;
+      }
+
+      if (map.hasLayer(urbanNeighborhoodsLayer) && urbanNeighborhoodsLayer.getLayers().length) {
+        layers += 1;
+        features += urbanNeighborhoodsLayer.getLayers().length;
+      }
+
+      if (map.hasLayer(ruralSectorsLayer) && ruralSectorsLayer.getLayers().length) {
+        layers += 1;
+        features += ruralSectorsLayer.getLayers().length;
+      }
+
+      if (map.hasLayer(parishesLayer) && parishesLayer.getLayers().length) {
+        layers += 1;
+        features += parishesLayer.getLayers().length;
       }
 
       activeLayers.textContent = layers;
@@ -838,11 +1248,41 @@
       }
       updateStats();
     });
+    toggleUrbanNeighborhoods.addEventListener("change", () => {
+      if (toggleUrbanNeighborhoods.checked) {
+        urbanNeighborhoodsLayer.addTo(map);
+      } else {
+        map.removeLayer(urbanNeighborhoodsLayer);
+      }
+      updateStats();
+    });
+    toggleRuralSectors.addEventListener("change", () => {
+      if (toggleRuralSectors.checked) {
+        ruralSectorsLayer.addTo(map);
+      } else {
+        map.removeLayer(ruralSectorsLayer);
+      }
+      updateStats();
+    });
+    toggleParishes.addEventListener("change", () => {
+      if (toggleParishes.checked) {
+        parishesLayer.addTo(map);
+      } else {
+        map.removeLayer(parishesLayer);
+      }
+      updateStats();
+    });
 
     searchButton.addEventListener("click", searchLocation);
     locationInput.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         searchLocation();
+      }
+    });
+    resolveGoogleMapsButton.addEventListener("click", resolveGoogleMapsLocation);
+    googleMapsUrlInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        resolveGoogleMapsLocation();
       }
     });
     claveInput.addEventListener("keydown", (event) => {
@@ -868,14 +1308,18 @@
         "Etiquetas satelitales": satelliteLabelsLayer
       },
       {
-      "Vias principales": roadsLayer,
-      "Equipamientos municipales": facilitiesLayer,
-      "Capa catastral": cadastreLayer
+        "Vias principales": roadsLayer,
+        "Equipamientos municipales": facilitiesLayer,
+        "Capa catastral": cadastreLayer,
+        "Barrios urbanos": urbanNeighborhoodsLayer,
+        "Sectores rurales": ruralSectorsLayer,
+        "Parroquias": parishesLayer
       }
     ).addTo(map);
 
     updateStats();
     loadCadastreData();
+    loadAuxiliaryLayers();
   </script>
 </body>
 </html>

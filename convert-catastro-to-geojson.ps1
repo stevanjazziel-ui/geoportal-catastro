@@ -1,7 +1,8 @@
 param(
   [string]$ShpPath = "D:\codex\CATASTRO 2026\CATASTRO_2026.shp",
   [string]$DbfPath = "D:\codex\CATASTRO 2026\CATASTRO_2026.dbf",
-  [string]$OutputPath = "D:\codex\CATASTRO 2026\CATASTRO_2026.geojson"
+  [string]$OutputPath = "D:\codex\CATASTRO 2026\CATASTRO_2026.geojson",
+  [string[]]$SelectedFields = @("cod_catast", "nombre", "apellido", "cedula", "tipo")
 )
 
 $ErrorActionPreference = "Stop"
@@ -224,8 +225,6 @@ function Read-DbfFields {
     RecordLength = $recordLength
   }
 }
-
-$selectedFields = @("cod_catast", "nombre", "apellido", "cedula", "tipo")
 
 $shpStream = [System.IO.File]::OpenRead($ShpPath)
 $dbfStream = [System.IO.File]::OpenRead($DbfPath)
