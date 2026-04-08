@@ -14,22 +14,22 @@
     @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Orbitron:wght@500;700&family=Rajdhani:wght@500;600;700&display=swap");
 
     :root {
-      --bg: #080507;
-      --bg-2: #161013;
-      --panel: rgba(24, 14, 16, 0.9);
-      --panel-strong: rgba(36, 20, 19, 0.94);
-      --line: rgba(255, 120, 74, 0.2);
-      --line-strong: rgba(255, 193, 107, 0.38);
-      --text: #fff1e8;
-      --muted: #b69f95;
-      --accent: #ff7a45;
-      --accent-soft: rgba(255, 122, 69, 0.12);
-      --arc: #83ecff;
-      --ember: #ff4f3d;
-      --gold: #ffc46b;
-      --danger: #ff5050;
+      --bg: #06131d;
+      --bg-2: #0b2333;
+      --panel: rgba(8, 24, 37, 0.9);
+      --panel-strong: rgba(11, 34, 49, 0.94);
+      --line: rgba(112, 212, 255, 0.18);
+      --line-strong: rgba(146, 239, 255, 0.34);
+      --text: #edf8ff;
+      --muted: #94b6c5;
+      --accent: #51ceff;
+      --accent-soft: rgba(81, 206, 255, 0.12);
+      --arc: #7ef5d8;
+      --ember: #74a8ff;
+      --gold: #ffe28a;
+      --danger: #ff7d7d;
       --shadow: 0 28px 60px rgba(0, 0, 0, 0.42);
-      --glow: 0 0 0 1px rgba(255, 122, 69, 0.12), 0 0 34px rgba(255, 122, 69, 0.14);
+      --glow: 0 0 0 1px rgba(81, 206, 255, 0.12), 0 0 34px rgba(81, 206, 255, 0.14);
     }
 
     * {
@@ -47,13 +47,13 @@
       font-family: "Rajdhani", "Segoe UI", Tahoma, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at 14% 12%, rgba(255, 109, 60, 0.24), transparent 28%),
-        radial-gradient(circle at 80% 18%, rgba(131, 236, 255, 0.12), transparent 18%),
-        radial-gradient(circle at 52% 100%, rgba(255, 182, 83, 0.12), transparent 32%),
-        linear-gradient(180deg, rgba(18, 10, 10, 0.98), rgba(7, 4, 6, 1)),
-        repeating-linear-gradient(90deg, rgba(255, 156, 97, 0.04) 0 1px, transparent 1px 92px),
-        repeating-linear-gradient(0deg, rgba(255, 156, 97, 0.03) 0 1px, transparent 1px 92px),
-        #080507;
+        radial-gradient(circle at 14% 12%, rgba(81, 206, 255, 0.18), transparent 28%),
+        radial-gradient(circle at 80% 18%, rgba(126, 245, 216, 0.11), transparent 18%),
+        radial-gradient(circle at 52% 100%, rgba(255, 226, 138, 0.08), transparent 30%),
+        linear-gradient(180deg, rgba(9, 22, 33, 0.98), rgba(5, 14, 22, 1)),
+        repeating-linear-gradient(90deg, rgba(112, 212, 255, 0.035) 0 1px, transparent 1px 92px),
+        repeating-linear-gradient(0deg, rgba(112, 212, 255, 0.025) 0 1px, transparent 1px 92px),
+        #06131d;
     }
 
     body::before {
@@ -62,8 +62,8 @@
       inset: 0;
       pointer-events: none;
       background:
-        linear-gradient(180deg, transparent, rgba(7, 4, 6, 0.45) 68%, rgba(7, 4, 6, 0.82)),
-        radial-gradient(circle at center, transparent 0 58%, rgba(255, 98, 59, 0.05) 74%, transparent 78%);
+        linear-gradient(180deg, transparent, rgba(5, 14, 22, 0.42) 68%, rgba(5, 14, 22, 0.8)),
+        radial-gradient(circle at center, transparent 0 58%, rgba(81, 206, 255, 0.05) 74%, transparent 78%);
     }
 
     .layout {
@@ -81,8 +81,8 @@
       overflow-y: auto;
       padding: 22px 20px 24px;
       background:
-        linear-gradient(180deg, rgba(25, 12, 14, 0.95), rgba(10, 6, 8, 0.98)),
-        rgba(25, 12, 14, 0.95);
+        linear-gradient(180deg, rgba(9, 25, 38, 0.96), rgba(4, 13, 21, 0.98)),
+        rgba(9, 25, 38, 0.95);
       border-right: 1px solid var(--line);
       box-shadow: var(--shadow);
       z-index: 2;
@@ -94,8 +94,8 @@
       inset: 0;
       pointer-events: none;
       background:
-        radial-gradient(circle at top left, rgba(255, 109, 60, 0.16), transparent 24%),
-        radial-gradient(circle at bottom right, rgba(255, 196, 107, 0.08), transparent 18%),
+        radial-gradient(circle at top left, rgba(81, 206, 255, 0.14), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(126, 245, 216, 0.08), transparent 18%),
         linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 20%);
     }
 
@@ -105,7 +105,7 @@
       padding: 18px;
       border: 1px solid var(--line);
       border-radius: 24px 12px 24px 12px;
-      background: linear-gradient(155deg, rgba(34, 17, 18, 0.98), rgba(61, 23, 17, 0.9));
+      background: linear-gradient(155deg, rgba(13, 34, 49, 0.98), rgba(18, 62, 82, 0.92));
       box-shadow: var(--shadow), var(--glow);
       overflow: hidden;
       animation: panelRise 0.7s ease both;
@@ -117,7 +117,7 @@
       inset: auto -26% -54% auto;
       width: 240px;
       height: 240px;
-      background: radial-gradient(circle, rgba(255, 196, 107, 0.2), transparent 62%);
+      background: radial-gradient(circle, rgba(81, 206, 255, 0.18), transparent 62%);
       pointer-events: none;
     }
 
@@ -129,10 +129,10 @@
       width: 118px;
       height: 118px;
       border-radius: 999px;
-      border: 1px solid rgba(131, 236, 255, 0.2);
+      border: 1px solid rgba(126, 245, 216, 0.18);
       box-shadow:
-        inset 0 0 0 10px rgba(131, 236, 255, 0.05),
-        0 0 26px rgba(131, 236, 255, 0.12);
+        inset 0 0 0 10px rgba(126, 245, 216, 0.05),
+        0 0 26px rgba(126, 245, 216, 0.1);
       opacity: 0.75;
       pointer-events: none;
     }
@@ -151,9 +151,9 @@
       gap: 8px;
       padding: 8px 12px;
       border-radius: 999px;
-      background: rgba(255, 122, 69, 0.12);
-      border: 1px solid rgba(255, 122, 69, 0.28);
-      color: #ffc7a7;
+      background: rgba(81, 206, 255, 0.12);
+      border: 1px solid rgba(81, 206, 255, 0.24);
+      color: #d8f5ff;
       font-family: "IBM Plex Mono", monospace;
       font-size: 0.72rem;
       font-weight: 600;
@@ -167,9 +167,9 @@
       gap: 8px;
       padding: 7px 10px;
       border-radius: 999px;
-      background: rgba(131, 236, 255, 0.1);
-      border: 1px solid rgba(131, 236, 255, 0.24);
-      color: #d6fbff;
+      background: rgba(126, 245, 216, 0.08);
+      border: 1px solid rgba(126, 245, 216, 0.22);
+      color: #dffdf6;
       font-family: "IBM Plex Mono", monospace;
       font-size: 0.72rem;
       letter-spacing: 0.08em;
@@ -214,8 +214,8 @@
     .brand-metric {
       padding: 12px;
       border-radius: 16px 8px 16px 8px;
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 122, 69, 0.05));
-      border: 1px solid rgba(255, 122, 69, 0.12);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(81, 206, 255, 0.06));
+      border: 1px solid rgba(81, 206, 255, 0.12);
       backdrop-filter: blur(10px);
     }
 
@@ -240,7 +240,7 @@
       position: relative;
       margin-bottom: 14px;
       padding: 16px 16px 15px;
-      background: linear-gradient(180deg, rgba(25, 12, 14, 0.92), rgba(13, 8, 10, 0.92));
+      background: linear-gradient(180deg, rgba(10, 28, 41, 0.92), rgba(6, 18, 29, 0.92));
       border: 1px solid var(--line);
       border-radius: 22px 10px 22px 10px;
       box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
@@ -255,7 +255,7 @@
       left: 0;
       right: 0;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255, 196, 107, 0.55), transparent);
+      background: linear-gradient(90deg, transparent, rgba(81, 206, 255, 0.52), transparent);
     }
 
     .panel::after {
@@ -265,8 +265,8 @@
       top: 12px;
       width: 26px;
       height: 26px;
-      border-top: 1px solid rgba(255, 196, 107, 0.25);
-      border-right: 1px solid rgba(255, 122, 69, 0.22);
+      border-top: 1px solid rgba(126, 245, 216, 0.22);
+      border-right: 1px solid rgba(81, 206, 255, 0.22);
       opacity: 0.7;
     }
 
@@ -275,7 +275,7 @@
       font-family: "Orbitron", "Rajdhani", sans-serif;
       font-size: 0.96rem;
       letter-spacing: 0.08em;
-      color: #fff0d8;
+      color: #e6fbff;
       text-transform: uppercase;
     }
 
@@ -296,26 +296,26 @@
       width: 100%;
       padding: 12px 13px;
       border-radius: 14px;
-      border: 1px solid rgba(101, 211, 255, 0.16);
+      border: 1px solid rgba(112, 212, 255, 0.18);
       font: inherit;
     }
 
     input,
     select {
-      background: rgba(8, 8, 10, 0.72);
+      background: rgba(5, 18, 28, 0.76);
       color: var(--text);
       box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.01);
     }
 
     input::placeholder {
-      color: #8d7369;
+      color: #7693a4;
     }
 
     input:focus,
     select:focus {
       outline: none;
-      border-color: rgba(255, 122, 69, 0.5);
-      box-shadow: 0 0 0 4px rgba(255, 122, 69, 0.12);
+      border-color: rgba(81, 206, 255, 0.48);
+      box-shadow: 0 0 0 4px rgba(81, 206, 255, 0.12);
     }
 
     input[type="checkbox"] {
@@ -327,27 +327,27 @@
     }
 
     button {
-      background: linear-gradient(135deg, #6d1715, #c93722 60%, #ff8b4a);
-      color: #fff4e9;
-      border: 1px solid rgba(255, 173, 103, 0.28);
+      background: linear-gradient(135deg, #0c669d, #19a9d8 60%, #69e2d8);
+      color: #f1fdff;
+      border: 1px solid rgba(126, 245, 216, 0.26);
       font-weight: 700;
       letter-spacing: 0.04em;
       text-transform: uppercase;
       cursor: pointer;
       transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-      box-shadow: 0 12px 28px rgba(161, 41, 22, 0.34);
+      box-shadow: 0 12px 28px rgba(20, 120, 163, 0.32);
     }
 
     button:hover {
       transform: translateY(-1px);
-      border-color: rgba(255, 196, 107, 0.48);
-      box-shadow: 0 16px 30px rgba(161, 41, 22, 0.42);
+      border-color: rgba(126, 245, 216, 0.4);
+      box-shadow: 0 16px 30px rgba(20, 120, 163, 0.4);
     }
 
     button.secondary {
-      background: linear-gradient(180deg, rgba(39, 20, 19, 0.8), rgba(15, 9, 10, 0.92));
-      color: #ffe6cf;
-      border: 1px solid rgba(255, 122, 69, 0.18);
+      background: linear-gradient(180deg, rgba(13, 36, 51, 0.86), rgba(6, 18, 29, 0.94));
+      color: #dcf6ff;
+      border: 1px solid rgba(81, 206, 255, 0.16);
       box-shadow: none;
     }
 
@@ -355,8 +355,8 @@
       margin-top: 12px;
       padding: 12px 13px;
       border-radius: 18px 10px 18px 10px;
-      background: linear-gradient(180deg, rgba(18, 10, 12, 0.88), rgba(26, 13, 12, 0.92));
-      border: 1px solid rgba(255, 122, 69, 0.14);
+      background: linear-gradient(180deg, rgba(10, 26, 38, 0.88), rgba(8, 21, 31, 0.92));
+      border: 1px solid rgba(81, 206, 255, 0.14);
       color: var(--muted);
       font-size: 0.9rem;
       line-height: 1.5;
@@ -369,7 +369,7 @@
 
     .result-row {
       padding-bottom: 10px;
-      border-bottom: 1px dashed rgba(255, 122, 69, 0.18);
+      border-bottom: 1px dashed rgba(81, 206, 255, 0.18);
     }
 
     .result-row:last-child {
@@ -381,7 +381,7 @@
       display: block;
       margin-bottom: 4px;
       font-size: 0.74rem;
-      color: #ffc46b;
+      color: var(--arc);
       text-transform: uppercase;
       letter-spacing: 0.08em;
       font-family: "IBM Plex Mono", monospace;
@@ -399,14 +399,14 @@
       padding: 10px 12px;
       border-radius: 14px;
       background: rgba(255, 255, 255, 0.025);
-      border: 1px solid rgba(255, 122, 69, 0.1);
-      color: #f7dfd2;
+      border: 1px solid rgba(81, 206, 255, 0.1);
+      color: #def4ff;
       transition: border-color 0.18s ease, background 0.18s ease;
     }
 
     .checkbox-item:hover {
-      border-color: rgba(255, 173, 103, 0.22);
-      background: rgba(255, 122, 69, 0.07);
+      border-color: rgba(126, 245, 216, 0.22);
+      background: rgba(81, 206, 255, 0.07);
     }
 
     .stats {
@@ -418,15 +418,15 @@
     .stat-card {
       padding: 14px 14px 12px;
       border-radius: 18px 10px 18px 10px;
-      border: 1px solid rgba(255, 122, 69, 0.1);
-      background: linear-gradient(155deg, rgba(255, 255, 255, 0.04), rgba(77, 24, 16, 0.22));
+      border: 1px solid rgba(81, 206, 255, 0.1);
+      background: linear-gradient(155deg, rgba(255, 255, 255, 0.04), rgba(18, 84, 112, 0.2));
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
     }
 
     .stat-card span {
       display: block;
       font-size: 0.7rem;
-      color: #b89b8c;
+      color: #90b7c7;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       font-family: "IBM Plex Mono", monospace;
@@ -449,7 +449,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      color: #f1ddd1;
+      color: #dff5ff;
       font-size: 0.9rem;
     }
 
@@ -458,7 +458,7 @@
       height: 14px;
       border-radius: 4px;
       border: 1px solid rgba(255, 255, 255, 0.18);
-      box-shadow: 0 0 12px rgba(255, 122, 69, 0.12);
+      box-shadow: 0 0 12px rgba(81, 206, 255, 0.12);
     }
 
     .attributes {
@@ -471,14 +471,14 @@
 
     .attribute-row {
       padding-bottom: 10px;
-      border-bottom: 1px dashed rgba(255, 122, 69, 0.18);
+      border-bottom: 1px dashed rgba(81, 206, 255, 0.18);
     }
 
     .attribute-row strong {
       display: block;
       margin-bottom: 3px;
       font-size: 0.74rem;
-      color: #ffc46b;
+      color: var(--arc);
       text-transform: uppercase;
       letter-spacing: 0.08em;
       font-family: "IBM Plex Mono", monospace;
@@ -494,8 +494,8 @@
       height: 100dvh;
       min-height: 0;
       overflow: hidden;
-      background: #12090b;
-      border-left: 1px solid rgba(255, 122, 69, 0.12);
+      background: #06131d;
+      border-left: 1px solid rgba(81, 206, 255, 0.12);
     }
 
     .map-wrap::before {
@@ -504,8 +504,8 @@
       inset: 0;
       pointer-events: none;
       background:
-        linear-gradient(180deg, rgba(10, 6, 7, 0.08), rgba(10, 6, 7, 0.42)),
-        radial-gradient(circle at 82% 18%, rgba(255, 196, 107, 0.08), transparent 20%);
+        linear-gradient(180deg, rgba(5, 13, 20, 0.08), rgba(5, 13, 20, 0.42)),
+        radial-gradient(circle at 82% 18%, rgba(126, 245, 216, 0.08), transparent 20%);
       z-index: 350;
     }
 
@@ -517,17 +517,17 @@
       width: 220px;
       height: 220px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 122, 69, 0.1);
+      border: 1px solid rgba(81, 206, 255, 0.1);
       box-shadow:
-        inset 0 0 0 16px rgba(255, 122, 69, 0.03),
-        inset 0 0 0 42px rgba(255, 196, 107, 0.02);
+        inset 0 0 0 16px rgba(81, 206, 255, 0.03),
+        inset 0 0 0 42px rgba(126, 245, 216, 0.02);
       pointer-events: none;
       z-index: 360;
       opacity: 0.75;
     }
 
     .leaflet-tile-pane {
-      filter: saturate(1.06) contrast(1.08) brightness(0.9) sepia(0.08);
+      filter: saturate(1.04) contrast(1.04) brightness(0.94);
     }
 
     .map-overlay {
@@ -537,8 +537,8 @@
       z-index: 500;
       width: min(380px, calc(100% - 36px));
       padding: 16px;
-      background: linear-gradient(180deg, rgba(27, 12, 12, 0.9), rgba(16, 9, 10, 0.96));
-      border: 1px solid rgba(255, 122, 69, 0.18);
+      background: linear-gradient(180deg, rgba(12, 31, 45, 0.9), rgba(8, 21, 31, 0.96));
+      border: 1px solid rgba(81, 206, 255, 0.18);
       border-radius: 22px 10px 22px 10px;
       box-shadow: var(--shadow), var(--glow);
       backdrop-filter: blur(12px);
@@ -558,9 +558,9 @@
       gap: 8px;
       padding: 6px 10px;
       border-radius: 999px;
-      background: rgba(255, 122, 69, 0.12);
-      border: 1px solid rgba(255, 122, 69, 0.24);
-      color: #ffd6bf;
+      background: rgba(81, 206, 255, 0.12);
+      border: 1px solid rgba(81, 206, 255, 0.24);
+      color: #d8f6ff;
       font-family: "IBM Plex Mono", monospace;
       font-size: 0.72rem;
       letter-spacing: 0.08em;
@@ -572,8 +572,8 @@
       width: 7px;
       height: 7px;
       border-radius: 999px;
-      background: var(--gold);
-      box-shadow: 0 0 16px rgba(255, 196, 107, 0.75);
+      background: var(--arc);
+      box-shadow: 0 0 16px rgba(126, 245, 216, 0.72);
     }
 
     .map-status {
@@ -590,38 +590,38 @@
       font-size: 1.02rem;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: #fff3db;
+      color: #edfaff;
     }
 
     .coords {
       margin: 0;
-      color: #d7c3ba;
+      color: #aac8d8;
       font-size: 0.9rem;
       font-family: "IBM Plex Mono", monospace;
     }
 
     .leaflet-control-zoom a,
     .leaflet-bar a {
-      background: rgba(21, 10, 12, 0.92);
-      color: #fff2ea;
-      border-bottom: 1px solid rgba(255, 122, 69, 0.16);
+      background: rgba(9, 24, 35, 0.92);
+      color: #eefaff;
+      border-bottom: 1px solid rgba(81, 206, 255, 0.16);
     }
 
     .leaflet-control-zoom a:hover,
     .leaflet-bar a:hover {
-      background: #541913;
+      background: #10384c;
       color: #fff;
     }
 
     .leaflet-bar {
-      border: 1px solid rgba(255, 122, 69, 0.16);
+      border: 1px solid rgba(81, 206, 255, 0.16);
       box-shadow: var(--shadow);
     }
 
     .leaflet-control-layers {
-      background: rgba(18, 10, 12, 0.94);
+      background: rgba(8, 22, 33, 0.94);
       color: var(--text);
-      border: 1px solid rgba(255, 122, 69, 0.16);
+      border: 1px solid rgba(81, 206, 255, 0.16);
       border-radius: 18px 10px 18px 10px;
       box-shadow: var(--shadow);
     }
@@ -631,14 +631,14 @@
     }
 
     .leaflet-control-layers label {
-      color: #ffe6d7;
+      color: #e4f7ff;
     }
 
     .leaflet-popup-content-wrapper,
     .leaflet-popup-tip {
-      background: rgba(19, 11, 13, 0.96);
+      background: rgba(9, 24, 35, 0.96);
       color: var(--text);
-      border: 1px solid rgba(255, 122, 69, 0.16);
+      border: 1px solid rgba(81, 206, 255, 0.16);
     }
 
     .leaflet-popup-content {
@@ -651,7 +651,7 @@
     }
 
     ::-webkit-scrollbar-thumb {
-      background: rgba(255, 122, 69, 0.22);
+      background: rgba(81, 206, 255, 0.22);
       border-radius: 999px;
     }
 
@@ -750,15 +750,15 @@
             Predios rurales
           </div>
           <div class="legend-item">
-            <span class="legend-swatch" style="background: transparent; border: 2px solid #ff9f1c;"></span>
+            <span class="legend-swatch" style="background: transparent; border: 2px solid #ffd166;"></span>
             Barrios urbanos
           </div>
           <div class="legend-item">
-            <span class="legend-swatch" style="background: transparent; border: 2px solid #7b2cbf;"></span>
+            <span class="legend-swatch" style="background: transparent; border: 2px solid #b794f4;"></span>
             Sectores rurales
           </div>
           <div class="legend-item">
-            <span class="legend-swatch" style="background: transparent; border: 2px dashed #d90429;"></span>
+            <span class="legend-swatch" style="background: transparent; border: 2px dashed #9be7ff;"></span>
             Parroquias
           </div>
         </div>
@@ -1334,7 +1334,7 @@
 
     function getUrbanNeighborhoodStyle() {
       return {
-        color: "#ff9f1c",
+        color: "#ffd166",
         weight: 2,
         fillColor: "transparent",
         fillOpacity: 0
@@ -1343,7 +1343,7 @@
 
     function getRuralSectorStyle() {
       return {
-        color: "#7b2cbf",
+        color: "#b794f4",
         weight: 2,
         fillColor: "transparent",
         fillOpacity: 0
@@ -1352,7 +1352,7 @@
 
     function getParishStyle() {
       return {
-        color: "#d90429",
+        color: "#9be7ff",
         weight: 2.5,
         dashArray: "8 6",
         fillColor: "transparent",
