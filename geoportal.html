@@ -547,6 +547,9 @@
     const parishesUrl = encodeURI("./PARROQUIAS/PARROQUIAS.geojson");
     let cadastreData = null;
     let googleMapsMarker = null;
+    let isCadastreReady = false;
+    let areAuxLayersReady = false;
+    let hasAppliedInitialProjectView = false;
 
     function bindFeatureInfo(feature, layer) {
       const properties = feature.properties || {};
@@ -1028,6 +1031,38 @@
       updateStats();
     }
 
+    function tryApplyInitialProjectView() {
+      if (hasAppliedInitialProjectView || !isCadastreReady || !areAuxLayersReady) {
+        return;
+      }
+
+      const layersForBounds = [
+        cadastreLayer,
+        urbanNeighborhoodsLayer,
+        ruralSectorsLayer,
+        parishesLayer
+      ].filter((layer) => layer && layer.getLayers().length);
+
+      if (!layersForBounds.length) {
+        return;
+      }
+
+      const projectBounds = L.featureGroup(layersForBounds).getBounds();
+      if (!projectBounds.isValid()) {
+        return;
+      }
+
+      map.fitBounds(projectBounds, {
+        padding: [18, 18]
+      });
+
+      if (map.getZoom() > 11) {
+        map.setZoom(11);
+      }
+
+      hasAppliedInitialProjectView = true;
+    }
+
     function applyCadastreFilters() {
       if (!cadastreData) {
         return;
@@ -1065,7 +1100,9 @@
         }
 
         cadastreData = await response.json();
-        resetCadastreLayer(cadastreData);
+        resetCadastreLayer(cadastreData, false);
+        isCadastreReady = true;
+        tryApplyInitialProjectView();
 
         loadStatus.textContent =
           `Catastro cargado automaticamente con ${cadastreData.features.length} predios.`;
@@ -1105,7 +1142,11 @@
         }
 
         updateStats();
+        areAuxLayersReady = true;
+        tryApplyInitialProjectView();
       } catch (error) {
+        areAuxLayersReady = true;
+        tryApplyInitialProjectView();
         loadStatus.textContent = "El catastro cargo, pero una o mas capas auxiliares no pudieron abrirse.";
       }
     }
