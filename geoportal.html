@@ -154,6 +154,30 @@
       font-size: 0.92rem;
     }
 
+    .result-card {
+      display: grid;
+      gap: 10px;
+    }
+
+    .result-row {
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--line);
+    }
+
+    .result-row:last-child {
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .result-row strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 0.78rem;
+      color: var(--forest-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
     .checkbox-list {
       display: grid;
       gap: 10px;
@@ -382,9 +406,12 @@
           <button id="resolveGoogleMapsButton" type="button">Identificar sector</button>
         </div>
         <p class="helper" style="margin-top: 10px;">
-          Abre una nueva pestana con el barrio, sector rural o parroquia donde se ubica el punto.
+          Identifica el barrio, sector rural o parroquia dentro del mismo geoportal.
           Lee enlaces completos y tambien intenta enlaces cortos de Google Maps cuando el navegador lo permite.
         </p>
+        <div id="googleMapsResult" class="status">
+          Pega un enlace o unas coordenadas para ver aqui el sector identificado.
+        </div>
       </section>
 
       <section class="panel">
@@ -611,12 +638,14 @@
     const searchButton = document.getElementById("searchButton");
     const googleMapsUrlInput = document.getElementById("googleMapsUrlInput");
     const resolveGoogleMapsButton = document.getElementById("resolveGoogleMapsButton");
+    const googleMapsResult = document.getElementById("googleMapsResult");
     const coordsText = document.getElementById("coordsText");
     const cadastreGeoJsonUrl = encodeURI("./CATASTRO 2026/CATASTRO_2026.geojson");
     const urbanNeighborhoodsUrl = encodeURI("./BARRIOS URBANOS/BARRIOS_URBANOS.geojson");
     const ruralSectorsUrl = encodeURI("./SECTORES RURALES/SECTORES_RURALES.geojson");
     const parishesUrl = encodeURI("./PARROQUIAS/PARROQUIAS.geojson");
     let cadastreData = null;
+    let googleMapsMarker = null;
 
     function bindFeatureInfo(feature, layer) {
       const properties = feature.properties || {};
@@ -691,6 +720,15 @@
           "DPA_DESPRO"
         ]) || "Elemento"
       );
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
     }
 
     function isValidCoordinatePair(lat, lng) {
@@ -882,90 +920,31 @@
       return matchedFeature;
     }
 
-    function openLocationResultTab(result) {
-      const resultWindow = window.open("", "_blank");
-      if (!resultWindow) {
-        loadStatus.textContent = "El navegador bloqueo la nueva pestana. Permite ventanas emergentes e intenta de nuevo.";
-        return;
-      }
-
-      const html = `<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Resultado del sector</title>
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #f8f3e9, #e8efe8);
-      color: #1f2726;
-    }
-    .card {
-      max-width: 680px;
-      margin: 24px;
-      padding: 28px;
-      background: rgba(255,255,255,0.94);
-      border: 1px solid rgba(16, 56, 47, 0.12);
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(16, 56, 47, 0.12);
-    }
-    h1 {
-      margin: 0 0 10px;
-      font-size: 2rem;
-    }
-    p {
-      color: #63716d;
-    }
-    .row {
-      padding: 12px 0;
-      border-bottom: 1px dashed rgba(16, 56, 47, 0.12);
-    }
-    .row strong {
-      display: block;
-      margin-bottom: 4px;
-      color: #10382f;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      font-size: 0.78rem;
-    }
-  </style>
-</head>
-<body>
-  <main class="card">
-    <h1>Ubicacion identificada</h1>
-    <p>Resultado obtenido desde el enlace o coordenadas de Google Maps.</p>
-    <div class="row">
-      <strong>Sector o barrio principal</strong>
-      <span>${result.mainName}</span>
-    </div>
-    <div class="row">
-      <strong>Barrio urbano</strong>
-      <span>${result.urbanNeighborhood}</span>
-    </div>
-    <div class="row">
-      <strong>Sector rural</strong>
-      <span>${result.ruralSector}</span>
-    </div>
-    <div class="row">
-      <strong>Parroquia</strong>
-      <span>${result.parish}</span>
-    </div>
-    <div class="row">
-      <strong>Coordenadas</strong>
-      <span>${result.lat.toFixed(6)}, ${result.lng.toFixed(6)}</span>
-    </div>
-  </main>
-</body>
-</html>`;
-
-      resultWindow.document.open();
-      resultWindow.document.write(html);
-      resultWindow.document.close();
+    function renderLocationResult(result) {
+      googleMapsResult.innerHTML = `
+        <div class="result-card">
+          <div class="result-row">
+            <strong>Sector o barrio principal</strong>
+            <span>${escapeHtml(result.mainName)}</span>
+          </div>
+          <div class="result-row">
+            <strong>Barrio urbano</strong>
+            <span>${escapeHtml(result.urbanNeighborhood)}</span>
+          </div>
+          <div class="result-row">
+            <strong>Sector rural</strong>
+            <span>${escapeHtml(result.ruralSector)}</span>
+          </div>
+          <div class="result-row">
+            <strong>Parroquia</strong>
+            <span>${escapeHtml(result.parish)}</span>
+          </div>
+          <div class="result-row">
+            <strong>Coordenadas</strong>
+            <span>${escapeHtml(result.lat.toFixed(6))}, ${escapeHtml(result.lng.toFixed(6))}</span>
+          </div>
+        </div>
+      `;
     }
 
     async function resolveGoogleMapsLocation() {
@@ -975,6 +954,8 @@
 
       if (!coordinates) {
         loadStatus.textContent = "No pude leer coordenadas del enlace. Los links cortos maps.app.goo.gl pueden ser bloqueados por Google o por el navegador; pega el enlace completo o las coordenadas.";
+        googleMapsResult.textContent =
+          "No se pudieron obtener coordenadas del enlace. Prueba con el enlace completo o con latitud,longitud.";
         return;
       }
 
@@ -1000,13 +981,17 @@
             : result.parish;
 
       map.setView([coordinates.lat, coordinates.lng], 16);
-      L.marker([coordinates.lat, coordinates.lng])
+      if (googleMapsMarker) {
+        map.removeLayer(googleMapsMarker);
+      }
+
+      googleMapsMarker = L.marker([coordinates.lat, coordinates.lng])
         .addTo(map)
         .bindPopup(`<strong>${result.mainName}</strong>`)
         .openPopup();
 
-      openLocationResultTab(result);
-      loadStatus.textContent = `Ubicacion identificada: ${result.mainName}.`;
+      renderLocationResult(result);
+      loadStatus.textContent = `Ubicacion identificada en el geoportal: ${result.mainName}.`;
     }
 
     function getOwnerName(properties) {
