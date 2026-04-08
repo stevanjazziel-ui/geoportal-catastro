@@ -641,13 +641,55 @@
       layer.bindPopup(`<strong>${popupTitle}</strong>`);
     }
 
+    function normalizeTextValue(value) {
+      if (value === null || value === undefined) {
+        return "";
+      }
+
+      const text = String(value).trim();
+      if (!text) {
+        return "";
+      }
+
+      if (!/[\u00C2\u00C3]/.test(text)) {
+        return text;
+      }
+
+      try {
+        const bytes = Uint8Array.from(text, (char) => char.charCodeAt(0));
+        const repaired = new TextDecoder("utf-8").decode(bytes).trim();
+        return repaired || text;
+      } catch {
+        return text;
+      }
+    }
+
+    function getFirstPropertyValue(properties, keys) {
+      for (const key of keys) {
+        const value = normalizeTextValue(properties?.[key]);
+        if (value) {
+          return value;
+        }
+      }
+
+      const fallbackValue = Object.values(properties || {})
+        .map((value) => normalizeTextValue(value))
+        .find(Boolean);
+
+      return fallbackValue || "";
+    }
+
     function getFeatureDisplayName(properties) {
       return (
-        properties.nombre ||
-        properties.NOMBRE ||
-        properties.DPA_DESPAR ||
-        properties.PARROQUIA ||
-        "Elemento"
+        getFirstPropertyValue(properties, [
+          "nombre",
+          "NOMBRE",
+          "DPA_DESPAR",
+          "txt",
+          "PARROQUIA",
+          "DPA_DESCAN",
+          "DPA_DESPRO"
+        ]) || "Elemento"
       );
     }
 
@@ -1058,7 +1100,10 @@
       }
 
       const titleValue =
-        properties.clave || properties.nombre || properties.propietario || "Seleccionado";
+        getFeatureDisplayName(properties) ||
+        normalizeTextValue(properties.clave) ||
+        normalizeTextValue(properties.propietario) ||
+        "Seleccionado";
       selectedFeature.textContent = String(titleValue).slice(0, 12);
 
       attributesPanel.innerHTML = entries
@@ -1066,7 +1111,7 @@
           ([key, value]) => `
             <div class="attribute-row">
               <strong>${key}</strong>
-              <span>${value ?? ""}</span>
+              <span>${normalizeTextValue(value)}</span>
             </div>
           `
         )

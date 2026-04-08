@@ -7,6 +7,10 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+if ($SelectedFields.Count -eq 1 -and $SelectedFields[0] -match ",") {
+  $SelectedFields = $SelectedFields[0].Split(",") | ForEach-Object { $_.Trim() } | Where-Object { $_ }
+}
+
 function Get-BigEndianInt32 {
   param([byte[]]$Bytes)
   return [System.BitConverter]::ToInt32([byte[]]($Bytes[3], $Bytes[2], $Bytes[1], $Bytes[0]), 0)
