@@ -356,14 +356,6 @@
             <span class="legend-swatch" style="background: transparent; border: 2px dashed #d90429;"></span>
             Parroquias
           </div>
-          <div class="legend-item">
-            <span class="legend-swatch" style="background: #2d7dd2;"></span>
-            Equipamientos municipales
-          </div>
-          <div class="legend-item">
-            <span class="legend-swatch" style="background: #496f5d;"></span>
-            Vias principales
-          </div>
         </div>
         <div id="loadStatus" class="status">Iniciando carga del catastro...</div>
       </section>
@@ -418,14 +410,6 @@
         <h2>Capas visibles</h2>
         <div class="checkbox-list">
           <label class="checkbox-item">
-            <input type="checkbox" id="toggleRoads" checked />
-            Vias principales
-          </label>
-          <label class="checkbox-item">
-            <input type="checkbox" id="toggleFacilities" checked />
-            Equipamientos municipales
-          </label>
-          <label class="checkbox-item">
             <input type="checkbox" id="toggleCadastre" checked />
             Capa catastral
           </label>
@@ -449,7 +433,7 @@
         <div class="stats">
           <div class="stat-card">
             <span>Capas activas</span>
-            <strong id="activeLayers">2</strong>
+            <strong id="activeLayers">0</strong>
           </div>
           <div class="stat-card">
             <span>Predios cargados</span>
@@ -457,7 +441,7 @@
           </div>
           <div class="stat-card">
             <span>Elementos visibles</span>
-            <strong id="featureCount">6</strong>
+            <strong id="featureCount">0</strong>
           </div>
           <div class="stat-card">
             <span>Seleccion actual</span>
@@ -469,7 +453,7 @@
       <section class="panel">
         <h2>Ficha del elemento</h2>
         <div id="attributesPanel" class="attributes">
-          <p class="empty-state">Haz clic en un predio, una via o un equipamiento para ver sus atributos.</p>
+          <p class="empty-state">Haz clic en un predio, barrio, sector rural o parroquia para ver sus atributos.</p>
         </div>
       </section>
     </aside>
@@ -489,18 +473,20 @@
     crossorigin=""
   ></script>
   <script>
+    const imageryMaxZoom = 15;
+
     const map = L.map("map", {
       zoomSnap: 1,
-      maxZoom: 16
+      maxZoom: imageryMaxZoom
     }).setView([-2.17, -79.92], 13);
 
     const satelliteLayer = L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       {
         attribution: "Tiles &copy; Esri",
-        maxNativeZoom: 16,
-        maxZoom: 16,
-        detectRetina: true
+        maxNativeZoom: imageryMaxZoom,
+        maxZoom: imageryMaxZoom,
+        detectRetina: false
       }
     );
 
@@ -508,97 +494,14 @@
       "https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
       {
         attribution: "Labels &copy; Esri",
-        maxNativeZoom: 16,
-        maxZoom: 16,
-        detectRetina: true,
+        maxNativeZoom: imageryMaxZoom,
+        maxZoom: imageryMaxZoom,
+        detectRetina: false,
         pane: "overlayPane"
       }
     );
 
     satelliteLayer.addTo(map);
-
-    const roadsData = {
-      type: "FeatureCollection",
-      features: [
-        {
-          type: "Feature",
-          properties: { nombre: "Av. Principal", tipo: "Arterial" },
-          geometry: {
-            type: "LineString",
-            coordinates: [
-              [-79.929, -2.185],
-              [-79.923, -2.179],
-              [-79.914, -2.171]
-            ]
-          }
-        },
-        {
-          type: "Feature",
-          properties: { nombre: "Calle Central", tipo: "Colectora" },
-          geometry: {
-            type: "LineString",
-            coordinates: [
-              [-79.931, -2.175],
-              [-79.922, -2.173],
-              [-79.912, -2.169]
-            ]
-          }
-        }
-      ]
-    };
-
-    const facilitiesData = [
-      {
-        nombre: "Municipio",
-        categoria: "Administrativo",
-        coords: [-2.1892, -79.8892]
-      },
-      {
-        nombre: "Mercado Central",
-        categoria: "Comercial",
-        coords: [-2.1947, -79.8871]
-      },
-      {
-        nombre: "Unidad Educativa",
-        categoria: "Educacion",
-        coords: [-2.1828, -79.8974]
-      },
-      {
-        nombre: "Centro de Salud",
-        categoria: "Salud",
-        coords: [-2.1788, -79.9053]
-      }
-    ];
-
-    const roadsLayer = L.geoJSON(roadsData, {
-      style: {
-        color: "#496f5d",
-        weight: 4
-      },
-      onEachFeature: bindFeatureInfo
-    }).addTo(map);
-
-    const facilitiesLayer = L.layerGroup(
-      facilitiesData.map((item) => {
-        const marker = L.circleMarker(item.coords, {
-          radius: 7,
-          color: "#1b5a9b",
-          fillColor: "#2d7dd2",
-          fillOpacity: 0.9,
-          weight: 2
-        });
-        marker.feature = {
-          properties: {
-            nombre: item.nombre,
-            categoria: item.categoria,
-            tipo: "Equipamiento municipal"
-          }
-        };
-        marker.on("click", () => showAttributes(marker.feature.properties));
-        marker.bindPopup(`<strong>${item.nombre}</strong><br>${item.categoria}`);
-        return marker;
-      })
-    ).addTo(map);
 
     let cadastreLayer = L.geoJSON(null, {
       style: getCadastreStyle,
@@ -623,8 +526,6 @@
     const clearFilterButton = document.getElementById("clearFilterButton");
     const toggleUrbanOnly = document.getElementById("toggleUrbanOnly");
     const toggleRuralOnly = document.getElementById("toggleRuralOnly");
-    const toggleRoads = document.getElementById("toggleRoads");
-    const toggleFacilities = document.getElementById("toggleFacilities");
     const toggleCadastre = document.getElementById("toggleCadastre");
     const toggleUrbanNeighborhoods = document.getElementById("toggleUrbanNeighborhoods");
     const toggleRuralSectors = document.getElementById("toggleRuralSectors");
@@ -980,7 +881,7 @@
             ? result.urbanNeighborhood
             : result.parish;
 
-      map.setView([coordinates.lat, coordinates.lng], 16);
+      map.setView([coordinates.lat, coordinates.lng], imageryMaxZoom);
       if (googleMapsMarker) {
         map.removeLayer(googleMapsMarker);
       }
@@ -1168,8 +1069,8 @@
 
         loadStatus.textContent =
           `Catastro cargado automaticamente con ${cadastreData.features.length} predios.`;
-        if (map.getZoom() > 18) {
-          map.setZoom(18);
+        if (map.getZoom() > imageryMaxZoom) {
+          map.setZoom(imageryMaxZoom);
         }
       } catch (error) {
         loadStatus.textContent =
@@ -1223,23 +1124,13 @@
       loadStatus.textContent = "Sin capa catastral visible.";
       selectedFeature.textContent = "Ninguna";
       attributesPanel.innerHTML =
-        '<p class="empty-state">Haz clic en un predio, una via o un equipamiento para ver sus atributos.</p>';
+        '<p class="empty-state">Haz clic en un predio, barrio, sector rural o parroquia para ver sus atributos.</p>';
       updateStats();
     }
 
     function updateStats() {
       let layers = 0;
       let features = 0;
-
-      if (map.hasLayer(roadsLayer)) {
-        layers += 1;
-        features += roadsData.features.length;
-      }
-
-      if (map.hasLayer(facilitiesLayer)) {
-        layers += 1;
-        features += facilitiesData.length;
-      }
 
       if (map.hasLayer(cadastreLayer) && cadastreLayer.getLayers().length) {
         layers += 1;
@@ -1283,7 +1174,7 @@
         const { lat, lon, display_name } = results[0];
         const target = [parseFloat(lat), parseFloat(lon)];
 
-        map.setView(target, 16);
+        map.setView(target, imageryMaxZoom);
         L.marker(target).addTo(map).bindPopup(`<strong>${display_name}</strong>`).openPopup();
       } catch (error) {
         loadStatus.textContent = "No fue posible realizar la busqueda.";
@@ -1301,24 +1192,6 @@
       } else {
         clearCadastre();
       }
-    });
-
-    toggleRoads.addEventListener("change", () => {
-      if (toggleRoads.checked) {
-        roadsLayer.addTo(map);
-      } else {
-        map.removeLayer(roadsLayer);
-      }
-      updateStats();
-    });
-
-    toggleFacilities.addEventListener("change", () => {
-      if (toggleFacilities.checked) {
-        facilitiesLayer.addTo(map);
-      } else {
-        map.removeLayer(facilitiesLayer);
-      }
-      updateStats();
     });
 
     toggleCadastre.addEventListener("change", () => {
@@ -1389,8 +1262,6 @@
         "Etiquetas satelitales": satelliteLabelsLayer
       },
       {
-        "Vias principales": roadsLayer,
-        "Equipamientos municipales": facilitiesLayer,
         "Capa catastral": cadastreLayer,
         "Barrios urbanos": urbanNeighborhoodsLayer,
         "Sectores rurales": ruralSectorsLayer,
