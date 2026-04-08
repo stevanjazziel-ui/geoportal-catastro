@@ -383,6 +383,7 @@
         </div>
         <p class="helper" style="margin-top: 10px;">
           Abre una nueva pestana con el barrio, sector rural o parroquia donde se ubica el punto.
+          Intenta leer enlaces completos y tambien enlaces cortos de Google Maps.
         </p>
       </section>
 
@@ -719,6 +720,49 @@
       return null;
     }
 
+    function isGoogleMapsShortUrl(input) {
+      try {
+        const parsedUrl = new URL(input);
+        return (
+          parsedUrl.hostname.includes("maps.app.goo.gl") ||
+          parsedUrl.hostname.includes("goo.gl")
+        );
+      } catch (error) {
+        return false;
+      }
+    }
+
+    async function resolveGoogleMapsShortUrl(input) {
+      try {
+        const response = await fetch(input, {
+          method: "GET",
+          redirect: "follow"
+        });
+
+        return response.url || input;
+      } catch (error) {
+        return null;
+      }
+    }
+
+    async function resolveInputToCoordinates(input) {
+      const directCoordinates = extractCoordinatesFromGoogleMapsInput(input);
+      if (directCoordinates) {
+        return directCoordinates;
+      }
+
+      if (!isGoogleMapsShortUrl(input)) {
+        return null;
+      }
+
+      const resolvedUrl = await resolveGoogleMapsShortUrl(input);
+      if (!resolvedUrl) {
+        return null;
+      }
+
+      return extractCoordinatesFromGoogleMapsInput(resolvedUrl);
+    }
+
     function ringContainsPoint(point, ring) {
       let isInside = false;
       const [pointLng, pointLat] = point;
@@ -876,12 +920,13 @@
       resultWindow.document.close();
     }
 
-    function resolveGoogleMapsLocation() {
+    async function resolveGoogleMapsLocation() {
       const input = googleMapsUrlInput.value.trim();
-      const coordinates = extractCoordinatesFromGoogleMapsInput(input);
+      loadStatus.textContent = "Resolviendo enlace de Google Maps...";
+      const coordinates = await resolveInputToCoordinates(input);
 
       if (!coordinates) {
-        loadStatus.textContent = "No pude leer coordenadas del enlace. Usa un enlace de Google Maps que incluya latitud y longitud.";
+        loadStatus.textContent = "No pude leer coordenadas del enlace. Si es un link corto de Google Maps y no abre, pega el enlace completo o las coordenadas.";
         return;
       }
 
