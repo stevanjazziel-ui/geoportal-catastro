@@ -383,7 +383,7 @@
         </div>
         <p class="helper" style="margin-top: 10px;">
           Abre una nueva pestana con el barrio, sector rural o parroquia donde se ubica el punto.
-          Intenta leer enlaces completos y tambien enlaces cortos de Google Maps.
+          Lee enlaces completos y tambien intenta enlaces cortos de Google Maps cuando el navegador lo permite.
         </p>
       </section>
 
@@ -736,10 +736,16 @@
       try {
         const response = await fetch(input, {
           method: "GET",
+          mode: "no-cors",
+          cache: "no-store",
           redirect: "follow"
         });
 
-        return response.url || input;
+        if (response.url && response.url !== input) {
+          return response.url;
+        }
+
+        return null;
       } catch (error) {
         return null;
       }
@@ -926,7 +932,7 @@
       const coordinates = await resolveInputToCoordinates(input);
 
       if (!coordinates) {
-        loadStatus.textContent = "No pude leer coordenadas del enlace. Si es un link corto de Google Maps y no abre, pega el enlace completo o las coordenadas.";
+        loadStatus.textContent = "No pude leer coordenadas del enlace. Los links cortos maps.app.goo.gl pueden ser bloqueados por Google o por el navegador; pega el enlace completo o las coordenadas.";
         return;
       }
 
