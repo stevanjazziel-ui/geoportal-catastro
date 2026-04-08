@@ -11,16 +11,24 @@
     crossorigin=""
   />
   <style>
+    @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap");
+
     :root {
-      --sand: #f4efe4;
-      --forest: #1d5c4d;
-      --forest-dark: #10382f;
-      --clay: #bd6a3a;
-      --ink: #1f2726;
-      --muted: #63716d;
-      --card: rgba(255, 252, 247, 0.95);
-      --line: rgba(16, 56, 47, 0.12);
-      --shadow: 0 20px 40px rgba(16, 56, 47, 0.12);
+      --bg: #040b12;
+      --bg-2: #091521;
+      --panel: rgba(11, 23, 36, 0.92);
+      --panel-strong: rgba(17, 35, 56, 0.9);
+      --line: rgba(101, 211, 255, 0.16);
+      --line-strong: rgba(101, 211, 255, 0.36);
+      --text: #e7f6ff;
+      --muted: #8ea5b8;
+      --accent: #35d0ff;
+      --accent-soft: rgba(53, 208, 255, 0.14);
+      --teal: #1ed8b5;
+      --gold: #ffb347;
+      --danger: #ff5c7c;
+      --shadow: 0 24px 56px rgba(0, 0, 0, 0.35);
+      --glow: 0 0 0 1px rgba(53, 208, 255, 0.12), 0 0 26px rgba(53, 208, 255, 0.1);
     }
 
     * {
@@ -35,53 +43,134 @@
 
     body {
       margin: 0;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      color: var(--ink);
+      font-family: "IBM Plex Sans", "Segoe UI", Tahoma, sans-serif;
+      color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(189, 106, 58, 0.14), transparent 28%),
-        linear-gradient(135deg, #f8f3e9, #e8efe8);
+        radial-gradient(circle at 12% 10%, rgba(53, 208, 255, 0.2), transparent 26%),
+        radial-gradient(circle at 88% 18%, rgba(30, 216, 181, 0.18), transparent 22%),
+        linear-gradient(180deg, rgba(8, 18, 30, 0.96), rgba(4, 10, 18, 0.98)),
+        repeating-linear-gradient(90deg, rgba(90, 144, 180, 0.05) 0 1px, transparent 1px 88px),
+        repeating-linear-gradient(0deg, rgba(90, 144, 180, 0.04) 0 1px, transparent 1px 88px),
+        #040b12;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(180deg, transparent, rgba(4, 10, 18, 0.4) 68%, rgba(4, 10, 18, 0.76));
     }
 
     .layout {
       display: grid;
-      grid-template-columns: 380px 1fr;
+      grid-template-columns: 410px 1fr;
       min-height: 100dvh;
       height: 100dvh;
       overflow: hidden;
     }
 
     .sidebar {
+      position: relative;
       height: 100dvh;
       min-height: 0;
-      padding: 22px;
-      background: var(--card);
+      overflow-y: auto;
+      padding: 22px 20px 24px;
+      background:
+        linear-gradient(180deg, rgba(8, 18, 30, 0.92), rgba(5, 11, 18, 0.97)),
+        rgba(8, 18, 30, 0.92);
       border-right: 1px solid var(--line);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(8px);
-      overflow-y: auto;
       z-index: 2;
     }
 
+    .sidebar::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at top left, rgba(53, 208, 255, 0.14), transparent 24%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 20%);
+    }
+
     .brand {
+      position: relative;
       margin-bottom: 18px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(160deg, rgba(11, 23, 36, 0.96), rgba(16, 36, 56, 0.88));
+      box-shadow: var(--shadow), var(--glow);
+      overflow: hidden;
+      animation: panelRise 0.7s ease both;
+    }
+
+    .brand::after {
+      content: "";
+      position: absolute;
+      inset: auto -26% -54% auto;
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle, rgba(53, 208, 255, 0.2), transparent 62%);
+      pointer-events: none;
+    }
+
+    .brand-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
     }
 
     .eyebrow {
-      display: inline-block;
-      padding: 6px 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
       border-radius: 999px;
-      background: rgba(29, 92, 77, 0.1);
-      color: var(--forest);
-      font-size: 0.75rem;
-      font-weight: 700;
+      background: rgba(53, 208, 255, 0.12);
+      border: 1px solid rgba(53, 208, 255, 0.26);
+      color: var(--accent);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
+    .brand-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(30, 216, 181, 0.12);
+      border: 1px solid rgba(30, 216, 181, 0.24);
+      color: #b7fff1;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-status::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--teal);
+      box-shadow: 0 0 14px rgba(30, 216, 181, 0.8);
+    }
+
     .brand h1 {
-      margin: 10px 0 8px;
-      font-size: 2rem;
-      line-height: 1;
+      margin: 10px 0 10px;
+      max-width: 8ch;
+      font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
+      font-size: 2.35rem;
+      line-height: 0.94;
+      letter-spacing: -0.04em;
     }
 
     .brand p,
@@ -89,69 +178,152 @@
     .empty-state {
       margin: 0;
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: 0.94rem;
+      line-height: 1.56;
+    }
+
+    .brand-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .brand-metric {
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(101, 211, 255, 0.12);
+      backdrop-filter: blur(10px);
+    }
+
+    .brand-metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-family: "IBM Plex Mono", monospace;
+    }
+
+    .brand-metric strong {
+      display: block;
+      margin-top: 6px;
+      color: var(--text);
+      font-size: 0.94rem;
+      line-height: 1.25;
     }
 
     .panel {
-      margin-bottom: 16px;
-      padding: 16px;
-      background: #fff;
+      position: relative;
+      margin-bottom: 14px;
+      padding: 16px 16px 15px;
+      background: linear-gradient(180deg, rgba(11, 23, 36, 0.92), rgba(8, 18, 30, 0.9));
       border: 1px solid var(--line);
-      border-radius: 18px;
+      border-radius: 20px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+      overflow: hidden;
+      animation: panelRise 0.7s ease both;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(53, 208, 255, 0.58), transparent);
     }
 
     .panel h2 {
       margin: 0 0 12px;
+      font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
       font-size: 1rem;
+      letter-spacing: 0.02em;
+      color: #f4fbff;
     }
 
     .search-row,
     .toolbar {
       display: flex;
-      gap: 8px;
+      gap: 10px;
+    }
+
+    .search-row > *,
+    .toolbar > * {
+      flex: 1;
     }
 
     input,
     button,
     select {
       width: 100%;
-      padding: 11px 12px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
+      padding: 12px 13px;
+      border-radius: 14px;
+      border: 1px solid rgba(101, 211, 255, 0.16);
       font: inherit;
     }
 
-    input[type="file"] {
-      padding: 9px 10px;
-      background: #fff;
+    input,
+    select {
+      background: rgba(3, 12, 20, 0.74);
+      color: var(--text);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.01);
+    }
+
+    input::placeholder {
+      color: #6f879a;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: rgba(53, 208, 255, 0.44);
+      box-shadow: 0 0 0 4px rgba(53, 208, 255, 0.12);
+    }
+
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      padding: 0;
+      flex: 0 0 auto;
+      accent-color: var(--accent);
     }
 
     button {
-      background: var(--forest);
-      color: #fff;
-      border: none;
+      background: linear-gradient(135deg, #16384f, #0fb2d8);
+      color: #ecfbff;
+      border: 1px solid rgba(83, 228, 255, 0.25);
       font-weight: 700;
+      letter-spacing: 0.01em;
       cursor: pointer;
-      transition: background 0.2s ease;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      box-shadow: 0 10px 24px rgba(12, 122, 158, 0.24);
     }
 
     button:hover {
-      background: var(--forest-dark);
+      transform: translateY(-1px);
+      border-color: rgba(83, 228, 255, 0.42);
+      box-shadow: 0 14px 28px rgba(12, 122, 158, 0.33);
     }
 
     button.secondary {
-      background: #e8efe8;
-      color: var(--forest-dark);
-      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      color: #d9eef8;
+      border: 1px solid rgba(101, 211, 255, 0.16);
+      box-shadow: none;
     }
 
     .status {
-      margin-top: 10px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      background: #f7faf8;
+      margin-top: 12px;
+      padding: 12px 13px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(7, 20, 30, 0.88), rgba(9, 26, 38, 0.92));
+      border: 1px solid rgba(101, 211, 255, 0.12);
       color: var(--muted);
-      font-size: 0.92rem;
+      font-size: 0.9rem;
+      line-height: 1.5;
     }
 
     .result-card {
@@ -161,7 +333,7 @@
 
     .result-row {
       padding-bottom: 10px;
-      border-bottom: 1px dashed var(--line);
+      border-bottom: 1px dashed rgba(101, 211, 255, 0.16);
     }
 
     .result-row:last-child {
@@ -171,11 +343,12 @@
 
     .result-row strong {
       display: block;
-      margin-bottom: 3px;
-      font-size: 0.78rem;
-      color: var(--forest-dark);
+      margin-bottom: 4px;
+      font-size: 0.74rem;
+      color: #9fe9ff;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.08em;
+      font-family: "IBM Plex Mono", monospace;
     }
 
     .checkbox-list {
@@ -187,7 +360,17 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      color: var(--ink);
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(101, 211, 255, 0.08);
+      color: #d9effa;
+      transition: border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .checkbox-item:hover {
+      border-color: rgba(101, 211, 255, 0.22);
+      background: rgba(53, 208, 255, 0.06);
     }
 
     .stats {
@@ -197,63 +380,72 @@
     }
 
     .stat-card {
-      padding: 14px;
-      border-radius: 14px;
-      border: 1px solid var(--line);
-      background: linear-gradient(135deg, #edf5f1, #fcfdfb);
+      padding: 14px 14px 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(101, 211, 255, 0.1);
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.04), rgba(10, 24, 37, 0.74));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
     }
 
     .stat-card span {
       display: block;
-      font-size: 0.8rem;
-      color: var(--muted);
+      font-size: 0.7rem;
+      color: #86a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-family: "IBM Plex Mono", monospace;
     }
 
     .stat-card strong {
       display: block;
-      margin-top: 6px;
-      font-size: 1.2rem;
+      margin-top: 8px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 1.35rem;
+      color: #f5fbff;
     }
 
     .legend {
       display: grid;
-      gap: 8px;
+      gap: 10px;
     }
 
     .legend-item {
       display: flex;
       align-items: center;
       gap: 10px;
-      color: var(--muted);
-      font-size: 0.92rem;
+      color: #d8edf8;
+      font-size: 0.9rem;
     }
 
     .legend-swatch {
       width: 14px;
       height: 14px;
       border-radius: 4px;
-      border: 1px solid rgba(0, 0, 0, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 0 12px rgba(53, 208, 255, 0.12);
     }
 
     .attributes {
-      max-height: 240px;
+      max-height: 260px;
       overflow: auto;
       display: grid;
-      gap: 8px;
+      gap: 10px;
+      padding-right: 4px;
     }
 
     .attribute-row {
-      padding-bottom: 8px;
-      border-bottom: 1px dashed var(--line);
+      padding-bottom: 10px;
+      border-bottom: 1px dashed rgba(101, 211, 255, 0.16);
     }
 
     .attribute-row strong {
       display: block;
       margin-bottom: 3px;
-      font-size: 0.82rem;
-      color: var(--forest-dark);
+      font-size: 0.74rem;
+      color: #9fe9ff;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.08em;
+      font-family: "IBM Plex Mono", monospace;
     }
 
     #map {
@@ -266,11 +458,21 @@
       height: 100dvh;
       min-height: 0;
       overflow: hidden;
-      background: #dfe8e4;
+      background: #08111b;
+      border-left: 1px solid rgba(101, 211, 255, 0.12);
+    }
+
+    .map-wrap::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(7, 17, 27, 0.08), rgba(7, 17, 27, 0.38));
+      z-index: 350;
     }
 
     .leaflet-tile-pane {
-      filter: saturate(1.08) contrast(1.06) brightness(0.98);
+      filter: saturate(1.08) contrast(1.08) brightness(0.96);
     }
 
     .map-overlay {
@@ -278,24 +480,148 @@
       top: 18px;
       right: 18px;
       z-index: 500;
-      width: min(360px, calc(100% - 36px));
+      width: min(380px, calc(100% - 36px));
       padding: 16px;
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(6, 18, 28, 0.88), rgba(10, 24, 36, 0.94));
+      border: 1px solid rgba(101, 211, 255, 0.16);
+      border-radius: 20px;
+      box-shadow: var(--shadow), var(--glow);
+      backdrop-filter: blur(12px);
+    }
+
+    .map-overlay-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .map-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(53, 208, 255, 0.12);
+      border: 1px solid rgba(53, 208, 255, 0.25);
+      color: #bff4ff;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .map-badge::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 14px rgba(53, 208, 255, 0.75);
+    }
+
+    .map-status {
+      color: var(--teal);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     .map-overlay h3 {
       margin: 0 0 8px;
-      font-size: 1rem;
+      font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
+      font-size: 1.02rem;
+      color: #f4fbff;
     }
 
     .coords {
       margin: 0;
-      color: var(--muted);
-      font-size: 0.92rem;
+      color: #a8c1d3;
+      font-size: 0.9rem;
+      font-family: "IBM Plex Mono", monospace;
+    }
+
+    .leaflet-control-zoom a,
+    .leaflet-bar a {
+      background: rgba(7, 20, 31, 0.9);
+      color: #e7f6ff;
+      border-bottom: 1px solid rgba(101, 211, 255, 0.16);
+    }
+
+    .leaflet-control-zoom a:hover,
+    .leaflet-bar a:hover {
+      background: #0f2a40;
+      color: #fff;
+    }
+
+    .leaflet-bar {
+      border: 1px solid rgba(101, 211, 255, 0.16);
+      box-shadow: var(--shadow);
+    }
+
+    .leaflet-control-layers {
+      background: rgba(7, 20, 31, 0.92);
+      color: var(--text);
+      border: 1px solid rgba(101, 211, 255, 0.16);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .leaflet-control-layers-expanded {
+      padding: 12px 14px;
+    }
+
+    .leaflet-control-layers label {
+      color: #d9effa;
+    }
+
+    .leaflet-popup-content-wrapper,
+    .leaflet-popup-tip {
+      background: rgba(8, 18, 30, 0.96);
+      color: var(--text);
+      border: 1px solid rgba(101, 211, 255, 0.14);
+    }
+
+    .leaflet-popup-content {
+      font-family: "IBM Plex Sans", sans-serif;
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(101, 211, 255, 0.18);
+      border-radius: 999px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    @keyframes panelRise {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 960px) {
+      .layout {
+        grid-template-columns: 360px 1fr;
+      }
+
+      .brand-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 720px) {
@@ -306,13 +632,18 @@
 
       .sidebar {
         height: auto;
-        max-height: 42dvh;
+        max-height: 44dvh;
         border-right: none;
         border-bottom: 1px solid var(--line);
       }
 
+      .brand h1 {
+        max-width: none;
+        font-size: 2rem;
+      }
+
       .map-wrap {
-        height: 58dvh;
+        height: 56dvh;
       }
 
       #map {
@@ -325,13 +656,30 @@
   <div class="layout">
     <aside class="sidebar">
       <div class="brand">
-        <span class="eyebrow">Municipal + Catastral</span>
-        <h1>Geoportal de Predios</h1>
-        <p>Visor web municipal para consultar predios, clasificacion urbana o rural y datos catastrales.</p>
+        <div class="brand-top">
+          <span class="eyebrow">Centro de Monitoreo</span>
+          <span class="brand-status">Operacion en linea</span>
+        </div>
+        <h1>Dashboard Territorial</h1>
+        <p>Centro de control geoespacial para consultar predios, clasificacion urbana o rural y capas administrativas sobre imagen satelital.</p>
+        <div class="brand-grid">
+          <div class="brand-metric">
+            <span>Base</span>
+            <strong>Esri Satelital</strong>
+          </div>
+          <div class="brand-metric">
+            <span>Escenario</span>
+            <strong>Catastro 2026</strong>
+          </div>
+          <div class="brand-metric">
+            <span>Analisis</span>
+            <strong>Barrios y parroquias</strong>
+          </div>
+        </div>
       </div>
 
       <section class="panel">
-        <h2>Referencia del visor</h2>
+        <h2>Capas de referencia</h2>
         <p class="helper" style="margin-top: 10px;">
           El catastro, barrios urbanos, sectores rurales y parroquias se cargan automaticamente desde el proyecto.
         </p>
@@ -361,7 +709,7 @@
       </section>
 
       <section class="panel">
-        <h2>Filtro catastral</h2>
+        <h2>Consulta catastral</h2>
         <input id="claveInput" type="text" placeholder="Buscar por clave catastral" />
         <div class="checkbox-list" style="margin-top: 12px;">
           <label class="checkbox-item">
@@ -380,7 +728,7 @@
       </section>
 
       <section class="panel">
-        <h2>Buscar ubicacion</h2>
+        <h2>Busqueda rapida</h2>
         <div class="search-row">
           <input id="locationInput" type="text" placeholder="Ej: Municipio, barrio o direccion" />
           <button id="searchButton" type="button">Ir</button>
@@ -388,7 +736,7 @@
       </section>
 
       <section class="panel">
-        <h2>Enlace de Google Maps</h2>
+        <h2>Resolucion de coordenadas</h2>
         <input
           id="googleMapsUrlInput"
           type="text"
@@ -407,7 +755,7 @@
       </section>
 
       <section class="panel">
-        <h2>Capas visibles</h2>
+        <h2>Control de capas</h2>
         <div class="checkbox-list">
           <label class="checkbox-item">
             <input type="checkbox" id="toggleCadastre" checked />
@@ -429,7 +777,7 @@
       </section>
 
       <section class="panel">
-        <h2>Indicadores</h2>
+        <h2>Telemetria</h2>
         <div class="stats">
           <div class="stat-card">
             <span>Capas activas</span>
@@ -451,7 +799,7 @@
       </section>
 
       <section class="panel">
-        <h2>Ficha del elemento</h2>
+        <h2>Inspeccion</h2>
         <div id="attributesPanel" class="attributes">
           <p class="empty-state">Haz clic en un predio, barrio, sector rural o parroquia para ver sus atributos.</p>
         </div>
@@ -461,6 +809,10 @@
     <main class="map-wrap">
       <div id="map"></div>
       <div class="map-overlay">
+        <div class="map-overlay-top">
+          <span class="map-badge">Nodo satelital</span>
+          <span class="map-status">Live</span>
+        </div>
         <h3>Estado del mapa</h3>
         <p id="coordsText" class="coords">Mueve el cursor sobre el mapa para ver coordenadas.</p>
       </div>
