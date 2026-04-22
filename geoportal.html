@@ -729,7 +729,7 @@
         <div class="brand-grid">
           <div class="brand-metric">
             <span>Motor</span>
-            <strong>Esri + IGM</strong>
+            <strong>Esri alta resolucion</strong>
           </div>
           <div class="brand-metric">
             <span>Escenario</span>
@@ -745,7 +745,7 @@
       <section class="panel">
         <h2>Capas tacticas</h2>
         <p class="helper" style="margin-top: 10px;">
-          El catastro, barrios urbanos, sectores rurales, parroquias y ortofotos IGM se cargan automaticamente desde el proyecto.
+          El catastro, barrios urbanos, sectores rurales y parroquias se cargan automaticamente; las ortofotos IGM quedan como capa opcional.
         </p>
         <div class="legend" style="margin-top: 14px;">
           <div class="legend-item">
@@ -889,7 +889,8 @@
     crossorigin=""
   ></script>
   <script>
-    const imageryNativeZoom = 15;
+    const esriHighNativeZoom = 18;
+    const esriSafeNativeZoom = 15;
     const mapMaxZoom = 20;
     const detailZoom = 18;
     const defaultOpeningView = {
@@ -906,7 +907,17 @@
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       {
         attribution: "Tiles &copy; Esri",
-        maxNativeZoom: imageryNativeZoom,
+        maxNativeZoom: esriHighNativeZoom,
+        maxZoom: mapMaxZoom,
+        detectRetina: false
+      }
+    );
+
+    const satelliteSafeLayer = L.tileLayer(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      {
+        attribution: "Tiles &copy; Esri",
+        maxNativeZoom: esriSafeNativeZoom,
         maxZoom: mapMaxZoom,
         detectRetina: false
       }
@@ -916,7 +927,7 @@
       "https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
       {
         attribution: "Labels &copy; Esri",
-        maxNativeZoom: imageryNativeZoom,
+        maxNativeZoom: esriHighNativeZoom,
         maxZoom: mapMaxZoom,
         detectRetina: false,
         pane: "overlayPane"
@@ -946,7 +957,6 @@
     });
 
     satelliteLayer.addTo(map);
-    igmOrthophotoLayer.addTo(map);
 
     let cadastreLayer = L.geoJSON(null, {
       style: getCadastreStyle,
@@ -1830,7 +1840,8 @@
 
     L.control.layers(
       {
-        "Esri satelital": satelliteLayer
+        "Esri alta resolucion": satelliteLayer,
+        "Esri estable sin gris": satelliteSafeLayer
       },
       {
         "IGM ortofotos disponibles": igmOrthophotoLayer,
