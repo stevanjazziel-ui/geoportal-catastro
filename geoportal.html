@@ -1257,6 +1257,14 @@
             <span>${escapeHtml(result.parish)}</span>
           </div>
           <div class="result-row">
+            <strong>Clave catastral</strong>
+            <span>${escapeHtml(result.cadastreCode)}</span>
+          </div>
+          <div class="result-row">
+            <strong>Propietario</strong>
+            <span>${escapeHtml(result.ownerName)}</span>
+          </div>
+          <div class="result-row">
             <strong>Coordenadas</strong>
             <span>${escapeHtml(result.lat.toFixed(6))}, ${escapeHtml(result.lng.toFixed(6))}</span>
           </div>
@@ -1279,6 +1287,8 @@
       const urbanFeature = findContainingFeature(urbanNeighborhoodsLayer, coordinates.lat, coordinates.lng);
       const ruralFeature = findContainingFeature(ruralSectorsLayer, coordinates.lat, coordinates.lng);
       const parishFeature = findContainingFeature(parishesLayer, coordinates.lat, coordinates.lng);
+      const cadastreFeature = findContainingFeatureInData(cadastreData, coordinates.lat, coordinates.lng);
+      const cadastreProperties = cadastreFeature?.properties || {};
 
       const result = {
         lat: coordinates.lat,
@@ -1287,7 +1297,9 @@
         ruralSector: ruralFeature ? getFeatureDisplayName(ruralFeature.properties || {}) : "No identificado",
         parish: parishFeature
           ? getFeatureDisplayName(parishFeature.properties || {})
-          : "No identificado"
+          : "No identificado",
+        cadastreCode: cadastreProperties.cod_catast || "No identificado",
+        ownerName: cadastreFeature ? getOwnerName(cadastreProperties) : "No identificado"
       };
 
       result.mainName =
@@ -1304,11 +1316,20 @@
 
       googleMapsMarker = L.marker([coordinates.lat, coordinates.lng])
         .addTo(map)
-        .bindPopup(`<strong>${result.mainName}</strong>`)
+        .bindPopup(`
+          <strong>${escapeHtml(result.mainName)}</strong><br>
+          <strong>Propietario:</strong> ${escapeHtml(result.ownerName)}<br>
+          <strong>Clave:</strong> ${escapeHtml(result.cadastreCode)}
+        `)
         .openPopup();
 
       renderLocationResult(result);
       loadStatus.textContent = `Ubicacion identificada en el geoportal: ${result.mainName}.`;
+    }
+
+    function findContainingFeatureInData(featureCollection, lat, lng) {
+      const features = Array.isArray(featureCollection?.features) ? featureCollection.features : [];
+      return features.find((feature) => geometryContainsPoint(feature.geometry, lat, lng)) || null;
     }
 
     function getOwnerName(properties) {
