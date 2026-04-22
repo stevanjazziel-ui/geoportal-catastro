@@ -344,6 +344,13 @@
       box-shadow: 0 16px 30px rgba(20, 120, 163, 0.4);
     }
 
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.64;
+      transform: none;
+      box-shadow: none;
+    }
+
     button.secondary {
       background: linear-gradient(180deg, rgba(13, 36, 51, 0.86), rgba(6, 18, 29, 0.94));
       color: #dcf6ff;
@@ -959,6 +966,7 @@
     const ruralSectorsUrl = encodeURI("./SECTORES RURALES/SECTORES_RURALES.geojson");
     const parishesUrl = encodeURI("./PARROQUIAS/PARROQUIAS.geojson");
     let cadastreData = null;
+    let cadastreSpatialIndex = [];
     let googleMapsMarker = null;
     let isCadastreReady = false;
     let areAuxLayersReady = false;
@@ -1220,6 +1228,66 @@
       return false;
     }
 
+    function extendBoundsFromCoordinates(coordinates, bounds) {
+      if (!Array.isArray(coordinates)) {
+        return bounds;
+      }
+
+      if (typeof coordinates[0] === "number" && typeof coordinates[1] === "number") {
+        const [lng, lat] = coordinates;
+        bounds.minLng = Math.min(bounds.minLng, lng);
+        bounds.minLat = Math.min(bounds.minLat, lat);
+        bounds.maxLng = Math.max(bounds.maxLng, lng);
+        bounds.maxLat = Math.max(bounds.maxLat, lat);
+        return bounds;
+      }
+
+      coordinates.forEach((child) => extendBoundsFromCoordinates(child, bounds));
+      return bounds;
+    }
+
+    function getGeometryBounds(geometry) {
+      if (!geometry?.coordinates) {
+        return null;
+      }
+
+      const bounds = {
+        minLng: Infinity,
+        minLat: Infinity,
+        maxLng: -Infinity,
+        maxLat: -Infinity
+      };
+
+      extendBoundsFromCoordinates(geometry.coordinates, bounds);
+
+      return Number.isFinite(bounds.minLng) &&
+        Number.isFinite(bounds.minLat) &&
+        Number.isFinite(bounds.maxLng) &&
+        Number.isFinite(bounds.maxLat)
+        ? bounds
+        : null;
+    }
+
+    function pointIsInsideBounds(lat, lng, bounds) {
+      return (
+        bounds &&
+        lng >= bounds.minLng &&
+        lng <= bounds.maxLng &&
+        lat >= bounds.minLat &&
+        lat <= bounds.maxLat
+      );
+    }
+
+    function buildCadastreSpatialIndex(featureCollection) {
+      const features = Array.isArray(featureCollection?.features) ? featureCollection.features : [];
+      return features
+        .map((feature) => ({
+          feature,
+          bounds: getGeometryBounds(feature.geometry)
+        }))
+        .filter((item) => item.bounds);
+    }
+
     function findContainingFeature(layerGroup, lat, lng) {
       let matchedFeature = null;
 
@@ -1274,60 +1342,85 @@
 
     async function resolveGoogleMapsLocation() {
       const input = googleMapsUrlInput.value.trim();
-      loadStatus.textContent = "Resolviendo enlace de Google Maps...";
-      const coordinates = await resolveInputToCoordinates(input);
-
-      if (!coordinates) {
-        loadStatus.textContent = "No pude leer coordenadas del enlace. Los links cortos maps.app.goo.gl pueden ser bloqueados por Google o por el navegador; pega el enlace completo o las coordenadas.";
-        googleMapsResult.textContent =
-          "No se pudieron obtener coordenadas del enlace. Prueba con el enlace completo o con latitud,longitud.";
+      if (!input) {
+        googleMapsResult.textContent = "Pega un enlace de Google Maps o coordenadas para identificar el sector.";
         return;
       }
 
-      const urbanFeature = findContainingFeature(urbanNeighborhoodsLayer, coordinates.lat, coordinates.lng);
-      const ruralFeature = findContainingFeature(ruralSectorsLayer, coordinates.lat, coordinates.lng);
-      const parishFeature = findContainingFeature(parishesLayer, coordinates.lat, coordinates.lng);
-      const cadastreFeature = findContainingFeatureInData(cadastreData, coordinates.lat, coordinates.lng);
-      const cadastreProperties = cadastreFeature?.properties || {};
+      resolveGoogleMapsButton.disabled = true;
+      resolveGoogleMapsButton.textContent = "Procesando...";
+      loadStatus.textContent = "Resolviendo enlace de Google Maps...";
 
-      const result = {
-        lat: coordinates.lat,
-        lng: coordinates.lng,
-        urbanNeighborhood: urbanFeature ? getFeatureDisplayName(urbanFeature.properties || {}) : "No identificado",
-        ruralSector: ruralFeature ? getFeatureDisplayName(ruralFeature.properties || {}) : "No identificado",
-        parish: parishFeature
-          ? getFeatureDisplayName(parishFeature.properties || {})
-          : "No identificado",
-        cadastreCode: cadastreProperties.cod_catast || "No identificado",
-        ownerName: cadastreFeature ? getOwnerName(cadastreProperties) : "No identificado"
-      };
+      try {
+        const coordinates = await resolveInputToCoordinates(input);
 
-      result.mainName =
-        result.ruralSector !== "No identificado"
-          ? result.ruralSector
-          : result.urbanNeighborhood !== "No identificado"
-            ? result.urbanNeighborhood
-            : result.parish;
+        if (!coordinates) {
+          loadStatus.textContent = "No pude leer coordenadas del enlace. Los links cortos maps.app.goo.gl pueden ser bloqueados por Google o por el navegador; pega el enlace completo o las coordenadas.";
+          googleMapsResult.textContent =
+            "No se pudieron obtener coordenadas del enlace. Prueba con el enlace completo o con latitud,longitud.";
+          return;
+        }
 
-      map.setView([coordinates.lat, coordinates.lng], imageryMaxZoom);
-      if (googleMapsMarker) {
-        map.removeLayer(googleMapsMarker);
+        const urbanFeature = findContainingFeature(urbanNeighborhoodsLayer, coordinates.lat, coordinates.lng);
+        const ruralFeature = findContainingFeature(ruralSectorsLayer, coordinates.lat, coordinates.lng);
+        const parishFeature = findContainingFeature(parishesLayer, coordinates.lat, coordinates.lng);
+        const cadastreFeature = findContainingFeatureInData(cadastreData, coordinates.lat, coordinates.lng);
+        const cadastreProperties = cadastreFeature?.properties || {};
+        const cadastreUnavailableMessage = isCadastreReady ? "No identificado" : "Catastro cargando";
+
+        const result = {
+          lat: coordinates.lat,
+          lng: coordinates.lng,
+          urbanNeighborhood: urbanFeature ? getFeatureDisplayName(urbanFeature.properties || {}) : "No identificado",
+          ruralSector: ruralFeature ? getFeatureDisplayName(ruralFeature.properties || {}) : "No identificado",
+          parish: parishFeature
+            ? getFeatureDisplayName(parishFeature.properties || {})
+            : "No identificado",
+          cadastreCode: cadastreProperties.cod_catast || cadastreUnavailableMessage,
+          ownerName: cadastreFeature ? getOwnerName(cadastreProperties) : cadastreUnavailableMessage
+        };
+
+        result.mainName =
+          result.ruralSector !== "No identificado"
+            ? result.ruralSector
+            : result.urbanNeighborhood !== "No identificado"
+              ? result.urbanNeighborhood
+              : result.parish;
+
+        map.setView([coordinates.lat, coordinates.lng], imageryMaxZoom);
+        if (googleMapsMarker) {
+          map.removeLayer(googleMapsMarker);
+        }
+
+        googleMapsMarker = L.marker([coordinates.lat, coordinates.lng])
+          .addTo(map)
+          .bindPopup(`
+            <strong>${escapeHtml(result.mainName)}</strong><br>
+            <strong>Propietario:</strong> ${escapeHtml(result.ownerName)}<br>
+            <strong>Clave:</strong> ${escapeHtml(result.cadastreCode)}
+          `)
+          .openPopup();
+
+        renderLocationResult(result);
+        loadStatus.textContent = `Ubicacion identificada en el geoportal: ${result.mainName}.`;
+      } catch (error) {
+        loadStatus.textContent = "No fue posible identificar esa ubicacion. Intenta nuevamente o usa coordenadas latitud,longitud.";
+        googleMapsResult.textContent = "La consulta no se completo, pero el visor sigue funcionando.";
+      } finally {
+        resolveGoogleMapsButton.disabled = false;
+        resolveGoogleMapsButton.textContent = "Identificar sector";
       }
-
-      googleMapsMarker = L.marker([coordinates.lat, coordinates.lng])
-        .addTo(map)
-        .bindPopup(`
-          <strong>${escapeHtml(result.mainName)}</strong><br>
-          <strong>Propietario:</strong> ${escapeHtml(result.ownerName)}<br>
-          <strong>Clave:</strong> ${escapeHtml(result.cadastreCode)}
-        `)
-        .openPopup();
-
-      renderLocationResult(result);
-      loadStatus.textContent = `Ubicacion identificada en el geoportal: ${result.mainName}.`;
     }
 
     function findContainingFeatureInData(featureCollection, lat, lng) {
+      if (cadastreSpatialIndex.length) {
+        const candidates = cadastreSpatialIndex
+          .filter(({ bounds }) => pointIsInsideBounds(lat, lng, bounds))
+          .map(({ feature }) => feature);
+
+        return candidates.find((feature) => geometryContainsPoint(feature.geometry, lat, lng)) || null;
+      }
+
       const features = Array.isArray(featureCollection?.features) ? featureCollection.features : [];
       return features.find((feature) => geometryContainsPoint(feature.geometry, lat, lng)) || null;
     }
@@ -1510,6 +1603,7 @@
         }
 
         cadastreData = await response.json();
+        cadastreSpatialIndex = buildCadastreSpatialIndex(cadastreData);
         resetCadastreLayer(cadastreData, false);
         isCadastreReady = true;
         tryApplyInitialProjectView();
@@ -1520,6 +1614,8 @@
           map.setZoom(imageryMaxZoom);
         }
       } catch (error) {
+        cadastreSpatialIndex = [];
+        isCadastreReady = false;
         loadStatus.textContent =
           "No se pudo cargar el GeoJSON. Si abriste el archivo con doble clic, publícalo en un servidor web o usa un servidor local.";
       }
