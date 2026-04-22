@@ -729,7 +729,7 @@
         <div class="brand-grid">
           <div class="brand-metric">
             <span>Motor</span>
-            <strong>Esri Satelital</strong>
+            <strong>Esri + IGM</strong>
           </div>
           <div class="brand-metric">
             <span>Escenario</span>
@@ -745,7 +745,7 @@
       <section class="panel">
         <h2>Capas tacticas</h2>
         <p class="helper" style="margin-top: 10px;">
-          El catastro, barrios urbanos, sectores rurales y parroquias se cargan automaticamente desde el proyecto.
+          El catastro, barrios urbanos, sectores rurales, parroquias y ortofotos IGM se cargan automaticamente desde el proyecto.
         </p>
         <div class="legend" style="margin-top: 14px;">
           <div class="legend-item">
@@ -923,16 +923,30 @@
       }
     );
 
+    const igmOrthophotoLayers = [
+      "mejia 2019",
+      "quito 2019",
+      "ruminahui 2019",
+      "latacunga 2019",
+      "cayambe 2019",
+      "pedro moncayo 2019",
+      "salcedo 2019",
+      "saquisili 2019",
+      "pujili 2019"
+    ];
+
     const igmOrthophotoLayer = L.tileLayer.wms("https://www.geoportaligm.gob.ec/orto/ows", {
-      layers: "igm:canton_latacunga_2011",
+      layers: igmOrthophotoLayers.join(","),
       format: "image/png",
-      transparent: false,
+      transparent: true,
       version: "1.3.0",
       attribution: "Ortofotos &copy; IGM Ecuador",
+      opacity: 1,
       maxZoom: mapMaxZoom
     });
 
     satelliteLayer.addTo(map);
+    igmOrthophotoLayer.addTo(map);
 
     let cadastreLayer = L.geoJSON(null, {
       style: getCadastreStyle,
@@ -1816,10 +1830,10 @@
 
     L.control.layers(
       {
-        "Esri satelital": satelliteLayer,
-        "IGM ortofoto 1:5000": igmOrthophotoLayer
+        "Esri satelital": satelliteLayer
       },
       {
+        "IGM ortofotos disponibles": igmOrthophotoLayer,
         "Etiquetas satelitales": satelliteLabelsLayer,
         "Capa catastral": cadastreLayer,
         "Barrios urbanos": urbanNeighborhoodsLayer,
