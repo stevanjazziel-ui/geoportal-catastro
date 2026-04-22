@@ -923,6 +923,15 @@
       }
     );
 
+    const igmOrthophotoLayer = L.tileLayer.wms("https://www.geoportaligm.gob.ec/orto/ows", {
+      layers: "igm:canton_latacunga_2011",
+      format: "image/png",
+      transparent: false,
+      version: "1.3.0",
+      attribution: "Ortofotos &copy; IGM Ecuador",
+      maxZoom: mapMaxZoom
+    });
+
     satelliteLayer.addTo(map);
 
     let cadastreLayer = L.geoJSON(null, {
@@ -1807,10 +1816,11 @@
 
     L.control.layers(
       {
-        "Imagen satelital": satelliteLayer,
-        "Etiquetas satelitales": satelliteLabelsLayer
+        "Esri satelital": satelliteLayer,
+        "IGM ortofoto 1:5000": igmOrthophotoLayer
       },
       {
+        "Etiquetas satelitales": satelliteLabelsLayer,
         "Capa catastral": cadastreLayer,
         "Barrios urbanos": urbanNeighborhoodsLayer,
         "Sectores rurales": ruralSectorsLayer,
