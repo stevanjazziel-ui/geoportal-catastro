@@ -889,7 +889,9 @@
     crossorigin=""
   ></script>
   <script>
-    const imageryMaxZoom = 15;
+    const imageryNativeZoom = 15;
+    const mapMaxZoom = 20;
+    const detailZoom = 18;
     const defaultOpeningView = {
       center: [-0.506554, -78.550322],
       zoom: 14
@@ -897,15 +899,15 @@
 
     const map = L.map("map", {
       zoomSnap: 1,
-      maxZoom: imageryMaxZoom
+      maxZoom: mapMaxZoom
     }).setView(defaultOpeningView.center, defaultOpeningView.zoom);
 
     const satelliteLayer = L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       {
         attribution: "Tiles &copy; Esri",
-        maxNativeZoom: imageryMaxZoom,
-        maxZoom: imageryMaxZoom,
+        maxNativeZoom: imageryNativeZoom,
+        maxZoom: mapMaxZoom,
         detectRetina: false
       }
     );
@@ -914,8 +916,8 @@
       "https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
       {
         attribution: "Labels &copy; Esri",
-        maxNativeZoom: imageryMaxZoom,
-        maxZoom: imageryMaxZoom,
+        maxNativeZoom: imageryNativeZoom,
+        maxZoom: mapMaxZoom,
         detectRetina: false,
         pane: "overlayPane"
       }
@@ -1387,7 +1389,7 @@
               ? result.urbanNeighborhood
               : result.parish;
 
-        map.setView([coordinates.lat, coordinates.lng], imageryMaxZoom);
+        map.setView([coordinates.lat, coordinates.lng], detailZoom);
         if (googleMapsMarker) {
           map.removeLayer(googleMapsMarker);
         }
@@ -1610,8 +1612,8 @@
 
         loadStatus.textContent =
           `Catastro cargado automaticamente con ${cadastreData.features.length} predios.`;
-        if (map.getZoom() > imageryMaxZoom) {
-          map.setZoom(imageryMaxZoom);
+        if (map.getZoom() > mapMaxZoom) {
+          map.setZoom(mapMaxZoom);
         }
       } catch (error) {
         cadastreSpatialIndex = [];
@@ -1721,7 +1723,7 @@
         const { lat, lon, display_name } = results[0];
         const target = [parseFloat(lat), parseFloat(lon)];
 
-        map.setView(target, imageryMaxZoom);
+        map.setView(target, detailZoom);
         L.marker(target).addTo(map).bindPopup(`<strong>${display_name}</strong>`).openPopup();
       } catch (error) {
         loadStatus.textContent = "No fue posible realizar la busqueda.";
