@@ -1263,6 +1263,105 @@
       return false;
     }
 
+    function projectCoordinateToMeters(lng, lat, referenceLat) {
+      const latitudeRadians = (referenceLat * Math.PI) / 180;
+      return {
+        x: lng * 111320 * Math.cos(latitudeRadians),
+        y: lat * 110540
+      };
+    }
+
+    function distancePointToSegmentMeters(pointLng, pointLat, startLng, startLat, endLng, endLat, referenceLat) {
+      const point = projectCoordinateToMeters(pointLng, pointLat, referenceLat);
+      const start = projectCoordinateToMeters(startLng, startLat, referenceLat);
+      const end = projectCoordinateToMeters(endLng, endLat, referenceLat);
+      const deltaX = end.x - start.x;
+      const deltaY = end.y - start.y;
+      const segmentLengthSquared = deltaX * deltaX + deltaY * deltaY;
+
+      if (!segmentLengthSquared) {
+        return Math.hypot(point.x - start.x, point.y - start.y);
+      }
+
+      const projection =
+        ((point.x - start.x) * deltaX + (point.y - start.y) * deltaY) / segmentLengthSquared;
+      const clampedProjection = Math.max(0, Math.min(1, projection));
+      const closestX = start.x + clampedProjection * deltaX;
+      const closestY = start.y + clampedProjection * deltaY;
+
+      return Math.hypot(point.x - closestX, point.y - closestY);
+    }
+
+    function getRingBoundaryDistanceMeters(lat, lng, ring) {
+      if (!Array.isArray(ring) || ring.length < 2) {
+        return Infinity;
+      }
+
+      let minimumDistance = Infinity;
+
+      for (let index = 0; index < ring.length - 1; index += 1) {
+        const [startLng, startLat] = ring[index];
+        const [endLng, endLat] = ring[index + 1];
+        const segmentDistance = distancePointToSegmentMeters(
+          lng,
+          lat,
+          startLng,
+          startLat,
+          endLng,
+          endLat,
+          lat
+        );
+
+        if (segmentDistance < minimumDistance) {
+          minimumDistance = segmentDistance;
+        }
+      }
+
+      return minimumDistance;
+    }
+
+    function getGeometryBoundaryDistanceMeters(geometry, lat, lng) {
+      if (!geometry?.coordinates) {
+        return Infinity;
+      }
+
+      if (geometry.type === "Polygon") {
+        return (geometry.coordinates || []).reduce(
+          (minimumDistance, ring) => Math.min(minimumDistance, getRingBoundaryDistanceMeters(lat, lng, ring)),
+          Infinity
+        );
+      }
+
+      if (geometry.type === "MultiPolygon") {
+        return (geometry.coordinates || []).reduce(
+          (minimumDistance, polygon) =>
+            Math.min(
+              minimumDistance,
+              (polygon || []).reduce(
+                (polygonMinimumDistance, ring) =>
+                  Math.min(polygonMinimumDistance, getRingBoundaryDistanceMeters(lat, lng, ring)),
+                Infinity
+              )
+            ),
+          Infinity
+        );
+      }
+
+      return Infinity;
+    }
+
+    function formatDistanceMeters(distanceMeters) {
+      if (!Number.isFinite(distanceMeters)) {
+        return "No disponible";
+      }
+
+      if (distanceMeters >= 1000) {
+        return `${(distanceMeters / 1000).toFixed(2)} km`;
+      }
+
+      return `${Math.round(distanceMeters)} m`;
+    }
+
     function extendBoundsFromCoordinates(coordinates, bounds) {
       if (!Array.isArray(coordinates)) {
         return bounds;
@@ -1340,6 +1439,32 @@
       return matchedFeature;
     }
 
+    function findNearestParishBoundary(lat, lng) {
+      let nearestBoundary = null;
+
+      parishesLayer.eachLayer((layer) => {
+        const feature = layer.feature;
+        const geometry = feature?.geometry;
+        if (!geometry) {
+          return;
+        }
+
+        const distanceMeters = getGeometryBoundaryDistanceMeters(geometry, lat, lng);
+        if (!Number.isFinite(distanceMeters)) {
+          return;
+        }
+
+        if (!nearestBoundary || distanceMeters < nearestBoundary.distanceMeters) {
+          nearestBoundary = {
+            parishName: getFeatureDisplayName(feature.properties || {}),
+            distanceMeters
+          };
+        }
+      });
+
+      return nearestBoundary;
+    }
+
     function renderLocationResult(result) {
       googleMapsResult.innerHTML = `
         <div class="result-card">
@@ -1358,6 +1483,14 @@
           <div class="result-row">
             <strong>Parroquia</strong>
             <span>${escapeHtml(result.parish)}</span>
+          </div>
+          <div class="result-row">
+            <strong>Limite parroquial mas cercano</strong>
+            <span>${escapeHtml(result.nearestParishBoundaryName)}</span>
+          </div>
+          <div class="result-row">
+            <strong>Distancia al limite parroquial</strong>
+            <span>${escapeHtml(result.nearestParishBoundaryDistance)}</span>
           </div>
           <div class="result-row">
             <strong>Clave catastral</strong>
@@ -1399,6 +1532,7 @@
         const urbanFeature = findContainingFeature(urbanNeighborhoodsLayer, coordinates.lat, coordinates.lng);
         const ruralFeature = findContainingFeature(ruralSectorsLayer, coordinates.lat, coordinates.lng);
         const parishFeature = findContainingFeature(parishesLayer, coordinates.lat, coordinates.lng);
+        const nearestParishBoundary = findNearestParishBoundary(coordinates.lat, coordinates.lng);
         const cadastreFeature = findContainingFeatureInData(cadastreData, coordinates.lat, coordinates.lng);
         const cadastreProperties = cadastreFeature?.properties || {};
         const cadastreUnavailableMessage = isCadastreReady ? "No identificado" : "Catastro cargando";
@@ -1411,6 +1545,8 @@
           parish: parishFeature
             ? getFeatureDisplayName(parishFeature.properties || {})
             : "No identificado",
+          nearestParishBoundaryName: nearestParishBoundary?.parishName || "No identificado",
+          nearestParishBoundaryDistance: formatDistanceMeters(nearestParishBoundary?.distanceMeters),
           cadastreCode: cadastreProperties.cod_catast || cadastreUnavailableMessage,
           ownerName: cadastreFeature ? getOwnerName(cadastreProperties) : cadastreUnavailableMessage
         };
@@ -1431,6 +1567,7 @@
           .addTo(map)
           .bindPopup(`
             <strong>${escapeHtml(result.mainName)}</strong><br>
+            <strong>Limite parroquial:</strong> ${escapeHtml(result.nearestParishBoundaryDistance)}<br>
             <strong>Propietario:</strong> ${escapeHtml(result.ownerName)}<br>
             <strong>Clave:</strong> ${escapeHtml(result.cadastreCode)}
           `)
