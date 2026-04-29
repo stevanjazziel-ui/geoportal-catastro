@@ -1003,6 +1003,8 @@
     let cadastreData = null;
     let cadastreSpatialIndex = [];
     let googleMapsMarker = null;
+    let nearestBoundaryLine = null;
+    let nearestBoundaryPointMarker = null;
     let isCadastreReady = false;
     let areAuxLayersReady = false;
     let hasAppliedInitialProjectView = false;
@@ -1271,7 +1273,7 @@
       };
     }
 
-    function distancePointToSegmentMeters(pointLng, pointLat, startLng, startLat, endLng, endLat, referenceLat) {
+    function getClosestPointOnSegment(pointLng, pointLat, startLng, startLat, endLng, endLat, referenceLat) {
       const point = projectCoordinateToMeters(pointLng, pointLat, referenceLat);
       const start = projectCoordinateToMeters(startLng, startLat, referenceLat);
       const end = projectCoordinateToMeters(endLng, endLat, referenceLat);
@@ -1280,7 +1282,11 @@
       const segmentLengthSquared = deltaX * deltaX + deltaY * deltaY;
 
       if (!segmentLengthSquared) {
-        return Math.hypot(point.x - start.x, point.y - start.y);
+        return {
+          distanceMeters: Math.hypot(point.x - start.x, point.y - start.y),
+          lat: startLat,
+          lng: startLng
+        };
       }
 
       const projection =
@@ -1288,21 +1294,27 @@
       const clampedProjection = Math.max(0, Math.min(1, projection));
       const closestX = start.x + clampedProjection * deltaX;
       const closestY = start.y + clampedProjection * deltaY;
+      const closestLng = startLng + (endLng - startLng) * clampedProjection;
+      const closestLat = startLat + (endLat - startLat) * clampedProjection;
 
-      return Math.hypot(point.x - closestX, point.y - closestY);
+      return {
+        distanceMeters: Math.hypot(point.x - closestX, point.y - closestY),
+        lat: closestLat,
+        lng: closestLng
+      };
     }
 
     function getRingBoundaryDistanceMeters(lat, lng, ring) {
       if (!Array.isArray(ring) || ring.length < 2) {
-        return Infinity;
+        return null;
       }
 
-      let minimumDistance = Infinity;
+      let nearestResult = null;
 
       for (let index = 0; index < ring.length - 1; index += 1) {
         const [startLng, startLat] = ring[index];
         const [endLng, endLat] = ring[index + 1];
-        const segmentDistance = distancePointToSegmentMeters(
+        const segmentResult = getClosestPointOnSegment(
           lng,
           lat,
           startLng,
@@ -1312,42 +1324,57 @@
           lat
         );
 
-        if (segmentDistance < minimumDistance) {
-          minimumDistance = segmentDistance;
+        if (!nearestResult || segmentResult.distanceMeters < nearestResult.distanceMeters) {
+          nearestResult = segmentResult;
         }
       }
 
-      return minimumDistance;
+      return nearestResult;
     }
 
     function getGeometryBoundaryDistanceMeters(geometry, lat, lng) {
       if (!geometry?.coordinates) {
-        return Infinity;
+        return null;
       }
 
       if (geometry.type === "Polygon") {
         return (geometry.coordinates || []).reduce(
-          (minimumDistance, ring) => Math.min(minimumDistance, getRingBoundaryDistanceMeters(lat, lng, ring)),
-          Infinity
+          (nearestResult, ring) => {
+            const ringResult = getRingBoundaryDistanceMeters(lat, lng, ring);
+            if (!ringResult) {
+              return nearestResult;
+            }
+
+            if (!nearestResult || ringResult.distanceMeters < nearestResult.distanceMeters) {
+              return ringResult;
+            }
+
+            return nearestResult;
+          },
+          null
         );
       }
 
       if (geometry.type === "MultiPolygon") {
         return (geometry.coordinates || []).reduce(
-          (minimumDistance, polygon) =>
-            Math.min(
-              minimumDistance,
-              (polygon || []).reduce(
-                (polygonMinimumDistance, ring) =>
-                  Math.min(polygonMinimumDistance, getRingBoundaryDistanceMeters(lat, lng, ring)),
-                Infinity
-              )
-            ),
-          Infinity
+          (nearestResult, polygon) =>
+            (polygon || []).reduce((polygonNearestResult, ring) => {
+              const ringResult = getRingBoundaryDistanceMeters(lat, lng, ring);
+              if (!ringResult) {
+                return polygonNearestResult;
+              }
+
+              if (!polygonNearestResult || ringResult.distanceMeters < polygonNearestResult.distanceMeters) {
+                return ringResult;
+              }
+
+              return polygonNearestResult;
+            }, nearestResult),
+          null
         );
       }
 
-      return Infinity;
+      return null;
     }
 
     function formatDistanceMeters(distanceMeters) {
@@ -1449,20 +1476,74 @@
           return;
         }
 
-        const distanceMeters = getGeometryBoundaryDistanceMeters(geometry, lat, lng);
-        if (!Number.isFinite(distanceMeters)) {
+        const nearestGeometryPoint = getGeometryBoundaryDistanceMeters(geometry, lat, lng);
+        if (!nearestGeometryPoint || !Number.isFinite(nearestGeometryPoint.distanceMeters)) {
           return;
         }
 
-        if (!nearestBoundary || distanceMeters < nearestBoundary.distanceMeters) {
+        if (!nearestBoundary || nearestGeometryPoint.distanceMeters < nearestBoundary.distanceMeters) {
           nearestBoundary = {
             parishName: getFeatureDisplayName(feature.properties || {}),
-            distanceMeters
+            distanceMeters: nearestGeometryPoint.distanceMeters,
+            lat: nearestGeometryPoint.lat,
+            lng: nearestGeometryPoint.lng
           };
         }
       });
 
       return nearestBoundary;
+    }
+
+    function clearNearestBoundaryMeasurement() {
+      if (nearestBoundaryLine) {
+        map.removeLayer(nearestBoundaryLine);
+        nearestBoundaryLine = null;
+      }
+
+      if (nearestBoundaryPointMarker) {
+        map.removeLayer(nearestBoundaryPointMarker);
+        nearestBoundaryPointMarker = null;
+      }
+    }
+
+    function renderNearestBoundaryMeasurement(result) {
+      clearNearestBoundaryMeasurement();
+
+      if (
+        !Number.isFinite(result.nearestParishBoundaryLat) ||
+        !Number.isFinite(result.nearestParishBoundaryLng)
+      ) {
+        return;
+      }
+
+      nearestBoundaryLine = L.polyline(
+        [
+          [result.lat, result.lng],
+          [result.nearestParishBoundaryLat, result.nearestParishBoundaryLng]
+        ],
+        {
+          color: "#8ff7ff",
+          weight: 3,
+          opacity: 0.95,
+          dashArray: "8 6"
+        }
+      ).addTo(map);
+
+      nearestBoundaryPointMarker = L.circleMarker(
+        [result.nearestParishBoundaryLat, result.nearestParishBoundaryLng],
+        {
+          radius: 6,
+          color: "#f7ff9a",
+          weight: 2,
+          fillColor: "#f7ff9a",
+          fillOpacity: 0.9
+        }
+      )
+        .addTo(map)
+        .bindPopup(`
+          <strong>${escapeHtml(result.nearestParishBoundaryName)}</strong><br>
+          <strong>Distancia:</strong> ${escapeHtml(result.nearestParishBoundaryDistance)}
+        `);
     }
 
     function renderLocationResult(result) {
@@ -1511,6 +1592,7 @@
     async function resolveGoogleMapsLocation() {
       const input = googleMapsUrlInput.value.trim();
       if (!input) {
+        clearNearestBoundaryMeasurement();
         googleMapsResult.textContent = "Pega un enlace de Google Maps o coordenadas para identificar el sector.";
         return;
       }
@@ -1523,6 +1605,7 @@
         const coordinates = await resolveInputToCoordinates(input);
 
         if (!coordinates) {
+          clearNearestBoundaryMeasurement();
           loadStatus.textContent = "No pude leer coordenadas del enlace. Los links cortos maps.app.goo.gl pueden ser bloqueados por Google o por el navegador; pega el enlace completo o las coordenadas.";
           googleMapsResult.textContent =
             "No se pudieron obtener coordenadas del enlace. Prueba con el enlace completo o con latitud,longitud.";
@@ -1547,6 +1630,8 @@
             : "No identificado",
           nearestParishBoundaryName: nearestParishBoundary?.parishName || "No identificado",
           nearestParishBoundaryDistance: formatDistanceMeters(nearestParishBoundary?.distanceMeters),
+          nearestParishBoundaryLat: nearestParishBoundary?.lat ?? null,
+          nearestParishBoundaryLng: nearestParishBoundary?.lng ?? null,
           cadastreCode: cadastreProperties.cod_catast || cadastreUnavailableMessage,
           ownerName: cadastreFeature ? getOwnerName(cadastreProperties) : cadastreUnavailableMessage
         };
@@ -1567,15 +1652,18 @@
           .addTo(map)
           .bindPopup(`
             <strong>${escapeHtml(result.mainName)}</strong><br>
+            <strong>Limite cercano:</strong> ${escapeHtml(result.nearestParishBoundaryName)}<br>
             <strong>Limite parroquial:</strong> ${escapeHtml(result.nearestParishBoundaryDistance)}<br>
             <strong>Propietario:</strong> ${escapeHtml(result.ownerName)}<br>
             <strong>Clave:</strong> ${escapeHtml(result.cadastreCode)}
           `)
           .openPopup();
 
+        renderNearestBoundaryMeasurement(result);
         renderLocationResult(result);
         loadStatus.textContent = `Ubicacion identificada en el geoportal: ${result.mainName}.`;
       } catch (error) {
+        clearNearestBoundaryMeasurement();
         loadStatus.textContent = "No fue posible identificar esa ubicacion. Intenta nuevamente o usa coordenadas latitud,longitud.";
         googleMapsResult.textContent = "La consulta no se completo, pero el visor sigue funcionando.";
       } finally {
