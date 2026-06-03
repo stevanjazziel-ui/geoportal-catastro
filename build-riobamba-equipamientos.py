@@ -170,6 +170,7 @@ def main():
                     "properties": {
                         "objectid": int(record.get("OBJECTID", 0) or 0),
                         "codigo": code,
+                        "equipamien": category,
                         "categoria": category,
                         "nombre": name,
                         "shape_area": float(record.get("Shape_Area", 0) or 0),
@@ -187,8 +188,10 @@ def main():
         "source": str(ZIP_PATH),
         "summary": {
             "total_equipamientos": len(features),
+            "tipos_equipamien": len(category_counter),
             "categorias": len(category_counter),
         },
+        "byEquipamien": dict(sorted(category_counter.items(), key=lambda item: (-item[1], item[0]))),
         "byCategory": dict(sorted(category_counter.items(), key=lambda item: (-item[1], item[0]))),
     }
 

@@ -270,6 +270,7 @@ def feature_point_properties(source):
     return {
         "objectid": source["objectid"],
         "nombre": source["nombre"],
+        "equipamien": source["equipamien"],
         "categoria": source["categoria"],
         "codigo": source["codigo"],
         "platform_name": source["platform_name"],
@@ -305,6 +306,7 @@ def main():
     for feature in equipamientos_data["features"]:
         geom = shape(feature["geometry"])
         point = geom.representative_point()
+        equipamien = feature["properties"].get("equipamien") or feature["properties"].get("categoria") or ""
         platform_name = None
         for name in neighbor_names:
             if platform_geoms[name].contains(point) or platform_geoms[name].touches(point):
@@ -316,7 +318,8 @@ def main():
         raw_sources.append({
             "objectid": int(feature["properties"]["objectid"]),
             "nombre": feature["properties"]["nombre"],
-            "categoria": feature["properties"]["categoria"],
+            "equipamien": equipamien,
+            "categoria": equipamien,
             "codigo": feature["properties"]["codigo"],
             "platform_name": platform_name,
             "point": point,
