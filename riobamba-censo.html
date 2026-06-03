@@ -284,7 +284,7 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""
   ></script>
-  <script src="https://unpkg.com/@mapbox/shp-write@latest/shpwrite.js"></script>
+  <script src="https://unpkg.com/@mapbox/shp-write@0.4.3/shpwrite.js"></script>
   <script>
     const metricLabels = {
       population_total: "Poblacion total",
@@ -406,6 +406,53 @@
       link.click();
       link.remove();
       URL.revokeObjectURL(url);
+    }
+
+    function binaryStringToUint8Array(value) {
+      const bytes = new Uint8Array(value.length);
+      for (let index = 0; index < value.length; index += 1) {
+        bytes[index] = value.charCodeAt(index) & 0xff;
+      }
+      return bytes;
+    }
+
+    function base64ToUint8Array(value) {
+      const binary = atob(value);
+      return binaryStringToUint8Array(binary);
+    }
+
+    function toZipBlob(rawZip) {
+      if (rawZip instanceof Blob) {
+        return rawZip;
+      }
+
+      if (rawZip instanceof ArrayBuffer) {
+        return new Blob([rawZip], { type: "application/zip" });
+      }
+
+      if (ArrayBuffer.isView(rawZip)) {
+        const bytes = rawZip.buffer.slice(rawZip.byteOffset, rawZip.byteOffset + rawZip.byteLength);
+        return new Blob([bytes], { type: "application/zip" });
+      }
+
+      if (typeof rawZip === "string") {
+        if (rawZip.startsWith("data:application/zip;base64,")) {
+          const base64 = rawZip.split(",", 2)[1] || "";
+          return new Blob([base64ToUint8Array(base64)], { type: "application/zip" });
+        }
+
+        if (/^[A-Za-z0-9+/=\r\n]+$/.test(rawZip.slice(0, 120))) {
+          try {
+            return new Blob([base64ToUint8Array(rawZip.replace(/\s+/g, ""))], { type: "application/zip" });
+          } catch (error) {
+            return new Blob([binaryStringToUint8Array(rawZip)], { type: "application/zip" });
+          }
+        }
+
+        return new Blob([binaryStringToUint8Array(rawZip)], { type: "application/zip" });
+      }
+
+      throw new Error("Formato de ZIP no compatible.");
     }
 
     function updateDownloadButtonState() {
@@ -729,7 +776,7 @@
 
         const zipBuffer = shpwrite.zip(geojson, {
           filename,
-          outputType: "blob",
+          outputType: "arraybuffer",
           compression: "STORE",
           types: {
             polygon: filename
@@ -737,9 +784,7 @@
           prj: WGS84_PRJ
         });
 
-        const blob = zipBuffer instanceof Blob
-          ? zipBuffer
-          : new Blob([zipBuffer], { type: "application/zip" });
+        const blob = toZipBlob(zipBuffer);
 
         downloadBlob(blob, `${filename}.zip`);
         statusText.textContent = `Descarga lista: ${formatNumber(features.length)} manzanas exportadas en shapefile ZIP.`;
