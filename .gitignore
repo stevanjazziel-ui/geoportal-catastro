@@ -11,3 +11,8 @@
 
 # Mantener los GeoJSON que consume la web
 !*.geojson
+
+# Mantener los shapefiles ZIP publicados para Riobamba
+!riobamba-censo-data/shp/
+!riobamba-censo-data/shp/*.zip
+!riobamba-censo-data/shp/manifest.json

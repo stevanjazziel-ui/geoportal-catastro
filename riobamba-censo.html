@@ -284,7 +284,6 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""
   ></script>
-  <script src="https://unpkg.com/@mapbox/shp-write@0.4.3/shpwrite.js"></script>
   <script>
     const metricLabels = {
       population_total: "Poblacion total",
@@ -317,6 +316,7 @@
     let currentMetric = "population_total";
     let currentPlatform = ALL_PLATFORMS;
     let globalSummary = null;
+    let shpManifest = {};
 
     const metricSelect = document.getElementById("metricSelect");
     const platformSelect = document.getElementById("platformSelect");
@@ -328,7 +328,6 @@
     const overlayTitle = document.getElementById("overlayTitle");
     const overlayText = document.getElementById("overlayText");
     const downloadShpButton = document.getElementById("downloadShpButton");
-    const WGS84_PRJ = 'GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]]';
 
     function formatNumber(value) {
       return Number(value || 0).toLocaleString("es-EC");
@@ -378,86 +377,9 @@
         .replace(/^_+|_+$/g, "");
     }
 
-    function buildExportFeatures() {
-      return getCurrentFeatures().map((feature) => ({
-        type: "Feature",
-        geometry: feature.geometry,
-        properties: {
-          manzana: feature.properties.man,
-          plataforma: feature.properties.platform_name || "SIN_PLAT",
-          pob_total: Number(feature.properties.population_total || 0),
-          hombres: Number(feature.properties.male || 0),
-          mujeres: Number(feature.properties.female || 0),
-          edad0_14: Number(feature.properties.age_0_14 || 0),
-          edad15_29: Number(feature.properties.age_15_29 || 0),
-          edad30_44: Number(feature.properties.age_30_44 || 0),
-          edad45_64: Number(feature.properties.age_45_64 || 0),
-          edad65mas: Number(feature.properties.age_65_plus || 0)
-        }
-      }));
-    }
-
-    function downloadBlob(blob, filename) {
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      URL.revokeObjectURL(url);
-    }
-
-    function binaryStringToUint8Array(value) {
-      const bytes = new Uint8Array(value.length);
-      for (let index = 0; index < value.length; index += 1) {
-        bytes[index] = value.charCodeAt(index) & 0xff;
-      }
-      return bytes;
-    }
-
-    function base64ToUint8Array(value) {
-      const binary = atob(value);
-      return binaryStringToUint8Array(binary);
-    }
-
-    function toZipBlob(rawZip) {
-      if (rawZip instanceof Blob) {
-        return rawZip;
-      }
-
-      if (rawZip instanceof ArrayBuffer) {
-        return new Blob([rawZip], { type: "application/zip" });
-      }
-
-      if (ArrayBuffer.isView(rawZip)) {
-        const bytes = rawZip.buffer.slice(rawZip.byteOffset, rawZip.byteOffset + rawZip.byteLength);
-        return new Blob([bytes], { type: "application/zip" });
-      }
-
-      if (typeof rawZip === "string") {
-        if (rawZip.startsWith("data:application/zip;base64,")) {
-          const base64 = rawZip.split(",", 2)[1] || "";
-          return new Blob([base64ToUint8Array(base64)], { type: "application/zip" });
-        }
-
-        if (/^[A-Za-z0-9+/=\r\n]+$/.test(rawZip.slice(0, 120))) {
-          try {
-            return new Blob([base64ToUint8Array(rawZip.replace(/\s+/g, ""))], { type: "application/zip" });
-          } catch (error) {
-            return new Blob([binaryStringToUint8Array(rawZip)], { type: "application/zip" });
-          }
-        }
-
-        return new Blob([binaryStringToUint8Array(rawZip)], { type: "application/zip" });
-      }
-
-      throw new Error("Formato de ZIP no compatible.");
-    }
-
     function updateDownloadButtonState() {
-      const count = getCurrentFeatures().length;
-      downloadShpButton.disabled = count === 0;
+      const entry = shpManifest[getCurrentSelectionLabel()];
+      downloadShpButton.disabled = !entry;
     }
 
     function buildSummaryCards(summary) {
@@ -695,11 +617,12 @@
 
     async function init() {
       try {
-        const [geoResponse, statsResponse, platformGeoResponse, platformStatsResponse] = await Promise.all([
+        const [geoResponse, statsResponse, platformGeoResponse, platformStatsResponse, manifestResponse] = await Promise.all([
           fetch("./riobamba-censo-data/riobamba_manzanas.geojson"),
           fetch("./riobamba-censo-data/riobamba_manzanas_stats.json"),
           fetch("./riobamba-censo-data/riobamba_plataformas.geojson"),
-          fetch("./riobamba-censo-data/riobamba_plataformas_stats.json")
+          fetch("./riobamba-censo-data/riobamba_plataformas_stats.json"),
+          fetch("./riobamba-censo-data/shp/manifest.json")
         ]);
 
         if (!geoResponse.ok || !statsResponse.ok || !platformGeoResponse.ok || !platformStatsResponse.ok) {
@@ -710,6 +633,7 @@
         const stats = await statsResponse.json();
         const platformsGeo = await platformGeoResponse.json();
         const platformsStats = await platformStatsResponse.json();
+        shpManifest = manifestResponse.ok ? await manifestResponse.json() : {};
 
         globalSummary = stats.summary;
         platformSummary = platformsStats;
@@ -759,39 +683,24 @@
 
     downloadShpButton.addEventListener("click", () => {
       try {
-        const features = buildExportFeatures();
-        if (!features.length) {
-          statusText.textContent = "No hay manzanas para exportar en la seleccion actual.";
+        const key = getCurrentSelectionLabel();
+        const entry = shpManifest[key];
+
+        if (!entry) {
+          statusText.textContent = "No existe un shapefile listo para la seleccion actual.";
           return;
         }
 
-        downloadShpButton.disabled = true;
-        statusText.textContent = `Preparando descarga SHP de ${formatNumber(features.length)} manzanas...`;
+        const link = document.createElement("a");
+        link.href = `./riobamba-censo-data/shp/${entry.file}`;
+        link.download = entry.file;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
 
-        const filename = getCurrentSelectionLabel();
-        const geojson = {
-          type: "FeatureCollection",
-          features
-        };
-
-        const zipBuffer = shpwrite.zip(geojson, {
-          filename,
-          outputType: "arraybuffer",
-          compression: "STORE",
-          types: {
-            polygon: filename
-          },
-          prj: WGS84_PRJ
-        });
-
-        const blob = toZipBlob(zipBuffer);
-
-        downloadBlob(blob, `${filename}.zip`);
-        statusText.textContent = `Descarga lista: ${formatNumber(features.length)} manzanas exportadas en shapefile ZIP.`;
+        statusText.textContent = `Descarga iniciada: ${formatNumber(entry.count)} manzanas exportadas en shapefile ZIP.`;
       } catch (error) {
-        statusText.textContent = "No se pudo generar el shapefile de la seleccion actual.";
-      } finally {
-        updateDownloadButtonState();
+        statusText.textContent = "No se pudo iniciar la descarga del shapefile.";
       }
     });
 

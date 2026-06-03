@@ -1,0 +1,78 @@
+{
+  "riobamba_todas_las_manzanas": {
+    "file": "riobamba_todas_las_manzanas.zip",
+    "count": 3301
+  },
+  "riobamba_fuera_de_plataformas": {
+    "file": "riobamba_fuera_de_plataformas.zip",
+    "count": 793
+  },
+  "plataforma_f": {
+    "file": "plataforma_f.zip",
+    "count": 128
+  },
+  "plataforma_c": {
+    "file": "plataforma_c.zip",
+    "count": 180
+  },
+  "plataforma_h": {
+    "file": "plataforma_h.zip",
+    "count": 144
+  },
+  "plataforma_a": {
+    "file": "plataforma_a.zip",
+    "count": 77
+  },
+  "plataforma_b": {
+    "file": "plataforma_b.zip",
+    "count": 102
+  },
+  "plataforma_k": {
+    "file": "plataforma_k.zip",
+    "count": 184
+  },
+  "plataforma_i": {
+    "file": "plataforma_i.zip",
+    "count": 102
+  },
+  "plataforma_d": {
+    "file": "plataforma_d.zip",
+    "count": 192
+  },
+  "plataforma_g": {
+    "file": "plataforma_g.zip",
+    "count": 144
+  },
+  "plataforma_e": {
+    "file": "plataforma_e.zip",
+    "count": 3
+  },
+  "plataforma_q": {
+    "file": "plataforma_q.zip",
+    "count": 119
+  },
+  "plataforma_l": {
+    "file": "plataforma_l.zip",
+    "count": 33
+  },
+  "plataforma_m": {
+    "file": "plataforma_m.zip",
+    "count": 185
+  },
+  "plataforma_o": {
+    "file": "plataforma_o.zip",
+    "count": 266
+  },
+  "plataforma_p": {
+    "file": "plataforma_p.zip",
+    "count": 143
+  },
+  "plataforma_n": {
+    "file": "plataforma_n.zip",
+    "count": 86
+  },
+  "plataforma_j": {
+    "file": "plataforma_j.zip",
+    "count": 223
+  }
+}
