@@ -1,12 +1,14 @@
 import heapq
 import json
 import math
+import time
+from collections import Counter, defaultdict
 from pathlib import Path
 
 import networkx as nx
 import requests
 from pyproj import Transformer
-from shapely.geometry import LineString, MultiLineString, MultiPolygon, Point, Polygon, shape, mapping
+from shapely.geometry import LineString, MultiPolygon, Point, Polygon, shape, mapping
 from shapely.ops import transform, unary_union
 
 
@@ -14,14 +16,20 @@ BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "riobamba-censo-data"
 PLATFORMS_PATH = DATA_DIR / "riobamba_plataformas.geojson"
 EQUIPAMIENTOS_PATH = DATA_DIR / "riobamba_equipamientos.geojson"
+OSM_CACHE_PATH = DATA_DIR / "riobamba_osm_walk_network_plataforma_n.json"
+
 OUTPUT_ISOCHRONE = DATA_DIR / "riobamba_isocrona_plataforma_n.geojson"
 OUTPUT_ORIGINS = DATA_DIR / "riobamba_isocrona_plataforma_n_origenes.geojson"
+OUTPUT_BY_EQUIP = DATA_DIR / "riobamba_isocronas_equipamientos_plataforma_n.geojson"
+OUTPUT_BY_CATEGORY = DATA_DIR / "riobamba_isocronas_categorias_plataforma_n.geojson"
+OUTPUT_PRIORITY = DATA_DIR / "riobamba_isocronas_prioritarias_plataforma_n.geojson"
 OUTPUT_STATS = DATA_DIR / "riobamba_isocrona_plataforma_n_stats.json"
 
-TARGET_PLATFORM = "PLATAFORMA Ñ"
+TARGET_PLATFORM = "PLATAFORMA " + chr(209)
 DISTANCE_METERS = 1250
 BUFFER_METERS = 1700
 OVERPASS_URL = "https://overpass-api.de/api/interpreter"
+PRIORITY_CATEGORIES = {"Salud", "Educación", "Seguridad"}
 WALKABLE_HIGHWAYS = {
     "footway", "path", "pedestrian", "living_street", "residential", "service",
     "tertiary", "tertiary_link", "secondary", "secondary_link", "primary",
@@ -37,6 +45,11 @@ transformer_to_wgs = Transformer.from_crs("EPSG:32717", "EPSG:4326", always_xy=T
 def load_geojson(path: Path):
     with open(path, "r", encoding="utf-8-sig") as handle:
         return json.load(handle)
+
+
+def save_json(path: Path, payload):
+    with open(path, "w", encoding="utf-8") as handle:
+        json.dump(payload, handle, ensure_ascii=False)
 
 
 def to_utm(geom):
@@ -60,78 +73,99 @@ def is_walkable(tags):
     return True
 
 
-def fetch_osm_ways(bounds):
+def post_overpass(query):
+    response = requests.post(
+        OVERPASS_URL,
+        data=query,
+        timeout=180,
+        headers={
+            "Content-Type": "text/plain",
+            "User-Agent": "codex-riobamba-isochrone/1.0",
+        },
+    )
+    response.raise_for_status()
+    return response.json()
+
+
+def subdivide_bounds(bounds):
     minx, miny, maxx, maxy = bounds
     x_mid = (minx + maxx) / 2
     y_mid = (miny + maxy) / 2
-    tiles = [
+    return [
         (minx, miny, x_mid, y_mid),
         (x_mid, miny, maxx, y_mid),
         (minx, y_mid, x_mid, maxy),
         (x_mid, y_mid, maxx, maxy),
     ]
 
-    merged = {}
 
-    for west, south, east, north in tiles:
-        query = (
-            f'[out:json][timeout:120];'
-            f'way["highway"]({south},{west},{north},{east});'
-            f'out geom;'
-        )
-        response = requests.post(
-            OVERPASS_URL,
-            data=query,
-            timeout=180,
-            headers={
-                "Content-Type": "text/plain",
-                "User-Agent": "codex-riobamba-isochrone/1.0",
-            },
-        )
-        response.raise_for_status()
-        payload = response.json()
-        for element in payload.get("elements", []):
+def fetch_osm_tile(bounds, depth=0, max_depth=2):
+    west, south, east, north = bounds
+    query = (
+        f'[out:json][timeout:120];'
+        f'way["highway"]({south},{west},{north},{east});'
+        f'out geom;'
+    )
+
+    try:
+        return post_overpass(query).get("elements", [])
+    except requests.HTTPError as error:
+        status = getattr(error.response, "status_code", None)
+        if status in {429, 504} and depth < max_depth:
+            time.sleep(1.0 + depth)
+            merged = {}
+            for sub_bounds in subdivide_bounds(bounds):
+                for element in fetch_osm_tile(sub_bounds, depth + 1, max_depth):
+                    merged[element["id"]] = element
+            return list(merged.values())
+        raise
+
+
+def fetch_osm_ways(bounds, use_cache=True):
+    if use_cache and OSM_CACHE_PATH.exists():
+        return load_geojson(OSM_CACHE_PATH)
+
+    merged = {}
+    for tile in subdivide_bounds(bounds):
+        for element in fetch_osm_tile(tile, depth=0, max_depth=2):
             merged[element["id"]] = element
 
-    return {"elements": list(merged.values())}
+    payload = {"elements": list(merged.values())}
+    save_json(OSM_CACHE_PATH, payload)
+    return payload
 
 
 def build_graph(overpass_json):
     graph = nx.Graph()
-    edge_lines = []
 
     for element in overpass_json.get("elements", []):
-      if element.get("type") != "way":
-          continue
+        if element.get("type") != "way":
+            continue
 
-      tags = element.get("tags", {})
-      if not is_walkable(tags):
-          continue
+        tags = element.get("tags", {})
+        if not is_walkable(tags):
+            continue
 
-      geometry = element.get("geometry", [])
-      if len(geometry) < 2:
-          continue
+        geometry = element.get("geometry", [])
+        if len(geometry) < 2:
+            continue
 
-      coords_wgs = [(item["lon"], item["lat"]) for item in geometry]
-      coords_utm = [transformer_to_utm.transform(lon, lat) for lon, lat in coords_wgs]
+        coords_utm = [transformer_to_utm.transform(item["lon"], item["lat"]) for item in geometry]
+        for idx in range(len(coords_utm) - 1):
+            start = coords_utm[idx]
+            end = coords_utm[idx + 1]
+            length = math.dist(start, end)
+            if length <= 0:
+                continue
 
-      for idx in range(len(coords_utm) - 1):
-          start = coords_utm[idx]
-          end = coords_utm[idx + 1]
-          length = math.dist(start, end)
-          if length <= 0:
-              continue
+            start_id = ("xy", round(start[0], 3), round(start[1], 3))
+            end_id = ("xy", round(end[0], 3), round(end[1], 3))
 
-          start_id = ("xy", round(start[0], 3), round(start[1], 3))
-          end_id = ("xy", round(end[0], 3), round(end[1], 3))
+            graph.add_node(start_id, x=start[0], y=start[1])
+            graph.add_node(end_id, x=end[0], y=end[1])
+            graph.add_edge(start_id, end_id, weight=length)
 
-          graph.add_node(start_id, x=start[0], y=start[1])
-          graph.add_node(end_id, x=end[0], y=end[1])
-          graph.add_edge(start_id, end_id, weight=length)
-
-          edge_lines.append(LineString([start, end]))
-
-    return graph, edge_lines
+    return graph
 
 
 def nearest_node(point_xy, nodes):
@@ -147,8 +181,13 @@ def nearest_node(point_xy, nodes):
 
 
 def multi_source_reachable(graph, source_nodes, cutoff):
-    distances = {node: 0.0 for node in source_nodes}
-    heap = [(0.0, node) for node in source_nodes]
+    distances = {}
+    heap = []
+
+    for node in set(source_nodes):
+        distances[node] = 0.0
+        heap.append((0.0, node))
+
     heapq.heapify(heap)
 
     while heap:
@@ -174,7 +213,7 @@ def build_isochrone_polygon(graph, distances, cutoff):
     node_buffers = []
     edge_buffers = []
 
-    for node_id, dist in distances.items():
+    for node_id in distances:
         attrs = graph.nodes[node_id]
         node_buffers.append(Point(attrs["x"], attrs["y"]).buffer(22))
 
@@ -213,8 +252,37 @@ def build_isochrone_polygon(graph, distances, cutoff):
         edge_buffers.append(segment.buffer(18))
 
     merged = unary_union(node_buffers + edge_buffers)
-    smoothed = merged.buffer(30).buffer(-20)
-    return smoothed
+    return merged.buffer(30).buffer(-20)
+
+
+def geometry_mapping(geom):
+    simplified = geom.simplify(8, preserve_topology=True)
+    if simplified.is_empty:
+        simplified = geom.convex_hull
+    if isinstance(simplified, Polygon):
+        return mapping(simplified)
+    if isinstance(simplified, MultiPolygon):
+        return mapping(simplified)
+    return mapping(simplified.convex_hull)
+
+
+def feature_point_properties(source):
+    return {
+        "objectid": source["objectid"],
+        "nombre": source["nombre"],
+        "categoria": source["categoria"],
+        "codigo": source["codigo"],
+        "platform_name": source["platform_name"],
+        "snap_m": round(source["snap_m"], 2),
+    }
+
+
+def build_area_feature(geometry, properties):
+    return {
+        "type": "Feature",
+        "properties": properties,
+        "geometry": geometry_mapping(to_wgs84(geometry)),
+    }
 
 
 def main():
@@ -233,8 +301,7 @@ def main():
     ]
     neighbor_union = unary_union([platform_geoms[name] for name in neighbor_names])
 
-    equipamientos = []
-    origin_points = []
+    raw_sources = []
     for feature in equipamientos_data["features"]:
         geom = shape(feature["geometry"])
         point = geom.representative_point()
@@ -246,87 +313,128 @@ def main():
         if not platform_name:
             continue
 
-        equipamientos.append({
-            "feature": feature,
+        raw_sources.append({
+            "objectid": int(feature["properties"]["objectid"]),
+            "nombre": feature["properties"]["nombre"],
+            "categoria": feature["properties"]["categoria"],
+            "codigo": feature["properties"]["codigo"],
             "platform_name": platform_name,
             "point": point,
         })
-        origin_points.append(point)
 
     search_area = to_wgs84(to_utm(neighbor_union).buffer(BUFFER_METERS))
-    bounds = search_area.bounds
-    overpass_json = fetch_osm_ways(bounds)
-    graph, _ = build_graph(overpass_json)
+    overpass_json = fetch_osm_ways(search_area.bounds, use_cache=True)
+    graph = build_graph(overpass_json)
     nodes = list(graph.nodes(data=True))
 
-    source_nodes = []
-    source_features = []
-    for item in equipamientos:
-        point_utm = to_utm(item["point"])
+    snapped_sources = []
+    for source in raw_sources:
+        point_utm = to_utm(source["point"])
         node_id, snap_distance = nearest_node((point_utm.x, point_utm.y), nodes)
         if node_id is None:
             continue
-        source_nodes.append(node_id)
-        source_features.append({
+        source["point_utm"] = point_utm
+        source["node_id"] = node_id
+        source["snap_m"] = snap_distance
+        snapped_sources.append(source)
+
+    source_features = [
+        {
             "type": "Feature",
-            "properties": {
-                "nombre": item["feature"]["properties"]["nombre"],
-                "categoria": item["feature"]["properties"]["categoria"],
-                "codigo": item["feature"]["properties"]["codigo"],
-                "platform_name": item["platform_name"],
-                "snap_m": round(snap_distance, 2),
-            },
-            "geometry": mapping(item["point"]),
-        })
+            "properties": feature_point_properties(source),
+            "geometry": mapping(source["point"]),
+        }
+        for source in snapped_sources
+    ]
 
-    reachable = multi_source_reachable(graph, source_nodes, DISTANCE_METERS)
-    polygon_utm = build_isochrone_polygon(graph, reachable, DISTANCE_METERS).simplify(8, preserve_topology=True)
-    polygon_wgs = to_wgs84(polygon_utm)
-
-    if isinstance(polygon_wgs, Polygon):
-        geometry = mapping(polygon_wgs)
-    elif isinstance(polygon_wgs, MultiPolygon):
-        geometry = mapping(polygon_wgs)
-    else:
-        geometry = mapping(polygon_wgs.convex_hull)
-
-    isochrone_feature = {
-        "type": "Feature",
-        "properties": {
-            "nombre": "Isocrona 15 minutos desde equipamientos colindantes a PLATAFORMA Ñ",
+    all_nodes = [source["node_id"] for source in snapped_sources]
+    reachable_all = multi_source_reachable(graph, all_nodes, DISTANCE_METERS)
+    union_geometry = build_isochrone_polygon(graph, reachable_all, DISTANCE_METERS)
+    union_feature = build_area_feature(
+        union_geometry,
+        {
+            "nombre": f"Isocrona 15 minutos desde equipamientos colindantes a {TARGET_PLATFORM}",
             "target_platform": TARGET_PLATFORM,
             "neighbor_platforms": ", ".join(neighbor_names),
             "distance_m": DISTANCE_METERS,
             "mode": "walking",
-            "equipamientos_origen": len(source_features),
-            "nodos_alcanzables": len(reachable),
+            "equipamientos_origen": len(snapped_sources),
+            "nodos_alcanzables": len(reachable_all),
         },
-        "geometry": geometry,
-    }
+    )
+
+    individual_features = []
+    by_category_nodes = defaultdict(list)
+    by_category_counts = Counter()
+
+    for index, source in enumerate(snapped_sources, start=1):
+        by_category_nodes[source["categoria"]].append(source["node_id"])
+        by_category_counts[source["categoria"]] += 1
+
+        reachable = multi_source_reachable(graph, [source["node_id"]], DISTANCE_METERS)
+        polygon = build_isochrone_polygon(graph, reachable, DISTANCE_METERS)
+        individual_features.append(
+            build_area_feature(
+                polygon,
+                {
+                    **feature_point_properties(source),
+                    "feature_id": index,
+                    "distance_m": DISTANCE_METERS,
+                    "mode": "walking",
+                    "nodos_alcanzables": len(reachable),
+                },
+            )
+        )
+
+    category_features = []
+    priority_features = []
+
+    for category, node_ids in sorted(by_category_nodes.items()):
+        reachable = multi_source_reachable(graph, node_ids, DISTANCE_METERS)
+        polygon = build_isochrone_polygon(graph, reachable, DISTANCE_METERS)
+        category_feature = build_area_feature(
+            polygon,
+            {
+                "categoria": category,
+                "distance_m": DISTANCE_METERS,
+                "mode": "walking",
+                "equipamientos_origen": by_category_counts[category],
+                "nodos_alcanzables": len(reachable),
+                "target_platform": TARGET_PLATFORM,
+            },
+        )
+        category_features.append(category_feature)
+        if category in PRIORITY_CATEGORIES:
+            priority_features.append(category_feature)
 
     stats = {
         "generated_at": __import__("datetime").datetime.now().isoformat(timespec="seconds"),
         "target_platform": TARGET_PLATFORM,
         "neighbor_platforms": neighbor_names,
-        "equipamientos_origen": len(source_features),
+        "equipamientos_origen": len(snapped_sources),
         "distance_m": DISTANCE_METERS,
         "mode": "walking",
-        "reachable_nodes": len(reachable),
+        "reachable_nodes_general": len(reachable_all),
+        "isocronas_individuales": len(individual_features),
+        "isocronas_por_categoria": len(category_features),
+        "categorias_prioritarias": sorted(PRIORITY_CATEGORIES),
         "source": "OpenStreetMap peatonal + equipamientos de plataformas colindantes",
+        "equipamientos_por_categoria": dict(sorted(by_category_counts.items(), key=lambda item: (-item[1], item[0]))),
     }
 
-    with open(OUTPUT_ISOCHRONE, "w", encoding="utf-8") as handle:
-        json.dump({"type": "FeatureCollection", "features": [isochrone_feature]}, handle, ensure_ascii=False)
-
-    with open(OUTPUT_ORIGINS, "w", encoding="utf-8") as handle:
-        json.dump({"type": "FeatureCollection", "features": source_features}, handle, ensure_ascii=False)
-
+    save_json(OUTPUT_ISOCHRONE, {"type": "FeatureCollection", "features": [union_feature]})
+    save_json(OUTPUT_ORIGINS, {"type": "FeatureCollection", "features": source_features})
+    save_json(OUTPUT_BY_EQUIP, {"type": "FeatureCollection", "features": individual_features})
+    save_json(OUTPUT_BY_CATEGORY, {"type": "FeatureCollection", "features": category_features})
+    save_json(OUTPUT_PRIORITY, {"type": "FeatureCollection", "features": priority_features})
     with open(OUTPUT_STATS, "w", encoding="utf-8") as handle:
         json.dump(stats, handle, ensure_ascii=False, indent=2)
 
     print("Listo.")
     print(f"Vecinas: {neighbor_names}")
-    print(f"Equipamientos origen: {len(source_features)}")
+    print(f"Equipamientos origen: {len(snapped_sources)}")
+    print(f"Isocronas individuales: {len(individual_features)}")
+    print(f"Isocronas por categoria: {len(category_features)}")
 
 
 if __name__ == "__main__":

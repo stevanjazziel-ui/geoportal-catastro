@@ -263,7 +263,10 @@
           <label class="layer-toggle"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Equipamientos</span><input id="toggleEquipamientos" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Isocrona 15 min</span><input id="toggleIsocrona" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Origenes isocrona</span><input id="toggleOrigenes" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Origenes isocrona</span><input id="toggleOrigenes" type="checkbox"></label>
+          <label class="layer-toggle"><span>Isocronas por equipamiento</span><input id="toggleIsoEquip" type="checkbox"></label>
+          <label class="layer-toggle"><span>Isocronas por categoria</span><input id="toggleIsoCategoria" type="checkbox"></label>
+          <label class="layer-toggle"><span>Salud, Educacion y Seguridad</span><input id="toggleIsoPrioritaria" type="checkbox" checked></label>
         </div>
       </section>
 
@@ -365,6 +368,9 @@
     let equipamientosFeatures = [];
     let isocronaFeatures = [];
     let isocronaOriginFeatures = [];
+    let isocronaEquipFeatures = [];
+    let isocronaCategoryFeatures = [];
+    let isocronaPriorityFeatures = [];
     let platformStatsByName = {};
     let platformSummary = null;
     let equipamientosStats = null;
@@ -376,13 +382,19 @@
     let equipamientosLayer = null;
     let isocronaLayer = null;
     let isocronaOriginsLayer = null;
+    let isocronaEquipLayer = null;
+    let isocronaCategoryLayer = null;
+    let isocronaPriorityLayer = null;
     let layerControl = null;
     const layerVisibility = {
       manzanas: true,
       plataformas: true,
       equipamientos: true,
       isocrona: true,
-      origenes: true
+      origenes: false,
+      isoEquip: false,
+      isoCategoria: false,
+      isoPrioritaria: true
     };
 
     const metricSelect = document.getElementById("metricSelect");
@@ -402,6 +414,9 @@
     const toggleEquipamientos = document.getElementById("toggleEquipamientos");
     const toggleIsocrona = document.getElementById("toggleIsocrona");
     const toggleOrigenes = document.getElementById("toggleOrigenes");
+    const toggleIsoEquip = document.getElementById("toggleIsoEquip");
+    const toggleIsoCategoria = document.getElementById("toggleIsoCategoria");
+    const toggleIsoPrioritaria = document.getElementById("toggleIsoPrioritaria");
     const equipamientoPalette = [
       "#ffd166", "#ef476f", "#06d6a0", "#118ab2", "#f78c6b",
       "#c77dff", "#90be6d", "#4cc9f0", "#ff9f1c", "#43aa8b",
@@ -486,6 +501,9 @@
       syncSingleLayer(equipamientosLayer, layerVisibility.equipamientos);
       syncSingleLayer(isocronaLayer, layerVisibility.isocrona);
       syncSingleLayer(isocronaOriginsLayer, layerVisibility.origenes);
+      syncSingleLayer(isocronaEquipLayer, layerVisibility.isoEquip);
+      syncSingleLayer(isocronaCategoryLayer, layerVisibility.isoCategoria);
+      syncSingleLayer(isocronaPriorityLayer, layerVisibility.isoPrioritaria);
     }
 
     function buildSummaryCards(summary) {
@@ -551,7 +569,10 @@
         ["Equipamientos origen", isocronaStats.equipamientos_origen],
         ["Distancia caminada", `${formatNumber(isocronaStats.distance_m)} m`],
         ["Modo", isocronaStats.mode],
-        ["Nodos alcanzables", formatNumber(isocronaStats.reachable_nodes)]
+        ["Nodos alcanzables", formatNumber(isocronaStats.reachable_nodes_general)],
+        ["Isocronas individuales", formatNumber(isocronaStats.isocronas_individuales)],
+        ["Isocronas por categoria", formatNumber(isocronaStats.isocronas_por_categoria)],
+        ["Categorias prioritarias", isocronaStats.categorias_prioritarias.join(", ")]
       ];
 
       isocronaSummary.innerHTML = rows
@@ -794,6 +815,134 @@
       syncSingleLayer(isocronaOriginsLayer, layerVisibility.origenes);
     }
 
+    function renderIsocronaEquipLayer() {
+      if (isocronaEquipLayer) {
+        map.removeLayer(isocronaEquipLayer);
+      }
+
+      if (!map.getPane("isocronaEquipPane")) {
+        map.createPane("isocronaEquipPane");
+        map.getPane("isocronaEquipPane").style.zIndex = 425;
+      }
+
+      isocronaEquipLayer = L.geoJSON(
+        { type: "FeatureCollection", features: isocronaEquipFeatures },
+        {
+          pane: "isocronaEquipPane",
+          style: (feature) => {
+            const color = getEquipamientoColor(feature.properties.categoria);
+            return {
+              color,
+              weight: 1.1,
+              opacity: 0.65,
+              fillColor: color,
+              fillOpacity: 0.04
+            };
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties;
+            layer.bindPopup(`
+              <strong>${props.nombre || "Equipamiento"}</strong><br>
+              <strong>Categoria:</strong> ${props.categoria || "-"}<br>
+              <strong>Plataforma:</strong> ${props.platform_name || "-"}<br>
+              <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = props.nombre || "Isocrona por equipamiento";
+              overlayText.textContent = `${props.categoria || "-"} | ${props.platform_name || "-"} | ${formatNumber(props.distance_m)} m caminados`;
+            });
+          }
+        }
+      );
+      syncSingleLayer(isocronaEquipLayer, layerVisibility.isoEquip);
+    }
+
+    function renderIsocronaCategoryLayer() {
+      if (isocronaCategoryLayer) {
+        map.removeLayer(isocronaCategoryLayer);
+      }
+
+      if (!map.getPane("isocronaCategoryPane")) {
+        map.createPane("isocronaCategoryPane");
+        map.getPane("isocronaCategoryPane").style.zIndex = 430;
+      }
+
+      isocronaCategoryLayer = L.geoJSON(
+        { type: "FeatureCollection", features: isocronaCategoryFeatures },
+        {
+          pane: "isocronaCategoryPane",
+          style: (feature) => {
+            const color = getEquipamientoColor(feature.properties.categoria);
+            return {
+              color,
+              weight: 2.2,
+              opacity: 0.9,
+              fillColor: color,
+              fillOpacity: 0.10
+            };
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties;
+            layer.bindPopup(`
+              <strong>Categoria: ${props.categoria}</strong><br>
+              <strong>Equipamientos origen:</strong> ${formatNumber(props.equipamientos_origen)}<br>
+              <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = `Isocrona ${props.categoria}`;
+              overlayText.textContent = `${formatNumber(props.equipamientos_origen)} equipamientos origen | ${formatNumber(props.distance_m)} m caminados`;
+            });
+          }
+        }
+      );
+      syncSingleLayer(isocronaCategoryLayer, layerVisibility.isoCategoria);
+    }
+
+    function renderIsocronaPriorityLayer() {
+      if (isocronaPriorityLayer) {
+        map.removeLayer(isocronaPriorityLayer);
+      }
+
+      if (!map.getPane("isocronaPriorityPane")) {
+        map.createPane("isocronaPriorityPane");
+        map.getPane("isocronaPriorityPane").style.zIndex = 435;
+      }
+
+      isocronaPriorityLayer = L.geoJSON(
+        { type: "FeatureCollection", features: isocronaPriorityFeatures },
+        {
+          pane: "isocronaPriorityPane",
+          style: (feature) => {
+            const color = getEquipamientoColor(feature.properties.categoria);
+            return {
+              color,
+              weight: 2.8,
+              opacity: 1,
+              fillColor: color,
+              fillOpacity: 0.16,
+              dashArray: "8 6"
+            };
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties;
+            layer.bindPopup(`
+              <strong>Prioritaria: ${props.categoria}</strong><br>
+              <strong>Equipamientos origen:</strong> ${formatNumber(props.equipamientos_origen)}<br>
+              <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = `${props.categoria} prioritaria`;
+              overlayText.textContent = `${formatNumber(props.equipamientos_origen)} equipamientos origen | ${formatNumber(props.distance_m)} m caminados`;
+            });
+          }
+        }
+      );
+      syncSingleLayer(isocronaPriorityLayer, layerVisibility.isoPrioritaria);
+    }
+
     function renderManzanaLayer(zoomToSelection = false) {
       const currentFeatures = getCurrentFeatures();
       const values = currentFeatures.map((feature) => feature.properties[currentMetric] || 0);
@@ -898,7 +1047,7 @@
 
     async function init() {
       try {
-        const [geoResponse, statsResponse, platformGeoResponse, platformStatsResponse, manifestResponse, equipamientosGeoResponse, equipamientosStatsResponse, isocronaGeoResponse, isocronaOriginsResponse, isocronaStatsResponse] = await Promise.all([
+        const [geoResponse, statsResponse, platformGeoResponse, platformStatsResponse, manifestResponse, equipamientosGeoResponse, equipamientosStatsResponse, isocronaGeoResponse, isocronaOriginsResponse, isocronaEquipResponse, isocronaCategoryResponse, isocronaPriorityResponse, isocronaStatsResponse] = await Promise.all([
           fetch("./riobamba-censo-data/riobamba_manzanas.geojson"),
           fetch("./riobamba-censo-data/riobamba_manzanas_stats.json"),
           fetch("./riobamba-censo-data/riobamba_plataformas.geojson"),
@@ -908,10 +1057,13 @@
           fetch("./riobamba-censo-data/riobamba_equipamientos_stats.json"),
           fetch("./riobamba-censo-data/riobamba_isocrona_plataforma_n.geojson"),
           fetch("./riobamba-censo-data/riobamba_isocrona_plataforma_n_origenes.geojson"),
+          fetch("./riobamba-censo-data/riobamba_isocronas_equipamientos_plataforma_n.geojson"),
+          fetch("./riobamba-censo-data/riobamba_isocronas_categorias_plataforma_n.geojson"),
+          fetch("./riobamba-censo-data/riobamba_isocronas_prioritarias_plataforma_n.geojson"),
           fetch("./riobamba-censo-data/riobamba_isocrona_plataforma_n_stats.json")
         ]);
 
-        if (!geoResponse.ok || !statsResponse.ok || !platformGeoResponse.ok || !platformStatsResponse.ok || !equipamientosGeoResponse.ok || !equipamientosStatsResponse.ok || !isocronaGeoResponse.ok || !isocronaOriginsResponse.ok || !isocronaStatsResponse.ok) {
+        if (!geoResponse.ok || !statsResponse.ok || !platformGeoResponse.ok || !platformStatsResponse.ok || !equipamientosGeoResponse.ok || !equipamientosStatsResponse.ok || !isocronaGeoResponse.ok || !isocronaOriginsResponse.ok || !isocronaEquipResponse.ok || !isocronaCategoryResponse.ok || !isocronaPriorityResponse.ok || !isocronaStatsResponse.ok) {
           throw new Error("No se pudieron leer los archivos de datos.");
         }
 
@@ -923,6 +1075,9 @@
         const equipamientosStatsData = await equipamientosStatsResponse.json();
         const isocronaGeo = await isocronaGeoResponse.json();
         const isocronaOriginsGeo = await isocronaOriginsResponse.json();
+        const isocronaEquipGeo = await isocronaEquipResponse.json();
+        const isocronaCategoryGeo = await isocronaCategoryResponse.json();
+        const isocronaPriorityGeo = await isocronaPriorityResponse.json();
         const isocronaStatsData = await isocronaStatsResponse.json();
         shpManifest = manifestResponse.ok ? await manifestResponse.json() : {};
 
@@ -941,6 +1096,9 @@
         equipamientosFeatures = equipamientosGeo.features || [];
         isocronaFeatures = isocronaGeo.features || [];
         isocronaOriginFeatures = isocronaOriginsGeo.features || [];
+        isocronaEquipFeatures = isocronaEquipGeo.features || [];
+        isocronaCategoryFeatures = isocronaCategoryGeo.features || [];
+        isocronaPriorityFeatures = isocronaPriorityGeo.features || [];
 
         const byMan = stats.byMan || {};
         const manToPlatform = platformsStats.manToPlatform || {};
@@ -966,9 +1124,12 @@
         buildCoverageList();
         buildEquipamientosSummary();
         buildIsocronaSummary();
-        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} equipamientos e isocrona cargados.`;
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} equipamientos y nuevas isocronas cargadas.`;
         renderIsocronaLayer();
         renderIsocronaOriginsLayer();
+        renderIsocronaEquipLayer();
+        renderIsocronaCategoryLayer();
+        renderIsocronaPriorityLayer();
         renderEquipamientosLayer();
         renderAll(false);
 
@@ -1041,6 +1202,21 @@
 
     toggleOrigenes.addEventListener("change", () => {
       layerVisibility.origenes = toggleOrigenes.checked;
+      syncVisibleLayers();
+    });
+
+    toggleIsoEquip.addEventListener("change", () => {
+      layerVisibility.isoEquip = toggleIsoEquip.checked;
+      syncVisibleLayers();
+    });
+
+    toggleIsoCategoria.addEventListener("change", () => {
+      layerVisibility.isoCategoria = toggleIsoCategoria.checked;
+      syncVisibleLayers();
+    });
+
+    toggleIsoPrioritaria.addEventListener("change", () => {
+      layerVisibility.isoPrioritaria = toggleIsoPrioritaria.checked;
       syncVisibleLayers();
     });
 

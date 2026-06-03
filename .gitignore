@@ -16,3 +16,6 @@
 !riobamba-censo-data/shp/
 !riobamba-censo-data/shp/*.zip
 !riobamba-censo-data/shp/manifest.json
+
+# Cache local de red peatonal para recalculo de isocronas
+riobamba-censo-data/riobamba_osm_walk_network_*.json
