@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Riobamba Censo 2022 por Manzana</title>
+  <title>Riobamba Censo 2022 por Manzana y Plataforma</title>
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -12,29 +12,34 @@
   />
   <style>
     :root {
-      --bg: #0b1320;
-      --panel: rgba(9, 19, 30, 0.92);
-      --panel-2: rgba(14, 28, 43, 0.95);
-      --line: rgba(124, 198, 255, 0.16);
-      --text: #eef7ff;
-      --muted: #9eb6cb;
-      --accent: #5ec8ff;
-      --shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+      --bg: #07121c;
+      --bg-2: #0d1d2b;
+      --panel: rgba(10, 21, 32, 0.94);
+      --panel-2: rgba(15, 30, 46, 0.95);
+      --line: rgba(126, 198, 255, 0.16);
+      --text: #edf6ff;
+      --muted: #99b3c8;
+      --accent: #61c7ff;
+      --accent-2: #8ff2db;
+      --platform: #d2a8ff;
+      --shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
     }
 
     * { box-sizing: border-box; }
     html, body { height: 100%; margin: 0; }
+
     body {
       font-family: "Segoe UI", Tahoma, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(94, 200, 255, 0.12), transparent 28%),
-        linear-gradient(180deg, #0d1825, #09111b);
+        radial-gradient(circle at top left, rgba(97, 199, 255, 0.12), transparent 26%),
+        radial-gradient(circle at 88% 12%, rgba(143, 242, 219, 0.08), transparent 18%),
+        linear-gradient(180deg, #0c1824, #08111a);
     }
 
     .layout {
       display: grid;
-      grid-template-columns: 360px 1fr;
+      grid-template-columns: 380px 1fr;
       height: 100dvh;
     }
 
@@ -55,9 +60,9 @@
     }
 
     h1, h2, p { margin: 0; }
-    h1 { font-size: 1.9rem; margin-bottom: 8px; }
+    h1 { font-size: 1.9rem; margin-bottom: 8px; line-height: 1.08; }
     h2 { font-size: 0.95rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
-    p { color: var(--muted); line-height: 1.45; }
+    p { color: var(--muted); line-height: 1.5; }
 
     select {
       width: 100%;
@@ -67,6 +72,7 @@
       background: var(--panel-2);
       color: var(--text);
       font: inherit;
+      outline: none;
     }
 
     .stats {
@@ -88,10 +94,11 @@
       font-size: 0.75rem;
       text-transform: uppercase;
       margin-bottom: 6px;
+      letter-spacing: 0.05em;
     }
 
     .card strong {
-      font-size: 1.2rem;
+      font-size: 1.18rem;
     }
 
     .legend {
@@ -110,7 +117,25 @@
       width: 18px;
       height: 12px;
       border-radius: 4px;
-      border: 1px solid rgba(255,255,255,0.18);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .mini-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .mini-row strong {
+      color: var(--text);
+      font-weight: 700;
     }
 
     #map { width: 100%; height: 100%; }
@@ -125,7 +150,7 @@
       top: 16px;
       right: 16px;
       z-index: 500;
-      width: min(360px, calc(100% - 32px));
+      width: min(380px, calc(100% - 32px));
       padding: 14px;
       background: rgba(8, 18, 28, 0.92);
       border: 1px solid var(--line);
@@ -134,16 +159,30 @@
       backdrop-filter: blur(10px);
     }
 
-    .overlay strong { display: block; margin-bottom: 6px; }
-    .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+    .overlay strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .leaflet-popup-content-wrapper,
+    .leaflet-popup-tip {
       background: rgba(9, 19, 30, 0.96);
       color: var(--text);
       border: 1px solid var(--line);
     }
 
-    @media (max-width: 900px) {
+    .leaflet-control-layers {
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    @media (max-width: 920px) {
       .layout { grid-template-columns: 1fr; }
-      .sidebar { max-height: 42dvh; border-right: none; border-bottom: 1px solid var(--line); }
+      .sidebar {
+        max-height: 46dvh;
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+      }
     }
   </style>
 </head>
@@ -152,13 +191,21 @@
     <aside class="sidebar">
       <section class="panel">
         <h1>Riobamba Censo 2022</h1>
-        <p>Visualizador rápido por manzana censal con población total, sexo y rangos de edad.</p>
+        <p>
+          Visualizador por manzana censal y por plataforma territorial. Puedes ver la poblacion,
+          filtrar una plataforma especifica y ubicar en ella los datos agregados de las manzanas.
+        </p>
       </section>
 
       <section class="panel">
-        <h2>Métrica</h2>
+        <h2>Plataforma territorial</h2>
+        <select id="platformSelect"></select>
+      </section>
+
+      <section class="panel">
+        <h2>Metrica</h2>
         <select id="metricSelect">
-          <option value="population_total">Población total</option>
+          <option value="population_total">Poblacion total</option>
           <option value="male">Hombres</option>
           <option value="female">Mujeres</option>
           <option value="age_0_14">Edad 0-14</option>
@@ -170,8 +217,13 @@
       </section>
 
       <section class="panel">
-        <h2>Resumen Riobamba</h2>
+        <h2 id="summaryTitle">Resumen general</h2>
         <div class="stats" id="summaryCards"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Cobertura de plataformas</h2>
+        <div class="mini-list" id="coverageList"></div>
       </section>
 
       <section class="panel">
@@ -181,15 +233,15 @@
 
       <section class="panel">
         <h2>Estado</h2>
-        <p id="statusText">Cargando manzanas y población...</p>
+        <p id="statusText">Cargando manzanas, poblacion y plataformas...</p>
       </section>
     </aside>
 
     <main class="map-wrap">
       <div id="map"></div>
       <div class="overlay">
-        <strong>Manzanas censales de Riobamba</strong>
-        <p id="overlayText">Haz clic en una manzana para ver población, hombres, mujeres y edades.</p>
+        <strong id="overlayTitle">Riobamba por manzana y plataforma</strong>
+        <p id="overlayText">Haz clic en una manzana o plataforma para ver sus datos.</p>
       </div>
     </main>
   </div>
@@ -201,7 +253,7 @@
   ></script>
   <script>
     const metricLabels = {
-      population_total: "Población total",
+      population_total: "Poblacion total",
       male: "Hombres",
       female: "Mujeres",
       age_0_14: "Edad 0-14",
@@ -211,33 +263,95 @@
       age_65_plus: "Edad 65+"
     };
 
-    const colorRamp = ["#eff6ff", "#bfdbfe", "#93c5fd", "#60a5fa", "#2563eb"];
-    const map = L.map("map", { zoomSnap: 1 }).setView([-1.67, -78.65], 12);
+    const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
+    const ALL_PLATFORMS = "__ALL__";
+    const OUTSIDE_PLATFORMS = "__OUTSIDE__";
 
-    L.tileLayer(
+    const map = L.map("map", { zoomSnap: 0.5 }).setView([-1.67, -78.65], 12.5);
+
+    const esriBase = L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       { attribution: "Tiles &copy; Esri", maxNativeZoom: 18, maxZoom: 20 }
     ).addTo(map);
 
-    let geoLayer = null;
+    let manzanaLayer = null;
+    let platformLayer = null;
     let joinedFeatures = [];
+    let platformFeatures = [];
+    let platformStatsByName = {};
+    let platformSummary = null;
     let currentMetric = "population_total";
+    let currentPlatform = ALL_PLATFORMS;
+    let globalSummary = null;
+
     const metricSelect = document.getElementById("metricSelect");
+    const platformSelect = document.getElementById("platformSelect");
     const legend = document.getElementById("legend");
     const statusText = document.getElementById("statusText");
     const summaryCards = document.getElementById("summaryCards");
+    const summaryTitle = document.getElementById("summaryTitle");
+    const coverageList = document.getElementById("coverageList");
+    const overlayTitle = document.getElementById("overlayTitle");
     const overlayText = document.getElementById("overlayText");
+
+    function formatNumber(value) {
+      return Number(value || 0).toLocaleString("es-EC");
+    }
+
+    function getCurrentFeatures() {
+      if (currentPlatform === ALL_PLATFORMS) {
+        return joinedFeatures;
+      }
+
+      if (currentPlatform === OUTSIDE_PLATFORMS) {
+        return joinedFeatures.filter((feature) => feature.properties.platform_name === null);
+      }
+
+      return joinedFeatures.filter((feature) => feature.properties.platform_name === currentPlatform);
+    }
+
+    function getCurrentSummary() {
+      if (currentPlatform === ALL_PLATFORMS) {
+        return globalSummary;
+      }
+
+      if (currentPlatform === OUTSIDE_PLATFORMS) {
+        return {
+          title: "Fuera de plataformas",
+          ...platformSummary.unassigned
+        };
+      }
+
+      return platformStatsByName[currentPlatform];
+    }
 
     function buildSummaryCards(summary) {
       const rows = [
-        ["Población", summary.population_total],
+        ["Poblacion", summary.population_total],
         ["Hombres", summary.male],
         ["Mujeres", summary.female],
         ["Manzanas", summary.manzanas]
       ];
 
       summaryCards.innerHTML = rows
-        .map(([label, value]) => `<div class="card"><span>${label}</span><strong>${value.toLocaleString("es-EC")}</strong></div>`)
+        .map(([label, value]) => `<div class="card"><span>${label}</span><strong>${formatNumber(value)}</strong></div>`)
+        .join("");
+    }
+
+    function buildCoverageList() {
+      if (!platformSummary) return;
+
+      const rows = [
+        ["Plataformas totales", platformSummary.summary.platforms_total],
+        ["Plataformas con datos", platformSummary.summary.platforms_with_data],
+        ["Manzanas en plataformas", platformSummary.summary.manzanas_assigned],
+        ["Manzanas fuera", platformSummary.summary.manzanas_without_platform],
+        ["Poblacion en plataformas", platformSummary.summary.population_total_with_platform],
+        ["Poblacion fuera", platformSummary.summary.population_total_without_platform]
+      ];
+
+      coverageList.innerHTML = rows
+        .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${formatNumber(value)}</strong></div>`)
         .join("");
     }
 
@@ -257,66 +371,131 @@
     }
 
     function renderLegend(breaks) {
-      const rows = colorRamp.map((color, index) => {
-        const min = Math.round(breaks[index]);
-        const max = Math.round(breaks[Math.min(index + 1, breaks.length - 1)]);
-        return `
-          <div class="legend-row">
-            <span class="legend-swatch" style="background:${color};"></span>
-            <span>${min.toLocaleString("es-EC")} - ${max.toLocaleString("es-EC")}</span>
-          </div>
-        `;
-      });
-
-      legend.innerHTML = rows.join("");
+      legend.innerHTML = colorRamp
+        .map((color, index) => {
+          const min = Math.round(breaks[index]);
+          const max = Math.round(breaks[Math.min(index + 1, breaks.length - 1)]);
+          return `
+            <div class="legend-row">
+              <span class="legend-swatch" style="background:${color};"></span>
+              <span>${formatNumber(min)} - ${formatNumber(max)}</span>
+            </div>
+          `;
+        })
+        .join("");
     }
 
-    function featureStyle(feature, breaks) {
-      const value = feature.properties[currentMetric];
+    function updateOverlay() {
+      const summary = getCurrentSummary();
+
+      if (currentPlatform === ALL_PLATFORMS) {
+        overlayTitle.textContent = "Riobamba por manzana y plataforma";
+        overlayText.textContent = `Mostrando ${formatNumber(joinedFeatures.length)} manzanas con ${formatNumber(platformSummary.summary.platforms_total)} plataformas territoriales.`;
+        return;
+      }
+
+      if (currentPlatform === OUTSIDE_PLATFORMS) {
+        overlayTitle.textContent = "Fuera de plataformas";
+        overlayText.textContent = `${formatNumber(summary.manzanas)} manzanas no quedaron dentro de las 18 plataformas cargadas.`;
+        return;
+      }
+
+      overlayTitle.textContent = currentPlatform;
+      overlayText.textContent = `${formatNumber(summary.manzanas)} manzanas | ${formatNumber(summary.population_total)} habitantes | ${metricLabels[currentMetric]}: ${formatNumber(summary[currentMetric])}`;
+    }
+
+    function platformStyle(feature) {
+      const isSelected = currentPlatform !== ALL_PLATFORMS && feature.properties.platform_name === currentPlatform;
       return {
-        color: "#9cd9ff",
-        weight: 0.6,
-        fillColor: getColor(value, breaks),
-        fillOpacity: 0.72
+        color: isSelected ? "#f8f0ff" : "#d2a8ff",
+        weight: isSelected ? 3.2 : 1.8,
+        opacity: isSelected ? 1 : 0.9,
+        fillColor: "#d2a8ff",
+        fillOpacity: isSelected ? 0.08 : 0.02,
+        dashArray: isSelected ? "" : "6 6"
       };
     }
 
-    function renderLayer() {
-      if (!joinedFeatures.length) return;
+    function manzanaStyle(feature, breaks) {
+      const value = feature.properties[currentMetric];
+      return {
+        color: "#d7ecff",
+        weight: 0.5,
+        fillColor: getColor(value, breaks),
+        fillOpacity: 0.74
+      };
+    }
 
-      const values = joinedFeatures.map((feature) => feature.properties[currentMetric] || 0);
-      const breaks = getBreaks(values);
-
-      if (geoLayer) {
-        map.removeLayer(geoLayer);
+    function renderPlatformLayer() {
+      if (platformLayer) {
+        map.removeLayer(platformLayer);
       }
 
-      geoLayer = L.geoJSON(
-        { type: "FeatureCollection", features: joinedFeatures },
+      platformLayer = L.geoJSON(
+        { type: "FeatureCollection", features: platformFeatures },
         {
-          style: (feature) => featureStyle(feature, breaks),
+          style: platformStyle,
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
             layer.bindPopup(`
+              <strong>${props.platform_name}</strong><br>
+              <strong>Manzanas:</strong> ${formatNumber(props.manzanas)}<br>
+              <strong>Poblacion:</strong> ${formatNumber(props.population_total)}<br>
+              <strong>Hombres:</strong> ${formatNumber(props.male)}<br>
+              <strong>Mujeres:</strong> ${formatNumber(props.female)}<br>
+              <strong>Area:</strong> ${Number(props.area || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })}<br>
+              <strong>${metricLabels[currentMetric]}:</strong> ${formatNumber(props[currentMetric])}
+            `);
+
+            layer.on("click", () => {
+              currentPlatform = props.platform_name;
+              platformSelect.value = currentPlatform;
+              renderAll(true);
+            });
+          }
+        }
+      ).addTo(map);
+    }
+
+    function renderManzanaLayer(zoomToSelection = false) {
+      const currentFeatures = getCurrentFeatures();
+      const values = currentFeatures.map((feature) => feature.properties[currentMetric] || 0);
+      const breaks = getBreaks(values);
+
+      if (manzanaLayer) {
+        map.removeLayer(manzanaLayer);
+      }
+
+      manzanaLayer = L.geoJSON(
+        { type: "FeatureCollection", features: currentFeatures },
+        {
+          style: (feature) => manzanaStyle(feature, breaks),
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties;
+            const platformName = props.platform_name || "Fuera de plataformas";
+
+            layer.bindPopup(`
               <strong>Manzana:</strong> ${props.man}<br>
-              <strong>Población:</strong> ${props.population_total.toLocaleString("es-EC")}<br>
-              <strong>Hombres:</strong> ${props.male.toLocaleString("es-EC")}<br>
-              <strong>Mujeres:</strong> ${props.female.toLocaleString("es-EC")}<br>
-              <strong>0-14:</strong> ${props.age_0_14.toLocaleString("es-EC")}<br>
-              <strong>15-29:</strong> ${props.age_15_29.toLocaleString("es-EC")}<br>
-              <strong>30-44:</strong> ${props.age_30_44.toLocaleString("es-EC")}<br>
-              <strong>45-64:</strong> ${props.age_45_64.toLocaleString("es-EC")}<br>
-              <strong>65+:</strong> ${props.age_65_plus.toLocaleString("es-EC")}
+              <strong>Plataforma:</strong> ${platformName}<br>
+              <strong>Poblacion:</strong> ${formatNumber(props.population_total)}<br>
+              <strong>Hombres:</strong> ${formatNumber(props.male)}<br>
+              <strong>Mujeres:</strong> ${formatNumber(props.female)}<br>
+              <strong>0-14:</strong> ${formatNumber(props.age_0_14)}<br>
+              <strong>15-29:</strong> ${formatNumber(props.age_15_29)}<br>
+              <strong>30-44:</strong> ${formatNumber(props.age_30_44)}<br>
+              <strong>45-64:</strong> ${formatNumber(props.age_45_64)}<br>
+              <strong>65+:</strong> ${formatNumber(props.age_65_plus)}
             `);
 
             layer.on("mouseover", () => {
-              layer.setStyle({ weight: 1.8, color: "#f8fafc" });
+              layer.setStyle({ weight: 1.4, color: "#ffffff" });
             });
             layer.on("mouseout", () => {
-              geoLayer.resetStyle(layer);
+              manzanaLayer.resetStyle(layer);
             });
             layer.on("click", () => {
-              overlayText.textContent = `Manzana ${props.man} | ${metricLabels[currentMetric]}: ${props[currentMetric].toLocaleString("es-EC")}`;
+              overlayTitle.textContent = `Manzana ${props.man}`;
+              overlayText.textContent = `${platformName} | ${metricLabels[currentMetric]}: ${formatNumber(props[currentMetric])}`;
             });
           }
         }
@@ -324,53 +503,132 @@
 
       renderLegend(breaks);
 
-      if (!map._riobambaBoundsApplied) {
-        map.fitBounds(geoLayer.getBounds(), { padding: [20, 20] });
-        map._riobambaBoundsApplied = true;
+      if (!map._initialRiobambaBoundsApplied) {
+        const baseBounds = platformLayer && platformFeatures.length ? platformLayer.getBounds() : manzanaLayer.getBounds();
+        map.fitBounds(baseBounds, { padding: [18, 18] });
+        map._initialRiobambaBoundsApplied = true;
+      } else if (zoomToSelection && currentFeatures.length) {
+        map.fitBounds(manzanaLayer.getBounds(), { padding: [18, 18], maxZoom: 15 });
+      } else if (zoomToSelection && currentPlatform !== ALL_PLATFORMS && currentPlatform !== OUTSIDE_PLATFORMS) {
+        const feature = platformFeatures.find((item) => item.properties.platform_name === currentPlatform);
+        if (feature) {
+          const bounds = L.geoJSON(feature).getBounds();
+          map.fitBounds(bounds, { padding: [18, 18], maxZoom: 15 });
+        }
       }
+    }
+
+    function buildPlatformOptions() {
+      const options = [
+        `<option value="${ALL_PLATFORMS}">Todas las plataformas</option>`
+      ];
+
+      for (const feature of platformFeatures) {
+        const name = feature.properties.platform_name;
+        options.push(`<option value="${name}">${name}</option>`);
+      }
+
+      if (platformSummary.unassigned && platformSummary.unassigned.manzanas > 0) {
+        options.push(`<option value="${OUTSIDE_PLATFORMS}">Fuera de plataformas</option>`);
+      }
+
+      platformSelect.innerHTML = options.join("");
+      platformSelect.value = currentPlatform;
+    }
+
+    function updateSummaryPanel() {
+      const summary = getCurrentSummary();
+
+      if (currentPlatform === ALL_PLATFORMS) {
+        summaryTitle.textContent = "Resumen Riobamba";
+      } else if (currentPlatform === OUTSIDE_PLATFORMS) {
+        summaryTitle.textContent = "Resumen fuera de plataformas";
+      } else {
+        summaryTitle.textContent = `Resumen ${currentPlatform}`;
+      }
+
+      buildSummaryCards(summary);
+      updateOverlay();
+    }
+
+    function renderAll(zoomToSelection = false) {
+      renderPlatformLayer();
+      renderManzanaLayer(zoomToSelection);
+      updateSummaryPanel();
     }
 
     async function init() {
       try {
-        const [geoResponse, statsResponse] = await Promise.all([
+        const [geoResponse, statsResponse, platformGeoResponse, platformStatsResponse] = await Promise.all([
           fetch("./riobamba-censo-data/riobamba_manzanas.geojson"),
-          fetch("./riobamba-censo-data/riobamba_manzanas_stats.json")
+          fetch("./riobamba-censo-data/riobamba_manzanas_stats.json"),
+          fetch("./riobamba-censo-data/riobamba_plataformas.geojson"),
+          fetch("./riobamba-censo-data/riobamba_plataformas_stats.json")
         ]);
 
-        if (!geoResponse.ok || !statsResponse.ok) {
+        if (!geoResponse.ok || !statsResponse.ok || !platformGeoResponse.ok || !platformStatsResponse.ok) {
           throw new Error("No se pudieron leer los archivos de datos.");
         }
 
         const geo = await geoResponse.json();
         const stats = await statsResponse.json();
+        const platformsGeo = await platformGeoResponse.json();
+        const platformsStats = await platformStatsResponse.json();
+
+        globalSummary = stats.summary;
+        platformSummary = platformsStats;
+        platformStatsByName = platformsStats.byName || {};
+        platformFeatures = (platformsGeo.features || []).map((feature) => ({
+          ...feature,
+          properties: {
+            ...feature.properties,
+            ...(platformStatsByName[feature.properties.platform_name] || {})
+          }
+        }));
+
         const byMan = stats.byMan || {};
+        const manToPlatform = platformsStats.manToPlatform || {};
 
         joinedFeatures = geo.features
           .map((feature) => {
             const man = feature.properties.man;
             const stat = byMan[man];
             if (!stat) return null;
+
             return {
               ...feature,
               properties: {
                 ...feature.properties,
-                ...stat
+                ...stat,
+                platform_name: manToPlatform[man] || null
               }
             };
           })
           .filter(Boolean);
 
-        buildSummaryCards(stats.summary);
-        statusText.textContent = `Listo: ${joinedFeatures.length.toLocaleString("es-EC")} manzanas de Riobamba cargadas.`;
-        renderLayer();
+        buildPlatformOptions();
+        buildCoverageList();
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas y ${formatNumber(platformFeatures.length)} plataformas cargadas.`;
+        renderAll(false);
+
+        L.control.layers(
+          { "Esri satelital": esriBase },
+          {},
+          { position: "topright", collapsed: true }
+        ).addTo(map);
       } catch (error) {
-        statusText.textContent = "No pude cargar el visualizador. Primero genera los archivos con build-riobamba-censo.ps1.";
+        statusText.textContent = "No pude cargar el visualizador. Genera primero los archivos base y de plataformas.";
       }
     }
 
     metricSelect.addEventListener("change", () => {
       currentMetric = metricSelect.value;
-      renderLayer();
+      renderAll(false);
+    });
+
+    platformSelect.addEventListener("change", () => {
+      currentPlatform = platformSelect.value;
+      renderAll(true);
     });
 
     init();
