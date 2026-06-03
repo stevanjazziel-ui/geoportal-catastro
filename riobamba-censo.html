@@ -265,6 +265,11 @@
       </section>
 
       <section class="panel">
+        <h2>Isocrona 15 minutos</h2>
+        <div class="mini-list" id="isocronaSummary"></div>
+      </section>
+
+      <section class="panel">
         <h2>Leyenda</h2>
         <div class="legend" id="legend"></div>
       </section>
@@ -317,14 +322,19 @@
     let joinedFeatures = [];
     let platformFeatures = [];
     let equipamientosFeatures = [];
+    let isocronaFeatures = [];
+    let isocronaOriginFeatures = [];
     let platformStatsByName = {};
     let platformSummary = null;
     let equipamientosStats = null;
+    let isocronaStats = null;
     let currentMetric = "population_total";
     let currentPlatform = ALL_PLATFORMS;
     let globalSummary = null;
     let shpManifest = {};
     let equipamientosLayer = null;
+    let isocronaLayer = null;
+    let isocronaOriginsLayer = null;
     let layerControl = null;
 
     const metricSelect = document.getElementById("metricSelect");
@@ -335,6 +345,7 @@
     const summaryTitle = document.getElementById("summaryTitle");
     const coverageList = document.getElementById("coverageList");
     const equipamientosSummary = document.getElementById("equipamientosSummary");
+    const isocronaSummary = document.getElementById("isocronaSummary");
     const overlayTitle = document.getElementById("overlayTitle");
     const overlayText = document.getElementById("overlayText");
     const downloadShpButton = document.getElementById("downloadShpButton");
@@ -455,6 +466,26 @@
 
       equipamientosSummary.innerHTML = rows
         .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${formatNumber(value)}</strong></div>`)
+        .join("");
+    }
+
+    function buildIsocronaSummary() {
+      if (!isocronaStats) {
+        isocronaSummary.innerHTML = "";
+        return;
+      }
+
+      const rows = [
+        ["Plataforma objetivo", isocronaStats.target_platform],
+        ["Plataformas vecinas", isocronaStats.neighbor_platforms.length],
+        ["Equipamientos origen", isocronaStats.equipamientos_origen],
+        ["Distancia caminada", `${formatNumber(isocronaStats.distance_m)} m`],
+        ["Modo", isocronaStats.mode],
+        ["Nodos alcanzables", formatNumber(isocronaStats.reachable_nodes)]
+      ];
+
+      isocronaSummary.innerHTML = rows
+        .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
         .join("");
     }
 
@@ -610,6 +641,85 @@
       ).addTo(map);
     }
 
+    function renderIsocronaLayer() {
+      if (isocronaLayer) {
+        map.removeLayer(isocronaLayer);
+      }
+
+      if (!map.getPane("isocronaPane")) {
+        map.createPane("isocronaPane");
+        map.getPane("isocronaPane").style.zIndex = 420;
+      }
+
+      isocronaLayer = L.geoJSON(
+        { type: "FeatureCollection", features: isocronaFeatures },
+        {
+          pane: "isocronaPane",
+          style: {
+            color: "#ffb703",
+            weight: 2.2,
+            fillColor: "#ffb703",
+            fillOpacity: 0.18
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties;
+            layer.bindPopup(`
+              <strong>${props.nombre}</strong><br>
+              <strong>Plataforma objetivo:</strong> ${props.target_platform}<br>
+              <strong>Vecinas:</strong> ${props.neighbor_platforms}<br>
+              <strong>Modo:</strong> ${props.mode}<br>
+              <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
+              <strong>Equipamientos origen:</strong> ${formatNumber(props.equipamientos_origen)}
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = "Isocrona 15 minutos";
+              overlayText.textContent = `${props.target_platform} | ${formatNumber(props.equipamientos_origen)} equipamientos origen | ${formatNumber(props.distance_m)} m caminados`;
+            });
+          }
+        }
+      ).addTo(map);
+    }
+
+    function renderIsocronaOriginsLayer() {
+      if (isocronaOriginsLayer) {
+        map.removeLayer(isocronaOriginsLayer);
+      }
+
+      if (!map.getPane("isocronaOriginsPane")) {
+        map.createPane("isocronaOriginsPane");
+        map.getPane("isocronaOriginsPane").style.zIndex = 460;
+      }
+
+      isocronaOriginsLayer = L.geoJSON(
+        { type: "FeatureCollection", features: isocronaOriginFeatures },
+        {
+          pane: "isocronaOriginsPane",
+          pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
+            radius: 4.5,
+            color: "#fff5d6",
+            weight: 1,
+            fillColor: "#fb8500",
+            fillOpacity: 0.95
+          }),
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties;
+            layer.bindPopup(`
+              <strong>${props.nombre || "Equipamiento"}</strong><br>
+              <strong>Categoria:</strong> ${props.categoria || "-"}<br>
+              <strong>Plataforma:</strong> ${props.platform_name || "-"}<br>
+              <strong>Snap a red:</strong> ${formatNumber(props.snap_m)} m
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = props.nombre || "Equipamiento origen";
+              overlayText.textContent = `${props.platform_name} | ${props.categoria || "-"} | origen de la isocrona`;
+            });
+          }
+        }
+      ).addTo(map);
+    }
+
     function renderManzanaLayer(zoomToSelection = false) {
       const currentFeatures = getCurrentFeatures();
       const values = currentFeatures.map((feature) => feature.properties[currentMetric] || 0);
@@ -713,17 +823,20 @@
 
     async function init() {
       try {
-        const [geoResponse, statsResponse, platformGeoResponse, platformStatsResponse, manifestResponse, equipamientosGeoResponse, equipamientosStatsResponse] = await Promise.all([
+        const [geoResponse, statsResponse, platformGeoResponse, platformStatsResponse, manifestResponse, equipamientosGeoResponse, equipamientosStatsResponse, isocronaGeoResponse, isocronaOriginsResponse, isocronaStatsResponse] = await Promise.all([
           fetch("./riobamba-censo-data/riobamba_manzanas.geojson"),
           fetch("./riobamba-censo-data/riobamba_manzanas_stats.json"),
           fetch("./riobamba-censo-data/riobamba_plataformas.geojson"),
           fetch("./riobamba-censo-data/riobamba_plataformas_stats.json"),
           fetch("./riobamba-censo-data/shp/manifest.json"),
           fetch("./riobamba-censo-data/riobamba_equipamientos.geojson"),
-          fetch("./riobamba-censo-data/riobamba_equipamientos_stats.json")
+          fetch("./riobamba-censo-data/riobamba_equipamientos_stats.json"),
+          fetch("./riobamba-censo-data/riobamba_isocrona_plataforma_n.geojson"),
+          fetch("./riobamba-censo-data/riobamba_isocrona_plataforma_n_origenes.geojson"),
+          fetch("./riobamba-censo-data/riobamba_isocrona_plataforma_n_stats.json")
         ]);
 
-        if (!geoResponse.ok || !statsResponse.ok || !platformGeoResponse.ok || !platformStatsResponse.ok || !equipamientosGeoResponse.ok || !equipamientosStatsResponse.ok) {
+        if (!geoResponse.ok || !statsResponse.ok || !platformGeoResponse.ok || !platformStatsResponse.ok || !equipamientosGeoResponse.ok || !equipamientosStatsResponse.ok || !isocronaGeoResponse.ok || !isocronaOriginsResponse.ok || !isocronaStatsResponse.ok) {
           throw new Error("No se pudieron leer los archivos de datos.");
         }
 
@@ -733,11 +846,15 @@
         const platformsStats = await platformStatsResponse.json();
         const equipamientosGeo = await equipamientosGeoResponse.json();
         const equipamientosStatsData = await equipamientosStatsResponse.json();
+        const isocronaGeo = await isocronaGeoResponse.json();
+        const isocronaOriginsGeo = await isocronaOriginsResponse.json();
+        const isocronaStatsData = await isocronaStatsResponse.json();
         shpManifest = manifestResponse.ok ? await manifestResponse.json() : {};
 
         globalSummary = stats.summary;
         platformSummary = platformsStats;
         equipamientosStats = equipamientosStatsData;
+        isocronaStats = isocronaStatsData;
         platformStatsByName = platformsStats.byName || {};
         platformFeatures = (platformsGeo.features || []).map((feature) => ({
           ...feature,
@@ -747,6 +864,8 @@
           }
         }));
         equipamientosFeatures = equipamientosGeo.features || [];
+        isocronaFeatures = isocronaGeo.features || [];
+        isocronaOriginFeatures = isocronaOriginsGeo.features || [];
 
         const byMan = stats.byMan || {};
         const manToPlatform = platformsStats.manToPlatform || {};
@@ -771,7 +890,10 @@
         buildPlatformOptions();
         buildCoverageList();
         buildEquipamientosSummary();
-        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas y ${formatNumber(equipamientosFeatures.length)} equipamientos cargados.`;
+        buildIsocronaSummary();
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} equipamientos e isocrona cargados.`;
+        renderIsocronaLayer();
+        renderIsocronaOriginsLayer();
         renderEquipamientosLayer();
         renderAll(false);
 
@@ -781,7 +903,11 @@
 
         layerControl = L.control.layers(
           { "Esri satelital": esriBase },
-          { "Equipamientos": equipamientosLayer },
+          {
+            "Isocrona 15 min": isocronaLayer,
+            "Origenes isocrona": isocronaOriginsLayer,
+            "Equipamientos": equipamientosLayer
+          },
           { position: "topright", collapsed: true }
         ).addTo(map);
       } catch (error) {
