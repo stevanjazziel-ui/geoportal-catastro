@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-03T17:44:52",
+  "generated_at": "2026-06-03T17:57:14",
   "target_platform": "PLATAFORMA Ñ",
   "neighbor_platforms": [
     "PLATAFORMA K",
@@ -10,70 +10,71 @@
     "PLATAFORMA J"
   ],
   "equipamientos_origen": 285,
+  "equipamientos_con_interseccion": 206,
   "distance_m": 1250,
   "mode": "walking",
-  "plataformas_con_isocrona": 6,
-  "source": "OpenStreetMap peatonal + equipamientos de plataformas colindantes",
+  "plataformas_con_interseccion": 6,
+  "source": "OpenStreetMap peatonal + equipamientos vecinos cuya cobertura entra en la plataforma objetivo",
   "by_platform": {
-    "PLATAFORMA K": {
-      "equipamientos_origen": 69,
-      "tipos_equipamien": 10,
-      "nodos_alcanzables": 3276,
-      "area_interseccion_m2": 1282996.27,
+    "PLATAFORMA J": {
+      "equipamientos_con_interseccion": 41,
+      "tipos_equipamien": 9,
       "equipamien": {
-        "Educación": 16,
-        "Administración Pública": 15,
+        "Educación": 9,
         "Recreativo y Deporte": 9,
+        "Administración Pública": 8,
+        "Religioso": 4,
+        "Bienestar Social": 3,
+        "Comercio Zonal": 3,
+        "Salud": 3,
+        "Seguridad": 1,
+        "Servicios Funerarios": 1
+      }
+    },
+    "PLATAFORMA K": {
+      "equipamientos_con_interseccion": 63,
+      "tipos_equipamien": 10,
+      "equipamien": {
+        "Administración Pública": 15,
+        "Educación": 13,
         "Transporte": 9,
+        "Recreativo y Deporte": 7,
         "Religioso": 5,
-        "Comercio Zonal": 4,
         "Cultural": 4,
+        "Comercio Zonal": 3,
         "Seguridad": 3,
         "Infraestructura": 2,
         "Salud": 2
       }
     },
-    "PLATAFORMA Q": {
-      "equipamientos_origen": 46,
-      "tipos_equipamien": 7,
-      "nodos_alcanzables": 2910,
-      "area_interseccion_m2": 809663.18,
+    "PLATAFORMA N": {
+      "equipamientos_con_interseccion": 9,
+      "tipos_equipamien": 4,
       "equipamien": {
-        "Industrial MI-BI": 20,
-        "Recreativo y Deporte": 17,
-        "Administración Pública": 4,
-        "Educación": 2,
+        "Recreativo y Deporte": 4,
+        "Infraestructura": 3,
         "Comercio Zonal": 1,
-        "Salud": 1,
-        "Seguridad": 1
+        "Educación": 1
       }
     },
     "PLATAFORMA O": {
-      "equipamientos_origen": 52,
-      "tipos_equipamien": 10,
-      "nodos_alcanzables": 3271,
-      "area_interseccion_m2": 885229.53,
+      "equipamientos_con_interseccion": 39,
+      "tipos_equipamien": 6,
       "equipamien": {
-        "Recreativo y Deporte": 27,
+        "Recreativo y Deporte": 18,
         "Educación": 13,
         "Religioso": 4,
         "Administración Pública": 2,
         "Bienestar Social": 1,
-        "Comercio Zonal": 1,
-        "Cultural": 1,
-        "Industrial MI-BI": 1,
-        "Infraestructura": 1,
         "Salud": 1
       }
     },
     "PLATAFORMA P": {
-      "equipamientos_origen": 27,
+      "equipamientos_con_interseccion": 26,
       "tipos_equipamien": 8,
-      "nodos_alcanzables": 3088,
-      "area_interseccion_m2": 1402521.2,
       "equipamien": {
         "Recreativo y Deporte": 10,
-        "Educación": 7,
+        "Educación": 6,
         "Administración Pública": 3,
         "Comercio Zonal": 3,
         "Bienestar Social": 1,
@@ -82,41 +83,33 @@
         "Transporte": 1
       }
     },
-    "PLATAFORMA N": {
-      "equipamientos_origen": 27,
-      "tipos_equipamien": 10,
-      "nodos_alcanzables": 1889,
-      "area_interseccion_m2": 330575.72,
+    "PLATAFORMA Q": {
+      "equipamientos_con_interseccion": 28,
+      "tipos_equipamien": 6,
       "equipamien": {
-        "Recreativo y Deporte": 10,
-        "Educación": 4,
-        "Infraestructura": 3,
-        "Comercio Zonal": 2,
-        "Religioso": 2,
-        "Seguridad": 2,
-        "Cultural": 1,
+        "Recreativo y Deporte": 15,
+        "Industrial MI-BI": 8,
+        "Administración Pública": 2,
+        "Educación": 1,
         "Salud": 1,
-        "Servicios Funerarios": 1,
-        "Transporte": 1
-      }
-    },
-    "PLATAFORMA J": {
-      "equipamientos_origen": 64,
-      "tipos_equipamien": 10,
-      "nodos_alcanzables": 3892,
-      "area_interseccion_m2": 1540010.41,
-      "equipamien": {
-        "Recreativo y Deporte": 17,
-        "Administración Pública": 16,
-        "Educación": 12,
-        "Comercio Zonal": 5,
-        "Religioso": 4,
-        "Salud": 4,
-        "Bienestar Social": 3,
-        "Seguridad": 1,
-        "Servicios Funerarios": 1,
-        "Transporte": 1
+        "Seguridad": 1
       }
     }
+  },
+  "by_equipamien": {
+    "Recreativo y Deporte": 63,
+    "Educación": 43,
+    "Administración Pública": 30,
+    "Religioso": 14,
+    "Comercio Zonal": 10,
+    "Transporte": 10,
+    "Industrial MI-BI": 8,
+    "Salud": 7,
+    "Bienestar Social": 5,
+    "Infraestructura": 5,
+    "Seguridad": 5,
+    "Cultural": 4,
+    "Especial": 1,
+    "Servicios Funerarios": 1
   }
 }

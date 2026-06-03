@@ -262,7 +262,7 @@
           <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Equipamientos</span><input id="toggleEquipamientos" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Interseccion isocronas con Ñ</span><input id="toggleIsocronasColindantes" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Cobertura equipamientos hacia Ñ</span><input id="toggleIsocronasColindantes" type="checkbox" checked></label>
         </div>
       </section>
 
@@ -305,7 +305,7 @@
       </section>
 
       <section class="panel">
-        <h2>Interseccion con Ñ</h2>
+        <h2>Equipamientos con alcance a Ñ</h2>
         <div class="mini-list" id="isocronasSummary"></div>
       </section>
 
@@ -561,7 +561,9 @@
       const rows = [
         ["Plataforma objetivo", isocronasStats.target_platform],
         ["Plataformas vecinas", isocronasStats.neighbor_platforms.length],
-        ["Con interseccion", isocronasStats.plataformas_con_isocrona],
+        ["Equipamientos origen", isocronasStats.equipamientos_origen],
+        ["Coberturas que entran", isocronasStats.equipamientos_con_interseccion],
+        ["Plataformas con ingreso", isocronasStats.plataformas_con_interseccion],
         ["Distancia", `${formatNumber(isocronasStats.distance_m)} m`]
       ];
 
@@ -729,29 +731,9 @@
         map.removeLayer(isocronasLayer);
       }
 
-      const statsByPlatform = (isocronasStats && isocronasStats.by_platform) || {};
-      const geometryByPlatform = new Map(
-        ((window.isocronasGeojsonFeatures || []).map((feature) => [feature.properties.platform_name, feature.geometry]))
+      const features = (window.isocronasGeojsonFeatures || []).filter(
+        (feature) => feature && feature.geometry && feature.properties
       );
-
-      const features = Object.entries(statsByPlatform)
-        .map(([platformName, stats]) => ({
-          type: "Feature",
-          properties: {
-            platform_name: platformName,
-            target_platform: isocronasStats.target_platform,
-            distance_m: isocronasStats.distance_m,
-            mode: isocronasStats.mode,
-            equipamientos_origen: stats.equipamientos_origen,
-            tipos_equipamien: stats.tipos_equipamien,
-            equipamien_top: Object.entries(stats.equipamien || {})
-              .slice(0, 4)
-              .map(([label, count]) => `${label} (${count})`)
-              .join(", ")
-          },
-          geometry: geometryByPlatform.get(platformName) || null
-        }))
-        .filter((feature) => feature.geometry);
 
       if (!map.getPane("isocronasPane")) {
         map.createPane("isocronasPane");
@@ -776,18 +758,19 @@
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
             layer.bindPopup(`
-              <strong>${props.platform_name}</strong><br>
+              <strong>${props.nombre || "Equipamiento"}</strong><br>
+              <strong>Equipamien:</strong> ${props.equipamien || "-"}<br>
+              <strong>Plataforma origen:</strong> ${props.platform_name}<br>
               <strong>Destino:</strong> ${props.target_platform}<br>
               <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
-              <strong>Equipamientos origen:</strong> ${formatNumber(props.equipamientos_origen)}<br>
-              <strong>Tipos Equipamien:</strong> ${formatNumber(props.tipos_equipamien)}<br>
+              <strong>Snap a red:</strong> ${Number(props.snap_m || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m<br>
               <strong>Area intersectada:</strong> ${Number(props.area_interseccion_m2 || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m²<br>
-              <strong>Top Equipamien:</strong> ${props.equipamien_top || "-"}
+              <strong>Modo:</strong> ${props.mode}
             `);
 
             layer.on("click", () => {
-              overlayTitle.textContent = `Interseccion ${props.platform_name} con ${props.target_platform}`;
-              overlayText.textContent = `${formatNumber(props.equipamientos_origen)} equipamientos origen | ${Number(props.area_interseccion_m2 || 0).toLocaleString("es-EC", { maximumFractionDigits: 0 })} m² dentro de ${props.target_platform}`;
+              overlayTitle.textContent = props.nombre || `Cobertura desde ${props.platform_name}`;
+              overlayText.textContent = `${props.equipamien || "-"} | ${props.platform_name} | ${Number(props.area_interseccion_m2 || 0).toLocaleString("es-EC", { maximumFractionDigits: 0 })} m² dentro de ${props.target_platform}`;
             });
           }
         }
@@ -964,7 +947,7 @@
         buildCoverageList();
         buildEquipamientosSummary();
         buildIsocronasSummary();
-        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} equipamientos y ${formatNumber(isocronasStats.plataformas_con_isocrona)} intersecciones de isocronas con Ñ cargadas.`;
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} equipamientos y ${formatNumber(isocronasStats.equipamientos_con_interseccion)} coberturas de equipamientos que entran en Ñ.`;
         renderIsocronasLayer();
         renderEquipamientosLayer();
         renderAll(false);

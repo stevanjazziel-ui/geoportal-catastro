@@ -325,22 +325,13 @@ def main():
         source["snap_m"] = snap_distance
         snapped_sources.append(source)
 
-    by_platform_nodes = defaultdict(list)
+    selected_features = []
+    by_platform_counts = Counter()
     by_platform_types = defaultdict(Counter)
+    by_equipamien = Counter()
 
     for source in snapped_sources:
-        by_platform_nodes[source["platform_name"]].append(source["node_id"])
-        by_platform_types[source["platform_name"]][source["equipamien"]] += 1
-
-    platform_features = []
-    platform_stats = {}
-
-    for platform_name in neighbor_names:
-        node_ids = by_platform_nodes.get(platform_name, [])
-        if not node_ids:
-            continue
-
-        reachable = multi_source_reachable(graph, node_ids, DISTANCE_METERS)
+        reachable = multi_source_reachable(graph, [source["node_id"]], DISTANCE_METERS)
         if not reachable:
             continue
 
@@ -353,36 +344,35 @@ def main():
         if clipped_polygon.area <= 0:
             continue
 
-        equipamien_counter = by_platform_types[platform_name]
-        equipamientos_origen = sum(equipamien_counter.values())
-        tipos_equipamien = len(equipamien_counter)
-        equipamien_top = ", ".join(
-            f"{label} ({count})"
-            for label, count in equipamien_counter.most_common(4)
-        )
+        by_platform_counts[source["platform_name"]] += 1
+        by_platform_types[source["platform_name"]][source["equipamien"]] += 1
+        by_equipamien[source["equipamien"]] += 1
 
-        platform_features.append(
+        selected_features.append(
             build_area_feature(
                 clipped_polygon,
                 {
-                    "platform_name": platform_name,
+                    "objectid": source["objectid"],
+                    "nombre": source["nombre"],
+                    "equipamien": source["equipamien"],
+                    "codigo": source["codigo"],
+                    "platform_name": source["platform_name"],
                     "target_platform": TARGET_PLATFORM,
                     "distance_m": DISTANCE_METERS,
                     "mode": "walking",
-                    "equipamientos_origen": equipamientos_origen,
-                    "tipos_equipamien": tipos_equipamien,
-                    "equipamien_top": equipamien_top,
+                    "snap_m": round(source["snap_m"], 2),
                     "nodos_alcanzables": len(reachable),
                     "area_interseccion_m2": round(clipped_polygon.area, 2),
                 },
             )
         )
 
+    platform_stats = {}
+    for platform_name, count in sorted(by_platform_counts.items()):
+        equipamien_counter = by_platform_types[platform_name]
         platform_stats[platform_name] = {
-            "equipamientos_origen": equipamientos_origen,
-            "tipos_equipamien": tipos_equipamien,
-            "nodos_alcanzables": len(reachable),
-            "area_interseccion_m2": round(clipped_polygon.area, 2),
+            "equipamientos_con_interseccion": count,
+            "tipos_equipamien": len(equipamien_counter),
             "equipamien": dict(
                 sorted(equipamien_counter.items(), key=lambda item: (-item[1], item[0]))
             ),
@@ -393,21 +383,23 @@ def main():
         "target_platform": TARGET_PLATFORM,
         "neighbor_platforms": neighbor_names,
         "equipamientos_origen": len(snapped_sources),
+        "equipamientos_con_interseccion": len(selected_features),
         "distance_m": DISTANCE_METERS,
         "mode": "walking",
-        "plataformas_con_isocrona": len(platform_features),
-        "source": "OpenStreetMap peatonal + equipamientos de plataformas colindantes",
+        "plataformas_con_interseccion": len(platform_stats),
+        "source": "OpenStreetMap peatonal + equipamientos vecinos cuya cobertura entra en la plataforma objetivo",
         "by_platform": platform_stats,
+        "by_equipamien": dict(sorted(by_equipamien.items(), key=lambda item: (-item[1], item[0]))),
     }
 
-    save_json(OUTPUT_BY_PLATFORM, {"type": "FeatureCollection", "features": platform_features})
+    save_json(OUTPUT_BY_PLATFORM, {"type": "FeatureCollection", "features": selected_features})
     with open(OUTPUT_STATS, "w", encoding="utf-8") as handle:
         json.dump(stats, handle, ensure_ascii=False, indent=2)
 
     print("Listo.")
     print(f"Vecinas: {neighbor_names}")
     print(f"Equipamientos origen: {len(snapped_sources)}")
-    print(f"Isocronas por plataforma colindante: {len(platform_features)}")
+    print(f"Equipamientos con interseccion en {TARGET_PLATFORM}: {len(selected_features)}")
 
 
 if __name__ == "__main__":
