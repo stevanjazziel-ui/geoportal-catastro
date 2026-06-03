@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Riobamba Censo 2022 por Manzana</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <style>
+    :root {
+      --bg: #0b1320;
+      --panel: rgba(9, 19, 30, 0.92);
+      --panel-2: rgba(14, 28, 43, 0.95);
+      --line: rgba(124, 198, 255, 0.16);
+      --text: #eef7ff;
+      --muted: #9eb6cb;
+      --accent: #5ec8ff;
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(94, 200, 255, 0.12), transparent 28%),
+        linear-gradient(180deg, #0d1825, #09111b);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      height: 100dvh;
+    }
+
+    .sidebar {
+      overflow-y: auto;
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(9, 18, 29, 0.98), rgba(6, 12, 20, 0.98));
+      border-right: 1px solid var(--line);
+    }
+
+    .panel {
+      margin-bottom: 14px;
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    h1, h2, p { margin: 0; }
+    h1 { font-size: 1.9rem; margin-bottom: 8px; }
+    h2 { font-size: 0.95rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+    p { color: var(--muted); line-height: 1.45; }
+
+    select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--panel-2);
+      color: var(--text);
+      font: inherit;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .card {
+      padding: 12px;
+      border-radius: 14px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+    }
+
+    .card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .card strong {
+      font-size: 1.2rem;
+    }
+
+    .legend {
+      display: grid;
+      gap: 8px;
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+    }
+
+    .legend-swatch {
+      width: 18px;
+      height: 12px;
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+
+    #map { width: 100%; height: 100%; }
+
+    .map-wrap {
+      position: relative;
+      height: 100%;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 500;
+      width: min(360px, calc(100% - 32px));
+      padding: 14px;
+      background: rgba(8, 18, 28, 0.92);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .overlay strong { display: block; margin-bottom: 6px; }
+    .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+      background: rgba(9, 19, 30, 0.96);
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { max-height: 42dvh; border-right: none; border-bottom: 1px solid var(--line); }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <section class="panel">
+        <h1>Riobamba Censo 2022</h1>
+        <p>Visualizador rápido por manzana censal con población total, sexo y rangos de edad.</p>
+      </section>
+
+      <section class="panel">
+        <h2>Métrica</h2>
+        <select id="metricSelect">
+          <option value="population_total">Población total</option>
+          <option value="male">Hombres</option>
+          <option value="female">Mujeres</option>
+          <option value="age_0_14">Edad 0-14</option>
+          <option value="age_15_29">Edad 15-29</option>
+          <option value="age_30_44">Edad 30-44</option>
+          <option value="age_45_64">Edad 45-64</option>
+          <option value="age_65_plus">Edad 65+</option>
+        </select>
+      </section>
+
+      <section class="panel">
+        <h2>Resumen Riobamba</h2>
+        <div class="stats" id="summaryCards"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Leyenda</h2>
+        <div class="legend" id="legend"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Estado</h2>
+        <p id="statusText">Cargando manzanas y población...</p>
+      </section>
+    </aside>
+
+    <main class="map-wrap">
+      <div id="map"></div>
+      <div class="overlay">
+        <strong>Manzanas censales de Riobamba</strong>
+        <p id="overlayText">Haz clic en una manzana para ver población, hombres, mujeres y edades.</p>
+      </div>
+    </main>
+  </div>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+  <script>
+    const metricLabels = {
+      population_total: "Población total",
+      male: "Hombres",
+      female: "Mujeres",
+      age_0_14: "Edad 0-14",
+      age_15_29: "Edad 15-29",
+      age_30_44: "Edad 30-44",
+      age_45_64: "Edad 45-64",
+      age_65_plus: "Edad 65+"
+    };
+
+    const colorRamp = ["#eff6ff", "#bfdbfe", "#93c5fd", "#60a5fa", "#2563eb"];
+    const map = L.map("map", { zoomSnap: 1 }).setView([-1.67, -78.65], 12);
+
+    L.tileLayer(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      { attribution: "Tiles &copy; Esri", maxNativeZoom: 18, maxZoom: 20 }
+    ).addTo(map);
+
+    let geoLayer = null;
+    let joinedFeatures = [];
+    let currentMetric = "population_total";
+    const metricSelect = document.getElementById("metricSelect");
+    const legend = document.getElementById("legend");
+    const statusText = document.getElementById("statusText");
+    const summaryCards = document.getElementById("summaryCards");
+    const overlayText = document.getElementById("overlayText");
+
+    function buildSummaryCards(summary) {
+      const rows = [
+        ["Población", summary.population_total],
+        ["Hombres", summary.male],
+        ["Mujeres", summary.female],
+        ["Manzanas", summary.manzanas]
+      ];
+
+      summaryCards.innerHTML = rows
+        .map(([label, value]) => `<div class="card"><span>${label}</span><strong>${value.toLocaleString("es-EC")}</strong></div>`)
+        .join("");
+    }
+
+    function getBreaks(values) {
+      const sorted = values.filter(Number.isFinite).sort((a, b) => a - b);
+      if (!sorted.length) return [0, 0, 0, 0, 0];
+      const pick = (p) => sorted[Math.min(sorted.length - 1, Math.floor((sorted.length - 1) * p))];
+      return [pick(0), pick(0.25), pick(0.5), pick(0.75), pick(1)];
+    }
+
+    function getColor(value, breaks) {
+      if (!Number.isFinite(value) || value <= breaks[0]) return colorRamp[0];
+      if (value <= breaks[1]) return colorRamp[1];
+      if (value <= breaks[2]) return colorRamp[2];
+      if (value <= breaks[3]) return colorRamp[3];
+      return colorRamp[4];
+    }
+
+    function renderLegend(breaks) {
+      const rows = colorRamp.map((color, index) => {
+        const min = Math.round(breaks[index]);
+        const max = Math.round(breaks[Math.min(index + 1, breaks.length - 1)]);
+        return `
+          <div class="legend-row">
+            <span class="legend-swatch" style="background:${color};"></span>
+            <span>${min.toLocaleString("es-EC")} - ${max.toLocaleString("es-EC")}</span>
+          </div>
+        `;
+      });
+
+      legend.innerHTML = rows.join("");
+    }
+
+    function featureStyle(feature, breaks) {
+      const value = feature.properties[currentMetric];
+      return {
+        color: "#9cd9ff",
+        weight: 0.6,
+        fillColor: getColor(value, breaks),
+        fillOpacity: 0.72
+      };
+    }
+
+    function renderLayer() {
+      if (!joinedFeatures.length) return;
+
+      const values = joinedFeatures.map((feature) => feature.properties[currentMetric] || 0);
+      const breaks = getBreaks(values);
+
+      if (geoLayer) {
+        map.removeLayer(geoLayer);
+      }
+
+      geoLayer = L.geoJSON(
+        { type: "FeatureCollection", features: joinedFeatures },
+        {
+          style: (feature) => featureStyle(feature, breaks),
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties;
+            layer.bindPopup(`
+              <strong>Manzana:</strong> ${props.man}<br>
+              <strong>Población:</strong> ${props.population_total.toLocaleString("es-EC")}<br>
+              <strong>Hombres:</strong> ${props.male.toLocaleString("es-EC")}<br>
+              <strong>Mujeres:</strong> ${props.female.toLocaleString("es-EC")}<br>
+              <strong>0-14:</strong> ${props.age_0_14.toLocaleString("es-EC")}<br>
+              <strong>15-29:</strong> ${props.age_15_29.toLocaleString("es-EC")}<br>
+              <strong>30-44:</strong> ${props.age_30_44.toLocaleString("es-EC")}<br>
+              <strong>45-64:</strong> ${props.age_45_64.toLocaleString("es-EC")}<br>
+              <strong>65+:</strong> ${props.age_65_plus.toLocaleString("es-EC")}
+            `);
+
+            layer.on("mouseover", () => {
+              layer.setStyle({ weight: 1.8, color: "#f8fafc" });
+            });
+            layer.on("mouseout", () => {
+              geoLayer.resetStyle(layer);
+            });
+            layer.on("click", () => {
+              overlayText.textContent = `Manzana ${props.man} | ${metricLabels[currentMetric]}: ${props[currentMetric].toLocaleString("es-EC")}`;
+            });
+          }
+        }
+      ).addTo(map);
+
+      renderLegend(breaks);
+
+      if (!map._riobambaBoundsApplied) {
+        map.fitBounds(geoLayer.getBounds(), { padding: [20, 20] });
+        map._riobambaBoundsApplied = true;
+      }
+    }
+
+    async function init() {
+      try {
+        const [geoResponse, statsResponse] = await Promise.all([
+          fetch("./riobamba-censo-data/riobamba_manzanas.geojson"),
+          fetch("./riobamba-censo-data/riobamba_manzanas_stats.json")
+        ]);
+
+        if (!geoResponse.ok || !statsResponse.ok) {
+          throw new Error("No se pudieron leer los archivos de datos.");
+        }
+
+        const geo = await geoResponse.json();
+        const stats = await statsResponse.json();
+        const byMan = stats.byMan || {};
+
+        joinedFeatures = geo.features
+          .map((feature) => {
+            const man = feature.properties.man;
+            const stat = byMan[man];
+            if (!stat) return null;
+            return {
+              ...feature,
+              properties: {
+                ...feature.properties,
+                ...stat
+              }
+            };
+          })
+          .filter(Boolean);
+
+        buildSummaryCards(stats.summary);
+        statusText.textContent = `Listo: ${joinedFeatures.length.toLocaleString("es-EC")} manzanas de Riobamba cargadas.`;
+        renderLayer();
+      } catch (error) {
+        statusText.textContent = "No pude cargar el visualizador. Primero genera los archivos con build-riobamba-censo.ps1.";
+      }
+    }
+
+    metricSelect.addEventListener("change", () => {
+      currentMetric = metricSelect.value;
+      renderLayer();
+    });
+
+    init();
+  </script>
+</body>
+</html>
