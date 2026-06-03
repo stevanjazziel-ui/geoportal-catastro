@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-03T17:34:00",
+  "generated_at": "2026-06-03T17:44:52",
   "target_platform": "PLATAFORMA Ñ",
   "neighbor_platforms": [
     "PLATAFORMA K",
@@ -19,6 +19,7 @@
       "equipamientos_origen": 69,
       "tipos_equipamien": 10,
       "nodos_alcanzables": 3276,
+      "area_interseccion_m2": 1282996.27,
       "equipamien": {
         "Educación": 16,
         "Administración Pública": 15,
@@ -36,6 +37,7 @@
       "equipamientos_origen": 46,
       "tipos_equipamien": 7,
       "nodos_alcanzables": 2910,
+      "area_interseccion_m2": 809663.18,
       "equipamien": {
         "Industrial MI-BI": 20,
         "Recreativo y Deporte": 17,
@@ -50,6 +52,7 @@
       "equipamientos_origen": 52,
       "tipos_equipamien": 10,
       "nodos_alcanzables": 3271,
+      "area_interseccion_m2": 885229.53,
       "equipamien": {
         "Recreativo y Deporte": 27,
         "Educación": 13,
@@ -67,6 +70,7 @@
       "equipamientos_origen": 27,
       "tipos_equipamien": 8,
       "nodos_alcanzables": 3088,
+      "area_interseccion_m2": 1402521.2,
       "equipamien": {
         "Recreativo y Deporte": 10,
         "Educación": 7,
@@ -82,6 +86,7 @@
       "equipamientos_origen": 27,
       "tipos_equipamien": 10,
       "nodos_alcanzables": 1889,
+      "area_interseccion_m2": 330575.72,
       "equipamien": {
         "Recreativo y Deporte": 10,
         "Educación": 4,
@@ -99,6 +104,7 @@
       "equipamientos_origen": 64,
       "tipos_equipamien": 10,
       "nodos_alcanzables": 3892,
+      "area_interseccion_m2": 1540010.41,
       "equipamien": {
         "Recreativo y Deporte": 17,
         "Administración Pública": 16,

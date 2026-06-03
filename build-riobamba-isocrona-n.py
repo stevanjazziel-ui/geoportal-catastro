@@ -279,6 +279,7 @@ def main():
     }
 
     target_geom = platform_geoms[TARGET_PLATFORM]
+    target_geom_utm = to_utm(target_geom)
     neighbor_names = [
         name for name, geom in platform_geoms.items()
         if name != TARGET_PLATFORM and (target_geom.touches(geom) or target_geom.intersects(geom))
@@ -344,6 +345,14 @@ def main():
             continue
 
         polygon = build_isochrone_polygon(graph, reachable, DISTANCE_METERS)
+        clipped_polygon = polygon.intersection(target_geom_utm)
+        if clipped_polygon.is_empty:
+            continue
+        if not isinstance(clipped_polygon, (Polygon, MultiPolygon)):
+            continue
+        if clipped_polygon.area <= 0:
+            continue
+
         equipamien_counter = by_platform_types[platform_name]
         equipamientos_origen = sum(equipamien_counter.values())
         tipos_equipamien = len(equipamien_counter)
@@ -354,7 +363,7 @@ def main():
 
         platform_features.append(
             build_area_feature(
-                polygon,
+                clipped_polygon,
                 {
                     "platform_name": platform_name,
                     "target_platform": TARGET_PLATFORM,
@@ -364,6 +373,7 @@ def main():
                     "tipos_equipamien": tipos_equipamien,
                     "equipamien_top": equipamien_top,
                     "nodos_alcanzables": len(reachable),
+                    "area_interseccion_m2": round(clipped_polygon.area, 2),
                 },
             )
         )
@@ -372,6 +382,7 @@ def main():
             "equipamientos_origen": equipamientos_origen,
             "tipos_equipamien": tipos_equipamien,
             "nodos_alcanzables": len(reachable),
+            "area_interseccion_m2": round(clipped_polygon.area, 2),
             "equipamien": dict(
                 sorted(equipamien_counter.items(), key=lambda item: (-item[1], item[0]))
             ),

@@ -262,7 +262,7 @@
           <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Equipamientos</span><input id="toggleEquipamientos" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Isocronas colindantes 15 min</span><input id="toggleIsocronasColindantes" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Interseccion isocronas con Ñ</span><input id="toggleIsocronasColindantes" type="checkbox" checked></label>
         </div>
       </section>
 
@@ -305,7 +305,7 @@
       </section>
 
       <section class="panel">
-        <h2>Isocronas colindantes</h2>
+        <h2>Interseccion con Ñ</h2>
         <div class="mini-list" id="isocronasSummary"></div>
       </section>
 
@@ -561,7 +561,7 @@
       const rows = [
         ["Plataforma objetivo", isocronasStats.target_platform],
         ["Plataformas vecinas", isocronasStats.neighbor_platforms.length],
-        ["Con isocrona", isocronasStats.plataformas_con_isocrona],
+        ["Con interseccion", isocronasStats.plataformas_con_isocrona],
         ["Distancia", `${formatNumber(isocronasStats.distance_m)} m`]
       ];
 
@@ -781,12 +781,13 @@
               <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
               <strong>Equipamientos origen:</strong> ${formatNumber(props.equipamientos_origen)}<br>
               <strong>Tipos Equipamien:</strong> ${formatNumber(props.tipos_equipamien)}<br>
+              <strong>Area intersectada:</strong> ${Number(props.area_interseccion_m2 || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m²<br>
               <strong>Top Equipamien:</strong> ${props.equipamien_top || "-"}
             `);
 
             layer.on("click", () => {
-              overlayTitle.textContent = `Isocrona ${props.platform_name}`;
-              overlayText.textContent = `${formatNumber(props.equipamientos_origen)} equipamientos origen | ${formatNumber(props.distance_m)} m caminados`;
+              overlayTitle.textContent = `Interseccion ${props.platform_name} con ${props.target_platform}`;
+              overlayText.textContent = `${formatNumber(props.equipamientos_origen)} equipamientos origen | ${Number(props.area_interseccion_m2 || 0).toLocaleString("es-EC", { maximumFractionDigits: 0 })} m² dentro de ${props.target_platform}`;
             });
           }
         }
@@ -963,7 +964,7 @@
         buildCoverageList();
         buildEquipamientosSummary();
         buildIsocronasSummary();
-        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} equipamientos y ${formatNumber(isocronasStats.plataformas_con_isocrona)} isocronas colindantes cargadas.`;
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} equipamientos y ${formatNumber(isocronasStats.plataformas_con_isocrona)} intersecciones de isocronas con Ñ cargadas.`;
         renderIsocronasLayer();
         renderEquipamientosLayer();
         renderAll(false);
