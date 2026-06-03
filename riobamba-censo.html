@@ -75,6 +75,30 @@
       outline: none;
     }
 
+    button {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid rgba(97, 199, 255, 0.22);
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(97, 199, 255, 0.2), rgba(143, 242, 219, 0.16));
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-1px);
+      border-color: rgba(143, 242, 219, 0.34);
+      background: linear-gradient(135deg, rgba(97, 199, 255, 0.28), rgba(143, 242, 219, 0.2));
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.58;
+    }
+
     .stats {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -203,6 +227,15 @@
       </section>
 
       <section class="panel">
+        <h2>Descarga</h2>
+        <button id="downloadShpButton" type="button">Descargar SHP de la seleccion</button>
+        <p style="margin-top:10px;">
+          Descarga la vista actual en un ZIP con formato shapefile. Si eliges una plataforma,
+          se exportan sus manzanas censales filtradas.
+        </p>
+      </section>
+
+      <section class="panel">
         <h2>Metrica</h2>
         <select id="metricSelect">
           <option value="population_total">Poblacion total</option>
@@ -251,6 +284,7 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""
   ></script>
+  <script src="https://unpkg.com/@mapbox/shp-write@latest/shpwrite.js"></script>
   <script>
     const metricLabels = {
       population_total: "Poblacion total",
@@ -293,6 +327,8 @@
     const coverageList = document.getElementById("coverageList");
     const overlayTitle = document.getElementById("overlayTitle");
     const overlayText = document.getElementById("overlayText");
+    const downloadShpButton = document.getElementById("downloadShpButton");
+    const WGS84_PRJ = 'GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]]';
 
     function formatNumber(value) {
       return Number(value || 0).toLocaleString("es-EC");
@@ -323,6 +359,58 @@
       }
 
       return platformStatsByName[currentPlatform];
+    }
+
+    function getCurrentSelectionLabel() {
+      if (currentPlatform === ALL_PLATFORMS) {
+        return "riobamba_todas_las_manzanas";
+      }
+
+      if (currentPlatform === OUTSIDE_PLATFORMS) {
+        return "riobamba_fuera_de_plataformas";
+      }
+
+      return currentPlatform
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "_")
+        .replace(/^_+|_+$/g, "");
+    }
+
+    function buildExportFeatures() {
+      return getCurrentFeatures().map((feature) => ({
+        type: "Feature",
+        geometry: feature.geometry,
+        properties: {
+          manzana: feature.properties.man,
+          plataforma: feature.properties.platform_name || "SIN_PLAT",
+          pob_total: Number(feature.properties.population_total || 0),
+          hombres: Number(feature.properties.male || 0),
+          mujeres: Number(feature.properties.female || 0),
+          edad0_14: Number(feature.properties.age_0_14 || 0),
+          edad15_29: Number(feature.properties.age_15_29 || 0),
+          edad30_44: Number(feature.properties.age_30_44 || 0),
+          edad45_64: Number(feature.properties.age_45_64 || 0),
+          edad65mas: Number(feature.properties.age_65_plus || 0)
+        }
+      }));
+    }
+
+    function downloadBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function updateDownloadButtonState() {
+      const count = getCurrentFeatures().length;
+      downloadShpButton.disabled = count === 0;
     }
 
     function buildSummaryCards(summary) {
@@ -549,6 +637,7 @@
 
       buildSummaryCards(summary);
       updateOverlay();
+      updateDownloadButtonState();
     }
 
     function renderAll(zoomToSelection = false) {
@@ -620,6 +709,46 @@
         statusText.textContent = "No pude cargar el visualizador. Genera primero los archivos base y de plataformas.";
       }
     }
+
+    downloadShpButton.addEventListener("click", () => {
+      try {
+        const features = buildExportFeatures();
+        if (!features.length) {
+          statusText.textContent = "No hay manzanas para exportar en la seleccion actual.";
+          return;
+        }
+
+        downloadShpButton.disabled = true;
+        statusText.textContent = `Preparando descarga SHP de ${formatNumber(features.length)} manzanas...`;
+
+        const filename = getCurrentSelectionLabel();
+        const geojson = {
+          type: "FeatureCollection",
+          features
+        };
+
+        const zipBuffer = shpwrite.zip(geojson, {
+          filename,
+          outputType: "blob",
+          compression: "STORE",
+          types: {
+            polygon: filename
+          },
+          prj: WGS84_PRJ
+        });
+
+        const blob = zipBuffer instanceof Blob
+          ? zipBuffer
+          : new Blob([zipBuffer], { type: "application/zip" });
+
+        downloadBlob(blob, `${filename}.zip`);
+        statusText.textContent = `Descarga lista: ${formatNumber(features.length)} manzanas exportadas en shapefile ZIP.`;
+      } catch (error) {
+        statusText.textContent = "No se pudo generar el shapefile de la seleccion actual.";
+      } finally {
+        updateDownloadButtonState();
+      }
+    });
 
     metricSelect.addEventListener("change", () => {
       currentMetric = metricSelect.value;
