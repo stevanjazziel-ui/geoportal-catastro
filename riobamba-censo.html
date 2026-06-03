@@ -262,6 +262,7 @@
           <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Equipamientos</span><input id="toggleEquipamientos" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Isocronas colindantes 15 min</span><input id="toggleIsocronasColindantes" type="checkbox" checked></label>
         </div>
       </section>
 
@@ -301,6 +302,11 @@
       <section class="panel">
         <h2>Equipamientos</h2>
         <div class="mini-list" id="equipamientosSummary"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Isocronas colindantes</h2>
+        <div class="mini-list" id="isocronasSummary"></div>
       </section>
 
       <section class="panel">
@@ -359,16 +365,19 @@
     let platformStatsByName = {};
     let platformSummary = null;
     let equipamientosStats = null;
+    let isocronasStats = null;
     let currentMetric = "population_total";
     let currentPlatform = ALL_PLATFORMS;
     let globalSummary = null;
     let shpManifest = {};
     let equipamientosLayer = null;
+    let isocronasLayer = null;
     let layerControl = null;
     const layerVisibility = {
       manzanas: true,
       plataformas: true,
-      equipamientos: true
+      equipamientos: true,
+      isocronasColindantes: true
     };
 
     const metricSelect = document.getElementById("metricSelect");
@@ -379,17 +388,20 @@
     const summaryTitle = document.getElementById("summaryTitle");
     const coverageList = document.getElementById("coverageList");
     const equipamientosSummary = document.getElementById("equipamientosSummary");
+    const isocronasSummary = document.getElementById("isocronasSummary");
     const overlayTitle = document.getElementById("overlayTitle");
     const overlayText = document.getElementById("overlayText");
     const downloadShpButton = document.getElementById("downloadShpButton");
     const toggleManzanas = document.getElementById("toggleManzanas");
     const togglePlataformas = document.getElementById("togglePlataformas");
     const toggleEquipamientos = document.getElementById("toggleEquipamientos");
+    const toggleIsocronasColindantes = document.getElementById("toggleIsocronasColindantes");
     const equipamientoPalette = [
       "#ffd166", "#ef476f", "#06d6a0", "#118ab2", "#f78c6b",
       "#c77dff", "#90be6d", "#4cc9f0", "#ff9f1c", "#43aa8b",
       "#f94144", "#577590", "#f9844a", "#8ecae6", "#b8de6f"
     ];
+    const isocronaPalette = ["#7ef6c9", "#61c7ff", "#ffd166", "#ff8fab", "#b8de6f", "#c77dff"];
 
     function formatNumber(value) {
       return Number(value || 0).toLocaleString("es-EC");
@@ -467,6 +479,12 @@
       return equipamientoPalette[index % equipamientoPalette.length];
     }
 
+    function getIsochroneColor(platformName) {
+      const platformNames = Object.keys((isocronasStats && isocronasStats.by_platform) || {});
+      const index = Math.max(0, platformNames.indexOf(platformName));
+      return isocronaPalette[index % isocronaPalette.length];
+    }
+
     function syncSingleLayer(layer, visible) {
       if (!layer) return;
       if (visible && !map.hasLayer(layer)) {
@@ -480,6 +498,7 @@
       syncSingleLayer(manzanaLayer, layerVisibility.manzanas);
       syncSingleLayer(platformLayer, layerVisibility.plataformas);
       syncSingleLayer(equipamientosLayer, layerVisibility.equipamientos);
+      syncSingleLayer(isocronasLayer, layerVisibility.isocronasColindantes);
     }
 
     function buildSummaryCards(summary) {
@@ -530,6 +549,24 @@
 
       equipamientosSummary.innerHTML = rows
         .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${formatNumber(value)}</strong></div>`)
+        .join("");
+    }
+
+    function buildIsocronasSummary() {
+      if (!isocronasStats) {
+        isocronasSummary.innerHTML = "";
+        return;
+      }
+
+      const rows = [
+        ["Plataforma objetivo", isocronasStats.target_platform],
+        ["Plataformas vecinas", isocronasStats.neighbor_platforms.length],
+        ["Con isocrona", isocronasStats.plataformas_con_isocrona],
+        ["Distancia", `${formatNumber(isocronasStats.distance_m)} m`]
+      ];
+
+      isocronasSummary.innerHTML = rows
+        .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
         .join("");
     }
 
@@ -687,6 +724,76 @@
       syncSingleLayer(equipamientosLayer, layerVisibility.equipamientos);
     }
 
+    function renderIsocronasLayer() {
+      if (isocronasLayer) {
+        map.removeLayer(isocronasLayer);
+      }
+
+      const statsByPlatform = (isocronasStats && isocronasStats.by_platform) || {};
+      const geometryByPlatform = new Map(
+        ((window.isocronasGeojsonFeatures || []).map((feature) => [feature.properties.platform_name, feature.geometry]))
+      );
+
+      const features = Object.entries(statsByPlatform)
+        .map(([platformName, stats]) => ({
+          type: "Feature",
+          properties: {
+            platform_name: platformName,
+            target_platform: isocronasStats.target_platform,
+            distance_m: isocronasStats.distance_m,
+            mode: isocronasStats.mode,
+            equipamientos_origen: stats.equipamientos_origen,
+            tipos_equipamien: stats.tipos_equipamien,
+            equipamien_top: Object.entries(stats.equipamien || {})
+              .slice(0, 4)
+              .map(([label, count]) => `${label} (${count})`)
+              .join(", ")
+          },
+          geometry: geometryByPlatform.get(platformName) || null
+        }))
+        .filter((feature) => feature.geometry);
+
+      if (!map.getPane("isocronasPane")) {
+        map.createPane("isocronasPane");
+        map.getPane("isocronasPane").style.zIndex = 430;
+      }
+
+      isocronasLayer = L.geoJSON(
+        { type: "FeatureCollection", features },
+        {
+          pane: "isocronasPane",
+          style: (feature) => {
+            const color = getIsochroneColor(feature.properties.platform_name);
+            return {
+              color,
+              weight: 2.2,
+              opacity: 0.95,
+              fillColor: color,
+              fillOpacity: 0.14,
+              dashArray: "8 5"
+            };
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties;
+            layer.bindPopup(`
+              <strong>${props.platform_name}</strong><br>
+              <strong>Destino:</strong> ${props.target_platform}<br>
+              <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
+              <strong>Equipamientos origen:</strong> ${formatNumber(props.equipamientos_origen)}<br>
+              <strong>Tipos Equipamien:</strong> ${formatNumber(props.tipos_equipamien)}<br>
+              <strong>Top Equipamien:</strong> ${props.equipamien_top || "-"}
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = `Isocrona ${props.platform_name}`;
+              overlayText.textContent = `${formatNumber(props.equipamientos_origen)} equipamientos origen | ${formatNumber(props.distance_m)} m caminados`;
+            });
+          }
+        }
+      );
+      syncSingleLayer(isocronasLayer, layerVisibility.isocronasColindantes);
+    }
+
     function renderManzanaLayer(zoomToSelection = false) {
       const currentFeatures = getCurrentFeatures();
       const values = currentFeatures.map((feature) => feature.properties[currentMetric] || 0);
@@ -791,17 +898,19 @@
 
     async function init() {
       try {
-        const [geoResponse, statsResponse, platformGeoResponse, platformStatsResponse, manifestResponse, equipamientosGeoResponse, equipamientosStatsResponse] = await Promise.all([
+        const [geoResponse, statsResponse, platformGeoResponse, platformStatsResponse, manifestResponse, equipamientosGeoResponse, equipamientosStatsResponse, isocronasGeoResponse, isocronasStatsResponse] = await Promise.all([
           fetch("./riobamba-censo-data/riobamba_manzanas.geojson"),
           fetch("./riobamba-censo-data/riobamba_manzanas_stats.json"),
           fetch("./riobamba-censo-data/riobamba_plataformas.geojson"),
           fetch("./riobamba-censo-data/riobamba_plataformas_stats.json"),
           fetch("./riobamba-censo-data/shp/manifest.json"),
           fetch("./riobamba-censo-data/riobamba_equipamientos.geojson"),
-          fetch("./riobamba-censo-data/riobamba_equipamientos_stats.json")
+          fetch("./riobamba-censo-data/riobamba_equipamientos_stats.json"),
+          fetch("./riobamba-censo-data/riobamba_isocronas_plataformas_colindantes_n.geojson"),
+          fetch("./riobamba-censo-data/riobamba_isocronas_plataformas_colindantes_n_stats.json")
         ]);
 
-        if (!geoResponse.ok || !statsResponse.ok || !platformGeoResponse.ok || !platformStatsResponse.ok || !equipamientosGeoResponse.ok || !equipamientosStatsResponse.ok) {
+        if (!geoResponse.ok || !statsResponse.ok || !platformGeoResponse.ok || !platformStatsResponse.ok || !equipamientosGeoResponse.ok || !equipamientosStatsResponse.ok || !isocronasGeoResponse.ok || !isocronasStatsResponse.ok) {
           throw new Error("No se pudieron leer los archivos de datos.");
         }
 
@@ -811,11 +920,15 @@
         const platformsStats = await platformStatsResponse.json();
         const equipamientosGeo = await equipamientosGeoResponse.json();
         const equipamientosStatsData = await equipamientosStatsResponse.json();
+        const isocronasGeo = await isocronasGeoResponse.json();
+        const isocronasStatsData = await isocronasStatsResponse.json();
         shpManifest = manifestResponse.ok ? await manifestResponse.json() : {};
 
         globalSummary = stats.summary;
         platformSummary = platformsStats;
         equipamientosStats = equipamientosStatsData;
+        isocronasStats = isocronasStatsData;
+        window.isocronasGeojsonFeatures = isocronasGeo.features || [];
         platformStatsByName = platformsStats.byName || {};
         platformFeatures = (platformsGeo.features || []).map((feature) => ({
           ...feature,
@@ -849,7 +962,9 @@
         buildPlatformOptions();
         buildCoverageList();
         buildEquipamientosSummary();
-        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas y ${formatNumber(equipamientosFeatures.length)} equipamientos cargados.`;
+        buildIsocronasSummary();
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} equipamientos y ${formatNumber(isocronasStats.plataformas_con_isocrona)} isocronas colindantes cargadas.`;
+        renderIsocronasLayer();
         renderEquipamientosLayer();
         renderAll(false);
 
@@ -912,6 +1027,11 @@
 
     toggleEquipamientos.addEventListener("change", () => {
       layerVisibility.equipamientos = toggleEquipamientos.checked;
+      syncVisibleLayers();
+    });
+
+    toggleIsocronasColindantes.addEventListener("change", () => {
+      layerVisibility.isocronasColindantes = toggleIsocronasColindantes.checked;
       syncVisibleLayers();
     });
 

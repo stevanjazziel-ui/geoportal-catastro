@@ -18,12 +18,8 @@ PLATFORMS_PATH = DATA_DIR / "riobamba_plataformas.geojson"
 EQUIPAMIENTOS_PATH = DATA_DIR / "riobamba_equipamientos.geojson"
 OSM_CACHE_PATH = DATA_DIR / "riobamba_osm_walk_network_plataforma_n.json"
 
-OUTPUT_ISOCHRONE = DATA_DIR / "riobamba_isocrona_plataforma_n.geojson"
-OUTPUT_ORIGINS = DATA_DIR / "riobamba_isocrona_plataforma_n_origenes.geojson"
-OUTPUT_BY_EQUIP = DATA_DIR / "riobamba_isocronas_equipamientos_plataforma_n.geojson"
-OUTPUT_BY_CATEGORY = DATA_DIR / "riobamba_isocronas_categorias_plataforma_n.geojson"
-OUTPUT_PRIORITY = DATA_DIR / "riobamba_isocronas_prioritarias_plataforma_n.geojson"
-OUTPUT_STATS = DATA_DIR / "riobamba_isocrona_plataforma_n_stats.json"
+OUTPUT_BY_PLATFORM = DATA_DIR / "riobamba_isocronas_plataformas_colindantes_n.geojson"
+OUTPUT_STATS = DATA_DIR / "riobamba_isocronas_plataformas_colindantes_n_stats.json"
 
 TARGET_PLATFORM = "PLATAFORMA " + chr(209)
 DISTANCE_METERS = 1250
@@ -265,19 +261,6 @@ def geometry_mapping(geom):
         return mapping(simplified)
     return mapping(simplified.convex_hull)
 
-
-def feature_point_properties(source):
-    return {
-        "objectid": source["objectid"],
-        "nombre": source["nombre"],
-        "equipamien": source["equipamien"],
-        "categoria": source["categoria"],
-        "codigo": source["codigo"],
-        "platform_name": source["platform_name"],
-        "snap_m": round(source["snap_m"], 2),
-    }
-
-
 def build_area_feature(geometry, properties):
     return {
         "type": "Feature",
@@ -341,74 +324,58 @@ def main():
         source["snap_m"] = snap_distance
         snapped_sources.append(source)
 
-    source_features = [
-        {
-            "type": "Feature",
-            "properties": feature_point_properties(source),
-            "geometry": mapping(source["point"]),
-        }
-        for source in snapped_sources
-    ]
+    by_platform_nodes = defaultdict(list)
+    by_platform_types = defaultdict(Counter)
 
-    all_nodes = [source["node_id"] for source in snapped_sources]
-    reachable_all = multi_source_reachable(graph, all_nodes, DISTANCE_METERS)
-    union_geometry = build_isochrone_polygon(graph, reachable_all, DISTANCE_METERS)
-    union_feature = build_area_feature(
-        union_geometry,
-        {
-            "nombre": f"Isocrona 15 minutos desde equipamientos colindantes a {TARGET_PLATFORM}",
-            "target_platform": TARGET_PLATFORM,
-            "neighbor_platforms": ", ".join(neighbor_names),
-            "distance_m": DISTANCE_METERS,
-            "mode": "walking",
-            "equipamientos_origen": len(snapped_sources),
-            "nodos_alcanzables": len(reachable_all),
-        },
-    )
+    for source in snapped_sources:
+        by_platform_nodes[source["platform_name"]].append(source["node_id"])
+        by_platform_types[source["platform_name"]][source["equipamien"]] += 1
 
-    individual_features = []
-    by_category_nodes = defaultdict(list)
-    by_category_counts = Counter()
+    platform_features = []
+    platform_stats = {}
 
-    for index, source in enumerate(snapped_sources, start=1):
-        by_category_nodes[source["categoria"]].append(source["node_id"])
-        by_category_counts[source["categoria"]] += 1
+    for platform_name in neighbor_names:
+        node_ids = by_platform_nodes.get(platform_name, [])
+        if not node_ids:
+            continue
 
-        reachable = multi_source_reachable(graph, [source["node_id"]], DISTANCE_METERS)
+        reachable = multi_source_reachable(graph, node_ids, DISTANCE_METERS)
+        if not reachable:
+            continue
+
         polygon = build_isochrone_polygon(graph, reachable, DISTANCE_METERS)
-        individual_features.append(
+        equipamien_counter = by_platform_types[platform_name]
+        equipamientos_origen = sum(equipamien_counter.values())
+        tipos_equipamien = len(equipamien_counter)
+        equipamien_top = ", ".join(
+            f"{label} ({count})"
+            for label, count in equipamien_counter.most_common(4)
+        )
+
+        platform_features.append(
             build_area_feature(
                 polygon,
                 {
-                    **feature_point_properties(source),
-                    "feature_id": index,
+                    "platform_name": platform_name,
+                    "target_platform": TARGET_PLATFORM,
                     "distance_m": DISTANCE_METERS,
                     "mode": "walking",
+                    "equipamientos_origen": equipamientos_origen,
+                    "tipos_equipamien": tipos_equipamien,
+                    "equipamien_top": equipamien_top,
                     "nodos_alcanzables": len(reachable),
                 },
             )
         )
 
-    category_features = []
-    priority_features = []
-
-    for category, node_ids in sorted(by_category_nodes.items()):
-        reachable = multi_source_reachable(graph, node_ids, DISTANCE_METERS)
-        polygon = build_isochrone_polygon(graph, reachable, DISTANCE_METERS)
-        category_feature = build_area_feature(
-            polygon,
-            {
-                "categoria": category,
-                "distance_m": DISTANCE_METERS,
-                "mode": "walking",
-                "equipamientos_origen": by_category_counts[category],
-                "nodos_alcanzables": len(reachable),
-                "target_platform": TARGET_PLATFORM,
-            },
-        )
-        category_features.append(category_feature)
-        if category in PRIORITY_CATEGORIES:
-            priority_features.append(category_feature)
+        platform_stats[platform_name] = {
+            "equipamientos_origen": equipamientos_origen,
+            "tipos_equipamien": tipos_equipamien,
+            "nodos_alcanzables": len(reachable),
+            "equipamien": dict(
+                sorted(equipamien_counter.items(), key=lambda item: (-item[1], item[0]))
+            ),
+        }
 
     stats = {
         "generated_at": __import__("datetime").datetime.now().isoformat(timespec="seconds"),
@@ -417,27 +384,19 @@ def main():
         "equipamientos_origen": len(snapped_sources),
         "distance_m": DISTANCE_METERS,
         "mode": "walking",
-        "reachable_nodes_general": len(reachable_all),
-        "isocronas_individuales": len(individual_features),
-        "isocronas_por_categoria": len(category_features),
-        "categorias_prioritarias": sorted(PRIORITY_CATEGORIES),
+        "plataformas_con_isocrona": len(platform_features),
         "source": "OpenStreetMap peatonal + equipamientos de plataformas colindantes",
-        "equipamientos_por_categoria": dict(sorted(by_category_counts.items(), key=lambda item: (-item[1], item[0]))),
+        "by_platform": platform_stats,
     }
 
-    save_json(OUTPUT_ISOCHRONE, {"type": "FeatureCollection", "features": [union_feature]})
-    save_json(OUTPUT_ORIGINS, {"type": "FeatureCollection", "features": source_features})
-    save_json(OUTPUT_BY_EQUIP, {"type": "FeatureCollection", "features": individual_features})
-    save_json(OUTPUT_BY_CATEGORY, {"type": "FeatureCollection", "features": category_features})
-    save_json(OUTPUT_PRIORITY, {"type": "FeatureCollection", "features": priority_features})
+    save_json(OUTPUT_BY_PLATFORM, {"type": "FeatureCollection", "features": platform_features})
     with open(OUTPUT_STATS, "w", encoding="utf-8") as handle:
         json.dump(stats, handle, ensure_ascii=False, indent=2)
 
     print("Listo.")
     print(f"Vecinas: {neighbor_names}")
     print(f"Equipamientos origen: {len(snapped_sources)}")
-    print(f"Isocronas individuales: {len(individual_features)}")
-    print(f"Isocronas por categoria: {len(category_features)}")
+    print(f"Isocronas por plataforma colindante: {len(platform_features)}")
 
 
 if __name__ == "__main__":
