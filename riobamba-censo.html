@@ -260,6 +260,11 @@
       </section>
 
       <section class="panel">
+        <h2>Equipamientos</h2>
+        <div class="mini-list" id="equipamientosSummary"></div>
+      </section>
+
+      <section class="panel">
         <h2>Leyenda</h2>
         <div class="legend" id="legend"></div>
       </section>
@@ -311,12 +316,16 @@
     let platformLayer = null;
     let joinedFeatures = [];
     let platformFeatures = [];
+    let equipamientosFeatures = [];
     let platformStatsByName = {};
     let platformSummary = null;
+    let equipamientosStats = null;
     let currentMetric = "population_total";
     let currentPlatform = ALL_PLATFORMS;
     let globalSummary = null;
     let shpManifest = {};
+    let equipamientosLayer = null;
+    let layerControl = null;
 
     const metricSelect = document.getElementById("metricSelect");
     const platformSelect = document.getElementById("platformSelect");
@@ -325,9 +334,15 @@
     const summaryCards = document.getElementById("summaryCards");
     const summaryTitle = document.getElementById("summaryTitle");
     const coverageList = document.getElementById("coverageList");
+    const equipamientosSummary = document.getElementById("equipamientosSummary");
     const overlayTitle = document.getElementById("overlayTitle");
     const overlayText = document.getElementById("overlayText");
     const downloadShpButton = document.getElementById("downloadShpButton");
+    const equipamientoPalette = [
+      "#ffd166", "#ef476f", "#06d6a0", "#118ab2", "#f78c6b",
+      "#c77dff", "#90be6d", "#4cc9f0", "#ff9f1c", "#43aa8b",
+      "#f94144", "#577590", "#f9844a", "#8ecae6", "#b8de6f"
+    ];
 
     function formatNumber(value) {
       return Number(value || 0).toLocaleString("es-EC");
@@ -382,6 +397,16 @@
       downloadShpButton.disabled = !entry;
     }
 
+    function getEquipamientoColor(category) {
+      if (!equipamientosStats || !equipamientosStats.byCategory) {
+        return "#ffd166";
+      }
+
+      const categories = Object.keys(equipamientosStats.byCategory);
+      const index = Math.max(0, categories.indexOf(category));
+      return equipamientoPalette[index % equipamientoPalette.length];
+    }
+
     function buildSummaryCards(summary) {
       const rows = [
         ["Poblacion", summary.population_total],
@@ -408,6 +433,27 @@
       ];
 
       coverageList.innerHTML = rows
+        .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${formatNumber(value)}</strong></div>`)
+        .join("");
+    }
+
+    function buildEquipamientosSummary() {
+      if (!equipamientosStats) {
+        equipamientosSummary.innerHTML = "";
+        return;
+      }
+
+      const rows = [
+        ["Total equipamientos", equipamientosStats.summary.total_equipamientos],
+        ["Categorias", equipamientosStats.summary.categorias]
+      ];
+
+      const topCategories = Object.entries(equipamientosStats.byCategory || {}).slice(0, 6);
+      for (const [category, count] of topCategories) {
+        rows.push([category, count]);
+      }
+
+      equipamientosSummary.innerHTML = rows
         .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${formatNumber(value)}</strong></div>`)
         .join("");
     }
@@ -508,6 +554,56 @@
               currentPlatform = props.platform_name;
               platformSelect.value = currentPlatform;
               renderAll(true);
+            });
+          }
+        }
+      ).addTo(map);
+    }
+
+    function equipamientoStyle(feature) {
+      const color = getEquipamientoColor(feature.properties.categoria);
+      return {
+        color,
+        weight: 1.3,
+        fillColor: color,
+        fillOpacity: 0.16,
+        opacity: 0.95
+      };
+    }
+
+    function renderEquipamientosLayer() {
+      if (equipamientosLayer) {
+        map.removeLayer(equipamientosLayer);
+      }
+
+      if (!map.getPane("equipamientosPane")) {
+        map.createPane("equipamientosPane");
+        map.getPane("equipamientosPane").style.zIndex = 440;
+      }
+
+      equipamientosLayer = L.geoJSON(
+        { type: "FeatureCollection", features: equipamientosFeatures },
+        {
+          pane: "equipamientosPane",
+          style: equipamientoStyle,
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties;
+            layer.bindPopup(`
+              <strong>${props.nombre}</strong><br>
+              <strong>Categoria:</strong> ${props.categoria}<br>
+              <strong>Codigo:</strong> ${props.codigo}<br>
+              <strong>Area:</strong> ${Number(props.shape_area || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })}
+            `);
+
+            layer.on("mouseover", () => {
+              layer.setStyle({ weight: 2.2, fillOpacity: 0.24 });
+            });
+            layer.on("mouseout", () => {
+              equipamientosLayer.resetStyle(layer);
+            });
+            layer.on("click", () => {
+              overlayTitle.textContent = props.nombre;
+              overlayText.textContent = `${props.categoria} | Codigo ${props.codigo}`;
             });
           }
         }
@@ -617,15 +713,17 @@
 
     async function init() {
       try {
-        const [geoResponse, statsResponse, platformGeoResponse, platformStatsResponse, manifestResponse] = await Promise.all([
+        const [geoResponse, statsResponse, platformGeoResponse, platformStatsResponse, manifestResponse, equipamientosGeoResponse, equipamientosStatsResponse] = await Promise.all([
           fetch("./riobamba-censo-data/riobamba_manzanas.geojson"),
           fetch("./riobamba-censo-data/riobamba_manzanas_stats.json"),
           fetch("./riobamba-censo-data/riobamba_plataformas.geojson"),
           fetch("./riobamba-censo-data/riobamba_plataformas_stats.json"),
-          fetch("./riobamba-censo-data/shp/manifest.json")
+          fetch("./riobamba-censo-data/shp/manifest.json"),
+          fetch("./riobamba-censo-data/riobamba_equipamientos.geojson"),
+          fetch("./riobamba-censo-data/riobamba_equipamientos_stats.json")
         ]);
 
-        if (!geoResponse.ok || !statsResponse.ok || !platformGeoResponse.ok || !platformStatsResponse.ok) {
+        if (!geoResponse.ok || !statsResponse.ok || !platformGeoResponse.ok || !platformStatsResponse.ok || !equipamientosGeoResponse.ok || !equipamientosStatsResponse.ok) {
           throw new Error("No se pudieron leer los archivos de datos.");
         }
 
@@ -633,10 +731,13 @@
         const stats = await statsResponse.json();
         const platformsGeo = await platformGeoResponse.json();
         const platformsStats = await platformStatsResponse.json();
+        const equipamientosGeo = await equipamientosGeoResponse.json();
+        const equipamientosStatsData = await equipamientosStatsResponse.json();
         shpManifest = manifestResponse.ok ? await manifestResponse.json() : {};
 
         globalSummary = stats.summary;
         platformSummary = platformsStats;
+        equipamientosStats = equipamientosStatsData;
         platformStatsByName = platformsStats.byName || {};
         platformFeatures = (platformsGeo.features || []).map((feature) => ({
           ...feature,
@@ -645,6 +746,7 @@
             ...(platformStatsByName[feature.properties.platform_name] || {})
           }
         }));
+        equipamientosFeatures = equipamientosGeo.features || [];
 
         const byMan = stats.byMan || {};
         const manToPlatform = platformsStats.manToPlatform || {};
@@ -668,16 +770,22 @@
 
         buildPlatformOptions();
         buildCoverageList();
-        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas y ${formatNumber(platformFeatures.length)} plataformas cargadas.`;
+        buildEquipamientosSummary();
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas y ${formatNumber(equipamientosFeatures.length)} equipamientos cargados.`;
+        renderEquipamientosLayer();
         renderAll(false);
 
-        L.control.layers(
+        if (layerControl) {
+          layerControl.remove();
+        }
+
+        layerControl = L.control.layers(
           { "Esri satelital": esriBase },
-          {},
+          { "Equipamientos": equipamientosLayer },
           { position: "topright", collapsed: true }
         ).addTo(map);
       } catch (error) {
-        statusText.textContent = "No pude cargar el visualizador. Genera primero los archivos base y de plataformas.";
+        statusText.textContent = "No pude cargar el visualizador. Verifica los archivos base, plataformas, shapefiles publicados y equipamientos.";
       }
     }
 
