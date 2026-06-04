@@ -9,9 +9,9 @@ import shapefile
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "riobamba-censo-data"
 SHP_DIR = DATA_DIR / "shp"
-ISOCHRONE_PATH = DATA_DIR / "riobamba_isocrona_plataforma_n_1000m.geojson"
+ISOCHRONE_PATH = DATA_DIR / "riobamba_isocrona_limite_plataforma_n_400m.geojson"
 MANIFEST_PATH = SHP_DIR / "manifest.json"
-OUTPUT_BASENAME = "limite_isocrona_plataforma_n_1000m"
+OUTPUT_BASENAME = "limite_isocrona_limite_plataforma_n_400m"
 
 PRJ_WGS84 = 'GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]]'
 
@@ -47,8 +47,10 @@ def write_zip(feature):
     writer.field("nombre", "C", size=80)
     writer.field("target", "C", size=24)
     writer.field("dist_m", "N", size=10, decimal=0)
-    writer.field("equip_org", "N", size=10, decimal=0)
-    writer.field("tipos_eq", "N", size=10, decimal=0)
+    writer.field("src_type", "C", size=16)
+    writer.field("muestras", "N", size=10, decimal=0)
+    writer.field("src_nodes", "N", size=10, decimal=0)
+    writer.field("snap_avg", "N", size=10, decimal=2)
     writer.field("nodos", "N", size=12, decimal=0)
     writer.field("seg_red", "N", size=12, decimal=0)
     writer.field("manz_aj", "N", size=12, decimal=0)
@@ -64,8 +66,10 @@ def write_zip(feature):
         str(props.get("nombre", ""))[:80],
         str(props.get("target_platform", ""))[:24],
         int(props.get("distance_m", 0) or 0),
-        int(props.get("equipamientos_origen", 0) or 0),
-        int(props.get("tipos_equipamien", 0) or 0),
+        str(props.get("source_type", ""))[:16],
+        int(props.get("boundary_samples", 0) or 0),
+        int(props.get("source_nodes", 0) or 0),
+        float(props.get("snap_promedio_m", 0) or 0),
         int(props.get("nodos_alcanzables", 0) or 0),
         int(props.get("segmentos_red", 0) or 0),
         int(props.get("manzanas_ajustadas", 0) or 0),
@@ -92,11 +96,17 @@ def write_zip(feature):
 
 def update_manifest(zip_path: Path, feature_count: int):
     manifest = load_json(MANIFEST_PATH) if MANIFEST_PATH.exists() else {}
+    manifest = {
+        key: value
+        for key, value in manifest.items()
+        if not key.startswith("limite_isocrona_")
+    }
     manifest[OUTPUT_BASENAME] = {
         "file": zip_path.name,
         "count": feature_count,
-        "label": "Limite externo de isocrona 1000 m",
+        "label": "Limite externo de isocrona 400 m desde el borde de Ñ",
     }
+    manifest[OUTPUT_BASENAME]["label"] = "Limite externo de isocrona 400 m desde el borde de la plataforma N"
     with open(MANIFEST_PATH, "w", encoding="utf-8") as handle:
         json.dump(manifest, handle, ensure_ascii=False, indent=2)
 

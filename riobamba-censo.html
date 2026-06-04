@@ -245,9 +245,9 @@
     <aside class="sidebar">
       <section class="panel">
         <h1>Riobamba Censo 2022</h1>
-        <p>
+        <p id="introText">
           Visualizador por manzana censal y por plataforma territorial. Tambien muestra la
-          isocrona peatonal de 1000 m construida desde los equipamientos ubicados dentro de
+          isocrona peatonal de 400 m construida desde el limite de la plataforma Ñ
           la plataforma Ñ sobre la red vial de OpenStreetMap.
         </p>
       </section>
@@ -263,7 +263,7 @@
           <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Equipamientos</span><input id="toggleEquipamientos" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Red vial OSM 1000 m</span><input id="toggleRedVial1000m" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Red vial OSM 400 m</span><input id="toggleRedVial1000m" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Cobertura equipamientos hacia Ñ</span><input id="toggleIsocronasColindantes" type="checkbox" checked></label>
         </div>
       </section>
@@ -275,7 +275,7 @@
           <option value="xlsx">Excel (.xlsx)</option>
         </select>
         <button id="downloadDataButton" type="button">Descargar datos de la seleccion</button>
-        <button id="downloadIsochroneShpButton" type="button" style="margin-top:10px;">Descargar SHP del limite de isocrona</button>
+        <button id="downloadIsochroneShpButton" type="button" style="margin-top:10px;">Descargar SHP de la isocrona 400 m</button>
         <p style="margin-top:10px;">
           Descarga la vista actual de la plataforma seleccionada en formato Shape o Excel.
           Si eliges una plataforma, se exportan sus manzanas censales filtradas.
@@ -356,8 +356,8 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260604-0010";
-    const ISOCHRONE_SHP_KEY = "limite_isocrona_plataforma_n_1000m";
+    const DATA_VERSION = "20260604-0400";
+    const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
 
     const map = L.map("map", { zoomSnap: 0.5 }).setView([-1.67, -78.65], 12.5);
 
@@ -395,6 +395,7 @@
     const platformSelect = document.getElementById("platformSelect");
     const legend = document.getElementById("legend");
     const statusText = document.getElementById("statusText");
+    const introText = document.getElementById("introText");
     const summaryCards = document.getElementById("summaryCards");
     const summaryTitle = document.getElementById("summaryTitle");
     const coverageList = document.getElementById("coverageList");
@@ -420,6 +421,11 @@
 
     toggleIsocronasColindantes.closest("label").querySelector("span").textContent = "Isocrona 1000 m desde Ñ";
     isocronasSummary.closest(".panel").querySelector("h2").textContent = "Isocrona 1000 m desde Ñ";
+
+    introText.innerHTML = "Visualizador por manzana censal y por plataforma territorial. Tambien muestra la isocrona peatonal de 400 m construida desde el borde de la plataforma <strong>PLATAFORMA \u00D1</strong> sobre la red vial peatonal de OpenStreetMap.";
+    toggleRedVial1000m.closest("label").querySelector("span").textContent = "Red vial OSM 400 m";
+    toggleIsocronasColindantes.closest("label").querySelector("span").textContent = "Isocrona 400 m desde borde de \u00D1";
+    isocronasSummary.closest(".panel").querySelector("h2").textContent = "Isocrona 400 m desde borde de \u00D1";
 
     function formatNumber(value) {
       return Number(value || 0).toLocaleString("es-EC");
@@ -555,7 +561,7 @@
 
       const rows = [
         ["Total equipamientos", equipamientosStats.summary.total_equipamientos],
-        ["Tipos Equipamien", equipamientosStats.summary.tipos_equipamien || equipamientosStats.summary.categorias]
+        ["Categorias", equipamientosStats.summary.tipos_equipamien || equipamientosStats.summary.categorias]
       ];
 
       const topCategories = Object.entries(getEquipamientoBuckets()).slice(0, 6);
@@ -1088,6 +1094,244 @@
         ).addTo(map);
       } catch (error) {
         statusText.textContent = "No pude cargar el visualizador. Verifica los archivos base, plataformas, shapefiles publicados y equipamientos.";
+      }
+    }
+
+    function buildIsocronasSummary() {
+      if (!isocronasStats) {
+        isocronasSummary.innerHTML = "";
+        return;
+      }
+
+      const rows = [
+        ["Plataforma objetivo", isocronasStats.target_platform],
+        ["Origen", "Borde de plataforma"],
+        ["Muestras del borde", isocronasStats.boundary_samples],
+        ["Nodos origen", isocronasStats.source_nodes],
+        ["Distancia", `${formatNumber(isocronasStats.distance_m)} m`],
+        ["Nodos alcanzables", isocronasStats.nodos_alcanzables],
+        ["Segmentos de red", isocronasStats.segmentos_red],
+        ["Manzanas ajustadas", isocronasStats.manzanas_ajustadas || 0],
+        ["Longitud de red", `${formatNumber(Math.round(isocronasStats.longitud_red_m || 0))} m`],
+        ["Area del poligono", `${formatNumber(Math.round(isocronasStats.area_poligono_m2 || 0))} m2`],
+        ["Snap promedio", `${Number(isocronasStats.snap_promedio_m || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m`]
+      ];
+
+      isocronasSummary.innerHTML = rows
+        .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
+        .join("");
+    }
+
+    function renderIsocronaNetworkLayer() {
+      if (isocronaNetworkLayer) {
+        map.removeLayer(isocronaNetworkLayer);
+      }
+
+      const features = (window.isocronaNetworkFeatures || []).filter(
+        (feature) => feature && feature.geometry && feature.properties
+      );
+
+      if (!map.getPane("isocronaNetworkPane")) {
+        map.createPane("isocronaNetworkPane");
+        map.getPane("isocronaNetworkPane").style.zIndex = 425;
+      }
+
+      isocronaNetworkLayer = L.geoJSON(
+        { type: "FeatureCollection", features },
+        {
+          pane: "isocronaNetworkPane",
+          style: {
+            color: isocronaNetworkColor,
+            weight: 1.8,
+            opacity: 0.9
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties;
+            layer.bindPopup(`
+              <strong>${props.nombre || "Red vial OSM"}</strong><br>
+              <strong>Destino:</strong> ${props.target_platform}<br>
+              <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
+              <strong>Origen:</strong> Borde de plataforma<br>
+              <strong>Muestras del borde:</strong> ${formatNumber(props.boundary_samples)}<br>
+              <strong>Nodos origen:</strong> ${formatNumber(props.source_nodes)}<br>
+              <strong>Segmentos:</strong> ${formatNumber(props.segmentos_red)}<br>
+              <strong>Longitud de red:</strong> ${formatNumber(Math.round(props.longitud_red_m || 0))} m<br>
+              <strong>Snap promedio:</strong> ${Number(props.snap_promedio_m || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m<br>
+              <strong>Modo:</strong> ${props.mode}
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = "Red vial OSM 400 m";
+              overlayText.textContent = `${formatNumber(props.segmentos_red)} segmentos y ${formatNumber(Math.round(props.longitud_red_m || 0))} m alcanzables desde el borde de ${props.target_platform}.`;
+            });
+          }
+        }
+      );
+      syncSingleLayer(isocronaNetworkLayer, layerVisibility.redVial1000m);
+    }
+
+    function renderIsocronaPolygonLayer() {
+      if (isocronaPolygonLayer) {
+        map.removeLayer(isocronaPolygonLayer);
+      }
+
+      const features = (window.isocronaPolygonFeatures || []).filter(
+        (feature) => feature && feature.geometry && feature.properties
+      );
+
+      if (!map.getPane("isocronaPolygonPane")) {
+        map.createPane("isocronaPolygonPane");
+        map.getPane("isocronaPolygonPane").style.zIndex = 430;
+      }
+
+      isocronaPolygonLayer = L.geoJSON(
+        { type: "FeatureCollection", features },
+        {
+          pane: "isocronaPolygonPane",
+          style: {
+            color: isocronaPolygonColor,
+            weight: 3.2,
+            opacity: 0.95,
+            fillColor: isocronaPolygonColor,
+            fillOpacity: 0,
+            dashArray: ""
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties;
+            layer.bindPopup(`
+              <strong>${props.nombre || "Isocrona 400 m"}</strong><br>
+              <strong>Destino:</strong> ${props.target_platform}<br>
+              <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
+              <strong>Origen:</strong> Borde de plataforma<br>
+              <strong>Muestras del borde:</strong> ${formatNumber(props.boundary_samples)}<br>
+              <strong>Nodos origen:</strong> ${formatNumber(props.source_nodes)}<br>
+              <strong>Nodos alcanzables:</strong> ${formatNumber(props.nodos_alcanzables)}<br>
+              <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
+              <strong>Longitud de red:</strong> ${formatNumber(Math.round(props.longitud_red_m || 0))} m<br>
+              <strong>Area:</strong> ${formatNumber(Math.round(props.area_poligono_m2 || 0))} m2<br>
+              <strong>Snap promedio:</strong> ${Number(props.snap_promedio_m || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m<br>
+              <strong>Modo:</strong> ${props.mode}
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = "Isocrona 400 m desde borde de \u00D1";
+              overlayText.textContent = `${formatNumber(props.source_nodes)} nodos origen sobre el borde de ${props.target_platform} generan un poligono ajustado a ${formatNumber(props.manzanas_ajustadas || 0)} manzanas censales.`;
+            });
+          }
+        }
+      );
+      syncSingleLayer(isocronaPolygonLayer, layerVisibility.isocronasColindantes);
+    }
+
+    async function init() {
+      try {
+        const [
+          geoResponse,
+          statsResponse,
+          platformGeoResponse,
+          platformStatsResponse,
+          manifestResponse,
+          equipamientosGeoResponse,
+          equipamientosStatsResponse,
+          isocronaPolygonResponse,
+          isocronaNetworkResponse,
+          isocronasStatsResponse
+        ] = await Promise.all([
+          fetch(`./riobamba-censo-data/riobamba_manzanas.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_manzanas_stats.json?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_plataformas.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_plataformas_stats.json?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/shp/manifest.json?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_equipamientos.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_equipamientos_stats.json?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocrona_limite_plataforma_n_400m.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_red_vial_isocrona_limite_plataforma_n_400m.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocrona_limite_plataforma_n_400m_stats.json?v=${DATA_VERSION}`)
+        ]);
+
+        if (
+          !geoResponse.ok ||
+          !statsResponse.ok ||
+          !platformGeoResponse.ok ||
+          !platformStatsResponse.ok ||
+          !equipamientosGeoResponse.ok ||
+          !equipamientosStatsResponse.ok ||
+          !isocronaPolygonResponse.ok ||
+          !isocronaNetworkResponse.ok ||
+          !isocronasStatsResponse.ok
+        ) {
+          throw new Error("No se pudieron leer los archivos de datos.");
+        }
+
+        const geo = await geoResponse.json();
+        const stats = await statsResponse.json();
+        const platformsGeo = await platformGeoResponse.json();
+        const platformsStats = await platformStatsResponse.json();
+        const equipamientosGeo = await equipamientosGeoResponse.json();
+        const equipamientosStatsData = await equipamientosStatsResponse.json();
+        const isocronaPolygonGeo = await isocronaPolygonResponse.json();
+        const isocronaNetworkGeo = await isocronaNetworkResponse.json();
+        const isocronasStatsData = await isocronasStatsResponse.json();
+        shpManifest = manifestResponse.ok ? await manifestResponse.json() : {};
+
+        globalSummary = stats.summary;
+        platformSummary = platformsStats;
+        equipamientosStats = equipamientosStatsData;
+        isocronasStats = isocronasStatsData;
+        window.isocronaPolygonFeatures = isocronaPolygonGeo.features || [];
+        window.isocronaNetworkFeatures = isocronaNetworkGeo.features || [];
+        platformStatsByName = platformsStats.byName || {};
+        platformFeatures = (platformsGeo.features || []).map((feature) => ({
+          ...feature,
+          properties: {
+            ...feature.properties,
+            ...(platformStatsByName[feature.properties.platform_name] || {})
+          }
+        }));
+        equipamientosFeatures = equipamientosGeo.features || [];
+
+        const byMan = stats.byMan || {};
+        const manToPlatform = platformsStats.manToPlatform || {};
+
+        joinedFeatures = geo.features
+          .map((feature) => {
+            const man = feature.properties.man;
+            const stat = byMan[man];
+            if (!stat) return null;
+
+            return {
+              ...feature,
+              properties: {
+                ...feature.properties,
+                ...stat,
+                platform_name: manToPlatform[man] || null
+              }
+            };
+          })
+          .filter(Boolean);
+
+        buildPlatformOptions();
+        buildCoverageList();
+        buildEquipamientosSummary();
+        buildIsocronasSummary();
+        renderIsocronaPolygonLayer();
+        renderIsocronaNetworkLayer();
+        renderEquipamientosLayer();
+        renderAll(false);
+
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} equipamientos, ${formatNumber(isocronasStats.boundary_samples)} muestras del borde, ${formatNumber(isocronasStats.source_nodes)} nodos origen y ${formatNumber(isocronasStats.segmentos_red)} segmentos OSM para la isocrona de 400 m.`;
+
+        if (layerControl) {
+          layerControl.remove();
+        }
+
+        layerControl = L.control.layers(
+          { "Esri satelital": esriBase },
+          {},
+          { position: "topright", collapsed: true }
+        ).addTo(map);
+      } catch (error) {
+        statusText.textContent = "No pude cargar el visualizador. Verifica manzanas, plataformas, equipamientos y archivos publicados de la isocrona.";
       }
     }
 

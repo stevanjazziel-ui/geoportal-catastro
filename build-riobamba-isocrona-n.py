@@ -2,7 +2,6 @@ import heapq
 import json
 import math
 import time
-from collections import Counter
 from pathlib import Path
 
 import networkx as nx
@@ -15,18 +14,18 @@ from shapely.ops import linemerge, transform, unary_union
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "riobamba-censo-data"
 PLATFORMS_PATH = DATA_DIR / "riobamba_plataformas.geojson"
-EQUIPAMIENTOS_PATH = DATA_DIR / "riobamba_equipamientos.geojson"
 MANZANAS_PATH = DATA_DIR / "riobamba_manzanas.geojson"
 OSM_CACHE_PATH = DATA_DIR / "riobamba_osm_walk_network_plataforma_n.json"
 
-OUTPUT_ISOCHRONE = DATA_DIR / "riobamba_isocrona_plataforma_n_1000m.geojson"
-OUTPUT_NETWORK = DATA_DIR / "riobamba_red_vial_isocrona_plataforma_n_1000m.geojson"
-OUTPUT_STATS = DATA_DIR / "riobamba_isocrona_plataforma_n_1000m_stats.json"
+OUTPUT_ISOCHRONE = DATA_DIR / "riobamba_isocrona_limite_plataforma_n_400m.geojson"
+OUTPUT_NETWORK = DATA_DIR / "riobamba_red_vial_isocrona_limite_plataforma_n_400m.geojson"
+OUTPUT_STATS = DATA_DIR / "riobamba_isocrona_limite_plataforma_n_400m_stats.json"
 
 TARGET_PLATFORM = "PLATAFORMA " + chr(209)
-DISTANCE_METERS = 1000
-BUFFER_METERS = 1500
+DISTANCE_METERS = 400
+BUFFER_METERS = 1000
 OUTER_LIMIT_CLOSE_GAP_METERS = 12
+BOUNDARY_SAMPLE_STEP_METERS = 20
 OVERPASS_URL = "https://overpass-api.de/api/interpreter"
 WALKABLE_HIGHWAYS = {
     "footway", "path", "pedestrian", "living_street", "residential", "service",
@@ -258,6 +257,29 @@ def build_isochrone_polygon(segments, source_points):
     return polygon
 
 
+def sample_boundary_points(boundary_geom, step_m):
+    lines = []
+    if isinstance(boundary_geom, LineString):
+        lines = [boundary_geom]
+    elif isinstance(boundary_geom, MultiLineString):
+        lines = list(boundary_geom.geoms)
+    else:
+        return []
+
+    sampled_points = []
+    for line in lines:
+        if line.is_empty or line.length <= 0:
+            continue
+
+        distance = 0.0
+        while distance < line.length:
+            sampled_points.append(line.interpolate(distance))
+            distance += step_m
+        sampled_points.append(line.interpolate(line.length))
+
+    return sampled_points
+
+
 def align_polygon_to_manzanas(manzana_features, isochrone_polygon):
     selected_geometries = []
     selected_ids = []
@@ -344,7 +366,6 @@ def normalize_multilines(segments):
 
 def main():
     platforms_data = load_geojson(PLATFORMS_PATH)
-    equipamientos_data = load_geojson(EQUIPAMIENTOS_PATH)
     manzanas_data = load_geojson(MANZANAS_PATH)
 
     platform_geoms = {
@@ -354,24 +375,8 @@ def main():
 
     target_geom = platform_geoms[TARGET_PLATFORM]
     target_geom_utm = to_utm(target_geom)
-
-    source_equipamientos = []
-    equipamien_counter = Counter()
-    for feature in equipamientos_data["features"]:
-        geom = shape(feature["geometry"])
-        point = geom.representative_point()
-        if not (target_geom.contains(point) or target_geom.touches(point)):
-            continue
-
-        equipamien = feature["properties"].get("equipamien") or feature["properties"].get("categoria") or "Sin clasificar"
-        equipamien_counter[equipamien] += 1
-        source_equipamientos.append({
-            "objectid": int(feature["properties"].get("objectid", 0) or 0),
-            "nombre": feature["properties"].get("nombre", ""),
-            "equipamien": equipamien,
-            "codigo": feature["properties"].get("codigo", ""),
-            "point": point,
-        })
+    boundary_geom_utm = target_geom_utm.boundary
+    sampled_boundary_points = sample_boundary_points(boundary_geom_utm, BOUNDARY_SAMPLE_STEP_METERS)
 
     search_area = to_wgs84(target_geom_utm.buffer(BUFFER_METERS))
     overpass_json = fetch_osm_ways(search_area.bounds, use_cache=True)
@@ -379,34 +384,39 @@ def main():
     nodes = list(graph.nodes(data=True))
 
     snapped_sources = []
-    for source in source_equipamientos:
-        point_utm = to_utm(source["point"])
+    for index, point_utm in enumerate(sampled_boundary_points, start=1):
         node_id, snap_distance = nearest_node((point_utm.x, point_utm.y), nodes)
         if node_id is None:
             continue
-        source["point_utm"] = point_utm
-        source["node_id"] = node_id
-        source["snap_m"] = snap_distance
-        snapped_sources.append(source)
+        snapped_sources.append({
+            "source_id": index,
+            "sample_point_utm": point_utm,
+            "node_id": node_id,
+            "snap_m": snap_distance,
+        })
 
     reachable = multi_source_reachable(graph, [source["node_id"] for source in snapped_sources], DISTANCE_METERS)
     segments, total_length = build_reachable_segments(graph, reachable, DISTANCE_METERS)
-    source_points = [(source["point_utm"].x, source["point_utm"].y) for source in snapped_sources]
+    source_points = [(source["sample_point_utm"].x, source["sample_point_utm"].y) for source in snapped_sources]
     base_polygon = build_isochrone_polygon(segments, source_points)
     aligned_polygon, covered_manzanas = align_polygon_to_manzanas(manzanas_data["features"], base_polygon)
     polygon = remove_internal_holes(build_external_limit_polygon(aligned_polygon))
 
     network_geom = normalize_multilines(segments)
+    source_node_count = len({source["node_id"] for source in snapped_sources})
+    average_snap_m = round(sum(source["snap_m"] for source in snapped_sources) / len(snapped_sources), 2) if snapped_sources else 0.0
 
     polygon_feature = build_polygon_feature(
         polygon,
         {
-            "nombre": f"Limite externo de isocrona 1000 m ajustada a manzanas desde equipamientos de {TARGET_PLATFORM}",
+            "nombre": f"Limite externo de isocrona 400 m desde el borde de {TARGET_PLATFORM}",
             "target_platform": TARGET_PLATFORM,
             "distance_m": DISTANCE_METERS,
             "mode": "walking",
-            "equipamientos_origen": len(snapped_sources),
-            "tipos_equipamien": len(equipamien_counter),
+            "source_type": "platform_boundary",
+            "boundary_samples": len(sampled_boundary_points),
+            "source_nodes": source_node_count,
+            "snap_promedio_m": average_snap_m,
             "nodos_alcanzables": len(reachable),
             "longitud_red_m": round(total_length, 2),
             "manzanas_ajustadas": len(covered_manzanas),
@@ -419,11 +429,14 @@ def main():
     network_feature = build_line_feature(
         network_geom,
         {
-            "nombre": f"Red vial OSM alcanzable a {DISTANCE_METERS} m desde equipamientos de {TARGET_PLATFORM}",
+            "nombre": f"Red vial OSM alcanzable a {DISTANCE_METERS} m desde el borde de {TARGET_PLATFORM}",
             "target_platform": TARGET_PLATFORM,
             "distance_m": DISTANCE_METERS,
             "mode": "walking",
-            "equipamientos_origen": len(snapped_sources),
+            "source_type": "platform_boundary",
+            "boundary_samples": len(sampled_boundary_points),
+            "source_nodes": source_node_count,
+            "snap_promedio_m": average_snap_m,
             "segmentos_red": len(segments),
             "longitud_red_m": round(total_length, 2),
         },
@@ -434,8 +447,10 @@ def main():
         "target_platform": TARGET_PLATFORM,
         "distance_m": DISTANCE_METERS,
         "mode": "walking",
-        "equipamientos_origen": len(snapped_sources),
-        "tipos_equipamien": len(equipamien_counter),
+        "source_type": "platform_boundary",
+        "boundary_samples": len(sampled_boundary_points),
+        "source_nodes": source_node_count,
+        "snap_promedio_m": average_snap_m,
         "nodos_alcanzables": len(reachable),
         "segmentos_red": len(segments),
         "longitud_red_m": round(total_length, 2),
@@ -443,8 +458,7 @@ def main():
         "area_poligono_red_m2": round(base_polygon.area, 2),
         "area_poligono_manzanas_m2": round(aligned_polygon.area, 2),
         "area_poligono_m2": round(polygon.area, 2),
-        "source": "OpenStreetMap peatonal + equipamientos dentro de la plataforma objetivo + ajuste del limite a manzanas censales",
-        "by_equipamien": dict(sorted(equipamien_counter.items(), key=lambda item: (-item[1], item[0]))),
+        "source": "OpenStreetMap peatonal + limite de la plataforma objetivo + ajuste del limite a manzanas censales",
     }
 
     save_json(OUTPUT_ISOCHRONE, {"type": "FeatureCollection", "features": [polygon_feature]})
@@ -452,7 +466,8 @@ def main():
     save_json(OUTPUT_STATS, stats)
 
     print("Listo.")
-    print(f"Equipamientos origen en {TARGET_PLATFORM}: {len(snapped_sources)}")
+    print(f"Muestras del limite de {TARGET_PLATFORM}: {len(sampled_boundary_points)}")
+    print(f"Nodos origen sobre red: {source_node_count}")
     print(f"Nodos alcanzables: {len(reachable)}")
     print(f"Segmentos de red: {len(segments)}")
     print(f"Longitud total de red: {round(total_length, 2)} m")
