@@ -96,11 +96,6 @@ def write_zip(feature):
 
 def update_manifest(zip_path: Path, feature_count: int):
     manifest = load_json(MANIFEST_PATH) if MANIFEST_PATH.exists() else {}
-    manifest = {
-        key: value
-        for key, value in manifest.items()
-        if not key.startswith("limite_isocrona_")
-    }
     manifest[OUTPUT_BASENAME] = {
         "file": zip_path.name,
         "count": feature_count,

@@ -132,6 +132,11 @@
     "count": 223,
     "label": "PLATAFORMA J"
   },
+  "limite_isocrona_plataforma_n_1000m": {
+    "file": "limite_isocrona_plataforma_n_1000m.zip",
+    "count": 1,
+    "label": "Limite externo de isocrona 1000 m desde equipamientos de la plataforma N"
+  },
   "limite_isocrona_limite_plataforma_n_400m": {
     "file": "limite_isocrona_limite_plataforma_n_400m.zip",
     "count": 1,
