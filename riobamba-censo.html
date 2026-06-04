@@ -271,6 +271,7 @@
       <section class="panel">
         <h2>Descarga</h2>
         <button id="downloadShpButton" type="button">Descargar SHP de la seleccion</button>
+        <button id="downloadIsochroneShpButton" type="button" style="margin-top:10px;">Descargar SHP del limite de isocrona</button>
         <p style="margin-top:10px;">
           Descarga la vista actual en un ZIP con formato shapefile. Si eliges una plataforma,
           se exportan sus manzanas censales filtradas.
@@ -351,7 +352,8 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260603-2318";
+    const DATA_VERSION = "20260603-2335";
+    const ISOCHRONE_SHP_KEY = "limite_isocrona_plataforma_n_1000m";
 
     const map = L.map("map", { zoomSnap: 0.5 }).setView([-1.67, -78.65], 12.5);
 
@@ -397,6 +399,7 @@
     const overlayTitle = document.getElementById("overlayTitle");
     const overlayText = document.getElementById("overlayText");
     const downloadShpButton = document.getElementById("downloadShpButton");
+    const downloadIsochroneShpButton = document.getElementById("downloadIsochroneShpButton");
     const toggleManzanas = document.getElementById("toggleManzanas");
     const togglePlataformas = document.getElementById("togglePlataformas");
     const toggleEquipamientos = document.getElementById("toggleEquipamientos");
@@ -464,6 +467,7 @@
     function updateDownloadButtonState() {
       const entry = shpManifest[getCurrentSelectionLabel()];
       downloadShpButton.disabled = !entry;
+      downloadIsochroneShpButton.disabled = !shpManifest[ISOCHRONE_SHP_KEY];
     }
 
     function getEquipamienValue(properties = {}) {
@@ -1100,6 +1104,28 @@
         statusText.textContent = `Descarga iniciada: ${formatNumber(entry.count)} manzanas exportadas en shapefile ZIP.`;
       } catch (error) {
         statusText.textContent = "No se pudo iniciar la descarga del shapefile.";
+      }
+    });
+
+    downloadIsochroneShpButton.addEventListener("click", () => {
+      try {
+        const entry = shpManifest[ISOCHRONE_SHP_KEY];
+
+        if (!entry) {
+          statusText.textContent = "No existe un shapefile listo para el limite de la isocrona.";
+          return;
+        }
+
+        const link = document.createElement("a");
+        link.href = `./riobamba-censo-data/shp/${entry.file}`;
+        link.download = entry.file;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        statusText.textContent = "Descarga iniciada: limite externo de la isocrona en shapefile ZIP.";
+      } catch (error) {
+        statusText.textContent = "No se pudo iniciar la descarga del shapefile de la isocrona.";
       }
     });
 

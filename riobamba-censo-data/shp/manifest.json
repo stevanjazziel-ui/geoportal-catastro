@@ -74,5 +74,10 @@
   "plataforma_j": {
     "file": "plataforma_j.zip",
     "count": 223
+  },
+  "limite_isocrona_plataforma_n_1000m": {
+    "file": "limite_isocrona_plataforma_n_1000m.zip",
+    "count": 1,
+    "label": "Limite externo de isocrona 1000 m"
   }
 }
