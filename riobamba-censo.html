@@ -270,11 +270,15 @@
 
       <section class="panel">
         <h2>Descarga</h2>
-        <button id="downloadShpButton" type="button">Descargar SHP de la seleccion</button>
+        <select id="downloadFormatSelect" style="margin-bottom:10px;">
+          <option value="shp">Shape (ZIP)</option>
+          <option value="xlsx">Excel (.xlsx)</option>
+        </select>
+        <button id="downloadDataButton" type="button">Descargar datos de la seleccion</button>
         <button id="downloadIsochroneShpButton" type="button" style="margin-top:10px;">Descargar SHP del limite de isocrona</button>
         <p style="margin-top:10px;">
-          Descarga la vista actual en un ZIP con formato shapefile. Si eliges una plataforma,
-          se exportan sus manzanas censales filtradas.
+          Descarga la vista actual de la plataforma seleccionada en formato Shape o Excel.
+          Si eliges una plataforma, se exportan sus manzanas censales filtradas.
         </p>
       </section>
 
@@ -352,7 +356,7 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260603-2335";
+    const DATA_VERSION = "20260604-0010";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_plataforma_n_1000m";
 
     const map = L.map("map", { zoomSnap: 0.5 }).setView([-1.67, -78.65], 12.5);
@@ -398,7 +402,8 @@
     const isocronasSummary = document.getElementById("isocronasSummary");
     const overlayTitle = document.getElementById("overlayTitle");
     const overlayText = document.getElementById("overlayText");
-    const downloadShpButton = document.getElementById("downloadShpButton");
+    const downloadFormatSelect = document.getElementById("downloadFormatSelect");
+    const downloadDataButton = document.getElementById("downloadDataButton");
     const downloadIsochroneShpButton = document.getElementById("downloadIsochroneShpButton");
     const toggleManzanas = document.getElementById("toggleManzanas");
     const togglePlataformas = document.getElementById("togglePlataformas");
@@ -466,7 +471,9 @@
 
     function updateDownloadButtonState() {
       const entry = shpManifest[getCurrentSelectionLabel()];
-      downloadShpButton.disabled = !entry;
+      const format = downloadFormatSelect.value;
+      const file = format === "xlsx" ? entry && entry.xlsx_file : entry && (entry.shp_file || entry.file);
+      downloadDataButton.disabled = !file;
       downloadIsochroneShpButton.disabled = !shpManifest[ISOCHRONE_SHP_KEY];
     }
 
@@ -1084,26 +1091,28 @@
       }
     }
 
-    downloadShpButton.addEventListener("click", () => {
+    downloadDataButton.addEventListener("click", () => {
       try {
         const key = getCurrentSelectionLabel();
         const entry = shpManifest[key];
+        const format = downloadFormatSelect.value;
+        const file = format === "xlsx" ? entry && entry.xlsx_file : entry && (entry.shp_file || entry.file);
 
-        if (!entry) {
-          statusText.textContent = "No existe un shapefile listo para la seleccion actual.";
+        if (!entry || !file) {
+          statusText.textContent = `No existe una descarga en formato ${format === "xlsx" ? "Excel" : "Shape"} para la seleccion actual.`;
           return;
         }
 
         const link = document.createElement("a");
-        link.href = `./riobamba-censo-data/shp/${entry.file}`;
-        link.download = entry.file;
+        link.href = `./riobamba-censo-data/shp/${file}`;
+        link.download = file;
         document.body.appendChild(link);
         link.click();
         link.remove();
 
-        statusText.textContent = `Descarga iniciada: ${formatNumber(entry.count)} manzanas exportadas en shapefile ZIP.`;
+        statusText.textContent = `Descarga iniciada: ${formatNumber(entry.count)} manzanas exportadas en formato ${format === "xlsx" ? "Excel" : "Shape ZIP"}.`;
       } catch (error) {
-        statusText.textContent = "No se pudo iniciar la descarga del shapefile.";
+        statusText.textContent = "No se pudo iniciar la descarga de la seleccion.";
       }
     });
 
@@ -1132,6 +1141,10 @@
     metricSelect.addEventListener("change", () => {
       currentMetric = metricSelect.value;
       renderAll(false);
+    });
+
+    downloadFormatSelect.addEventListener("change", () => {
+      updateDownloadButtonState();
     });
 
     platformSelect.addEventListener("change", () => {

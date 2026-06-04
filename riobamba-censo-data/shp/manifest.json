@@ -1,83 +1,140 @@
 {
-  "riobamba_todas_las_manzanas": {
-    "file": "riobamba_todas_las_manzanas.zip",
-    "count": 3301
-  },
-  "riobamba_fuera_de_plataformas": {
-    "file": "riobamba_fuera_de_plataformas.zip",
-    "count": 793
-  },
-  "plataforma_f": {
-    "file": "plataforma_f.zip",
-    "count": 128
-  },
-  "plataforma_c": {
-    "file": "plataforma_c.zip",
-    "count": 180
-  },
-  "plataforma_h": {
-    "file": "plataforma_h.zip",
-    "count": 144
-  },
-  "plataforma_a": {
-    "file": "plataforma_a.zip",
-    "count": 77
-  },
-  "plataforma_b": {
-    "file": "plataforma_b.zip",
-    "count": 102
-  },
-  "plataforma_k": {
-    "file": "plataforma_k.zip",
-    "count": 184
-  },
-  "plataforma_i": {
-    "file": "plataforma_i.zip",
-    "count": 102
-  },
-  "plataforma_d": {
-    "file": "plataforma_d.zip",
-    "count": 192
-  },
-  "plataforma_g": {
-    "file": "plataforma_g.zip",
-    "count": 144
-  },
-  "plataforma_e": {
-    "file": "plataforma_e.zip",
-    "count": 3
-  },
-  "plataforma_q": {
-    "file": "plataforma_q.zip",
-    "count": 119
-  },
-  "plataforma_l": {
-    "file": "plataforma_l.zip",
-    "count": 33
-  },
-  "plataforma_m": {
-    "file": "plataforma_m.zip",
-    "count": 185
-  },
-  "plataforma_o": {
-    "file": "plataforma_o.zip",
-    "count": 266
-  },
-  "plataforma_p": {
-    "file": "plataforma_p.zip",
-    "count": 143
-  },
-  "plataforma_n": {
-    "file": "plataforma_n.zip",
-    "count": 86
-  },
-  "plataforma_j": {
-    "file": "plataforma_j.zip",
-    "count": 223
-  },
   "limite_isocrona_plataforma_n_1000m": {
     "file": "limite_isocrona_plataforma_n_1000m.zip",
     "count": 1,
     "label": "Limite externo de isocrona 1000 m"
+  },
+  "riobamba_todas_las_manzanas": {
+    "file": "riobamba_todas_las_manzanas.zip",
+    "shp_file": "riobamba_todas_las_manzanas.zip",
+    "xlsx_file": "riobamba_todas_las_manzanas.xlsx",
+    "count": 3301,
+    "label": "Todas las plataformas"
+  },
+  "riobamba_fuera_de_plataformas": {
+    "file": "riobamba_fuera_de_plataformas.zip",
+    "shp_file": "riobamba_fuera_de_plataformas.zip",
+    "xlsx_file": "riobamba_fuera_de_plataformas.xlsx",
+    "count": 793,
+    "label": "Fuera de plataformas"
+  },
+  "plataforma_f": {
+    "file": "plataforma_f.zip",
+    "shp_file": "plataforma_f.zip",
+    "xlsx_file": "plataforma_f.xlsx",
+    "count": 128,
+    "label": "PLATAFORMA F"
+  },
+  "plataforma_c": {
+    "file": "plataforma_c.zip",
+    "shp_file": "plataforma_c.zip",
+    "xlsx_file": "plataforma_c.xlsx",
+    "count": 180,
+    "label": "PLATAFORMA C"
+  },
+  "plataforma_h": {
+    "file": "plataforma_h.zip",
+    "shp_file": "plataforma_h.zip",
+    "xlsx_file": "plataforma_h.xlsx",
+    "count": 144,
+    "label": "PLATAFORMA H"
+  },
+  "plataforma_a": {
+    "file": "plataforma_a.zip",
+    "shp_file": "plataforma_a.zip",
+    "xlsx_file": "plataforma_a.xlsx",
+    "count": 77,
+    "label": "PLATAFORMA A"
+  },
+  "plataforma_b": {
+    "file": "plataforma_b.zip",
+    "shp_file": "plataforma_b.zip",
+    "xlsx_file": "plataforma_b.xlsx",
+    "count": 102,
+    "label": "PLATAFORMA B"
+  },
+  "plataforma_k": {
+    "file": "plataforma_k.zip",
+    "shp_file": "plataforma_k.zip",
+    "xlsx_file": "plataforma_k.xlsx",
+    "count": 184,
+    "label": "PLATAFORMA K"
+  },
+  "plataforma_i": {
+    "file": "plataforma_i.zip",
+    "shp_file": "plataforma_i.zip",
+    "xlsx_file": "plataforma_i.xlsx",
+    "count": 102,
+    "label": "PLATAFORMA I"
+  },
+  "plataforma_d": {
+    "file": "plataforma_d.zip",
+    "shp_file": "plataforma_d.zip",
+    "xlsx_file": "plataforma_d.xlsx",
+    "count": 192,
+    "label": "PLATAFORMA D"
+  },
+  "plataforma_g": {
+    "file": "plataforma_g.zip",
+    "shp_file": "plataforma_g.zip",
+    "xlsx_file": "plataforma_g.xlsx",
+    "count": 144,
+    "label": "PLATAFORMA G"
+  },
+  "plataforma_e": {
+    "file": "plataforma_e.zip",
+    "shp_file": "plataforma_e.zip",
+    "xlsx_file": "plataforma_e.xlsx",
+    "count": 3,
+    "label": "PLATAFORMA E"
+  },
+  "plataforma_q": {
+    "file": "plataforma_q.zip",
+    "shp_file": "plataforma_q.zip",
+    "xlsx_file": "plataforma_q.xlsx",
+    "count": 119,
+    "label": "PLATAFORMA Q"
+  },
+  "plataforma_l": {
+    "file": "plataforma_l.zip",
+    "shp_file": "plataforma_l.zip",
+    "xlsx_file": "plataforma_l.xlsx",
+    "count": 33,
+    "label": "PLATAFORMA L"
+  },
+  "plataforma_m": {
+    "file": "plataforma_m.zip",
+    "shp_file": "plataforma_m.zip",
+    "xlsx_file": "plataforma_m.xlsx",
+    "count": 185,
+    "label": "PLATAFORMA M"
+  },
+  "plataforma_o": {
+    "file": "plataforma_o.zip",
+    "shp_file": "plataforma_o.zip",
+    "xlsx_file": "plataforma_o.xlsx",
+    "count": 266,
+    "label": "PLATAFORMA O"
+  },
+  "plataforma_p": {
+    "file": "plataforma_p.zip",
+    "shp_file": "plataforma_p.zip",
+    "xlsx_file": "plataforma_p.xlsx",
+    "count": 143,
+    "label": "PLATAFORMA P"
+  },
+  "plataforma_n": {
+    "file": "plataforma_n.zip",
+    "shp_file": "plataforma_n.zip",
+    "xlsx_file": "plataforma_n.xlsx",
+    "count": 86,
+    "label": "PLATAFORMA N"
+  },
+  "plataforma_j": {
+    "file": "plataforma_j.zip",
+    "shp_file": "plataforma_j.zip",
+    "xlsx_file": "plataforma_j.xlsx",
+    "count": 223,
+    "label": "PLATAFORMA J"
   }
 }
