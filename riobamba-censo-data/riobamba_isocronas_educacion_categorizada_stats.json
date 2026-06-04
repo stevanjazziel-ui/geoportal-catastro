@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-04T15:58:07",
+  "generated_at": "2026-06-04T16:45:41",
   "source_zip": "E:\\Riobamba\\equipamientos\\EDUCACION 2\\EDUCACION_CATEGORIZADO.zip",
   "source_osm_cache": "D:\\codex\\riobamba-censo-data\\riobamba_osm_walk_network_plataforma_n.json",
   "summary": {
@@ -7,7 +7,7 @@
     "total_isocronas": 20,
     "categorias_con_isocrona": 2,
     "omitidos": 2,
-    "manzanas_ajustadas": 4005
+    "manzanas_ajustadas": 4003
   },
   "by_categoria_source": {
     "ZONAL": 16,

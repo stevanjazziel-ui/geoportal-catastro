@@ -35,6 +35,10 @@ MANZANA_REP_BUFFER_METERS = 20
 EXTERNAL_CLOSE_GAP_METERS = 10
 MIN_COMPONENT_AREA_M2 = 1200
 MIN_COMPONENT_RATIO = 0.04
+MAX_VERTEX_TOLERANCE_BY_DISTANCE = {
+    400: 60,
+    1000: 100,
+}
 
 WALKABLE_HIGHWAYS = {
     "footway",
@@ -328,10 +332,24 @@ def build_isochrone_polygon(segments, source_points):
     return polygon.buffer(0)
 
 
-def align_polygon_to_manzanas(manzana_features, isochrone_polygon):
+def max_distance_to_geometry_boundary(geometry, source_point):
+    max_distance = 0.0
+    for part in polygon_parts(geometry):
+        for x, y in part.exterior.coords:
+            distance = source_point.distance(Point(x, y))
+            if distance > max_distance:
+                max_distance = distance
+    return max_distance
+
+
+def align_polygon_to_manzanas(manzana_features, isochrone_polygon, source_point, target_distance_m):
     selected_geometries = []
     selected_ids = []
     selection_buffer = isochrone_polygon.buffer(MANZANA_REP_BUFFER_METERS)
+    max_vertex_distance = target_distance_m + MAX_VERTEX_TOLERANCE_BY_DISTANCE.get(
+        int(target_distance_m),
+        max(50, round(target_distance_m * 0.1)),
+    )
 
     for feature in manzana_features:
         manzana_id = feature.get("properties", {}).get("man")
@@ -351,6 +369,8 @@ def align_polygon_to_manzanas(manzana_features, isochrone_polygon):
         overlap_ratio = (overlap_geom.area / manzana_area) if manzana_area > 0 else 0.0
         representative_inside = selection_buffer.contains(manzana_geom.representative_point())
         if not representative_inside and overlap_ratio < MANZANA_OVERLAP_RATIO_THRESHOLD:
+            continue
+        if max_distance_to_geometry_boundary(manzana_geom, source_point) > max_vertex_distance:
             continue
 
         selected_geometries.append(manzana_geom)
@@ -536,7 +556,13 @@ def build_single_isochrone(record, manzana_features, base_graph, edge_tree, edge
     if exact_polygon.is_empty:
         return None
 
-    aligned_polygon, covered_manzanas = align_polygon_to_manzanas(manzana_features, exact_polygon)
+    source_point = Point(*source_entry["projected_xy"])
+    aligned_polygon, covered_manzanas = align_polygon_to_manzanas(
+        manzana_features,
+        exact_polygon,
+        source_point,
+        distance_m,
+    )
     final_polygon = homogenize_aligned_polygon(aligned_polygon)
     if final_polygon.is_empty:
         final_polygon = remove_internal_holes(aligned_polygon.buffer(0))
