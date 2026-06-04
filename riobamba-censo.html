@@ -283,6 +283,7 @@
         <button id="downloadIsochroneShpButton" type="button" style="margin-top:10px;">Descargar SHP de la isocrona 1000 m</button>
         <button id="downloadIsochrone400ShpButton" type="button" style="margin-top:10px;">Descargar SHP de la isocrona 400 m</button>
         <button id="downloadIsochrone400CartoShpButton" type="button" style="margin-top:10px;">Descargar contorno cartografico 400 m</button>
+        <button id="downloadEducacionIsocronasShpButton" type="button" style="margin-top:10px;">Descargar isocronas educacion ajustadas</button>
         <p style="margin-top:10px;">
           Descarga la vista actual de la plataforma seleccionada en formato Shape o Excel.
           Si eliges una plataforma, se exportan sus manzanas censales filtradas.
@@ -380,9 +381,10 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260604-1530";
+    const DATA_VERSION = "20260604-1625";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
+    const EDUCACION_ISOCHRONE_SHP_KEY = "isocronas_educacion_categorizada_manzanas";
 
     const map = L.map("map", { zoomSnap: 0.5 }).setView([-1.67, -78.65], 12.5);
 
@@ -437,6 +439,7 @@
     const downloadIsochroneShpButton = document.getElementById("downloadIsochroneShpButton");
     const downloadIsochrone400ShpButton = document.getElementById("downloadIsochrone400ShpButton");
     const downloadIsochrone400CartoShpButton = document.getElementById("downloadIsochrone400CartoShpButton");
+    const downloadEducacionIsocronasShpButton = document.getElementById("downloadEducacionIsocronasShpButton");
     const toggleManzanas = document.getElementById("toggleManzanas");
     const togglePlataformas = document.getElementById("togglePlataformas");
     const toggleEquipamientos = document.getElementById("toggleEquipamientos");
@@ -1467,6 +1470,7 @@
       downloadIsochroneShpButton.disabled = !shpManifest[LEGACY_ISOCHRONE_SHP_KEY];
       downloadIsochrone400ShpButton.disabled = !shpManifest[BOUNDARY_ISOCHRONE_SHP_KEY];
       downloadIsochrone400CartoShpButton.disabled = !shpManifest[CARTO_ISOCHRONE_SHP_KEY];
+      downloadEducacionIsocronasShpButton.disabled = !shpManifest[EDUCACION_ISOCHRONE_SHP_KEY];
     }
 
     function syncVisibleLayers() {
@@ -1565,7 +1569,9 @@
         ["Isocronas generadas", window.educacionIsocronasStats.summary.total_isocronas || 0],
         ["Barrial 400 m", window.educacionIsocronasStats.by_distance_m["400"] || 0],
         ["Zonal 1000 m", window.educacionIsocronasStats.by_distance_m["1000"] || 0],
-        ["Cantonales omitidos", (window.educacionIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0]
+        ["Cantonales omitidos", (window.educacionIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0],
+        ["Manzanas ajustadas", window.educacionIsocronasStats.summary.manzanas_ajustadas || 0],
+        ["Visualizacion", "Solo limite exterior"]
       ];
 
       educacionIsocronasSummary.innerHTML = rows
@@ -1594,6 +1600,8 @@
 
       const features = (window.educacionIsocronasFeatures || [])
         .filter((feature) => feature && feature.geometry && feature.properties)
+        .map(featureToExteriorBoundary)
+        .filter(Boolean)
         .sort((left, right) => (Number(right.properties?.distance_m || 0) - Number(left.properties?.distance_m || 0)));
 
       if (!map.getPane("educacionIsocronasPane")) {
@@ -1605,7 +1613,15 @@
         { type: "FeatureCollection", features },
         {
           pane: "educacionIsocronasPane",
-          style: getEducacionIsoStyle,
+          style: (feature) => {
+            const baseStyle = getEducacionIsoStyle(feature);
+            return {
+              color: baseStyle.color,
+              weight: baseStyle.weight,
+              opacity: baseStyle.opacity,
+              dashArray: baseStyle.dashArray
+            };
+          },
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
             const categoria = String(props.categoria || "").toUpperCase();
@@ -1615,15 +1631,17 @@
               <strong>Categoria:</strong> ${categoriaTexto}<br>
               <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
               <strong>Codigo:</strong> ${props.codigo || "Sin codigo"}<br>
+              <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
               <strong>Segmentos de red:</strong> ${formatNumber(props.segmentos_red || 0)}<br>
               <strong>Longitud de red:</strong> ${formatNumber(Math.round(props.longitud_red_m || 0))} m<br>
-              <strong>Area:</strong> ${formatNumber(Math.round(props.area_poligono_m2 || 0))} m2<br>
+              <strong>Area exacta red:</strong> ${formatNumber(Math.round(props.area_poligono_red_m2 || 0))} m2<br>
+              <strong>Area ajustada:</strong> ${formatNumber(Math.round(props.area_poligono_m2 || 0))} m2<br>
               <strong>Snap a via:</strong> ${Number(props.snap_m || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m
             `);
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocronas educacion categorizada";
-              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m sobre la red vial OSM.`;
+              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada solo con el borde exterior.`;
             });
           }
         }
@@ -2010,7 +2028,7 @@
         renderEquipamientosLayer();
         renderAll(false);
 
-        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas y ${formatNumber(equipamientosFeatures.length)} equipamientos. Isocrona 1000 m: ${formatNumber(isocronasStats.equipamientos_origen)} equipamientos origen. Educacion categorizada: ${formatNumber(window.educacionIsocronasStats.summary.total_isocronas || 0)} isocronas (${formatNumber((window.educacionIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0)} cantonales omitidos). Isocrona exacta 400 m: ${formatNumber(window.isocrona400Stats.boundary_samples)} muestras del borde y ${formatNumber(window.isocrona400Stats.segmentos_red)} segmentos OSM. Referencia cartografica: ${formatNumber(window.isocrona400CartoStats.manzanas_ajustadas || 0)} manzanas ajustadas.`;
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas y ${formatNumber(equipamientosFeatures.length)} equipamientos. Educacion categorizada: ${formatNumber(window.educacionIsocronasStats.summary.total_isocronas || 0)} isocronas ajustadas a ${formatNumber(window.educacionIsocronasStats.summary.manzanas_ajustadas || 0)} manzanas, con solo borde exterior visible y ${formatNumber((window.educacionIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0)} cantonales omitidos. Isocrona 1000 m: ${formatNumber(isocronasStats.equipamientos_origen)} equipamientos origen. Isocrona exacta 400 m: ${formatNumber(window.isocrona400Stats.boundary_samples)} muestras del borde y ${formatNumber(window.isocrona400Stats.segmentos_red)} segmentos OSM. Referencia cartografica: ${formatNumber(window.isocrona400CartoStats.manzanas_ajustadas || 0)} manzanas ajustadas.`;
 
         if (layerControl) {
           layerControl.remove();
@@ -2114,6 +2132,28 @@
         statusText.textContent = "Descarga iniciada: contorno cartografico ajustado de 400 m en shapefile ZIP.";
       } catch (error) {
         statusText.textContent = "No se pudo iniciar la descarga del contorno cartografico ajustado de 400 m.";
+      }
+    });
+
+    downloadEducacionIsocronasShpButton.addEventListener("click", () => {
+      try {
+        const entry = shpManifest[EDUCACION_ISOCHRONE_SHP_KEY];
+
+        if (!entry) {
+          statusText.textContent = "No existe un shapefile listo para las isocronas de educacion ajustadas.";
+          return;
+        }
+
+        const link = document.createElement("a");
+        link.href = `./riobamba-censo-data/shp/${entry.file}`;
+        link.download = entry.file;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        statusText.textContent = "Descarga iniciada: isocronas de educacion ajustadas a manzanas en shapefile ZIP.";
+      } catch (error) {
+        statusText.textContent = "No se pudo iniciar la descarga de las isocronas de educacion ajustadas.";
       }
     });
 

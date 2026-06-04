@@ -153,5 +153,10 @@
     "xlsx_file": "plataforma_j.xlsx",
     "count": 223,
     "label": "PLATAFORMA J"
+  },
+  "isocronas_educacion_categorizada_manzanas": {
+    "file": "isocronas_educacion_categorizada_manzanas.zip",
+    "count": 20,
+    "label": "Isocronas de educacion ajustadas a manzanas censales"
   }
 }

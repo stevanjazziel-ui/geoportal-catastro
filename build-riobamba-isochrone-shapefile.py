@@ -24,6 +24,11 @@ EXPORTS = [
         "output_basename": "contorno_cartografico_limite_plataforma_n_400m",
         "label": "Contorno cartografico ajustado 400 m desde el borde de la plataforma Ñ",
     },
+    {
+        "source_path": DATA_DIR / "riobamba_isocronas_educacion_categorizada.geojson",
+        "output_basename": "isocronas_educacion_categorizada_manzanas",
+        "label": "Isocronas de educacion ajustadas a manzanas censales",
+    },
 ]
 
 
@@ -44,7 +49,7 @@ def geometry_parts(feature):
     raise ValueError(f"Geometria no soportada: {geometry['type']}")
 
 
-def write_zip(feature, output_basename: str):
+def write_zip(features, output_basename: str):
     SHP_DIR.mkdir(parents=True, exist_ok=True)
     temp_dir = SHP_DIR / output_basename
     if temp_dir.exists():
@@ -70,26 +75,31 @@ def write_zip(feature, output_basename: str):
     writer.field("area_mz", "N", size=14, decimal=2)
     writer.field("area_fin", "N", size=14, decimal=2)
     writer.field("modo", "C", size=12)
+    writer.field("categor", "C", size=20)
+    writer.field("codigo", "C", size=24)
 
-    props = feature["properties"]
-    writer.poly(geometry_parts(feature))
-    writer.record(
-        str(props.get("nombre", ""))[:80],
-        str(props.get("target_platform", ""))[:24],
-        int(props.get("distance_m", 0) or 0),
-        str(props.get("source_type", ""))[:32],
-        int(props.get("boundary_samples", 0) or 0),
-        int(props.get("source_nodes", 0) or 0),
-        float(props.get("snap_promedio_m", 0) or 0),
-        int(props.get("nodos_alcanzables", 0) or 0),
-        int(props.get("segmentos_red", 0) or 0),
-        int(props.get("manzanas_ajustadas", 0) or 0),
-        float(props.get("longitud_red_m", 0) or 0),
-        float(props.get("area_poligono_red_m2", 0) or 0),
-        float(props.get("area_poligono_manzanas_m2", 0) or 0),
-        float(props.get("area_poligono_m2", 0) or 0),
-        str(props.get("mode", ""))[:12],
-    )
+    for feature in features:
+        props = feature.get("properties", {})
+        writer.poly(geometry_parts(feature))
+        writer.record(
+            str(props.get("nombre", ""))[:80],
+            str(props.get("target_platform", ""))[:24],
+            int(props.get("distance_m", 0) or 0),
+            str(props.get("source_type", props.get("origin_type", "")))[:32],
+            int(props.get("boundary_samples", 0) or 0),
+            int(props.get("source_nodes", 0) or 0),
+            float(props.get("snap_promedio_m", props.get("snap_m", 0)) or 0),
+            int(props.get("nodos_alcanzables", 0) or 0),
+            int(props.get("segmentos_red", 0) or 0),
+            int(props.get("manzanas_ajustadas", 0) or 0),
+            float(props.get("longitud_red_m", 0) or 0),
+            float(props.get("area_poligono_red_m2", props.get("area_poligono_exacto_m2", 0)) or 0),
+            float(props.get("area_poligono_manzanas_m2", 0) or 0),
+            float(props.get("area_poligono_m2", 0) or 0),
+            str(props.get("mode", ""))[:12],
+            str(props.get("categoria", ""))[:20],
+            str(props.get("codigo", ""))[:24],
+        )
     writer.close()
 
     with open(shp_base.with_suffix(".prj"), "w", encoding="utf-8") as handle:
@@ -123,7 +133,7 @@ def build_export(config):
     if not features:
         raise RuntimeError(f"No se encontro geometria para exportar en {config['source_path'].name}.")
 
-    zip_path = write_zip(features[0], config["output_basename"])
+    zip_path = write_zip(features, config["output_basename"])
     return {
         "output_basename": config["output_basename"],
         "zip_path": zip_path,

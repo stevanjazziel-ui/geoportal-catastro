@@ -9,7 +9,7 @@ from pathlib import Path
 import networkx as nx
 import shapefile
 from pyproj import Transformer
-from shapely.geometry import LineString, MultiLineString, Point, Polygon, mapping, shape
+from shapely.geometry import LineString, MultiLineString, MultiPolygon, Point, Polygon, mapping, shape
 from shapely.ops import transform, unary_union
 from shapely.strtree import STRtree
 
@@ -18,6 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "riobamba-censo-data"
 ZIP_PATH = Path(r"E:\Riobamba\equipamientos\EDUCACION 2\EDUCACION_CATEGORIZADO.zip")
 OSM_CACHE_PATH = DATA_DIR / "riobamba_osm_walk_network_plataforma_n.json"
+MANZANAS_PATH = DATA_DIR / "riobamba_manzanas.geojson"
 
 OUTPUT_EQUIPAMIENTOS = DATA_DIR / "riobamba_educacion_categorizada.geojson"
 OUTPUT_EQUIPAMIENTOS_STATS = DATA_DIR / "riobamba_educacion_categorizada_stats.json"
@@ -29,6 +30,11 @@ DISTANCE_BY_CATEGORY = {
     "BARRIAL": 400,
     "ZONAL": 1000,
 }
+MANZANA_OVERLAP_RATIO_THRESHOLD = 0.25
+MANZANA_REP_BUFFER_METERS = 20
+EXTERNAL_CLOSE_GAP_METERS = 10
+MIN_COMPONENT_AREA_M2 = 1200
+MIN_COMPONENT_RATIO = 0.04
 
 WALKABLE_HIGHWAYS = {
     "footway",
@@ -73,7 +79,7 @@ def to_wgs84(geom):
 
 
 def geometry_mapping(geom):
-    if isinstance(geom, Polygon):
+    if isinstance(geom, (Polygon, MultiPolygon)):
         cleaned = geom.buffer(0)
         return mapping(cleaned if not cleaned.is_empty else geom)
     return mapping(geom)
@@ -322,6 +328,93 @@ def build_isochrone_polygon(segments, source_points):
     return polygon.buffer(0)
 
 
+def align_polygon_to_manzanas(manzana_features, isochrone_polygon):
+    selected_geometries = []
+    selected_ids = []
+    selection_buffer = isochrone_polygon.buffer(MANZANA_REP_BUFFER_METERS)
+
+    for feature in manzana_features:
+        manzana_id = feature.get("properties", {}).get("man")
+        geometry = feature.get("geometry")
+        if not geometry:
+            continue
+
+        manzana_geom = to_utm(shape(geometry))
+        if manzana_geom.is_empty or not manzana_geom.intersects(isochrone_polygon):
+            continue
+
+        overlap_geom = manzana_geom.intersection(isochrone_polygon)
+        if overlap_geom.is_empty:
+            continue
+
+        manzana_area = float(manzana_geom.area)
+        overlap_ratio = (overlap_geom.area / manzana_area) if manzana_area > 0 else 0.0
+        representative_inside = selection_buffer.contains(manzana_geom.representative_point())
+        if not representative_inside and overlap_ratio < MANZANA_OVERLAP_RATIO_THRESHOLD:
+            continue
+
+        selected_geometries.append(manzana_geom)
+        if manzana_id:
+            selected_ids.append(manzana_id)
+
+    if not selected_geometries:
+        return isochrone_polygon, []
+
+    return unary_union(selected_geometries), selected_ids
+
+
+def polygon_parts(geometry):
+    if isinstance(geometry, Polygon):
+        return [geometry]
+    if isinstance(geometry, MultiPolygon):
+        return [part for part in geometry.geoms if not part.is_empty]
+    return []
+
+
+def build_external_limit_polygon(aligned_polygon, close_gap_m):
+    closed = aligned_polygon.buffer(close_gap_m).buffer(-close_gap_m)
+    if closed.is_empty:
+        return aligned_polygon
+    return closed
+
+
+def remove_internal_holes(geometry):
+    if isinstance(geometry, Polygon):
+        return Polygon(geometry.exterior)
+    if isinstance(geometry, MultiPolygon):
+        polygons = [Polygon(part.exterior) for part in geometry.geoms if not part.is_empty]
+        if not polygons:
+            return geometry
+        return unary_union(polygons)
+    return geometry
+
+
+def keep_significant_components(geometry, min_area_m2, min_area_ratio):
+    parts = sorted(polygon_parts(geometry), key=lambda part: part.area, reverse=True)
+    if not parts:
+        return geometry
+
+    largest_area = parts[0].area
+    area_threshold = max(min_area_m2, largest_area * min_area_ratio)
+    kept_parts = [parts[0]]
+    kept_parts.extend(part for part in parts[1:] if part.area >= area_threshold)
+    return unary_union(kept_parts)
+
+
+def homogenize_aligned_polygon(aligned_polygon):
+    closed = build_external_limit_polygon(aligned_polygon, EXTERNAL_CLOSE_GAP_METERS)
+    holeless = remove_internal_holes(closed)
+    filtered = keep_significant_components(
+        holeless,
+        MIN_COMPONENT_AREA_M2,
+        MIN_COMPONENT_RATIO,
+    )
+    cleaned = filtered.buffer(0)
+    if cleaned.is_empty:
+        return holeless
+    return cleaned
+
+
 def build_polygon_feature(geometry, properties):
     return {
         "type": "Feature",
@@ -409,7 +502,7 @@ def extract_source_records():
     return records, {"type": "FeatureCollection", "features": features}, stats
 
 
-def build_single_isochrone(record, base_graph, edge_tree, edge_geometries, edge_metadata):
+def build_single_isochrone(record, manzana_features, base_graph, edge_tree, edge_geometries, edge_metadata):
     props = record["properties"]
     geometry_utm = record["geometry_utm"]
     distance_m = int(props["isocrona_distance_m"])
@@ -437,12 +530,19 @@ def build_single_isochrone(record, base_graph, edge_tree, edge_geometries, edge_
     if not segments:
         return None
 
-    polygon = build_isochrone_polygon(segments, [source_entry["projected_xy"]])
-    if polygon.is_empty:
+    exact_polygon = build_isochrone_polygon(segments, [source_entry["projected_xy"]])
+    if exact_polygon.is_empty:
         return None
 
+    aligned_polygon, covered_manzanas = align_polygon_to_manzanas(manzana_features, exact_polygon)
+    final_polygon = homogenize_aligned_polygon(aligned_polygon)
+    if final_polygon.is_empty:
+        final_polygon = remove_internal_holes(aligned_polygon.buffer(0))
+    if final_polygon.is_empty:
+        final_polygon = exact_polygon
+
     return build_polygon_feature(
-        polygon,
+        final_polygon,
         {
             "source_id": props["source_id"],
             "objectid": props["objectid"],
@@ -453,12 +553,17 @@ def build_single_isochrone(record, base_graph, edge_tree, edge_geometries, edge_
             "distance_m": distance_m,
             "mode": "walking",
             "origin_type": "equipamiento",
+            "source_type": "equipamiento_manzana_aligned_external",
             "snap_m": round(float(projection["snap_m"]), 2),
             "source_node_id": str(source_entry.get("node_id")),
             "nodos_alcanzables": len(reachable),
             "segmentos_red": len(segments),
             "longitud_red_m": round(total_length, 2),
-            "area_poligono_m2": round(polygon.area, 2),
+            "manzanas_ajustadas": len(covered_manzanas),
+            "area_poligono_red_m2": round(exact_polygon.area, 2),
+            "area_poligono_manzanas_m2": round(aligned_polygon.area, 2),
+            "area_poligono_m2": round(final_polygon.area, 2),
+            "representation": "manzana_aligned_external_boundary",
         },
     )
 
@@ -490,6 +595,7 @@ def main():
     save_json(OUTPUT_EQUIPAMIENTOS, equipamientos_geojson)
     save_json(OUTPUT_EQUIPAMIENTOS_STATS, equipamientos_stats)
 
+    manzanas_data = load_json(MANZANAS_PATH)
     osm_payload = load_json(OSM_CACHE_PATH)
     ensure_cache_covers_sources(records, osm_payload)
     base_graph = build_graph(osm_payload)
@@ -505,7 +611,14 @@ def main():
             skipped_counter[categoria] += 1
             continue
 
-        feature = build_single_isochrone(record, base_graph, edge_tree, edge_geometries, edge_metadata)
+        feature = build_single_isochrone(
+            record,
+            manzanas_data["features"],
+            base_graph,
+            edge_tree,
+            edge_geometries,
+            edge_metadata,
+        )
         if feature is None:
             skipped_counter[f"{categoria}_SIN_RED"] += 1
             continue
@@ -531,6 +644,7 @@ def main():
             "total_isocronas": len(isocronas),
             "categorias_con_isocrona": len(generated_counter),
             "omitidos": sum(skipped_counter.values()),
+            "manzanas_ajustadas": sum(int(feature["properties"].get("manzanas_ajustadas", 0) or 0) for feature in isocronas),
         },
         "by_categoria_source": equipamientos_stats["by_categoria"],
         "by_categoria_isocronas": dict(sorted(generated_counter.items(), key=lambda item: (-item[1], item[0]))),
@@ -541,7 +655,8 @@ def main():
         },
         "observacion": (
             "Se generan isocronas solo para BARRIAL (400 m) y ZONAL (1000 m). "
-            "Los registros CANTONAL no se procesan."
+            "Los registros CANTONAL no se procesan. El resultado final queda ajustado a manzanas "
+            "censales, sin huecos internos y preparado para mostrar solo el limite exterior."
         ),
     }
 
