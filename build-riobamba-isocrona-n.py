@@ -26,6 +26,7 @@ OUTPUT_STATS = DATA_DIR / "riobamba_isocrona_plataforma_n_1000m_stats.json"
 TARGET_PLATFORM = "PLATAFORMA " + chr(209)
 DISTANCE_METERS = 1000
 BUFFER_METERS = 1500
+OUTER_LIMIT_CLOSE_GAP_METERS = 12
 OVERPASS_URL = "https://overpass-api.de/api/interpreter"
 WALKABLE_HIGHWAYS = {
     "footway", "path", "pedestrian", "living_street", "residential", "service",
@@ -281,6 +282,14 @@ def align_polygon_to_manzanas(manzana_features, isochrone_polygon):
     return unary_union(selected_geometries), selected_ids
 
 
+def build_external_limit_polygon(aligned_polygon):
+    # Close the internal road gaps so the final geometry draws as one outer silhouette.
+    closed = aligned_polygon.buffer(OUTER_LIMIT_CLOSE_GAP_METERS).buffer(-OUTER_LIMIT_CLOSE_GAP_METERS)
+    if closed.is_empty:
+        return aligned_polygon
+    return closed
+
+
 def geometry_mapping(geom):
     if isinstance(geom, (Polygon, MultiPolygon)):
         cleaned = geom.buffer(0)
@@ -373,14 +382,15 @@ def main():
     segments, total_length = build_reachable_segments(graph, reachable, DISTANCE_METERS)
     source_points = [(source["point_utm"].x, source["point_utm"].y) for source in snapped_sources]
     base_polygon = build_isochrone_polygon(segments, source_points)
-    polygon, covered_manzanas = align_polygon_to_manzanas(manzanas_data["features"], base_polygon)
+    aligned_polygon, covered_manzanas = align_polygon_to_manzanas(manzanas_data["features"], base_polygon)
+    polygon = build_external_limit_polygon(aligned_polygon)
 
     network_geom = normalize_multilines(segments)
 
     polygon_feature = build_polygon_feature(
         polygon,
         {
-            "nombre": f"Isocrona 1000 m ajustada a manzanas desde equipamientos de {TARGET_PLATFORM}",
+            "nombre": f"Limite externo de isocrona 1000 m ajustada a manzanas desde equipamientos de {TARGET_PLATFORM}",
             "target_platform": TARGET_PLATFORM,
             "distance_m": DISTANCE_METERS,
             "mode": "walking",
@@ -390,6 +400,7 @@ def main():
             "longitud_red_m": round(total_length, 2),
             "manzanas_ajustadas": len(covered_manzanas),
             "area_poligono_red_m2": round(base_polygon.area, 2),
+            "area_poligono_manzanas_m2": round(aligned_polygon.area, 2),
             "area_poligono_m2": round(polygon.area, 2),
         },
     )
@@ -419,6 +430,7 @@ def main():
         "longitud_red_m": round(total_length, 2),
         "manzanas_ajustadas": len(covered_manzanas),
         "area_poligono_red_m2": round(base_polygon.area, 2),
+        "area_poligono_manzanas_m2": round(aligned_polygon.area, 2),
         "area_poligono_m2": round(polygon.area, 2),
         "source": "OpenStreetMap peatonal + equipamientos dentro de la plataforma objetivo + ajuste del limite a manzanas censales",
         "by_equipamien": dict(sorted(equipamien_counter.items(), key=lambda item: (-item[1], item[0]))),
