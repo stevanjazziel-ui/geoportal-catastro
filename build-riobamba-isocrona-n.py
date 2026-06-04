@@ -27,7 +27,11 @@ OUTPUT_STATS_CARTO = DATA_DIR / "riobamba_isocrona_limite_plataforma_n_400m_ajus
 TARGET_PLATFORM = "PLATAFORMA " + chr(209)
 DISTANCE_METERS = 400
 BUFFER_METERS = 1000
-OUTER_LIMIT_CLOSE_GAP_METERS = 12
+MANZANA_OVERLAP_RATIO_THRESHOLD = 0.25
+MANZANA_REP_BUFFER_METERS = 20
+CARTO_CLOSE_GAP_METERS = 10
+CARTO_MIN_COMPONENT_AREA_M2 = 30000
+CARTO_MIN_COMPONENT_RATIO = 0.01
 BOUNDARY_SAMPLE_STEP_METERS = 20
 OVERPASS_URL = "https://overpass-api.de/api/interpreter"
 WALKABLE_HIGHWAYS = {
@@ -397,6 +401,7 @@ def sample_boundary_points(boundary_geom, step_m):
 def align_polygon_to_manzanas(manzana_features, isochrone_polygon):
     selected_geometries = []
     selected_ids = []
+    selection_buffer = isochrone_polygon.buffer(MANZANA_REP_BUFFER_METERS)
 
     for feature in manzana_features:
         manzana_id = feature.get("properties", {}).get("man")
@@ -406,6 +411,16 @@ def align_polygon_to_manzanas(manzana_features, isochrone_polygon):
 
         manzana_geom = to_utm(shape(geometry))
         if manzana_geom.is_empty or not manzana_geom.intersects(isochrone_polygon):
+            continue
+
+        overlap_geom = manzana_geom.intersection(isochrone_polygon)
+        if overlap_geom.is_empty:
+            continue
+
+        manzana_area = float(manzana_geom.area)
+        overlap_ratio = (overlap_geom.area / manzana_area) if manzana_area > 0 else 0.0
+        representative_inside = selection_buffer.contains(manzana_geom.representative_point())
+        if not representative_inside and overlap_ratio < MANZANA_OVERLAP_RATIO_THRESHOLD:
             continue
 
         selected_geometries.append(manzana_geom)
@@ -418,12 +433,20 @@ def align_polygon_to_manzanas(manzana_features, isochrone_polygon):
     return unary_union(selected_geometries), selected_ids
 
 
-def build_external_limit_polygon(aligned_polygon):
+def build_external_limit_polygon(aligned_polygon, close_gap_m):
     # Close the internal road gaps so the final geometry draws as one outer silhouette.
-    closed = aligned_polygon.buffer(OUTER_LIMIT_CLOSE_GAP_METERS).buffer(-OUTER_LIMIT_CLOSE_GAP_METERS)
+    closed = aligned_polygon.buffer(close_gap_m).buffer(-close_gap_m)
     if closed.is_empty:
         return aligned_polygon
     return closed
+
+
+def polygon_parts(geometry):
+    if isinstance(geometry, Polygon):
+        return [geometry]
+    if isinstance(geometry, MultiPolygon):
+        return [part for part in geometry.geoms if not part.is_empty]
+    return []
 
 
 def remove_internal_holes(geometry):
@@ -435,6 +458,33 @@ def remove_internal_holes(geometry):
             return geometry
         return unary_union(polygons)
     return geometry
+
+
+def keep_significant_components(geometry, min_area_m2, min_area_ratio):
+    parts = sorted(polygon_parts(geometry), key=lambda part: part.area, reverse=True)
+    if not parts:
+        return geometry
+
+    largest_area = parts[0].area
+    area_threshold = max(min_area_m2, largest_area * min_area_ratio)
+    kept_parts = [parts[0]]
+    kept_parts.extend(part for part in parts[1:] if part.area >= area_threshold)
+    return unary_union(kept_parts)
+
+
+def homogenize_cartographic_polygon(aligned_polygon):
+    # Build a cleaner cartographic shell from the manzana-aligned geometry.
+    closed = build_external_limit_polygon(aligned_polygon, CARTO_CLOSE_GAP_METERS)
+    holeless = remove_internal_holes(closed)
+    filtered = keep_significant_components(
+        holeless,
+        CARTO_MIN_COMPONENT_AREA_M2,
+        CARTO_MIN_COMPONENT_RATIO,
+    )
+    cleaned = filtered.buffer(0)
+    if cleaned.is_empty:
+        return holeless
+    return cleaned
 
 
 def geometry_mapping(geom):
@@ -517,8 +567,8 @@ def main():
     exact_polygon = base_polygon.buffer(0)
     if exact_polygon.is_empty:
         exact_polygon = base_polygon
-    aligned_polygon, covered_manzanas = align_polygon_to_manzanas(manzanas_data["features"], base_polygon)
-    cartographic_polygon = remove_internal_holes(build_external_limit_polygon(aligned_polygon))
+    aligned_polygon, covered_manzanas = align_polygon_to_manzanas(manzanas_data["features"], exact_polygon)
+    cartographic_polygon = homogenize_cartographic_polygon(aligned_polygon)
 
     network_geom = normalize_multilines(segments)
     source_node_count = len({source["node_id"] for source in projected_sources if source.get("node_id") is not None})

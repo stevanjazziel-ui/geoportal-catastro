@@ -246,9 +246,10 @@
       <section class="panel">
         <h1>Riobamba Censo 2022</h1>
         <p id="introText">
-          Visualizador por manzana censal y por plataforma territorial. Tambien muestra la
-          isocrona peatonal de 400 m construida desde el limite de la plataforma Ñ
-          la plataforma Ñ sobre la red vial de OpenStreetMap.
+          Visualizador por manzana censal y por plataforma territorial. Incluye la
+          isocrona peatonal de 1000 m desde equipamientos de la plataforma N y la
+          isocrona exacta de 400 m desde el borde de la plataforma N sobre la red vial
+          peatonal de OpenStreetMap.
         </p>
       </section>
 
@@ -265,9 +266,9 @@
           <label class="layer-toggle"><span>Equipamientos</span><input id="toggleEquipamientos" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Red vial OSM 1000 m</span><input id="toggleRedVial1000m" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Red vial OSM 400 m</span><input id="toggleRedVial400m" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Isocrona exacta 400 m</span><input id="toggleIsocrona400m" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Isocrona 400 m ajustada a manzanas</span><input id="toggleIsocrona400mCarto" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Cobertura equipamientos hacia Ñ</span><input id="toggleIsocronasColindantes" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Borde externo isocrona exacta 400 m</span><input id="toggleIsocrona400m" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Contorno cartografico 400 m ajustado</span><input id="toggleIsocrona400mCarto" type="checkbox"></label>
+          <label class="layer-toggle"><span>Isocrona 1000 m desde equipamientos</span><input id="toggleIsocronasColindantes" type="checkbox" checked></label>
         </div>
       </section>
 
@@ -316,12 +317,12 @@
       </section>
 
       <section class="panel">
-        <h2>Equipamientos con alcance a Ñ</h2>
+        <h2>Isocrona 1000 m desde equipamientos</h2>
         <div class="mini-list" id="isocronasSummary"></div>
       </section>
 
       <section class="panel">
-        <h2>Isocrona 400 m desde borde de N</h2>
+        <h2>Isocrona exacta 400 m</h2>
         <div class="mini-list" id="isocronas400Summary"></div>
       </section>
 
@@ -370,7 +371,7 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260604-1015";
+    const DATA_VERSION = "20260604-1435";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
 
     const map = L.map("map", { zoomSnap: 0.5 }).setView([-1.67, -78.65], 12.5);
@@ -439,16 +440,45 @@
     const isocronaPolygonColor = "#7ef6c9";
     const isocronaNetworkColor = "#61c7ff";
 
-    toggleIsocronasColindantes.closest("label").querySelector("span").textContent = "Isocrona 1000 m desde Ñ";
-    isocronasSummary.closest(".panel").querySelector("h2").textContent = "Isocrona 1000 m desde Ñ";
+    toggleRedVial1000m.closest("label").querySelector("span").textContent = "Red vial OSM 1000 m";
+    toggleIsocronasColindantes.closest("label").querySelector("span").textContent = "Isocrona 1000 m desde equipamientos";
+    isocronasSummary.closest(".panel").querySelector("h2").textContent = "Isocrona 1000 m desde equipamientos";
 
-    introText.innerHTML = "Visualizador por manzana censal y por plataforma territorial. Tambien muestra la isocrona peatonal de 400 m construida desde el borde de la plataforma <strong>PLATAFORMA \u00D1</strong> sobre la red vial peatonal de OpenStreetMap.";
-    toggleRedVial1000m.closest("label").querySelector("span").textContent = "Red vial OSM 400 m";
-    toggleIsocronasColindantes.closest("label").querySelector("span").textContent = "Isocrona 400 m desde borde de \u00D1";
-    isocronasSummary.closest(".panel").querySelector("h2").textContent = "Isocrona 400 m desde borde de \u00D1";
+    introText.innerHTML = "Visualizador por manzana censal y plataforma territorial. Incluye la isocrona peatonal de 1000 m desde equipamientos de la <strong>PLATAFORMA N</strong>, la isocrona exacta de red de 400 m desde su borde y una referencia cartografica ajustada a manzanas.";
 
     function formatNumber(value) {
       return Number(value || 0).toLocaleString("es-EC");
+    }
+
+    function featureToExteriorBoundary(feature) {
+      if (!feature || !feature.geometry) {
+        return null;
+      }
+
+      const geometry = feature.geometry;
+      if (geometry.type === "Polygon") {
+        return {
+          type: "Feature",
+          properties: feature.properties,
+          geometry: {
+            type: "LineString",
+            coordinates: geometry.coordinates[0] || []
+          }
+        };
+      }
+
+      if (geometry.type === "MultiPolygon") {
+        return {
+          type: "Feature",
+          properties: feature.properties,
+          geometry: {
+            type: "MultiLineString",
+            coordinates: geometry.coordinates.map((polygon) => polygon[0]).filter(Boolean)
+          }
+        };
+      }
+
+      return feature;
     }
 
     function getCurrentFeatures() {
@@ -1124,17 +1154,16 @@
       }
 
       const rows = [
-        ["Plataforma objetivo", isocronasStats.target_platform],
-        ["Origen", "Borde de plataforma"],
-        ["Muestras del borde", isocronasStats.boundary_samples],
-        ["Nodos origen", isocronasStats.source_nodes],
+        ["Plataforma objetivo", displayPlatformName(isocronasStats.target_platform)],
+        ["Origen", "Equipamientos dentro de la plataforma"],
+        ["Equipamientos origen", isocronasStats.equipamientos_origen || 0],
+        ["Tipos de equipamiento", isocronasStats.tipos_equipamien || 0],
         ["Distancia", `${formatNumber(isocronasStats.distance_m)} m`],
         ["Nodos alcanzables", isocronasStats.nodos_alcanzables],
         ["Segmentos de red", isocronasStats.segmentos_red],
         ["Manzanas ajustadas", isocronasStats.manzanas_ajustadas || 0],
         ["Longitud de red", `${formatNumber(Math.round(isocronasStats.longitud_red_m || 0))} m`],
-        ["Area del poligono", `${formatNumber(Math.round(isocronasStats.area_poligono_m2 || 0))} m2`],
-        ["Snap promedio", `${Number(isocronasStats.snap_promedio_m || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m`]
+        ["Area del poligono", `${formatNumber(Math.round(isocronasStats.area_poligono_m2 || 0))} m2`]
       ];
 
       isocronasSummary.innerHTML = rows
@@ -1168,21 +1197,19 @@
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
             layer.bindPopup(`
-              <strong>${props.nombre || "Red vial OSM"}</strong><br>
-              <strong>Destino:</strong> ${props.target_platform}<br>
+              <strong>${displayPlatformName(props.nombre || "Red vial OSM 1000 m")}</strong><br>
+              <strong>Destino:</strong> ${displayPlatformName(props.target_platform)}<br>
               <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
-              <strong>Origen:</strong> Borde de plataforma<br>
-              <strong>Muestras del borde:</strong> ${formatNumber(props.boundary_samples)}<br>
-              <strong>Nodos origen:</strong> ${formatNumber(props.source_nodes)}<br>
+              <strong>Origen:</strong> Equipamientos dentro de la plataforma<br>
+              <strong>Equipamientos origen:</strong> ${formatNumber(props.equipamientos_origen || 0)}<br>
               <strong>Segmentos:</strong> ${formatNumber(props.segmentos_red)}<br>
               <strong>Longitud de red:</strong> ${formatNumber(Math.round(props.longitud_red_m || 0))} m<br>
-              <strong>Snap promedio:</strong> ${Number(props.snap_promedio_m || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m<br>
               <strong>Modo:</strong> ${props.mode}
             `);
 
             layer.on("click", () => {
-              overlayTitle.textContent = "Red vial OSM 400 m";
-              overlayText.textContent = `${formatNumber(props.segmentos_red)} segmentos y ${formatNumber(Math.round(props.longitud_red_m || 0))} m alcanzables desde el borde de ${props.target_platform}.`;
+              overlayTitle.textContent = "Red vial OSM 1000 m";
+              overlayText.textContent = `${formatNumber(props.segmentos_red)} segmentos y ${formatNumber(Math.round(props.longitud_red_m || 0))} m alcanzables desde ${formatNumber(props.equipamientos_origen || 0)} equipamientos dentro de ${displayPlatformName(props.target_platform)}.`;
             });
           }
         }
@@ -1219,23 +1246,22 @@
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
             layer.bindPopup(`
-              <strong>${props.nombre || "Isocrona 400 m"}</strong><br>
-              <strong>Destino:</strong> ${props.target_platform}<br>
+              <strong>${displayPlatformName(props.nombre || "Isocrona 1000 m")}</strong><br>
+              <strong>Destino:</strong> ${displayPlatformName(props.target_platform)}<br>
               <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
-              <strong>Origen:</strong> Borde de plataforma<br>
-              <strong>Muestras del borde:</strong> ${formatNumber(props.boundary_samples)}<br>
-              <strong>Nodos origen:</strong> ${formatNumber(props.source_nodes)}<br>
+              <strong>Origen:</strong> Equipamientos dentro de la plataforma<br>
+              <strong>Equipamientos origen:</strong> ${formatNumber(props.equipamientos_origen || 0)}<br>
+              <strong>Tipos de equipamiento:</strong> ${formatNumber(props.tipos_equipamien || 0)}<br>
               <strong>Nodos alcanzables:</strong> ${formatNumber(props.nodos_alcanzables)}<br>
               <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
               <strong>Longitud de red:</strong> ${formatNumber(Math.round(props.longitud_red_m || 0))} m<br>
               <strong>Area:</strong> ${formatNumber(Math.round(props.area_poligono_m2 || 0))} m2<br>
-              <strong>Snap promedio:</strong> ${Number(props.snap_promedio_m || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m<br>
               <strong>Modo:</strong> ${props.mode}
             `);
 
             layer.on("click", () => {
-              overlayTitle.textContent = "Isocrona 400 m desde borde de \u00D1";
-              overlayText.textContent = `${formatNumber(props.source_nodes)} nodos origen sobre el borde de ${props.target_platform} generan un poligono ajustado a ${formatNumber(props.manzanas_ajustadas || 0)} manzanas censales.`;
+              overlayTitle.textContent = "Isocrona 1000 m desde equipamientos";
+              overlayText.textContent = `${formatNumber(props.equipamientos_origen || 0)} equipamientos dentro de ${displayPlatformName(props.target_platform)} generan un limite ajustado a ${formatNumber(props.manzanas_ajustadas || 0)} manzanas censales.`;
             });
           }
         }
@@ -1367,7 +1393,7 @@
     window.isocrona400CartoLayer = null;
     layerVisibility.redVial400m = true;
     layerVisibility.isocrona400m = true;
-    layerVisibility.isocrona400mCarto = true;
+    layerVisibility.isocrona400mCarto = false;
 
     function displayPlatformName(value) {
       return String(value || "")
@@ -1377,11 +1403,12 @@
         .replaceAll("Ñ", "N");
     }
 
-    introText.innerHTML = "Visualizador por manzana censal y por plataforma territorial. Tambien muestra dos isocronas independientes: una de <strong>1000 m</strong> desde equipamientos de la plataforma N y otra de <strong>400 m exacta de red</strong> desde el borde de la plataforma N. Ademas conserva una capa cartografica <strong>400 m ajustada a manzanas</strong> solo como referencia.";
+    introText.innerHTML = "Visualizador por manzana censal y por plataforma territorial. Tambien muestra dos isocronas independientes: una de <strong>1000 m</strong> desde equipamientos de la plataforma N y otra de <strong>400 m exacta de red</strong> desde el borde de la plataforma N. Ademas conserva un <strong>contorno cartografico 400 m ajustado a manzanas</strong> solo como referencia.";
     toggleIsocronasColindantes.closest("label").querySelector("span").textContent = "Isocrona 1000 m desde equipamientos";
     isocronasSummary.closest(".panel").querySelector("h2").textContent = "Isocrona 1000 m desde equipamientos";
     isocronas400Summary.closest(".panel").querySelector("h2").textContent = "Isocrona exacta 400 m";
-    isocronas400CartoSummary.closest(".panel").querySelector("h2").textContent = "Referencia cartografica 400 m";
+    isocronas400CartoSummary.closest(".panel").querySelector("h2").textContent = "Contorno cartografico 400 m";
+    toggleIsocrona400mCarto.checked = false;
 
     function updateDownloadButtonState() {
       const entry = shpManifest[getCurrentSelectionLabel()];
@@ -1464,7 +1491,7 @@
 
       const rows = [
         ["Plataforma objetivo", displayPlatformName(window.isocrona400CartoStats.target_platform)],
-        ["Tipo", "Referencia ajustada a manzanas"],
+        ["Tipo", "Contorno cartografico ajustado"],
         ["Distancia base", `${formatNumber(window.isocrona400CartoStats.distance_m)} m`],
         ["Manzanas ajustadas", window.isocrona400CartoStats.manzanas_ajustadas || 0],
         ["Area exacta base", `${formatNumber(Math.round(window.isocrona400CartoStats.area_poligono_red_m2 || 0))} m2`],
@@ -1625,9 +1652,10 @@
         map.removeLayer(window.isocrona400PolygonLayer);
       }
 
-      const features = (window.isocrona400PolygonFeatures || []).filter(
-        (feature) => feature && feature.geometry && feature.properties
-      );
+      const features = (window.isocrona400PolygonFeatures || [])
+        .filter((feature) => feature && feature.geometry && feature.properties)
+        .map(featureToExteriorBoundary)
+        .filter(Boolean);
 
       if (!map.getPane("isocronaPolygonPane400")) {
         map.createPane("isocronaPolygonPane400");
@@ -1642,8 +1670,6 @@
             color: isocronaPolygonColor,
             weight: 3.1,
             opacity: 0.95,
-            fillColor: isocronaPolygonColor,
-            fillOpacity: 0,
             dashArray: ""
           },
           onEachFeature: (feature, layer) => {
@@ -1677,9 +1703,10 @@
         map.removeLayer(window.isocrona400CartoLayer);
       }
 
-      const features = (window.isocrona400CartoFeatures || []).filter(
-        (feature) => feature && feature.geometry && feature.properties
-      );
+      const features = (window.isocrona400CartoFeatures || [])
+        .filter((feature) => feature && feature.geometry && feature.properties)
+        .map(featureToExteriorBoundary)
+        .filter(Boolean);
 
       if (!map.getPane("isocronaPolygonPane400Carto")) {
         map.createPane("isocronaPolygonPane400Carto");
@@ -1694,24 +1721,22 @@
             color: "#9ff7e5",
             weight: 2.2,
             opacity: 0.8,
-            fillColor: "#9ff7e5",
-            fillOpacity: 0.03,
             dashArray: "8 6"
           },
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
             layer.bindPopup(`
-              <strong>${displayPlatformName(props.nombre || "Isocrona 400 m ajustada")}</strong><br>
+              <strong>${displayPlatformName(props.nombre || "Contorno cartografico 400 m")}</strong><br>
               <strong>Destino:</strong> ${displayPlatformName(props.target_platform)}<br>
-              <strong>Tipo:</strong> Referencia cartografica<br>
+              <strong>Tipo:</strong> Contorno cartografico ajustado<br>
               <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
               <strong>Area exacta base:</strong> ${formatNumber(Math.round(props.area_poligono_red_m2 || 0))} m2<br>
               <strong>Area cartografica:</strong> ${formatNumber(Math.round(props.area_poligono_m2 || 0))} m2
             `);
 
             layer.on("click", () => {
-              overlayTitle.textContent = "Isocrona 400 m ajustada a manzanas";
-              overlayText.textContent = `${formatNumber(props.manzanas_ajustadas || 0)} manzanas usadas para construir una referencia cartografica a partir de la isocrona exacta de red.`;
+              overlayTitle.textContent = "Contorno cartografico 400 m";
+              overlayText.textContent = `${formatNumber(props.manzanas_ajustadas || 0)} manzanas usadas para construir un contorno cartografico de referencia a partir de la isocrona exacta de red.`;
             });
           }
         }
