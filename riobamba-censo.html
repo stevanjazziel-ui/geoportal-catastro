@@ -569,6 +569,7 @@
         ["Distancia", `${formatNumber(isocronasStats.distance_m)} m`],
         ["Nodos alcanzables", isocronasStats.nodos_alcanzables],
         ["Segmentos de red", isocronasStats.segmentos_red],
+        ["Manzanas ajustadas", isocronasStats.manzanas_ajustadas || 0],
         ["Longitud de red", `${formatNumber(Math.round(isocronasStats.longitud_red_m))} m`],
         ["Area del poligono", `${formatNumber(Math.round(isocronasStats.area_poligono_m2))} m²`]
       ];
@@ -869,6 +870,7 @@
               <strong>Equipamientos origen:</strong> ${formatNumber(props.equipamientos_origen)}<br>
               <strong>Tipos Equipamien:</strong> ${formatNumber(props.tipos_equipamien)}<br>
               <strong>Nodos alcanzables:</strong> ${formatNumber(props.nodos_alcanzables)}<br>
+              <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
               <strong>Longitud de red:</strong> ${formatNumber(Math.round(props.longitud_red_m || 0))} m<br>
               <strong>Area:</strong> ${formatNumber(Math.round(props.area_poligono_m2 || 0))} m²<br>
               <strong>Modo:</strong> ${props.mode}
@@ -876,7 +878,7 @@
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocrona 1000 m desde Ñ";
-              overlayText.textContent = `${formatNumber(props.equipamientos_origen)} equipamientos dentro de ${props.target_platform} generan un poligono total de ${formatNumber(Math.round(props.area_poligono_m2 || 0))} m².`;
+              overlayText.textContent = `${formatNumber(props.equipamientos_origen)} equipamientos dentro de ${props.target_platform} generan un poligono total ajustado a ${formatNumber(props.manzanas_ajustadas || 0)} manzanas censales.`;
             });
           }
         }
@@ -1059,7 +1061,7 @@
         statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} equipamientos y ${formatNumber(isocronasStats.equipamientos_con_interseccion)} coberturas de equipamientos que entran en Ñ.`;
         renderIsocronaPolygonLayer();
         renderIsocronaNetworkLayer();
-        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} equipamientos, ${formatNumber(isocronasStats.equipamientos_origen)} origenes dentro de Ñ y ${formatNumber(isocronasStats.segmentos_red)} segmentos OSM para la isocrona de 1000 m.`;
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} equipamientos, ${formatNumber(isocronasStats.equipamientos_origen)} origenes dentro de Ñ, ${formatNumber(isocronasStats.segmentos_red)} segmentos OSM y ${formatNumber(isocronasStats.manzanas_ajustadas || 0)} manzanas usadas para ajustar el limite de la isocrona de 1000 m.`;
         renderEquipamientosLayer();
         renderAll(false);
 

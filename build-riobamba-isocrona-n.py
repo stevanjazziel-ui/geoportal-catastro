@@ -16,6 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "riobamba-censo-data"
 PLATFORMS_PATH = DATA_DIR / "riobamba_plataformas.geojson"
 EQUIPAMIENTOS_PATH = DATA_DIR / "riobamba_equipamientos.geojson"
+MANZANAS_PATH = DATA_DIR / "riobamba_manzanas.geojson"
 OSM_CACHE_PATH = DATA_DIR / "riobamba_osm_walk_network_plataforma_n.json"
 
 OUTPUT_ISOCHRONE = DATA_DIR / "riobamba_isocrona_plataforma_n_1000m.geojson"
@@ -256,6 +257,30 @@ def build_isochrone_polygon(segments, source_points):
     return polygon
 
 
+def align_polygon_to_manzanas(manzana_features, isochrone_polygon):
+    selected_geometries = []
+    selected_ids = []
+
+    for feature in manzana_features:
+        manzana_id = feature.get("properties", {}).get("man")
+        geometry = feature.get("geometry")
+        if not geometry:
+            continue
+
+        manzana_geom = to_utm(shape(geometry))
+        if manzana_geom.is_empty or not manzana_geom.intersects(isochrone_polygon):
+            continue
+
+        selected_geometries.append(manzana_geom)
+        if manzana_id:
+            selected_ids.append(manzana_id)
+
+    if not selected_geometries:
+        return isochrone_polygon, []
+
+    return unary_union(selected_geometries), selected_ids
+
+
 def geometry_mapping(geom):
     if isinstance(geom, (Polygon, MultiPolygon)):
         simplified = geom.simplify(4, preserve_topology=True)
@@ -300,6 +325,7 @@ def normalize_multilines(segments):
 def main():
     platforms_data = load_geojson(PLATFORMS_PATH)
     equipamientos_data = load_geojson(EQUIPAMIENTOS_PATH)
+    manzanas_data = load_geojson(MANZANAS_PATH)
 
     platform_geoms = {
         feature["properties"]["platform_name"]: shape(feature["geometry"])
@@ -346,14 +372,15 @@ def main():
     reachable = multi_source_reachable(graph, [source["node_id"] for source in snapped_sources], DISTANCE_METERS)
     segments, total_length = build_reachable_segments(graph, reachable, DISTANCE_METERS)
     source_points = [(source["point_utm"].x, source["point_utm"].y) for source in snapped_sources]
-    polygon = build_isochrone_polygon(segments, source_points)
+    base_polygon = build_isochrone_polygon(segments, source_points)
+    polygon, covered_manzanas = align_polygon_to_manzanas(manzanas_data["features"], base_polygon)
 
     network_geom = normalize_multilines(segments)
 
     polygon_feature = build_polygon_feature(
         polygon,
         {
-            "nombre": f"Isocrona 1000 m desde equipamientos de {TARGET_PLATFORM}",
+            "nombre": f"Isocrona 1000 m ajustada a manzanas desde equipamientos de {TARGET_PLATFORM}",
             "target_platform": TARGET_PLATFORM,
             "distance_m": DISTANCE_METERS,
             "mode": "walking",
@@ -361,6 +388,8 @@ def main():
             "tipos_equipamien": len(equipamien_counter),
             "nodos_alcanzables": len(reachable),
             "longitud_red_m": round(total_length, 2),
+            "manzanas_ajustadas": len(covered_manzanas),
+            "area_poligono_red_m2": round(base_polygon.area, 2),
             "area_poligono_m2": round(polygon.area, 2),
         },
     )
@@ -388,8 +417,10 @@ def main():
         "nodos_alcanzables": len(reachable),
         "segmentos_red": len(segments),
         "longitud_red_m": round(total_length, 2),
+        "manzanas_ajustadas": len(covered_manzanas),
+        "area_poligono_red_m2": round(base_polygon.area, 2),
         "area_poligono_m2": round(polygon.area, 2),
-        "source": "OpenStreetMap peatonal + equipamientos dentro de la plataforma objetivo",
+        "source": "OpenStreetMap peatonal + equipamientos dentro de la plataforma objetivo + ajuste del limite a manzanas censales",
         "by_equipamien": dict(sorted(equipamien_counter.items(), key=lambda item: (-item[1], item[0]))),
     }
 

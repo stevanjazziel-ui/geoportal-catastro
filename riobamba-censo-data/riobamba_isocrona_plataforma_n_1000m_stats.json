@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-03T22:11:21",
+  "generated_at": "2026-06-03T22:30:51",
   "target_platform": "PLATAFORMA Ñ",
   "distance_m": 1000,
   "mode": "walking",
@@ -8,8 +8,10 @@
   "nodos_alcanzables": 2780,
   "segmentos_red": 3714,
   "longitud_red_m": 166829.05,
-  "area_poligono_m2": 4859417.43,
-  "source": "OpenStreetMap peatonal + equipamientos dentro de la plataforma objetivo",
+  "manzanas_ajustadas": 830,
+  "area_poligono_red_m2": 4859417.43,
+  "area_poligono_m2": 5963387.61,
+  "source": "OpenStreetMap peatonal + equipamientos dentro de la plataforma objetivo + ajuste del limite a manzanas censales",
   "by_equipamien": {
     "Recreativo y Deporte": 14,
     "Educación": 8,
