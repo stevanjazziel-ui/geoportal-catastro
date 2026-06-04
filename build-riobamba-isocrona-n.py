@@ -21,6 +21,8 @@ OSM_CACHE_PATH = DATA_DIR / "riobamba_osm_walk_network_plataforma_n.json"
 OUTPUT_ISOCHRONE = DATA_DIR / "riobamba_isocrona_limite_plataforma_n_400m.geojson"
 OUTPUT_NETWORK = DATA_DIR / "riobamba_red_vial_isocrona_limite_plataforma_n_400m.geojson"
 OUTPUT_STATS = DATA_DIR / "riobamba_isocrona_limite_plataforma_n_400m_stats.json"
+OUTPUT_ISOCHRONE_CARTO = DATA_DIR / "riobamba_isocrona_limite_plataforma_n_400m_ajustada_manzanas.geojson"
+OUTPUT_STATS_CARTO = DATA_DIR / "riobamba_isocrona_limite_plataforma_n_400m_ajustada_manzanas_stats.json"
 
 TARGET_PLATFORM = "PLATAFORMA " + chr(209)
 DISTANCE_METERS = 400
@@ -512,8 +514,11 @@ def main():
     segments, total_length = build_reachable_segments(graph, reachable, DISTANCE_METERS)
     source_points = [source["projected_xy"] for source in projected_sources]
     base_polygon = build_isochrone_polygon(segments, source_points)
+    exact_polygon = base_polygon.buffer(0)
+    if exact_polygon.is_empty:
+        exact_polygon = base_polygon
     aligned_polygon, covered_manzanas = align_polygon_to_manzanas(manzanas_data["features"], base_polygon)
-    polygon = remove_internal_holes(build_external_limit_polygon(aligned_polygon))
+    cartographic_polygon = remove_internal_holes(build_external_limit_polygon(aligned_polygon))
 
     network_geom = normalize_multilines(segments)
     source_node_count = len({source["node_id"] for source in projected_sources if source.get("node_id") is not None})
@@ -523,9 +528,9 @@ def main():
     max_snap_m = round(snap_values[-1], 2) if snap_values else 0.0
 
     polygon_feature = build_polygon_feature(
-        polygon,
+        exact_polygon,
         {
-            "nombre": f"Limite externo de isocrona 400 m desde el borde de {TARGET_PLATFORM}",
+            "nombre": f"Isocrona exacta de red 400 m desde el borde de {TARGET_PLATFORM}",
             "target_platform": TARGET_PLATFORM,
             "distance_m": DISTANCE_METERS,
             "mode": "walking",
@@ -537,10 +542,32 @@ def main():
             "snap_max_m": max_snap_m,
             "nodos_alcanzables": len(reachable),
             "longitud_red_m": round(total_length, 2),
+            "area_poligono_red_m2": round(exact_polygon.area, 2),
+            "area_poligono_exacto_m2": round(exact_polygon.area, 2),
+            "area_poligono_m2": round(exact_polygon.area, 2),
+        },
+    )
+
+    cartographic_polygon_feature = build_polygon_feature(
+        cartographic_polygon,
+        {
+            "nombre": f"Isocrona 400 m ajustada a manzanas desde el borde de {TARGET_PLATFORM}",
+            "target_platform": TARGET_PLATFORM,
+            "distance_m": DISTANCE_METERS,
+            "mode": "walking",
+            "source_type": "platform_boundary_carto_reference",
+            "boundary_samples": len(sampled_boundary_points),
+            "source_nodes": source_node_count,
+            "snap_promedio_m": average_snap_m,
+            "snap_p95_m": p95_snap_m,
+            "snap_max_m": max_snap_m,
+            "nodos_alcanzables": len(reachable),
+            "longitud_red_m": round(total_length, 2),
             "manzanas_ajustadas": len(covered_manzanas),
-            "area_poligono_red_m2": round(base_polygon.area, 2),
+            "area_poligono_red_m2": round(exact_polygon.area, 2),
             "area_poligono_manzanas_m2": round(aligned_polygon.area, 2),
-            "area_poligono_m2": round(polygon.area, 2),
+            "area_poligono_m2": round(cartographic_polygon.area, 2),
+            "reference_type": "manzana_aligned",
         },
     )
 
@@ -576,16 +603,39 @@ def main():
         "nodos_alcanzables": len(reachable),
         "segmentos_red": len(segments),
         "longitud_red_m": round(total_length, 2),
+        "area_poligono_red_m2": round(exact_polygon.area, 2),
+        "area_poligono_exacto_m2": round(exact_polygon.area, 2),
+        "area_poligono_m2": round(exact_polygon.area, 2),
+        "source": "OpenStreetMap peatonal + proyeccion del borde de la plataforma a la red + descuento del acceso hasta la via + sin ajuste a manzanas censales",
+    }
+
+    stats_carto = {
+        "generated_at": stats["generated_at"],
+        "target_platform": TARGET_PLATFORM,
+        "distance_m": DISTANCE_METERS,
+        "mode": "walking",
+        "source_type": "platform_boundary_carto_reference",
+        "boundary_samples": len(sampled_boundary_points),
+        "source_nodes": source_node_count,
+        "snap_promedio_m": average_snap_m,
+        "snap_p95_m": p95_snap_m,
+        "snap_max_m": max_snap_m,
+        "nodos_alcanzables": len(reachable),
+        "segmentos_red": len(segments),
+        "longitud_red_m": round(total_length, 2),
         "manzanas_ajustadas": len(covered_manzanas),
-        "area_poligono_red_m2": round(base_polygon.area, 2),
+        "area_poligono_red_m2": round(exact_polygon.area, 2),
         "area_poligono_manzanas_m2": round(aligned_polygon.area, 2),
-        "area_poligono_m2": round(polygon.area, 2),
+        "area_poligono_m2": round(cartographic_polygon.area, 2),
         "source": "OpenStreetMap peatonal + proyeccion del borde de la plataforma a la red + descuento del acceso hasta la via + ajuste del limite a manzanas censales",
+        "reference_type": "manzana_aligned",
     }
 
     save_json(OUTPUT_ISOCHRONE, {"type": "FeatureCollection", "features": [polygon_feature]})
     save_json(OUTPUT_NETWORK, {"type": "FeatureCollection", "features": [network_feature]})
     save_json(OUTPUT_STATS, stats)
+    save_json(OUTPUT_ISOCHRONE_CARTO, {"type": "FeatureCollection", "features": [cartographic_polygon_feature]})
+    save_json(OUTPUT_STATS_CARTO, stats_carto)
 
     print("Listo.")
     print(f"Muestras del limite de {TARGET_PLATFORM}: {len(sampled_boundary_points)}")
@@ -596,6 +646,8 @@ def main():
     print(f"Nodos alcanzables: {len(reachable)}")
     print(f"Segmentos de red: {len(segments)}")
     print(f"Longitud total de red: {round(total_length, 2)} m")
+    print(f"Area exacta de red: {round(exact_polygon.area, 2)} m2")
+    print(f"Area cartografica ajustada: {round(cartographic_polygon.area, 2)} m2")
 
 
 if __name__ == "__main__":

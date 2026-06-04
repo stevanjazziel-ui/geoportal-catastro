@@ -140,6 +140,6 @@
   "limite_isocrona_limite_plataforma_n_400m": {
     "file": "limite_isocrona_limite_plataforma_n_400m.zip",
     "count": 1,
-    "label": "Limite externo de isocrona 400 m desde el borde de la plataforma N"
+    "label": "Isocrona exacta de red 400 m desde el borde de la plataforma N"
   }
 }

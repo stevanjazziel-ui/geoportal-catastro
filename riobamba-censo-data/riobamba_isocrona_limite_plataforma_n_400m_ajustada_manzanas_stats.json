@@ -3,7 +3,7 @@
   "target_platform": "PLATAFORMA Ñ",
   "distance_m": 400,
   "mode": "walking",
-  "source_type": "platform_boundary",
+  "source_type": "platform_boundary_carto_reference",
   "boundary_samples": 404,
   "source_nodes": 403,
   "snap_promedio_m": 6.36,
@@ -12,8 +12,10 @@
   "nodos_alcanzables": 2109,
   "segmentos_red": 2682,
   "longitud_red_m": 92195.14,
+  "manzanas_ajustadas": 496,
   "area_poligono_red_m2": 2679088.18,
-  "area_poligono_exacto_m2": 2679088.18,
-  "area_poligono_m2": 2679088.18,
-  "source": "OpenStreetMap peatonal + proyeccion del borde de la plataforma a la red + descuento del acceso hasta la via + sin ajuste a manzanas censales"
+  "area_poligono_manzanas_m2": 3838728.07,
+  "area_poligono_m2": 4939272.45,
+  "source": "OpenStreetMap peatonal + proyeccion del borde de la plataforma a la red + descuento del acceso hasta la via + ajuste del limite a manzanas censales",
+  "reference_type": "manzana_aligned"
 }

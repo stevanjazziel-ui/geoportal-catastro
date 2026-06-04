@@ -101,7 +101,7 @@ def update_manifest(zip_path: Path, feature_count: int):
         "count": feature_count,
         "label": "Limite externo de isocrona 400 m desde el borde de Ñ",
     }
-    manifest[OUTPUT_BASENAME]["label"] = "Limite externo de isocrona 400 m desde el borde de la plataforma N"
+    manifest[OUTPUT_BASENAME]["label"] = "Isocrona exacta de red 400 m desde el borde de la plataforma N"
     with open(MANIFEST_PATH, "w", encoding="utf-8") as handle:
         json.dump(manifest, handle, ensure_ascii=False, indent=2)
 

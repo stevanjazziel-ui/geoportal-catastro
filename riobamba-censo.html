@@ -265,7 +265,8 @@
           <label class="layer-toggle"><span>Equipamientos</span><input id="toggleEquipamientos" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Red vial OSM 1000 m</span><input id="toggleRedVial1000m" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Red vial OSM 400 m</span><input id="toggleRedVial400m" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Isocrona 400 m desde borde de N</span><input id="toggleIsocrona400m" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Isocrona exacta 400 m</span><input id="toggleIsocrona400m" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Isocrona 400 m ajustada a manzanas</span><input id="toggleIsocrona400mCarto" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Cobertura equipamientos hacia Ñ</span><input id="toggleIsocronasColindantes" type="checkbox" checked></label>
         </div>
       </section>
@@ -325,6 +326,11 @@
       </section>
 
       <section class="panel">
+        <h2>Referencia cartografica 400 m</h2>
+        <div class="mini-list" id="isocronas400CartoSummary"></div>
+      </section>
+
+      <section class="panel">
         <h2>Leyenda</h2>
         <div class="legend" id="legend"></div>
       </section>
@@ -364,7 +370,7 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260604-0400";
+    const DATA_VERSION = "20260604-1015";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
 
     const map = L.map("map", { zoomSnap: 0.5 }).setView([-1.67, -78.65], 12.5);
@@ -410,6 +416,7 @@
     const equipamientosSummary = document.getElementById("equipamientosSummary");
     const isocronasSummary = document.getElementById("isocronasSummary");
     const isocronas400Summary = document.getElementById("isocronas400Summary");
+    const isocronas400CartoSummary = document.getElementById("isocronas400CartoSummary");
     const overlayTitle = document.getElementById("overlayTitle");
     const overlayText = document.getElementById("overlayText");
     const downloadFormatSelect = document.getElementById("downloadFormatSelect");
@@ -423,6 +430,7 @@
     const toggleRedVial1000m = document.getElementById("toggleRedVial1000m");
     const toggleRedVial400m = document.getElementById("toggleRedVial400m");
     const toggleIsocrona400m = document.getElementById("toggleIsocrona400m");
+    const toggleIsocrona400mCarto = document.getElementById("toggleIsocrona400mCarto");
     const equipamientoPalette = [
       "#ffd166", "#ef476f", "#06d6a0", "#118ab2", "#f78c6b",
       "#c77dff", "#90be6d", "#4cc9f0", "#ff9f1c", "#43aa8b",
@@ -1355,8 +1363,11 @@
     window.isocrona400Stats = null;
     window.isocrona400PolygonLayer = null;
     window.isocrona400NetworkLayer = null;
+    window.isocrona400CartoStats = null;
+    window.isocrona400CartoLayer = null;
     layerVisibility.redVial400m = true;
     layerVisibility.isocrona400m = true;
+    layerVisibility.isocrona400mCarto = true;
 
     function displayPlatformName(value) {
       return String(value || "")
@@ -1366,10 +1377,11 @@
         .replaceAll("Ñ", "N");
     }
 
-    introText.innerHTML = "Visualizador por manzana censal y por plataforma territorial. Tambien muestra dos isocronas independientes: una de <strong>1000 m</strong> desde equipamientos de la plataforma N y otra de <strong>400 m</strong> desde el borde de la plataforma N.";
+    introText.innerHTML = "Visualizador por manzana censal y por plataforma territorial. Tambien muestra dos isocronas independientes: una de <strong>1000 m</strong> desde equipamientos de la plataforma N y otra de <strong>400 m exacta de red</strong> desde el borde de la plataforma N. Ademas conserva una capa cartografica <strong>400 m ajustada a manzanas</strong> solo como referencia.";
     toggleIsocronasColindantes.closest("label").querySelector("span").textContent = "Isocrona 1000 m desde equipamientos";
     isocronasSummary.closest(".panel").querySelector("h2").textContent = "Isocrona 1000 m desde equipamientos";
-    isocronas400Summary.closest(".panel").querySelector("h2").textContent = "Isocrona 400 m desde borde de N";
+    isocronas400Summary.closest(".panel").querySelector("h2").textContent = "Isocrona exacta 400 m";
+    isocronas400CartoSummary.closest(".panel").querySelector("h2").textContent = "Referencia cartografica 400 m";
 
     function updateDownloadButtonState() {
       const entry = shpManifest[getCurrentSelectionLabel()];
@@ -1388,6 +1400,7 @@
       syncSingleLayer(isocronaNetworkLayer, layerVisibility.redVial1000m);
       syncSingleLayer(window.isocrona400PolygonLayer, layerVisibility.isocrona400m);
       syncSingleLayer(window.isocrona400NetworkLayer, layerVisibility.redVial400m);
+      syncSingleLayer(window.isocrona400CartoLayer, layerVisibility.isocrona400mCarto);
     }
 
     function buildIsocronasSummary() {
@@ -1433,13 +1446,32 @@
         ["Distancia", `${formatNumber(window.isocrona400Stats.distance_m)} m`],
         ["Nodos alcanzables", window.isocrona400Stats.nodos_alcanzables],
         ["Segmentos de red", window.isocrona400Stats.segmentos_red],
-        ["Manzanas ajustadas", window.isocrona400Stats.manzanas_ajustadas || 0],
         ["Longitud de red", `${formatNumber(Math.round(window.isocrona400Stats.longitud_red_m || 0))} m`],
         ["Area del poligono", `${formatNumber(Math.round(window.isocrona400Stats.area_poligono_m2 || 0))} m2`],
         ["Snap promedio", `${Number(window.isocrona400Stats.snap_promedio_m || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m`]
       ];
 
       isocronas400Summary.innerHTML = rows
+        .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
+        .join("");
+    }
+
+    function buildIsocrona400CartoSummary() {
+      if (!window.isocrona400CartoStats) {
+        isocronas400CartoSummary.innerHTML = "";
+        return;
+      }
+
+      const rows = [
+        ["Plataforma objetivo", displayPlatformName(window.isocrona400CartoStats.target_platform)],
+        ["Tipo", "Referencia ajustada a manzanas"],
+        ["Distancia base", `${formatNumber(window.isocrona400CartoStats.distance_m)} m`],
+        ["Manzanas ajustadas", window.isocrona400CartoStats.manzanas_ajustadas || 0],
+        ["Area exacta base", `${formatNumber(Math.round(window.isocrona400CartoStats.area_poligono_red_m2 || 0))} m2`],
+        ["Area cartografica", `${formatNumber(Math.round(window.isocrona400CartoStats.area_poligono_m2 || 0))} m2`]
+      ];
+
+      isocronas400CartoSummary.innerHTML = rows
         .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
         .join("");
     }
@@ -1617,14 +1649,13 @@
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
             layer.bindPopup(`
-              <strong>${displayPlatformName(props.nombre || "Isocrona 400 m")}</strong><br>
+              <strong>${displayPlatformName(props.nombre || "Isocrona exacta 400 m")}</strong><br>
               <strong>Destino:</strong> ${displayPlatformName(props.target_platform)}<br>
               <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
               <strong>Origen:</strong> Borde de plataforma<br>
               <strong>Muestras del borde:</strong> ${formatNumber(props.boundary_samples)}<br>
               <strong>Nodos origen:</strong> ${formatNumber(props.source_nodes)}<br>
               <strong>Nodos alcanzables:</strong> ${formatNumber(props.nodos_alcanzables)}<br>
-              <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
               <strong>Longitud de red:</strong> ${formatNumber(Math.round(props.longitud_red_m || 0))} m<br>
               <strong>Area:</strong> ${formatNumber(Math.round(props.area_poligono_m2 || 0))} m2<br>
               <strong>Snap promedio:</strong> ${Number(props.snap_promedio_m || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m<br>
@@ -1632,13 +1663,60 @@
             `);
 
             layer.on("click", () => {
-              overlayTitle.textContent = "Isocrona 400 m desde borde de N";
-              overlayText.textContent = `${formatNumber(props.source_nodes)} nodos origen sobre el borde de ${displayPlatformName(props.target_platform)} generan un poligono ajustado a ${formatNumber(props.manzanas_ajustadas || 0)} manzanas censales.`;
+              overlayTitle.textContent = "Isocrona exacta 400 m";
+              overlayText.textContent = `${formatNumber(props.source_nodes)} nodos origen sobre el borde de ${displayPlatformName(props.target_platform)} generan la isocrona exacta de red sin ajuste a manzanas.`;
             });
           }
         }
       );
       syncSingleLayer(window.isocrona400PolygonLayer, layerVisibility.isocrona400m);
+    }
+
+    function renderIsocrona400CartoLayer() {
+      if (window.isocrona400CartoLayer) {
+        map.removeLayer(window.isocrona400CartoLayer);
+      }
+
+      const features = (window.isocrona400CartoFeatures || []).filter(
+        (feature) => feature && feature.geometry && feature.properties
+      );
+
+      if (!map.getPane("isocronaPolygonPane400Carto")) {
+        map.createPane("isocronaPolygonPane400Carto");
+        map.getPane("isocronaPolygonPane400Carto").style.zIndex = 429;
+      }
+
+      window.isocrona400CartoLayer = L.geoJSON(
+        { type: "FeatureCollection", features },
+        {
+          pane: "isocronaPolygonPane400Carto",
+          style: {
+            color: "#9ff7e5",
+            weight: 2.2,
+            opacity: 0.8,
+            fillColor: "#9ff7e5",
+            fillOpacity: 0.03,
+            dashArray: "8 6"
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties;
+            layer.bindPopup(`
+              <strong>${displayPlatformName(props.nombre || "Isocrona 400 m ajustada")}</strong><br>
+              <strong>Destino:</strong> ${displayPlatformName(props.target_platform)}<br>
+              <strong>Tipo:</strong> Referencia cartografica<br>
+              <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
+              <strong>Area exacta base:</strong> ${formatNumber(Math.round(props.area_poligono_red_m2 || 0))} m2<br>
+              <strong>Area cartografica:</strong> ${formatNumber(Math.round(props.area_poligono_m2 || 0))} m2
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = "Isocrona 400 m ajustada a manzanas";
+              overlayText.textContent = `${formatNumber(props.manzanas_ajustadas || 0)} manzanas usadas para construir una referencia cartografica a partir de la isocrona exacta de red.`;
+            });
+          }
+        }
+      );
+      syncSingleLayer(window.isocrona400CartoLayer, layerVisibility.isocrona400mCarto);
     }
 
     async function init() {
@@ -1656,7 +1734,9 @@
           isocronas1000StatsResponse,
           isocrona400PolygonResponse,
           isocrona400NetworkResponse,
-          isocronas400StatsResponse
+          isocronas400StatsResponse,
+          isocrona400CartoPolygonResponse,
+          isocronas400CartoStatsResponse
         ] = await Promise.all([
           fetch(`./riobamba-censo-data/riobamba_manzanas.geojson?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_manzanas_stats.json?v=${DATA_VERSION}`),
@@ -1670,7 +1750,9 @@
           fetch(`./riobamba-censo-data/riobamba_isocrona_plataforma_n_1000m_stats.json?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_isocrona_limite_plataforma_n_400m.geojson?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_red_vial_isocrona_limite_plataforma_n_400m.geojson?v=${DATA_VERSION}`),
-          fetch(`./riobamba-censo-data/riobamba_isocrona_limite_plataforma_n_400m_stats.json?v=${DATA_VERSION}`)
+          fetch(`./riobamba-censo-data/riobamba_isocrona_limite_plataforma_n_400m_stats.json?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocrona_limite_plataforma_n_400m_ajustada_manzanas.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocrona_limite_plataforma_n_400m_ajustada_manzanas_stats.json?v=${DATA_VERSION}`)
         ]);
 
         if (
@@ -1685,7 +1767,9 @@
           !isocronas1000StatsResponse.ok ||
           !isocrona400PolygonResponse.ok ||
           !isocrona400NetworkResponse.ok ||
-          !isocronas400StatsResponse.ok
+          !isocronas400StatsResponse.ok ||
+          !isocrona400CartoPolygonResponse.ok ||
+          !isocronas400CartoStatsResponse.ok
         ) {
           throw new Error("No se pudieron leer los archivos de datos.");
         }
@@ -1702,6 +1786,8 @@
         const isocrona400PolygonGeo = await isocrona400PolygonResponse.json();
         const isocrona400NetworkGeo = await isocrona400NetworkResponse.json();
         const isocronas400StatsData = await isocronas400StatsResponse.json();
+        const isocrona400CartoPolygonGeo = await isocrona400CartoPolygonResponse.json();
+        const isocronas400CartoStatsData = await isocronas400CartoStatsResponse.json();
         shpManifest = manifestResponse.ok ? await manifestResponse.json() : {};
 
         globalSummary = stats.summary;
@@ -1709,10 +1795,12 @@
         equipamientosStats = equipamientosStatsData;
         isocronasStats = isocronas1000StatsData;
         window.isocrona400Stats = isocronas400StatsData;
+        window.isocrona400CartoStats = isocronas400CartoStatsData;
         window.isocrona1000PolygonFeatures = isocrona1000PolygonGeo.features || [];
         window.isocrona1000NetworkFeatures = isocrona1000NetworkGeo.features || [];
         window.isocrona400PolygonFeatures = isocrona400PolygonGeo.features || [];
         window.isocrona400NetworkFeatures = isocrona400NetworkGeo.features || [];
+        window.isocrona400CartoFeatures = isocrona400CartoPolygonGeo.features || [];
         platformStatsByName = platformsStats.byName || {};
         platformFeatures = (platformsGeo.features || []).map((feature) => ({
           ...feature,
@@ -1748,14 +1836,16 @@
         buildEquipamientosSummary();
         buildIsocronasSummary();
         buildIsocrona400Summary();
+        buildIsocrona400CartoSummary();
         renderIsocronaPolygonLayer();
         renderIsocronaNetworkLayer();
         renderIsocrona400PolygonLayer();
         renderIsocrona400NetworkLayer();
+        renderIsocrona400CartoLayer();
         renderEquipamientosLayer();
         renderAll(false);
 
-        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas y ${formatNumber(equipamientosFeatures.length)} equipamientos. Isocrona 1000 m: ${formatNumber(isocronasStats.equipamientos_origen)} equipamientos origen y ${formatNumber(isocronasStats.segmentos_red)} segmentos OSM. Isocrona 400 m: ${formatNumber(window.isocrona400Stats.boundary_samples)} muestras del borde y ${formatNumber(window.isocrona400Stats.segmentos_red)} segmentos OSM.`;
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas y ${formatNumber(equipamientosFeatures.length)} equipamientos. Isocrona 1000 m: ${formatNumber(isocronasStats.equipamientos_origen)} equipamientos origen. Isocrona exacta 400 m: ${formatNumber(window.isocrona400Stats.boundary_samples)} muestras del borde y ${formatNumber(window.isocrona400Stats.segmentos_red)} segmentos OSM. Referencia cartografica: ${formatNumber(window.isocrona400CartoStats.manzanas_ajustadas || 0)} manzanas ajustadas.`;
 
         if (layerControl) {
           layerControl.remove();
@@ -1886,6 +1976,11 @@
 
     toggleIsocrona400m.addEventListener("change", () => {
       layerVisibility.isocrona400m = toggleIsocrona400m.checked;
+      syncVisibleLayers();
+    });
+
+    toggleIsocrona400mCarto.addEventListener("change", () => {
+      layerVisibility.isocrona400mCarto = toggleIsocrona400mCarto.checked;
       syncVisibleLayers();
     });
 
