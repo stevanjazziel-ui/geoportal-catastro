@@ -1,4 +1,5 @@
 import json
+import re
 import shutil
 import zipfile
 from pathlib import Path
@@ -20,6 +21,7 @@ EXPORTS = [
         "label": "Isocrona exacta de red 400 m desde el borde de la plataforma Ñ",
         "shape_type": shapefile.POLYGON,
         "geometry_mode": "polygon",
+        "bundle_mode": "single",
     },
     {
         "source_path": DATA_DIR / "riobamba_isocrona_limite_plataforma_n_400m_ajustada_manzanas.geojson",
@@ -27,13 +29,15 @@ EXPORTS = [
         "label": "Contorno cartografico ajustado 400 m desde el borde de la plataforma Ñ",
         "shape_type": shapefile.POLYGON,
         "geometry_mode": "polygon",
+        "bundle_mode": "single",
     },
     {
         "source_path": DATA_DIR / "riobamba_isocronas_educacion_categorizada.geojson",
         "output_basename": "isocronas_educacion_categorizada_manzanas",
-        "label": "Bordes exteriores separados de isocronas de educacion ajustadas a manzanas censales",
+        "label": "ZIP con shapefiles separados del borde exterior de cada isocrona de educación",
         "shape_type": shapefile.POLYLINE,
         "geometry_mode": "exterior_line",
+        "bundle_mode": "per_feature",
     },
 ]
 
@@ -41,6 +45,12 @@ EXPORTS = [
 def load_json(path: Path):
     with open(path, "r", encoding="utf-8-sig") as handle:
         return json.load(handle)
+
+
+def sanitize_token(value):
+    token = re.sub(r"[^A-Za-z0-9_-]+", "_", str(value or "").strip())
+    token = token.strip("_")
+    return token or "sin_nombre"
 
 
 def geometry_parts(feature, geometry_mode="polygon"):
@@ -61,25 +71,9 @@ def geometry_parts(feature, geometry_mode="polygon"):
     raise ValueError(f"Geometria no soportada: {geometry['type']}")
 
 
-def write_feature(writer, feature, geometry_mode, shape_type):
-    parts = geometry_parts(feature, geometry_mode=geometry_mode)
-    if shape_type == shapefile.POLYLINE:
-        writer.line(parts)
-    else:
-        writer.poly(parts)
-
-
-def write_zip(features, output_basename: str, shape_type, geometry_mode):
-    SHP_DIR.mkdir(parents=True, exist_ok=True)
-    temp_dir = SHP_DIR / output_basename
-    if temp_dir.exists():
-        shutil.rmtree(temp_dir)
-    temp_dir.mkdir(parents=True, exist_ok=True)
-
-    shp_base = temp_dir / output_basename
+def init_writer(shp_base: Path, shape_type):
     writer = shapefile.Writer(str(shp_base), shapeType=shape_type)
     writer.autoBalance = 1
-
     writer.field("nombre", "C", size=80)
     writer.field("target", "C", size=24)
     writer.field("dist_m", "N", size=10, decimal=0)
@@ -97,42 +91,101 @@ def write_zip(features, output_basename: str, shape_type, geometry_mode):
     writer.field("modo", "C", size=12)
     writer.field("categor", "C", size=20)
     writer.field("codigo", "C", size=24)
+    return writer
 
-    for feature in features:
-        props = feature.get("properties", {})
-        write_feature(writer, feature, geometry_mode, shape_type)
-        writer.record(
-            str(props.get("nombre", ""))[:80],
-            str(props.get("target_platform", ""))[:24],
-            int(props.get("distance_m", 0) or 0),
-            str(props.get("source_type", props.get("origin_type", "")))[:32],
-            int(props.get("boundary_samples", 0) or 0),
-            int(props.get("source_nodes", 0) or 0),
-            float(props.get("snap_promedio_m", props.get("snap_m", 0)) or 0),
-            int(props.get("nodos_alcanzables", 0) or 0),
-            int(props.get("segmentos_red", 0) or 0),
-            int(props.get("manzanas_ajustadas", 0) or 0),
-            float(props.get("longitud_red_m", 0) or 0),
-            float(props.get("area_poligono_red_m2", props.get("area_poligono_exacto_m2", 0)) or 0),
-            float(props.get("area_poligono_manzanas_m2", 0) or 0),
-            float(props.get("area_poligono_m2", 0) or 0),
-            str(props.get("mode", ""))[:12],
-            str(props.get("categoria", ""))[:20],
-            str(props.get("codigo", ""))[:24],
-        )
+
+def write_feature_geometry(writer, feature, geometry_mode, shape_type):
+    parts = geometry_parts(feature, geometry_mode=geometry_mode)
+    if shape_type == shapefile.POLYLINE:
+        writer.line(parts)
+    else:
+        writer.poly(parts)
+
+
+def write_feature_record(writer, feature):
+    props = feature.get("properties", {})
+    writer.record(
+        str(props.get("nombre", ""))[:80],
+        str(props.get("target_platform", ""))[:24],
+        int(props.get("distance_m", 0) or 0),
+        str(props.get("source_type", props.get("origin_type", "")))[:32],
+        int(props.get("boundary_samples", 0) or 0),
+        int(props.get("source_nodes", 0) or 0),
+        float(props.get("snap_promedio_m", props.get("snap_m", 0)) or 0),
+        int(props.get("nodos_alcanzables", 0) or 0),
+        int(props.get("segmentos_red", 0) or 0),
+        int(props.get("manzanas_ajustadas", 0) or 0),
+        float(props.get("longitud_red_m", 0) or 0),
+        float(props.get("area_poligono_red_m2", props.get("area_poligono_exacto_m2", 0)) or 0),
+        float(props.get("area_poligono_manzanas_m2", 0) or 0),
+        float(props.get("area_poligono_m2", 0) or 0),
+        str(props.get("mode", ""))[:12],
+        str(props.get("categoria", ""))[:20],
+        str(props.get("codigo", ""))[:24],
+    )
+
+
+def finalize_writer(writer, shp_base: Path):
     writer.close()
-
     with open(shp_base.with_suffix(".prj"), "w", encoding="utf-8") as handle:
         handle.write(PRJ_WGS84)
 
+
+def build_feature_basename(feature, index):
+    props = feature.get("properties", {})
+    categoria = sanitize_token(props.get("categoria", "sin_categoria")).lower()
+    codigo = sanitize_token(props.get("codigo", f"{index:03d}"))
+    nombre = sanitize_token(props.get("nombre", f"isocrona_{index:03d}"))[:36]
+    return f"iso_{index:03d}_{categoria}_{codigo}_{nombre}"
+
+
+def write_single_bundle(features, output_basename: str, shape_type, geometry_mode):
+    temp_dir = SHP_DIR / output_basename
+    if temp_dir.exists():
+        shutil.rmtree(temp_dir)
+    temp_dir.mkdir(parents=True, exist_ok=True)
+
+    shp_base = temp_dir / output_basename
+    writer = init_writer(shp_base, shape_type)
+    for feature in features:
+        write_feature_geometry(writer, feature, geometry_mode, shape_type)
+        write_feature_record(writer, feature)
+    finalize_writer(writer, shp_base)
+    return temp_dir
+
+
+def write_per_feature_bundle(features, output_basename: str, shape_type, geometry_mode):
+    temp_dir = SHP_DIR / output_basename
+    if temp_dir.exists():
+        shutil.rmtree(temp_dir)
+    temp_dir.mkdir(parents=True, exist_ok=True)
+
+    for index, feature in enumerate(features, start=1):
+        shp_base = temp_dir / build_feature_basename(feature, index)
+        writer = init_writer(shp_base, shape_type)
+        write_feature_geometry(writer, feature, geometry_mode, shape_type)
+        write_feature_record(writer, feature)
+        finalize_writer(writer, shp_base)
+
+    return temp_dir
+
+
+def pack_directory(temp_dir: Path, output_basename: str):
     zip_path = SHP_DIR / f"{output_basename}.zip"
     with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
-        for extension in (".shp", ".shx", ".dbf", ".prj"):
-            file_path = shp_base.with_suffix(extension)
+        for file_path in sorted(temp_dir.iterdir()):
             archive.write(file_path, arcname=file_path.name)
-
     shutil.rmtree(temp_dir)
     return zip_path
+
+
+def write_zip(features, output_basename: str, shape_type, geometry_mode, bundle_mode):
+    SHP_DIR.mkdir(parents=True, exist_ok=True)
+    if bundle_mode == "per_feature":
+        temp_dir = write_per_feature_bundle(features, output_basename, shape_type, geometry_mode)
+    else:
+        temp_dir = write_single_bundle(features, output_basename, shape_type, geometry_mode)
+    return pack_directory(temp_dir, output_basename)
 
 
 def update_manifest(entries):
@@ -158,6 +211,7 @@ def build_export(config):
         config["output_basename"],
         config.get("shape_type", shapefile.POLYGON),
         config.get("geometry_mode", "polygon"),
+        config.get("bundle_mode", "single"),
     )
     return {
         "output_basename": config["output_basename"],
