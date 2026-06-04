@@ -15,40 +15,51 @@ if (-not (Test-Path $outDir)) {
   New-Item -ItemType Directory -Path $outDir | Out-Null
 }
 
-$baseUrl = "https://idgn.ecuadorencifras.gob.ec/server/rest/services/Hosted/Marco_Geoestadistico_2022/FeatureServer/6/query"
-$whereClause = [System.Uri]::EscapeDataString("man LIKE '0601%'")
-$idsUrl = "${baseUrl}?where=${whereClause}&returnIdsOnly=true&f=json"
-
-Write-Host "Consultando manzanas censales oficiales de Riobamba..."
-$idsResponse = Invoke-RestMethod -Uri $idsUrl -Method Get
-$objectIds = @($idsResponse.objectIds)
-
-if (-not $objectIds.Count) {
-  throw "No se encontraron manzanas censales para Riobamba."
-}
-
 $featureList = New-Object System.Collections.Generic.List[object]
 $geometryCodes = New-Object System.Collections.Generic.HashSet[string]
-$batchSize = 400
 
-for ($offset = 0; $offset -lt $objectIds.Count; $offset += $batchSize) {
-  $batch = $objectIds[$offset..([Math]::Min($offset + $batchSize - 1, $objectIds.Count - 1))]
-  $idsChunk = [string]::Join(",", $batch)
-  $geoUrl = "${baseUrl}?objectIds=${idsChunk}&outFields=man&returnGeometry=true&f=geojson&outSR=4326"
-  $geoResponse = Invoke-RestMethod -Uri $geoUrl -Method Get
-
-  foreach ($feature in @($geoResponse.features)) {
+if (Test-Path $geoJsonPath) {
+  Write-Host "Usando manzanas censales ya guardadas en el proyecto..."
+  $existingGeo = Get-Content -Path $geoJsonPath -Raw -Encoding UTF8 | ConvertFrom-Json
+  foreach ($feature in @($existingGeo.features)) {
     $null = $featureList.Add($feature)
     $null = $geometryCodes.Add([string]$feature.properties.man)
   }
 }
+else {
+  $baseUrl = "https://idgn.ecuadorencifras.gob.ec/server/rest/services/Hosted/Marco_Geoestadistico_2022/FeatureServer/6/query"
+  $whereClause = [System.Uri]::EscapeDataString("man LIKE '0601%'")
+  $idsUrl = "${baseUrl}?where=${whereClause}&returnIdsOnly=true&f=json"
 
-$geoJson = [ordered]@{
-  type = "FeatureCollection"
-  features = @($featureList.ToArray())
+  Write-Host "Consultando manzanas censales oficiales de Riobamba..."
+  $idsResponse = Invoke-RestMethod -Uri $idsUrl -Method Get
+  $objectIds = @($idsResponse.objectIds)
+
+  if (-not $objectIds.Count) {
+    throw "No se encontraron manzanas censales para Riobamba."
+  }
+
+  $batchSize = 400
+
+  for ($offset = 0; $offset -lt $objectIds.Count; $offset += $batchSize) {
+    $batch = $objectIds[$offset..([Math]::Min($offset + $batchSize - 1, $objectIds.Count - 1))]
+    $idsChunk = [string]::Join(",", $batch)
+    $geoUrl = "${baseUrl}?objectIds=${idsChunk}&outFields=man&returnGeometry=true&f=geojson&outSR=4326"
+    $geoResponse = Invoke-RestMethod -Uri $geoUrl -Method Get
+
+    foreach ($feature in @($geoResponse.features)) {
+      $null = $featureList.Add($feature)
+      $null = $geometryCodes.Add([string]$feature.properties.man)
+    }
+  }
+
+  $geoJson = [ordered]@{
+    type = "FeatureCollection"
+    features = @($featureList.ToArray())
+  }
+
+  $geoJson | ConvertTo-Json -Depth 100 | Set-Content -Path $geoJsonPath -Encoding UTF8
 }
-
-$geoJson | ConvertTo-Json -Depth 100 | Set-Content -Path $geoJsonPath -Encoding UTF8
 
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $archive = [System.IO.Compression.ZipFile]::OpenRead($zipPath)
@@ -105,10 +116,11 @@ try {
           population_total = 0
           male = 0
           female = 0
-          age_0_14 = 0
-          age_15_29 = 0
-          age_30_44 = 0
-          age_45_64 = 0
+          age_0_4 = 0
+          age_5_11 = 0
+          age_12_17 = 0
+          age_18_29 = 0
+          age_30_64 = 0
           age_65_plus = 0
         }
       }
@@ -126,14 +138,16 @@ try {
       $age = 0
       [void][int]::TryParse([string]$parts[$indexMap["P03"]], [ref]$age)
 
-      if ($age -le 14) {
-        $record.age_0_14 += 1
+      if ($age -le 4) {
+        $record.age_0_4 += 1
+      } elseif ($age -le 11) {
+        $record.age_5_11 += 1
+      } elseif ($age -le 17) {
+        $record.age_12_17 += 1
       } elseif ($age -le 29) {
-        $record.age_15_29 += 1
-      } elseif ($age -le 44) {
-        $record.age_30_44 += 1
+        $record.age_18_29 += 1
       } elseif ($age -le 64) {
-        $record.age_45_64 += 1
+        $record.age_30_64 += 1
       } else {
         $record.age_65_plus += 1
       }
@@ -150,10 +164,11 @@ try {
       population_total = 0
       male = 0
       female = 0
-      age_0_14 = 0
-      age_15_29 = 0
-      age_30_44 = 0
-      age_45_64 = 0
+      age_0_4 = 0
+      age_5_11 = 0
+      age_12_17 = 0
+      age_18_29 = 0
+      age_30_64 = 0
       age_65_plus = 0
     }
 
@@ -161,10 +176,11 @@ try {
       $summary.population_total += [int]$item.population_total
       $summary.male += [int]$item.male
       $summary.female += [int]$item.female
-      $summary.age_0_14 += [int]$item.age_0_14
-      $summary.age_15_29 += [int]$item.age_15_29
-      $summary.age_30_44 += [int]$item.age_30_44
-      $summary.age_45_64 += [int]$item.age_45_64
+      $summary.age_0_4 += [int]$item.age_0_4
+      $summary.age_5_11 += [int]$item.age_5_11
+      $summary.age_12_17 += [int]$item.age_12_17
+      $summary.age_18_29 += [int]$item.age_18_29
+      $summary.age_30_64 += [int]$item.age_30_64
       $summary.age_65_plus += [int]$item.age_65_plus
     }
 

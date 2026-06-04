@@ -20,10 +20,11 @@ METRIC_KEYS = [
     "population_total",
     "male",
     "female",
-    "age_0_14",
-    "age_15_29",
-    "age_30_44",
-    "age_45_64",
+    "age_0_4",
+    "age_5_11",
+    "age_12_17",
+    "age_18_29",
+    "age_30_64",
     "age_65_plus",
 ]
 

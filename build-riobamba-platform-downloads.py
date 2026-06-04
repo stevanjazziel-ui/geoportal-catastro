@@ -23,10 +23,11 @@ HEADERS = [
     "pob_total",
     "hombres",
     "mujeres",
-    "edad0_14",
-    "edad15_29",
-    "edad30_44",
-    "edad45_64",
+    "edad0_4",
+    "edad5_11",
+    "edad12_17",
+    "edad18_29",
+    "edad30_64",
     "edad65mas",
 ]
 
@@ -91,10 +92,11 @@ def feature_row(feature):
         int(props["population_total"]),
         int(props["male"]),
         int(props["female"]),
-        int(props["age_0_14"]),
-        int(props["age_15_29"]),
-        int(props["age_30_44"]),
-        int(props["age_45_64"]),
+        int(props["age_0_4"]),
+        int(props["age_5_11"]),
+        int(props["age_12_17"]),
+        int(props["age_18_29"]),
+        int(props["age_30_64"]),
         int(props["age_65_plus"]),
     ]
 
@@ -114,10 +116,11 @@ def write_shapefile_zip(features, basename: str):
     writer.field("pob_total", "N", size=12, decimal=0)
     writer.field("hombres", "N", size=12, decimal=0)
     writer.field("mujeres", "N", size=12, decimal=0)
-    writer.field("edad0_14", "N", size=12, decimal=0)
-    writer.field("edad15_29", "N", size=12, decimal=0)
-    writer.field("edad30_44", "N", size=12, decimal=0)
-    writer.field("edad45_64", "N", size=12, decimal=0)
+    writer.field("edad0_4", "N", size=12, decimal=0)
+    writer.field("edad5_11", "N", size=12, decimal=0)
+    writer.field("edad12_17", "N", size=12, decimal=0)
+    writer.field("edad18_29", "N", size=12, decimal=0)
+    writer.field("edad30_64", "N", size=12, decimal=0)
     writer.field("edad65mas", "N", size=12, decimal=0)
 
     for feature in features:
@@ -171,7 +174,7 @@ def write_excel(features, basename: str, label: str):
     for cell in data_sheet[1]:
         cell.font = Font(bold=True)
     data_sheet.freeze_panes = "A2"
-    data_sheet.auto_filter.ref = "A1:J1"
+    data_sheet.auto_filter.ref = "A1:K1"
     for feature in features:
         data_sheet.append(feature_row(feature))
     autosize_columns(data_sheet)
