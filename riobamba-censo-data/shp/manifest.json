@@ -141,5 +141,10 @@
     "file": "limite_isocrona_limite_plataforma_n_400m.zip",
     "count": 1,
     "label": "Isocrona exacta de red 400 m desde el borde de la plataforma N"
+  },
+  "contorno_cartografico_limite_plataforma_n_400m": {
+    "file": "contorno_cartografico_limite_plataforma_n_400m.zip",
+    "count": 1,
+    "label": "Contorno cartografico ajustado 400 m desde el borde de la plataforma N"
   }
 }

@@ -9,11 +9,22 @@ import shapefile
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "riobamba-censo-data"
 SHP_DIR = DATA_DIR / "shp"
-ISOCHRONE_PATH = DATA_DIR / "riobamba_isocrona_limite_plataforma_n_400m.geojson"
 MANIFEST_PATH = SHP_DIR / "manifest.json"
-OUTPUT_BASENAME = "limite_isocrona_limite_plataforma_n_400m"
 
 PRJ_WGS84 = 'GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]]'
+
+EXPORTS = [
+    {
+        "source_path": DATA_DIR / "riobamba_isocrona_limite_plataforma_n_400m.geojson",
+        "output_basename": "limite_isocrona_limite_plataforma_n_400m",
+        "label": "Isocrona exacta de red 400 m desde el borde de la plataforma N",
+    },
+    {
+        "source_path": DATA_DIR / "riobamba_isocrona_limite_plataforma_n_400m_ajustada_manzanas.geojson",
+        "output_basename": "contorno_cartografico_limite_plataforma_n_400m",
+        "label": "Contorno cartografico ajustado 400 m desde el borde de la plataforma N",
+    },
+]
 
 
 def load_json(path: Path):
@@ -33,21 +44,21 @@ def geometry_parts(feature):
     raise ValueError(f"Geometria no soportada: {geometry['type']}")
 
 
-def write_zip(feature):
+def write_zip(feature, output_basename: str):
     SHP_DIR.mkdir(parents=True, exist_ok=True)
-    temp_dir = SHP_DIR / OUTPUT_BASENAME
+    temp_dir = SHP_DIR / output_basename
     if temp_dir.exists():
         shutil.rmtree(temp_dir)
     temp_dir.mkdir(parents=True, exist_ok=True)
 
-    shp_base = temp_dir / OUTPUT_BASENAME
+    shp_base = temp_dir / output_basename
     writer = shapefile.Writer(str(shp_base), shapeType=shapefile.POLYGON)
     writer.autoBalance = 1
 
     writer.field("nombre", "C", size=80)
     writer.field("target", "C", size=24)
     writer.field("dist_m", "N", size=10, decimal=0)
-    writer.field("src_type", "C", size=16)
+    writer.field("src_type", "C", size=32)
     writer.field("muestras", "N", size=10, decimal=0)
     writer.field("src_nodes", "N", size=10, decimal=0)
     writer.field("snap_avg", "N", size=10, decimal=2)
@@ -66,7 +77,7 @@ def write_zip(feature):
         str(props.get("nombre", ""))[:80],
         str(props.get("target_platform", ""))[:24],
         int(props.get("distance_m", 0) or 0),
-        str(props.get("source_type", ""))[:16],
+        str(props.get("source_type", ""))[:32],
         int(props.get("boundary_samples", 0) or 0),
         int(props.get("source_nodes", 0) or 0),
         float(props.get("snap_promedio_m", 0) or 0),
@@ -84,7 +95,7 @@ def write_zip(feature):
     with open(shp_base.with_suffix(".prj"), "w", encoding="utf-8") as handle:
         handle.write(PRJ_WGS84)
 
-    zip_path = SHP_DIR / f"{OUTPUT_BASENAME}.zip"
+    zip_path = SHP_DIR / f"{output_basename}.zip"
     with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
         for extension in (".shp", ".shx", ".dbf", ".prj"):
             file_path = shp_base.with_suffix(extension)
@@ -94,28 +105,40 @@ def write_zip(feature):
     return zip_path
 
 
-def update_manifest(zip_path: Path, feature_count: int):
+def update_manifest(entries):
     manifest = load_json(MANIFEST_PATH) if MANIFEST_PATH.exists() else {}
-    manifest[OUTPUT_BASENAME] = {
-        "file": zip_path.name,
-        "count": feature_count,
-        "label": "Isocrona exacta de red 400 m desde el borde de la plataforma N",
-    }
+    for entry in entries:
+        manifest[entry["output_basename"]] = {
+            "file": entry["zip_path"].name,
+            "count": entry["feature_count"],
+            "label": entry["label"],
+        }
     with open(MANIFEST_PATH, "w", encoding="utf-8") as handle:
         json.dump(manifest, handle, ensure_ascii=False, indent=2)
 
 
-def main():
-    payload = load_json(ISOCHRONE_PATH)
+def build_export(config):
+    payload = load_json(config["source_path"])
     features = payload.get("features", [])
     if not features:
-        raise RuntimeError("No se encontro la isocrona para exportar.")
+        raise RuntimeError(f"No se encontro geometria para exportar en {config['source_path'].name}.")
 
-    zip_path = write_zip(features[0])
-    update_manifest(zip_path, len(features))
+    zip_path = write_zip(features[0], config["output_basename"])
+    return {
+        "output_basename": config["output_basename"],
+        "zip_path": zip_path,
+        "feature_count": len(features),
+        "label": config["label"],
+    }
+
+
+def main():
+    results = [build_export(config) for config in EXPORTS]
+    update_manifest(results)
 
     print("Listo.")
-    print(zip_path)
+    for result in results:
+        print(result["zip_path"])
 
 
 if __name__ == "__main__":
