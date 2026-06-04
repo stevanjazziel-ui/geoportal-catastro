@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-03T23:06:27",
+  "generated_at": "2026-06-03T23:18:38",
   "target_platform": "PLATAFORMA Ñ",
   "distance_m": 1000,
   "mode": "walking",
@@ -11,7 +11,7 @@
   "manzanas_ajustadas": 830,
   "area_poligono_red_m2": 4859417.43,
   "area_poligono_manzanas_m2": 5963387.61,
-  "area_poligono_m2": 7366610.03,
+  "area_poligono_m2": 7446825.6,
   "source": "OpenStreetMap peatonal + equipamientos dentro de la plataforma objetivo + ajuste del limite a manzanas censales",
   "by_equipamien": {
     "Recreativo y Deporte": 14,

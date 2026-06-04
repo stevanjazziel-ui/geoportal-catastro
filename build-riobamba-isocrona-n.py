@@ -290,6 +290,17 @@ def build_external_limit_polygon(aligned_polygon):
     return closed
 
 
+def remove_internal_holes(geometry):
+    if isinstance(geometry, Polygon):
+        return Polygon(geometry.exterior)
+    if isinstance(geometry, MultiPolygon):
+        polygons = [Polygon(part.exterior) for part in geometry.geoms if not part.is_empty]
+        if not polygons:
+            return geometry
+        return unary_union(polygons)
+    return geometry
+
+
 def geometry_mapping(geom):
     if isinstance(geom, (Polygon, MultiPolygon)):
         cleaned = geom.buffer(0)
@@ -383,7 +394,7 @@ def main():
     source_points = [(source["point_utm"].x, source["point_utm"].y) for source in snapped_sources]
     base_polygon = build_isochrone_polygon(segments, source_points)
     aligned_polygon, covered_manzanas = align_polygon_to_manzanas(manzanas_data["features"], base_polygon)
-    polygon = build_external_limit_polygon(aligned_polygon)
+    polygon = remove_internal_holes(build_external_limit_polygon(aligned_polygon))
 
     network_geom = normalize_multilines(segments)
 
