@@ -35,8 +35,8 @@ EXPORTS = [
         "source_path": DATA_DIR / "riobamba_isocronas_educacion_categorizada.geojson",
         "output_basename": "isocronas_educacion_categorizada_manzanas",
         "label": "ZIP con shapefiles separados del borde exterior de cada isocrona de educación",
-        "shape_type": shapefile.POLYLINE,
-        "geometry_mode": "exterior_line",
+        "shape_type": shapefile.POLYGON,
+        "geometry_mode": "polygon",
         "bundle_mode": "per_feature",
     },
     {

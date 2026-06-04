@@ -284,7 +284,7 @@
         <button id="downloadIsochroneShpButton" type="button" style="margin-top:10px;">Descargar SHP de la isocrona 1000 m</button>
         <button id="downloadIsochrone400ShpButton" type="button" style="margin-top:10px;">Descargar SHP de la isocrona 400 m</button>
         <button id="downloadIsochrone400CartoShpButton" type="button" style="margin-top:10px;">Descargar contorno cartografico 400 m</button>
-        <button id="downloadEducacionIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con shapes separados de isocronas educacion</button>
+        <button id="downloadEducacionIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con poligonos separados de isocronas educacion</button>
         <button id="downloadEducacionStartPointsShpButton" type="button" style="margin-top:10px;">Descargar SHP de puntos de inicio educacion</button>
         <p style="margin-top:10px;">
           Descarga la vista actual de la plataforma seleccionada en formato Shape o Excel.
@@ -383,7 +383,7 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260604-1905";
+    const DATA_VERSION = "20260604-1935";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const EDUCACION_ISOCHRONE_SHP_KEY = "isocronas_educacion_categorizada_manzanas";
@@ -2225,7 +2225,7 @@
         const entry = shpManifest[EDUCACION_ISOCHRONE_SHP_KEY];
 
         if (!entry) {
-          statusText.textContent = "No existe un ZIP listo con shapefiles separados para las isocronas de educacion.";
+          statusText.textContent = "No existe un ZIP listo con poligonos separados para las isocronas de educacion.";
           return;
         }
 
@@ -2236,9 +2236,9 @@
         link.click();
         link.remove();
 
-        statusText.textContent = `Descarga iniciada: ZIP con ${formatNumber(entry.count)} shapefiles separados, uno por cada borde exterior de isocrona de educacion.`;
+        statusText.textContent = `Descarga iniciada: ZIP con ${formatNumber(entry.count)} shapefiles separados, uno por cada poligono de isocrona de educacion.`;
       } catch (error) {
-        statusText.textContent = "No se pudo iniciar la descarga del ZIP con shapefiles separados de las isocronas de educacion.";
+        statusText.textContent = "No se pudo iniciar la descarga del ZIP con poligonos separados de las isocronas de educacion.";
       }
     });
 
