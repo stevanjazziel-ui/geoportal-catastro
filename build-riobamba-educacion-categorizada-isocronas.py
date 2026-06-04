@@ -522,6 +522,8 @@ def build_single_isochrone(record, manzana_features, base_graph, edge_tree, edge
         "initial_distance_m": float(projection["snap_m"]),
         **projection,
     }
+    source_lon, source_lat = transformer_to_wgs.transform(*source_entry["projected_xy"])
+    equip_lon, equip_lat = transformer_to_wgs.transform(representative_point.x, representative_point.y)
 
     graph = split_edges_with_projected_sources(base_graph, [source_entry])
     reachable = multi_source_reachable(graph, [source_entry], distance_m)
@@ -556,6 +558,10 @@ def build_single_isochrone(record, manzana_features, base_graph, edge_tree, edge
             "source_type": "equipamiento_manzana_aligned_external",
             "snap_m": round(float(projection["snap_m"]), 2),
             "source_node_id": str(source_entry.get("node_id")),
+            "source_lon": round(source_lon, 8),
+            "source_lat": round(source_lat, 8),
+            "equipamiento_lon": round(equip_lon, 8),
+            "equipamiento_lat": round(equip_lat, 8),
             "nodos_alcanzables": len(reachable),
             "segmentos_red": len(segments),
             "longitud_red_m": round(total_length, 2),

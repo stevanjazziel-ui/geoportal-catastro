@@ -270,6 +270,7 @@
           <label class="layer-toggle"><span>Contorno cartografico 400 m ajustado</span><input id="toggleIsocrona400mCarto" type="checkbox"></label>
           <label class="layer-toggle"><span>Isocrona 1000 m desde equipamientos</span><input id="toggleIsocronasColindantes" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Isocronas educacion categorizada</span><input id="toggleEducacionIsocronas" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Puntos inicio educacion</span><input id="toggleEducacionIsocronasPuntos" type="checkbox" checked></label>
         </div>
       </section>
 
@@ -416,7 +417,8 @@
       equipamientos: true,
       isocronasColindantes: true,
       redVial1000m: true,
-      educacionIsocronas: true
+      educacionIsocronas: true,
+      educacionIsocronasPuntos: true
     };
 
     const metricSelect = document.getElementById("metricSelect");
@@ -449,6 +451,7 @@
     const toggleIsocrona400m = document.getElementById("toggleIsocrona400m");
     const toggleIsocrona400mCarto = document.getElementById("toggleIsocrona400mCarto");
     const toggleEducacionIsocronas = document.getElementById("toggleEducacionIsocronas");
+    const toggleEducacionIsocronasPuntos = document.getElementById("toggleEducacionIsocronasPuntos");
     const equipamientoPalette = [
       "#ffd166", "#ef476f", "#06d6a0", "#118ab2", "#f78c6b",
       "#c77dff", "#90be6d", "#4cc9f0", "#ff9f1c", "#43aa8b",
@@ -1426,10 +1429,12 @@
     window.isocrona400CartoLayer = null;
     window.educacionIsocronasStats = null;
     window.educacionIsocronasLayer = null;
+    window.educacionIsocronasStartLayer = null;
     layerVisibility.redVial400m = true;
     layerVisibility.isocrona400m = true;
     layerVisibility.isocrona400mCarto = false;
     layerVisibility.educacionIsocronas = true;
+    layerVisibility.educacionIsocronasPuntos = true;
     const educacionIsoColors = {
       BARRIAL: "#59d8ff",
       ZONAL: "#8f7dff"
@@ -1483,6 +1488,7 @@
       syncSingleLayer(window.isocrona400NetworkLayer, layerVisibility.redVial400m);
       syncSingleLayer(window.isocrona400CartoLayer, layerVisibility.isocrona400mCarto);
       syncSingleLayer(window.educacionIsocronasLayer, layerVisibility.educacionIsocronas);
+      syncSingleLayer(window.educacionIsocronasStartLayer, layerVisibility.educacionIsocronasPuntos);
     }
 
     function buildIsocronasSummary() {
@@ -1591,6 +1597,80 @@
         fillOpacity: categoria === "BARRIAL" ? 0.14 : 0.08,
         dashArray: distance >= 1000 ? "10 6" : ""
       };
+    }
+
+    function buildEducacionStartPointFeatures() {
+      return (window.educacionIsocronasFeatures || [])
+        .filter((feature) => feature && feature.properties)
+        .map((feature) => {
+          const props = feature.properties || {};
+          const lon = Number(props.source_lon);
+          const lat = Number(props.source_lat);
+          if (!Number.isFinite(lon) || !Number.isFinite(lat)) {
+            return null;
+          }
+          return {
+            type: "Feature",
+            properties: props,
+            geometry: {
+              type: "Point",
+              coordinates: [lon, lat]
+            }
+          };
+        })
+        .filter(Boolean);
+    }
+
+    function renderEducacionIsocronasStartLayer() {
+      if (window.educacionIsocronasStartLayer) {
+        map.removeLayer(window.educacionIsocronasStartLayer);
+      }
+
+      const features = buildEducacionStartPointFeatures().sort(
+        (left, right) => Number(right.properties?.distance_m || 0) - Number(left.properties?.distance_m || 0)
+      );
+
+      if (!map.getPane("educacionIsocronasStartPane")) {
+        map.createPane("educacionIsocronasStartPane");
+        map.getPane("educacionIsocronasStartPane").style.zIndex = 433;
+      }
+
+      window.educacionIsocronasStartLayer = L.geoJSON(
+        { type: "FeatureCollection", features },
+        {
+          pane: "educacionIsocronasStartPane",
+          pointToLayer: (feature, latlng) => {
+            const categoria = String(feature?.properties?.categoria || "").toUpperCase();
+            const color = educacionIsoColors[categoria] || "#8fb6d9";
+            return L.circleMarker(latlng, {
+              radius: categoria === "BARRIAL" ? 5.5 : 6.5,
+              color: "#f8fbff",
+              weight: 1.5,
+              fillColor: color,
+              fillOpacity: 1
+            });
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties;
+            const categoria = String(props.categoria || "").toUpperCase();
+            const categoriaTexto = categoria === "BARRIAL" ? "Barrial" : categoria === "ZONAL" ? "Zonal" : categoria;
+            layer.bindPopup(`
+              <strong>Punto de inicio</strong><br>
+              <strong>Equipamiento:</strong> ${props.nombre || "Sin nombre"}<br>
+              <strong>Categoria:</strong> ${categoriaTexto}<br>
+              <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
+              <strong>Coordenadas:</strong> ${Number(props.source_lat || 0).toFixed(6)}, ${Number(props.source_lon || 0).toFixed(6)}<br>
+              <strong>Snap a via:</strong> ${Number(props.snap_m || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = "Punto de inicio de isocrona";
+              overlayText.textContent = `${props.nombre || "Equipamiento"} inicia su isocrona ${categoriaTexto.toLowerCase()} desde el punto proyectado sobre la red vial.`;
+            });
+          }
+        }
+      );
+      syncSingleLayer(window.educacionIsocronasStartLayer, layerVisibility.educacionIsocronasPuntos);
     }
 
     function renderEducacionIsocronasLayer() {
@@ -2020,6 +2100,7 @@
         buildIsocrona400Summary();
         buildIsocrona400CartoSummary();
         renderEducacionIsocronasLayer();
+        renderEducacionIsocronasStartLayer();
         renderIsocronaPolygonLayer();
         renderIsocronaNetworkLayer();
         renderIsocrona400PolygonLayer();
@@ -2213,6 +2294,11 @@
 
     toggleEducacionIsocronas.addEventListener("change", () => {
       layerVisibility.educacionIsocronas = toggleEducacionIsocronas.checked;
+      syncVisibleLayers();
+    });
+
+    toggleEducacionIsocronasPuntos.addEventListener("change", () => {
+      layerVisibility.educacionIsocronasPuntos = toggleEducacionIsocronasPuntos.checked;
       syncVisibleLayers();
     });
 
