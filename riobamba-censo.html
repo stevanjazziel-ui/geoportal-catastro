@@ -351,6 +351,7 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
+    const DATA_VERSION = "20260603-2318";
 
     const map = L.map("map", { zoomSnap: 0.5 }).setView([-1.67, -78.65], 12.5);
 
@@ -991,16 +992,16 @@
     async function init() {
       try {
         const [geoResponse, statsResponse, platformGeoResponse, platformStatsResponse, manifestResponse, equipamientosGeoResponse, equipamientosStatsResponse, isocronaPolygonResponse, isocronaNetworkResponse, isocronasStatsResponse] = await Promise.all([
-          fetch("./riobamba-censo-data/riobamba_manzanas.geojson"),
-          fetch("./riobamba-censo-data/riobamba_manzanas_stats.json"),
-          fetch("./riobamba-censo-data/riobamba_plataformas.geojson"),
-          fetch("./riobamba-censo-data/riobamba_plataformas_stats.json"),
-          fetch("./riobamba-censo-data/shp/manifest.json"),
-          fetch("./riobamba-censo-data/riobamba_equipamientos.geojson"),
-          fetch("./riobamba-censo-data/riobamba_equipamientos_stats.json"),
-          fetch("./riobamba-censo-data/riobamba_isocrona_plataforma_n_1000m.geojson"),
-          fetch("./riobamba-censo-data/riobamba_red_vial_isocrona_plataforma_n_1000m.geojson"),
-          fetch("./riobamba-censo-data/riobamba_isocrona_plataforma_n_1000m_stats.json")
+          fetch(`./riobamba-censo-data/riobamba_manzanas.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_manzanas_stats.json?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_plataformas.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_plataformas_stats.json?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/shp/manifest.json?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_equipamientos.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_equipamientos_stats.json?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocrona_plataforma_n_1000m.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_red_vial_isocrona_plataforma_n_1000m.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocrona_plataforma_n_1000m_stats.json?v=${DATA_VERSION}`)
         ]);
 
         if (!geoResponse.ok || !statsResponse.ok || !platformGeoResponse.ok || !platformStatsResponse.ok || !equipamientosGeoResponse.ok || !equipamientosStatsResponse.ok || !isocronaPolygonResponse.ok || !isocronaNetworkResponse.ok || !isocronasStatsResponse.ok) {
