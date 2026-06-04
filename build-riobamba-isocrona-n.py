@@ -283,10 +283,10 @@ def align_polygon_to_manzanas(manzana_features, isochrone_polygon):
 
 def geometry_mapping(geom):
     if isinstance(geom, (Polygon, MultiPolygon)):
-        simplified = geom.simplify(4, preserve_topology=True)
-        if simplified.is_empty:
-            simplified = geom.convex_hull
-        return mapping(simplified)
+        cleaned = geom.buffer(0)
+        if cleaned.is_empty:
+            cleaned = geom
+        return mapping(cleaned)
     return mapping(geom)
 
 
