@@ -18,16 +18,22 @@ EXPORTS = [
         "source_path": DATA_DIR / "riobamba_isocrona_limite_plataforma_n_400m.geojson",
         "output_basename": "limite_isocrona_limite_plataforma_n_400m",
         "label": "Isocrona exacta de red 400 m desde el borde de la plataforma Ñ",
+        "shape_type": shapefile.POLYGON,
+        "geometry_mode": "polygon",
     },
     {
         "source_path": DATA_DIR / "riobamba_isocrona_limite_plataforma_n_400m_ajustada_manzanas.geojson",
         "output_basename": "contorno_cartografico_limite_plataforma_n_400m",
         "label": "Contorno cartografico ajustado 400 m desde el borde de la plataforma Ñ",
+        "shape_type": shapefile.POLYGON,
+        "geometry_mode": "polygon",
     },
     {
         "source_path": DATA_DIR / "riobamba_isocronas_educacion_categorizada.geojson",
         "output_basename": "isocronas_educacion_categorizada_manzanas",
-        "label": "Isocronas de educacion ajustadas a manzanas censales",
+        "label": "Bordes exteriores separados de isocronas de educacion ajustadas a manzanas censales",
+        "shape_type": shapefile.POLYLINE,
+        "geometry_mode": "exterior_line",
     },
 ]
 
@@ -37,19 +43,33 @@ def load_json(path: Path):
         return json.load(handle)
 
 
-def geometry_parts(feature):
+def geometry_parts(feature, geometry_mode="polygon"):
     geometry = feature["geometry"]
-    if geometry["type"] == "Polygon":
-        return geometry["coordinates"]
-    if geometry["type"] == "MultiPolygon":
-        parts = []
-        for polygon in geometry["coordinates"]:
-            parts.extend(polygon)
-        return parts
+    if geometry_mode == "polygon":
+        if geometry["type"] == "Polygon":
+            return geometry["coordinates"]
+        if geometry["type"] == "MultiPolygon":
+            parts = []
+            for polygon in geometry["coordinates"]:
+                parts.extend(polygon)
+            return parts
+    elif geometry_mode == "exterior_line":
+        if geometry["type"] == "Polygon":
+            return [geometry["coordinates"][0]]
+        if geometry["type"] == "MultiPolygon":
+            return [polygon[0] for polygon in geometry["coordinates"] if polygon and polygon[0]]
     raise ValueError(f"Geometria no soportada: {geometry['type']}")
 
 
-def write_zip(features, output_basename: str):
+def write_feature(writer, feature, geometry_mode, shape_type):
+    parts = geometry_parts(feature, geometry_mode=geometry_mode)
+    if shape_type == shapefile.POLYLINE:
+        writer.line(parts)
+    else:
+        writer.poly(parts)
+
+
+def write_zip(features, output_basename: str, shape_type, geometry_mode):
     SHP_DIR.mkdir(parents=True, exist_ok=True)
     temp_dir = SHP_DIR / output_basename
     if temp_dir.exists():
@@ -57,7 +77,7 @@ def write_zip(features, output_basename: str):
     temp_dir.mkdir(parents=True, exist_ok=True)
 
     shp_base = temp_dir / output_basename
-    writer = shapefile.Writer(str(shp_base), shapeType=shapefile.POLYGON)
+    writer = shapefile.Writer(str(shp_base), shapeType=shape_type)
     writer.autoBalance = 1
 
     writer.field("nombre", "C", size=80)
@@ -80,7 +100,7 @@ def write_zip(features, output_basename: str):
 
     for feature in features:
         props = feature.get("properties", {})
-        writer.poly(geometry_parts(feature))
+        write_feature(writer, feature, geometry_mode, shape_type)
         writer.record(
             str(props.get("nombre", ""))[:80],
             str(props.get("target_platform", ""))[:24],
@@ -133,7 +153,12 @@ def build_export(config):
     if not features:
         raise RuntimeError(f"No se encontro geometria para exportar en {config['source_path'].name}.")
 
-    zip_path = write_zip(features, config["output_basename"])
+    zip_path = write_zip(
+        features,
+        config["output_basename"],
+        config.get("shape_type", shapefile.POLYGON),
+        config.get("geometry_mode", "polygon"),
+    )
     return {
         "output_basename": config["output_basename"],
         "zip_path": zip_path,
