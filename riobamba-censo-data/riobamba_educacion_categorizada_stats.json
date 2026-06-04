@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-06-04T15:15:04",
+  "source_zip": "E:\\Riobamba\\equipamientos\\EDUCACION 2\\EDUCACION_CATEGORIZADO.zip",
+  "summary": {
+    "total_equipamientos": 22,
+    "con_isocrona": 20,
+    "sin_isocrona": 2,
+    "categorias": 3
+  },
+  "by_categoria": {
+    "ZONAL": 16,
+    "BARRIAL": 4,
+    "CANTONAL": 2
+  }
+}

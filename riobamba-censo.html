@@ -269,6 +269,7 @@
           <label class="layer-toggle"><span>Borde externo isocrona exacta 400 m</span><input id="toggleIsocrona400m" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Contorno cartografico 400 m ajustado</span><input id="toggleIsocrona400mCarto" type="checkbox"></label>
           <label class="layer-toggle"><span>Isocrona 1000 m desde equipamientos</span><input id="toggleIsocronasColindantes" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Isocronas educacion categorizada</span><input id="toggleEducacionIsocronas" type="checkbox" checked></label>
         </div>
       </section>
 
@@ -324,6 +325,11 @@
       </section>
 
       <section class="panel">
+        <h2>Isocronas educacion categorizada</h2>
+        <div class="mini-list" id="educacionIsocronasSummary"></div>
+      </section>
+
+      <section class="panel">
         <h2>Isocrona exacta 400 m</h2>
         <div class="mini-list" id="isocronas400Summary"></div>
       </section>
@@ -374,7 +380,7 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260604-1705";
+    const DATA_VERSION = "20260604-1530";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
 
@@ -407,7 +413,8 @@
       plataformas: true,
       equipamientos: true,
       isocronasColindantes: true,
-      redVial1000m: true
+      redVial1000m: true,
+      educacionIsocronas: true
     };
 
     const metricSelect = document.getElementById("metricSelect");
@@ -420,6 +427,7 @@
     const coverageList = document.getElementById("coverageList");
     const equipamientosSummary = document.getElementById("equipamientosSummary");
     const isocronasSummary = document.getElementById("isocronasSummary");
+    const educacionIsocronasSummary = document.getElementById("educacionIsocronasSummary");
     const isocronas400Summary = document.getElementById("isocronas400Summary");
     const isocronas400CartoSummary = document.getElementById("isocronas400CartoSummary");
     const overlayTitle = document.getElementById("overlayTitle");
@@ -437,6 +445,7 @@
     const toggleRedVial400m = document.getElementById("toggleRedVial400m");
     const toggleIsocrona400m = document.getElementById("toggleIsocrona400m");
     const toggleIsocrona400mCarto = document.getElementById("toggleIsocrona400mCarto");
+    const toggleEducacionIsocronas = document.getElementById("toggleEducacionIsocronas");
     const equipamientoPalette = [
       "#ffd166", "#ef476f", "#06d6a0", "#118ab2", "#f78c6b",
       "#c77dff", "#90be6d", "#4cc9f0", "#ff9f1c", "#43aa8b",
@@ -1412,9 +1421,16 @@
     window.isocrona400NetworkLayer = null;
     window.isocrona400CartoStats = null;
     window.isocrona400CartoLayer = null;
+    window.educacionIsocronasStats = null;
+    window.educacionIsocronasLayer = null;
     layerVisibility.redVial400m = true;
     layerVisibility.isocrona400m = true;
     layerVisibility.isocrona400mCarto = false;
+    layerVisibility.educacionIsocronas = true;
+    const educacionIsoColors = {
+      BARRIAL: "#59d8ff",
+      ZONAL: "#8f7dff"
+    };
 
     function displayPlatformName(value) {
       return String(value || "")
@@ -1424,14 +1440,14 @@
         .replaceAll("Ñ", "N");
     }
 
-    introText.innerHTML = "Visualizador por manzana censal y por plataforma territorial. Tambien muestra dos isocronas independientes: una de <strong>1000 m</strong> desde equipamientos de la plataforma N y otra de <strong>400 m exacta de red</strong> desde el borde de la plataforma N. Ademas conserva un <strong>contorno cartografico 400 m ajustado a manzanas</strong> solo como referencia.";
+    introText.innerHTML = "Visualizador por manzana censal y por plataforma territorial. Tambien muestra dos isocronas independientes: una de <strong>1000 m</strong> desde equipamientos de la plataforma N y otra de <strong>400 m exacta de red</strong> desde el borde de la plataforma N. Ademas conserva un <strong>contorno cartografico 400 m ajustado a manzanas</strong> solo como referencia y suma una capa nueva de <strong>educacion categorizada</strong> con isocronas barriales de 400 m y zonales de 1000 m.";
     toggleIsocronasColindantes.closest("label").querySelector("span").textContent = "Isocrona 1000 m desde equipamientos";
     isocronasSummary.closest(".panel").querySelector("h2").textContent = "Isocrona 1000 m desde equipamientos";
     isocronas400Summary.closest(".panel").querySelector("h2").textContent = "Isocrona exacta 400 m";
     isocronas400CartoSummary.closest(".panel").querySelector("h2").textContent = "Contorno cartografico 400 m";
     toggleIsocrona400mCarto.checked = false;
 
-    introText.innerHTML = "Visualizador por manzana censal y por plataforma territorial. Tambien muestra dos isocronas independientes: una de <strong>1000 m</strong> desde equipamientos de la plataforma Ñ y otra de <strong>400 m exacta de red</strong> desde el borde de la plataforma Ñ. Ademas conserva un <strong>contorno cartografico 400 m ajustado a manzanas</strong> solo como referencia.";
+    introText.innerHTML = "Visualizador por manzana censal y por plataforma territorial. Tambien muestra dos isocronas independientes: una de <strong>1000 m</strong> desde equipamientos de la plataforma Ñ y otra de <strong>400 m exacta de red</strong> desde el borde de la plataforma Ñ. Ademas conserva un <strong>contorno cartografico 400 m ajustado a manzanas</strong> solo como referencia y agrega una capa nueva de <strong>educacion categorizada</strong> con isocronas barriales de 400 m y zonales de 1000 m.";
 
     function displayPlatformName(value) {
       const normalized = String(value || "");
@@ -1462,6 +1478,7 @@
       syncSingleLayer(window.isocrona400PolygonLayer, layerVisibility.isocrona400m);
       syncSingleLayer(window.isocrona400NetworkLayer, layerVisibility.redVial400m);
       syncSingleLayer(window.isocrona400CartoLayer, layerVisibility.isocrona400mCarto);
+      syncSingleLayer(window.educacionIsocronasLayer, layerVisibility.educacionIsocronas);
     }
 
     function buildIsocronasSummary() {
@@ -1535,6 +1552,83 @@
       isocronas400CartoSummary.innerHTML = rows
         .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
         .join("");
+    }
+
+    function buildEducacionIsocronasSummary() {
+      if (!window.educacionIsocronasStats) {
+        educacionIsocronasSummary.innerHTML = "";
+        return;
+      }
+
+      const rows = [
+        ["Equipamientos fuente", window.educacionIsocronasStats.summary.total_equipamientos || 0],
+        ["Isocronas generadas", window.educacionIsocronasStats.summary.total_isocronas || 0],
+        ["Barrial 400 m", window.educacionIsocronasStats.by_distance_m["400"] || 0],
+        ["Zonal 1000 m", window.educacionIsocronasStats.by_distance_m["1000"] || 0],
+        ["Cantonales omitidos", (window.educacionIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0]
+      ];
+
+      educacionIsocronasSummary.innerHTML = rows
+        .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
+        .join("");
+    }
+
+    function getEducacionIsoStyle(feature) {
+      const categoria = String(feature?.properties?.categoria || "").toUpperCase();
+      const color = educacionIsoColors[categoria] || "#8fb6d9";
+      const distance = Number(feature?.properties?.distance_m || 0);
+      return {
+        color,
+        weight: categoria === "BARRIAL" ? 2.6 : 2.1,
+        opacity: 0.95,
+        fillColor: color,
+        fillOpacity: categoria === "BARRIAL" ? 0.14 : 0.08,
+        dashArray: distance >= 1000 ? "10 6" : ""
+      };
+    }
+
+    function renderEducacionIsocronasLayer() {
+      if (window.educacionIsocronasLayer) {
+        map.removeLayer(window.educacionIsocronasLayer);
+      }
+
+      const features = (window.educacionIsocronasFeatures || [])
+        .filter((feature) => feature && feature.geometry && feature.properties)
+        .sort((left, right) => (Number(right.properties?.distance_m || 0) - Number(left.properties?.distance_m || 0)));
+
+      if (!map.getPane("educacionIsocronasPane")) {
+        map.createPane("educacionIsocronasPane");
+        map.getPane("educacionIsocronasPane").style.zIndex = 432;
+      }
+
+      window.educacionIsocronasLayer = L.geoJSON(
+        { type: "FeatureCollection", features },
+        {
+          pane: "educacionIsocronasPane",
+          style: getEducacionIsoStyle,
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties;
+            const categoria = String(props.categoria || "").toUpperCase();
+            const categoriaTexto = categoria === "BARRIAL" ? "Barrial" : categoria === "ZONAL" ? "Zonal" : categoria;
+            layer.bindPopup(`
+              <strong>${props.nombre || "Equipamiento educativo"}</strong><br>
+              <strong>Categoria:</strong> ${categoriaTexto}<br>
+              <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
+              <strong>Codigo:</strong> ${props.codigo || "Sin codigo"}<br>
+              <strong>Segmentos de red:</strong> ${formatNumber(props.segmentos_red || 0)}<br>
+              <strong>Longitud de red:</strong> ${formatNumber(Math.round(props.longitud_red_m || 0))} m<br>
+              <strong>Area:</strong> ${formatNumber(Math.round(props.area_poligono_m2 || 0))} m2<br>
+              <strong>Snap a via:</strong> ${Number(props.snap_m || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = "Isocronas educacion categorizada";
+              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m sobre la red vial OSM.`;
+            });
+          }
+        }
+      );
+      syncSingleLayer(window.educacionIsocronasLayer, layerVisibility.educacionIsocronas);
     }
 
     function renderIsocronaNetworkLayer() {
@@ -1788,6 +1882,8 @@
           manifestResponse,
           equipamientosGeoResponse,
           equipamientosStatsResponse,
+          educacionIsocronasResponse,
+          educacionIsocronasStatsResponse,
           isocrona1000PolygonResponse,
           isocrona1000NetworkResponse,
           isocronas1000StatsResponse,
@@ -1804,6 +1900,8 @@
           fetch(`./riobamba-censo-data/shp/manifest.json?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_equipamientos.geojson?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_equipamientos_stats.json?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocronas_educacion_categorizada.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocronas_educacion_categorizada_stats.json?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_isocrona_plataforma_n_1000m.geojson?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_red_vial_isocrona_plataforma_n_1000m.geojson?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_isocrona_plataforma_n_1000m_stats.json?v=${DATA_VERSION}`),
@@ -1821,6 +1919,8 @@
           !platformStatsResponse.ok ||
           !equipamientosGeoResponse.ok ||
           !equipamientosStatsResponse.ok ||
+          !educacionIsocronasResponse.ok ||
+          !educacionIsocronasStatsResponse.ok ||
           !isocrona1000PolygonResponse.ok ||
           !isocrona1000NetworkResponse.ok ||
           !isocronas1000StatsResponse.ok ||
@@ -1839,6 +1939,8 @@
         const platformsStats = await platformStatsResponse.json();
         const equipamientosGeo = await equipamientosGeoResponse.json();
         const equipamientosStatsData = await equipamientosStatsResponse.json();
+        const educacionIsocronasGeo = await educacionIsocronasResponse.json();
+        const educacionIsocronasStatsData = await educacionIsocronasStatsResponse.json();
         const isocrona1000PolygonGeo = await isocrona1000PolygonResponse.json();
         const isocrona1000NetworkGeo = await isocrona1000NetworkResponse.json();
         const isocronas1000StatsData = await isocronas1000StatsResponse.json();
@@ -1855,6 +1957,8 @@
         isocronasStats = isocronas1000StatsData;
         window.isocrona400Stats = isocronas400StatsData;
         window.isocrona400CartoStats = isocronas400CartoStatsData;
+        window.educacionIsocronasStats = educacionIsocronasStatsData;
+        window.educacionIsocronasFeatures = educacionIsocronasGeo.features || [];
         window.isocrona1000PolygonFeatures = isocrona1000PolygonGeo.features || [];
         window.isocrona1000NetworkFeatures = isocrona1000NetworkGeo.features || [];
         window.isocrona400PolygonFeatures = isocrona400PolygonGeo.features || [];
@@ -1894,8 +1998,10 @@
         buildCoverageList();
         buildEquipamientosSummary();
         buildIsocronasSummary();
+        buildEducacionIsocronasSummary();
         buildIsocrona400Summary();
         buildIsocrona400CartoSummary();
+        renderEducacionIsocronasLayer();
         renderIsocronaPolygonLayer();
         renderIsocronaNetworkLayer();
         renderIsocrona400PolygonLayer();
@@ -1904,7 +2010,7 @@
         renderEquipamientosLayer();
         renderAll(false);
 
-        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas y ${formatNumber(equipamientosFeatures.length)} equipamientos. Isocrona 1000 m: ${formatNumber(isocronasStats.equipamientos_origen)} equipamientos origen. Isocrona exacta 400 m: ${formatNumber(window.isocrona400Stats.boundary_samples)} muestras del borde y ${formatNumber(window.isocrona400Stats.segmentos_red)} segmentos OSM. Referencia cartografica: ${formatNumber(window.isocrona400CartoStats.manzanas_ajustadas || 0)} manzanas ajustadas.`;
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas y ${formatNumber(equipamientosFeatures.length)} equipamientos. Isocrona 1000 m: ${formatNumber(isocronasStats.equipamientos_origen)} equipamientos origen. Educacion categorizada: ${formatNumber(window.educacionIsocronasStats.summary.total_isocronas || 0)} isocronas (${formatNumber((window.educacionIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0)} cantonales omitidos). Isocrona exacta 400 m: ${formatNumber(window.isocrona400Stats.boundary_samples)} muestras del borde y ${formatNumber(window.isocrona400Stats.segmentos_red)} segmentos OSM. Referencia cartografica: ${formatNumber(window.isocrona400CartoStats.manzanas_ajustadas || 0)} manzanas ajustadas.`;
 
         if (layerControl) {
           layerControl.remove();
@@ -2062,6 +2168,11 @@
 
     toggleIsocrona400mCarto.addEventListener("change", () => {
       layerVisibility.isocrona400mCarto = toggleIsocrona400mCarto.checked;
+      syncVisibleLayers();
+    });
+
+    toggleEducacionIsocronas.addEventListener("change", () => {
+      layerVisibility.educacionIsocronas = toggleEducacionIsocronas.checked;
       syncVisibleLayers();
     });
 

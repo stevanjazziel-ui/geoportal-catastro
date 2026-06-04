@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-06-04T15:15:18",
+  "source_zip": "E:\\Riobamba\\equipamientos\\EDUCACION 2\\EDUCACION_CATEGORIZADO.zip",
+  "source_osm_cache": "D:\\codex\\riobamba-censo-data\\riobamba_osm_walk_network_plataforma_n.json",
+  "summary": {
+    "total_equipamientos": 22,
+    "total_isocronas": 20,
+    "categorias_con_isocrona": 2,
+    "omitidos": 2
+  },
+  "by_categoria_source": {
+    "ZONAL": 16,
+    "BARRIAL": 4,
+    "CANTONAL": 2
+  },
+  "by_categoria_isocronas": {
+    "ZONAL": 16,
+    "BARRIAL": 4
+  },
+  "by_categoria_omitidos": {
+    "CANTONAL": 2
+  },
+  "by_distance_m": {
+    "400": 4,
+    "1000": 16
+  },
+  "observacion": "Se generan isocronas solo para BARRIAL (400 m) y ZONAL (1000 m). Los registros CANTONAL no se procesan."
+}
