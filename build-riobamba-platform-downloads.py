@@ -34,18 +34,24 @@ HEADERS = [
 def slugify(value: str) -> str:
     normalized = (
         value.lower()
+        .replace("ñ", "enie")
+        .replace("Ã±", "enie")
+        .replace("ÃƒÂ±", "enie")
         .replace("á", "a")
         .replace("é", "e")
         .replace("í", "i")
         .replace("ó", "o")
         .replace("ú", "u")
-        .replace("ñ", "n")
         .replace("Ã¡", "a")
         .replace("Ã©", "e")
         .replace("Ã­", "i")
         .replace("Ã³", "o")
         .replace("Ãº", "u")
-        .replace("Ã±", "n")
+        .replace("ÃƒÂ¡", "a")
+        .replace("ÃƒÂ©", "e")
+        .replace("ÃƒÂ­", "i")
+        .replace("ÃƒÂ³", "o")
+        .replace("ÃƒÂº", "u")
     )
     slug = []
     prev_sep = False
@@ -165,7 +171,7 @@ def write_excel(features, basename: str, label: str):
     for cell in data_sheet[1]:
         cell.font = Font(bold=True)
     data_sheet.freeze_panes = "A2"
-    data_sheet.auto_filter.ref = f"A1:J1"
+    data_sheet.auto_filter.ref = "A1:J1"
     for feature in features:
         data_sheet.append(feature_row(feature))
     autosize_columns(data_sheet)

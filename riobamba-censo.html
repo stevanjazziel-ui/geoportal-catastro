@@ -247,8 +247,8 @@
         <h1>Riobamba Censo 2022</h1>
         <p id="introText">
           Visualizador por manzana censal y por plataforma territorial. Incluye la
-          isocrona peatonal de 1000 m desde equipamientos de la plataforma N y la
-          isocrona exacta de 400 m desde el borde de la plataforma N sobre la red vial
+          isocrona peatonal de 1000 m desde equipamientos de la plataforma Ñ y la
+          isocrona exacta de 400 m desde el borde de la plataforma Ñ sobre la red vial
           peatonal de OpenStreetMap.
         </p>
       </section>
@@ -372,7 +372,7 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260604-1505";
+    const DATA_VERSION = "20260604-1545";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
 
@@ -447,7 +447,7 @@
     toggleIsocronasColindantes.closest("label").querySelector("span").textContent = "Isocrona 1000 m desde equipamientos";
     isocronasSummary.closest(".panel").querySelector("h2").textContent = "Isocrona 1000 m desde equipamientos";
 
-    introText.innerHTML = "Visualizador por manzana censal y plataforma territorial. Incluye la isocrona peatonal de 1000 m desde equipamientos de la <strong>PLATAFORMA N</strong>, la isocrona exacta de red de 400 m desde su borde y una referencia cartografica ajustada a manzanas.";
+    introText.innerHTML = "Visualizador por manzana censal y plataforma territorial. Incluye la isocrona peatonal de 1000 m desde equipamientos de la <strong>PLATAFORMA Ñ</strong>, la isocrona exacta de red de 400 m desde su borde y una referencia cartografica ajustada a manzanas.";
 
     function formatNumber(value) {
       return Number(value || 0).toLocaleString("es-EC");
@@ -520,12 +520,27 @@
         return "riobamba_fuera_de_plataformas";
       }
 
-      return currentPlatform
+      return String(currentPlatform || "")
         .toLowerCase()
+        .replaceAll("ñ", "enie")
+        .replaceAll("Ã±", "enie")
+        .replaceAll("ÃƒÂ±", "enie")
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .replace(/[^a-z0-9]+/g, "_")
         .replace(/^_+|_+$/g, "");
+    }
+
+    introText.innerHTML = "Visualizador por manzana censal y por plataforma territorial. Tambien muestra dos isocronas independientes: una de <strong>1000 m</strong> desde equipamientos de la plataforma \u00D1 y otra de <strong>400 m exacta de red</strong> desde el borde de la plataforma \u00D1. Ademas conserva un <strong>contorno cartografico 400 m ajustado a manzanas</strong> solo como referencia.";
+
+    function displayPlatformName(value) {
+      const normalized = String(value || "");
+      if (!normalized) {
+        return "";
+      }
+      return normalized
+        .replace(/PLATAFORMA\s+(?:ÃƒÆ’Ã¢â‚¬Ëœ|Ãƒâ€˜|Ä‚â€˜|Åƒ)/g, "PLATAFORMA \u00D1")
+        .replace(/(?:ÃƒÆ’Ã¢â‚¬Ëœ|Ãƒâ€˜|Ä‚â€˜|Åƒ)/g, "\u00D1");
     }
 
     function updateDownloadButtonState() {
@@ -1412,6 +1427,18 @@
     isocronas400Summary.closest(".panel").querySelector("h2").textContent = "Isocrona exacta 400 m";
     isocronas400CartoSummary.closest(".panel").querySelector("h2").textContent = "Contorno cartografico 400 m";
     toggleIsocrona400mCarto.checked = false;
+
+    introText.innerHTML = "Visualizador por manzana censal y por plataforma territorial. Tambien muestra dos isocronas independientes: una de <strong>1000 m</strong> desde equipamientos de la plataforma Ñ y otra de <strong>400 m exacta de red</strong> desde el borde de la plataforma Ñ. Ademas conserva un <strong>contorno cartografico 400 m ajustado a manzanas</strong> solo como referencia.";
+
+    function displayPlatformName(value) {
+      const normalized = String(value || "");
+      if (!normalized) {
+        return "";
+      }
+      return normalized
+        .replace(/PLATAFORMA\s+(?:Ãƒâ€˜|Ã‘|Ă‘|Ń)/g, "PLATAFORMA Ñ")
+        .replace(/(?:Ãƒâ€˜|Ã‘|Ă‘|Ń)/g, "Ñ");
+    }
 
     function updateDownloadButtonState() {
       const entry = shpManifest[getCurrentSelectionLabel()];

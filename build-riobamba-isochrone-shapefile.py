@@ -17,12 +17,12 @@ EXPORTS = [
     {
         "source_path": DATA_DIR / "riobamba_isocrona_limite_plataforma_n_400m.geojson",
         "output_basename": "limite_isocrona_limite_plataforma_n_400m",
-        "label": "Isocrona exacta de red 400 m desde el borde de la plataforma N",
+        "label": "Isocrona exacta de red 400 m desde el borde de la plataforma Ñ",
     },
     {
         "source_path": DATA_DIR / "riobamba_isocrona_limite_plataforma_n_400m_ajustada_manzanas.geojson",
         "output_basename": "contorno_cartografico_limite_plataforma_n_400m",
-        "label": "Contorno cartografico ajustado 400 m desde el borde de la plataforma N",
+        "label": "Contorno cartografico ajustado 400 m desde el borde de la plataforma Ñ",
     },
 ]
 

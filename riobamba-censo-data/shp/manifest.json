@@ -1,4 +1,19 @@
 {
+  "limite_isocrona_plataforma_n_1000m": {
+    "file": "limite_isocrona_plataforma_n_1000m.zip",
+    "count": 1,
+    "label": "Limite externo de isocrona 1000 m desde equipamientos de la plataforma N"
+  },
+  "limite_isocrona_limite_plataforma_n_400m": {
+    "file": "limite_isocrona_limite_plataforma_n_400m.zip",
+    "count": 1,
+    "label": "Isocrona exacta de red 400 m desde el borde de la plataforma Ñ"
+  },
+  "contorno_cartografico_limite_plataforma_n_400m": {
+    "file": "contorno_cartografico_limite_plataforma_n_400m.zip",
+    "count": 1,
+    "label": "Contorno cartografico ajustado 400 m desde el borde de la plataforma Ñ"
+  },
   "riobamba_todas_las_manzanas": {
     "file": "riobamba_todas_las_manzanas.zip",
     "shp_file": "riobamba_todas_las_manzanas.zip",
@@ -118,6 +133,13 @@
     "count": 143,
     "label": "PLATAFORMA P"
   },
+  "plataforma_enie": {
+    "file": "plataforma_enie.zip",
+    "shp_file": "plataforma_enie.zip",
+    "xlsx_file": "plataforma_enie.xlsx",
+    "count": 197,
+    "label": "PLATAFORMA Ñ"
+  },
   "plataforma_n": {
     "file": "plataforma_n.zip",
     "shp_file": "plataforma_n.zip",
@@ -131,20 +153,5 @@
     "xlsx_file": "plataforma_j.xlsx",
     "count": 223,
     "label": "PLATAFORMA J"
-  },
-  "limite_isocrona_plataforma_n_1000m": {
-    "file": "limite_isocrona_plataforma_n_1000m.zip",
-    "count": 1,
-    "label": "Limite externo de isocrona 1000 m desde equipamientos de la plataforma N"
-  },
-  "limite_isocrona_limite_plataforma_n_400m": {
-    "file": "limite_isocrona_limite_plataforma_n_400m.zip",
-    "count": 1,
-    "label": "Isocrona exacta de red 400 m desde el borde de la plataforma N"
-  },
-  "contorno_cartografico_limite_plataforma_n_400m": {
-    "file": "contorno_cartografico_limite_plataforma_n_400m.zip",
-    "count": 1,
-    "label": "Contorno cartografico ajustado 400 m desde el borde de la plataforma N"
   }
 }

@@ -1,5 +1,4 @@
 import json
-import os
 import shutil
 import zipfile
 from pathlib import Path
@@ -20,12 +19,24 @@ PRJ_WGS84 = 'GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.2572
 def slugify(value: str) -> str:
     normalized = (
         value.lower()
+        .replace("ñ", "enie")
+        .replace("Ã±", "enie")
+        .replace("ÃƒÂ±", "enie")
         .replace("á", "a")
         .replace("é", "e")
         .replace("í", "i")
         .replace("ó", "o")
         .replace("ú", "u")
-        .replace("ñ", "n")
+        .replace("Ã¡", "a")
+        .replace("Ã©", "e")
+        .replace("Ã­", "i")
+        .replace("Ã³", "o")
+        .replace("Ãº", "u")
+        .replace("ÃƒÂ¡", "a")
+        .replace("ÃƒÂ©", "e")
+        .replace("ÃƒÂ­", "i")
+        .replace("ÃƒÂ³", "o")
+        .replace("ÃƒÂº", "u")
     )
     slug = []
     prev_sep = False
