@@ -246,8 +246,9 @@
       <section class="panel">
         <h1>Riobamba Censo 2022</h1>
         <p>
-          Visualizador por manzana censal y por plataforma territorial. Puedes ver la poblacion,
-          filtrar una plataforma especifica y ubicar en ella los datos agregados de las manzanas.
+          Visualizador por manzana censal y por plataforma territorial. Tambien muestra la
+          isocrona peatonal de 1000 m construida desde los equipamientos ubicados dentro de
+          la plataforma Ñ sobre la red vial de OpenStreetMap.
         </p>
       </section>
 
@@ -262,6 +263,7 @@
           <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Equipamientos</span><input id="toggleEquipamientos" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Red vial OSM 1000 m</span><input id="toggleRedVial1000m" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Cobertura equipamientos hacia Ñ</span><input id="toggleIsocronasColindantes" type="checkbox" checked></label>
         </div>
       </section>
@@ -371,13 +373,15 @@
     let globalSummary = null;
     let shpManifest = {};
     let equipamientosLayer = null;
-    let isocronasLayer = null;
+    let isocronaPolygonLayer = null;
+    let isocronaNetworkLayer = null;
     let layerControl = null;
     const layerVisibility = {
       manzanas: true,
       plataformas: true,
       equipamientos: true,
-      isocronasColindantes: true
+      isocronasColindantes: true,
+      redVial1000m: true
     };
 
     const metricSelect = document.getElementById("metricSelect");
@@ -396,12 +400,17 @@
     const togglePlataformas = document.getElementById("togglePlataformas");
     const toggleEquipamientos = document.getElementById("toggleEquipamientos");
     const toggleIsocronasColindantes = document.getElementById("toggleIsocronasColindantes");
+    const toggleRedVial1000m = document.getElementById("toggleRedVial1000m");
     const equipamientoPalette = [
       "#ffd166", "#ef476f", "#06d6a0", "#118ab2", "#f78c6b",
       "#c77dff", "#90be6d", "#4cc9f0", "#ff9f1c", "#43aa8b",
       "#f94144", "#577590", "#f9844a", "#8ecae6", "#b8de6f"
     ];
-    const isocronaPalette = ["#7ef6c9", "#61c7ff", "#ffd166", "#ff8fab", "#b8de6f", "#c77dff"];
+    const isocronaPolygonColor = "#7ef6c9";
+    const isocronaNetworkColor = "#61c7ff";
+
+    toggleIsocronasColindantes.closest("label").querySelector("span").textContent = "Isocrona 1000 m desde Ñ";
+    isocronasSummary.closest(".panel").querySelector("h2").textContent = "Isocrona 1000 m desde Ñ";
 
     function formatNumber(value) {
       return Number(value || 0).toLocaleString("es-EC");
@@ -479,12 +488,6 @@
       return equipamientoPalette[index % equipamientoPalette.length];
     }
 
-    function getIsochroneColor(platformName) {
-      const platformNames = Object.keys((isocronasStats && isocronasStats.by_platform) || {});
-      const index = Math.max(0, platformNames.indexOf(platformName));
-      return isocronaPalette[index % isocronaPalette.length];
-    }
-
     function syncSingleLayer(layer, visible) {
       if (!layer) return;
       if (visible && !map.hasLayer(layer)) {
@@ -498,7 +501,8 @@
       syncSingleLayer(manzanaLayer, layerVisibility.manzanas);
       syncSingleLayer(platformLayer, layerVisibility.plataformas);
       syncSingleLayer(equipamientosLayer, layerVisibility.equipamientos);
-      syncSingleLayer(isocronasLayer, layerVisibility.isocronasColindantes);
+      syncSingleLayer(isocronaPolygonLayer, layerVisibility.isocronasColindantes);
+      syncSingleLayer(isocronaNetworkLayer, layerVisibility.redVial1000m);
     }
 
     function buildSummaryCards(summary) {
@@ -560,12 +564,19 @@
 
       const rows = [
         ["Plataforma objetivo", isocronasStats.target_platform],
-        ["Plataformas vecinas", isocronasStats.neighbor_platforms.length],
         ["Equipamientos origen", isocronasStats.equipamientos_origen],
-        ["Coberturas que entran", isocronasStats.equipamientos_con_interseccion],
-        ["Plataformas con ingreso", isocronasStats.plataformas_con_interseccion],
-        ["Distancia", `${formatNumber(isocronasStats.distance_m)} m`]
+        ["Tipos Equipamien", isocronasStats.tipos_equipamien],
+        ["Distancia", `${formatNumber(isocronasStats.distance_m)} m`],
+        ["Nodos alcanzables", isocronasStats.nodos_alcanzables],
+        ["Segmentos de red", isocronasStats.segmentos_red],
+        ["Longitud de red", `${formatNumber(Math.round(isocronasStats.longitud_red_m))} m`],
+        ["Area del poligono", `${formatNumber(Math.round(isocronasStats.area_poligono_m2))} m²`]
       ];
+
+      const topTypes = Object.entries(isocronasStats.by_equipamien || {}).slice(0, 5);
+      for (const [label, value] of topTypes) {
+        rows.push([label, value]);
+      }
 
       isocronasSummary.innerHTML = rows
         .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
@@ -778,6 +789,101 @@
       syncSingleLayer(isocronasLayer, layerVisibility.isocronasColindantes);
     }
 
+    function renderIsocronaNetworkLayer() {
+      if (isocronaNetworkLayer) {
+        map.removeLayer(isocronaNetworkLayer);
+      }
+
+      const features = (window.isocronaNetworkFeatures || []).filter(
+        (feature) => feature && feature.geometry && feature.properties
+      );
+
+      if (!map.getPane("isocronaNetworkPane")) {
+        map.createPane("isocronaNetworkPane");
+        map.getPane("isocronaNetworkPane").style.zIndex = 425;
+      }
+
+      isocronaNetworkLayer = L.geoJSON(
+        { type: "FeatureCollection", features },
+        {
+          pane: "isocronaNetworkPane",
+          style: {
+            color: isocronaNetworkColor,
+            weight: 1.8,
+            opacity: 0.9
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties;
+            layer.bindPopup(`
+              <strong>${props.nombre || "Red vial OSM"}</strong><br>
+              <strong>Destino:</strong> ${props.target_platform}<br>
+              <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
+              <strong>Equipamientos origen:</strong> ${formatNumber(props.equipamientos_origen)}<br>
+              <strong>Segmentos:</strong> ${formatNumber(props.segmentos_red)}<br>
+              <strong>Longitud de red:</strong> ${formatNumber(Math.round(props.longitud_red_m || 0))} m<br>
+              <strong>Modo:</strong> ${props.mode}
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = "Red vial OSM 1000 m";
+              overlayText.textContent = `${formatNumber(props.segmentos_red)} segmentos y ${formatNumber(Math.round(props.longitud_red_m || 0))} m alcanzables desde los equipamientos de ${props.target_platform}.`;
+            });
+          }
+        }
+      );
+      syncSingleLayer(isocronaNetworkLayer, layerVisibility.redVial1000m);
+    }
+
+    function renderIsocronaPolygonLayer() {
+      if (isocronaPolygonLayer) {
+        map.removeLayer(isocronaPolygonLayer);
+      }
+
+      const features = (window.isocronaPolygonFeatures || []).filter(
+        (feature) => feature && feature.geometry && feature.properties
+      );
+
+      if (!map.getPane("isocronaPolygonPane")) {
+        map.createPane("isocronaPolygonPane");
+        map.getPane("isocronaPolygonPane").style.zIndex = 430;
+      }
+
+      isocronaPolygonLayer = L.geoJSON(
+        { type: "FeatureCollection", features },
+        {
+          pane: "isocronaPolygonPane",
+          style: {
+            color: isocronaPolygonColor,
+            weight: 2.2,
+            opacity: 0.95,
+            fillColor: isocronaPolygonColor,
+            fillOpacity: 0.16,
+            dashArray: "8 5"
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties;
+            layer.bindPopup(`
+              <strong>${props.nombre || "Isocrona 1000 m"}</strong><br>
+              <strong>Destino:</strong> ${props.target_platform}<br>
+              <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
+              <strong>Equipamientos origen:</strong> ${formatNumber(props.equipamientos_origen)}<br>
+              <strong>Tipos Equipamien:</strong> ${formatNumber(props.tipos_equipamien)}<br>
+              <strong>Nodos alcanzables:</strong> ${formatNumber(props.nodos_alcanzables)}<br>
+              <strong>Longitud de red:</strong> ${formatNumber(Math.round(props.longitud_red_m || 0))} m<br>
+              <strong>Area:</strong> ${formatNumber(Math.round(props.area_poligono_m2 || 0))} m²<br>
+              <strong>Modo:</strong> ${props.mode}
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = "Isocrona 1000 m desde Ñ";
+              overlayText.textContent = `${formatNumber(props.equipamientos_origen)} equipamientos dentro de ${props.target_platform} generan un poligono total de ${formatNumber(Math.round(props.area_poligono_m2 || 0))} m².`;
+            });
+          }
+        }
+      );
+      syncSingleLayer(isocronaPolygonLayer, layerVisibility.isocronasColindantes);
+    }
+
     function renderManzanaLayer(zoomToSelection = false) {
       const currentFeatures = getCurrentFeatures();
       const values = currentFeatures.map((feature) => feature.properties[currentMetric] || 0);
@@ -882,7 +988,7 @@
 
     async function init() {
       try {
-        const [geoResponse, statsResponse, platformGeoResponse, platformStatsResponse, manifestResponse, equipamientosGeoResponse, equipamientosStatsResponse, isocronasGeoResponse, isocronasStatsResponse] = await Promise.all([
+        const [geoResponse, statsResponse, platformGeoResponse, platformStatsResponse, manifestResponse, equipamientosGeoResponse, equipamientosStatsResponse, isocronaPolygonResponse, isocronaNetworkResponse, isocronasStatsResponse] = await Promise.all([
           fetch("./riobamba-censo-data/riobamba_manzanas.geojson"),
           fetch("./riobamba-censo-data/riobamba_manzanas_stats.json"),
           fetch("./riobamba-censo-data/riobamba_plataformas.geojson"),
@@ -890,11 +996,12 @@
           fetch("./riobamba-censo-data/shp/manifest.json"),
           fetch("./riobamba-censo-data/riobamba_equipamientos.geojson"),
           fetch("./riobamba-censo-data/riobamba_equipamientos_stats.json"),
-          fetch("./riobamba-censo-data/riobamba_isocronas_plataformas_colindantes_n.geojson"),
-          fetch("./riobamba-censo-data/riobamba_isocronas_plataformas_colindantes_n_stats.json")
+          fetch("./riobamba-censo-data/riobamba_isocrona_plataforma_n_1000m.geojson"),
+          fetch("./riobamba-censo-data/riobamba_red_vial_isocrona_plataforma_n_1000m.geojson"),
+          fetch("./riobamba-censo-data/riobamba_isocrona_plataforma_n_1000m_stats.json")
         ]);
 
-        if (!geoResponse.ok || !statsResponse.ok || !platformGeoResponse.ok || !platformStatsResponse.ok || !equipamientosGeoResponse.ok || !equipamientosStatsResponse.ok || !isocronasGeoResponse.ok || !isocronasStatsResponse.ok) {
+        if (!geoResponse.ok || !statsResponse.ok || !platformGeoResponse.ok || !platformStatsResponse.ok || !equipamientosGeoResponse.ok || !equipamientosStatsResponse.ok || !isocronaPolygonResponse.ok || !isocronaNetworkResponse.ok || !isocronasStatsResponse.ok) {
           throw new Error("No se pudieron leer los archivos de datos.");
         }
 
@@ -904,7 +1011,8 @@
         const platformsStats = await platformStatsResponse.json();
         const equipamientosGeo = await equipamientosGeoResponse.json();
         const equipamientosStatsData = await equipamientosStatsResponse.json();
-        const isocronasGeo = await isocronasGeoResponse.json();
+        const isocronaPolygonGeo = await isocronaPolygonResponse.json();
+        const isocronaNetworkGeo = await isocronaNetworkResponse.json();
         const isocronasStatsData = await isocronasStatsResponse.json();
         shpManifest = manifestResponse.ok ? await manifestResponse.json() : {};
 
@@ -912,7 +1020,8 @@
         platformSummary = platformsStats;
         equipamientosStats = equipamientosStatsData;
         isocronasStats = isocronasStatsData;
-        window.isocronasGeojsonFeatures = isocronasGeo.features || [];
+        window.isocronaPolygonFeatures = isocronaPolygonGeo.features || [];
+        window.isocronaNetworkFeatures = isocronaNetworkGeo.features || [];
         platformStatsByName = platformsStats.byName || {};
         platformFeatures = (platformsGeo.features || []).map((feature) => ({
           ...feature,
@@ -948,7 +1057,9 @@
         buildEquipamientosSummary();
         buildIsocronasSummary();
         statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} equipamientos y ${formatNumber(isocronasStats.equipamientos_con_interseccion)} coberturas de equipamientos que entran en Ñ.`;
-        renderIsocronasLayer();
+        renderIsocronaPolygonLayer();
+        renderIsocronaNetworkLayer();
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} equipamientos, ${formatNumber(isocronasStats.equipamientos_origen)} origenes dentro de Ñ y ${formatNumber(isocronasStats.segmentos_red)} segmentos OSM para la isocrona de 1000 m.`;
         renderEquipamientosLayer();
         renderAll(false);
 
@@ -1016,6 +1127,11 @@
 
     toggleIsocronasColindantes.addEventListener("change", () => {
       layerVisibility.isocronasColindantes = toggleIsocronasColindantes.checked;
+      syncVisibleLayers();
+    });
+
+    toggleRedVial1000m.addEventListener("change", () => {
+      layerVisibility.redVial1000m = toggleRedVial1000m.checked;
       syncVisibleLayers();
     });
 

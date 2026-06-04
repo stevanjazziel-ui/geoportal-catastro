@@ -2,14 +2,14 @@ import heapq
 import json
 import math
 import time
-from collections import Counter, defaultdict
+from collections import Counter
 from pathlib import Path
 
 import networkx as nx
 import requests
 from pyproj import Transformer
-from shapely.geometry import LineString, MultiPolygon, Point, Polygon, shape, mapping
-from shapely.ops import transform, unary_union
+from shapely.geometry import LineString, MultiLineString, MultiPolygon, Point, Polygon, mapping, shape
+from shapely.ops import linemerge, transform, unary_union
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -18,14 +18,14 @@ PLATFORMS_PATH = DATA_DIR / "riobamba_plataformas.geojson"
 EQUIPAMIENTOS_PATH = DATA_DIR / "riobamba_equipamientos.geojson"
 OSM_CACHE_PATH = DATA_DIR / "riobamba_osm_walk_network_plataforma_n.json"
 
-OUTPUT_BY_PLATFORM = DATA_DIR / "riobamba_isocronas_plataformas_colindantes_n.geojson"
-OUTPUT_STATS = DATA_DIR / "riobamba_isocronas_plataformas_colindantes_n_stats.json"
+OUTPUT_ISOCHRONE = DATA_DIR / "riobamba_isocrona_plataforma_n_1000m.geojson"
+OUTPUT_NETWORK = DATA_DIR / "riobamba_red_vial_isocrona_plataforma_n_1000m.geojson"
+OUTPUT_STATS = DATA_DIR / "riobamba_isocrona_plataforma_n_1000m_stats.json"
 
 TARGET_PLATFORM = "PLATAFORMA " + chr(209)
-DISTANCE_METERS = 1250
-BUFFER_METERS = 1700
+DISTANCE_METERS = 1000
+BUFFER_METERS = 1500
 OVERPASS_URL = "https://overpass-api.de/api/interpreter"
-PRIORITY_CATEGORIES = {"Salud", "Educación", "Seguridad"}
 WALKABLE_HIGHWAYS = {
     "footway", "path", "pedestrian", "living_street", "residential", "service",
     "tertiary", "tertiary_link", "secondary", "secondary_link", "primary",
@@ -45,7 +45,7 @@ def load_geojson(path: Path):
 
 def save_json(path: Path, payload):
     with open(path, "w", encoding="utf-8") as handle:
-        json.dump(payload, handle, ensure_ascii=False)
+        json.dump(payload, handle, ensure_ascii=False, indent=2)
 
 
 def to_utm(geom):
@@ -76,7 +76,7 @@ def post_overpass(query):
         timeout=180,
         headers={
             "Content-Type": "text/plain",
-            "User-Agent": "codex-riobamba-isochrone/1.0",
+            "User-Agent": "codex-riobamba-isochrone/2.0",
         },
     )
     response.raise_for_status()
@@ -159,7 +159,7 @@ def build_graph(overpass_json):
 
             graph.add_node(start_id, x=start[0], y=start[1])
             graph.add_node(end_id, x=end[0], y=end[1])
-            graph.add_edge(start_id, end_id, weight=length)
+            graph.add_edge(start_id, end_id, weight=length, highway=tags.get("highway", "road"))
 
     return graph
 
@@ -205,13 +205,9 @@ def multi_source_reachable(graph, source_nodes, cutoff):
     return distances
 
 
-def build_isochrone_polygon(graph, distances, cutoff):
-    node_buffers = []
-    edge_buffers = []
-
-    for node_id in distances:
-        attrs = graph.nodes[node_id]
-        node_buffers.append(Point(attrs["x"], attrs["y"]).buffer(22))
+def build_reachable_segments(graph, distances, cutoff):
+    segments = []
+    total_length = 0.0
 
     for start, end, attrs in graph.edges(data=True):
         d1 = distances.get(start)
@@ -219,54 +215,86 @@ def build_isochrone_polygon(graph, distances, cutoff):
         if d1 is None and d2 is None:
             continue
 
-        if d1 is not None and d2 is not None:
-            edge_buffers.append(LineString([
-                (graph.nodes[start]["x"], graph.nodes[start]["y"]),
-                (graph.nodes[end]["x"], graph.nodes[end]["y"])
-            ]).buffer(18))
-            continue
-
-        known_dist = d1 if d1 is not None else d2
-        if known_dist is None:
-            continue
-        remaining = cutoff - known_dist
-        if remaining <= 0:
-            continue
-
-        length = float(attrs.get("weight", 0.0))
-        ratio = min(1.0, remaining / length) if length else 0.0
         sx, sy = graph.nodes[start]["x"], graph.nodes[start]["y"]
         ex, ey = graph.nodes[end]["x"], graph.nodes[end]["y"]
-        if d1 is not None:
-            mx = sx + (ex - sx) * ratio
-            my = sy + (ey - sy) * ratio
-            segment = LineString([(sx, sy), (mx, my)])
-        else:
-            mx = ex + (sx - ex) * ratio
-            my = ey + (sy - ey) * ratio
-            segment = LineString([(ex, ey), (mx, my)])
-        edge_buffers.append(segment.buffer(18))
+        length = float(attrs.get("weight", 0.0))
+        if length <= 0:
+            continue
 
+        if d1 is not None and d2 is not None:
+            segment = LineString([(sx, sy), (ex, ey)])
+        else:
+            known_dist = d1 if d1 is not None else d2
+            remaining = cutoff - known_dist
+            if remaining <= 0:
+                continue
+            ratio = min(1.0, remaining / length)
+            if d1 is not None:
+                mx = sx + (ex - sx) * ratio
+                my = sy + (ey - sy) * ratio
+                segment = LineString([(sx, sy), (mx, my)])
+            else:
+                mx = ex + (sx - ex) * ratio
+                my = ey + (sy - ey) * ratio
+                segment = LineString([(ex, ey), (mx, my)])
+
+        if segment.length <= 0:
+            continue
+        segments.append(segment)
+        total_length += segment.length
+
+    return segments, total_length
+
+
+def build_isochrone_polygon(segments, source_points):
+    node_buffers = [Point(x, y).buffer(18) for x, y in source_points]
+    edge_buffers = [segment.buffer(14) for segment in segments]
     merged = unary_union(node_buffers + edge_buffers)
-    return merged.buffer(30).buffer(-20)
+    polygon = merged.buffer(12).buffer(-8)
+    if polygon.is_empty:
+        polygon = merged.convex_hull
+    return polygon
 
 
 def geometry_mapping(geom):
-    simplified = geom.simplify(8, preserve_topology=True)
-    if simplified.is_empty:
-        simplified = geom.convex_hull
-    if isinstance(simplified, Polygon):
+    if isinstance(geom, (Polygon, MultiPolygon)):
+        simplified = geom.simplify(4, preserve_topology=True)
+        if simplified.is_empty:
+            simplified = geom.convex_hull
         return mapping(simplified)
-    if isinstance(simplified, MultiPolygon):
-        return mapping(simplified)
-    return mapping(simplified.convex_hull)
+    return mapping(geom)
 
-def build_area_feature(geometry, properties):
+
+def build_polygon_feature(geometry, properties):
     return {
         "type": "Feature",
         "properties": properties,
         "geometry": geometry_mapping(to_wgs84(geometry)),
     }
+
+
+def build_line_feature(geometry, properties):
+    return {
+        "type": "Feature",
+        "properties": properties,
+        "geometry": mapping(to_wgs84(geometry)),
+    }
+
+
+def normalize_multilines(segments):
+    if not segments:
+        return MultiLineString([])
+    merged = unary_union(segments)
+    if isinstance(merged, LineString):
+        return MultiLineString([merged])
+    if isinstance(merged, MultiLineString):
+        return merged
+    line_merged = linemerge(merged)
+    if isinstance(line_merged, LineString):
+        return MultiLineString([line_merged])
+    if isinstance(line_merged, MultiLineString):
+        return line_merged
+    return MultiLineString([])
 
 
 def main():
@@ -280,42 +308,32 @@ def main():
 
     target_geom = platform_geoms[TARGET_PLATFORM]
     target_geom_utm = to_utm(target_geom)
-    neighbor_names = [
-        name for name, geom in platform_geoms.items()
-        if name != TARGET_PLATFORM and (target_geom.touches(geom) or target_geom.intersects(geom))
-    ]
-    neighbor_union = unary_union([platform_geoms[name] for name in neighbor_names])
 
-    raw_sources = []
+    source_equipamientos = []
+    equipamien_counter = Counter()
     for feature in equipamientos_data["features"]:
         geom = shape(feature["geometry"])
         point = geom.representative_point()
-        equipamien = feature["properties"].get("equipamien") or feature["properties"].get("categoria") or ""
-        platform_name = None
-        for name in neighbor_names:
-            if platform_geoms[name].contains(point) or platform_geoms[name].touches(point):
-                platform_name = name
-                break
-        if not platform_name:
+        if not (target_geom.contains(point) or target_geom.touches(point)):
             continue
 
-        raw_sources.append({
-            "objectid": int(feature["properties"]["objectid"]),
-            "nombre": feature["properties"]["nombre"],
+        equipamien = feature["properties"].get("equipamien") or feature["properties"].get("categoria") or "Sin clasificar"
+        equipamien_counter[equipamien] += 1
+        source_equipamientos.append({
+            "objectid": int(feature["properties"].get("objectid", 0) or 0),
+            "nombre": feature["properties"].get("nombre", ""),
             "equipamien": equipamien,
-            "categoria": equipamien,
-            "codigo": feature["properties"]["codigo"],
-            "platform_name": platform_name,
+            "codigo": feature["properties"].get("codigo", ""),
             "point": point,
         })
 
-    search_area = to_wgs84(to_utm(neighbor_union).buffer(BUFFER_METERS))
+    search_area = to_wgs84(target_geom_utm.buffer(BUFFER_METERS))
     overpass_json = fetch_osm_ways(search_area.bounds, use_cache=True)
     graph = build_graph(overpass_json)
     nodes = list(graph.nodes(data=True))
 
     snapped_sources = []
-    for source in raw_sources:
+    for source in source_equipamientos:
         point_utm = to_utm(source["point"])
         node_id, snap_distance = nearest_node((point_utm.x, point_utm.y), nodes)
         if node_id is None:
@@ -325,81 +343,65 @@ def main():
         source["snap_m"] = snap_distance
         snapped_sources.append(source)
 
-    selected_features = []
-    by_platform_counts = Counter()
-    by_platform_types = defaultdict(Counter)
-    by_equipamien = Counter()
+    reachable = multi_source_reachable(graph, [source["node_id"] for source in snapped_sources], DISTANCE_METERS)
+    segments, total_length = build_reachable_segments(graph, reachable, DISTANCE_METERS)
+    source_points = [(source["point_utm"].x, source["point_utm"].y) for source in snapped_sources]
+    polygon = build_isochrone_polygon(segments, source_points)
 
-    for source in snapped_sources:
-        reachable = multi_source_reachable(graph, [source["node_id"]], DISTANCE_METERS)
-        if not reachable:
-            continue
+    network_geom = normalize_multilines(segments)
 
-        polygon = build_isochrone_polygon(graph, reachable, DISTANCE_METERS)
-        clipped_polygon = polygon.intersection(target_geom_utm)
-        if clipped_polygon.is_empty:
-            continue
-        if not isinstance(clipped_polygon, (Polygon, MultiPolygon)):
-            continue
-        if clipped_polygon.area <= 0:
-            continue
-
-        by_platform_counts[source["platform_name"]] += 1
-        by_platform_types[source["platform_name"]][source["equipamien"]] += 1
-        by_equipamien[source["equipamien"]] += 1
-
-        selected_features.append(
-            build_area_feature(
-                clipped_polygon,
-                {
-                    "objectid": source["objectid"],
-                    "nombre": source["nombre"],
-                    "equipamien": source["equipamien"],
-                    "codigo": source["codigo"],
-                    "platform_name": source["platform_name"],
-                    "target_platform": TARGET_PLATFORM,
-                    "distance_m": DISTANCE_METERS,
-                    "mode": "walking",
-                    "snap_m": round(source["snap_m"], 2),
-                    "nodos_alcanzables": len(reachable),
-                    "area_interseccion_m2": round(clipped_polygon.area, 2),
-                },
-            )
-        )
-
-    platform_stats = {}
-    for platform_name, count in sorted(by_platform_counts.items()):
-        equipamien_counter = by_platform_types[platform_name]
-        platform_stats[platform_name] = {
-            "equipamientos_con_interseccion": count,
+    polygon_feature = build_polygon_feature(
+        polygon,
+        {
+            "nombre": f"Isocrona 1000 m desde equipamientos de {TARGET_PLATFORM}",
+            "target_platform": TARGET_PLATFORM,
+            "distance_m": DISTANCE_METERS,
+            "mode": "walking",
+            "equipamientos_origen": len(snapped_sources),
             "tipos_equipamien": len(equipamien_counter),
-            "equipamien": dict(
-                sorted(equipamien_counter.items(), key=lambda item: (-item[1], item[0]))
-            ),
-        }
+            "nodos_alcanzables": len(reachable),
+            "longitud_red_m": round(total_length, 2),
+            "area_poligono_m2": round(polygon.area, 2),
+        },
+    )
+
+    network_feature = build_line_feature(
+        network_geom,
+        {
+            "nombre": f"Red vial OSM alcanzable a {DISTANCE_METERS} m desde equipamientos de {TARGET_PLATFORM}",
+            "target_platform": TARGET_PLATFORM,
+            "distance_m": DISTANCE_METERS,
+            "mode": "walking",
+            "equipamientos_origen": len(snapped_sources),
+            "segmentos_red": len(segments),
+            "longitud_red_m": round(total_length, 2),
+        },
+    )
 
     stats = {
         "generated_at": __import__("datetime").datetime.now().isoformat(timespec="seconds"),
         "target_platform": TARGET_PLATFORM,
-        "neighbor_platforms": neighbor_names,
-        "equipamientos_origen": len(snapped_sources),
-        "equipamientos_con_interseccion": len(selected_features),
         "distance_m": DISTANCE_METERS,
         "mode": "walking",
-        "plataformas_con_interseccion": len(platform_stats),
-        "source": "OpenStreetMap peatonal + equipamientos vecinos cuya cobertura entra en la plataforma objetivo",
-        "by_platform": platform_stats,
-        "by_equipamien": dict(sorted(by_equipamien.items(), key=lambda item: (-item[1], item[0]))),
+        "equipamientos_origen": len(snapped_sources),
+        "tipos_equipamien": len(equipamien_counter),
+        "nodos_alcanzables": len(reachable),
+        "segmentos_red": len(segments),
+        "longitud_red_m": round(total_length, 2),
+        "area_poligono_m2": round(polygon.area, 2),
+        "source": "OpenStreetMap peatonal + equipamientos dentro de la plataforma objetivo",
+        "by_equipamien": dict(sorted(equipamien_counter.items(), key=lambda item: (-item[1], item[0]))),
     }
 
-    save_json(OUTPUT_BY_PLATFORM, {"type": "FeatureCollection", "features": selected_features})
-    with open(OUTPUT_STATS, "w", encoding="utf-8") as handle:
-        json.dump(stats, handle, ensure_ascii=False, indent=2)
+    save_json(OUTPUT_ISOCHRONE, {"type": "FeatureCollection", "features": [polygon_feature]})
+    save_json(OUTPUT_NETWORK, {"type": "FeatureCollection", "features": [network_feature]})
+    save_json(OUTPUT_STATS, stats)
 
     print("Listo.")
-    print(f"Vecinas: {neighbor_names}")
-    print(f"Equipamientos origen: {len(snapped_sources)}")
-    print(f"Equipamientos con interseccion en {TARGET_PLATFORM}: {len(selected_features)}")
+    print(f"Equipamientos origen en {TARGET_PLATFORM}: {len(snapped_sources)}")
+    print(f"Nodos alcanzables: {len(reachable)}")
+    print(f"Segmentos de red: {len(segments)}")
+    print(f"Longitud total de red: {round(total_length, 2)} m")
 
 
 if __name__ == "__main__":
