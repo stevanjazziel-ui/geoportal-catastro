@@ -9,6 +9,7 @@ import requests
 from pyproj import Transformer
 from shapely.geometry import LineString, MultiLineString, MultiPolygon, Point, Polygon, mapping, shape
 from shapely.ops import linemerge, transform, unary_union
+from shapely.strtree import STRtree
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -165,6 +166,10 @@ def build_graph(overpass_json):
     return graph
 
 
+def canonical_edge_key(start_node, end_node):
+    return (start_node, end_node) if start_node <= end_node else (end_node, start_node)
+
+
 def nearest_node(point_xy, nodes):
     px, py = point_xy
     best = None
@@ -177,13 +182,120 @@ def nearest_node(point_xy, nodes):
     return best, best_dist
 
 
-def multi_source_reachable(graph, source_nodes, cutoff):
+def build_edge_index(graph):
+    edge_geometries = []
+    edge_metadata = []
+
+    for start_node, end_node, attrs in graph.edges(data=True):
+        edge_start, edge_end = canonical_edge_key(start_node, end_node)
+        sx, sy = graph.nodes[edge_start]["x"], graph.nodes[edge_start]["y"]
+        ex, ey = graph.nodes[edge_end]["x"], graph.nodes[edge_end]["y"]
+        line = LineString([(sx, sy), (ex, ey)])
+        if line.length <= 0:
+            continue
+
+        edge_geometries.append(line)
+        edge_metadata.append({
+            "edge_key": (edge_start, edge_end),
+            "edge_length_m": line.length,
+            "highway": attrs.get("highway", "road"),
+        })
+
+    return STRtree(edge_geometries), edge_geometries, edge_metadata
+
+
+def nearest_edge_projection(point_xy, edge_tree, edge_geometries, edge_metadata):
+    point = Point(*point_xy)
+    nearest_index = edge_tree.nearest(point)
+    if nearest_index is None:
+        return None
+
+    line = edge_geometries[int(nearest_index)]
+    metadata = edge_metadata[int(nearest_index)]
+    offset_m = line.project(point)
+    projected_point = line.interpolate(offset_m)
+    snap_m = point.distance(projected_point)
+
+    return {
+        "edge_key": metadata["edge_key"],
+        "edge_length_m": metadata["edge_length_m"],
+        "offset_m": offset_m,
+        "projected_xy": (projected_point.x, projected_point.y),
+        "highway": metadata["highway"],
+        "snap_m": snap_m,
+    }
+
+
+def split_edges_with_projected_sources(graph, source_entries):
+    augmented_graph = graph.copy()
+    grouped_sources = {}
+
+    for source in source_entries:
+        grouped_sources.setdefault(source["edge_key"], []).append(source)
+
+    for edge_key, edge_sources in grouped_sources.items():
+        start_node, end_node = edge_key
+        edge_attrs = graph.get_edge_data(start_node, end_node)
+        if not edge_attrs:
+            continue
+
+        edge_length_m = float(edge_attrs.get("weight", 0.0))
+        if edge_length_m <= 0:
+            continue
+
+        start_xy = (graph.nodes[start_node]["x"], graph.nodes[start_node]["y"])
+        end_xy = (graph.nodes[end_node]["x"], graph.nodes[end_node]["y"])
+
+        offset_node_map = {
+            0.0: (start_node, start_xy),
+            round(edge_length_m, 3): (end_node, end_xy),
+        }
+
+        for source in edge_sources:
+            offset_m = max(0.0, min(edge_length_m, float(source["offset_m"])))
+            rounded_offset = round(offset_m, 3)
+
+            if rounded_offset in offset_node_map:
+                node_id, projected_xy = offset_node_map[rounded_offset]
+            else:
+                node_id = ("src", source["source_id"])
+                projected_xy = source["projected_xy"]
+                offset_node_map[rounded_offset] = (node_id, projected_xy)
+                augmented_graph.add_node(node_id, x=projected_xy[0], y=projected_xy[1], kind="boundary_source")
+
+            source["node_id"] = node_id
+            source["projected_xy"] = projected_xy
+
+        if augmented_graph.has_edge(start_node, end_node):
+            augmented_graph.remove_edge(start_node, end_node)
+
+        sorted_offsets = sorted(offset_node_map.items(), key=lambda item: item[0])
+        for (offset_a, (node_a, _)), (offset_b, (node_b, _)) in zip(sorted_offsets, sorted_offsets[1:]):
+            segment_length = offset_b - offset_a
+            if segment_length <= 0:
+                continue
+            augmented_graph.add_edge(
+                node_a,
+                node_b,
+                weight=segment_length,
+                highway=edge_attrs.get("highway", "road"),
+            )
+
+    return augmented_graph
+
+
+def multi_source_reachable(graph, source_entries, cutoff):
     distances = {}
     heap = []
 
-    for node in set(source_nodes):
-        distances[node] = 0.0
-        heap.append((0.0, node))
+    for source in source_entries:
+        node = source["node_id"]
+        initial_distance = float(source.get("initial_distance_m", 0.0))
+        if initial_distance > cutoff:
+            continue
+        if initial_distance < distances.get(node, float("inf")):
+            distances[node] = initial_distance
+            heap.append((initial_distance, node))
 
     heapq.heapify(heap)
 
@@ -380,31 +492,35 @@ def main():
 
     search_area = to_wgs84(target_geom_utm.buffer(BUFFER_METERS))
     overpass_json = fetch_osm_ways(search_area.bounds, use_cache=True)
-    graph = build_graph(overpass_json)
-    nodes = list(graph.nodes(data=True))
+    base_graph = build_graph(overpass_json)
+    edge_tree, edge_geometries, edge_metadata = build_edge_index(base_graph)
 
-    snapped_sources = []
+    projected_sources = []
     for index, point_utm in enumerate(sampled_boundary_points, start=1):
-        node_id, snap_distance = nearest_node((point_utm.x, point_utm.y), nodes)
-        if node_id is None:
+        projection = nearest_edge_projection((point_utm.x, point_utm.y), edge_tree, edge_geometries, edge_metadata)
+        if projection is None:
             continue
-        snapped_sources.append({
+        projected_sources.append({
             "source_id": index,
             "sample_point_utm": point_utm,
-            "node_id": node_id,
-            "snap_m": snap_distance,
+            "initial_distance_m": float(projection["snap_m"]),
+            **projection,
         })
 
-    reachable = multi_source_reachable(graph, [source["node_id"] for source in snapped_sources], DISTANCE_METERS)
+    graph = split_edges_with_projected_sources(base_graph, projected_sources)
+    reachable = multi_source_reachable(graph, projected_sources, DISTANCE_METERS)
     segments, total_length = build_reachable_segments(graph, reachable, DISTANCE_METERS)
-    source_points = [(source["sample_point_utm"].x, source["sample_point_utm"].y) for source in snapped_sources]
+    source_points = [source["projected_xy"] for source in projected_sources]
     base_polygon = build_isochrone_polygon(segments, source_points)
     aligned_polygon, covered_manzanas = align_polygon_to_manzanas(manzanas_data["features"], base_polygon)
     polygon = remove_internal_holes(build_external_limit_polygon(aligned_polygon))
 
     network_geom = normalize_multilines(segments)
-    source_node_count = len({source["node_id"] for source in snapped_sources})
-    average_snap_m = round(sum(source["snap_m"] for source in snapped_sources) / len(snapped_sources), 2) if snapped_sources else 0.0
+    source_node_count = len({source["node_id"] for source in projected_sources if source.get("node_id") is not None})
+    snap_values = sorted(source["snap_m"] for source in projected_sources)
+    average_snap_m = round(sum(snap_values) / len(snap_values), 2) if snap_values else 0.0
+    p95_snap_m = round(snap_values[max(0, math.ceil(len(snap_values) * 0.95) - 1)], 2) if snap_values else 0.0
+    max_snap_m = round(snap_values[-1], 2) if snap_values else 0.0
 
     polygon_feature = build_polygon_feature(
         polygon,
@@ -417,6 +533,8 @@ def main():
             "boundary_samples": len(sampled_boundary_points),
             "source_nodes": source_node_count,
             "snap_promedio_m": average_snap_m,
+            "snap_p95_m": p95_snap_m,
+            "snap_max_m": max_snap_m,
             "nodos_alcanzables": len(reachable),
             "longitud_red_m": round(total_length, 2),
             "manzanas_ajustadas": len(covered_manzanas),
@@ -437,6 +555,8 @@ def main():
             "boundary_samples": len(sampled_boundary_points),
             "source_nodes": source_node_count,
             "snap_promedio_m": average_snap_m,
+            "snap_p95_m": p95_snap_m,
+            "snap_max_m": max_snap_m,
             "segmentos_red": len(segments),
             "longitud_red_m": round(total_length, 2),
         },
@@ -451,6 +571,8 @@ def main():
         "boundary_samples": len(sampled_boundary_points),
         "source_nodes": source_node_count,
         "snap_promedio_m": average_snap_m,
+        "snap_p95_m": p95_snap_m,
+        "snap_max_m": max_snap_m,
         "nodos_alcanzables": len(reachable),
         "segmentos_red": len(segments),
         "longitud_red_m": round(total_length, 2),
@@ -458,7 +580,7 @@ def main():
         "area_poligono_red_m2": round(base_polygon.area, 2),
         "area_poligono_manzanas_m2": round(aligned_polygon.area, 2),
         "area_poligono_m2": round(polygon.area, 2),
-        "source": "OpenStreetMap peatonal + limite de la plataforma objetivo + ajuste del limite a manzanas censales",
+        "source": "OpenStreetMap peatonal + proyeccion del borde de la plataforma a la red + descuento del acceso hasta la via + ajuste del limite a manzanas censales",
     }
 
     save_json(OUTPUT_ISOCHRONE, {"type": "FeatureCollection", "features": [polygon_feature]})
@@ -468,6 +590,9 @@ def main():
     print("Listo.")
     print(f"Muestras del limite de {TARGET_PLATFORM}: {len(sampled_boundary_points)}")
     print(f"Nodos origen sobre red: {source_node_count}")
+    print(f"Snap promedio al eje vial: {average_snap_m} m")
+    print(f"Snap p95 al eje vial: {p95_snap_m} m")
+    print(f"Snap maximo al eje vial: {max_snap_m} m")
     print(f"Nodos alcanzables: {len(reachable)}")
     print(f"Segmentos de red: {len(segments)}")
     print(f"Longitud total de red: {round(total_length, 2)} m")
