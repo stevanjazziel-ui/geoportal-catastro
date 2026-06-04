@@ -39,6 +39,14 @@ EXPORTS = [
         "geometry_mode": "exterior_line",
         "bundle_mode": "per_feature",
     },
+    {
+        "source_path": DATA_DIR / "riobamba_isocronas_educacion_categorizada.geojson",
+        "output_basename": "puntos_inicio_isocronas_educacion",
+        "label": "Shapefile ZIP con los puntos de inicio de las isocronas de educaciÃ³n",
+        "shape_type": shapefile.POINT,
+        "geometry_mode": "source_point",
+        "bundle_mode": "single",
+    },
 ]
 
 
@@ -68,6 +76,13 @@ def geometry_parts(feature, geometry_mode="polygon"):
             return [geometry["coordinates"][0]]
         if geometry["type"] == "MultiPolygon":
             return [polygon[0] for polygon in geometry["coordinates"] if polygon and polygon[0]]
+    elif geometry_mode == "source_point":
+        props = feature.get("properties", {})
+        lon = props.get("source_lon")
+        lat = props.get("source_lat")
+        if lon is None or lat is None:
+            raise ValueError("No se encontraron source_lon/source_lat para exportar el punto inicial.")
+        return [(float(lon), float(lat))]
     raise ValueError(f"Geometria no soportada: {geometry['type']}")
 
 
@@ -91,12 +106,17 @@ def init_writer(shp_base: Path, shape_type):
     writer.field("modo", "C", size=12)
     writer.field("categor", "C", size=20)
     writer.field("codigo", "C", size=24)
+    writer.field("src_lon", "N", size=16, decimal=8)
+    writer.field("src_lat", "N", size=16, decimal=8)
     return writer
 
 
 def write_feature_geometry(writer, feature, geometry_mode, shape_type):
     parts = geometry_parts(feature, geometry_mode=geometry_mode)
-    if shape_type == shapefile.POLYLINE:
+    if shape_type == shapefile.POINT:
+        lon, lat = parts[0]
+        writer.point(lon, lat)
+    elif shape_type == shapefile.POLYLINE:
         writer.line(parts)
     else:
         writer.poly(parts)
@@ -122,6 +142,8 @@ def write_feature_record(writer, feature):
         str(props.get("mode", ""))[:12],
         str(props.get("categoria", ""))[:20],
         str(props.get("codigo", ""))[:24],
+        float(props.get("source_lon", 0) or 0),
+        float(props.get("source_lat", 0) or 0),
     )
 
 

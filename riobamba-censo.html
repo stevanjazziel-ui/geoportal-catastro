@@ -285,6 +285,7 @@
         <button id="downloadIsochrone400ShpButton" type="button" style="margin-top:10px;">Descargar SHP de la isocrona 400 m</button>
         <button id="downloadIsochrone400CartoShpButton" type="button" style="margin-top:10px;">Descargar contorno cartografico 400 m</button>
         <button id="downloadEducacionIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con shapes separados de isocronas educacion</button>
+        <button id="downloadEducacionStartPointsShpButton" type="button" style="margin-top:10px;">Descargar SHP de puntos de inicio educacion</button>
         <p style="margin-top:10px;">
           Descarga la vista actual de la plataforma seleccionada en formato Shape o Excel.
           Si eliges una plataforma, se exportan sus manzanas censales filtradas.
@@ -382,10 +383,11 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260604-1815";
+    const DATA_VERSION = "20260604-1905";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const EDUCACION_ISOCHRONE_SHP_KEY = "isocronas_educacion_categorizada_manzanas";
+    const EDUCACION_START_POINTS_SHP_KEY = "puntos_inicio_isocronas_educacion";
 
     const map = L.map("map", { zoomSnap: 0.5 }).setView([-1.67, -78.65], 12.5);
 
@@ -442,6 +444,7 @@
     const downloadIsochrone400ShpButton = document.getElementById("downloadIsochrone400ShpButton");
     const downloadIsochrone400CartoShpButton = document.getElementById("downloadIsochrone400CartoShpButton");
     const downloadEducacionIsocronasShpButton = document.getElementById("downloadEducacionIsocronasShpButton");
+    const downloadEducacionStartPointsShpButton = document.getElementById("downloadEducacionStartPointsShpButton");
     const toggleManzanas = document.getElementById("toggleManzanas");
     const togglePlataformas = document.getElementById("togglePlataformas");
     const toggleEquipamientos = document.getElementById("toggleEquipamientos");
@@ -1476,6 +1479,7 @@
       downloadIsochrone400ShpButton.disabled = !shpManifest[BOUNDARY_ISOCHRONE_SHP_KEY];
       downloadIsochrone400CartoShpButton.disabled = !shpManifest[CARTO_ISOCHRONE_SHP_KEY];
       downloadEducacionIsocronasShpButton.disabled = !shpManifest[EDUCACION_ISOCHRONE_SHP_KEY];
+      downloadEducacionStartPointsShpButton.disabled = !shpManifest[EDUCACION_START_POINTS_SHP_KEY];
     }
 
     function syncVisibleLayers() {
@@ -2235,6 +2239,28 @@
         statusText.textContent = `Descarga iniciada: ZIP con ${formatNumber(entry.count)} shapefiles separados, uno por cada borde exterior de isocrona de educacion.`;
       } catch (error) {
         statusText.textContent = "No se pudo iniciar la descarga del ZIP con shapefiles separados de las isocronas de educacion.";
+      }
+    });
+
+    downloadEducacionStartPointsShpButton.addEventListener("click", () => {
+      try {
+        const entry = shpManifest[EDUCACION_START_POINTS_SHP_KEY];
+
+        if (!entry) {
+          statusText.textContent = "No existe un shapefile listo para los puntos de inicio de educacion.";
+          return;
+        }
+
+        const link = document.createElement("a");
+        link.href = `./riobamba-censo-data/shp/${entry.file}`;
+        link.download = entry.file;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        statusText.textContent = `Descarga iniciada: shapefile ZIP con ${formatNumber(entry.count)} puntos de inicio de isocronas de educacion.`;
+      } catch (error) {
+        statusText.textContent = "No se pudo iniciar la descarga del shapefile de puntos de inicio de educacion.";
       }
     });
 
