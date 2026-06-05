@@ -55,6 +55,14 @@ EXPORTS = [
         "geometry_mode": "polygon",
         "bundle_mode": "per_feature",
     },
+    {
+        "source_path": DATA_DIR / "riobamba_isocronas_salud_categorizada.geojson",
+        "output_basename": "puntos_inicio_isocronas_salud",
+        "label": "Shapefile ZIP con los puntos de inicio de las isocronas de salud",
+        "shape_type": shapefile.POINT,
+        "geometry_mode": "source_point",
+        "bundle_mode": "single",
+    },
 ]
 
 

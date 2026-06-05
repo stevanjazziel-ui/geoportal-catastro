@@ -272,6 +272,7 @@
           <label class="layer-toggle"><span>Isocronas educacion categorizada</span><input id="toggleEducacionIsocronas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Puntos inicio educacion</span><input id="toggleEducacionIsocronasPuntos" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Isocronas salud categorizada</span><input id="toggleSaludIsocronas" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Puntos inicio salud</span><input id="toggleSaludIsocronasPuntos" type="checkbox" checked></label>
         </div>
       </section>
 
@@ -288,6 +289,7 @@
         <button id="downloadEducacionIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con poligonos separados de isocronas educacion</button>
         <button id="downloadEducacionStartPointsShpButton" type="button" style="margin-top:10px;">Descargar SHP de puntos de inicio educacion</button>
         <button id="downloadSaludIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con poligonos separados de isocronas salud</button>
+        <button id="downloadSaludStartPointsShpButton" type="button" style="margin-top:10px;">Descargar SHP de puntos de inicio salud</button>
         <p style="margin-top:10px;">
           Descarga la vista actual de la plataforma seleccionada en formato Shape o Excel.
           Si eliges una plataforma, se exportan sus manzanas censales filtradas.
@@ -390,12 +392,13 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260604-2015";
+    const DATA_VERSION = "20260604-2045";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const EDUCACION_ISOCHRONE_SHP_KEY = "isocronas_educacion_categorizada_manzanas";
     const EDUCACION_START_POINTS_SHP_KEY = "puntos_inicio_isocronas_educacion";
     const SALUD_ISOCHRONE_SHP_KEY = "isocronas_salud_categorizada_manzanas";
+    const SALUD_START_POINTS_SHP_KEY = "puntos_inicio_isocronas_salud";
 
     const map = L.map("map", { zoomSnap: 0.5 }).setView([-1.67, -78.65], 12.5);
 
@@ -429,7 +432,8 @@
       redVial1000m: true,
       educacionIsocronas: true,
       educacionIsocronasPuntos: true,
-      saludIsocronas: true
+      saludIsocronas: true,
+      saludIsocronasPuntos: true
     };
 
     const metricSelect = document.getElementById("metricSelect");
@@ -456,6 +460,7 @@
     const downloadEducacionIsocronasShpButton = document.getElementById("downloadEducacionIsocronasShpButton");
     const downloadEducacionStartPointsShpButton = document.getElementById("downloadEducacionStartPointsShpButton");
     const downloadSaludIsocronasShpButton = document.getElementById("downloadSaludIsocronasShpButton");
+    const downloadSaludStartPointsShpButton = document.getElementById("downloadSaludStartPointsShpButton");
     const toggleManzanas = document.getElementById("toggleManzanas");
     const togglePlataformas = document.getElementById("togglePlataformas");
     const toggleEquipamientos = document.getElementById("toggleEquipamientos");
@@ -467,6 +472,7 @@
     const toggleEducacionIsocronas = document.getElementById("toggleEducacionIsocronas");
     const toggleEducacionIsocronasPuntos = document.getElementById("toggleEducacionIsocronasPuntos");
     const toggleSaludIsocronas = document.getElementById("toggleSaludIsocronas");
+    const toggleSaludIsocronasPuntos = document.getElementById("toggleSaludIsocronasPuntos");
     const equipamientoPalette = [
       "#ffd166", "#ef476f", "#06d6a0", "#118ab2", "#f78c6b",
       "#c77dff", "#90be6d", "#4cc9f0", "#ff9f1c", "#43aa8b",
@@ -1447,12 +1453,14 @@
     window.educacionIsocronasStartLayer = null;
     window.saludIsocronasStats = null;
     window.saludIsocronasLayer = null;
+    window.saludIsocronasStartLayer = null;
     layerVisibility.redVial400m = true;
     layerVisibility.isocrona400m = true;
     layerVisibility.isocrona400mCarto = false;
     layerVisibility.educacionIsocronas = true;
     layerVisibility.educacionIsocronasPuntos = true;
     layerVisibility.saludIsocronas = true;
+    layerVisibility.saludIsocronasPuntos = true;
     const educacionIsoColors = {
       BARRIAL: "#59d8ff",
       ZONAL: "#8f7dff"
@@ -1500,6 +1508,7 @@
       downloadEducacionIsocronasShpButton.disabled = !shpManifest[EDUCACION_ISOCHRONE_SHP_KEY];
       downloadEducacionStartPointsShpButton.disabled = !shpManifest[EDUCACION_START_POINTS_SHP_KEY];
       downloadSaludIsocronasShpButton.disabled = !shpManifest[SALUD_ISOCHRONE_SHP_KEY];
+      downloadSaludStartPointsShpButton.disabled = !shpManifest[SALUD_START_POINTS_SHP_KEY];
     }
 
     function syncVisibleLayers() {
@@ -1514,6 +1523,7 @@
       syncSingleLayer(window.educacionIsocronasLayer, layerVisibility.educacionIsocronas);
       syncSingleLayer(window.educacionIsocronasStartLayer, layerVisibility.educacionIsocronasPuntos);
       syncSingleLayer(window.saludIsocronasLayer, layerVisibility.saludIsocronas);
+      syncSingleLayer(window.saludIsocronasStartLayer, layerVisibility.saludIsocronasPuntos);
     }
 
     function buildIsocronasSummary() {
@@ -1681,6 +1691,28 @@
         .filter(Boolean);
     }
 
+    function buildSaludStartPointFeatures() {
+      return (window.saludIsocronasFeatures || [])
+        .filter((feature) => feature && feature.properties)
+        .map((feature) => {
+          const props = feature.properties || {};
+          const lon = Number(props.source_lon);
+          const lat = Number(props.source_lat);
+          if (!Number.isFinite(lon) || !Number.isFinite(lat)) {
+            return null;
+          }
+          return {
+            type: "Feature",
+            properties: props,
+            geometry: {
+              type: "Point",
+              coordinates: [lon, lat]
+            }
+          };
+        })
+        .filter(Boolean);
+    }
+
     function renderEducacionIsocronasStartLayer() {
       if (window.educacionIsocronasStartLayer) {
         map.removeLayer(window.educacionIsocronasStartLayer);
@@ -1731,6 +1763,58 @@
         }
       );
       syncSingleLayer(window.educacionIsocronasStartLayer, layerVisibility.educacionIsocronasPuntos);
+    }
+
+    function renderSaludIsocronasStartLayer() {
+      if (window.saludIsocronasStartLayer) {
+        map.removeLayer(window.saludIsocronasStartLayer);
+      }
+
+      const features = buildSaludStartPointFeatures().sort(
+        (left, right) => Number(right.properties?.distance_m || 0) - Number(left.properties?.distance_m || 0)
+      );
+
+      if (!map.getPane("saludIsocronasStartPane")) {
+        map.createPane("saludIsocronasStartPane");
+        map.getPane("saludIsocronasStartPane").style.zIndex = 434;
+      }
+
+      window.saludIsocronasStartLayer = L.geoJSON(
+        { type: "FeatureCollection", features },
+        {
+          pane: "saludIsocronasStartPane",
+          pointToLayer: (feature, latlng) => {
+            const categoria = String(feature?.properties?.categoria || "").toUpperCase();
+            const color = saludIsoColors[categoria] || "#9bc8bf";
+            return L.circleMarker(latlng, {
+              radius: categoria === "BARRIAL" ? 5.5 : 6.5,
+              color: "#f8fbff",
+              weight: 1.5,
+              fillColor: color,
+              fillOpacity: 1
+            });
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties;
+            const categoria = String(props.categoria || "").toUpperCase();
+            const categoriaTexto = categoria === "BARRIAL" ? "Barrial" : categoria === "ZONAL" ? "Zonal" : categoria;
+            layer.bindPopup(`
+              <strong>Punto de inicio</strong><br>
+              <strong>Equipamiento:</strong> ${props.nombre || "Sin nombre"}<br>
+              <strong>Categoria:</strong> ${categoriaTexto}<br>
+              <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
+              <strong>Coordenadas:</strong> ${Number(props.source_lat || 0).toFixed(6)}, ${Number(props.source_lon || 0).toFixed(6)}<br>
+              <strong>Snap a via:</strong> ${Number(props.snap_m || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = "Punto de inicio de isocrona de salud";
+              overlayText.textContent = `${props.nombre || "Equipamiento"} inicia su isocrona ${categoriaTexto.toLowerCase()} desde el punto proyectado sobre la red vial.`;
+            });
+          }
+        }
+      );
+      syncSingleLayer(window.saludIsocronasStartLayer, layerVisibility.saludIsocronasPuntos);
     }
 
     function renderEducacionIsocronasLayer() {
@@ -2229,6 +2313,7 @@
         renderEducacionIsocronasLayer();
         renderEducacionIsocronasStartLayer();
         renderSaludIsocronasLayer();
+        renderSaludIsocronasStartLayer();
         renderIsocronaPolygonLayer();
         renderIsocronaNetworkLayer();
         renderIsocrona400PolygonLayer();
@@ -2410,6 +2495,28 @@
       }
     });
 
+    downloadSaludStartPointsShpButton.addEventListener("click", () => {
+      try {
+        const entry = shpManifest[SALUD_START_POINTS_SHP_KEY];
+
+        if (!entry) {
+          statusText.textContent = "No existe un shapefile listo para los puntos de inicio de salud.";
+          return;
+        }
+
+        const link = document.createElement("a");
+        link.href = `./riobamba-censo-data/shp/${entry.file}`;
+        link.download = entry.file;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        statusText.textContent = `Descarga iniciada: shapefile ZIP con ${formatNumber(entry.count)} puntos de inicio de isocronas de salud.`;
+      } catch (error) {
+        statusText.textContent = "No se pudo iniciar la descarga del shapefile de puntos de inicio de salud.";
+      }
+    });
+
     metricSelect.addEventListener("change", () => {
       currentMetric = metricSelect.value;
       renderAll(false);
@@ -2476,6 +2583,11 @@
 
     toggleSaludIsocronas.addEventListener("change", () => {
       layerVisibility.saludIsocronas = toggleSaludIsocronas.checked;
+      syncVisibleLayers();
+    });
+
+    toggleSaludIsocronasPuntos.addEventListener("change", () => {
+      layerVisibility.saludIsocronasPuntos = toggleSaludIsocronasPuntos.checked;
       syncVisibleLayers();
     });
 
