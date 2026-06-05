@@ -51,6 +51,12 @@ OUTPUT_ISOCHRONES_STATS = DATA_DIR / "riobamba_isocronas_paradas_bus_stats.json"
 DISTANCE_M = 400
 DEFAULT_TYPE = "Parada de bus"
 DEFAULT_CATEGORY = "PARADA_400M"
+SPECIAL_BUS_MANZANA_TOLERANCES = {
+    "060150043004003": {
+        "max_polygon_distance_m": 100,
+        "max_corridor_distance_m": 120,
+    }
+}
 
 
 def flatten_geometry(geometry):
@@ -171,6 +177,7 @@ def build_bus_stop_isochrone(record, manzana_features, manzana_stats_by_id, base
         source_point,
         distance_m,
         reachable_segments=segments,
+        special_tolerance_rules=SPECIAL_BUS_MANZANA_TOLERANCES,
     )
     final_polygon = homogenize_aligned_polygon(aligned_polygon)
     if final_polygon.is_empty:

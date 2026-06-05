@@ -392,7 +392,37 @@ def qualifies_network_frontage(manzana_geom, overlap_geom, overlap_ratio, reacha
     return frontage_length >= NETWORK_FRONTAGE_LENGTH_M
 
 
-def align_polygon_to_manzanas(manzana_features, isochrone_polygon, source_point, target_distance_m, reachable_segments=None):
+def qualifies_special_manzana_tolerance(manzana_id, manzana_geom, isochrone_polygon, reachable_corridor, special_tolerance_rules):
+    if not special_tolerance_rules:
+        return False
+
+    rule = special_tolerance_rules.get(str(manzana_id or ""))
+    if not rule:
+        return False
+
+    max_polygon_distance = float(rule.get("max_polygon_distance_m", 0) or 0)
+    if max_polygon_distance <= 0:
+        return False
+
+    if manzana_geom.distance(isochrone_polygon) > max_polygon_distance:
+        return False
+
+    max_corridor_distance = float(rule.get("max_corridor_distance_m", 0) or 0)
+    if max_corridor_distance > 0:
+        if reachable_corridor is None or manzana_geom.distance(reachable_corridor) > max_corridor_distance:
+            return False
+
+    return True
+
+
+def align_polygon_to_manzanas(
+    manzana_features,
+    isochrone_polygon,
+    source_point,
+    target_distance_m,
+    reachable_segments=None,
+    special_tolerance_rules=None,
+):
     selected_geometries = []
     selected_ids = []
     selection_buffer = isochrone_polygon.buffer(MANZANA_REP_BUFFER_METERS)
@@ -409,11 +439,21 @@ def align_polygon_to_manzanas(manzana_features, isochrone_polygon, source_point,
             continue
 
         manzana_geom = to_utm(shape(geometry))
-        if manzana_geom.is_empty or not manzana_geom.intersects(isochrone_polygon):
+        if manzana_geom.is_empty:
+            continue
+
+        special_tolerance = qualifies_special_manzana_tolerance(
+            manzana_id,
+            manzana_geom,
+            isochrone_polygon,
+            reachable_corridor,
+            special_tolerance_rules,
+        )
+        if not special_tolerance and not manzana_geom.intersects(isochrone_polygon):
             continue
 
         overlap_geom = manzana_geom.intersection(isochrone_polygon)
-        if overlap_geom.is_empty:
+        if overlap_geom.is_empty and not special_tolerance:
             continue
 
         manzana_area = float(manzana_geom.area)
@@ -435,11 +475,13 @@ def align_polygon_to_manzanas(manzana_features, isochrone_polygon, source_point,
             and overlap_ratio < MANZANA_OVERLAP_RATIO_THRESHOLD
             and not large_manzana_frontage
             and not network_frontage
+            and not special_tolerance
         ):
             continue
         if (
             not large_manzana_frontage
             and not network_frontage
+            and not special_tolerance
             and max_distance_to_geometry_boundary(manzana_geom, source_point) > max_vertex_distance
         ):
             continue
