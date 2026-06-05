@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-06-04T22:23:23",
-  "source_zip": "D:\\codex\\SALUD_CATEGORIZADO.zip",
+  "generated_at": "2026-06-05T09:41:42",
+  "source_archive": "E:\\Riobamba\\equipamientos\\salud\\SALUD_CATEGORIZADO\\SALUD.rar",
+  "source_zip": "E:\\Riobamba\\equipamientos\\salud\\SALUD_CATEGORIZADO\\SALUD.rar",
   "summary": {
-    "total_equipamientos": 4,
-    "con_isocrona": 3,
-    "sin_isocrona": 1,
-    "categorias": 3
+    "total_equipamientos": 2,
+    "con_isocrona": 2,
+    "sin_isocrona": 0,
+    "categorias": 2
   },
   "by_categoria": {
-    "ZONAL": 2,
     "BARRIAL": 1,
-    "CANTONAL": 1
+    "ZONAL": 1
   }
 }

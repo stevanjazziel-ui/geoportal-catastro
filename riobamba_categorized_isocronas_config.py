@@ -81,6 +81,8 @@ CATEGORIZED_ISOCHRONE_CONFIGS = {
         display_name="salud",
         output_suffix="salud_categorizada",
         source_zip_candidates=(
+            BASE_DIR / "SALUD.rar",
+            Path(r"E:\Riobamba\equipamientos\salud\SALUD_CATEGORIZADO\SALUD.rar"),
             BASE_DIR / "SALUD_CATEGORIZADO.zip",
             Path(r"C:\Users\PC\Downloads\SALUD_CATEGORIZADO.zip"),
         ),

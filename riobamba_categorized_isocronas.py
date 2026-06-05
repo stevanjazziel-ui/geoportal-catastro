@@ -468,22 +468,33 @@ def build_source_feature(geometry_utm, properties):
     }
 
 
+def extract_archive(source_archive, extract_dir):
+    suffix = source_archive.suffix.lower()
+    if suffix == ".zip":
+        with zipfile.ZipFile(source_archive) as archive:
+            archive.extractall(extract_dir)
+        return
+    if suffix == ".rar":
+        subprocess.run(["tar", "-xf", str(source_archive), "-C", str(extract_dir)], check=True)
+        return
+    raise ValueError(f"Formato no soportado para {source_archive.name}. Usa ZIP o RAR.")
+
+
 def extract_source_records(config):
-    source_zip = config.resolve_source_zip()
-    if not source_zip.exists():
+    source_archive = config.resolve_source_zip()
+    if not source_archive.exists():
         candidates = ", ".join(str(path) for path in config.source_zip_candidates)
-        raise FileNotFoundError(f"No se encontro el ZIP fuente para {config.display_name}. Revise: {candidates}")
+        raise FileNotFoundError(f"No se encontro el archivo fuente para {config.display_name}. Revise: {candidates}")
 
     if config.extract_dir.exists():
         shutil.rmtree(config.extract_dir)
     config.extract_dir.mkdir(parents=True, exist_ok=True)
 
-    with zipfile.ZipFile(source_zip) as archive:
-        archive.extractall(config.extract_dir)
+    extract_archive(source_archive, config.extract_dir)
 
     shp_path = next(config.extract_dir.rglob("*.shp"), None)
     if shp_path is None:
-        raise FileNotFoundError(f"No se encontro un shapefile dentro del ZIP de {config.display_name}.")
+        raise FileNotFoundError(f"No se encontro un shapefile dentro del archivo fuente de {config.display_name}.")
 
     reader = shapefile.Reader(str(shp_path))
     try:
@@ -528,7 +539,8 @@ def extract_source_records(config):
 
     stats = {
         "generated_at": __import__("datetime").datetime.now().isoformat(timespec="seconds"),
-        "source_zip": str(source_zip),
+        "source_archive": str(source_archive),
+        "source_zip": str(source_archive),
         "summary": {
             "total_equipamientos": len(records),
             "con_isocrona": sum(1 for item in records if item["properties"]["genera_isocrona"]),
@@ -695,6 +707,7 @@ def run_config(config):
     output_geojson = {"type": "FeatureCollection", "features": isocronas}
     output_stats = {
         "generated_at": __import__("datetime").datetime.now().isoformat(timespec="seconds"),
+        "source_archive": str(config.resolve_source_zip()),
         "source_zip": str(config.resolve_source_zip()),
         "source_osm_cache": str(OSM_CACHE_PATH),
         "summary": {

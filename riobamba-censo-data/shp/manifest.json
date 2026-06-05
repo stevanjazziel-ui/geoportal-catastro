@@ -166,12 +166,12 @@
   },
   "isocronas_salud_categorizada_manzanas": {
     "file": "isocronas_salud_categorizada_manzanas.zip",
-    "count": 3,
+    "count": 2,
     "label": "ZIP con shapefiles separados del borde exterior de cada isocrona de Salud"
   },
   "puntos_inicio_isocronas_salud": {
     "file": "puntos_inicio_isocronas_salud.zip",
-    "count": 3,
+    "count": 2,
     "label": "Shapefile ZIP con los puntos de inicio de las isocronas de Salud"
   },
   "rutas_transporte_intracantonal_recortadas_400m_carto": {
