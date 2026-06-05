@@ -17,6 +17,7 @@ MANZANAS_PATH = DATA_DIR / "riobamba_manzanas.geojson"
 MANZANAS_STATS_PATH = DATA_DIR / "riobamba_manzanas_stats.json"
 PLATFORM_STATS_PATH = DATA_DIR / "riobamba_plataformas_stats.json"
 BUS_ISOCHRONES_PATH = DATA_DIR / "riobamba_isocronas_paradas_bus.geojson"
+SALUD_ISOCHRONES_PATH = DATA_DIR / "riobamba_isocronas_salud_categorizada.geojson"
 OUTPUT_DIR = DATA_DIR / "shp"
 MANIFEST_PATH = OUTPUT_DIR / "manifest.json"
 
@@ -34,30 +35,37 @@ BASE_HEADERS = [
     "edad30_64",
     "edad65mas",
 ]
+COVERAGE_CONFIGS = [
+    {
+        "source_path": BUS_ISOCHRONES_PATH,
+        "field_prefix": "iso_nom_",
+    },
+    {
+        "source_path": SALUD_ISOCHRONES_PATH,
+        "field_prefix": "sal_nom_",
+    },
+]
 
 
 def slugify(value: str) -> str:
     normalized = (
-        value.lower()
+        str(value or "")
+        .lower()
         .replace("ñ", "enie")
         .replace("Ã±", "enie")
+        .replace("Ã‘", "enie")
         .replace("ÃƒÂ±", "enie")
-        .replace("ÃƒÆ’Ã‚Â±", "enie")
+        .replace("Ãƒâ€˜", "enie")
         .replace("Ã¡", "a")
         .replace("Ã©", "e")
         .replace("Ã­", "i")
         .replace("Ã³", "o")
         .replace("Ãº", "u")
-        .replace("ÃƒÂ¡", "a")
-        .replace("ÃƒÂ©", "e")
-        .replace("ÃƒÂ­", "i")
-        .replace("ÃƒÂ³", "o")
-        .replace("ÃƒÂº", "u")
-        .replace("ÃƒÆ’Ã‚Â¡", "a")
-        .replace("ÃƒÆ’Ã‚Â©", "e")
-        .replace("ÃƒÆ’Ã‚Â­", "i")
-        .replace("ÃƒÆ’Ã‚Â³", "o")
-        .replace("ÃƒÆ’Ã‚Âº", "u")
+        .replace("á", "a")
+        .replace("é", "e")
+        .replace("í", "i")
+        .replace("ó", "o")
+        .replace("ú", "u")
     )
     slug = []
     prev_sep = False
@@ -79,14 +87,14 @@ def normalize_platform_name(value: str | None) -> str:
     return (
         text.replace("Ã‘", "Ñ")
         .replace("Ãƒâ€˜", "Ñ")
+        .replace("ÃƒÆ’Ã¢â‚¬Ëœ", "Ñ")
         .replace("Ă‘", "Ñ")
         .replace("Ń", "Ñ")
     )
 
 
 def is_platform_enie(value: str | None) -> bool:
-    normalized = normalize_platform_name(value)
-    return normalized == "PLATAFORMA Ñ"
+    return normalize_platform_name(value) == "PLATAFORMA Ñ"
 
 
 def load_json(path: Path):
@@ -100,11 +108,12 @@ def sanitize_token(value):
     return token or "sin_nombre"
 
 
-def build_iso_field_name(index: int) -> str:
-    name = f"iso_nom_{index}"
+def build_field_name(prefix: str, index: int) -> str:
+    name = f"{prefix}{index}"
     if len(name) <= 10:
         return name
-    return f"isonom{index}"
+    compact_prefix = prefix.replace("_", "")[:7]
+    return f"{compact_prefix}{index}"[:10]
 
 
 def build_feature_basename(feature, index):
@@ -115,8 +124,8 @@ def build_feature_basename(feature, index):
     return f"iso_{index:03d}_{categoria}_{codigo}_{nombre}"
 
 
-def build_bus_iso_coverages():
-    payload = load_json(BUS_ISOCHRONES_PATH)
+def build_coverages(source_path: Path):
+    payload = load_json(source_path)
     coverages = []
     for index, feature in enumerate(payload.get("features", []), start=1):
         coverages.append(
@@ -132,21 +141,35 @@ def enrich_plataforma_enie_features(features):
     if not features:
         return features, []
 
-    coverages = build_bus_iso_coverages()
+    prepared_coverages = []
+    for config in COVERAGE_CONFIGS:
+        if not config["source_path"].exists():
+            continue
+        prepared_coverages.append(
+            {
+                "field_prefix": config["field_prefix"],
+                "coverages": build_coverages(config["source_path"]),
+            }
+        )
+
+    max_by_prefix = {item["field_prefix"]: 0 for item in prepared_coverages}
     enriched = []
-    max_overlap = 0
 
     for feature in features:
         rep_point = shapely_shape(feature["geometry"]).representative_point()
-        matching_names = sorted(
-            coverage["iso_name"]
-            for coverage in coverages
-            if coverage["geometry"].covers(rep_point)
-        )
-        max_overlap = max(max_overlap, len(matching_names))
         props = dict(feature["properties"])
-        for index, iso_name in enumerate(matching_names, start=1):
-            props[build_iso_field_name(index)] = iso_name
+
+        for item in prepared_coverages:
+            matching_names = sorted(
+                coverage["iso_name"]
+                for coverage in item["coverages"]
+                if coverage["geometry"].covers(rep_point)
+            )
+            prefix = item["field_prefix"]
+            max_by_prefix[prefix] = max(max_by_prefix[prefix], len(matching_names))
+            for index, iso_name in enumerate(matching_names, start=1):
+                props[build_field_name(prefix, index)] = iso_name
+
         enriched.append(
             {
                 "type": feature["type"],
@@ -155,7 +178,11 @@ def enrich_plataforma_enie_features(features):
             }
         )
 
-    extra_headers = [build_iso_field_name(index) for index in range(1, max_overlap + 1)]
+    extra_headers = []
+    for config in COVERAGE_CONFIGS:
+        prefix = config["field_prefix"]
+        extra_headers.extend(build_field_name(prefix, index) for index in range(1, max_by_prefix.get(prefix, 0) + 1))
+
     return enriched, extra_headers
 
 
@@ -175,7 +202,7 @@ def feature_row(feature, extra_headers=None):
     props = feature["properties"]
     row = [
         str(props["man"]),
-        str(props["platform_name"] or "SIN_PLAT"),
+        str(normalize_platform_name(props["platform_name"]) or "SIN_PLAT"),
         int(props["population_total"]),
         int(props["male"]),
         int(props["female"]),
@@ -335,7 +362,7 @@ def main():
     )
     for platform_name in platform_names:
         groups[slugify(platform_name)] = {
-            "label": platform_name,
+            "label": normalize_platform_name(platform_name),
             "features": [
                 feature
                 for feature in joined_features
@@ -351,11 +378,7 @@ def main():
             if basename in only_tokens or slugify(group["label"]) in only_tokens
         }
 
-    manifest = {
-        key: value
-        for key, value in existing_manifest.items()
-        if key not in groups
-    }
+    manifest = {key: value for key, value in existing_manifest.items() if key not in groups}
 
     for basename, group in groups.items():
         features = group["features"]
@@ -365,8 +388,8 @@ def main():
         extra_headers = []
         if basename == "plataforma_enie" or is_platform_enie(group["label"]):
             features, extra_headers = enrich_plataforma_enie_features(features)
-        output_label = "PLATAFORMA Ñ" if basename == "plataforma_enie" else group["label"]
 
+        output_label = "PLATAFORMA Ñ" if basename == "plataforma_enie" else group["label"]
         shp_path = write_shapefile_zip(features, basename, extra_headers=extra_headers)
         xlsx_path = write_excel(features, basename, output_label, extra_headers=extra_headers)
         manifest[basename] = {
