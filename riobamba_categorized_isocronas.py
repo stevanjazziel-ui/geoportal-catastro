@@ -34,6 +34,13 @@ MANZANA_REP_BUFFER_METERS = 20
 EXTERNAL_CLOSE_GAP_METERS = 10
 MIN_COMPONENT_AREA_M2 = 1200
 MIN_COMPONENT_RATIO = 0.04
+LARGE_MANZANA_AREA_THRESHOLD_M2 = 20000
+LARGE_MANZANA_FRONTAGE_LENGTH_M = 200
+LARGE_MANZANA_MIN_OVERLAP_AREA_M2 = 1500
+NETWORK_FRONTAGE_BUFFER_METERS = 20
+NETWORK_FRONTAGE_LENGTH_M = 30
+NETWORK_FRONTAGE_MIN_OVERLAP_AREA_M2 = 100
+NETWORK_FRONTAGE_MIN_OVERLAP_RATIO = 0.02
 MAX_VERTEX_TOLERANCE_BY_DISTANCE = {
     400: 60,
     1000: 100,
@@ -359,10 +366,37 @@ def max_distance_to_geometry_boundary(geometry, source_point):
     return max_distance
 
 
-def align_polygon_to_manzanas(manzana_features, isochrone_polygon, source_point, target_distance_m):
+def qualifies_large_manzana_frontage(manzana_geom, isochrone_polygon, overlap_geom):
+    manzana_area = float(manzana_geom.area)
+    if manzana_area < LARGE_MANZANA_AREA_THRESHOLD_M2:
+        return False
+
+    if overlap_geom.is_empty or overlap_geom.area < LARGE_MANZANA_MIN_OVERLAP_AREA_M2:
+        return False
+
+    frontage_length = manzana_geom.boundary.intersection(isochrone_polygon).length
+    return frontage_length >= LARGE_MANZANA_FRONTAGE_LENGTH_M
+
+
+def qualifies_network_frontage(manzana_geom, overlap_geom, overlap_ratio, reachable_corridor):
+    if reachable_corridor is None:
+        return False
+
+    if overlap_geom.is_empty or overlap_geom.area < NETWORK_FRONTAGE_MIN_OVERLAP_AREA_M2:
+        return False
+
+    if overlap_ratio < NETWORK_FRONTAGE_MIN_OVERLAP_RATIO:
+        return False
+
+    frontage_length = manzana_geom.boundary.intersection(reachable_corridor).length
+    return frontage_length >= NETWORK_FRONTAGE_LENGTH_M
+
+
+def align_polygon_to_manzanas(manzana_features, isochrone_polygon, source_point, target_distance_m, reachable_segments=None):
     selected_geometries = []
     selected_ids = []
     selection_buffer = isochrone_polygon.buffer(MANZANA_REP_BUFFER_METERS)
+    reachable_corridor = unary_union(reachable_segments).buffer(NETWORK_FRONTAGE_BUFFER_METERS) if reachable_segments else None
     max_vertex_distance = target_distance_m + MAX_VERTEX_TOLERANCE_BY_DISTANCE.get(
         int(target_distance_m),
         max(50, round(target_distance_m * 0.1)),
@@ -385,9 +419,29 @@ def align_polygon_to_manzanas(manzana_features, isochrone_polygon, source_point,
         manzana_area = float(manzana_geom.area)
         overlap_ratio = (overlap_geom.area / manzana_area) if manzana_area > 0 else 0.0
         representative_inside = selection_buffer.contains(manzana_geom.representative_point())
-        if not representative_inside and overlap_ratio < MANZANA_OVERLAP_RATIO_THRESHOLD:
+        large_manzana_frontage = qualifies_large_manzana_frontage(
+            manzana_geom,
+            isochrone_polygon,
+            overlap_geom,
+        )
+        network_frontage = qualifies_network_frontage(
+            manzana_geom,
+            overlap_geom,
+            overlap_ratio,
+            reachable_corridor,
+        )
+        if (
+            not representative_inside
+            and overlap_ratio < MANZANA_OVERLAP_RATIO_THRESHOLD
+            and not large_manzana_frontage
+            and not network_frontage
+        ):
             continue
-        if max_distance_to_geometry_boundary(manzana_geom, source_point) > max_vertex_distance:
+        if (
+            not large_manzana_frontage
+            and not network_frontage
+            and max_distance_to_geometry_boundary(manzana_geom, source_point) > max_vertex_distance
+        ):
             continue
 
         selected_geometries.append(manzana_geom)
@@ -593,6 +647,7 @@ def build_single_isochrone(config, record, manzana_features, manzana_stats_by_id
         exact_polygon,
         source_point,
         distance_m,
+        reachable_segments=segments,
     )
     final_polygon = homogenize_aligned_polygon(aligned_polygon)
     if final_polygon.is_empty:

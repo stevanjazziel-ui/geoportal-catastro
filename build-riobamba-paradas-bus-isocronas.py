@@ -170,6 +170,7 @@ def build_bus_stop_isochrone(record, manzana_features, manzana_stats_by_id, base
         exact_polygon,
         source_point,
         distance_m,
+        reachable_segments=segments,
     )
     final_polygon = homogenize_aligned_polygon(aligned_polygon)
     if final_polygon.is_empty:
