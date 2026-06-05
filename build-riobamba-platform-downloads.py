@@ -34,15 +34,20 @@ BASE_HEADERS = [
     "edad18_29",
     "edad30_64",
     "edad65mas",
+    "cov_bus",
+    "cov_sal",
+    "cov_tot",
 ]
 COVERAGE_CONFIGS = [
     {
         "source_path": BUS_ISOCHRONES_PATH,
         "field_prefix": "iso_nom_",
+        "count_field": "cov_bus",
     },
     {
         "source_path": SALUD_ISOCHRONES_PATH,
         "field_prefix": "sal_nom_",
+        "count_field": "cov_sal",
     },
 ]
 
@@ -148,6 +153,7 @@ def enrich_plataforma_enie_features(features):
         prepared_coverages.append(
             {
                 "field_prefix": config["field_prefix"],
+                "count_field": config["count_field"],
                 "coverages": build_coverages(config["source_path"]),
             }
         )
@@ -158,6 +164,7 @@ def enrich_plataforma_enie_features(features):
     for feature in features:
         rep_point = shapely_shape(feature["geometry"]).representative_point()
         props = dict(feature["properties"])
+        total_coverages = 0
 
         for item in prepared_coverages:
             matching_names = sorted(
@@ -166,9 +173,14 @@ def enrich_plataforma_enie_features(features):
                 if coverage["geometry"].covers(rep_point)
             )
             prefix = item["field_prefix"]
+            count_field = item["count_field"]
+            props[count_field] = len(matching_names)
+            total_coverages += len(matching_names)
             max_by_prefix[prefix] = max(max_by_prefix[prefix], len(matching_names))
             for index, iso_name in enumerate(matching_names, start=1):
                 props[build_field_name(prefix, index)] = iso_name
+
+        props["cov_tot"] = total_coverages
 
         enriched.append(
             {
@@ -212,6 +224,9 @@ def feature_row(feature, extra_headers=None):
         int(props["age_18_29"]),
         int(props["age_30_64"]),
         int(props["age_65_plus"]),
+        int(props.get("cov_bus", 0) or 0),
+        int(props.get("cov_sal", 0) or 0),
+        int(props.get("cov_tot", 0) or 0),
     ]
     for header in extra_headers or []:
         row.append(str(props.get(header, "")))
@@ -239,6 +254,9 @@ def write_shapefile_zip(features, basename: str, extra_headers=None):
     writer.field("edad18_29", "N", size=12, decimal=0)
     writer.field("edad30_64", "N", size=12, decimal=0)
     writer.field("edad65mas", "N", size=12, decimal=0)
+    writer.field("cov_bus", "N", size=12, decimal=0)
+    writer.field("cov_sal", "N", size=12, decimal=0)
+    writer.field("cov_tot", "N", size=12, decimal=0)
     for header in extra_headers or []:
         writer.field(header[:10], "C", size=120)
 
