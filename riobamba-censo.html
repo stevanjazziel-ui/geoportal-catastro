@@ -268,6 +268,8 @@
           <label class="layer-toggle"><span>Red vial OSM 400 m</span><input id="toggleRedVial400m" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Borde externo isocrona exacta 400 m</span><input id="toggleIsocrona400m" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Contorno cartografico 400 m ajustado</span><input id="toggleIsocrona400mCarto" type="checkbox"></label>
+          <label class="layer-toggle"><span>Rutas transporte recortadas 400 m</span><input id="toggleTransporteRutas" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Buffer transporte 200 m por lado</span><input id="toggleTransporteBuffer" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Isocrona 1000 m desde equipamientos</span><input id="toggleIsocronasColindantes" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Isocronas educacion categorizada</span><input id="toggleEducacionIsocronas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Puntos inicio educacion</span><input id="toggleEducacionIsocronasPuntos" type="checkbox" checked></label>
@@ -286,6 +288,8 @@
         <button id="downloadIsochroneShpButton" type="button" style="margin-top:10px;">Descargar SHP de la isocrona 1000 m</button>
         <button id="downloadIsochrone400ShpButton" type="button" style="margin-top:10px;">Descargar SHP de la isocrona 400 m</button>
         <button id="downloadIsochrone400CartoShpButton" type="button" style="margin-top:10px;">Descargar contorno cartografico 400 m</button>
+        <button id="downloadTransporteRutasShpButton" type="button" style="margin-top:10px;">Descargar SHP rutas transporte recortadas</button>
+        <button id="downloadTransporteBufferShpButton" type="button" style="margin-top:10px;">Descargar SHP buffer transporte 200 m por lado</button>
         <button id="downloadEducacionIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con poligonos separados de isocronas educacion</button>
         <button id="downloadEducacionStartPointsShpButton" type="button" style="margin-top:10px;">Descargar SHP de puntos de inicio educacion</button>
         <button id="downloadSaludIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con poligonos separados de isocronas salud</button>
@@ -392,9 +396,11 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260604-2125";
+    const DATA_VERSION = "20260605-0910";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
+    const TRANSPORTE_ROUTES_SHP_KEY = "rutas_transporte_intracantonal_recortadas_400m_carto";
+    const TRANSPORTE_BUFFER_SHP_KEY = "buffer_transporte_intracantonal_200m_lado";
     const EDUCACION_ISOCHRONE_SHP_KEY = "isocronas_educacion_categorizada_manzanas";
     const EDUCACION_START_POINTS_SHP_KEY = "puntos_inicio_isocronas_educacion";
     const SALUD_ISOCHRONE_SHP_KEY = "isocronas_salud_categorizada_manzanas";
@@ -430,6 +436,8 @@
       equipamientos: true,
       isocronasColindantes: true,
       redVial1000m: true,
+      transporteRutas: true,
+      transporteBuffer: true,
       educacionIsocronas: true,
       educacionIsocronasPuntos: true,
       saludIsocronas: true,
@@ -457,6 +465,8 @@
     const downloadIsochroneShpButton = document.getElementById("downloadIsochroneShpButton");
     const downloadIsochrone400ShpButton = document.getElementById("downloadIsochrone400ShpButton");
     const downloadIsochrone400CartoShpButton = document.getElementById("downloadIsochrone400CartoShpButton");
+    const downloadTransporteRutasShpButton = document.getElementById("downloadTransporteRutasShpButton");
+    const downloadTransporteBufferShpButton = document.getElementById("downloadTransporteBufferShpButton");
     const downloadEducacionIsocronasShpButton = document.getElementById("downloadEducacionIsocronasShpButton");
     const downloadEducacionStartPointsShpButton = document.getElementById("downloadEducacionStartPointsShpButton");
     const downloadSaludIsocronasShpButton = document.getElementById("downloadSaludIsocronasShpButton");
@@ -469,6 +479,8 @@
     const toggleRedVial400m = document.getElementById("toggleRedVial400m");
     const toggleIsocrona400m = document.getElementById("toggleIsocrona400m");
     const toggleIsocrona400mCarto = document.getElementById("toggleIsocrona400mCarto");
+    const toggleTransporteRutas = document.getElementById("toggleTransporteRutas");
+    const toggleTransporteBuffer = document.getElementById("toggleTransporteBuffer");
     const toggleEducacionIsocronas = document.getElementById("toggleEducacionIsocronas");
     const toggleEducacionIsocronasPuntos = document.getElementById("toggleEducacionIsocronasPuntos");
     const toggleSaludIsocronas = document.getElementById("toggleSaludIsocronas");
@@ -1448,6 +1460,9 @@
     window.isocrona400NetworkLayer = null;
     window.isocrona400CartoStats = null;
     window.isocrona400CartoLayer = null;
+    window.transporteIntracantonalStats = null;
+    window.transporteIntracantonalRoutesLayer = null;
+    window.transporteIntracantonalBufferLayer = null;
     window.educacionIsocronasStats = null;
     window.educacionIsocronasLayer = null;
     window.educacionIsocronasStartLayer = null;
@@ -1457,6 +1472,8 @@
     layerVisibility.redVial400m = true;
     layerVisibility.isocrona400m = true;
     layerVisibility.isocrona400mCarto = false;
+    layerVisibility.transporteRutas = true;
+    layerVisibility.transporteBuffer = true;
     layerVisibility.educacionIsocronas = true;
     layerVisibility.educacionIsocronasPuntos = true;
     layerVisibility.saludIsocronas = true;
@@ -1505,6 +1522,8 @@
       downloadIsochroneShpButton.disabled = !shpManifest[LEGACY_ISOCHRONE_SHP_KEY];
       downloadIsochrone400ShpButton.disabled = !shpManifest[BOUNDARY_ISOCHRONE_SHP_KEY];
       downloadIsochrone400CartoShpButton.disabled = !shpManifest[CARTO_ISOCHRONE_SHP_KEY];
+      downloadTransporteRutasShpButton.disabled = !shpManifest[TRANSPORTE_ROUTES_SHP_KEY];
+      downloadTransporteBufferShpButton.disabled = !shpManifest[TRANSPORTE_BUFFER_SHP_KEY];
       downloadEducacionIsocronasShpButton.disabled = !shpManifest[EDUCACION_ISOCHRONE_SHP_KEY];
       downloadEducacionStartPointsShpButton.disabled = !shpManifest[EDUCACION_START_POINTS_SHP_KEY];
       downloadSaludIsocronasShpButton.disabled = !shpManifest[SALUD_ISOCHRONE_SHP_KEY];
@@ -1520,6 +1539,8 @@
       syncSingleLayer(window.isocrona400PolygonLayer, layerVisibility.isocrona400m);
       syncSingleLayer(window.isocrona400NetworkLayer, layerVisibility.redVial400m);
       syncSingleLayer(window.isocrona400CartoLayer, layerVisibility.isocrona400mCarto);
+      syncSingleLayer(window.transporteIntracantonalRoutesLayer, layerVisibility.transporteRutas);
+      syncSingleLayer(window.transporteIntracantonalBufferLayer, layerVisibility.transporteBuffer);
       syncSingleLayer(window.educacionIsocronasLayer, layerVisibility.educacionIsocronas);
       syncSingleLayer(window.educacionIsocronasStartLayer, layerVisibility.educacionIsocronasPuntos);
       syncSingleLayer(window.saludIsocronasLayer, layerVisibility.saludIsocronas);
@@ -2178,6 +2199,96 @@
       syncSingleLayer(window.isocrona400CartoLayer, layerVisibility.isocrona400mCarto);
     }
 
+    function renderTransporteIntracantonalBufferLayer() {
+      if (window.transporteIntracantonalBufferLayer) {
+        map.removeLayer(window.transporteIntracantonalBufferLayer);
+      }
+
+      const features = (window.transporteIntracantonalBufferFeatures || []).filter(
+        (feature) => feature && feature.geometry && feature.properties
+      );
+
+      if (!map.getPane("transporteIntracantonalBufferPane")) {
+        map.createPane("transporteIntracantonalBufferPane");
+        map.getPane("transporteIntracantonalBufferPane").style.zIndex = 427;
+      }
+
+      window.transporteIntracantonalBufferLayer = L.geoJSON(
+        { type: "FeatureCollection", features },
+        {
+          pane: "transporteIntracantonalBufferPane",
+          style: {
+            color: "#4ce0c1",
+            weight: 1.5,
+            opacity: 0.9,
+            fillColor: "#4ce0c1",
+            fillOpacity: 0.18
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties || {};
+            layer.bindPopup(`
+              <strong>${props.nombre || "Buffer transporte intracantonal"}</strong><br>
+              <strong>Rutas recortadas:</strong> ${formatNumber(props.rutas_recortadas || props.feature_count || 0)}<br>
+              <strong>Buffer:</strong> ${formatNumber(props.buffer_side_m || 0)} m por lado<br>
+              <strong>Ancho total:</strong> ${formatNumber(props.buffer_total_m || 0)} m<br>
+              <strong>Longitud recortada total:</strong> ${formatNumber(Math.round(props.longitud_total_recortada_m || 0))} m<br>
+              <strong>Area:</strong> ${formatNumber(Math.round(props.area_poligono_m2 || props.area_generada_m2 || 0))} m2
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = "Buffer transporte intracantonal";
+              overlayText.textContent = `El buffer total de ${formatNumber(props.buffer_total_m || 0)} m se construyo sobre las rutas de transporte recortadas al contorno cartografico 400 m, usando ${formatNumber(props.buffer_side_m || 0)} m a cada lado y cubriendo ${formatNumber(Math.round(props.area_poligono_m2 || props.area_generada_m2 || 0))} m2.`;
+            });
+          }
+        }
+      );
+      syncSingleLayer(window.transporteIntracantonalBufferLayer, layerVisibility.transporteBuffer);
+    }
+
+    function renderTransporteIntracantonalRoutesLayer() {
+      if (window.transporteIntracantonalRoutesLayer) {
+        map.removeLayer(window.transporteIntracantonalRoutesLayer);
+      }
+
+      const features = (window.transporteIntracantonalRoutesFeatures || []).filter(
+        (feature) => feature && feature.geometry && feature.properties
+      );
+
+      if (!map.getPane("transporteIntracantonalRoutesPane")) {
+        map.createPane("transporteIntracantonalRoutesPane");
+        map.getPane("transporteIntracantonalRoutesPane").style.zIndex = 435;
+      }
+
+      window.transporteIntracantonalRoutesLayer = L.geoJSON(
+        { type: "FeatureCollection", features },
+        {
+          pane: "transporteIntracantonalRoutesPane",
+          style: {
+            color: "#ffd166",
+            weight: 3.2,
+            opacity: 0.95
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties || {};
+            layer.bindPopup(`
+              <strong>${props.nombre || "Ruta de transporte"}</strong><br>
+              <strong>Codigo:</strong> ${props.codigo || props.route_id || "Sin codigo"}<br>
+              <strong>Tipo:</strong> ${props.snippet || "No especificado"}<br>
+              <strong>Longitud recortada:</strong> ${formatNumber(Math.round(props.longitud_recortada_m || 0))} m<br>
+              <strong>Longitud original:</strong> ${formatNumber(Math.round(props.longitud_original_m || 0))} m<br>
+              <strong>Segmentos recortados:</strong> ${formatNumber(props.segmentos_recortados || 0)}
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = "Ruta de transporte recortada";
+              overlayText.textContent = `${props.nombre || "Ruta de transporte"} conserva ${formatNumber(Math.round(props.longitud_recortada_m || 0))} m dentro del contorno cartografico 400 m ajustado.`;
+            });
+          }
+        }
+      );
+      syncSingleLayer(window.transporteIntracantonalRoutesLayer, layerVisibility.transporteRutas);
+    }
+
     async function init() {
       try {
         const [
@@ -2199,7 +2310,10 @@
           isocrona400NetworkResponse,
           isocronas400StatsResponse,
           isocrona400CartoPolygonResponse,
-          isocronas400CartoStatsResponse
+          isocronas400CartoStatsResponse,
+          transporteRoutesResponse,
+          transporteBufferResponse,
+          transporteStatsResponse
         ] = await Promise.all([
           fetch(`./riobamba-censo-data/riobamba_manzanas.geojson?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_manzanas_stats.json?v=${DATA_VERSION}`),
@@ -2219,7 +2333,10 @@
           fetch(`./riobamba-censo-data/riobamba_red_vial_isocrona_limite_plataforma_n_400m.geojson?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_isocrona_limite_plataforma_n_400m_stats.json?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_isocrona_limite_plataforma_n_400m_ajustada_manzanas.geojson?v=${DATA_VERSION}`),
-          fetch(`./riobamba-censo-data/riobamba_isocrona_limite_plataforma_n_400m_ajustada_manzanas_stats.json?v=${DATA_VERSION}`)
+          fetch(`./riobamba-censo-data/riobamba_isocrona_limite_plataforma_n_400m_ajustada_manzanas_stats.json?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_transporte_intracantonal_recortado_carto_400m.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_transporte_intracantonal_buffer_carto_200m.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_transporte_intracantonal_400m_stats.json?v=${DATA_VERSION}`)
         ]);
 
         if (
@@ -2240,7 +2357,10 @@
           !isocrona400NetworkResponse.ok ||
           !isocronas400StatsResponse.ok ||
           !isocrona400CartoPolygonResponse.ok ||
-          !isocronas400CartoStatsResponse.ok
+          !isocronas400CartoStatsResponse.ok ||
+          !transporteRoutesResponse.ok ||
+          !transporteBufferResponse.ok ||
+          !transporteStatsResponse.ok
         ) {
           throw new Error("No se pudieron leer los archivos de datos.");
         }
@@ -2263,6 +2383,9 @@
         const isocronas400StatsData = await isocronas400StatsResponse.json();
         const isocrona400CartoPolygonGeo = await isocrona400CartoPolygonResponse.json();
         const isocronas400CartoStatsData = await isocronas400CartoStatsResponse.json();
+        const transporteRoutesGeo = await transporteRoutesResponse.json();
+        const transporteBufferGeo = await transporteBufferResponse.json();
+        const transporteStatsData = await transporteStatsResponse.json();
         shpManifest = manifestResponse.ok ? await manifestResponse.json() : {};
 
         globalSummary = stats.summary;
@@ -2280,6 +2403,9 @@
         window.isocrona400PolygonFeatures = isocrona400PolygonGeo.features || [];
         window.isocrona400NetworkFeatures = isocrona400NetworkGeo.features || [];
         window.isocrona400CartoFeatures = isocrona400CartoPolygonGeo.features || [];
+        window.transporteIntracantonalStats = transporteStatsData;
+        window.transporteIntracantonalRoutesFeatures = transporteRoutesGeo.features || [];
+        window.transporteIntracantonalBufferFeatures = transporteBufferGeo.features || [];
         platformStatsByName = platformsStats.byName || {};
         platformFeatures = (platformsGeo.features || []).map((feature) => ({
           ...feature,
@@ -2327,10 +2453,12 @@
         renderIsocrona400PolygonLayer();
         renderIsocrona400NetworkLayer();
         renderIsocrona400CartoLayer();
+        renderTransporteIntracantonalBufferLayer();
+        renderTransporteIntracantonalRoutesLayer();
         renderEquipamientosLayer();
         renderAll(false);
 
-        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas y ${formatNumber(equipamientosFeatures.length)} equipamientos. Educacion categorizada: ${formatNumber(window.educacionIsocronasStats.summary.total_isocronas || 0)} isocronas y ${formatNumber((window.educacionIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0)} cantonales omitidos. Salud categorizada: ${formatNumber(window.saludIsocronasStats.summary.total_isocronas || 0)} isocronas y ${formatNumber((window.saludIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0)} cantonales omitidos. Isocrona 1000 m: ${formatNumber(isocronasStats.equipamientos_origen)} equipamientos origen. Isocrona exacta 400 m: ${formatNumber(window.isocrona400Stats.boundary_samples)} muestras del borde y ${formatNumber(window.isocrona400Stats.segmentos_red)} segmentos OSM. Referencia cartografica: ${formatNumber(window.isocrona400CartoStats.manzanas_ajustadas || 0)} manzanas ajustadas.`;
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas y ${formatNumber(equipamientosFeatures.length)} equipamientos. Transporte intracantonal: ${formatNumber(window.transporteIntracantonalStats.summary.rutas_recortadas || 0)} rutas recortadas y ${formatNumber(Math.round(window.transporteIntracantonalStats.summary.area_buffer_m2 || 0))} m2 de buffer. Educacion categorizada: ${formatNumber(window.educacionIsocronasStats.summary.total_isocronas || 0)} isocronas y ${formatNumber((window.educacionIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0)} cantonales omitidos. Salud categorizada: ${formatNumber(window.saludIsocronasStats.summary.total_isocronas || 0)} isocronas y ${formatNumber((window.saludIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0)} cantonales omitidos. Isocrona 1000 m: ${formatNumber(isocronasStats.equipamientos_origen)} equipamientos origen. Isocrona exacta 400 m: ${formatNumber(window.isocrona400Stats.boundary_samples)} muestras del borde y ${formatNumber(window.isocrona400Stats.segmentos_red)} segmentos OSM. Referencia cartografica: ${formatNumber(window.isocrona400CartoStats.manzanas_ajustadas || 0)} manzanas ajustadas.`;
 
         if (layerControl) {
           layerControl.remove();
@@ -2434,6 +2562,50 @@
         statusText.textContent = "Descarga iniciada: contorno cartografico ajustado de 400 m en shapefile ZIP.";
       } catch (error) {
         statusText.textContent = "No se pudo iniciar la descarga del contorno cartografico ajustado de 400 m.";
+      }
+    });
+
+    downloadTransporteRutasShpButton.addEventListener("click", () => {
+      try {
+        const entry = shpManifest[TRANSPORTE_ROUTES_SHP_KEY];
+
+        if (!entry) {
+          statusText.textContent = "No existe un shapefile listo para las rutas de transporte recortadas.";
+          return;
+        }
+
+        const link = document.createElement("a");
+        link.href = `./riobamba-censo-data/shp/${entry.file}`;
+        link.download = entry.file;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        statusText.textContent = `Descarga iniciada: shapefile ZIP con ${formatNumber(entry.count)} rutas de transporte recortadas al contorno cartografico 400 m.`;
+      } catch (error) {
+        statusText.textContent = "No se pudo iniciar la descarga del shapefile de rutas de transporte recortadas.";
+      }
+    });
+
+    downloadTransporteBufferShpButton.addEventListener("click", () => {
+      try {
+        const entry = shpManifest[TRANSPORTE_BUFFER_SHP_KEY];
+
+        if (!entry) {
+          statusText.textContent = "No existe un shapefile listo para el buffer de transporte intracantonal.";
+          return;
+        }
+
+        const link = document.createElement("a");
+        link.href = `./riobamba-censo-data/shp/${entry.file}`;
+        link.download = entry.file;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        statusText.textContent = "Descarga iniciada: shapefile ZIP del buffer de transporte intracantonal de 200 m por lado.";
+      } catch (error) {
+        statusText.textContent = "No se pudo iniciar la descarga del shapefile del buffer de transporte intracantonal.";
       }
     });
 
@@ -2576,6 +2748,16 @@
 
     toggleIsocrona400mCarto.addEventListener("change", () => {
       layerVisibility.isocrona400mCarto = toggleIsocrona400mCarto.checked;
+      syncVisibleLayers();
+    });
+
+    toggleTransporteRutas.addEventListener("change", () => {
+      layerVisibility.transporteRutas = toggleTransporteRutas.checked;
+      syncVisibleLayers();
+    });
+
+    toggleTransporteBuffer.addEventListener("change", () => {
+      layerVisibility.transporteBuffer = toggleTransporteBuffer.checked;
       syncVisibleLayers();
     });
 

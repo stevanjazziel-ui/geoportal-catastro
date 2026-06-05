@@ -173,5 +173,15 @@
     "file": "puntos_inicio_isocronas_salud.zip",
     "count": 3,
     "label": "Shapefile ZIP con los puntos de inicio de las isocronas de Salud"
+  },
+  "rutas_transporte_intracantonal_recortadas_400m_carto": {
+    "file": "rutas_transporte_intracantonal_recortadas_400m_carto.zip",
+    "count": 18,
+    "label": "Rutas de transporte intracantonal recortadas al contorno cartografico 400 m"
+  },
+  "buffer_transporte_intracantonal_200m_lado": {
+    "file": "buffer_transporte_intracantonal_200m_lado.zip",
+    "count": 1,
+    "label": "Buffer de transporte intracantonal de 200 m por lado dentro del contorno 400 m"
   }
 }

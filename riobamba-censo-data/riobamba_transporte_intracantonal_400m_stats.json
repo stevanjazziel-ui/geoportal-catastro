@@ -1,0 +1,144 @@
+{
+  "generated_at": "2026-06-05T09:11:52",
+  "source_zip": "E:\\Riobamba\\equipamientos\\Trasnporte\\TIntracantonalRbbaSep.zip",
+  "source_shapefile": "TIntracantonalRbbaSep.shp",
+  "source_crs": "EPSG:4326",
+  "clip_source": "D:\\codex\\riobamba-censo-data\\riobamba_isocrona_limite_plataforma_n_400m_ajustada_manzanas.geojson",
+  "summary": {
+    "rutas_fuente": 19,
+    "rutas_recortadas": 18,
+    "buffer_side_m": 200,
+    "buffer_total_m": 400,
+    "longitud_total_original_m": 455848.07,
+    "longitud_total_recortada_m": 43354.12,
+    "area_buffer_m2": 2901067.4
+  },
+  "by_route": [
+    {
+      "codigo": "13",
+      "nombre": "Línea 13 SIXTO - 24 MAYO",
+      "snippet": "Normal",
+      "longitud_recortada_m": 4664.82,
+      "segmentos_recortados": 9
+    },
+    {
+      "codigo": "14 RN",
+      "nombre": "Línea 14 LIBERTAD - 24 MAYO",
+      "snippet": "Ruta Nocturna",
+      "longitud_recortada_m": 4234.19,
+      "segmentos_recortados": 7
+    },
+    {
+      "codigo": "7",
+      "nombre": "Línea 7 INMACULADA - TAMBO",
+      "snippet": "Ruta Nocturna",
+      "longitud_recortada_m": 3675.89,
+      "segmentos_recortados": 2
+    },
+    {
+      "codigo": "3 RN",
+      "nombre": "Línea 3 SANTA ANA- TROJE",
+      "snippet": "Ruta Nocturna",
+      "longitud_recortada_m": 3578.13,
+      "segmentos_recortados": 8
+    },
+    {
+      "codigo": "1",
+      "nombre": "Línea 1 SANTA ANA - BELLAVISTA",
+      "snippet": "Normal",
+      "longitud_recortada_m": 3173.35,
+      "segmentos_recortados": 4
+    },
+    {
+      "codigo": "2 RN",
+      "nombre": "Línea 2 LA LOLITA - MAYORISTA",
+      "snippet": "Ruta Nocturna",
+      "longitud_recortada_m": 3163.44,
+      "segmentos_recortados": 4
+    },
+    {
+      "codigo": "10",
+      "nombre": "Línea 10 SAN ANTONIO - MALLAS DEL CUARTEL",
+      "snippet": "Normal",
+      "longitud_recortada_m": 2851.15,
+      "segmentos_recortados": 3
+    },
+    {
+      "codigo": "8 RN",
+      "nombre": "Línea 8 LAS ABRAS - YARUQUIES",
+      "snippet": "Ruta Nocturna",
+      "longitud_recortada_m": 2689.29,
+      "segmentos_recortados": 11
+    },
+    {
+      "codigo": "6 RN",
+      "nombre": "Línea 6 MIRAFLORES - MAYORISTA",
+      "snippet": "Ruta Nocturna",
+      "longitud_recortada_m": 2674.93,
+      "segmentos_recortados": 3
+    },
+    {
+      "codigo": "5",
+      "nombre": "Línea 5 CORONA REAL - BELLAVISTA",
+      "snippet": "Normal",
+      "longitud_recortada_m": 2638.86,
+      "segmentos_recortados": 2
+    },
+    {
+      "codigo": "4 RN",
+      "nombre": "Línea 4 LICAN - PARQUE INDUSTRIAL",
+      "snippet": "Ruta Nocturna",
+      "longitud_recortada_m": 2630.82,
+      "segmentos_recortados": 2
+    },
+    {
+      "codigo": "16",
+      "nombre": "Línea 16 CALPI - LA PAZ",
+      "snippet": "Normal",
+      "longitud_recortada_m": 2614.59,
+      "segmentos_recortados": 6
+    },
+    {
+      "codigo": "17",
+      "nombre": "Línea 17 PREMATUROS -MERCADOS - LAGUNA DE PADUA",
+      "snippet": "Normal",
+      "longitud_recortada_m": 1791.63,
+      "segmentos_recortados": 2
+    },
+    {
+      "codigo": "12  RN",
+      "nombre": "Línea 12A BATAN - SAN GERARDO",
+      "snippet": "Ruta Nocturna",
+      "longitud_recortada_m": 1522.64,
+      "segmentos_recortados": 5
+    },
+    {
+      "codigo": "15",
+      "nombre": "Línea 15 ESPOCH - UNACH",
+      "snippet": "Normal",
+      "longitud_recortada_m": 400.42,
+      "segmentos_recortados": 1
+    },
+    {
+      "codigo": "11A",
+      "nombre": "Línea 11A MACAJI",
+      "snippet": "Normal",
+      "longitud_recortada_m": 396.38,
+      "segmentos_recortados": 3
+    },
+    {
+      "codigo": "11B",
+      "nombre": "Línea 11B COMIL",
+      "snippet": "Normal",
+      "longitud_recortada_m": 396.38,
+      "segmentos_recortados": 3
+    },
+    {
+      "codigo": "9",
+      "nombre": "Línea 9 SAN MARTIN - SAN JOSE",
+      "snippet": "Normal",
+      "longitud_recortada_m": 257.21,
+      "segmentos_recortados": 2
+    }
+  ]
+}

@@ -44,6 +44,24 @@ BASE_EXPORTS = [
         "bundle_mode": "single",
         "required": True,
     },
+    {
+        "source_path": DATA_DIR / "riobamba_transporte_intracantonal_recortado_carto_400m.geojson",
+        "output_basename": "rutas_transporte_intracantonal_recortadas_400m_carto",
+        "label": "Rutas de transporte intracantonal recortadas al contorno cartografico 400 m",
+        "shape_type": shapefile.POLYLINE,
+        "geometry_mode": "line",
+        "bundle_mode": "single",
+        "required": False,
+    },
+    {
+        "source_path": DATA_DIR / "riobamba_transporte_intracantonal_buffer_carto_200m.geojson",
+        "output_basename": "buffer_transporte_intracantonal_200m_lado",
+        "label": "Buffer de transporte intracantonal de 200 m por lado dentro del contorno 400 m",
+        "shape_type": shapefile.POLYGON,
+        "geometry_mode": "polygon",
+        "bundle_mode": "single",
+        "required": False,
+    },
 ]
 
 
@@ -108,6 +126,11 @@ def geometry_parts(feature, geometry_mode="polygon"):
             for polygon in geometry["coordinates"]:
                 parts.extend(polygon)
             return parts
+    elif geometry_mode == "line":
+        if geometry["type"] == "LineString":
+            return [geometry["coordinates"]]
+        if geometry["type"] == "MultiLineString":
+            return geometry["coordinates"]
     elif geometry_mode == "exterior_line":
         if geometry["type"] == "Polygon":
             return [geometry["coordinates"][0]]
@@ -144,6 +167,14 @@ def init_writer(shp_base: Path, shape_type):
     writer.field("modo", "C", size=12)
     writer.field("categor", "C", size=20)
     writer.field("codigo", "C", size=24)
+    writer.field("ruta_id", "C", size=24)
+    writer.field("long_orig", "N", size=14, decimal=2)
+    writer.field("long_clip", "N", size=14, decimal=2)
+    writer.field("buf_side", "N", size=8, decimal=0)
+    writer.field("buf_total", "N", size=8, decimal=0)
+    writer.field("feat_cnt", "N", size=8, decimal=0)
+    writer.field("area_gen", "N", size=14, decimal=2)
+    writer.field("snippet", "C", size=40)
     writer.field("src_lon", "N", size=16, decimal=8)
     writer.field("src_lat", "N", size=16, decimal=8)
     return writer
@@ -181,6 +212,14 @@ def write_feature_record(writer, feature):
         modo=str(props.get("mode", ""))[:12],
         categor=str(props.get("categoria", ""))[:20],
         codigo=str(props.get("codigo", ""))[:24],
+        ruta_id=str(props.get("route_id", ""))[:24],
+        long_orig=float(props.get("longitud_original_m", 0) or 0),
+        long_clip=float(props.get("longitud_recortada_m", props.get("longitud_total_recortada_m", 0)) or 0),
+        buf_side=int(props.get("buffer_side_m", 0) or 0),
+        buf_total=int(props.get("buffer_total_m", 0) or 0),
+        feat_cnt=int(props.get("feature_count", props.get("rutas_recortadas", 0)) or 0),
+        area_gen=float(props.get("area_generada_m2", 0) or 0),
+        snippet=str(props.get("snippet", ""))[:40],
         src_lon=float(props.get("source_lon", 0) or 0),
         src_lat=float(props.get("source_lat", 0) or 0),
     )
