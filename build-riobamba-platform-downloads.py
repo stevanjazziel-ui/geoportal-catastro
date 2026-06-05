@@ -41,12 +41,14 @@ BASE_HEADERS = [
 COVERAGE_CONFIGS = [
     {
         "source_path": BUS_ISOCHRONES_PATH,
-        "field_prefix": "iso_nom_",
+        "iso_field_prefix": "bus_iso_",
+        "label_field_prefix": "bus_nom_",
         "count_field": "cov_bus",
     },
     {
         "source_path": SALUD_ISOCHRONES_PATH,
-        "field_prefix": "sal_nom_",
+        "iso_field_prefix": "sal_iso_",
+        "label_field_prefix": "sal_nom_",
         "count_field": "cov_sal",
     },
 ]
@@ -133,9 +135,11 @@ def build_coverages(source_path: Path):
     payload = load_json(source_path)
     coverages = []
     for index, feature in enumerate(payload.get("features", []), start=1):
+        props = feature.get("properties", {})
         coverages.append(
             {
                 "iso_name": build_feature_basename(feature, index),
+                "label_name": str(props.get("nombre", "") or build_feature_basename(feature, index)),
                 "geometry": shapely_shape(feature["geometry"]).buffer(0),
             }
         )
@@ -152,13 +156,14 @@ def enrich_plataforma_enie_features(features):
             continue
         prepared_coverages.append(
             {
-                "field_prefix": config["field_prefix"],
+                "iso_field_prefix": config["iso_field_prefix"],
+                "label_field_prefix": config["label_field_prefix"],
                 "count_field": config["count_field"],
                 "coverages": build_coverages(config["source_path"]),
             }
         )
 
-    max_by_prefix = {item["field_prefix"]: 0 for item in prepared_coverages}
+    max_by_group = {item["count_field"]: 0 for item in prepared_coverages}
     enriched = []
 
     for feature in features:
@@ -167,18 +172,23 @@ def enrich_plataforma_enie_features(features):
         total_coverages = 0
 
         for item in prepared_coverages:
-            matching_names = sorted(
-                coverage["iso_name"]
-                for coverage in item["coverages"]
-                if coverage["geometry"].covers(rep_point)
+            matching_coverages = sorted(
+                (
+                    coverage
+                    for coverage in item["coverages"]
+                    if coverage["geometry"].covers(rep_point)
+                ),
+                key=lambda coverage: coverage["iso_name"],
             )
-            prefix = item["field_prefix"]
+            iso_prefix = item["iso_field_prefix"]
+            label_prefix = item["label_field_prefix"]
             count_field = item["count_field"]
-            props[count_field] = len(matching_names)
-            total_coverages += len(matching_names)
-            max_by_prefix[prefix] = max(max_by_prefix[prefix], len(matching_names))
-            for index, iso_name in enumerate(matching_names, start=1):
-                props[build_field_name(prefix, index)] = iso_name
+            props[count_field] = len(matching_coverages)
+            total_coverages += len(matching_coverages)
+            max_by_group[count_field] = max(max_by_group[count_field], len(matching_coverages))
+            for index, coverage in enumerate(matching_coverages, start=1):
+                props[build_field_name(iso_prefix, index)] = coverage["iso_name"]
+                props[build_field_name(label_prefix, index)] = coverage["label_name"]
 
         props["cov_tot"] = total_coverages
 
@@ -192,8 +202,9 @@ def enrich_plataforma_enie_features(features):
 
     extra_headers = []
     for config in COVERAGE_CONFIGS:
-        prefix = config["field_prefix"]
-        extra_headers.extend(build_field_name(prefix, index) for index in range(1, max_by_prefix.get(prefix, 0) + 1))
+        max_overlap = max_by_group.get(config["count_field"], 0)
+        extra_headers.extend(build_field_name(config["iso_field_prefix"], index) for index in range(1, max_overlap + 1))
+        extra_headers.extend(build_field_name(config["label_field_prefix"], index) for index in range(1, max_overlap + 1))
 
     return enriched, extra_headers
 
