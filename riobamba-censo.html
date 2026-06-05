@@ -275,6 +275,8 @@
           <label class="layer-toggle"><span>Puntos inicio educacion</span><input id="toggleEducacionIsocronasPuntos" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Isocronas salud categorizada</span><input id="toggleSaludIsocronas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Puntos inicio salud</span><input id="toggleSaludIsocronasPuntos" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Isocronas paradas de bus 400 m</span><input id="toggleParadasBusIsocronas" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Puntos inicio paradas de bus</span><input id="toggleParadasBusPuntos" type="checkbox" checked></label>
         </div>
       </section>
 
@@ -294,6 +296,8 @@
         <button id="downloadEducacionStartPointsShpButton" type="button" style="margin-top:10px;">Descargar SHP de puntos de inicio educacion</button>
         <button id="downloadSaludIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con poligonos separados de isocronas salud</button>
         <button id="downloadSaludStartPointsShpButton" type="button" style="margin-top:10px;">Descargar SHP de puntos de inicio salud</button>
+        <button id="downloadParadasBusIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con poligonos separados de paradas de bus</button>
+        <button id="downloadParadasBusStartPointsShpButton" type="button" style="margin-top:10px;">Descargar SHP de puntos de inicio de paradas de bus</button>
         <p style="margin-top:10px;">
           Descarga la vista actual de la plataforma seleccionada en formato Shape o Excel.
           Si eliges una plataforma, se exportan sus manzanas censales filtradas.
@@ -343,6 +347,11 @@
       <section class="panel">
         <h2>Isocronas salud categorizada</h2>
         <div class="mini-list" id="saludIsocronasSummary"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Isocronas paradas de bus 400 m</h2>
+        <div class="mini-list" id="paradasBusIsocronasSummary"></div>
       </section>
 
       <section class="panel">
@@ -396,7 +405,7 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260605-0910";
+    const DATA_VERSION = "20260605-1005";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const TRANSPORTE_ROUTES_SHP_KEY = "rutas_transporte_intracantonal_recortadas_400m_carto";
@@ -405,6 +414,8 @@
     const EDUCACION_START_POINTS_SHP_KEY = "puntos_inicio_isocronas_educacion";
     const SALUD_ISOCHRONE_SHP_KEY = "isocronas_salud_categorizada_manzanas";
     const SALUD_START_POINTS_SHP_KEY = "puntos_inicio_isocronas_salud";
+    const PARADAS_BUS_ISOCHRONE_SHP_KEY = "isocronas_paradas_bus_400m";
+    const PARADAS_BUS_START_POINTS_SHP_KEY = "puntos_inicio_isocronas_paradas_bus";
 
     const map = L.map("map", { zoomSnap: 0.5 }).setView([-1.67, -78.65], 12.5);
 
@@ -441,7 +452,9 @@
       educacionIsocronas: true,
       educacionIsocronasPuntos: true,
       saludIsocronas: true,
-      saludIsocronasPuntos: true
+      saludIsocronasPuntos: true,
+      paradasBusIsocronas: true,
+      paradasBusPuntos: true
     };
 
     const metricSelect = document.getElementById("metricSelect");
@@ -456,6 +469,7 @@
     const isocronasSummary = document.getElementById("isocronasSummary");
     const educacionIsocronasSummary = document.getElementById("educacionIsocronasSummary");
     const saludIsocronasSummary = document.getElementById("saludIsocronasSummary");
+    const paradasBusIsocronasSummary = document.getElementById("paradasBusIsocronasSummary");
     const isocronas400Summary = document.getElementById("isocronas400Summary");
     const isocronas400CartoSummary = document.getElementById("isocronas400CartoSummary");
     const overlayTitle = document.getElementById("overlayTitle");
@@ -471,6 +485,8 @@
     const downloadEducacionStartPointsShpButton = document.getElementById("downloadEducacionStartPointsShpButton");
     const downloadSaludIsocronasShpButton = document.getElementById("downloadSaludIsocronasShpButton");
     const downloadSaludStartPointsShpButton = document.getElementById("downloadSaludStartPointsShpButton");
+    const downloadParadasBusIsocronasShpButton = document.getElementById("downloadParadasBusIsocronasShpButton");
+    const downloadParadasBusStartPointsShpButton = document.getElementById("downloadParadasBusStartPointsShpButton");
     const toggleManzanas = document.getElementById("toggleManzanas");
     const togglePlataformas = document.getElementById("togglePlataformas");
     const toggleEquipamientos = document.getElementById("toggleEquipamientos");
@@ -485,6 +501,8 @@
     const toggleEducacionIsocronasPuntos = document.getElementById("toggleEducacionIsocronasPuntos");
     const toggleSaludIsocronas = document.getElementById("toggleSaludIsocronas");
     const toggleSaludIsocronasPuntos = document.getElementById("toggleSaludIsocronasPuntos");
+    const toggleParadasBusIsocronas = document.getElementById("toggleParadasBusIsocronas");
+    const toggleParadasBusPuntos = document.getElementById("toggleParadasBusPuntos");
     const equipamientoPalette = [
       "#ffd166", "#ef476f", "#06d6a0", "#118ab2", "#f78c6b",
       "#c77dff", "#90be6d", "#4cc9f0", "#ff9f1c", "#43aa8b",
@@ -1469,6 +1487,10 @@
     window.saludIsocronasStats = null;
     window.saludIsocronasLayer = null;
     window.saludIsocronasStartLayer = null;
+    window.paradasBusIsocronasStats = null;
+    window.paradasBusIsocronasFeatures = [];
+    window.paradasBusIsocronasLayer = null;
+    window.paradasBusIsocronasStartLayer = null;
     layerVisibility.redVial400m = true;
     layerVisibility.isocrona400m = true;
     layerVisibility.isocrona400mCarto = false;
@@ -1478,6 +1500,8 @@
     layerVisibility.educacionIsocronasPuntos = true;
     layerVisibility.saludIsocronas = true;
     layerVisibility.saludIsocronasPuntos = true;
+    layerVisibility.paradasBusIsocronas = true;
+    layerVisibility.paradasBusPuntos = true;
     const educacionIsoColors = {
       BARRIAL: "#59d8ff",
       ZONAL: "#8f7dff"
@@ -1486,6 +1510,7 @@
       BARRIAL: "#4ee3b5",
       ZONAL: "#f6bf6c"
     };
+    const paradasBusIsoColor = "#ff9f6e";
 
     function displayPlatformName(value) {
       return String(value || "")
@@ -1528,6 +1553,8 @@
       downloadEducacionStartPointsShpButton.disabled = !shpManifest[EDUCACION_START_POINTS_SHP_KEY];
       downloadSaludIsocronasShpButton.disabled = !shpManifest[SALUD_ISOCHRONE_SHP_KEY];
       downloadSaludStartPointsShpButton.disabled = !shpManifest[SALUD_START_POINTS_SHP_KEY];
+      downloadParadasBusIsocronasShpButton.disabled = !shpManifest[PARADAS_BUS_ISOCHRONE_SHP_KEY];
+      downloadParadasBusStartPointsShpButton.disabled = !shpManifest[PARADAS_BUS_START_POINTS_SHP_KEY];
     }
 
     function syncVisibleLayers() {
@@ -1545,6 +1572,8 @@
       syncSingleLayer(window.educacionIsocronasStartLayer, layerVisibility.educacionIsocronasPuntos);
       syncSingleLayer(window.saludIsocronasLayer, layerVisibility.saludIsocronas);
       syncSingleLayer(window.saludIsocronasStartLayer, layerVisibility.saludIsocronasPuntos);
+      syncSingleLayer(window.paradasBusIsocronasLayer, layerVisibility.paradasBusIsocronas);
+      syncSingleLayer(window.paradasBusIsocronasStartLayer, layerVisibility.paradasBusPuntos);
     }
 
     function buildIsocronasSummary() {
@@ -1664,6 +1693,26 @@
         .join("");
     }
 
+    function buildParadasBusIsocronasSummary() {
+      if (!window.paradasBusIsocronasStats) {
+        paradasBusIsocronasSummary.innerHTML = "";
+        return;
+      }
+
+      const rows = [
+        ["Paradas fuente", window.paradasBusIsocronasStats.summary.total_paradas || 0],
+        ["Isocronas generadas", window.paradasBusIsocronasStats.summary.total_isocronas || 0],
+        ["Distancia", `${formatNumber(window.paradasBusIsocronasStats.summary.distancia_m || 400)} m`],
+        ["Omitidas", window.paradasBusIsocronasStats.summary.omitidos || 0],
+        ["Manzanas ajustadas", window.paradasBusIsocronasStats.summary.manzanas_ajustadas || 0],
+        ["Visualizacion", "Solo limite exterior"]
+      ];
+
+      paradasBusIsocronasSummary.innerHTML = rows
+        .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
+        .join("");
+    }
+
     function getEducacionIsoStyle(feature) {
       const categoria = String(feature?.properties?.categoria || "").toUpperCase();
       const color = educacionIsoColors[categoria] || "#8fb6d9";
@@ -1716,6 +1765,28 @@
 
     function buildSaludStartPointFeatures() {
       return (window.saludIsocronasFeatures || [])
+        .filter((feature) => feature && feature.properties)
+        .map((feature) => {
+          const props = feature.properties || {};
+          const lon = Number(props.source_lon);
+          const lat = Number(props.source_lat);
+          if (!Number.isFinite(lon) || !Number.isFinite(lat)) {
+            return null;
+          }
+          return {
+            type: "Feature",
+            properties: props,
+            geometry: {
+              type: "Point",
+              coordinates: [lon, lat]
+            }
+          };
+        })
+        .filter(Boolean);
+    }
+
+    function buildParadasBusStartPointFeatures() {
+      return (window.paradasBusIsocronasFeatures || [])
         .filter((feature) => feature && feature.properties)
         .map((feature) => {
           const props = feature.properties || {};
@@ -1842,6 +1913,51 @@
       syncSingleLayer(window.saludIsocronasStartLayer, layerVisibility.saludIsocronasPuntos);
     }
 
+    function renderParadasBusIsocronasStartLayer() {
+      if (window.paradasBusIsocronasStartLayer) {
+        map.removeLayer(window.paradasBusIsocronasStartLayer);
+      }
+
+      const features = buildParadasBusStartPointFeatures();
+
+      if (!map.getPane("paradasBusIsocronasStartPane")) {
+        map.createPane("paradasBusIsocronasStartPane");
+        map.getPane("paradasBusIsocronasStartPane").style.zIndex = 436;
+      }
+
+      window.paradasBusIsocronasStartLayer = L.geoJSON(
+        { type: "FeatureCollection", features },
+        {
+          pane: "paradasBusIsocronasStartPane",
+          pointToLayer: (_feature, latlng) => L.circleMarker(latlng, {
+            radius: 4.8,
+            color: "#f8fbff",
+            weight: 1.3,
+            fillColor: paradasBusIsoColor,
+            fillOpacity: 1
+          }),
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties;
+            layer.bindPopup(`
+              <strong>Punto de inicio</strong><br>
+              <strong>Parada:</strong> ${props.nombre || "Sin nombre"}<br>
+              <strong>Lineas:</strong> ${props.lineas || "Sin dato"}<br>
+              <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
+              <strong>Poblacion dentro:</strong> ${formatNumber(props.population_total || 0)}<br>
+              <strong>Coordenadas:</strong> ${Number(props.source_lat || 0).toFixed(6)}, ${Number(props.source_lon || 0).toFixed(6)}<br>
+              <strong>Snap a via:</strong> ${Number(props.snap_m || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = "Punto de inicio de parada de bus";
+              overlayText.textContent = `${props.nombre || "Parada de bus"} inicia su isocrona de ${formatNumber(props.distance_m)} m y cubre ${formatNumber(props.population_total || 0)} habitantes.`;
+            });
+          }
+        }
+      );
+      syncSingleLayer(window.paradasBusIsocronasStartLayer, layerVisibility.paradasBusPuntos);
+    }
+
     function renderEducacionIsocronasLayer() {
       if (window.educacionIsocronasLayer) {
         map.removeLayer(window.educacionIsocronasLayer);
@@ -1954,6 +2070,57 @@
         }
       );
       syncSingleLayer(window.saludIsocronasLayer, layerVisibility.saludIsocronas);
+    }
+
+    function renderParadasBusIsocronasLayer() {
+      if (window.paradasBusIsocronasLayer) {
+        map.removeLayer(window.paradasBusIsocronasLayer);
+      }
+
+      const features = (window.paradasBusIsocronasFeatures || [])
+        .filter((feature) => feature && feature.geometry && feature.properties)
+        .map(featureToExteriorBoundary)
+        .filter(Boolean);
+
+      if (!map.getPane("paradasBusIsocronasPane")) {
+        map.createPane("paradasBusIsocronasPane");
+        map.getPane("paradasBusIsocronasPane").style.zIndex = 430;
+      }
+
+      window.paradasBusIsocronasLayer = L.geoJSON(
+        { type: "FeatureCollection", features },
+        {
+          pane: "paradasBusIsocronasPane",
+          style: {
+            color: paradasBusIsoColor,
+            weight: 1.9,
+            opacity: 0.9,
+            dashArray: "6 4"
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties;
+            layer.bindPopup(`
+              <strong>${props.nombre || "Parada de bus"}</strong><br>
+              <strong>Lineas:</strong> ${props.lineas || "Sin dato"}<br>
+              <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
+              <strong>Codigo:</strong> ${props.codigo || "Sin codigo"}<br>
+              <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
+              <strong>Poblacion dentro:</strong> ${formatNumber(props.population_total || 0)}<br>
+              <strong>Segmentos de red:</strong> ${formatNumber(props.segmentos_red || 0)}<br>
+              <strong>Longitud de red:</strong> ${formatNumber(Math.round(props.longitud_red_m || 0))} m<br>
+              <strong>Area exacta red:</strong> ${formatNumber(Math.round(props.area_poligono_red_m2 || 0))} m2<br>
+              <strong>Area ajustada:</strong> ${formatNumber(Math.round(props.area_poligono_m2 || 0))} m2<br>
+              <strong>Snap a via:</strong> ${Number(props.snap_m || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = "Isocrona parada de bus 400 m";
+              overlayText.textContent = `${props.nombre || "Parada de bus"} genera una isocrona de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales, mostrada solo con el borde exterior y con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
+            });
+          }
+        }
+      );
+      syncSingleLayer(window.paradasBusIsocronasLayer, layerVisibility.paradasBusIsocronas);
     }
 
     function renderIsocronaNetworkLayer() {
@@ -2303,6 +2470,8 @@
           educacionIsocronasStatsResponse,
           saludIsocronasResponse,
           saludIsocronasStatsResponse,
+          paradasBusIsocronasResponse,
+          paradasBusIsocronasStatsResponse,
           isocrona1000PolygonResponse,
           isocrona1000NetworkResponse,
           isocronas1000StatsResponse,
@@ -2326,6 +2495,8 @@
           fetch(`./riobamba-censo-data/riobamba_isocronas_educacion_categorizada_stats.json?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_isocronas_salud_categorizada.geojson?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_isocronas_salud_categorizada_stats.json?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocronas_paradas_bus.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocronas_paradas_bus_stats.json?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_isocrona_plataforma_n_1000m.geojson?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_red_vial_isocrona_plataforma_n_1000m.geojson?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_isocrona_plataforma_n_1000m_stats.json?v=${DATA_VERSION}`),
@@ -2350,6 +2521,8 @@
           !educacionIsocronasStatsResponse.ok ||
           !saludIsocronasResponse.ok ||
           !saludIsocronasStatsResponse.ok ||
+          !paradasBusIsocronasResponse.ok ||
+          !paradasBusIsocronasStatsResponse.ok ||
           !isocrona1000PolygonResponse.ok ||
           !isocrona1000NetworkResponse.ok ||
           !isocronas1000StatsResponse.ok ||
@@ -2375,6 +2548,8 @@
         const educacionIsocronasStatsData = await educacionIsocronasStatsResponse.json();
         const saludIsocronasGeo = await saludIsocronasResponse.json();
         const saludIsocronasStatsData = await saludIsocronasStatsResponse.json();
+        const paradasBusIsocronasGeo = await paradasBusIsocronasResponse.json();
+        const paradasBusIsocronasStatsData = await paradasBusIsocronasStatsResponse.json();
         const isocrona1000PolygonGeo = await isocrona1000PolygonResponse.json();
         const isocrona1000NetworkGeo = await isocrona1000NetworkResponse.json();
         const isocronas1000StatsData = await isocronas1000StatsResponse.json();
@@ -2398,6 +2573,8 @@
         window.educacionIsocronasFeatures = educacionIsocronasGeo.features || [];
         window.saludIsocronasStats = saludIsocronasStatsData;
         window.saludIsocronasFeatures = saludIsocronasGeo.features || [];
+        window.paradasBusIsocronasStats = paradasBusIsocronasStatsData;
+        window.paradasBusIsocronasFeatures = paradasBusIsocronasGeo.features || [];
         window.isocrona1000PolygonFeatures = isocrona1000PolygonGeo.features || [];
         window.isocrona1000NetworkFeatures = isocrona1000NetworkGeo.features || [];
         window.isocrona400PolygonFeatures = isocrona400PolygonGeo.features || [];
@@ -2442,12 +2619,15 @@
         buildIsocronasSummary();
         buildEducacionIsocronasSummary();
         buildSaludIsocronasSummary();
+        buildParadasBusIsocronasSummary();
         buildIsocrona400Summary();
         buildIsocrona400CartoSummary();
         renderEducacionIsocronasLayer();
         renderEducacionIsocronasStartLayer();
         renderSaludIsocronasLayer();
         renderSaludIsocronasStartLayer();
+        renderParadasBusIsocronasLayer();
+        renderParadasBusIsocronasStartLayer();
         renderIsocronaPolygonLayer();
         renderIsocronaNetworkLayer();
         renderIsocrona400PolygonLayer();
@@ -2458,7 +2638,7 @@
         renderEquipamientosLayer();
         renderAll(false);
 
-        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas y ${formatNumber(equipamientosFeatures.length)} equipamientos. Transporte intracantonal: ${formatNumber(window.transporteIntracantonalStats.summary.rutas_recortadas || 0)} rutas recortadas y ${formatNumber(Math.round(window.transporteIntracantonalStats.summary.area_buffer_m2 || 0))} m2 de buffer. Educacion categorizada: ${formatNumber(window.educacionIsocronasStats.summary.total_isocronas || 0)} isocronas y ${formatNumber((window.educacionIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0)} cantonales omitidos. Salud categorizada: ${formatNumber(window.saludIsocronasStats.summary.total_isocronas || 0)} isocronas y ${formatNumber((window.saludIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0)} cantonales omitidos. Isocrona 1000 m: ${formatNumber(isocronasStats.equipamientos_origen)} equipamientos origen. Isocrona exacta 400 m: ${formatNumber(window.isocrona400Stats.boundary_samples)} muestras del borde y ${formatNumber(window.isocrona400Stats.segmentos_red)} segmentos OSM. Referencia cartografica: ${formatNumber(window.isocrona400CartoStats.manzanas_ajustadas || 0)} manzanas ajustadas.`;
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas y ${formatNumber(equipamientosFeatures.length)} equipamientos. Paradas de bus: ${formatNumber(window.paradasBusIsocronasStats.summary.total_isocronas || 0)} isocronas de 400 m. Transporte intracantonal: ${formatNumber(window.transporteIntracantonalStats.summary.rutas_recortadas || 0)} rutas recortadas y ${formatNumber(Math.round(window.transporteIntracantonalStats.summary.area_buffer_m2 || 0))} m2 de buffer. Educacion categorizada: ${formatNumber(window.educacionIsocronasStats.summary.total_isocronas || 0)} isocronas y ${formatNumber((window.educacionIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0)} cantonales omitidos. Salud categorizada: ${formatNumber(window.saludIsocronasStats.summary.total_isocronas || 0)} isocronas y ${formatNumber((window.saludIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0)} cantonales omitidos. Isocrona 1000 m: ${formatNumber(isocronasStats.equipamientos_origen)} equipamientos origen. Isocrona exacta 400 m: ${formatNumber(window.isocrona400Stats.boundary_samples)} muestras del borde y ${formatNumber(window.isocrona400Stats.segmentos_red)} segmentos OSM. Referencia cartografica: ${formatNumber(window.isocrona400CartoStats.manzanas_ajustadas || 0)} manzanas ajustadas.`;
 
         if (layerControl) {
           layerControl.remove();
@@ -2697,6 +2877,50 @@
       }
     });
 
+    downloadParadasBusIsocronasShpButton.addEventListener("click", () => {
+      try {
+        const entry = shpManifest[PARADAS_BUS_ISOCHRONE_SHP_KEY];
+
+        if (!entry) {
+          statusText.textContent = "No existe un ZIP listo con poligonos separados para las isocronas de paradas de bus.";
+          return;
+        }
+
+        const link = document.createElement("a");
+        link.href = `./riobamba-censo-data/shp/${entry.file}`;
+        link.download = entry.file;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        statusText.textContent = `Descarga iniciada: ZIP con ${formatNumber(entry.count)} shapefiles separados, uno por cada isocrona de parada de bus.`;
+      } catch (error) {
+        statusText.textContent = "No se pudo iniciar la descarga del ZIP con poligonos separados de las isocronas de paradas de bus.";
+      }
+    });
+
+    downloadParadasBusStartPointsShpButton.addEventListener("click", () => {
+      try {
+        const entry = shpManifest[PARADAS_BUS_START_POINTS_SHP_KEY];
+
+        if (!entry) {
+          statusText.textContent = "No existe un shapefile listo para los puntos de inicio de paradas de bus.";
+          return;
+        }
+
+        const link = document.createElement("a");
+        link.href = `./riobamba-censo-data/shp/${entry.file}`;
+        link.download = entry.file;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        statusText.textContent = `Descarga iniciada: shapefile ZIP con ${formatNumber(entry.count)} puntos de inicio de isocronas de paradas de bus.`;
+      } catch (error) {
+        statusText.textContent = "No se pudo iniciar la descarga del shapefile de puntos de inicio de paradas de bus.";
+      }
+    });
+
     metricSelect.addEventListener("change", () => {
       currentMetric = metricSelect.value;
       renderAll(false);
@@ -2778,6 +3002,16 @@
 
     toggleSaludIsocronasPuntos.addEventListener("change", () => {
       layerVisibility.saludIsocronasPuntos = toggleSaludIsocronasPuntos.checked;
+      syncVisibleLayers();
+    });
+
+    toggleParadasBusIsocronas.addEventListener("change", () => {
+      layerVisibility.paradasBusIsocronas = toggleParadasBusIsocronas.checked;
+      syncVisibleLayers();
+    });
+
+    toggleParadasBusPuntos.addEventListener("change", () => {
+      layerVisibility.paradasBusPuntos = toggleParadasBusPuntos.checked;
       syncVisibleLayers();
     });
 

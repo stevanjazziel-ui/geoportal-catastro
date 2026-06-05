@@ -62,6 +62,24 @@ BASE_EXPORTS = [
         "bundle_mode": "single",
         "required": False,
     },
+    {
+        "source_path": DATA_DIR / "riobamba_isocronas_paradas_bus.geojson",
+        "output_basename": "isocronas_paradas_bus_400m",
+        "label": "ZIP con shapefiles separados del borde exterior de cada isocrona de parada de bus",
+        "shape_type": shapefile.POLYGON,
+        "geometry_mode": "polygon",
+        "bundle_mode": "per_feature",
+        "required": False,
+    },
+    {
+        "source_path": DATA_DIR / "riobamba_isocronas_paradas_bus.geojson",
+        "output_basename": "puntos_inicio_isocronas_paradas_bus",
+        "label": "Shapefile ZIP con los puntos de inicio de las isocronas de paradas de bus",
+        "shape_type": shapefile.POINT,
+        "geometry_mode": "source_point",
+        "bundle_mode": "single",
+        "required": False,
+    },
 ]
 
 

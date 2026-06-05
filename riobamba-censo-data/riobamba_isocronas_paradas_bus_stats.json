@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-06-05T09:59:28",
+  "source_archive": "E:\\Riobamba\\equipamientos\\Trasnporte\\paradas de bus.rar",
+  "source_osm_cache": "D:\\codex\\riobamba-censo-data\\riobamba_osm_walk_network_plataforma_n.json",
+  "summary": {
+    "total_paradas": 87,
+    "total_isocronas": 87,
+    "omitidos": 0,
+    "distancia_m": 400,
+    "manzanas_ajustadas": 3958
+  },
+  "by_distance_m": {
+    "400": 87
+  },
+  "by_resultado": {
+    "generadas": 87,
+    "sin_red": 0
+  },
+  "observacion": "Se generan isocronas de 400 m para cada parada de bus. El resultado final queda ajustado a manzanas censales, sin huecos internos y preparado para mostrar solo el limite exterior."
+}

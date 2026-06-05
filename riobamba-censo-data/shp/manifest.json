@@ -183,5 +183,15 @@
     "file": "buffer_transporte_intracantonal_200m_lado.zip",
     "count": 1,
     "label": "Buffer de transporte intracantonal de 200 m por lado dentro del contorno 400 m"
+  },
+  "isocronas_paradas_bus_400m": {
+    "file": "isocronas_paradas_bus_400m.zip",
+    "count": 87,
+    "label": "ZIP con shapefiles separados del borde exterior de cada isocrona de parada de bus"
+  },
+  "puntos_inicio_isocronas_paradas_bus": {
+    "file": "puntos_inicio_isocronas_paradas_bus.zip",
+    "count": 87,
+    "label": "Shapefile ZIP con los puntos de inicio de las isocronas de paradas de bus"
   }
 }

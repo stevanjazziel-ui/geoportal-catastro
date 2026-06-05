@@ -1,0 +1,1919 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 1,
+        "objectid": 1,
+        "codigo": "PARADA_BUS_001",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 001 - Lineas 01, 02",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "01, 02",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6419843999999,
+          -1.6787124999999588
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 2,
+        "objectid": 2,
+        "codigo": "PARADA_BUS_002",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 002 - Lineas 01, 02",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "01, 02",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64520309999995,
+          -1.675887499999937
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 3,
+        "objectid": 3,
+        "codigo": "PARADA_BUS_003",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 003 - Lineas 01, 02",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "01, 02",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64403124699993,
+          -1.6764622789999002
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 4,
+        "objectid": 4,
+        "codigo": "PARADA_BUS_004",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 004 - Lineas 01, 02",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "01, 02",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64485939999993,
+          -1.6741874999999546
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 5,
+        "objectid": 5,
+        "codigo": "PARADA_BUS_005",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 005 - Lineas 01, 02",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "01, 02",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64294062699992,
+          -1.677831806999962
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 6,
+        "objectid": 6,
+        "codigo": "PARADA_BUS_006",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 006 - Lineas 01, 02",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "01, 02",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6430000229999,
+          -1.6752139869999432
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 7,
+        "objectid": 7,
+        "codigo": "PARADA_BUS_007",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 007 - Lineas 01, 02",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "01, 02",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64207055599991,
+          -1.6741125959999212
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 8,
+        "objectid": 8,
+        "codigo": "PARADA_BUS_008",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 008 - Lineas 01, 02, 03",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "01, 02, 03",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64081945299995,
+          -1.679647047999936
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 9,
+        "objectid": 9,
+        "codigo": "PARADA_BUS_009",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 009 - Lineas 01, 02, 03, 04, 05, 06",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "01, 02, 03, 04, 05, 06",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64989476199992,
+          -1.674889493999948
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 10,
+        "objectid": 10,
+        "codigo": "PARADA_BUS_010",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 010 - Lineas 01, 02, 03, 04, 05, 06",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "01, 02, 03, 04, 05, 06",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64877299999995,
+          -1.6758349999999473
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 11,
+        "objectid": 11,
+        "codigo": "PARADA_BUS_011",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 011 - Lineas 01, 02, 03, 04, 05, 06",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "01, 02, 03, 04, 05, 06",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64769999999993,
+          -1.6767599999999452
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 12,
+        "objectid": 12,
+        "codigo": "PARADA_BUS_012",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 012 - Lineas 01, 02, 04, 05, 06",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "01, 02, 04, 05, 06",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64767189999992,
+          -1.671662499999914
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 13,
+        "objectid": 13,
+        "codigo": "PARADA_BUS_013",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 013 - Lineas 01, 02, 04, 05, 06",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "01, 02, 04, 05, 06",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64648048899994,
+          -1.6727754789999354
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 14,
+        "objectid": 14,
+        "codigo": "PARADA_BUS_014",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 014 - Lineas 01, 02, 04, 05, 06",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "01, 02, 04, 05, 06",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65206499999994,
+          -1.6729829999999253
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 15,
+        "objectid": 15,
+        "codigo": "PARADA_BUS_015",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 015 - Lineas 01, 02, 04, 05, 06",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "01, 02, 04, 05, 06",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65096999999993,
+          -1.6739199999999494
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 16,
+        "objectid": 16,
+        "codigo": "PARADA_BUS_016",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 016 - Lineas 01, 02, 04, 05, 06",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "01, 02, 04, 05, 06",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64661699999994,
+          -1.6777289999999403
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 17,
+        "objectid": 17,
+        "codigo": "PARADA_BUS_017",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 017 - Lineas 01, 02, 14",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "01, 02, 14",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64537147399994,
+          -1.6779635779999398
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 18,
+        "objectid": 18,
+        "codigo": "PARADA_BUS_018",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 018 - Lineas 01, 02, 16",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "01, 02, 16",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64500658799994,
+          -1.6752938169999496
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 19,
+        "objectid": 19,
+        "codigo": "PARADA_BUS_019",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 019 - Lineas 03",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "03",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64440937599994,
+          -1.6777152809999691
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 20,
+        "objectid": 20,
+        "codigo": "PARADA_BUS_020",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 020 - Lineas 03, 04, 05, 06",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "03, 04, 05, 06",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6415869249999,
+          -1.6798353509999595
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 21,
+        "objectid": 21,
+        "codigo": "PARADA_BUS_021",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 021 - Lineas 03, 07, 10, 13, 14",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "03, 07, 10, 13, 14",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64210559599991,
+          -1.6802127949999313
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 22,
+        "objectid": 22,
+        "codigo": "PARADA_BUS_022",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 022 - Lineas 03, 07, 13",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "03, 07, 13",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64508742899994,
+          -1.6779681889999507
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 23,
+        "objectid": 23,
+        "codigo": "PARADA_BUS_023",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 023 - Lineas 03, 07, 13",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "03, 07, 13",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64313441399992,
+          -1.679660116999906
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 24,
+        "objectid": 24,
+        "codigo": "PARADA_BUS_024",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 024 - Lineas 03, 07, 13",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "03, 07, 13",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64390696499993,
+          -1.6789913389999278
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 25,
+        "objectid": 25,
+        "codigo": "PARADA_BUS_025",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 025 - Lineas 03, 07, 13, 14",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "03, 07, 13, 14",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64885939999994,
+          -1.6762874999999444
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 26,
+        "objectid": 26,
+        "codigo": "PARADA_BUS_026",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 026 - Lineas 03, 07, 13, 14",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "03, 07, 13, 14",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64623948599991,
+          -1.676933588999922
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 27,
+        "objectid": 27,
+        "codigo": "PARADA_BUS_027",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 027 - Lineas 03, 07, 13, 14",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "03, 07, 13, 14",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64740143499995,
+          -1.6759253949999189
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 28,
+        "objectid": 28,
+        "codigo": "PARADA_BUS_028",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 028 - Lineas 03, 08, 13, 14",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "03, 08, 13, 14",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65281617099993,
+          -1.6731999849999362
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 29,
+        "objectid": 29,
+        "codigo": "PARADA_BUS_029",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 029 - Lineas 03, 08, 13, 14",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "03, 08, 13, 14",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65168157099993,
+          -1.674165767999916
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 30,
+        "objectid": 30,
+        "codigo": "PARADA_BUS_030",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 030 - Lineas 03, 09, 13, 14",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "03, 09, 13, 14",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6530146309999,
+          -1.674115618999904
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 31,
+        "objectid": 31,
+        "codigo": "PARADA_BUS_031",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 031 - Lineas 03, 09, 13, 14",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "03, 09, 13, 14",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65190042199993,
+          -1.6750732119999159
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 32,
+        "objectid": 32,
+        "codigo": "PARADA_BUS_032",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 032 - Lineas 03, 13, 14",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "03, 13, 14",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65058399999992,
+          -1.6751689999999195
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 33,
+        "objectid": 33,
+        "codigo": "PARADA_BUS_033",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 033 - Lineas 03, 13, 14",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "03, 13, 14",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64251399999995,
+          -1.6793279999999426
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 34,
+        "objectid": 34,
+        "codigo": "PARADA_BUS_034",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 034 - Lineas 03, 16",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "03, 16",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64603549999993,
+          -1.676518615999949
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 35,
+        "objectid": 35,
+        "codigo": "PARADA_BUS_035",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 035 - Lineas 04, 05, 06",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "04, 05, 06",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64604731799994,
+          -1.6728658189999261
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 36,
+        "objectid": 36,
+        "codigo": "PARADA_BUS_036",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 036 - Lineas 04, 05, 06",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "04, 05, 06",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64537839199994,
+          -1.6788532649999282
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 37,
+        "objectid": 37,
+        "codigo": "PARADA_BUS_037",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 037 - Lineas 04, 05, 06",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "04, 05, 06",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64345164199995,
+          -1.6805314399999305
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 38,
+        "objectid": 38,
+        "codigo": "PARADA_BUS_038",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 038 - Lineas 04, 05, 06",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "04, 05, 06",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64248742799992,
+          -1.6732318979999268
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 39,
+        "objectid": 39,
+        "codigo": "PARADA_BUS_039",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 039 - Lineas 04, 05, 06, 16",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "04, 05, 06, 16",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64449185899991,
+          -1.6725097179999597
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 40,
+        "objectid": 40,
+        "codigo": "PARADA_BUS_040",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 040 - Lineas 07",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "07",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64462129299994,
+          -1.6754815739999387
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 41,
+        "objectid": 41,
+        "codigo": "PARADA_BUS_041",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 041 - Lineas 07",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "07",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6434403049999,
+          -1.6764905839999138
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 42,
+        "objectid": 42,
+        "codigo": "PARADA_BUS_042",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 042 - Lineas 07",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "07",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64169843399992,
+          -1.6780877769999116
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 43,
+        "objectid": 43,
+        "codigo": "PARADA_BUS_043",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 043 - Lineas 07, 08",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "07, 08",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6475541659999,
+          -1.6713768429999616
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 44,
+        "objectid": 44,
+        "codigo": "PARADA_BUS_044",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 044 - Lineas 07, 08, 16",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "07, 08, 16",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64909159299992,
+          -1.6716036639999174
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 45,
+        "objectid": 45,
+        "codigo": "PARADA_BUS_045",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 045 - Lineas 07, 10",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "07, 10",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64692302299994,
+          -1.6714786939999162
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 46,
+        "objectid": 46,
+        "codigo": "PARADA_BUS_046",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 046 - Lineas 07, 10",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "07, 10",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6411799899999,
+          -1.679114223999937
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 47,
+        "objectid": 47,
+        "codigo": "PARADA_BUS_047",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 047 - Lineas 08",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "08",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66198439999994,
+          -1.680537499999965
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 48,
+        "objectid": 48,
+        "codigo": "PARADA_BUS_048",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 048 - Lineas 08",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "08",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66185939999991,
+          -1.6806124999999374
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 49,
+        "objectid": 49,
+        "codigo": "PARADA_BUS_049",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 049 - Lineas 08",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "08",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6612343999999,
+          -1.6791124999999225
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 50,
+        "objectid": 50,
+        "codigo": "PARADA_BUS_050",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 050 - Lineas 08",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "08",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66038134199994,
+          -1.678187373999955
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 51,
+        "objectid": 51,
+        "codigo": "PARADA_BUS_051",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 051 - Lineas 08",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "08",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65996851799991,
+          -1.677359092999957
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 52,
+        "objectid": 52,
+        "codigo": "PARADA_BUS_052",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 052 - Lineas 08",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "08",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66095515299992,
+          -1.6790954589999432
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 53,
+        "objectid": 53,
+        "codigo": "PARADA_BUS_053",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 053 - Lineas 08",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "08",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65764807699992,
+          -1.675263196999937
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 54,
+        "objectid": 54,
+        "codigo": "PARADA_BUS_054",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 054 - Lineas 08, 12",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "08, 12",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65876559999992,
+          -1.676512499999939
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 55,
+        "objectid": 55,
+        "codigo": "PARADA_BUS_055",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 055 - Lineas 08, 12",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "08, 12",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6575155999999,
+          -1.6749624999999322
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 56,
+        "objectid": 56,
+        "codigo": "PARADA_BUS_056",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 056 - Lineas 08, 12",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "08, 12",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6560917139999,
+          -1.6745561869999546
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 57,
+        "objectid": 57,
+        "codigo": "PARADA_BUS_057",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 057 - Lineas 08, 12",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "08, 12",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65861122699994,
+          -1.6764824639999498
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 58,
+        "objectid": 58,
+        "codigo": "PARADA_BUS_058",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 058 - Lineas 08, 16",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "08, 16",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6498259469999,
+          -1.6727385829999615
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 59,
+        "objectid": 59,
+        "codigo": "PARADA_BUS_059",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 059 - Lineas 08, 16",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "08, 16",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65073511899993,
+          -1.673854869999964
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 60,
+        "objectid": 60,
+        "codigo": "PARADA_BUS_060",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 060 - Lineas 09",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "09",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64347647799991,
+          -1.684053549999928
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 61,
+        "objectid": 61,
+        "codigo": "PARADA_BUS_061",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 061 - Lineas 09",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "09",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64352131899994,
+          -1.6855270069999684
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 62,
+        "objectid": 62,
+        "codigo": "PARADA_BUS_062",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 062 - Lineas 09, 14, 16",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "09, 14, 16",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64908133999995,
+          -1.6823658239999277
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 63,
+        "objectid": 63,
+        "codigo": "PARADA_BUS_063",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 063 - Lineas 09, 14, 16",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "09, 14, 16",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64816599599993,
+          -1.6812727449999367
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 64,
+        "objectid": 64,
+        "codigo": "PARADA_BUS_064",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 064 - Lineas 09, 14, 16",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "09, 14, 16",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64682281799992,
+          -1.6796639249999508
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 65,
+        "objectid": 65,
+        "codigo": "PARADA_BUS_065",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 065 - Lineas 09, 16",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "09, 16",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65270309999994,
+          -1.6808124999999468
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 66,
+        "objectid": 66,
+        "codigo": "PARADA_BUS_066",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 066 - Lineas 09, 16",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "09, 16",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6519530999999,
+          -1.6821124999999635
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 67,
+        "objectid": 67,
+        "codigo": "PARADA_BUS_067",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 067 - Lineas 09, 16",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "09, 16",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65267867599994,
+          -1.6782334269999584
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 68,
+        "objectid": 68,
+        "codigo": "PARADA_BUS_068",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 068 - Lineas 09, 16",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "09, 16",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65147429899991,
+          -1.6792655509999526
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 69,
+        "objectid": 69,
+        "codigo": "PARADA_BUS_069",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 069 - Lineas 09, 16",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "09, 16",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65072331999994,
+          -1.681763846999961
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 70,
+        "objectid": 70,
+        "codigo": "PARADA_BUS_070",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 070 - Lineas 10, 13, 14",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "10, 13, 14",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6431689719999,
+          -1.6820104369999105
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 71,
+        "objectid": 71,
+        "codigo": "PARADA_BUS_071",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 071 - Lineas 10, 13, 14",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "10, 13, 14",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64329499999991,
+          -1.6835309999999564
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 72,
+        "objectid": 72,
+        "codigo": "PARADA_BUS_072",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 072 - Lineas 10, 16",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "10, 16",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64903066499994,
+          -1.6803367589999414
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 73,
+        "objectid": 73,
+        "codigo": "PARADA_BUS_073",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 073 - Lineas 11",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "11",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6581718999999,
+          -1.677762499999912
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 74,
+        "objectid": 74,
+        "codigo": "PARADA_BUS_074",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 074 - Lineas 11",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "11",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64125074999993,
+          -1.6866988679999502
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 75,
+        "objectid": 75,
+        "codigo": "PARADA_BUS_075",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 075 - Lineas 11",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "11",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65297541799993,
+          -1.6838523539999561
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 76,
+        "objectid": 76,
+        "codigo": "PARADA_BUS_076",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 076 - Lineas 11",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "11",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65532043099995,
+          -1.6810520269999079
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 77,
+        "objectid": 77,
+        "codigo": "PARADA_BUS_077",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 077 - Lineas 11, 12",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "11, 12",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66104689999992,
+          -1.6746624999999529
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 78,
+        "objectid": 78,
+        "codigo": "PARADA_BUS_078",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 078 - Lineas 11, 12",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "11, 12",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66008355999992,
+          -1.6754941269999226
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 79,
+        "objectid": 79,
+        "codigo": "PARADA_BUS_079",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 079 - Lineas 13",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "13",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64147039699992,
+          -1.6851964609999108
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 80,
+        "objectid": 80,
+        "codigo": "PARADA_BUS_080",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 080 - Lineas 13",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "13",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6431186019999,
+          -1.6833134329999124
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 81,
+        "objectid": 81,
+        "codigo": "PARADA_BUS_081",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 081 - Lineas 13",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "13",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64299259099994,
+          -1.6818646149999366
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 82,
+        "objectid": 82,
+        "codigo": "PARADA_BUS_082",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 082 - Lineas 14",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "14",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64860136599992,
+          -1.683950777999938
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 83,
+        "objectid": 83,
+        "codigo": "PARADA_BUS_083",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 083 - Lineas 14",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "14",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64444002499994,
+          -1.6845221249999411
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 84,
+        "objectid": 84,
+        "codigo": "PARADA_BUS_084",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 084 - Lineas 14",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "14",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64576577899993,
+          -1.685519481999953
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 85,
+        "objectid": 85,
+        "codigo": "PARADA_BUS_085",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 085 - Lineas 16",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "16",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65170407499996,
+          -1.6750488299999258
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 86,
+        "objectid": 86,
+        "codigo": "PARADA_BUS_086",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 086 - Lineas 16",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "16",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6479269749999,
+          -1.67874276899994
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 87,
+        "objectid": 87,
+        "codigo": "PARADA_BUS_087",
+        "equipamien": "Parada de bus",
+        "nombre": "Parada 087 - Lineas 16",
+        "categoria": "PARADA_400M",
+        "isocrona_distance_m": 400,
+        "genera_isocrona": true,
+        "lineas": "16",
+        "folder_path": "Paradas de BUS"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64699245299994,
+          -1.6776435469999489
+        ]
+      }
+    }
+  ]
+}
