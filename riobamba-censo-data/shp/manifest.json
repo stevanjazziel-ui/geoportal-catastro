@@ -133,13 +133,6 @@
     "count": 143,
     "label": "PLATAFORMA P"
   },
-  "plataforma_enie": {
-    "file": "plataforma_enie.zip",
-    "shp_file": "plataforma_enie.zip",
-    "xlsx_file": "plataforma_enie.xlsx",
-    "count": 197,
-    "label": "PLATAFORMA Ñ"
-  },
   "plataforma_n": {
     "file": "plataforma_n.zip",
     "shp_file": "plataforma_n.zip",
@@ -193,5 +186,12 @@
     "file": "puntos_inicio_isocronas_paradas_bus.zip",
     "count": 87,
     "label": "Shapefile ZIP con los puntos de inicio de las isocronas de paradas de bus"
+  },
+  "plataforma_enie": {
+    "file": "plataforma_enie.zip",
+    "shp_file": "plataforma_enie.zip",
+    "xlsx_file": "plataforma_enie.xlsx",
+    "count": 197,
+    "label": "PLATAFORMA Ñ"
   }
 }

@@ -1,3 +1,4 @@
+import argparse
 import json
 import shutil
 import zipfile
@@ -6,6 +7,8 @@ from pathlib import Path
 import shapefile
 from openpyxl import Workbook
 from openpyxl.styles import Font
+from openpyxl.utils import get_column_letter
+from shapely.geometry import shape as shapely_shape
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -13,11 +16,12 @@ DATA_DIR = BASE_DIR / "riobamba-censo-data"
 MANZANAS_PATH = DATA_DIR / "riobamba_manzanas.geojson"
 MANZANAS_STATS_PATH = DATA_DIR / "riobamba_manzanas_stats.json"
 PLATFORM_STATS_PATH = DATA_DIR / "riobamba_plataformas_stats.json"
+BUS_ISOCHRONES_PATH = DATA_DIR / "riobamba_isocronas_paradas_bus.geojson"
 OUTPUT_DIR = DATA_DIR / "shp"
 MANIFEST_PATH = OUTPUT_DIR / "manifest.json"
 
 PRJ_WGS84 = 'GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]]'
-HEADERS = [
+BASE_HEADERS = [
     "manzana",
     "plataforma",
     "pob_total",
@@ -38,11 +42,7 @@ def slugify(value: str) -> str:
         .replace("ñ", "enie")
         .replace("Ã±", "enie")
         .replace("ÃƒÂ±", "enie")
-        .replace("á", "a")
-        .replace("é", "e")
-        .replace("í", "i")
-        .replace("ó", "o")
-        .replace("ú", "u")
+        .replace("ÃƒÆ’Ã‚Â±", "enie")
         .replace("Ã¡", "a")
         .replace("Ã©", "e")
         .replace("Ã­", "i")
@@ -53,6 +53,11 @@ def slugify(value: str) -> str:
         .replace("ÃƒÂ­", "i")
         .replace("ÃƒÂ³", "o")
         .replace("ÃƒÂº", "u")
+        .replace("ÃƒÆ’Ã‚Â¡", "a")
+        .replace("ÃƒÆ’Ã‚Â©", "e")
+        .replace("ÃƒÆ’Ã‚Â­", "i")
+        .replace("ÃƒÆ’Ã‚Â³", "o")
+        .replace("ÃƒÆ’Ã‚Âº", "u")
     )
     slug = []
     prev_sep = False
@@ -67,9 +72,91 @@ def slugify(value: str) -> str:
     return result or "seleccion"
 
 
+def normalize_platform_name(value: str | None) -> str:
+    text = str(value or "").strip().upper()
+    if not text:
+        return ""
+    return (
+        text.replace("Ã‘", "Ñ")
+        .replace("Ãƒâ€˜", "Ñ")
+        .replace("Ă‘", "Ñ")
+        .replace("Ń", "Ñ")
+    )
+
+
+def is_platform_enie(value: str | None) -> bool:
+    normalized = normalize_platform_name(value)
+    return normalized == "PLATAFORMA Ñ"
+
+
 def load_json(path: Path):
     with open(path, "r", encoding="utf-8-sig") as handle:
         return json.load(handle)
+
+
+def sanitize_token(value):
+    token = "".join(char if str(char).isalnum() or char in {"_", "-"} else "_" for char in str(value or "").strip())
+    token = "_".join(part for part in token.split("_") if part)
+    return token or "sin_nombre"
+
+
+def build_iso_field_name(index: int) -> str:
+    name = f"iso_nom_{index}"
+    if len(name) <= 10:
+        return name
+    return f"isonom{index}"
+
+
+def build_feature_basename(feature, index):
+    props = feature.get("properties", {})
+    categoria = sanitize_token(props.get("categoria", "sin_categoria")).lower()
+    codigo = sanitize_token(props.get("codigo", f"{index:03d}"))
+    nombre = sanitize_token(props.get("nombre", f"isocrona_{index:03d}"))[:36]
+    return f"iso_{index:03d}_{categoria}_{codigo}_{nombre}"
+
+
+def build_bus_iso_coverages():
+    payload = load_json(BUS_ISOCHRONES_PATH)
+    coverages = []
+    for index, feature in enumerate(payload.get("features", []), start=1):
+        coverages.append(
+            {
+                "iso_name": build_feature_basename(feature, index),
+                "geometry": shapely_shape(feature["geometry"]).buffer(0),
+            }
+        )
+    return coverages
+
+
+def enrich_plataforma_enie_features(features):
+    if not features:
+        return features, []
+
+    coverages = build_bus_iso_coverages()
+    enriched = []
+    max_overlap = 0
+
+    for feature in features:
+        rep_point = shapely_shape(feature["geometry"]).representative_point()
+        matching_names = sorted(
+            coverage["iso_name"]
+            for coverage in coverages
+            if coverage["geometry"].covers(rep_point)
+        )
+        max_overlap = max(max_overlap, len(matching_names))
+        props = dict(feature["properties"])
+        for index, iso_name in enumerate(matching_names, start=1):
+            props[build_iso_field_name(index)] = iso_name
+        enriched.append(
+            {
+                "type": feature["type"],
+                "geometry": feature["geometry"],
+                "properties": props,
+            }
+        )
+
+    extra_headers = [build_iso_field_name(index) for index in range(1, max_overlap + 1)]
+    return enriched, extra_headers
 
 
 def feature_parts(feature):
@@ -84,9 +171,9 @@ def feature_parts(feature):
     raise ValueError(f"Geometria no soportada: {geometry['type']}")
 
 
-def feature_row(feature):
+def feature_row(feature, extra_headers=None):
     props = feature["properties"]
-    return [
+    row = [
         str(props["man"]),
         str(props["platform_name"] or "SIN_PLAT"),
         int(props["population_total"]),
@@ -99,9 +186,12 @@ def feature_row(feature):
         int(props["age_30_64"]),
         int(props["age_65_plus"]),
     ]
+    for header in extra_headers or []:
+        row.append(str(props.get(header, "")))
+    return row
 
 
-def write_shapefile_zip(features, basename: str):
+def write_shapefile_zip(features, basename: str, extra_headers=None):
     temp_dir = OUTPUT_DIR / basename
     if temp_dir.exists():
         shutil.rmtree(temp_dir)
@@ -122,10 +212,12 @@ def write_shapefile_zip(features, basename: str):
     writer.field("edad18_29", "N", size=12, decimal=0)
     writer.field("edad30_64", "N", size=12, decimal=0)
     writer.field("edad65mas", "N", size=12, decimal=0)
+    for header in extra_headers or []:
+        writer.field(header[:10], "C", size=120)
 
     for feature in features:
         writer.poly(feature_parts(feature))
-        writer.record(*feature_row(feature))
+        writer.record(*feature_row(feature, extra_headers=extra_headers))
 
     writer.close()
 
@@ -147,10 +239,10 @@ def autosize_columns(ws):
     for column_cells in ws.columns:
         values = [str(cell.value or "") for cell in column_cells]
         width = min(max(len(value) for value in values) + 2, 24)
-        ws.column_dimensions[column_cells[0].column_letter].width = width
+        ws.column_dimensions[get_column_letter(column_cells[0].column)].width = width
 
 
-def write_excel(features, basename: str, label: str):
+def write_excel(features, basename: str, label: str, extra_headers=None):
     workbook = Workbook()
 
     summary = workbook.active
@@ -170,13 +262,14 @@ def write_excel(features, basename: str, label: str):
     autosize_columns(summary)
 
     data_sheet = workbook.create_sheet("Datos")
-    data_sheet.append(HEADERS)
+    headers = [*BASE_HEADERS, *(extra_headers or [])]
+    data_sheet.append(headers)
     for cell in data_sheet[1]:
         cell.font = Font(bold=True)
     data_sheet.freeze_panes = "A2"
-    data_sheet.auto_filter.ref = "A1:K1"
+    data_sheet.auto_filter.ref = f"A1:{get_column_letter(len(headers))}1"
     for feature in features:
-        data_sheet.append(feature_row(feature))
+        data_sheet.append(feature_row(feature, extra_headers=extra_headers))
     autosize_columns(data_sheet)
 
     xlsx_path = OUTPUT_DIR / f"{basename}.xlsx"
@@ -185,6 +278,15 @@ def write_excel(features, basename: str, label: str):
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Genera descargas SHP/XLSX de plataformas de Riobamba.")
+    parser.add_argument(
+        "--only",
+        action="append",
+        default=[],
+        help="Genera solo la plataforma indicada por basename o etiqueta, por ejemplo plataforma_enie o 'PLATAFORMA Ñ'.",
+    )
+    args = parser.parse_args()
+
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     geo = load_json(MANZANAS_PATH)
@@ -224,7 +326,14 @@ def main():
         },
     }
 
-    for platform_name in platform_stats.get("byName", {}).keys():
+    platform_names = sorted(
+        {
+            feature["properties"]["platform_name"]
+            for feature in joined_features
+            if feature["properties"]["platform_name"]
+        }
+    )
+    for platform_name in platform_names:
         groups[slugify(platform_name)] = {
             "label": platform_name,
             "features": [
@@ -232,6 +341,14 @@ def main():
                 for feature in joined_features
                 if feature["properties"]["platform_name"] == platform_name
             ],
+        }
+
+    if args.only:
+        only_tokens = {slugify(value) for value in args.only}
+        groups = {
+            basename: group
+            for basename, group in groups.items()
+            if basename in only_tokens or slugify(group["label"]) in only_tokens
         }
 
     manifest = {
@@ -245,14 +362,19 @@ def main():
         if not features:
             continue
 
-        shp_path = write_shapefile_zip(features, basename)
-        xlsx_path = write_excel(features, basename, group["label"])
+        extra_headers = []
+        if basename == "plataforma_enie" or is_platform_enie(group["label"]):
+            features, extra_headers = enrich_plataforma_enie_features(features)
+        output_label = "PLATAFORMA Ñ" if basename == "plataforma_enie" else group["label"]
+
+        shp_path = write_shapefile_zip(features, basename, extra_headers=extra_headers)
+        xlsx_path = write_excel(features, basename, output_label, extra_headers=extra_headers)
         manifest[basename] = {
             "file": shp_path.name,
             "shp_file": shp_path.name,
             "xlsx_file": xlsx_path.name,
             "count": len(features),
-            "label": group["label"],
+            "label": output_label,
         }
 
     with open(MANIFEST_PATH, "w", encoding="utf-8") as handle:
