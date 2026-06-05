@@ -392,7 +392,7 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260604-2045";
+    const DATA_VERSION = "20260604-2125";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const EDUCACION_ISOCHRONE_SHP_KEY = "isocronas_educacion_categorizada_manzanas";
@@ -1567,6 +1567,7 @@
         ["Muestras del borde", window.isocrona400Stats.boundary_samples],
         ["Nodos origen", window.isocrona400Stats.source_nodes],
         ["Distancia", `${formatNumber(window.isocrona400Stats.distance_m)} m`],
+        ["Poblacion dentro", formatNumber(window.isocrona400Stats.population_total || 0)],
         ["Nodos alcanzables", window.isocrona400Stats.nodos_alcanzables],
         ["Segmentos de red", window.isocrona400Stats.segmentos_red],
         ["Longitud de red", `${formatNumber(Math.round(window.isocrona400Stats.longitud_red_m || 0))} m`],
@@ -1589,6 +1590,7 @@
         ["Plataforma objetivo", displayPlatformName(window.isocrona400CartoStats.target_platform)],
         ["Tipo", "Contorno cartografico ajustado"],
         ["Distancia base", `${formatNumber(window.isocrona400CartoStats.distance_m)} m`],
+        ["Poblacion dentro", formatNumber(window.isocrona400CartoStats.population_total || 0)],
         ["Manzanas ajustadas", window.isocrona400CartoStats.manzanas_ajustadas || 0],
         ["Area exacta base", `${formatNumber(Math.round(window.isocrona400CartoStats.area_poligono_red_m2 || 0))} m2`],
         ["Area cartografica", `${formatNumber(Math.round(window.isocrona400CartoStats.area_poligono_m2 || 0))} m2`]
@@ -1751,13 +1753,14 @@
               <strong>Equipamiento:</strong> ${props.nombre || "Sin nombre"}<br>
               <strong>Categoria:</strong> ${categoriaTexto}<br>
               <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
+              <strong>Poblacion dentro:</strong> ${formatNumber(props.population_total || 0)}<br>
               <strong>Coordenadas:</strong> ${Number(props.source_lat || 0).toFixed(6)}, ${Number(props.source_lon || 0).toFixed(6)}<br>
               <strong>Snap a via:</strong> ${Number(props.snap_m || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m
             `);
 
             layer.on("click", () => {
               overlayTitle.textContent = "Punto de inicio de isocrona";
-              overlayText.textContent = `${props.nombre || "Equipamiento"} inicia su isocrona ${categoriaTexto.toLowerCase()} desde el punto proyectado sobre la red vial.`;
+              overlayText.textContent = `${props.nombre || "Equipamiento"} inicia su isocrona ${categoriaTexto.toLowerCase()} desde el punto proyectado sobre la red vial y cubre ${formatNumber(props.population_total || 0)} habitantes.`;
             });
           }
         }
@@ -1803,13 +1806,14 @@
               <strong>Equipamiento:</strong> ${props.nombre || "Sin nombre"}<br>
               <strong>Categoria:</strong> ${categoriaTexto}<br>
               <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
+              <strong>Poblacion dentro:</strong> ${formatNumber(props.population_total || 0)}<br>
               <strong>Coordenadas:</strong> ${Number(props.source_lat || 0).toFixed(6)}, ${Number(props.source_lon || 0).toFixed(6)}<br>
               <strong>Snap a via:</strong> ${Number(props.snap_m || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m
             `);
 
             layer.on("click", () => {
               overlayTitle.textContent = "Punto de inicio de isocrona de salud";
-              overlayText.textContent = `${props.nombre || "Equipamiento"} inicia su isocrona ${categoriaTexto.toLowerCase()} desde el punto proyectado sobre la red vial.`;
+              overlayText.textContent = `${props.nombre || "Equipamiento"} inicia su isocrona ${categoriaTexto.toLowerCase()} desde el punto proyectado sobre la red vial y cubre ${formatNumber(props.population_total || 0)} habitantes.`;
             });
           }
         }
@@ -1856,6 +1860,7 @@
               <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
               <strong>Codigo:</strong> ${props.codigo || "Sin codigo"}<br>
               <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
+              <strong>Poblacion dentro:</strong> ${formatNumber(props.population_total || 0)}<br>
               <strong>Segmentos de red:</strong> ${formatNumber(props.segmentos_red || 0)}<br>
               <strong>Longitud de red:</strong> ${formatNumber(Math.round(props.longitud_red_m || 0))} m<br>
               <strong>Area exacta red:</strong> ${formatNumber(Math.round(props.area_poligono_red_m2 || 0))} m2<br>
@@ -1865,7 +1870,7 @@
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocronas educacion categorizada";
-              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada solo con el borde exterior.`;
+              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales, mostrada solo con el borde exterior y con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
             });
           }
         }
@@ -1912,6 +1917,7 @@
               <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
               <strong>Codigo:</strong> ${props.codigo || "Sin codigo"}<br>
               <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
+              <strong>Poblacion dentro:</strong> ${formatNumber(props.population_total || 0)}<br>
               <strong>Segmentos de red:</strong> ${formatNumber(props.segmentos_red || 0)}<br>
               <strong>Longitud de red:</strong> ${formatNumber(Math.round(props.longitud_red_m || 0))} m<br>
               <strong>Area exacta red:</strong> ${formatNumber(Math.round(props.area_poligono_red_m2 || 0))} m2<br>
@@ -1921,7 +1927,7 @@
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocronas salud categorizada";
-              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada solo con el borde exterior.`;
+              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales, mostrada solo con el borde exterior y con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
             });
           }
         }
@@ -2108,6 +2114,7 @@
               <strong>Muestras del borde:</strong> ${formatNumber(props.boundary_samples)}<br>
               <strong>Nodos origen:</strong> ${formatNumber(props.source_nodes)}<br>
               <strong>Nodos alcanzables:</strong> ${formatNumber(props.nodos_alcanzables)}<br>
+              <strong>Poblacion dentro:</strong> ${formatNumber(props.population_total || 0)}<br>
               <strong>Longitud de red:</strong> ${formatNumber(Math.round(props.longitud_red_m || 0))} m<br>
               <strong>Area:</strong> ${formatNumber(Math.round(props.area_poligono_m2 || 0))} m2<br>
               <strong>Snap promedio:</strong> ${Number(props.snap_promedio_m || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m<br>
@@ -2116,7 +2123,7 @@
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocrona exacta 400 m";
-              overlayText.textContent = `${formatNumber(props.source_nodes)} nodos origen sobre el borde de ${displayPlatformName(props.target_platform)} generan la isocrona exacta de red sin ajuste a manzanas.`;
+              overlayText.textContent = `${formatNumber(props.source_nodes)} nodos origen sobre el borde de ${displayPlatformName(props.target_platform)} generan la isocrona exacta de red sin ajuste a manzanas y con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
             });
           }
         }
@@ -2156,13 +2163,14 @@
               <strong>Destino:</strong> ${displayPlatformName(props.target_platform)}<br>
               <strong>Tipo:</strong> Contorno cartografico ajustado<br>
               <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
+              <strong>Poblacion dentro:</strong> ${formatNumber(props.population_total || 0)}<br>
               <strong>Area exacta base:</strong> ${formatNumber(Math.round(props.area_poligono_red_m2 || 0))} m2<br>
               <strong>Area cartografica:</strong> ${formatNumber(Math.round(props.area_poligono_m2 || 0))} m2
             `);
 
             layer.on("click", () => {
               overlayTitle.textContent = "Contorno cartografico 400 m";
-              overlayText.textContent = `${formatNumber(props.manzanas_ajustadas || 0)} manzanas usadas para construir un contorno cartografico de referencia a partir de la isocrona exacta de red.`;
+              overlayText.textContent = `${formatNumber(props.manzanas_ajustadas || 0)} manzanas usadas para construir un contorno cartografico de referencia a partir de la isocrona exacta de red, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
             });
           }
         }

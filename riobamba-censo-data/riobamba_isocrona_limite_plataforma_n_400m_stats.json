@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-04T10:54:03",
+  "generated_at": "2026-06-04T21:04:28",
   "target_platform": "PLATAFORMA Ñ",
   "distance_m": 400,
   "mode": "walking",
@@ -12,6 +12,7 @@
   "nodos_alcanzables": 2109,
   "segmentos_red": 2682,
   "longitud_red_m": 92195.14,
+  "population_total": 33910,
   "area_poligono_red_m2": 2679088.18,
   "area_poligono_exacto_m2": 2679088.18,
   "area_poligono_m2": 2679088.18,

@@ -19,6 +19,7 @@ DATA_DIR = BASE_DIR / "riobamba-censo-data"
 ZIP_PATH = Path(r"E:\Riobamba\equipamientos\EDUCACION 2\EDUCACION_CATEGORIZADO.zip")
 OSM_CACHE_PATH = DATA_DIR / "riobamba_osm_walk_network_plataforma_n.json"
 MANZANAS_PATH = DATA_DIR / "riobamba_manzanas.geojson"
+MANZANAS_STATS_PATH = DATA_DIR / "riobamba_manzanas_stats.json"
 
 OUTPUT_EQUIPAMIENTOS = DATA_DIR / "riobamba_educacion_categorizada.geojson"
 OUTPUT_EQUIPAMIENTOS_STATS = DATA_DIR / "riobamba_educacion_categorizada_stats.json"
@@ -435,6 +436,14 @@ def homogenize_aligned_polygon(aligned_polygon):
     return cleaned
 
 
+def population_total_for_manzanas(selected_ids, manzana_stats_by_id):
+    total = 0
+    for manzana_id in selected_ids:
+        stats = manzana_stats_by_id.get(manzana_id) or {}
+        total += int(stats.get("population_total", 0) or 0)
+    return total
+
+
 def build_polygon_feature(geometry, properties):
     return {
         "type": "Feature",
@@ -522,7 +531,7 @@ def extract_source_records():
     return records, {"type": "FeatureCollection", "features": features}, stats
 
 
-def build_single_isochrone(record, manzana_features, base_graph, edge_tree, edge_geometries, edge_metadata):
+def build_single_isochrone(record, manzana_features, manzana_stats_by_id, base_graph, edge_tree, edge_geometries, edge_metadata):
     props = record["properties"]
     geometry_utm = record["geometry_utm"]
     distance_m = int(props["isocrona_distance_m"])
@@ -569,6 +578,8 @@ def build_single_isochrone(record, manzana_features, base_graph, edge_tree, edge
     if final_polygon.is_empty:
         final_polygon = exact_polygon
 
+    population_total = population_total_for_manzanas(covered_manzanas, manzana_stats_by_id)
+
     return build_polygon_feature(
         final_polygon,
         {
@@ -592,6 +603,7 @@ def build_single_isochrone(record, manzana_features, base_graph, edge_tree, edge
             "segmentos_red": len(segments),
             "longitud_red_m": round(total_length, 2),
             "manzanas_ajustadas": len(covered_manzanas),
+            "population_total": population_total,
             "area_poligono_red_m2": round(exact_polygon.area, 2),
             "area_poligono_manzanas_m2": round(aligned_polygon.area, 2),
             "area_poligono_m2": round(final_polygon.area, 2),
@@ -628,6 +640,8 @@ def main():
     save_json(OUTPUT_EQUIPAMIENTOS_STATS, equipamientos_stats)
 
     manzanas_data = load_json(MANZANAS_PATH)
+    manzanas_stats = load_json(MANZANAS_STATS_PATH)
+    manzana_stats_by_id = manzanas_stats.get("byMan", {})
     osm_payload = load_json(OSM_CACHE_PATH)
     ensure_cache_covers_sources(records, osm_payload)
     base_graph = build_graph(osm_payload)
@@ -646,6 +660,7 @@ def main():
         feature = build_single_isochrone(
             record,
             manzanas_data["features"],
+            manzana_stats_by_id,
             base_graph,
             edge_tree,
             edge_geometries,

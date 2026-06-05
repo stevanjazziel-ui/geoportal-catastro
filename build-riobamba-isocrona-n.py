@@ -16,6 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "riobamba-censo-data"
 PLATFORMS_PATH = DATA_DIR / "riobamba_plataformas.geojson"
 MANZANAS_PATH = DATA_DIR / "riobamba_manzanas.geojson"
+MANZANAS_STATS_PATH = DATA_DIR / "riobamba_manzanas_stats.json"
 OSM_CACHE_PATH = DATA_DIR / "riobamba_osm_walk_network_plataforma_n.json"
 
 OUTPUT_ISOCHRONE = DATA_DIR / "riobamba_isocrona_limite_plataforma_n_400m.geojson"
@@ -487,6 +488,14 @@ def homogenize_cartographic_polygon(aligned_polygon):
     return cleaned
 
 
+def population_total_for_manzanas(selected_ids, manzana_stats_by_id):
+    total = 0
+    for manzana_id in selected_ids:
+        stats = manzana_stats_by_id.get(manzana_id) or {}
+        total += int(stats.get("population_total", 0) or 0)
+    return total
+
+
 def geometry_mapping(geom):
     if isinstance(geom, (Polygon, MultiPolygon)):
         cleaned = geom.buffer(0)
@@ -531,6 +540,8 @@ def normalize_multilines(segments):
 def main():
     platforms_data = load_geojson(PLATFORMS_PATH)
     manzanas_data = load_geojson(MANZANAS_PATH)
+    manzanas_stats = load_geojson(MANZANAS_STATS_PATH)
+    manzana_stats_by_id = manzanas_stats.get("byMan", {})
 
     platform_geoms = {
         feature["properties"]["platform_name"]: shape(feature["geometry"])
@@ -569,6 +580,7 @@ def main():
         exact_polygon = base_polygon
     aligned_polygon, covered_manzanas = align_polygon_to_manzanas(manzanas_data["features"], exact_polygon)
     cartographic_polygon = homogenize_cartographic_polygon(aligned_polygon)
+    population_total = population_total_for_manzanas(covered_manzanas, manzana_stats_by_id)
 
     network_geom = normalize_multilines(segments)
     source_node_count = len({source["node_id"] for source in projected_sources if source.get("node_id") is not None})
@@ -592,6 +604,7 @@ def main():
             "snap_max_m": max_snap_m,
             "nodos_alcanzables": len(reachable),
             "longitud_red_m": round(total_length, 2),
+            "population_total": population_total,
             "area_poligono_red_m2": round(exact_polygon.area, 2),
             "area_poligono_exacto_m2": round(exact_polygon.area, 2),
             "area_poligono_m2": round(exact_polygon.area, 2),
@@ -614,6 +627,7 @@ def main():
             "nodos_alcanzables": len(reachable),
             "longitud_red_m": round(total_length, 2),
             "manzanas_ajustadas": len(covered_manzanas),
+            "population_total": population_total,
             "area_poligono_red_m2": round(exact_polygon.area, 2),
             "area_poligono_manzanas_m2": round(aligned_polygon.area, 2),
             "area_poligono_m2": round(cartographic_polygon.area, 2),
@@ -653,6 +667,7 @@ def main():
         "nodos_alcanzables": len(reachable),
         "segmentos_red": len(segments),
         "longitud_red_m": round(total_length, 2),
+        "population_total": population_total,
         "area_poligono_red_m2": round(exact_polygon.area, 2),
         "area_poligono_exacto_m2": round(exact_polygon.area, 2),
         "area_poligono_m2": round(exact_polygon.area, 2),
@@ -674,6 +689,7 @@ def main():
         "segmentos_red": len(segments),
         "longitud_red_m": round(total_length, 2),
         "manzanas_ajustadas": len(covered_manzanas),
+        "population_total": population_total,
         "area_poligono_red_m2": round(exact_polygon.area, 2),
         "area_poligono_manzanas_m2": round(aligned_polygon.area, 2),
         "area_poligono_m2": round(cartographic_polygon.area, 2),

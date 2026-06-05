@@ -119,6 +119,7 @@ def init_writer(shp_base: Path, shape_type):
     writer.field("area_red", "N", size=14, decimal=2)
     writer.field("area_mz", "N", size=14, decimal=2)
     writer.field("area_fin", "N", size=14, decimal=2)
+    writer.field("pob_tot", "N", size=12, decimal=0)
     writer.field("modo", "C", size=12)
     writer.field("categor", "C", size=20)
     writer.field("codigo", "C", size=24)
@@ -141,25 +142,26 @@ def write_feature_geometry(writer, feature, geometry_mode, shape_type):
 def write_feature_record(writer, feature):
     props = feature.get("properties", {})
     writer.record(
-        str(props.get("nombre", ""))[:80],
-        str(props.get("target_platform", ""))[:24],
-        int(props.get("distance_m", 0) or 0),
-        str(props.get("source_type", props.get("origin_type", "")))[:32],
-        int(props.get("boundary_samples", 0) or 0),
-        int(props.get("source_nodes", 0) or 0),
-        float(props.get("snap_promedio_m", props.get("snap_m", 0)) or 0),
-        int(props.get("nodos_alcanzables", 0) or 0),
-        int(props.get("segmentos_red", 0) or 0),
-        int(props.get("manzanas_ajustadas", 0) or 0),
-        float(props.get("longitud_red_m", 0) or 0),
-        float(props.get("area_poligono_red_m2", props.get("area_poligono_exacto_m2", 0)) or 0),
-        float(props.get("area_poligono_manzanas_m2", 0) or 0),
-        float(props.get("area_poligono_m2", 0) or 0),
-        str(props.get("mode", ""))[:12],
-        str(props.get("categoria", ""))[:20],
-        str(props.get("codigo", ""))[:24],
-        float(props.get("source_lon", 0) or 0),
-        float(props.get("source_lat", 0) or 0),
+        nombre=str(props.get("nombre", ""))[:80],
+        target=str(props.get("target_platform", ""))[:24],
+        dist_m=int(props.get("distance_m", 0) or 0),
+        src_type=str(props.get("source_type", props.get("origin_type", "")))[:32],
+        muestras=int(props.get("boundary_samples", 0) or 0),
+        src_nodes=int(props.get("source_nodes", 0) or 0),
+        snap_avg=float(props.get("snap_promedio_m", props.get("snap_m", 0)) or 0),
+        nodos=int(props.get("nodos_alcanzables", 0) or 0),
+        seg_red=int(props.get("segmentos_red", 0) or 0),
+        manz_aj=int(props.get("manzanas_ajustadas", 0) or 0),
+        long_red=float(props.get("longitud_red_m", 0) or 0),
+        area_red=float(props.get("area_poligono_red_m2", props.get("area_poligono_exacto_m2", 0)) or 0),
+        area_mz=float(props.get("area_poligono_manzanas_m2", 0) or 0),
+        area_fin=float(props.get("area_poligono_m2", 0) or 0),
+        pob_tot=int(props.get("population_total", 0) or 0),
+        modo=str(props.get("mode", ""))[:12],
+        categor=str(props.get("categoria", ""))[:20],
+        codigo=str(props.get("codigo", ""))[:24],
+        src_lon=float(props.get("source_lon", 0) or 0),
+        src_lat=float(props.get("source_lat", 0) or 0),
     )
 
 
