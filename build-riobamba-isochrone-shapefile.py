@@ -47,6 +47,14 @@ EXPORTS = [
         "geometry_mode": "source_point",
         "bundle_mode": "single",
     },
+    {
+        "source_path": DATA_DIR / "riobamba_isocronas_salud_categorizada.geojson",
+        "output_basename": "isocronas_salud_categorizada_manzanas",
+        "label": "ZIP con shapefiles separados de poligonos de cada isocrona de salud",
+        "shape_type": shapefile.POLYGON,
+        "geometry_mode": "polygon",
+        "bundle_mode": "per_feature",
+    },
 ]
 
 

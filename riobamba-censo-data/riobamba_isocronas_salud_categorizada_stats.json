@@ -1,0 +1,29 @@
+{
+  "generated_at": "2026-06-04T20:04:17",
+  "source_zip": "D:\\codex\\SALUD_CATEGORIZADO.zip",
+  "source_osm_cache": "D:\\codex\\riobamba-censo-data\\riobamba_osm_walk_network_plataforma_n.json",
+  "summary": {
+    "total_equipamientos": 4,
+    "total_isocronas": 3,
+    "categorias_con_isocrona": 2,
+    "omitidos": 1,
+    "manzanas_ajustadas": 520
+  },
+  "by_categoria_source": {
+    "ZONAL": 2,
+    "BARRIAL": 1,
+    "CANTONAL": 1
+  },
+  "by_categoria_isocronas": {
+    "ZONAL": 2,
+    "BARRIAL": 1
+  },
+  "by_categoria_omitidos": {
+    "CANTONAL": 1
+  },
+  "by_distance_m": {
+    "400": 1,
+    "1000": 2
+  },
+  "observacion": "Se generan isocronas de salud solo para BARRIAL (400 m) y ZONAL (1000 m). Los registros CANTONAL no se procesan. El resultado final queda ajustado a manzanas censales, sin huecos internos y preparado para mostrar solo el limite exterior."
+}

@@ -163,5 +163,10 @@
     "file": "puntos_inicio_isocronas_educacion.zip",
     "count": 20,
     "label": "Shapefile ZIP con los puntos de inicio de las isocronas de educaciÃ³n"
+  },
+  "isocronas_salud_categorizada_manzanas": {
+    "file": "isocronas_salud_categorizada_manzanas.zip",
+    "count": 3,
+    "label": "ZIP con shapefiles separados de poligonos de cada isocrona de salud"
   }
 }

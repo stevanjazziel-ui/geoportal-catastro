@@ -271,6 +271,7 @@
           <label class="layer-toggle"><span>Isocrona 1000 m desde equipamientos</span><input id="toggleIsocronasColindantes" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Isocronas educacion categorizada</span><input id="toggleEducacionIsocronas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Puntos inicio educacion</span><input id="toggleEducacionIsocronasPuntos" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Isocronas salud categorizada</span><input id="toggleSaludIsocronas" type="checkbox" checked></label>
         </div>
       </section>
 
@@ -286,6 +287,7 @@
         <button id="downloadIsochrone400CartoShpButton" type="button" style="margin-top:10px;">Descargar contorno cartografico 400 m</button>
         <button id="downloadEducacionIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con poligonos separados de isocronas educacion</button>
         <button id="downloadEducacionStartPointsShpButton" type="button" style="margin-top:10px;">Descargar SHP de puntos de inicio educacion</button>
+        <button id="downloadSaludIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con poligonos separados de isocronas salud</button>
         <p style="margin-top:10px;">
           Descarga la vista actual de la plataforma seleccionada en formato Shape o Excel.
           Si eliges una plataforma, se exportan sus manzanas censales filtradas.
@@ -330,6 +332,11 @@
       <section class="panel">
         <h2>Isocronas educacion categorizada</h2>
         <div class="mini-list" id="educacionIsocronasSummary"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Isocronas salud categorizada</h2>
+        <div class="mini-list" id="saludIsocronasSummary"></div>
       </section>
 
       <section class="panel">
@@ -383,11 +390,12 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260604-1935";
+    const DATA_VERSION = "20260604-2015";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const EDUCACION_ISOCHRONE_SHP_KEY = "isocronas_educacion_categorizada_manzanas";
     const EDUCACION_START_POINTS_SHP_KEY = "puntos_inicio_isocronas_educacion";
+    const SALUD_ISOCHRONE_SHP_KEY = "isocronas_salud_categorizada_manzanas";
 
     const map = L.map("map", { zoomSnap: 0.5 }).setView([-1.67, -78.65], 12.5);
 
@@ -420,7 +428,8 @@
       isocronasColindantes: true,
       redVial1000m: true,
       educacionIsocronas: true,
-      educacionIsocronasPuntos: true
+      educacionIsocronasPuntos: true,
+      saludIsocronas: true
     };
 
     const metricSelect = document.getElementById("metricSelect");
@@ -434,6 +443,7 @@
     const equipamientosSummary = document.getElementById("equipamientosSummary");
     const isocronasSummary = document.getElementById("isocronasSummary");
     const educacionIsocronasSummary = document.getElementById("educacionIsocronasSummary");
+    const saludIsocronasSummary = document.getElementById("saludIsocronasSummary");
     const isocronas400Summary = document.getElementById("isocronas400Summary");
     const isocronas400CartoSummary = document.getElementById("isocronas400CartoSummary");
     const overlayTitle = document.getElementById("overlayTitle");
@@ -445,6 +455,7 @@
     const downloadIsochrone400CartoShpButton = document.getElementById("downloadIsochrone400CartoShpButton");
     const downloadEducacionIsocronasShpButton = document.getElementById("downloadEducacionIsocronasShpButton");
     const downloadEducacionStartPointsShpButton = document.getElementById("downloadEducacionStartPointsShpButton");
+    const downloadSaludIsocronasShpButton = document.getElementById("downloadSaludIsocronasShpButton");
     const toggleManzanas = document.getElementById("toggleManzanas");
     const togglePlataformas = document.getElementById("togglePlataformas");
     const toggleEquipamientos = document.getElementById("toggleEquipamientos");
@@ -455,6 +466,7 @@
     const toggleIsocrona400mCarto = document.getElementById("toggleIsocrona400mCarto");
     const toggleEducacionIsocronas = document.getElementById("toggleEducacionIsocronas");
     const toggleEducacionIsocronasPuntos = document.getElementById("toggleEducacionIsocronasPuntos");
+    const toggleSaludIsocronas = document.getElementById("toggleSaludIsocronas");
     const equipamientoPalette = [
       "#ffd166", "#ef476f", "#06d6a0", "#118ab2", "#f78c6b",
       "#c77dff", "#90be6d", "#4cc9f0", "#ff9f1c", "#43aa8b",
@@ -1433,14 +1445,21 @@
     window.educacionIsocronasStats = null;
     window.educacionIsocronasLayer = null;
     window.educacionIsocronasStartLayer = null;
+    window.saludIsocronasStats = null;
+    window.saludIsocronasLayer = null;
     layerVisibility.redVial400m = true;
     layerVisibility.isocrona400m = true;
     layerVisibility.isocrona400mCarto = false;
     layerVisibility.educacionIsocronas = true;
     layerVisibility.educacionIsocronasPuntos = true;
+    layerVisibility.saludIsocronas = true;
     const educacionIsoColors = {
       BARRIAL: "#59d8ff",
       ZONAL: "#8f7dff"
+    };
+    const saludIsoColors = {
+      BARRIAL: "#4ee3b5",
+      ZONAL: "#f6bf6c"
     };
 
     function displayPlatformName(value) {
@@ -1451,7 +1470,7 @@
         .replaceAll("Ñ", "N");
     }
 
-    introText.innerHTML = "Visualizador por manzana censal y por plataforma territorial. Tambien muestra dos isocronas independientes: una de <strong>1000 m</strong> desde equipamientos de la plataforma N y otra de <strong>400 m exacta de red</strong> desde el borde de la plataforma N. Ademas conserva un <strong>contorno cartografico 400 m ajustado a manzanas</strong> solo como referencia y suma una capa nueva de <strong>educacion categorizada</strong> con isocronas barriales de 400 m y zonales de 1000 m.";
+    introText.innerHTML = "Visualizador por manzana censal y por plataforma territorial. Tambien muestra dos isocronas independientes: una de <strong>1000 m</strong> desde equipamientos de la plataforma N y otra de <strong>400 m exacta de red</strong> desde el borde de la plataforma N. Ademas conserva un <strong>contorno cartografico 400 m ajustado a manzanas</strong> solo como referencia y suma capas nuevas de <strong>educacion categorizada</strong> y <strong>salud categorizada</strong>, con isocronas barriales de 400 m y zonales de 1000 m.";
     toggleIsocronasColindantes.closest("label").querySelector("span").textContent = "Isocrona 1000 m desde equipamientos";
     isocronasSummary.closest(".panel").querySelector("h2").textContent = "Isocrona 1000 m desde equipamientos";
     isocronas400Summary.closest(".panel").querySelector("h2").textContent = "Isocrona exacta 400 m";
@@ -1480,6 +1499,7 @@
       downloadIsochrone400CartoShpButton.disabled = !shpManifest[CARTO_ISOCHRONE_SHP_KEY];
       downloadEducacionIsocronasShpButton.disabled = !shpManifest[EDUCACION_ISOCHRONE_SHP_KEY];
       downloadEducacionStartPointsShpButton.disabled = !shpManifest[EDUCACION_START_POINTS_SHP_KEY];
+      downloadSaludIsocronasShpButton.disabled = !shpManifest[SALUD_ISOCHRONE_SHP_KEY];
     }
 
     function syncVisibleLayers() {
@@ -1493,6 +1513,7 @@
       syncSingleLayer(window.isocrona400CartoLayer, layerVisibility.isocrona400mCarto);
       syncSingleLayer(window.educacionIsocronasLayer, layerVisibility.educacionIsocronas);
       syncSingleLayer(window.educacionIsocronasStartLayer, layerVisibility.educacionIsocronasPuntos);
+      syncSingleLayer(window.saludIsocronasLayer, layerVisibility.saludIsocronas);
     }
 
     function buildIsocronasSummary() {
@@ -1589,6 +1610,27 @@
         .join("");
     }
 
+    function buildSaludIsocronasSummary() {
+      if (!window.saludIsocronasStats) {
+        saludIsocronasSummary.innerHTML = "";
+        return;
+      }
+
+      const rows = [
+        ["Equipamientos fuente", window.saludIsocronasStats.summary.total_equipamientos || 0],
+        ["Isocronas generadas", window.saludIsocronasStats.summary.total_isocronas || 0],
+        ["Barrial 400 m", window.saludIsocronasStats.by_distance_m["400"] || 0],
+        ["Zonal 1000 m", window.saludIsocronasStats.by_distance_m["1000"] || 0],
+        ["Cantonales omitidos", (window.saludIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0],
+        ["Manzanas ajustadas", window.saludIsocronasStats.summary.manzanas_ajustadas || 0],
+        ["Visualizacion", "Solo limite exterior"]
+      ];
+
+      saludIsocronasSummary.innerHTML = rows
+        .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
+        .join("");
+    }
+
     function getEducacionIsoStyle(feature) {
       const categoria = String(feature?.properties?.categoria || "").toUpperCase();
       const color = educacionIsoColors[categoria] || "#8fb6d9";
@@ -1600,6 +1642,20 @@
         fillColor: color,
         fillOpacity: categoria === "BARRIAL" ? 0.14 : 0.08,
         dashArray: distance >= 1000 ? "10 6" : ""
+      };
+    }
+
+    function getSaludIsoStyle(feature) {
+      const categoria = String(feature?.properties?.categoria || "").toUpperCase();
+      const color = saludIsoColors[categoria] || "#9bc8bf";
+      const distance = Number(feature?.properties?.distance_m || 0);
+      return {
+        color,
+        weight: categoria === "BARRIAL" ? 2.7 : 2.2,
+        opacity: 0.96,
+        fillColor: color,
+        fillOpacity: categoria === "BARRIAL" ? 0.12 : 0.08,
+        dashArray: distance >= 1000 ? "11 6" : ""
       };
     }
 
@@ -1731,6 +1787,62 @@
         }
       );
       syncSingleLayer(window.educacionIsocronasLayer, layerVisibility.educacionIsocronas);
+    }
+
+    function renderSaludIsocronasLayer() {
+      if (window.saludIsocronasLayer) {
+        map.removeLayer(window.saludIsocronasLayer);
+      }
+
+      const features = (window.saludIsocronasFeatures || [])
+        .filter((feature) => feature && feature.geometry && feature.properties)
+        .map(featureToExteriorBoundary)
+        .filter(Boolean)
+        .sort((left, right) => (Number(right.properties?.distance_m || 0) - Number(left.properties?.distance_m || 0)));
+
+      if (!map.getPane("saludIsocronasPane")) {
+        map.createPane("saludIsocronasPane");
+        map.getPane("saludIsocronasPane").style.zIndex = 431;
+      }
+
+      window.saludIsocronasLayer = L.geoJSON(
+        { type: "FeatureCollection", features },
+        {
+          pane: "saludIsocronasPane",
+          style: (feature) => {
+            const baseStyle = getSaludIsoStyle(feature);
+            return {
+              color: baseStyle.color,
+              weight: baseStyle.weight,
+              opacity: baseStyle.opacity,
+              dashArray: baseStyle.dashArray
+            };
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties;
+            const categoria = String(props.categoria || "").toUpperCase();
+            const categoriaTexto = categoria === "BARRIAL" ? "Barrial" : categoria === "ZONAL" ? "Zonal" : categoria;
+            layer.bindPopup(`
+              <strong>${props.nombre || "Equipamiento de salud"}</strong><br>
+              <strong>Categoria:</strong> ${categoriaTexto}<br>
+              <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
+              <strong>Codigo:</strong> ${props.codigo || "Sin codigo"}<br>
+              <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
+              <strong>Segmentos de red:</strong> ${formatNumber(props.segmentos_red || 0)}<br>
+              <strong>Longitud de red:</strong> ${formatNumber(Math.round(props.longitud_red_m || 0))} m<br>
+              <strong>Area exacta red:</strong> ${formatNumber(Math.round(props.area_poligono_red_m2 || 0))} m2<br>
+              <strong>Area ajustada:</strong> ${formatNumber(Math.round(props.area_poligono_m2 || 0))} m2<br>
+              <strong>Snap a via:</strong> ${Number(props.snap_m || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })} m
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = "Isocronas salud categorizada";
+              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada solo con el borde exterior.`;
+            });
+          }
+        }
+      );
+      syncSingleLayer(window.saludIsocronasLayer, layerVisibility.saludIsocronas);
     }
 
     function renderIsocronaNetworkLayer() {
@@ -1986,6 +2098,8 @@
           equipamientosStatsResponse,
           educacionIsocronasResponse,
           educacionIsocronasStatsResponse,
+          saludIsocronasResponse,
+          saludIsocronasStatsResponse,
           isocrona1000PolygonResponse,
           isocrona1000NetworkResponse,
           isocronas1000StatsResponse,
@@ -2004,6 +2118,8 @@
           fetch(`./riobamba-censo-data/riobamba_equipamientos_stats.json?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_isocronas_educacion_categorizada.geojson?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_isocronas_educacion_categorizada_stats.json?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocronas_salud_categorizada.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocronas_salud_categorizada_stats.json?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_isocrona_plataforma_n_1000m.geojson?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_red_vial_isocrona_plataforma_n_1000m.geojson?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_isocrona_plataforma_n_1000m_stats.json?v=${DATA_VERSION}`),
@@ -2023,6 +2139,8 @@
           !equipamientosStatsResponse.ok ||
           !educacionIsocronasResponse.ok ||
           !educacionIsocronasStatsResponse.ok ||
+          !saludIsocronasResponse.ok ||
+          !saludIsocronasStatsResponse.ok ||
           !isocrona1000PolygonResponse.ok ||
           !isocrona1000NetworkResponse.ok ||
           !isocronas1000StatsResponse.ok ||
@@ -2043,6 +2161,8 @@
         const equipamientosStatsData = await equipamientosStatsResponse.json();
         const educacionIsocronasGeo = await educacionIsocronasResponse.json();
         const educacionIsocronasStatsData = await educacionIsocronasStatsResponse.json();
+        const saludIsocronasGeo = await saludIsocronasResponse.json();
+        const saludIsocronasStatsData = await saludIsocronasStatsResponse.json();
         const isocrona1000PolygonGeo = await isocrona1000PolygonResponse.json();
         const isocrona1000NetworkGeo = await isocrona1000NetworkResponse.json();
         const isocronas1000StatsData = await isocronas1000StatsResponse.json();
@@ -2061,6 +2181,8 @@
         window.isocrona400CartoStats = isocronas400CartoStatsData;
         window.educacionIsocronasStats = educacionIsocronasStatsData;
         window.educacionIsocronasFeatures = educacionIsocronasGeo.features || [];
+        window.saludIsocronasStats = saludIsocronasStatsData;
+        window.saludIsocronasFeatures = saludIsocronasGeo.features || [];
         window.isocrona1000PolygonFeatures = isocrona1000PolygonGeo.features || [];
         window.isocrona1000NetworkFeatures = isocrona1000NetworkGeo.features || [];
         window.isocrona400PolygonFeatures = isocrona400PolygonGeo.features || [];
@@ -2101,10 +2223,12 @@
         buildEquipamientosSummary();
         buildIsocronasSummary();
         buildEducacionIsocronasSummary();
+        buildSaludIsocronasSummary();
         buildIsocrona400Summary();
         buildIsocrona400CartoSummary();
         renderEducacionIsocronasLayer();
         renderEducacionIsocronasStartLayer();
+        renderSaludIsocronasLayer();
         renderIsocronaPolygonLayer();
         renderIsocronaNetworkLayer();
         renderIsocrona400PolygonLayer();
@@ -2113,7 +2237,7 @@
         renderEquipamientosLayer();
         renderAll(false);
 
-        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas y ${formatNumber(equipamientosFeatures.length)} equipamientos. Educacion categorizada: ${formatNumber(window.educacionIsocronasStats.summary.total_isocronas || 0)} isocronas ajustadas a ${formatNumber(window.educacionIsocronasStats.summary.manzanas_ajustadas || 0)} manzanas, con solo borde exterior visible y ${formatNumber((window.educacionIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0)} cantonales omitidos. Isocrona 1000 m: ${formatNumber(isocronasStats.equipamientos_origen)} equipamientos origen. Isocrona exacta 400 m: ${formatNumber(window.isocrona400Stats.boundary_samples)} muestras del borde y ${formatNumber(window.isocrona400Stats.segmentos_red)} segmentos OSM. Referencia cartografica: ${formatNumber(window.isocrona400CartoStats.manzanas_ajustadas || 0)} manzanas ajustadas.`;
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas y ${formatNumber(equipamientosFeatures.length)} equipamientos. Educacion categorizada: ${formatNumber(window.educacionIsocronasStats.summary.total_isocronas || 0)} isocronas y ${formatNumber((window.educacionIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0)} cantonales omitidos. Salud categorizada: ${formatNumber(window.saludIsocronasStats.summary.total_isocronas || 0)} isocronas y ${formatNumber((window.saludIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0)} cantonales omitidos. Isocrona 1000 m: ${formatNumber(isocronasStats.equipamientos_origen)} equipamientos origen. Isocrona exacta 400 m: ${formatNumber(window.isocrona400Stats.boundary_samples)} muestras del borde y ${formatNumber(window.isocrona400Stats.segmentos_red)} segmentos OSM. Referencia cartografica: ${formatNumber(window.isocrona400CartoStats.manzanas_ajustadas || 0)} manzanas ajustadas.`;
 
         if (layerControl) {
           layerControl.remove();
@@ -2264,6 +2388,28 @@
       }
     });
 
+    downloadSaludIsocronasShpButton.addEventListener("click", () => {
+      try {
+        const entry = shpManifest[SALUD_ISOCHRONE_SHP_KEY];
+
+        if (!entry) {
+          statusText.textContent = "No existe un ZIP listo con poligonos separados para las isocronas de salud.";
+          return;
+        }
+
+        const link = document.createElement("a");
+        link.href = `./riobamba-censo-data/shp/${entry.file}`;
+        link.download = entry.file;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        statusText.textContent = `Descarga iniciada: ZIP con ${formatNumber(entry.count)} shapefiles separados, uno por cada poligono de isocrona de salud.`;
+      } catch (error) {
+        statusText.textContent = "No se pudo iniciar la descarga del ZIP con poligonos separados de las isocronas de salud.";
+      }
+    });
+
     metricSelect.addEventListener("change", () => {
       currentMetric = metricSelect.value;
       renderAll(false);
@@ -2325,6 +2471,11 @@
 
     toggleEducacionIsocronasPuntos.addEventListener("change", () => {
       layerVisibility.educacionIsocronasPuntos = toggleEducacionIsocronasPuntos.checked;
+      syncVisibleLayers();
+    });
+
+    toggleSaludIsocronas.addEventListener("change", () => {
+      layerVisibility.saludIsocronas = toggleSaludIsocronas.checked;
       syncVisibleLayers();
     });
 

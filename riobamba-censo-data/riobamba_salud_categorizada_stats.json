@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-06-04T20:04:12",
+  "source_zip": "D:\\codex\\SALUD_CATEGORIZADO.zip",
+  "summary": {
+    "total_equipamientos": 4,
+    "con_isocrona": 3,
+    "sin_isocrona": 1,
+    "categorias": 3
+  },
+  "by_categoria": {
+    "ZONAL": 2,
+    "BARRIAL": 1,
+    "CANTONAL": 1
+  }
+}
