@@ -6,6 +6,8 @@ from pathlib import Path
 
 import shapefile
 
+from riobamba_categorized_isocronas_config import iter_categorized_isochrone_configs
+
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "riobamba-censo-data"
@@ -14,7 +16,16 @@ MANIFEST_PATH = SHP_DIR / "manifest.json"
 
 PRJ_WGS84 = 'GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]]'
 
-EXPORTS = [
+BASE_EXPORTS = [
+    {
+        "source_path": DATA_DIR / "riobamba_isocrona_plataforma_n_1000m.geojson",
+        "output_basename": "limite_isocrona_plataforma_n_1000m",
+        "label": "Limite externo de isocrona 1000 m desde equipamientos de la plataforma Ñ",
+        "shape_type": shapefile.POLYGON,
+        "geometry_mode": "polygon",
+        "bundle_mode": "single",
+        "required": False,
+    },
     {
         "source_path": DATA_DIR / "riobamba_isocrona_limite_plataforma_n_400m.geojson",
         "output_basename": "limite_isocrona_limite_plataforma_n_400m",
@@ -22,6 +33,7 @@ EXPORTS = [
         "shape_type": shapefile.POLYGON,
         "geometry_mode": "polygon",
         "bundle_mode": "single",
+        "required": True,
     },
     {
         "source_path": DATA_DIR / "riobamba_isocrona_limite_plataforma_n_400m_ajustada_manzanas.geojson",
@@ -30,40 +42,49 @@ EXPORTS = [
         "shape_type": shapefile.POLYGON,
         "geometry_mode": "polygon",
         "bundle_mode": "single",
-    },
-    {
-        "source_path": DATA_DIR / "riobamba_isocronas_educacion_categorizada.geojson",
-        "output_basename": "isocronas_educacion_categorizada_manzanas",
-        "label": "ZIP con shapefiles separados del borde exterior de cada isocrona de educación",
-        "shape_type": shapefile.POLYGON,
-        "geometry_mode": "polygon",
-        "bundle_mode": "per_feature",
-    },
-    {
-        "source_path": DATA_DIR / "riobamba_isocronas_educacion_categorizada.geojson",
-        "output_basename": "puntos_inicio_isocronas_educacion",
-        "label": "Shapefile ZIP con los puntos de inicio de las isocronas de educaciÃ³n",
-        "shape_type": shapefile.POINT,
-        "geometry_mode": "source_point",
-        "bundle_mode": "single",
-    },
-    {
-        "source_path": DATA_DIR / "riobamba_isocronas_salud_categorizada.geojson",
-        "output_basename": "isocronas_salud_categorizada_manzanas",
-        "label": "ZIP con shapefiles separados de poligonos de cada isocrona de salud",
-        "shape_type": shapefile.POLYGON,
-        "geometry_mode": "polygon",
-        "bundle_mode": "per_feature",
-    },
-    {
-        "source_path": DATA_DIR / "riobamba_isocronas_salud_categorizada.geojson",
-        "output_basename": "puntos_inicio_isocronas_salud",
-        "label": "Shapefile ZIP con los puntos de inicio de las isocronas de salud",
-        "shape_type": shapefile.POINT,
-        "geometry_mode": "source_point",
-        "bundle_mode": "single",
+        "required": True,
     },
 ]
+
+
+def build_categorized_exports():
+    exports = []
+    for config in iter_categorized_isochrone_configs():
+        exports.append(
+            {
+                "source_path": config.output_isocronas,
+                "output_basename": config.shp_polygon_basename,
+                "label": config.shp_polygon_label,
+                "shape_type": shapefile.POLYGON,
+                "geometry_mode": "polygon",
+                "bundle_mode": "per_feature",
+                "required": False,
+            }
+        )
+        exports.append(
+            {
+                "source_path": config.output_isocronas,
+                "output_basename": config.shp_start_points_basename,
+                "label": config.shp_start_points_label,
+                "shape_type": shapefile.POINT,
+                "geometry_mode": "source_point",
+                "bundle_mode": "single",
+                "required": False,
+            }
+        )
+    return exports
+
+
+def resolve_exports():
+    exports = []
+    for config in [*BASE_EXPORTS, *build_categorized_exports()]:
+        source_path = config["source_path"]
+        if source_path.exists():
+            exports.append(config)
+            continue
+        if config.get("required", True):
+            raise FileNotFoundError(f"No se encontro el archivo fuente para exportar: {source_path}")
+    return exports
 
 
 def load_json(path: Path):
@@ -262,7 +283,8 @@ def build_export(config):
 
 
 def main():
-    results = [build_export(config) for config in EXPORTS]
+    export_configs = resolve_exports()
+    results = [build_export(config) for config in export_configs]
     update_manifest(results)
 
     print("Listo.")

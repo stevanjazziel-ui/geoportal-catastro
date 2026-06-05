@@ -2,7 +2,7 @@
   "limite_isocrona_plataforma_n_1000m": {
     "file": "limite_isocrona_plataforma_n_1000m.zip",
     "count": 1,
-    "label": "Limite externo de isocrona 1000 m desde equipamientos de la plataforma N"
+    "label": "Limite externo de isocrona 1000 m desde equipamientos de la plataforma Ñ"
   },
   "limite_isocrona_limite_plataforma_n_400m": {
     "file": "limite_isocrona_limite_plataforma_n_400m.zip",
@@ -157,21 +157,21 @@
   "isocronas_educacion_categorizada_manzanas": {
     "file": "isocronas_educacion_categorizada_manzanas.zip",
     "count": 20,
-    "label": "ZIP con shapefiles separados del borde exterior de cada isocrona de educación"
+    "label": "ZIP con shapefiles separados del borde exterior de cada isocrona de Educacion"
   },
   "puntos_inicio_isocronas_educacion": {
     "file": "puntos_inicio_isocronas_educacion.zip",
     "count": 20,
-    "label": "Shapefile ZIP con los puntos de inicio de las isocronas de educaciÃ³n"
+    "label": "Shapefile ZIP con los puntos de inicio de las isocronas de Educacion"
   },
   "isocronas_salud_categorizada_manzanas": {
     "file": "isocronas_salud_categorizada_manzanas.zip",
     "count": 3,
-    "label": "ZIP con shapefiles separados de poligonos de cada isocrona de salud"
+    "label": "ZIP con shapefiles separados del borde exterior de cada isocrona de Salud"
   },
   "puntos_inicio_isocronas_salud": {
     "file": "puntos_inicio_isocronas_salud.zip",
     "count": 3,
-    "label": "Shapefile ZIP con los puntos de inicio de las isocronas de salud"
+    "label": "Shapefile ZIP con los puntos de inicio de las isocronas de Salud"
   }
 }
