@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-06-06T20:29:52",
+  "source_archive": "C:\\Users\\PC\\Downloads\\categorizados\\Recreacion y deporte.rar",
+  "source_zip": "C:\\Users\\PC\\Downloads\\categorizados\\Recreacion y deporte.rar",
+  "summary": {
+    "total_equipamientos": 29,
+    "con_isocrona": 22,
+    "sin_isocrona": 7,
+    "categorias": 3
+  },
+  "by_categoria": {
+    "BARRIAL": 19,
+    "CANTONAL": 7,
+    "ZONAL": 3
+  }
+}

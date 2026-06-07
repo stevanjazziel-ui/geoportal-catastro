@@ -77,6 +77,14 @@ CATEGORIZED_ISOCHRONE_CONFIGS = {
             Path(r"E:\Riobamba\equipamientos\EDUCACION 2\EDUCACION_CATEGORIZADO.zip"),
         ),
     ),
+    "recreacion": CategorizedIsochroneConfig(
+        key="recreacion",
+        display_name="recreacion y deporte",
+        output_suffix="recreacion_deporte_categorizada",
+        source_zip_candidates=(
+            Path(r"C:\Users\PC\Downloads\categorizados\Recreacion y deporte.rar"),
+        ),
+    ),
     "salud": CategorizedIsochroneConfig(
         key="salud",
         display_name="salud",

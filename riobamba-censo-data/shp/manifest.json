@@ -193,5 +193,15 @@
     "xlsx_file": "plataforma_enie.xlsx",
     "count": 197,
     "label": "PLATAFORMA Ñ"
+  },
+  "isocronas_recreacion_deporte_categorizada_manzanas": {
+    "file": "isocronas_recreacion_deporte_categorizada_manzanas.zip",
+    "count": 22,
+    "label": "ZIP con shapefiles separados del borde exterior de cada isocrona de Recreacion Y Deporte"
+  },
+  "puntos_inicio_isocronas_recreacion": {
+    "file": "puntos_inicio_isocronas_recreacion.zip",
+    "count": 22,
+    "label": "Shapefile ZIP con los puntos de inicio de las isocronas de Recreacion Y Deporte"
   }
 }
