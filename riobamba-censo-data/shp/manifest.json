@@ -159,12 +159,12 @@
   },
   "isocronas_salud_categorizada_manzanas": {
     "file": "isocronas_salud_categorizada_manzanas.zip",
-    "count": 2,
+    "count": 3,
     "label": "ZIP con shapefiles separados del borde exterior de cada isocrona de Salud"
   },
   "puntos_inicio_isocronas_salud": {
     "file": "puntos_inicio_isocronas_salud.zip",
-    "count": 2,
+    "count": 3,
     "label": "Shapefile ZIP con los puntos de inicio de las isocronas de Salud"
   },
   "rutas_transporte_intracantonal_recortadas_400m_carto": {
@@ -243,5 +243,10 @@
     "file": "manzanas_dentro_isocronas_recreacion_deporte_categorizada.zip",
     "count": 22,
     "label": "ZIP con shapefiles separados de las manzanas dentro de cada isocrona de Recreacion Y Deporte"
+  },
+  "manzanas_dentro_isocronas_salud_categorizada": {
+    "file": "manzanas_dentro_isocronas_salud_categorizada.zip",
+    "count": 3,
+    "label": "ZIP con shapefiles separados de las manzanas dentro de cada isocrona de Salud"
   }
 }

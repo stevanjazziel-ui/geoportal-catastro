@@ -312,6 +312,7 @@
         <button id="downloadCulturaManzanasInShpButton" type="button" style="margin-top:10px;">Descargar manzanas dentro de cada isocrona de cultura</button>
         <button id="downloadSaludIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con poligonos separados de isocronas salud</button>
         <button id="downloadSaludStartPointsShpButton" type="button" style="margin-top:10px;">Descargar SHP de puntos de inicio salud</button>
+        <button id="downloadSaludManzanasInShpButton" type="button" style="margin-top:10px;">Descargar manzanas dentro de cada isocrona de salud</button>
         <button id="downloadParadasBusIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con poligonos separados de paradas de bus</button>
         <button id="downloadParadasBusStartPointsShpButton" type="button" style="margin-top:10px;">Descargar SHP de puntos de inicio de paradas de bus</button>
         <p style="margin-top:10px;">
@@ -436,7 +437,7 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260606-2238-manzanas-iso";
+    const DATA_VERSION = "20260606-2254-salud-manzanas";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const TRANSPORTE_ROUTES_SHP_KEY = "rutas_transporte_intracantonal_recortadas_400m_carto";
@@ -455,6 +456,7 @@
     const CULTURA_COVERED_MANZANAS_SHP_KEY = "manzanas_dentro_isocronas_cultura_categorizada";
     const SALUD_ISOCHRONE_SHP_KEY = "isocronas_salud_categorizada_manzanas";
     const SALUD_START_POINTS_SHP_KEY = "puntos_inicio_isocronas_salud";
+    const SALUD_COVERED_MANZANAS_SHP_KEY = "manzanas_dentro_isocronas_salud_categorizada";
     const PARADAS_BUS_ISOCHRONE_SHP_KEY = "isocronas_paradas_bus_400m";
     const PARADAS_BUS_START_POINTS_SHP_KEY = "puntos_inicio_isocronas_paradas_bus";
 
@@ -545,6 +547,7 @@
     const downloadCulturaManzanasInShpButton = document.getElementById("downloadCulturaManzanasInShpButton");
     const downloadSaludIsocronasShpButton = document.getElementById("downloadSaludIsocronasShpButton");
     const downloadSaludStartPointsShpButton = document.getElementById("downloadSaludStartPointsShpButton");
+    const downloadSaludManzanasInShpButton = document.getElementById("downloadSaludManzanasInShpButton");
     const downloadParadasBusIsocronasShpButton = document.getElementById("downloadParadasBusIsocronasShpButton");
     const downloadParadasBusStartPointsShpButton = document.getElementById("downloadParadasBusStartPointsShpButton");
     const toggleManzanas = document.getElementById("toggleManzanas");
@@ -1659,6 +1662,7 @@
       downloadCulturaManzanasInShpButton.disabled = !shpManifest[CULTURA_COVERED_MANZANAS_SHP_KEY];
       downloadSaludIsocronasShpButton.disabled = !shpManifest[SALUD_ISOCHRONE_SHP_KEY];
       downloadSaludStartPointsShpButton.disabled = !shpManifest[SALUD_START_POINTS_SHP_KEY];
+      downloadSaludManzanasInShpButton.disabled = !shpManifest[SALUD_COVERED_MANZANAS_SHP_KEY];
       downloadParadasBusIsocronasShpButton.disabled = !shpManifest[PARADAS_BUS_ISOCHRONE_SHP_KEY];
       downloadParadasBusStartPointsShpButton.disabled = !shpManifest[PARADAS_BUS_START_POINTS_SHP_KEY];
     }
@@ -3746,6 +3750,28 @@
         statusText.textContent = `Descarga iniciada: shapefile ZIP con ${formatNumber(entry.count)} puntos de inicio de isocronas de salud.`;
       } catch (error) {
         statusText.textContent = "No se pudo iniciar la descarga del shapefile de puntos de inicio de salud.";
+      }
+    });
+
+    downloadSaludManzanasInShpButton.addEventListener("click", () => {
+      try {
+        const entry = shpManifest[SALUD_COVERED_MANZANAS_SHP_KEY];
+
+        if (!entry) {
+          statusText.textContent = "No existe un ZIP listo con las manzanas dentro de cada isocrona de salud.";
+          return;
+        }
+
+        const link = document.createElement("a");
+        link.href = `./riobamba-censo-data/shp/${entry.file}`;
+        link.download = entry.file;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        statusText.textContent = `Descarga iniciada: ZIP con ${formatNumber(entry.count)} shapefiles separados de manzanas cubiertas por cada isocrona de salud.`;
+      } catch (error) {
+        statusText.textContent = "No se pudo iniciar la descarga del ZIP de manzanas dentro de las isocronas de salud.";
       }
     });
 

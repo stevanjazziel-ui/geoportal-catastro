@@ -110,7 +110,7 @@ def build_categorized_exports():
                 "required": False,
             }
         )
-        if config.key in {"educacion", "recreacion", "bienestar", "cultura"}:
+        if config.key in {"educacion", "recreacion", "bienestar", "cultura", "salud"}:
             exports.append(
                 {
                     "source_path": config.output_isocronas,
