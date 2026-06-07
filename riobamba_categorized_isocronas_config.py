@@ -67,6 +67,14 @@ class CategorizedIsochroneConfig:
 
 
 CATEGORIZED_ISOCHRONE_CONFIGS = {
+    "cultura": CategorizedIsochroneConfig(
+        key="cultura",
+        display_name="cultura",
+        output_suffix="cultura_categorizada",
+        source_zip_candidates=(
+            Path(r"C:\Users\PC\Downloads\categorizados\Cultural.rar"),
+        ),
+    ),
     "educacion": CategorizedIsochroneConfig(
         key="educacion",
         display_name="educacion",

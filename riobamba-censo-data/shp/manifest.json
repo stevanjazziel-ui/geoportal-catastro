@@ -203,5 +203,15 @@
     "file": "puntos_inicio_isocronas_recreacion.zip",
     "count": 22,
     "label": "Shapefile ZIP con los puntos de inicio de las isocronas de Recreacion Y Deporte"
+  },
+  "isocronas_cultura_categorizada_manzanas": {
+    "file": "isocronas_cultura_categorizada_manzanas.zip",
+    "count": 2,
+    "label": "ZIP con shapefiles separados del borde exterior de cada isocrona de Cultura"
+  },
+  "puntos_inicio_isocronas_cultura": {
+    "file": "puntos_inicio_isocronas_cultura.zip",
+    "count": 2,
+    "label": "Shapefile ZIP con los puntos de inicio de las isocronas de Cultura"
   }
 }
