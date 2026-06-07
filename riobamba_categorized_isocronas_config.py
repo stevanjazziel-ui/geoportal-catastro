@@ -72,6 +72,7 @@ CATEGORIZED_ISOCHRONE_CONFIGS = {
         display_name="educacion",
         output_suffix="educacion_categorizada",
         source_zip_candidates=(
+            Path(r"C:\Users\PC\Downloads\categorizados\Educacion.rar"),
             BASE_DIR / "EDUCACION_CATEGORIZADO.zip",
             Path(r"E:\Riobamba\equipamientos\EDUCACION 2\EDUCACION_CATEGORIZADO.zip"),
         ),
