@@ -13,6 +13,8 @@ BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "riobamba-censo-data"
 SHP_DIR = DATA_DIR / "shp"
 MANIFEST_PATH = SHP_DIR / "manifest.json"
+MANZANAS_PATH = DATA_DIR / "riobamba_manzanas.geojson"
+MANZANAS_STATS_PATH = DATA_DIR / "riobamba_manzanas_stats.json"
 
 PRJ_WGS84 = 'GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]]'
 
@@ -108,6 +110,18 @@ def build_categorized_exports():
                 "required": False,
             }
         )
+        if config.key in {"educacion", "recreacion", "bienestar", "cultura"}:
+            exports.append(
+                {
+                    "source_path": config.output_isocronas,
+                    "output_basename": config.shp_covered_manzanas_basename,
+                    "label": config.shp_covered_manzanas_label,
+                    "shape_type": shapefile.POLYGON,
+                    "geometry_mode": "covered_manzanas",
+                    "bundle_mode": "per_feature_manzanas",
+                    "required": False,
+                }
+            )
     return exports
 
 
@@ -198,6 +212,28 @@ def init_writer(shp_base: Path, shape_type):
     return writer
 
 
+def init_manzana_writer(shp_base: Path):
+    writer = shapefile.Writer(str(shp_base), shapeType=shapefile.POLYGON)
+    writer.autoBalance = 1
+    writer.field("man", "C", size=18)
+    writer.field("iso_nom", "C", size=80)
+    writer.field("iso_cod", "C", size=24)
+    writer.field("categor", "C", size=20)
+    writer.field("dist_m", "N", size=10, decimal=0)
+    writer.field("equipam", "C", size=32)
+    writer.field("pob_tot", "N", size=12, decimal=0)
+    writer.field("male", "N", size=12, decimal=0)
+    writer.field("female", "N", size=12, decimal=0)
+    writer.field("age0_4", "N", size=12, decimal=0)
+    writer.field("age5_11", "N", size=12, decimal=0)
+    writer.field("age12_17", "N", size=12, decimal=0)
+    writer.field("age18_29", "N", size=12, decimal=0)
+    writer.field("age30_64", "N", size=12, decimal=0)
+    writer.field("age65pls", "N", size=12, decimal=0)
+    writer.field("src_id", "N", size=10, decimal=0)
+    return writer
+
+
 def write_feature_geometry(writer, feature, geometry_mode, shape_type):
     parts = geometry_parts(feature, geometry_mode=geometry_mode)
     if shape_type == shapefile.POINT:
@@ -257,6 +293,85 @@ def build_feature_basename(feature, index):
     return f"iso_{index:03d}_{categoria}_{codigo}_{nombre}"
 
 
+def build_manzana_feature_basename(feature, index):
+    return f"{build_feature_basename(feature, index)}_manzanas"
+
+
+def load_manzana_lookup():
+    manzanas_geo = load_json(MANZANAS_PATH)
+    manzanas_stats = load_json(MANZANAS_STATS_PATH).get("byMan", {})
+    lookup = {}
+
+    for feature in manzanas_geo.get("features", []):
+        props = feature.get("properties", {})
+        man = str(props.get("man") or "").strip()
+        if not man:
+            continue
+        merged_props = {
+            **props,
+            **(manzanas_stats.get(man) or {}),
+        }
+        lookup[man] = {
+            "type": "Feature",
+            "properties": merged_props,
+            "geometry": feature.get("geometry"),
+        }
+
+    return lookup
+
+
+def write_manzana_record(writer, manzana_feature, source_feature):
+    mprops = manzana_feature.get("properties", {})
+    sprops = source_feature.get("properties", {})
+    writer.record(
+        man=str(mprops.get("man", ""))[:18],
+        iso_nom=str(sprops.get("nombre", ""))[:80],
+        iso_cod=str(sprops.get("codigo", ""))[:24],
+        categor=str(sprops.get("categoria", ""))[:20],
+        dist_m=int(sprops.get("distance_m", 0) or 0),
+        equipam=str(sprops.get("equipamien", ""))[:32],
+        pob_tot=int(mprops.get("population_total", 0) or 0),
+        male=int(mprops.get("male", 0) or 0),
+        female=int(mprops.get("female", 0) or 0),
+        age0_4=int(mprops.get("age_0_4", 0) or 0),
+        age5_11=int(mprops.get("age_5_11", 0) or 0),
+        age12_17=int(mprops.get("age_12_17", 0) or 0),
+        age18_29=int(mprops.get("age_18_29", 0) or 0),
+        age30_64=int(mprops.get("age_30_64", 0) or 0),
+        age65pls=int(mprops.get("age_65_plus", 0) or 0),
+        src_id=int(sprops.get("source_id", 0) or 0),
+    )
+
+
+def write_per_feature_manzanas_bundle(features, output_basename: str):
+    temp_dir = SHP_DIR / output_basename
+    if temp_dir.exists():
+        shutil.rmtree(temp_dir)
+    temp_dir.mkdir(parents=True, exist_ok=True)
+
+    manzanas_by_id = load_manzana_lookup()
+    written = 0
+
+    for index, feature in enumerate(features, start=1):
+        covered_ids = feature.get("properties", {}).get("covered_manzanas") or []
+        covered_features = [manzanas_by_id[man_id] for man_id in covered_ids if man_id in manzanas_by_id]
+        if not covered_features:
+            continue
+
+        shp_base = temp_dir / build_manzana_feature_basename(feature, index)
+        writer = init_manzana_writer(shp_base)
+        for manzana_feature in covered_features:
+            write_feature_geometry(writer, manzana_feature, "polygon", shapefile.POLYGON)
+            write_manzana_record(writer, manzana_feature, feature)
+        finalize_writer(writer, shp_base)
+        written += 1
+
+    if written == 0:
+        raise RuntimeError(f"No se encontraron manzanas cubiertas para exportar en {output_basename}.")
+
+    return temp_dir
+
+
 def write_single_bundle(features, output_basename: str, shape_type, geometry_mode):
     temp_dir = SHP_DIR / output_basename
     if temp_dir.exists():
@@ -301,6 +416,8 @@ def write_zip(features, output_basename: str, shape_type, geometry_mode, bundle_
     SHP_DIR.mkdir(parents=True, exist_ok=True)
     if bundle_mode == "per_feature":
         temp_dir = write_per_feature_bundle(features, output_basename, shape_type, geometry_mode)
+    elif bundle_mode == "per_feature_manzanas":
+        temp_dir = write_per_feature_manzanas_bundle(features, output_basename)
     else:
         temp_dir = write_single_bundle(features, output_basename, shape_type, geometry_mode)
     return pack_directory(temp_dir, output_basename)

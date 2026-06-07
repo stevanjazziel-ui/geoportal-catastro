@@ -223,5 +223,25 @@
     "file": "puntos_inicio_isocronas_bienestar.zip",
     "count": 1,
     "label": "Shapefile ZIP con los puntos de inicio de las isocronas de Bienestar Social"
+  },
+  "manzanas_dentro_isocronas_bienestar_social_categorizada": {
+    "file": "manzanas_dentro_isocronas_bienestar_social_categorizada.zip",
+    "count": 1,
+    "label": "ZIP con shapefiles separados de las manzanas dentro de cada isocrona de Bienestar Social"
+  },
+  "manzanas_dentro_isocronas_cultura_categorizada": {
+    "file": "manzanas_dentro_isocronas_cultura_categorizada.zip",
+    "count": 2,
+    "label": "ZIP con shapefiles separados de las manzanas dentro de cada isocrona de Cultura"
+  },
+  "manzanas_dentro_isocronas_educacion_categorizada": {
+    "file": "manzanas_dentro_isocronas_educacion_categorizada.zip",
+    "count": 20,
+    "label": "ZIP con shapefiles separados de las manzanas dentro de cada isocrona de Educacion"
+  },
+  "manzanas_dentro_isocronas_recreacion_deporte_categorizada": {
+    "file": "manzanas_dentro_isocronas_recreacion_deporte_categorizada.zip",
+    "count": 22,
+    "label": "ZIP con shapefiles separados de las manzanas dentro de cada isocrona de Recreacion Y Deporte"
   }
 }

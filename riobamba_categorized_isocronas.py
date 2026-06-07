@@ -722,6 +722,7 @@ def build_single_isochrone(config, record, manzana_features, manzana_stats_by_id
             "segmentos_red": len(segments),
             "longitud_red_m": round(total_length, 2),
             "manzanas_ajustadas": len(covered_manzanas),
+            "covered_manzanas": list(covered_manzanas),
             "population_total": population_total,
             "area_poligono_red_m2": round(exact_polygon.area, 2),
             "area_poligono_manzanas_m2": round(aligned_polygon.area, 2),

@@ -300,12 +300,16 @@
         <button id="downloadTransporteBufferShpButton" type="button" style="margin-top:10px;">Descargar SHP buffer transporte 200 m por lado</button>
         <button id="downloadEducacionIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con poligonos separados de isocronas educacion</button>
         <button id="downloadEducacionStartPointsShpButton" type="button" style="margin-top:10px;">Descargar SHP de puntos de inicio educacion</button>
+        <button id="downloadEducacionManzanasInShpButton" type="button" style="margin-top:10px;">Descargar manzanas dentro de cada isocrona de educacion</button>
         <button id="downloadRecreacionIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con poligonos separados de recreacion y deporte</button>
         <button id="downloadRecreacionStartPointsShpButton" type="button" style="margin-top:10px;">Descargar SHP de puntos de inicio recreacion</button>
+        <button id="downloadRecreacionManzanasInShpButton" type="button" style="margin-top:10px;">Descargar manzanas dentro de cada isocrona de recreacion y deporte</button>
         <button id="downloadBienestarIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con poligonos separados de isocronas bienestar social</button>
         <button id="downloadBienestarStartPointsShpButton" type="button" style="margin-top:10px;">Descargar SHP de puntos de inicio bienestar social</button>
+        <button id="downloadBienestarManzanasInShpButton" type="button" style="margin-top:10px;">Descargar manzanas dentro de cada isocrona de bienestar social</button>
         <button id="downloadCulturaIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con poligonos separados de isocronas cultura</button>
         <button id="downloadCulturaStartPointsShpButton" type="button" style="margin-top:10px;">Descargar SHP de puntos de inicio cultura</button>
+        <button id="downloadCulturaManzanasInShpButton" type="button" style="margin-top:10px;">Descargar manzanas dentro de cada isocrona de cultura</button>
         <button id="downloadSaludIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con poligonos separados de isocronas salud</button>
         <button id="downloadSaludStartPointsShpButton" type="button" style="margin-top:10px;">Descargar SHP de puntos de inicio salud</button>
         <button id="downloadParadasBusIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con poligonos separados de paradas de bus</button>
@@ -432,19 +436,23 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260606-2116-bienestar";
+    const DATA_VERSION = "20260606-2238-manzanas-iso";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const TRANSPORTE_ROUTES_SHP_KEY = "rutas_transporte_intracantonal_recortadas_400m_carto";
     const TRANSPORTE_BUFFER_SHP_KEY = "buffer_transporte_intracantonal_200m_lado";
     const EDUCACION_ISOCHRONE_SHP_KEY = "isocronas_educacion_categorizada_manzanas";
     const EDUCACION_START_POINTS_SHP_KEY = "puntos_inicio_isocronas_educacion";
+    const EDUCACION_COVERED_MANZANAS_SHP_KEY = "manzanas_dentro_isocronas_educacion_categorizada";
     const RECREACION_ISOCHRONE_SHP_KEY = "isocronas_recreacion_deporte_categorizada_manzanas";
     const RECREACION_START_POINTS_SHP_KEY = "puntos_inicio_isocronas_recreacion";
+    const RECREACION_COVERED_MANZANAS_SHP_KEY = "manzanas_dentro_isocronas_recreacion_deporte_categorizada";
     const BIENESTAR_ISOCHRONE_SHP_KEY = "isocronas_bienestar_social_categorizada_manzanas";
     const BIENESTAR_START_POINTS_SHP_KEY = "puntos_inicio_isocronas_bienestar";
+    const BIENESTAR_COVERED_MANZANAS_SHP_KEY = "manzanas_dentro_isocronas_bienestar_social_categorizada";
     const CULTURA_ISOCHRONE_SHP_KEY = "isocronas_cultura_categorizada_manzanas";
     const CULTURA_START_POINTS_SHP_KEY = "puntos_inicio_isocronas_cultura";
+    const CULTURA_COVERED_MANZANAS_SHP_KEY = "manzanas_dentro_isocronas_cultura_categorizada";
     const SALUD_ISOCHRONE_SHP_KEY = "isocronas_salud_categorizada_manzanas";
     const SALUD_START_POINTS_SHP_KEY = "puntos_inicio_isocronas_salud";
     const PARADAS_BUS_ISOCHRONE_SHP_KEY = "isocronas_paradas_bus_400m";
@@ -525,12 +533,16 @@
     const downloadTransporteBufferShpButton = document.getElementById("downloadTransporteBufferShpButton");
     const downloadEducacionIsocronasShpButton = document.getElementById("downloadEducacionIsocronasShpButton");
     const downloadEducacionStartPointsShpButton = document.getElementById("downloadEducacionStartPointsShpButton");
+    const downloadEducacionManzanasInShpButton = document.getElementById("downloadEducacionManzanasInShpButton");
     const downloadRecreacionIsocronasShpButton = document.getElementById("downloadRecreacionIsocronasShpButton");
     const downloadRecreacionStartPointsShpButton = document.getElementById("downloadRecreacionStartPointsShpButton");
+    const downloadRecreacionManzanasInShpButton = document.getElementById("downloadRecreacionManzanasInShpButton");
     const downloadBienestarIsocronasShpButton = document.getElementById("downloadBienestarIsocronasShpButton");
     const downloadBienestarStartPointsShpButton = document.getElementById("downloadBienestarStartPointsShpButton");
+    const downloadBienestarManzanasInShpButton = document.getElementById("downloadBienestarManzanasInShpButton");
     const downloadCulturaIsocronasShpButton = document.getElementById("downloadCulturaIsocronasShpButton");
     const downloadCulturaStartPointsShpButton = document.getElementById("downloadCulturaStartPointsShpButton");
+    const downloadCulturaManzanasInShpButton = document.getElementById("downloadCulturaManzanasInShpButton");
     const downloadSaludIsocronasShpButton = document.getElementById("downloadSaludIsocronasShpButton");
     const downloadSaludStartPointsShpButton = document.getElementById("downloadSaludStartPointsShpButton");
     const downloadParadasBusIsocronasShpButton = document.getElementById("downloadParadasBusIsocronasShpButton");
@@ -1635,12 +1647,16 @@
       downloadTransporteBufferShpButton.disabled = !shpManifest[TRANSPORTE_BUFFER_SHP_KEY];
       downloadEducacionIsocronasShpButton.disabled = !shpManifest[EDUCACION_ISOCHRONE_SHP_KEY];
       downloadEducacionStartPointsShpButton.disabled = !shpManifest[EDUCACION_START_POINTS_SHP_KEY];
+      downloadEducacionManzanasInShpButton.disabled = !shpManifest[EDUCACION_COVERED_MANZANAS_SHP_KEY];
       downloadRecreacionIsocronasShpButton.disabled = !shpManifest[RECREACION_ISOCHRONE_SHP_KEY];
       downloadRecreacionStartPointsShpButton.disabled = !shpManifest[RECREACION_START_POINTS_SHP_KEY];
+      downloadRecreacionManzanasInShpButton.disabled = !shpManifest[RECREACION_COVERED_MANZANAS_SHP_KEY];
       downloadBienestarIsocronasShpButton.disabled = !shpManifest[BIENESTAR_ISOCHRONE_SHP_KEY];
       downloadBienestarStartPointsShpButton.disabled = !shpManifest[BIENESTAR_START_POINTS_SHP_KEY];
+      downloadBienestarManzanasInShpButton.disabled = !shpManifest[BIENESTAR_COVERED_MANZANAS_SHP_KEY];
       downloadCulturaIsocronasShpButton.disabled = !shpManifest[CULTURA_ISOCHRONE_SHP_KEY];
       downloadCulturaStartPointsShpButton.disabled = !shpManifest[CULTURA_START_POINTS_SHP_KEY];
+      downloadCulturaManzanasInShpButton.disabled = !shpManifest[CULTURA_COVERED_MANZANAS_SHP_KEY];
       downloadSaludIsocronasShpButton.disabled = !shpManifest[SALUD_ISOCHRONE_SHP_KEY];
       downloadSaludStartPointsShpButton.disabled = !shpManifest[SALUD_START_POINTS_SHP_KEY];
       downloadParadasBusIsocronasShpButton.disabled = !shpManifest[PARADAS_BUS_ISOCHRONE_SHP_KEY];
@@ -3469,6 +3485,28 @@
       }
     });
 
+    downloadEducacionManzanasInShpButton.addEventListener("click", () => {
+      try {
+        const entry = shpManifest[EDUCACION_COVERED_MANZANAS_SHP_KEY];
+
+        if (!entry) {
+          statusText.textContent = "No existe un ZIP listo con las manzanas dentro de cada isocrona de educacion.";
+          return;
+        }
+
+        const link = document.createElement("a");
+        link.href = `./riobamba-censo-data/shp/${entry.file}`;
+        link.download = entry.file;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        statusText.textContent = `Descarga iniciada: ZIP con ${formatNumber(entry.count)} shapefiles separados de manzanas cubiertas por cada isocrona de educacion.`;
+      } catch (error) {
+        statusText.textContent = "No se pudo iniciar la descarga del ZIP de manzanas dentro de las isocronas de educacion.";
+      }
+    });
+
     downloadRecreacionIsocronasShpButton.addEventListener("click", () => {
       try {
         const entry = shpManifest[RECREACION_ISOCHRONE_SHP_KEY];
@@ -3510,6 +3548,28 @@
         statusText.textContent = `Descarga iniciada: shapefile ZIP con ${formatNumber(entry.count)} puntos de inicio de isocronas de recreacion y deporte.`;
       } catch (error) {
         statusText.textContent = "No se pudo iniciar la descarga del shapefile de puntos de inicio de recreacion.";
+      }
+    });
+
+    downloadRecreacionManzanasInShpButton.addEventListener("click", () => {
+      try {
+        const entry = shpManifest[RECREACION_COVERED_MANZANAS_SHP_KEY];
+
+        if (!entry) {
+          statusText.textContent = "No existe un ZIP listo con las manzanas dentro de cada isocrona de recreacion y deporte.";
+          return;
+        }
+
+        const link = document.createElement("a");
+        link.href = `./riobamba-censo-data/shp/${entry.file}`;
+        link.download = entry.file;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        statusText.textContent = `Descarga iniciada: ZIP con ${formatNumber(entry.count)} shapefiles separados de manzanas cubiertas por cada isocrona de recreacion y deporte.`;
+      } catch (error) {
+        statusText.textContent = "No se pudo iniciar la descarga del ZIP de manzanas dentro de las isocronas de recreacion y deporte.";
       }
     });
 
@@ -3557,6 +3617,28 @@
       }
     });
 
+    downloadBienestarManzanasInShpButton.addEventListener("click", () => {
+      try {
+        const entry = shpManifest[BIENESTAR_COVERED_MANZANAS_SHP_KEY];
+
+        if (!entry) {
+          statusText.textContent = "No existe un ZIP listo con las manzanas dentro de cada isocrona de bienestar social.";
+          return;
+        }
+
+        const link = document.createElement("a");
+        link.href = `./riobamba-censo-data/shp/${entry.file}`;
+        link.download = entry.file;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        statusText.textContent = `Descarga iniciada: ZIP con ${formatNumber(entry.count)} shapefiles separados de manzanas cubiertas por cada isocrona de bienestar social.`;
+      } catch (error) {
+        statusText.textContent = "No se pudo iniciar la descarga del ZIP de manzanas dentro de las isocronas de bienestar social.";
+      }
+    });
+
     downloadCulturaIsocronasShpButton.addEventListener("click", () => {
       try {
         const entry = shpManifest[CULTURA_ISOCHRONE_SHP_KEY];
@@ -3598,6 +3680,28 @@
         statusText.textContent = `Descarga iniciada: shapefile ZIP con ${formatNumber(entry.count)} puntos de inicio de isocronas de cultura.`;
       } catch (error) {
         statusText.textContent = "No se pudo iniciar la descarga del shapefile de puntos de inicio de cultura.";
+      }
+    });
+
+    downloadCulturaManzanasInShpButton.addEventListener("click", () => {
+      try {
+        const entry = shpManifest[CULTURA_COVERED_MANZANAS_SHP_KEY];
+
+        if (!entry) {
+          statusText.textContent = "No existe un ZIP listo con las manzanas dentro de cada isocrona de cultura.";
+          return;
+        }
+
+        const link = document.createElement("a");
+        link.href = `./riobamba-censo-data/shp/${entry.file}`;
+        link.download = entry.file;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        statusText.textContent = `Descarga iniciada: ZIP con ${formatNumber(entry.count)} shapefiles separados de manzanas cubiertas por cada isocrona de cultura.`;
+      } catch (error) {
+        statusText.textContent = "No se pudo iniciar la descarga del ZIP de manzanas dentro de las isocronas de cultura.";
       }
     });
 

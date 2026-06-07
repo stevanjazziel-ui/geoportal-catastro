@@ -54,6 +54,10 @@ class CategorizedIsochroneConfig:
         return f"puntos_inicio_isocronas_{self.key}"
 
     @property
+    def shp_covered_manzanas_basename(self) -> str:
+        return f"manzanas_dentro_isocronas_{self.output_suffix}"
+
+    @property
     def display_name_title(self) -> str:
         return str(self.display_name or self.key).strip().title()
 
@@ -64,6 +68,10 @@ class CategorizedIsochroneConfig:
     @property
     def shp_start_points_label(self) -> str:
         return f"Shapefile ZIP con los puntos de inicio de las isocronas de {self.display_name_title}"
+
+    @property
+    def shp_covered_manzanas_label(self) -> str:
+        return f"ZIP con shapefiles separados de las manzanas dentro de cada isocrona de {self.display_name_title}"
 
 
 CATEGORIZED_ISOCHRONE_CONFIGS = {
