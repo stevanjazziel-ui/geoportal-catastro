@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-06-06T21:15:59",
+  "source_archive": "C:\\Users\\PC\\Downloads\\categorizados\\Bienestar social.rar",
+  "source_zip": "C:\\Users\\PC\\Downloads\\categorizados\\Bienestar social.rar",
+  "source_osm_cache": "D:\\codex\\riobamba-censo-data\\riobamba_osm_walk_network_plataforma_n.json",
+  "summary": {
+    "total_equipamientos": 1,
+    "total_isocronas": 1,
+    "categorias_con_isocrona": 1,
+    "omitidos": 0,
+    "manzanas_ajustadas": 103
+  },
+  "by_categoria_source": {
+    "ZONAL": 1
+  },
+  "by_categoria_isocronas": {
+    "ZONAL": 1
+  },
+  "by_categoria_omitidos": {},
+  "by_distance_m": {
+    "400": 0,
+    "1000": 1
+  },
+  "observacion": "Se generan isocronas de bienestar social solo para BARRIAL (400 m) y ZONAL (1000 m). Los registros CANTONAL no se procesan. El resultado final queda ajustado a manzanas censales, sin huecos internos y preparado para mostrar solo el limite exterior."
+}

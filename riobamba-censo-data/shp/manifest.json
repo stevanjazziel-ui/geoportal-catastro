@@ -213,5 +213,15 @@
     "file": "puntos_inicio_isocronas_cultura.zip",
     "count": 2,
     "label": "Shapefile ZIP con los puntos de inicio de las isocronas de Cultura"
+  },
+  "isocronas_bienestar_social_categorizada_manzanas": {
+    "file": "isocronas_bienestar_social_categorizada_manzanas.zip",
+    "count": 1,
+    "label": "ZIP con shapefiles separados del borde exterior de cada isocrona de Bienestar Social"
+  },
+  "puntos_inicio_isocronas_bienestar": {
+    "file": "puntos_inicio_isocronas_bienestar.zip",
+    "count": 1,
+    "label": "Shapefile ZIP con los puntos de inicio de las isocronas de Bienestar Social"
   }
 }

@@ -67,6 +67,14 @@ class CategorizedIsochroneConfig:
 
 
 CATEGORIZED_ISOCHRONE_CONFIGS = {
+    "bienestar": CategorizedIsochroneConfig(
+        key="bienestar",
+        display_name="bienestar social",
+        output_suffix="bienestar_social_categorizada",
+        source_zip_candidates=(
+            Path(r"C:\Users\PC\Downloads\categorizados\Bienestar social.rar"),
+        ),
+    ),
     "cultura": CategorizedIsochroneConfig(
         key="cultura",
         display_name="cultura",
