@@ -32,6 +32,7 @@ from typing import Iterable
 from urllib.parse import urljoin, urlparse
 
 import requests
+import urllib3
 
 
 DEFAULT_ORIGIN = "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen"
@@ -101,10 +102,14 @@ class CasLoginParser(HTMLParser):
 
 
 class EgoBedocCasClient:
-    def __init__(self, timeout: int = DEFAULT_TIMEOUT) -> None:
+    def __init__(self, timeout: int = DEFAULT_TIMEOUT, verify: bool = True) -> None:
         self.timeout = timeout
+        self.verify = verify
         self.session = requests.Session()
         self.session.headers.update({"User-Agent": USER_AGENT})
+        self.session.verify = verify
+        if not verify:
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
     def fetch_entrypoint(self, origin_url: str) -> requests.Response:
         return self.session.get(origin_url, allow_redirects=True, timeout=self.timeout)
@@ -229,6 +234,7 @@ def build_parser() -> argparse.ArgumentParser:
     inspect_parser.add_argument("--origin", default=DEFAULT_ORIGIN, help="Ruta protegida a inspeccionar.")
     inspect_parser.add_argument("--timeout", type=int, default=DEFAULT_TIMEOUT)
     inspect_parser.add_argument("--save-html", help="Guarda el HTML recibido en disco.")
+    inspect_parser.add_argument("--insecure", action="store_true", help="Desactiva la verificación TLS para certificados internos.")
 
     login_parser = subparsers.add_parser("login", help="Inicia sesión en CAS y descarga una ruta protegida.")
     login_parser.add_argument("--origin", default=DEFAULT_ORIGIN, help="Ruta protegida a abrir luego del login.")
@@ -238,6 +244,7 @@ def build_parser() -> argparse.ArgumentParser:
     login_parser.add_argument("--timeout", type=int, default=DEFAULT_TIMEOUT)
     login_parser.add_argument("--save-html", help="Guarda el HTML final en disco.")
     login_parser.add_argument("--save-cookies", help="Guarda las cookies activas en un JSON.")
+    login_parser.add_argument("--insecure", action="store_true", help="Desactiva la verificación TLS para certificados internos.")
 
     return parser
 
@@ -246,7 +253,7 @@ def main(argv: Iterable[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(list(argv) if argv is not None else None)
 
-    client = EgoBedocCasClient(timeout=args.timeout)
+    client = EgoBedocCasClient(timeout=args.timeout, verify=not getattr(args, "insecure", False))
     try:
         if args.command == "inspect":
             info = client.inspect_login(args.origin)
@@ -296,7 +303,8 @@ def main(argv: Iterable[str] | None = None) -> int:
                     "hint": (
                         "No se pudo abrir el portal desde este runtime. "
                         "En algunos equipos el navegador sí accede, pero Python puede quedar bloqueado "
-                        "por firewall, antivirus o reglas de salida HTTPS."
+                        "por firewall, antivirus o reglas de salida HTTPS. "
+                        "Si el portal usa un certificado interno, prueba también con --insecure."
                     ),
                 },
                 ensure_ascii=False,
