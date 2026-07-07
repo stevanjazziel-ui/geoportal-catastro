@@ -2185,21 +2185,58 @@
         });
 
         dom.tableBody.addEventListener("click", (event) => {
+          const downloadPdfButton = event.target.closest("[data-download-pdf-id]");
+          if (downloadPdfButton) {
+            const { downloadPdfId } = downloadPdfButton.dataset;
+            const record = source.records.find((item) => item.id === downloadPdfId);
+            if (!record) {
+              setMessage(dom.exportMessage, "No se encontró el trámite para generar el PDF.");
+              return;
+            }
+
+            const opened = openPdfPrintWindow(record);
+            setMessage(
+              dom.exportMessage,
+              opened
+                ? `Se abrió la vista lista para guardar en PDF del trámite ${getReportTramiteNumber(record)}.`
+                : "El navegador bloqueó la ventana del PDF. Vuelve a intentarlo permitiendo ventanas emergentes."
+            );
+            return;
+          }
+
+          const downloadWordButton = event.target.closest("[data-download-word-id]");
+          if (downloadWordButton) {
+            const { downloadWordId } = downloadWordButton.dataset;
+            const record = source.records.find((item) => item.id === downloadWordId);
+            if (!record) {
+              setMessage(dom.exportMessage, "No se encontró el trámite para generar el Word.");
+              return;
+            }
+
+            downloadFile(
+              buildWordDocument(record),
+              `ficha-tecnica-${sanitizeFilename(getReportTramiteNumber(record))}.doc`,
+              "application/msword;charset=utf-8;"
+            );
+            setMessage(dom.exportMessage, `Se descargó la ficha Word del trámite ${getReportTramiteNumber(record)}.`);
+            return;
+          }
+
           const downloadReportButton = event.target.closest("[data-download-report-id]");
           if (downloadReportButton) {
             const { downloadReportId } = downloadReportButton.dataset;
             const record = source.records.find((item) => item.id === downloadReportId);
             if (!record) {
-              setMessage(dom.exportMessage, "No se encontró el trámite para generar el informe.");
+              setMessage(dom.exportMessage, "No se encontró el trámite para generar la ficha HTML.");
               return;
             }
 
             downloadFile(
               buildReportDocument(record),
-              `informe-tecnico-${sanitizeFilename(record.codigo || record.nroTramite || record.id)}.html`,
+              `ficha-tecnica-${sanitizeFilename(getReportTramiteNumber(record))}.html`,
               "text/html;charset=utf-8;"
             );
-            setMessage(dom.exportMessage, `Se descargó el informe técnico del trámite ${record.codigo || record.id}.`);
+            setMessage(dom.exportMessage, `Se descargó la ficha HTML del trámite ${getReportTramiteNumber(record)}.`);
             return;
           }
 
@@ -2894,8 +2931,14 @@
               ${renderReportPreview(record)}
             </div>
             <div class="report-actions">
+              <button type="button" data-download-pdf-id="${escapeHtml(record.id)}">
+                Descargar ficha PDF
+              </button>
+              <button class="secondary" type="button" data-download-word-id="${escapeHtml(record.id)}">
+                Descargar ficha Word
+              </button>
               <button type="button" data-download-report-id="${escapeHtml(record.id)}">
-                Descargar informe HTML
+                Descargar ficha HTML
               </button>
             </div>
           </section>
@@ -3210,29 +3253,134 @@
         };
       }
 
-      function buildReportDocument(record) {
+      function buildFichaSummaryMarkup(record) {
+        const summaryItems = [
+          ["N.º trámite", getReportTramiteNumber(record)],
+          ["Código", record.codigo || "-"],
+          ["Estado", record.estado || "-"],
+          ["Prioridad", record.prioridad || "-"],
+          ["Solicitante", record.solicitante || "-"],
+          ["Responsable actual", record.responsable || "-"],
+          ["Asignado interno", getAssignee(record.id) || "Sin asignación interna"],
+          ["Resultado técnico", getTechnicalOutcome(record.id)],
+          ["Fecha límite", formatDate(record.fechaLimite, false) || "Sin fecha"],
+          ["Fecha de ingreso", formatDate(record.fechaIngreso, true) || "-"],
+        ];
+
+        return `
+          <section class="sheet-summary">
+            ${summaryItems
+              .map(
+                ([label, value]) => `
+                  <article class="sheet-card">
+                    <span>${escapeHtml(label)}</span>
+                    <strong>${escapeHtml(String(value))}</strong>
+                  </article>
+                `
+              )
+              .join("")}
+          </section>
+        `;
+      }
+
+      function buildTechnicalSheetDocument(record, options = {}) {
         const tramiteNumber = getReportTramiteNumber(record);
+        const title = options.title || `Ficha Técnica - Trámite ${tramiteNumber}`;
+        const autoPrint = options.autoPrint === true;
+
         return `<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Informe Técnico - Trámite ${escapeHtml(tramiteNumber)}</title>
+  <title>${escapeHtml(title)}</title>
   <style>
-    body { font-family: Arial, sans-serif; color: #243746; margin: 32px; line-height: 1.55; }
+    body { font-family: Arial, sans-serif; color: #243746; margin: 28px; line-height: 1.55; }
     h1, h2, h3, h4 { margin: 0 0 12px; color: #243746; }
+    h2 { font-size: 22px; margin-bottom: 18px; }
     h3 { font-size: 20px; }
     h4 { margin-top: 18px; font-size: 16px; }
-    p, li { font-size: 14px; }
+    p, li, strong { font-size: 14px; }
     ol { margin-left: 20px; padding-left: 0; }
+    .sheet-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 0 0 24px; }
+    .sheet-card { padding: 12px 14px; border: 1px solid #d7dde3; border-radius: 8px; background: #f8fafc; }
+    .sheet-card span { display: block; color: #71808f; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .sheet-card strong { display: block; margin-top: 6px; color: #243746; line-height: 1.45; }
     .report-evidence-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 12px; }
     .report-evidence-grid img { width: 100%; height: 180px; object-fit: cover; border: 1px solid #d7dde3; border-radius: 8px; }
     figure { margin: 0; }
+    .print-hint { margin-bottom: 18px; padding: 10px 14px; border-radius: 8px; background: #eef6ed; color: #2f6b34; font-size: 13px; }
+    @media print {
+      body { margin: 18px; }
+      .print-hint { display: none; }
+    }
   </style>
 </head>
 <body>
+  ${autoPrint ? '<div class="print-hint">La ficha está lista para guardarse o imprimirse como PDF.</div>' : ""}
+  <h2>FICHA TÉCNICA DE REVISIÓN</h2>
+  ${buildFichaSummaryMarkup(record)}
   ${renderReportPreview(record)}
+  ${
+    autoPrint
+      ? `<script>
+          window.addEventListener("load", () => {
+            const finish = () => setTimeout(() => { window.focus(); window.print(); }, 250);
+            const images = Array.from(document.images || []);
+            if (!images.length) {
+              finish();
+              return;
+            }
+            let pending = images.length;
+            const done = () => {
+              pending -= 1;
+              if (pending <= 0) {
+                finish();
+              }
+            };
+            images.forEach((img) => {
+              if (img.complete) {
+                done();
+              } else {
+                img.addEventListener("load", done, { once: true });
+                img.addEventListener("error", done, { once: true });
+              }
+            });
+          });
+          window.addEventListener("afterprint", () => window.close());
+        </script>`
+      : ""
+  }
 </body>
 </html>`;
+      }
+
+      function buildReportDocument(record) {
+        return buildTechnicalSheetDocument(record, {
+          title: `Ficha Técnica - Trámite ${getReportTramiteNumber(record)}`,
+        });
+      }
+
+      function buildWordDocument(record) {
+        return buildTechnicalSheetDocument(record, {
+          title: `Ficha Técnica Word - Trámite ${getReportTramiteNumber(record)}`,
+        });
+      }
+
+      function openPdfPrintWindow(record) {
+        const printWindow = window.open("", "_blank", "noopener,noreferrer");
+        if (!printWindow) {
+          return false;
+        }
+
+        printWindow.document.open();
+        printWindow.document.write(
+          buildTechnicalSheetDocument(record, {
+            title: `Ficha Técnica PDF - Trámite ${getReportTramiteNumber(record)}`,
+            autoPrint: true,
+          })
+        );
+        printWindow.document.close();
+        return true;
       }
 
       function enrichRecordForExport(record) {
