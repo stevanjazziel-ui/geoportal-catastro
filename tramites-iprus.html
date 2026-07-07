@@ -339,6 +339,7 @@
     }
 
     button.tiny {
+      width: auto;
       padding: 9px 10px;
       font-size: 0.76rem;
     }
@@ -527,13 +528,22 @@
     }
 
     .assignment-input {
-      margin-bottom: 8px;
+      margin-bottom: 0;
     }
 
     .assignment-meta {
       color: var(--muted);
       font-size: 0.84rem;
       line-height: 1.35;
+    }
+
+    .assignment-actions {
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .assignment-actions > * {
+      flex: 1 1 110px;
     }
 
     .details-row td {
@@ -686,7 +696,8 @@
         <h2>Asignación Masiva</h2>
         <p class="helper">
           Selecciona filas desde la tabla y escribe el nombre de la persona o técnico que recibirá los trámites.
-          La asignación se guarda automáticamente en este navegador.
+          La asignación queda guardada en este navegador y cada fila ahora tiene un botón directo para asignar
+          el trámite de forma individual.
         </p>
         <label for="bulk-assignee">
           Persona asignada
@@ -929,6 +940,22 @@
         persistAssignments();
       }
 
+      function applySingleAssignment(id, rawValue, codigo = "") {
+        const assignee = String(rawValue || "").trim();
+        if (!assignee) {
+          setMessage(dom.assignmentMessage, "Escribe primero a quién quieres asignar el trámite.");
+          return false;
+        }
+
+        setAssignee(id, assignee);
+        render();
+        setMessage(
+          dom.assignmentMessage,
+          `El trámite ${codigo || id} quedó asignado a ${assignee}.`
+        );
+        return true;
+      }
+
       function populateFilters() {
         populateSelect(dom.estadoFilter, buildOptions(source.records.map((record) => record.estado), "Todos los estados"));
         populateSelect(dom.prioridadFilter, buildOptions(source.records.map((record) => record.prioridad), "Todas las prioridades"));
@@ -1127,22 +1154,46 @@
             render();
             return;
           }
+        });
 
+        dom.tableBody.addEventListener("keydown", (event) => {
           const assignmentInput = event.target.closest("[data-assignment-id]");
-          if (assignmentInput) {
-            const { assignmentId } = assignmentInput.dataset;
-            setAssignee(assignmentId, assignmentInput.value);
-            render();
-            setMessage(dom.assignmentMessage, "La asignación interna se guardó correctamente.");
+          if (!assignmentInput || event.key !== "Enter") {
+            return;
           }
+
+          event.preventDefault();
+          applySingleAssignment(
+            assignmentInput.dataset.assignmentId,
+            assignmentInput.value,
+            assignmentInput.dataset.assignmentCode || assignmentInput.dataset.assignmentId
+          );
         });
 
         dom.tableBody.addEventListener("click", (event) => {
+          const applyButton = event.target.closest("[data-apply-assignment-id]");
+          if (applyButton) {
+            const row = applyButton.closest("tr");
+            const assignmentInput = row ? row.querySelector("[data-assignment-id]") : null;
+            if (!assignmentInput) {
+              setMessage(dom.assignmentMessage, "No se pudo leer la asignación del trámite seleccionado.");
+              return;
+            }
+
+            applySingleAssignment(
+              applyButton.dataset.applyAssignmentId,
+              assignmentInput.value,
+              assignmentInput.dataset.assignmentCode || applyButton.dataset.applyAssignmentId
+            );
+            return;
+          }
+
           const detailButton = event.target.closest("[data-detail-id]");
           if (detailButton) {
             const { detailId } = detailButton.dataset;
             state.detailId = state.detailId === detailId ? "" : detailId;
             render();
+            return;
           }
 
           const clearButton = event.target.closest("[data-clear-assignment-id]");
@@ -1151,6 +1202,7 @@
             setAssignee(clearAssignmentId, "");
             render();
             setMessage(dom.assignmentMessage, "La asignación interna del trámite fue retirada.");
+            return;
           }
         });
       }
@@ -1418,10 +1470,14 @@
                     type="text"
                     list="assignee-options"
                     data-assignment-id="${escapeHtml(record.id)}"
+                    data-assignment-code="${escapeHtml(record.codigo || String(record.nroTramite || record.id))}"
                     value="${escapeAttribute(assignee)}"
-                    placeholder="Asignar internamente"
+                    placeholder="Escribe a quien asignar"
                   />
-                  <div class="row-actions">
+                  <div class="row-actions assignment-actions">
+                    <button type="button" data-apply-assignment-id="${escapeHtml(record.id)}">
+                      Asignar trámite
+                    </button>
                     <button class="ghost tiny" type="button" data-detail-id="${escapeHtml(record.id)}">
                       ${detailsOpen ? "Ocultar ficha" : "Ver ficha"}
                     </button>
@@ -1430,7 +1486,11 @@
                     </button>
                   </div>
                   <p class="assignment-meta">
-                    ${assignee ? `Asignado a ${escapeHtml(assignee)}.` : "Sin asignación interna guardada."}
+                    ${
+                      assignee
+                        ? `Asignado a ${escapeHtml(assignee)}.`
+                        : "Sin asignación interna guardada. Escribe el nombre y pulsa Asignar trámite."
+                    }
                   </p>
                 </td>
                 <td>
