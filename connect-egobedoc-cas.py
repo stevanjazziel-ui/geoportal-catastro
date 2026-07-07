@@ -21,6 +21,7 @@ Notas:
 from __future__ import annotations
 
 import argparse
+import getpass
 import json
 import os
 import re
@@ -246,7 +247,37 @@ def build_parser() -> argparse.ArgumentParser:
     login_parser.add_argument("--save-cookies", help="Guarda las cookies activas en un JSON.")
     login_parser.add_argument("--insecure", action="store_true", help="Desactiva la verificación TLS para certificados internos.")
 
+    login_parser.add_argument(
+        "--no-prompt",
+        action="store_true",
+        help="No solicitar usuario o clave de manera interactiva si faltan.",
+    )
+
     return parser
+
+
+def resolve_credentials(
+    username: str | None,
+    password: str | None,
+    *,
+    interactive: bool,
+) -> tuple[str, str]:
+    resolved_username = (username or "").strip()
+    resolved_password = password or ""
+
+    if interactive and not resolved_username:
+        try:
+            resolved_username = input("Usuario CAS: ").strip()
+        except EOFError:
+            resolved_username = ""
+
+    if interactive and not resolved_password:
+        try:
+            resolved_password = getpass.getpass("Clave CAS: ")
+        except EOFError:
+            resolved_password = ""
+
+    return resolved_username, resolved_password
 
 
 def main(argv: Iterable[str] | None = None) -> int:
@@ -264,10 +295,15 @@ def main(argv: Iterable[str] | None = None) -> int:
             return 0
 
         if args.command == "login":
-            if not args.username or not args.password:
+            username, password = resolve_credentials(
+                args.username,
+                args.password,
+                interactive=not args.no_prompt,
+            )
+            if not username or not password:
                 parser.error("Para el comando login debes proporcionar --username y --password o usar EGOBEDOC_USERNAME/EGOBEDOC_PASSWORD.")
 
-            response = client.login(args.origin, args.username, args.password)
+            response = client.login(args.origin, username, password)
             if args.path:
                 target_url = urljoin(args.origin, args.path)
                 response = client.session.get(target_url, allow_redirects=True, timeout=args.timeout)

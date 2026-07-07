@@ -75,6 +75,46 @@ python connect-egobedoc-cas.py inspect
 python connect-egobedoc-cas.py login --username USUARIO --password CLAVE --save-html outputs\passig_citizen.html
 ```
 
+## Sincronizacion lista para el modulo
+
+Ademas del conector CAS, ya se dejo un sincronizador que convierte la bandeja autenticada en el archivo que consume la interfaz:
+
+- [sync-egobedoc-passig-citizen.py](D:\codex\sync-egobedoc-passig-citizen.py)
+- [sync-tramites-egobedoc.ps1](D:\codex\sync-tramites-egobedoc.ps1)
+
+### Que hace
+
+1. abre `passig_citizen`
+2. inicia sesion en `CAS`
+3. descarga el HTML autenticado
+4. detecta la tabla mas parecida a la bandeja
+5. separa columnas compuestas como:
+   - `TRAMITE` -> `codigo`, `nroTramite`, `tipoTramite`
+   - `SOLICITANTE` -> `solicitante`, `ingresadoPor`
+   - `RESPONSABLE ACTUAL` -> `responsable`, `cargoResponsable`
+6. actualiza `tramites-iprus-data.js`
+
+### Comando recomendado
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\sync-tramites-egobedoc.ps1
+```
+
+Ese comando:
+
+- pide usuario y clave si no se pasaron por argumentos o variables de entorno
+- guarda el HTML descargado en `outputs\passig_citizen.html`
+- guarda metadatos en `outputs\passig_citizen-meta.json`
+- reescribe `tramites-iprus-data.js`
+
+### Ejecucion directa
+
+```powershell
+python sync-egobedoc-passig-citizen.py --insecure --save-html outputs\passig_citizen.html --save-meta-json outputs\passig_citizen-meta.json
+```
+
+Si el servidor sigue usando certificado interno, mantén `--insecure`.
+
 ## Siguiente paso real
 
 Para completar la conexión faltan credenciales válidas y revisar una sesión autenticada.

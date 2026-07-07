@@ -1423,6 +1423,17 @@
     <main class="main">
       <section class="mode-banner" id="mode-banner"></section>
 
+      <section class="panel">
+        <h2>Vista de Bandeja</h2>
+        <p class="helper">
+          Cambia entre los trámites activos que siguen en la bandeja actual y el historial de trámites que ya salieron de la sincronización operativa.
+        </p>
+        <div class="mode-switcher" id="dataset-switcher">
+          <button class="mode-button active" type="button" data-dataset-tab="active">Activos</button>
+          <button class="mode-button" type="button" data-dataset-tab="history">Historial</button>
+        </div>
+      </section>
+
       <section class="summary-grid" id="summary-grid"></section>
 
       <section class="quick-filters" id="quick-filters"></section>
@@ -1529,6 +1540,7 @@
         detailId: "",
         moduleMode: loadModuleMode(),
         sessionAssignee: loadSessionAssignee(),
+        datasetTab: "active",
       };
 
       const dom = {
@@ -1544,6 +1556,7 @@
         brandDescription: document.getElementById("brand-description"),
         moduleHelper: document.getElementById("module-helper"),
         modeSwitcher: document.getElementById("mode-switcher"),
+        datasetSwitcher: document.getElementById("dataset-switcher"),
         sessionAssignee: document.getElementById("session-assignee"),
         enterAssignedButton: document.getElementById("enter-assigned-button"),
         clearSessionAssigneeButton: document.getElementById("clear-session-assignee-button"),
@@ -1591,11 +1604,11 @@
       };
 
       const priorityOrder = {
-        Vencido: 0,
+        "Vencido": 0,
         "Vence hoy": 1,
-        Crítico: 2,
-        Urgente: 3,
-        Normal: 4,
+        "Crítico": 2,
+        "Urgente": 3,
+        "Normal": 4,
         "Sin fecha": 5,
       };
 
@@ -1704,9 +1717,34 @@
         return state.moduleMode !== "assigned";
       }
 
+      function isHistoryTab() {
+        return state.datasetTab === "history";
+      }
+
+      function getActiveSourceRecords() {
+        return Array.isArray(source.records) ? source.records : [];
+      }
+
+      function getHistorySourceRecords() {
+        return Array.isArray(source.historyRecords) ? source.historyRecords : [];
+      }
+
+      function getDatasetRecords() {
+        return isHistoryTab() ? getHistorySourceRecords() : getActiveSourceRecords();
+      }
+
+      function getAllKnownRecords() {
+        return [...getActiveSourceRecords(), ...getHistorySourceRecords()];
+      }
+
+      function findRecordById(recordId) {
+        return getAllKnownRecords().find((item) => item.id === recordId) || null;
+      }
+
       function getModuleScopedRecords() {
+        const datasetRecords = getDatasetRecords();
         if (isAdminMode()) {
-          return source.records;
+          return datasetRecords;
         }
 
         const sessionAssigneeKey = normalizeText(state.sessionAssignee);
@@ -1714,7 +1752,7 @@
           return [];
         }
 
-        return source.records.filter((record) => normalizeText(getAssignee(record.id)) === sessionAssigneeKey);
+        return datasetRecords.filter((record) => normalizeText(getAssignee(record.id)) === sessionAssigneeKey);
       }
 
       function setModuleMode(mode) {
@@ -1886,19 +1924,35 @@
       }
 
       function populateFilters() {
-        populateSelect(dom.estadoFilter, buildOptions(source.records.map((record) => record.estado), "Todos los estados"));
-        populateSelect(dom.prioridadFilter, buildOptions(source.records.map((record) => record.prioridad), "Todas las prioridades"));
-        populateSelect(dom.responsableFilter, buildOptions(source.records.map((record) => record.responsable), "Todos los responsables"));
+        const datasetRecords = getDatasetRecords();
+        populateSelect(dom.estadoFilter, buildOptions(datasetRecords.map((record) => record.estado), "Todos los estados"));
+        populateSelect(dom.prioridadFilter, buildOptions(datasetRecords.map((record) => record.prioridad), "Todas las prioridades"));
+        populateSelect(dom.responsableFilter, buildOptions(datasetRecords.map((record) => record.responsable), "Todos los responsables"));
         populateSelect(dom.asignadoFilter, [
           { value: "", label: "Todas las asignaciones internas" },
           { value: "__assigned__", label: "Con asignación interna" },
           { value: "__unassigned__", label: "Sin asignación interna" },
         ]);
+
+        if (![...dom.estadoFilter.options].some((option) => option.value === state.estado)) {
+          state.estado = "";
+        }
+        if (![...dom.prioridadFilter.options].some((option) => option.value === state.prioridad)) {
+          state.prioridad = "";
+        }
+        if (![...dom.responsableFilter.options].some((option) => option.value === state.responsable)) {
+          state.responsable = "";
+        }
+
+        dom.estadoFilter.value = state.estado;
+        dom.prioridadFilter.value = state.prioridad;
+        dom.responsableFilter.value = state.responsable;
+        dom.asignadoFilter.value = state.asignado;
       }
 
       function populateAssigneeOptions() {
         const names = new Set();
-        source.records.forEach((record) => {
+        getAllKnownRecords().forEach((record) => {
           if (record.responsable) {
             names.add(record.responsable);
           }
@@ -1954,6 +2008,21 @@
             setModuleMode("admin");
             render();
             setMessage(dom.moduleMessage, "Se abrió el módulo de administrador.");
+          });
+        });
+
+        dom.datasetSwitcher.querySelectorAll("[data-dataset-tab]").forEach((button) => {
+          button.addEventListener("click", () => {
+            state.datasetTab = button.dataset.datasetTab === "history" ? "history" : "active";
+            state.detailId = "";
+            selectedIds.clear();
+            render();
+            setMessage(
+              dom.moduleMessage,
+              state.datasetTab === "history"
+                ? "Se abrió la pestaña de historial para revisar los trámites que ya salieron de la bandeja activa."
+                : "Se volvió a la pestaña de trámites activos sincronizados."
+            );
           });
         });
 
@@ -2092,7 +2161,7 @@
 
           let updated = 0;
           const updates = [];
-          source.records.forEach((record) => {
+          getDatasetRecords().forEach((record) => {
             if (selectedIds.has(record.id) && record.responsable) {
               updates.push([record.id, record.responsable]);
               updated += 1;
@@ -2188,7 +2257,7 @@
           const downloadPdfButton = event.target.closest("[data-download-pdf-id]");
           if (downloadPdfButton) {
             const { downloadPdfId } = downloadPdfButton.dataset;
-            const record = source.records.find((item) => item.id === downloadPdfId);
+            const record = findRecordById(downloadPdfId);
             if (!record) {
               setMessage(dom.exportMessage, "No se encontró el trámite para generar el PDF.");
               return;
@@ -2207,7 +2276,7 @@
           const downloadWordButton = event.target.closest("[data-download-word-id]");
           if (downloadWordButton) {
             const { downloadWordId } = downloadWordButton.dataset;
-            const record = source.records.find((item) => item.id === downloadWordId);
+            const record = findRecordById(downloadWordId);
             if (!record) {
               setMessage(dom.exportMessage, "No se encontró el trámite para generar el Word.");
               return;
@@ -2225,7 +2294,7 @@
           const downloadReportButton = event.target.closest("[data-download-report-id]");
           if (downloadReportButton) {
             const { downloadReportId } = downloadReportButton.dataset;
-            const record = source.records.find((item) => item.id === downloadReportId);
+            const record = findRecordById(downloadReportId);
             if (!record) {
               setMessage(dom.exportMessage, "No se encontró el trámite para generar la ficha HTML.");
               return;
@@ -2315,6 +2384,7 @@
       }
 
       function render() {
+        populateFilters();
         const filteredRecords = getFilteredRecords();
         syncModuleInterface(filteredRecords);
         renderSummary(filteredRecords);
@@ -2412,77 +2482,146 @@
 
       function renderSummary(filteredRecords) {
         const scopedRecords = getModuleScopedRecords();
+        const datasetRecords = getDatasetRecords();
         const adminMode = isAdminMode();
+        const historyMode = isHistoryTab();
         let cards;
 
         if (adminMode) {
-          const total = source.records.length;
-          const assigned = source.records.filter((record) => getAssignee(record.id)).length;
-          const overdue = source.records.filter((record) => ["Vencido", "Vence hoy"].includes(record.prioridad)).length;
-          const critical = source.records.filter((record) => ["Vencido", "Vence hoy", "Crítico"].includes(record.prioridad)).length;
-          const complementados = source.records.filter((record) => record.estado === "Complementado").length;
+          const total = datasetRecords.length;
+          const assigned = datasetRecords.filter((record) => getAssignee(record.id)).length;
+          const overdue = datasetRecords.filter((record) => ["Vencido", "Vence hoy"].includes(record.prioridad)).length;
+          const critical = datasetRecords.filter((record) => ["Vencido", "Vence hoy", "Crítico"].includes(record.prioridad)).length;
+          const complementados = datasetRecords.filter((record) => record.estado === "Complementado").length;
+          const reviewed = datasetRecords.filter((record) => {
+            const summary = getReviewSummary(record.id);
+            return summary.yes > 0 || summary.no > 0;
+          }).length;
           const unassigned = total - assigned;
+          const sourceResponsibles = new Set(datasetRecords.map((record) => record.responsable).filter(Boolean)).size;
 
-          cards = [
-            {
-              label: "Filtrados ahora",
-              value: filteredRecords.length,
-              note: `${selectedIds.size} seleccionados en la mesa operativa.`,
-            },
-            {
-              label: "Asignación interna",
-              value: assigned,
-              note: `${unassigned} trámites siguen sin reparto interno.`,
-            },
-            {
-              label: "Riesgo inmediato",
-              value: overdue,
-              note: `${critical} trámites están entre vencidos, hoy o críticos.`,
-            },
-            {
-              label: "Complementados",
-              value: complementados,
-              note: `${total - complementados} aún requieren seguimiento.`,
-            },
-            {
-              label: "Responsables fuente",
-              value: Object.keys(source.summary.responsibles).length,
-              note: "Responsables actuales detectados en el Excel original.",
-            },
-          ];
+          cards = historyMode
+            ? [
+                {
+                  label: "Filtrados ahora",
+                  value: filteredRecords.length,
+                  note: `${total} trámites permanecen en el historial consultable.`,
+                },
+                {
+                  label: "Asignación interna",
+                  value: assigned,
+                  note: `${unassigned} históricos no tienen reparto interno guardado.`,
+                },
+                {
+                  label: "Con revisión",
+                  value: reviewed,
+                  note: `${Math.max(total - reviewed, 0)} aún no registran criterio técnico.`,
+                },
+                {
+                  label: "Prioridad histórica",
+                  value: overdue,
+                  note: `${critical} quedaron con alerta alta, hoy o vencida en su último estado.`,
+                },
+                {
+                  label: "Responsables fuente",
+                  value: sourceResponsibles,
+                  note: "Responsables detectados en el último estado conocido del historial.",
+                },
+              ]
+            : [
+                {
+                  label: "Filtrados ahora",
+                  value: filteredRecords.length,
+                  note: `${selectedIds.size} seleccionados en la mesa operativa.`,
+                },
+                {
+                  label: "Asignación interna",
+                  value: assigned,
+                  note: `${unassigned} trámites siguen sin reparto interno.`,
+                },
+                {
+                  label: "Riesgo inmediato",
+                  value: overdue,
+                  note: `${critical} trámites están entre vencidos, hoy o críticos.`,
+                },
+                {
+                  label: "Complementados",
+                  value: complementados,
+                  note: `${total - complementados} aún requieren seguimiento.`,
+                },
+                {
+                  label: "Responsables fuente",
+                  value: sourceResponsibles,
+                  note: "Responsables actuales detectados en la bandeja sincronizada.",
+                },
+              ];
         } else {
           const pending = scopedRecords.filter((record) => getReviewSummary(record.id).pending > 0).length;
           const finished = scopedRecords.filter((record) => getReviewSummary(record.id).pending === 0).length;
           const blocked = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "NO FAVORABLE").length;
           const evidenceCount = scopedRecords.filter((record) => getEvidenceList(record.id).length > 0).length;
+          const reviewed = scopedRecords.filter((record) => {
+            const summary = getReviewSummary(record.id);
+            return summary.yes > 0 || summary.no > 0;
+          }).length;
 
-          cards = [
-            {
-              label: "Mi bandeja",
-              value: scopedRecords.length,
-              note: state.sessionAssignee ? `Trámites asignados a ${state.sessionAssignee}.` : "Selecciona un asignado para cargar su bandeja.",
-            },
-            {
-              label: "Filtrados ahora",
-              value: filteredRecords.length,
-              note: "La tabla se reduce con los filtros activos de esta bandeja.",
-            },
-            {
-              label: "Pendientes",
-              value: pending,
-              note: `${finished} revisiones ya tienen todos los criterios respondidos.`,
-            },
-            {
-              label: "No favorables",
-              value: blocked,
-              note: "Trámites con al menos una validación marcada en No.",
-            },
-            {
-              label: "Con evidencia",
-              value: evidenceCount,
-              note: `${Math.max(scopedRecords.length - evidenceCount, 0)} aún no tienen respaldo gráfico cargado.`,
-            },
-          ];
+          cards = historyMode
+            ? [
+                {
+                  label: "Mi historial",
+                  value: scopedRecords.length,
+                  note: state.sessionAssignee
+                    ? `Trámites históricos asignados a ${state.sessionAssignee}.`
+                    : "Selecciona un asignado para cargar su historial.",
+                },
+                {
+                  label: "Filtrados ahora",
+                  value: filteredRecords.length,
+                  note: "La tabla se reduce con los filtros activos del historial.",
+                },
+                {
+                  label: "Con criterio",
+                  value: reviewed,
+                  note: `${Math.max(scopedRecords.length - reviewed, 0)} históricos aún no registran pronunciamiento técnico.`,
+                },
+                {
+                  label: "No favorables",
+                  value: blocked,
+                  note: `${finished} trámites históricos ya tienen la revisión cerrada.`,
+                },
+                {
+                  label: "Con evidencia",
+                  value: evidenceCount,
+                  note: `${Math.max(scopedRecords.length - evidenceCount, 0)} aún no tienen respaldo gráfico cargado.`,
+                },
+              ]
+            : [
+                {
+                  label: "Mi bandeja",
+                  value: scopedRecords.length,
+                  note: state.sessionAssignee ? `Trámites asignados a ${state.sessionAssignee}.` : "Selecciona un asignado para cargar su bandeja.",
+                },
+                {
+                  label: "Filtrados ahora",
+                  value: filteredRecords.length,
+                  note: "La tabla se reduce con los filtros activos de esta bandeja.",
+                },
+                {
+                  label: "Pendientes",
+                  value: pending,
+                  note: `${finished} revisiones ya tienen todos los criterios respondidos.`,
+                },
+                {
+                  label: "No favorables",
+                  value: blocked,
+                  note: "Trámites con al menos una validación marcada en No.",
+                },
+                {
+                  label: "Con evidencia",
+                  value: evidenceCount,
+                  note: `${Math.max(scopedRecords.length - evidenceCount, 0)} aún no tienen respaldo gráfico cargado.`,
+                },
+              ];
         }
 
         dom.summaryGrid.innerHTML = cards
@@ -2521,17 +2660,27 @@
         });
       }
 
+      function formatHistoryDate(value) {
+        return formatDate(value, true) || "Sin registro";
+      }
+
       function renderLoadBoard() {
+        const historyMode = isHistoryTab();
+        const datasetRecords = getDatasetRecords();
         if (isAdminMode()) {
           const groups = {};
-          source.records.forEach((record) => {
+          datasetRecords.forEach((record) => {
             const assignee = getAssignee(record.id) || "Sin asignación";
             if (!groups[assignee]) {
-              groups[assignee] = { total: 0, critical: 0 };
+              groups[assignee] = { total: 0, critical: 0, reviewed: 0 };
             }
             groups[assignee].total += 1;
             if (["Vencido", "Vence hoy", "Crítico"].includes(record.prioridad)) {
               groups[assignee].critical += 1;
+            }
+            const summary = getReviewSummary(record.id);
+            if (summary.yes > 0 || summary.no > 0) {
+              groups[assignee].reviewed += 1;
             }
           });
 
@@ -2548,7 +2697,11 @@
                 <article class="load-card">
                   <span>${escapeHtml(name)}</span>
                   <strong>${info.total}</strong>
-                  <small>${info.critical} con presión alta o crítica.</small>
+                  <small>${
+                    historyMode
+                      ? `${info.reviewed} con revisión registrada y ${info.critical} con alerta histórica alta.`
+                      : `${info.critical} con presión alta o crítica.`
+                  }</small>
                 </article>
               `
             )
@@ -2561,13 +2714,24 @@
         const review = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "EN REVISIÓN").length;
         const blocked = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "NO FAVORABLE").length;
         const withEvidence = scopedRecords.filter((record) => getEvidenceList(record.id).length > 0).length;
+        const reviewed = scopedRecords.filter((record) => {
+          const summary = getReviewSummary(record.id);
+          return summary.yes > 0 || summary.no > 0;
+        }).length;
 
-        dom.loadBoard.innerHTML = [
-          { label: "Asignado", value: state.sessionAssignee || "Sin usuario", note: `${scopedRecords.length} trámites en bandeja.` },
-          { label: "En revisión", value: review, note: "Aún hay criterios técnicos pendientes." },
-          { label: "Favorables", value: favorable, note: "Todos los criterios fueron cumplidos." },
-          { label: "No favorables", value: blocked, note: `${withEvidence} trámites ya tienen evidencia gráfica.` },
-        ]
+        dom.loadBoard.innerHTML = (historyMode
+          ? [
+              { label: "Asignado", value: state.sessionAssignee || "Sin usuario", note: `${scopedRecords.length} trámites en historial.` },
+              { label: "Con criterio", value: reviewed, note: `${Math.max(scopedRecords.length - reviewed, 0)} aún no tienen pronunciamiento técnico.` },
+              { label: "Favorables", value: favorable, note: "Históricos con todos los criterios cumplidos." },
+              { label: "No favorables", value: blocked, note: `${withEvidence} trámites históricos ya tienen evidencia gráfica.` },
+            ]
+          : [
+              { label: "Asignado", value: state.sessionAssignee || "Sin usuario", note: `${scopedRecords.length} trámites en bandeja.` },
+              { label: "En revisión", value: review, note: "Aún hay criterios técnicos pendientes." },
+              { label: "Favorables", value: favorable, note: "Todos los criterios fueron cumplidos." },
+              { label: "No favorables", value: blocked, note: `${withEvidence} trámites ya tienen evidencia gráfica.` },
+            ])
           .map(
             (item) => `
               <article class="load-card">
@@ -2580,32 +2744,55 @@
           .join("");
       }
 
-      function renderTableHead(adminMode) {
+      function renderTableHead(adminMode, historyMode) {
         dom.tableHeadRow.innerHTML = adminMode
-          ? `
-              <th class="checkbox-cell">
-                <input id="select-all-visible" class="checkbox-input" type="checkbox" aria-label="Seleccionar visibles" />
-                <span id="selection-column-label" hidden>Vista</span>
-              </th>
-              <th>Estado</th>
-              <th>Prioridad</th>
-              <th>Trámite</th>
-              <th>Solicitante</th>
-              <th>Responsable actual</th>
-              <th>Fecha límite</th>
-              <th>Días restantes</th>
-              <th>Asignado interno</th>
-              <th>Detalle</th>
-            `
-          : `
-              <th class="checkbox-cell">Vista</th>
-              <th>Estado</th>
-              <th>Prioridad</th>
-              <th>Trámite</th>
-              <th>Fecha y plazo</th>
-              <th>Mi asignación</th>
-              <th>Avance</th>
-            `;
+          ? historyMode
+            ? `
+                <th class="checkbox-cell">Vista</th>
+                <th>Estado</th>
+                <th>Prioridad</th>
+                <th>Trámite</th>
+                <th>Solicitante</th>
+                <th>Responsable actual</th>
+                <th>Último visto</th>
+                <th>Archivado</th>
+                <th>Asignado interno</th>
+                <th>Detalle</th>
+              `
+            : `
+                <th class="checkbox-cell">
+                  <input id="select-all-visible" class="checkbox-input" type="checkbox" aria-label="Seleccionar visibles" />
+                  <span id="selection-column-label" hidden>Vista</span>
+                </th>
+                <th>Estado</th>
+                <th>Prioridad</th>
+                <th>Trámite</th>
+                <th>Solicitante</th>
+                <th>Responsable actual</th>
+                <th>Fecha límite</th>
+                <th>Días restantes</th>
+                <th>Asignado interno</th>
+                <th>Detalle</th>
+              `
+          : historyMode
+            ? `
+                <th class="checkbox-cell">Vista</th>
+                <th>Estado</th>
+                <th>Prioridad</th>
+                <th>Trámite</th>
+                <th>Fechas históricas</th>
+                <th>Mi asignación</th>
+                <th>Avance</th>
+              `
+            : `
+                <th class="checkbox-cell">Vista</th>
+                <th>Estado</th>
+                <th>Prioridad</th>
+                <th>Trámite</th>
+                <th>Fecha y plazo</th>
+                <th>Mi asignación</th>
+                <th>Avance</th>
+              `;
         dom.selectAllVisible = document.getElementById("select-all-visible");
         dom.selectionColumnLabel = document.getElementById("selection-column-label");
         bindSelectAllVisibleChange();
@@ -2613,13 +2800,18 @@
 
       function renderTable(records) {
         const adminMode = isAdminMode();
+        const historyMode = isHistoryTab();
         const columnCount = adminMode ? 10 : 7;
-        renderTableHead(adminMode);
+        renderTableHead(adminMode, historyMode);
 
         if (!records.length) {
           const emptyMessage = !isAdminMode() && !state.sessionAssignee
-            ? "Escribe el nombre del asignado para cargar su bandeja de revisión."
-            : "No hay trámites que coincidan con los filtros actuales.";
+            ? historyMode
+              ? "Escribe el nombre del asignado para cargar su historial de revisión."
+              : "Escribe el nombre del asignado para cargar su bandeja de revisión."
+            : historyMode
+              ? "No hay trámites en el historial que coincidan con los filtros actuales."
+              : "No hay trámites que coincidan con los filtros actuales.";
           dom.tableBody.innerHTML = `
             <tr>
               <td colspan="${columnCount}">
@@ -2638,94 +2830,156 @@
             const reviewSummary = getReviewSummary(record.id);
             const rowClass = `row-priority-${slugify(record.prioridad)}`;
             const detailsOpen = state.detailId === record.id;
+            const historyLastSeen = formatHistoryDate(record.historyLastSeenAt);
+            const historyArchivedAt = formatHistoryDate(record.historyArchivedAt);
+            const historyStatus = record.historyStatus || "Histórico";
 
             return `
               ${
                 adminMode
-                  ? `
-                    <tr class="${rowClass}">
-                      <td class="checkbox-cell">
-                        <input
-                          class="checkbox-input"
-                          type="checkbox"
-                          data-select-id="${escapeHtml(record.id)}"
-                          ${selectedIds.has(record.id) ? "checked" : ""}
-                          aria-label="Seleccionar trámite ${escapeHtml(record.codigo || String(record.nroTramite || ""))}"
-                        />
-                      </td>
-                      <td>
-                        <span class="badge estado-${slugify(record.estado)}">${escapeHtml(record.estado || "Sin estado")}</span>
-                      </td>
-                      <td>
-                        <span class="badge prioridad-${slugify(record.prioridad)}">${escapeHtml(record.prioridad || "Sin prioridad")}</span>
-                      </td>
-                      <td>
-                        <button class="tramite-trigger" type="button" data-detail-id="${escapeHtml(record.id)}">
-                          <span class="cell-title">${escapeHtml(record.codigo || "-")}</span>
-                          <span class="cell-meta">Trámite N. ${escapeHtml(String(record.nroTramite || "-"))}</span>
-                          <span class="cell-meta">${escapeHtml(record.tipoTramite || "-")}</span>
+                  ? historyMode
+                    ? `
+                      <tr class="${rowClass}">
+                        <td class="checkbox-cell">
+                          <span class="viewer-pill">Histórico</span>
+                        </td>
+                        <td>
+                          <span class="badge estado-${slugify(record.estado)}">${escapeHtml(record.estado || "Sin estado")}</span>
+                        </td>
+                        <td>
+                          <span class="badge prioridad-${slugify(record.prioridad)}">${escapeHtml(record.prioridad || "Sin prioridad")}</span>
+                        </td>
+                        <td>
+                          <button class="tramite-trigger" type="button" data-detail-id="${escapeHtml(record.id)}">
+                            <span class="cell-title">${escapeHtml(record.codigo || "-")}</span>
+                            <span class="cell-meta">Trámite N. ${escapeHtml(String(record.nroTramite || "-"))}</span>
+                            <span class="cell-meta">${escapeHtml(record.tipoTramite || "-")}</span>
+                            <span class="cell-meta">${detailsOpen ? "Ocultar ficha histórica" : "Abrir ficha histórica"}</span>
+                          </button>
+                        </td>
+                        <td>
+                          <span class="cell-title">${escapeHtml(record.solicitante || "-")}</span>
+                          <span class="cell-meta">Ingresado por ${escapeHtml(record.ingresadoPor || record.remitente || "-")}</span>
+                        </td>
+                        <td>
+                          <span class="cell-title">${escapeHtml(record.responsable || "-")}</span>
+                          <span class="cell-meta">${escapeHtml(record.cargoResponsable || "-")}</span>
+                        </td>
+                        <td>
+                          <span class="cell-title">${escapeHtml(historyLastSeen)}</span>
+                          <span class="cell-meta">Último estado sincronizado</span>
+                        </td>
+                        <td>
+                          <span class="cell-title">${escapeHtml(historyArchivedAt)}</span>
+                          <span class="cell-meta">${escapeHtml(historyStatus)}</span>
+                        </td>
+                        <td class="assignment-cell">
+                          <span class="cell-title">${escapeHtml(assignee || "Sin asignación interna")}</span>
                           <span class="cell-meta">
-                            ${detailsOpen ? "Ocultar revisión técnica" : "Abrir revisión técnica"}
+                            ${
+                              assignee
+                                ? `Se conserva la asignación guardada para este histórico.`
+                                : "No se registró una asignación interna antes de pasar al historial."
+                            }
                           </span>
-                        </button>
-                      </td>
-                      <td>
-                        <span class="cell-title">${escapeHtml(record.solicitante || "-")}</span>
-                        <span class="cell-meta">Ingresado por ${escapeHtml(record.ingresadoPor || "-")}</span>
-                      </td>
-                      <td>
-                        <span class="cell-title">${escapeHtml(record.responsable || "-")}</span>
-                        <span class="cell-meta">${escapeHtml(record.cargoResponsable || "-")}</span>
-                      </td>
-                      <td>
-                        <span class="cell-title">${escapeHtml(formatDate(record.fechaLimite, false) || "Sin fecha")}</span>
-                        <span class="cell-meta">${escapeHtml(record.tiempoRestante || "Sin referencia")}</span>
-                      </td>
-                      <td>
-                        <span class="cell-title">${escapeHtml(formatDays(record.diasRestantes))}</span>
-                        <span class="cell-meta">${escapeHtml(record.prioridad || "Sin prioridad")}</span>
-                      </td>
-                      <td class="assignment-cell">
-                        <input
-                          class="assignment-input"
-                          type="text"
-                          list="assignee-options"
-                          data-assignment-id="${escapeHtml(record.id)}"
-                          data-assignment-code="${escapeHtml(record.codigo || String(record.nroTramite || record.id))}"
-                          value="${escapeAttribute(assignee)}"
-                          placeholder="Escribe a quien asignar"
-                        />
-                        <div class="row-actions assignment-actions">
-                          <button type="button" data-apply-assignment-id="${escapeHtml(record.id)}">
-                            Asignar trámite
+                          <div class="row-actions assignment-actions">
+                            <button class="ghost tiny" type="button" data-detail-id="${escapeHtml(record.id)}">
+                              ${detailsOpen ? "Ocultar ficha" : "Ver ficha"}
+                            </button>
+                          </div>
+                        </td>
+                        <td>
+                          <span class="cell-title">Revisión ${reviewSummary.yes}/${reviewSummary.total}</span>
+                          <span class="cell-meta">${reviewSummary.no} en no, ${reviewSummary.pending} pendientes</span>
+                          <span class="cell-meta">${escapeHtml(getTechnicalOutcome(record.id))}</span>
+                          <span class="cell-meta">Fila fuente ${escapeHtml(String(record.sourceRow || "-"))}</span>
+                        </td>
+                      </tr>
+                    `
+                    : `
+                      <tr class="${rowClass}">
+                        <td class="checkbox-cell">
+                          <input
+                            class="checkbox-input"
+                            type="checkbox"
+                            data-select-id="${escapeHtml(record.id)}"
+                            ${selectedIds.has(record.id) ? "checked" : ""}
+                            aria-label="Seleccionar trámite ${escapeHtml(record.codigo || String(record.nroTramite || ""))}"
+                          />
+                        </td>
+                        <td>
+                          <span class="badge estado-${slugify(record.estado)}">${escapeHtml(record.estado || "Sin estado")}</span>
+                        </td>
+                        <td>
+                          <span class="badge prioridad-${slugify(record.prioridad)}">${escapeHtml(record.prioridad || "Sin prioridad")}</span>
+                        </td>
+                        <td>
+                          <button class="tramite-trigger" type="button" data-detail-id="${escapeHtml(record.id)}">
+                            <span class="cell-title">${escapeHtml(record.codigo || "-")}</span>
+                            <span class="cell-meta">Trámite N. ${escapeHtml(String(record.nroTramite || "-"))}</span>
+                            <span class="cell-meta">${escapeHtml(record.tipoTramite || "-")}</span>
+                            <span class="cell-meta">
+                              ${detailsOpen ? "Ocultar revisión técnica" : "Abrir revisión técnica"}
+                            </span>
                           </button>
-                          <button class="ghost tiny" type="button" data-detail-id="${escapeHtml(record.id)}">
-                            ${detailsOpen ? "Ocultar ficha" : "Ver ficha"}
-                          </button>
-                          <button class="ghost tiny" type="button" data-clear-assignment-id="${escapeHtml(record.id)}">
-                            Limpiar
-                          </button>
-                        </div>
-                        <p class="assignment-meta">
-                          ${
-                            assignee
-                              ? `Asignado a ${escapeHtml(assignee)}.`
-                              : "Sin asignación interna guardada. Escribe el nombre y pulsa Asignar trámite."
-                          }
-                        </p>
-                      </td>
-                      <td>
-                        <span class="cell-title">Revisión ${reviewSummary.yes}/${reviewSummary.total}</span>
-                        <span class="cell-meta">${reviewSummary.no} en no, ${reviewSummary.pending} pendientes</span>
-                        <span class="cell-meta">Ingreso ${escapeHtml(formatDate(record.fechaIngreso, true) || "-")}</span>
-                        <span class="cell-meta">Fila fuente ${escapeHtml(String(record.sourceRow || "-"))}</span>
-                      </td>
-                    </tr>
-                  `
+                        </td>
+                        <td>
+                          <span class="cell-title">${escapeHtml(record.solicitante || "-")}</span>
+                          <span class="cell-meta">Ingresado por ${escapeHtml(record.ingresadoPor || "-")}</span>
+                        </td>
+                        <td>
+                          <span class="cell-title">${escapeHtml(record.responsable || "-")}</span>
+                          <span class="cell-meta">${escapeHtml(record.cargoResponsable || "-")}</span>
+                        </td>
+                        <td>
+                          <span class="cell-title">${escapeHtml(formatDate(record.fechaLimite, false) || "Sin fecha")}</span>
+                          <span class="cell-meta">${escapeHtml(record.tiempoRestante || "Sin referencia")}</span>
+                        </td>
+                        <td>
+                          <span class="cell-title">${escapeHtml(formatDays(record.diasRestantes))}</span>
+                          <span class="cell-meta">${escapeHtml(record.prioridad || "Sin prioridad")}</span>
+                        </td>
+                        <td class="assignment-cell">
+                          <input
+                            class="assignment-input"
+                            type="text"
+                            list="assignee-options"
+                            data-assignment-id="${escapeHtml(record.id)}"
+                            data-assignment-code="${escapeHtml(record.codigo || String(record.nroTramite || record.id))}"
+                            value="${escapeAttribute(assignee)}"
+                            placeholder="Escribe a quien asignar"
+                          />
+                          <div class="row-actions assignment-actions">
+                            <button type="button" data-apply-assignment-id="${escapeHtml(record.id)}">
+                              Asignar trámite
+                            </button>
+                            <button class="ghost tiny" type="button" data-detail-id="${escapeHtml(record.id)}">
+                              ${detailsOpen ? "Ocultar ficha" : "Ver ficha"}
+                            </button>
+                            <button class="ghost tiny" type="button" data-clear-assignment-id="${escapeHtml(record.id)}">
+                              Limpiar
+                            </button>
+                          </div>
+                          <p class="assignment-meta">
+                            ${
+                              assignee
+                                ? `Asignado a ${escapeHtml(assignee)}.`
+                                : "Sin asignación interna guardada. Escribe el nombre y pulsa Asignar trámite."
+                            }
+                          </p>
+                        </td>
+                        <td>
+                          <span class="cell-title">Revisión ${reviewSummary.yes}/${reviewSummary.total}</span>
+                          <span class="cell-meta">${reviewSummary.no} en no, ${reviewSummary.pending} pendientes</span>
+                          <span class="cell-meta">Ingreso ${escapeHtml(formatDate(record.fechaIngreso, true) || "-")}</span>
+                          <span class="cell-meta">Fila fuente ${escapeHtml(String(record.sourceRow || "-"))}</span>
+                        </td>
+                      </tr>
+                    `
                   : `
                     <tr class="${rowClass}">
                       <td class="checkbox-cell">
-                        <span class="viewer-pill">Mi trámite</span>
+                        <span class="viewer-pill">${historyMode ? "Histórico" : "Mi trámite"}</span>
                       </td>
                       <td>
                         <span class="badge estado-${slugify(record.estado)}">${escapeHtml(record.estado || "Sin estado")}</span>
@@ -2738,21 +2992,35 @@
                           <span class="cell-title">${escapeHtml(record.codigo || "-")}</span>
                           <span class="cell-meta">Trámite N. ${escapeHtml(String(record.nroTramite || "-"))}</span>
                           <span class="cell-meta">${escapeHtml(record.solicitante || "-")}</span>
-                          <span class="cell-meta">${detailsOpen ? "Ocultar revisión técnica" : "Abrir revisión técnica"}</span>
+                          <span class="cell-meta">${detailsOpen ? (historyMode ? "Ocultar ficha histórica" : "Ocultar revisión técnica") : (historyMode ? "Abrir ficha histórica" : "Abrir revisión técnica")}</span>
                         </button>
                       </td>
                       <td>
-                        <span class="cell-title">${escapeHtml(formatDate(record.fechaLimite, false) || "Sin fecha")}</span>
-                        <span class="cell-meta">${escapeHtml(record.tiempoRestante || "Sin referencia")}</span>
-                        <span class="cell-meta">${escapeHtml(formatDays(record.diasRestantes))}</span>
+                        ${
+                          historyMode
+                            ? `
+                              <span class="cell-title">${escapeHtml(historyLastSeen)}</span>
+                              <span class="cell-meta">Archivado ${escapeHtml(historyArchivedAt)}</span>
+                              <span class="cell-meta">${escapeHtml(historyStatus)}</span>
+                            `
+                            : `
+                              <span class="cell-title">${escapeHtml(formatDate(record.fechaLimite, false) || "Sin fecha")}</span>
+                              <span class="cell-meta">${escapeHtml(record.tiempoRestante || "Sin referencia")}</span>
+                              <span class="cell-meta">${escapeHtml(formatDays(record.diasRestantes))}</span>
+                            `
+                        }
                       </td>
                       <td class="assignment-cell">
                         <span class="cell-title">${escapeHtml(assignee || "Sin asignación interna")}</span>
                         <span class="cell-meta">
                           ${
                             assignee
-                              ? "Abre la ficha para completar la revisión técnica y el informe."
-                              : "El trámite todavía no tiene un responsable interno definido."
+                              ? historyMode
+                                ? "Abre la ficha para revisar observaciones, evidencia e informe histórico."
+                                : "Abre la ficha para completar la revisión técnica y el informe."
+                              : historyMode
+                                ? "Este histórico no conserva un responsable interno definido."
+                                : "El trámite todavía no tiene un responsable interno definido."
                           }
                         </span>
                         <div class="row-actions assignment-actions">
@@ -2782,15 +3050,23 @@
                             ${renderField("Nro. trámite", record.nroTramite)}
                             ${renderField("Código", record.codigo)}
                             ${renderField("Tipo de trámite", record.tipoTramite, "field-wide")}
+                            ${record.asunto ? renderField("Asunto", record.asunto, "field-full") : ""}
                             ${renderField("Solicitante", record.solicitante, "field-wide")}
                             ${renderField("Responsable", record.responsable, "field-wide")}
                             ${renderField("Cargo responsable", record.cargoResponsable, "field-wide")}
+                            ${record.reasignadoPor ? renderField("Reasignado por", record.reasignadoPor, "field-wide") : ""}
+                            ${record.remitente ? renderField("Remitente", record.remitente, "field-wide") : ""}
+                            ${record.expediente ? renderField("Expediente", record.expediente) : ""}
                             ${renderField("Ingresado por", record.ingresadoPor)}
                             ${renderField("Fecha límite", formatDate(record.fechaLimite, false))}
                             ${renderField("Tiempo restante", record.tiempoRestante)}
                             ${renderField("Días restantes", formatDays(record.diasRestantes))}
                             ${renderField("Fecha de ingreso", formatDate(record.fechaIngreso, true), "field-wide")}
                             ${renderField("Asignado interno", assignee || "Sin asignación interna", "field-wide")}
+                            ${record.asignadoInterno ? renderField("Asignado sincronizado", record.asignadoInterno, "field-wide") : ""}
+                            ${historyMode || record.historyLastSeenAt ? renderField("Última vez en activos", historyLastSeen, "field-wide") : ""}
+                            ${historyMode || record.historyArchivedAt ? renderField("Archivado en historial", historyArchivedAt, "field-wide") : ""}
+                            ${historyMode || record.historyStatus ? renderField("Estado del historial", historyStatus, "field-wide") : ""}
                             ${renderField("Observaciones", record.observaciones || "Sin observaciones", "field-full")}
                           </div>
                         </div>
@@ -2807,6 +3083,7 @@
       function renderReviewPanel(record) {
         const reviewSummary = getReviewSummary(record.id);
         const evidenceList = getEvidenceList(record.id);
+        const historyMode = isHistoryTab();
 
         return `
           <section class="review-panel">
@@ -2814,7 +3091,11 @@
               <div>
                 <h3>Revisión técnica del trámite</h3>
                 <p class="helper">
-                  Marca cada validación en Sí o No. Si vuelves a pulsar la misma opción, el criterio queda pendiente.
+                  ${
+                    historyMode
+                      ? "Revisa o ajusta cada validación histórica en Sí o No. Si vuelves a pulsar la misma opción, el criterio queda pendiente."
+                      : "Marca cada validación en Sí o No. Si vuelves a pulsar la misma opción, el criterio queda pendiente."
+                  }
                 </p>
               </div>
               <span class="review-summary">
@@ -2877,7 +3158,11 @@
               <div>
                 <h3>Evidencia gráfica</h3>
                 <p class="helper">
-                  Sube una o varias imágenes para este trámite. Las imágenes se incluirán en el informe técnico final.
+                  ${
+                    historyMode
+                      ? "Puedes conservar o ampliar la evidencia gráfica histórica. Las imágenes se incluirán en el informe técnico final."
+                      : "Sube una o varias imágenes para este trámite. Las imágenes se incluirán en el informe técnico final."
+                  }
                 </p>
               </div>
             </div>
@@ -2984,73 +3269,110 @@
 
       function syncModuleInterface(filteredRecords) {
         const adminMode = isAdminMode();
+        const historyMode = isHistoryTab();
         const scopedRecords = getModuleScopedRecords();
+        const datasetRecords = getDatasetRecords();
         const finishedCount = scopedRecords.filter((record) => getReviewSummary(record.id).pending === 0).length;
         const blockedCount = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "NO FAVORABLE").length;
 
-        dom.brandTitle.textContent = adminMode ? "Asignación de Trámites" : "Revisión de Trámites";
+        dom.brandTitle.textContent = historyMode
+          ? (adminMode ? "Historial de Trámites" : "Historial de Revisión")
+          : (adminMode ? "Asignación de Trámites" : "Revisión de Trámites");
         dom.moduleHelper.textContent = adminMode
-          ? "Usa este módulo para asignar, monitorear la carga de trabajo y revisar el estado completo de todos los trámites."
-          : "Usa este módulo para abrir únicamente los trámites asignados a una persona y completar la revisión técnica, observaciones y evidencias.";
+          ? historyMode
+            ? "Usa esta pestaña para revisar los trámites que ya no están en la bandeja activa, pero deben seguir disponibles para consulta y seguimiento."
+            : "Usa este módulo para asignar, monitorear la carga de trabajo y revisar el estado completo de todos los trámites."
+          : historyMode
+            ? "Usa esta pestaña para revisar el historial de trámites que ya salieron de la bandeja activa del asignado."
+            : "Usa este módulo para abrir únicamente los trámites asignados a una persona y completar la revisión técnica, observaciones y evidencias.";
         dom.sessionChip.textContent = adminMode
-          ? "Vista actual: Administrador"
-          : `Vista actual: Asignado${state.sessionAssignee ? ` · ${state.sessionAssignee}` : ""}`;
+          ? `Vista actual: Administrador · ${historyMode ? "Historial" : "Activos"}`
+          : `Vista actual: Asignado${state.sessionAssignee ? ` · ${state.sessionAssignee}` : ""} · ${historyMode ? "Historial" : "Activos"}`;
 
-        dom.adminAssignmentPanel.hidden = !adminMode;
+        dom.adminAssignmentPanel.hidden = !adminMode || historyMode;
         dom.adminActionsPanel.hidden = !adminMode;
         dom.responsableFilterLabel.hidden = !adminMode;
         dom.asignadoFilterLabel.hidden = !adminMode;
-        dom.tableToolbarActions.hidden = !adminMode;
-        dom.selectVisibleButton.hidden = !adminMode;
+        dom.tableToolbarActions.hidden = !adminMode || historyMode;
+        dom.selectVisibleButton.hidden = !adminMode || historyMode;
         if (dom.selectAllVisible) {
-          dom.selectAllVisible.hidden = !adminMode;
+          dom.selectAllVisible.hidden = !adminMode || historyMode;
         }
         if (dom.selectionColumnLabel) {
-          dom.selectionColumnLabel.hidden = adminMode;
+          dom.selectionColumnLabel.hidden = adminMode && !historyMode;
         }
 
-        dom.loadPanelTitle.textContent = adminMode ? "Carga Por Persona" : "Mi Bandeja de Revisión";
+        dom.loadPanelTitle.textContent = adminMode
+          ? (historyMode ? "Historial Por Persona" : "Carga Por Persona")
+          : (historyMode ? "Mi Historial" : "Mi Bandeja de Revisión");
         dom.loadPanelHelper.textContent = adminMode
-          ? "Este resumen se calcula sobre la asignación interna guardada en el navegador y ayuda a repartir la carga."
-          : "Aquí se resume el avance del asignado dentro de su propia bandeja de revisión técnica.";
-        dom.tableTitle.textContent = adminMode ? "Panel Maestro de Trámites" : "Bandeja del Asignado";
+          ? historyMode
+            ? "Este resumen se calcula sobre los trámites históricos y te permite revisar qué quedó fuera de la bandeja activa."
+            : "Este resumen se calcula sobre la asignación interna guardada en el navegador y ayuda a repartir la carga."
+          : historyMode
+            ? "Aquí se resume el historial del asignado dentro de sus trámites ya sincronizados fuera de la bandeja activa."
+            : "Aquí se resume el avance del asignado dentro de su propia bandeja de revisión técnica.";
+        dom.tableTitle.textContent = adminMode
+          ? (historyMode ? "Historial de Trámites" : "Panel Maestro de Trámites")
+          : (historyMode ? "Historial del Asignado" : "Bandeja del Asignado");
 
         dom.modeBanner.innerHTML = `
           <div class="mode-banner-copy">
-            <span class="eyebrow">${escapeHtml(adminMode ? "Módulo Administrador" : "Módulo Asignado")}</span>
-            <h2>${escapeHtml(adminMode ? "Asignación, control y visualización total" : state.sessionAssignee ? `Revisión técnica de ${state.sessionAssignee}` : "Selecciona un asignado para empezar")}</h2>
+            <span class="eyebrow">${escapeHtml(adminMode ? "Módulo Administrador" : "Módulo Asignado")} · ${escapeHtml(historyMode ? "Historial" : "Activos")}</span>
+            <h2>${escapeHtml(
+              adminMode
+                ? historyMode
+                  ? "Consulta histórica y trazabilidad"
+                  : "Asignación, control y visualización total"
+                : historyMode
+                  ? state.sessionAssignee
+                    ? `Historial técnico de ${state.sessionAssignee}`
+                    : "Selecciona un asignado para revisar su historial"
+                  : state.sessionAssignee
+                    ? `Revisión técnica de ${state.sessionAssignee}`
+                    : "Selecciona un asignado para empezar"
+            )}</h2>
             <p>
               ${
                 adminMode
-                  ? "Desde aquí puedes asignar trámites, revisar prioridades, abrir cualquier ficha técnica y descargar exportables completos."
-                  : state.sessionAssignee
-                    ? `Esta vista muestra solamente los trámites asignados a ${escapeHtml(state.sessionAssignee)} para que complete la revisión, escriba observaciones, suba evidencias y genere el informe técnico.`
-                    : "Escribe el nombre exacto del asignado para cargar su bandeja y permitir que edite las observaciones, evidencias e informe."
+                  ? historyMode
+                    ? "Desde aquí puedes revisar los trámites que ya no aparecen en la bandeja activa, mantener su detalle técnico y consultar la trazabilidad de la sincronización."
+                    : "Desde aquí puedes asignar trámites, revisar prioridades, abrir cualquier ficha técnica y descargar exportables completos."
+                  : historyMode
+                    ? state.sessionAssignee
+                      ? `Esta vista muestra el historial de trámites asignados a ${escapeHtml(state.sessionAssignee)} para que puedas revisar antecedentes, observaciones y evidencias ya registradas.`
+                      : "Escribe el nombre exacto del asignado para cargar su historial técnico."
+                    : state.sessionAssignee
+                      ? `Esta vista muestra solamente los trámites asignados a ${escapeHtml(state.sessionAssignee)} para que complete la revisión, escriba observaciones, suba evidencias y genere el informe técnico.`
+                      : "Escribe el nombre exacto del asignado para cargar su bandeja y permitir que edite las observaciones, evidencias e informe."
               }
             </p>
           </div>
           <div class="mode-banner-stats">
             <article class="mode-banner-stat">
-              <span>${escapeHtml(adminMode ? "Trámites visibles" : "Mis trámites")}</span>
+              <span>${escapeHtml(historyMode ? "Históricos visibles" : adminMode ? "Trámites visibles" : "Mis trámites")}</span>
               <strong>${filteredRecords.length}</strong>
             </article>
             <article class="mode-banner-stat">
-              <span>${escapeHtml(adminMode ? "Total general" : "Bandeja total")}</span>
+              <span>${escapeHtml(historyMode ? "Total en historial" : adminMode ? "Total general" : "Bandeja total")}</span>
               <strong>${scopedRecords.length}</strong>
             </article>
             <article class="mode-banner-stat">
-              <span>${escapeHtml(adminMode ? "Selección activa" : "Revisiones cerradas")}</span>
-              <strong>${adminMode ? selectedIds.size : finishedCount}</strong>
+              <span>${escapeHtml(adminMode ? (historyMode ? "Con criterio técnico" : "Selección activa") : "Revisiones cerradas")}</span>
+              <strong>${adminMode ? (historyMode ? scopedRecords.filter((record) => getReviewSummary(record.id).yes > 0 || getReviewSummary(record.id).no > 0).length : selectedIds.size) : finishedCount}</strong>
             </article>
             <article class="mode-banner-stat">
-              <span>${escapeHtml(adminMode ? "Sin asignar" : "No favorables")}</span>
-              <strong>${adminMode ? source.records.filter((record) => !getAssignee(record.id)).length : blockedCount}</strong>
+              <span>${escapeHtml(adminMode ? (historyMode ? "Sin asignar" : "Sin asignar") : "No favorables")}</span>
+              <strong>${adminMode ? datasetRecords.filter((record) => !getAssignee(record.id)).length : blockedCount}</strong>
             </article>
           </div>
         `;
 
         dom.modeSwitcher.querySelectorAll("[data-module-mode]").forEach((button) => {
           button.classList.toggle("active", button.dataset.moduleMode === state.moduleMode);
+        });
+        dom.datasetSwitcher.querySelectorAll("[data-dataset-tab]").forEach((button) => {
+          button.classList.toggle("active", button.dataset.datasetTab === state.datasetTab);
         });
       }
 
@@ -3070,7 +3392,7 @@
           return;
         }
 
-        const record = source.records.find((item) => item.id === recordId);
+        const record = findRecordById(recordId);
         if (!record) {
           return;
         }
@@ -3080,24 +3402,32 @@
 
       function updateTopMetrics() {
         const scopedRecords = getModuleScopedRecords();
+        const datasetRecords = getDatasetRecords();
+        const historyMode = isHistoryTab();
         if (isAdminMode()) {
-          const total = source.records.length;
-          const assigned = source.records.filter((record) => getAssignee(record.id)).length;
-          const critical = source.records.filter((record) => ["Vencido", "Vence hoy"].includes(record.prioridad)).length;
-          dom.metricTotalLabel.textContent = "Total de registros";
+          const total = datasetRecords.length;
+          const assigned = datasetRecords.filter((record) => getAssignee(record.id)).length;
+          const critical = datasetRecords.filter((record) =>
+            historyMode
+              ? ["Vencido", "Vence hoy", "Crítico"].includes(record.prioridad)
+              : ["Vencido", "Vence hoy"].includes(record.prioridad)
+          ).length;
+          dom.metricTotalLabel.textContent = historyMode ? "Histórico total" : "Total de registros";
           dom.metricAssignedLabel.textContent = "Asignados internamente";
-          dom.metricCriticalLabel.textContent = "Vencidos + vence hoy";
+          dom.metricCriticalLabel.textContent = historyMode ? "Históricos críticos" : "Vencidos + vence hoy";
           dom.metricSourceDateLabel.textContent = "Última fuente";
           dom.metricTotal.textContent = total;
           dom.metricAssigned.textContent = assigned;
           dom.metricCritical.textContent = critical;
           dom.brandDescription.textContent =
             `${source.title}. Fuente ${source.sourceFile}. ` +
-            `Se cargaron ${total} trámites con asignación manual persistida en localStorage.`;
+            (historyMode
+              ? `Se mantienen ${total} trámites en historial consultable además de la bandeja activa.`
+              : `Se cargaron ${total} trámites activos con asignación manual persistida en localStorage.`);
         } else {
           const finished = scopedRecords.filter((record) => getReviewSummary(record.id).pending === 0).length;
           const blocked = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "NO FAVORABLE").length;
-          dom.metricTotalLabel.textContent = "Mi bandeja";
+          dom.metricTotalLabel.textContent = historyMode ? "Mi historial" : "Mi bandeja";
           dom.metricAssignedLabel.textContent = "Revisiones cerradas";
           dom.metricCriticalLabel.textContent = "No favorables";
           dom.metricSourceDateLabel.textContent = "Última fuente";
@@ -3105,8 +3435,12 @@
           dom.metricAssigned.textContent = finished;
           dom.metricCritical.textContent = blocked;
           dom.brandDescription.textContent = state.sessionAssignee
-            ? `Bandeja operativa de ${state.sessionAssignee}. Aquí puede abrir sus trámites asignados, completar la revisión técnica, registrar observaciones, subir evidencia y generar el informe.`
-            : "Selecciona un asignado para mostrar únicamente sus trámites y habilitar la edición técnica correspondiente.";
+            ? historyMode
+              ? `Historial operativo de ${state.sessionAssignee}. Aquí puede revisar trámites ya cerrados o retirados de la bandeja activa, manteniendo observaciones, evidencias e informe técnico.`
+              : `Bandeja operativa de ${state.sessionAssignee}. Aquí puede abrir sus trámites asignados, completar la revisión técnica, registrar observaciones, subir evidencia y generar el informe.`
+            : historyMode
+              ? "Selecciona un asignado para mostrar únicamente su historial técnico."
+              : "Selecciona un asignado para mostrar únicamente sus trámites y habilitar la edición técnica correspondiente.";
         }
 
         dom.metricSourceDate.textContent = source.sourceDate || "Sin fecha";
@@ -3114,11 +3448,15 @@
 
       function updateFilterCaption(filteredRecords) {
         const scopedRecords = getModuleScopedRecords();
+        const datasetRecords = getDatasetRecords();
+        const historyMode = isHistoryTab();
         const quickFilterLabel =
           quickFilterDefinitions.find((item) => item.key === state.quickFilter)?.label || "sin filtro rápido";
         dom.tableCaption.textContent = isAdminMode()
-          ? `Mostrando ${filteredRecords.length} de ${source.records.length} trámites, ${selectedIds.size} seleccionados y ${quickFilterLabel}.`
-          : `Mostrando ${filteredRecords.length} de ${scopedRecords.length} trámites del asignado ${state.sessionAssignee || "sin usuario definido"}, con ${quickFilterLabel}.`;
+          ? historyMode
+            ? `Mostrando ${filteredRecords.length} de ${datasetRecords.length} trámites del historial, con ${quickFilterLabel}.`
+            : `Mostrando ${filteredRecords.length} de ${datasetRecords.length} trámites, ${selectedIds.size} seleccionados y ${quickFilterLabel}.`
+          : `Mostrando ${filteredRecords.length} de ${scopedRecords.length} trámites ${historyMode ? "del historial" : "del asignado"} ${state.sessionAssignee || "sin usuario definido"}, con ${quickFilterLabel}.`;
       }
 
       function syncMasterCheckbox(filteredRecords) {
@@ -3266,6 +3604,10 @@
           ["Fecha límite", formatDate(record.fechaLimite, false) || "Sin fecha"],
           ["Fecha de ingreso", formatDate(record.fechaIngreso, true) || "-"],
         ];
+        if (record.historyLastSeenAt || record.historyArchivedAt) {
+          summaryItems.push(["Última vez en activos", formatHistoryDate(record.historyLastSeenAt)]);
+          summaryItems.push(["Archivado en historial", formatHistoryDate(record.historyArchivedAt)]);
+        }
 
         return `
           <section class="sheet-summary">
@@ -3395,6 +3737,8 @@
           asignadoInterno: getAssignee(record.id) || "",
           fechaLimiteFormateada: formatDate(record.fechaLimite, false),
           fechaIngresoFormateada: formatDate(record.fechaIngreso, true),
+          historyLastSeenAtFormateada: formatHistoryDate(record.historyLastSeenAt),
+          historyArchivedAtFormateada: formatHistoryDate(record.historyArchivedAt),
           revisionCumplidos: getReviewSummary(record.id).yes,
           revisionPendientes: getReviewSummary(record.id).pending,
           evidenciaCargada: getEvidenceList(record.id).length,
@@ -3419,6 +3763,11 @@
           "fechaIngreso",
           "observaciones",
           "asignadoInterno",
+          "historyStatus",
+          "historyLastSeenAt",
+          "historyLastSeenAtFormateada",
+          "historyArchivedAt",
+          "historyArchivedAtFormateada",
           "revisionCumplidos",
           "revisionPendientes",
           ...technicalChecklist.map((item) => item.key),
