@@ -40,6 +40,10 @@
       box-sizing: border-box;
     }
 
+    [hidden] {
+      display: none !important;
+    }
+
     html,
     body {
       min-height: 100%;
@@ -498,6 +502,101 @@
       border-color: rgba(73, 169, 66, 0.28);
     }
 
+    .mode-switcher {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .mode-button {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: #dce8ee;
+      box-shadow: none;
+    }
+
+    .mode-button.active {
+      color: #ffffff;
+      background: var(--accent);
+      border-color: rgba(73, 169, 66, 0.28);
+      box-shadow: 0 8px 18px rgba(73, 169, 66, 0.2);
+    }
+
+    .session-chip {
+      display: inline-flex;
+      align-items: center;
+      width: 100%;
+      margin-top: 14px;
+      padding: 11px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.06);
+      color: #eef5f8;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .mode-banner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+      gap: 14px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(73, 169, 66, 0.18);
+      background: linear-gradient(135deg, rgba(20, 44, 60, 0.98), rgba(27, 55, 72, 0.98));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .mode-banner-copy {
+      display: grid;
+      gap: 8px;
+      align-content: start;
+    }
+
+    .mode-banner-copy h2 {
+      color: #ffffff;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .mode-banner-copy p {
+      margin: 0;
+      color: rgba(238, 245, 248, 0.78);
+      line-height: 1.55;
+    }
+
+    .mode-banner-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .mode-banner-stat {
+      padding: 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .mode-banner-stat span {
+      display: block;
+      color: rgba(238, 245, 248, 0.72);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .mode-banner-stat strong {
+      display: block;
+      margin-top: 8px;
+      color: #ffffff;
+      font-size: 1.35rem;
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
     .table-panel {
       padding: 18px;
       background: #ffffff;
@@ -849,6 +948,20 @@
       background: #ffffff;
     }
 
+    .viewer-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(73, 169, 66, 0.12);
+      color: var(--accent);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
     .evidence-panel,
     .report-panel {
       margin-bottom: 16px;
@@ -1070,6 +1183,10 @@
       .summary-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+
+      .mode-banner {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 720px) {
@@ -1081,6 +1198,11 @@
       .summary-grid,
       .brand-metrics,
       .details-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mode-switcher,
+      .mode-banner-stats {
         grid-template-columns: 1fr;
       }
 
@@ -1120,32 +1242,53 @@
           <span class="eyebrow">IPRUS Operativo</span>
           <span class="status-chip">Módulo activo</span>
         </div>
-        <h1>Asignación de Trámites</h1>
+        <h1 id="brand-title">Asignación de Trámites</h1>
         <p id="brand-description">
           Consola web para revisar el listado del Excel, filtrar por prioridad y dejar registrada la
           asignación interna de cada trámite sin perder el detalle original.
         </p>
         <div class="brand-metrics">
           <div class="brand-metric">
-            <span>Total de registros</span>
+            <span id="metric-total-label">Total de registros</span>
             <strong id="metric-total">0</strong>
           </div>
           <div class="brand-metric">
-            <span>Asignados internamente</span>
+            <span id="metric-assigned-label">Asignados internamente</span>
             <strong id="metric-assigned">0</strong>
           </div>
           <div class="brand-metric">
-            <span>Vencidos + vence hoy</span>
+            <span id="metric-critical-label">Vencidos + vence hoy</span>
             <strong id="metric-critical">0</strong>
           </div>
           <div class="brand-metric">
-            <span>Última fuente</span>
+            <span id="metric-source-date-label">Última fuente</span>
             <strong id="metric-source-date">-</strong>
           </div>
         </div>
       </section>
 
       <section class="panel">
+        <h2>Módulo de Trabajo</h2>
+        <p class="helper" id="module-helper">
+          Cambia entre la vista de administrador, que asigna y controla todo, y la vista del asignado, que se concentra en revisar sus trámites.
+        </p>
+        <div class="mode-switcher" id="mode-switcher">
+          <button class="mode-button active" type="button" data-module-mode="admin">Administrador</button>
+          <button class="mode-button" type="button" data-module-mode="assigned">Asignado</button>
+        </div>
+        <label for="session-assignee">
+          Usuario asignado
+          <input id="session-assignee" list="assignee-options" placeholder="Ej. Josselyn Orozco" />
+        </label>
+        <div class="button-stack">
+          <button id="enter-assigned-button" class="secondary" type="button">Entrar como asignado</button>
+          <button id="clear-session-assignee-button" class="ghost" type="button">Limpiar usuario</button>
+        </div>
+        <div class="session-chip" id="session-chip">Vista actual: Administrador</div>
+        <p class="message" id="module-message"></p>
+      </section>
+
+      <section class="panel" id="admin-assignment-panel">
         <h2>Asignación Masiva</h2>
         <p class="helper">
           Selecciona filas desde la tabla y escribe el nombre de la persona o técnico que recibirá los trámites.
@@ -1163,7 +1306,7 @@
         <p class="message" id="assignment-message"></p>
       </section>
 
-      <section class="panel">
+      <section class="panel" id="filters-panel">
         <h2>Filtros</h2>
         <label for="search-input">
           Buscar
@@ -1177,11 +1320,11 @@
           Prioridad
           <select id="prioridad-filter"></select>
         </label>
-        <label for="responsable-filter">
+        <label for="responsable-filter" id="responsable-filter-label">
           Responsable actual
           <select id="responsable-filter"></select>
         </label>
-        <label for="asignado-filter">
+        <label for="asignado-filter" id="asignado-filter-label">
           Asignación interna
           <select id="asignado-filter"></select>
         </label>
@@ -1200,15 +1343,15 @@
         </div>
       </section>
 
-      <section class="panel">
-        <h2>Carga Por Persona</h2>
-        <p class="helper">
+      <section class="panel" id="load-panel">
+        <h2 id="load-panel-title">Carga Por Persona</h2>
+        <p class="helper" id="load-panel-helper">
           Este resumen se calcula sobre la asignación interna guardada en el navegador y ayuda a repartir la carga.
         </p>
         <div class="load-board" id="load-board"></div>
       </section>
 
-      <section class="panel">
+      <section class="panel" id="admin-actions-panel">
         <h2>Acciones</h2>
         <p class="helper">
           Puedes exportar el estado actual con las asignaciones internas o limpiar los datos locales si quieres
@@ -1230,6 +1373,8 @@
     </aside>
 
     <main class="main">
+      <section class="mode-banner" id="mode-banner"></section>
+
       <section class="summary-grid" id="summary-grid"></section>
 
       <section class="quick-filters" id="quick-filters"></section>
@@ -1237,12 +1382,12 @@
       <section class="table-panel">
         <div class="table-toolbar">
           <div>
-            <h2>Panel Maestro de Trámites</h2>
+            <h2 id="table-title">Panel Maestro de Trámites</h2>
             <p class="table-caption" id="table-caption">
               Tabla operativa con filtros, asignación interna y vista detallada de cada registro del Excel.
             </p>
           </div>
-          <div class="button-stack">
+          <div class="button-stack" id="table-toolbar-actions">
             <button id="assign-responsable-button" class="secondary" type="button">Copiar responsable a selección</button>
             <button id="clear-quick-filter-button" class="ghost" type="button">Quitar filtro rápido</button>
           </div>
@@ -1253,6 +1398,7 @@
               <tr>
                 <th class="checkbox-cell">
                   <input id="select-all-visible" class="checkbox-input" type="checkbox" aria-label="Seleccionar visibles" />
+                  <span id="selection-column-label" hidden>Vista</span>
                 </th>
                 <th>Estado</th>
                 <th>Prioridad</th>
@@ -1281,6 +1427,8 @@
       const assignmentStorageKey = "tramites-iprus-assignments-v1";
       const reviewStorageKey = "tramites-iprus-review-v1";
       const evidenceStorageKey = "tramites-iprus-evidence-v1";
+      const moduleStorageKey = "tramites-iprus-module-v1";
+      const sessionAssigneeStorageKey = "tramites-iprus-session-assignee-v1";
       const manualAssignments = loadAssignments();
       const reviewResults = loadReviewResults();
       const evidenceImages = loadEvidenceImages();
@@ -1331,21 +1479,39 @@
         sort: "priority",
         quickFilter: "",
         detailId: "",
+        moduleMode: loadModuleMode(),
+        sessionAssignee: loadSessionAssignee(),
       };
 
       const dom = {
+        brandTitle: document.getElementById("brand-title"),
         metricTotal: document.getElementById("metric-total"),
+        metricTotalLabel: document.getElementById("metric-total-label"),
         metricAssigned: document.getElementById("metric-assigned"),
+        metricAssignedLabel: document.getElementById("metric-assigned-label"),
         metricCritical: document.getElementById("metric-critical"),
+        metricCriticalLabel: document.getElementById("metric-critical-label"),
         metricSourceDate: document.getElementById("metric-source-date"),
+        metricSourceDateLabel: document.getElementById("metric-source-date-label"),
         brandDescription: document.getElementById("brand-description"),
+        moduleHelper: document.getElementById("module-helper"),
+        modeSwitcher: document.getElementById("mode-switcher"),
+        sessionAssignee: document.getElementById("session-assignee"),
+        enterAssignedButton: document.getElementById("enter-assigned-button"),
+        clearSessionAssigneeButton: document.getElementById("clear-session-assignee-button"),
+        sessionChip: document.getElementById("session-chip"),
+        moduleMessage: document.getElementById("module-message"),
+        adminAssignmentPanel: document.getElementById("admin-assignment-panel"),
         bulkAssignee: document.getElementById("bulk-assignee"),
         assignmentMessage: document.getElementById("assignment-message"),
+        filtersPanel: document.getElementById("filters-panel"),
         exportMessage: document.getElementById("export-message"),
         searchInput: document.getElementById("search-input"),
         estadoFilter: document.getElementById("estado-filter"),
         prioridadFilter: document.getElementById("prioridad-filter"),
+        responsableFilterLabel: document.getElementById("responsable-filter-label"),
         responsableFilter: document.getElementById("responsable-filter"),
+        asignadoFilterLabel: document.getElementById("asignado-filter-label"),
         asignadoFilter: document.getElementById("asignado-filter"),
         sortFilter: document.getElementById("sort-filter"),
         resetFiltersButton: document.getElementById("reset-filters-button"),
@@ -1358,13 +1524,21 @@
         exportJsonButton: document.getElementById("export-json-button"),
         clearAllAssignmentsButton: document.getElementById("clear-all-assignments-button"),
         clearQuickFilterButton: document.getElementById("clear-quick-filter-button"),
+        loadPanel: document.getElementById("load-panel"),
+        loadPanelTitle: document.getElementById("load-panel-title"),
+        loadPanelHelper: document.getElementById("load-panel-helper"),
+        adminActionsPanel: document.getElementById("admin-actions-panel"),
+        modeBanner: document.getElementById("mode-banner"),
         summaryGrid: document.getElementById("summary-grid"),
         quickFilters: document.getElementById("quick-filters"),
         loadBoard: document.getElementById("load-board"),
+        tableTitle: document.getElementById("table-title"),
         tableBody: document.getElementById("table-body"),
         tableCaption: document.getElementById("table-caption"),
+        tableToolbarActions: document.getElementById("table-toolbar-actions"),
         assigneeOptions: document.getElementById("assignee-options"),
         selectAllVisible: document.getElementById("select-all-visible"),
+        selectionColumnLabel: document.getElementById("selection-column-label"),
       };
 
       const priorityOrder = {
@@ -1389,6 +1563,8 @@
       initialize();
 
       function initialize() {
+        dom.sessionAssignee.value = state.sessionAssignee;
+        document.body.dataset.moduleMode = state.moduleMode;
         populateFilters();
         populateAssigneeOptions();
         wireEvents();
@@ -1425,6 +1601,25 @@
         }
       }
 
+      function loadModuleMode() {
+        try {
+          const raw = localStorage.getItem(moduleStorageKey);
+          return raw === "assigned" ? "assigned" : "admin";
+        } catch (error) {
+          console.warn("No se pudo leer el módulo activo:", error);
+          return "admin";
+        }
+      }
+
+      function loadSessionAssignee() {
+        try {
+          return String(localStorage.getItem(sessionAssigneeStorageKey) || "").trim();
+        } catch (error) {
+          console.warn("No se pudo leer el usuario asignado:", error);
+          return "";
+        }
+      }
+
       function persistAssignments() {
         localStorage.setItem(assignmentStorageKey, JSON.stringify(manualAssignments));
         populateAssigneeOptions();
@@ -1446,6 +1641,50 @@
           );
           return false;
         }
+      }
+
+      function persistModuleMode() {
+        localStorage.setItem(moduleStorageKey, state.moduleMode);
+      }
+
+      function persistSessionAssignee() {
+        localStorage.setItem(sessionAssigneeStorageKey, state.sessionAssignee);
+      }
+
+      function isAdminMode() {
+        return state.moduleMode !== "assigned";
+      }
+
+      function getModuleScopedRecords() {
+        if (isAdminMode()) {
+          return source.records;
+        }
+
+        const sessionAssigneeKey = normalizeText(state.sessionAssignee);
+        if (!sessionAssigneeKey) {
+          return [];
+        }
+
+        return source.records.filter((record) => normalizeText(getAssignee(record.id)) === sessionAssigneeKey);
+      }
+
+      function setModuleMode(mode) {
+        state.moduleMode = mode === "assigned" ? "assigned" : "admin";
+        document.body.dataset.moduleMode = state.moduleMode;
+        state.responsable = "";
+        state.asignado = "";
+        selectedIds.clear();
+        dom.responsableFilter.value = "";
+        dom.asignadoFilter.value = "";
+        dom.selectAllVisible.checked = false;
+        dom.selectAllVisible.indeterminate = false;
+        persistModuleMode();
+      }
+
+      function setSessionAssignee(value) {
+        state.sessionAssignee = String(value || "").trim();
+        dom.sessionAssignee.value = state.sessionAssignee;
+        persistSessionAssignee();
       }
 
       function getAssignee(id) {
@@ -1625,6 +1864,8 @@
           option.value = name;
           dom.assigneeOptions.appendChild(option);
         });
+
+        dom.sessionAssignee.value = state.sessionAssignee;
       }
 
       function buildOptions(values, firstLabel) {
@@ -1643,6 +1884,70 @@
       }
 
       function wireEvents() {
+        dom.modeSwitcher.querySelectorAll("[data-module-mode]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const nextMode = button.dataset.moduleMode || "admin";
+            if (nextMode === "assigned") {
+              setSessionAssignee(dom.sessionAssignee.value || state.sessionAssignee);
+              setModuleMode("assigned");
+              render();
+              setMessage(
+                dom.moduleMessage,
+                state.sessionAssignee
+                  ? `Se abrió la bandeja del asignado ${state.sessionAssignee}.`
+                  : "Escribe el nombre del asignado para mostrar su bandeja de trabajo."
+              );
+              return;
+            }
+
+            setModuleMode("admin");
+            render();
+            setMessage(dom.moduleMessage, "Se abrió el módulo de administrador.");
+          });
+        });
+
+        dom.enterAssignedButton.addEventListener("click", () => {
+          setSessionAssignee(dom.sessionAssignee.value);
+          setModuleMode("assigned");
+          render();
+          setMessage(
+            dom.moduleMessage,
+            state.sessionAssignee
+              ? `Se abrió la bandeja del asignado ${state.sessionAssignee}.`
+              : "Escribe el nombre del asignado para mostrar su bandeja de trabajo."
+          );
+        });
+
+        dom.clearSessionAssigneeButton.addEventListener("click", () => {
+          setSessionAssignee("");
+          render();
+          setMessage(dom.moduleMessage, "Se limpió el usuario asignado de la sesión actual.");
+        });
+
+        dom.sessionAssignee.addEventListener("keydown", (event) => {
+          if (event.key !== "Enter") {
+            return;
+          }
+
+          event.preventDefault();
+          setSessionAssignee(event.target.value);
+          setModuleMode("assigned");
+          render();
+          setMessage(
+            dom.moduleMessage,
+            state.sessionAssignee
+              ? `Se abrió la bandeja del asignado ${state.sessionAssignee}.`
+              : "Escribe el nombre del asignado para mostrar su bandeja de trabajo."
+          );
+        });
+
+        dom.sessionAssignee.addEventListener("change", (event) => {
+          setSessionAssignee(event.target.value);
+          if (!isAdminMode()) {
+            render();
+          }
+        });
+
         dom.searchInput.addEventListener("input", (event) => {
           state.search = event.target.value;
           render();
@@ -1915,6 +2220,7 @@
 
       function render() {
         const filteredRecords = getFilteredRecords();
+        syncModuleInterface(filteredRecords);
         renderSummary(filteredRecords);
         renderQuickFilters();
         renderLoadBoard();
@@ -1927,7 +2233,7 @@
       function getFilteredRecords() {
         const searchTerm = normalizeText(state.search);
 
-        return [...source.records]
+        return [...getModuleScopedRecords()]
           .filter((record) => {
             if (state.estado && record.estado !== state.estado) {
               return false;
@@ -1935,15 +2241,15 @@
             if (state.prioridad && record.prioridad !== state.prioridad) {
               return false;
             }
-            if (state.responsable && record.responsable !== state.responsable) {
+            if (isAdminMode() && state.responsable && record.responsable !== state.responsable) {
               return false;
             }
 
             const assignee = getAssignee(record.id);
-            if (state.asignado === "__assigned__" && !assignee) {
+            if (isAdminMode() && state.asignado === "__assigned__" && !assignee) {
               return false;
             }
-            if (state.asignado === "__unassigned__" && assignee) {
+            if (isAdminMode() && state.asignado === "__unassigned__" && assignee) {
               return false;
             }
 
@@ -2009,40 +2315,79 @@
       }
 
       function renderSummary(filteredRecords) {
-        const total = source.records.length;
-        const assigned = source.records.filter((record) => getAssignee(record.id)).length;
-        const overdue = source.records.filter((record) => ["Vencido", "Vence hoy"].includes(record.prioridad)).length;
-        const critical = source.records.filter((record) => ["Vencido", "Vence hoy", "Crítico"].includes(record.prioridad)).length;
-        const complementados = source.records.filter((record) => record.estado === "Complementado").length;
-        const unassigned = total - assigned;
+        const scopedRecords = getModuleScopedRecords();
+        const adminMode = isAdminMode();
+        let cards;
 
-        const cards = [
-          {
-            label: "Filtrados ahora",
-            value: filteredRecords.length,
-            note: `${selectedIds.size} seleccionados en la mesa operativa.`,
-          },
-          {
-            label: "Asignación interna",
-            value: assigned,
-            note: `${unassigned} trámites siguen sin reparto interno.`,
-          },
-          {
-            label: "Riesgo inmediato",
-            value: overdue,
-            note: `${critical} trámites están entre vencidos, hoy o críticos.`,
-          },
-          {
-            label: "Complementados",
-            value: complementados,
-            note: `${total - complementados} aún requieren seguimiento.`,
-          },
-          {
-            label: "Responsables fuente",
-            value: Object.keys(source.summary.responsibles).length,
-            note: "Responsables actuales detectados en el Excel original.",
-          },
-        ];
+        if (adminMode) {
+          const total = source.records.length;
+          const assigned = source.records.filter((record) => getAssignee(record.id)).length;
+          const overdue = source.records.filter((record) => ["Vencido", "Vence hoy"].includes(record.prioridad)).length;
+          const critical = source.records.filter((record) => ["Vencido", "Vence hoy", "Crítico"].includes(record.prioridad)).length;
+          const complementados = source.records.filter((record) => record.estado === "Complementado").length;
+          const unassigned = total - assigned;
+
+          cards = [
+            {
+              label: "Filtrados ahora",
+              value: filteredRecords.length,
+              note: `${selectedIds.size} seleccionados en la mesa operativa.`,
+            },
+            {
+              label: "Asignación interna",
+              value: assigned,
+              note: `${unassigned} trámites siguen sin reparto interno.`,
+            },
+            {
+              label: "Riesgo inmediato",
+              value: overdue,
+              note: `${critical} trámites están entre vencidos, hoy o críticos.`,
+            },
+            {
+              label: "Complementados",
+              value: complementados,
+              note: `${total - complementados} aún requieren seguimiento.`,
+            },
+            {
+              label: "Responsables fuente",
+              value: Object.keys(source.summary.responsibles).length,
+              note: "Responsables actuales detectados en el Excel original.",
+            },
+          ];
+        } else {
+          const pending = scopedRecords.filter((record) => getReviewSummary(record.id).pending > 0).length;
+          const finished = scopedRecords.filter((record) => getReviewSummary(record.id).pending === 0).length;
+          const blocked = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "NO FAVORABLE").length;
+          const evidenceCount = scopedRecords.filter((record) => getEvidenceList(record.id).length > 0).length;
+
+          cards = [
+            {
+              label: "Mi bandeja",
+              value: scopedRecords.length,
+              note: state.sessionAssignee ? `Trámites asignados a ${state.sessionAssignee}.` : "Selecciona un asignado para cargar su bandeja.",
+            },
+            {
+              label: "Filtrados ahora",
+              value: filteredRecords.length,
+              note: "La tabla se reduce con los filtros activos de esta bandeja.",
+            },
+            {
+              label: "Pendientes",
+              value: pending,
+              note: `${finished} revisiones ya tienen todos los criterios respondidos.`,
+            },
+            {
+              label: "No favorables",
+              value: blocked,
+              note: "Trámites con al menos una validación marcada en No.",
+            },
+            {
+              label: "Con evidencia",
+              value: evidenceCount,
+              note: `${Math.max(scopedRecords.length - evidenceCount, 0)} aún no tienen respaldo gráfico cargado.`,
+            },
+          ];
+        }
 
         dom.summaryGrid.innerHTML = cards
           .map(
@@ -2058,9 +2403,10 @@
       }
 
       function renderQuickFilters() {
+        const scopedRecords = getModuleScopedRecords();
         dom.quickFilters.innerHTML = quickFilterDefinitions
           .map((filter) => {
-            const count = source.records.filter(filter.matcher).length;
+            const count = scopedRecords.filter(filter.matcher).length;
             const active = state.quickFilter === filter.key ? "active" : "";
             return `
               <button class="quick-filter ${active}" type="button" data-quick-filter="${escapeHtml(filter.key)}">
@@ -2080,32 +2426,58 @@
       }
 
       function renderLoadBoard() {
-        const groups = {};
-        source.records.forEach((record) => {
-          const assignee = getAssignee(record.id) || "Sin asignación";
-          if (!groups[assignee]) {
-            groups[assignee] = { total: 0, critical: 0 };
-          }
-          groups[assignee].total += 1;
-          if (["Vencido", "Vence hoy", "Crítico"].includes(record.prioridad)) {
-            groups[assignee].critical += 1;
-          }
-        });
+        if (isAdminMode()) {
+          const groups = {};
+          source.records.forEach((record) => {
+            const assignee = getAssignee(record.id) || "Sin asignación";
+            if (!groups[assignee]) {
+              groups[assignee] = { total: 0, critical: 0 };
+            }
+            groups[assignee].total += 1;
+            if (["Vencido", "Vence hoy", "Crítico"].includes(record.prioridad)) {
+              groups[assignee].critical += 1;
+            }
+          });
 
-        const rows = Object.entries(groups).sort((left, right) => {
-          if (right[1].total !== left[1].total) {
-            return right[1].total - left[1].total;
-          }
-          return left[0].localeCompare(right[0], "es", { sensitivity: "base" });
-        });
+          const rows = Object.entries(groups).sort((left, right) => {
+            if (right[1].total !== left[1].total) {
+              return right[1].total - left[1].total;
+            }
+            return left[0].localeCompare(right[0], "es", { sensitivity: "base" });
+          });
 
-        dom.loadBoard.innerHTML = rows
+          dom.loadBoard.innerHTML = rows
+            .map(
+              ([name, info]) => `
+                <article class="load-card">
+                  <span>${escapeHtml(name)}</span>
+                  <strong>${info.total}</strong>
+                  <small>${info.critical} con presión alta o crítica.</small>
+                </article>
+              `
+            )
+            .join("");
+          return;
+        }
+
+        const scopedRecords = getModuleScopedRecords();
+        const favorable = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "FAVORABLE").length;
+        const review = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "EN REVISIÓN").length;
+        const blocked = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "NO FAVORABLE").length;
+        const withEvidence = scopedRecords.filter((record) => getEvidenceList(record.id).length > 0).length;
+
+        dom.loadBoard.innerHTML = [
+          { label: "Asignado", value: state.sessionAssignee || "Sin usuario", note: `${scopedRecords.length} trámites en bandeja.` },
+          { label: "En revisión", value: review, note: "Aún hay criterios técnicos pendientes." },
+          { label: "Favorables", value: favorable, note: "Todos los criterios fueron cumplidos." },
+          { label: "No favorables", value: blocked, note: `${withEvidence} trámites ya tienen evidencia gráfica.` },
+        ]
           .map(
-            ([name, info]) => `
+            (item) => `
               <article class="load-card">
-                <span>${escapeHtml(name)}</span>
-                <strong>${info.total}</strong>
-                <small>${info.critical} con presión alta o crítica.</small>
+                <span>${escapeHtml(item.label)}</span>
+                <strong>${escapeHtml(String(item.value))}</strong>
+                <small>${escapeHtml(item.note)}</small>
               </article>
             `
           )
@@ -2114,11 +2486,14 @@
 
       function renderTable(records) {
         if (!records.length) {
+          const emptyMessage = !isAdminMode() && !state.sessionAssignee
+            ? "Escribe el nombre del asignado para cargar su bandeja de revisión."
+            : "No hay trámites que coincidan con los filtros actuales.";
           dom.tableBody.innerHTML = `
             <tr>
               <td colspan="10">
                 <div class="empty-state">
-                  <p class="empty-note">No hay trámites que coincidan con los filtros actuales.</p>
+                  <p class="empty-note">${escapeHtml(emptyMessage)}</p>
                 </div>
               </td>
             </tr>
@@ -2132,17 +2507,24 @@
             const reviewSummary = getReviewSummary(record.id);
             const rowClass = `row-priority-${slugify(record.prioridad)}`;
             const detailsOpen = state.detailId === record.id;
+            const adminMode = isAdminMode();
 
             return `
               <tr class="${rowClass}">
                 <td class="checkbox-cell">
-                  <input
-                    class="checkbox-input"
-                    type="checkbox"
-                    data-select-id="${escapeHtml(record.id)}"
-                    ${selectedIds.has(record.id) ? "checked" : ""}
-                    aria-label="Seleccionar trámite ${escapeHtml(record.codigo || String(record.nroTramite || ""))}"
-                  />
+                  ${
+                    adminMode
+                      ? `
+                        <input
+                          class="checkbox-input"
+                          type="checkbox"
+                          data-select-id="${escapeHtml(record.id)}"
+                          ${selectedIds.has(record.id) ? "checked" : ""}
+                          aria-label="Seleccionar trámite ${escapeHtml(record.codigo || String(record.nroTramite || ""))}"
+                        />
+                      `
+                      : `<span class="viewer-pill">Mi trámite</span>`
+                  }
                 </td>
                 <td>
                   <span class="badge estado-${slugify(record.estado)}">${escapeHtml(record.estado || "Sin estado")}</span>
@@ -2177,33 +2559,53 @@
                   <span class="cell-meta">${escapeHtml(record.prioridad || "Sin prioridad")}</span>
                 </td>
                 <td class="assignment-cell">
-                  <input
-                    class="assignment-input"
-                    type="text"
-                    list="assignee-options"
-                    data-assignment-id="${escapeHtml(record.id)}"
-                    data-assignment-code="${escapeHtml(record.codigo || String(record.nroTramite || record.id))}"
-                    value="${escapeAttribute(assignee)}"
-                    placeholder="Escribe a quien asignar"
-                  />
-                  <div class="row-actions assignment-actions">
-                    <button type="button" data-apply-assignment-id="${escapeHtml(record.id)}">
-                      Asignar trámite
-                    </button>
-                    <button class="ghost tiny" type="button" data-detail-id="${escapeHtml(record.id)}">
-                      ${detailsOpen ? "Ocultar ficha" : "Ver ficha"}
-                    </button>
-                    <button class="ghost tiny" type="button" data-clear-assignment-id="${escapeHtml(record.id)}">
-                      Limpiar
-                    </button>
-                  </div>
-                  <p class="assignment-meta">
-                    ${
-                      assignee
-                        ? `Asignado a ${escapeHtml(assignee)}.`
-                        : "Sin asignación interna guardada. Escribe el nombre y pulsa Asignar trámite."
-                    }
-                  </p>
+                  ${
+                    adminMode
+                      ? `
+                        <input
+                          class="assignment-input"
+                          type="text"
+                          list="assignee-options"
+                          data-assignment-id="${escapeHtml(record.id)}"
+                          data-assignment-code="${escapeHtml(record.codigo || String(record.nroTramite || record.id))}"
+                          value="${escapeAttribute(assignee)}"
+                          placeholder="Escribe a quien asignar"
+                        />
+                        <div class="row-actions assignment-actions">
+                          <button type="button" data-apply-assignment-id="${escapeHtml(record.id)}">
+                            Asignar trámite
+                          </button>
+                          <button class="ghost tiny" type="button" data-detail-id="${escapeHtml(record.id)}">
+                            ${detailsOpen ? "Ocultar ficha" : "Ver ficha"}
+                          </button>
+                          <button class="ghost tiny" type="button" data-clear-assignment-id="${escapeHtml(record.id)}">
+                            Limpiar
+                          </button>
+                        </div>
+                        <p class="assignment-meta">
+                          ${
+                            assignee
+                              ? `Asignado a ${escapeHtml(assignee)}.`
+                              : "Sin asignación interna guardada. Escribe el nombre y pulsa Asignar trámite."
+                          }
+                        </p>
+                      `
+                      : `
+                        <span class="cell-title">${escapeHtml(assignee || "Sin asignación interna")}</span>
+                        <span class="cell-meta">
+                          ${
+                            assignee
+                              ? "Este asignado puede abrir la ficha y completar la revisión técnica."
+                              : "El trámite todavía no tiene un responsable interno definido."
+                          }
+                        </span>
+                        <div class="row-actions assignment-actions">
+                          <button class="ghost tiny" type="button" data-detail-id="${escapeHtml(record.id)}">
+                            ${detailsOpen ? "Ocultar ficha" : "Abrir ficha"}
+                          </button>
+                        </div>
+                      `
+                  }
                 </td>
                 <td>
                   <span class="cell-title">Revisión ${reviewSummary.yes}/${reviewSummary.total}</span>
@@ -2418,6 +2820,74 @@
         `;
       }
 
+      function syncModuleInterface(filteredRecords) {
+        const adminMode = isAdminMode();
+        const scopedRecords = getModuleScopedRecords();
+        const finishedCount = scopedRecords.filter((record) => getReviewSummary(record.id).pending === 0).length;
+        const blockedCount = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "NO FAVORABLE").length;
+
+        dom.brandTitle.textContent = adminMode ? "Asignación de Trámites" : "Revisión de Trámites";
+        dom.moduleHelper.textContent = adminMode
+          ? "Usa este módulo para asignar, monitorear la carga de trabajo y revisar el estado completo de todos los trámites."
+          : "Usa este módulo para abrir únicamente los trámites asignados a una persona y completar la revisión técnica, observaciones y evidencias.";
+        dom.sessionChip.textContent = adminMode
+          ? "Vista actual: Administrador"
+          : `Vista actual: Asignado${state.sessionAssignee ? ` · ${state.sessionAssignee}` : ""}`;
+
+        dom.adminAssignmentPanel.hidden = !adminMode;
+        dom.adminActionsPanel.hidden = !adminMode;
+        dom.responsableFilterLabel.hidden = !adminMode;
+        dom.asignadoFilterLabel.hidden = !adminMode;
+        dom.tableToolbarActions.hidden = !adminMode;
+        dom.selectVisibleButton.hidden = !adminMode;
+        dom.selectAllVisible.hidden = !adminMode;
+        dom.selectionColumnLabel.hidden = adminMode;
+
+        dom.loadPanelTitle.textContent = adminMode ? "Carga Por Persona" : "Mi Bandeja de Revisión";
+        dom.loadPanelHelper.textContent = adminMode
+          ? "Este resumen se calcula sobre la asignación interna guardada en el navegador y ayuda a repartir la carga."
+          : "Aquí se resume el avance del asignado dentro de su propia bandeja de revisión técnica.";
+        dom.tableTitle.textContent = adminMode ? "Panel Maestro de Trámites" : "Bandeja del Asignado";
+
+        dom.modeBanner.innerHTML = `
+          <div class="mode-banner-copy">
+            <span class="eyebrow">${escapeHtml(adminMode ? "Módulo Administrador" : "Módulo Asignado")}</span>
+            <h2>${escapeHtml(adminMode ? "Asignación, control y visualización total" : state.sessionAssignee ? `Revisión técnica de ${state.sessionAssignee}` : "Selecciona un asignado para empezar")}</h2>
+            <p>
+              ${
+                adminMode
+                  ? "Desde aquí puedes asignar trámites, revisar prioridades, abrir cualquier ficha técnica y descargar exportables completos."
+                  : state.sessionAssignee
+                    ? `Esta vista muestra solamente los trámites asignados a ${escapeHtml(state.sessionAssignee)} para que complete la revisión, escriba observaciones, suba evidencias y genere el informe técnico.`
+                    : "Escribe el nombre exacto del asignado para cargar su bandeja y permitir que edite las observaciones, evidencias e informe."
+              }
+            </p>
+          </div>
+          <div class="mode-banner-stats">
+            <article class="mode-banner-stat">
+              <span>${escapeHtml(adminMode ? "Trámites visibles" : "Mis trámites")}</span>
+              <strong>${filteredRecords.length}</strong>
+            </article>
+            <article class="mode-banner-stat">
+              <span>${escapeHtml(adminMode ? "Total general" : "Bandeja total")}</span>
+              <strong>${scopedRecords.length}</strong>
+            </article>
+            <article class="mode-banner-stat">
+              <span>${escapeHtml(adminMode ? "Selección activa" : "Revisiones cerradas")}</span>
+              <strong>${adminMode ? selectedIds.size : finishedCount}</strong>
+            </article>
+            <article class="mode-banner-stat">
+              <span>${escapeHtml(adminMode ? "Sin asignar" : "No favorables")}</span>
+              <strong>${adminMode ? source.records.filter((record) => !getAssignee(record.id)).length : blockedCount}</strong>
+            </article>
+          </div>
+        `;
+
+        dom.modeSwitcher.querySelectorAll("[data-module-mode]").forEach((button) => {
+          button.classList.toggle("active", button.dataset.moduleMode === state.moduleMode);
+        });
+      }
+
       function renderField(label, value, extraClass = "") {
         return `
           <article class="field ${extraClass}">
@@ -2443,27 +2913,55 @@
       }
 
       function updateTopMetrics() {
-        const total = source.records.length;
-        const assigned = source.records.filter((record) => getAssignee(record.id)).length;
-        const critical = source.records.filter((record) => ["Vencido", "Vence hoy"].includes(record.prioridad)).length;
-        dom.metricTotal.textContent = total;
-        dom.metricAssigned.textContent = assigned;
-        dom.metricCritical.textContent = critical;
+        const scopedRecords = getModuleScopedRecords();
+        if (isAdminMode()) {
+          const total = source.records.length;
+          const assigned = source.records.filter((record) => getAssignee(record.id)).length;
+          const critical = source.records.filter((record) => ["Vencido", "Vence hoy"].includes(record.prioridad)).length;
+          dom.metricTotalLabel.textContent = "Total de registros";
+          dom.metricAssignedLabel.textContent = "Asignados internamente";
+          dom.metricCriticalLabel.textContent = "Vencidos + vence hoy";
+          dom.metricSourceDateLabel.textContent = "Última fuente";
+          dom.metricTotal.textContent = total;
+          dom.metricAssigned.textContent = assigned;
+          dom.metricCritical.textContent = critical;
+          dom.brandDescription.textContent =
+            `${source.title}. Fuente ${source.sourceFile}. ` +
+            `Se cargaron ${total} trámites con asignación manual persistida en localStorage.`;
+        } else {
+          const finished = scopedRecords.filter((record) => getReviewSummary(record.id).pending === 0).length;
+          const blocked = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "NO FAVORABLE").length;
+          dom.metricTotalLabel.textContent = "Mi bandeja";
+          dom.metricAssignedLabel.textContent = "Revisiones cerradas";
+          dom.metricCriticalLabel.textContent = "No favorables";
+          dom.metricSourceDateLabel.textContent = "Última fuente";
+          dom.metricTotal.textContent = scopedRecords.length;
+          dom.metricAssigned.textContent = finished;
+          dom.metricCritical.textContent = blocked;
+          dom.brandDescription.textContent = state.sessionAssignee
+            ? `Bandeja operativa de ${state.sessionAssignee}. Aquí puede abrir sus trámites asignados, completar la revisión técnica, registrar observaciones, subir evidencia y generar el informe.`
+            : "Selecciona un asignado para mostrar únicamente sus trámites y habilitar la edición técnica correspondiente.";
+        }
+
         dom.metricSourceDate.textContent = source.sourceDate || "Sin fecha";
-        dom.brandDescription.textContent =
-          `${source.title}. Fuente ${source.sourceFile}. ` +
-          `Se cargaron ${total} trámites con asignación manual persistida en localStorage.`;
       }
 
       function updateFilterCaption(filteredRecords) {
+        const scopedRecords = getModuleScopedRecords();
         const quickFilterLabel =
           quickFilterDefinitions.find((item) => item.key === state.quickFilter)?.label || "sin filtro rápido";
-        dom.tableCaption.textContent =
-          `Mostrando ${filteredRecords.length} de ${source.records.length} trámites, ` +
-          `${selectedIds.size} seleccionados y ${quickFilterLabel}.`;
+        dom.tableCaption.textContent = isAdminMode()
+          ? `Mostrando ${filteredRecords.length} de ${source.records.length} trámites, ${selectedIds.size} seleccionados y ${quickFilterLabel}.`
+          : `Mostrando ${filteredRecords.length} de ${scopedRecords.length} trámites del asignado ${state.sessionAssignee || "sin usuario definido"}, con ${quickFilterLabel}.`;
       }
 
       function syncMasterCheckbox(filteredRecords) {
+        if (!isAdminMode()) {
+          dom.selectAllVisible.checked = false;
+          dom.selectAllVisible.indeterminate = false;
+          return;
+        }
+
         if (!filteredRecords.length) {
           dom.selectAllVisible.checked = false;
           dom.selectAllVisible.indeterminate = false;
