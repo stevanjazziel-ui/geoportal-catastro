@@ -2786,9 +2786,10 @@
 
       function renderReportPreview(record) {
         const report = buildReportData(record);
+        const tramiteNumber = getReportTramiteNumber(record);
         return `
           <h3>INFORME TÉCNICO DE REVISIÓN</h3>
-          <p><strong>Trámite N.° ${escapeHtml(String(record.nroTramite || record.codigo || record.id))}</strong></p>
+          <p><strong>Trámite asignado N.° ${escapeHtml(tramiteNumber)}</strong></p>
           <h4>1. Antecedente</h4>
           <p>${escapeHtml(report.antecedente)}</p>
           <h4>2. Análisis técnico</h4>
@@ -2985,13 +2986,14 @@
       }
 
       function buildReportData(record) {
+        const tramiteNumber = getReportTramiteNumber(record);
         const failedItems = technicalChecklist.filter((item) => getReviewValue(record.id, item.key) === "no");
         const pendingItems = technicalChecklist.filter((item) => !getReviewValue(record.id, item.key));
         const outcome = getTechnicalOutcome(record.id);
         const evidence = getEvidenceList(record.id);
 
         const antecedente =
-          `Una vez revisada la documentación técnica presentada dentro del trámite N.º ${record.nroTramite || record.codigo || record.id}, ` +
+          `Una vez revisada la documentación técnica presentada dentro del trámite N.º ${tramiteNumber}, ` +
           `se procede a emitir el presente informe con base en la verificación técnica realizada sobre los criterios de control definidos para el trámite, ` +
           `la información planimétrica disponible y la evidencia cargada para sustentar la revisión.`;
 
@@ -2999,7 +3001,7 @@
         if (outcome === "NO FAVORABLE") {
           const labels = failedItems.map((item) => item.label.toLowerCase()).join(", ");
           analisis.push(
-            `De la revisión efectuada, se determina que el trámite N.º ${record.nroTramite || record.codigo || record.id} no es favorable, ` +
+            `De la revisión efectuada, se determina que el trámite N.º ${tramiteNumber} no es favorable, ` +
             `debido a que se identificaron observaciones técnicas en los siguientes componentes: ${labels}.`
           );
           failedItems.forEach((item) => {
@@ -3012,7 +3014,7 @@
           });
         } else if (outcome === "EN REVISIÓN") {
           analisis.push(
-            `De la revisión efectuada, se establece que el trámite N.º ${record.nroTramite || record.codigo || record.id} permanece en revisión, ` +
+            `De la revisión efectuada, se establece que el trámite N.º ${tramiteNumber} permanece en revisión, ` +
             `ya que todavía existen ${pendingItems.length} validaciones técnicas pendientes de pronunciamiento.`
           );
           pendingItems.forEach((item) => {
@@ -3020,14 +3022,14 @@
           });
         } else {
           analisis.push(
-            `De la revisión efectuada, se determina que el trámite N.º ${record.nroTramite || record.codigo || record.id} es favorable, ` +
+            `De la revisión efectuada, se determina que el trámite N.º ${tramiteNumber} es favorable, ` +
             `por cuanto todos los criterios técnicos revisados cumplen con la validación requerida para continuar con el trámite.`
           );
         }
 
         const observations = [];
         observations.push(
-          `El trámite N.º ${record.nroTramite || record.codigo || record.id} se considera ${outcome}.`
+          `El trámite N.º ${tramiteNumber} se considera ${outcome}.`
         );
 
         technicalChecklist.forEach((item) => {
@@ -3049,7 +3051,7 @@
         const conclusion = [];
         if (outcome === "NO FAVORABLE") {
           conclusion.push(
-            `En virtud de lo expuesto, el trámite N.º ${record.nroTramite || record.codigo || record.id} se considera NO FAVORABLE, ` +
+            `En virtud de lo expuesto, el trámite N.º ${tramiteNumber} se considera NO FAVORABLE, ` +
             `debido a las observaciones técnicas identificadas durante la revisión.`
           );
           conclusion.push(
@@ -3057,7 +3059,7 @@
           );
         } else if (outcome === "EN REVISIÓN") {
           conclusion.push(
-            `En virtud de lo expuesto, el trámite N.º ${record.nroTramite || record.codigo || record.id} permanece EN REVISIÓN, ` +
+            `En virtud de lo expuesto, el trámite N.º ${tramiteNumber} permanece EN REVISIÓN, ` +
             `por cuanto aún existen verificaciones técnicas pendientes de respuesta.`
           );
           conclusion.push(
@@ -3065,7 +3067,7 @@
           );
         } else {
           conclusion.push(
-            `En virtud de lo expuesto, el trámite N.º ${record.nroTramite || record.codigo || record.id} se considera FAVORABLE, ` +
+            `En virtud de lo expuesto, el trámite N.º ${tramiteNumber} se considera FAVORABLE, ` +
             `al verificarse el cumplimiento de todos los criterios técnicos revisados.`
           );
           conclusion.push(
@@ -3083,11 +3085,12 @@
       }
 
       function buildReportDocument(record) {
+        const tramiteNumber = getReportTramiteNumber(record);
         return `<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Informe Técnico - ${escapeHtml(String(record.codigo || record.nroTramite || record.id))}</title>
+  <title>Informe Técnico - Trámite ${escapeHtml(tramiteNumber)}</title>
   <style>
     body { font-family: Arial, sans-serif; color: #243746; margin: 32px; line-height: 1.55; }
     h1, h2, h3, h4 { margin: 0 0 12px; color: #243746; }
@@ -3248,6 +3251,14 @@
           .replace(/\s+/g, "-")
           .replace(/-+/g, "-")
           .replace(/^-|-$/g, "");
+      }
+
+      function getReportTramiteNumber(record) {
+        if (record?.nroTramite != null && String(record.nroTramite).trim()) {
+          return String(record.nroTramite).trim();
+        }
+
+        return "Sin número";
       }
 
       function normalizeText(value) {
