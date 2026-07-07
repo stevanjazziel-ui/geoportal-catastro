@@ -962,6 +962,50 @@
       text-transform: uppercase;
     }
 
+    body[data-module-mode="assigned"] .table-wrap {
+      overflow: visible;
+    }
+
+    body[data-module-mode="assigned"] table {
+      min-width: 0;
+      table-layout: fixed;
+    }
+
+    body[data-module-mode="assigned"] thead th,
+    body[data-module-mode="assigned"] tbody td {
+      padding: 16px 12px;
+    }
+
+    body[data-module-mode="assigned"] .tramite-trigger {
+      gap: 6px;
+    }
+
+    body[data-module-mode="assigned"] .assignment-cell {
+      min-width: 0;
+      width: 250px;
+    }
+
+    body[data-module-mode="assigned"] .viewer-pill {
+      white-space: nowrap;
+    }
+
+    body[data-module-mode="assigned"] .details-card {
+      padding: 16px;
+    }
+
+    body[data-module-mode="assigned"] .details-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    body[data-module-mode="assigned"] .review-item {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    body[data-module-mode="assigned"] .review-actions {
+      justify-content: flex-start;
+    }
+
     .evidence-panel,
     .report-panel {
       margin-bottom: 16px;
@@ -1231,6 +1275,10 @@
       table {
         min-width: 1180px;
       }
+
+      body[data-module-mode="assigned"] table {
+        min-width: 0;
+      }
     }
   </style>
 </head>
@@ -1395,7 +1443,7 @@
         <div class="table-wrap">
           <table>
             <thead>
-              <tr>
+              <tr id="table-head-row">
                 <th class="checkbox-cell">
                   <input id="select-all-visible" class="checkbox-input" type="checkbox" aria-label="Seleccionar visibles" />
                   <span id="selection-column-label" hidden>Vista</span>
@@ -1533,6 +1581,7 @@
         quickFilters: document.getElementById("quick-filters"),
         loadBoard: document.getElementById("load-board"),
         tableTitle: document.getElementById("table-title"),
+        tableHeadRow: document.getElementById("table-head-row"),
         tableBody: document.getElementById("table-body"),
         tableCaption: document.getElementById("table-caption"),
         tableToolbarActions: document.getElementById("table-toolbar-actions"),
@@ -1676,8 +1725,10 @@
         selectedIds.clear();
         dom.responsableFilter.value = "";
         dom.asignadoFilter.value = "";
-        dom.selectAllVisible.checked = false;
-        dom.selectAllVisible.indeterminate = false;
+        if (dom.selectAllVisible) {
+          dom.selectAllVisible.checked = false;
+          dom.selectAllVisible.indeterminate = false;
+        }
         persistModuleMode();
       }
 
@@ -2076,15 +2127,7 @@
           render();
         });
 
-        dom.selectAllVisible.addEventListener("change", (event) => {
-          const visibleRecords = getFilteredRecords();
-          if (event.target.checked) {
-            visibleRecords.forEach((record) => selectedIds.add(record.id));
-          } else {
-            visibleRecords.forEach((record) => selectedIds.delete(record.id));
-          }
-          render();
-        });
+        bindSelectAllVisibleChange();
 
         dom.tableBody.addEventListener("change", (event) => {
           const checkbox = event.target.closest("[data-select-id]");
@@ -2216,6 +2259,22 @@
             return;
           }
         });
+      }
+
+      function bindSelectAllVisibleChange() {
+        if (!dom.selectAllVisible) {
+          return;
+        }
+
+        dom.selectAllVisible.onchange = (event) => {
+          const visibleRecords = getFilteredRecords();
+          if (event.target.checked) {
+            visibleRecords.forEach((record) => selectedIds.add(record.id));
+          } else {
+            visibleRecords.forEach((record) => selectedIds.delete(record.id));
+          }
+          render();
+        };
       }
 
       function render() {
@@ -2484,14 +2543,49 @@
           .join("");
       }
 
+      function renderTableHead(adminMode) {
+        dom.tableHeadRow.innerHTML = adminMode
+          ? `
+              <th class="checkbox-cell">
+                <input id="select-all-visible" class="checkbox-input" type="checkbox" aria-label="Seleccionar visibles" />
+                <span id="selection-column-label" hidden>Vista</span>
+              </th>
+              <th>Estado</th>
+              <th>Prioridad</th>
+              <th>Trámite</th>
+              <th>Solicitante</th>
+              <th>Responsable actual</th>
+              <th>Fecha límite</th>
+              <th>Días restantes</th>
+              <th>Asignado interno</th>
+              <th>Detalle</th>
+            `
+          : `
+              <th class="checkbox-cell">Vista</th>
+              <th>Estado</th>
+              <th>Prioridad</th>
+              <th>Trámite</th>
+              <th>Fecha y plazo</th>
+              <th>Mi asignación</th>
+              <th>Avance</th>
+            `;
+        dom.selectAllVisible = document.getElementById("select-all-visible");
+        dom.selectionColumnLabel = document.getElementById("selection-column-label");
+        bindSelectAllVisibleChange();
+      }
+
       function renderTable(records) {
+        const adminMode = isAdminMode();
+        const columnCount = adminMode ? 10 : 7;
+        renderTableHead(adminMode);
+
         if (!records.length) {
           const emptyMessage = !isAdminMode() && !state.sessionAssignee
             ? "Escribe el nombre del asignado para cargar su bandeja de revisión."
             : "No hay trámites que coincidan con los filtros actuales.";
           dom.tableBody.innerHTML = `
             <tr>
-              <td colspan="10">
+              <td colspan="${columnCount}">
                 <div class="empty-state">
                   <p class="empty-note">${escapeHtml(emptyMessage)}</p>
                 </div>
@@ -2507,14 +2601,13 @@
             const reviewSummary = getReviewSummary(record.id);
             const rowClass = `row-priority-${slugify(record.prioridad)}`;
             const detailsOpen = state.detailId === record.id;
-            const adminMode = isAdminMode();
 
             return `
-              <tr class="${rowClass}">
-                <td class="checkbox-cell">
-                  ${
-                    adminMode
-                      ? `
+              ${
+                adminMode
+                  ? `
+                    <tr class="${rowClass}">
+                      <td class="checkbox-cell">
                         <input
                           class="checkbox-input"
                           type="checkbox"
@@ -2522,46 +2615,40 @@
                           ${selectedIds.has(record.id) ? "checked" : ""}
                           aria-label="Seleccionar trámite ${escapeHtml(record.codigo || String(record.nroTramite || ""))}"
                         />
-                      `
-                      : `<span class="viewer-pill">Mi trámite</span>`
-                  }
-                </td>
-                <td>
-                  <span class="badge estado-${slugify(record.estado)}">${escapeHtml(record.estado || "Sin estado")}</span>
-                </td>
-                <td>
-                  <span class="badge prioridad-${slugify(record.prioridad)}">${escapeHtml(record.prioridad || "Sin prioridad")}</span>
-                </td>
-                <td>
-                  <button class="tramite-trigger" type="button" data-detail-id="${escapeHtml(record.id)}">
-                    <span class="cell-title">${escapeHtml(record.codigo || "-")}</span>
-                    <span class="cell-meta">Trámite N. ${escapeHtml(String(record.nroTramite || "-"))}</span>
-                    <span class="cell-meta">${escapeHtml(record.tipoTramite || "-")}</span>
-                    <span class="cell-meta">
-                      ${detailsOpen ? "Ocultar revisión técnica" : "Abrir revisión técnica"}
-                    </span>
-                  </button>
-                </td>
-                <td>
-                  <span class="cell-title">${escapeHtml(record.solicitante || "-")}</span>
-                  <span class="cell-meta">Ingresado por ${escapeHtml(record.ingresadoPor || "-")}</span>
-                </td>
-                <td>
-                  <span class="cell-title">${escapeHtml(record.responsable || "-")}</span>
-                  <span class="cell-meta">${escapeHtml(record.cargoResponsable || "-")}</span>
-                </td>
-                <td>
-                  <span class="cell-title">${escapeHtml(formatDate(record.fechaLimite, false) || "Sin fecha")}</span>
-                  <span class="cell-meta">${escapeHtml(record.tiempoRestante || "Sin referencia")}</span>
-                </td>
-                <td>
-                  <span class="cell-title">${escapeHtml(formatDays(record.diasRestantes))}</span>
-                  <span class="cell-meta">${escapeHtml(record.prioridad || "Sin prioridad")}</span>
-                </td>
-                <td class="assignment-cell">
-                  ${
-                    adminMode
-                      ? `
+                      </td>
+                      <td>
+                        <span class="badge estado-${slugify(record.estado)}">${escapeHtml(record.estado || "Sin estado")}</span>
+                      </td>
+                      <td>
+                        <span class="badge prioridad-${slugify(record.prioridad)}">${escapeHtml(record.prioridad || "Sin prioridad")}</span>
+                      </td>
+                      <td>
+                        <button class="tramite-trigger" type="button" data-detail-id="${escapeHtml(record.id)}">
+                          <span class="cell-title">${escapeHtml(record.codigo || "-")}</span>
+                          <span class="cell-meta">Trámite N. ${escapeHtml(String(record.nroTramite || "-"))}</span>
+                          <span class="cell-meta">${escapeHtml(record.tipoTramite || "-")}</span>
+                          <span class="cell-meta">
+                            ${detailsOpen ? "Ocultar revisión técnica" : "Abrir revisión técnica"}
+                          </span>
+                        </button>
+                      </td>
+                      <td>
+                        <span class="cell-title">${escapeHtml(record.solicitante || "-")}</span>
+                        <span class="cell-meta">Ingresado por ${escapeHtml(record.ingresadoPor || "-")}</span>
+                      </td>
+                      <td>
+                        <span class="cell-title">${escapeHtml(record.responsable || "-")}</span>
+                        <span class="cell-meta">${escapeHtml(record.cargoResponsable || "-")}</span>
+                      </td>
+                      <td>
+                        <span class="cell-title">${escapeHtml(formatDate(record.fechaLimite, false) || "Sin fecha")}</span>
+                        <span class="cell-meta">${escapeHtml(record.tiempoRestante || "Sin referencia")}</span>
+                      </td>
+                      <td>
+                        <span class="cell-title">${escapeHtml(formatDays(record.diasRestantes))}</span>
+                        <span class="cell-meta">${escapeHtml(record.prioridad || "Sin prioridad")}</span>
+                      </td>
+                      <td class="assignment-cell">
                         <input
                           class="assignment-input"
                           type="text"
@@ -2589,13 +2676,45 @@
                               : "Sin asignación interna guardada. Escribe el nombre y pulsa Asignar trámite."
                           }
                         </p>
-                      `
-                      : `
+                      </td>
+                      <td>
+                        <span class="cell-title">Revisión ${reviewSummary.yes}/${reviewSummary.total}</span>
+                        <span class="cell-meta">${reviewSummary.no} en no, ${reviewSummary.pending} pendientes</span>
+                        <span class="cell-meta">Ingreso ${escapeHtml(formatDate(record.fechaIngreso, true) || "-")}</span>
+                        <span class="cell-meta">Fila fuente ${escapeHtml(String(record.sourceRow || "-"))}</span>
+                      </td>
+                    </tr>
+                  `
+                  : `
+                    <tr class="${rowClass}">
+                      <td class="checkbox-cell">
+                        <span class="viewer-pill">Mi trámite</span>
+                      </td>
+                      <td>
+                        <span class="badge estado-${slugify(record.estado)}">${escapeHtml(record.estado || "Sin estado")}</span>
+                      </td>
+                      <td>
+                        <span class="badge prioridad-${slugify(record.prioridad)}">${escapeHtml(record.prioridad || "Sin prioridad")}</span>
+                      </td>
+                      <td>
+                        <button class="tramite-trigger" type="button" data-detail-id="${escapeHtml(record.id)}">
+                          <span class="cell-title">${escapeHtml(record.codigo || "-")}</span>
+                          <span class="cell-meta">Trámite N. ${escapeHtml(String(record.nroTramite || "-"))}</span>
+                          <span class="cell-meta">${escapeHtml(record.solicitante || "-")}</span>
+                          <span class="cell-meta">${detailsOpen ? "Ocultar revisión técnica" : "Abrir revisión técnica"}</span>
+                        </button>
+                      </td>
+                      <td>
+                        <span class="cell-title">${escapeHtml(formatDate(record.fechaLimite, false) || "Sin fecha")}</span>
+                        <span class="cell-meta">${escapeHtml(record.tiempoRestante || "Sin referencia")}</span>
+                        <span class="cell-meta">${escapeHtml(formatDays(record.diasRestantes))}</span>
+                      </td>
+                      <td class="assignment-cell">
                         <span class="cell-title">${escapeHtml(assignee || "Sin asignación interna")}</span>
                         <span class="cell-meta">
                           ${
                             assignee
-                              ? "Este asignado puede abrir la ficha y completar la revisión técnica."
+                              ? "Abre la ficha para completar la revisión técnica y el informe."
                               : "El trámite todavía no tiene un responsable interno definido."
                           }
                         </span>
@@ -2604,21 +2723,20 @@
                             ${detailsOpen ? "Ocultar ficha" : "Abrir ficha"}
                           </button>
                         </div>
-                      `
-                  }
-                </td>
-                <td>
-                  <span class="cell-title">Revisión ${reviewSummary.yes}/${reviewSummary.total}</span>
-                  <span class="cell-meta">${reviewSummary.no} en no, ${reviewSummary.pending} pendientes</span>
-                  <span class="cell-meta">Ingreso ${escapeHtml(formatDate(record.fechaIngreso, true) || "-")}</span>
-                  <span class="cell-meta">Fila fuente ${escapeHtml(String(record.sourceRow || "-"))}</span>
-                </td>
-              </tr>
+                      </td>
+                      <td>
+                        <span class="cell-title">Revisión ${reviewSummary.yes}/${reviewSummary.total}</span>
+                        <span class="cell-meta">${reviewSummary.pending} pendientes, ${reviewSummary.no} en no</span>
+                        <span class="cell-meta">${escapeHtml(getTechnicalOutcome(record.id))}</span>
+                      </td>
+                    </tr>
+                  `
+              }
               ${
                 detailsOpen
                   ? `
                     <tr class="details-row">
-                      <td colspan="10">
+                      <td colspan="${columnCount}">
                         <div class="details-card">
                           ${renderReviewPanel(record)}
                           <div class="details-grid">
@@ -2841,8 +2959,12 @@
         dom.asignadoFilterLabel.hidden = !adminMode;
         dom.tableToolbarActions.hidden = !adminMode;
         dom.selectVisibleButton.hidden = !adminMode;
-        dom.selectAllVisible.hidden = !adminMode;
-        dom.selectionColumnLabel.hidden = adminMode;
+        if (dom.selectAllVisible) {
+          dom.selectAllVisible.hidden = !adminMode;
+        }
+        if (dom.selectionColumnLabel) {
+          dom.selectionColumnLabel.hidden = adminMode;
+        }
 
         dom.loadPanelTitle.textContent = adminMode ? "Carga Por Persona" : "Mi Bandeja de Revisión";
         dom.loadPanelHelper.textContent = adminMode
@@ -2957,6 +3079,10 @@
       }
 
       function syncMasterCheckbox(filteredRecords) {
+        if (!dom.selectAllVisible) {
+          return;
+        }
+
         if (!isAdminMode()) {
           dom.selectAllVisible.checked = false;
           dom.selectAllVisible.indeterminate = false;
