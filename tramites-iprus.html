@@ -528,6 +528,41 @@
       line-height: 1.45;
     }
 
+    .tramite-trigger {
+      display: grid;
+      gap: 4px;
+      width: 100%;
+      padding: 0;
+      text-align: left;
+      color: inherit;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+
+    .tramite-trigger:hover,
+    .tramite-trigger:focus-visible {
+      transform: none;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+
+    .tramite-trigger .cell-title {
+      transition: color 160ms ease;
+    }
+
+    .tramite-trigger:hover .cell-title,
+    .tramite-trigger:focus-visible .cell-title {
+      color: var(--accent-2);
+    }
+
+    .tramite-trigger:focus-visible {
+      outline: 2px solid rgba(34, 103, 95, 0.3);
+      outline-offset: 6px;
+      border-radius: 12px;
+    }
+
     .badge {
       width: fit-content;
       padding: 7px 10px;
@@ -606,6 +641,130 @@
       padding: 20px;
       border-top: 1px solid rgba(52, 72, 74, 0.1);
       background: linear-gradient(180deg, rgba(252, 249, 244, 0.96), rgba(245, 239, 230, 0.92));
+    }
+
+    .review-panel {
+      margin-bottom: 16px;
+      padding: 18px;
+      border: 1px solid rgba(52, 72, 74, 0.12);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .review-header h3 {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 1.12rem;
+      color: #173536;
+      letter-spacing: -0.02em;
+    }
+
+    .review-summary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(34, 103, 95, 0.14);
+      background: rgba(244, 248, 246, 0.95);
+      color: #1f5954;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.74rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .review-grid {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .review-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid rgba(52, 72, 74, 0.1);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.74);
+    }
+
+    .review-item strong {
+      display: block;
+      color: #173536;
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+
+    .review-item small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.35;
+    }
+
+    .review-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .review-choice {
+      width: auto;
+      min-width: 74px;
+      padding: 9px 12px;
+      box-shadow: none;
+    }
+
+    .review-choice.is-active-yes {
+      background: linear-gradient(135deg, #1e6f64, #2c8a7c);
+      border-color: rgba(34, 103, 95, 0.3);
+      color: #fffdf8;
+    }
+
+    .review-choice.is-active-no {
+      background: linear-gradient(135deg, #b94f43, #cf6d4b);
+      border-color: rgba(185, 79, 67, 0.28);
+      color: #fffdf8;
+    }
+
+    .review-status-pill {
+      display: inline-flex;
+      width: fit-content;
+      margin-top: 6px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(52, 72, 74, 0.12);
+      background: rgba(246, 241, 234, 0.92);
+      color: #596668;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .review-status-pill.status-si {
+      color: #1f5954;
+      background: rgba(225, 243, 239, 0.98);
+      border-color: rgba(34, 103, 95, 0.18);
+    }
+
+    .review-status-pill.status-no {
+      color: #8c2f29;
+      background: rgba(255, 235, 231, 0.98);
+      border-color: rgba(185, 79, 67, 0.18);
     }
 
     .details-grid {
@@ -712,6 +871,14 @@
       .panel,
       .table-panel {
         padding: 18px;
+      }
+
+      .review-item {
+        grid-template-columns: 1fr;
+      }
+
+      .review-actions {
+        justify-content: flex-start;
       }
 
       table {
@@ -886,9 +1053,48 @@
   <script>
     (() => {
       const source = window.TRAMITES_IPRUS_DATA;
-      const storageKey = "tramites-iprus-assignments-v1";
+      const assignmentStorageKey = "tramites-iprus-assignments-v1";
+      const reviewStorageKey = "tramites-iprus-review-v1";
       const manualAssignments = loadAssignments();
+      const reviewResults = loadReviewResults();
       const selectedIds = new Set();
+      const technicalChecklist = [
+        {
+          key: "georreferenciacion",
+          label: "Georreferenciación",
+          hint: "Confirmar si la georreferenciación del trámite cumple."
+        },
+        {
+          key: "areasDentroEtam",
+          label: "Áreas dentro del ETAM",
+          hint: "Verificar si las áreas están dentro del ETAM."
+        },
+        {
+          key: "linderosCorrectos",
+          label: "Linderos correctos",
+          hint: "Confirmar si los linderos están correctos."
+        },
+        {
+          key: "anchosAceraVia",
+          label: "Anchos de acera y de vía",
+          hint: "Validar si anchos de acera y de vía coinciden."
+        },
+        {
+          key: "coordenadasPlanimetriaDwg",
+          label: "Coordenadas iguales de planimetría y DWG",
+          hint: "Comparar coordenadas entre planimetría y DWG."
+        },
+        {
+          key: "areaPlanimetriaDwg",
+          label: "Área igual de planimetría y DWG",
+          hint: "Confirmar coincidencia del área en planimetría y DWG."
+        },
+        {
+          key: "medidasColindantes",
+          label: "Medidas de los colindantes planimetría y DWG",
+          hint: "Revisar si las medidas de colindantes coinciden."
+        },
+      ];
       const state = {
         search: "",
         estado: "",
@@ -964,7 +1170,7 @@
 
       function loadAssignments() {
         try {
-          const raw = localStorage.getItem(storageKey);
+          const raw = localStorage.getItem(assignmentStorageKey);
           return raw ? JSON.parse(raw) : {};
         } catch (error) {
           console.warn("No se pudo leer localStorage:", error);
@@ -972,9 +1178,23 @@
         }
       }
 
+      function loadReviewResults() {
+        try {
+          const raw = localStorage.getItem(reviewStorageKey);
+          return raw ? JSON.parse(raw) : {};
+        } catch (error) {
+          console.warn("No se pudo leer el estado de revisión:", error);
+          return {};
+        }
+      }
+
       function persistAssignments() {
-        localStorage.setItem(storageKey, JSON.stringify(manualAssignments));
+        localStorage.setItem(assignmentStorageKey, JSON.stringify(manualAssignments));
         populateAssigneeOptions();
+      }
+
+      function persistReviewResults() {
+        localStorage.setItem(reviewStorageKey, JSON.stringify(reviewResults));
       }
 
       function getAssignee(id) {
@@ -999,6 +1219,49 @@
       function setManyAssignments(entries) {
         entries.forEach(([id, value]) => assignValue(id, value));
         persistAssignments();
+      }
+
+      function getReviewValue(recordId, fieldKey) {
+        return reviewResults[recordId]?.[fieldKey] || "";
+      }
+
+      function setReviewValue(recordId, fieldKey, nextValue) {
+        if (!reviewResults[recordId]) {
+          reviewResults[recordId] = {};
+        }
+
+        if (nextValue) {
+          reviewResults[recordId][fieldKey] = nextValue;
+        } else {
+          delete reviewResults[recordId][fieldKey];
+        }
+
+        if (!Object.keys(reviewResults[recordId]).length) {
+          delete reviewResults[recordId];
+        }
+
+        persistReviewResults();
+      }
+
+      function getReviewSummary(recordId) {
+        let yes = 0;
+        let no = 0;
+
+        technicalChecklist.forEach((item) => {
+          const value = getReviewValue(recordId, item.key);
+          if (value === "si") {
+            yes += 1;
+          } else if (value === "no") {
+            no += 1;
+          }
+        });
+
+        return {
+          yes,
+          no,
+          pending: technicalChecklist.length - yes - no,
+          total: technicalChecklist.length,
+        };
       }
 
       function applySingleAssignment(id, rawValue, codigo = "") {
@@ -1232,6 +1495,20 @@
         });
 
         dom.tableBody.addEventListener("click", (event) => {
+          const reviewButton = event.target.closest("[data-review-id]");
+          if (reviewButton) {
+            const { reviewId, reviewField, reviewValue } = reviewButton.dataset;
+            const currentValue = getReviewValue(reviewId, reviewField);
+            const nextValue = currentValue === reviewValue ? "" : reviewValue;
+            setReviewValue(reviewId, reviewField, nextValue);
+            render();
+            setMessage(
+              dom.assignmentMessage,
+              `Se actualizó la revisión técnica del trámite ${reviewId}.`
+            );
+            return;
+          }
+
           const applyButton = event.target.closest("[data-apply-assignment-id]");
           if (applyButton) {
             const row = applyButton.closest("tr");
@@ -1484,6 +1761,7 @@
         dom.tableBody.innerHTML = records
           .map((record) => {
             const assignee = getAssignee(record.id);
+            const reviewSummary = getReviewSummary(record.id);
             const rowClass = `row-priority-${slugify(record.prioridad)}`;
             const detailsOpen = state.detailId === record.id;
 
@@ -1505,9 +1783,14 @@
                   <span class="badge prioridad-${slugify(record.prioridad)}">${escapeHtml(record.prioridad || "Sin prioridad")}</span>
                 </td>
                 <td>
-                  <span class="cell-title">${escapeHtml(record.codigo || "-")}</span>
-                  <span class="cell-meta">Trámite N. ${escapeHtml(String(record.nroTramite || "-"))}</span>
-                  <span class="cell-meta">${escapeHtml(record.tipoTramite || "-")}</span>
+                  <button class="tramite-trigger" type="button" data-detail-id="${escapeHtml(record.id)}">
+                    <span class="cell-title">${escapeHtml(record.codigo || "-")}</span>
+                    <span class="cell-meta">Trámite N. ${escapeHtml(String(record.nroTramite || "-"))}</span>
+                    <span class="cell-meta">${escapeHtml(record.tipoTramite || "-")}</span>
+                    <span class="cell-meta">
+                      ${detailsOpen ? "Ocultar revisión técnica" : "Abrir revisión técnica"}
+                    </span>
+                  </button>
                 </td>
                 <td>
                   <span class="cell-title">${escapeHtml(record.solicitante || "-")}</span>
@@ -1555,6 +1838,8 @@
                   </p>
                 </td>
                 <td>
+                  <span class="cell-title">Revisión ${reviewSummary.yes}/${reviewSummary.total}</span>
+                  <span class="cell-meta">${reviewSummary.no} en no, ${reviewSummary.pending} pendientes</span>
                   <span class="cell-meta">Ingreso ${escapeHtml(formatDate(record.fechaIngreso, true) || "-")}</span>
                   <span class="cell-meta">Fila fuente ${escapeHtml(String(record.sourceRow || "-"))}</span>
                 </td>
@@ -1565,6 +1850,7 @@
                     <tr class="details-row">
                       <td colspan="10">
                         <div class="details-card">
+                          ${renderReviewPanel(record)}
                           <div class="details-grid">
                             ${renderField("Estado", record.estado)}
                             ${renderField("Prioridad", record.prioridad)}
@@ -1591,6 +1877,64 @@
             `;
           })
           .join("");
+      }
+
+      function renderReviewPanel(record) {
+        const reviewSummary = getReviewSummary(record.id);
+
+        return `
+          <section class="review-panel">
+            <div class="review-header">
+              <div>
+                <h3>Revisión técnica del trámite</h3>
+                <p class="helper">
+                  Marca cada validación en Sí o No. Si vuelves a pulsar la misma opción, el criterio queda pendiente.
+                </p>
+              </div>
+              <span class="review-summary">
+                ${reviewSummary.yes}/${reviewSummary.total} cumplidos
+              </span>
+            </div>
+            <div class="review-grid">
+              ${technicalChecklist
+                .map((item) => {
+                  const value = getReviewValue(record.id, item.key);
+                  return `
+                    <article class="review-item">
+                      <div>
+                        <strong>${escapeHtml(item.label)}</strong>
+                        <small>${escapeHtml(item.hint)}</small>
+                        <span class="review-status-pill status-${slugify(value || "pendiente")}">
+                          ${escapeHtml(formatReviewValue(value))}
+                        </span>
+                      </div>
+                      <div class="review-actions">
+                        <button
+                          class="review-choice ${value === "si" ? "is-active-yes" : "ghost"}"
+                          type="button"
+                          data-review-id="${escapeHtml(record.id)}"
+                          data-review-field="${escapeHtml(item.key)}"
+                          data-review-value="si"
+                        >
+                          Sí
+                        </button>
+                        <button
+                          class="review-choice ${value === "no" ? "is-active-no" : "ghost"}"
+                          type="button"
+                          data-review-id="${escapeHtml(record.id)}"
+                          data-review-field="${escapeHtml(item.key)}"
+                          data-review-value="no"
+                        >
+                          No
+                        </button>
+                      </div>
+                    </article>
+                  `;
+                })
+                .join("")}
+            </div>
+          </section>
+        `;
       }
 
       function renderField(label, value, extraClass = "") {
@@ -1636,11 +1980,19 @@
       }
 
       function enrichRecordForExport(record) {
+        const reviewData = {};
+        technicalChecklist.forEach((item) => {
+          reviewData[item.key] = formatReviewValue(getReviewValue(record.id, item.key));
+        });
+
         return {
           ...record,
           asignadoInterno: getAssignee(record.id) || "",
           fechaLimiteFormateada: formatDate(record.fechaLimite, false),
           fechaIngresoFormateada: formatDate(record.fechaIngreso, true),
+          revisionCumplidos: getReviewSummary(record.id).yes,
+          revisionPendientes: getReviewSummary(record.id).pending,
+          ...reviewData,
         };
       }
 
@@ -1661,6 +2013,9 @@
           "fechaIngreso",
           "observaciones",
           "asignadoInterno",
+          "revisionCumplidos",
+          "revisionPendientes",
+          ...technicalChecklist.map((item) => item.key),
         ];
 
         const lines = [columns.join(",")];
@@ -1744,6 +2099,16 @@
           return `${value} días`;
         }
         return String(value);
+      }
+
+      function formatReviewValue(value) {
+        if (value === "si") {
+          return "Sí";
+        }
+        if (value === "no") {
+          return "No";
+        }
+        return "Pendiente";
       }
 
       function normalizeText(value) {
