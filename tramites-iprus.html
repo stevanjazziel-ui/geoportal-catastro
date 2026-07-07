@@ -778,6 +778,11 @@
       justify-content: flex-end;
     }
 
+    .review-main {
+      display: grid;
+      gap: 12px;
+    }
+
     .review-choice {
       width: auto;
       min-width: 74px;
@@ -822,6 +827,157 @@
       color: #a84439;
       background: rgba(255, 235, 231, 0.98);
       border-color: rgba(211, 92, 77, 0.18);
+    }
+
+    .review-note {
+      width: 100%;
+      min-height: 92px;
+      margin-top: 8px;
+      resize: vertical;
+      border-radius: 10px;
+      border: 1px solid rgba(52, 72, 74, 0.12);
+      padding: 12px 14px;
+      font: inherit;
+      color: var(--text);
+      background: #f9fbfc;
+    }
+
+    .review-note:focus {
+      outline: none;
+      border-color: rgba(73, 169, 66, 0.28);
+      box-shadow: 0 0 0 4px rgba(73, 169, 66, 0.1);
+      background: #ffffff;
+    }
+
+    .evidence-panel,
+    .report-panel {
+      margin-bottom: 16px;
+      padding: 18px;
+      border: 1px solid rgba(52, 72, 74, 0.12);
+      border-radius: 12px;
+      background: #ffffff;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .section-header h3 {
+      font-family: "Sora", "Segoe UI", sans-serif;
+      font-size: 1rem;
+      color: #34495e;
+      letter-spacing: -0.02em;
+    }
+
+    .evidence-input {
+      padding: 12px;
+      border: 1px dashed rgba(73, 169, 66, 0.26);
+      border-radius: 10px;
+      background: rgba(73, 169, 66, 0.05);
+    }
+
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .evidence-card {
+      display: grid;
+      gap: 8px;
+      padding: 10px;
+      border: 1px solid rgba(52, 72, 74, 0.1);
+      border-radius: 10px;
+      background: #f9fbfc;
+    }
+
+    .evidence-card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid rgba(52, 72, 74, 0.08);
+      background: #eef1f4;
+    }
+
+    .evidence-card span {
+      color: #5f7283;
+      font-size: 0.8rem;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .evidence-card button {
+      width: auto;
+    }
+
+    .report-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .report-actions > * {
+      width: auto;
+    }
+
+    .report-preview {
+      padding: 18px;
+      border: 1px solid rgba(52, 72, 74, 0.08);
+      border-radius: 10px;
+      background: #f9fbfc;
+      color: #34495e;
+    }
+
+    .report-preview h3 {
+      margin: 0 0 14px;
+      font-size: 1.08rem;
+      color: #2f4759;
+    }
+
+    .report-preview h4 {
+      margin: 18px 0 8px;
+      font-size: 0.95rem;
+      color: #2f4759;
+    }
+
+    .report-preview p,
+    .report-preview li {
+      margin: 0;
+      color: #455b6c;
+      font-size: 0.9rem;
+      line-height: 1.62;
+    }
+
+    .report-preview ol {
+      display: grid;
+      gap: 8px;
+      margin: 10px 0 0 22px;
+      padding: 0;
+    }
+
+    .report-evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .report-evidence-grid img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid rgba(52, 72, 74, 0.08);
+      background: #eef1f4;
     }
 
     .details-grid {
@@ -1124,8 +1280,10 @@
       const source = window.TRAMITES_IPRUS_DATA;
       const assignmentStorageKey = "tramites-iprus-assignments-v1";
       const reviewStorageKey = "tramites-iprus-review-v1";
+      const evidenceStorageKey = "tramites-iprus-evidence-v1";
       const manualAssignments = loadAssignments();
       const reviewResults = loadReviewResults();
+      const evidenceImages = loadEvidenceImages();
       const selectedIds = new Set();
       const technicalChecklist = [
         {
@@ -1257,6 +1415,16 @@
         }
       }
 
+      function loadEvidenceImages() {
+        try {
+          const raw = localStorage.getItem(evidenceStorageKey);
+          return raw ? JSON.parse(raw) : {};
+        } catch (error) {
+          console.warn("No se pudo leer la evidencia gráfica:", error);
+          return {};
+        }
+      }
+
       function persistAssignments() {
         localStorage.setItem(assignmentStorageKey, JSON.stringify(manualAssignments));
         populateAssigneeOptions();
@@ -1264,6 +1432,20 @@
 
       function persistReviewResults() {
         localStorage.setItem(reviewStorageKey, JSON.stringify(reviewResults));
+      }
+
+      function persistEvidenceImages() {
+        try {
+          localStorage.setItem(evidenceStorageKey, JSON.stringify(evidenceImages));
+          return true;
+        } catch (error) {
+          console.warn("No se pudo guardar la evidencia gráfica:", error);
+          setMessage(
+            dom.exportMessage,
+            "Las imágenes quedaron disponibles en esta sesión, pero no se pudieron guardar de forma persistente."
+          );
+          return false;
+        }
       }
 
       function getAssignee(id) {
@@ -1294,6 +1476,10 @@
         return reviewResults[recordId]?.[fieldKey] || "";
       }
 
+      function getReviewNote(recordId, fieldKey) {
+        return reviewResults[recordId]?.[`${fieldKey}__note`] || "";
+      }
+
       function setReviewValue(recordId, fieldKey, nextValue) {
         if (!reviewResults[recordId]) {
           reviewResults[recordId] = {};
@@ -1310,6 +1496,66 @@
         }
 
         persistReviewResults();
+      }
+
+      function setReviewNote(recordId, fieldKey, note) {
+        if (!reviewResults[recordId]) {
+          reviewResults[recordId] = {};
+        }
+
+        const key = `${fieldKey}__note`;
+        const nextNote = String(note || "").trim();
+        if (nextNote) {
+          reviewResults[recordId][key] = nextNote;
+        } else {
+          delete reviewResults[recordId][key];
+        }
+
+        if (!Object.keys(reviewResults[recordId]).length) {
+          delete reviewResults[recordId];
+        }
+
+        persistReviewResults();
+      }
+
+      function getEvidenceList(recordId) {
+        return evidenceImages[recordId] || [];
+      }
+
+      function removeEvidence(recordId, imageId) {
+        evidenceImages[recordId] = getEvidenceList(recordId).filter((image) => image.id !== imageId);
+        if (!evidenceImages[recordId].length) {
+          delete evidenceImages[recordId];
+        }
+        persistEvidenceImages();
+      }
+
+      async function addEvidenceFiles(recordId, fileList) {
+        const files = Array.from(fileList || []).filter((file) => file.type.startsWith("image/"));
+        if (!files.length) {
+          setMessage(dom.exportMessage, "Solo se pueden cargar imágenes para la evidencia gráfica.");
+          return;
+        }
+
+        const images = await Promise.all(
+          files.map(
+            (file) =>
+              new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () =>
+                  resolve({
+                    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+                    name: file.name,
+                    dataUrl: reader.result,
+                  });
+                reader.onerror = () => reject(reader.error);
+                reader.readAsDataURL(file);
+              })
+          )
+        );
+
+        evidenceImages[recordId] = [...getEvidenceList(recordId), ...images];
+        persistEvidenceImages();
       }
 
       function getReviewSummary(recordId) {
@@ -1547,6 +1793,33 @@
             render();
             return;
           }
+
+          const evidenceInput = event.target.closest("[data-evidence-input-id]");
+          if (evidenceInput) {
+            const { evidenceInputId } = evidenceInput.dataset;
+            addEvidenceFiles(evidenceInputId, evidenceInput.files)
+              .then(() => {
+                render();
+                setMessage(dom.exportMessage, `Se cargó evidencia gráfica para el trámite ${evidenceInputId}.`);
+              })
+              .catch(() => {
+                setMessage(dom.exportMessage, "No se pudieron cargar una o varias imágenes seleccionadas.");
+              });
+          }
+        });
+
+        dom.tableBody.addEventListener("input", (event) => {
+          const noteInput = event.target.closest("[data-review-note-id]");
+          if (!noteInput) {
+            return;
+          }
+
+          setReviewNote(
+            noteInput.dataset.reviewNoteId,
+            noteInput.dataset.reviewNoteField,
+            noteInput.value
+          );
+          syncReportPreview(noteInput.dataset.reviewNoteId, noteInput);
         });
 
         dom.tableBody.addEventListener("keydown", (event) => {
@@ -1564,6 +1837,32 @@
         });
 
         dom.tableBody.addEventListener("click", (event) => {
+          const downloadReportButton = event.target.closest("[data-download-report-id]");
+          if (downloadReportButton) {
+            const { downloadReportId } = downloadReportButton.dataset;
+            const record = source.records.find((item) => item.id === downloadReportId);
+            if (!record) {
+              setMessage(dom.exportMessage, "No se encontró el trámite para generar el informe.");
+              return;
+            }
+
+            downloadFile(
+              buildReportDocument(record),
+              `informe-tecnico-${sanitizeFilename(record.codigo || record.nroTramite || record.id)}.html`,
+              "text/html;charset=utf-8;"
+            );
+            setMessage(dom.exportMessage, `Se descargó el informe técnico del trámite ${record.codigo || record.id}.`);
+            return;
+          }
+
+          const removeEvidenceButton = event.target.closest("[data-remove-evidence-id]");
+          if (removeEvidenceButton) {
+            removeEvidence(removeEvidenceButton.dataset.removeEvidenceRecordId, removeEvidenceButton.dataset.removeEvidenceId);
+            render();
+            setMessage(dom.exportMessage, "La evidencia gráfica seleccionada fue retirada.");
+            return;
+          }
+
           const reviewButton = event.target.closest("[data-review-id]");
           if (reviewButton) {
             const { reviewId, reviewField, reviewValue } = reviewButton.dataset;
@@ -1950,6 +2249,7 @@
 
       function renderReviewPanel(record) {
         const reviewSummary = getReviewSummary(record.id);
+        const evidenceList = getEvidenceList(record.id);
 
         return `
           <section class="review-panel">
@@ -1968,14 +2268,26 @@
               ${technicalChecklist
                 .map((item) => {
                   const value = getReviewValue(record.id, item.key);
+                  const note = getReviewNote(record.id, item.key);
                   return `
                     <article class="review-item">
-                      <div>
-                        <strong>${escapeHtml(item.label)}</strong>
-                        <small>${escapeHtml(item.hint)}</small>
-                        <span class="review-status-pill status-${slugify(value || "pendiente")}">
-                          ${escapeHtml(formatReviewValue(value))}
-                        </span>
+                      <div class="review-main">
+                        <div>
+                          <strong>${escapeHtml(item.label)}</strong>
+                          <small>${escapeHtml(item.hint)}</small>
+                          <span class="review-status-pill status-${slugify(value || "pendiente")}">
+                            ${escapeHtml(formatReviewValue(value))}
+                          </span>
+                        </div>
+                        <label>
+                          Observación técnica
+                          <textarea
+                            class="review-note"
+                            data-review-note-id="${escapeHtml(record.id)}"
+                            data-review-note-field="${escapeHtml(item.key)}"
+                            placeholder="Escribe aquí la observación correspondiente para ${escapeHtml(item.label.toLowerCase())}."
+                          >${escapeHtml(note)}</textarea>
+                        </label>
                       </div>
                       <div class="review-actions">
                         <button
@@ -2003,6 +2315,106 @@
                 .join("")}
             </div>
           </section>
+          <section class="evidence-panel">
+            <div class="section-header">
+              <div>
+                <h3>Evidencia gráfica</h3>
+                <p class="helper">
+                  Sube una o varias imágenes para este trámite. Las imágenes se incluirán en el informe técnico final.
+                </p>
+              </div>
+            </div>
+            <label>
+              Cargar imágenes
+              <input
+                class="evidence-input"
+                type="file"
+                accept="image/*"
+                multiple
+                data-evidence-input-id="${escapeHtml(record.id)}"
+              />
+            </label>
+            ${
+              evidenceList.length
+                ? `
+                  <div class="evidence-grid">
+                    ${evidenceList
+                      .map(
+                        (image) => `
+                          <article class="evidence-card">
+                            <img src="${image.dataUrl}" alt="${escapeAttribute(image.name)}" />
+                            <span>${escapeHtml(image.name)}</span>
+                            <button
+                              class="ghost tiny"
+                              type="button"
+                              data-remove-evidence-id="${escapeHtml(image.id)}"
+                              data-remove-evidence-record-id="${escapeHtml(record.id)}"
+                            >
+                              Quitar imagen
+                            </button>
+                          </article>
+                        `
+                      )
+                      .join("")}
+                  </div>
+                `
+                : `<p class="helper">Todavía no se ha cargado evidencia gráfica para este trámite.</p>`
+            }
+          </section>
+          <section class="report-panel">
+            <div class="section-header">
+              <div>
+                <h3>Informe técnico generado</h3>
+                <p class="helper">
+                  El informe se arma automáticamente con el resultado de la revisión, las observaciones escritas y la evidencia gráfica cargada.
+                </p>
+              </div>
+            </div>
+            <div class="report-preview">
+              ${renderReportPreview(record)}
+            </div>
+            <div class="report-actions">
+              <button type="button" data-download-report-id="${escapeHtml(record.id)}">
+                Descargar informe HTML
+              </button>
+            </div>
+          </section>
+        `;
+      }
+
+      function renderReportPreview(record) {
+        const report = buildReportData(record);
+        return `
+          <h3>INFORME TÉCNICO DE REVISIÓN</h3>
+          <p><strong>Trámite N.° ${escapeHtml(String(record.nroTramite || record.codigo || record.id))}</strong></p>
+          <h4>1. Antecedente</h4>
+          <p>${escapeHtml(report.antecedente)}</p>
+          <h4>2. Análisis técnico</h4>
+          ${report.analisis.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+          <h4>3. Observaciones</h4>
+          <ol>
+            ${report.observaciones.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+          </ol>
+          <h4>4. Conclusión</h4>
+          ${report.conclusion.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+          <h4>5. Evidencia gráfica</h4>
+          ${
+            report.evidencia.length
+              ? `
+                <div class="report-evidence-grid">
+                  ${report.evidencia
+                    .map(
+                      (image) => `
+                        <figure>
+                          <img src="${image.dataUrl}" alt="${escapeAttribute(image.name)}" />
+                        </figure>
+                      `
+                    )
+                    .join("")}
+                </div>
+              `
+              : `<p>No se ha cargado evidencia gráfica para este trámite.</p>`
+          }
         `;
       }
 
@@ -2013,6 +2425,21 @@
             <p class="field-value">${escapeHtml(value == null || value === "" ? "-" : String(value))}</p>
           </article>
         `;
+      }
+
+      function syncReportPreview(recordId, originElement) {
+        const detailCard = originElement?.closest(".details-card");
+        const reportPreview = detailCard?.querySelector(".report-preview");
+        if (!reportPreview) {
+          return;
+        }
+
+        const record = source.records.find((item) => item.id === recordId);
+        if (!record) {
+          return;
+        }
+
+        reportPreview.innerHTML = renderReportPreview(record);
       }
 
       function updateTopMetrics() {
@@ -2048,10 +2475,144 @@
         dom.selectAllVisible.indeterminate = selectedVisible > 0 && selectedVisible < filteredRecords.length;
       }
 
+      function getTechnicalOutcome(recordId) {
+        const summary = getReviewSummary(recordId);
+        if (summary.no > 0) {
+          return "NO FAVORABLE";
+        }
+        if (summary.pending > 0) {
+          return "EN REVISIÓN";
+        }
+        return "FAVORABLE";
+      }
+
+      function buildReportData(record) {
+        const failedItems = technicalChecklist.filter((item) => getReviewValue(record.id, item.key) === "no");
+        const pendingItems = technicalChecklist.filter((item) => !getReviewValue(record.id, item.key));
+        const outcome = getTechnicalOutcome(record.id);
+        const evidence = getEvidenceList(record.id);
+
+        const antecedente =
+          `Una vez revisada la documentación técnica presentada dentro del trámite N.º ${record.nroTramite || record.codigo || record.id}, ` +
+          `se procede a emitir el presente informe con base en la verificación técnica realizada sobre los criterios de control definidos para el trámite, ` +
+          `la información planimétrica disponible y la evidencia cargada para sustentar la revisión.`;
+
+        const analisis = [];
+        if (outcome === "NO FAVORABLE") {
+          const labels = failedItems.map((item) => item.label.toLowerCase()).join(", ");
+          analisis.push(
+            `De la revisión efectuada, se determina que el trámite N.º ${record.nroTramite || record.codigo || record.id} no es favorable, ` +
+            `debido a que se identificaron observaciones técnicas en los siguientes componentes: ${labels}.`
+          );
+          failedItems.forEach((item) => {
+            const note = getReviewNote(record.id, item.key);
+            analisis.push(
+              note
+                ? note
+                : `Respecto de ${item.label.toLowerCase()}, no se cumple con la validación técnica requerida para continuar con el trámite en las condiciones presentadas.`
+            );
+          });
+        } else if (outcome === "EN REVISIÓN") {
+          analisis.push(
+            `De la revisión efectuada, se establece que el trámite N.º ${record.nroTramite || record.codigo || record.id} permanece en revisión, ` +
+            `ya que todavía existen ${pendingItems.length} validaciones técnicas pendientes de pronunciamiento.`
+          );
+          pendingItems.forEach((item) => {
+            analisis.push(`Se encuentra pendiente la verificación correspondiente a ${item.label.toLowerCase()}.`);
+          });
+        } else {
+          analisis.push(
+            `De la revisión efectuada, se determina que el trámite N.º ${record.nroTramite || record.codigo || record.id} es favorable, ` +
+            `por cuanto todos los criterios técnicos revisados cumplen con la validación requerida para continuar con el trámite.`
+          );
+        }
+
+        const observations = [];
+        observations.push(
+          `El trámite N.º ${record.nroTramite || record.codigo || record.id} se considera ${outcome}.`
+        );
+
+        technicalChecklist.forEach((item) => {
+          const value = getReviewValue(record.id, item.key);
+          const note = getReviewNote(record.id, item.key);
+          if (value === "no") {
+            observations.push(note || `${item.label}: no cumple con la verificación técnica requerida.`);
+          } else if (value === "si" && note) {
+            observations.push(`${item.label}: ${note}`);
+          } else if (!value) {
+            observations.push(`${item.label}: verificación pendiente.`);
+          }
+        });
+
+        if (!evidence.length) {
+          observations.push("No se adjuntó evidencia gráfica adicional para este trámite.");
+        }
+
+        const conclusion = [];
+        if (outcome === "NO FAVORABLE") {
+          conclusion.push(
+            `En virtud de lo expuesto, el trámite N.º ${record.nroTramite || record.codigo || record.id} se considera NO FAVORABLE, ` +
+            `debido a las observaciones técnicas identificadas durante la revisión.`
+          );
+          conclusion.push(
+            `Bajo estas circunstancias, se emite criterio NO FAVORABLE hasta que se subsanen las observaciones indicadas y se presente la documentación técnica actualizada correspondiente.`
+          );
+        } else if (outcome === "EN REVISIÓN") {
+          conclusion.push(
+            `En virtud de lo expuesto, el trámite N.º ${record.nroTramite || record.codigo || record.id} permanece EN REVISIÓN, ` +
+            `por cuanto aún existen verificaciones técnicas pendientes de respuesta.`
+          );
+          conclusion.push(
+            `Una vez completadas las validaciones pendientes y cargada la evidencia complementaria necesaria, podrá emitirse el criterio técnico definitivo.`
+          );
+        } else {
+          conclusion.push(
+            `En virtud de lo expuesto, el trámite N.º ${record.nroTramite || record.codigo || record.id} se considera FAVORABLE, ` +
+            `al verificarse el cumplimiento de todos los criterios técnicos revisados.`
+          );
+          conclusion.push(
+            `Bajo estas circunstancias, se emite criterio FAVORABLE para continuar con el trámite conforme la documentación técnica presentada.`
+          );
+        }
+
+        return {
+          antecedente,
+          analisis,
+          observaciones: observations,
+          conclusion,
+          evidencia: evidence,
+        };
+      }
+
+      function buildReportDocument(record) {
+        return `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Informe Técnico - ${escapeHtml(String(record.codigo || record.nroTramite || record.id))}</title>
+  <style>
+    body { font-family: Arial, sans-serif; color: #243746; margin: 32px; line-height: 1.55; }
+    h1, h2, h3, h4 { margin: 0 0 12px; color: #243746; }
+    h3 { font-size: 20px; }
+    h4 { margin-top: 18px; font-size: 16px; }
+    p, li { font-size: 14px; }
+    ol { margin-left: 20px; padding-left: 0; }
+    .report-evidence-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 12px; }
+    .report-evidence-grid img { width: 100%; height: 180px; object-fit: cover; border: 1px solid #d7dde3; border-radius: 8px; }
+    figure { margin: 0; }
+  </style>
+</head>
+<body>
+  ${renderReportPreview(record)}
+</body>
+</html>`;
+      }
+
       function enrichRecordForExport(record) {
         const reviewData = {};
         technicalChecklist.forEach((item) => {
           reviewData[item.key] = formatReviewValue(getReviewValue(record.id, item.key));
+          reviewData[`${item.key}Observacion`] = getReviewNote(record.id, item.key);
         });
 
         return {
@@ -2061,6 +2622,7 @@
           fechaIngresoFormateada: formatDate(record.fechaIngreso, true),
           revisionCumplidos: getReviewSummary(record.id).yes,
           revisionPendientes: getReviewSummary(record.id).pending,
+          evidenciaCargada: getEvidenceList(record.id).length,
           ...reviewData,
         };
       }
@@ -2085,6 +2647,8 @@
           "revisionCumplidos",
           "revisionPendientes",
           ...technicalChecklist.map((item) => item.key),
+          ...technicalChecklist.map((item) => `${item.key}Observacion`),
+          "evidenciaCargada",
         ];
 
         const lines = [columns.join(",")];
@@ -2178,6 +2742,14 @@
           return "No";
         }
         return "Pendiente";
+      }
+
+      function sanitizeFilename(value) {
+        return String(value || "informe")
+          .replace(/[\\/:*?"<>|]+/g, "-")
+          .replace(/\s+/g, "-")
+          .replace(/-+/g, "-")
+          .replace(/^-|-$/g, "");
       }
 
       function normalizeText(value) {
