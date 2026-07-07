@@ -3629,6 +3629,34 @@
         const tramiteNumber = getReportTramiteNumber(record);
         const title = options.title || `Ficha Técnica - Trámite ${tramiteNumber}`;
         const autoPrint = options.autoPrint === true;
+        const autoPrintScript = autoPrint
+          ? `<script>
+          window.addEventListener("load", () => {
+            const finish = () => setTimeout(() => { window.focus(); window.print(); }, 250);
+            const images = Array.from(document.images || []);
+            if (!images.length) {
+              finish();
+              return;
+            }
+            let pending = images.length;
+            const done = () => {
+              pending -= 1;
+              if (pending <= 0) {
+                finish();
+              }
+            };
+            images.forEach((img) => {
+              if (img.complete) {
+                done();
+              } else {
+                img.addEventListener("load", done, { once: true });
+                img.addEventListener("error", done, { once: true });
+              }
+            });
+          });
+          window.addEventListener("afterprint", () => window.close());
+        </scr` + `ipt>`
+          : "";
 
         return `<!DOCTYPE html>
 <html lang="es">
@@ -3662,36 +3690,7 @@
   <h2>FICHA TÉCNICA DE REVISIÓN</h2>
   ${buildFichaSummaryMarkup(record)}
   ${renderReportPreview(record)}
-  ${
-    autoPrint
-      ? `<script>
-          window.addEventListener("load", () => {
-            const finish = () => setTimeout(() => { window.focus(); window.print(); }, 250);
-            const images = Array.from(document.images || []);
-            if (!images.length) {
-              finish();
-              return;
-            }
-            let pending = images.length;
-            const done = () => {
-              pending -= 1;
-              if (pending <= 0) {
-                finish();
-              }
-            };
-            images.forEach((img) => {
-              if (img.complete) {
-                done();
-              } else {
-                img.addEventListener("load", done, { once: true });
-                img.addEventListener("error", done, { once: true });
-              }
-            });
-          });
-          window.addEventListener("afterprint", () => window.close());
-        </script>`
-      : ""
-  }
+  ${autoPrintScript}
 </body>
 </html>`;
       }
