@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Módulo de Asignación de Trámites IPRUS</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Orbitron:wght@500;700&family=Rajdhani:wght@500;600;700&display=swap");
+
+    :root {
+      --bg: #06131d;
+      --bg-2: #0b2333;
+      --panel: rgba(8, 24, 37, 0.9);
+      --panel-strong: rgba(11, 34, 49, 0.94);
+      --line: rgba(112, 212, 255, 0.18);
+      --line-strong: rgba(126, 245, 216, 0.35);
+      --text: #edf8ff;
+      --muted: #91b4c5;
+      --accent: #51ceff;
+      --accent-2: #7ef5d8;
+      --gold: #ffe28a;
+      --danger: #ff7d7d;
+      --warning: #ffb766;
+      --ok: #7ef5d8;
+      --shadow: 0 28px 60px rgba(0, 0, 0, 0.42);
+      --glow: 0 0 0 1px rgba(81, 206, 255, 0.12), 0 0 34px rgba(81, 206, 255, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Rajdhani", "Segoe UI", Tahoma, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 14% 12%, rgba(81, 206, 255, 0.18), transparent 28%),
+        radial-gradient(circle at 80% 18%, rgba(126, 245, 216, 0.11), transparent 18%),
+        radial-gradient(circle at 52% 100%, rgba(255, 226, 138, 0.08), transparent 30%),
+        linear-gradient(180deg, rgba(9, 22, 33, 0.98), rgba(5, 14, 22, 1)),
+        repeating-linear-gradient(90deg, rgba(112, 212, 255, 0.03) 0 1px, transparent 1px 92px),
+        repeating-linear-gradient(0deg, rgba(112, 212, 255, 0.02) 0 1px, transparent 1px 92px),
+        #06131d;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, transparent, rgba(5, 14, 22, 0.42) 68%, rgba(5, 14, 22, 0.8)),
+        radial-gradient(circle at center, transparent 0 58%, rgba(81, 206, 255, 0.05) 74%, transparent 78%);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .layout {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      align-self: start;
+      max-height: 100vh;
+      overflow-y: auto;
+      padding: 22px 20px 26px;
+      border-right: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(8, 23, 35, 0.96), rgba(5, 14, 22, 0.98)),
+        rgba(8, 23, 35, 0.94);
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar::-webkit-scrollbar,
+    .main::-webkit-scrollbar,
+    .table-wrap::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb,
+    .main::-webkit-scrollbar-thumb,
+    .table-wrap::-webkit-scrollbar-thumb {
+      border-radius: 999px;
+      background: rgba(112, 212, 255, 0.24);
+    }
+
+    .main {
+      padding: 22px;
+      min-width: 0;
+    }
+
+    .brand,
+    .panel,
+    .table-panel {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(10, 28, 41, 0.92), rgba(6, 18, 29, 0.92)),
+        var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .brand,
+    .panel {
+      margin-bottom: 14px;
+      padding: 18px;
+      border-radius: 24px 12px 24px 12px;
+    }
+
+    .brand {
+      background: linear-gradient(155deg, rgba(13, 34, 49, 0.98), rgba(18, 62, 82, 0.92));
+      box-shadow: var(--shadow), var(--glow);
+    }
+
+    .brand::before,
+    .panel::before,
+    .table-panel::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(81, 206, 255, 0.56), transparent);
+    }
+
+    .eyebrow,
+    .status-chip,
+    .meta-pill,
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(81, 206, 255, 0.22);
+      background: rgba(81, 206, 255, 0.09);
+      color: #d8f6ff;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .status-chip::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--ok);
+      box-shadow: 0 0 16px rgba(126, 245, 216, 0.8);
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+    }
+
+    .brand h1 {
+      margin-top: 12px;
+      max-width: 10ch;
+      font-family: "Orbitron", "Rajdhani", sans-serif;
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      line-height: 0.98;
+      text-transform: uppercase;
+    }
+
+    .brand p,
+    .helper,
+    .empty-note,
+    .table-caption,
+    .field-value {
+      color: var(--muted);
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    .brand-top,
+    .toolbar,
+    .table-toolbar,
+    .row-actions,
+    .field-grid,
+    .button-stack {
+      display: flex;
+      gap: 10px;
+    }
+
+    .brand-top {
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .brand-metrics,
+    .summary-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .brand-metrics {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 18px;
+    }
+
+    .brand-metric,
+    .summary-card,
+    .load-card {
+      padding: 14px;
+      border-radius: 18px 10px 18px 10px;
+      border: 1px solid rgba(81, 206, 255, 0.12);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(81, 206, 255, 0.08));
+    }
+
+    .brand-metric span,
+    .summary-card span,
+    .load-card span,
+    .panel h2,
+    .field-label,
+    .table-head-label {
+      display: block;
+      color: var(--muted);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-metric strong,
+    .summary-card strong,
+    .load-card strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 1.3rem;
+      line-height: 1.05;
+      color: var(--text);
+    }
+
+    .panel h2 {
+      margin-bottom: 12px;
+      color: #e6fbff;
+    }
+
+    .panel p + p {
+      margin-top: 8px;
+    }
+
+    .panel .toolbar,
+    .panel .button-stack {
+      margin-top: 12px;
+    }
+
+    .toolbar > *,
+    .button-stack > * {
+      flex: 1;
+    }
+
+    label {
+      display: grid;
+      gap: 7px;
+      margin-top: 12px;
+      color: #d7f5ff;
+      font-size: 0.94rem;
+    }
+
+    input,
+    select,
+    button {
+      width: 100%;
+      padding: 12px 13px;
+      border-radius: 14px;
+      border: 1px solid rgba(112, 212, 255, 0.18);
+      font: inherit;
+    }
+
+    input,
+    select {
+      color: var(--text);
+      background: rgba(4, 17, 27, 0.78);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.01);
+    }
+
+    input::placeholder {
+      color: #7290a1;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: rgba(81, 206, 255, 0.48);
+      box-shadow: 0 0 0 4px rgba(81, 206, 255, 0.12);
+    }
+
+    button {
+      cursor: pointer;
+      color: #f1fdff;
+      background: linear-gradient(135deg, #0c669d, #19a9d8 60%, #69e2d8);
+      border: 1px solid rgba(126, 245, 216, 0.24);
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+      box-shadow: 0 12px 28px rgba(20, 120, 163, 0.32);
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(126, 245, 216, 0.38);
+      box-shadow: 0 16px 30px rgba(20, 120, 163, 0.4);
+    }
+
+    button.secondary,
+    button.ghost {
+      background: linear-gradient(180deg, rgba(13, 36, 51, 0.9), rgba(6, 18, 29, 0.96));
+      border-color: rgba(81, 206, 255, 0.16);
+      box-shadow: none;
+    }
+
+    button.ghost {
+      color: #dbf6ff;
+    }
+
+    button.tiny {
+      padding: 9px 10px;
+      font-size: 0.76rem;
+    }
+
+    .helper,
+    .empty-note {
+      font-size: 0.92rem;
+    }
+
+    .message {
+      margin-top: 12px;
+      min-height: 24px;
+      color: #dff9ff;
+      font-size: 0.92rem;
+    }
+
+    .summary-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      margin-bottom: 18px;
+    }
+
+    .summary-card {
+      min-height: 116px;
+    }
+
+    .summary-card small,
+    .load-card small {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.4;
+    }
+
+    .quick-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .quick-filter {
+      width: auto;
+      padding-inline: 14px;
+      font-size: 0.86rem;
+    }
+
+    .quick-filter.active {
+      background: linear-gradient(135deg, #1a8fc8, #4dd8ff 55%, #7ef5d8);
+      color: #07141d;
+    }
+
+    .table-panel {
+      padding: 18px;
+      border-radius: 28px 16px 28px 16px;
+    }
+
+    .table-toolbar {
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .table-toolbar h2 {
+      font-family: "Orbitron", "Rajdhani", sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .table-toolbar .button-stack {
+      flex-wrap: wrap;
+      width: min(620px, 100%);
+    }
+
+    .table-wrap {
+      overflow: auto;
+      border-radius: 22px 10px 22px 10px;
+      border: 1px solid rgba(81, 206, 255, 0.12);
+      background: rgba(2, 11, 18, 0.52);
+    }
+
+    table {
+      width: 100%;
+      min-width: 1400px;
+      border-collapse: collapse;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      padding: 12px 10px;
+      background: rgba(7, 19, 29, 0.96);
+      border-bottom: 1px solid rgba(81, 206, 255, 0.18);
+      text-align: left;
+      color: #d9f4ff;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    tbody td {
+      padding: 12px 10px;
+      border-bottom: 1px solid rgba(81, 206, 255, 0.08);
+      vertical-align: top;
+      font-size: 0.98rem;
+    }
+
+    tbody tr:hover td {
+      background: rgba(81, 206, 255, 0.05);
+    }
+
+    tbody tr.row-priority-vencido td {
+      background: rgba(255, 125, 125, 0.08);
+    }
+
+    tbody tr.row-priority-vence-hoy td {
+      background: rgba(255, 183, 102, 0.08);
+    }
+
+    tbody tr.row-priority-critico td {
+      background: rgba(255, 226, 138, 0.06);
+    }
+
+    .cell-title {
+      display: block;
+      color: #f3fcff;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .cell-meta {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.35;
+    }
+
+    .badge {
+      width: fit-content;
+      padding: 6px 10px;
+      letter-spacing: 0.05em;
+      font-size: 0.68rem;
+    }
+
+    .badge.estado-complementado {
+      background: rgba(126, 245, 216, 0.13);
+      border-color: rgba(126, 245, 216, 0.25);
+    }
+
+    .badge.prioridad-vencido {
+      color: #ffdede;
+      background: rgba(255, 125, 125, 0.14);
+      border-color: rgba(255, 125, 125, 0.32);
+    }
+
+    .badge.prioridad-vence-hoy {
+      color: #ffe9d0;
+      background: rgba(255, 183, 102, 0.15);
+      border-color: rgba(255, 183, 102, 0.34);
+    }
+
+    .badge.prioridad-critico {
+      color: #fff6d8;
+      background: rgba(255, 226, 138, 0.14);
+      border-color: rgba(255, 226, 138, 0.3);
+    }
+
+    .badge.prioridad-urgente {
+      background: rgba(81, 206, 255, 0.14);
+      border-color: rgba(81, 206, 255, 0.28);
+    }
+
+    .badge.prioridad-normal,
+    .badge.prioridad-sin-fecha {
+      background: rgba(126, 245, 216, 0.09);
+      border-color: rgba(126, 245, 216, 0.18);
+    }
+
+    .assignment-cell {
+      min-width: 260px;
+    }
+
+    .assignment-input {
+      margin-bottom: 8px;
+    }
+
+    .assignment-meta {
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.35;
+    }
+
+    .details-row td {
+      padding: 0;
+      background: rgba(5, 15, 24, 0.92);
+    }
+
+    .details-card {
+      padding: 18px;
+      border-top: 1px solid rgba(81, 206, 255, 0.14);
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field {
+      padding: 14px;
+      border-radius: 18px 10px 18px 10px;
+      border: 1px solid rgba(81, 206, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .field.field-wide {
+      grid-column: span 2;
+    }
+
+    .field.field-full {
+      grid-column: 1 / -1;
+    }
+
+    .load-board {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .load-card {
+      display: grid;
+      gap: 4px;
+    }
+
+    .empty-state {
+      padding: 28px;
+      text-align: center;
+    }
+
+    .link-row {
+      margin-top: 14px;
+      font-size: 0.95rem;
+    }
+
+    .checkbox-cell {
+      width: 48px;
+    }
+
+    .checkbox-input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+    }
+
+    @media (max-width: 1280px) {
+      .summary-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .details-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: relative;
+        max-height: none;
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .main,
+      .sidebar {
+        padding: 16px;
+      }
+
+      .summary-grid,
+      .brand-metrics,
+      .details-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar,
+      .button-stack,
+      .row-actions {
+        flex-direction: column;
+      }
+
+      table {
+        min-width: 1180px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <section class="brand">
+        <div class="brand-top">
+          <span class="eyebrow">IPRUS Operativo</span>
+          <span class="status-chip">Módulo activo</span>
+        </div>
+        <h1>Asignación de Trámites</h1>
+        <p id="brand-description">
+          Consola web para revisar el listado del Excel, filtrar por prioridad y dejar registrada la
+          asignación interna de cada trámite sin perder el detalle original.
+        </p>
+        <div class="brand-metrics">
+          <div class="brand-metric">
+            <span>Total de registros</span>
+            <strong id="metric-total">0</strong>
+          </div>
+          <div class="brand-metric">
+            <span>Asignados internamente</span>
+            <strong id="metric-assigned">0</strong>
+          </div>
+          <div class="brand-metric">
+            <span>Vencidos + vence hoy</span>
+            <strong id="metric-critical">0</strong>
+          </div>
+          <div class="brand-metric">
+            <span>Última fuente</span>
+            <strong id="metric-source-date">-</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Asignación Masiva</h2>
+        <p class="helper">
+          Selecciona filas desde la tabla y escribe el nombre de la persona o técnico que recibirá los trámites.
+          La asignación se guarda automáticamente en este navegador.
+        </p>
+        <label for="bulk-assignee">
+          Persona asignada
+          <input id="bulk-assignee" list="assignee-options" placeholder="Ej. Josselyn Orozco o equipo técnico" />
+        </label>
+        <div class="button-stack">
+          <button id="assign-selected-button" type="button">Asignar seleccionados</button>
+          <button id="clear-selected-button" class="secondary" type="button">Quitar asignación</button>
+        </div>
+        <p class="message" id="assignment-message"></p>
+      </section>
+
+      <section class="panel">
+        <h2>Filtros</h2>
+        <label for="search-input">
+          Buscar
+          <input id="search-input" placeholder="Código, solicitante, responsable, observación..." />
+        </label>
+        <label for="estado-filter">
+          Estado
+          <select id="estado-filter"></select>
+        </label>
+        <label for="prioridad-filter">
+          Prioridad
+          <select id="prioridad-filter"></select>
+        </label>
+        <label for="responsable-filter">
+          Responsable actual
+          <select id="responsable-filter"></select>
+        </label>
+        <label for="asignado-filter">
+          Asignación interna
+          <select id="asignado-filter"></select>
+        </label>
+        <label for="sort-filter">
+          Ordenar por
+          <select id="sort-filter">
+            <option value="priority">Prioridad operativa</option>
+            <option value="deadline">Fecha límite</option>
+            <option value="newest">Ingreso más reciente</option>
+            <option value="applicant">Solicitante A-Z</option>
+          </select>
+        </label>
+        <div class="button-stack">
+          <button id="reset-filters-button" class="secondary" type="button">Limpiar filtros</button>
+          <button id="select-visible-button" class="ghost" type="button">Seleccionar visibles</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Carga Por Persona</h2>
+        <p class="helper">
+          Este resumen se calcula sobre la asignación interna guardada en el navegador y ayuda a repartir la carga.
+        </p>
+        <div class="load-board" id="load-board"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Acciones</h2>
+        <p class="helper">
+          Puedes exportar el estado actual con las asignaciones internas o limpiar los datos locales si quieres
+          empezar otra distribución.
+        </p>
+        <div class="button-stack">
+          <button id="export-csv-button" type="button">Descargar CSV</button>
+          <button id="export-json-button" class="secondary" type="button">Descargar JSON</button>
+        </div>
+        <div class="button-stack">
+          <button id="clear-all-assignments-button" class="ghost" type="button">Limpiar asignaciones locales</button>
+          <button id="clear-selection-button" class="ghost" type="button">Vaciar selección</button>
+        </div>
+        <p class="message" id="export-message"></p>
+        <p class="link-row">
+          <a href="./index.html">Volver al portal principal</a>
+        </p>
+      </section>
+    </aside>
+
+    <main class="main">
+      <section class="summary-grid" id="summary-grid"></section>
+
+      <section class="quick-filters" id="quick-filters"></section>
+
+      <section class="table-panel">
+        <div class="table-toolbar">
+          <div>
+            <h2>Panel Maestro de Trámites</h2>
+            <p class="table-caption" id="table-caption">
+              Tabla operativa con filtros, asignación interna y vista detallada de cada registro del Excel.
+            </p>
+          </div>
+          <div class="button-stack">
+            <button id="assign-responsable-button" class="secondary" type="button">Copiar responsable a selección</button>
+            <button id="clear-quick-filter-button" class="ghost" type="button">Quitar filtro rápido</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th class="checkbox-cell">
+                  <input id="select-all-visible" class="checkbox-input" type="checkbox" aria-label="Seleccionar visibles" />
+                </th>
+                <th>Estado</th>
+                <th>Prioridad</th>
+                <th>Trámite</th>
+                <th>Solicitante</th>
+                <th>Responsable actual</th>
+                <th>Fecha límite</th>
+                <th>Días restantes</th>
+                <th>Asignado interno</th>
+                <th>Detalle</th>
+              </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <datalist id="assignee-options"></datalist>
+
+  <script src="./tramites-iprus-data.js"></script>
+  <script>
+    (() => {
+      const source = window.TRAMITES_IPRUS_DATA;
+      const storageKey = "tramites-iprus-assignments-v1";
+      const manualAssignments = loadAssignments();
+      const selectedIds = new Set();
+      const state = {
+        search: "",
+        estado: "",
+        prioridad: "",
+        responsable: "",
+        asignado: "",
+        sort: "priority",
+        quickFilter: "",
+        detailId: "",
+      };
+
+      const dom = {
+        metricTotal: document.getElementById("metric-total"),
+        metricAssigned: document.getElementById("metric-assigned"),
+        metricCritical: document.getElementById("metric-critical"),
+        metricSourceDate: document.getElementById("metric-source-date"),
+        brandDescription: document.getElementById("brand-description"),
+        bulkAssignee: document.getElementById("bulk-assignee"),
+        assignmentMessage: document.getElementById("assignment-message"),
+        exportMessage: document.getElementById("export-message"),
+        searchInput: document.getElementById("search-input"),
+        estadoFilter: document.getElementById("estado-filter"),
+        prioridadFilter: document.getElementById("prioridad-filter"),
+        responsableFilter: document.getElementById("responsable-filter"),
+        asignadoFilter: document.getElementById("asignado-filter"),
+        sortFilter: document.getElementById("sort-filter"),
+        resetFiltersButton: document.getElementById("reset-filters-button"),
+        selectVisibleButton: document.getElementById("select-visible-button"),
+        clearSelectionButton: document.getElementById("clear-selection-button"),
+        assignSelectedButton: document.getElementById("assign-selected-button"),
+        clearSelectedButton: document.getElementById("clear-selected-button"),
+        assignResponsableButton: document.getElementById("assign-responsable-button"),
+        exportCsvButton: document.getElementById("export-csv-button"),
+        exportJsonButton: document.getElementById("export-json-button"),
+        clearAllAssignmentsButton: document.getElementById("clear-all-assignments-button"),
+        clearQuickFilterButton: document.getElementById("clear-quick-filter-button"),
+        summaryGrid: document.getElementById("summary-grid"),
+        quickFilters: document.getElementById("quick-filters"),
+        loadBoard: document.getElementById("load-board"),
+        tableBody: document.getElementById("table-body"),
+        tableCaption: document.getElementById("table-caption"),
+        assigneeOptions: document.getElementById("assignee-options"),
+        selectAllVisible: document.getElementById("select-all-visible"),
+      };
+
+      const priorityOrder = {
+        Vencido: 0,
+        "Vence hoy": 1,
+        Crítico: 2,
+        Urgente: 3,
+        Normal: 4,
+        "Sin fecha": 5,
+      };
+
+      const quickFilterDefinitions = [
+        { key: "prioridad:Vencido", label: "Vencidos", matcher: (record) => record.prioridad === "Vencido" },
+        { key: "prioridad:Vence hoy", label: "Vence hoy", matcher: (record) => record.prioridad === "Vence hoy" },
+        { key: "prioridad:Crítico", label: "Críticos", matcher: (record) => record.prioridad === "Crítico" },
+        { key: "prioridad:Urgente", label: "Urgentes", matcher: (record) => record.prioridad === "Urgente" },
+        { key: "prioridad:Sin fecha", label: "Sin fecha", matcher: (record) => record.prioridad === "Sin fecha" },
+        { key: "estado:Complementado", label: "Complementados", matcher: (record) => record.estado === "Complementado" },
+        { key: "asignado:sin", label: "Sin asignar interno", matcher: (record) => !getAssignee(record.id) },
+      ];
+
+      initialize();
+
+      function initialize() {
+        populateFilters();
+        populateAssigneeOptions();
+        wireEvents();
+        render();
+      }
+
+      function loadAssignments() {
+        try {
+          const raw = localStorage.getItem(storageKey);
+          return raw ? JSON.parse(raw) : {};
+        } catch (error) {
+          console.warn("No se pudo leer localStorage:", error);
+          return {};
+        }
+      }
+
+      function persistAssignments() {
+        localStorage.setItem(storageKey, JSON.stringify(manualAssignments));
+        populateAssigneeOptions();
+      }
+
+      function getAssignee(id) {
+        const value = manualAssignments[id];
+        return typeof value === "string" ? value.trim() : "";
+      }
+
+      function assignValue(id, value) {
+        const next = value.trim();
+        if (next) {
+          manualAssignments[id] = next;
+        } else {
+          delete manualAssignments[id];
+        }
+      }
+
+      function setAssignee(id, value) {
+        assignValue(id, value);
+        persistAssignments();
+      }
+
+      function setManyAssignments(entries) {
+        entries.forEach(([id, value]) => assignValue(id, value));
+        persistAssignments();
+      }
+
+      function populateFilters() {
+        populateSelect(dom.estadoFilter, buildOptions(source.records.map((record) => record.estado), "Todos los estados"));
+        populateSelect(dom.prioridadFilter, buildOptions(source.records.map((record) => record.prioridad), "Todas las prioridades"));
+        populateSelect(dom.responsableFilter, buildOptions(source.records.map((record) => record.responsable), "Todos los responsables"));
+        populateSelect(dom.asignadoFilter, [
+          { value: "", label: "Todas las asignaciones internas" },
+          { value: "__assigned__", label: "Con asignación interna" },
+          { value: "__unassigned__", label: "Sin asignación interna" },
+        ]);
+      }
+
+      function populateAssigneeOptions() {
+        const names = new Set();
+        source.records.forEach((record) => {
+          if (record.responsable) {
+            names.add(record.responsable);
+          }
+        });
+        Object.values(manualAssignments).forEach((value) => {
+          if (value && value.trim()) {
+            names.add(value.trim());
+          }
+        });
+
+        dom.assigneeOptions.innerHTML = "";
+        [...names].sort((a, b) => a.localeCompare(b, "es")).forEach((name) => {
+          const option = document.createElement("option");
+          option.value = name;
+          dom.assigneeOptions.appendChild(option);
+        });
+      }
+
+      function buildOptions(values, firstLabel) {
+        const uniques = [...new Set(values.filter(Boolean))].sort((a, b) => String(a).localeCompare(String(b), "es"));
+        return [{ value: "", label: firstLabel }, ...uniques.map((value) => ({ value, label: value }))];
+      }
+
+      function populateSelect(select, options) {
+        select.innerHTML = "";
+        options.forEach((optionData) => {
+          const option = document.createElement("option");
+          option.value = optionData.value;
+          option.textContent = optionData.label;
+          select.appendChild(option);
+        });
+      }
+
+      function wireEvents() {
+        dom.searchInput.addEventListener("input", (event) => {
+          state.search = event.target.value;
+          render();
+        });
+
+        dom.estadoFilter.addEventListener("change", (event) => {
+          state.estado = event.target.value;
+          render();
+        });
+
+        dom.prioridadFilter.addEventListener("change", (event) => {
+          state.prioridad = event.target.value;
+          render();
+        });
+
+        dom.responsableFilter.addEventListener("change", (event) => {
+          state.responsable = event.target.value;
+          render();
+        });
+
+        dom.asignadoFilter.addEventListener("change", (event) => {
+          state.asignado = event.target.value;
+          render();
+        });
+
+        dom.sortFilter.addEventListener("change", (event) => {
+          state.sort = event.target.value;
+          render();
+        });
+
+        dom.resetFiltersButton.addEventListener("click", () => {
+          state.search = "";
+          state.estado = "";
+          state.prioridad = "";
+          state.responsable = "";
+          state.asignado = "";
+          state.sort = "priority";
+          state.quickFilter = "";
+          dom.searchInput.value = "";
+          dom.estadoFilter.value = "";
+          dom.prioridadFilter.value = "";
+          dom.responsableFilter.value = "";
+          dom.asignadoFilter.value = "";
+          dom.sortFilter.value = "priority";
+          render();
+        });
+
+        dom.selectVisibleButton.addEventListener("click", () => {
+          getFilteredRecords().forEach((record) => selectedIds.add(record.id));
+          render();
+          setMessage(dom.assignmentMessage, `Se seleccionaron ${selectedIds.size} trámites visibles.`);
+        });
+
+        dom.clearSelectionButton.addEventListener("click", () => {
+          selectedIds.clear();
+          render();
+          setMessage(dom.assignmentMessage, "La selección actual fue vaciada.");
+        });
+
+        dom.assignSelectedButton.addEventListener("click", () => {
+          const assignee = dom.bulkAssignee.value.trim();
+          if (!assignee) {
+            setMessage(dom.assignmentMessage, "Escribe primero el nombre de la persona asignada.");
+            return;
+          }
+          if (!selectedIds.size) {
+            setMessage(dom.assignmentMessage, "Selecciona al menos un trámite para aplicar la asignación.");
+            return;
+          }
+
+          setManyAssignments([...selectedIds].map((id) => [id, assignee]));
+          render();
+          setMessage(dom.assignmentMessage, `Se asignaron ${selectedIds.size} trámites a ${assignee}.`);
+        });
+
+        dom.clearSelectedButton.addEventListener("click", () => {
+          if (!selectedIds.size) {
+            setMessage(dom.assignmentMessage, "No hay trámites seleccionados para limpiar.");
+            return;
+          }
+          setManyAssignments([...selectedIds].map((id) => [id, ""]));
+          render();
+          setMessage(dom.assignmentMessage, `Se quitaron las asignaciones internas de ${selectedIds.size} trámites.`);
+        });
+
+        dom.assignResponsableButton.addEventListener("click", () => {
+          if (!selectedIds.size) {
+            setMessage(dom.assignmentMessage, "Selecciona primero uno o varios trámites.");
+            return;
+          }
+
+          let updated = 0;
+          const updates = [];
+          source.records.forEach((record) => {
+            if (selectedIds.has(record.id) && record.responsable) {
+              updates.push([record.id, record.responsable]);
+              updated += 1;
+            }
+          });
+          setManyAssignments(updates);
+          render();
+          setMessage(dom.assignmentMessage, `Se copió el responsable actual en ${updated} trámites seleccionados.`);
+        });
+
+        dom.exportCsvButton.addEventListener("click", () => {
+          const rows = getFilteredRecords().map(enrichRecordForExport);
+          downloadFile(`\ufeff${buildCsv(rows)}`, `tramites-iprus-${timestampForFile()}.csv`, "text/csv;charset=utf-8;");
+          setMessage(dom.exportMessage, `Se descargó el CSV con ${rows.length} trámites filtrados.`);
+        });
+
+        dom.exportJsonButton.addEventListener("click", () => {
+          const rows = getFilteredRecords().map(enrichRecordForExport);
+          downloadFile(JSON.stringify(rows, null, 2), `tramites-iprus-${timestampForFile()}.json`, "application/json");
+          setMessage(dom.exportMessage, `Se descargó el JSON con ${rows.length} trámites filtrados.`);
+        });
+
+        dom.clearAllAssignmentsButton.addEventListener("click", () => {
+          const keys = Object.keys(manualAssignments);
+          setManyAssignments(keys.map((key) => [key, ""]));
+          render();
+          setMessage(dom.exportMessage, "Se limpiaron todas las asignaciones guardadas localmente.");
+        });
+
+        dom.clearQuickFilterButton.addEventListener("click", () => {
+          state.quickFilter = "";
+          render();
+        });
+
+        dom.selectAllVisible.addEventListener("change", (event) => {
+          const visibleRecords = getFilteredRecords();
+          if (event.target.checked) {
+            visibleRecords.forEach((record) => selectedIds.add(record.id));
+          } else {
+            visibleRecords.forEach((record) => selectedIds.delete(record.id));
+          }
+          render();
+        });
+
+        dom.tableBody.addEventListener("change", (event) => {
+          const checkbox = event.target.closest("[data-select-id]");
+          if (checkbox) {
+            const { selectId } = checkbox.dataset;
+            if (checkbox.checked) {
+              selectedIds.add(selectId);
+            } else {
+              selectedIds.delete(selectId);
+            }
+            render();
+            return;
+          }
+
+          const assignmentInput = event.target.closest("[data-assignment-id]");
+          if (assignmentInput) {
+            const { assignmentId } = assignmentInput.dataset;
+            setAssignee(assignmentId, assignmentInput.value);
+            render();
+            setMessage(dom.assignmentMessage, "La asignación interna se guardó correctamente.");
+          }
+        });
+
+        dom.tableBody.addEventListener("click", (event) => {
+          const detailButton = event.target.closest("[data-detail-id]");
+          if (detailButton) {
+            const { detailId } = detailButton.dataset;
+            state.detailId = state.detailId === detailId ? "" : detailId;
+            render();
+          }
+
+          const clearButton = event.target.closest("[data-clear-assignment-id]");
+          if (clearButton) {
+            const { clearAssignmentId } = clearButton.dataset;
+            setAssignee(clearAssignmentId, "");
+            render();
+            setMessage(dom.assignmentMessage, "La asignación interna del trámite fue retirada.");
+          }
+        });
+      }
+
+      function render() {
+        const filteredRecords = getFilteredRecords();
+        renderSummary(filteredRecords);
+        renderQuickFilters();
+        renderLoadBoard();
+        renderTable(filteredRecords);
+        updateFilterCaption(filteredRecords);
+        updateTopMetrics();
+        syncMasterCheckbox(filteredRecords);
+      }
+
+      function getFilteredRecords() {
+        const searchTerm = normalizeText(state.search);
+
+        return [...source.records]
+          .filter((record) => {
+            if (state.estado && record.estado !== state.estado) {
+              return false;
+            }
+            if (state.prioridad && record.prioridad !== state.prioridad) {
+              return false;
+            }
+            if (state.responsable && record.responsable !== state.responsable) {
+              return false;
+            }
+
+            const assignee = getAssignee(record.id);
+            if (state.asignado === "__assigned__" && !assignee) {
+              return false;
+            }
+            if (state.asignado === "__unassigned__" && assignee) {
+              return false;
+            }
+
+            if (state.quickFilter) {
+              const filter = quickFilterDefinitions.find((item) => item.key === state.quickFilter);
+              if (filter && !filter.matcher(record)) {
+                return false;
+              }
+            }
+
+            if (!searchTerm) {
+              return true;
+            }
+
+            const haystack = normalizeText(
+              [
+                record.estado,
+                record.nroTramite,
+                record.codigo,
+                record.tipoTramite,
+                record.solicitante,
+                record.responsable,
+                record.cargoResponsable,
+                record.ingresadoPor,
+                record.prioridad,
+                record.observaciones,
+                assignee,
+              ]
+                .filter(Boolean)
+                .join(" ")
+            );
+
+            return haystack.includes(searchTerm);
+          })
+          .sort(sortRecords);
+      }
+
+      function sortRecords(a, b) {
+        if (state.sort === "deadline") {
+          return compareDates(a.fechaLimite, b.fechaLimite) || comparePriority(a, b) || compareText(a.codigo, b.codigo);
+        }
+        if (state.sort === "newest") {
+          return compareDates(b.fechaIngreso, a.fechaIngreso) || comparePriority(a, b) || compareText(a.codigo, b.codigo);
+        }
+        if (state.sort === "applicant") {
+          return compareText(a.solicitante, b.solicitante) || comparePriority(a, b);
+        }
+        return comparePriority(a, b) || compareDates(a.fechaLimite, b.fechaLimite) || compareText(a.codigo, b.codigo);
+      }
+
+      function comparePriority(a, b) {
+        return (priorityOrder[a.prioridad] ?? 99) - (priorityOrder[b.prioridad] ?? 99);
+      }
+
+      function compareDates(left, right) {
+        const leftValue = left ? Date.parse(left) : Number.POSITIVE_INFINITY;
+        const rightValue = right ? Date.parse(right) : Number.POSITIVE_INFINITY;
+        return leftValue - rightValue;
+      }
+
+      function compareText(left, right) {
+        return String(left || "").localeCompare(String(right || ""), "es", { sensitivity: "base" });
+      }
+
+      function renderSummary(filteredRecords) {
+        const total = source.records.length;
+        const assigned = source.records.filter((record) => getAssignee(record.id)).length;
+        const overdue = source.records.filter((record) => ["Vencido", "Vence hoy"].includes(record.prioridad)).length;
+        const critical = source.records.filter((record) => ["Vencido", "Vence hoy", "Crítico"].includes(record.prioridad)).length;
+        const complementados = source.records.filter((record) => record.estado === "Complementado").length;
+        const unassigned = total - assigned;
+
+        const cards = [
+          {
+            label: "Filtrados ahora",
+            value: filteredRecords.length,
+            note: `${selectedIds.size} seleccionados en la mesa operativa.`,
+          },
+          {
+            label: "Asignación interna",
+            value: assigned,
+            note: `${unassigned} trámites siguen sin reparto interno.`,
+          },
+          {
+            label: "Riesgo inmediato",
+            value: overdue,
+            note: `${critical} trámites están entre vencidos, hoy o críticos.`,
+          },
+          {
+            label: "Complementados",
+            value: complementados,
+            note: `${total - complementados} aún requieren seguimiento.`,
+          },
+          {
+            label: "Responsables fuente",
+            value: Object.keys(source.summary.responsibles).length,
+            note: "Responsables actuales detectados en el Excel original.",
+          },
+        ];
+
+        dom.summaryGrid.innerHTML = cards
+          .map(
+            (card) => `
+              <article class="summary-card">
+                <span>${escapeHtml(card.label)}</span>
+                <strong>${escapeHtml(String(card.value))}</strong>
+                <small>${escapeHtml(card.note)}</small>
+              </article>
+            `
+          )
+          .join("");
+      }
+
+      function renderQuickFilters() {
+        dom.quickFilters.innerHTML = quickFilterDefinitions
+          .map((filter) => {
+            const count = source.records.filter(filter.matcher).length;
+            const active = state.quickFilter === filter.key ? "active" : "";
+            return `
+              <button class="quick-filter ${active}" type="button" data-quick-filter="${escapeHtml(filter.key)}">
+                ${escapeHtml(filter.label)} (${count})
+              </button>
+            `;
+          })
+          .join("");
+
+        dom.quickFilters.querySelectorAll("[data-quick-filter]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const nextFilter = button.dataset.quickFilter;
+            state.quickFilter = state.quickFilter === nextFilter ? "" : nextFilter;
+            render();
+          });
+        });
+      }
+
+      function renderLoadBoard() {
+        const groups = {};
+        source.records.forEach((record) => {
+          const assignee = getAssignee(record.id) || "Sin asignación";
+          if (!groups[assignee]) {
+            groups[assignee] = { total: 0, critical: 0 };
+          }
+          groups[assignee].total += 1;
+          if (["Vencido", "Vence hoy", "Crítico"].includes(record.prioridad)) {
+            groups[assignee].critical += 1;
+          }
+        });
+
+        const rows = Object.entries(groups).sort((left, right) => {
+          if (right[1].total !== left[1].total) {
+            return right[1].total - left[1].total;
+          }
+          return left[0].localeCompare(right[0], "es", { sensitivity: "base" });
+        });
+
+        dom.loadBoard.innerHTML = rows
+          .map(
+            ([name, info]) => `
+              <article class="load-card">
+                <span>${escapeHtml(name)}</span>
+                <strong>${info.total}</strong>
+                <small>${info.critical} con presión alta o crítica.</small>
+              </article>
+            `
+          )
+          .join("");
+      }
+
+      function renderTable(records) {
+        if (!records.length) {
+          dom.tableBody.innerHTML = `
+            <tr>
+              <td colspan="10">
+                <div class="empty-state">
+                  <p class="empty-note">No hay trámites que coincidan con los filtros actuales.</p>
+                </div>
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        dom.tableBody.innerHTML = records
+          .map((record) => {
+            const assignee = getAssignee(record.id);
+            const rowClass = `row-priority-${slugify(record.prioridad)}`;
+            const detailsOpen = state.detailId === record.id;
+
+            return `
+              <tr class="${rowClass}">
+                <td class="checkbox-cell">
+                  <input
+                    class="checkbox-input"
+                    type="checkbox"
+                    data-select-id="${escapeHtml(record.id)}"
+                    ${selectedIds.has(record.id) ? "checked" : ""}
+                    aria-label="Seleccionar trámite ${escapeHtml(record.codigo || String(record.nroTramite || ""))}"
+                  />
+                </td>
+                <td>
+                  <span class="badge estado-${slugify(record.estado)}">${escapeHtml(record.estado || "Sin estado")}</span>
+                </td>
+                <td>
+                  <span class="badge prioridad-${slugify(record.prioridad)}">${escapeHtml(record.prioridad || "Sin prioridad")}</span>
+                </td>
+                <td>
+                  <span class="cell-title">${escapeHtml(record.codigo || "-")}</span>
+                  <span class="cell-meta">Trámite N. ${escapeHtml(String(record.nroTramite || "-"))}</span>
+                  <span class="cell-meta">${escapeHtml(record.tipoTramite || "-")}</span>
+                </td>
+                <td>
+                  <span class="cell-title">${escapeHtml(record.solicitante || "-")}</span>
+                  <span class="cell-meta">Ingresado por ${escapeHtml(record.ingresadoPor || "-")}</span>
+                </td>
+                <td>
+                  <span class="cell-title">${escapeHtml(record.responsable || "-")}</span>
+                  <span class="cell-meta">${escapeHtml(record.cargoResponsable || "-")}</span>
+                </td>
+                <td>
+                  <span class="cell-title">${escapeHtml(formatDate(record.fechaLimite, false) || "Sin fecha")}</span>
+                  <span class="cell-meta">${escapeHtml(record.tiempoRestante || "Sin referencia")}</span>
+                </td>
+                <td>
+                  <span class="cell-title">${escapeHtml(formatDays(record.diasRestantes))}</span>
+                  <span class="cell-meta">${escapeHtml(record.prioridad || "Sin prioridad")}</span>
+                </td>
+                <td class="assignment-cell">
+                  <input
+                    class="assignment-input"
+                    type="text"
+                    list="assignee-options"
+                    data-assignment-id="${escapeHtml(record.id)}"
+                    value="${escapeAttribute(assignee)}"
+                    placeholder="Asignar internamente"
+                  />
+                  <div class="row-actions">
+                    <button class="ghost tiny" type="button" data-detail-id="${escapeHtml(record.id)}">
+                      ${detailsOpen ? "Ocultar ficha" : "Ver ficha"}
+                    </button>
+                    <button class="ghost tiny" type="button" data-clear-assignment-id="${escapeHtml(record.id)}">
+                      Limpiar
+                    </button>
+                  </div>
+                  <p class="assignment-meta">
+                    ${assignee ? `Asignado a ${escapeHtml(assignee)}.` : "Sin asignación interna guardada."}
+                  </p>
+                </td>
+                <td>
+                  <span class="cell-meta">Ingreso ${escapeHtml(formatDate(record.fechaIngreso, true) || "-")}</span>
+                  <span class="cell-meta">Fila fuente ${escapeHtml(String(record.sourceRow || "-"))}</span>
+                </td>
+              </tr>
+              ${
+                detailsOpen
+                  ? `
+                    <tr class="details-row">
+                      <td colspan="10">
+                        <div class="details-card">
+                          <div class="details-grid">
+                            ${renderField("Estado", record.estado)}
+                            ${renderField("Prioridad", record.prioridad)}
+                            ${renderField("Nro. trámite", record.nroTramite)}
+                            ${renderField("Código", record.codigo)}
+                            ${renderField("Tipo de trámite", record.tipoTramite, "field-wide")}
+                            ${renderField("Solicitante", record.solicitante, "field-wide")}
+                            ${renderField("Responsable", record.responsable, "field-wide")}
+                            ${renderField("Cargo responsable", record.cargoResponsable, "field-wide")}
+                            ${renderField("Ingresado por", record.ingresadoPor)}
+                            ${renderField("Fecha límite", formatDate(record.fechaLimite, false))}
+                            ${renderField("Tiempo restante", record.tiempoRestante)}
+                            ${renderField("Días restantes", formatDays(record.diasRestantes))}
+                            ${renderField("Fecha de ingreso", formatDate(record.fechaIngreso, true), "field-wide")}
+                            ${renderField("Asignado interno", assignee || "Sin asignación interna", "field-wide")}
+                            ${renderField("Observaciones", record.observaciones || "Sin observaciones", "field-full")}
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  `
+                  : ""
+              }
+            `;
+          })
+          .join("");
+      }
+
+      function renderField(label, value, extraClass = "") {
+        return `
+          <article class="field ${extraClass}">
+            <span class="field-label">${escapeHtml(label)}</span>
+            <p class="field-value">${escapeHtml(value == null || value === "" ? "-" : String(value))}</p>
+          </article>
+        `;
+      }
+
+      function updateTopMetrics() {
+        const total = source.records.length;
+        const assigned = source.records.filter((record) => getAssignee(record.id)).length;
+        const critical = source.records.filter((record) => ["Vencido", "Vence hoy"].includes(record.prioridad)).length;
+        dom.metricTotal.textContent = total;
+        dom.metricAssigned.textContent = assigned;
+        dom.metricCritical.textContent = critical;
+        dom.metricSourceDate.textContent = source.sourceDate || "Sin fecha";
+        dom.brandDescription.textContent =
+          `${source.title}. Fuente ${source.sourceFile}. ` +
+          `Se cargaron ${total} trámites con asignación manual persistida en localStorage.`;
+      }
+
+      function updateFilterCaption(filteredRecords) {
+        const quickFilterLabel =
+          quickFilterDefinitions.find((item) => item.key === state.quickFilter)?.label || "sin filtro rápido";
+        dom.tableCaption.textContent =
+          `Mostrando ${filteredRecords.length} de ${source.records.length} trámites, ` +
+          `${selectedIds.size} seleccionados y ${quickFilterLabel}.`;
+      }
+
+      function syncMasterCheckbox(filteredRecords) {
+        if (!filteredRecords.length) {
+          dom.selectAllVisible.checked = false;
+          dom.selectAllVisible.indeterminate = false;
+          return;
+        }
+
+        const selectedVisible = filteredRecords.filter((record) => selectedIds.has(record.id)).length;
+        dom.selectAllVisible.checked = selectedVisible === filteredRecords.length;
+        dom.selectAllVisible.indeterminate = selectedVisible > 0 && selectedVisible < filteredRecords.length;
+      }
+
+      function enrichRecordForExport(record) {
+        return {
+          ...record,
+          asignadoInterno: getAssignee(record.id) || "",
+          fechaLimiteFormateada: formatDate(record.fechaLimite, false),
+          fechaIngresoFormateada: formatDate(record.fechaIngreso, true),
+        };
+      }
+
+      function buildCsv(rows) {
+        const columns = [
+          "estado",
+          "prioridad",
+          "nroTramite",
+          "codigo",
+          "tipoTramite",
+          "solicitante",
+          "responsable",
+          "cargoResponsable",
+          "ingresadoPor",
+          "fechaLimite",
+          "tiempoRestante",
+          "diasRestantes",
+          "fechaIngreso",
+          "observaciones",
+          "asignadoInterno",
+        ];
+
+        const lines = [columns.join(",")];
+        rows.forEach((row) => {
+          lines.push(
+            columns
+              .map((column) => {
+                const value = row[column] == null ? "" : String(row[column]);
+                return `"${value.replace(/"/g, '""')}"`;
+              })
+              .join(",")
+          );
+        });
+        return lines.join("\n");
+      }
+
+      function downloadFile(content, filename, contentType) {
+        const blob = new Blob([content], { type: contentType });
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = url;
+        anchor.download = filename;
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      function setMessage(element, message) {
+        element.textContent = message;
+      }
+
+      function timestampForFile() {
+        const now = new Date();
+        return [
+          now.getFullYear(),
+          String(now.getMonth() + 1).padStart(2, "0"),
+          String(now.getDate()).padStart(2, "0"),
+          String(now.getHours()).padStart(2, "0"),
+          String(now.getMinutes()).padStart(2, "0"),
+        ].join("");
+      }
+
+      function formatDate(value, includeTime) {
+        if (!value) {
+          return "";
+        }
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) {
+          return String(value);
+        }
+
+        if (includeTime) {
+          return new Intl.DateTimeFormat("es-EC", {
+            year: "numeric",
+            month: "short",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+          }).format(date);
+        }
+
+        return new Intl.DateTimeFormat("es-EC", {
+          year: "numeric",
+          month: "short",
+          day: "2-digit",
+        }).format(date);
+      }
+
+      function formatDays(value) {
+        if (value == null || value === "") {
+          return "Sin dato";
+        }
+        if (typeof value === "number") {
+          if (value > 0) {
+            return `${value} días`;
+          }
+          if (value === 0) {
+            return "Hoy";
+          }
+          return `${value} días`;
+        }
+        return String(value);
+      }
+
+      function normalizeText(value) {
+        return String(value || "")
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase()
+          .trim();
+      }
+
+      function slugify(value) {
+        return normalizeText(value).replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "na";
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function escapeAttribute(value) {
+        return escapeHtml(value).replace(/\n/g, " ");
+      }
+    })();
+  </script>
+</body>
+</html>
