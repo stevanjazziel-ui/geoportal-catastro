@@ -3213,6 +3213,7 @@
         renderTable(filteredRecords);
         updateFilterCaption(filteredRecords);
         updateTopMetrics();
+        syncSharedStateStatusCopy();
         syncMasterCheckbox(filteredRecords);
       }
 
@@ -4137,6 +4138,10 @@
           ? (historyMode ? "Historial de Trámites" : "Panel Maestro de Trámites")
           : (historyMode ? "Historial del Asignado" : "Bandeja del Asignado");
 
+        if (adminMode && !historyMode) {
+          dom.loadPanelHelper.textContent = adminSharedStateCopy.helper;
+        }
+
         dom.modeBanner.innerHTML = `
           <div class="mode-banner-copy">
             <span class="eyebrow">${escapeHtml(adminMode ? "Módulo Administrador" : "Módulo Asignado")} · ${escapeHtml(historyMode ? "Historial" : "Activos")}</span>
@@ -4221,10 +4226,37 @@
         reportPreview.innerHTML = renderReportPreview(record);
       }
 
+      function getAdminSharedStateCopy(total) {
+        if (sharedAssignmentsApiAvailable) {
+          return sharedStateDirty
+            ? {
+                helper: "Este resumen se calcula sobre el estado compartido central y sobre cualquier ajuste local todavÃ­a no sincronizado.",
+                brand: `Se cargaron ${total} trÃ¡mites activos con estado compartido central y ajustes locales pendientes de sincronizaciÃ³n.`,
+              }
+            : {
+                helper: "Este resumen se calcula sobre el estado compartido central ya publicado para todas las computadoras.",
+                brand: `Se cargaron ${total} trÃ¡mites activos con estado compartido central listo para todas las computadoras.`,
+              };
+        }
+
+        if (hasGithubSyncCredentials()) {
+          return {
+            helper: "Este resumen usa el respaldo publicado en GitHub mientras el backend central no estÃ¡ disponible.",
+            brand: `Se cargaron ${total} trÃ¡mites activos con respaldo publicado en GitHub mientras el backend central vuelve a estar disponible.`,
+          };
+        }
+
+        return {
+          helper: "Este resumen se calcula sobre el estado local actual de esta computadora.",
+          brand: `Se cargaron ${total} trÃ¡mites activos usando el estado local de esta computadora.`,
+        };
+      }
+
       function updateTopMetrics() {
         const scopedRecords = getModuleScopedRecords();
         const datasetRecords = getDatasetRecords();
         const historyMode = isHistoryTab();
+        const adminSharedStateCopy = getAdminSharedStateCopy(datasetRecords.length);
         if (isAdminMode()) {
           const total = datasetRecords.length;
           const assigned = datasetRecords.filter((record) => getAssignee(record.id)).length;
@@ -4278,6 +4310,16 @@
             ? `Mostrando ${filteredRecords.length} de ${datasetRecords.length} trámites del historial, con ${quickFilterLabel}.`
             : `Mostrando ${filteredRecords.length} de ${datasetRecords.length} trámites, ${selectedIds.size} seleccionados y ${quickFilterLabel}.`
           : `Mostrando ${filteredRecords.length} de ${scopedRecords.length} trámites ${historyMode ? "del historial" : "del asignado"} ${state.sessionAssignee || "sin usuario definido"}, con ${quickFilterLabel}.`;
+      }
+
+      function syncSharedStateStatusCopy() {
+        if (!isAdminMode() || isHistoryTab()) {
+          return;
+        }
+
+        const sharedStateCopy = getAdminSharedStateCopy(getDatasetRecords().length);
+        dom.loadPanelHelper.textContent = sharedStateCopy.helper;
+        dom.brandDescription.textContent = `${source.title}. Fuente ${source.sourceFile}. ${sharedStateCopy.brand}`;
       }
 
       function syncMasterCheckbox(filteredRecords) {
