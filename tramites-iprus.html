@@ -1479,7 +1479,16 @@
 
   <datalist id="assignee-options"></datalist>
 
-  <script src="./tramites-iprus-data.js"></script>
+  <script>
+    (function loadFreshTramitesData() {
+      const version =
+        new URLSearchParams(window.location.search).get("flush") ||
+        `${Date.now()}`;
+      document.write(
+        `<script src="./tramites-iprus-data.js?v=${encodeURIComponent(version)}"><\/script>`
+      );
+    })();
+  </script>
   <script>
     (() => {
       const source = window.TRAMITES_IPRUS_DATA;
