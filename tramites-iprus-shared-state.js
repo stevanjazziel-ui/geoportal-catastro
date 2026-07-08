@@ -15,5 +15,7 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
     "GADMR--2026-0316-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0303-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0310-IPRUS-ZNP": "Fausto Lopez"
-  }
+  },
+  "reviewResults": {},
+  "evidenceImages": {}
 };
