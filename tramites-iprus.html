@@ -4137,11 +4137,6 @@
         dom.tableTitle.textContent = adminMode
           ? (historyMode ? "Historial de Trámites" : "Panel Maestro de Trámites")
           : (historyMode ? "Historial del Asignado" : "Bandeja del Asignado");
-
-        if (adminMode && !historyMode) {
-          dom.loadPanelHelper.textContent = adminSharedStateCopy.helper;
-        }
-
         dom.modeBanner.innerHTML = `
           <div class="mode-banner-copy">
             <span class="eyebrow">${escapeHtml(adminMode ? "Módulo Administrador" : "Módulo Asignado")} · ${escapeHtml(historyMode ? "Historial" : "Activos")}</span>
