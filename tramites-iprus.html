@@ -1465,7 +1465,7 @@
           <button id="publish-github-sync-button" class="secondary" type="button">Publicar ahora en GitHub</button>
         </div>
         <p class="helper">
-          GitHub Pages puede tardar entre 30 y 90 segundos en reflejar el cambio publicado. El token se guarda solo en esta sesión del navegador.
+          GitHub Pages puede tardar entre 30 y 90 segundos en reflejar el cambio publicado. El token queda guardado solo en esta computadora administradora.
         </p>
         <p class="message" id="github-sync-message"></p>
         <div class="button-stack">
@@ -1732,6 +1732,7 @@
         populateFilters();
         populateAssigneeOptions();
         wireEvents();
+        refreshGithubSyncMessage();
         render();
         void hydrateSharedAssignmentsFromApi();
       }
@@ -1800,9 +1801,19 @@
 
       function loadGithubSessionToken() {
         try {
-          return String(sessionStorage.getItem(githubSyncTokenStorageKey) || "").trim();
+          const persistedToken = String(localStorage.getItem(githubSyncTokenStorageKey) || "").trim();
+          if (persistedToken) {
+            return persistedToken;
+          }
+
+          const legacySessionToken = String(sessionStorage.getItem(githubSyncTokenStorageKey) || "").trim();
+          if (legacySessionToken) {
+            localStorage.setItem(githubSyncTokenStorageKey, legacySessionToken);
+            sessionStorage.removeItem(githubSyncTokenStorageKey);
+          }
+          return legacySessionToken;
         } catch (error) {
-          console.warn("No se pudo leer el token de GitHub de la sesión:", error);
+          console.warn("No se pudo leer el token de GitHub guardado en esta computadora:", error);
           return "";
         }
       }
@@ -1810,12 +1821,14 @@
       function persistGithubSessionToken() {
         try {
           if (githubSessionToken) {
-            sessionStorage.setItem(githubSyncTokenStorageKey, githubSessionToken);
+            localStorage.setItem(githubSyncTokenStorageKey, githubSessionToken);
+            sessionStorage.removeItem(githubSyncTokenStorageKey);
           } else {
+            localStorage.removeItem(githubSyncTokenStorageKey);
             sessionStorage.removeItem(githubSyncTokenStorageKey);
           }
         } catch (error) {
-          console.warn("No se pudo guardar el token de GitHub en la sesión:", error);
+          console.warn("No se pudo guardar el token de GitHub en esta computadora:", error);
         }
       }
 
@@ -1846,6 +1859,21 @@
         persistGithubSyncConfig();
         persistGithubSessionToken();
         return nextConfig;
+      }
+
+      function refreshGithubSyncMessage() {
+        if (hasGithubSyncCredentials()) {
+          setMessage(
+            dom.githubSyncMessage,
+            `Publicación automática activa para ${githubSyncConfig.owner}/${githubSyncConfig.repo} en ${githubSyncConfig.branch}.`
+          );
+          return;
+        }
+
+        setMessage(
+          dom.githubSyncMessage,
+          "Pega el token una sola vez en esta computadora administradora y desde ahí cada asignación se publicará automáticamente."
+        );
       }
 
       function sanitizeAssignmentsMap(rawAssignments) {
@@ -2640,6 +2668,13 @@
           setMessage(dom.assignmentMessage, `Se copió el responsable actual en ${updated} trámites seleccionados.`);
         });
 
+        [dom.githubOwnerInput, dom.githubRepoInput, dom.githubBranchInput, dom.githubTokenInput].forEach((input) => {
+          input.addEventListener("change", () => {
+            updateGithubSyncFromDom();
+            refreshGithubSyncMessage();
+          });
+        });
+
         dom.saveGithubSyncButton.addEventListener("click", () => {
           const nextConfig = updateGithubSyncFromDom();
           if (!nextConfig.owner || !nextConfig.repo || !nextConfig.branch) {
@@ -2653,7 +2688,7 @@
 
           setMessage(
             dom.githubSyncMessage,
-            `Conexión GitHub lista para ${nextConfig.owner}/${nextConfig.repo} en la rama ${nextConfig.branch}.`
+            `Conexión GitHub lista para ${nextConfig.owner}/${nextConfig.repo} en la rama ${nextConfig.branch}. Desde ahora las asignaciones se publican automáticamente.`
           );
         });
 
