@@ -4,6 +4,17 @@ const STORE_NAME = "tramites-iprus";
 const STORE_KEY = "shared-state";
 const DEFAULT_TITLE = "TRAMITES IPRUS SHARED STATE";
 
+function resolveStore() {
+  const siteID = process.env.NETLIFY_SITE_ID || process.env.SITE_ID || "";
+  const token = process.env.NETLIFY_AUTH_TOKEN || process.env.NETLIFY_API_TOKEN || "";
+
+  if (siteID && token) {
+    return getStore(STORE_NAME, { siteID, token });
+  }
+
+  return getStore(STORE_NAME);
+}
+
 function sanitizeAssignments(rawAssignments) {
   if (!rawAssignments || typeof rawAssignments !== "object") {
     return {};
@@ -129,7 +140,7 @@ exports.handler = async function handler(event) {
     return jsonResponse(200, { ok: true });
   }
 
-  const store = getStore(STORE_NAME);
+  const store = resolveStore();
 
   if (event.httpMethod === "GET") {
     try {
