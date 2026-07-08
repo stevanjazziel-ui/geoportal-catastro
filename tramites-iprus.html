@@ -809,11 +809,10 @@
     }
 
     .review-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 14px;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+      gap: 14px 18px;
     }
 
     .review-header h3 {
@@ -827,6 +826,8 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      justify-self: end;
+      max-width: 100%;
       padding: 8px 12px;
       border-radius: 999px;
       border: 1px solid rgba(73, 169, 66, 0.14);
@@ -840,19 +841,30 @@
 
     .review-grid {
       display: grid;
-      gap: 10px;
+      gap: 14px;
       margin-top: 16px;
     }
 
     .review-item {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
       gap: 14px;
-      align-items: center;
-      padding: 14px;
+      min-width: 0;
+      padding: 16px 18px;
       border: 1px solid rgba(52, 72, 74, 0.1);
-      border-radius: 10px;
+      border-radius: 14px;
       background: #ffffff;
+    }
+
+    .review-item-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px 18px;
+      align-items: start;
+      min-width: 0;
+    }
+
+    .review-copy {
+      min-width: 0;
     }
 
     .review-item strong {
@@ -860,6 +872,7 @@
       color: #34495e;
       font-size: 0.95rem;
       line-height: 1.45;
+      overflow-wrap: anywhere;
     }
 
     .review-item small {
@@ -871,10 +884,11 @@
     }
 
     .review-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(92px, 1fr));
+      gap: 10px;
+      width: min(214px, 100%);
+      justify-self: end;
     }
 
     .review-main {
@@ -882,9 +896,21 @@
       gap: 12px;
     }
 
+    .review-note-wrap {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+      color: #34495e;
+      font-weight: 700;
+    }
+
+    .review-note-wrap span {
+      display: block;
+    }
+
     .review-choice {
-      width: auto;
-      min-width: 74px;
+      width: 100%;
+      min-width: 0;
       padding: 9px 12px;
       box-shadow: none;
     }
@@ -931,7 +957,7 @@
     .review-note {
       width: 100%;
       min-height: 92px;
-      margin-top: 8px;
+      margin-top: 0;
       resize: vertical;
       border-radius: 10px;
       border: 1px solid rgba(52, 72, 74, 0.12);
@@ -997,13 +1023,9 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    body[data-module-mode="assigned"] .review-item {
-      grid-template-columns: 1fr;
-      align-items: start;
-    }
-
+    body[data-module-mode="assigned"] .review-summary,
     body[data-module-mode="assigned"] .review-actions {
-      justify-content: flex-start;
+      justify-self: start;
     }
 
     .evidence-panel,
@@ -1264,12 +1286,18 @@
         padding: 18px;
       }
 
-      .review-item {
+      .review-header,
+      .review-item-head {
         grid-template-columns: 1fr;
       }
 
+      .review-summary,
       .review-actions {
-        justify-content: flex-start;
+        justify-self: start;
+      }
+
+      .review-actions {
+        width: 100%;
       }
 
       table {
@@ -3116,44 +3144,44 @@
                   const note = getReviewNote(record.id, item.key);
                   return `
                     <article class="review-item">
-                      <div class="review-main">
-                        <div>
+                      <div class="review-item-head">
+                        <div class="review-copy">
                           <strong>${escapeHtml(item.label)}</strong>
                           <small>${escapeHtml(item.hint)}</small>
                           <span class="review-status-pill status-${slugify(value || "pendiente")}">
                             ${escapeHtml(formatReviewValue(value))}
                           </span>
                         </div>
-                        <label>
-                          Observación técnica
-                          <textarea
-                            class="review-note"
-                            data-review-note-id="${escapeHtml(record.id)}"
-                            data-review-note-field="${escapeHtml(item.key)}"
-                            placeholder="Escribe aquí la observación correspondiente para ${escapeHtml(item.label.toLowerCase())}."
-                          >${escapeHtml(note)}</textarea>
-                        </label>
+                        <div class="review-actions">
+                          <button
+                            class="review-choice ${value === "si" ? "is-active-yes" : "ghost"}"
+                            type="button"
+                            data-review-id="${escapeHtml(record.id)}"
+                            data-review-field="${escapeHtml(item.key)}"
+                            data-review-value="si"
+                          >
+                            Sí
+                          </button>
+                          <button
+                            class="review-choice ${value === "no" ? "is-active-no" : "ghost"}"
+                            type="button"
+                            data-review-id="${escapeHtml(record.id)}"
+                            data-review-field="${escapeHtml(item.key)}"
+                            data-review-value="no"
+                          >
+                            No
+                          </button>
+                        </div>
                       </div>
-                      <div class="review-actions">
-                        <button
-                          class="review-choice ${value === "si" ? "is-active-yes" : "ghost"}"
-                          type="button"
-                          data-review-id="${escapeHtml(record.id)}"
-                          data-review-field="${escapeHtml(item.key)}"
-                          data-review-value="si"
-                        >
-                          Sí
-                        </button>
-                        <button
-                          class="review-choice ${value === "no" ? "is-active-no" : "ghost"}"
-                          type="button"
-                          data-review-id="${escapeHtml(record.id)}"
-                          data-review-field="${escapeHtml(item.key)}"
-                          data-review-value="no"
-                        >
-                          No
-                        </button>
-                      </div>
+                      <label class="review-note-wrap">
+                        <span>Observación técnica</span>
+                        <textarea
+                          class="review-note"
+                          data-review-note-id="${escapeHtml(record.id)}"
+                          data-review-note-field="${escapeHtml(item.key)}"
+                          placeholder="Escribe aquí la observación correspondiente para ${escapeHtml(item.label.toLowerCase())}."
+                        >${escapeHtml(note)}</textarea>
+                      </label>
                     </article>
                   `;
                 })
