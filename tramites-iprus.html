@@ -1434,7 +1434,7 @@
       <section class="panel" id="load-panel">
         <h2 id="load-panel-title">Carga Por Persona</h2>
         <p class="helper" id="load-panel-helper">
-          Este resumen se calcula sobre la asignación compartida publicada y sobre cualquier ajuste local todavía no publicado.
+          Este resumen se calcula sobre el estado compartido central y sobre cualquier ajuste local todavía no sincronizado.
         </p>
         <div class="load-board" id="load-board"></div>
       </section>
@@ -1442,7 +1442,7 @@
       <section class="panel" id="admin-actions-panel">
         <h2>Acciones</h2>
         <p class="helper">
-          Si estás publicando con GitHub Pages, conecta aquí un token de GitHub para que las asignaciones se publiquen al repositorio y luego se vean en cualquier computadora.
+          Si el módulo está desplegado con backend central, la sincronización es automática para todas las computadoras. Los campos de GitHub quedan como respaldo cuando todavía trabajas solo con GitHub Pages.
         </p>
         <label for="github-owner-input">
           GitHub owner
@@ -1465,11 +1465,11 @@
           <button id="publish-github-sync-button" class="secondary" type="button">Publicar ahora en GitHub</button>
         </div>
         <p class="helper">
-          GitHub Pages puede tardar entre 30 y 90 segundos en reflejar el cambio publicado. El token queda guardado solo en esta computadora administradora.
+          Con backend central los cambios se reflejan sin tokens en el navegador. Con GitHub Pages, el token queda guardado solo en esta computadora administradora.
         </p>
         <p class="message" id="github-sync-message"></p>
         <div class="button-stack">
-          <button id="export-shared-state-button" type="button">Descargar asignaciones compartidas</button>
+          <button id="export-shared-state-button" type="button">Descargar estado compartido</button>
           <button id="export-csv-button" type="button">Descargar CSV</button>
           <button id="export-json-button" class="secondary" type="button">Descargar JSON</button>
         </div>
@@ -1559,13 +1559,23 @@
       );
     })();
   </script>
+  <script>
+    (function loadFreshTramitesConfig() {
+      const version = `${Date.now()}`;
+      document.write(
+        `<script src="./tramites-iprus-config.js?v=${encodeURIComponent(version)}"><\/script>`
+      );
+    })();
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
   <script>
     (() => {
       const source = window.TRAMITES_IPRUS_DATA;
       const sharedSource = window.TRAMITES_IPRUS_SHARED_STATE || {};
-      const sharedAssignmentsApiUrl = "/.netlify/functions/tramites-shared-state";
+      const sharedConfig = window.TRAMITES_IPRUS_CONFIG || {};
+      const sharedAssignmentsApiUrl = resolveSharedStateApiUrl(sharedConfig);
+      const sharedStateRefreshIntervalMs = Math.max(10000, Number(sharedConfig.syncRefreshMs) || 20000);
       const githubSyncConfigStorageKey = "tramites-iprus-github-sync-v1";
       const githubSyncTokenStorageKey = "tramites-iprus-github-token-v1";
       const assignmentStorageKey = "tramites-iprus-assignments-v1";
@@ -1582,6 +1592,9 @@
       let sharedAssignmentsSyncPromise = null;
       let sharedAssignmentsSyncQueued = false;
       let sharedAssignmentsSyncQueuedNotify = false;
+      let sharedStateSyncTimer = null;
+      let sharedStateAutoRefreshTimer = null;
+      let sharedStateDirty = false;
       const reviewResults = loadReviewResults();
       const evidenceImages = loadEvidenceImages();
       const selectedIds = new Set();
@@ -1862,6 +1875,14 @@
       }
 
       function refreshGithubSyncMessage() {
+        if (sharedAssignmentsApiAvailable) {
+          setMessage(
+            dom.githubSyncMessage,
+            "Sincronización automática central activa. Las asignaciones, revisiones y evidencias se comparten sin configurar otras computadoras."
+          );
+          return;
+        }
+
         if (hasGithubSyncCredentials()) {
           setMessage(
             dom.githubSyncMessage,
@@ -1872,7 +1893,7 @@
 
         setMessage(
           dom.githubSyncMessage,
-          "Pega el token una sola vez en esta computadora administradora y desde ahí cada asignación se publicará automáticamente."
+          "Sin backend central, pega el token una sola vez en esta computadora administradora y desde ahí el estado compartido se publicará automáticamente."
         );
       }
 
@@ -1911,23 +1932,153 @@
         });
       }
 
+      function sanitizeReviewResultsMap(rawReviewResults) {
+        if (!rawReviewResults || typeof rawReviewResults !== "object") {
+          return {};
+        }
+
+        const sanitizedReviewResults = {};
+        Object.entries(rawReviewResults).forEach(([recordId, rawRecordReview]) => {
+          const normalizedRecordId = String(recordId || "").trim();
+          if (!normalizedRecordId || !rawRecordReview || typeof rawRecordReview !== "object") {
+            return;
+          }
+
+          const nextRecordReview = {};
+          Object.entries(rawRecordReview).forEach(([fieldKey, value]) => {
+            const normalizedFieldKey = String(fieldKey || "").trim();
+            if (!normalizedFieldKey) {
+              return;
+            }
+
+            if (normalizedFieldKey.endsWith("__note")) {
+              const normalizedNote = String(value || "").trim();
+              if (normalizedNote) {
+                nextRecordReview[normalizedFieldKey] = normalizedNote;
+              }
+              return;
+            }
+
+            if (value === "si" || value === "no") {
+              nextRecordReview[normalizedFieldKey] = value;
+            }
+          });
+
+          if (Object.keys(nextRecordReview).length) {
+            sanitizedReviewResults[normalizedRecordId] = nextRecordReview;
+          }
+        });
+
+        return sanitizedReviewResults;
+      }
+
+      function sanitizeEvidenceImagesMap(rawEvidenceImages) {
+        if (!rawEvidenceImages || typeof rawEvidenceImages !== "object") {
+          return {};
+        }
+
+        const sanitizedEvidenceImages = {};
+        Object.entries(rawEvidenceImages).forEach(([recordId, rawImages]) => {
+          const normalizedRecordId = String(recordId || "").trim();
+          if (!normalizedRecordId || !Array.isArray(rawImages)) {
+            return;
+          }
+
+          const images = rawImages
+            .map((rawImage) => {
+              if (!rawImage || typeof rawImage !== "object") {
+                return null;
+              }
+
+              const id = String(rawImage.id || "").trim();
+              const name = String(rawImage.name || "").trim() || "evidencia";
+              const dataUrl = String(rawImage.dataUrl || "").trim();
+              if (!id || !dataUrl.startsWith("data:image/")) {
+                return null;
+              }
+
+              return { id, name, dataUrl };
+            })
+            .filter(Boolean);
+
+          if (images.length) {
+            sanitizedEvidenceImages[normalizedRecordId] = images;
+          }
+        });
+
+        return sanitizedEvidenceImages;
+      }
+
+      function cloneJson(value) {
+        return JSON.parse(JSON.stringify(value));
+      }
+
+      function mergeReviewResultsMaps(baseMap, overlayMap) {
+        const merged = {};
+        Object.entries(baseMap || {}).forEach(([recordId, value]) => {
+          merged[recordId] = cloneJson(value);
+        });
+        Object.entries(overlayMap || {}).forEach(([recordId, value]) => {
+          merged[recordId] = {
+            ...(merged[recordId] || {}),
+            ...cloneJson(value),
+          };
+        });
+        return sanitizeReviewResultsMap(merged);
+      }
+
+      function mergeEvidenceImagesMaps(baseMap, overlayMap) {
+        const merged = {};
+        Object.entries(baseMap || {}).forEach(([recordId, value]) => {
+          merged[recordId] = cloneJson(value);
+        });
+        Object.entries(overlayMap || {}).forEach(([recordId, value]) => {
+          merged[recordId] = cloneJson(value);
+        });
+        return sanitizeEvidenceImagesMap(merged);
+      }
+
+      function replaceJsonObject(target, nextValue) {
+        Object.keys(target).forEach((key) => {
+          delete target[key];
+        });
+        Object.entries(nextValue).forEach(([key, value]) => {
+          target[key] = cloneJson(value);
+        });
+      }
+
+      function resolveSharedStateApiUrl(config) {
+        const baseUrl = typeof config?.backendBaseUrl === "string" ? config.backendBaseUrl.trim().replace(/\/+$/, "") : "";
+        return baseUrl ? `${baseUrl}/.netlify/functions/tramites-shared-state` : "/.netlify/functions/tramites-shared-state";
+      }
+
       function loadReviewResults() {
         try {
           const raw = localStorage.getItem(reviewStorageKey);
-          return raw ? JSON.parse(raw) : {};
+          const localReviewResults = raw ? JSON.parse(raw) : {};
+          const sharedReviewResults = sharedSource && typeof sharedSource === "object" ? sharedSource.reviewResults : {};
+          return mergeReviewResultsMaps(
+            sanitizeReviewResultsMap(sharedReviewResults),
+            sanitizeReviewResultsMap(localReviewResults)
+          );
         } catch (error) {
           console.warn("No se pudo leer el estado de revisión:", error);
-          return {};
+          return sanitizeReviewResultsMap(sharedSource && typeof sharedSource === "object" ? sharedSource.reviewResults : {});
         }
       }
 
       function loadEvidenceImages() {
         try {
           const raw = localStorage.getItem(evidenceStorageKey);
-          return raw ? JSON.parse(raw) : {};
+          const localEvidenceImages = raw ? JSON.parse(raw) : {};
+          const sharedEvidenceImages = sharedSource && typeof sharedSource === "object" ? sharedSource.evidenceImages : {};
+          return mergeEvidenceImagesMaps(
+            sanitizeEvidenceImagesMap(sharedEvidenceImages),
+            sanitizeEvidenceImagesMap(localEvidenceImages)
+          );
         } catch (error) {
           console.warn("No se pudo leer la evidencia gráfica:", error);
-          return {};
+          return sanitizeEvidenceImagesMap(sharedSource && typeof sharedSource === "object" ? sharedSource.evidenceImages : {});
         }
       }
 
@@ -1955,7 +2106,11 @@
         populateAssigneeOptions();
       }
 
-      async function hydrateSharedAssignmentsFromApi() {
+      async function hydrateSharedAssignmentsFromApi(options = {}) {
+        if ((sharedStateDirty || sharedAssignmentsSyncPromise) && options.allowOverwriteDirty !== true) {
+          return false;
+        }
+
         try {
           const response = await fetch(sharedAssignmentsApiUrl, {
             method: "GET",
@@ -1969,15 +2124,25 @@
           }
 
           const payload = await response.json();
-          replaceAssignmentMap(sharedAssignments, sanitizeAssignmentsMap(payload.assignments));
           sharedAssignmentsApiAvailable = true;
           sharedAssignmentsApiChecked = true;
-          populateAssigneeOptions();
-          render();
+          ensureSharedStateAutoRefresh();
+
+          if (isSharedStatePayloadEmpty(payload) && hasAnySharedLocalData() && options.allowSeed !== false) {
+            void syncAssignmentsToSharedStore({ notify: false, forceBackend: true });
+            return true;
+          }
+
+          applySavedSharedAssignmentsPayload(payload);
+          if (!hasGithubSyncCredentials()) {
+            setMessage(dom.githubSyncMessage, "Sincronización automática central activa. Los cambios se comparten sin usar tokens en otras computadoras.");
+          }
+          return true;
         } catch (error) {
           sharedAssignmentsApiAvailable = false;
           sharedAssignmentsApiChecked = true;
           console.warn("No se pudo conectar con el backend compartido opcional:", error);
+          return false;
         }
       }
 
@@ -2050,7 +2215,7 @@
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            message: `Actualizar asignaciones compartidas IPRUS (${new Date().toISOString()})`,
+            message: `Actualizar estado compartido IPRUS (${new Date().toISOString()})`,
             content: encodeBase64Utf8(content),
             branch: config.branch,
             ...(sha ? { sha } : {}),
@@ -2075,7 +2240,22 @@
         return assignments;
       }
 
-      function applySavedSharedAssignmentsPayload(savedPayload) {
+      function hasAnySharedLocalData() {
+        return Boolean(
+          Object.keys(buildEffectiveAssignmentsMap()).length ||
+          Object.keys(reviewResults).length ||
+          Object.keys(evidenceImages).length
+        );
+      }
+
+      function isSharedStatePayloadEmpty(payload) {
+        return !Object.keys(sanitizeAssignmentsMap(payload?.assignments)).length &&
+          !Object.keys(sanitizeReviewResultsMap(payload?.reviewResults)).length &&
+          !Object.keys(sanitizeEvidenceImagesMap(payload?.evidenceImages)).length;
+      }
+
+      function applySavedSharedAssignmentsPayload(savedPayload, options = {}) {
+        const shouldRender = options.render !== false;
         replaceAssignmentMap(sharedAssignments, sanitizeAssignmentsMap(savedPayload.assignments));
         Object.keys(manualAssignments).forEach((recordId) => {
           const localValue = String(manualAssignments[recordId] || "").trim();
@@ -2084,13 +2264,24 @@
             delete manualAssignments[recordId];
           }
         });
+        replaceJsonObject(reviewResults, sanitizeReviewResultsMap(savedPayload.reviewResults));
+        replaceJsonObject(evidenceImages, sanitizeEvidenceImagesMap(savedPayload.evidenceImages));
         persistAssignments();
+        persistReviewResults();
+        persistEvidenceImages();
         populateAssigneeOptions();
-        render();
+        if (shouldRender) {
+          render();
+        }
       }
 
       async function syncAssignmentsToSharedStore(options = {}) {
         const notify = options.notify === true;
+        const forceBackend = options.forceBackend === true;
+        if (sharedStateSyncTimer) {
+          window.clearTimeout(sharedStateSyncTimer);
+          sharedStateSyncTimer = null;
+        }
         if (sharedAssignmentsSyncPromise) {
           sharedAssignmentsSyncQueued = true;
           sharedAssignmentsSyncQueuedNotify = sharedAssignmentsSyncQueuedNotify || notify;
@@ -2101,37 +2292,55 @@
           const payload = buildSharedAssignmentsPayload();
           try {
             let savedPayload = null;
-            if (hasGithubSyncCredentials()) {
+            let syncedWithBackend = false;
+
+            if (sharedAssignmentsApiAvailable || forceBackend || !hasGithubSyncCredentials()) {
+              try {
+                const response = await fetch(sharedAssignmentsApiUrl, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                  },
+                  body: JSON.stringify(payload),
+                });
+                if (!response.ok) {
+                  throw new Error(`HTTP ${response.status}`);
+                }
+
+                savedPayload = await response.json();
+                syncedWithBackend = true;
+                sharedAssignmentsApiAvailable = true;
+                sharedAssignmentsApiChecked = true;
+                ensureSharedStateAutoRefresh();
+              } catch (apiError) {
+                sharedAssignmentsApiAvailable = false;
+                if (hasGithubSyncCredentials() && !forceBackend) {
+                  savedPayload = await publishSharedAssignmentsToGitHub(payload);
+                  setMessage(
+                    dom.githubSyncMessage,
+                    "El backend central no respondió. Se publicó el estado compartido en GitHub como respaldo."
+                  );
+                } else {
+                  throw apiError;
+                }
+              }
+            } else if (hasGithubSyncCredentials()) {
               savedPayload = await publishSharedAssignmentsToGitHub(payload);
               setMessage(
                 dom.githubSyncMessage,
-                "Asignaciones publicadas en GitHub. GitHub Pages puede tardar unos segundos en reflejar el cambio."
+                "Estado compartido publicado en GitHub. GitHub Pages puede tardar unos segundos en reflejar el cambio."
               );
-            } else {
-              const response = await fetch(sharedAssignmentsApiUrl, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  Accept: "application/json",
-                },
-                body: JSON.stringify(payload),
-              });
-              if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
-              }
-
-              savedPayload = await response.json();
             }
 
-            applySavedSharedAssignmentsPayload(savedPayload);
-            sharedAssignmentsApiAvailable = !hasGithubSyncCredentials();
-            sharedAssignmentsApiChecked = true;
+            applySavedSharedAssignmentsPayload(savedPayload, { render: false });
+            sharedStateDirty = false;
             if (notify) {
               setMessage(
                 dom.assignmentMessage,
-                hasGithubSyncCredentials()
-                  ? "Asignación publicada en GitHub. Se verá en cualquier computadora cuando GitHub Pages termine de actualizar."
-                  : "Asignación compartida sincronizada. Ya debe verse en cualquier computadora."
+                syncedWithBackend
+                  ? "Cambio compartido sincronizado. Ya debe verse en cualquier computadora."
+                  : "Cambio publicado en GitHub. Se verá en cualquier computadora cuando GitHub Pages termine de actualizar."
               );
             }
             return true;
@@ -2140,7 +2349,7 @@
               sharedAssignmentsApiChecked = true;
             }
             sharedAssignmentsApiAvailable = false;
-            console.warn("No se pudo sincronizar la asignación compartida:", error);
+            console.warn("No se pudo sincronizar el estado compartido:", error);
             if (hasGithubSyncCredentials()) {
               setMessage(dom.githubSyncMessage, "No se pudo publicar en GitHub. Revisa el token, el repo y la rama.");
             }
@@ -2148,8 +2357,8 @@
               setMessage(
                 dom.assignmentMessage,
                 hasGithubSyncCredentials()
-                  ? "No se pudo publicar en GitHub. El cambio quedó solo en esta computadora."
-                  : "No se pudo sincronizar la asignación compartida. El cambio quedó solo en esta computadora."
+                  ? "No se pudo publicar el cambio compartido. El cambio quedó solo en esta computadora."
+                  : "No se pudo sincronizar el cambio compartido. El cambio quedó solo en esta computadora."
               );
             }
             return false;
@@ -2167,13 +2376,53 @@
         return sharedAssignmentsSyncPromise;
       }
 
+      function ensureSharedStateAutoRefresh() {
+        if (sharedStateAutoRefreshTimer || !sharedAssignmentsApiAvailable) {
+          return;
+        }
+
+        sharedStateAutoRefreshTimer = window.setInterval(() => {
+          if (document.hidden || sharedStateDirty || sharedAssignmentsSyncPromise) {
+            return;
+          }
+
+          void hydrateSharedAssignmentsFromApi({ allowOverwriteDirty: false, allowSeed: false });
+        }, sharedStateRefreshIntervalMs);
+      }
+
+      function scheduleSharedStateSync(options = {}) {
+        const notify = options.notify === true;
+        const immediate = options.immediate === true;
+        sharedStateDirty = true;
+        sharedAssignmentsSyncQueuedNotify = sharedAssignmentsSyncQueuedNotify || notify;
+
+        if (sharedStateSyncTimer) {
+          window.clearTimeout(sharedStateSyncTimer);
+          sharedStateSyncTimer = null;
+        }
+
+        if (immediate) {
+          const queuedNotify = sharedAssignmentsSyncQueuedNotify;
+          sharedAssignmentsSyncQueuedNotify = false;
+          void syncAssignmentsToSharedStore({ notify: queuedNotify });
+          return;
+        }
+
+        sharedStateSyncTimer = window.setTimeout(() => {
+          sharedStateSyncTimer = null;
+          const queuedNotify = sharedAssignmentsSyncQueuedNotify;
+          sharedAssignmentsSyncQueuedNotify = false;
+          void syncAssignmentsToSharedStore({ notify: queuedNotify });
+        }, 900);
+      }
+
       function persistReviewResults() {
-        localStorage.setItem(reviewStorageKey, JSON.stringify(reviewResults));
+        localStorage.setItem(reviewStorageKey, JSON.stringify(sanitizeReviewResultsMap(reviewResults)));
       }
 
       function persistEvidenceImages() {
         try {
-          localStorage.setItem(evidenceStorageKey, JSON.stringify(evidenceImages));
+          localStorage.setItem(evidenceStorageKey, JSON.stringify(sanitizeEvidenceImagesMap(evidenceImages)));
           return true;
         } catch (error) {
           console.warn("No se pudo guardar la evidencia gráfica:", error);
@@ -2282,13 +2531,13 @@
       function setAssignee(id, value) {
         assignValue(id, value);
         persistAssignments();
-        void syncAssignmentsToSharedStore({ notify: true });
+        scheduleSharedStateSync({ notify: true, immediate: true });
       }
 
       function setManyAssignments(entries) {
         entries.forEach(([id, value]) => assignValue(id, value));
         persistAssignments();
-        void syncAssignmentsToSharedStore({ notify: true });
+        scheduleSharedStateSync({ notify: true, immediate: true });
       }
 
       function getReviewValue(recordId, fieldKey) {
@@ -2315,6 +2564,7 @@
         }
 
         persistReviewResults();
+        scheduleSharedStateSync();
       }
 
       function setReviewNote(recordId, fieldKey, note) {
@@ -2335,6 +2585,7 @@
         }
 
         persistReviewResults();
+        scheduleSharedStateSync();
       }
 
       function getEvidenceList(recordId) {
@@ -2347,6 +2598,7 @@
           delete evidenceImages[recordId];
         }
         persistEvidenceImages();
+        scheduleSharedStateSync();
       }
 
       async function addEvidenceFiles(recordId, fileList) {
@@ -2375,6 +2627,7 @@
 
         evidenceImages[recordId] = [...getEvidenceList(recordId), ...images];
         persistEvidenceImages();
+        scheduleSharedStateSync();
       }
 
       function getReviewSummary(recordId) {
@@ -2703,17 +2956,20 @@
         });
 
         dom.exportSharedStateButton.addEventListener("click", () => {
-          const assignmentCount = Object.keys(buildSharedAssignmentsPayload().assignments).length;
+          const sharedPayload = buildSharedAssignmentsPayload();
+          const assignmentCount = Object.keys(sharedPayload.assignments).length;
+          const reviewCount = Object.keys(sharedPayload.reviewResults || {}).length;
+          const evidenceCount = Object.keys(sharedPayload.evidenceImages || {}).length;
           downloadFile(
-            buildSharedAssignmentsModule(),
+            buildSharedAssignmentsModule(sharedPayload),
             "tramites-iprus-shared-state.js",
             "application/javascript;charset=utf-8;"
           );
           setMessage(
             dom.exportMessage,
             assignmentCount
-              ? `Se descargó el archivo compartido con ${assignmentCount} asignaciones. Publícalo junto con el portal para verlo en otras computadoras.`
-              : "Se descargó el archivo compartido vacío. Publícalo junto con el portal para que la vista compartida empiece desde cero."
+              ? `Se descargó el estado compartido con ${assignmentCount} asignaciones, ${reviewCount} revisiones y ${evidenceCount} grupos de evidencia.`
+              : "Se descargó el estado compartido vacío para reiniciar la vista central desde cero."
           );
         });
 
@@ -2733,7 +2989,7 @@
           const keys = Object.keys(manualAssignments);
           setManyAssignments(keys.map((key) => [key, ""]));
           render();
-          setMessage(dom.exportMessage, "Se limpiaron las asignaciones locales. Si existe una asignación compartida publicada, seguirá visible.");
+          setMessage(dom.exportMessage, "Se limpiaron las asignaciones locales. Si existe un estado compartido central, seguirá visible.");
         });
 
         dom.clearQuickFilterButton.addEventListener("click", () => {
@@ -2921,6 +3177,12 @@
             render();
             setMessage(dom.assignmentMessage, "La asignación interna del trámite fue retirada.");
             return;
+          }
+        });
+
+        document.addEventListener("visibilitychange", () => {
+          if (!document.hidden && sharedAssignmentsApiAvailable && !sharedStateDirty) {
+            void hydrateSharedAssignmentsFromApi({ allowOverwriteDirty: false, allowSeed: false });
           }
         });
       }
@@ -3522,7 +3784,7 @@
                             ${
                               assignee
                                 ? `Asignado a ${escapeHtml(assignee)}.`
-                                : "Sin asignación compartida publicada. Escribe el nombre y pulsa Asignar trámite."
+                                : "Sin asignación central todavía. Escribe el nombre y pulsa Asignar trámite."
                             }
                           </p>
                         </td>
@@ -3867,7 +4129,7 @@
         dom.loadPanelHelper.textContent = adminMode
           ? historyMode
             ? "Este resumen se calcula sobre los trámites históricos y te permite revisar qué quedó fuera de la bandeja activa."
-            : "Este resumen se calcula sobre la asignación compartida publicada y sobre cualquier ajuste local todavía no publicado."
+            : "Este resumen se calcula sobre el estado compartido central y sobre cualquier ajuste local todavía no sincronizado."
           : historyMode
             ? "Aquí se resume el historial del asignado dentro de sus trámites ya sincronizados fuera de la bandeja activa."
             : "Aquí se resume el avance del asignado dentro de su propia bandeja de revisión técnica.";
@@ -3982,7 +4244,7 @@
             `${source.title}. Fuente ${source.sourceFile}. ` +
             (historyMode
               ? `Se mantienen ${total} trámites en historial consultable además de la bandeja activa.`
-              : `Se cargaron ${total} trámites activos con asignación compartida publicada y ajustes locales por navegador.`);
+              : `Se cargaron ${total} trámites activos con estado compartido central y ajustes locales pendientes de sincronización.`);
         } else {
           const finished = scopedRecords.filter((record) => getReviewSummary(record.id).pending === 0).length;
           const blocked = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "NO FAVORABLE").length;
@@ -4449,19 +4711,13 @@
       }
 
       function buildSharedAssignmentsPayload() {
-        const assignments = {};
-        getAllKnownRecords().forEach((record) => {
-          const assignee = getAssignee(record.id);
-          if (assignee) {
-            assignments[record.id] = assignee;
-          }
-        });
-
         return {
-          title: "TRAMITES IPRUS SHARED ASSIGNMENTS",
+          title: "TRAMITES IPRUS SHARED STATE",
           sourceDate: source.generatedAt || source.sourceDate || "",
           generatedAt: new Date().toISOString(),
-          assignments,
+          assignments: buildEffectiveAssignmentsMap(),
+          reviewResults: sanitizeReviewResultsMap(reviewResults),
+          evidenceImages: sanitizeEvidenceImagesMap(evidenceImages),
         };
       }
 

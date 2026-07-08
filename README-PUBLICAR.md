@@ -13,7 +13,7 @@ El proyecto ya esta preparado como sitio estatico. La entrada principal es `inde
 
 ### Asignaciones compartidas con GitHub Pages
 
-Si vas a usar `tramites-iprus.html` y quieres que las asignaciones se vean en cualquier computadora:
+Si vas a usar `tramites-iprus.html` solo con GitHub Pages y quieres que las asignaciones se vean en cualquier computadora:
 
 1. publica el sitio con GitHub Pages
 2. entra al modulo administrador
@@ -21,7 +21,7 @@ Si vas a usar `tramites-iprus.html` y quieres que las asignaciones se vean en cu
 4. pega un token personal de GitHub con permiso `Contents: Read and write`
 5. pulsa `Guardar conexión GitHub`
 
-Desde ese momento, cada asignación puede publicarse al repositorio y GitHub Pages reflejará el cambio cuando termine el redeploy.
+Desde ese momento, el estado compartido puede publicarse al repositorio y GitHub Pages reflejará el cambio cuando termine el redeploy.
 
 ## Opcion 2: Netlify
 
@@ -29,17 +29,26 @@ Desde ese momento, cada asignación puede publicarse al repositorio y GitHub Pag
 2. Crea un sitio nuevo desde un repositorio o arrastra la carpeta `D:\codex`.
 3. El archivo `netlify.toml` ya indica que el sitio se publica desde la raiz.
 
-### Nota para tramites compartidos
+### Backend automatico para tramites compartidos
 
-Netlify sigue siendo util si quieres un backend compartido inmediato.
+Si quieres cero configuracion en las computadoras de trabajo, esta es la opcion correcta.
 
 El proyecto ya incluye:
 
 - una Function en `netlify/functions/tramites-shared-state.js`
-- almacenamiento compartido para asignaciones
+- almacenamiento compartido para asignaciones, revisiones y evidencia grafica
 - lectura y escritura automatica desde `tramites-iprus.html`
+- refresco automatico del estado compartido entre computadoras
+- un archivo `tramites-iprus-config.js` para apuntar a un backend remoto si mantienes el frontend en GitHub Pages
 
-En GitHub Pages tambien puedes compartir asignaciones, pero la publicacion ocurre escribiendo `tramites-iprus-shared-state.js` en el repositorio y el cambio se vera cuando GitHub Pages termine de actualizar el sitio.
+Tienes dos formas de usarlo:
+
+1. publica todo el sitio en Netlify:
+   el frontend y el backend quedan en el mismo dominio y no necesitas token en ninguna computadora
+2. deja el frontend en GitHub Pages y publica solo el backend en Netlify:
+   en `tramites-iprus-config.js` coloca `backendBaseUrl` con la URL publica de Netlify y el portal usara ese backend automaticamente
+
+Con esta opcion ya no hace falta pegar tokens en las computadoras para asignar, revisar o subir evidencia.
 
 ## Opcion 3: Vercel
 

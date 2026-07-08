@@ -1,0 +1,7 @@
+{
+  "name": "tramites-iprus-geoportal",
+  "private": true,
+  "dependencies": {
+    "@netlify/blobs": "latest"
+  }
+}
