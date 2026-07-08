@@ -1481,9 +1481,7 @@
 
   <script>
     (function loadFreshTramitesData() {
-      const version =
-        new URLSearchParams(window.location.search).get("flush") ||
-        `${Date.now()}`;
+      const version = `${Date.now()}`;
       document.write(
         `<script src="./tramites-iprus-data.js?v=${encodeURIComponent(version)}"><\/script>`
       );
