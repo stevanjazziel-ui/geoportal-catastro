@@ -831,7 +831,7 @@
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] table {
-      min-width: 1120px;
+      min-width: 980px;
       table-layout: fixed;
     }
 
@@ -862,76 +862,71 @@
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th,
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td {
       min-width: 0;
-      padding: 10px 8px;
+      padding: 8px 6px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(1),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(1) {
-      width: 48px;
+      width: 42px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(2),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(2) {
-      width: 96px;
+      width: 82px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(3),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(3) {
-      width: 88px;
+      width: 74px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(4),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(4) {
-      width: 156px;
+      width: 138px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(5),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(5) {
-      width: 140px;
+      width: 118px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(6),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(6) {
-      width: 150px;
+      width: 128px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(7),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(7) {
-      width: 84px;
+      width: 70px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(8),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(8) {
-      width: 90px;
+      width: 72px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(9),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(9) {
-      width: 176px;
-    }
-
-    body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(10),
-    body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(10) {
-      width: 94px;
+      width: 152px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-cell {
-      min-width: 176px;
+      min-width: 152px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] .badge {
-      padding: 6px 9px;
-      font-size: 0.62rem;
+      padding: 5px 7px;
+      font-size: 0.58rem;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] .cell-title {
-      font-size: 0.88rem;
+      font-size: 0.84rem;
       line-height: 1.22;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] .cell-meta {
       margin-top: 3px;
-      font-size: 0.76rem;
+      font-size: 0.72rem;
       line-height: 1.28;
     }
 
@@ -957,16 +952,16 @@
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-input {
-      padding: 9px 10px;
-      font-size: 0.88rem;
+      padding: 8px 9px;
+      font-size: 0.82rem;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-apply,
     body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-actions .tiny,
     body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-actions button {
       min-height: 0;
-      padding: 8px 9px;
-      font-size: 0.78rem;
+      padding: 7px 8px;
+      font-size: 0.74rem;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-actions {
@@ -1728,7 +1723,6 @@
                 <th>Fecha límite</th>
                 <th>Días restantes</th>
                 <th>Asignado interno</th>
-                <th>Detalle</th>
               </tr>
             </thead>
             <tbody id="table-body"></tbody>
@@ -3775,7 +3769,6 @@
                 <th>Último visto</th>
                 <th>Archivado</th>
                 <th>Asignado interno</th>
-                <th>Detalle</th>
               `
             : `
                 <th class="checkbox-cell">
@@ -3790,7 +3783,6 @@
                 <th>Fecha límite</th>
                 <th>Días restantes</th>
                 <th>Asignado interno</th>
-                <th>Detalle</th>
               `
           : historyMode
             ? `
@@ -3988,14 +3980,10 @@
                           <p class="assignment-meta">
                             ${
                               assignee
-                                ? `Asignado a ${escapeHtml(assignee)}.`
-                                : "Sin asignación interna."
+                                ? `Asignado a ${escapeHtml(assignee)} · ${escapeHtml(getTechnicalOutcome(record.id))} · ${reviewSummary.yes}/${reviewSummary.total}.`
+                                : `${escapeHtml(getTechnicalOutcome(record.id))} · ${reviewSummary.yes}/${reviewSummary.total} · Sin asignación interna.`
                             }
                           </p>
-                        </td>
-                        <td>
-                          <span class="cell-title">${escapeHtml(getTechnicalOutcome(record.id))}</span>
-                          <span class="cell-meta">Revisión ${reviewSummary.yes}/${reviewSummary.total}</span>
                         </td>
                       </tr>
                     `
