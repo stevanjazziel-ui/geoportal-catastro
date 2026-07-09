@@ -819,48 +819,106 @@
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] table {
-      min-width: 1320px;
+      min-width: 1210px;
       table-layout: fixed;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] .table-toolbar {
+      align-items: stretch;
+      gap: 14px;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] .table-toolbar > :first-child {
+      flex: 1 1 100%;
+      min-width: 0;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] .table-toolbar .button-stack {
+      width: 100%;
+      max-width: none;
+      justify-content: flex-start;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] .table-toolbar .button-stack > * {
+      flex: 0 1 250px;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] .table-caption {
+      max-width: 760px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th,
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td {
       min-width: 0;
+      padding: 12px 10px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(1),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(1) {
-      width: 52px;
+      width: 48px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(2),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(2) {
-      width: 110px;
+      width: 104px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(3),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(3) {
-      width: 120px;
+      width: 102px;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(4),
+    body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(4) {
+      width: 156px;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(5),
+    body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(5) {
+      width: 150px;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(6),
+    body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(6) {
+      width: 160px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(7),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(7) {
-      width: 110px;
+      width: 90px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(8),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(8) {
-      width: 120px;
+      width: 104px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(9),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(9) {
-      width: 248px;
+      width: 214px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(10),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(10) {
-      width: 150px;
+      width: 132px;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-cell {
+      min-width: 214px;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-actions {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-actions > :first-child {
+      grid-column: auto;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-actions .tiny,
+    body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-actions button {
+      font-size: 0.8rem;
+      padding: 9px 10px;
     }
 
     .details-row td {
