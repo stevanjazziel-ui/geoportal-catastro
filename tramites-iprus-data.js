@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-09",
-  "generatedAt": "2026-07-09T17:17:26",
+  "generatedAt": "2026-07-09T17:46:58",
   "records": [
     {
       "estado": "Asignado",
@@ -1246,14 +1246,14 @@ window.TRAMITES_IPRUS_DATA = {
       "id": "GADMR--2026-0355-IPRUS-ZNP"
     },
     {
-      "estado": "En espera",
+      "estado": "Complementado",
       "tramite": "Trámite: 1194361 GADMR--2026-0349-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "DONOSO ESTRADA GABRIELA CAROLINA - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Veronica Patricia Sagba Ausay",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "Tiempo detenido",
+      "fechaLimite": null,
       "fechaIngreso": "2026-07-02T11:52:00",
       "codigo": "GADMR--2026-0349-IPRUS-ZNP",
       "nroTramite": 1194361,
@@ -1991,8 +1991,8 @@ window.TRAMITES_IPRUS_DATA = {
     },
     "states": {
       "Asignado": 60,
-      "Complementado": 23,
-      "En espera": 3
+      "Complementado": 24,
+      "En espera": 2
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 86
