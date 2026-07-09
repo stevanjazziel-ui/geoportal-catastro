@@ -780,11 +780,23 @@
       min-width: 240px;
     }
 
+    .assignment-editor {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+    }
+
     .assignment-input {
       margin-bottom: 0;
       min-width: 0;
       padding: 11px 12px;
       font-size: 0.92rem;
+    }
+
+    .assignment-apply {
+      white-space: nowrap;
+      padding-inline: 14px;
     }
 
     .assignment-meta {
@@ -819,7 +831,7 @@
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] table {
-      min-width: 1210px;
+      min-width: 1120px;
       table-layout: fixed;
     }
 
@@ -850,7 +862,7 @@
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th,
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td {
       min-width: 0;
-      padding: 12px 10px;
+      padding: 10px 8px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(1),
@@ -860,12 +872,12 @@
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(2),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(2) {
-      width: 104px;
+      width: 96px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(3),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(3) {
-      width: 102px;
+      width: 88px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(4),
@@ -875,50 +887,102 @@
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(5),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(5) {
-      width: 150px;
+      width: 140px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(6),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(6) {
-      width: 160px;
+      width: 150px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(7),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(7) {
-      width: 90px;
+      width: 84px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(8),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(8) {
-      width: 104px;
+      width: 90px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(9),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(9) {
-      width: 214px;
+      width: 176px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(10),
     body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(10) {
-      width: 132px;
+      width: 94px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-cell {
-      min-width: 214px;
+      min-width: 176px;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] .badge {
+      padding: 6px 9px;
+      font-size: 0.62rem;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] .cell-title {
+      font-size: 0.88rem;
+      line-height: 1.22;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] .cell-meta {
+      margin-top: 3px;
+      font-size: 0.76rem;
+      line-height: 1.28;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] .tramite-trigger {
+      gap: 3px;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(4) .cell-meta:nth-of-type(2),
+    body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(5) .cell-meta,
+    body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(6) .cell-meta,
+    body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(7) .cell-meta {
+      display: none;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(4) .cell-title {
+      overflow-wrap: break-word;
+      word-break: normal;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-editor {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 6px;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-input {
+      padding: 9px 10px;
+      font-size: 0.88rem;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-apply,
+    body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-actions .tiny,
+    body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-actions button {
+      min-height: 0;
+      padding: 8px 9px;
+      font-size: 0.78rem;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-actions {
-      grid-template-columns: minmax(0, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 6px;
+      gap: 6px;
     }
 
     body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-actions > :first-child {
       grid-column: auto;
     }
 
-    body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-actions .tiny,
-    body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-actions button {
-      font-size: 0.8rem;
-      padding: 9px 10px;
+    body[data-module-mode="admin"][data-dataset-tab="active"] .assignment-meta {
+      margin-top: 6px;
+      font-size: 0.74rem;
+      line-height: 1.25;
     }
 
     .details-row td {
@@ -3873,7 +3937,7 @@
                             <span class="cell-meta">Trámite N. ${escapeHtml(String(record.nroTramite || "-"))}</span>
                             <span class="cell-meta">${escapeHtml(record.tipoTramite || "-")}</span>
                             <span class="cell-meta">
-                              ${detailsOpen ? "Ocultar revisión técnica" : "Abrir revisión técnica"}
+                              ${detailsOpen ? "Ocultar ficha" : "Abrir ficha"}
                             </span>
                           </button>
                         </td>
@@ -3894,21 +3958,28 @@
                           <span class="cell-meta">${escapeHtml(record.prioridad || "Sin prioridad")}</span>
                         </td>
                         <td class="assignment-cell">
-                          <input
-                            class="assignment-input"
-                            type="text"
-                            list="assignee-options"
-                            data-assignment-id="${escapeHtml(record.id)}"
-                            data-assignment-code="${escapeHtml(record.codigo || String(record.nroTramite || record.id))}"
-                            value="${escapeAttribute(assignee)}"
-                            placeholder="Asignar a..."
-                          />
-                          <div class="row-actions assignment-actions">
-                            <button type="button" data-apply-assignment-id="${escapeHtml(record.id)}">
-                              Asignar trámite
+                          <div class="assignment-editor">
+                            <input
+                              class="assignment-input"
+                              type="text"
+                              list="assignee-options"
+                              data-assignment-id="${escapeHtml(record.id)}"
+                              data-assignment-code="${escapeHtml(record.codigo || String(record.nroTramite || record.id))}"
+                              value="${escapeAttribute(assignee)}"
+                              placeholder="Asignar..."
+                            />
+                            <button
+                              class="assignment-apply"
+                              type="button"
+                              data-apply-assignment-id="${escapeHtml(record.id)}"
+                              aria-label="Asignar trámite ${escapeHtml(record.codigo || String(record.nroTramite || record.id))}"
+                            >
+                              Asignar
                             </button>
+                          </div>
+                          <div class="row-actions assignment-actions">
                             <button class="ghost tiny" type="button" data-detail-id="${escapeHtml(record.id)}">
-                              ${detailsOpen ? "Ocultar ficha" : "Ver ficha"}
+                              ${detailsOpen ? "Ocultar" : "Ver ficha"}
                             </button>
                             <button class="ghost tiny" type="button" data-clear-assignment-id="${escapeHtml(record.id)}">
                               Limpiar
@@ -3918,15 +3989,13 @@
                             ${
                               assignee
                                 ? `Asignado a ${escapeHtml(assignee)}.`
-                                : "Sin asignación central todavía. Escribe el nombre y pulsa Asignar trámite."
+                                : "Sin asignación interna."
                             }
                           </p>
                         </td>
                         <td>
-                          <span class="cell-title">Revisión ${reviewSummary.yes}/${reviewSummary.total}</span>
-                          <span class="cell-meta">${reviewSummary.no} en no, ${reviewSummary.pending} pendientes</span>
-                          <span class="cell-meta">Ingreso ${escapeHtml(formatDate(record.fechaIngreso, true) || "-")}</span>
-                          <span class="cell-meta">Fila fuente ${escapeHtml(String(record.sourceRow || "-"))}</span>
+                          <span class="cell-title">${escapeHtml(getTechnicalOutcome(record.id))}</span>
+                          <span class="cell-meta">Revisión ${reviewSummary.yes}/${reviewSummary.total}</span>
                         </td>
                       </tr>
                     `
