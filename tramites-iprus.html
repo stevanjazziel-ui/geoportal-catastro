@@ -612,7 +612,13 @@
 
     .table-toolbar .button-stack {
       flex-wrap: wrap;
-      width: min(620px, 100%);
+      width: auto;
+      max-width: min(560px, 100%);
+      justify-content: flex-end;
+    }
+
+    .table-toolbar .button-stack > * {
+      flex: 0 1 270px;
     }
 
     .table-wrap {
@@ -621,6 +627,7 @@
       border: 1px solid rgba(52, 72, 74, 0.1);
       background: #ffffff;
       box-shadow: none;
+      scrollbar-gutter: stable both-edges;
     }
 
     table {
@@ -674,6 +681,8 @@
       color: #34495e;
       font-weight: 700;
       line-height: 1.32;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     .cell-meta {
@@ -682,6 +691,8 @@
       color: var(--muted);
       font-size: 0.84rem;
       line-height: 1.45;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     .tramite-trigger {
@@ -766,26 +777,90 @@
     }
 
     .assignment-cell {
-      min-width: 280px;
+      min-width: 240px;
     }
 
     .assignment-input {
       margin-bottom: 0;
+      min-width: 0;
+      padding: 11px 12px;
+      font-size: 0.92rem;
     }
 
     .assignment-meta {
+      margin-top: 0;
       color: var(--muted);
       font-size: 0.82rem;
       line-height: 1.45;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     .assignment-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       margin-top: 8px;
-      flex-wrap: wrap;
+      gap: 8px;
+      align-items: stretch;
     }
 
     .assignment-actions > * {
-      flex: 1 1 110px;
+      min-width: 0;
+    }
+
+    .assignment-actions > :first-child {
+      grid-column: 1 / -1;
+    }
+
+    .assignment-actions .tiny {
+      width: 100%;
+      padding-inline: 10px;
+      text-align: center;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] table {
+      min-width: 1320px;
+      table-layout: fixed;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] thead th,
+    body[data-module-mode="admin"][data-dataset-tab="active"] tbody td {
+      min-width: 0;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(1),
+    body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(1) {
+      width: 52px;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(2),
+    body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(2) {
+      width: 110px;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(3),
+    body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(3) {
+      width: 120px;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(7),
+    body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(7) {
+      width: 110px;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(8),
+    body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(8) {
+      width: 120px;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(9),
+    body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(9) {
+      width: 248px;
+    }
+
+    body[data-module-mode="admin"][data-dataset-tab="active"] thead th:nth-child(10),
+    body[data-module-mode="admin"][data-dataset-tab="active"] tbody td:nth-child(10) {
+      width: 150px;
     }
 
     .details-row td {
@@ -3768,7 +3843,7 @@
                             data-assignment-id="${escapeHtml(record.id)}"
                             data-assignment-code="${escapeHtml(record.codigo || String(record.nroTramite || record.id))}"
                             value="${escapeAttribute(assignee)}"
-                            placeholder="Escribe a quien asignar"
+                            placeholder="Asignar a..."
                           />
                           <div class="row-actions assignment-actions">
                             <button type="button" data-apply-assignment-id="${escapeHtml(record.id)}">
@@ -4092,6 +4167,7 @@
       function syncModuleInterface(filteredRecords) {
         const adminMode = isAdminMode();
         const historyMode = isHistoryTab();
+        document.body.dataset.datasetTab = state.datasetTab;
         const scopedRecords = getModuleScopedRecords();
         const datasetRecords = getDatasetRecords();
         const finishedCount = scopedRecords.filter((record) => getReviewSummary(record.id).pending === 0).length;
