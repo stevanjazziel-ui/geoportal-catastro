@@ -36,7 +36,7 @@ Si quieres cero configuracion en las computadoras de trabajo, esta es la opcion 
 El proyecto ya incluye:
 
 - una Function en `netlify/functions/tramites-shared-state.js`
-- almacenamiento compartido para asignaciones, revisiones y evidencia grafica
+- almacenamiento compartido para asignaciones, revisiones, evidencia grafica, borradores, cola de tareas y bitacora de cambios
 - lectura y escritura automatica desde `tramites-iprus.html`
 - refresco automatico del estado compartido entre computadoras
 - un archivo `tramites-iprus-config.js` para apuntar a un backend remoto si mantienes el frontend en GitHub Pages

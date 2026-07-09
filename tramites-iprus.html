@@ -1233,7 +1233,10 @@
     }
 
     .evidence-panel,
-    .report-panel {
+    .report-panel,
+    .draft-panel,
+    .tasks-panel,
+    .activity-panel {
       margin-bottom: 16px;
       padding: 18px;
       border: 1px solid rgba(52, 72, 74, 0.12);
@@ -1310,6 +1313,149 @@
 
     .report-actions > * {
       width: auto;
+    }
+
+    .draft-grid,
+    .task-form {
+      display: grid;
+      gap: 12px;
+    }
+
+    .draft-meta,
+    .activity-meta {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+
+    .task-form {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+      margin-bottom: 14px;
+    }
+
+    .task-form .field-full,
+    .draft-grid .field-full {
+      grid-column: 1 / -1;
+    }
+
+    .draft-note,
+    .task-note {
+      width: 100%;
+      min-height: 110px;
+      margin-top: 0;
+      resize: vertical;
+      border-radius: 10px;
+      border: 1px solid rgba(52, 72, 74, 0.12);
+      padding: 12px 14px;
+      font: inherit;
+      color: var(--text);
+      background: #f9fbfc;
+    }
+
+    .draft-note:focus,
+    .task-note:focus {
+      outline: none;
+      border-color: rgba(73, 169, 66, 0.28);
+      box-shadow: 0 0 0 4px rgba(73, 169, 66, 0.1);
+      background: #ffffff;
+    }
+
+    .task-list,
+    .activity-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .task-card,
+    .activity-item {
+      padding: 14px;
+      border: 1px solid rgba(52, 72, 74, 0.1);
+      border-radius: 10px;
+      background: #f9fbfc;
+    }
+
+    .task-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .task-card strong,
+    .activity-item strong {
+      color: #34495e;
+      font-size: 0.95rem;
+    }
+
+    .task-card p,
+    .activity-item p {
+      margin: 8px 0 0;
+      color: #506577;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
+
+    .task-status-badge {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(52, 72, 74, 0.12);
+      background: #f5f7f9;
+      color: #596668;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .task-status-badge.status-pendiente {
+      color: #a16e1d;
+      background: rgba(255, 242, 223, 0.96);
+      border-color: rgba(200, 135, 45, 0.24);
+    }
+
+    .task-status-badge.status-en-proceso {
+      color: #2f8b32;
+      background: rgba(232, 248, 230, 0.96);
+      border-color: rgba(73, 169, 66, 0.2);
+    }
+
+    .task-status-badge.status-completada {
+      color: #355d87;
+      background: rgba(229, 239, 249, 0.98);
+      border-color: rgba(53, 93, 135, 0.18);
+    }
+
+    .task-actions-grid {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .task-actions-grid > * {
+      width: auto;
+    }
+
+    .activity-item {
+      display: grid;
+      gap: 6px;
+    }
+
+    .activity-item small {
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.4;
+    }
+
+    .mono-note {
+      font-family: "IBM Plex Mono", monospace;
+      letter-spacing: 0.02em;
     }
 
     .report-preview {
@@ -1560,6 +1706,10 @@
           Usuario asignado
           <input id="session-assignee" list="assignee-options" placeholder="Ej. Josselyn Orozco" />
         </label>
+        <label for="editor-identity">
+          Usuario editor
+          <input id="editor-identity" list="assignee-options" placeholder="Ej. Esteban Caizaluisa" />
+        </label>
         <div class="button-stack">
           <button id="enter-assigned-button" class="secondary" type="button">Entrar como asignado</button>
           <button id="clear-session-assignee-button" class="ghost" type="button">Limpiar usuario</button>
@@ -1772,8 +1922,12 @@
       const assignmentStorageKey = "tramites-iprus-assignments-v1";
       const reviewStorageKey = "tramites-iprus-review-v1";
       const evidenceStorageKey = "tramites-iprus-evidence-v1";
+      const reportDraftStorageKey = "tramites-iprus-report-drafts-v1";
+      const taskQueueStorageKey = "tramites-iprus-task-queue-v1";
+      const activityLogStorageKey = "tramites-iprus-activity-log-v1";
       const moduleStorageKey = "tramites-iprus-module-v1";
       const sessionAssigneeStorageKey = "tramites-iprus-session-assignee-v1";
+      const editorIdentityStorageKey = "tramites-iprus-editor-identity-v1";
       const sharedAssignments = loadSharedAssignments();
       const manualAssignments = loadAssignments();
       const githubSyncConfig = loadGithubSyncConfig();
@@ -1788,6 +1942,10 @@
       let sharedStateDirty = false;
       const reviewResults = loadReviewResults();
       const evidenceImages = loadEvidenceImages();
+      const reportDrafts = loadReportDrafts();
+      const taskQueue = loadTaskQueue();
+      const activityLog = loadActivityLog();
+      let editorIdentity = loadEditorIdentity();
       const selectedIds = new Set();
       const technicalChecklist = [
         {
@@ -1855,6 +2013,7 @@
         modeSwitcher: document.getElementById("mode-switcher"),
         datasetSwitcher: document.getElementById("dataset-switcher"),
         sessionAssignee: document.getElementById("session-assignee"),
+        editorIdentity: document.getElementById("editor-identity"),
         enterAssignedButton: document.getElementById("enter-assigned-button"),
         clearSessionAssigneeButton: document.getElementById("clear-session-assignee-button"),
         sessionChip: document.getElementById("session-chip"),
@@ -1931,6 +2090,7 @@
 
       function initialize() {
         dom.sessionAssignee.value = state.sessionAssignee;
+        dom.editorIdentity.value = editorIdentity;
         document.body.dataset.moduleMode = state.moduleMode;
         applyGithubSyncConfigToDom();
         populateFilters();
@@ -2069,7 +2229,7 @@
         if (sharedAssignmentsApiAvailable) {
           setMessage(
             dom.githubSyncMessage,
-            "Sincronización automática central activa. Las asignaciones, revisiones y evidencias se comparten sin configurar otras computadoras."
+            "Sincronización automática central activa. Las asignaciones, revisiones, evidencias, borradores, tareas y bitácora se comparten sin configurar otras computadoras."
           );
           return;
         }
@@ -2229,6 +2389,175 @@
         return sanitizeEvidenceImagesMap(merged);
       }
 
+      function sanitizeReportDraftsMap(rawDrafts) {
+        if (!rawDrafts || typeof rawDrafts !== "object") {
+          return {};
+        }
+
+        const sanitizedDrafts = {};
+        Object.entries(rawDrafts).forEach(([recordId, rawDraft]) => {
+          const normalizedRecordId = String(recordId || "").trim();
+          if (!normalizedRecordId || !rawDraft || typeof rawDraft !== "object") {
+            return;
+          }
+
+          const nextDraft = {};
+          ["antecedente", "analisis", "observaciones", "conclusion"].forEach((fieldKey) => {
+            const value = typeof rawDraft[fieldKey] === "string" ? rawDraft[fieldKey].replace(/\r/g, "").trim() : "";
+            if (value) {
+              nextDraft[fieldKey] = value;
+            }
+          });
+
+          const updatedAt = typeof rawDraft.updatedAt === "string" ? rawDraft.updatedAt.trim() : "";
+          const updatedBy = typeof rawDraft.updatedBy === "string" ? rawDraft.updatedBy.trim() : "";
+          if (updatedAt) {
+            nextDraft.updatedAt = updatedAt;
+          }
+          if (updatedBy) {
+            nextDraft.updatedBy = updatedBy;
+          }
+
+          if (Object.keys(nextDraft).length) {
+            sanitizedDrafts[normalizedRecordId] = nextDraft;
+          }
+        });
+
+        return sanitizedDrafts;
+      }
+
+      function mergeReportDraftsMaps(baseMap, overlayMap) {
+        const merged = {};
+        Object.entries(baseMap || {}).forEach(([recordId, value]) => {
+          merged[recordId] = cloneJson(value);
+        });
+        Object.entries(overlayMap || {}).forEach(([recordId, value]) => {
+          merged[recordId] = {
+            ...(merged[recordId] || {}),
+            ...cloneJson(value),
+          };
+        });
+        return sanitizeReportDraftsMap(merged);
+      }
+
+      function normalizeTaskStatus(value) {
+        if (value === "en_proceso" || value === "completada") {
+          return value;
+        }
+        return "pendiente";
+      }
+
+      function sanitizeTaskQueue(rawTasks) {
+        if (!Array.isArray(rawTasks)) {
+          return [];
+        }
+
+        return rawTasks
+          .map((rawTask) => {
+            if (!rawTask || typeof rawTask !== "object") {
+              return null;
+            }
+
+            const id = String(rawTask.id || "").trim();
+            const recordId = String(rawTask.recordId || "").trim();
+            const title = String(rawTask.title || "").trim();
+            const notes = String(rawTask.notes || "").replace(/\r/g, "").trim();
+            const assignee = String(rawTask.assignee || "").trim();
+            const createdBy = String(rawTask.createdBy || "").trim();
+            const updatedBy = String(rawTask.updatedBy || "").trim();
+            const createdAt = String(rawTask.createdAt || "").trim();
+            const updatedAt = String(rawTask.updatedAt || "").trim();
+            const status = normalizeTaskStatus(rawTask.status);
+
+            if (!id || !recordId || !title) {
+              return null;
+            }
+
+            return {
+              id,
+              recordId,
+              title,
+              notes,
+              assignee,
+              status,
+              createdBy,
+              updatedBy,
+              createdAt,
+              updatedAt,
+            };
+          })
+          .filter(Boolean)
+          .sort((left, right) => String(right.updatedAt || right.createdAt || "").localeCompare(String(left.updatedAt || left.createdAt || "")));
+      }
+
+      function mergeTaskQueue(baseTasks, overlayTasks) {
+        const taskMap = new Map();
+        sanitizeTaskQueue(baseTasks).forEach((task) => {
+          taskMap.set(task.id, task);
+        });
+        sanitizeTaskQueue(overlayTasks).forEach((task) => {
+          taskMap.set(task.id, task);
+        });
+        return sanitizeTaskQueue([...taskMap.values()]);
+      }
+
+      function sanitizeActivityLog(rawEntries) {
+        if (!Array.isArray(rawEntries)) {
+          return [];
+        }
+
+        return rawEntries
+          .map((rawEntry) => {
+            if (!rawEntry || typeof rawEntry !== "object") {
+              return null;
+            }
+
+            const id = String(rawEntry.id || "").trim();
+            const recordId = String(rawEntry.recordId || "").trim();
+            const actor = String(rawEntry.actor || "").trim();
+            const actorMode = String(rawEntry.actorMode || "").trim();
+            const actionType = String(rawEntry.actionType || "").trim();
+            const fieldKey = String(rawEntry.fieldKey || "").trim();
+            const summary = String(rawEntry.summary || "").trim();
+            const detail = String(rawEntry.detail || "").replace(/\r/g, "").trim();
+            const timestamp = String(rawEntry.timestamp || "").trim();
+            const recordCode = String(rawEntry.recordCode || "").trim();
+            const tramiteNumber = String(rawEntry.tramiteNumber || "").trim();
+
+            if (!id || !recordId || !summary || !timestamp) {
+              return null;
+            }
+
+            return {
+              id,
+              recordId,
+              actor,
+              actorMode,
+              actionType,
+              fieldKey,
+              summary,
+              detail,
+              timestamp,
+              recordCode,
+              tramiteNumber,
+            };
+          })
+          .filter(Boolean)
+          .sort((left, right) => String(right.timestamp).localeCompare(String(left.timestamp)))
+          .slice(0, 800);
+      }
+
+      function mergeActivityLog(baseEntries, overlayEntries) {
+        const entryMap = new Map();
+        sanitizeActivityLog(baseEntries).forEach((entry) => {
+          entryMap.set(entry.id, entry);
+        });
+        sanitizeActivityLog(overlayEntries).forEach((entry) => {
+          entryMap.set(entry.id, entry);
+        });
+        return sanitizeActivityLog([...entryMap.values()]);
+      }
+
       function replaceJsonObject(target, nextValue) {
         Object.keys(target).forEach((key) => {
           delete target[key];
@@ -2236,6 +2565,10 @@
         Object.entries(nextValue).forEach(([key, value]) => {
           target[key] = cloneJson(value);
         });
+      }
+
+      function replaceJsonArray(target, nextValue) {
+        target.splice(0, target.length, ...cloneJson(nextValue || []));
       }
 
       function resolveSharedStateApiUrl(config) {
@@ -2273,6 +2606,54 @@
         }
       }
 
+      function loadReportDrafts() {
+        try {
+          const raw = localStorage.getItem(reportDraftStorageKey);
+          const localDrafts = raw ? JSON.parse(raw) : {};
+          const sharedDrafts = sharedSource && typeof sharedSource === "object" ? sharedSource.reportDrafts : {};
+          return mergeReportDraftsMaps(
+            sanitizeReportDraftsMap(sharedDrafts),
+            sanitizeReportDraftsMap(localDrafts)
+          );
+        } catch (error) {
+          console.warn("No se pudieron leer los borradores del informe:", error);
+          return sanitizeReportDraftsMap(sharedSource && typeof sharedSource === "object" ? sharedSource.reportDrafts : {});
+        }
+      }
+
+      function loadTaskQueue() {
+        try {
+          const raw = localStorage.getItem(taskQueueStorageKey);
+          const localTasks = raw ? JSON.parse(raw) : [];
+          const sharedTasks = sharedSource && typeof sharedSource === "object" ? sharedSource.taskQueue : [];
+          return mergeTaskQueue(sharedTasks, localTasks);
+        } catch (error) {
+          console.warn("No se pudo leer la cola de tareas:", error);
+          return sanitizeTaskQueue(sharedSource && typeof sharedSource === "object" ? sharedSource.taskQueue : []);
+        }
+      }
+
+      function loadActivityLog() {
+        try {
+          const raw = localStorage.getItem(activityLogStorageKey);
+          const localEntries = raw ? JSON.parse(raw) : [];
+          const sharedEntries = sharedSource && typeof sharedSource === "object" ? sharedSource.activityLog : [];
+          return mergeActivityLog(sharedEntries, localEntries);
+        } catch (error) {
+          console.warn("No se pudo leer la bitÃ¡cora de actividad:", error);
+          return sanitizeActivityLog(sharedSource && typeof sharedSource === "object" ? sharedSource.activityLog : []);
+        }
+      }
+
+      function loadEditorIdentity() {
+        try {
+          return String(localStorage.getItem(editorIdentityStorageKey) || "").trim();
+        } catch (error) {
+          console.warn("No se pudo leer el usuario editor:", error);
+          return "";
+        }
+      }
+
       function loadModuleMode() {
         try {
           const raw = localStorage.getItem(moduleStorageKey);
@@ -2295,6 +2676,44 @@
       function persistAssignments() {
         localStorage.setItem(assignmentStorageKey, JSON.stringify(manualAssignments));
         populateAssigneeOptions();
+      }
+
+      function persistReportDrafts() {
+        localStorage.setItem(reportDraftStorageKey, JSON.stringify(sanitizeReportDraftsMap(reportDrafts)));
+      }
+
+      function persistTaskQueue() {
+        localStorage.setItem(taskQueueStorageKey, JSON.stringify(sanitizeTaskQueue(taskQueue)));
+      }
+
+      function persistActivityLog() {
+        localStorage.setItem(activityLogStorageKey, JSON.stringify(sanitizeActivityLog(activityLog)));
+      }
+
+      function persistEditorIdentity() {
+        localStorage.setItem(editorIdentityStorageKey, editorIdentity);
+      }
+
+      function setEditorIdentity(value) {
+        editorIdentity = String(value || "").trim();
+        if (dom.editorIdentity) {
+          dom.editorIdentity.value = editorIdentity;
+        }
+        persistEditorIdentity();
+      }
+
+      function getCurrentActorLabel() {
+        if (editorIdentity) {
+          return editorIdentity;
+        }
+        if (state.sessionAssignee) {
+          return state.sessionAssignee;
+        }
+        return isAdminMode() ? "Administrador central" : "Asignado local";
+      }
+
+      function getCurrentActorMode() {
+        return isAdminMode() ? "admin" : "assigned";
       }
 
       async function hydrateSharedAssignmentsFromApi(options = {}) {
@@ -2435,14 +2854,20 @@
         return Boolean(
           Object.keys(buildEffectiveAssignmentsMap()).length ||
           Object.keys(reviewResults).length ||
-          Object.keys(evidenceImages).length
+          Object.keys(evidenceImages).length ||
+          Object.keys(reportDrafts).length ||
+          taskQueue.length ||
+          activityLog.length
         );
       }
 
       function isSharedStatePayloadEmpty(payload) {
         return !Object.keys(sanitizeAssignmentsMap(payload?.assignments)).length &&
           !Object.keys(sanitizeReviewResultsMap(payload?.reviewResults)).length &&
-          !Object.keys(sanitizeEvidenceImagesMap(payload?.evidenceImages)).length;
+          !Object.keys(sanitizeEvidenceImagesMap(payload?.evidenceImages)).length &&
+          !Object.keys(sanitizeReportDraftsMap(payload?.reportDrafts)).length &&
+          !sanitizeTaskQueue(payload?.taskQueue).length &&
+          !sanitizeActivityLog(payload?.activityLog).length;
       }
 
       function applySavedSharedAssignmentsPayload(savedPayload, options = {}) {
@@ -2457,9 +2882,15 @@
         });
         replaceJsonObject(reviewResults, sanitizeReviewResultsMap(savedPayload.reviewResults));
         replaceJsonObject(evidenceImages, sanitizeEvidenceImagesMap(savedPayload.evidenceImages));
+        replaceJsonObject(reportDrafts, sanitizeReportDraftsMap(savedPayload.reportDrafts));
+        replaceJsonArray(taskQueue, sanitizeTaskQueue(savedPayload.taskQueue));
+        replaceJsonArray(activityLog, sanitizeActivityLog(savedPayload.activityLog));
         persistAssignments();
         persistReviewResults();
         persistEvidenceImages();
+        persistReportDrafts();
+        persistTaskQueue();
+        persistActivityLog();
         populateAssigneeOptions();
         if (shouldRender) {
           render();
@@ -2661,6 +3092,31 @@
         return getAllKnownRecords().find((item) => item.id === recordId) || null;
       }
 
+      function buildActivityEntry(recordId, summary, options = {}) {
+        const record = findRecordById(recordId) || {};
+        return {
+          id: `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`,
+          recordId: String(recordId || "").trim(),
+          recordCode: String(record.codigo || "").trim(),
+          tramiteNumber: String(getReportTramiteNumber(record) || "").trim(),
+          actor: getCurrentActorLabel(),
+          actorMode: getCurrentActorMode(),
+          actionType: String(options.actionType || "actualizacion").trim(),
+          fieldKey: String(options.fieldKey || "").trim(),
+          summary: String(summary || "").trim(),
+          detail: String(options.detail || "").replace(/\r/g, "").trim(),
+          timestamp: new Date().toISOString(),
+        };
+      }
+
+      function appendActivityEntry(recordId, summary, options = {}) {
+        const entry = buildActivityEntry(recordId, summary, options);
+        activityLog.unshift(entry);
+        replaceJsonArray(activityLog, sanitizeActivityLog(activityLog));
+        persistActivityLog();
+        return entry;
+      }
+
       function getModuleScopedRecords() {
         const datasetRecords = getDatasetRecords();
         if (isAdminMode()) {
@@ -2707,6 +3163,7 @@
       }
 
       function assignValue(id, value) {
+        const previous = getAssignee(id);
         const next = value.trim();
         if (
           next ||
@@ -2717,16 +3174,50 @@
         } else {
           delete manualAssignments[id];
         }
+        return { previous, next, changed: previous !== next };
       }
 
       function setAssignee(id, value) {
-        assignValue(id, value);
+        const result = assignValue(id, value);
+        if (result.changed) {
+          appendActivityEntry(
+            id,
+            result.next
+              ? `Asignación interna actualizada a ${result.next}.`
+              : "Asignación interna retirada.",
+            {
+              actionType: "asignacion",
+              detail: result.previous
+                ? `Valor anterior: ${result.previous}.`
+                : "No existía una asignación interna previa.",
+            }
+          );
+        }
         persistAssignments();
         scheduleSharedStateSync({ notify: true, immediate: true });
+        return result.changed;
       }
 
       function setManyAssignments(entries) {
-        entries.forEach(([id, value]) => assignValue(id, value));
+        entries.forEach(([id, value]) => {
+          const result = assignValue(id, value);
+          if (!result.changed) {
+            return;
+          }
+
+          appendActivityEntry(
+            id,
+            result.next
+              ? `Asignación interna masiva a ${result.next}.`
+              : "Asignación interna removida en operación masiva.",
+            {
+              actionType: "asignacion-masiva",
+              detail: result.previous
+                ? `Valor anterior: ${result.previous}.`
+                : "No existía una asignación interna previa.",
+            }
+          );
+        });
         persistAssignments();
         scheduleSharedStateSync({ notify: true, immediate: true });
       }
@@ -2740,6 +3231,7 @@
       }
 
       function setReviewValue(recordId, fieldKey, nextValue) {
+        const previousValue = getReviewValue(recordId, fieldKey);
         if (!reviewResults[recordId]) {
           reviewResults[recordId] = {};
         }
@@ -2752,6 +3244,19 @@
 
         if (!Object.keys(reviewResults[recordId]).length) {
           delete reviewResults[recordId];
+        }
+
+        if (previousValue !== nextValue) {
+          const itemLabel = technicalChecklist.find((item) => item.key === fieldKey)?.label || fieldKey;
+          appendActivityEntry(
+            recordId,
+            `${itemLabel}: ${formatReviewValue(previousValue)} → ${formatReviewValue(nextValue)}.`,
+            {
+              actionType: "revision",
+              fieldKey,
+              detail: `Resultado técnico actual: ${getTechnicalOutcome(recordId)}.`,
+            }
+          );
         }
 
         persistReviewResults();
@@ -2784,9 +3289,16 @@
       }
 
       function removeEvidence(recordId, imageId) {
+        const removedImage = getEvidenceList(recordId).find((image) => image.id === imageId) || null;
         evidenceImages[recordId] = getEvidenceList(recordId).filter((image) => image.id !== imageId);
         if (!evidenceImages[recordId].length) {
           delete evidenceImages[recordId];
+        }
+        if (removedImage) {
+          appendActivityEntry(recordId, `Se retiró la evidencia ${removedImage.name}.`, {
+            actionType: "evidencia",
+            detail: "La imagen fue removida de la ficha técnica.",
+          });
         }
         persistEvidenceImages();
         scheduleSharedStateSync();
@@ -2817,8 +3329,157 @@
         );
 
         evidenceImages[recordId] = [...getEvidenceList(recordId), ...images];
+        appendActivityEntry(recordId, `Se agregaron ${images.length} archivo(s) de evidencia.`, {
+          actionType: "evidencia",
+          detail: images.map((image) => image.name).join(", "),
+        });
         persistEvidenceImages();
         scheduleSharedStateSync();
+      }
+
+      function getReportDraft(recordId) {
+        return reportDrafts[recordId] || {};
+      }
+
+      function setReportDraftField(recordId, fieldKey, value) {
+        const nextValue = String(value || "").replace(/\r/g, "").trim();
+        const currentDraft = getReportDraft(recordId);
+        const previousValue = typeof currentDraft[fieldKey] === "string" ? currentDraft[fieldKey] : "";
+        if (previousValue === nextValue) {
+          return false;
+        }
+
+        const nextDraft = { ...currentDraft };
+        if (nextValue) {
+          nextDraft[fieldKey] = nextValue;
+        } else {
+          delete nextDraft[fieldKey];
+        }
+        nextDraft.updatedAt = new Date().toISOString();
+        nextDraft.updatedBy = getCurrentActorLabel();
+
+        const hasCustomContent = ["antecedente", "analisis", "observaciones", "conclusion"].some((key) => nextDraft[key]);
+        if (hasCustomContent) {
+          reportDrafts[recordId] = nextDraft;
+        } else {
+          delete reportDrafts[recordId];
+        }
+
+        persistReportDrafts();
+        scheduleSharedStateSync();
+        return true;
+      }
+
+      function clearReportDraft(recordId) {
+        if (!reportDrafts[recordId]) {
+          return false;
+        }
+        delete reportDrafts[recordId];
+        appendActivityEntry(recordId, "Se restauró el informe técnico automático.", {
+          actionType: "borrador-informe",
+          detail: "Se eliminaron los textos manuales del borrador y volvió la generación automática.",
+        });
+        persistReportDrafts();
+        scheduleSharedStateSync();
+        return true;
+      }
+
+      function saveReportDraft(recordId) {
+        const draft = getReportDraft(recordId);
+        if (!draft || !Object.keys(draft).length) {
+          appendActivityEntry(recordId, "Se confirmó el informe automático sin borrador manual.", {
+            actionType: "borrador-informe",
+          });
+          scheduleSharedStateSync();
+          return false;
+        }
+
+        reportDrafts[recordId] = {
+          ...draft,
+          updatedAt: new Date().toISOString(),
+          updatedBy: getCurrentActorLabel(),
+        };
+        appendActivityEntry(recordId, "Se guardó el borrador manual del informe técnico.", {
+          actionType: "borrador-informe",
+          detail: "Quedaron guardados los textos personalizados de antecedente, análisis, observaciones o conclusión.",
+        });
+        persistReportDrafts();
+        scheduleSharedStateSync({ notify: true });
+        return true;
+      }
+
+      function getTaskQueueForRecord(recordId) {
+        return taskQueue.filter((task) => task.recordId === recordId);
+      }
+
+      function addTaskItem(recordId, title, notes, assignee) {
+        const nextTitle = String(title || "").trim();
+        if (!nextTitle) {
+          return false;
+        }
+
+        const timestamp = new Date().toISOString();
+        const task = {
+          id: `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`,
+          recordId,
+          title: nextTitle,
+          notes: String(notes || "").replace(/\r/g, "").trim(),
+          assignee: String(assignee || "").trim(),
+          status: "pendiente",
+          createdBy: getCurrentActorLabel(),
+          updatedBy: getCurrentActorLabel(),
+          createdAt: timestamp,
+          updatedAt: timestamp,
+        };
+        taskQueue.unshift(task);
+        replaceJsonArray(taskQueue, sanitizeTaskQueue(taskQueue));
+        appendActivityEntry(recordId, `Se agregó una tarea: ${task.title}.`, {
+          actionType: "tarea",
+          detail: task.notes || "La tarea quedó pendiente sin observación adicional.",
+        });
+        persistTaskQueue();
+        scheduleSharedStateSync({ notify: true });
+        return true;
+      }
+
+      function updateTaskItemStatus(taskId, nextStatus) {
+        const task = taskQueue.find((item) => item.id === taskId);
+        if (!task) {
+          return false;
+        }
+
+        const normalizedStatus = normalizeTaskStatus(nextStatus);
+        if (task.status === normalizedStatus) {
+          return false;
+        }
+
+        task.status = normalizedStatus;
+        task.updatedAt = new Date().toISOString();
+        task.updatedBy = getCurrentActorLabel();
+        appendActivityEntry(task.recordId, `La tarea "${task.title}" pasó a ${formatTaskStatus(task.status)}.`, {
+          actionType: "tarea",
+          detail: task.notes || "Sin nota adicional en la tarea.",
+        });
+        replaceJsonArray(taskQueue, sanitizeTaskQueue(taskQueue));
+        persistTaskQueue();
+        scheduleSharedStateSync({ notify: true });
+        return true;
+      }
+
+      function removeTaskItem(taskId) {
+        const taskIndex = taskQueue.findIndex((item) => item.id === taskId);
+        if (taskIndex === -1) {
+          return false;
+        }
+
+        const [task] = taskQueue.splice(taskIndex, 1);
+        appendActivityEntry(task.recordId, `Se eliminó la tarea "${task.title}".`, {
+          actionType: "tarea",
+          detail: task.notes || "La tarea fue retirada de la cola.",
+        });
+        persistTaskQueue();
+        scheduleSharedStateSync({ notify: true });
+        return true;
       }
 
       function getReviewSummary(recordId) {
@@ -2911,6 +3572,7 @@
         });
 
         dom.sessionAssignee.value = state.sessionAssignee;
+        dom.editorIdentity.value = editorIdentity;
       }
 
       function buildOptions(values, firstLabel) {
@@ -2968,6 +3630,9 @@
 
         dom.enterAssignedButton.addEventListener("click", () => {
           setSessionAssignee(dom.sessionAssignee.value);
+          if (!editorIdentity && dom.sessionAssignee.value) {
+            setEditorIdentity(dom.sessionAssignee.value);
+          }
           setModuleMode("assigned");
           render();
           setMessage(
@@ -2991,6 +3656,9 @@
 
           event.preventDefault();
           setSessionAssignee(event.target.value);
+          if (!editorIdentity && state.sessionAssignee) {
+            setEditorIdentity(state.sessionAssignee);
+          }
           setModuleMode("assigned");
           render();
           setMessage(
@@ -3003,9 +3671,22 @@
 
         dom.sessionAssignee.addEventListener("change", (event) => {
           setSessionAssignee(event.target.value);
+          if (!editorIdentity && state.sessionAssignee) {
+            setEditorIdentity(state.sessionAssignee);
+          }
           if (!isAdminMode()) {
             render();
           }
+        });
+
+        dom.editorIdentity.addEventListener("change", (event) => {
+          setEditorIdentity(event.target.value);
+          setMessage(
+            dom.moduleMessage,
+            editorIdentity
+              ? `La bitÃ¡cora usarÃ¡ a ${editorIdentity} como editor actual.`
+              : "Se limpiÃ³ el nombre del editor actual; la bitÃ¡cora usarÃ¡ el contexto del mÃ³dulo."
+          );
         });
 
         dom.searchInput.addEventListener("input", (event) => {
@@ -3151,6 +3832,9 @@
           const assignmentCount = Object.keys(sharedPayload.assignments).length;
           const reviewCount = Object.keys(sharedPayload.reviewResults || {}).length;
           const evidenceCount = Object.keys(sharedPayload.evidenceImages || {}).length;
+          const draftCount = Object.keys(sharedPayload.reportDrafts || {}).length;
+          const taskCount = Array.isArray(sharedPayload.taskQueue) ? sharedPayload.taskQueue.length : 0;
+          const activityCount = Array.isArray(sharedPayload.activityLog) ? sharedPayload.activityLog.length : 0;
           downloadFile(
             buildSharedAssignmentsModule(sharedPayload),
             "tramites-iprus-shared-state.js",
@@ -3159,7 +3843,7 @@
           setMessage(
             dom.exportMessage,
             assignmentCount
-              ? `Se descargó el estado compartido con ${assignmentCount} asignaciones, ${reviewCount} revisiones y ${evidenceCount} grupos de evidencia.`
+              ? `Se descargó el estado compartido con ${assignmentCount} asignaciones, ${reviewCount} revisiones, ${evidenceCount} grupos de evidencia, ${draftCount} borradores, ${taskCount} tareas y ${activityCount} eventos de bitácora.`
               : "Se descargó el estado compartido vacío para reiniciar la vista central desde cero."
           );
         });
@@ -3203,6 +3887,23 @@
             return;
           }
 
+          const reviewNoteInput = event.target.closest("[data-review-note-id]");
+          if (reviewNoteInput) {
+            const reviewId = reviewNoteInput.dataset.reviewNoteId;
+            const reviewField = reviewNoteInput.dataset.reviewNoteField;
+            const itemLabel = technicalChecklist.find((item) => item.key === reviewField)?.label || reviewField;
+            appendActivityEntry(
+              reviewId,
+              `Observación técnica actualizada en ${itemLabel}.`,
+              {
+                actionType: "observacion",
+                fieldKey: reviewField,
+                detail: String(reviewNoteInput.value || "").trim() || "La observación técnica fue limpiada.",
+              }
+            );
+            return;
+          }
+
           const evidenceInput = event.target.closest("[data-evidence-input-id]");
           if (evidenceInput) {
             const { evidenceInputId } = evidenceInput.dataset;
@@ -3219,16 +3920,25 @@
 
         dom.tableBody.addEventListener("input", (event) => {
           const noteInput = event.target.closest("[data-review-note-id]");
-          if (!noteInput) {
+          if (noteInput) {
+            setReviewNote(
+              noteInput.dataset.reviewNoteId,
+              noteInput.dataset.reviewNoteField,
+              noteInput.value
+            );
+            syncReportPreview(noteInput.dataset.reviewNoteId, noteInput);
             return;
           }
 
-          setReviewNote(
-            noteInput.dataset.reviewNoteId,
-            noteInput.dataset.reviewNoteField,
-            noteInput.value
-          );
-          syncReportPreview(noteInput.dataset.reviewNoteId, noteInput);
+          const draftInput = event.target.closest("[data-report-draft-id]");
+          if (draftInput) {
+            setReportDraftField(
+              draftInput.dataset.reportDraftId,
+              draftInput.dataset.reportDraftField,
+              draftInput.value
+            );
+            syncReportPreview(draftInput.dataset.reportDraftId, draftInput);
+          }
         });
 
         dom.tableBody.addEventListener("keydown", (event) => {
@@ -3246,6 +3956,67 @@
         });
 
         dom.tableBody.addEventListener("click", async (event) => {
+          const saveDraftButton = event.target.closest("[data-save-report-draft-id]");
+          if (saveDraftButton) {
+            const { saveReportDraftId } = saveDraftButton.dataset;
+            const changed = saveReportDraft(saveReportDraftId);
+            render();
+            setMessage(
+              dom.exportMessage,
+              changed
+                ? `Se guardó el borrador manual del informe para el trámite ${saveReportDraftId}.`
+                : `Se confirmó el informe automático del trámite ${saveReportDraftId}.`
+            );
+            return;
+          }
+
+          const clearDraftButton = event.target.closest("[data-clear-report-draft-id]");
+          if (clearDraftButton) {
+            const { clearReportDraftId } = clearDraftButton.dataset;
+            clearReportDraft(clearReportDraftId);
+            render();
+            setMessage(dom.exportMessage, `El trámite ${clearReportDraftId} volvió al informe automático.`);
+            return;
+          }
+
+          const addTaskButton = event.target.closest("[data-add-task-id]");
+          if (addTaskButton) {
+            const { addTaskId } = addTaskButton.dataset;
+            const detailCard = addTaskButton.closest(".details-card");
+            const titleInput = detailCard ? detailCard.querySelector(`[data-task-title-id="${addTaskId}"]`) : null;
+            const assigneeInput = detailCard ? detailCard.querySelector(`[data-task-assignee-id="${addTaskId}"]`) : null;
+            const noteInput = detailCard ? detailCard.querySelector(`[data-task-note-id="${addTaskId}"]`) : null;
+            const created = addTaskItem(
+              addTaskId,
+              titleInput ? titleInput.value : "",
+              noteInput ? noteInput.value : "",
+              assigneeInput ? assigneeInput.value : ""
+            );
+            if (!created) {
+              setMessage(dom.exportMessage, "Escribe primero el título de la tarea.");
+              return;
+            }
+            render();
+            setMessage(dom.exportMessage, `Se agregó una tarea de seguimiento al trámite ${addTaskId}.`);
+            return;
+          }
+
+          const taskStatusButton = event.target.closest("[data-task-status-id]");
+          if (taskStatusButton) {
+            updateTaskItemStatus(taskStatusButton.dataset.taskStatusId, taskStatusButton.dataset.taskStatus);
+            render();
+            setMessage(dom.exportMessage, "Se actualizó el estado de la tarea seleccionada.");
+            return;
+          }
+
+          const removeTaskButton = event.target.closest("[data-remove-task-id]");
+          if (removeTaskButton) {
+            removeTaskItem(removeTaskButton.dataset.removeTaskId);
+            render();
+            setMessage(dom.exportMessage, "La tarea fue retirada de la cola de seguimiento.");
+            return;
+          }
+
           const downloadPdfButton = event.target.closest("[data-download-pdf-id]");
           if (downloadPdfButton) {
             const { downloadPdfId } = downloadPdfButton.dataset;
@@ -4091,6 +4862,182 @@
           .join("");
       }
 
+      function splitDraftParagraphs(value) {
+        return String(value || "")
+          .split(/\n{2,}|\r\n\r\n/)
+          .map((item) => item.trim())
+          .filter(Boolean);
+      }
+
+      function splitDraftList(value) {
+        return String(value || "")
+          .split(/\n+/)
+          .map((item) => item.replace(/^\s*\d+[.)-]?\s*/, "").trim())
+          .filter(Boolean);
+      }
+
+      function formatTaskStatus(status) {
+        if (status === "en_proceso") {
+          return "En proceso";
+        }
+        if (status === "completada") {
+          return "Completada";
+        }
+        return "Pendiente";
+      }
+
+      function getRecordActivityLog(recordId) {
+        return activityLog.filter((entry) => entry.recordId === recordId).slice(0, 12);
+      }
+
+      function renderDraftPanel(record) {
+        const draft = getReportDraft(record.id);
+        return `
+          <section class="draft-panel">
+            <div class="section-header">
+              <div>
+                <h3>Borrador técnico editable</h3>
+                <p class="helper">
+                  Puedes reemplazar el texto automático por un borrador manual. Si dejas un campo vacío, el sistema seguirá usando la redacción automática.
+                </p>
+              </div>
+              <span class="draft-meta">
+                ${
+                  draft.updatedAt
+                    ? `Última edición ${escapeHtml(formatDate(draft.updatedAt, true) || draft.updatedAt)}${draft.updatedBy ? ` · ${escapeHtml(draft.updatedBy)}` : ""}`
+                    : "Sin borrador manual guardado"
+                }
+              </span>
+            </div>
+            <div class="draft-grid">
+              <label class="field-full">
+                Antecedente
+                <textarea class="draft-note" data-report-draft-id="${escapeHtml(record.id)}" data-report-draft-field="antecedente" placeholder="Escribe aquí el antecedente manual del informe.">${escapeHtml(draft.antecedente || "")}</textarea>
+              </label>
+              <label class="field-full">
+                Análisis técnico
+                <textarea class="draft-note" data-report-draft-id="${escapeHtml(record.id)}" data-report-draft-field="analisis" placeholder="Escribe aquí uno o varios párrafos de análisis técnico.">${escapeHtml(draft.analisis || "")}</textarea>
+              </label>
+              <label class="field-full">
+                Observaciones
+                <textarea class="draft-note" data-report-draft-id="${escapeHtml(record.id)}" data-report-draft-field="observaciones" placeholder="Escribe una observación por línea.">${escapeHtml(draft.observaciones || "")}</textarea>
+              </label>
+              <label class="field-full">
+                Conclusión
+                <textarea class="draft-note" data-report-draft-id="${escapeHtml(record.id)}" data-report-draft-field="conclusion" placeholder="Escribe aquí la conclusión manual del informe.">${escapeHtml(draft.conclusion || "")}</textarea>
+              </label>
+            </div>
+            <div class="report-actions">
+              <button type="button" data-save-report-draft-id="${escapeHtml(record.id)}">Guardar borrador</button>
+              <button class="secondary" type="button" data-clear-report-draft-id="${escapeHtml(record.id)}">Volver a automático</button>
+            </div>
+          </section>
+        `;
+      }
+
+      function renderTaskQueuePanel(record) {
+        const tasks = getTaskQueueForRecord(record.id);
+        return `
+          <section class="tasks-panel">
+            <div class="section-header">
+              <div>
+                <h3>Cola de tareas y seguimiento</h3>
+                <p class="helper">
+                  Registra pendientes técnicos, responsables internos y el avance de cada gestión relacionada con este trámite.
+                </p>
+              </div>
+              <span class="draft-meta">${tasks.length} tarea(s) en este trámite</span>
+            </div>
+            <div class="task-form">
+              <label>
+                Tarea
+                <input type="text" data-task-title-id="${escapeHtml(record.id)}" placeholder="Ej. revisar linderos y corregir observación" />
+              </label>
+              <label>
+                Responsable
+                <input type="text" list="assignee-options" data-task-assignee-id="${escapeHtml(record.id)}" placeholder="Ej. Fausto López" />
+              </label>
+              <label class="field-full">
+                Nota de la tarea
+                <textarea class="task-note" data-task-note-id="${escapeHtml(record.id)}" placeholder="Describe aquí el detalle o seguimiento de la tarea."></textarea>
+              </label>
+            </div>
+            <div class="report-actions">
+              <button type="button" data-add-task-id="${escapeHtml(record.id)}">Agregar tarea</button>
+            </div>
+            ${
+              tasks.length
+                ? `
+                  <div class="task-list">
+                    ${tasks
+                      .map(
+                        (task) => `
+                          <article class="task-card">
+                            <div class="task-card-head">
+                              <div>
+                                <strong>${escapeHtml(task.title)}</strong>
+                                <p>${escapeHtml(task.notes || "Sin nota adicional.")}</p>
+                              </div>
+                              <span class="task-status-badge status-${slugify(task.status)}">${escapeHtml(formatTaskStatus(task.status))}</span>
+                            </div>
+                            <div class="activity-meta">
+                              ${escapeHtml(task.assignee || "Sin responsable específico")} · Creada ${escapeHtml(formatDate(task.createdAt, true) || task.createdAt || "-")} por ${escapeHtml(task.createdBy || "-")}
+                              ${task.updatedAt ? ` · Última actualización ${escapeHtml(formatDate(task.updatedAt, true) || task.updatedAt)}${task.updatedBy ? ` por ${escapeHtml(task.updatedBy)}` : ""}` : ""}
+                            </div>
+                            <div class="task-actions-grid">
+                              <button class="ghost tiny" type="button" data-task-status-id="${escapeHtml(task.id)}" data-task-status="pendiente">Pendiente</button>
+                              <button class="ghost tiny" type="button" data-task-status-id="${escapeHtml(task.id)}" data-task-status="en_proceso">En proceso</button>
+                              <button class="ghost tiny" type="button" data-task-status-id="${escapeHtml(task.id)}" data-task-status="completada">Completar</button>
+                              <button class="ghost tiny" type="button" data-remove-task-id="${escapeHtml(task.id)}">Quitar</button>
+                            </div>
+                          </article>
+                        `
+                      )
+                      .join("")}
+                  </div>
+                `
+                : `<p class="helper">Todavía no hay tareas registradas para este trámite.</p>`
+            }
+          </section>
+        `;
+      }
+
+      function renderActivityPanel(record) {
+        const entries = getRecordActivityLog(record.id);
+        return `
+          <section class="activity-panel">
+            <div class="section-header">
+              <div>
+                <h3>Bitácora e historial de cambios</h3>
+                <p class="helper">
+                  Aquí se registra quién editó qué parte del trámite, cuándo lo hizo y el detalle del cambio.
+                </p>
+              </div>
+              <span class="draft-meta">${entries.length} evento(s) recientes</span>
+            </div>
+            ${
+              entries.length
+                ? `
+                  <div class="activity-list">
+                    ${entries
+                      .map(
+                        (entry) => `
+                          <article class="activity-item">
+                            <strong>${escapeHtml(entry.summary)}</strong>
+                            <small>${escapeHtml(formatDate(entry.timestamp, true) || entry.timestamp)} · ${escapeHtml(entry.actor || "Sistema")} · ${escapeHtml(entry.actorMode === "assigned" ? "Asignado" : "Administrador")}</small>
+                            ${entry.detail ? `<p>${escapeHtml(entry.detail)}</p>` : ""}
+                          </article>
+                        `
+                      )
+                      .join("")}
+                  </div>
+                `
+                : `<p class="helper">Todavía no hay movimientos registrados en la bitácora de este trámite.</p>`
+            }
+          </section>
+        `;
+      }
+
       function renderReviewPanel(record) {
         const reviewSummary = getReviewSummary(record.id);
         const evidenceList = getEvidenceList(record.id);
@@ -4214,6 +5161,8 @@
                 : `<p class="helper">Todavía no se ha cargado evidencia gráfica para este trámite.</p>`
             }
           </section>
+          ${renderTaskQueuePanel(record)}
+          ${renderDraftPanel(record)}
           <section class="report-panel">
             <div class="section-header">
               <div>
@@ -4238,6 +5187,7 @@
               </button>
             </div>
           </section>
+          ${renderActivityPanel(record)}
         `;
       }
 
@@ -4547,6 +5497,7 @@
         const pendingItems = technicalChecklist.filter((item) => !getReviewValue(record.id, item.key));
         const outcome = getTechnicalOutcome(record.id);
         const evidence = getEvidenceList(record.id);
+        const draft = getReportDraft(record.id);
 
         const antecedente =
           `Una vez revisada la documentación técnica presentada dentro del trámite N.º ${tramiteNumber}, ` +
@@ -4632,10 +5583,10 @@
         }
 
         return {
-          antecedente,
-          analisis,
-          observaciones: observations,
-          conclusion,
+          antecedente: draft.antecedente || antecedente,
+          analisis: draft.analisis ? splitDraftParagraphs(draft.analisis) : analisis,
+          observaciones: draft.observaciones ? splitDraftList(draft.observaciones) : observations,
+          conclusion: draft.conclusion ? splitDraftParagraphs(draft.conclusion) : conclusion,
           evidencia: evidence,
         };
       }
@@ -4876,6 +5827,8 @@
 
       function enrichRecordForExport(record) {
         const reviewData = {};
+        const recordDraft = getReportDraft(record.id);
+        const recordTasks = getTaskQueueForRecord(record.id);
         technicalChecklist.forEach((item) => {
           reviewData[item.key] = formatReviewValue(getReviewValue(record.id, item.key));
           reviewData[`${item.key}Observacion`] = getReviewNote(record.id, item.key);
@@ -4891,6 +5844,12 @@
           revisionCumplidos: getReviewSummary(record.id).yes,
           revisionPendientes: getReviewSummary(record.id).pending,
           evidenciaCargada: getEvidenceList(record.id).length,
+          borradorInformeGuardado: Object.keys(recordDraft).length ? "Sí" : "No",
+          tareasTotales: recordTasks.length,
+          tareasPendientes: recordTasks.filter((task) => task.status !== "completada").length,
+          ultimaEdicionBorrador: recordDraft.updatedAt || "",
+          editorBorrador: recordDraft.updatedBy || "",
+          actividadRegistrada: getRecordActivityLog(record.id).length,
           ...reviewData,
         };
       }
@@ -4919,6 +5878,12 @@
           "historyArchivedAtFormateada",
           "revisionCumplidos",
           "revisionPendientes",
+          "borradorInformeGuardado",
+          "tareasTotales",
+          "tareasPendientes",
+          "ultimaEdicionBorrador",
+          "editorBorrador",
+          "actividadRegistrada",
           ...technicalChecklist.map((item) => item.key),
           ...technicalChecklist.map((item) => `${item.key}Observacion`),
           "evidenciaCargada",
@@ -4946,6 +5911,9 @@
           assignments: buildEffectiveAssignmentsMap(),
           reviewResults: sanitizeReviewResultsMap(reviewResults),
           evidenceImages: sanitizeEvidenceImagesMap(evidenceImages),
+          reportDrafts: sanitizeReportDraftsMap(reportDrafts),
+          taskQueue: sanitizeTaskQueue(taskQueue),
+          activityLog: sanitizeActivityLog(activityLog),
         };
       }
 
