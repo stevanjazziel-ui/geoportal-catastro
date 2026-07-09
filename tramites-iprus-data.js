@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-09",
-  "generatedAt": "2026-07-09T09:18:47",
+  "generatedAt": "2026-07-09T09:48:48",
   "records": [
     {
       "estado": "Asignado",
@@ -1553,20 +1553,23 @@ window.TRAMITES_IPRUS_DATA = {
       "id": "GADMR--2026-0362-IPRUS-ZNP"
     },
     {
-      "estado": "En espera",
+      "estado": "Complementado",
       "tramite": "Trámite: 1195995 GADMR--2026-0359-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "MENDOZA GUARACA MARIA ROSA - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "Tiempo detenido",
+      "fechaLimite": "2026-07-10",
       "fechaIngreso": "2026-06-30T17:14:00",
       "codigo": "GADMR--2026-0359-IPRUS-ZNP",
       "nroTramite": 1195995,
       "solicitante": "MENDOZA GUARACA MARIA ROSA",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "tiempoRestante": "(1 día restante 🚨)",
+      "diasRestantes": 1,
+      "prioridad": "Crítico",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
@@ -2038,15 +2041,15 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 88,
     "priorities": {
-      "Sin prioridad": 29,
+      "Sin prioridad": 28,
       "Normal": 39,
-      "Crítico": 13,
+      "Crítico": 14,
       "Urgente": 7
     },
     "states": {
       "Asignado": 66,
-      "Complementado": 20,
-      "En espera": 2
+      "Complementado": 21,
+      "En espera": 1
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 88
