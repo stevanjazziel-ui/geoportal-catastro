@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-10",
-  "generatedAt": "2026-07-10T10:25:33",
+  "generatedAt": "2026-07-10T10:55:33",
   "records": [
     {
       "estado": "Complementado",
@@ -115,14 +115,14 @@ window.TRAMITES_IPRUS_DATA = {
       "id": "GADMR--2026-0132-IPRUS-ZNP"
     },
     {
-      "estado": "Complementado",
+      "estado": "En espera",
       "tramite": "Trámite: 1154650 GADMR--2026-0107-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "CARDENAS CONSTANTE FERNANDA PAOLA - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": null,
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-07-09T18:03:00",
       "codigo": "GADMR--2026-0107-IPRUS-ZNP",
       "nroTramite": 1154650,
@@ -2141,9 +2141,9 @@ window.TRAMITES_IPRUS_DATA = {
       "Crítico": 3
     },
     "states": {
-      "Complementado": 29,
+      "Complementado": 28,
       "Asignado": 63,
-      "En espera": 1
+      "En espera": 2
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 93
