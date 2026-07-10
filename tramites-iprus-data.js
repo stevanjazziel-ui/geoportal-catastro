@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-10",
-  "generatedAt": "2026-07-10T10:55:33",
+  "generatedAt": "2026-07-10T11:25:35",
   "records": [
     {
       "estado": "Complementado",
@@ -52,14 +52,14 @@ window.TRAMITES_IPRUS_DATA = {
       "id": "GADMR--2026-0273-IPRUS-ZNP"
     },
     {
-      "estado": "Complementado",
+      "estado": "En espera",
       "tramite": "Trámite: 1182479 GADMR--2026-0266-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "MOROCHO YAUCAN EDISON PAUL - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": null,
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-07-09T18:03:00",
       "codigo": "GADMR--2026-0266-IPRUS-ZNP",
       "nroTramite": 1182479,
@@ -2048,14 +2048,14 @@ window.TRAMITES_IPRUS_DATA = {
       "id": "GADMR--2026-0303-IPRUS-ZNP"
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1188349 GADMR--2026-0310-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "VILEMA TIGXI BYRON MARCELO - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Angel Javier Tamayo Cepeda",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": null,
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-06-22T17:29:00",
       "codigo": "GADMR--2026-0310-IPRUS-ZNP",
       "nroTramite": 1188349,
@@ -2141,9 +2141,9 @@ window.TRAMITES_IPRUS_DATA = {
       "Crítico": 3
     },
     "states": {
-      "Complementado": 28,
-      "Asignado": 63,
-      "En espera": 2
+      "Complementado": 27,
+      "Asignado": 62,
+      "En espera": 4
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 93
