@@ -2239,7 +2239,8 @@
       const source = window.TRAMITES_IPRUS_DATA;
       const sharedSource = window.TRAMITES_IPRUS_SHARED_STATE || {};
       const sharedConfig = window.TRAMITES_IPRUS_CONFIG || {};
-      const sharedAssignmentsApiUrl = resolveSharedStateApiUrl(sharedConfig);
+      const backendSyncDisabled = sharedConfig.disableBackendSync === true;
+      const sharedAssignmentsApiUrl = backendSyncDisabled ? "" : resolveSharedStateApiUrl(sharedConfig);
       const sharedStateRefreshIntervalMs = Math.max(10000, Number(sharedConfig.syncRefreshMs) || 20000);
       const githubSyncConfigStorageKey = "tramites-iprus-github-sync-v1";
       const githubSyncTokenStorageKey = "tramites-iprus-github-token-v1";
@@ -3054,6 +3055,12 @@
           return false;
         }
 
+        if (backendSyncDisabled || !sharedAssignmentsApiUrl) {
+          sharedAssignmentsApiAvailable = false;
+          sharedAssignmentsApiChecked = true;
+          return false;
+        }
+
         try {
           const response = await fetch(sharedAssignmentsApiUrl, {
             method: "GET",
@@ -3248,8 +3255,12 @@
           try {
             let savedPayload = null;
             let syncedWithBackend = false;
+            const canTryBackend =
+              !backendSyncDisabled &&
+              Boolean(sharedAssignmentsApiUrl) &&
+              (sharedAssignmentsApiAvailable || forceBackend || !hasGithubSyncCredentials());
 
-            if (sharedAssignmentsApiAvailable || forceBackend || !hasGithubSyncCredentials()) {
+            if (canTryBackend) {
               try {
                 const response = await fetch(sharedAssignmentsApiUrl, {
                   method: "POST",
@@ -6232,6 +6243,13 @@
                 helper: "Este resumen se calcula sobre el estado compartido central ya publicado para todas las computadoras.",
                 brand: `Se cargaron ${total} trÃ¡mites activos con estado compartido central listo para todas las computadoras.`,
               };
+        }
+
+        if (hasGithubSyncCredentials() && backendSyncDisabled) {
+          return {
+            helper: "Este resumen usa GitHub Pages como estado compartido publicado para las otras computadoras.",
+            brand: `Se cargaron ${total} trÃƒÂ¡mites activos con estado compartido publicado directamente en GitHub Pages.`,
+          };
         }
 
         if (hasGithubSyncCredentials()) {

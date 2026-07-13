@@ -1,4 +1,5 @@
 window.TRAMITES_IPRUS_CONFIG = {
-  backendBaseUrl: "https://geoportal-catastro-tramites-iprus.netlify.app",
+  backendBaseUrl: "",
+  disableBackendSync: true,
   syncRefreshMs: 20000
 };
