@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-13",
-  "generatedAt": "2026-07-13T11:28:34",
+  "generatedAt": "2026-07-13T11:58:44",
   "records": [
     {
       "estado": "Complementado",
@@ -1765,51 +1765,6 @@ window.TRAMITES_IPRUS_DATA = {
       "id": "GADMR--2026-0343-IPRUS-ZNP"
     },
     {
-      "estado": "Complementado",
-      "tramite": "Trámite: 1192211 GADMR--2026-0341-IPRUS-ZNP",
-      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
-      "asunto": "CAMINOS MORENO JUAN CARLOS - IPRUS FUERA DE ZONA PATRIMONIAL",
-      "reasignadoPor": "Angel Javier Tamayo Cepeda",
-      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "expediente": "--",
-      "fechaLimite": "2026-07-07",
-      "fechaIngreso": "2026-07-01T17:49:00",
-      "codigo": "GADMR--2026-0341-IPRUS-ZNP",
-      "nroTramite": 1192211,
-      "solicitante": "CAMINOS MORENO JUAN CARLOS",
-      "reasignadoPorCargo": "Analista De Avaluos Y Catastros De Asesoria Legal 1",
-      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(Vencido hace 6 días)",
-      "diasRestantes": 6,
-      "prioridad": "Normal",
-      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
-      "asignadoInterno": "caizaluisae",
-      "sourceRow": 77,
-      "id": "GADMR--2026-0341-IPRUS-ZNP"
-    },
-    {
-      "estado": "Asignado",
-      "tramite": "Trámite: 1194040 GADMR--2026-0347-IPRUS-ZNP",
-      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
-      "asunto": "LARA CARGUA GENESIS VANESSA - IPRUS FUERA DE ZONA PATRIMONIAL",
-      "reasignadoPor": "Veronica Patricia Sagba Ausay",
-      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "expediente": "--",
-      "fechaLimite": null,
-      "fechaIngreso": "2026-07-01T17:12:00",
-      "codigo": "GADMR--2026-0347-IPRUS-ZNP",
-      "nroTramite": 1194040,
-      "solicitante": "LARA CARGUA GENESIS VANESSA",
-      "reasignadoPorCargo": "Ayudante 3 De Gestión De Planificación, Hábitat Y Desarrollo Urbanístico",
-      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
-      "asignadoInterno": "caizaluisae",
-      "sourceRow": 78,
-      "id": "GADMR--2026-0347-IPRUS-ZNP"
-    },
-    {
       "estado": "Asignado",
       "tramite": "Trámite: 1191697 GADMR--2026-0334-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
@@ -1827,7 +1782,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 79,
+      "sourceRow": 77,
       "id": "GADMR--2026-0334-IPRUS-ZNP"
     },
     {
@@ -1851,7 +1806,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 80,
+      "sourceRow": 78,
       "id": "GADMR--2026-0299-IPRUS-ZNP"
     },
     {
@@ -1875,7 +1830,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 81,
+      "sourceRow": 79,
       "id": "GADMR--2026-0354-IPRUS-ZNP"
     },
     {
@@ -1896,7 +1851,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 82,
+      "sourceRow": 80,
       "id": "GADMR--2026-0330-IPRUS-ZNP"
     },
     {
@@ -1920,7 +1875,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 83,
+      "sourceRow": 81,
       "id": "GADMR--2026-0272-IPRUS-ZNP"
     },
     {
@@ -1944,7 +1899,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 84,
+      "sourceRow": 82,
       "id": "GADMR--2026-0187-IPRUS-ZNP"
     },
     {
@@ -1965,7 +1920,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 85,
+      "sourceRow": 83,
       "id": "GADMR--2026-0192-IPRUS-ZNP"
     },
     {
@@ -1986,7 +1941,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 86,
+      "sourceRow": 84,
       "id": "GADMR--2026-0328-IPRUS-ZNP"
     },
     {
@@ -2010,7 +1965,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 87,
+      "sourceRow": 85,
       "id": "GADMR--2026-0282-IPRUS-ZNP"
     },
     {
@@ -2034,7 +1989,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 88,
+      "sourceRow": 86,
       "id": "GADMR--2026-0264-IPRUS-ZNP"
     },
     {
@@ -2055,7 +2010,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 89,
+      "sourceRow": 87,
       "id": "GADMR--2026-0223-IPRUS-ZNP"
     },
     {
@@ -2076,7 +2031,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 90,
+      "sourceRow": 88,
       "id": "GADMR--2026-0338-IPRUS-ZNP"
     },
     {
@@ -2097,7 +2052,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 91,
+      "sourceRow": 89,
       "id": "GADMR--2026-0327-IPRUS-ZNP"
     },
     {
@@ -2118,7 +2073,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 92,
+      "sourceRow": 90,
       "id": "GADMR--2026-0172-IPRUS-ZNP"
     },
     {
@@ -2139,7 +2094,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 93,
+      "sourceRow": 91,
       "id": "GADMR--2026-0303-IPRUS-ZNP"
     },
     {
@@ -2160,8 +2115,99 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 94,
+      "sourceRow": 92,
       "id": "GADMR--2026-0310-IPRUS-ZNP"
+    },
+    {
+      "estado": "Complementado",
+      "tramite": "Trámite: 1152147 GADMR--2026-0094-IPRUS-ZNP",
+      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
+      "asunto": "CADENA VELASTEGUI MARITZA ALEXANDRA - IPRUS FUERA DE ZONA PATRIMONIAL",
+      "reasignadoPor": "Veronica Patricia Sagba Ausay",
+      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "expediente": "--",
+      "fechaLimite": null,
+      "fechaIngreso": "2026-06-05T16:56:00",
+      "codigo": "GADMR--2026-0094-IPRUS-ZNP",
+      "nroTramite": 1152147,
+      "solicitante": "CADENA VELASTEGUI MARITZA ALEXANDRA",
+      "reasignadoPorCargo": "Ayudante 3 De Gestión De Planificación, Hábitat Y Desarrollo Urbanístico",
+      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
+      "asignadoInterno": "caizaluisae",
+      "sourceRow": 93,
+      "id": "GADMR--2026-0094-IPRUS-ZNP"
+    }
+  ],
+  "summary": {
+    "total": 93,
+    "priorities": {
+      "Normal": 49,
+      "Sin prioridad": 33,
+      "Urgente": 8,
+      "Crítico": 3
+    },
+    "states": {
+      "Complementado": 28,
+      "Asignado": 61,
+      "En espera": 4
+    },
+    "responsibles": {
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 93
+    }
+  },
+  "historyRecords": [
+    {
+      "estado": "Asignado",
+      "tramite": "Trámite: 1194040 GADMR--2026-0347-IPRUS-ZNP",
+      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
+      "asunto": "LARA CARGUA GENESIS VANESSA - IPRUS FUERA DE ZONA PATRIMONIAL",
+      "reasignadoPor": "Veronica Patricia Sagba Ausay",
+      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "expediente": "--",
+      "fechaLimite": null,
+      "fechaIngreso": "2026-07-01T17:12:00",
+      "codigo": "GADMR--2026-0347-IPRUS-ZNP",
+      "nroTramite": 1194040,
+      "solicitante": "LARA CARGUA GENESIS VANESSA",
+      "reasignadoPorCargo": "Ayudante 3 De Gestión De Planificación, Hábitat Y Desarrollo Urbanístico",
+      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
+      "asignadoInterno": "caizaluisae",
+      "sourceRow": 78,
+      "id": "GADMR--2026-0347-IPRUS-ZNP",
+      "historyArchivedAt": "2026-07-13T11:58:44",
+      "historyLastSeenAt": "2026-07-13T11:28:34",
+      "historyStatus": "Historico"
+    },
+    {
+      "estado": "Complementado",
+      "tramite": "Trámite: 1192211 GADMR--2026-0341-IPRUS-ZNP",
+      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
+      "asunto": "CAMINOS MORENO JUAN CARLOS - IPRUS FUERA DE ZONA PATRIMONIAL",
+      "reasignadoPor": "Angel Javier Tamayo Cepeda",
+      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "expediente": "--",
+      "fechaLimite": "2026-07-07",
+      "fechaIngreso": "2026-07-01T17:49:00",
+      "codigo": "GADMR--2026-0341-IPRUS-ZNP",
+      "nroTramite": 1192211,
+      "solicitante": "CAMINOS MORENO JUAN CARLOS",
+      "reasignadoPorCargo": "Analista De Avaluos Y Catastros De Asesoria Legal 1",
+      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "tiempoRestante": "(Vencido hace 6 días)",
+      "diasRestantes": 6,
+      "prioridad": "Normal",
+      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
+      "asignadoInterno": "caizaluisae",
+      "sourceRow": 77,
+      "id": "GADMR--2026-0341-IPRUS-ZNP",
+      "historyArchivedAt": "2026-07-13T11:58:44",
+      "historyLastSeenAt": "2026-07-13T11:28:34",
+      "historyStatus": "Historico"
     },
     {
       "estado": "Asignado",
@@ -2182,48 +2228,11 @@ window.TRAMITES_IPRUS_DATA = {
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
       "sourceRow": 95,
-      "id": "GADMR--2026-0284-IPRUS-ZNP"
+      "id": "GADMR--2026-0284-IPRUS-ZNP",
+      "historyArchivedAt": "2026-07-13T11:58:44",
+      "historyLastSeenAt": "2026-07-13T11:28:34",
+      "historyStatus": "Historico"
     },
-    {
-      "estado": "Complementado",
-      "tramite": "Trámite: 1152147 GADMR--2026-0094-IPRUS-ZNP",
-      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
-      "asunto": "CADENA VELASTEGUI MARITZA ALEXANDRA - IPRUS FUERA DE ZONA PATRIMONIAL",
-      "reasignadoPor": "Veronica Patricia Sagba Ausay",
-      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "expediente": "--",
-      "fechaLimite": null,
-      "fechaIngreso": "2026-06-05T16:56:00",
-      "codigo": "GADMR--2026-0094-IPRUS-ZNP",
-      "nroTramite": 1152147,
-      "solicitante": "CADENA VELASTEGUI MARITZA ALEXANDRA",
-      "reasignadoPorCargo": "Ayudante 3 De Gestión De Planificación, Hábitat Y Desarrollo Urbanístico",
-      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
-      "asignadoInterno": "caizaluisae",
-      "sourceRow": 96,
-      "id": "GADMR--2026-0094-IPRUS-ZNP"
-    }
-  ],
-  "summary": {
-    "total": 96,
-    "priorities": {
-      "Normal": 50,
-      "Sin prioridad": 35,
-      "Urgente": 8,
-      "Crítico": 3
-    },
-    "states": {
-      "Complementado": 29,
-      "Asignado": 63,
-      "En espera": 4
-    },
-    "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 96
-    }
-  },
-  "historyRecords": [
     {
       "estado": "Asignado",
       "tramite": "Trámite: 1186529 GADMR--2026-0297-IPRUS-ZNP",
@@ -2615,19 +2624,19 @@ window.TRAMITES_IPRUS_DATA = {
     }
   ],
   "historySummary": {
-    "total": 15,
+    "total": 18,
     "priorities": {
-      "Sin prioridad": 6,
-      "Normal": 3,
+      "Sin prioridad": 8,
+      "Normal": 4,
       "Crítico": 4,
       "Urgente": 2
     },
     "states": {
-      "Asignado": 9,
-      "Complementado": 6
+      "Asignado": 11,
+      "Complementado": 7
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 15
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 18
     }
   }
 };
