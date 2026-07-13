@@ -502,11 +502,296 @@
       border-color: rgba(73, 169, 66, 0.28);
     }
 
+    .tracking-panel {
+      padding: 22px;
+      background: linear-gradient(180deg, #ffffff 0%, #f6fbf7 100%);
+    }
+
+    .tracking-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .tracking-card {
+      padding: 18px;
+      border: 1px solid rgba(52, 72, 74, 0.1);
+      border-radius: 14px;
+      background: #ffffff;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .tracking-card h3 {
+      color: #34495e;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .tracking-card-wide {
+      grid-column: 1 / -1;
+    }
+
+    .tracking-chart-bar,
+    .tracking-row-bar {
+      display: flex;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #edf2f5;
+    }
+
+    .tracking-chart-bar {
+      height: 18px;
+      margin-top: 16px;
+    }
+
+    .tracking-row-bar {
+      height: 14px;
+    }
+
+    .tracking-chart-segment,
+    .tracking-row-segment {
+      display: block;
+      height: 100%;
+    }
+
+    .tracking-legend {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .tracking-legend-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(52, 72, 74, 0.08);
+      background: #f8fbfc;
+    }
+
+    .tracking-legend-swatch {
+      width: 12px;
+      height: 12px;
+      margin-top: 4px;
+      border-radius: 999px;
+      flex: none;
+    }
+
+    .tracking-legend-copy strong,
+    .tracking-row-head strong,
+    .tracking-assignee-title strong,
+    .tracking-mini-metric strong {
+      display: block;
+      color: #34495e;
+    }
+
+    .tracking-legend-copy span,
+    .tracking-row-head span,
+    .tracking-assignee-title span,
+    .tracking-row-meta,
+    .tracking-empty,
+    .tracking-mini-metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+
+    .tracking-progress-wrap {
+      display: grid;
+      justify-items: center;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .tracking-ring {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 180px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: conic-gradient(var(--ring-color, #49a942) 0 var(--ring-fill, 0%), #e4ebef var(--ring-fill, 0%) 100%);
+    }
+
+    .tracking-ring::after {
+      content: "";
+      position: absolute;
+      inset: 24px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: inset 0 0 0 1px rgba(52, 72, 74, 0.08);
+    }
+
+    .tracking-ring-copy {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 6px;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .tracking-ring-copy strong {
+      color: #243746;
+      font-size: 1.95rem;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .tracking-ring-copy span {
+      color: #6c8090;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.73rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .tracking-progress-metrics {
+      display: grid;
+      width: 100%;
+      gap: 10px;
+    }
+
+    .tracking-mini-metric {
+      padding: 12px 13px;
+      border-radius: 10px;
+      border: 1px solid rgba(52, 72, 74, 0.08);
+      background: #f8fbfc;
+    }
+
+    .tracking-mini-metric strong {
+      margin-top: 6px;
+      font-size: 1.05rem;
+    }
+
+    .tracking-bar-list,
+    .tracking-assignee-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .tracking-row {
+      display: grid;
+      gap: 9px;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(52, 72, 74, 0.08);
+      background: #fbfcfd;
+    }
+
+    .tracking-row-head,
+    .tracking-assignee-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tracking-row-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+    }
+
+    .tracking-assignee-card {
+      display: grid;
+      gap: 14px;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(52, 72, 74, 0.08);
+      background: #fbfcfd;
+    }
+
+    .tracking-assignee-title strong {
+      font-size: 1rem;
+    }
+
+    .tracking-assignee-title span {
+      margin-top: 4px;
+    }
+
+    .tracking-ring-small {
+      width: 96px;
+    }
+
+    .tracking-ring-small::after {
+      inset: 13px;
+    }
+
+    .tracking-ring-small .tracking-ring-copy strong {
+      font-size: 1.05rem;
+    }
+
+    .tracking-ring-small .tracking-ring-copy span {
+      font-size: 0.62rem;
+    }
+
+    .tracking-assignee-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tracking-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+
+    .tracking-pill.favorable {
+      color: #2f8b32;
+      background: rgba(232, 248, 230, 0.96);
+      border-color: rgba(73, 169, 66, 0.18);
+    }
+
+    .tracking-pill.no-favorable {
+      color: #a84439;
+      background: rgba(255, 234, 230, 0.96);
+      border-color: rgba(211, 92, 77, 0.24);
+    }
+
+    .tracking-pill.revision {
+      color: #9b731d;
+      background: rgba(255, 244, 219, 0.96);
+      border-color: rgba(214, 168, 56, 0.24);
+    }
+
+    .tracking-pill.closed {
+      color: #3a6175;
+      background: rgba(233, 240, 245, 0.96);
+      border-color: rgba(91, 116, 136, 0.18);
+    }
+
+    .tracking-empty {
+      margin-top: 12px;
+      padding: 16px;
+      border-radius: 10px;
+      border: 1px dashed rgba(52, 72, 74, 0.16);
+      background: #f9fbfc;
+      text-align: center;
+    }
+
     .mode-switcher {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
       margin-top: 14px;
+    }
+
+    #dataset-switcher.mode-switcher {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .mode-button {
@@ -1603,6 +1888,10 @@
       .mode-banner {
         grid-template-columns: 1fr;
       }
+
+      .tracking-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 720px) {
@@ -1618,7 +1907,8 @@
       }
 
       .mode-switcher,
-      .mode-banner-stats {
+      .mode-banner-stats,
+      .tracking-legend {
         grid-template-columns: 1fr;
       }
 
@@ -1837,14 +2127,48 @@
         <div class="mode-switcher" id="dataset-switcher">
           <button class="mode-button active" type="button" data-dataset-tab="active">Activos</button>
           <button class="mode-button" type="button" data-dataset-tab="history">Historial</button>
+          <button class="mode-button" type="button" data-dataset-tab="tracking">Seguimiento</button>
         </div>
       </section>
 
       <section class="summary-grid" id="summary-grid"></section>
 
+      <section class="panel tracking-panel" id="tracking-panel" hidden>
+        <div class="section-header">
+          <div>
+            <h2>Seguimiento Por Asignado</h2>
+            <p class="helper" id="tracking-helper">
+              Esta pestaña resume a quién se asignaron los trámites, en qué estado técnico se encuentran y cómo avanza la revisión.
+            </p>
+          </div>
+        </div>
+        <div class="tracking-grid">
+          <article class="tracking-card tracking-card-wide">
+            <h3>Estado general de la revisión</h3>
+            <div id="tracking-status-overview"></div>
+          </article>
+          <article class="tracking-card">
+            <h3>Avance técnico global</h3>
+            <div id="tracking-progress-overview"></div>
+          </article>
+          <article class="tracking-card">
+            <h3>Cobertura de asignación</h3>
+            <div id="tracking-assignment-overview"></div>
+          </article>
+          <article class="tracking-card tracking-card-wide">
+            <h3>Comparativo por asignado</h3>
+            <div id="tracking-comparison-chart"></div>
+          </article>
+          <article class="tracking-card tracking-card-wide">
+            <h3>Detalle por asignado</h3>
+            <div id="tracking-assignee-board"></div>
+          </article>
+        </div>
+      </section>
+
       <section class="quick-filters" id="quick-filters"></section>
 
-      <section class="table-panel">
+      <section class="table-panel" id="table-panel">
         <div class="table-toolbar">
           <div>
             <h2 id="table-title">Panel Maestro de Trámites</h2>
@@ -2012,6 +2336,7 @@
         moduleHelper: document.getElementById("module-helper"),
         modeSwitcher: document.getElementById("mode-switcher"),
         datasetSwitcher: document.getElementById("dataset-switcher"),
+        trackingDatasetButton: document.querySelector('[data-dataset-tab="tracking"]'),
         sessionAssignee: document.getElementById("session-assignee"),
         editorIdentity: document.getElementById("editor-identity"),
         enterAssignedButton: document.getElementById("enter-assigned-button"),
@@ -2055,8 +2380,16 @@
         adminActionsPanel: document.getElementById("admin-actions-panel"),
         modeBanner: document.getElementById("mode-banner"),
         summaryGrid: document.getElementById("summary-grid"),
+        trackingPanel: document.getElementById("tracking-panel"),
+        trackingHelper: document.getElementById("tracking-helper"),
+        trackingStatusOverview: document.getElementById("tracking-status-overview"),
+        trackingProgressOverview: document.getElementById("tracking-progress-overview"),
+        trackingAssignmentOverview: document.getElementById("tracking-assignment-overview"),
+        trackingComparisonChart: document.getElementById("tracking-comparison-chart"),
+        trackingAssigneeBoard: document.getElementById("tracking-assignee-board"),
         quickFilters: document.getElementById("quick-filters"),
         loadBoard: document.getElementById("load-board"),
+        tablePanel: document.getElementById("table-panel"),
         tableTitle: document.getElementById("table-title"),
         tableHeadRow: document.getElementById("table-head-row"),
         tableBody: document.getElementById("table-body"),
@@ -3072,6 +3405,10 @@
         return state.datasetTab === "history";
       }
 
+      function isTrackingTab() {
+        return state.datasetTab === "tracking";
+      }
+
       function getActiveSourceRecords() {
         return Array.isArray(source.records) ? source.records : [];
       }
@@ -3080,7 +3417,25 @@
         return Array.isArray(source.historyRecords) ? source.historyRecords : [];
       }
 
+      function getTrackingSourceRecords() {
+        const recordsById = new Map();
+        getHistorySourceRecords().forEach((record) => {
+          if (record && record.id && !recordsById.has(record.id)) {
+            recordsById.set(record.id, record);
+          }
+        });
+        getActiveSourceRecords().forEach((record) => {
+          if (record && record.id) {
+            recordsById.set(record.id, record);
+          }
+        });
+        return [...recordsById.values()];
+      }
+
       function getDatasetRecords() {
+        if (isTrackingTab()) {
+          return getTrackingSourceRecords();
+        }
         return isHistoryTab() ? getHistorySourceRecords() : getActiveSourceRecords();
       }
 
@@ -3133,6 +3488,9 @@
 
       function setModuleMode(mode) {
         state.moduleMode = mode === "assigned" ? "assigned" : "admin";
+        if (state.moduleMode === "assigned" && isTrackingTab()) {
+          state.datasetTab = "active";
+        }
         document.body.dataset.moduleMode = state.moduleMode;
         state.responsable = "";
         state.asignado = "";
@@ -3615,7 +3973,11 @@
 
         dom.datasetSwitcher.querySelectorAll("[data-dataset-tab]").forEach((button) => {
           button.addEventListener("click", () => {
-            state.datasetTab = button.dataset.datasetTab === "history" ? "history" : "active";
+            state.datasetTab = button.dataset.datasetTab === "history"
+              ? "history"
+              : button.dataset.datasetTab === "tracking"
+                ? "tracking"
+                : "active";
             state.detailId = "";
             selectedIds.clear();
             render();
@@ -3623,7 +3985,9 @@
               dom.moduleMessage,
               state.datasetTab === "history"
                 ? "Se abrió la pestaña de historial para revisar los trámites que ya salieron de la bandeja activa."
-                : "Se volvió a la pestaña de trámites activos sincronizados."
+                : state.datasetTab === "tracking"
+                  ? "Se abrió la pestaña de seguimiento para ver asignaciones, estados técnicos y avance gráfico."
+                  : "Se volvió a la pestaña de trámites activos sincronizados."
             );
           });
         });
@@ -4168,18 +4532,23 @@
       function render() {
         populateFilters();
         const filteredRecords = getFilteredRecords();
-        syncModuleInterface(filteredRecords);
+        syncModuleInterfaceV2(filteredRecords);
         renderSummary(filteredRecords);
+        renderTrackingPanel();
         renderQuickFilters();
         renderLoadBoard();
         renderTable(filteredRecords);
-        updateFilterCaption(filteredRecords);
-        updateTopMetrics();
+        updateFilterCaptionV2(filteredRecords);
+        updateTopMetricsV2();
         syncSharedStateStatusCopy();
         syncMasterCheckbox(filteredRecords);
       }
 
       function getFilteredRecords() {
+        if (isTrackingTab()) {
+          return [...getDatasetRecords()].sort((left, right) => compareText(getAssignee(left.id), getAssignee(right.id)) || compareText(left.codigo, right.codigo));
+        }
+
         const searchTerm = normalizeText(state.search);
 
         return [...getModuleScopedRecords()]
@@ -4263,14 +4632,350 @@
         return String(left || "").localeCompare(String(right || ""), "es", { sensitivity: "base" });
       }
 
+      function formatPercent(value, total) {
+        if (!total) {
+          return "0%";
+        }
+        return `${Math.round((value / total) * 100)}%`;
+      }
+
+      function getTrackingAnalytics() {
+        const records = getTrackingSourceRecords();
+        const activeIds = new Set(getActiveSourceRecords().map((record) => record.id));
+        const historyIds = new Set(getHistorySourceRecords().map((record) => record.id));
+        const groups = new Map();
+        let assignedRecords = 0;
+        let unassigned = 0;
+        let favorable = 0;
+        let noFavorable = 0;
+        let inReview = 0;
+        let closed = 0;
+        let withEvidence = 0;
+        let criteriaAnswered = 0;
+        let activeCount = 0;
+        let historyCount = 0;
+
+        records.forEach((record) => {
+          const rawAssignee = getAssignee(record.id);
+          const assignee = rawAssignee || "Sin asignación interna";
+          const summary = getReviewSummary(record.id);
+          const outcome = getTechnicalOutcome(record.id);
+          const answered = summary.yes + summary.no;
+
+          if (!groups.has(assignee)) {
+            groups.set(assignee, {
+              name: assignee,
+              total: 0,
+              favorable: 0,
+              noFavorable: 0,
+              inReview: 0,
+              closed: 0,
+              withEvidence: 0,
+              criteriaAnswered: 0,
+              criteriaTotal: 0,
+              active: 0,
+              history: 0,
+            });
+          }
+
+          const group = groups.get(assignee);
+          group.total += 1;
+          group.criteriaAnswered += answered;
+          group.criteriaTotal += technicalChecklist.length;
+          criteriaAnswered += answered;
+
+          if (rawAssignee) {
+            assignedRecords += 1;
+          } else {
+            unassigned += 1;
+          }
+
+          if (activeIds.has(record.id)) {
+            group.active += 1;
+            activeCount += 1;
+          } else if (historyIds.has(record.id)) {
+            group.history += 1;
+            historyCount += 1;
+          }
+
+          if (getEvidenceList(record.id).length) {
+            group.withEvidence += 1;
+            withEvidence += 1;
+          }
+
+          if (summary.pending === 0) {
+            group.closed += 1;
+            closed += 1;
+          }
+
+          if (outcome === "FAVORABLE") {
+            group.favorable += 1;
+            favorable += 1;
+          } else if (outcome === "NO FAVORABLE") {
+            group.noFavorable += 1;
+            noFavorable += 1;
+          } else {
+            group.inReview += 1;
+            inReview += 1;
+          }
+        });
+
+        const assignees = [...groups.values()]
+          .map((group) => ({
+            ...group,
+            progressPercent: group.criteriaTotal ? Math.round((group.criteriaAnswered / group.criteriaTotal) * 100) : 0,
+            completionPercent: group.total ? Math.round((group.closed / group.total) * 100) : 0,
+          }))
+          .sort((left, right) => {
+            if (left.name === "Sin asignación interna") {
+              return 1;
+            }
+            if (right.name === "Sin asignación interna") {
+              return -1;
+            }
+            if (right.total !== left.total) {
+              return right.total - left.total;
+            }
+            if (right.noFavorable !== left.noFavorable) {
+              return right.noFavorable - left.noFavorable;
+            }
+            return compareText(left.name, right.name);
+          });
+
+        return {
+          total: records.length,
+          assignedRecords,
+          assigneeCount: assignees.filter((group) => group.name !== "Sin asignación interna").length,
+          unassigned,
+          favorable,
+          noFavorable,
+          inReview,
+          closed,
+          withEvidence,
+          criteriaAnswered,
+          criteriaTotal: records.length * technicalChecklist.length,
+          progressPercent: records.length ? Math.round((criteriaAnswered / (records.length * technicalChecklist.length)) * 100) : 0,
+          activeCount,
+          historyCount,
+          assignees,
+        };
+      }
+
+      function renderTrackingPanel() {
+        if (!dom.trackingPanel) {
+          return;
+        }
+
+        if (!isAdminMode() || !isTrackingTab()) {
+          dom.trackingPanel.hidden = true;
+          return;
+        }
+
+        const analytics = getTrackingAnalytics();
+        const statusSegments = [
+          { label: "Favorables", value: analytics.favorable, color: "#49a942", note: "Trámites con criterio técnico favorable." },
+          { label: "No favorables", value: analytics.noFavorable, color: "#d35c4d", note: "Trámites con al menos una observación en No." },
+          { label: "En revisión", value: analytics.inReview, color: "#d8b04b", note: "Trámites con validaciones técnicas pendientes." },
+          { label: "Sin asignación", value: analytics.unassigned, color: "#8ba1b0", note: "Registros que todavía no tienen técnico interno." },
+        ];
+
+        dom.trackingPanel.hidden = false;
+        dom.trackingHelper.textContent =
+          analytics.assigneeCount > 0
+            ? `Se consolidan ${analytics.total} trámites entre activos e historial, repartidos entre ${analytics.assigneeCount} asignados internos y con avance técnico visible por estado.`
+            : `Todavía no existen asignaciones internas registradas. Aquí se mostrará el seguimiento en cuanto se repartan los trámites.`;
+
+        dom.trackingStatusOverview.innerHTML = analytics.total
+          ? `
+              <div class="tracking-chart-bar">
+                ${statusSegments
+                  .filter((segment) => segment.value > 0)
+                  .map(
+                    (segment) => `
+                      <span
+                        class="tracking-chart-segment"
+                        style="width:${(segment.value / analytics.total) * 100}%; background:${segment.color};"
+                        title="${escapeAttribute(`${segment.label}: ${segment.value}`)}"
+                      ></span>
+                    `
+                  )
+                  .join("")}
+              </div>
+              <div class="tracking-legend">
+                ${statusSegments
+                  .map(
+                    (segment) => `
+                      <article class="tracking-legend-item">
+                        <span class="tracking-legend-swatch" style="background:${segment.color};"></span>
+                        <div class="tracking-legend-copy">
+                          <strong>${escapeHtml(`${segment.label}: ${segment.value}`)}</strong>
+                          <span>${escapeHtml(`${formatPercent(segment.value, analytics.total)} del universo monitoreado. ${segment.note}`)}</span>
+                        </div>
+                      </article>
+                    `
+                  )
+                  .join("")}
+              </div>
+            `
+          : `<p class="tracking-empty">No hay trámites disponibles para construir el seguimiento.</p>`;
+
+        dom.trackingProgressOverview.innerHTML = analytics.total
+          ? `
+              <div class="tracking-progress-wrap">
+                <div class="tracking-ring" style="--ring-fill:${analytics.progressPercent}%; --ring-color:#49a942;">
+                  <div class="tracking-ring-copy">
+                    <strong>${analytics.progressPercent}%</strong>
+                    <span>avance técnico</span>
+                  </div>
+                </div>
+                <div class="tracking-progress-metrics">
+                  <article class="tracking-mini-metric">
+                    <span>Criterios respondidos</span>
+                    <strong>${escapeHtml(`${analytics.criteriaAnswered} de ${analytics.criteriaTotal}`)}</strong>
+                  </article>
+                  <article class="tracking-mini-metric">
+                    <span>Trámites cerrados</span>
+                    <strong>${escapeHtml(`${analytics.closed} de ${analytics.total}`)}</strong>
+                  </article>
+                  <article class="tracking-mini-metric">
+                    <span>Con evidencia gráfica</span>
+                    <strong>${escapeHtml(String(analytics.withEvidence))}</strong>
+                  </article>
+                </div>
+              </div>
+            `
+          : `<p class="tracking-empty">El avance técnico aparecerá aquí cuando existan trámites para revisar.</p>`;
+
+        dom.trackingAssignmentOverview.innerHTML = analytics.total
+          ? `
+              <div class="tracking-progress-wrap">
+                <div class="tracking-ring" style="--ring-fill:${analytics.total ? Math.round((analytics.assignedRecords / analytics.total) * 100) : 0}%; --ring-color:#1f6f6b;">
+                  <div class="tracking-ring-copy">
+                    <strong>${escapeHtml(formatPercent(analytics.assignedRecords, analytics.total))}</strong>
+                    <span>asignación interna</span>
+                  </div>
+                </div>
+                <div class="tracking-progress-metrics">
+                  <article class="tracking-mini-metric">
+                    <span>Trámites asignados</span>
+                    <strong>${escapeHtml(String(analytics.assignedRecords))}</strong>
+                  </article>
+                  <article class="tracking-mini-metric">
+                    <span>Sin asignación</span>
+                    <strong>${escapeHtml(String(analytics.unassigned))}</strong>
+                  </article>
+                  <article class="tracking-mini-metric">
+                    <span>Activos / Historial</span>
+                    <strong>${escapeHtml(`${analytics.activeCount} / ${analytics.historyCount}`)}</strong>
+                  </article>
+                </div>
+              </div>
+            `
+          : `<p class="tracking-empty">La cobertura de asignación se mostrará cuando existan trámites sincronizados.</p>`;
+
+        dom.trackingComparisonChart.innerHTML = analytics.assignees.length
+          ? `
+              <div class="tracking-bar-list">
+                ${analytics.assignees
+                  .map(
+                    (group) => `
+                      <article class="tracking-row">
+                        <div class="tracking-row-head">
+                          <strong>${escapeHtml(group.name)}</strong>
+                          <span>${escapeHtml(`${group.total} trámite(s) · ${group.progressPercent}% de avance técnico`)}</span>
+                        </div>
+                        <div class="tracking-row-bar">
+                          ${group.favorable > 0 ? `<span class="tracking-row-segment" style="width:${(group.favorable / group.total) * 100}%; background:#49a942;"></span>` : ""}
+                          ${group.noFavorable > 0 ? `<span class="tracking-row-segment" style="width:${(group.noFavorable / group.total) * 100}%; background:#d35c4d;"></span>` : ""}
+                          ${group.inReview > 0 ? `<span class="tracking-row-segment" style="width:${(group.inReview / group.total) * 100}%; background:#d8b04b;"></span>` : ""}
+                        </div>
+                        <div class="tracking-row-meta">
+                          <span>${escapeHtml(`${group.favorable} favorables`)}</span>
+                          <span>${escapeHtml(`${group.noFavorable} no favorables`)}</span>
+                          <span>${escapeHtml(`${group.inReview} en revisión`)}</span>
+                          <span>${escapeHtml(`${group.closed} cerrados`)}</span>
+                        </div>
+                      </article>
+                    `
+                  )
+                  .join("")}
+              </div>
+            `
+          : `<p class="tracking-empty">Aún no hay personas asignadas para comparar.</p>`;
+
+        dom.trackingAssigneeBoard.innerHTML = analytics.assignees.length
+          ? `
+              <div class="tracking-assignee-list">
+                ${analytics.assignees
+                  .map(
+                    (group) => `
+                      <article class="tracking-assignee-card">
+                        <div class="tracking-assignee-head">
+                          <div class="tracking-assignee-title">
+                            <strong>${escapeHtml(group.name)}</strong>
+                            <span>${escapeHtml(`${group.total} trámite(s) · ${group.active} activo(s) · ${group.history} histórico(s) · ${group.withEvidence} con evidencia`)}</span>
+                          </div>
+                          <div class="tracking-ring tracking-ring-small" style="--ring-fill:${group.progressPercent}%; --ring-color:${group.noFavorable > 0 ? "#d35c4d" : group.favorable > 0 ? "#49a942" : "#d8b04b"};">
+                            <div class="tracking-ring-copy">
+                              <strong>${group.progressPercent}%</strong>
+                              <span>avance</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="tracking-assignee-pills">
+                          <span class="tracking-pill favorable">${escapeHtml(`${group.favorable} favorables`)}</span>
+                          <span class="tracking-pill no-favorable">${escapeHtml(`${group.noFavorable} no favorables`)}</span>
+                          <span class="tracking-pill revision">${escapeHtml(`${group.inReview} en revisión`)}</span>
+                          <span class="tracking-pill closed">${escapeHtml(`${group.closed} cerrados`)}</span>
+                        </div>
+                      </article>
+                    `
+                  )
+                  .join("")}
+              </div>
+            `
+          : `<p class="tracking-empty">Cuando se asignen trámites, aquí aparecerá el detalle por técnico o responsable interno.</p>`;
+      }
+
       function renderSummary(filteredRecords) {
         const scopedRecords = getModuleScopedRecords();
         const datasetRecords = getDatasetRecords();
         const adminMode = isAdminMode();
         const historyMode = isHistoryTab();
+        const trackingMode = isTrackingTab();
         let cards;
 
         if (adminMode) {
+          if (trackingMode) {
+            const analytics = getTrackingAnalytics();
+            cards = [
+              {
+                label: "Asignados internos",
+                value: analytics.assignedRecords,
+                note: `${analytics.assigneeCount} persona(s) ya tienen trámites repartidos.`,
+              },
+              {
+                label: "Favorables",
+                value: analytics.favorable,
+                note: `${analytics.closed} trámites ya tienen revisión cerrada.`,
+              },
+              {
+                label: "No favorables",
+                value: analytics.noFavorable,
+                note: `${analytics.inReview} trámites siguen en revisión técnica.`,
+              },
+              {
+                label: "Sin asignar",
+                value: analytics.unassigned,
+                note: "Registros todavía pendientes de reparto interno.",
+              },
+              {
+                label: "Avance técnico",
+                value: `${analytics.progressPercent}%`,
+                note: `${analytics.criteriaAnswered} de ${analytics.criteriaTotal} validaciones ya fueron respondidas.`,
+              },
+            ];
+          } else {
           const total = datasetRecords.length;
           const assigned = datasetRecords.filter((record) => getAssignee(record.id)).length;
           const overdue = datasetRecords.filter((record) => ["Vencido", "Vence hoy"].includes(record.prioridad)).length;
@@ -4338,6 +5043,7 @@
                   note: "Responsables actuales detectados en la bandeja sincronizada.",
                 },
               ];
+          }
         } else {
           const pending = scopedRecords.filter((record) => getReviewSummary(record.id).pending > 0).length;
           const finished = scopedRecords.filter((record) => getReviewSummary(record.id).pending === 0).length;
@@ -4421,6 +5127,11 @@
       }
 
       function renderQuickFilters() {
+        if (isTrackingTab()) {
+          dom.quickFilters.innerHTML = "";
+          return;
+        }
+
         const scopedRecords = getModuleScopedRecords();
         dom.quickFilters.innerHTML = quickFilterDefinitions
           .map((filter) => {
@@ -4448,6 +5159,11 @@
       }
 
       function renderLoadBoard() {
+        if (isTrackingTab()) {
+          dom.loadBoard.innerHTML = "";
+          return;
+        }
+
         const historyMode = isHistoryTab();
         const datasetRecords = getDatasetRecords();
         if (isAdminMode()) {
@@ -4580,6 +5296,11 @@
       }
 
       function renderTable(records) {
+        if (isTrackingTab()) {
+          dom.tableBody.innerHTML = "";
+          return;
+        }
+
         const adminMode = isAdminMode();
         const historyMode = isHistoryTab();
         const columnCount = adminMode ? 10 : 7;
@@ -5338,6 +6059,144 @@
         });
       }
 
+      function syncModuleInterfaceV2(filteredRecords) {
+        const adminMode = isAdminMode();
+        const historyMode = isHistoryTab();
+        const trackingMode = isTrackingTab();
+        document.body.dataset.datasetTab = state.datasetTab;
+        const scopedRecords = getModuleScopedRecords();
+        const datasetRecords = getDatasetRecords();
+        const finishedCount = scopedRecords.filter((record) => getReviewSummary(record.id).pending === 0).length;
+        const blockedCount = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "NO FAVORABLE").length;
+        const trackingAnalytics = trackingMode ? getTrackingAnalytics() : null;
+
+        dom.brandTitle.textContent = trackingMode
+          ? "Seguimiento de Tramites"
+          : historyMode
+            ? (adminMode ? "Historial de Tramites" : "Historial de Revision")
+            : (adminMode ? "Asignacion de Tramites" : "Revision de Tramites");
+        dom.moduleHelper.textContent = adminMode
+          ? trackingMode
+            ? "Usa esta pestana para ver a quien fueron asignados los tramites, en que estado tecnico estan y como avanza la revision con graficos."
+            : historyMode
+              ? "Usa esta pestana para revisar los tramites que ya no estan en la bandeja activa, pero deben seguir disponibles para consulta y seguimiento."
+              : "Usa este modulo para asignar, monitorear la carga de trabajo y revisar el estado completo de todos los tramites."
+          : historyMode
+            ? "Usa esta pestana para revisar el historial de tramites que ya salieron de la bandeja activa del asignado."
+            : "Usa este modulo para abrir unicamente los tramites asignados a una persona y completar la revision tecnica, observaciones y evidencias.";
+        dom.sessionChip.textContent = adminMode
+          ? `Vista actual: Administrador · ${trackingMode ? "Seguimiento" : historyMode ? "Historial" : "Activos"}`
+          : `Vista actual: Asignado${state.sessionAssignee ? ` · ${state.sessionAssignee}` : ""} · ${historyMode ? "Historial" : "Activos"}`;
+
+        dom.adminAssignmentPanel.hidden = !adminMode || historyMode || trackingMode;
+        dom.adminActionsPanel.hidden = !adminMode;
+        dom.filtersPanel.hidden = trackingMode;
+        dom.quickFilters.hidden = trackingMode;
+        dom.loadPanel.hidden = trackingMode;
+        dom.tablePanel.hidden = trackingMode;
+        dom.trackingPanel.hidden = !adminMode || !trackingMode;
+        dom.responsableFilterLabel.hidden = !adminMode;
+        dom.asignadoFilterLabel.hidden = !adminMode;
+        dom.tableToolbarActions.hidden = !adminMode || historyMode || trackingMode;
+        dom.selectVisibleButton.hidden = !adminMode || historyMode || trackingMode;
+        if (dom.trackingDatasetButton) {
+          dom.trackingDatasetButton.hidden = !adminMode;
+        }
+        if (dom.selectAllVisible) {
+          dom.selectAllVisible.hidden = !adminMode || historyMode || trackingMode;
+        }
+        if (dom.selectionColumnLabel) {
+          dom.selectionColumnLabel.hidden = adminMode && !historyMode;
+        }
+
+        dom.loadPanelTitle.textContent = adminMode
+          ? historyMode
+            ? "Historial Por Persona"
+            : "Carga Por Persona"
+          : historyMode
+            ? "Mi Historial"
+            : "Mi Bandeja de Revision";
+        dom.loadPanelHelper.textContent = adminMode
+          ? historyMode
+            ? "Este resumen se calcula sobre los tramites historicos y te permite revisar que quedo fuera de la bandeja activa."
+            : "Este resumen se calcula sobre el estado compartido central y sobre cualquier ajuste local todavia no sincronizado."
+          : historyMode
+            ? "Aqui se resume el historial del asignado dentro de sus tramites ya sincronizados fuera de la bandeja activa."
+            : "Aqui se resume el avance del asignado dentro de su propia bandeja de revision tecnica.";
+        dom.tableTitle.textContent = adminMode
+          ? trackingMode
+            ? "Seguimiento Consolidado"
+            : historyMode
+              ? "Historial de Tramites"
+              : "Panel Maestro de Tramites"
+          : historyMode
+            ? "Historial del Asignado"
+            : "Bandeja del Asignado";
+
+        dom.modeBanner.innerHTML = `
+          <div class="mode-banner-copy">
+            <span class="eyebrow">${escapeHtml(adminMode ? "Modulo Administrador" : "Modulo Asignado")} · ${escapeHtml(trackingMode ? "Seguimiento" : historyMode ? "Historial" : "Activos")}</span>
+            <h2>${escapeHtml(
+              adminMode
+                ? trackingMode
+                  ? "Asignacion, estado tecnico y avance grafico"
+                  : historyMode
+                    ? "Consulta historica y trazabilidad"
+                    : "Asignacion, control y visualizacion total"
+                : historyMode
+                  ? state.sessionAssignee
+                    ? `Historial tecnico de ${state.sessionAssignee}`
+                    : "Selecciona un asignado para revisar su historial"
+                  : state.sessionAssignee
+                    ? `Revision tecnica de ${state.sessionAssignee}`
+                    : "Selecciona un asignado para empezar"
+            )}</h2>
+            <p>
+              ${
+                adminMode
+                  ? trackingMode
+                    ? "Desde aqui puedes ver el reparto interno completo, identificar cuantos tramites estan favorables, no favorables o en revision, y demostrar el avance con graficos consolidados por asignado."
+                    : historyMode
+                      ? "Desde aqui puedes revisar los tramites que ya no aparecen en la bandeja activa, mantener su detalle tecnico y consultar la trazabilidad de la sincronizacion."
+                      : "Desde aqui puedes asignar tramites, revisar prioridades, abrir cualquier ficha tecnica y descargar exportables completos."
+                  : historyMode
+                    ? state.sessionAssignee
+                      ? `Esta vista muestra el historial de tramites asignados a ${escapeHtml(state.sessionAssignee)} para que puedas revisar antecedentes, observaciones y evidencias ya registradas.`
+                      : "Escribe el nombre exacto del asignado para cargar su historial tecnico."
+                    : state.sessionAssignee
+                      ? `Esta vista muestra solamente los tramites asignados a ${escapeHtml(state.sessionAssignee)} para que complete la revision, escriba observaciones, suba evidencias y genere el informe tecnico.`
+                      : "Escribe el nombre exacto del asignado para cargar su bandeja y permitir que edite las observaciones, evidencias e informe."
+              }
+            </p>
+          </div>
+          <div class="mode-banner-stats">
+            <article class="mode-banner-stat">
+              <span>${escapeHtml(trackingMode ? "Tramites monitoreados" : historyMode ? "Historicos visibles" : adminMode ? "Tramites visibles" : "Mis tramites")}</span>
+              <strong>${trackingMode ? trackingAnalytics.total : filteredRecords.length}</strong>
+            </article>
+            <article class="mode-banner-stat">
+              <span>${escapeHtml(trackingMode ? "Asignados internos" : historyMode ? "Total en historial" : adminMode ? "Total general" : "Bandeja total")}</span>
+              <strong>${trackingMode ? trackingAnalytics.assignedRecords : scopedRecords.length}</strong>
+            </article>
+            <article class="mode-banner-stat">
+              <span>${escapeHtml(trackingMode ? "No favorables" : adminMode ? (historyMode ? "Con criterio tecnico" : "Seleccion activa") : "Revisiones cerradas")}</span>
+              <strong>${trackingMode ? trackingAnalytics.noFavorable : adminMode ? (historyMode ? scopedRecords.filter((record) => getReviewSummary(record.id).yes > 0 || getReviewSummary(record.id).no > 0).length : selectedIds.size) : finishedCount}</strong>
+            </article>
+            <article class="mode-banner-stat">
+              <span>${escapeHtml(trackingMode ? "Avance tecnico" : adminMode ? "Sin asignar" : "No favorables")}</span>
+              <strong>${trackingMode ? `${trackingAnalytics.progressPercent}%` : adminMode ? datasetRecords.filter((record) => !getAssignee(record.id)).length : blockedCount}</strong>
+            </article>
+          </div>
+        `;
+
+        dom.modeSwitcher.querySelectorAll("[data-module-mode]").forEach((button) => {
+          button.classList.toggle("active", button.dataset.moduleMode === state.moduleMode);
+        });
+        dom.datasetSwitcher.querySelectorAll("[data-dataset-tab]").forEach((button) => {
+          button.classList.toggle("active", button.dataset.datasetTab === state.datasetTab);
+        });
+      }
+
       function renderField(label, value, extraClass = "") {
         return `
           <article class="field ${extraClass}">
@@ -5448,8 +6307,89 @@
           : `Mostrando ${filteredRecords.length} de ${scopedRecords.length} trámites ${historyMode ? "del historial" : "del asignado"} ${state.sessionAssignee || "sin usuario definido"}, con ${quickFilterLabel}.`;
       }
 
+      function updateTopMetricsV2() {
+        const scopedRecords = getModuleScopedRecords();
+        const datasetRecords = getDatasetRecords();
+        const historyMode = isHistoryTab();
+        const trackingMode = isTrackingTab();
+        const adminSharedStateCopy = getAdminSharedStateCopy(datasetRecords.length);
+        if (isAdminMode()) {
+          if (trackingMode) {
+            const analytics = getTrackingAnalytics();
+            dom.metricTotalLabel.textContent = "Tramites monitoreados";
+            dom.metricAssignedLabel.textContent = "Asignados internamente";
+            dom.metricCriticalLabel.textContent = "No favorables";
+            dom.metricSourceDateLabel.textContent = "Ultima fuente";
+            dom.metricTotal.textContent = analytics.total;
+            dom.metricAssigned.textContent = analytics.assignedRecords;
+            dom.metricCritical.textContent = analytics.noFavorable;
+            dom.brandDescription.textContent =
+              `${source.title}. Fuente ${source.sourceFile}. ` +
+              `Se consolidan ${analytics.total} tramites entre activos e historico con ${analytics.progressPercent}% de avance tecnico y ${analytics.assigneeCount} asignados internos.`;
+          } else {
+            const total = datasetRecords.length;
+            const assigned = datasetRecords.filter((record) => getAssignee(record.id)).length;
+            const critical = datasetRecords.filter((record) =>
+              historyMode
+                ? ["Vencido", "Vence hoy", "Crítico"].includes(record.prioridad)
+                : ["Vencido", "Vence hoy"].includes(record.prioridad)
+            ).length;
+            dom.metricTotalLabel.textContent = historyMode ? "Historico total" : "Total de registros";
+            dom.metricAssignedLabel.textContent = "Asignados internamente";
+            dom.metricCriticalLabel.textContent = historyMode ? "Historicos criticos" : "Vencidos + vence hoy";
+            dom.metricSourceDateLabel.textContent = "Ultima fuente";
+            dom.metricTotal.textContent = total;
+            dom.metricAssigned.textContent = assigned;
+            dom.metricCritical.textContent = critical;
+            dom.brandDescription.textContent =
+              `${source.title}. Fuente ${source.sourceFile}. ` +
+              (historyMode
+                ? `Se mantienen ${total} tramites en historial consultable ademas de la bandeja activa.`
+                : adminSharedStateCopy.brand);
+          }
+        } else {
+          const finished = scopedRecords.filter((record) => getReviewSummary(record.id).pending === 0).length;
+          const blocked = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "NO FAVORABLE").length;
+          dom.metricTotalLabel.textContent = historyMode ? "Mi historial" : "Mi bandeja";
+          dom.metricAssignedLabel.textContent = "Revisiones cerradas";
+          dom.metricCriticalLabel.textContent = "No favorables";
+          dom.metricSourceDateLabel.textContent = "Ultima fuente";
+          dom.metricTotal.textContent = scopedRecords.length;
+          dom.metricAssigned.textContent = finished;
+          dom.metricCritical.textContent = blocked;
+          dom.brandDescription.textContent = state.sessionAssignee
+            ? historyMode
+              ? `Historial operativo de ${state.sessionAssignee}. Aqui puede revisar tramites ya cerrados o retirados de la bandeja activa, manteniendo observaciones, evidencias e informe tecnico.`
+              : `Bandeja operativa de ${state.sessionAssignee}. Aqui puede abrir sus tramites asignados, completar la revision tecnica, registrar observaciones, subir evidencia y generar el informe.`
+            : historyMode
+              ? "Selecciona un asignado para mostrar unicamente su historial tecnico."
+              : "Selecciona un asignado para mostrar unicamente sus tramites y habilitar la edicion tecnica correspondiente.";
+        }
+
+        dom.metricSourceDate.textContent = source.sourceDate || "Sin fecha";
+      }
+
+      function updateFilterCaptionV2(filteredRecords) {
+        const scopedRecords = getModuleScopedRecords();
+        const datasetRecords = getDatasetRecords();
+        const historyMode = isHistoryTab();
+        if (isTrackingTab()) {
+          const analytics = getTrackingAnalytics();
+          dom.tableCaption.textContent = `Seguimiento consolidado de ${analytics.total} tramites, ${analytics.assignedRecords} ya asignados y ${analytics.unassigned} todavia sin reparto interno.`;
+          return;
+        }
+
+        const quickFilterLabel =
+          quickFilterDefinitions.find((item) => item.key === state.quickFilter)?.label || "sin filtro rapido";
+        dom.tableCaption.textContent = isAdminMode()
+          ? historyMode
+            ? `Mostrando ${filteredRecords.length} de ${datasetRecords.length} tramites del historial, con ${quickFilterLabel}.`
+            : `Mostrando ${filteredRecords.length} de ${datasetRecords.length} tramites, ${selectedIds.size} seleccionados y ${quickFilterLabel}.`
+          : `Mostrando ${filteredRecords.length} de ${scopedRecords.length} tramites ${historyMode ? "del historial" : "del asignado"} ${state.sessionAssignee || "sin usuario definido"}, con ${quickFilterLabel}.`;
+      }
+
       function syncSharedStateStatusCopy() {
-        if (!isAdminMode() || isHistoryTab()) {
+        if (!isAdminMode() || isHistoryTab() || isTrackingTab()) {
           return;
         }
 
