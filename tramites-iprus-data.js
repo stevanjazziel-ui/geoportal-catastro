@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-13",
-  "generatedAt": "2026-07-13T08:58:37",
+  "generatedAt": "2026-07-13T09:28:31",
   "records": [
     {
       "estado": "Complementado",
@@ -2144,27 +2144,6 @@ window.TRAMITES_IPRUS_DATA = {
     },
     {
       "estado": "Asignado",
-      "tramite": "Trámite: 1186529 GADMR--2026-0297-IPRUS-ZNP",
-      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
-      "asunto": "TENESACA MENDOZA ALICIA MARGARITA - IPRUS FUERA DE ZONA PATRIMONIAL",
-      "reasignadoPor": "Veronica Patricia Sagba Ausay",
-      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "expediente": "--",
-      "fechaLimite": null,
-      "fechaIngreso": "2026-06-19T14:21:00",
-      "codigo": "GADMR--2026-0297-IPRUS-ZNP",
-      "nroTramite": 1186529,
-      "solicitante": "TENESACA MENDOZA ALICIA MARGARITA",
-      "reasignadoPorCargo": "Ayudante 3 De Gestión De Planificación, Hábitat Y Desarrollo Urbanístico",
-      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
-      "asignadoInterno": "caizaluisae",
-      "sourceRow": 94,
-      "id": "GADMR--2026-0297-IPRUS-ZNP"
-    },
-    {
-      "estado": "Asignado",
       "tramite": "Trámite: 1184996 GADMR--2026-0284-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "ULLOA RIERA JUAN CARLOS - IPRUS FUERA DE ZONA PATRIMONIAL",
@@ -2181,7 +2160,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 95,
+      "sourceRow": 94,
       "id": "GADMR--2026-0284-IPRUS-ZNP"
     },
     {
@@ -2202,28 +2181,52 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 96,
+      "sourceRow": 95,
       "id": "GADMR--2026-0094-IPRUS-ZNP"
     }
   ],
   "summary": {
-    "total": 96,
+    "total": 95,
     "priorities": {
       "Normal": 50,
-      "Sin prioridad": 35,
+      "Sin prioridad": 34,
       "Urgente": 8,
       "Crítico": 3
     },
     "states": {
       "Complementado": 28,
       "En espera": 4,
-      "Asignado": 64
+      "Asignado": 63
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 96
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 95
     }
   },
   "historyRecords": [
+    {
+      "estado": "Asignado",
+      "tramite": "Trámite: 1186529 GADMR--2026-0297-IPRUS-ZNP",
+      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
+      "asunto": "TENESACA MENDOZA ALICIA MARGARITA - IPRUS FUERA DE ZONA PATRIMONIAL",
+      "reasignadoPor": "Veronica Patricia Sagba Ausay",
+      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "expediente": "--",
+      "fechaLimite": null,
+      "fechaIngreso": "2026-06-19T14:21:00",
+      "codigo": "GADMR--2026-0297-IPRUS-ZNP",
+      "nroTramite": 1186529,
+      "solicitante": "TENESACA MENDOZA ALICIA MARGARITA",
+      "reasignadoPorCargo": "Ayudante 3 De Gestión De Planificación, Hábitat Y Desarrollo Urbanístico",
+      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
+      "asignadoInterno": "caizaluisae",
+      "sourceRow": 94,
+      "id": "GADMR--2026-0297-IPRUS-ZNP",
+      "historyArchivedAt": "2026-07-13T09:28:31",
+      "historyLastSeenAt": "2026-07-13T08:58:37",
+      "historyStatus": "Historico"
+    },
     {
       "estado": "Asignado",
       "tramite": "Trámite: 1191723 GADMR--2026-0335-IPRUS-ZNP",
@@ -2618,19 +2621,19 @@ window.TRAMITES_IPRUS_DATA = {
     }
   ],
   "historySummary": {
-    "total": 15,
+    "total": 16,
     "priorities": {
+      "Sin prioridad": 6,
       "Normal": 3,
       "Crítico": 4,
-      "Urgente": 3,
-      "Sin prioridad": 5
+      "Urgente": 3
     },
     "states": {
-      "Asignado": 9,
+      "Asignado": 10,
       "Complementado": 6
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 15
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 16
     }
   }
 };
