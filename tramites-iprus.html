@@ -2012,8 +2012,8 @@
         <h2>Asignación Masiva</h2>
         <p class="helper">
           Selecciona filas desde la tabla y escribe el nombre de la persona o técnico que recibirá los trámites.
-          Si conectas GitHub Pages con un token de GitHub, la asignación se publica al repositorio y luego queda
-          visible en cualquier computadora. Además puedes descargar el archivo compartido como respaldo.
+          En modo GitHub Pages, cada cambio se publica al repositorio y luego queda visible en cualquier computadora.
+          Además puedes descargar el archivo compartido como respaldo.
         </p>
         <label for="bulk-assignee">
           Persona asignada
@@ -2066,7 +2066,7 @@
       <section class="panel" id="load-panel">
         <h2 id="load-panel-title">Carga Por Persona</h2>
         <p class="helper" id="load-panel-helper">
-          Este resumen se calcula sobre el estado compartido central y sobre cualquier ajuste local todavía no sincronizado.
+          Este resumen se calcula sobre el estado compartido publicado en GitHub Pages y sobre cualquier ajuste local todavía no sincronizado.
         </p>
         <div class="load-board" id="load-board"></div>
       </section>
@@ -2074,7 +2074,7 @@
       <section class="panel" id="admin-actions-panel">
         <h2>Acciones</h2>
         <p class="helper">
-          Si el módulo está desplegado con backend central, la sincronización es automática para todas las computadoras. Los campos de GitHub quedan como respaldo cuando todavía trabajas solo con GitHub Pages.
+          Este módulo está trabajando con GitHub Pages. Guarda el token una sola vez en esta computadora administradora y desde ahí cada cambio se publicará automáticamente al repositorio.
         </p>
         <label for="github-owner-input">
           GitHub owner
@@ -2097,7 +2097,7 @@
           <button id="publish-github-sync-button" class="secondary" type="button">Publicar ahora en GitHub</button>
         </div>
         <p class="helper">
-          Con backend central los cambios se reflejan sin tokens en el navegador. Con GitHub Pages, el token queda guardado solo en esta computadora administradora.
+          El token queda guardado solo en esta computadora administradora para poder publicar asignaciones, revisiones, evidencias, borradores, tareas y bitácora en GitHub.
         </p>
         <p class="message" id="github-sync-message"></p>
         <div class="button-stack">
@@ -2432,6 +2432,17 @@
         wireEvents();
         refreshGithubSyncMessage();
         render();
+        if (backendSyncDisabled) {
+          if (hasGithubSyncCredentials() && hasPendingSharedStateChanges()) {
+            setMessage(
+              dom.githubSyncMessage,
+              `Se detectaron cambios locales pendientes para ${githubSyncConfig.owner}/${githubSyncConfig.repo}. Se publicarán automáticamente en GitHub.`
+            );
+            scheduleSharedStateSync({ notify: false, immediate: true });
+          }
+          return;
+        }
+
         void hydrateSharedAssignmentsFromApi();
       }
 
@@ -2560,6 +2571,22 @@
       }
 
       function refreshGithubSyncMessage() {
+        if (backendSyncDisabled) {
+          if (hasGithubSyncCredentials()) {
+            setMessage(
+              dom.githubSyncMessage,
+              `Publicación automática activa para ${githubSyncConfig.owner}/${githubSyncConfig.repo} en ${githubSyncConfig.branch}. Cada cambio nuevo se sube a GitHub y luego se refleja en GitHub Pages.`
+            );
+            return;
+          }
+
+          setMessage(
+            dom.githubSyncMessage,
+            "Modo GitHub Pages activo. Pega el token una sola vez en esta computadora administradora y desde ahí todo cambio se publicará automáticamente en GitHub."
+          );
+          return;
+        }
+
         if (sharedAssignmentsApiAvailable) {
           setMessage(
             dom.githubSyncMessage,
@@ -3210,6 +3237,23 @@
           !sanitizeActivityLog(payload?.activityLog).length;
       }
 
+      function buildComparableSharedStatePayload(payload) {
+        return {
+          assignments: sanitizeAssignmentsMap(payload?.assignments),
+          reviewResults: sanitizeReviewResultsMap(payload?.reviewResults),
+          evidenceImages: sanitizeEvidenceImagesMap(payload?.evidenceImages),
+          reportDrafts: sanitizeReportDraftsMap(payload?.reportDrafts),
+          taskQueue: sanitizeTaskQueue(payload?.taskQueue),
+          activityLog: sanitizeActivityLog(payload?.activityLog),
+        };
+      }
+
+      function hasPendingSharedStateChanges() {
+        const publishedPayload = buildComparableSharedStatePayload(sharedSource);
+        const currentPayload = buildComparableSharedStatePayload(buildSharedAssignmentsPayload());
+        return JSON.stringify(currentPayload) !== JSON.stringify(publishedPayload);
+      }
+
       function applySavedSharedAssignmentsPayload(savedPayload, options = {}) {
         const shouldRender = options.render !== false;
         replaceAssignmentMap(sharedAssignments, sanitizeAssignmentsMap(savedPayload.assignments));
@@ -3285,7 +3329,7 @@
                   savedPayload = await publishSharedAssignmentsToGitHub(payload);
                   setMessage(
                     dom.githubSyncMessage,
-                    "El backend central no respondió. Se publicó el estado compartido en GitHub como respaldo."
+                    "El backend central no respondió. Se publicó el estado compartido en GitHub."
                   );
                 } else {
                   throw apiError;
