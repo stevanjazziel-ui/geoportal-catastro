@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-14",
-  "generatedAt": "2026-07-14T14:57:51",
+  "generatedAt": "2026-07-14T15:27:58",
   "records": [
     {
       "estado": "Asignado",
@@ -691,14 +691,14 @@ window.TRAMITES_IPRUS_DATA = {
       "id": "GADMR--2026-0273-IPRUS-ZNP"
     },
     {
-      "estado": "En espera",
+      "estado": "Complementado",
       "tramite": "Trámite: 1182479 GADMR--2026-0266-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "MOROCHO YAUCAN EDISON PAUL - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "Tiempo detenido",
+      "fechaLimite": null,
       "fechaIngreso": "2026-07-09T18:03:00",
       "codigo": "GADMR--2026-0266-IPRUS-ZNP",
       "nroTramite": 1182479,
@@ -2102,27 +2102,6 @@ window.TRAMITES_IPRUS_DATA = {
     },
     {
       "estado": "Asignado",
-      "tramite": "Trámite: 1190638 GADMR--2026-0327-IPRUS-ZNP",
-      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
-      "asunto": "VILEMA TIGXI BYRON MARCELO - IPRUS FUERA DE ZONA PATRIMONIAL",
-      "reasignadoPor": "Veronica Patricia Sagba Ausay",
-      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "expediente": "--",
-      "fechaLimite": null,
-      "fechaIngreso": "2026-06-23T12:28:00",
-      "codigo": "GADMR--2026-0327-IPRUS-ZNP",
-      "nroTramite": 1190638,
-      "solicitante": "VILEMA TIGXI BYRON MARCELO",
-      "reasignadoPorCargo": "Ayudante 3 De Gestión De Planificación, Hábitat Y Desarrollo Urbanístico",
-      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
-      "asignadoInterno": "caizaluisae",
-      "sourceRow": 93,
-      "id": "GADMR--2026-0327-IPRUS-ZNP"
-    },
-    {
-      "estado": "Asignado",
       "tramite": "Trámite: 1187219 GADMR--2026-0303-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "CALUCHO CABRERA WILLIAM MAURICIO - IPRUS FUERA DE ZONA PATRIMONIAL",
@@ -2139,7 +2118,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 94,
+      "sourceRow": 93,
       "id": "GADMR--2026-0303-IPRUS-ZNP"
     },
     {
@@ -2160,28 +2139,52 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 95,
+      "sourceRow": 94,
       "id": "GADMR--2026-0094-IPRUS-ZNP"
     }
   ],
   "summary": {
-    "total": 95,
+    "total": 94,
     "priorities": {
       "Normal": 49,
-      "Sin prioridad": 42,
+      "Sin prioridad": 41,
       "Urgente": 2,
       "Crítico": 2
     },
     "states": {
-      "Asignado": 62,
-      "Complementado": 27,
-      "En espera": 6
+      "Asignado": 61,
+      "Complementado": 28,
+      "En espera": 5
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 95
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 94
     }
   },
   "historyRecords": [
+    {
+      "estado": "Asignado",
+      "tramite": "Trámite: 1190638 GADMR--2026-0327-IPRUS-ZNP",
+      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
+      "asunto": "VILEMA TIGXI BYRON MARCELO - IPRUS FUERA DE ZONA PATRIMONIAL",
+      "reasignadoPor": "Veronica Patricia Sagba Ausay",
+      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "expediente": "--",
+      "fechaLimite": null,
+      "fechaIngreso": "2026-06-23T12:28:00",
+      "codigo": "GADMR--2026-0327-IPRUS-ZNP",
+      "nroTramite": 1190638,
+      "solicitante": "VILEMA TIGXI BYRON MARCELO",
+      "reasignadoPorCargo": "Ayudante 3 De Gestión De Planificación, Hábitat Y Desarrollo Urbanístico",
+      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
+      "asignadoInterno": "caizaluisae",
+      "sourceRow": 93,
+      "id": "GADMR--2026-0327-IPRUS-ZNP",
+      "historyArchivedAt": "2026-07-14T15:27:58",
+      "historyLastSeenAt": "2026-07-14T14:57:51",
+      "historyStatus": "Historico"
+    },
     {
       "estado": "Complementado",
       "tramite": "Trámite: 1188349 GADMR--2026-0310-IPRUS-ZNP",
@@ -2804,19 +2807,19 @@ window.TRAMITES_IPRUS_DATA = {
     }
   ],
   "historySummary": {
-    "total": 24,
+    "total": 25,
     "priorities": {
-      "Sin prioridad": 10,
+      "Sin prioridad": 11,
       "Normal": 8,
       "Crítico": 4,
       "Urgente": 2
     },
     "states": {
-      "Complementado": 11,
-      "Asignado": 13
+      "Asignado": 14,
+      "Complementado": 11
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 24
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 25
     }
   }
 };
