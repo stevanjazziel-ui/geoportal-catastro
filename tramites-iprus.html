@@ -5085,9 +5085,9 @@
             const analytics = getTrackingAnalytics();
             cards = [
               {
-                label: "Asignados internos",
-                value: analytics.assignedRecords,
-                note: `${analytics.assigneeCount} persona(s) ya tienen trámites repartidos.`,
+                label: "Bandeja EGOB",
+                value: analytics.activeCount,
+                note: `${analytics.historyCount} trámite(s) adicionales están en historial consolidado.`,
               },
               {
                 label: "Favorables técnicos",
@@ -5105,9 +5105,9 @@
                 note: `${analytics.egobAsignado} siguen asignados en EGOB y ${analytics.egobEnEspera} están en espera.`,
               },
               {
-                label: "Sin asignar",
-                value: analytics.unassigned,
-                note: "Registros todavía pendientes de reparto interno.",
+                label: "Asignados internos",
+                value: analytics.assignedRecords,
+                note: `${analytics.assigneeCount} persona(s) ya tienen trámites repartidos y ${analytics.unassigned} siguen sin reparto interno.`,
               },
               {
                 label: "Avance técnico",
@@ -6311,12 +6311,12 @@
           </div>
           <div class="mode-banner-stats">
             <article class="mode-banner-stat">
-              <span>${escapeHtml(trackingMode ? "Tramites monitoreados" : historyMode ? "Historicos visibles" : adminMode ? "Tramites visibles" : "Mis tramites")}</span>
-              <strong>${trackingMode ? trackingAnalytics.total : filteredRecords.length}</strong>
+              <span>${escapeHtml(trackingMode ? "Bandeja EGOB" : historyMode ? "Historicos visibles" : adminMode ? "Tramites visibles" : "Mis tramites")}</span>
+              <strong>${trackingMode ? trackingAnalytics.activeCount : filteredRecords.length}</strong>
             </article>
             <article class="mode-banner-stat">
-              <span>${escapeHtml(trackingMode ? "Asignados internos" : historyMode ? "Total en historial" : adminMode ? "Total general" : "Bandeja total")}</span>
-              <strong>${trackingMode ? trackingAnalytics.assignedRecords : scopedRecords.length}</strong>
+              <span>${escapeHtml(trackingMode ? "Historial consolidado" : historyMode ? "Total en historial" : adminMode ? "Total general" : "Bandeja total")}</span>
+              <strong>${trackingMode ? trackingAnalytics.historyCount : scopedRecords.length}</strong>
             </article>
             <article class="mode-banner-stat">
               <span>${escapeHtml(trackingMode ? "No favorables técnicos" : adminMode ? (historyMode ? "Con criterio tecnico" : "Seleccion activa") : "Revisiones cerradas")}</span>
@@ -6463,16 +6463,16 @@
         if (isAdminMode()) {
           if (trackingMode) {
             const analytics = getTrackingAnalytics();
-            dom.metricTotalLabel.textContent = "Tramites monitoreados";
+            dom.metricTotalLabel.textContent = "Bandeja EGOB";
             dom.metricAssignedLabel.textContent = "Asignados internamente";
             dom.metricCriticalLabel.textContent = "No favorables tecnicos";
             dom.metricSourceDateLabel.textContent = "Ultima fuente";
-            dom.metricTotal.textContent = analytics.total;
+            dom.metricTotal.textContent = analytics.activeCount;
             dom.metricAssigned.textContent = analytics.assignedRecords;
             dom.metricCritical.textContent = analytics.noFavorable;
             dom.brandDescription.textContent =
               `${source.title}. Fuente ${source.sourceFile}. ` +
-              `Se consolidan ${analytics.total} tramites entre activos e historico con ${analytics.progressPercent}% de avance tecnico, ${analytics.egobComplementado} complementados segun EGOB y ${analytics.assigneeCount} asignados internos.`;
+              `La bandeja activa de EGOB contiene ${analytics.activeCount} tramites y el historial consolidado suma ${analytics.historyCount}, con ${analytics.progressPercent}% de avance tecnico, ${analytics.egobComplementado} complementados segun EGOB y ${analytics.assigneeCount} asignados internos.`;
           } else {
             const total = datasetRecords.length;
             const assigned = datasetRecords.filter((record) => getAssignee(record.id)).length;
@@ -6522,7 +6522,7 @@
         const historyMode = isHistoryTab();
         if (isTrackingTab()) {
           const analytics = getTrackingAnalytics();
-          dom.tableCaption.textContent = `Seguimiento consolidado de ${analytics.total} tramites, ${analytics.assignedRecords} ya asignados y ${analytics.unassigned} todavia sin reparto interno.`;
+          dom.tableCaption.textContent = `Seguimiento consolidado de ${analytics.activeCount} tramites en la bandeja EGOB, ${analytics.historyCount} en historial, ${analytics.assignedRecords} ya asignados y ${analytics.unassigned} todavia sin reparto interno.`;
           return;
         }
 
