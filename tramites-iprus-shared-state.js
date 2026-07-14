@@ -1,7 +1,7 @@
 window.TRAMITES_IPRUS_SHARED_STATE = {
   "title": "TRAMITES IPRUS SHARED STATE",
-  "sourceDate": "2026-07-14T11:58:27",
-  "generatedAt": "2026-07-14T17:01:56.899Z",
+  "sourceDate": "2026-07-14T16:27:51",
+  "generatedAt": "2026-07-14T21:36:33.340Z",
   "assignments": {
     "GADMR--2026-0387-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0382-IPRUS-ZNP": "Fausto Lopez",
@@ -9,7 +9,6 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
     "GADMR--2026-0390-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0333-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0397-IPRUS-ZNP": "Miriam Guisha",
-    "GADMR--2026-0396-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0395-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0394-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0393-IPRUS-ZNP": "Miriam Guisha",
@@ -27,6 +26,7 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
     "GADMR--2026-0328-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0264-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0303-IPRUS-ZNP": "Hamilton Torres",
+    "GADMR--2026-0396-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0310-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0347-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0341-IPRUS-ZNP": "Miriam Guisha",
