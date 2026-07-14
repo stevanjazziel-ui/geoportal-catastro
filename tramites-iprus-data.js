@@ -4,8 +4,32 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-14",
-  "generatedAt": "2026-07-14T15:57:52",
+  "generatedAt": "2026-07-14T16:27:51",
   "records": [
+    {
+      "estado": "Asignado",
+      "tramite": "Trámite: 1205547 GADMR--2026-0410-IPRUS-ZNP",
+      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
+      "asunto": "PAGUAY RUIZ EDGAR EUSTORGIO - IPRUS FUERA DE ZONA PATRIMONIAL",
+      "reasignadoPor": "Angel Javier Tamayo Cepeda",
+      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "expediente": "--",
+      "fechaLimite": "2026-07-24",
+      "fechaIngreso": "2026-07-14T16:11:00",
+      "codigo": "GADMR--2026-0410-IPRUS-ZNP",
+      "nroTramite": 1205547,
+      "solicitante": "PAGUAY RUIZ EDGAR EUSTORGIO",
+      "reasignadoPorCargo": "Analista De Avaluos Y Catastros De Asesoria Legal 1",
+      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "tiempoRestante": "(10 días)",
+      "diasRestantes": 10,
+      "prioridad": "Normal",
+      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
+      "asignadoInterno": "caizaluisae",
+      "sourceRow": 1,
+      "id": "GADMR--2026-0410-IPRUS-ZNP"
+    },
     {
       "estado": "Asignado",
       "tramite": "Trámite: 1204754 GADMR--2026-0408-IPRUS-ZNP",
@@ -27,7 +51,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 1,
+      "sourceRow": 2,
       "id": "GADMR--2026-0408-IPRUS-ZNP"
     },
     {
@@ -51,7 +75,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 2,
+      "sourceRow": 3,
       "id": "GADMR--2026-0406-IPRUS-ZNP"
     },
     {
@@ -75,7 +99,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 3,
+      "sourceRow": 4,
       "id": "GADMR--2026-0404-IPRUS-ZNP"
     },
     {
@@ -96,7 +120,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 4,
+      "sourceRow": 5,
       "id": "GADMR--2026-0387-IPRUS-ZNP"
     },
     {
@@ -117,7 +141,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 5,
+      "sourceRow": 6,
       "id": "GADMR--2026-0382-IPRUS-ZNP"
     },
     {
@@ -138,7 +162,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 6,
+      "sourceRow": 7,
       "id": "GADMR--2026-0386-IPRUS-ZNP"
     },
     {
@@ -159,7 +183,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 7,
+      "sourceRow": 8,
       "id": "GADMR--2026-0390-IPRUS-ZNP"
     },
     {
@@ -180,7 +204,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 8,
+      "sourceRow": 9,
       "id": "GADMR--2026-0375-IPRUS-ZNP"
     },
     {
@@ -204,7 +228,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 9,
+      "sourceRow": 10,
       "id": "GADMR--2026-0161-IPRUS-ZNP"
     },
     {
@@ -228,7 +252,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 10,
+      "sourceRow": 11,
       "id": "GADMR--2026-0419-IPRUS-ZNP"
     },
     {
@@ -252,7 +276,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 11,
+      "sourceRow": 12,
       "id": "GADMR--2026-0418-IPRUS-ZNP"
     },
     {
@@ -276,7 +300,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 12,
+      "sourceRow": 13,
       "id": "GADMR--2026-0417-IPRUS-ZNP"
     },
     {
@@ -300,7 +324,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 13,
+      "sourceRow": 14,
       "id": "GADMR--2026-0416-IPRUS-ZNP"
     },
     {
@@ -324,7 +348,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 14,
+      "sourceRow": 15,
       "id": "GADMR--2026-0415-IPRUS-ZNP"
     },
     {
@@ -348,7 +372,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 15,
+      "sourceRow": 16,
       "id": "GADMR--2026-0414-IPRUS-ZNP"
     },
     {
@@ -372,7 +396,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 16,
+      "sourceRow": 17,
       "id": "GADMR--2026-0207-IPRUS-ZNP"
     },
     {
@@ -396,7 +420,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 17,
+      "sourceRow": 18,
       "id": "GADMR--2026-0333-IPRUS-ZNP"
     },
     {
@@ -417,7 +441,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 18,
+      "sourceRow": 19,
       "id": "GADMR--2026-0403-IPRUS-ZNP"
     },
     {
@@ -441,7 +465,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 19,
+      "sourceRow": 20,
       "id": "GADMR--2026-0218-IPRUS-ZNP"
     },
     {
@@ -462,7 +486,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 20,
+      "sourceRow": 21,
       "id": "GADMR--2026-0336-IPRUS-ZNP"
     },
     {
@@ -483,7 +507,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 21,
+      "sourceRow": 22,
       "id": "GADMR--2026-0365-IPRUS-ZNP"
     },
     {
@@ -504,7 +528,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 22,
+      "sourceRow": 23,
       "id": "GADMR--2026-0373-IPRUS-ZNP"
     },
     {
@@ -528,7 +552,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 23,
+      "sourceRow": 24,
       "id": "GADMR--2026-0413-IPRUS-ZNP"
     },
     {
@@ -552,7 +576,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 24,
+      "sourceRow": 25,
       "id": "GADMR--2026-0412-IPRUS-ZNP"
     },
     {
@@ -576,7 +600,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 25,
+      "sourceRow": 26,
       "id": "GADMR--2026-0411-IPRUS-ZNP"
     },
     {
@@ -600,32 +624,8 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 26,
-      "id": "GADMR--2026-0409-IPRUS-ZNP"
-    },
-    {
-      "estado": "Asignado",
-      "tramite": "Trámite: 1205547 GADMR--2026-0410-IPRUS-ZNP",
-      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
-      "asunto": "PAGUAY RUIZ EDGAR EUSTORGIO - IPRUS FUERA DE ZONA PATRIMONIAL",
-      "reasignadoPor": "Josselyn Dayana Orozco Velasco",
-      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "expediente": "--",
-      "fechaLimite": "2026-07-27",
-      "fechaIngreso": "2026-07-10T15:54:00",
-      "codigo": "GADMR--2026-0410-IPRUS-ZNP",
-      "nroTramite": 1205547,
-      "solicitante": "PAGUAY RUIZ EDGAR EUSTORGIO",
-      "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
-      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(13 días)",
-      "diasRestantes": 13,
-      "prioridad": "Normal",
-      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
-      "asignadoInterno": "caizaluisae",
       "sourceRow": 27,
-      "id": "GADMR--2026-0410-IPRUS-ZNP"
+      "id": "GADMR--2026-0409-IPRUS-ZNP"
     },
     {
       "estado": "Asignado",
@@ -1090,20 +1090,23 @@ window.TRAMITES_IPRUS_DATA = {
       "id": "GADMR--2026-0261-IPRUS-ZNP"
     },
     {
-      "estado": "En espera",
+      "estado": "Complementado",
       "tramite": "Trámite: 1177004 GADMR--2026-0232-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "CHACHA GUAMAN SILVIA ALEXANDRA - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "Tiempo detenido",
+      "fechaLimite": "2026-07-20",
       "fechaIngreso": "2026-07-08T23:15:00",
       "codigo": "GADMR--2026-0232-IPRUS-ZNP",
       "nroTramite": 1177004,
       "solicitante": "CHACHA GUAMAN SILVIA ALEXANDRA",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "tiempoRestante": "(6 días)",
+      "diasRestantes": 6,
+      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
@@ -2122,15 +2125,15 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 93,
     "priorities": {
-      "Normal": 48,
-      "Sin prioridad": 41,
+      "Normal": 49,
+      "Sin prioridad": 40,
       "Urgente": 2,
       "Crítico": 2
     },
     "states": {
       "Asignado": 60,
-      "Complementado": 28,
-      "En espera": 5
+      "Complementado": 29,
+      "En espera": 4
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 93
