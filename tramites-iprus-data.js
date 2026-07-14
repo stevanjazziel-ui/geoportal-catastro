@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-14",
-  "generatedAt": "2026-07-14T09:58:54",
+  "generatedAt": "2026-07-14T10:28:52",
   "records": [
     {
       "estado": "Asignado",
@@ -1210,23 +1210,20 @@ window.TRAMITES_IPRUS_DATA = {
       "id": "GADMR--2026-0398-IPRUS-ZNP"
     },
     {
-      "estado": "Complementado",
+      "estado": "En espera",
       "tramite": "Trámite: 1186242 GADMR--2026-0295-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "BARBA PINO DANIEL PACIFICO - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-07-17",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-07-07T21:10:00",
       "codigo": "GADMR--2026-0295-IPRUS-ZNP",
       "nroTramite": 1186242,
       "solicitante": "BARBA PINO DANIEL PACIFICO",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(3 días ⚠️)",
-      "diasRestantes": 3,
-      "prioridad": "Urgente",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
@@ -2221,15 +2218,15 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 97,
     "priorities": {
-      "Sin prioridad": 40,
+      "Sin prioridad": 41,
       "Normal": 52,
-      "Urgente": 3,
+      "Urgente": 2,
       "Crítico": 2
     },
     "states": {
       "Asignado": 63,
-      "Complementado": 30,
-      "En espera": 4
+      "Complementado": 29,
+      "En espera": 5
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 97
