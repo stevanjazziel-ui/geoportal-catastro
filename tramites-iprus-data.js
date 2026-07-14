@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-14",
-  "generatedAt": "2026-07-14T11:58:27",
+  "generatedAt": "2026-07-14T12:28:35",
   "records": [
     {
       "estado": "Asignado",
@@ -2147,6 +2147,46 @@ window.TRAMITES_IPRUS_DATA = {
     },
     {
       "estado": "Complementado",
+      "tramite": "Trámite: 1152147 GADMR--2026-0094-IPRUS-ZNP",
+      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
+      "asunto": "CADENA VELASTEGUI MARITZA ALEXANDRA - IPRUS FUERA DE ZONA PATRIMONIAL",
+      "reasignadoPor": "Veronica Patricia Sagba Ausay",
+      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "expediente": "--",
+      "fechaLimite": null,
+      "fechaIngreso": "2026-06-05T16:56:00",
+      "codigo": "GADMR--2026-0094-IPRUS-ZNP",
+      "nroTramite": 1152147,
+      "solicitante": "CADENA VELASTEGUI MARITZA ALEXANDRA",
+      "reasignadoPorCargo": "Ayudante 3 De Gestión De Planificación, Hábitat Y Desarrollo Urbanístico",
+      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
+      "asignadoInterno": "caizaluisae",
+      "sourceRow": 95,
+      "id": "GADMR--2026-0094-IPRUS-ZNP"
+    }
+  ],
+  "summary": {
+    "total": 95,
+    "priorities": {
+      "Normal": 50,
+      "Sin prioridad": 41,
+      "Urgente": 2,
+      "Crítico": 2
+    },
+    "states": {
+      "Asignado": 63,
+      "Complementado": 27,
+      "En espera": 5
+    },
+    "responsibles": {
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 95
+    }
+  },
+  "historyRecords": [
+    {
+      "estado": "Complementado",
       "tramite": "Trámite: 1188349 GADMR--2026-0310-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "VILEMA TIGXI BYRON MARCELO - IPRUS FUERA DE ZONA PATRIMONIAL",
@@ -2164,48 +2204,11 @@ window.TRAMITES_IPRUS_DATA = {
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
       "sourceRow": 95,
-      "id": "GADMR--2026-0310-IPRUS-ZNP"
+      "id": "GADMR--2026-0310-IPRUS-ZNP",
+      "historyArchivedAt": "2026-07-14T12:28:35",
+      "historyLastSeenAt": "2026-07-14T11:58:27",
+      "historyStatus": "Historico"
     },
-    {
-      "estado": "Complementado",
-      "tramite": "Trámite: 1152147 GADMR--2026-0094-IPRUS-ZNP",
-      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
-      "asunto": "CADENA VELASTEGUI MARITZA ALEXANDRA - IPRUS FUERA DE ZONA PATRIMONIAL",
-      "reasignadoPor": "Veronica Patricia Sagba Ausay",
-      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "expediente": "--",
-      "fechaLimite": null,
-      "fechaIngreso": "2026-06-05T16:56:00",
-      "codigo": "GADMR--2026-0094-IPRUS-ZNP",
-      "nroTramite": 1152147,
-      "solicitante": "CADENA VELASTEGUI MARITZA ALEXANDRA",
-      "reasignadoPorCargo": "Ayudante 3 De Gestión De Planificación, Hábitat Y Desarrollo Urbanístico",
-      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
-      "asignadoInterno": "caizaluisae",
-      "sourceRow": 96,
-      "id": "GADMR--2026-0094-IPRUS-ZNP"
-    }
-  ],
-  "summary": {
-    "total": 96,
-    "priorities": {
-      "Normal": 50,
-      "Sin prioridad": 42,
-      "Urgente": 2,
-      "Crítico": 2
-    },
-    "states": {
-      "Asignado": 63,
-      "Complementado": 28,
-      "En espera": 5
-    },
-    "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 96
-    }
-  },
-  "historyRecords": [
     {
       "estado": "Complementado",
       "tramite": "Trámite: 1185641 GADMR--2026-0289-IPRUS-ZNP",
@@ -2804,19 +2807,19 @@ window.TRAMITES_IPRUS_DATA = {
     }
   ],
   "historySummary": {
-    "total": 23,
+    "total": 24,
     "priorities": {
+      "Sin prioridad": 10,
       "Normal": 8,
-      "Sin prioridad": 9,
       "Crítico": 4,
       "Urgente": 2
     },
     "states": {
-      "Complementado": 10,
+      "Complementado": 11,
       "Asignado": 13
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 23
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 24
     }
   }
 };
