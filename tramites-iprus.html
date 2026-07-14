@@ -3006,7 +3006,7 @@
           const sharedEntries = sharedSource && typeof sharedSource === "object" ? sharedSource.activityLog : [];
           return mergeActivityLog(sharedEntries, localEntries);
         } catch (error) {
-          console.warn("No se pudo leer la bitÃ¡cora de actividad:", error);
+          console.warn("No se pudo leer la bitacora de actividad:", error);
           return sanitizeActivityLog(sharedSource && typeof sharedSource === "object" ? sharedSource.activityLog : []);
         }
       }
@@ -4108,8 +4108,8 @@
           setMessage(
             dom.moduleMessage,
             editorIdentity
-              ? `La bitÃ¡cora usarÃ¡ a ${editorIdentity} como editor actual.`
-              : "Se limpiÃ³ el nombre del editor actual; la bitÃ¡cora usarÃ¡ el contexto del mÃ³dulo."
+              ? `La bitacora usara a ${editorIdentity} como editor actual.`
+              : "Se limpio el nombre del editor actual; la bitacora usara el contexto del modulo."
           );
         });
 
@@ -6365,32 +6365,32 @@
         if (sharedAssignmentsApiAvailable) {
           return sharedStateDirty
             ? {
-                helper: "Este resumen se calcula sobre el estado compartido central y sobre cualquier ajuste local todavÃ­a no sincronizado.",
-                brand: `Se cargaron ${total} trÃ¡mites activos con estado compartido central y ajustes locales pendientes de sincronizaciÃ³n.`,
+                helper: "Este resumen se calcula sobre el estado compartido central y sobre cualquier ajuste local todavia no sincronizado.",
+                brand: `Se cargaron ${total} tramites activos con estado compartido central y ajustes locales pendientes de sincronizacion.`,
               }
             : {
                 helper: "Este resumen se calcula sobre el estado compartido central ya publicado para todas las computadoras.",
-                brand: `Se cargaron ${total} trÃ¡mites activos con estado compartido central listo para todas las computadoras.`,
+                brand: `Se cargaron ${total} tramites activos con estado compartido central listo para todas las computadoras.`,
               };
         }
 
         if (hasGithubSyncCredentials() && backendSyncDisabled) {
           return {
             helper: "Este resumen usa GitHub Pages como estado compartido publicado para las otras computadoras.",
-            brand: `Se cargaron ${total} trÃƒÂ¡mites activos con estado compartido publicado directamente en GitHub Pages.`,
+            brand: `Se cargaron ${total} tramites activos con estado compartido publicado directamente en GitHub Pages.`,
           };
         }
 
         if (hasGithubSyncCredentials()) {
           return {
-            helper: "Este resumen usa el respaldo publicado en GitHub mientras el backend central no estÃ¡ disponible.",
-            brand: `Se cargaron ${total} trÃ¡mites activos con respaldo publicado en GitHub mientras el backend central vuelve a estar disponible.`,
+            helper: "Este resumen usa el respaldo publicado en GitHub mientras el backend central no esta disponible.",
+            brand: `Se cargaron ${total} tramites activos con respaldo publicado en GitHub mientras el backend central vuelve a estar disponible.`,
           };
         }
 
         return {
           helper: "Este resumen se calcula sobre el estado local actual de esta computadora.",
-          brand: `Se cargaron ${total} trÃ¡mites activos usando el estado local de esta computadora.`,
+          brand: `Se cargaron ${total} tramites activos usando el estado local de esta computadora.`,
         };
       }
 
