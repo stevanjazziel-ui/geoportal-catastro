@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-14",
-  "generatedAt": "2026-07-14T14:28:32",
+  "generatedAt": "2026-07-14T14:57:51",
   "records": [
     {
       "estado": "Asignado",
@@ -1420,23 +1420,20 @@ window.TRAMITES_IPRUS_DATA = {
       "id": "GADMR--2026-0384-IPRUS-ZNP"
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1201004 GADMR--2026-0383-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "SMC INTERNACIONAL. S.C. - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-07-20",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-07-07T09:47:00",
       "codigo": "GADMR--2026-0383-IPRUS-ZNP",
       "nroTramite": 1201004,
       "solicitante": "SMC INTERNACIONAL. S.C.",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(6 días)",
-      "diasRestantes": 6,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
@@ -2170,15 +2167,15 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 95,
     "priorities": {
-      "Normal": 50,
-      "Sin prioridad": 41,
+      "Normal": 49,
+      "Sin prioridad": 42,
       "Urgente": 2,
       "Crítico": 2
     },
     "states": {
-      "Asignado": 63,
+      "Asignado": 62,
       "Complementado": 27,
-      "En espera": 5
+      "En espera": 6
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 95
