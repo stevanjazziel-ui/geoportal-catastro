@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-15",
-  "generatedAt": "2026-07-15T09:25:15",
+  "generatedAt": "2026-07-15T09:34:59",
   "records": [
     {
       "estado": "Complementado",
@@ -892,6 +892,16 @@ window.TRAMITES_IPRUS_DATA = {
           "author": "JOSSELYN DAYANA OROZCO VELASCO",
           "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
           "note": "OBSERVACIONES: Se concede un plazo de diez (10) días hábiles para la subsanación de las observaciones señaladas. Por favor, revisar los archivos adjuntos para la correcta atención de lo requerido.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
+          "journalId": "6730355",
+          "entryType": "Reasignación",
+          "timestamp": "2026-07-01 08:13",
+          "author": "CONSUELO IVONNE TOCA CALDERON",
+          "authorRole": "ANALISTA 2 DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
+          "note": "Con observaciones se adjunta evidencia gráfica , formato del informe para el levantamiento. No olvidar que en el alcance de subsanar todas las observaciones emitidas.",
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         },
@@ -4448,6 +4458,16 @@ window.TRAMITES_IPRUS_DATA = {
       "egobJournalCount": 9,
       "egobRelevantNotes": [
         {
+          "journalId": "6298698",
+          "entryType": "Reasignación",
+          "timestamp": "2026-05-05 17:27",
+          "author": "VERONICA PATRICIA SAGBA AUSAY",
+          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
+          "note": "Analizada la parte legal, se emite observaciones por lo tanto el usuario debe subsanar lo señalado, remito a la parte técnica para analizar lo correspondiente.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
           "journalId": "6419266",
           "entryType": "Reasignación",
           "timestamp": "2026-05-19 10:35",
@@ -4892,8 +4912,8 @@ window.TRAMITES_IPRUS_DATA = {
       "historyLastSeenAt": "2026-07-14T14:57:51",
       "historyStatus": "Historico",
       "issueId": "1190638",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "tramite_iprus_favorable",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "subsanacion",
       "egobOutcomeNote": "Se reasigna tramite iprus favorable parte tecnica se debera subsanar la parte legal: se solicta adjuntar la documentacion de Sr/a. HERNANDEZ VILEMA FATIMA PRISCILA, HERNANDEZ VILEMA MARGOTH GUADALUPE, y la autorizacion del presente trámite",
       "egobOutcomeAt": "2026-07-14 15:10",
       "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
@@ -4921,8 +4941,8 @@ window.TRAMITES_IPRUS_DATA = {
           "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "Se reasigna tramite iprus favorable parte tecnica se debera subsanar la parte legal: se solicta adjuntar la documentacion de Sr/a. HERNANDEZ VILEMA FATIMA PRISCILA, HERNANDEZ VILEMA MARGOTH GUADALUPE, y la autorizacion del presente trámite",
-          "outcome": "FAVORABLE",
-          "rule": "tramite_iprus_favorable"
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
         }
       ]
     },
@@ -5285,22 +5305,22 @@ window.TRAMITES_IPRUS_DATA = {
       "egobJournalCount": 18,
       "egobRelevantNotes": [
         {
-          "journalId": "6531931",
-          "entryType": "Registro",
-          "timestamp": "2026-06-10 17:18",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "INFORME CON OBSERVACIONES",
-          "outcome": "NO FAVORABLE",
-          "rule": "informe_con_observaciones"
-        },
-        {
           "journalId": "6531936",
           "entryType": "Registro",
           "timestamp": "2026-06-10 17:18",
           "author": "JOSSELYN DAYANA OROZCO VELASCO",
           "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
           "note": "OBSERVACIONES: Se concede un plazo de diez (10) días hábiles para la subsanación de las observaciones señaladas. Por favor, revisar los archivos adjuntos para la correcta atención de lo requerido.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
+          "journalId": "6532001",
+          "entryType": "Registro",
+          "timestamp": "2026-06-10 17:26",
+          "author": "JOSSELYN DAYANA OROZCO VELASCO",
+          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+          "note": "POR FAVOR SUBSANAR TODAS LAS OBSERVACIONES CONFORME AL INFORME DE OBSERVACIONES ADJUNTO AL TRAMITE (OBSERVACIONES LEGALES)",
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         },

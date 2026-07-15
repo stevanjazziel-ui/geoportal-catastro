@@ -3858,14 +3858,110 @@
         persistSessionAssignee();
       }
 
-      function getAssignee(id) {
+      function hasStoredAssignmentEntry(id) {
+        return (
+          Object.prototype.hasOwnProperty.call(manualAssignments, id) ||
+          Object.prototype.hasOwnProperty.call(sharedAssignments, id)
+        );
+      }
+
+      function getStoredAssignee(id) {
         if (Object.prototype.hasOwnProperty.call(manualAssignments, id)) {
           const value = manualAssignments[id];
           return typeof value === "string" ? value.trim() : "";
         }
-
         const sharedValue = sharedAssignments[id];
         return typeof sharedValue === "string" ? sharedValue.trim() : "";
+      }
+
+      function getRecordIssueKey(record) {
+        if (!record) {
+          return "";
+        }
+        const value = record.issueId ?? record.nroTramite ?? "";
+        return String(value || "").trim();
+      }
+
+      function isGenericActorLabel(value) {
+        const normalized = normalizeText(value);
+        return !normalized || normalized === "administrador central" || normalized === "asignado local";
+      }
+
+      function getLatestReviewerFromActivity(recordId) {
+        const assignedEntry = activityLog.find(
+          (entry) =>
+            entry.recordId === recordId &&
+            entry.actorMode === "assigned" &&
+            !isGenericActorLabel(entry.actor)
+        );
+        if (assignedEntry) {
+          return String(assignedEntry.actor || "").trim();
+        }
+
+        const reviewEntry = activityLog.find(
+          (entry) =>
+            entry.recordId === recordId &&
+            ["revision", "observacion", "evidencia", "borrador-informe", "tarea"].includes(entry.actionType) &&
+            !isGenericActorLabel(entry.actor)
+        );
+        return reviewEntry ? String(reviewEntry.actor || "").trim() : "";
+      }
+
+      function getAutoReassignedAssignee(record) {
+        if (!record || getHistorySourceRecords().some((item) => item.id === record.id)) {
+          return "";
+        }
+
+        const currentIssueKey = getRecordIssueKey(record);
+        const currentCodeKey = String(record.codigo || "").trim();
+        if (!currentIssueKey && !currentCodeKey) {
+          return "";
+        }
+
+        const historyMatches = getHistorySourceRecords()
+          .filter((historyRecord) => {
+            if (!historyRecord || !historyRecord.id || getEgobOutcome(historyRecord) !== "NO FAVORABLE") {
+              return false;
+            }
+
+            const historyIssueKey = getRecordIssueKey(historyRecord);
+            const historyCodeKey = String(historyRecord.codigo || "").trim();
+            return (
+              (currentIssueKey && historyIssueKey && currentIssueKey === historyIssueKey) ||
+              (currentCodeKey && historyCodeKey && currentCodeKey === historyCodeKey)
+            );
+          })
+          .sort((left, right) => {
+            const leftDate = String(left.historyArchivedAt || left.egobOutcomeAt || left.historyLastSeenAt || "");
+            const rightDate = String(right.historyArchivedAt || right.egobOutcomeAt || right.historyLastSeenAt || "");
+            return rightDate.localeCompare(leftDate);
+          });
+
+        for (const historyRecord of historyMatches) {
+          if (hasStoredAssignmentEntry(historyRecord.id)) {
+            const previousAssignee = getStoredAssignee(historyRecord.id);
+            if (previousAssignee) {
+              return previousAssignee;
+            }
+            return "";
+          }
+
+          const reviewerFromActivity = getLatestReviewerFromActivity(historyRecord.id);
+          if (reviewerFromActivity) {
+            return reviewerFromActivity;
+          }
+        }
+
+        return "";
+      }
+
+      function getAssignee(id) {
+        if (hasStoredAssignmentEntry(id)) {
+          return getStoredAssignee(id);
+        }
+
+        const record = findRecordById(id);
+        return getAutoReassignedAssignee(record);
       }
 
       function assignValue(id, value) {
@@ -3873,8 +3969,8 @@
         const next = value.trim();
         if (
           next ||
-          Object.prototype.hasOwnProperty.call(sharedAssignments, id) ||
-          Object.prototype.hasOwnProperty.call(manualAssignments, id)
+          hasStoredAssignmentEntry(id) ||
+          previous
         ) {
           manualAssignments[id] = next;
         } else {
@@ -4257,6 +4353,10 @@
         getAllKnownRecords().forEach((record) => {
           if (record.responsable) {
             names.add(record.responsable);
+          }
+          const assignee = getAssignee(record.id);
+          if (assignee) {
+            names.add(assignee);
           }
         });
         Object.values(sharedAssignments).forEach((value) => {
