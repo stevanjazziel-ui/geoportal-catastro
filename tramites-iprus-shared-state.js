@@ -1,7 +1,7 @@
 window.TRAMITES_IPRUS_SHARED_STATE = {
   "title": "TRAMITES IPRUS SHARED STATE",
-  "sourceDate": "2026-07-15T08:38:16",
-  "generatedAt": "2026-07-15T13:57:58.757Z",
+  "sourceDate": "2026-07-15T08:52:00",
+  "generatedAt": "2026-07-15T14:03:11.147Z",
   "assignments": {
     "GADMR--2026-0393-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0381-IPRUS-ZNP": "Fausto Lopez",
@@ -15,6 +15,7 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
     "GADMR--2026-0386-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0390-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0333-IPRUS-ZNP": "Hamilton Torres",
+    "GADMR--2026-0409-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0407-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0324-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0400-IPRUS-ZNP": "Fausto Lopez",
@@ -95,6 +96,19 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
   "reportDrafts": {},
   "taskQueue": [],
   "activityLog": [
+    {
+      "id": "1784123882875-l72jds8e",
+      "recordId": "GADMR--2026-0409-IPRUS-ZNP",
+      "actor": "Miriam Guisha",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Hamilton Torres.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-07-15T13:58:02.875Z",
+      "recordCode": "GADMR--2026-0409-IPRUS-ZNP",
+      "tramiteNumber": "1205293"
+    },
     {
       "id": "1784123878755-ipoxs238",
       "recordId": "GADMR--2026-0413-IPRUS-ZNP",
