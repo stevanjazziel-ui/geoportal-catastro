@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-15",
-  "generatedAt": "2026-07-15T09:53:27",
+  "generatedAt": "2026-07-15T09:55:15",
   "records": [
     {
       "estado": "Complementado",
@@ -4515,7 +4515,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "Se reasigna tramite IPRUS no favorable, por favor continuar segun corresponda Observaciones 1. El trámite N.º 1177429 no es favorable en las condiciones presentadas. 2. El levantamiento planimétrico ingresado no refleja la realidad física del predio. 3. Se deberá realizar un nuevo levantamiento con equipos topográficos de precisión. 4. El levantamiento deberá ajustarse a los linderos, vértices y configuración real del predio. 5. No se deberá limitar el levantamiento a tratar de ajustar las medidas constantes en el certificado de gravamen.",
       "egobLatestReassignmentAt": "2026-07-15 09:45",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "egobJournalCount": 16,
+      "egobJournalCount": 17,
       "egobRelevantNotes": [
         {
           "journalId": "6829483",
@@ -4538,7 +4538,7 @@ window.TRAMITES_IPRUS_DATA = {
           "rule": "no_favorable"
         }
       ],
-      "historyArchivedAt": "2026-07-15T09:52:29",
+      "historyArchivedAt": "2026-07-15T09:54:19",
       "historyLastSeenAt": "2026-07-15T09:34:59",
       "historyStatus": "Historico"
     },
