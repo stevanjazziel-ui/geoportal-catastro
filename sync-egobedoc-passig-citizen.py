@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import getpass
 import html as html_lib
+import importlib.util
 import json
 import math
 import os
@@ -62,6 +63,20 @@ TRAMITE_CODE_RE = re.compile(r"\b[A-Z]{3,}(?:-+[A-Z0-9]+){2,}\b")
 SPACES_RE = re.compile(r"\s+")
 STANDALONE_ID_RE = re.compile(r"\b(\d{6,8})\b")
 PAREN_ROLE_RE = re.compile(r"^(.*?)\s*\((.+)\)\s*$")
+JOURNALS_CONTAINER_RE = re.compile(r'<div id="journals-container".*?</div>\s*<div id="journals-loader"', re.IGNORECASE | re.DOTALL)
+JOURNAL_SPLIT_RE = re.compile(r'(?=<div id="change-\d+")')
+
+EGOB_OUTCOME_NEGATIVE_RULES = (
+    ("no_favorable", ("no favorable", "no es favorable", "tramite no favorable", "trámite no favorable")),
+    ("observaciones_legales", ("tramite con observaciones legales", "trámite con observaciones legales")),
+    ("informe_con_observaciones", ("informe con observaciones",)),
+    ("subsanacion", ("se concede un plazo", "subsanacion", "subsanación", "observaciones:")),
+)
+
+EGOB_OUTCOME_POSITIVE_RULES = (
+    ("sin_observaciones_legales", ("sin observaciones legales",)),
+    ("favorable", ("informe favorable", "tramite favorable", "trámite favorable", " favorable", "favorable ")),
+)
 
 
 def normalize_text(value: object) -> str:
@@ -398,6 +413,178 @@ def extract_session_context(html: str, username_hint: str = "") -> dict[str, str
     }
 
 
+def html_fragment_to_text(fragment: str) -> str:
+    text = re.sub(r"(?is)<br\s*/?>", "\n", fragment)
+    text = re.sub(r"(?is)<[^>]+>", " ", text)
+    text = html_lib.unescape(text)
+    return clean_spaces(text)
+
+
+def extract_journal_entries(issue_html: str) -> list[dict[str, object]]:
+    container_match = JOURNALS_CONTAINER_RE.search(issue_html)
+    if not container_match:
+        return []
+
+    container = container_match.group(0)
+    parts = JOURNAL_SPLIT_RE.split(container)
+    entries: list[dict[str, object]] = []
+
+    for part in parts[1:]:
+        entry_id_match = re.search(r'<div id="change-(\d+)"', part)
+        if not entry_id_match:
+            continue
+
+        author_match = re.search(
+            r'<span class="journal-entry__author">\s*(.*?)\s*(?:<small>\((.*?)\)</small>)?\s*</span>',
+            part,
+            flags=re.IGNORECASE | re.DOTALL,
+        )
+        time_match = re.search(
+            r'<span class="journal-entry__time">\s*([^<]+)',
+            part,
+            flags=re.IGNORECASE | re.DOTALL,
+        )
+        note_match = re.search(
+            r'<div class="journal-entry__note">\s*<strong>Nota:</strong>\s*(.*?)\s*</div>',
+            part,
+            flags=re.IGNORECASE | re.DOTALL,
+        )
+        index_match = re.search(
+            r'<span class="journal-entry__index">#(\d+)</span>',
+            part,
+            flags=re.IGNORECASE | re.DOTALL,
+        )
+        detail_matches = re.findall(r"<li>(.*?)</li>", part, flags=re.IGNORECASE | re.DOTALL)
+
+        entry_type = "Registro"
+        if 'class="reassignment"' in part:
+            entry_type = "Reasignación"
+        elif 'class="archived"' in part:
+            entry_type = "Archivado"
+
+        entries.append(
+            {
+                "journalId": entry_id_match.group(1),
+                "index": int(index_match.group(1)) if index_match else None,
+                "entryType": entry_type,
+                "author": html_fragment_to_text(author_match.group(1)) if author_match else "",
+                "authorRole": html_fragment_to_text(author_match.group(2)) if author_match and author_match.group(2) else "",
+                "timestamp": clean_spaces(time_match.group(1)) if time_match else "",
+                "note": html_fragment_to_text(note_match.group(1)) if note_match else "",
+                "details": [html_fragment_to_text(item) for item in detail_matches if html_fragment_to_text(item)],
+            }
+        )
+
+    return entries
+
+
+def classify_egob_outcome(note: str, details: list[str] | None = None) -> tuple[str | None, str | None]:
+    parts = [note]
+    if details:
+        parts.extend(details)
+    normalized = normalize_text(" ".join(part for part in parts if part))
+    if not normalized:
+        return None, None
+
+    for rule, patterns in EGOB_OUTCOME_NEGATIVE_RULES:
+        if any(pattern in normalized for pattern in patterns):
+            return "NO FAVORABLE", rule
+
+    for rule, patterns in EGOB_OUTCOME_POSITIVE_RULES:
+        if any(pattern in normalized for pattern in patterns):
+            return "FAVORABLE", rule
+
+    return None, None
+
+
+def summarize_issue_tracking(issue_id: str, issue_html: str) -> dict[str, object]:
+    entries = extract_journal_entries(issue_html)
+    relevant_entries: list[dict[str, object]] = []
+
+    for entry in entries:
+        outcome, rule = classify_egob_outcome(
+            str(entry.get("note") or ""),
+            [str(item) for item in entry.get("details") or []],
+        )
+        if outcome:
+            relevant_entries.append(
+                {
+                    "journalId": entry.get("journalId"),
+                    "entryType": entry.get("entryType"),
+                    "timestamp": entry.get("timestamp"),
+                    "author": entry.get("author"),
+                    "authorRole": entry.get("authorRole"),
+                    "note": entry.get("note"),
+                    "outcome": outcome,
+                    "rule": rule,
+                }
+            )
+
+    latest_reassignment = next(
+        (
+            entry
+            for entry in reversed(entries)
+            if entry.get("entryType") == "Reasignación" and clean_spaces(entry.get("note"))
+        ),
+        None,
+    )
+    latest_relevant = relevant_entries[-1] if relevant_entries else None
+
+    return {
+        "issueId": str(issue_id),
+        "egobOutcome": latest_relevant.get("outcome") if latest_relevant else "EN REVISIÓN",
+        "egobOutcomeRule": latest_relevant.get("rule") if latest_relevant else "",
+        "egobOutcomeNote": latest_relevant.get("note") if latest_relevant else "",
+        "egobOutcomeAt": latest_relevant.get("timestamp") if latest_relevant else "",
+        "egobOutcomeAuthor": latest_relevant.get("author") if latest_relevant else "",
+        "egobOutcomeAuthorRole": latest_relevant.get("authorRole") if latest_relevant else "",
+        "egobOutcomeEntryType": latest_relevant.get("entryType") if latest_relevant else "",
+        "egobLatestReassignmentNote": latest_reassignment.get("note") if latest_reassignment else "",
+        "egobLatestReassignmentAt": latest_reassignment.get("timestamp") if latest_reassignment else "",
+        "egobLatestReassignmentAuthor": latest_reassignment.get("author") if latest_reassignment else "",
+        "egobJournalCount": len(entries),
+        "egobRelevantNotes": relevant_entries[-5:],
+    }
+
+
+def get_issue_tracking_key(record: dict[str, object]) -> str:
+    issue_id = record.get("issueId") or record.get("nroTramite")
+    if issue_id is None:
+        return ""
+    return clean_spaces(issue_id)
+
+
+def extract_issue_tracking_fields(record: dict[str, object]) -> dict[str, object]:
+    return {
+        key: value
+        for key, value in record.items()
+        if key.startswith("egob") or key in {"issueId"}
+    }
+
+
+def build_issue_tracking_cache(payload: dict[str, object]) -> dict[str, dict[str, object]]:
+    cache: dict[str, dict[str, object]] = {}
+    for collection_name in ("records", "historyRecords", "history"):
+        for record in payload.get(collection_name) or []:
+            key = get_issue_tracking_key(record)
+            if not key:
+                continue
+            tracking = extract_issue_tracking_fields(record)
+            if tracking:
+                cache[key] = tracking
+    return cache
+
+
+def apply_issue_tracking_cache(records: list[dict[str, object]], cache: dict[str, dict[str, object]]) -> None:
+    for record in records:
+        key = get_issue_tracking_key(record)
+        if not key:
+            continue
+        tracking = cache.get(key)
+        if tracking:
+            record.update(tracking)
+
+
 def parse_tramite_field(value: object) -> dict[str, object]:
     text = clean_spaces(value)
     if not text:
@@ -445,6 +632,7 @@ def parse_tramite_field(value: object) -> dict[str, object]:
         result["codigo"] = code
     if number is not None:
         result["nroTramite"] = number
+        result["issueId"] = str(number)
     if tipo:
         result["tipoTramite"] = tipo
     return result
@@ -720,61 +908,117 @@ def resolve_credentials(args: argparse.Namespace) -> tuple[str, str]:
     return username, password
 
 
-def fetch_authenticated_html(args: argparse.Namespace, username: str, password: str) -> tuple[str, dict[str, object]]:
+def load_connect_module():
+    cache = getattr(load_connect_module, "_cache", None)
+    if cache is not None:
+        return cache
+
+    module_path = Path(__file__).resolve().with_name("connect-egobedoc-cas.py")
+    spec = importlib.util.spec_from_file_location("egobedoc_cas_runtime", module_path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError("No se pudo cargar el conector CAS local.")
+
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    load_connect_module._cache = module
+    return module
+
+
+def fetch_authenticated_html(
+    args: argparse.Namespace,
+    username: str,
+    password: str,
+    temp_dir: str,
+) -> tuple[str, dict[str, object], object]:
     if not username or not password:
         raise RuntimeError(
             "Faltan credenciales CAS. Ejecuta el script con --username/--password, variables de entorno, o responde al prompt."
         )
 
-    with tempfile.TemporaryDirectory() as temp_dir:
-        html_path = Path(temp_dir) / "passig_citizen.html"
-        cmd = [
-            sys.executable,
-            "connect-egobedoc-cas.py",
-            "login",
-            "--origin",
-            args.origin,
-            "--save-html",
-            str(html_path),
-            "--username",
-            username,
-            "--password",
-            password,
-            "--no-prompt",
-        ]
-        if args.path:
-            cmd.extend(["--path", args.path])
-        if args.insecure:
-            cmd.append("--insecure")
-
-        completed = subprocess.run(
-            cmd,
-            cwd=str(Path(__file__).resolve().parent),
-            capture_output=True,
-            text=True,
+    connect_module = load_connect_module()
+    client = connect_module.EgoBedocCasClient(verify=not args.insecure)
+    response = client.login(args.origin, username, password)
+    if args.path:
+        response = client.session.get(
+            connect_module.urljoin(args.origin, args.path),
+            allow_redirects=True,
+            timeout=client.timeout,
         )
-        stdout = completed.stdout.strip()
-        stderr = completed.stderr.strip()
+    if "/cas/login" in response.url.lower():
+        raise RuntimeError("CAS no devolvio una sesion autenticada.")
 
-        if completed.returncode != 0:
-            detail = stderr or stdout or f"returncode={completed.returncode}"
-            raise RuntimeError(f"El conector CAS no pudo autenticarse o descargar la bandeja: {detail}")
+    info = connect_module.summarize_response(response, args.origin, client.session)
+    html_path = Path(temp_dir) / "passig_citizen.html"
+    html = response.text
 
-        if not html_path.exists():
-            raise FileNotFoundError("El conector CAS no dejo el HTML autenticado esperado.")
+    if args.save_html:
+        save_path = Path(args.save_html)
+        save_path.parent.mkdir(parents=True, exist_ok=True)
+        save_path.write_text(html, encoding="utf-8")
+    html_path.write_text(html, encoding="utf-8")
 
-        info = json.loads(stdout) if stdout else {}
-        if info and not info.get("authenticated", True):
-            raise RuntimeError("CAS no devolvio una sesion autenticada. Revisa usuario, clave o permisos.")
+    return html, info, client
 
-        html = html_path.read_text(encoding="utf-8", errors="ignore")
 
-        if args.save_html:
-            save_path = Path(args.save_html)
-            save_path.parent.mkdir(parents=True, exist_ok=True)
-            save_path.write_text(html, encoding="utf-8")
+def fetch_issue_detail_html(
+    args: argparse.Namespace,
+    client: object,
+    issue_id: str,
+    temp_dir: str,
+) -> str:
+    issue_html_path = Path(temp_dir) / f"issue-{issue_id}.html"
+    response = client.session.get(
+        f"{args.origin.rsplit('/my/', 1)[0]}/issues/{issue_id}",
+        allow_redirects=True,
+        timeout=client.timeout,
+    )
+    if "/cas/login" in response.url.lower():
+        raise RuntimeError(f"La sesion expiro mientras se consultaba el tramite {issue_id}.")
+    issue_html_path.write_text(response.text, encoding="utf-8")
+    return response.text
 
-        return html, info
+
+def enrich_records_with_issue_tracking(
+    records: list[dict[str, object]],
+    args: argparse.Namespace,
+    *,
+    client: object | None,
+    temp_dir: str | None,
+    cache: dict[str, dict[str, object]],
+    fetch_missing_only: bool,
+) -> dict[str, int]:
+    apply_issue_tracking_cache(records, cache)
+    stats = {"fetched": 0, "reused": 0, "failed": 0}
+
+    if not client or not temp_dir or args.skip_issue_details:
+        return stats
+
+    for record in records:
+        issue_id = get_issue_tracking_key(record)
+        if not issue_id:
+            continue
+
+        if fetch_missing_only and record.get("egobOutcome") and record.get("egobLatestReassignmentNote"):
+            stats["reused"] += 1
+            continue
+
+        try:
+            issue_html = fetch_issue_detail_html(args, client, issue_id, temp_dir)
+            tracking = summarize_issue_tracking(issue_id, issue_html)
+            record.pop("egobSyncError", None)
+            record.update(tracking)
+            cache[issue_id] = extract_issue_tracking_fields(record)
+            stats["fetched"] += 1
+        except Exception as error:  # noqa: BLE001 - preferimos no abortar toda la sincronizacion por un tramite
+            record["egobSyncError"] = clean_spaces(error)
+            if issue_id in cache:
+                record.update(cache[issue_id])
+                stats["reused"] += 1
+            else:
+                stats["failed"] += 1
+
+    return stats
 
 
 def parse_args() -> argparse.Namespace:
@@ -791,6 +1035,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--save-meta-json", help="Guarda metadatos de la tabla seleccionada.")
     parser.add_argument("--table-index", type=int, help="Indice manual de la tabla HTML a usar.")
     parser.add_argument("--output", default=DEFAULT_OUTPUT, help="Archivo JS de salida.")
+    parser.add_argument("--skip-issue-details", action="store_true", help="Omite la lectura del historico individual de cada tramite.")
     return parser.parse_args()
 
 
@@ -798,67 +1043,90 @@ def main() -> int:
     args = parse_args()
     connection_info: dict[str, object] = {}
     session_context: dict[str, str] = {}
+    detail_stats = {"active": {"fetched": 0, "reused": 0, "failed": 0}, "history": {"fetched": 0, "reused": 0, "failed": 0}}
+    client = None
 
-    if args.html_source:
-        html_path = Path(args.html_source).expanduser().resolve()
-        html_source = html_path.read_text(encoding="utf-8", errors="ignore")
-        source_file = html_path.name
-        source_path = str(html_path)
-        source_note = "Fuente: HTML local parseado desde eGOB/e-Bedoc"
-        session_context = extract_session_context(html_source, args.username or "")
-    else:
-        username, password = resolve_credentials(args)
-        html_source, connection_info = fetch_authenticated_html(args, username, password)
-        source_file = "passig_citizen.html"
-        source_path = args.origin
-        source_note = "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS"
-        session_context = extract_session_context(html_source, username)
-        if session_context:
-            connection_info["sessionContext"] = session_context
+    with tempfile.TemporaryDirectory() as temp_dir:
+        if args.html_source:
+            html_path = Path(args.html_source).expanduser().resolve()
+            html_source = html_path.read_text(encoding="utf-8", errors="ignore")
+            source_file = html_path.name
+            source_path = str(html_path)
+            source_note = "Fuente: HTML local parseado desde eGOB/e-Bedoc"
+            session_context = extract_session_context(html_source, args.username or "")
+        else:
+            username, password = resolve_credentials(args)
+            html_source, connection_info, client = fetch_authenticated_html(args, username, password, temp_dir)
+            source_file = "passig_citizen.html"
+            source_path = args.origin
+            source_note = "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS"
+            session_context = extract_session_context(html_source, username)
+            if session_context:
+                connection_info["sessionContext"] = session_context
 
-    output_path = Path(args.output).expanduser().resolve()
-    records, meta = parse_html_tables(html_source, args.table_index, session_context=session_context)
-    previous_payload = load_existing_payload(output_path)
-    history_records = merge_history(
-        records,
-        previous_payload,
-        archived_at=datetime.now().isoformat(timespec="seconds"),
-    )
-    payload = create_payload(
-        records,
-        source_file=source_file,
-        source_path=source_path,
-        source_note=source_note,
-        history_records=history_records,
-    )
-
-    write_js_module(payload, output_path)
-
-    if args.save_meta_json:
-        meta_payload = {
-            "connection": connection_info,
-            "table": meta,
-            "recordCount": len(records),
-            "generatedAt": datetime.now().isoformat(timespec="seconds"),
-        }
-        meta_path = Path(args.save_meta_json).expanduser().resolve()
-        meta_path.parent.mkdir(parents=True, exist_ok=True)
-        meta_path.write_text(json.dumps(meta_payload, ensure_ascii=False, indent=2), encoding="utf-8")
-
-    print(
-        json.dumps(
-            {
-                "output": str(output_path),
-                "records": len(records),
-                "selectedTableIndex": meta["selectedTableIndex"],
-                "selectedColumns": meta["selectedColumns"],
-                "source": source_path,
-            },
-            ensure_ascii=False,
-            indent=2,
+        output_path = Path(args.output).expanduser().resolve()
+        records, meta = parse_html_tables(html_source, args.table_index, session_context=session_context)
+        previous_payload = load_existing_payload(output_path)
+        issue_tracking_cache = build_issue_tracking_cache(previous_payload)
+        detail_stats["active"] = enrich_records_with_issue_tracking(
+            records,
+            args,
+            client=client,
+            temp_dir=temp_dir,
+            cache=issue_tracking_cache,
+            fetch_missing_only=False,
         )
-    )
-    return 0
+        history_records = merge_history(
+            records,
+            previous_payload,
+            archived_at=datetime.now().isoformat(timespec="seconds"),
+        )
+        detail_stats["history"] = enrich_records_with_issue_tracking(
+            history_records,
+            args,
+            client=client,
+            temp_dir=temp_dir,
+            cache=issue_tracking_cache,
+            fetch_missing_only=True,
+        )
+        payload = create_payload(
+            records,
+            source_file=source_file,
+            source_path=source_path,
+            source_note=source_note,
+            history_records=history_records,
+        )
+
+        write_js_module(payload, output_path)
+
+        if args.save_meta_json:
+            meta_payload = {
+                "connection": connection_info,
+                "table": meta,
+                "recordCount": len(records),
+                "issueTracking": detail_stats,
+                "generatedAt": datetime.now().isoformat(timespec="seconds"),
+            }
+            meta_path = Path(args.save_meta_json).expanduser().resolve()
+            meta_path.parent.mkdir(parents=True, exist_ok=True)
+            meta_path.write_text(json.dumps(meta_payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+        print(
+            json.dumps(
+                {
+                    "output": str(output_path),
+                    "records": len(records),
+                    "historyRecords": len(history_records),
+                    "selectedTableIndex": meta["selectedTableIndex"],
+                    "selectedColumns": meta["selectedColumns"],
+                    "source": source_path,
+                    "issueTracking": detail_stats,
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+        return 0
 
 
 if __name__ == "__main__":

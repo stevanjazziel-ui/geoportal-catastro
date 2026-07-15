@@ -201,6 +201,18 @@ def save_text(path: str | None, content: str) -> None:
     file_path.write_text(content, encoding="utf-8")
 
 
+def load_cookies(path: str | None) -> dict[str, str]:
+    if not path:
+        return {}
+    file_path = Path(path)
+    if not file_path.exists():
+        raise FileNotFoundError(f"No existe el archivo de cookies: {file_path}")
+    data = json.loads(file_path.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        raise ValueError("El archivo de cookies no contiene un objeto JSON valido.")
+    return {str(key): str(value) for key, value in data.items()}
+
+
 def summarize_response(
     response: requests.Response,
     origin_url: str,
@@ -252,6 +264,14 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="No solicitar usuario o clave de manera interactiva si faltan.",
     )
+
+    fetch_parser = subparsers.add_parser("fetch", help="Consulta una ruta autenticada usando cookies guardadas.")
+    fetch_parser.add_argument("--origin", default=DEFAULT_ORIGIN, help="Ruta protegida base.")
+    fetch_parser.add_argument("--path", required=True, help="Ruta autenticada adicional, por ejemplo /issues/1191961.")
+    fetch_parser.add_argument("--cookies-file", required=True, help="JSON de cookies guardado con el comando login.")
+    fetch_parser.add_argument("--timeout", type=int, default=DEFAULT_TIMEOUT)
+    fetch_parser.add_argument("--save-html", help="Guarda el HTML final en disco.")
+    fetch_parser.add_argument("--insecure", action="store_true", help="Desactiva la verificaciÃ³n TLS para certificados internos.")
 
     return parser
 
@@ -318,6 +338,27 @@ def main(argv: Iterable[str] | None = None) -> int:
                     json.dumps(client.session.cookies.get_dict(), ensure_ascii=False, indent=2),
                     encoding="utf-8",
                 )
+
+            print(
+                json.dumps(
+                    summarize_response(response, args.origin, client.session),
+                    ensure_ascii=False,
+                    indent=2,
+                    sort_keys=True,
+                )
+            )
+            if "/cas/login" in response.url.lower():
+                return 2
+            return 0
+
+        if args.command == "fetch":
+            cookies = load_cookies(args.cookies_file)
+            client.session.cookies.update(cookies)
+            target_url = urljoin(args.origin, args.path)
+            response = client.session.get(target_url, allow_redirects=True, timeout=args.timeout)
+
+            if args.save_html:
+                save_text(args.save_html, response.text)
 
             print(
                 json.dumps(

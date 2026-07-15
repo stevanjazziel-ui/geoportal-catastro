@@ -4704,6 +4704,14 @@
         return value || "Sin estado";
       }
 
+      function getEgobOutcome(record) {
+        const value = String(record?.egobOutcome || "").trim().toUpperCase();
+        if (value === "FAVORABLE" || value === "NO FAVORABLE") {
+          return value;
+        }
+        return "EN REVISIÓN";
+      }
+
       function getTrackingAnalytics() {
         const records = getTrackingSourceRecords();
         const activeIds = new Set(getActiveSourceRecords().map((record) => record.id));
@@ -4725,7 +4733,7 @@
           const rawAssignee = getAssignee(record.id);
           const assignee = rawAssignee || "Sin asignación interna";
           const summary = getReviewSummary(record.id);
-          const outcome = getTechnicalOutcome(record.id);
+          const outcome = getEgobOutcome(record);
           const egobState = getEgobState(record);
           const answered = summary.yes + summary.no;
 
@@ -4871,16 +4879,16 @@
 
         const analytics = getTrackingAnalytics();
         const statusSegments = [
-          { label: "Favorables", value: analytics.favorable, color: "#49a942", note: "Trámites con criterio técnico favorable." },
-          { label: "No favorables", value: analytics.noFavorable, color: "#d35c4d", note: "Trámites con al menos una observación en No." },
-          { label: "En revisión", value: analytics.inReview, color: "#d8b04b", note: "Trámites con validaciones técnicas pendientes." },
+          { label: "Favorables EGOB", value: analytics.favorable, color: "#49a942", note: "Trámites con criterio favorable detectado en reasignaciones o notas de eGOB." },
+          { label: "No favorables EGOB", value: analytics.noFavorable, color: "#d35c4d", note: "Trámites con criterio no favorable u observaciones detectadas en eGOB." },
+          { label: "En revisión EGOB", value: analytics.inReview, color: "#d8b04b", note: "Trámites que todavía no muestran resultado final en eGOB." },
           { label: "Sin asignación", value: analytics.unassigned, color: "#8ba1b0", note: "Registros que todavía no tienen técnico interno." },
         ];
 
         dom.trackingPanel.hidden = false;
         dom.trackingHelper.textContent =
           analytics.assigneeCount > 0
-            ? `Se consolidan ${analytics.total} trámites entre activos e historial, repartidos entre ${analytics.assigneeCount} asignados internos, con lectura separada del estado EGOB y del criterio técnico del módulo.`
+            ? `Se consolidan ${analytics.total} trámites entre activos e historial, repartidos entre ${analytics.assigneeCount} asignados internos, con lectura del estado EGOB, del resultado favorable o no favorable detectado en sus reasignaciones y del avance técnico del módulo.`
             : `Todavía no existen asignaciones internas registradas. Aquí se mostrará el seguimiento en cuanto se repartan los trámites.`;
 
         dom.trackingStatusOverview.innerHTML = analytics.total
@@ -5023,9 +5031,9 @@
                           ${group.inReview > 0 ? `<span class="tracking-row-segment" style="width:${(group.inReview / group.total) * 100}%; background:#d8b04b;"></span>` : ""}
                         </div>
                         <div class="tracking-row-meta">
-                          <span>${escapeHtml(`${group.favorable} favorables`)}</span>
-                          <span>${escapeHtml(`${group.noFavorable} no favorables`)}</span>
-                          <span>${escapeHtml(`${group.inReview} en revisión`)}</span>
+                          <span>${escapeHtml(`${group.favorable} favorables EGOB`)}</span>
+                          <span>${escapeHtml(`${group.noFavorable} no favorables EGOB`)}</span>
+                          <span>${escapeHtml(`${group.inReview} en revisión EGOB`)}</span>
                           <span>${escapeHtml(`${group.closed} cerrados`)}</span>
                           <span>${escapeHtml(`${group.egobStates.Complementado || 0} complementados EGOB`)}</span>
                         </div>
@@ -5057,9 +5065,9 @@
                           </div>
                         </div>
                         <div class="tracking-assignee-pills">
-                          <span class="tracking-pill favorable">${escapeHtml(`${group.favorable} favorables`)}</span>
-                          <span class="tracking-pill no-favorable">${escapeHtml(`${group.noFavorable} no favorables`)}</span>
-                          <span class="tracking-pill revision">${escapeHtml(`${group.inReview} en revisión`)}</span>
+                          <span class="tracking-pill favorable">${escapeHtml(`${group.favorable} favorables EGOB`)}</span>
+                          <span class="tracking-pill no-favorable">${escapeHtml(`${group.noFavorable} no favorables EGOB`)}</span>
+                          <span class="tracking-pill revision">${escapeHtml(`${group.inReview} en revisión EGOB`)}</span>
                           <span class="tracking-pill closed">${escapeHtml(`${group.closed} cerrados`)}</span>
                           <span class="tracking-pill closed">${escapeHtml(`${group.egobStates.Complementado || 0} complementados EGOB`)}</span>
                         </div>
@@ -5090,14 +5098,14 @@
                 note: `${analytics.historyCount} trámite(s) adicionales están en historial consolidado.`,
               },
               {
-                label: "Favorables técnicos",
+                label: "Favorables EGOB",
                 value: analytics.favorable,
-                note: `${analytics.closed} trámites ya tienen revisión cerrada.`,
+                note: `${analytics.closed} trámites ya tienen revisión interna cerrada.`,
               },
               {
-                label: "No favorables técnicos",
+                label: "No favorables EGOB",
                 value: analytics.noFavorable,
-                note: `${analytics.inReview} trámites siguen en revisión técnica.`,
+                note: `${analytics.inReview} trámites siguen sin un resultado final detectado en eGOB.`,
               },
               {
                 label: "Complementados EGOB",
@@ -5676,6 +5684,7 @@
                         <span class="cell-title">Revisión ${reviewSummary.yes}/${reviewSummary.total}</span>
                         <span class="cell-meta">${reviewSummary.pending} pendientes, ${reviewSummary.no} en no</span>
                         <span class="cell-meta">${escapeHtml(getTechnicalOutcome(record.id))}</span>
+                        <span class="cell-meta">${escapeHtml(getEgobOutcome(record))} · eGOB</span>
                       </td>
                     </tr>
                   `
@@ -5707,6 +5716,11 @@
                             ${renderField("Fecha de ingreso", formatDate(record.fechaIngreso, true), "field-wide")}
                             ${renderField("Asignado interno", assignee || "Sin asignación interna", "field-wide")}
                             ${record.asignadoInterno ? renderField("Asignado sincronizado", record.asignadoInterno, "field-wide") : ""}
+                            ${renderField("Resultado eGOB", getEgobOutcome(record), "field-wide")}
+                            ${record.egobOutcomeAt ? renderField("Resultado eGOB detectado", record.egobOutcomeAt, "field-wide") : ""}
+                            ${record.egobOutcomeAuthor ? renderField("Resultado eGOB por", record.egobOutcomeAuthor, "field-wide") : ""}
+                            ${record.egobOutcomeNote ? renderField("Nota resultado eGOB", record.egobOutcomeNote, "field-full") : ""}
+                            ${record.egobLatestReassignmentNote && record.egobLatestReassignmentNote !== record.egobOutcomeNote ? renderField("Última reasignación eGOB", record.egobLatestReassignmentNote, "field-full") : ""}
                             ${historyMode || record.historyLastSeenAt ? renderField("Última vez en activos", historyLastSeen, "field-wide") : ""}
                             ${historyMode || record.historyArchivedAt ? renderField("Archivado en historial", historyArchivedAt, "field-wide") : ""}
                             ${historyMode || record.historyStatus ? renderField("Estado del historial", historyStatus, "field-wide") : ""}
@@ -6295,7 +6309,7 @@
               ${
                 adminMode
                   ? trackingMode
-                    ? "Desde aqui puedes ver el reparto interno completo, comparar cuántos trámites siguen asignados o complementados en EGOB frente al criterio técnico favorable, no favorable o en revisión, y demostrar el avance con gráficos consolidados por asignado."
+                    ? "Desde aqui puedes ver el reparto interno completo, comparar cuántos trámites siguen asignados o complementados en EGOB frente al resultado favorable, no favorable o en revisión detectado en sus reasignaciones, y demostrar el avance con gráficos consolidados por asignado."
                     : historyMode
                       ? "Desde aqui puedes revisar los tramites que ya no aparecen en la bandeja activa, mantener su detalle tecnico y consultar la trazabilidad de la sincronizacion."
                       : "Desde aqui puedes asignar tramites, revisar prioridades, abrir cualquier ficha tecnica y descargar exportables completos."
@@ -6319,7 +6333,7 @@
               <strong>${trackingMode ? trackingAnalytics.historyCount : scopedRecords.length}</strong>
             </article>
             <article class="mode-banner-stat">
-              <span>${escapeHtml(trackingMode ? "No favorables técnicos" : adminMode ? (historyMode ? "Con criterio tecnico" : "Seleccion activa") : "Revisiones cerradas")}</span>
+              <span>${escapeHtml(trackingMode ? "No favorables EGOB" : adminMode ? (historyMode ? "Con criterio tecnico" : "Seleccion activa") : "Revisiones cerradas")}</span>
               <strong>${trackingMode ? trackingAnalytics.noFavorable : adminMode ? (historyMode ? scopedRecords.filter((record) => getReviewSummary(record.id).yes > 0 || getReviewSummary(record.id).no > 0).length : selectedIds.size) : finishedCount}</strong>
             </article>
             <article class="mode-banner-stat">
@@ -6465,14 +6479,14 @@
             const analytics = getTrackingAnalytics();
             dom.metricTotalLabel.textContent = "Bandeja EGOB";
             dom.metricAssignedLabel.textContent = "Asignados internamente";
-            dom.metricCriticalLabel.textContent = "No favorables tecnicos";
+            dom.metricCriticalLabel.textContent = "No favorables EGOB";
             dom.metricSourceDateLabel.textContent = "Ultima fuente";
             dom.metricTotal.textContent = analytics.activeCount;
             dom.metricAssigned.textContent = analytics.assignedRecords;
             dom.metricCritical.textContent = analytics.noFavorable;
             dom.brandDescription.textContent =
               `${source.title}. Fuente ${source.sourceFile}. ` +
-              `La bandeja activa de EGOB contiene ${analytics.activeCount} tramites y el historial consolidado suma ${analytics.historyCount}, con ${analytics.progressPercent}% de avance tecnico, ${analytics.egobComplementado} complementados segun EGOB y ${analytics.assigneeCount} asignados internos.`;
+              `La bandeja activa de EGOB contiene ${analytics.activeCount} tramites y el historial consolidado suma ${analytics.historyCount}, con ${analytics.favorable} favorables EGOB, ${analytics.noFavorable} no favorables EGOB, ${analytics.egobComplementado} complementados segun EGOB y ${analytics.assigneeCount} asignados internos.`;
           } else {
             const total = datasetRecords.length;
             const assigned = datasetRecords.filter((record) => getAssignee(record.id)).length;
@@ -6522,7 +6536,7 @@
         const historyMode = isHistoryTab();
         if (isTrackingTab()) {
           const analytics = getTrackingAnalytics();
-          dom.tableCaption.textContent = `Seguimiento consolidado de ${analytics.activeCount} tramites en la bandeja EGOB, ${analytics.historyCount} en historial, ${analytics.assignedRecords} ya asignados y ${analytics.unassigned} todavia sin reparto interno.`;
+          dom.tableCaption.textContent = `Seguimiento consolidado de ${analytics.activeCount} tramites en la bandeja EGOB, ${analytics.historyCount} en historial, ${analytics.favorable} favorables EGOB, ${analytics.noFavorable} no favorables EGOB, ${analytics.assignedRecords} ya asignados y ${analytics.unassigned} todavia sin reparto interno.`;
           return;
         }
 
