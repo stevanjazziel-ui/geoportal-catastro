@@ -2383,6 +2383,7 @@
         <p class="message" id="github-sync-message"></p>
         <div class="button-stack">
           <button id="export-shared-state-button" type="button">Descargar estado compartido</button>
+          <button id="export-excel-button" type="button">Descargar Excel</button>
           <button id="export-csv-button" type="button">Descargar CSV</button>
           <button id="export-json-button" class="secondary" type="button">Descargar JSON</button>
         </div>
@@ -2660,6 +2661,7 @@
         publishGithubSyncButton: document.getElementById("publish-github-sync-button"),
         githubSyncMessage: document.getElementById("github-sync-message"),
         exportSharedStateButton: document.getElementById("export-shared-state-button"),
+        exportExcelButton: document.getElementById("export-excel-button"),
         exportCsvButton: document.getElementById("export-csv-button"),
         exportJsonButton: document.getElementById("export-json-button"),
         clearAllAssignmentsButton: document.getElementById("clear-all-assignments-button"),
@@ -4556,6 +4558,27 @@
               ? `Se descargó el estado compartido con ${assignmentCount} asignaciones, ${reviewCount} revisiones, ${evidenceCount} grupos de evidencia, ${draftCount} borradores, ${taskCount} tareas y ${activityCount} eventos de bitácora.`
               : "Se descargó el estado compartido vacío para reiniciar la vista central desde cero."
           );
+        });
+
+        dom.exportExcelButton.addEventListener("click", () => {
+          if (isTrackingTab()) {
+            const trackingSheet = getTrackingSheetData();
+            downloadFile(
+              `\ufeff${buildTrackingSheetExcelWorkbook()}`,
+              `tramites-iprus-seguimiento-${timestampForFile()}.xls`,
+              "application/vnd.ms-excel;charset=utf-8;"
+            );
+            setMessage(dom.exportMessage, `Se descargÃ³ el Excel del seguimiento por asignado con ${trackingSheet.total} trÃ¡mites consolidados.`);
+            return;
+          }
+
+          const rows = getFilteredRecords().map(enrichRecordForExport);
+          downloadFile(
+            `\ufeff${buildRecordsExcelWorkbook(rows)}`,
+            `tramites-iprus-${timestampForFile()}.xls`,
+            "application/vnd.ms-excel;charset=utf-8;"
+          );
+          setMessage(dom.exportMessage, `Se descargÃ³ el Excel con ${rows.length} trÃ¡mites filtrados.`);
         });
 
         dom.exportCsvButton.addEventListener("click", () => {
@@ -7455,8 +7478,8 @@
         };
       }
 
-      function buildCsv(rows) {
-        const columns = [
+      function getExportColumns() {
+        return [
           "estado",
           "prioridad",
           "nroTramite",
@@ -7489,6 +7512,121 @@
           ...technicalChecklist.map((item) => `${item.key}Observacion`),
           "evidenciaCargada",
         ];
+      }
+
+      function buildExcelWorkbook(title, tableMarkup) {
+        return `<!DOCTYPE html>
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="ProgId" content="Excel.Sheet" />
+  <meta name="Generator" content="Codex" />
+  <title>${escapeHtml(title)}</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 18px; color: #243746; }
+    h1 { margin: 0 0 6px; font-size: 22px; color: #1f3b4d; }
+    p { margin: 0 0 14px; color: #5b7284; font-size: 12px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #cfd8df; padding: 7px 8px; vertical-align: top; font-size: 12px; }
+    th { background: #e9f0f5; color: #243746; font-weight: 700; }
+    .sheet-label { background: #f4f8fb; color: #4b6373; font-weight: 700; text-transform: uppercase; }
+    .is-favorable { background: #edf8ec; }
+    .is-no-favorable { background: #fdecea; }
+    .is-review { background: #fff7df; }
+    .muted { color: #6c8090; }
+  </style>
+</head>
+<body>
+  <h1>${escapeHtml(title)}</h1>
+  <p>Generado el ${escapeHtml(formatDate(new Date().toISOString(), true))}</p>
+  ${tableMarkup}
+</body>
+</html>`;
+      }
+
+      function buildRecordsExcelWorkbook(rows) {
+        const columns = getExportColumns();
+        const headerMarkup = columns.map((column) => `<th>${escapeHtml(column)}</th>`).join("");
+        const bodyMarkup = rows
+          .map(
+            (row) => `
+              <tr>
+                ${columns
+                  .map((column) => `<td>${escapeHtml(row[column] == null ? "" : String(row[column]))}</td>`)
+                  .join("")}
+              </tr>
+            `
+          )
+          .join("");
+
+        return buildExcelWorkbook(
+          "Tramites IPRUS",
+          `<table><thead><tr>${headerMarkup}</tr></thead><tbody>${bodyMarkup}</tbody></table>`
+        );
+      }
+
+      function buildTrackingSheetExcelWorkbook() {
+        const sheet = getTrackingSheetData();
+        const headerMarkup = `
+          <tr>
+            <th class="sheet-label">Fila</th>
+            ${sheet.columns
+              .map(
+                (column) => `
+                  <th>
+                    ${escapeHtml(column.name)}<br />
+                    <span class="muted">${escapeHtml(`${column.total} tramite(s) · ${column.active} activo(s) · ${column.history} historico(s)`)}</span>
+                  </th>
+                `
+              )
+              .join("")}
+          </tr>
+        `;
+        const bodyMarkup = Array.from({ length: sheet.maxRows }, (_, index) => {
+          const rowNumber = index + 1;
+          return `
+            <tr>
+              <td class="sheet-label">${rowNumber}</td>
+              ${sheet.columns
+                .map((column) => {
+                  const item = column.records[index];
+                  if (!item) {
+                    return `<td></td>`;
+                  }
+
+                  const record = item.record;
+                  const recordClass = item.outcome === "FAVORABLE"
+                    ? "is-favorable"
+                    : item.outcome === "NO FAVORABLE"
+                      ? "is-no-favorable"
+                      : "is-review";
+                  const datasetLabel = item.dataset === "history" ? "Historial" : item.dataset === "active" ? "Activo" : "Consolidado";
+                  return `
+                    <td class="${recordClass}">
+                      <strong>${escapeHtml(`Tramite N. ${getReportTramiteNumber(record)}`)}</strong><br />
+                      ${escapeHtml(record.codigo || "Sin codigo")}<br />
+                      <span class="muted">${escapeHtml(record.solicitante || "Sin solicitante")}</span><br />
+                      ${escapeHtml(`Vista: ${datasetLabel}`)}<br />
+                      ${escapeHtml(`Estado EGOB: ${getEgobState(record)}`)}<br />
+                      ${escapeHtml(`Resultado: ${item.outcome}`)}<br />
+                      ${escapeHtml(`Prioridad: ${record.prioridad || "Sin prioridad"}`)}<br />
+                      ${escapeHtml(`Fecha limite: ${record.fechaLimite ? formatDate(record.fechaLimite, false) : "Sin fecha"}`)}
+                    </td>
+                  `;
+                })
+                .join("")}
+            </tr>
+          `;
+        }).join("");
+
+        return buildExcelWorkbook(
+          "Seguimiento IPRUS Por Asignado",
+          `<table><thead>${headerMarkup}</thead><tbody>${bodyMarkup}</tbody></table>`
+        );
+      }
+
+      function buildCsv(rows) {
+        const columns = getExportColumns();
 
         const lines = [columns.join(",")];
         rows.forEach((row) => {
