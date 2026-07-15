@@ -70,12 +70,40 @@ EGOB_OUTCOME_NEGATIVE_RULES = (
     ("no_favorable", ("no favorable", "no es favorable", "tramite no favorable", "trámite no favorable")),
     ("observaciones_legales", ("tramite con observaciones legales", "trámite con observaciones legales")),
     ("informe_con_observaciones", ("informe con observaciones",)),
-    ("subsanacion", ("se concede un plazo", "subsanacion", "subsanación", "observaciones:")),
+    (
+        "subsanacion",
+        (
+            "se concede un plazo",
+            "subsanacion",
+            "subsanación",
+            "subsanacion de las observaciones",
+            "observaciones:",
+            "debe corregir",
+            "debera corregir",
+            "debera realizar la correccion",
+            "deberá realizar la corrección",
+            "corregir",
+            "correccion",
+            "corrección",
+            "regularizacion",
+            "regularización",
+            "se notifica",
+        ),
+    ),
 )
 
 EGOB_OUTCOME_POSITIVE_RULES = (
-    ("sin_observaciones_legales", ("sin observaciones legales",)),
-    ("favorable", ("informe favorable", "tramite favorable", "trámite favorable", " favorable", "favorable ")),
+    (
+        "tramite_iprus_favorable",
+        (
+            "tramite iprus favorable",
+            "trámite iprus favorable",
+            "se reasigna tramite iprus favorable",
+            "se reasigna trámite iprus favorable",
+            "reasigna tramite iprus favorable",
+            "reasigna trámite iprus favorable",
+        ),
+    ),
 )
 
 
@@ -478,11 +506,16 @@ def extract_journal_entries(issue_html: str) -> list[dict[str, object]]:
     return entries
 
 
-def classify_egob_outcome(note: str, details: list[str] | None = None) -> tuple[str | None, str | None]:
+def classify_egob_outcome(
+    note: str,
+    details: list[str] | None = None,
+    entry_type: str | None = None,
+) -> tuple[str | None, str | None]:
     parts = [note]
     if details:
         parts.extend(details)
     normalized = normalize_text(" ".join(part for part in parts if part))
+    normalized_entry_type = normalize_text(entry_type or "")
     if not normalized:
         return None, None
 
@@ -490,9 +523,10 @@ def classify_egob_outcome(note: str, details: list[str] | None = None) -> tuple[
         if any(pattern in normalized for pattern in patterns):
             return "NO FAVORABLE", rule
 
-    for rule, patterns in EGOB_OUTCOME_POSITIVE_RULES:
-        if any(pattern in normalized for pattern in patterns):
-            return "FAVORABLE", rule
+    if normalized_entry_type.startswith("reasignacion"):
+        for rule, patterns in EGOB_OUTCOME_POSITIVE_RULES:
+            if any(pattern in normalized for pattern in patterns):
+                return "FAVORABLE", rule
 
     return None, None
 
@@ -505,6 +539,7 @@ def summarize_issue_tracking(issue_id: str, issue_html: str) -> dict[str, object
         outcome, rule = classify_egob_outcome(
             str(entry.get("note") or ""),
             [str(item) for item in entry.get("details") or []],
+            str(entry.get("entryType") or ""),
         )
         if outcome:
             relevant_entries.append(
@@ -1087,7 +1122,7 @@ def main() -> int:
             client=client,
             temp_dir=temp_dir,
             cache=issue_tracking_cache,
-            fetch_missing_only=True,
+            fetch_missing_only=False,
         )
         payload = create_payload(
             records,

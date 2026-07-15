@@ -4,8 +4,96 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-15",
-  "generatedAt": "2026-07-15T08:52:00",
+  "generatedAt": "2026-07-15T09:22:05",
   "records": [
+    {
+      "estado": "Complementado",
+      "tramite": "Trámite: 1161745 GADMR--2026-0137-IPRUS-ZNP",
+      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
+      "asunto": "BARBA PINO DANIEL PACIFICO - IPRUS FUERA DE ZONA PATRIMONIAL",
+      "reasignadoPor": "Josselyn Dayana Orozco Velasco",
+      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "expediente": "--",
+      "fechaLimite": "2026-07-17",
+      "fechaIngreso": "2026-07-15T09:11:00",
+      "codigo": "GADMR--2026-0137-IPRUS-ZNP",
+      "nroTramite": 1161745,
+      "issueId": "1161745",
+      "solicitante": "BARBA PINO DANIEL PACIFICO",
+      "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
+      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "tiempoRestante": "(2 días ⚠️)",
+      "diasRestantes": 2,
+      "prioridad": "Urgente",
+      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
+      "asignadoInterno": "caizaluisae",
+      "sourceRow": 1,
+      "id": "GADMR--2026-0137-IPRUS-ZNP",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "subsanacion",
+      "egobOutcomeNote": "Se deja constancia que de modifica la capa gis_catastro con base en el levantamiento topográfico realizado por el equipo topográfico del GADM, a fin de solventar la emisión del IPRUS N.° 1161745, conforme a la superficie real del predio. En consecuencia, el registro de los colindantes se mantiene en estado inactivo hasta la regularización de las superficies aprobadas, priorizando la georreferenciación del predio.",
+      "egobOutcomeAt": "2026-07-14 09:13",
+      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
+      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+      "egobOutcomeEntryType": "Reasignación",
+      "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
+      "egobLatestReassignmentAt": "2026-07-15 09:11",
+      "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
+      "egobJournalCount": 23,
+      "egobRelevantNotes": [
+        {
+          "journalId": "6459810",
+          "entryType": "Registro",
+          "timestamp": "2026-05-28 11:47",
+          "author": "JOSSELYN DAYANA OROZCO VELASCO",
+          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+          "note": "INFORME CON OBSERVACIONES",
+          "outcome": "NO FAVORABLE",
+          "rule": "informe_con_observaciones"
+        },
+        {
+          "journalId": "6459818",
+          "entryType": "Registro",
+          "timestamp": "2026-05-28 11:48",
+          "author": "JOSSELYN DAYANA OROZCO VELASCO",
+          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+          "note": "OBSERVACIONES: Se concede un plazo de diez (10) días hábiles para la subsanación de las observaciones señaladas. Por favor, revisar los archivos adjuntos para la correcta atención de lo requerido.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
+          "journalId": "6475850",
+          "entryType": "Registro",
+          "timestamp": "2026-05-29 15:48",
+          "author": "JOSSELYN DAYANA OROZCO VELASCO",
+          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+          "note": "Conforme al oficio adjuntado y a la revisión efectuada dentro del trámite Nro. 1161745, se notifica que las observaciones emitidas no han sido subsanadas, por lo que no es posible dar continuidad al trámite. Se deberá atender lo requerido conforme a las observaciones técnicas notificadas, concediéndose un plazo de cinco (5) días al corresponder a segunda notificación.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
+          "journalId": "6481544",
+          "entryType": "Registro",
+          "timestamp": "2026-06-01 14:16",
+          "author": "CIUDADANO CIUDADANO",
+          "authorRole": "",
+          "note": "",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
+          "journalId": "6822681",
+          "entryType": "Reasignación",
+          "timestamp": "2026-07-14 09:13",
+          "author": "JOSSELYN DAYANA OROZCO VELASCO",
+          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+          "note": "Se deja constancia que de modifica la capa gis_catastro con base en el levantamiento topográfico realizado por el equipo topográfico del GADM, a fin de solventar la emisión del IPRUS N.° 1161745, conforme a la superficie real del predio. En consecuencia, el registro de los colindantes se mantiene en estado inactivo hasta la regularización de las superficies aprobadas, priorizando la georreferenciación del predio.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        }
+      ]
+    },
     {
       "estado": "Complementado",
       "tramite": "Trámite: 1201727 GADMR--2026-0393-IPRUS-ZNP",
@@ -28,31 +116,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 1,
+      "sourceRow": 2,
       "id": "GADMR--2026-0393-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "Se emite criterio legal FAVORABLE, continuar con las observaciones técnicas.",
-      "egobOutcomeAt": "2026-07-14 10:20",
-      "egobOutcomeAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobOutcomeAuthorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-07-15 08:32",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6823338",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-14 10:20",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal FAVORABLE, continuar con las observaciones técnicas.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Complementado",
@@ -76,7 +153,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 2,
+      "sourceRow": 3,
       "id": "GADMR--2026-0294-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -90,16 +167,6 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobJournalCount": 12,
       "egobRelevantNotes": [
-        {
-          "journalId": "6689883",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-24 15:41",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio FAVORABLE, continuar con las observaciones técnicas.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
         {
           "journalId": "6690476",
           "entryType": "Registro",
@@ -164,7 +231,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 3,
+      "sourceRow": 4,
       "id": "GADMR--2026-0423-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -201,7 +268,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 4,
+      "sourceRow": 5,
       "id": "GADMR--2026-0422-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -238,7 +305,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 5,
+      "sourceRow": 6,
       "id": "GADMR--2026-0421-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -275,7 +342,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 6,
+      "sourceRow": 7,
       "id": "GADMR--2026-0420-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -312,31 +379,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 7,
+      "sourceRow": 8,
       "id": "GADMR--2026-0009-IPRUS-ZP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "SIN OBSERVACIONES LEGALES",
-      "egobOutcomeAt": "2026-07-10 08:36",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD EN CUANTO AL ÁREA GEOMÁTICA",
       "egobLatestReassignmentAt": "2026-07-15 08:16",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobJournalCount": 14,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6793705",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-10 08:36",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -357,31 +413,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 8,
+      "sourceRow": 9,
       "id": "GADMR--2026-0381-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "sin observaciones legales",
-      "egobOutcomeAt": "2026-07-14 17:32",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "sin observaciones legales",
       "egobLatestReassignmentAt": "2026-07-14 17:32",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6827694",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-14 17:32",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -405,31 +450,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 9,
+      "sourceRow": 10,
       "id": "GADMR--2026-0413-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "sin observaciones legales",
-      "egobOutcomeAt": "2026-07-14 17:30",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "sin observaciones legales",
       "egobLatestReassignmentAt": "2026-07-14 17:30",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 5,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6827670",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-14 17:30",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -450,7 +484,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 10,
+      "sourceRow": 11,
       "id": "GADMR--2026-0411-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "no_favorable",
@@ -498,31 +532,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 11,
+      "sourceRow": 12,
       "id": "GADMR--2026-0410-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "SIN OBSERVACIONES LEGALES",
-      "egobOutcomeAt": "2026-07-14 16:11",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "SIN OBSERVACIONES LEGALES",
       "egobLatestReassignmentAt": "2026-07-14 16:11",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 5,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6826741",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-14 16:11",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -546,31 +569,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 12,
+      "sourceRow": 13,
       "id": "GADMR--2026-0408-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "SIN OBSERVACIONES LEGALES",
-      "egobOutcomeAt": "2026-07-14 15:46",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "SIN OBSERVACIONES LEGALES",
       "egobLatestReassignmentAt": "2026-07-14 15:46",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 5,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6826464",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-14 15:46",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -594,7 +606,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 13,
+      "sourceRow": 14,
       "id": "GADMR--2026-0406-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "no_favorable",
@@ -642,31 +654,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 14,
+      "sourceRow": 15,
       "id": "GADMR--2026-0404-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "SIN OBSERVACIONES LEGALES",
-      "egobOutcomeAt": "2026-07-14 11:57",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "SIN OBSERVACIONES LEGALES",
       "egobLatestReassignmentAt": "2026-07-14 11:57",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 5,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6824781",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-14 11:57",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -687,31 +688,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 15,
+      "sourceRow": 16,
       "id": "GADMR--2026-0387-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "Se emite criterio legal FAVORABLE, remito a la parte técnica.",
-      "egobOutcomeAt": "2026-07-14 11:00",
-      "egobOutcomeAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobOutcomeAuthorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "Se emite criterio legal FAVORABLE, remito a la parte técnica.",
       "egobLatestReassignmentAt": "2026-07-14 11:00",
       "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
       "egobJournalCount": 5,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6823794",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-14 11:00",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal FAVORABLE, remito a la parte técnica.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -732,41 +722,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 16,
+      "sourceRow": 17,
       "id": "GADMR--2026-0382-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "Revisón Técnica Favorable, dibujar polígono en las capas correspondientes",
-      "egobOutcomeAt": "2026-07-14 10:26",
-      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
-      "egobOutcomeEntryType": "Registro",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "sin observaciones legales",
       "egobLatestReassignmentAt": "2026-07-14 08:58",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 8,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6822442",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-14 08:58",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
-        {
-          "journalId": "6823418",
-          "entryType": "Registro",
-          "timestamp": "2026-07-14 10:26",
-          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
-          "note": "Revisón Técnica Favorable, dibujar polígono en las capas correspondientes",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -787,31 +756,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 17,
+      "sourceRow": 18,
       "id": "GADMR--2026-0386-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "sin observaciones legales",
-      "egobOutcomeAt": "2026-07-14 08:57",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "sin observaciones legales",
       "egobLatestReassignmentAt": "2026-07-14 08:57",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6822409",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-14 08:57",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -832,31 +790,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 18,
+      "sourceRow": 19,
       "id": "GADMR--2026-0390-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "sin observaciones legales",
-      "egobOutcomeAt": "2026-07-14 08:25",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "sin observaciones legales",
       "egobLatestReassignmentAt": "2026-07-14 08:25",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6822016",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-14 08:25",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -877,31 +824,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 19,
+      "sourceRow": 20,
       "id": "GADMR--2026-0375-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "Se emite criterio legal FAVORABLE, remito a la parte técnica.",
-      "egobOutcomeAt": "2026-07-13 15:33",
-      "egobOutcomeAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobOutcomeAuthorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "Se emite criterio legal FAVORABLE, remito a la parte técnica.",
       "egobLatestReassignmentAt": "2026-07-13 15:33",
       "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
       "egobJournalCount": 5,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6816997",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-13 15:33",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal FAVORABLE, remito a la parte técnica.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Complementado",
@@ -925,7 +861,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 20,
+      "sourceRow": 21,
       "id": "GADMR--2026-0161-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -939,16 +875,6 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobJournalCount": 17,
       "egobRelevantNotes": [
-        {
-          "journalId": "6415829",
-          "entryType": "Reasignación",
-          "timestamp": "2026-05-18 16:47",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
         {
           "journalId": "6495938",
           "entryType": "Registro",
@@ -1013,7 +939,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 21,
+      "sourceRow": 22,
       "id": "GADMR--2026-0419-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1050,7 +976,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 22,
+      "sourceRow": 23,
       "id": "GADMR--2026-0418-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1087,7 +1013,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 23,
+      "sourceRow": 24,
       "id": "GADMR--2026-0417-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1124,7 +1050,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 24,
+      "sourceRow": 25,
       "id": "GADMR--2026-0416-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1161,7 +1087,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 25,
+      "sourceRow": 26,
       "id": "GADMR--2026-0415-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1198,7 +1124,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 26,
+      "sourceRow": 27,
       "id": "GADMR--2026-0414-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1235,7 +1161,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 27,
+      "sourceRow": 28,
       "id": "GADMR--2026-0207-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -1323,7 +1249,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 28,
+      "sourceRow": 29,
       "id": "GADMR--2026-0333-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -1337,16 +1263,6 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobJournalCount": 10,
       "egobRelevantNotes": [
-        {
-          "journalId": "6724681",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-30 12:18",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
         {
           "journalId": "6797220",
           "entryType": "Registro",
@@ -1388,31 +1304,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 29,
+      "sourceRow": 30,
       "id": "GADMR--2026-0403-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "Se emite criterio legal FAVORABLE, remito a la parte técnica.",
-      "egobOutcomeAt": "2026-07-13 10:10",
-      "egobOutcomeAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobOutcomeAuthorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "Se emite criterio legal FAVORABLE, remito a la parte técnica.",
       "egobLatestReassignmentAt": "2026-07-13 10:10",
       "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
       "egobJournalCount": 3,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6814096",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-13 10:10",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal FAVORABLE, remito a la parte técnica.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Complementado",
@@ -1436,7 +1341,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 30,
+      "sourceRow": 31,
       "id": "GADMR--2026-0218-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -1521,7 +1426,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 31,
+      "sourceRow": 32,
       "id": "GADMR--2026-0336-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -1552,8 +1457,8 @@ window.TRAMITES_IPRUS_DATA = {
           "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "Favorable en el componente técnico. Cabe señalar que la aprobación legal del trámite queda pendiente hasta la presentación de las copias de las cédulas de identidad de todos los propietarios. Asimismo, se notifica que para futuras gestiones se deberá corregir el error tipográfico detectado en el apellido del propietario en la planimetría correspondiente",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
         },
         {
           "journalId": "6798697",
@@ -1596,31 +1501,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 32,
+      "sourceRow": 33,
       "id": "GADMR--2026-0365-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "sin observaciones legales",
-      "egobOutcomeAt": "2026-07-10 16:27",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "sin observaciones legales",
       "egobLatestReassignmentAt": "2026-07-10 16:27",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6798186",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-10 16:27",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -1641,7 +1535,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 33,
+      "sourceRow": 34,
       "id": "GADMR--2026-0373-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "no_favorable",
@@ -1689,7 +1583,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 34,
+      "sourceRow": 35,
       "id": "GADMR--2026-0412-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1726,7 +1620,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 35,
+      "sourceRow": 36,
       "id": "GADMR--2026-0409-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1760,31 +1654,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 36,
+      "sourceRow": 37,
       "id": "GADMR--2026-0385-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "sin observaciones legales",
-      "egobOutcomeAt": "2026-07-10 15:36",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "sin observaciones legales",
       "egobLatestReassignmentAt": "2026-07-10 15:36",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6797196",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-10 15:36",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Complementado",
@@ -1808,7 +1691,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 37,
+      "sourceRow": 38,
       "id": "GADMR--2026-0317-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -1822,16 +1705,6 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobJournalCount": 10,
       "egobRelevantNotes": [
-        {
-          "journalId": "6724077",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-30 11:36",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal FAVORABLE, continuar con las observaciones técnicas.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
         {
           "journalId": "6731337",
           "entryType": "Registro",
@@ -1873,31 +1746,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 38,
+      "sourceRow": 39,
       "id": "GADMR--2026-0367-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "Se emite criterio legal FAVORABLE, remito a la parte técnica.",
-      "egobOutcomeAt": "2026-07-10 14:57",
-      "egobOutcomeAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobOutcomeAuthorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "Se emite criterio legal FAVORABLE, remito a la parte técnica.",
       "egobLatestReassignmentAt": "2026-07-10 14:57",
       "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
       "egobJournalCount": 5,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6796720",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-10 14:57",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal FAVORABLE, remito a la parte técnica.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Complementado",
@@ -1921,7 +1783,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 39,
+      "sourceRow": 40,
       "id": "GADMR--2026-0323-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -1935,16 +1797,6 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobJournalCount": 12,
       "egobRelevantNotes": [
-        {
-          "journalId": "6692358",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-25 07:58",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
         {
           "journalId": "6744124",
           "entryType": "Registro",
@@ -1986,14 +1838,14 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 40,
+      "sourceRow": 41,
       "id": "GADMR--2026-0273-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "Se emite criterio legal FAVORABLE, continuar con las observaciones técnicas.",
-      "egobOutcomeAt": "2026-06-22 11:54",
-      "egobOutcomeAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobOutcomeAuthorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "no_favorable",
+      "egobOutcomeNote": "TRÀMITE IPRUS 1183731_NO FAVORABLE.",
+      "egobOutcomeAt": "2026-06-16 09:00",
+      "egobOutcomeAuthor": "DIANA CAROLINA PUMAGUALLI LEMA",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS, CATASTROS Y SIG 2",
       "egobOutcomeEntryType": "Reasignación",
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE",
       "egobLatestReassignmentAt": "2026-07-09 18:03",
@@ -2009,16 +1861,6 @@ window.TRAMITES_IPRUS_DATA = {
           "note": "TRÀMITE IPRUS 1183731_NO FAVORABLE.",
           "outcome": "NO FAVORABLE",
           "rule": "no_favorable"
-        },
-        {
-          "journalId": "6674648",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-22 11:54",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal FAVORABLE, continuar con las observaciones técnicas.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
         }
       ]
     },
@@ -2041,20 +1883,31 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 41,
+      "sourceRow": 42,
       "id": "GADMR--2026-0266-IPRUS-ZNP",
-      "egobOutcome": "EN REVISIÓN",
-      "egobOutcomeRule": "",
-      "egobOutcomeNote": "",
-      "egobOutcomeAt": "",
-      "egobOutcomeAuthor": "",
-      "egobOutcomeAuthorRole": "",
-      "egobOutcomeEntryType": "",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "subsanacion",
+      "egobOutcomeNote": "En virtud de los resultados obtenidos durante la inspección técnica, se emiten las presentes observaciones con la finalidad de que el usuario realice las correcciones correspondientes, considerando las disposiciones y criterios técnicos establecidos tanto en la inspección realizada en sitio como en el presente informe técnico.",
+      "egobOutcomeAt": "2026-06-29 10:38",
+      "egobOutcomeAuthor": "JONATHAN MAURICIO BRONCANO YAMBAY",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS, CATASTROS Y SIG 2",
+      "egobOutcomeEntryType": "Reasignación",
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE",
       "egobLatestReassignmentAt": "2026-07-09 18:03",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobJournalCount": 15,
-      "egobRelevantNotes": []
+      "egobRelevantNotes": [
+        {
+          "journalId": "6711208",
+          "entryType": "Reasignación",
+          "timestamp": "2026-06-29 10:38",
+          "author": "JONATHAN MAURICIO BRONCANO YAMBAY",
+          "authorRole": "ANALISTA DE AVALUOS, CATASTROS Y SIG 2",
+          "note": "En virtud de los resultados obtenidos durante la inspección técnica, se emiten las presentes observaciones con la finalidad de que el usuario realice las correcciones correspondientes, considerando las disposiciones y criterios técnicos establecidos tanto en la inspección realizada en sitio como en el presente informe técnico.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        }
+      ]
     },
     {
       "estado": "Complementado",
@@ -2075,7 +1928,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 42,
+      "sourceRow": 43,
       "id": "GADMR--2026-0239-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -2089,16 +1942,6 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobJournalCount": 18,
       "egobRelevantNotes": [
-        {
-          "journalId": "6504827",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-05 08:46",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
         {
           "journalId": "6627381",
           "entryType": "Registro",
@@ -2116,6 +1959,16 @@ window.TRAMITES_IPRUS_DATA = {
           "author": "JOSSELYN DAYANA OROZCO VELASCO",
           "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
           "note": "OBSERVACIONES: Se concede un plazo de diez (10) días hábiles para la subsanación de las observaciones señaladas. Por favor, revisar los archivos adjuntos para la correcta atención de lo requerido.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
+          "journalId": "6755067",
+          "entryType": "Reasignación",
+          "timestamp": "2026-07-06 15:25",
+          "author": "JONATHAN MAURICIO BRONCANO YAMBAY",
+          "authorRole": "ANALISTA DE AVALUOS, CATASTROS Y SIG 2",
+          "note": "Revisada la documentación correspondiente al trámite # 1178346, se determina que el levantamiento planimétrico presenta inconsistencias técnicas como: • Se evidencia que la planimetría presentada corresponde aparentemente a la primera versión del levantamiento, o bien mantiene las mismas coordenadas y dimensiones de la planimetría anterior, ya que ambas presentan idénticas medidas y cuadro de coordenadas. No obstante, al comparar esta información con las coordenadas consignadas en el informe técnico justificativo del levantamiento, se identifican discrepancias, debido a que las coordenadas no coinciden entre ambos documentos. Por lo tanto, se requiere revisar y unificar la información técnica presentada, garantizando la consistencia entre la planimetría y el informe de respaldo. En virtud de lo expuesto, se emite la presente observación al usuario responsable, a fin de que realice las correcciones correspondientes del ser el caso mediante un nuevo levantamiento ejecutado con equipo topográfico de precisión centimétrica y adecuada georreferenciación, que represente fielmente el estado actual del predio, o verifique la información levantada según el informe justificativo del levantamiento. La planimetría corregida deberá presentarse escaneada e incluir las firmas de responsabilidad del propietario y del profesional responsable. Al tratarse de la segunda observación, se solicita presentar las correcciones en un plazo de cinco (5) días hábiles contados a partir de la notificación al usuario. Se deberá adjuntar a la planimetría el formato de justificación del nuevo levantamiento.",
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         },
@@ -2160,14 +2013,14 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 43,
+      "sourceRow": 44,
       "id": "GADMR--2026-0107-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
-      "egobOutcomeNote": "OBSERVACIONES: Se concede un plazo de 5 días hábiles para la subsanación de las observaciones señaladas. Por favor, revisar los archivos adjuntos para la correcta atención de lo requerido.",
-      "egobOutcomeAt": "2026-06-15 17:19",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+      "egobOutcomeNote": "Se notifica por mensaje de texto que se deberan ser ingresadas las observaciones correspondientes al tramite",
+      "egobOutcomeAt": "2026-07-10 10:35",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
       "egobOutcomeEntryType": "Registro",
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE",
       "egobLatestReassignmentAt": "2026-07-09 18:03",
@@ -2175,32 +2028,22 @@ window.TRAMITES_IPRUS_DATA = {
       "egobJournalCount": 19,
       "egobRelevantNotes": [
         {
-          "journalId": "6237018",
-          "entryType": "Reasignación",
-          "timestamp": "2026-04-29 10:56",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "se reasigna sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
-        {
-          "journalId": "6437476",
-          "entryType": "Registro",
-          "timestamp": "2026-05-22 10:42",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "INFORME CON OBSERVACIONES",
-          "outcome": "NO FAVORABLE",
-          "rule": "informe_con_observaciones"
-        },
-        {
           "journalId": "6437482",
           "entryType": "Registro",
           "timestamp": "2026-05-22 10:42",
           "author": "JOSSELYN DAYANA OROZCO VELASCO",
           "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
           "note": "OBSERVACIONES. SE CONCEDE UN PLAZO DE 10 DÍAS PARA LA SUBSANACIÓN",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
+          "journalId": "6565401",
+          "entryType": "Reasignación",
+          "timestamp": "2026-06-15 16:42",
+          "author": "JONATHAN MAURICIO BRONCANO YAMBAY",
+          "authorRole": "ANALISTA DE AVALUOS, CATASTROS Y SIG 2",
+          "note": "Revisada la documentación correspondiente al trámite #1154650 , se determina que el levantamiento planimétrico presenta inconsistencias técnicas como: • El polígono presentado en la planimetría persiste con la observación formulada en la primera revisión, al evidenciarse un desplazamiento respecto a la realidad física del predio. Esta situación puede verificarse en la justificación técnica y en la ortofoto actual georreferenciada adjunta, donde se observa la inconsistencia entre la ubicación representada en la planimetría y los elementos existentes en sitio. • El equipo consignado en la planimetría evidencia márgenes de error acordes con sus especificaciones técnicas. Adicionalmente, en la primera observación se solicitó expresamente que el levantamiento sea realizado con equipo topográfico de precisión centimétrica. En virtud de lo expuesto, se emite la presente observación al usuario responsable, a fin de que realice las correcciones correspondientes mediante un levantamiento ejecutado con equipo topográfico de precisión centimétrica y adecuada georreferenciación, que represente fielmente el estado actual del predio. La planimetría corregida deberá presentarse escaneada e incluir las firmas de responsabilidad del propietario y del profesional responsable. Al tratarse de la segunda observación, se solicita presentar las correcciones en un plazo de cinco (5) días hábiles contados a partir de la notificación al usuario. Se deberá adjuntar a la planimetría el formato de justificación del nuevo levantamiento.",
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         },
@@ -2221,6 +2064,16 @@ window.TRAMITES_IPRUS_DATA = {
           "author": "JOSSELYN DAYANA OROZCO VELASCO",
           "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
           "note": "OBSERVACIONES: Se concede un plazo de 5 días hábiles para la subsanación de las observaciones señaladas. Por favor, revisar los archivos adjuntos para la correcta atención de lo requerido.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
+          "journalId": "6794721",
+          "entryType": "Registro",
+          "timestamp": "2026-07-10 10:35",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Se notifica por mensaje de texto que se deberan ser ingresadas las observaciones correspondientes al tramite",
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
@@ -2248,7 +2101,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 44,
+      "sourceRow": 45,
       "id": "GADMR--2026-0407-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -2282,31 +2135,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 45,
+      "sourceRow": 46,
       "id": "GADMR--2026-0366-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "sin observaciones legales",
-      "egobOutcomeAt": "2026-07-09 14:44",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "sin observaciones legales",
       "egobLatestReassignmentAt": "2026-07-09 14:44",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6790604",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-09 14:44",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -2327,7 +2169,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 46,
+      "sourceRow": 47,
       "id": "GADMR--2026-0369-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "no_favorable",
@@ -2375,7 +2217,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 47,
+      "sourceRow": 48,
       "id": "GADMR--2026-0306-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -2389,16 +2231,6 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobJournalCount": 10,
       "egobRelevantNotes": [
-        {
-          "journalId": "6661796",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-19 14:26",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
         {
           "journalId": "6726941",
           "entryType": "Reasignación",
@@ -2453,7 +2285,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 48,
+      "sourceRow": 49,
       "id": "GADMR--2026-0270-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -2467,16 +2299,6 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobJournalCount": 10,
       "egobRelevantNotes": [
-        {
-          "journalId": "6630763",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-17 08:47",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SE REASIGNA SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
         {
           "journalId": "6711228",
           "entryType": "Reasignación",
@@ -2528,31 +2350,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 49,
+      "sourceRow": 50,
       "id": "GADMR--2026-0379-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "sin observaciones legales",
-      "egobOutcomeAt": "2026-07-09 08:42",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "sin observaciones legales",
       "egobLatestReassignmentAt": "2026-07-09 08:42",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6787304",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-09 08:42",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -2573,31 +2384,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 50,
+      "sourceRow": 51,
       "id": "GADMR--2026-0378-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "sin observaciones legales",
-      "egobOutcomeAt": "2026-07-09 08:41",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "sin observaciones legales",
       "egobLatestReassignmentAt": "2026-07-09 08:41",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6787293",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-09 08:41",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -2618,31 +2418,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 51,
+      "sourceRow": 52,
       "id": "GADMR--2026-0372-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "sin observaciones legales",
-      "egobOutcomeAt": "2026-07-09 08:40",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "sin observaciones legales",
       "egobLatestReassignmentAt": "2026-07-09 08:40",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6787286",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-09 08:40",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -2663,31 +2452,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 52,
+      "sourceRow": 53,
       "id": "GADMR--2026-0371-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "sin observaciones legales",
-      "egobOutcomeAt": "2026-07-09 08:36",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "sin observaciones legales",
       "egobLatestReassignmentAt": "2026-07-09 08:36",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6787229",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-09 08:36",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -2708,31 +2486,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 53,
+      "sourceRow": 54,
       "id": "GADMR--2026-0370-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "sin observaciones legales",
-      "egobOutcomeAt": "2026-07-09 08:30",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "sin observaciones legales",
       "egobLatestReassignmentAt": "2026-07-09 08:30",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6787170",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-09 08:30",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -2753,31 +2520,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 54,
+      "sourceRow": 55,
       "id": "GADMR--2026-0374-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "sin observaciones legales",
-      "egobOutcomeAt": "2026-07-09 08:28",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "sin observaciones legales",
       "egobLatestReassignmentAt": "2026-07-09 08:28",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6787153",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-09 08:28",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Complementado",
@@ -2801,7 +2557,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 55,
+      "sourceRow": 56,
       "id": "GADMR--2026-0231-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "no_favorable",
@@ -2816,14 +2572,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobJournalCount": 9,
       "egobRelevantNotes": [
         {
-          "journalId": "6492310",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-03 09:23",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
+          "journalId": "6664467",
+          "entryType": "Registro",
+          "timestamp": "2026-06-22 08:59",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Con fecha 22 de junio de 2026 se notifica que la planimetria firmada debe contener el cuadro de areas y linderos, se deberea adjuntar esto para poder seguir con el tramite",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
         },
         {
           "journalId": "6710461",
@@ -2859,7 +2615,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 56,
+      "sourceRow": 57,
       "id": "GADMR--2026-0261-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -2947,7 +2703,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 57,
+      "sourceRow": 58,
       "id": "GADMR--2026-0232-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -2969,7 +2725,7 @@ window.TRAMITES_IPRUS_DATA = {
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
           "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "rule": "tramite_iprus_favorable"
         },
         {
           "journalId": "6729108",
@@ -3015,15 +2771,15 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 58,
+      "sourceRow": 59,
       "id": "GADMR--2026-0324-IPRUS-ZNP",
       "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "POR EMITIR INFORME FAVORABLE.",
-      "egobOutcomeAt": "2026-07-07 22:39",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-      "egobOutcomeEntryType": "Registro",
+      "egobOutcomeRule": "tramite_iprus_favorable",
+      "egobOutcomeNote": "Se reasigna tramite iprus favorable en parte tecnica, por favor continuar segun corresponda",
+      "egobOutcomeAt": "2026-06-29 09:19",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
       "egobLatestReassignmentNote": "POR FAVOR REVISAR POLÍGONO EN CUANTO PROVIENE DE LA RESOLUCIÓN 2018-046-SEC.",
       "egobLatestReassignmentAt": "2026-07-08 17:31",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
@@ -3037,27 +2793,7 @@ window.TRAMITES_IPRUS_DATA = {
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "Se reasigna tramite iprus favorable en parte tecnica, por favor continuar segun corresponda",
           "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
-        {
-          "journalId": "6762828",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-07 15:32",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
-        {
-          "journalId": "6778195",
-          "entryType": "Registro",
-          "timestamp": "2026-07-07 22:39",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "POR EMITIR INFORME FAVORABLE.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "rule": "tramite_iprus_favorable"
         }
       ]
     },
@@ -3083,7 +2819,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 59,
+      "sourceRow": 60,
       "id": "GADMR--2026-0400-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3120,7 +2856,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 60,
+      "sourceRow": 61,
       "id": "GADMR--2026-0399-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3157,7 +2893,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 61,
+      "sourceRow": 62,
       "id": "GADMR--2026-0398-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3194,7 +2930,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 62,
+      "sourceRow": 63,
       "id": "GADMR--2026-0295-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -3272,31 +3008,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 63,
+      "sourceRow": 64,
       "id": "GADMR--2026-0357-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "SIN OBSERVACIONES LEGALES",
-      "egobOutcomeAt": "2026-07-07 15:12",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "SIN OBSERVACIONES LEGALES",
       "egobLatestReassignmentAt": "2026-07-07 15:12",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 5,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6762592",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-07 15:12",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -3320,7 +3045,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 64,
+      "sourceRow": 65,
       "id": "GADMR--2026-0397-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3357,7 +3082,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 65,
+      "sourceRow": 66,
       "id": "GADMR--2026-0388-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3394,7 +3119,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 66,
+      "sourceRow": 67,
       "id": "GADMR--2026-0384-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3428,7 +3153,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 67,
+      "sourceRow": 68,
       "id": "GADMR--2026-0383-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3462,31 +3187,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 68,
+      "sourceRow": 69,
       "id": "GADMR--2026-0380-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "Se emite criterio legal FAVORABLE, continuar con las observaciones técnicas. Gracias",
-      "egobOutcomeAt": "2026-07-13 17:27",
-      "egobOutcomeAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobOutcomeAuthorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "Se emite criterio legal FAVORABLE, continuar con las observaciones técnicas. Gracias",
       "egobLatestReassignmentAt": "2026-07-13 17:27",
       "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6820754",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-13 17:27",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal FAVORABLE, continuar con las observaciones técnicas. Gracias",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -3510,7 +3224,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 69,
+      "sourceRow": 70,
       "id": "GADMR--2026-0275-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "no_favorable",
@@ -3558,31 +3272,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 70,
+      "sourceRow": 71,
       "id": "GADMR--2026-0356-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "sin observaciones legales",
-      "egobOutcomeAt": "2026-07-06 10:42",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "sin observaciones legales",
       "egobLatestReassignmentAt": "2026-07-06 10:42",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 5,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6752589",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-06 10:42",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -3606,31 +3309,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 71,
+      "sourceRow": 72,
       "id": "GADMR--2026-0350-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "SIN OBSERVACIONES LEGALES",
-      "egobOutcomeAt": "2026-07-06 08:40",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "SIN OBSERVACIONES LEGALES",
       "egobLatestReassignmentAt": "2026-07-06 08:40",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 5,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6751440",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-06 08:40",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -3654,31 +3346,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 72,
+      "sourceRow": 73,
       "id": "GADMR--2026-0352-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "SIN OBSERVACIONES LEGALES",
-      "egobOutcomeAt": "2026-07-03 15:57",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "SIN OBSERVACIONES LEGALES",
       "egobLatestReassignmentAt": "2026-07-03 15:57",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 5,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6748636",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-03 15:57",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -3699,31 +3380,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 73,
+      "sourceRow": 74,
       "id": "GADMR--2026-0364-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "Se emite criterio legal FAVORABLE, remito a la parte tecnica.",
-      "egobOutcomeAt": "2026-07-03 12:01",
-      "egobOutcomeAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobOutcomeAuthorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "Se emite criterio legal FAVORABLE, remito a la parte tecnica.",
       "egobLatestReassignmentAt": "2026-07-03 12:01",
       "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
       "egobJournalCount": 5,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6746812",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-03 12:01",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal FAVORABLE, remito a la parte tecnica.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Complementado",
@@ -3747,7 +3417,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 74,
+      "sourceRow": 75,
       "id": "GADMR--2026-0278-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -3761,16 +3431,6 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobJournalCount": 11,
       "egobRelevantNotes": [
-        {
-          "journalId": "6657793",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-18 16:57",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal FAVORABLE, continuar con la parte técnica.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
         {
           "journalId": "6676223",
           "entryType": "Registro",
@@ -3835,7 +3495,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 75,
+      "sourceRow": 76,
       "id": "GADMR--2026-0230-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -3921,7 +3581,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 76,
+      "sourceRow": 77,
       "id": "GADMR--2026-0286-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -3935,16 +3595,6 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobJournalCount": 10,
       "egobRelevantNotes": [
-        {
-          "journalId": "6653071",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-18 08:40",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
         {
           "journalId": "6689542",
           "entryType": "Reasignación",
@@ -3997,7 +3647,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 77,
+      "sourceRow": 78,
       "id": "GADMR--2026-0281-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -4062,31 +3712,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 78,
+      "sourceRow": 79,
       "id": "GADMR--2026-0355-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "Se emite criterio legal favorable, continuar con la parte técnica.",
-      "egobOutcomeAt": "2026-07-02 17:23",
-      "egobOutcomeAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobOutcomeAuthorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "Se emite criterio legal favorable, continuar con la parte técnica.",
       "egobLatestReassignmentAt": "2026-07-02 17:23",
       "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
       "egobJournalCount": 3,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6743593",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-02 17:23",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal favorable, continuar con la parte técnica.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Complementado",
@@ -4107,31 +3746,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 79,
+      "sourceRow": 80,
       "id": "GADMR--2026-0349-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "S e emite criterio legal FAVORABLE, remito a la parte técnica para que realice lo correspondiente.",
-      "egobOutcomeAt": "2026-07-02 11:52",
-      "egobOutcomeAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobOutcomeAuthorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "S e emite criterio legal FAVORABLE, remito a la parte técnica para que realice lo correspondiente.",
       "egobLatestReassignmentAt": "2026-07-02 11:52",
       "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6740503",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-02 11:52",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "S e emite criterio legal FAVORABLE, remito a la parte técnica para que realice lo correspondiente.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -4155,31 +3783,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 80,
+      "sourceRow": 81,
       "id": "GADMR--2026-0346-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "SIN OBSERVACIONES LEGALES",
-      "egobOutcomeAt": "2026-07-02 10:27",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "SIN OBSERVACIONES LEGALES",
       "egobLatestReassignmentAt": "2026-07-02 10:27",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 6,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6739482",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-02 10:27",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Complementado",
@@ -4203,29 +3820,29 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 81,
+      "sourceRow": 82,
       "id": "GADMR--2026-0315-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "Se emite criterio legal FAVORABLE, remitir a un técnico a fin que de continuidad al tramite.",
-      "egobOutcomeAt": "2026-06-30 15:09",
-      "egobOutcomeAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobOutcomeAuthorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "subsanacion",
+      "egobOutcomeNote": "POR PEDIDO DE LA PROFESIONAL SE NOTIFICA A FIN DE AGREGAR ARCHIVO DIGITAL CORRECTO.",
+      "egobOutcomeAt": "2026-06-30 09:46",
+      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
+      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+      "egobOutcomeEntryType": "Registro",
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD RESPECTO AL ALCANCE",
       "egobLatestReassignmentAt": "2026-07-02 10:24",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobJournalCount": 9,
       "egobRelevantNotes": [
         {
-          "journalId": "6725888",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-30 15:09",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal FAVORABLE, remitir a un técnico a fin que de continuidad al tramite.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "journalId": "6722629",
+          "entryType": "Registro",
+          "timestamp": "2026-06-30 09:46",
+          "author": "JOSSELYN DAYANA OROZCO VELASCO",
+          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+          "note": "POR PEDIDO DE LA PROFESIONAL SE NOTIFICA A FIN DE AGREGAR ARCHIVO DIGITAL CORRECTO.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
         }
       ]
     },
@@ -4251,41 +3868,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 82,
+      "sourceRow": 83,
       "id": "GADMR--2026-0344-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "Revisión Técnica Favorable, dibujar poligono. Revisado por: Ing. Fausto López",
-      "egobOutcomeAt": "2026-07-13 11:42",
-      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
-      "egobOutcomeEntryType": "Registro",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "SIN OBSERVACIONES LEGALES",
       "egobLatestReassignmentAt": "2026-07-02 09:41",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 6,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6738964",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-02 09:41",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
-        {
-          "journalId": "6815049",
-          "entryType": "Registro",
-          "timestamp": "2026-07-13 11:42",
-          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
-          "note": "Revisión Técnica Favorable, dibujar poligono. Revisado por: Ing. Fausto López",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -4309,31 +3905,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 83,
+      "sourceRow": 84,
       "id": "GADMR--2026-0343-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "SIN OBSERVACIONES LEGALES",
-      "egobOutcomeAt": "2026-07-02 08:33",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "SIN OBSERVACIONES LEGALES",
       "egobLatestReassignmentAt": "2026-07-02 08:33",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 5,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6738129",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-02 08:33",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -4354,31 +3939,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 84,
+      "sourceRow": 85,
       "id": "GADMR--2026-0334-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "Se emite criterio legal FAVORABLE, remito a la parte técnica para que realice lo correspondiente.",
-      "egobOutcomeAt": "2026-07-01 16:16",
-      "egobOutcomeAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobOutcomeAuthorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "Se emite criterio legal FAVORABLE, remito a la parte técnica para que realice lo correspondiente.",
       "egobLatestReassignmentAt": "2026-07-01 16:16",
       "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
       "egobJournalCount": 5,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6735427",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-01 16:16",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal FAVORABLE, remito a la parte técnica para que realice lo correspondiente.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Complementado",
@@ -4402,7 +3976,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 85,
+      "sourceRow": 86,
       "id": "GADMR--2026-0299-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -4416,16 +3990,6 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobJournalCount": 10,
       "egobRelevantNotes": [
-        {
-          "journalId": "6660151",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-19 10:55",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
         {
           "journalId": "6681694",
           "entryType": "Reasignación",
@@ -4480,7 +4044,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 86,
+      "sourceRow": 87,
       "id": "GADMR--2026-0272-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -4494,16 +4058,6 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobJournalCount": 8,
       "egobRelevantNotes": [
-        {
-          "journalId": "6655184",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-18 11:44",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal FAVORABLE, es pertinente continuar con el tramite, Remito a la parte técnica para que realice lo correspondiente.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
         {
           "journalId": "6684556",
           "entryType": "Reasignación",
@@ -4558,7 +4112,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 87,
+      "sourceRow": 88,
       "id": "GADMR--2026-0187-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -4623,7 +4177,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 88,
+      "sourceRow": 89,
       "id": "GADMR--2026-0192-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -4698,31 +4252,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 89,
+      "sourceRow": 90,
       "id": "GADMR--2026-0328-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "SIN OBSERVACIONES LEGALES",
-      "egobOutcomeAt": "2026-06-29 11:23",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "SIN OBSERVACIONES LEGALES",
       "egobLatestReassignmentAt": "2026-06-29 11:23",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 6,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6714501",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-29 11:23",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Complementado",
@@ -4746,7 +4289,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 90,
+      "sourceRow": 91,
       "id": "GADMR--2026-0282-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -4811,7 +4354,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 91,
+      "sourceRow": 92,
       "id": "GADMR--2026-0338-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "observaciones_legales",
@@ -4856,31 +4399,20 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 92,
+      "sourceRow": 93,
       "id": "GADMR--2026-0303-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "Se emite criterio legal favorable, continuar con el trámite.",
-      "egobOutcomeAt": "2026-06-23 11:22",
-      "egobOutcomeAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobOutcomeAuthorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "Se emite criterio legal favorable, continuar con el trámite.",
       "egobLatestReassignmentAt": "2026-06-23 11:22",
       "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
       "egobJournalCount": 5,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6681141",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-23 11:22",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal favorable, continuar con el trámite.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Complementado",
@@ -4901,15 +4433,15 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 93,
+      "sourceRow": 94,
       "id": "GADMR--2026-0094-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "Se emite criterio legal FAVORABLE, remito a fin que se realice la parte técnica.",
-      "egobOutcomeAt": "2026-06-05 16:56",
-      "egobOutcomeAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobOutcomeAuthorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "subsanacion",
+      "egobOutcomeNote": "OBSERVACIONES. SE CONCEDE UN PLAZO DE 10 DIAS PARA LA SUBSANACIÓN",
+      "egobOutcomeAt": "2026-05-22 17:42",
+      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
+      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+      "egobOutcomeEntryType": "Registro",
       "egobLatestReassignmentNote": "Se emite criterio legal FAVORABLE, remito a fin que se realice la parte técnica.",
       "egobLatestReassignmentAt": "2026-06-05 16:56",
       "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
@@ -4944,35 +4476,25 @@ window.TRAMITES_IPRUS_DATA = {
           "note": "OBSERVACIONES. SE CONCEDE UN PLAZO DE 10 DIAS PARA LA SUBSANACIÓN",
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
-        },
-        {
-          "journalId": "6509200",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-05 16:56",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal FAVORABLE, remito a fin que se realice la parte técnica.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
         }
       ]
     }
   ],
   "summary": {
-    "total": 93,
+    "total": 94,
     "priorities": {
+      "Urgente": 4,
       "Normal": 48,
-      "Urgente": 3,
       "Sin prioridad": 38,
       "Crítico": 4
     },
     "states": {
-      "Complementado": 30,
+      "Complementado": 31,
       "Asignado": 60,
       "En espera": 3
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 93
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 94
     }
   },
   "historyRecords": [
@@ -5004,7 +4526,7 @@ window.TRAMITES_IPRUS_DATA = {
       "historyStatus": "Historico",
       "issueId": "1202083",
       "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
+      "egobOutcomeRule": "tramite_iprus_favorable",
       "egobOutcomeNote": "Se reasigna tramite iprus favorable parte tecnica falta revisar parte legal, continuar segun corresponda",
       "egobOutcomeAt": "2026-07-14 17:37",
       "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
@@ -5023,7 +4545,7 @@ window.TRAMITES_IPRUS_DATA = {
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "Se reasigna tramite iprus favorable parte tecnica falta revisar parte legal, continuar segun corresponda",
           "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "rule": "tramite_iprus_favorable"
         }
       ]
     },
@@ -5055,12 +4577,12 @@ window.TRAMITES_IPRUS_DATA = {
       "historyStatus": "Historico",
       "issueId": "1182104",
       "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "POR EMITIR INFORME FAVORABLE.",
-      "egobOutcomeAt": "2026-07-15 00:53",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-      "egobOutcomeEntryType": "Registro",
+      "egobOutcomeRule": "tramite_iprus_favorable",
+      "egobOutcomeNote": "SE REASIGNA TRAMITE IPRUS FAVORABLE, POR FAVOR CONTINUAR SEGUN CORRESPONDA",
+      "egobOutcomeAt": "2026-07-14 17:45",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
       "egobLatestReassignmentNote": "SE REASIGNA TRAMITE IPRUS FAVORABLE, POR FAVOR CONTINUAR SEGUN CORRESPONDA",
       "egobLatestReassignmentAt": "2026-07-14 17:45",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
@@ -5074,17 +4596,7 @@ window.TRAMITES_IPRUS_DATA = {
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "SE REASIGNA TRAMITE IPRUS FAVORABLE, POR FAVOR CONTINUAR SEGUN CORRESPONDA",
           "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
-        {
-          "journalId": "6828376",
-          "entryType": "Registro",
-          "timestamp": "2026-07-15 00:53",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "POR EMITIR INFORME FAVORABLE.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "rule": "tramite_iprus_favorable"
         }
       ]
     },
@@ -5116,11 +4628,11 @@ window.TRAMITES_IPRUS_DATA = {
       "historyStatus": "Historico",
       "issueId": "1201984",
       "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "sin_observaciones_legales",
-      "egobOutcomeNote": "sin observaciones legales",
-      "egobOutcomeAt": "2026-07-14 17:44",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
+      "egobOutcomeRule": "tramite_iprus_favorable",
+      "egobOutcomeNote": "Se reasigna tramite iprus favorable parte tecnica (falta parte legal), por favor continuar segun corresponda",
+      "egobOutcomeAt": "2026-07-14 16:58",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
       "egobOutcomeEntryType": "Reasignación",
       "egobLatestReassignmentNote": "sin observaciones legales",
       "egobLatestReassignmentAt": "2026-07-14 17:44",
@@ -5135,17 +4647,7 @@ window.TRAMITES_IPRUS_DATA = {
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "Se reasigna tramite iprus favorable parte tecnica (falta parte legal), por favor continuar segun corresponda",
           "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
-        {
-          "journalId": "6827826",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-14 17:44",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
+          "rule": "tramite_iprus_favorable"
         }
       ]
     },
@@ -5237,16 +4739,6 @@ window.TRAMITES_IPRUS_DATA = {
       "egobJournalCount": 6,
       "egobRelevantNotes": [
         {
-          "journalId": "6728094",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-30 16:32",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal FAVORABLE, remito a la parte técnica.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
-        {
           "journalId": "6827095",
           "entryType": "Reasignación",
           "timestamp": "2026-07-14 16:37",
@@ -5283,26 +4775,26 @@ window.TRAMITES_IPRUS_DATA = {
       "historyStatus": "Historico",
       "issueId": "1175469",
       "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "POR EMITIR INFORME FAVORABLE.",
-      "egobOutcomeAt": "2026-07-15 00:51",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-      "egobOutcomeEntryType": "Registro",
+      "egobOutcomeRule": "tramite_iprus_favorable",
+      "egobOutcomeNote": "SE REASIGNA TRAMITE IPRUS FAVORABLE, POR FAVOR CONTINUAR SEGUN CORRESPONDA",
+      "egobOutcomeAt": "2026-07-14 16:35",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
       "egobLatestReassignmentNote": "SE REASIGNA TRAMITE IPRUS FAVORABLE, POR FAVOR CONTINUAR SEGUN CORRESPONDA",
       "egobLatestReassignmentAt": "2026-07-14 16:35",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobJournalCount": 11,
       "egobRelevantNotes": [
         {
-          "journalId": "6562571",
+          "journalId": "6505812",
           "entryType": "Reasignación",
-          "timestamp": "2026-06-15 11:48",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
+          "timestamp": "2026-06-05 10:21",
+          "author": "ROBINSON RODRIGO BARRENO GAVILANEZ",
           "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal FAVORABLE, continuar con las observaciones técnicas.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "note": "IPRUS NO FAVORABLE Revisando la documentación del trámite 1175469 se obtiene lo siguiente resultados: • La planimetría digital adjunta se encuentra desplazada hacia el lindero norte, en el cual existe un trámite de excedentes y diferencias. • Las dimensiones y área total del levantamiento no concuerdan con lo que indica el certificado de gravamen. • En base al ACUERDO Nro. MIDUVI-MIDUVI-2022-0003-A - NORMA TÉCNICA NACIONAL DE CATASTROS. Artículo 3 y 19, se solicita se realice el levantamiento del predio con un equipo de precisión y adjuntar el informe de ajuste del levantamiento, en el cual principalmente se debe indicar lo siguiente: Equipo utilizado, método de levantamiento utilizado, punto de arranque y puntos de linderos del predio con los errores alcanzados en cada punto y fotografías de evidencia de la toma de puntos Se adjunta evidencia grafica de lo antes mencionado. La VERACIDAD y AUTENTICIDAD de los documentos presentados, de la medición y planimetría elaborada por el profesional externo, son de EXCLUSIVA RESPONSABILIDAD DEL/LOS ADMINISTRADO/S, en concordancia con el Art. 3 de la Ley Orgánica para la Optimización y Eficiencia de Trámites Administrativos",
+          "outcome": "NO FAVORABLE",
+          "rule": "no_favorable"
         },
         {
           "journalId": "6564796",
@@ -5332,17 +4824,7 @@ window.TRAMITES_IPRUS_DATA = {
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "SE REASIGNA TRAMITE IPRUS FAVORABLE, POR FAVOR CONTINUAR SEGUN CORRESPONDA",
           "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
-        {
-          "journalId": "6828375",
-          "entryType": "Registro",
-          "timestamp": "2026-07-15 00:51",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "POR EMITIR INFORME FAVORABLE.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "rule": "tramite_iprus_favorable"
         }
       ]
     },
@@ -5411,7 +4893,7 @@ window.TRAMITES_IPRUS_DATA = {
       "historyStatus": "Historico",
       "issueId": "1190638",
       "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
+      "egobOutcomeRule": "tramite_iprus_favorable",
       "egobOutcomeNote": "Se reasigna tramite iprus favorable parte tecnica se debera subsanar la parte legal: se solicta adjuntar la documentacion de Sr/a. HERNANDEZ VILEMA FATIMA PRISCILA, HERNANDEZ VILEMA MARGOTH GUADALUPE, y la autorizacion del presente trámite",
       "egobOutcomeAt": "2026-07-14 15:10",
       "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
@@ -5423,6 +4905,16 @@ window.TRAMITES_IPRUS_DATA = {
       "egobJournalCount": 9,
       "egobRelevantNotes": [
         {
+          "journalId": "6659421",
+          "entryType": "Reasignación",
+          "timestamp": "2026-06-19 09:27",
+          "author": "VERONICA PATRICIA SAGBA AUSAY",
+          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
+          "note": "Reasigno corregir la fecha de contestación al tramite",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
           "journalId": "6826073",
           "entryType": "Reasignación",
           "timestamp": "2026-07-14 15:10",
@@ -5430,7 +4922,7 @@ window.TRAMITES_IPRUS_DATA = {
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "Se reasigna tramite iprus favorable parte tecnica se debera subsanar la parte legal: se solicta adjuntar la documentacion de Sr/a. HERNANDEZ VILEMA FATIMA PRISCILA, HERNANDEZ VILEMA MARGOTH GUADALUPE, y la autorizacion del presente trámite",
           "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "rule": "tramite_iprus_favorable"
         }
       ]
     },
@@ -5459,12 +4951,12 @@ window.TRAMITES_IPRUS_DATA = {
       "historyStatus": "Historico",
       "issueId": "1188349",
       "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "POR EMITIR INFORME FAVORABLE.",
-      "egobOutcomeAt": "2026-07-15 00:51",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-      "egobOutcomeEntryType": "Registro",
+      "egobOutcomeRule": "tramite_iprus_favorable",
+      "egobOutcomeNote": "SE REASIGNA TRAMITE IPRUS FAVORABLE PARTE TECNICA, LOS ARCHIVOS LEGALES SI SE ENCUENTRAN DISPONIBLES, POR FAVOR CONTINUAR SEGUN CORRESPONDA",
+      "egobOutcomeAt": "2026-07-14 11:59",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
       "egobLatestReassignmentNote": "SE REASIGNA UNA VEZ SUBSANADAS LAS OBSERVACIONES LEGALES",
       "egobLatestReassignmentAt": "2026-07-14 12:16",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
@@ -5481,6 +4973,26 @@ window.TRAMITES_IPRUS_DATA = {
           "rule": "no_favorable"
         },
         {
+          "journalId": "6795358",
+          "entryType": "Registro",
+          "timestamp": "2026-07-10 11:20",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Se requiere adjuntar el informe técnico de levantamiento del predio dado a la observacion de una ligero desplazamiento al comparar la planimetria entregada con las bases de registro municipal. CORREGIR en la planimetria el cuadro de linderos pues no corresponden con la realidad del terreno.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
+          "journalId": "6795359",
+          "entryType": "Registro",
+          "timestamp": "2026-07-10 11:20",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Se requiere adjuntar el informe técnico de levantamiento del predio dado a la observacion de una ligero desplazamiento al comparar la planimetria entregada con las bases de registro municipal. CORREGIR en la planimetria el cuadro de linderos pues no corresponden con la realidad del terreno.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
           "journalId": "6824794",
           "entryType": "Reasignación",
           "timestamp": "2026-07-14 11:59",
@@ -5488,17 +5000,7 @@ window.TRAMITES_IPRUS_DATA = {
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "SE REASIGNA TRAMITE IPRUS FAVORABLE PARTE TECNICA, LOS ARCHIVOS LEGALES SI SE ENCUENTRAN DISPONIBLES, POR FAVOR CONTINUAR SEGUN CORRESPONDA",
           "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
-        {
-          "journalId": "6828374",
-          "entryType": "Registro",
-          "timestamp": "2026-07-15 00:51",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "POR EMITIR INFORME FAVORABLE.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "rule": "tramite_iprus_favorable"
         }
       ]
     },
@@ -5530,27 +5032,17 @@ window.TRAMITES_IPRUS_DATA = {
       "historyStatus": "Historico",
       "issueId": "1185641",
       "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "POR EMITIR INFORME FAVORABLE",
-      "egobOutcomeAt": "2026-07-15 00:49",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-      "egobOutcomeEntryType": "Registro",
+      "egobOutcomeRule": "tramite_iprus_favorable",
+      "egobOutcomeNote": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
+      "egobOutcomeAt": "2026-07-14 11:11",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
       "egobLatestReassignmentNote": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
       "egobLatestReassignmentAt": "2026-07-14 11:11",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobJournalCount": 10,
       "egobRelevantNotes": [
-        {
-          "journalId": "6687929",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-24 11:37",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
         {
           "journalId": "6723420",
           "entryType": "Registro",
@@ -5579,17 +5071,7 @@ window.TRAMITES_IPRUS_DATA = {
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
           "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
-        {
-          "journalId": "6828372",
-          "entryType": "Registro",
-          "timestamp": "2026-07-15 00:49",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "POR EMITIR INFORME FAVORABLE",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "rule": "tramite_iprus_favorable"
         }
       ]
     },
@@ -5621,27 +5103,17 @@ window.TRAMITES_IPRUS_DATA = {
       "historyStatus": "Historico",
       "issueId": "1197763",
       "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "POR EMITIR INFORME FAVORABLE",
-      "egobOutcomeAt": "2026-07-15 00:48",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-      "egobOutcomeEntryType": "Registro",
+      "egobOutcomeRule": "tramite_iprus_favorable",
+      "egobOutcomeNote": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
+      "egobOutcomeAt": "2026-07-14 09:40",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
       "egobLatestReassignmentNote": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
       "egobLatestReassignmentAt": "2026-07-14 09:40",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobJournalCount": 7,
       "egobRelevantNotes": [
-        {
-          "journalId": "6748043",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-03 15:08",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
         {
           "journalId": "6822929",
           "entryType": "Reasignación",
@@ -5650,17 +5122,7 @@ window.TRAMITES_IPRUS_DATA = {
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
           "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
-        {
-          "journalId": "6828371",
-          "entryType": "Registro",
-          "timestamp": "2026-07-15 00:48",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "POR EMITIR INFORME FAVORABLE",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "rule": "tramite_iprus_favorable"
         }
       ]
     },
@@ -5703,16 +5165,6 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobJournalCount": 6,
       "egobRelevantNotes": [
-        {
-          "journalId": "6731823",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-01 10:40",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
         {
           "journalId": "6820937",
           "entryType": "Reasignación",
@@ -5764,16 +5216,6 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobJournalCount": 10,
       "egobRelevantNotes": [
-        {
-          "journalId": "6724446",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-30 12:01",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
         {
           "journalId": "6755910",
           "entryType": "Reasignación",
@@ -6058,27 +5500,17 @@ window.TRAMITES_IPRUS_DATA = {
       "historyStatus": "Historico",
       "issueId": "1184996",
       "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "POR EMITIR INFORME FAVORABLE",
-      "egobOutcomeAt": "2026-07-13 15:22",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-      "egobOutcomeEntryType": "Registro",
+      "egobOutcomeRule": "tramite_iprus_favorable",
+      "egobOutcomeNote": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
+      "egobOutcomeAt": "2026-07-13 11:30",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
       "egobLatestReassignmentNote": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
       "egobLatestReassignmentAt": "2026-07-13 11:30",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobJournalCount": 7,
       "egobRelevantNotes": [
-        {
-          "journalId": "6659862",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-19 10:21",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal FAVORABLE, remito a la parte técnica.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
         {
           "journalId": "6814888",
           "entryType": "Reasignación",
@@ -6087,17 +5519,7 @@ window.TRAMITES_IPRUS_DATA = {
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
           "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
-        {
-          "journalId": "6816838",
-          "entryType": "Registro",
-          "timestamp": "2026-07-13 15:22",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "POR EMITIR INFORME FAVORABLE",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "rule": "tramite_iprus_favorable"
         }
       ]
     },
@@ -6137,16 +5559,6 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobJournalCount": 7,
       "egobRelevantNotes": [
-        {
-          "journalId": "6661760",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-19 14:21",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal FAVORABLE, remito a la parte técnica.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
         {
           "journalId": "6813191",
           "entryType": "Reasignación",
@@ -6199,16 +5611,6 @@ window.TRAMITES_IPRUS_DATA = {
       "egobJournalCount": 8,
       "egobRelevantNotes": [
         {
-          "journalId": "6728121",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-30 16:34",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
-        {
           "journalId": "6819980",
           "entryType": "Registro",
           "timestamp": "2026-07-13 16:28",
@@ -6258,37 +5660,17 @@ window.TRAMITES_IPRUS_DATA = {
       "historyStatus": "Historico",
       "issueId": "1197359",
       "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "POR EMITIR INFORME FAVORABLE",
-      "egobOutcomeAt": "2026-07-10 17:27",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-      "egobOutcomeEntryType": "Registro",
+      "egobOutcomeRule": "tramite_iprus_favorable",
+      "egobOutcomeNote": "Se reasigna tramite IPRUS favorable, por favor continuar segun corresponda",
+      "egobOutcomeAt": "2026-07-10 17:23",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
       "egobLatestReassignmentNote": "Se reasigna tramite IPRUS favorable, por favor continuar segun corresponda",
       "egobLatestReassignmentAt": "2026-07-10 17:23",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobJournalCount": 10,
       "egobRelevantNotes": [
-        {
-          "journalId": "6798384",
-          "entryType": "Registro",
-          "timestamp": "2026-07-10 16:43",
-          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
-          "note": "Tramite favorable - Dibujar polígono",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
-        {
-          "journalId": "6798637",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-10 17:06",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
         {
           "journalId": "6798773",
           "entryType": "Reasignación",
@@ -6297,17 +5679,7 @@ window.TRAMITES_IPRUS_DATA = {
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "Se reasigna tramite IPRUS favorable, por favor continuar segun corresponda",
           "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
-        {
-          "journalId": "6798806",
-          "entryType": "Registro",
-          "timestamp": "2026-07-10 17:27",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "POR EMITIR INFORME FAVORABLE",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "rule": "tramite_iprus_favorable"
         }
       ]
     },
@@ -6337,27 +5709,17 @@ window.TRAMITES_IPRUS_DATA = {
       "historyStatus": "Historico",
       "issueId": "1195995",
       "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "POR EMITIR INFORME FAVORABLE.",
-      "egobOutcomeAt": "2026-07-10 17:23",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-      "egobOutcomeEntryType": "Registro",
+      "egobOutcomeRule": "tramite_iprus_favorable",
+      "egobOutcomeNote": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
+      "egobOutcomeAt": "2026-07-10 16:45",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
       "egobLatestReassignmentNote": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
       "egobLatestReassignmentAt": "2026-07-10 16:45",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobJournalCount": 11,
       "egobRelevantNotes": [
-        {
-          "journalId": "6794570",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-10 10:17",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal Favorable. Gracias",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
         {
           "journalId": "6798424",
           "entryType": "Reasignación",
@@ -6366,17 +5728,7 @@ window.TRAMITES_IPRUS_DATA = {
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
           "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
-        {
-          "journalId": "6798767",
-          "entryType": "Registro",
-          "timestamp": "2026-07-10 17:23",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "POR EMITIR INFORME FAVORABLE.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "rule": "tramite_iprus_favorable"
         }
       ]
     },
@@ -6405,17 +5757,27 @@ window.TRAMITES_IPRUS_DATA = {
       "historyStatus": "Historico",
       "issueId": "1160423",
       "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "POR EMITIR INFORME FAVORABLE",
-      "egobOutcomeAt": "2026-07-10 17:25",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-      "egobOutcomeEntryType": "Registro",
+      "egobOutcomeRule": "tramite_iprus_favorable",
+      "egobOutcomeNote": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
+      "egobOutcomeAt": "2026-07-10 16:24",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
       "egobLatestReassignmentNote": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
       "egobLatestReassignmentAt": "2026-07-10 16:24",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobJournalCount": 25,
       "egobRelevantNotes": [
+        {
+          "journalId": "6435220",
+          "entryType": "Registro",
+          "timestamp": "2026-05-21 14:41",
+          "author": "JOSSELYN DAYANA OROZCO VELASCO",
+          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+          "note": "OBSERVACIONES. SE CONCEDE UN PLAZO DE 10 DÍAS HÁBILES.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
         {
           "journalId": "6544919",
           "entryType": "Registro",
@@ -6454,17 +5816,7 @@ window.TRAMITES_IPRUS_DATA = {
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
           "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
-        {
-          "journalId": "6798789",
-          "entryType": "Registro",
-          "timestamp": "2026-07-10 17:25",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "POR EMITIR INFORME FAVORABLE",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "rule": "tramite_iprus_favorable"
         }
       ]
     },
@@ -6564,17 +5916,27 @@ window.TRAMITES_IPRUS_DATA = {
       "historyStatus": "Historico",
       "issueId": "1179291",
       "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "POR EMITIR INFORME FAVORABLE",
-      "egobOutcomeAt": "2026-07-09 23:08",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-      "egobOutcomeEntryType": "Registro",
+      "egobOutcomeRule": "tramite_iprus_favorable",
+      "egobOutcomeNote": "Se reasigna tramite IPRUS favorable, por favor continuar segun corresponda",
+      "egobOutcomeAt": "2026-07-09 17:54",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
       "egobLatestReassignmentNote": "Se reasigna tramite IPRUS favorable, por favor continuar segun corresponda",
       "egobLatestReassignmentAt": "2026-07-09 17:54",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobJournalCount": 20,
       "egobRelevantNotes": [
+        {
+          "journalId": "6656663",
+          "entryType": "Registro",
+          "timestamp": "2026-06-18 15:24",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Se reasigna tramite iprus no favorable, por favor continuar segun corresponda",
+          "outcome": "NO FAVORABLE",
+          "rule": "no_favorable"
+        },
         {
           "journalId": "6656685",
           "entryType": "Reasignación",
@@ -6613,17 +5975,7 @@ window.TRAMITES_IPRUS_DATA = {
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "Se reasigna tramite IPRUS favorable, por favor continuar segun corresponda",
           "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
-        {
-          "journalId": "6793304",
-          "entryType": "Registro",
-          "timestamp": "2026-07-09 23:08",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "POR EMITIR INFORME FAVORABLE",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "rule": "tramite_iprus_favorable"
         }
       ]
     },
@@ -6654,18 +6006,29 @@ window.TRAMITES_IPRUS_DATA = {
       "historyLastSeenAt": "2026-07-09T15:07:39",
       "historyStatus": "Historico",
       "issueId": "1203017",
-      "egobOutcome": "EN REVISIÓN",
-      "egobOutcomeRule": "",
-      "egobOutcomeNote": "",
-      "egobOutcomeAt": "",
-      "egobOutcomeAuthor": "",
-      "egobOutcomeAuthorRole": "",
-      "egobOutcomeEntryType": "",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "subsanacion",
+      "egobOutcomeNote": "Se reasigna el presente trámite para su respectivo cierre, conforme a la petición realizada por el administrado, a fin de que se efectúen las observaciones correspondientes y, posteriormente, se pueda ingresar nuevamente la documentación con las respectivas correcciones.",
+      "egobOutcomeAt": "2026-07-09 16:14",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
       "egobLatestReassignmentNote": "Se reasigna el presente trámite para su respectivo cierre, conforme a la petición realizada por el administrado, a fin de que se efectúen las observaciones correspondientes y, posteriormente, se pueda ingresar nuevamente la documentación con las respectivas correcciones.",
       "egobLatestReassignmentAt": "2026-07-09 16:14",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobJournalCount": 4,
-      "egobRelevantNotes": []
+      "egobRelevantNotes": [
+        {
+          "journalId": "6791924",
+          "entryType": "Reasignación",
+          "timestamp": "2026-07-09 16:14",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Se reasigna el presente trámite para su respectivo cierre, conforme a la petición realizada por el administrado, a fin de que se efectúen las observaciones correspondientes y, posteriormente, se pueda ingresar nuevamente la documentación con las respectivas correcciones.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        }
+      ]
     },
     {
       "estado": "Asignado",
@@ -6694,49 +6057,18 @@ window.TRAMITES_IPRUS_DATA = {
       "historyLastSeenAt": "2026-07-09T15:07:39",
       "historyStatus": "Historico",
       "issueId": "1191909",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "POR EMITIR INFORME FAVORABLE",
-      "egobOutcomeAt": "2026-07-09 18:08",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-      "egobOutcomeEntryType": "Registro",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
       "egobLatestReassignmentNote": "Se reasigna tramite prus favorable, por favor continuar segun corresponda",
       "egobLatestReassignmentAt": "2026-07-09 16:09",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobJournalCount": 12,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6731191",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-01 09:40",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
-        {
-          "journalId": "6791838",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-09 16:09",
-          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
-          "note": "Se reasigna tramite prus favorable, por favor continuar segun corresponda",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
-        {
-          "journalId": "6793196",
-          "entryType": "Registro",
-          "timestamp": "2026-07-09 18:08",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "POR EMITIR INFORME FAVORABLE",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
-        }
-      ]
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -6806,27 +6138,17 @@ window.TRAMITES_IPRUS_DATA = {
       "historyStatus": "Historico",
       "issueId": "1184476",
       "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "POR EMITIR INFORME FAVORABLE",
-      "egobOutcomeAt": "2026-07-09 18:08",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-      "egobOutcomeEntryType": "Registro",
+      "egobOutcomeRule": "tramite_iprus_favorable",
+      "egobOutcomeNote": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
+      "egobOutcomeAt": "2026-07-09 12:22",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
       "egobLatestReassignmentNote": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
       "egobLatestReassignmentAt": "2026-07-09 12:22",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobJournalCount": 18,
       "egobRelevantNotes": [
-        {
-          "journalId": "6538440",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-11 17:12",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SE REASIGNA SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
         {
           "journalId": "6544417",
           "entryType": "Registro",
@@ -6855,17 +6177,7 @@ window.TRAMITES_IPRUS_DATA = {
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
           "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
-        {
-          "journalId": "6793192",
-          "entryType": "Registro",
-          "timestamp": "2026-07-09 18:08",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "POR EMITIR INFORME FAVORABLE",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "rule": "tramite_iprus_favorable"
         }
       ]
     },
@@ -6894,12 +6206,12 @@ window.TRAMITES_IPRUS_DATA = {
       "historyStatus": "Historico",
       "issueId": "1190558",
       "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "POR EMITIR INFORME FAVORABLE.",
-      "egobOutcomeAt": "2026-07-09 18:05",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-      "egobOutcomeEntryType": "Registro",
+      "egobOutcomeRule": "tramite_iprus_favorable",
+      "egobOutcomeNote": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
+      "egobOutcomeAt": "2026-07-08 17:37",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
       "egobLatestReassignmentNote": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
       "egobLatestReassignmentAt": "2026-07-08 17:37",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
@@ -6923,17 +6235,7 @@ window.TRAMITES_IPRUS_DATA = {
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
           "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
-        {
-          "journalId": "6793187",
-          "entryType": "Registro",
-          "timestamp": "2026-07-09 18:05",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "POR EMITIR INFORME FAVORABLE.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "rule": "tramite_iprus_favorable"
         }
       ]
     },
@@ -6965,17 +6267,27 @@ window.TRAMITES_IPRUS_DATA = {
       "historyStatus": "Historico",
       "issueId": "1170034",
       "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "POR EMITIR INFORME FAVORABLE.",
-      "egobOutcomeAt": "2026-07-09 17:58",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-      "egobOutcomeEntryType": "Registro",
+      "egobOutcomeRule": "tramite_iprus_favorable",
+      "egobOutcomeNote": "Se reasigna tramite Iprus favorable, por favor continuar segun corresponda",
+      "egobOutcomeAt": "2026-07-08 15:57",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
       "egobLatestReassignmentNote": "Se reasigna tramite Iprus favorable, por favor continuar segun corresponda",
       "egobLatestReassignmentAt": "2026-07-08 15:57",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobJournalCount": 23,
       "egobRelevantNotes": [
+        {
+          "journalId": "6560035",
+          "entryType": "Registro",
+          "timestamp": "2026-06-15 08:49",
+          "author": "JOSSELYN DAYANA OROZCO VELASCO",
+          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+          "note": "OBSERVACIONES: Se concede un plazo de diez (10) días hábiles para la subsanación de las observaciones señaladas. Por favor, revisar los archivos adjuntos para la correcta atención de lo requerido.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
         {
           "journalId": "6714858",
           "entryType": "Reasignación",
@@ -7014,17 +6326,7 @@ window.TRAMITES_IPRUS_DATA = {
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "Se reasigna tramite Iprus favorable, por favor continuar segun corresponda",
           "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
-        {
-          "journalId": "6793151",
-          "entryType": "Registro",
-          "timestamp": "2026-07-09 17:58",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "POR EMITIR INFORME FAVORABLE.",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "rule": "tramite_iprus_favorable"
         }
       ]
     },
@@ -7054,17 +6356,37 @@ window.TRAMITES_IPRUS_DATA = {
       "historyStatus": "Historico",
       "issueId": "1162256",
       "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "favorable",
-      "egobOutcomeNote": "POR EMITIR INFORME FAVORABLE",
-      "egobOutcomeAt": "2026-07-07 22:38",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-      "egobOutcomeEntryType": "Registro",
+      "egobOutcomeRule": "tramite_iprus_favorable",
+      "egobOutcomeNote": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
+      "egobOutcomeAt": "2026-07-07 15:28",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
       "egobLatestReassignmentNote": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
       "egobLatestReassignmentAt": "2026-07-07 15:28",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobJournalCount": 17,
       "egobRelevantNotes": [
+        {
+          "journalId": "6405453",
+          "entryType": "Reasignación",
+          "timestamp": "2026-05-15 12:11",
+          "author": "ANGEL JAVIER TAMAYO CEPEDA",
+          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
+          "note": "Revisada la documentación presentada por TOAPANTA TANQUEÑO SANTIAGO EMILIO, el certificado de gravámenes tiene como fecha de emisión el 25 de febrero de 2025, por lo que se debe presentar un certificado de gravámenes actualizado, bajo tales circunstancias se emite criterio NO favorable .",
+          "outcome": "NO FAVORABLE",
+          "rule": "no_favorable"
+        },
+        {
+          "journalId": "6455521",
+          "entryType": "Reasignación",
+          "timestamp": "2026-05-27 15:39",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "SE REASIGNA TRAMITE IPRUS NO FAVORABLE, POR FAVOR CONTINUAR SEGUN CORRESPONDA",
+          "outcome": "NO FAVORABLE",
+          "rule": "no_favorable"
+        },
         {
           "journalId": "6456001",
           "entryType": "Registro",
@@ -7086,16 +6408,6 @@ window.TRAMITES_IPRUS_DATA = {
           "rule": "subsanacion"
         },
         {
-          "journalId": "6714664",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-29 11:33",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "sin_observaciones_legales"
-        },
-        {
           "journalId": "6762782",
           "entryType": "Reasignación",
           "timestamp": "2026-07-07 15:28",
@@ -7103,17 +6415,7 @@ window.TRAMITES_IPRUS_DATA = {
           "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
           "note": "Se reasigna tramite iprus favorable, por favor continuar segun corresponda",
           "outcome": "FAVORABLE",
-          "rule": "favorable"
-        },
-        {
-          "journalId": "6778194",
-          "entryType": "Registro",
-          "timestamp": "2026-07-07 22:38",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "POR EMITIR INFORME FAVORABLE",
-          "outcome": "FAVORABLE",
-          "rule": "favorable"
+          "rule": "tramite_iprus_favorable"
         }
       ]
     }
