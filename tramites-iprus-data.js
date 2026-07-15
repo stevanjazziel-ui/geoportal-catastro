@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-15",
-  "generatedAt": "2026-07-15T12:25:11",
+  "generatedAt": "2026-07-15T14:31:51",
   "records": [
     {
       "estado": "Asignado",
@@ -148,7 +148,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR DAR CONTINUIDAD AL TRÁMITE.",
       "egobLatestReassignmentAt": "2026-07-15 10:43",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 3,
+      "egobJournalCount": 4,
       "egobRelevantNotes": []
     },
     {
@@ -185,7 +185,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR DAR CONTINUIDAD AL TRÁMITE.",
       "egobLatestReassignmentAt": "2026-07-15 10:43",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 3,
+      "egobJournalCount": 4,
       "egobRelevantNotes": []
     },
     {
@@ -5537,7 +5537,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "Se reasigna tramite iprus no favorable con las siguientes observaciones: Observaciones 1. El trámite N.º 1195311 no es favorable en las condiciones presentadas. 2. Existe un trámite de excedentes aprobado que debe ser considerado para la revisión técnica. 3. El polígono del levantamiento ingresado deberá ajustarse al polígono adjunto en el presente trámite. 4. La planimetría deberá guardar concordancia con el excedente aprobado. 5. Se deberá corregir la información técnica antes de continuar con la revisión del trámite.",
       "egobLatestReassignmentAt": "2026-07-13 17:46",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "egobJournalCount": 8,
+      "egobJournalCount": 9,
       "egobRelevantNotes": [
         {
           "journalId": "6820937",
@@ -5608,7 +5608,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "Observaciones 1. El trámite N.º 1191360 se mantiene NO FAVORABLE. 2. El levantamiento planimétrico aún presenta desplazamientos. 3. Los puntos 2 y 3 se encuentran correctamente georreferenciados. 4. Los puntos 1 y 4 continúan desplazados respecto a la realidad física del predio. 5. El punto 1 deberá ajustarse aproximadamente entre 25 cm y 30 cm. 6. El punto 4 deberá desplazarse aproximadamente entre 35 cm y 40 cm. 7. Las medidas señaladas son referenciales y deberán ser verificadas en campo por el profesional responsable. 8. El levantamiento deberá realizarse con equipos topográficos de precisión. 9. Se deberá llenar y adjuntar el informe de levantamiento correspondiente.",
       "egobLatestReassignmentAt": "2026-07-13 17:14",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "egobJournalCount": 12,
+      "egobJournalCount": 13,
       "egobRelevantNotes": [
         {
           "journalId": "6755910",
