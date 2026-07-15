@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-15",
-  "generatedAt": "2026-07-15T12:23:00",
+  "generatedAt": "2026-07-15T12:25:11",
   "records": [
     {
       "estado": "Asignado",
@@ -222,7 +222,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR DAR CONTINUIDAD AL TRÁMITE.",
       "egobLatestReassignmentAt": "2026-07-15 10:42",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 3,
+      "egobJournalCount": 4,
       "egobRelevantNotes": []
     },
     {
@@ -4628,7 +4628,7 @@ window.TRAMITES_IPRUS_DATA = {
           "rule": "tramite_iprus_favorable"
         }
       ],
-      "historyArchivedAt": "2026-07-15T12:22:04",
+      "historyArchivedAt": "2026-07-15T12:24:14",
       "historyLastSeenAt": "2026-07-15T11:55:07",
       "historyStatus": "Historico"
     },
