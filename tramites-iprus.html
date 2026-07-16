@@ -3907,15 +3907,15 @@
         return reviewEntry ? String(reviewEntry.actor || "").trim() : "";
       }
 
-      function getAutoReassignedAssignee(record) {
+      function getAutoReassignmentCandidate(record) {
         if (!record || getHistorySourceRecords().some((item) => item.id === record.id)) {
-          return "";
+          return null;
         }
 
         const currentIssueKey = getRecordIssueKey(record);
         const currentCodeKey = String(record.codigo || "").trim();
         if (!currentIssueKey && !currentCodeKey) {
-          return "";
+          return null;
         }
 
         const historyMatches = getHistorySourceRecords()
@@ -3938,21 +3938,99 @@
           });
 
         for (const historyRecord of historyMatches) {
+          const historyTramiteNumber = getReportTramiteNumber(historyRecord);
           if (hasStoredAssignmentEntry(historyRecord.id)) {
             const previousAssignee = getStoredAssignee(historyRecord.id);
             if (previousAssignee) {
-              return previousAssignee;
+              return {
+                assignee: previousAssignee,
+                sourceRecordId: historyRecord.id,
+                sourceType: "historial",
+                detail: `Se recuperó la asignación guardada del historial no favorable del trámite ${historyTramiteNumber}.`,
+              };
             }
-            return "";
+            return {
+              assignee: "",
+              sourceRecordId: historyRecord.id,
+              sourceType: "historial-vacio",
+              detail: `El historial no favorable del trámite ${historyTramiteNumber} conserva una asignación vacía y se respeta esa decisión.`,
+            };
           }
 
           const reviewerFromActivity = getLatestReviewerFromActivity(historyRecord.id);
           if (reviewerFromActivity) {
-            return reviewerFromActivity;
+            return {
+              assignee: reviewerFromActivity,
+              sourceRecordId: historyRecord.id,
+              sourceType: "bitacora",
+              detail: `Se recuperó el último revisor registrado en la bitácora del historial no favorable del trámite ${historyTramiteNumber}.`,
+            };
           }
         }
 
-        return "";
+        return null;
+      }
+
+      function getAutoReassignedAssignee(record) {
+        const candidate = getAutoReassignmentCandidate(record);
+        if (!candidate || !candidate.assignee) {
+          return "";
+        }
+        return candidate.assignee;
+      }
+
+      function canPersistAutoAssignments() {
+        return isAdminMode() && (
+          (!backendSyncDisabled && Boolean(sharedAssignmentsApiUrl)) ||
+          hasGithubSyncCredentials()
+        );
+      }
+
+      function applyAutoReassignmentsIfNeeded() {
+        if (!canPersistAutoAssignments()) {
+          return 0;
+        }
+
+        const restored = [];
+        getActiveSourceRecords().forEach((record) => {
+          if (!record || !record.id || hasStoredAssignmentEntry(record.id)) {
+            return;
+          }
+
+          const candidate = getAutoReassignmentCandidate(record);
+          if (!candidate || !candidate.assignee) {
+            return;
+          }
+
+          manualAssignments[record.id] = candidate.assignee;
+          appendActivityEntry(
+            record.id,
+            `Reasignación automática restaurada a ${candidate.assignee}.`,
+            {
+              actionType: "auto-reasignacion",
+              detail: candidate.detail,
+            }
+          );
+          restored.push({
+            id: record.id,
+            assignee: candidate.assignee,
+          });
+        });
+
+        if (!restored.length) {
+          return 0;
+        }
+
+        persistAssignments();
+        scheduleSharedStateSync({ notify: false, immediate: true });
+        setMessage(
+          dom.moduleMessage,
+          restored.length === 1
+            ? `Se restauró automáticamente la asignación del trámite reingresado a ${restored[0].assignee}.`
+            : `Se restauraron automáticamente ${restored.length} asignaciones de trámites reingresados según el historial no favorable.`
+        );
+
+        return restored.length;
       }
 
       function getAssignee(id) {
@@ -5011,6 +5089,7 @@
         updateTopMetricsV2();
         syncSharedStateStatusCopy();
         syncMasterCheckbox(filteredRecords);
+        applyAutoReassignmentsIfNeeded();
       }
 
       function getFilteredRecords() {
