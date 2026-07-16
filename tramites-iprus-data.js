@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-16",
-  "generatedAt": "2026-07-16T16:05:02",
+  "generatedAt": "2026-07-16T16:07:13",
   "records": [
     {
       "estado": "Asignado",
@@ -5330,10 +5330,10 @@ window.TRAMITES_IPRUS_DATA = {
       "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
       "egobOutcomeEntryType": "Reasignación",
-      "egobLatestReassignmentNote": "IPRUS NO FAVORABLE; el campo de la ficha de área legal se encuentra sin datos.",
-      "egobLatestReassignmentAt": "2026-07-15 11:36",
-      "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "egobJournalCount": 4,
+      "egobLatestReassignmentNote": "La parte legal se encuentra con criterio legal FAVORABLE y se encuentra llena lo correspondiente.",
+      "egobLatestReassignmentAt": "2026-07-16 16:04",
+      "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
+      "egobJournalCount": 5,
       "egobRelevantNotes": [
         {
           "journalId": "6830814",
