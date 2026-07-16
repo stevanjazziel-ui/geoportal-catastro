@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-16",
-  "generatedAt": "2026-07-16T10:08:54",
+  "generatedAt": "2026-07-16T10:36:49",
   "records": [
     {
       "estado": "Asignado",
@@ -726,14 +726,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Complementado",
+      "estado": "En espera",
       "tramite": "Trámite: 1201727 GADMR--2026-0393-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "INGA JARAMILLO MARJORIE SALOME - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-07-22",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-07-15T08:32:00",
       "codigo": "GADMR--2026-0393-IPRUS-ZNP",
       "nroTramite": 1201727,
@@ -741,9 +741,6 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "INGA JARAMILLO MARJORIE SALOME",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(6 días)",
-      "diasRestantes": 6,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
@@ -759,7 +756,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-07-15 08:32",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 7,
+      "egobJournalCount": 8,
       "egobRelevantNotes": []
     },
     {
@@ -3252,14 +3249,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1202497 GADMR--2026-0398-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "MOROCHO YAUCAN EDISON PAUL - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-07-22",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-07-08T09:27:00",
       "codigo": "GADMR--2026-0398-IPRUS-ZNP",
       "nroTramite": 1202497,
@@ -3267,9 +3264,6 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "MOROCHO YAUCAN EDISON PAUL",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(6 días)",
-      "diasRestantes": 6,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
@@ -3285,7 +3279,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "Favor continuar con la revisión legal",
       "egobLatestReassignmentAt": "2026-07-14 11:44",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobJournalCount": 5,
+      "egobJournalCount": 6,
       "egobRelevantNotes": []
     },
     {
@@ -4300,14 +4294,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1190810 GADMR--2026-0328-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "CADENA VELASTEGUI MARITZA ALEXANDRA - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Angel Javier Tamayo Cepeda",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": null,
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-06-29T11:23:00",
       "codigo": "GADMR--2026-0328-IPRUS-ZNP",
       "nroTramite": 1190810,
@@ -4330,7 +4324,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "SIN OBSERVACIONES LEGALES",
       "egobLatestReassignmentAt": "2026-06-29 11:23",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobJournalCount": 6,
+      "egobJournalCount": 10,
       "egobRelevantNotes": []
     },
     {
@@ -4491,15 +4485,15 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 94,
     "priorities": {
-      "Normal": 50,
-      "Sin prioridad": 38,
+      "Normal": 48,
+      "Sin prioridad": 40,
       "Crítico": 3,
       "Urgente": 3
     },
     "states": {
-      "Asignado": 60,
-      "En espera": 6,
-      "Complementado": 28
+      "Asignado": 58,
+      "En espera": 9,
+      "Complementado": 27
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 94
