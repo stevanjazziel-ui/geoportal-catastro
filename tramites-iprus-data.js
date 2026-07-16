@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-16",
-  "generatedAt": "2026-07-16T16:35:04",
+  "generatedAt": "2026-07-16T16:37:13",
   "records": [
     {
       "estado": "Asignado",
@@ -3821,14 +3821,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1194750 GADMR--2026-0350-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "COSTALES VALLEJO JOSE BENJAMIN - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Angel Javier Tamayo Cepeda",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-07-10",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-07-06T08:40:00",
       "codigo": "GADMR--2026-0350-IPRUS-ZNP",
       "nroTramite": 1194750,
@@ -3836,9 +3836,6 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "COSTALES VALLEJO JOSE BENJAMIN",
       "reasignadoPorCargo": "Analista De Avaluos Y Catastros De Asesoria Legal 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(Vencido hace 6 días)",
-      "diasRestantes": 6,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
@@ -4638,15 +4635,15 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 96,
     "priorities": {
-      "Normal": 48,
-      "Sin prioridad": 41,
+      "Normal": 47,
+      "Sin prioridad": 42,
       "Crítico": 4,
       "Urgente": 3
     },
     "states": {
-      "Asignado": 57,
+      "Asignado": 56,
       "Complementado": 29,
-      "En espera": 10
+      "En espera": 11
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 96
@@ -4700,7 +4697,7 @@ window.TRAMITES_IPRUS_DATA = {
           "rule": "tramite_iprus_favorable"
         }
       ],
-      "historyArchivedAt": "2026-07-16T16:33:56",
+      "historyArchivedAt": "2026-07-16T16:36:06",
       "historyLastSeenAt": "2026-07-16T16:07:13",
       "historyStatus": "Historico"
     },
