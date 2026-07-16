@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-16",
-  "generatedAt": "2026-07-16T10:06:41",
+  "generatedAt": "2026-07-16T10:08:54",
   "records": [
     {
       "estado": "Asignado",
@@ -4542,7 +4542,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobJournalCount": 5,
       "egobRelevantNotes": [],
-      "historyArchivedAt": "2026-07-16T10:05:42",
+      "historyArchivedAt": "2026-07-16T10:07:53",
       "historyLastSeenAt": "2026-07-16T09:39:27",
       "historyStatus": "Historico"
     },
