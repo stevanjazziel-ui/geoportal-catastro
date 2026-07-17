@@ -4,8 +4,53 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-17",
-  "generatedAt": "2026-07-17T14:33:10",
+  "generatedAt": "2026-07-17T14:37:35",
   "records": [
+    {
+      "estado": "Asignado",
+      "tramite": "Trámite: 1201169 GADMR--2026-0384-IPRUS-ZNP",
+      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
+      "asunto": "HIDALGO CASTELO JESSICA JACQUELINE - IPRUS FUERA DE ZONA PATRIMONIAL",
+      "reasignadoPor": "Veronica Patricia Sagba Ausay",
+      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "expediente": "--",
+      "fechaLimite": null,
+      "fechaIngreso": "2026-07-17T12:26:00",
+      "codigo": "GADMR--2026-0384-IPRUS-ZNP",
+      "nroTramite": 1201169,
+      "issueId": "1201169",
+      "solicitante": "HIDALGO CASTELO JESSICA JACQUELINE",
+      "reasignadoPorCargo": "Ayudante 3 De Gestión De Planificación, Hábitat Y Desarrollo Urbanístico",
+      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
+      "asignadoInterno": "caizaluisae",
+      "sourceRow": 1,
+      "id": "GADMR--2026-0384-IPRUS-ZNP",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "no_favorable",
+      "egobOutcomeNote": "S e emite criterio No favorable en razón que dentro del certificado de gravamen que acompaña no registra área total del bien inmueble, remito a fin que emita su criterio técnico y de ser el caso corrobore lo señalado por la parte legal.",
+      "egobOutcomeAt": "2026-07-17 12:26",
+      "egobOutcomeAuthor": "VERONICA PATRICIA SAGBA AUSAY",
+      "egobOutcomeAuthorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
+      "egobOutcomeEntryType": "Reasignación",
+      "egobLatestReassignmentNote": "S e emite criterio No favorable en razón que dentro del certificado de gravamen que acompaña no registra área total del bien inmueble, remito a fin que emita su criterio técnico y de ser el caso corrobore lo señalado por la parte legal.",
+      "egobLatestReassignmentAt": "2026-07-17 12:26",
+      "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
+      "egobJournalCount": 6,
+      "egobRelevantNotes": [
+        {
+          "journalId": "6845787",
+          "entryType": "Reasignación",
+          "timestamp": "2026-07-17 12:26",
+          "author": "VERONICA PATRICIA SAGBA AUSAY",
+          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
+          "note": "S e emite criterio No favorable en razón que dentro del certificado de gravamen que acompaña no registra área total del bien inmueble, remito a fin que emita su criterio técnico y de ser el caso corrobore lo señalado por la parte legal.",
+          "outcome": "NO FAVORABLE",
+          "rule": "no_favorable"
+        }
+      ]
+    },
     {
       "estado": "Complementado",
       "tramite": "Trámite: 1180589 GADMR--2026-0255-IPRUS-ZNP",
@@ -25,7 +70,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 1,
+      "sourceRow": 2,
       "id": "GADMR--2026-0255-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -90,7 +135,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 2,
+      "sourceRow": 3,
       "id": "GADMR--2026-0388-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "no_favorable",
@@ -138,7 +183,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 3,
+      "sourceRow": 4,
       "id": "GADMR--2026-0316-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -206,7 +251,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 4,
+      "sourceRow": 5,
       "id": "GADMR--2026-0262-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -284,7 +329,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 5,
+      "sourceRow": 6,
       "id": "GADMR--2026-0441-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -321,7 +366,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 6,
+      "sourceRow": 7,
       "id": "GADMR--2026-0440-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -358,7 +403,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 7,
+      "sourceRow": 8,
       "id": "GADMR--2026-0439-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -395,7 +440,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 8,
+      "sourceRow": 9,
       "id": "GADMR--2026-0438-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -429,7 +474,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 9,
+      "sourceRow": 10,
       "id": "GADMR--2026-0394-IPRUS-ZNP",
       "egobOutcome": "FAVORABLE",
       "egobOutcomeRule": "tramite_iprus_favorable",
@@ -477,7 +522,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 10,
+      "sourceRow": 11,
       "id": "GADMR--2026-0435-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -514,7 +559,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 11,
+      "sourceRow": 12,
       "id": "GADMR--2026-0434-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -551,7 +596,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 12,
+      "sourceRow": 13,
       "id": "GADMR--2026-0433-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -588,7 +633,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 13,
+      "sourceRow": 14,
       "id": "GADMR--2026-0432-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -625,7 +670,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 14,
+      "sourceRow": 15,
       "id": "GADMR--2026-0101-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -710,7 +755,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 15,
+      "sourceRow": 16,
       "id": "GADMR--2026-0419-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -747,7 +792,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 16,
+      "sourceRow": 17,
       "id": "GADMR--2026-0431-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -784,7 +829,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 17,
+      "sourceRow": 18,
       "id": "GADMR--2026-0428-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -821,7 +866,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 18,
+      "sourceRow": 19,
       "id": "GADMR--2026-0425-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -858,7 +903,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 19,
+      "sourceRow": 20,
       "id": "GADMR--2026-0420-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -892,7 +937,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 20,
+      "sourceRow": 21,
       "id": "GADMR--2026-0383-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -929,7 +974,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 21,
+      "sourceRow": 22,
       "id": "GADMR--2026-0422-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -966,7 +1011,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 22,
+      "sourceRow": 23,
       "id": "GADMR--2026-0332-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -1054,7 +1099,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 23,
+      "sourceRow": 24,
       "id": "GADMR--2026-0354-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -1122,7 +1167,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 24,
+      "sourceRow": 25,
       "id": "GADMR--2026-0162-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -1210,7 +1255,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 25,
+      "sourceRow": 26,
       "id": "GADMR--2026-0418-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1247,7 +1292,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 26,
+      "sourceRow": 27,
       "id": "GADMR--2026-0416-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1284,7 +1329,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 27,
+      "sourceRow": 28,
       "id": "GADMR--2026-0414-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1318,7 +1363,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 28,
+      "sourceRow": 29,
       "id": "GADMR--2026-0400-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1355,7 +1400,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 29,
+      "sourceRow": 30,
       "id": "GADMR--2026-0430-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1392,7 +1437,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 30,
+      "sourceRow": 31,
       "id": "GADMR--2026-0429-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1429,7 +1474,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 31,
+      "sourceRow": 32,
       "id": "GADMR--2026-0426-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1466,7 +1511,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 32,
+      "sourceRow": 33,
       "id": "GADMR--2026-0393-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1503,7 +1548,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 33,
+      "sourceRow": 34,
       "id": "GADMR--2026-0423-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1540,7 +1585,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 34,
+      "sourceRow": 35,
       "id": "GADMR--2026-0421-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1574,7 +1619,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 35,
+      "sourceRow": 36,
       "id": "GADMR--2026-0381-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1611,7 +1656,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 36,
+      "sourceRow": 37,
       "id": "GADMR--2026-0413-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1645,7 +1690,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 37,
+      "sourceRow": 38,
       "id": "GADMR--2026-0411-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "no_favorable",
@@ -1693,7 +1738,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 38,
+      "sourceRow": 39,
       "id": "GADMR--2026-0410-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1730,7 +1775,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 39,
+      "sourceRow": 40,
       "id": "GADMR--2026-0408-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1764,7 +1809,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 40,
+      "sourceRow": 41,
       "id": "GADMR--2026-0406-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "no_favorable",
@@ -1809,7 +1854,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 41,
+      "sourceRow": 42,
       "id": "GADMR--2026-0404-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1843,7 +1888,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 42,
+      "sourceRow": 43,
       "id": "GADMR--2026-0387-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1877,7 +1922,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 43,
+      "sourceRow": 44,
       "id": "GADMR--2026-0382-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1911,7 +1956,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 44,
+      "sourceRow": 45,
       "id": "GADMR--2026-0386-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1945,7 +1990,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 45,
+      "sourceRow": 46,
       "id": "GADMR--2026-0390-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -1979,7 +2024,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 46,
+      "sourceRow": 47,
       "id": "GADMR--2026-0375-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -2016,7 +2061,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 47,
+      "sourceRow": 48,
       "id": "GADMR--2026-0161-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -2104,7 +2149,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 48,
+      "sourceRow": 49,
       "id": "GADMR--2026-0417-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -2141,7 +2186,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 49,
+      "sourceRow": 50,
       "id": "GADMR--2026-0415-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -2178,7 +2223,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 50,
+      "sourceRow": 51,
       "id": "GADMR--2026-0207-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -2266,7 +2311,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 51,
+      "sourceRow": 52,
       "id": "GADMR--2026-0333-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -2321,7 +2366,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 52,
+      "sourceRow": 53,
       "id": "GADMR--2026-0403-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -2358,7 +2403,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 53,
+      "sourceRow": 54,
       "id": "GADMR--2026-0218-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -2443,7 +2488,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 54,
+      "sourceRow": 55,
       "id": "GADMR--2026-0336-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -2518,7 +2563,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 55,
+      "sourceRow": 56,
       "id": "GADMR--2026-0365-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -2552,7 +2597,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 56,
+      "sourceRow": 57,
       "id": "GADMR--2026-0373-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "no_favorable",
@@ -2600,7 +2645,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 57,
+      "sourceRow": 58,
       "id": "GADMR--2026-0412-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -2637,7 +2682,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 58,
+      "sourceRow": 59,
       "id": "GADMR--2026-0409-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -2671,7 +2716,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 59,
+      "sourceRow": 60,
       "id": "GADMR--2026-0385-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -2708,7 +2753,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 60,
+      "sourceRow": 61,
       "id": "GADMR--2026-0317-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -2763,7 +2808,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 61,
+      "sourceRow": 62,
       "id": "GADMR--2026-0367-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -2800,7 +2845,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 62,
+      "sourceRow": 63,
       "id": "GADMR--2026-0323-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -2855,7 +2900,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 63,
+      "sourceRow": 64,
       "id": "GADMR--2026-0273-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "no_favorable",
@@ -2900,7 +2945,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 64,
+      "sourceRow": 65,
       "id": "GADMR--2026-0266-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -2945,7 +2990,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 65,
+      "sourceRow": 66,
       "id": "GADMR--2026-0239-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -3030,7 +3075,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 66,
+      "sourceRow": 67,
       "id": "GADMR--2026-0107-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -3118,7 +3163,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 67,
+      "sourceRow": 68,
       "id": "GADMR--2026-0407-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3152,7 +3197,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 68,
+      "sourceRow": 69,
       "id": "GADMR--2026-0366-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3186,7 +3231,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 69,
+      "sourceRow": 70,
       "id": "GADMR--2026-0369-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "no_favorable",
@@ -3234,7 +3279,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 70,
+      "sourceRow": 71,
       "id": "GADMR--2026-0306-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -3302,7 +3347,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 71,
+      "sourceRow": 72,
       "id": "GADMR--2026-0270-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -3346,8 +3391,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "('Connection aborted.', ConnectionResetError(10054, 'Se ha forzado la interrupción de una conexión existente por el host remoto', None, 10054, None))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -3368,7 +3412,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 72,
+      "sourceRow": 73,
       "id": "GADMR--2026-0379-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3381,8 +3425,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAt": "2026-07-09 08:42",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1200810 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -3403,7 +3446,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 73,
+      "sourceRow": 74,
       "id": "GADMR--2026-0378-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3416,8 +3459,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAt": "2026-07-09 08:41",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1200604 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -3438,7 +3480,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 74,
+      "sourceRow": 75,
       "id": "GADMR--2026-0372-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3451,8 +3493,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAt": "2026-07-09 08:40",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1200044 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -3473,7 +3514,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 75,
+      "sourceRow": 76,
       "id": "GADMR--2026-0371-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3486,8 +3527,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAt": "2026-07-09 08:36",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1199752 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -3508,7 +3548,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 76,
+      "sourceRow": 77,
       "id": "GADMR--2026-0370-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3521,8 +3561,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAt": "2026-07-09 08:30",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1199489 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -3543,7 +3582,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 77,
+      "sourceRow": 78,
       "id": "GADMR--2026-0374-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3556,8 +3595,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAt": "2026-07-09 08:28",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1200534 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "egobRelevantNotes": []
     },
     {
       "estado": "Complementado",
@@ -3581,7 +3619,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 78,
+      "sourceRow": 79,
       "id": "GADMR--2026-0231-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "no_favorable",
@@ -3615,8 +3653,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "no_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1176439 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -3640,7 +3677,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 79,
+      "sourceRow": 80,
       "id": "GADMR--2026-0261-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -3704,8 +3741,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1181594 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -3729,7 +3765,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 80,
+      "sourceRow": 81,
       "id": "GADMR--2026-0232-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -3773,8 +3809,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1177004 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -3798,7 +3833,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 81,
+      "sourceRow": 82,
       "id": "GADMR--2026-0324-IPRUS-ZNP",
       "egobOutcome": "FAVORABLE",
       "egobOutcomeRule": "tramite_iprus_favorable",
@@ -3822,8 +3857,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1190481 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "En espera",
@@ -3844,7 +3878,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 82,
+      "sourceRow": 83,
       "id": "GADMR--2026-0399-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3857,8 +3891,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAt": "2026-07-08 09:29",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobJournalCount": 6,
-      "egobRelevantNotes": [],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1202842 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "egobRelevantNotes": []
     },
     {
       "estado": "En espera",
@@ -3879,7 +3912,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 83,
+      "sourceRow": 84,
       "id": "GADMR--2026-0398-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3892,8 +3925,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAt": "2026-07-14 11:44",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 6,
-      "egobRelevantNotes": [],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1202497 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "egobRelevantNotes": []
     },
     {
       "estado": "Complementado",
@@ -3915,7 +3947,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 84,
+      "sourceRow": 85,
       "id": "GADMR--2026-0295-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -3969,8 +4001,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1186242 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -3994,7 +4025,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 85,
+      "sourceRow": 86,
       "id": "GADMR--2026-0357-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -4007,8 +4038,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAt": "2026-07-07 15:12",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 5,
-      "egobRelevantNotes": [],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1195981 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "egobRelevantNotes": []
     },
     {
       "estado": "En espera",
@@ -4029,7 +4059,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 86,
+      "sourceRow": 87,
       "id": "GADMR--2026-0380-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -4042,8 +4072,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAt": "2026-07-13 17:27",
       "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
       "egobJournalCount": 7,
-      "egobRelevantNotes": [],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1200908 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "egobRelevantNotes": []
     },
     {
       "estado": "En espera",
@@ -4064,7 +4093,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 87,
+      "sourceRow": 88,
       "id": "GADMR--2026-0356-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -4077,8 +4106,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAt": "2026-07-06 10:42",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 6,
-      "egobRelevantNotes": [],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1195727 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "egobRelevantNotes": []
     },
     {
       "estado": "En espera",
@@ -4099,7 +4127,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 88,
+      "sourceRow": 89,
       "id": "GADMR--2026-0350-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -4112,8 +4140,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAt": "2026-07-06 08:40",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 6,
-      "egobRelevantNotes": [],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1194750 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -4137,7 +4164,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 89,
+      "sourceRow": 90,
       "id": "GADMR--2026-0352-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "no_favorable",
@@ -4161,8 +4188,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "no_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1195007 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -4183,7 +4209,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 90,
+      "sourceRow": 91,
       "id": "GADMR--2026-0364-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -4196,8 +4222,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAt": "2026-07-03 12:01",
       "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
       "egobJournalCount": 5,
-      "egobRelevantNotes": [],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1197860 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "egobRelevantNotes": []
     },
     {
       "estado": "Complementado",
@@ -4221,7 +4246,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 91,
+      "sourceRow": 92,
       "id": "GADMR--2026-0278-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -4275,8 +4300,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1184568 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -4300,7 +4324,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 92,
+      "sourceRow": 93,
       "id": "GADMR--2026-0230-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -4364,8 +4388,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1176427 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -4389,7 +4412,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 93,
+      "sourceRow": 94,
       "id": "GADMR--2026-0286-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -4433,8 +4456,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1185380 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -4458,7 +4480,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 94,
+      "sourceRow": 95,
       "id": "GADMR--2026-0281-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -4502,8 +4524,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1184626 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -4527,7 +4548,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 95,
+      "sourceRow": 96,
       "id": "GADMR--2026-0346-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -4540,8 +4561,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAt": "2026-07-02 10:27",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
       "egobJournalCount": 10,
-      "egobRelevantNotes": [],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1193677 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "egobRelevantNotes": []
     },
     {
       "estado": "En espera",
@@ -4562,7 +4582,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 96,
+      "sourceRow": 97,
       "id": "GADMR--2026-0343-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -4586,8 +4606,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1192896 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "En espera",
@@ -4608,7 +4627,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 97,
+      "sourceRow": 98,
       "id": "GADMR--2026-0192-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -4662,8 +4681,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1169781 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -4684,7 +4702,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 98,
+      "sourceRow": 99,
       "id": "GADMR--2026-0338-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "observaciones_legales",
@@ -4708,8 +4726,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "observaciones_legales"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1191961 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -4730,7 +4747,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 99,
+      "sourceRow": 100,
       "id": "GADMR--2026-0303-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -4743,9 +4760,27 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAt": "2026-06-23 11:22",
       "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
       "egobJournalCount": 5,
-      "egobRelevantNotes": [],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1187219 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "egobRelevantNotes": []
+    }
+  ],
+  "summary": {
+    "total": 100,
+    "priorities": {
+      "Sin prioridad": 45,
+      "Normal": 47,
+      "Urgente": 7,
+      "Crítico": 1
     },
+    "states": {
+      "Asignado": 59,
+      "Complementado": 29,
+      "En espera": 12
+    },
+    "responsibles": {
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 100
+    }
+  },
+  "historyRecords": [
     {
       "estado": "Complementado",
       "tramite": "Trámite: 1152147 GADMR--2026-0094-IPRUS-ZNP",
@@ -4820,27 +4855,10 @@ window.TRAMITES_IPRUS_DATA = {
           "rule": "subsanacion"
         }
       ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1152147 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
-    }
-  ],
-  "summary": {
-    "total": 100,
-    "priorities": {
-      "Sin prioridad": 45,
-      "Normal": 47,
-      "Urgente": 7,
-      "Crítico": 1
+      "historyArchivedAt": "2026-07-17T14:36:16",
+      "historyLastSeenAt": "2026-07-17T14:33:10",
+      "historyStatus": "Historico"
     },
-    "states": {
-      "Complementado": 30,
-      "Asignado": 58,
-      "En espera": 12
-    },
-    "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 100
-    }
-  },
-  "historyRecords": [
     {
       "estado": "Complementado",
       "tramite": "Trámite: 1176225 GADMR--2026-0228-IPRUS-ZNP",
@@ -4928,8 +4946,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-17T11:30:38",
       "historyLastSeenAt": "2026-07-17T10:59:24",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1176225 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -5010,8 +5027,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-17T08:28:54",
       "historyLastSeenAt": "2026-07-16T17:37:37",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1186087 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -5059,8 +5075,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-16T17:36:28",
       "historyLastSeenAt": "2026-07-16T17:07:11",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1194361 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -5141,8 +5156,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-16T17:06:03",
       "historyLastSeenAt": "2026-07-16T16:37:13",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1188708 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Asignado",
@@ -5193,8 +5207,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-16T16:36:06",
       "historyLastSeenAt": "2026-07-16T16:07:13",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1193013 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Asignado",
@@ -5262,8 +5275,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-16T15:35:55",
       "historyLastSeenAt": "2026-07-16T15:05:02",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1191697 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -5290,27 +5302,17 @@ window.TRAMITES_IPRUS_DATA = {
       "sourceRow": 89,
       "id": "GADMR--2026-0299-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
-      "egobOutcomeRule": "no_favorable",
-      "egobOutcomeNote": "Se reasigna tramite iprus no favorable se mantienen las mismas observaciones -El trámite N.º 1186666 se mantiene NO FAVORABLE. -El levantamiento planimétrico no se encuentra correctamente georreferenciado. -El polígono continúa presentando desplazamiento en cada uno de sus vértices. -Persiste el mismo error de georreferenciación, pese a haberse incluido el polígono de referencia dentro del trámite. -Se deberá ingresar el informe de ajuste de levantamiento en el respectivo alcance. -El informe deberá comprobar que el levantamiento fue realizado de manera correcta y conforme a la realidad física del predio. En caso de no ingresar el informe de ajuste en el respectivo alcance, no se dará paso al trámite.",
-      "egobOutcomeAt": "2026-07-16 12:03",
-      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcomeRule": "subsanacion",
+      "egobOutcomeNote": "OBSERVACIONES: Se concede un plazo de cinco (5) días hábiles para la subsanación de las observaciones señaladas, al tratarse de la segunda notificación. Por favor, revisar los archivos adjuntos para la correcta atención de lo requerido.",
+      "egobOutcomeAt": "2026-07-17 14:31",
+      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
+      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+      "egobOutcomeEntryType": "Registro",
       "egobLatestReassignmentNote": "Se reasigna tramite iprus no favorable se mantienen las mismas observaciones -El trámite N.º 1186666 se mantiene NO FAVORABLE. -El levantamiento planimétrico no se encuentra correctamente georreferenciado. -El polígono continúa presentando desplazamiento en cada uno de sus vértices. -Persiste el mismo error de georreferenciación, pese a haberse incluido el polígono de referencia dentro del trámite. -Se deberá ingresar el informe de ajuste de levantamiento en el respectivo alcance. -El informe deberá comprobar que el levantamiento fue realizado de manera correcta y conforme a la realidad física del predio. En caso de no ingresar el informe de ajuste en el respectivo alcance, no se dará paso al trámite.",
       "egobLatestReassignmentAt": "2026-07-16 12:03",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "egobJournalCount": 11,
+      "egobJournalCount": 13,
       "egobRelevantNotes": [
-        {
-          "journalId": "6681694",
-          "entryType": "Reasignación",
-          "timestamp": "2026-06-23 12:11",
-          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
-          "note": "Se reasigna tramite iprus no favorable, por favor continuar segun corresponda",
-          "outcome": "NO FAVORABLE",
-          "rule": "no_favorable"
-        },
         {
           "journalId": "6682428",
           "entryType": "Registro",
@@ -5340,12 +5342,31 @@ window.TRAMITES_IPRUS_DATA = {
           "note": "Se reasigna tramite iprus no favorable se mantienen las mismas observaciones -El trámite N.º 1186666 se mantiene NO FAVORABLE. -El levantamiento planimétrico no se encuentra correctamente georreferenciado. -El polígono continúa presentando desplazamiento en cada uno de sus vértices. -Persiste el mismo error de georreferenciación, pese a haberse incluido el polígono de referencia dentro del trámite. -Se deberá ingresar el informe de ajuste de levantamiento en el respectivo alcance. -El informe deberá comprobar que el levantamiento fue realizado de manera correcta y conforme a la realidad física del predio. En caso de no ingresar el informe de ajuste en el respectivo alcance, no se dará paso al trámite.",
           "outcome": "NO FAVORABLE",
           "rule": "no_favorable"
+        },
+        {
+          "journalId": "6846055",
+          "entryType": "Registro",
+          "timestamp": "2026-07-17 14:31",
+          "author": "JOSSELYN DAYANA OROZCO VELASCO",
+          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+          "note": "INFORME CON OBSERVACIONES 2",
+          "outcome": "NO FAVORABLE",
+          "rule": "informe_con_observaciones"
+        },
+        {
+          "journalId": "6846057",
+          "entryType": "Registro",
+          "timestamp": "2026-07-17 14:31",
+          "author": "JOSSELYN DAYANA OROZCO VELASCO",
+          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+          "note": "OBSERVACIONES: Se concede un plazo de cinco (5) días hábiles para la subsanación de las observaciones señaladas, al tratarse de la segunda notificación. Por favor, revisar los archivos adjuntos para la correcta atención de lo requerido.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
         }
       ],
       "historyArchivedAt": "2026-07-16T12:07:58",
       "historyLastSeenAt": "2026-07-16T11:43:48",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1186666 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "En espera",
@@ -5393,49 +5414,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-16T11:07:59",
       "historyLastSeenAt": "2026-07-16T10:38:55",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1190810 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
-    },
-    {
-      "estado": "Asignado",
-      "tramite": "Trámite: 1201169 GADMR--2026-0384-IPRUS-ZNP",
-      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
-      "asunto": "HIDALGO CASTELO JESSICA JACQUELINE - IPRUS FUERA DE ZONA PATRIMONIAL",
-      "reasignadoPor": "Josselyn Dayana Orozco Velasco",
-      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "expediente": "--",
-      "fechaLimite": "2026-07-20",
-      "fechaIngreso": "2026-07-07T09:47:00",
-      "codigo": "GADMR--2026-0384-IPRUS-ZNP",
-      "nroTramite": 1201169,
-      "issueId": "1201169",
-      "solicitante": "HIDALGO CASTELO JESSICA JACQUELINE",
-      "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
-      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(4 días)",
-      "diasRestantes": 4,
-      "prioridad": "Normal",
-      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
-      "asignadoInterno": "caizaluisae",
-      "sourceRow": 74,
-      "id": "GADMR--2026-0384-IPRUS-ZNP",
-      "egobOutcome": "EN REVISIÓN",
-      "egobOutcomeRule": "",
-      "egobOutcomeNote": "",
-      "egobOutcomeAt": "",
-      "egobOutcomeAuthor": "",
-      "egobOutcomeAuthorRole": "",
-      "egobOutcomeEntryType": "",
-      "egobLatestReassignmentNote": "FAVOR DAR CONTINUIDAD AL TRAMITE, SE ADJUNTA LAS OBSERVACIONES TECNICAS",
-      "egobLatestReassignmentAt": "2026-07-16 09:47",
-      "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "egobJournalCount": 5,
-      "egobRelevantNotes": [],
-      "historyArchivedAt": "2026-07-16T10:07:53",
-      "historyLastSeenAt": "2026-07-16T09:39:27",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1201169 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -5516,8 +5495,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-16T09:38:25",
       "historyLastSeenAt": "2026-07-16T08:59:57",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1183603 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Asignado",
@@ -5568,8 +5546,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-16T08:28:52",
       "historyLastSeenAt": "2026-07-15T17:34:13",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1184091 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -5660,8 +5637,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-15T17:33:12",
       "historyLastSeenAt": "2026-07-15T17:02:07",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1168679 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -5742,8 +5718,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-15T17:01:10",
       "historyLastSeenAt": "2026-07-15T16:34:11",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1184867 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -5834,8 +5809,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-15T12:24:14",
       "historyLastSeenAt": "2026-07-15T11:55:07",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1161745 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Asignado",
@@ -5903,8 +5877,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-15T11:54:13",
       "historyLastSeenAt": "2026-07-15T11:25:19",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1195334 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Asignado",
@@ -5955,8 +5928,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-15T10:24:04",
       "historyLastSeenAt": "2026-07-15T09:55:15",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1202430 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -6037,8 +6009,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-15T09:54:19",
       "historyLastSeenAt": "2026-07-15T09:34:59",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1177429 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Asignado",
@@ -6089,8 +6060,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1202083 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -6141,8 +6111,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1182104 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -6213,8 +6182,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1194060 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -6282,8 +6250,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1191269 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -6361,8 +6328,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1175469 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -6402,8 +6368,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAt": "2026-07-15 09:58",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobJournalCount": 6,
-      "egobRelevantNotes": [],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1202120 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -6481,8 +6446,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1190638 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -6560,8 +6524,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1188349 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -6632,8 +6595,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1185641 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -6684,8 +6646,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1197763 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -6773,8 +6734,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1166871 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -6842,8 +6802,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1194040 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -6914,8 +6873,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1192211 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -6963,8 +6921,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1184996 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -7012,8 +6969,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "no_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1186529 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -7074,8 +7030,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1191723 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -7126,8 +7081,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1197359 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -7176,8 +7130,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1195995 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -7265,8 +7218,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1160423 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -7357,8 +7309,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1179291 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -7409,8 +7360,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1203017 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -7450,8 +7400,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAt": "2026-07-09 16:09",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobJournalCount": 12,
-      "egobRelevantNotes": [],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1191909 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "egobRelevantNotes": []
     },
     {
       "estado": "Asignado",
@@ -7491,8 +7440,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAt": "2026-07-08 09:29",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobJournalCount": 4,
-      "egobRelevantNotes": [],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1203036 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "egobRelevantNotes": []
     },
     {
       "estado": "Complementado",
@@ -7563,8 +7511,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1184476 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -7622,8 +7569,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1190558 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -7714,8 +7660,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1170034 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -7804,21 +7749,20 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1162256 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     }
   ],
   "historySummary": {
     "total": 44,
     "priorities": {
-      "Sin prioridad": 17,
-      "Normal": 18,
+      "Sin prioridad": 18,
+      "Normal": 17,
       "Urgente": 6,
       "Crítico": 3
     },
     "states": {
-      "Complementado": 21,
-      "Asignado": 22,
+      "Complementado": 22,
+      "Asignado": 21,
       "En espera": 1
     },
     "responsibles": {
