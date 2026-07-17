@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-17",
-  "generatedAt": "2026-07-17T16:47:51",
+  "generatedAt": "2026-07-17T17:15:52",
   "records": [
     {
       "estado": "Asignado",
@@ -426,7 +426,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-07-17 09:39",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 3,
+      "egobJournalCount": 4,
       "egobRelevantNotes": []
     },
     {
@@ -463,7 +463,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-07-17 09:39",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 3,
+      "egobJournalCount": 4,
       "egobRelevantNotes": []
     },
     {
@@ -2088,14 +2088,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1206237 GADMR--2026-0415-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "CABEZAS BARRENO TOILER EFRAIN - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-07-28",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-07-13T15:09:00",
       "codigo": "GADMR--2026-0415-IPRUS-ZNP",
       "nroTramite": 1206237,
@@ -2103,9 +2103,6 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "CABEZAS BARRENO TOILER EFRAIN",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(11 días)",
-      "diasRestantes": 11,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
@@ -2121,7 +2118,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-07-13 15:09",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 4,
+      "egobJournalCount": 6,
       "egobRelevantNotes": []
     },
     {
@@ -4464,14 +4461,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "En espera",
+      "estado": "Complementado",
       "tramite": "Trámite: 1169781 GADMR--2026-0192-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "MORENO TAPIA WILSON RICARDO - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Angel Javier Tamayo Cepeda",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "Tiempo detenido",
+      "fechaLimite": null,
       "fechaIngreso": "2026-06-29T11:45:00",
       "codigo": "GADMR--2026-0192-IPRUS-ZNP",
       "nroTramite": 1169781,
@@ -4494,7 +4491,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "SE REASIGNA UNA VEZ SUBSANADAS LAS OBSERVACIONES LEGALES",
       "egobLatestReassignmentAt": "2026-06-29 11:45",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobJournalCount": 12,
+      "egobJournalCount": 13,
       "egobRelevantNotes": [
         {
           "journalId": "6456115",
@@ -4696,14 +4693,14 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 99,
     "priorities": {
-      "Normal": 47,
-      "Sin prioridad": 46,
+      "Normal": 46,
+      "Sin prioridad": 47,
       "Urgente": 5,
       "Crítico": 1
     },
     "states": {
-      "Asignado": 59,
-      "Complementado": 28,
+      "Asignado": 58,
+      "Complementado": 29,
       "En espera": 12
     },
     "responsibles": {
