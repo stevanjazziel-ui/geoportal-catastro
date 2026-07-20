@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-20",
-  "generatedAt": "2026-07-20T10:14:44",
+  "generatedAt": "2026-07-20T10:42:33",
   "records": [
     {
       "estado": "Asignado",
@@ -4898,10 +4898,10 @@ window.TRAMITES_IPRUS_DATA = {
       "egobOutcomeAuthor": "",
       "egobOutcomeAuthorRole": "",
       "egobOutcomeEntryType": "",
-      "egobLatestReassignmentNote": "Se emite criterio legal favorable, continuar con el trámite.",
-      "egobLatestReassignmentAt": "2026-06-23 11:22",
-      "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobJournalCount": 5,
+      "egobLatestReassignmentNote": "Se reasignar trámite IPRUS para dar seguimiento",
+      "egobLatestReassignmentAt": "2026-07-20 10:17",
+      "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobJournalCount": 7,
       "egobRelevantNotes": [],
       "historyArchivedAt": "2026-07-20T09:41:17",
       "historyLastSeenAt": "2026-07-20T09:14:41",
