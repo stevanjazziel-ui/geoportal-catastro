@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-20",
-  "generatedAt": "2026-07-20T17:31:54",
+  "generatedAt": "2026-07-20T17:59:36",
   "records": [
     {
       "estado": "Asignado",
@@ -4006,14 +4006,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1195981 GADMR--2026-0357-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "SUCUY LASSO ANDY GABRIEL - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Angel Javier Tamayo Cepeda",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-07-10",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-07-07T15:12:00",
       "codigo": "GADMR--2026-0357-IPRUS-ZNP",
       "nroTramite": 1195981,
@@ -4021,9 +4021,6 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "SUCUY LASSO ANDY GABRIEL",
       "reasignadoPorCargo": "Analista De Avaluos Y Catastros De Asesoria Legal 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(Vencido hace 10 días)",
-      "diasRestantes": 10,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
@@ -4039,7 +4036,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "SIN OBSERVACIONES LEGALES",
       "egobLatestReassignmentAt": "2026-07-07 15:12",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobJournalCount": 5,
+      "egobJournalCount": 8,
       "egobRelevantNotes": []
     },
     {
@@ -4686,15 +4683,15 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 100,
     "priorities": {
-      "Sin prioridad": 52,
-      "Normal": 41,
+      "Sin prioridad": 53,
+      "Normal": 40,
       "Crítico": 2,
       "Urgente": 5
     },
     "states": {
-      "Asignado": 58,
+      "Asignado": 57,
       "Complementado": 27,
-      "En espera": 15
+      "En espera": 16
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 100
