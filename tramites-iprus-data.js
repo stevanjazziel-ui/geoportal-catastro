@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-20",
-  "generatedAt": "2026-07-20T10:42:33",
+  "generatedAt": "2026-07-20T10:44:44",
   "records": [
     {
       "estado": "Asignado",
@@ -4002,10 +4002,10 @@ window.TRAMITES_IPRUS_DATA = {
       "egobOutcomeAuthor": "",
       "egobOutcomeAuthorRole": "",
       "egobOutcomeEntryType": "",
-      "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
-      "egobLatestReassignmentAt": "2026-07-08 09:29",
-      "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 6,
+      "egobLatestReassignmentNote": "Se emite criterio legal FAVORABLE, continuar con las observaciones técnicas.",
+      "egobLatestReassignmentAt": "2026-07-20 10:41",
+      "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
+      "egobJournalCount": 7,
       "egobRelevantNotes": []
     },
     {
@@ -4766,16 +4766,16 @@ window.TRAMITES_IPRUS_DATA = {
       "sourceRow": 100,
       "id": "GADMR--2026-0338-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
-      "egobOutcomeRule": "observaciones_legales",
-      "egobOutcomeNote": "Tramite con observaciones legales.",
-      "egobOutcomeAt": "2026-06-23 16:27",
-      "egobOutcomeAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobOutcomeAuthorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
+      "egobOutcomeRule": "no_favorable",
+      "egobOutcomeNote": "No Favorable con observaciones.",
+      "egobOutcomeAt": "2026-07-20 10:42",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
       "egobOutcomeEntryType": "Reasignación",
-      "egobLatestReassignmentNote": "Tramite con observaciones legales.",
-      "egobLatestReassignmentAt": "2026-06-23 16:27",
-      "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobJournalCount": 5,
+      "egobLatestReassignmentNote": "No Favorable con observaciones.",
+      "egobLatestReassignmentAt": "2026-07-20 10:42",
+      "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobJournalCount": 6,
       "egobRelevantNotes": [
         {
           "journalId": "6683941",
@@ -4786,6 +4786,16 @@ window.TRAMITES_IPRUS_DATA = {
           "note": "Tramite con observaciones legales.",
           "outcome": "NO FAVORABLE",
           "rule": "observaciones_legales"
+        },
+        {
+          "journalId": "6851002",
+          "entryType": "Reasignación",
+          "timestamp": "2026-07-20 10:42",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "No Favorable con observaciones.",
+          "outcome": "NO FAVORABLE",
+          "rule": "no_favorable"
         }
       ],
       "historyArchivedAt": "2026-07-20T10:13:17",
