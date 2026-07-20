@@ -1,7 +1,7 @@
 window.TRAMITES_IPRUS_SHARED_STATE = {
   "title": "TRAMITES IPRUS SHARED STATE",
-  "sourceDate": "2026-07-17T16:47:51",
-  "generatedAt": "2026-07-17T22:11:41.689Z",
+  "sourceDate": "2026-07-17T17:47:57",
+  "generatedAt": "2026-07-20T13:19:21.126Z",
   "assignments": {
     "GADMR--2026-0384-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0388-IPRUS-ZNP": "Hamilton Torres",
@@ -16,6 +16,7 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
     "GADMR--2026-0414-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0400-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0393-IPRUS-ZNP": "Miriam Guisha",
+    "GADMR--2026-0421-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0381-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0413-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0410-IPRUS-ZNP": "Hamilton Torres",
@@ -107,6 +108,19 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
   "reportDrafts": {},
   "taskQueue": [],
   "activityLog": [
+    {
+      "id": "1784553561121-hwazvzdr",
+      "recordId": "GADMR--2026-0421-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Fausto Lopez.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-07-20T13:19:21.121Z",
+      "recordCode": "GADMR--2026-0421-IPRUS-ZNP",
+      "tramiteNumber": "1207495"
+    },
     {
       "id": "1784326301687-c1ihz4n1",
       "recordId": "GADMR--2026-0338-IPRUS-ZNP",
