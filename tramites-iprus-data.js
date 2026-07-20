@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-20",
-  "generatedAt": "2026-07-20T16:21:27",
+  "generatedAt": "2026-07-20T16:23:39",
   "records": [
     {
       "estado": "Asignado",
@@ -2669,14 +2669,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "En espera",
+      "estado": "Complementado",
       "tramite": "Trámite: 1191791 GADMR--2026-0336-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "GUALLI MINTA RUBEN VINICIO - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Esteban Jasiel Caizaluisa Criollo",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "Tiempo detenido",
+      "fechaLimite": null,
       "fechaIngreso": "2026-07-10T16:39:00",
       "codigo": "GADMR--2026-0336-IPRUS-ZNP",
       "nroTramite": 1191791,
@@ -4644,8 +4644,8 @@ window.TRAMITES_IPRUS_DATA = {
     },
     "states": {
       "Asignado": 60,
-      "Complementado": 24,
-      "En espera": 16
+      "Complementado": 25,
+      "En espera": 15
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 100
