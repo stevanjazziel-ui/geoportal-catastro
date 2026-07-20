@@ -4,23 +4,23 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-20",
-  "generatedAt": "2026-07-20T15:53:59",
+  "generatedAt": "2026-07-20T16:21:27",
   "records": [
     {
       "estado": "Asignado",
       "tramite": "Trámite: 1211662 GADMR--2026-0448-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "ALMENDARIZ ALTAMIRANO MARCO VINICIO - IPRUS FUERA DE ZONA PATRIMONIAL",
-      "reasignadoPor": "Raul Gustavo Arrieta Aguagallo",
+      "reasignadoPor": "Angel Javier Tamayo Cepeda",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
       "fechaLimite": null,
-      "fechaIngreso": "2026-07-20T15:26:00",
+      "fechaIngreso": "2026-07-20T15:57:00",
       "codigo": "GADMR--2026-0448-IPRUS-ZNP",
       "nroTramite": 1211662,
       "issueId": "1211662",
       "solicitante": "ALMENDARIZ ALTAMIRANO MARCO VINICIO",
-      "reasignadoPorCargo": "Ayudante 3 De Secretaria General",
+      "reasignadoPorCargo": "Analista De Avaluos Y Catastros De Asesoria Legal 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
@@ -34,10 +34,10 @@ window.TRAMITES_IPRUS_DATA = {
       "egobOutcomeAuthor": "",
       "egobOutcomeAuthorRole": "",
       "egobOutcomeEntryType": "",
-      "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE, EN BASE A LA DOCUMENTACIÓN ADJUNTA.",
-      "egobLatestReassignmentAt": "2026-07-20 15:26",
-      "egobLatestReassignmentAuthor": "RAUL GUSTAVO ARRIETA AGUAGALLO",
-      "egobJournalCount": 2,
+      "egobLatestReassignmentNote": "SIN OBSERVACIONES LEGALES",
+      "egobLatestReassignmentAt": "2026-07-20 15:57",
+      "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
+      "egobJournalCount": 3,
       "egobRelevantNotes": []
     },
     {
@@ -1320,14 +1320,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Complementado",
+      "estado": "En espera",
       "tramite": "Trámite: 1191360 GADMR--2026-0332-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "ZEA ORTIZ JUAN CARLOS - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-07-29",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-07-15T16:01:00",
       "codigo": "GADMR--2026-0332-IPRUS-ZNP",
       "nroTramite": 1191360,
@@ -1335,9 +1335,6 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "ZEA ORTIZ JUAN CARLOS",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(9 días)",
-      "diasRestantes": 9,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
@@ -1353,7 +1350,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-07-15 16:01",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 14,
+      "egobJournalCount": 15,
       "egobRelevantNotes": [
         {
           "journalId": "6755910",
@@ -2702,7 +2699,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE. A ESPERA DE ALCANCE",
       "egobLatestReassignmentAt": "2026-07-17 17:59",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 11,
+      "egobJournalCount": 12,
       "egobRelevantNotes": [
         {
           "journalId": "6730630",
@@ -4640,15 +4637,15 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 100,
     "priorities": {
-      "Sin prioridad": 50,
-      "Normal": 43,
+      "Sin prioridad": 51,
+      "Normal": 42,
       "Crítico": 2,
       "Urgente": 5
     },
     "states": {
       "Asignado": 60,
-      "Complementado": 25,
-      "En espera": 15
+      "Complementado": 24,
+      "En espera": 16
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 100
@@ -6946,7 +6943,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE. A ESPERA DE ALCANCE",
       "egobLatestReassignmentAt": "2026-07-17 17:59",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 19,
+      "egobJournalCount": 20,
       "egobRelevantNotes": [
         {
           "journalId": "6531936",
