@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-20",
-  "generatedAt": "2026-07-20T16:51:40",
+  "generatedAt": "2026-07-20T17:29:41",
   "records": [
     {
       "estado": "Asignado",
@@ -1249,14 +1249,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "En espera",
+      "estado": "Complementado",
       "tramite": "Trámite: 1201004 GADMR--2026-0383-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "SMC INTERNACIONAL. S.C. - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Veronica Patricia Sagba Ausay",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "Tiempo detenido",
+      "fechaLimite": null,
       "fechaIngreso": "2026-07-16T08:39:00",
       "codigo": "GADMR--2026-0383-IPRUS-ZNP",
       "nroTramite": 1201004,
@@ -1283,14 +1283,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1207673 GADMR--2026-0422-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "PIMBO GADVAY LUIS EDUARDO - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Angel Javier Tamayo Cepeda",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-07-28",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-07-15T16:57:00",
       "codigo": "GADMR--2026-0422-IPRUS-ZNP",
       "nroTramite": 1207673,
@@ -1298,26 +1298,34 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "PIMBO GADVAY LUIS EDUARDO",
       "reasignadoPorCargo": "Analista De Avaluos Y Catastros De Asesoria Legal 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(8 días)",
-      "diasRestantes": 8,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
       "sourceRow": 30,
       "id": "GADMR--2026-0422-IPRUS-ZNP",
-      "egobOutcome": "EN REVISIÓN",
-      "egobOutcomeRule": "",
-      "egobOutcomeNote": "",
-      "egobOutcomeAt": "",
-      "egobOutcomeAuthor": "",
-      "egobOutcomeAuthorRole": "",
-      "egobOutcomeEntryType": "",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "subsanacion",
+      "egobOutcomeNote": "Durante la revisión de la documentación ingresada, se identificaron las siguientes inconsistencias que deben ser subsanadas: La cédula adjunta no corresponde al nombre del propietario registrado. La planimetría en formato PDF no cuenta con la firma correspondiente. El área total ingresada no coincide con la sumatoria de las áreas parciales descritas. Por lo que se solicita: Adjuntar la cédula del propietario del predio. Presentar la planimetría PDF debidamente firmada por el propietario. Corregir el área total digitada para que concuerde con la suma de las áreas parciales. Detallar en la planimetría el ancho de aceras y de la calzada.",
+      "egobOutcomeAt": "2026-07-20 16:54",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Registro",
       "egobLatestReassignmentNote": "SIN OBSERVACIONES LEGALES",
       "egobLatestReassignmentAt": "2026-07-15 16:57",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobJournalCount": 5,
-      "egobRelevantNotes": []
+      "egobJournalCount": 9,
+      "egobRelevantNotes": [
+        {
+          "journalId": "6854394",
+          "entryType": "Registro",
+          "timestamp": "2026-07-20 16:54",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Durante la revisión de la documentación ingresada, se identificaron las siguientes inconsistencias que deben ser subsanadas: La cédula adjunta no corresponde al nombre del propietario registrado. La planimetría en formato PDF no cuenta con la firma correspondiente. El área total ingresada no coincide con la sumatoria de las áreas parciales descritas. Por lo que se solicita: Adjuntar la cédula del propietario del predio. Presentar la planimetría PDF debidamente firmada por el propietario. Corregir el área total digitada para que concuerde con la suma de las áreas parciales. Detallar en la planimetría el ancho de aceras y de la calzada.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        }
+      ]
     },
     {
       "estado": "En espera",
@@ -4678,14 +4686,14 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 100,
     "priorities": {
-      "Sin prioridad": 51,
-      "Normal": 42,
+      "Sin prioridad": 52,
+      "Normal": 41,
       "Crítico": 2,
       "Urgente": 5
     },
     "states": {
-      "Asignado": 59,
-      "Complementado": 26,
+      "Asignado": 58,
+      "Complementado": 27,
       "En espera": 15
     },
     "responsibles": {
