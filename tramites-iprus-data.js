@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-20",
-  "generatedAt": "2026-07-20T12:14:45",
+  "generatedAt": "2026-07-20T14:52:26",
   "records": [
     {
       "estado": "Asignado",
@@ -2329,10 +2329,10 @@ window.TRAMITES_IPRUS_DATA = {
       "egobOutcomeAuthor": "",
       "egobOutcomeAuthorRole": "",
       "egobOutcomeEntryType": "",
-      "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
-      "egobLatestReassignmentAt": "2026-07-13 15:09",
-      "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 6,
+      "egobLatestReassignmentNote": "Se emite criterio legal FAVORABLE, continuar con las observaciones técnicas.",
+      "egobLatestReassignmentAt": "2026-07-20 12:25",
+      "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
+      "egobJournalCount": 7,
       "egobRelevantNotes": []
     },
     {
@@ -4324,14 +4324,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "Complementado",
+      "estado": "En espera",
       "tramite": "Trámite: 1176427 GADMR--2026-0230-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "MORENO ROMERO EDGAR VICENTE - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-07-14",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-07-02T17:37:00",
       "codigo": "GADMR--2026-0230-IPRUS-ZNP",
       "nroTramite": 1176427,
@@ -4339,9 +4339,6 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "MORENO ROMERO EDGAR VICENTE",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(Vencido hace 6 días)",
-      "diasRestantes": 6,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
@@ -4708,15 +4705,15 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 100,
     "priorities": {
-      "Normal": 44,
-      "Sin prioridad": 48,
+      "Normal": 43,
+      "Sin prioridad": 49,
       "Crítico": 2,
       "Urgente": 6
     },
     "states": {
       "Asignado": 59,
-      "Complementado": 28,
-      "En espera": 13
+      "Complementado": 27,
+      "En espera": 14
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 100
@@ -6401,7 +6398,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE. A ESPERA DE ALCANCE",
       "egobLatestReassignmentAt": "2026-07-17 17:59",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 9,
+      "egobJournalCount": 10,
       "egobRelevantNotes": [
         {
           "journalId": "6827095",
