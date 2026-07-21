@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-21",
-  "generatedAt": "2026-07-21T09:26:45",
+  "generatedAt": "2026-07-21T09:28:40",
   "records": [
     {
       "estado": "Asignado",
@@ -4740,7 +4740,7 @@ window.TRAMITES_IPRUS_DATA = {
           "rule": "subsanacion"
         }
       ],
-      "historyArchivedAt": "2026-07-21T09:25:16",
+      "historyArchivedAt": "2026-07-21T09:27:12",
       "historyLastSeenAt": "2026-07-20T18:01:52",
       "historyStatus": "Historico"
     },
