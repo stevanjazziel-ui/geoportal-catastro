@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-21",
-  "generatedAt": "2026-07-21T15:11:56",
+  "generatedAt": "2026-07-21T15:39:39",
   "records": [
     {
       "estado": "Asignado",
@@ -2926,14 +2926,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "En espera",
+      "estado": "Complementado",
       "tramite": "Trámite: 1178346 GADMR--2026-0239-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "QUISI ILVIS JAIME ELIAS - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "Tiempo detenido",
+      "fechaLimite": null,
       "fechaIngreso": "2026-07-09T18:03:00",
       "codigo": "GADMR--2026-0239-IPRUS-ZNP",
       "nroTramite": 1178346,
@@ -2956,7 +2956,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE",
       "egobLatestReassignmentAt": "2026-07-09 18:03",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 20,
+      "egobJournalCount": 21,
       "egobRelevantNotes": [
         {
           "journalId": "6627381",
@@ -3470,18 +3470,29 @@ window.TRAMITES_IPRUS_DATA = {
       "asignadoInterno": "caizaluisae",
       "sourceRow": 77,
       "id": "GADMR--2026-0371-IPRUS-ZNP",
-      "egobOutcome": "EN REVISIÓN",
-      "egobOutcomeRule": "",
-      "egobOutcomeNote": "",
-      "egobOutcomeAt": "",
-      "egobOutcomeAuthor": "",
-      "egobOutcomeAuthorRole": "",
-      "egobOutcomeEntryType": "",
-      "egobLatestReassignmentNote": "sin observaciones legales",
-      "egobLatestReassignmentAt": "2026-07-09 08:36",
-      "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobJournalCount": 7,
-      "egobRelevantNotes": []
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "no_favorable",
+      "egobOutcomeNote": "Se reasigna tramite iprus no favorable con las siguientes observaciones Observaciones 1. El trámite N.º 1199752 no es favorable en las condiciones presentadas. 2. Ninguna de las coordenadas se encuentra correctamente colocada en el cuadro de coordenadas. 3. Las coordenadas no corresponden a cada uno de los vértices del polígono presentado. 4. La información del cuadro de coordenadas no guarda concordancia con la planimetría ni con el archivo digital en formato DWG. 5. Se deberá corregir el cuadro de coordenadas y verificar la correspondencia entre coordenadas, vértices, polígono, planimetría y archivo digital.",
+      "egobOutcomeAt": "2026-07-21 15:36",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
+      "egobLatestReassignmentNote": "Se reasigna tramite iprus no favorable con las siguientes observaciones Observaciones 1. El trámite N.º 1199752 no es favorable en las condiciones presentadas. 2. Ninguna de las coordenadas se encuentra correctamente colocada en el cuadro de coordenadas. 3. Las coordenadas no corresponden a cada uno de los vértices del polígono presentado. 4. La información del cuadro de coordenadas no guarda concordancia con la planimetría ni con el archivo digital en formato DWG. 5. Se deberá corregir el cuadro de coordenadas y verificar la correspondencia entre coordenadas, vértices, polígono, planimetría y archivo digital.",
+      "egobLatestReassignmentAt": "2026-07-21 15:36",
+      "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobJournalCount": 8,
+      "egobRelevantNotes": [
+        {
+          "journalId": "6866000",
+          "entryType": "Reasignación",
+          "timestamp": "2026-07-21 15:36",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Se reasigna tramite iprus no favorable con las siguientes observaciones Observaciones 1. El trámite N.º 1199752 no es favorable en las condiciones presentadas. 2. Ninguna de las coordenadas se encuentra correctamente colocada en el cuadro de coordenadas. 3. Las coordenadas no corresponden a cada uno de los vértices del polígono presentado. 4. La información del cuadro de coordenadas no guarda concordancia con la planimetría ni con el archivo digital en formato DWG. 5. Se deberá corregir el cuadro de coordenadas y verificar la correspondencia entre coordenadas, vértices, polígono, planimetría y archivo digital.",
+          "outcome": "NO FAVORABLE",
+          "rule": "no_favorable"
+        }
+      ]
     },
     {
       "estado": "Asignado",
@@ -4581,8 +4592,8 @@ window.TRAMITES_IPRUS_DATA = {
     "states": {
       "Asignado": 54,
       "Nuevo": 1,
-      "Complementado": 29,
-      "En espera": 14
+      "Complementado": 30,
+      "En espera": 13
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 98
