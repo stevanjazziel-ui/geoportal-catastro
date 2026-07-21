@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-21",
-  "generatedAt": "2026-07-21T17:09:30",
+  "generatedAt": "2026-07-21T17:11:40",
   "records": [
     {
       "estado": "Asignado",
@@ -1839,7 +1839,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "una vez que he realizado la revisión de los documentos de forma personal reasigno sin observaciones legales",
       "egobLatestReassignmentAt": "2026-07-15 11:07",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobJournalCount": 8,
+      "egobJournalCount": 9,
       "egobRelevantNotes": []
     },
     {
