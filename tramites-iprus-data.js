@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-21",
-  "generatedAt": "2026-07-21T11:56:36",
+  "generatedAt": "2026-07-21T11:58:42",
   "records": [
     {
       "estado": "Nuevo",
@@ -3819,14 +3819,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "En espera",
+      "estado": "Complementado",
       "tramite": "Trámite: 1200908 GADMR--2026-0380-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "VILLARROEL BONILLA KEVIN FERNANDO - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "Tiempo detenido",
+      "fechaLimite": "2026-07-20",
       "fechaIngreso": "2026-07-07T09:32:00",
       "codigo": "GADMR--2026-0380-IPRUS-ZNP",
       "nroTramite": 1200908,
@@ -3834,6 +3834,9 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "VILLARROEL BONILLA KEVIN FERNANDO",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "tiempoRestante": "(Vencido hace 1 días)",
+      "diasRestantes": 1,
+      "prioridad": "Crítico",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
@@ -3849,7 +3852,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE. A ESPERA DE ALCANCE",
       "egobLatestReassignmentAt": "2026-07-17 17:59",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 8,
+      "egobJournalCount": 9,
       "egobRelevantNotes": []
     },
     {
@@ -4465,16 +4468,16 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 95,
     "priorities": {
-      "Sin prioridad": 50,
+      "Sin prioridad": 49,
       "Normal": 31,
-      "Crítico": 5,
+      "Crítico": 6,
       "Urgente": 9
     },
     "states": {
       "Nuevo": 1,
       "Asignado": 51,
-      "Complementado": 27,
-      "En espera": 16
+      "Complementado": 28,
+      "En espera": 15
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 95
@@ -4565,7 +4568,7 @@ window.TRAMITES_IPRUS_DATA = {
           "rule": "tramite_iprus_favorable"
         }
       ],
-      "historyArchivedAt": "2026-07-21T11:54:58",
+      "historyArchivedAt": "2026-07-21T11:57:09",
       "historyLastSeenAt": "2026-07-21T11:26:39",
       "historyStatus": "Historico"
     },
@@ -4834,10 +4837,10 @@ window.TRAMITES_IPRUS_DATA = {
       "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
       "egobOutcomeEntryType": "Reasignación",
-      "egobLatestReassignmentNote": "Se reasigna tramite iprus favorable parte tecnica, por favor continuar segun corresponda",
-      "egobLatestReassignmentAt": "2026-07-21 09:52",
-      "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "egobJournalCount": 13,
+      "egobLatestReassignmentNote": "SE REASIGNA UNA VEZ SUBSANADAS LAS OBSERVACIONES LEGALES",
+      "egobLatestReassignmentAt": "2026-07-21 11:55",
+      "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
+      "egobJournalCount": 14,
       "egobRelevantNotes": [
         {
           "journalId": "6730630",
