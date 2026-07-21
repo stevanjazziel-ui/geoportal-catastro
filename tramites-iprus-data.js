@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-21",
-  "generatedAt": "2026-07-21T16:39:42",
+  "generatedAt": "2026-07-21T17:09:30",
   "records": [
     {
       "estado": "Asignado",
@@ -1531,14 +1531,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "En espera",
+      "estado": "Complementado",
       "tramite": "Trámite: 1191360 GADMR--2026-0332-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "ZEA ORTIZ JUAN CARLOS - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "Tiempo detenido",
+      "fechaLimite": "2026-07-29",
       "fechaIngreso": "2026-07-15T16:01:00",
       "codigo": "GADMR--2026-0332-IPRUS-ZNP",
       "nroTramite": 1191360,
@@ -1546,6 +1546,9 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "ZEA ORTIZ JUAN CARLOS",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "tiempoRestante": "(8 días)",
+      "diasRestantes": 8,
+      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
@@ -1561,7 +1564,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-07-15 16:01",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 15,
+      "egobJournalCount": 16,
       "egobRelevantNotes": [
         {
           "journalId": "6755910",
@@ -1806,14 +1809,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1202855 GADMR--2026-0400-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "QUISI ILVIS JAIME ELIAS - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Angel Javier Tamayo Cepeda",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": null,
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-07-15T11:07:00",
       "codigo": "GADMR--2026-0400-IPRUS-ZNP",
       "nroTramite": 1202855,
@@ -1836,7 +1839,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "una vez que he realizado la revisión de los documentos de forma personal reasigno sin observaciones legales",
       "egobLatestReassignmentAt": "2026-07-15 11:07",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobJournalCount": 7,
+      "egobJournalCount": 8,
       "egobRelevantNotes": []
     },
     {
@@ -1988,14 +1991,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Complementado",
+      "estado": "En espera",
       "tramite": "Trámite: 1207495 GADMR--2026-0421-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "CADENA VELASTEGUI MARITZA ALEXANDRA - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-07-29",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-07-15T08:18:00",
       "codigo": "GADMR--2026-0421-IPRUS-ZNP",
       "nroTramite": 1207495,
@@ -2003,26 +2006,34 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "CADENA VELASTEGUI MARITZA ALEXANDRA",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(8 días)",
-      "diasRestantes": 8,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
       "sourceRow": 46,
       "id": "GADMR--2026-0421-IPRUS-ZNP",
-      "egobOutcome": "EN REVISIÓN",
-      "egobOutcomeRule": "",
-      "egobOutcomeNote": "",
-      "egobOutcomeAt": "",
-      "egobOutcomeAuthor": "",
-      "egobOutcomeAuthorRole": "",
-      "egobOutcomeEntryType": "",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "subsanacion",
+      "egobOutcomeNote": "Subir la planimetría con las correcciones requeridas",
+      "egobOutcomeAt": "2026-07-21 16:44",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Registro",
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-07-15 08:18",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 7,
-      "egobRelevantNotes": []
+      "egobJournalCount": 8,
+      "egobRelevantNotes": [
+        {
+          "journalId": "6866764",
+          "entryType": "Registro",
+          "timestamp": "2026-07-21 16:44",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Subir la planimetría con las correcciones requeridas",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        }
+      ]
     },
     {
       "estado": "En espera",
@@ -2979,26 +2990,16 @@ window.TRAMITES_IPRUS_DATA = {
       "id": "GADMR--2026-0239-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
-      "egobOutcomeNote": "OBSERVACIONES: Se concede un plazo de cinco (5) días hábiles para la subsanación de las observaciones señaladas, al tratarse de la segunda notificación. Por favor, revisar los archivos adjuntos para la correcta atención de lo requerido.",
-      "egobOutcomeAt": "2026-07-07 11:39",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+      "egobOutcomeNote": "Subir planimetría con las correcciones solicitadas",
+      "egobOutcomeAt": "2026-07-21 16:48",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
       "egobOutcomeEntryType": "Registro",
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE",
       "egobLatestReassignmentAt": "2026-07-09 18:03",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 21,
+      "egobJournalCount": 23,
       "egobRelevantNotes": [
-        {
-          "journalId": "6627381",
-          "entryType": "Registro",
-          "timestamp": "2026-06-16 15:08",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "INFORME CON OBSERVACIONES",
-          "outcome": "NO FAVORABLE",
-          "rule": "informe_con_observaciones"
-        },
         {
           "journalId": "6627413",
           "entryType": "Registro",
@@ -3036,6 +3037,16 @@ window.TRAMITES_IPRUS_DATA = {
           "author": "JOSSELYN DAYANA OROZCO VELASCO",
           "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
           "note": "OBSERVACIONES: Se concede un plazo de cinco (5) días hábiles para la subsanación de las observaciones señaladas, al tratarse de la segunda notificación. Por favor, revisar los archivos adjuntos para la correcta atención de lo requerido.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
+          "journalId": "6866794",
+          "entryType": "Registro",
+          "timestamp": "2026-07-21 16:48",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Subir planimetría con las correcciones solicitadas",
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
@@ -3802,10 +3813,10 @@ window.TRAMITES_IPRUS_DATA = {
       "egobOutcomeAuthor": "",
       "egobOutcomeAuthorRole": "",
       "egobOutcomeEntryType": "",
-      "egobLatestReassignmentNote": "Favor continuar con la revisión legal",
-      "egobLatestReassignmentAt": "2026-07-14 11:44",
-      "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobJournalCount": 6,
+      "egobLatestReassignmentNote": ".",
+      "egobLatestReassignmentAt": "2026-07-21 16:46",
+      "egobLatestReassignmentAuthor": "TATIANA ABIGAIL MARIÑO VALLEJO",
+      "egobJournalCount": 7,
       "egobRelevantNotes": []
     },
     {
@@ -4576,10 +4587,10 @@ window.TRAMITES_IPRUS_DATA = {
       "Urgente": 9
     },
     "states": {
-      "Asignado": 54,
+      "Asignado": 53,
       "Nuevo": 1,
       "Complementado": 29,
-      "En espera": 14
+      "En espera": 15
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 98
