@@ -3177,6 +3177,8 @@
             const timestamp = String(rawEntry.timestamp || "").trim();
             const recordCode = String(rawEntry.recordCode || "").trim();
             const tramiteNumber = String(rawEntry.tramiteNumber || "").trim();
+            const assignedTo = String(rawEntry.assignedTo || "").trim();
+            const assignedFrom = String(rawEntry.assignedFrom || "").trim();
 
             if (!id || !recordId || !summary || !timestamp) {
               return null;
@@ -3194,6 +3196,8 @@
               timestamp,
               recordCode,
               tramiteNumber,
+              assignedTo,
+              assignedFrom,
             };
           })
           .filter(Boolean)
@@ -3809,6 +3813,8 @@
           summary: String(summary || "").trim(),
           detail: String(options.detail || "").replace(/\r/g, "").trim(),
           timestamp: new Date().toISOString(),
+          assignedTo: String(options.assignedTo || "").trim(),
+          assignedFrom: String(options.assignedFrom || "").trim(),
         };
       }
 
@@ -3905,6 +3911,50 @@
             !isGenericActorLabel(entry.actor)
         );
         return reviewEntry ? String(reviewEntry.actor || "").trim() : "";
+      }
+
+      function getLatestAssignmentTimestamp(recordId, assignee) {
+        const normalizedAssignee = normalizeText(assignee);
+        if (!recordId || !normalizedAssignee) {
+          return "";
+        }
+
+        const entry = activityLog.find((item) => {
+          if (!item || item.recordId !== recordId) {
+            return false;
+          }
+          if (!["asignacion", "asignacion-masiva", "auto-reasignacion"].includes(item.actionType)) {
+            return false;
+          }
+
+          const assignedTo = normalizeText(item.assignedTo);
+          if (assignedTo) {
+            return assignedTo === normalizedAssignee;
+          }
+
+          return normalizeText(item.summary).includes(normalizedAssignee);
+        });
+
+        return entry ? String(entry.timestamp || "") : "";
+      }
+
+      function sortAssignedRecordsByLatestAssignment(a, b) {
+        const leftAssignedAt = getLatestAssignmentTimestamp(a?.id, getAssignee(a?.id));
+        const rightAssignedAt = getLatestAssignmentTimestamp(b?.id, getAssignee(b?.id));
+
+        if (leftAssignedAt !== rightAssignedAt) {
+          if (leftAssignedAt && rightAssignedAt) {
+            return rightAssignedAt.localeCompare(leftAssignedAt);
+          }
+          if (rightAssignedAt) {
+            return 1;
+          }
+          if (leftAssignedAt) {
+            return -1;
+          }
+        }
+
+        return compareDates(b?.fechaIngreso, a?.fechaIngreso) || sortRecords(a, b);
       }
 
       function getAutoReassignmentCandidate(record) {
@@ -4009,6 +4059,7 @@
             {
               actionType: "auto-reasignacion",
               detail: candidate.detail,
+              assignedTo: candidate.assignee,
             }
           );
           restored.push({
@@ -4060,7 +4111,7 @@
       function setAssignee(id, value) {
         const result = assignValue(id, value);
         if (result.changed) {
-          appendActivityEntry(
+          const entry = appendActivityEntry(
             id,
             result.next
               ? `Asignación interna actualizada a ${result.next}.`
@@ -4072,6 +4123,9 @@
                 : "No existía una asignación interna previa.",
             }
           );
+          entry.assignedTo = result.next;
+          entry.assignedFrom = result.previous;
+          persistActivityLog();
         }
         persistAssignments();
         scheduleSharedStateSync({ notify: true, immediate: true });
@@ -4085,7 +4139,7 @@
             return;
           }
 
-          appendActivityEntry(
+          const entry = appendActivityEntry(
             id,
             result.next
               ? `Asignación interna masiva a ${result.next}.`
@@ -4097,6 +4151,9 @@
                 : "No existía una asignación interna previa.",
             }
           );
+          entry.assignedTo = result.next;
+          entry.assignedFrom = result.previous;
+          persistActivityLog();
         });
         persistAssignments();
         scheduleSharedStateSync({ notify: true, immediate: true });
@@ -5133,7 +5190,7 @@
             const haystack = normalizeText(
               [
                 record.estado,
-                record.nroTramite,
+                getReportTramiteNumber(record),
                 record.codigo,
                 record.tipoTramite,
                 record.solicitante,
@@ -5150,7 +5207,7 @@
 
             return haystack.includes(searchTerm);
           })
-          .sort(sortRecords);
+          .sort(!isAdminMode() && !isHistoryTab() ? sortAssignedRecordsByLatestAssignment : sortRecords);
       }
 
       function sortRecords(a, b) {
@@ -6185,6 +6242,7 @@
             const historyLastSeen = formatHistoryDate(record.historyLastSeenAt);
             const historyArchivedAt = formatHistoryDate(record.historyArchivedAt);
             const historyStatus = record.historyStatus || "Histórico";
+            const tramiteNumber = getReportTramiteNumber(record);
 
             return `
               ${
@@ -6204,7 +6262,7 @@
                         <td>
                           <button class="tramite-trigger" type="button" data-detail-id="${escapeHtml(record.id)}">
                             <span class="cell-title">${escapeHtml(record.codigo || "-")}</span>
-                            <span class="cell-meta">Trámite N. ${escapeHtml(String(record.nroTramite || "-"))}</span>
+                            <span class="cell-meta">Trámite N. ${escapeHtml(tramiteNumber)}</span>
                             <span class="cell-meta">${escapeHtml(record.tipoTramite || "-")}</span>
                             <span class="cell-meta">${detailsOpen ? "Ocultar ficha histórica" : "Abrir ficha histórica"}</span>
                           </button>
@@ -6256,7 +6314,7 @@
                             type="checkbox"
                             data-select-id="${escapeHtml(record.id)}"
                             ${selectedIds.has(record.id) ? "checked" : ""}
-                            aria-label="Seleccionar trámite ${escapeHtml(record.codigo || String(record.nroTramite || ""))}"
+                            aria-label="Seleccionar trámite ${escapeHtml(record.codigo || tramiteNumber)}"
                           />
                         </td>
                         <td>
@@ -6268,7 +6326,7 @@
                         <td>
                           <button class="tramite-trigger" type="button" data-detail-id="${escapeHtml(record.id)}">
                             <span class="cell-title">${escapeHtml(record.codigo || "-")}</span>
-                            <span class="cell-meta">Trámite N. ${escapeHtml(String(record.nroTramite || "-"))}</span>
+                            <span class="cell-meta">Trámite N. ${escapeHtml(tramiteNumber)}</span>
                             <span class="cell-meta">${escapeHtml(record.tipoTramite || "-")}</span>
                             <span class="cell-meta">
                               ${detailsOpen ? "Ocultar ficha" : "Abrir ficha"}
@@ -6298,7 +6356,7 @@
                               type="text"
                               list="assignee-options"
                               data-assignment-id="${escapeHtml(record.id)}"
-                              data-assignment-code="${escapeHtml(record.codigo || String(record.nroTramite || record.id))}"
+                              data-assignment-code="${escapeHtml(record.codigo || tramiteNumber || record.id)}"
                               value="${escapeAttribute(assignee)}"
                               placeholder="Asignar..."
                             />
@@ -6306,7 +6364,7 @@
                               class="assignment-apply"
                               type="button"
                               data-apply-assignment-id="${escapeHtml(record.id)}"
-                              aria-label="Asignar trámite ${escapeHtml(record.codigo || String(record.nroTramite || record.id))}"
+                              aria-label="Asignar trámite ${escapeHtml(record.codigo || tramiteNumber || record.id)}"
                             >
                               Asignar
                             </button>
@@ -6343,7 +6401,7 @@
                       <td>
                         <button class="tramite-trigger" type="button" data-detail-id="${escapeHtml(record.id)}">
                           <span class="cell-title">${escapeHtml(record.codigo || "-")}</span>
-                          <span class="cell-meta">Trámite N. ${escapeHtml(String(record.nroTramite || "-"))}</span>
+                          <span class="cell-meta">Trámite N. ${escapeHtml(tramiteNumber)}</span>
                           <span class="cell-meta">${escapeHtml(record.solicitante || "-")}</span>
                           <span class="cell-meta">${detailsOpen ? (historyMode ? "Ocultar ficha histórica" : "Ocultar revisión técnica") : (historyMode ? "Abrir ficha histórica" : "Abrir revisión técnica")}</span>
                         </button>
@@ -6401,7 +6459,7 @@
                           <div class="details-grid">
                             ${renderField("Estado", record.estado)}
                             ${renderField("Prioridad", record.prioridad)}
-                            ${renderField("Nro. trámite", record.nroTramite)}
+                            ${renderField("Nro. trámite", tramiteNumber)}
                             ${renderField("Código", record.codigo)}
                             ${renderField("Tipo de trámite", record.tipoTramite, "field-wide")}
                             ${record.asunto ? renderField("Asunto", record.asunto, "field-full") : ""}
@@ -8086,6 +8144,15 @@
       function getReportTramiteNumber(record) {
         if (record?.nroTramite != null && String(record.nroTramite).trim()) {
           return String(record.nroTramite).trim();
+        }
+
+        if (record?.issueId != null && String(record.issueId).trim()) {
+          return String(record.issueId).trim();
+        }
+
+        const tramiteMatch = String(record?.tramite || "").match(/\b(\d{5,})\b/);
+        if (tramiteMatch) {
+          return String(tramiteMatch[1]).trim();
         }
 
         return "Sin número";
