@@ -1,9 +1,10 @@
 window.TRAMITES_IPRUS_SHARED_STATE = {
   "title": "TRAMITES IPRUS SHARED STATE",
-  "sourceDate": "2026-07-20T18:01:52",
-  "generatedAt": "2026-07-21T21:12:59.747Z",
+  "sourceDate": "2026-07-22T09:16:09",
+  "generatedAt": "2026-07-22T14:43:27.553Z",
   "assignments": {
-    "GADMR--2026-0275-IPRUS-ZNP": "Fausto Lopez",
+    "GADMR--2026-0398-IPRUS-ZNP": "Fausto Lopez",
+    "GADMR--2026-0409-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0384-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0388-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0316-IPRUS-ZNP": "Miriam Guisha",
@@ -17,14 +18,11 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
     "GADMR--2026-0383-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0422-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0418-IPRUS-ZNP": "Fausto Lopez",
-    "GADMR--2026-0416-IPRUS-ZNP": "Miriam Guisha",
-    "GADMR--2026-0414-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0400-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0430-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0429-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0426-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0393-IPRUS-ZNP": "Miriam Guisha",
-    "GADMR--2026-0423-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0421-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0381-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0413-IPRUS-ZNP": "Hamilton Torres",
@@ -32,19 +30,16 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
     "GADMR--2026-0408-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0406-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0404-IPRUS-ZNP": "Fausto Lopez",
-    "GADMR--2026-0387-IPRUS-ZNP": "Hamilton Torres",
-    "GADMR--2026-0382-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0386-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0390-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0417-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0415-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0333-IPRUS-ZNP": "Hamilton Torres",
-    "GADMR--2026-0409-IPRUS-ZNP": "Hamilton Torres",
+    "GADMR--2026-0412-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0407-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0372-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0324-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0399-IPRUS-ZNP": "Fausto Lopez",
-    "GADMR--2026-0398-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0357-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0380-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0356-IPRUS-ZNP": "Miriam Guisha",
@@ -52,6 +47,12 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
     "GADMR--2026-0352-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0346-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0343-IPRUS-ZNP": "Hamilton Torres",
+    "GADMR--2026-0423-IPRUS-ZNP": "Miriam Guisha",
+    "GADMR--2026-0416-IPRUS-ZNP": "Miriam Guisha",
+    "GADMR--2026-0414-IPRUS-ZNP": "Miriam Guisha",
+    "GADMR--2026-0275-IPRUS-ZNP": "Fausto Lopez",
+    "GADMR--2026-0382-IPRUS-ZNP": "Fausto Lopez",
+    "GADMR--2026-0387-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0338-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0303-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0344-IPRUS-ZNP": "Fausto Lopez",
@@ -116,6 +117,21 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
   "taskQueue": [],
   "activityLog": [
     {
+      "id": "1784668386824-jxr6vmn0",
+      "recordId": "GADMR--2026-0412-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Fausto Lopez.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-07-21T21:13:06.824Z",
+      "recordCode": "GADMR--2026-0412-IPRUS-ZNP",
+      "tramiteNumber": "1205691",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
+    {
       "id": "1784668379745-sjfll2on",
       "recordId": "GADMR--2026-0412-IPRUS-ZNP",
       "actor": "Administrador central",
@@ -126,7 +142,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Valor anterior: Hamilton Torres.",
       "timestamp": "2026-07-21T21:12:59.745Z",
       "recordCode": "GADMR--2026-0412-IPRUS-ZNP",
-      "tramiteNumber": "1205691"
+      "tramiteNumber": "1205691",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784553602767-eryb86ob",
@@ -139,7 +157,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-20T13:20:02.767Z",
       "recordCode": "GADMR--2026-0433-IPRUS-ZNP",
-      "tramiteNumber": "1208936"
+      "tramiteNumber": "1208936",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784553596975-6nnsn9eo",
@@ -152,7 +172,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-20T13:19:56.975Z",
       "recordCode": "GADMR--2026-0431-IPRUS-ZNP",
-      "tramiteNumber": "1208487"
+      "tramiteNumber": "1208487",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784553593679-o5tv83t5",
@@ -165,7 +187,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-20T13:19:53.679Z",
       "recordCode": "GADMR--2026-0430-IPRUS-ZNP",
-      "tramiteNumber": "1208481"
+      "tramiteNumber": "1208481",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784553588087-73d1t5bm",
@@ -178,7 +202,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-20T13:19:48.087Z",
       "recordCode": "GADMR--2026-0429-IPRUS-ZNP",
-      "tramiteNumber": "1208473"
+      "tramiteNumber": "1208473",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784553581703-1er8hlh8",
@@ -191,7 +217,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-20T13:19:41.703Z",
       "recordCode": "GADMR--2026-0428-IPRUS-ZNP",
-      "tramiteNumber": "1208468"
+      "tramiteNumber": "1208468",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784553574303-0ujclazo",
@@ -204,7 +232,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-20T13:19:34.303Z",
       "recordCode": "GADMR--2026-0426-IPRUS-ZNP",
-      "tramiteNumber": "1208341"
+      "tramiteNumber": "1208341",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784553568864-4esd9rbi",
@@ -217,7 +247,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-20T13:19:28.864Z",
       "recordCode": "GADMR--2026-0425-IPRUS-ZNP",
-      "tramiteNumber": "1208301"
+      "tramiteNumber": "1208301",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784553565338-xrbu9ier",
@@ -230,7 +262,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-20T13:19:25.338Z",
       "recordCode": "GADMR--2026-0423-IPRUS-ZNP",
-      "tramiteNumber": "1207842"
+      "tramiteNumber": "1207842",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784553561121-hwazvzdr",
@@ -243,7 +277,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-20T13:19:21.121Z",
       "recordCode": "GADMR--2026-0421-IPRUS-ZNP",
-      "tramiteNumber": "1207495"
+      "tramiteNumber": "1207495",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784326301687-c1ihz4n1",
@@ -256,7 +292,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-17T22:11:41.687Z",
       "recordCode": "GADMR--2026-0338-IPRUS-ZNP",
-      "tramiteNumber": "1191961"
+      "tramiteNumber": "1191961",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784238796920-txzsb1ll",
@@ -269,7 +307,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-16T21:53:16.920Z",
       "recordCode": "GADMR--2026-0372-IPRUS-ZNP",
-      "tramiteNumber": "1200044"
+      "tramiteNumber": "1200044",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784208743025-yfd3lmpo",
@@ -282,7 +322,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-16T13:32:23.025Z",
       "recordCode": "GADMR--2026-0420-IPRUS-ZNP",
-      "tramiteNumber": "1207118"
+      "tramiteNumber": "1207118",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784208726225-1vjgawh1",
@@ -295,7 +337,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-16T13:32:06.225Z",
       "recordCode": "GADMR--2026-0422-IPRUS-ZNP",
-      "tramiteNumber": "1207673"
+      "tramiteNumber": "1207673",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784208721834-teosdejh",
@@ -308,7 +352,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-16T13:32:01.834Z",
       "recordCode": "GADMR--2026-0419-IPRUS-ZNP",
-      "tramiteNumber": "1206788"
+      "tramiteNumber": "1206788",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784208716520-gw7g6y63",
@@ -321,7 +367,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-16T13:31:56.520Z",
       "recordCode": "GADMR--2026-0418-IPRUS-ZNP",
-      "tramiteNumber": "1206724"
+      "tramiteNumber": "1206724",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784208711338-4cl00163",
@@ -334,7 +382,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-16T13:31:51.338Z",
       "recordCode": "GADMR--2026-0417-IPRUS-ZNP",
-      "tramiteNumber": "1206609"
+      "tramiteNumber": "1206609",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784208706385-waevzcnu",
@@ -347,7 +397,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-16T13:31:46.385Z",
       "recordCode": "GADMR--2026-0416-IPRUS-ZNP",
-      "tramiteNumber": "1206366"
+      "tramiteNumber": "1206366",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784208700728-3ead1e5v",
@@ -360,7 +412,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-16T13:31:40.728Z",
       "recordCode": "GADMR--2026-0415-IPRUS-ZNP",
-      "tramiteNumber": "1206237"
+      "tramiteNumber": "1206237",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784208695431-1ngqw1s0",
@@ -373,7 +427,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-16T13:31:35.431Z",
       "recordCode": "GADMR--2026-0412-IPRUS-ZNP",
-      "tramiteNumber": "1205691"
+      "tramiteNumber": "1205691",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784208687857-fiuszx3n",
@@ -386,7 +442,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-16T13:31:27.857Z",
       "recordCode": "GADMR--2026-0414-IPRUS-ZNP",
-      "tramiteNumber": "1206193"
+      "tramiteNumber": "1206193",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784208660199-utvs88x3",
@@ -399,7 +457,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Valor anterior: Miriam Guisha.",
       "timestamp": "2026-07-16T13:31:00.199Z",
       "recordCode": "GADMR--2026-0286-IPRUS-ZNP",
-      "tramiteNumber": "1185380"
+      "tramiteNumber": "1185380",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784208659207-otwwb4l9",
@@ -412,7 +472,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Valor anterior: Miriam Guisha.",
       "timestamp": "2026-07-16T13:30:59.207Z",
       "recordCode": "GADMR--2026-0281-IPRUS-ZNP",
-      "tramiteNumber": "1184626"
+      "tramiteNumber": "1184626",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784208655871-zzphkc4k",
@@ -425,7 +487,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-16T13:30:55.871Z",
       "recordCode": "GADMR--2026-0286-IPRUS-ZNP",
-      "tramiteNumber": "1185380"
+      "tramiteNumber": "1185380",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784208653031-i2byrrey",
@@ -438,7 +502,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-16T13:30:53.031Z",
       "recordCode": "GADMR--2026-0281-IPRUS-ZNP",
-      "tramiteNumber": "1184626"
+      "tramiteNumber": "1184626",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123882875-l72jds8e",
@@ -451,7 +517,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:58:02.875Z",
       "recordCode": "GADMR--2026-0409-IPRUS-ZNP",
-      "tramiteNumber": "1205293"
+      "tramiteNumber": "1205293",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123878755-ipoxs238",
@@ -464,7 +532,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:57:58.755Z",
       "recordCode": "GADMR--2026-0413-IPRUS-ZNP",
-      "tramiteNumber": "1205784"
+      "tramiteNumber": "1205784",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123875123-oquxn9gd",
@@ -477,7 +547,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:57:55.123Z",
       "recordCode": "GADMR--2026-0410-IPRUS-ZNP",
-      "tramiteNumber": "1205547"
+      "tramiteNumber": "1205547",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123869514-y9sm7s6e",
@@ -490,7 +562,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:57:49.514Z",
       "recordCode": "GADMR--2026-0408-IPRUS-ZNP",
-      "tramiteNumber": "1204754"
+      "tramiteNumber": "1204754",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123865027-axwe4vis",
@@ -503,7 +577,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:57:45.027Z",
       "recordCode": "GADMR--2026-0407-IPRUS-ZNP",
-      "tramiteNumber": "1204054"
+      "tramiteNumber": "1204054",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123860003-rbb07vvr",
@@ -516,7 +592,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:57:40.003Z",
       "recordCode": "GADMR--2026-0406-IPRUS-ZNP",
-      "tramiteNumber": "1203942"
+      "tramiteNumber": "1203942",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123856186-1uxag0uh",
@@ -529,7 +607,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:57:36.186Z",
       "recordCode": "GADMR--2026-0404-IPRUS-ZNP",
-      "tramiteNumber": "1203317"
+      "tramiteNumber": "1203317",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123851986-hl9epp4h",
@@ -542,7 +622,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:57:31.986Z",
       "recordCode": "GADMR--2026-0400-IPRUS-ZNP",
-      "tramiteNumber": "1202855"
+      "tramiteNumber": "1202855",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123847554-9rvfrtx0",
@@ -555,7 +637,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:57:27.554Z",
       "recordCode": "GADMR--2026-0399-IPRUS-ZNP",
-      "tramiteNumber": "1202842"
+      "tramiteNumber": "1202842",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123842074-7srywmne",
@@ -568,7 +652,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:57:22.074Z",
       "recordCode": "GADMR--2026-0398-IPRUS-ZNP",
-      "tramiteNumber": "1202497"
+      "tramiteNumber": "1202497",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123830202-d7umkvv8",
@@ -581,7 +667,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:57:10.202Z",
       "recordCode": "GADMR--2026-0357-IPRUS-ZNP",
-      "tramiteNumber": "1195981"
+      "tramiteNumber": "1195981",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123826930-s3uye38a",
@@ -594,7 +682,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:57:06.930Z",
       "recordCode": "GADMR--2026-0356-IPRUS-ZNP",
-      "tramiteNumber": "1195727"
+      "tramiteNumber": "1195727",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123822138-90xdvjc8",
@@ -607,7 +697,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:57:02.138Z",
       "recordCode": "GADMR--2026-0350-IPRUS-ZNP",
-      "tramiteNumber": "1194750"
+      "tramiteNumber": "1194750",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123815985-xfc6ynu4",
@@ -620,7 +712,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:56:55.985Z",
       "recordCode": "GADMR--2026-0352-IPRUS-ZNP",
-      "tramiteNumber": "1195007"
+      "tramiteNumber": "1195007",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123799513-ofvl54kr",
@@ -633,7 +727,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:56:39.513Z",
       "recordCode": "GADMR--2026-0324-IPRUS-ZNP",
-      "tramiteNumber": "1190481"
+      "tramiteNumber": "1190481",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123787945-0nm4vtfu",
@@ -646,7 +742,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Valor anterior: Miriam Guisha.",
       "timestamp": "2026-07-15T13:56:27.945Z",
       "recordCode": "GADMR--2026-0009-IPRUS-ZP",
-      "tramiteNumber": "1177429"
+      "tramiteNumber": "1177429",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123787186-02tt0i2x",
@@ -659,7 +757,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Valor anterior: Miriam Guisha.",
       "timestamp": "2026-07-15T13:56:27.186Z",
       "recordCode": "GADMR--2026-0324-IPRUS-ZNP",
-      "tramiteNumber": "1190481"
+      "tramiteNumber": "1190481",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123786178-vjrv7rc8",
@@ -672,7 +772,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Valor anterior: Miriam Guisha.",
       "timestamp": "2026-07-15T13:56:26.178Z",
       "recordCode": "GADMR--2026-0315-IPRUS-ZNP",
-      "tramiteNumber": "1188708"
+      "tramiteNumber": "1188708",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123783929-ew2zp6gf",
@@ -685,7 +787,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Valor anterior: Miriam Guisha.",
       "timestamp": "2026-07-15T13:56:23.929Z",
       "recordCode": "GADMR--2026-0278-IPRUS-ZNP",
-      "tramiteNumber": "1184568"
+      "tramiteNumber": "1184568",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123781331-o9k2buvf",
@@ -698,7 +802,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Valor anterior: Miriam Guisha.",
       "timestamp": "2026-07-15T13:56:21.331Z",
       "recordCode": "GADMR--2026-0230-IPRUS-ZNP",
-      "tramiteNumber": "1176427"
+      "tramiteNumber": "1176427",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123774706-2zqmrkc7",
@@ -711,7 +817,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:56:14.706Z",
       "recordCode": "GADMR--2026-0275-IPRUS-ZNP",
-      "tramiteNumber": "1184091"
+      "tramiteNumber": "1184091",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123770241-chatm9c1",
@@ -724,7 +832,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:56:10.241Z",
       "recordCode": "GADMR--2026-0009-IPRUS-ZP",
-      "tramiteNumber": "1177429"
+      "tramiteNumber": "1177429",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123764249-2aca3o3l",
@@ -737,7 +847,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:56:04.249Z",
       "recordCode": "GADMR--2026-0324-IPRUS-ZNP",
-      "tramiteNumber": "1190481"
+      "tramiteNumber": "1190481",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123760561-z50ctp6r",
@@ -750,7 +862,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:56:00.561Z",
       "recordCode": "GADMR--2026-0315-IPRUS-ZNP",
-      "tramiteNumber": "1188708"
+      "tramiteNumber": "1188708",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123756320-tcoytgd3",
@@ -763,7 +877,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:55:56.320Z",
       "recordCode": "GADMR--2026-0278-IPRUS-ZNP",
-      "tramiteNumber": "1184568"
+      "tramiteNumber": "1184568",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1784123751184-vfzfglg0",
@@ -776,7 +892,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-15T13:55:51.184Z",
       "recordCode": "GADMR--2026-0230-IPRUS-ZNP",
-      "tramiteNumber": "1176427"
+      "tramiteNumber": "1176427",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783952536580-z7op6fzy",
@@ -789,7 +907,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Resultado técnico actual: EN REVISIÓN.",
       "timestamp": "2026-07-13T14:22:16.580Z",
       "recordCode": "GADMR--2026-0341-IPRUS-ZNP",
-      "tramiteNumber": "1192211"
+      "tramiteNumber": "1192211",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783952460393-f22yuwhu",
@@ -802,7 +922,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "GEOREFERENCIADO.jpg",
       "timestamp": "2026-07-13T14:21:00.393Z",
       "recordCode": "GADMR--2026-0264-IPRUS-ZNP",
-      "tramiteNumber": "1182104"
+      "tramiteNumber": "1182104",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783952419086-awvf69yb",
@@ -815,7 +937,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Resultado técnico actual: FAVORABLE.",
       "timestamp": "2026-07-13T14:20:19.086Z",
       "recordCode": "GADMR--2026-0264-IPRUS-ZNP",
-      "tramiteNumber": "1182104"
+      "tramiteNumber": "1182104",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783952415552-zm6unbcw",
@@ -828,7 +952,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Resultado técnico actual: EN REVISIÓN.",
       "timestamp": "2026-07-13T14:20:15.552Z",
       "recordCode": "GADMR--2026-0264-IPRUS-ZNP",
-      "tramiteNumber": "1182104"
+      "tramiteNumber": "1182104",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783952406142-mojsuq48",
@@ -841,7 +967,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Resultado técnico actual: EN REVISIÓN.",
       "timestamp": "2026-07-13T14:20:06.142Z",
       "recordCode": "GADMR--2026-0264-IPRUS-ZNP",
-      "tramiteNumber": "1182104"
+      "tramiteNumber": "1182104",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783952403180-9t9zgk0o",
@@ -854,7 +982,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Resultado técnico actual: EN REVISIÓN.",
       "timestamp": "2026-07-13T14:20:03.180Z",
       "recordCode": "GADMR--2026-0264-IPRUS-ZNP",
-      "tramiteNumber": "1182104"
+      "tramiteNumber": "1182104",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783952375302-mqk5p3fu",
@@ -867,7 +997,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Resultado técnico actual: EN REVISIÓN.",
       "timestamp": "2026-07-13T14:19:35.302Z",
       "recordCode": "GADMR--2026-0264-IPRUS-ZNP",
-      "tramiteNumber": "1182104"
+      "tramiteNumber": "1182104",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783952371924-xxvpfu97",
@@ -880,7 +1012,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Resultado técnico actual: EN REVISIÓN.",
       "timestamp": "2026-07-13T14:19:31.924Z",
       "recordCode": "GADMR--2026-0264-IPRUS-ZNP",
-      "tramiteNumber": "1182104"
+      "tramiteNumber": "1182104",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783950374350-7qi7y79f",
@@ -893,7 +1027,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-13T13:46:14.350Z",
       "recordCode": "GADMR--2026-0380-IPRUS-ZNP",
-      "tramiteNumber": "1200908"
+      "tramiteNumber": "1200908",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783950352302-0ww5g6p1",
@@ -906,7 +1042,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-13T13:45:52.302Z",
       "recordCode": "GADMR--2026-0381-IPRUS-ZNP",
-      "tramiteNumber": "1200984"
+      "tramiteNumber": "1200984",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783950329965-9gewa76f",
@@ -919,7 +1057,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-13T13:45:29.965Z",
       "recordCode": "GADMR--2026-0382-IPRUS-ZNP",
-      "tramiteNumber": "1200988"
+      "tramiteNumber": "1200988",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783950313333-ycnqeyvs",
@@ -932,7 +1072,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-13T13:45:13.333Z",
       "recordCode": "GADMR--2026-0383-IPRUS-ZNP",
-      "tramiteNumber": "1201004"
+      "tramiteNumber": "1201004",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783949956692-xv2i3jd3",
@@ -945,7 +1087,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-13T13:39:16.692Z",
       "recordCode": "GADMR--2026-0384-IPRUS-ZNP",
-      "tramiteNumber": "1201169"
+      "tramiteNumber": "1201169",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783949942395-xka2rjyl",
@@ -958,7 +1102,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-13T13:39:02.395Z",
       "recordCode": "GADMR--2026-0386-IPRUS-ZNP",
-      "tramiteNumber": "1201301"
+      "tramiteNumber": "1201301",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783949930291-0az38kp0",
@@ -971,7 +1117,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-13T13:38:50.291Z",
       "recordCode": "GADMR--2026-0387-IPRUS-ZNP",
-      "tramiteNumber": "1201332"
+      "tramiteNumber": "1201332",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783949915099-jdveem5j",
@@ -984,7 +1132,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-13T13:38:35.099Z",
       "recordCode": "GADMR--2026-0388-IPRUS-ZNP",
-      "tramiteNumber": "1201411"
+      "tramiteNumber": "1201411",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783949903483-mym3gnnc",
@@ -997,7 +1147,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-13T13:38:23.483Z",
       "recordCode": "GADMR--2026-0390-IPRUS-ZNP",
-      "tramiteNumber": "1201414"
+      "tramiteNumber": "1201414",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783949889887-gqwwpenw",
@@ -1010,7 +1162,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Resultado técnico actual: EN REVISIÓN.",
       "timestamp": "2026-07-13T13:38:09.887Z",
       "recordCode": "GADMR--2026-0264-IPRUS-ZNP",
-      "tramiteNumber": "1182104"
+      "tramiteNumber": "1182104",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783949729166-ilkklyu3",
@@ -1023,7 +1177,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-13T13:35:29.166Z",
       "recordCode": "GADMR--2026-0393-IPRUS-ZNP",
-      "tramiteNumber": "1201727"
+      "tramiteNumber": "1201727",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783949710270-033dao8u",
@@ -1036,7 +1192,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-13T13:35:10.270Z",
       "recordCode": "GADMR--2026-0394-IPRUS-ZNP",
-      "tramiteNumber": "1201984"
+      "tramiteNumber": "1201984",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783949691565-6to1yk5u",
@@ -1049,7 +1207,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-13T13:34:51.565Z",
       "recordCode": "GADMR--2026-0395-IPRUS-ZNP",
-      "tramiteNumber": "1202083"
+      "tramiteNumber": "1202083",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783949672884-vsmzu4ga",
@@ -1062,7 +1222,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-13T13:34:32.884Z",
       "recordCode": "GADMR--2026-0396-IPRUS-ZNP",
-      "tramiteNumber": "1202120"
+      "tramiteNumber": "1202120",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783949655420-vkgrnx2h",
@@ -1075,7 +1237,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-13T13:34:15.420Z",
       "recordCode": "GADMR--2026-0397-IPRUS-ZNP",
-      "tramiteNumber": "1202430"
+      "tramiteNumber": "1202430",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783704231978-fsgy4z2g",
@@ -1088,7 +1252,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "",
       "timestamp": "2026-07-10T17:23:51.978Z",
       "recordCode": "GADMR--2026-0346-IPRUS-ZNP",
-      "tramiteNumber": "1193677"
+      "tramiteNumber": "1193677",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783704205907-27dhajtw",
@@ -1101,7 +1267,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "La imagen fue removida de la ficha técnica.",
       "timestamp": "2026-07-10T17:23:25.907Z",
       "recordCode": "GADMR--2026-0346-IPRUS-ZNP",
-      "tramiteNumber": "1193677"
+      "tramiteNumber": "1193677",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783699163660-zg9s19bs",
@@ -1114,7 +1282,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "De acuerdo con el levantamiento planimétrico las coordenadas del archivo dwg no tiene coherencia con el levantamiento planimétrico en formato pdf",
       "timestamp": "2026-07-10T15:59:23.660Z",
       "recordCode": "GADMR--2026-0346-IPRUS-ZNP",
-      "tramiteNumber": "1193677"
+      "tramiteNumber": "1193677",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783699103516-knnu8620",
@@ -1127,7 +1297,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "De acuerdo con el levantamiento planimétrico",
       "timestamp": "2026-07-10T15:58:23.516Z",
       "recordCode": "GADMR--2026-0346-IPRUS-ZNP",
-      "tramiteNumber": "1193677"
+      "tramiteNumber": "1193677",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783699083776-9y0qyt52",
@@ -1140,7 +1312,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "D",
       "timestamp": "2026-07-10T15:58:03.776Z",
       "recordCode": "GADMR--2026-0346-IPRUS-ZNP",
-      "tramiteNumber": "1193677"
+      "tramiteNumber": "1193677",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783699043653-r97isbw0",
@@ -1153,7 +1327,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "En la actualización del levantamiento planimétrico, se debe constatar el ancho de vía y acera. Adicionalmente en base a la ortofoto institucional, se evidencia la ortofoto institucional se evidencia una construcción por lo que es necesario ser reflejado en la planimetría.",
       "timestamp": "2026-07-10T15:57:23.653Z",
       "recordCode": "GADMR--2026-0346-IPRUS-ZNP",
-      "tramiteNumber": "1193677"
+      "tramiteNumber": "1193677",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783698935858-rak01x3g",
@@ -1166,7 +1342,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "En la actualización del levantamiento planimétrico, se debe constatar el ancho de vía y acera. Adicionalmente en base a la ortofoto institucional, se evidencia la ortofoto institucional se evidencia una construcción por lo que es necesario constatar en la planimetría.",
       "timestamp": "2026-07-10T15:55:35.858Z",
       "recordCode": "GADMR--2026-0346-IPRUS-ZNP",
-      "tramiteNumber": "1193677"
+      "tramiteNumber": "1193677",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783698803681-6ge5ioxf",
@@ -1179,7 +1357,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "En la actualización del levantamiento planimétrico, se debe constatar el ancho de vía y acera.",
       "timestamp": "2026-07-10T15:53:23.681Z",
       "recordCode": "GADMR--2026-0346-IPRUS-ZNP",
-      "tramiteNumber": "1193677"
+      "tramiteNumber": "1193677",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783698751568-8407j086",
@@ -1192,7 +1372,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "COORDENADAS DE REFERENCIA .jpg",
       "timestamp": "2026-07-10T15:52:31.568Z",
       "recordCode": "GADMR--2026-0346-IPRUS-ZNP",
-      "tramiteNumber": "1193677"
+      "tramiteNumber": "1193677",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783697209496-w7nqtebh",
@@ -1205,7 +1387,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Resultado técnico actual: NO FAVORABLE.",
       "timestamp": "2026-07-10T15:26:49.496Z",
       "recordCode": "GADMR--2026-0346-IPRUS-ZNP",
-      "tramiteNumber": "1193677"
+      "tramiteNumber": "1193677",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783697008105-d71ddpz2",
@@ -1218,7 +1402,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Resultado técnico actual: NO FAVORABLE.",
       "timestamp": "2026-07-10T15:23:28.105Z",
       "recordCode": "GADMR--2026-0346-IPRUS-ZNP",
-      "tramiteNumber": "1193677"
+      "tramiteNumber": "1193677",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783696994836-an8tpd9a",
@@ -1231,7 +1417,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Resultado técnico actual: NO FAVORABLE.",
       "timestamp": "2026-07-10T15:23:14.837Z",
       "recordCode": "GADMR--2026-0346-IPRUS-ZNP",
-      "tramiteNumber": "1193677"
+      "tramiteNumber": "1193677",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783696988039-opqkb5ou",
@@ -1244,7 +1432,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Resultado técnico actual: EN REVISIÓN.",
       "timestamp": "2026-07-10T15:23:08.039Z",
       "recordCode": "GADMR--2026-0346-IPRUS-ZNP",
-      "tramiteNumber": "1193677"
+      "tramiteNumber": "1193677",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783696986097-gk3wk50y",
@@ -1257,7 +1447,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Resultado técnico actual: EN REVISIÓN.",
       "timestamp": "2026-07-10T15:23:06.097Z",
       "recordCode": "GADMR--2026-0346-IPRUS-ZNP",
-      "tramiteNumber": "1193677"
+      "tramiteNumber": "1193677",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783696895268-olcwxn7j",
@@ -1270,7 +1462,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Resultado técnico actual: EN REVISIÓN.",
       "timestamp": "2026-07-10T15:21:35.268Z",
       "recordCode": "GADMR--2026-0346-IPRUS-ZNP",
-      "tramiteNumber": "1193677"
+      "tramiteNumber": "1193677",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783696849558-fxhninqy",
@@ -1283,7 +1477,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "Resultado técnico actual: EN REVISIÓN.",
       "timestamp": "2026-07-10T15:20:49.558Z",
       "recordCode": "GADMR--2026-0346-IPRUS-ZNP",
-      "tramiteNumber": "1193677"
+      "tramiteNumber": "1193677",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783638202173-9gd09z83",
@@ -1296,7 +1492,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-09T23:03:22.173Z",
       "recordCode": "GADMR--2026-0355-IPRUS-ZNP",
-      "tramiteNumber": "1195334"
+      "tramiteNumber": "1195334",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783638182772-6cil3dwo",
@@ -1309,7 +1507,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-09T23:03:02.772Z",
       "recordCode": "GADMR--2026-0348-IPRUS-ZNP",
-      "tramiteNumber": "1194060"
+      "tramiteNumber": "1194060",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783638058073-kdktcmhd",
@@ -1322,7 +1522,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-09T23:00:58.073Z",
       "recordCode": "GADMR--2026-0346-IPRUS-ZNP",
-      "tramiteNumber": "1193677"
+      "tramiteNumber": "1193677",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783638037584-7cmagoqc",
@@ -1335,7 +1537,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-09T23:00:37.584Z",
       "recordCode": "GADMR--2026-0344-IPRUS-ZNP",
-      "tramiteNumber": "1193013"
+      "tramiteNumber": "1193013",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783637970863-1kf2hzo5",
@@ -1348,7 +1552,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-09T22:59:30.863Z",
       "recordCode": "GADMR--2026-0343-IPRUS-ZNP",
-      "tramiteNumber": "1192896"
+      "tramiteNumber": "1192896",
+      "assignedTo": "",
+      "assignedFrom": ""
     },
     {
       "id": "1783637908045-ifjtyqwq",
@@ -1361,7 +1567,9 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       "detail": "No existía una asignación interna previa.",
       "timestamp": "2026-07-09T22:58:28.045Z",
       "recordCode": "GADMR--2026-0264-IPRUS-ZNP",
-      "tramiteNumber": "1182104"
+      "tramiteNumber": "1182104",
+      "assignedTo": "",
+      "assignedFrom": ""
     }
   ]
 };
