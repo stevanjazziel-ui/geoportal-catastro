@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-22",
-  "generatedAt": "2026-07-22T15:17:51",
+  "generatedAt": "2026-07-22T15:41:17",
   "records": [
     {
       "estado": "Asignado",
@@ -1714,14 +1714,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "En espera",
+      "estado": "Complementado",
       "tramite": "Trámite: 1208487 GADMR--2026-0431-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "CADENA VELASTEGUI MARITZA ALEXANDRA - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Angel Javier Tamayo Cepeda",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "Tiempo detenido",
+      "fechaLimite": "2026-07-30",
       "fechaIngreso": "2026-07-16T11:06:00",
       "codigo": "GADMR--2026-0431-IPRUS-ZNP",
       "nroTramite": 1208487,
@@ -1729,6 +1729,9 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "CADENA VELASTEGUI MARITZA ALEXANDRA",
       "reasignadoPorCargo": "Analista De Avaluos Y Catastros De Asesoria Legal 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "tiempoRestante": "(8 días)",
+      "diasRestantes": 8,
+      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
@@ -1744,7 +1747,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "SIN OBSERVACIONES LEGALES",
       "egobLatestReassignmentAt": "2026-07-16 11:06",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobJournalCount": 6,
+      "egobJournalCount": 7,
       "egobRelevantNotes": []
     },
     {
@@ -4423,16 +4426,16 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 100,
     "priorities": {
-      "Sin prioridad": 61,
-      "Normal": 25,
+      "Sin prioridad": 60,
+      "Normal": 26,
       "Crítico": 4,
       "Urgente": 10
     },
     "states": {
       "Asignado": 61,
-      "En espera": 14,
+      "En espera": 13,
       "Nuevo": 1,
-      "Complementado": 24
+      "Complementado": 25
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 100
@@ -4622,27 +4625,17 @@ window.TRAMITES_IPRUS_DATA = {
       "sourceRow": 99,
       "id": "GADMR--2026-0230-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
-      "egobOutcomeRule": "subsanacion",
-      "egobOutcomeNote": "OBSERVACIONES: Se concede un plazo de cinco (5) días hábiles para la subsanación de las observaciones señaladas, al tratarse de la segunda notificación. Por favor, revisar los archivos adjuntos para la correcta atención de lo requerido.",
-      "egobOutcomeAt": "2026-06-29 14:50",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-      "egobOutcomeEntryType": "Registro",
-      "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
-      "egobLatestReassignmentAt": "2026-07-02 17:37",
-      "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 17,
+      "egobOutcomeRule": "no_favorable",
+      "egobOutcomeNote": "De la revisión efectuada, se determina que el trámite N.º 1176427 no es favorable, debido a que el área de la planimetría ingresada no se encuentra dentro del rango permitido por el ETAM. Se evidencia que el área del levantamiento planimétrico es de 886,62 m², mientras que en el certificado de gravamen consta un área de 1.011,54 m², existiendo una diferencia de área que no permite continuar favorablemente con el trámite en las condiciones presentadas. Cabe señalar que el levantamiento planimétrico fue realizado conforme a la realidad física del predio; sin embargo, al existir una diferencia entre el área levantada y el área constante en el gravamen, corresponde realizar la respectiva regularización del área. Por tal motivo, previo a continuar con el presente trámite, se deberá realizar el procedimiento correspondiente de excedentes o diferencias de áreas, a fin de regularizar técnicamente la superficie del predio y garantizar concordancia entre la documentación legal, la planimetría y la realidad física existente.",
+      "egobOutcomeAt": "2026-07-22 15:37",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
+      "egobLatestReassignmentNote": "De la revisión efectuada, se determina que el trámite N.º 1176427 no es favorable, debido a que el área de la planimetría ingresada no se encuentra dentro del rango permitido por el ETAM. Se evidencia que el área del levantamiento planimétrico es de 886,62 m², mientras que en el certificado de gravamen consta un área de 1.011,54 m², existiendo una diferencia de área que no permite continuar favorablemente con el trámite en las condiciones presentadas. Cabe señalar que el levantamiento planimétrico fue realizado conforme a la realidad física del predio; sin embargo, al existir una diferencia entre el área levantada y el área constante en el gravamen, corresponde realizar la respectiva regularización del área. Por tal motivo, previo a continuar con el presente trámite, se deberá realizar el procedimiento correspondiente de excedentes o diferencias de áreas, a fin de regularizar técnicamente la superficie del predio y garantizar concordancia entre la documentación legal, la planimetría y la realidad física existente.",
+      "egobLatestReassignmentAt": "2026-07-22 15:37",
+      "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobJournalCount": 18,
       "egobRelevantNotes": [
-        {
-          "journalId": "6662256",
-          "entryType": "Registro",
-          "timestamp": "2026-06-19 15:12",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "INFORME CON OBSERVACIONES",
-          "outcome": "NO FAVORABLE",
-          "rule": "informe_con_observaciones"
-        },
         {
           "journalId": "6662261",
           "entryType": "Registro",
@@ -4682,6 +4675,16 @@ window.TRAMITES_IPRUS_DATA = {
           "note": "OBSERVACIONES: Se concede un plazo de cinco (5) días hábiles para la subsanación de las observaciones señaladas, al tratarse de la segunda notificación. Por favor, revisar los archivos adjuntos para la correcta atención de lo requerido.",
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
+        },
+        {
+          "journalId": "6872693",
+          "entryType": "Reasignación",
+          "timestamp": "2026-07-22 15:37",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "De la revisión efectuada, se determina que el trámite N.º 1176427 no es favorable, debido a que el área de la planimetría ingresada no se encuentra dentro del rango permitido por el ETAM. Se evidencia que el área del levantamiento planimétrico es de 886,62 m², mientras que en el certificado de gravamen consta un área de 1.011,54 m², existiendo una diferencia de área que no permite continuar favorablemente con el trámite en las condiciones presentadas. Cabe señalar que el levantamiento planimétrico fue realizado conforme a la realidad física del predio; sin embargo, al existir una diferencia entre el área levantada y el área constante en el gravamen, corresponde realizar la respectiva regularización del área. Por tal motivo, previo a continuar con el presente trámite, se deberá realizar el procedimiento correspondiente de excedentes o diferencias de áreas, a fin de regularizar técnicamente la superficie del predio y garantizar concordancia entre la documentación legal, la planimetría y la realidad física existente.",
+          "outcome": "NO FAVORABLE",
+          "rule": "no_favorable"
         }
       ],
       "historyArchivedAt": "2026-07-22T15:08:57",
@@ -5397,8 +5400,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-21T10:27:14",
       "historyLastSeenAt": "2026-07-21T09:58:50",
-      "historyStatus": "Historico",
-      "egobSyncError": "('Connection aborted.', ConnectionResetError(10054, 'Se ha forzado la interrupción de una conexión existente por el host remoto', None, 10054, None))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Asignado",
@@ -5446,8 +5448,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-21T09:57:13",
       "historyLastSeenAt": "2026-07-21T09:28:40",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1201332 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -5535,8 +5536,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-21T09:57:13",
       "historyLastSeenAt": "2026-07-21T09:28:40",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1191791 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Asignado",
@@ -5584,8 +5584,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-20T16:50:12",
       "historyLastSeenAt": "2026-07-20T16:23:39",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1201249 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -5656,8 +5655,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-20T15:22:10",
       "historyLastSeenAt": "2026-07-20T14:54:20",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1189049 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -5748,8 +5746,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-20T12:13:22",
       "historyLastSeenAt": "2026-07-20T11:44:46",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1165210 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Asignado",
@@ -5807,8 +5804,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-20T11:13:26",
       "historyLastSeenAt": "2026-07-20T10:44:44",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1200300 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Asignado",
@@ -5866,8 +5862,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-20T10:13:17",
       "historyLastSeenAt": "2026-07-20T09:42:58",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1191961 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Asignado",
@@ -5904,8 +5899,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": [],
       "historyArchivedAt": "2026-07-20T09:41:17",
       "historyLastSeenAt": "2026-07-20T09:14:41",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1187219 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Asignado",
@@ -5953,8 +5947,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-20T09:13:19",
       "historyLastSeenAt": "2026-07-20T08:44:37",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1200550 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -6043,8 +6036,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-17T11:30:38",
       "historyLastSeenAt": "2026-07-17T10:59:24",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1176225 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -6125,8 +6117,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-17T08:28:54",
       "historyLastSeenAt": "2026-07-16T17:37:37",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1186087 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -6174,8 +6165,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-16T17:36:28",
       "historyLastSeenAt": "2026-07-16T17:07:11",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1194361 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -6256,8 +6246,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-16T17:06:03",
       "historyLastSeenAt": "2026-07-16T16:37:13",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1188708 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Asignado",
@@ -6308,8 +6297,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-16T16:36:06",
       "historyLastSeenAt": "2026-07-16T16:07:13",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1193013 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Asignado",
@@ -6377,8 +6365,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-16T15:35:55",
       "historyLastSeenAt": "2026-07-16T15:05:02",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1191697 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -6469,8 +6456,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-16T12:07:58",
       "historyLastSeenAt": "2026-07-16T11:43:48",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1186666 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "En espera",
@@ -6518,8 +6504,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-16T11:07:59",
       "historyLastSeenAt": "2026-07-16T10:38:55",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1190810 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -6600,8 +6585,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-16T09:38:25",
       "historyLastSeenAt": "2026-07-16T08:59:57",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1183603 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -6692,8 +6676,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-15T17:33:12",
       "historyLastSeenAt": "2026-07-15T17:02:07",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1168679 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -6774,8 +6757,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-15T17:01:10",
       "historyLastSeenAt": "2026-07-15T16:34:11",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1184867 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -6866,8 +6848,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-15T12:24:14",
       "historyLastSeenAt": "2026-07-15T11:55:07",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1161745 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Asignado",
@@ -6935,8 +6916,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-15T11:54:13",
       "historyLastSeenAt": "2026-07-15T11:25:19",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1195334 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Asignado",
@@ -6987,8 +6967,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-15T10:24:04",
       "historyLastSeenAt": "2026-07-15T09:55:15",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1202430 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Complementado",
@@ -7069,8 +7048,7 @@ window.TRAMITES_IPRUS_DATA = {
       ],
       "historyArchivedAt": "2026-07-15T09:54:19",
       "historyLastSeenAt": "2026-07-15T09:34:59",
-      "historyStatus": "Historico",
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1177429 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "historyStatus": "Historico"
     },
     {
       "estado": "Asignado",
@@ -7121,8 +7099,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1202083 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -7173,8 +7150,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1182104 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -7245,8 +7221,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1194060 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -7314,8 +7289,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1191269 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -7393,8 +7367,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1175469 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -7445,8 +7418,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "no_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1202120 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -7524,8 +7496,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1190638 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -7603,8 +7574,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1188349 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -7675,8 +7645,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1185641 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -7727,8 +7696,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1197763 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -7816,8 +7784,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1166871 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -7885,8 +7852,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1194040 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -7957,8 +7923,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1192211 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -8006,8 +7971,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1184996 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -8055,8 +8019,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "no_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1186529 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -8117,8 +8080,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1191723 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -8169,8 +8131,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1197359 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -8219,8 +8180,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1195995 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -8308,8 +8268,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1160423 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -8400,8 +8359,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1179291 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -8452,8 +8410,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1203017 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -8493,8 +8450,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAt": "2026-07-09 16:09",
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobJournalCount": 12,
-      "egobRelevantNotes": [],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1191909 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      "egobRelevantNotes": []
     },
     {
       "estado": "Complementado",
@@ -8565,8 +8521,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1184476 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -8624,8 +8579,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1190558 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Asignado",
@@ -8716,8 +8670,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1170034 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     },
     {
       "estado": "Complementado",
@@ -8806,8 +8759,7 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "tramite_iprus_favorable"
         }
-      ],
-      "egobSyncError": "HTTPSConnectionPool(host='egobedoc.gadmriobamba.gob.ec', port=8081): Max retries exceeded with url: /issues/1162256 (Caused by NameResolutionError(\"HTTPSConnection(host='egobedoc.gadmriobamba.gob.ec', port=8081): Failed to resolve 'egobedoc.gadmriobamba.gob.ec' ([Errno 11001] getaddrinfo failed)\"))"
+      ]
     }
   ],
   "historySummary": {
