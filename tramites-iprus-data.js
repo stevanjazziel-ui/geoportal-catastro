@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-23",
-  "generatedAt": "2026-07-23T11:53:21",
+  "generatedAt": "2026-07-23T11:55:23",
   "records": [
     {
       "estado": "Asignado",
@@ -3940,7 +3940,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "Se emite criterio legal FAVORABLE, remito a la parte tecnica.",
       "egobLatestReassignmentAt": "2026-07-03 12:01",
       "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobJournalCount": 5,
+      "egobJournalCount": 6,
       "egobRelevantNotes": []
     },
     {
@@ -4132,7 +4132,7 @@ window.TRAMITES_IPRUS_DATA = {
           "rule": "no_favorable"
         }
       ],
-      "historyArchivedAt": "2026-07-23T11:51:08",
+      "historyArchivedAt": "2026-07-23T11:53:14",
       "historyLastSeenAt": "2026-07-23T11:23:17",
       "historyStatus": "Historico"
     },
@@ -4203,7 +4203,7 @@ window.TRAMITES_IPRUS_DATA = {
           "rule": "tramite_iprus_favorable"
         }
       ],
-      "historyArchivedAt": "2026-07-23T11:51:08",
+      "historyArchivedAt": "2026-07-23T11:53:14",
       "historyLastSeenAt": "2026-07-23T11:23:17",
       "historyStatus": "Historico"
     },
