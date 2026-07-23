@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-23",
-  "generatedAt": "2026-07-23T16:36:11",
+  "generatedAt": "2026-07-23T16:38:22",
   "records": [
     {
       "estado": "Asignado",
@@ -3673,18 +3673,29 @@ window.TRAMITES_IPRUS_DATA = {
       "asignadoInterno": "caizaluisae",
       "sourceRow": 85,
       "id": "GADMR--2026-0399-IPRUS-ZNP",
-      "egobOutcome": "EN REVISIÓN",
-      "egobOutcomeRule": "",
-      "egobOutcomeNote": "",
-      "egobOutcomeAt": "",
-      "egobOutcomeAuthor": "",
-      "egobOutcomeAuthorRole": "",
-      "egobOutcomeEntryType": "",
-      "egobLatestReassignmentNote": "Se emite criterio legal FAVORABLE, continuar con las observaciones técnicas.",
-      "egobLatestReassignmentAt": "2026-07-20 10:41",
-      "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobJournalCount": 7,
-      "egobRelevantNotes": []
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "no_favorable",
+      "egobOutcomeNote": "IPRUS no favorable, no da respuesta a las observaciones solicitadas.",
+      "egobOutcomeAt": "2026-07-23 16:34",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
+      "egobLatestReassignmentNote": "IPRUS no favorable, no da respuesta a las observaciones solicitadas.",
+      "egobLatestReassignmentAt": "2026-07-23 16:34",
+      "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobJournalCount": 8,
+      "egobRelevantNotes": [
+        {
+          "journalId": "6889167",
+          "entryType": "Reasignación",
+          "timestamp": "2026-07-23 16:34",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "IPRUS no favorable, no da respuesta a las observaciones solicitadas.",
+          "outcome": "NO FAVORABLE",
+          "rule": "no_favorable"
+        }
+      ]
     },
     {
       "estado": "Complementado",
@@ -3974,7 +3985,7 @@ window.TRAMITES_IPRUS_DATA = {
           "rule": "tramite_iprus_favorable"
         }
       ],
-      "historyArchivedAt": "2026-07-23T16:33:57",
+      "historyArchivedAt": "2026-07-23T16:36:01",
       "historyLastSeenAt": "2026-07-23T16:08:27",
       "historyStatus": "Historico"
     },
@@ -4014,7 +4025,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "egobJournalCount": 5,
       "egobRelevantNotes": [],
-      "historyArchivedAt": "2026-07-23T16:33:57",
+      "historyArchivedAt": "2026-07-23T16:36:01",
       "historyLastSeenAt": "2026-07-23T16:08:27",
       "historyStatus": "Historico"
     },
@@ -4062,7 +4073,7 @@ window.TRAMITES_IPRUS_DATA = {
           "rule": "no_favorable"
         }
       ],
-      "historyArchivedAt": "2026-07-23T16:33:57",
+      "historyArchivedAt": "2026-07-23T16:36:01",
       "historyLastSeenAt": "2026-07-23T16:08:27",
       "historyStatus": "Historico"
     },
