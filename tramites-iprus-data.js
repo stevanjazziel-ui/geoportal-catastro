@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-23",
-  "generatedAt": "2026-07-23T08:54:55",
+  "generatedAt": "2026-07-23T09:22:56",
   "records": [
     {
       "estado": "Asignado",
@@ -2293,14 +2293,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Complementado",
+      "estado": "En espera",
       "tramite": "Trámite: 1201727 GADMR--2026-0393-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "INGA JARAMILLO MARJORIE SALOME - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-07-22",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-07-15T08:32:00",
       "codigo": "GADMR--2026-0393-IPRUS-ZNP",
       "nroTramite": 1201727,
@@ -2308,9 +2308,6 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "INGA JARAMILLO MARJORIE SALOME",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(Vencido hace 1 días)",
-      "diasRestantes": 1,
-      "prioridad": "Crítico",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
@@ -2326,7 +2323,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-07-15 08:32",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 9,
+      "egobJournalCount": 10,
       "egobRelevantNotes": []
     },
     {
@@ -4164,16 +4161,16 @@ window.TRAMITES_IPRUS_DATA = {
       "sourceRow": 97,
       "id": "GADMR--2026-0278-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
-      "egobOutcomeRule": "subsanacion",
-      "egobOutcomeNote": "OBSERVACIONES: Se concede un plazo de diez (10) días hábiles para la subsanación de las observaciones señaladas. Por favor, revisar los archivos adjuntos para la correcta atención de lo requerido.",
-      "egobOutcomeAt": "2026-06-25 07:51",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-      "egobOutcomeEntryType": "Registro",
-      "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
-      "egobLatestReassignmentAt": "2026-07-03 11:57",
-      "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 11,
+      "egobOutcomeRule": "no_favorable",
+      "egobOutcomeNote": "Se reasigna tramite IPRUS no favorable, con las siguientes observaciones 1. El trámite N.º 1184568 no es favorable en las condiciones presentadas. 2. Los puntos 3 y 4 se encuentran desplazados. 3. El levantamiento planimétrico no se ajusta correctamente a la realidad física del predio. 4. Se deberá corregir la ubicación de los puntos observados conforme a los linderos reales existentes en sitio. 5. El levantamiento deberá realizarse con equipos topográficos de precisión. 6. De no presentarse el levantamiento corregido y respaldado técnicamente, no se dará paso al trámite.",
+      "egobOutcomeAt": "2026-07-23 09:18",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
+      "egobLatestReassignmentNote": "Se reasigna tramite IPRUS no favorable, con las siguientes observaciones 1. El trámite N.º 1184568 no es favorable en las condiciones presentadas. 2. Los puntos 3 y 4 se encuentran desplazados. 3. El levantamiento planimétrico no se ajusta correctamente a la realidad física del predio. 4. Se deberá corregir la ubicación de los puntos observados conforme a los linderos reales existentes en sitio. 5. El levantamiento deberá realizarse con equipos topográficos de precisión. 6. De no presentarse el levantamiento corregido y respaldado técnicamente, no se dará paso al trámite.",
+      "egobLatestReassignmentAt": "2026-07-23 09:18",
+      "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobJournalCount": 12,
       "egobRelevantNotes": [
         {
           "journalId": "6676223",
@@ -4214,6 +4211,16 @@ window.TRAMITES_IPRUS_DATA = {
           "note": "OBSERVACIONES: Se concede un plazo de diez (10) días hábiles para la subsanación de las observaciones señaladas. Por favor, revisar los archivos adjuntos para la correcta atención de lo requerido.",
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
+        },
+        {
+          "journalId": "6876651",
+          "entryType": "Reasignación",
+          "timestamp": "2026-07-23 09:18",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Se reasigna tramite IPRUS no favorable, con las siguientes observaciones 1. El trámite N.º 1184568 no es favorable en las condiciones presentadas. 2. Los puntos 3 y 4 se encuentran desplazados. 3. El levantamiento planimétrico no se ajusta correctamente a la realidad física del predio. 4. Se deberá corregir la ubicación de los puntos observados conforme a los linderos reales existentes en sitio. 5. El levantamiento deberá realizarse con equipos topográficos de precisión. 6. De no presentarse el levantamiento corregido y respaldado técnicamente, no se dará paso al trámite.",
+          "outcome": "NO FAVORABLE",
+          "rule": "no_favorable"
         }
       ]
     },
@@ -4303,16 +4310,16 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 99,
     "priorities": {
-      "Sin prioridad": 61,
+      "Sin prioridad": 62,
       "Normal": 24,
       "Urgente": 5,
-      "Crítico": 9
+      "Crítico": 8
     },
     "states": {
       "Asignado": 60,
-      "En espera": 14,
+      "En espera": 15,
       "Nuevo": 1,
-      "Complementado": 24
+      "Complementado": 23
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 99
