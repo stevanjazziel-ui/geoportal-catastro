@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-23",
-  "generatedAt": "2026-07-23T10:23:05",
+  "generatedAt": "2026-07-23T10:25:04",
   "records": [
     {
       "estado": "Asignado",
@@ -3977,40 +3977,6 @@ window.TRAMITES_IPRUS_DATA = {
     },
     {
       "estado": "En espera",
-      "tramite": "Trámite: 1195727 GADMR--2026-0356-IPRUS-ZNP",
-      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
-      "asunto": "SEFLA CASTRO ERNESTO PATRICIO - IPRUS FUERA DE ZONA PATRIMONIAL",
-      "reasignadoPor": "Angel Javier Tamayo Cepeda",
-      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "expediente": "--",
-      "fechaLimite": "Tiempo detenido",
-      "fechaIngreso": "2026-07-06T10:42:00",
-      "codigo": "GADMR--2026-0356-IPRUS-ZNP",
-      "nroTramite": 1195727,
-      "issueId": "1195727",
-      "solicitante": "SEFLA CASTRO ERNESTO PATRICIO",
-      "reasignadoPorCargo": "Analista De Avaluos Y Catastros De Asesoria Legal 1",
-      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
-      "asignadoInterno": "caizaluisae",
-      "sourceRow": 93,
-      "id": "GADMR--2026-0356-IPRUS-ZNP",
-      "egobOutcome": "EN REVISIÓN",
-      "egobOutcomeRule": "",
-      "egobOutcomeNote": "",
-      "egobOutcomeAt": "",
-      "egobOutcomeAuthor": "",
-      "egobOutcomeAuthorRole": "",
-      "egobOutcomeEntryType": "",
-      "egobLatestReassignmentNote": "Trámite con observaciones técnicas",
-      "egobLatestReassignmentAt": "2026-07-23 10:18",
-      "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "egobJournalCount": 7,
-      "egobRelevantNotes": []
-    },
-    {
-      "estado": "En espera",
       "tramite": "Trámite: 1194750 GADMR--2026-0350-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "COSTALES VALLEJO JOSE BENJAMIN - IPRUS FUERA DE ZONA PATRIMONIAL",
@@ -4028,7 +3994,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 94,
+      "sourceRow": 93,
       "id": "GADMR--2026-0350-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -4062,7 +4028,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 95,
+      "sourceRow": 94,
       "id": "GADMR--2026-0364-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -4099,7 +4065,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 96,
+      "sourceRow": 95,
       "id": "GADMR--2026-0346-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -4133,7 +4099,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 97,
+      "sourceRow": 96,
       "id": "GADMR--2026-0343-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -4161,24 +4127,61 @@ window.TRAMITES_IPRUS_DATA = {
     }
   ],
   "summary": {
-    "total": 97,
+    "total": 96,
     "priorities": {
-      "Sin prioridad": 62,
+      "Sin prioridad": 61,
       "Normal": 22,
       "Urgente": 5,
       "Crítico": 8
     },
     "states": {
       "Asignado": 60,
-      "En espera": 14,
+      "En espera": 13,
       "Nuevo": 1,
       "Complementado": 22
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 97
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 96
     }
   },
   "historyRecords": [
+    {
+      "estado": "En espera",
+      "tramite": "Trámite: 1195727 GADMR--2026-0356-IPRUS-ZNP",
+      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
+      "asunto": "SEFLA CASTRO ERNESTO PATRICIO - IPRUS FUERA DE ZONA PATRIMONIAL",
+      "reasignadoPor": "Angel Javier Tamayo Cepeda",
+      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "expediente": "--",
+      "fechaLimite": "Tiempo detenido",
+      "fechaIngreso": "2026-07-06T10:42:00",
+      "codigo": "GADMR--2026-0356-IPRUS-ZNP",
+      "nroTramite": 1195727,
+      "issueId": "1195727",
+      "solicitante": "SEFLA CASTRO ERNESTO PATRICIO",
+      "reasignadoPorCargo": "Analista De Avaluos Y Catastros De Asesoria Legal 1",
+      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
+      "asignadoInterno": "caizaluisae",
+      "sourceRow": 93,
+      "id": "GADMR--2026-0356-IPRUS-ZNP",
+      "egobOutcome": "EN REVISIÓN",
+      "egobOutcomeRule": "",
+      "egobOutcomeNote": "",
+      "egobOutcomeAt": "",
+      "egobOutcomeAuthor": "",
+      "egobOutcomeAuthorRole": "",
+      "egobOutcomeEntryType": "",
+      "egobLatestReassignmentNote": "Trámite con observaciones técnicas",
+      "egobLatestReassignmentAt": "2026-07-23 10:18",
+      "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobJournalCount": 7,
+      "egobRelevantNotes": [],
+      "historyArchivedAt": "2026-07-23T10:23:09",
+      "historyLastSeenAt": "2026-07-23T09:55:18",
+      "historyStatus": "Historico"
+    },
     {
       "estado": "Asignado",
       "tramite": "Trámite: 1195007 GADMR--2026-0352-IPRUS-ZNP",
@@ -4236,7 +4239,7 @@ window.TRAMITES_IPRUS_DATA = {
           "rule": "no_favorable"
         }
       ],
-      "historyArchivedAt": "2026-07-23T10:21:01",
+      "historyArchivedAt": "2026-07-23T10:23:09",
       "historyLastSeenAt": "2026-07-23T09:55:18",
       "historyStatus": "Historico"
     },
@@ -8972,20 +8975,20 @@ window.TRAMITES_IPRUS_DATA = {
     }
   ],
   "historySummary": {
-    "total": 72,
+    "total": 73,
     "priorities": {
+      "Sin prioridad": 34,
       "Normal": 27,
-      "Sin prioridad": 33,
       "Urgente": 8,
       "Crítico": 4
     },
     "states": {
+      "En espera": 3,
       "Asignado": 36,
-      "En espera": 2,
       "Complementado": 34
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 72
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 73
     }
   }
 };
