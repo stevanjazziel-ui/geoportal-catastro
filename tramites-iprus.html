@@ -3837,7 +3837,18 @@
           return [];
         }
 
-        return datasetRecords.filter((record) => normalizeText(getAssignee(record.id)) === sessionAssigneeKey);
+        return datasetRecords.filter((record) => {
+          if (normalizeText(getAssignee(record.id)) !== sessionAssigneeKey) {
+            return false;
+          }
+
+          if (isHistoryTab()) {
+            return true;
+          }
+
+          const outcome = getTechnicalOutcome(record.id);
+          return outcome !== "FAVORABLE" && outcome !== "NO FAVORABLE";
+        });
       }
 
       function setModuleMode(mode) {
