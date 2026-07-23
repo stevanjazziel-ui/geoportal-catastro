@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-23",
-  "generatedAt": "2026-07-23T11:55:23",
+  "generatedAt": "2026-07-23T12:23:09",
   "records": [
     {
       "estado": "Asignado",
@@ -3737,40 +3737,6 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Asignado",
-      "tramite": "Trámite: 1200534 GADMR--2026-0374-IPRUS-ZNP",
-      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
-      "asunto": "BAUTISTA GUERRERO ARSEÑO EDWULSO - IPRUS FUERA DE ZONA PATRIMONIAL",
-      "reasignadoPor": "Angel Javier Tamayo Cepeda",
-      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "expediente": "--",
-      "fechaLimite": null,
-      "fechaIngreso": "2026-07-09T08:28:00",
-      "codigo": "GADMR--2026-0374-IPRUS-ZNP",
-      "nroTramite": 1200534,
-      "issueId": "1200534",
-      "solicitante": "BAUTISTA GUERRERO ARSEÑO EDWULSO",
-      "reasignadoPorCargo": "Analista De Avaluos Y Catastros De Asesoria Legal 1",
-      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
-      "asignadoInterno": "caizaluisae",
-      "sourceRow": 88,
-      "id": "GADMR--2026-0374-IPRUS-ZNP",
-      "egobOutcome": "EN REVISIÓN",
-      "egobOutcomeRule": "",
-      "egobOutcomeNote": "",
-      "egobOutcomeAt": "",
-      "egobOutcomeAuthor": "",
-      "egobOutcomeAuthorRole": "",
-      "egobOutcomeEntryType": "",
-      "egobLatestReassignmentNote": "sin observaciones legales",
-      "egobLatestReassignmentAt": "2026-07-09 08:28",
-      "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobJournalCount": 7,
-      "egobRelevantNotes": []
-    },
-    {
       "estado": "En espera",
       "tramite": "Trámite: 1202842 GADMR--2026-0399-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
@@ -3789,7 +3755,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 89,
+      "sourceRow": 88,
       "id": "GADMR--2026-0399-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3805,14 +3771,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "En espera",
+      "estado": "Complementado",
       "tramite": "Trámite: 1195981 GADMR--2026-0357-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "SUCUY LASSO ANDY GABRIEL - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Angel Javier Tamayo Cepeda",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "Tiempo detenido",
+      "fechaLimite": "2026-07-10",
       "fechaIngreso": "2026-07-07T15:12:00",
       "codigo": "GADMR--2026-0357-IPRUS-ZNP",
       "nroTramite": 1195981,
@@ -3820,10 +3786,13 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "SUCUY LASSO ANDY GABRIEL",
       "reasignadoPorCargo": "Analista De Avaluos Y Catastros De Asesoria Legal 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "tiempoRestante": "(Vencido hace 13 días)",
+      "diasRestantes": 13,
+      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 90,
+      "sourceRow": 89,
       "id": "GADMR--2026-0357-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3835,7 +3804,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "SIN OBSERVACIONES LEGALES",
       "egobLatestReassignmentAt": "2026-07-07 15:12",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobJournalCount": 8,
+      "egobJournalCount": 11,
       "egobRelevantNotes": []
     },
     {
@@ -3860,7 +3829,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 91,
+      "sourceRow": 90,
       "id": "GADMR--2026-0380-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3894,7 +3863,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 92,
+      "sourceRow": 91,
       "id": "GADMR--2026-0350-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3910,14 +3879,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1197860 GADMR--2026-0364-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "BARBA PINO DANIEL PACIFICO - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Veronica Patricia Sagba Ausay",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": null,
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-07-03T12:01:00",
       "codigo": "GADMR--2026-0364-IPRUS-ZNP",
       "nroTramite": 1197860,
@@ -3928,7 +3897,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 93,
+      "sourceRow": 92,
       "id": "GADMR--2026-0364-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3965,7 +3934,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 94,
+      "sourceRow": 93,
       "id": "GADMR--2026-0346-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3999,7 +3968,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 95,
+      "sourceRow": 94,
       "id": "GADMR--2026-0343-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -4027,24 +3996,72 @@ window.TRAMITES_IPRUS_DATA = {
     }
   ],
   "summary": {
-    "total": 95,
+    "total": 94,
     "priorities": {
-      "Sin prioridad": 65,
-      "Normal": 19,
+      "Sin prioridad": 63,
+      "Normal": 20,
       "Urgente": 3,
       "Crítico": 8
     },
     "states": {
-      "Asignado": 60,
+      "Asignado": 58,
       "En espera": 14,
       "Nuevo": 1,
-      "Complementado": 20
+      "Complementado": 21
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 95
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 94
     }
   },
   "historyRecords": [
+    {
+      "estado": "Asignado",
+      "tramite": "Trámite: 1200534 GADMR--2026-0374-IPRUS-ZNP",
+      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
+      "asunto": "BAUTISTA GUERRERO ARSEÑO EDWULSO - IPRUS FUERA DE ZONA PATRIMONIAL",
+      "reasignadoPor": "Angel Javier Tamayo Cepeda",
+      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "expediente": "--",
+      "fechaLimite": null,
+      "fechaIngreso": "2026-07-09T08:28:00",
+      "codigo": "GADMR--2026-0374-IPRUS-ZNP",
+      "nroTramite": 1200534,
+      "issueId": "1200534",
+      "solicitante": "BAUTISTA GUERRERO ARSEÑO EDWULSO",
+      "reasignadoPorCargo": "Analista De Avaluos Y Catastros De Asesoria Legal 1",
+      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
+      "asignadoInterno": "caizaluisae",
+      "sourceRow": 88,
+      "id": "GADMR--2026-0374-IPRUS-ZNP",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "no_favorable",
+      "egobOutcomeNote": "Observaciones 1. El trámite N.º 1200534 no es favorable en las condiciones presentadas. 2. El levantamiento planimétrico se encuentra mal georreferenciado. 3. Las coordenadas de la planimetría no concuerdan con las coordenadas verificadas en la revisión técnica. 4. Se deberá realizar un nuevo levantamiento con equipos topográficos de precisión. 5. La planimetría corregida deberá ajustarse a la realidad física del predio y presentar coordenadas correctas. 6. Se debera llenar los informes de ajuste de levantamiento adjunto o si no, no se procedera con el tramite",
+      "egobOutcomeAt": "2026-07-23 12:03",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
+      "egobLatestReassignmentNote": "Observaciones 1. El trámite N.º 1200534 no es favorable en las condiciones presentadas. 2. El levantamiento planimétrico se encuentra mal georreferenciado. 3. Las coordenadas de la planimetría no concuerdan con las coordenadas verificadas en la revisión técnica. 4. Se deberá realizar un nuevo levantamiento con equipos topográficos de precisión. 5. La planimetría corregida deberá ajustarse a la realidad física del predio y presentar coordenadas correctas. 6. Se debera llenar los informes de ajuste de levantamiento adjunto o si no, no se procedera con el tramite",
+      "egobLatestReassignmentAt": "2026-07-23 12:03",
+      "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobJournalCount": 8,
+      "egobRelevantNotes": [
+        {
+          "journalId": "6880149",
+          "entryType": "Reasignación",
+          "timestamp": "2026-07-23 12:03",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Observaciones 1. El trámite N.º 1200534 no es favorable en las condiciones presentadas. 2. El levantamiento planimétrico se encuentra mal georreferenciado. 3. Las coordenadas de la planimetría no concuerdan con las coordenadas verificadas en la revisión técnica. 4. Se deberá realizar un nuevo levantamiento con equipos topográficos de precisión. 5. La planimetría corregida deberá ajustarse a la realidad física del predio y presentar coordenadas correctas. 6. Se debera llenar los informes de ajuste de levantamiento adjunto o si no, no se procedera con el tramite",
+          "outcome": "NO FAVORABLE",
+          "rule": "no_favorable"
+        }
+      ],
+      "historyArchivedAt": "2026-07-23T12:21:00",
+      "historyLastSeenAt": "2026-07-23T11:55:23",
+      "historyStatus": "Historico"
+    },
     {
       "estado": "Complementado",
       "tramite": "Trámite: 1181594 GADMR--2026-0261-IPRUS-ZNP",
@@ -9037,20 +9054,20 @@ window.TRAMITES_IPRUS_DATA = {
     }
   ],
   "historySummary": {
-    "total": 75,
+    "total": 76,
     "priorities": {
+      "Sin prioridad": 35,
       "Urgente": 10,
-      "Sin prioridad": 34,
       "Normal": 27,
       "Crítico": 4
     },
     "states": {
+      "Asignado": 37,
       "Complementado": 36,
-      "En espera": 3,
-      "Asignado": 36
+      "En espera": 3
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 75
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 76
     }
   }
 };
