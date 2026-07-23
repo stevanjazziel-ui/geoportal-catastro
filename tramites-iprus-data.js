@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-23",
-  "generatedAt": "2026-07-23T09:55:18",
+  "generatedAt": "2026-07-23T10:23:05",
   "records": [
     {
       "estado": "Asignado",
@@ -4003,10 +4003,10 @@ window.TRAMITES_IPRUS_DATA = {
       "egobOutcomeAuthor": "",
       "egobOutcomeAuthorRole": "",
       "egobOutcomeEntryType": "",
-      "egobLatestReassignmentNote": "sin observaciones legales",
-      "egobLatestReassignmentAt": "2026-07-06 10:42",
-      "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobJournalCount": 6,
+      "egobLatestReassignmentNote": "Trámite con observaciones técnicas",
+      "egobLatestReassignmentAt": "2026-07-23 10:18",
+      "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobJournalCount": 7,
       "egobRelevantNotes": []
     },
     {
@@ -4045,54 +4045,6 @@ window.TRAMITES_IPRUS_DATA = {
     },
     {
       "estado": "Asignado",
-      "tramite": "Trámite: 1195007 GADMR--2026-0352-IPRUS-ZNP",
-      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
-      "asunto": "MOROCHO YAUCAN EDISON PAUL - IPRUS FUERA DE ZONA PATRIMONIAL",
-      "reasignadoPor": "Angel Javier Tamayo Cepeda",
-      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "expediente": "--",
-      "fechaLimite": "2026-07-08",
-      "fechaIngreso": "2026-07-03T15:57:00",
-      "codigo": "GADMR--2026-0352-IPRUS-ZNP",
-      "nroTramite": 1195007,
-      "issueId": "1195007",
-      "solicitante": "MOROCHO YAUCAN EDISON PAUL",
-      "reasignadoPorCargo": "Analista De Avaluos Y Catastros De Asesoria Legal 1",
-      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(Vencido hace 15 días)",
-      "diasRestantes": 15,
-      "prioridad": "Normal",
-      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
-      "asignadoInterno": "caizaluisae",
-      "sourceRow": 95,
-      "id": "GADMR--2026-0352-IPRUS-ZNP",
-      "egobOutcome": "NO FAVORABLE",
-      "egobOutcomeRule": "no_favorable",
-      "egobOutcomeNote": "Revisión geomática, trámite no favorable",
-      "egobOutcomeAt": "2026-07-15 17:38",
-      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
-      "egobOutcomeEntryType": "Registro",
-      "egobLatestReassignmentNote": "SIN OBSERVACIONES LEGALES",
-      "egobLatestReassignmentAt": "2026-07-03 15:57",
-      "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobJournalCount": 6,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6834664",
-          "entryType": "Registro",
-          "timestamp": "2026-07-15 17:38",
-          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
-          "note": "Revisión geomática, trámite no favorable",
-          "outcome": "NO FAVORABLE",
-          "rule": "no_favorable"
-        }
-      ]
-    },
-    {
-      "estado": "Asignado",
       "tramite": "Trámite: 1197860 GADMR--2026-0364-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "BARBA PINO DANIEL PACIFICO - IPRUS FUERA DE ZONA PATRIMONIAL",
@@ -4110,7 +4062,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 96,
+      "sourceRow": 95,
       "id": "GADMR--2026-0364-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -4147,7 +4099,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 97,
+      "sourceRow": 96,
       "id": "GADMR--2026-0346-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -4181,7 +4133,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 98,
+      "sourceRow": 97,
       "id": "GADMR--2026-0343-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -4209,24 +4161,85 @@ window.TRAMITES_IPRUS_DATA = {
     }
   ],
   "summary": {
-    "total": 98,
+    "total": 97,
     "priorities": {
       "Sin prioridad": 62,
-      "Normal": 23,
+      "Normal": 22,
       "Urgente": 5,
       "Crítico": 8
     },
     "states": {
-      "Asignado": 61,
+      "Asignado": 60,
       "En espera": 14,
       "Nuevo": 1,
       "Complementado": 22
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 98
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 97
     }
   },
   "historyRecords": [
+    {
+      "estado": "Asignado",
+      "tramite": "Trámite: 1195007 GADMR--2026-0352-IPRUS-ZNP",
+      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
+      "asunto": "MOROCHO YAUCAN EDISON PAUL - IPRUS FUERA DE ZONA PATRIMONIAL",
+      "reasignadoPor": "Angel Javier Tamayo Cepeda",
+      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "expediente": "--",
+      "fechaLimite": "2026-07-08",
+      "fechaIngreso": "2026-07-03T15:57:00",
+      "codigo": "GADMR--2026-0352-IPRUS-ZNP",
+      "nroTramite": 1195007,
+      "issueId": "1195007",
+      "solicitante": "MOROCHO YAUCAN EDISON PAUL",
+      "reasignadoPorCargo": "Analista De Avaluos Y Catastros De Asesoria Legal 1",
+      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "tiempoRestante": "(Vencido hace 15 días)",
+      "diasRestantes": 15,
+      "prioridad": "Normal",
+      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
+      "asignadoInterno": "caizaluisae",
+      "sourceRow": 95,
+      "id": "GADMR--2026-0352-IPRUS-ZNP",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "no_favorable",
+      "egobOutcomeNote": "Se reasigna tramite IPRUS no favorable por la siguiente razon : Revisada la documentación y conforme a las observaciones evidenciadas, se concluye que el trámite N.º 1195007 presenta inconsistencias sustanciales, tales como el desplazamiento del polígono respecto a la ortofoto institucional, la representación incompleta del ancho de vía y no existe concordancia en el área del predio entre los formatos DWG y PDF, ademas se debera incluir adicionamente el equipo de precision que fue utilizado para dicho levantamiento por lo que se deberia constatar dichas observaciones en la planimetria actualizada. Por lo expuesto, se recomienda adjuntar el informe justificativo del levantamiento, garantizando la correspondencia total entre los archivos presentados (PDF y dwg). Una vez subsanadas las observaciones señaladas y se presente la documentación debidamente validada y suscrita por el profesional responsable, podra continuarse con la revisión corresponidente.",
+      "egobOutcomeAt": "2026-07-23 09:58",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
+      "egobLatestReassignmentNote": "Se reasigna tramite IPRUS no favorable por la siguiente razon : Revisada la documentación y conforme a las observaciones evidenciadas, se concluye que el trámite N.º 1195007 presenta inconsistencias sustanciales, tales como el desplazamiento del polígono respecto a la ortofoto institucional, la representación incompleta del ancho de vía y no existe concordancia en el área del predio entre los formatos DWG y PDF, ademas se debera incluir adicionamente el equipo de precision que fue utilizado para dicho levantamiento por lo que se deberia constatar dichas observaciones en la planimetria actualizada. Por lo expuesto, se recomienda adjuntar el informe justificativo del levantamiento, garantizando la correspondencia total entre los archivos presentados (PDF y dwg). Una vez subsanadas las observaciones señaladas y se presente la documentación debidamente validada y suscrita por el profesional responsable, podra continuarse con la revisión corresponidente.",
+      "egobLatestReassignmentAt": "2026-07-23 09:58",
+      "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobJournalCount": 7,
+      "egobRelevantNotes": [
+        {
+          "journalId": "6834664",
+          "entryType": "Registro",
+          "timestamp": "2026-07-15 17:38",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Revisión geomática, trámite no favorable",
+          "outcome": "NO FAVORABLE",
+          "rule": "no_favorable"
+        },
+        {
+          "journalId": "6877778",
+          "entryType": "Reasignación",
+          "timestamp": "2026-07-23 09:58",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Se reasigna tramite IPRUS no favorable por la siguiente razon : Revisada la documentación y conforme a las observaciones evidenciadas, se concluye que el trámite N.º 1195007 presenta inconsistencias sustanciales, tales como el desplazamiento del polígono respecto a la ortofoto institucional, la representación incompleta del ancho de vía y no existe concordancia en el área del predio entre los formatos DWG y PDF, ademas se debera incluir adicionamente el equipo de precision que fue utilizado para dicho levantamiento por lo que se deberia constatar dichas observaciones en la planimetria actualizada. Por lo expuesto, se recomienda adjuntar el informe justificativo del levantamiento, garantizando la correspondencia total entre los archivos presentados (PDF y dwg). Una vez subsanadas las observaciones señaladas y se presente la documentación debidamente validada y suscrita por el profesional responsable, podra continuarse con la revisión corresponidente.",
+          "outcome": "NO FAVORABLE",
+          "rule": "no_favorable"
+        }
+      ],
+      "historyArchivedAt": "2026-07-23T10:21:01",
+      "historyLastSeenAt": "2026-07-23T09:55:18",
+      "historyStatus": "Historico"
+    },
     {
       "estado": "En espera",
       "tramite": "Trámite: 1203942 GADMR--2026-0406-IPRUS-ZNP",
@@ -8959,20 +8972,20 @@ window.TRAMITES_IPRUS_DATA = {
     }
   ],
   "historySummary": {
-    "total": 71,
+    "total": 72,
     "priorities": {
+      "Normal": 27,
       "Sin prioridad": 33,
-      "Normal": 26,
       "Urgente": 8,
       "Crítico": 4
     },
     "states": {
+      "Asignado": 36,
       "En espera": 2,
-      "Complementado": 34,
-      "Asignado": 35
+      "Complementado": 34
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 71
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 72
     }
   }
 };
