@@ -810,6 +810,12 @@
       line-height: 1.45;
     }
 
+    .tracking-sheet-toolbar-main {
+      display: grid;
+      gap: 4px;
+      min-width: min(100%, 420px);
+    }
+
     .tracking-sheet-kpis {
       display: flex;
       flex-wrap: wrap;
@@ -827,6 +833,171 @@
       color: #34495e;
       font-size: 0.76rem;
       font-weight: 700;
+    }
+
+    .tracking-sheet-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .tracking-sheet-filters {
+      display: flex;
+      flex: 1 1 620px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tracking-sheet-filter {
+      flex: 1 1 180px;
+      min-width: 180px;
+      margin: 0;
+      color: #486071;
+    }
+
+    .tracking-sheet-filter span {
+      margin: 0;
+      color: #5b7284;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .tracking-sheet-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .tracking-sheet-actions button {
+      width: auto;
+      min-width: 180px;
+    }
+
+    .tracking-sheet-detail-wrap {
+      margin-top: 14px;
+      overflow: auto;
+      border: 1px solid rgba(52, 72, 74, 0.1);
+      border-radius: 14px;
+      background: #ffffff;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+    }
+
+    .tracking-sheet-detail-wrap::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+
+    .tracking-sheet-detail-wrap::-webkit-scrollbar-thumb {
+      background: rgba(73, 169, 66, 0.24);
+      border-radius: 999px;
+    }
+
+    .tracking-sheet-detail-table {
+      width: max-content;
+      min-width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      table-layout: fixed;
+      background: #ffffff;
+    }
+
+    .tracking-sheet-detail-table thead th,
+    .tracking-sheet-detail-table tbody th,
+    .tracking-sheet-detail-table tbody td {
+      min-width: 140px;
+      padding: 12px 14px;
+      border-right: 1px solid rgba(52, 72, 74, 0.08);
+      border-bottom: 1px solid rgba(52, 72, 74, 0.08);
+      vertical-align: top;
+      background: #ffffff;
+    }
+
+    .tracking-sheet-detail-table thead th:last-child,
+    .tracking-sheet-detail-table tbody td:last-child {
+      border-right: none;
+    }
+
+    .tracking-sheet-detail-table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: linear-gradient(180deg, #f2f7fa 0%, #e9f0f5 100%);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .tracking-sheet-detail-table .tracking-sheet-index-head,
+    .tracking-sheet-detail-table .tracking-sheet-index-cell {
+      padding: 0;
+    }
+
+    .tracking-sheet-detail-table tbody tr.is-favorable td {
+      background: rgba(241, 251, 239, 0.68);
+    }
+
+    .tracking-sheet-detail-table tbody tr.is-no-favorable td {
+      background: rgba(255, 241, 239, 0.72);
+    }
+
+    .tracking-sheet-detail-table tbody tr.is-review td {
+      background: rgba(255, 248, 231, 0.68);
+    }
+
+    .tracking-sheet-detail-head {
+      display: grid;
+      gap: 4px;
+      min-width: 112px;
+    }
+
+    .tracking-sheet-detail-head strong {
+      color: #243746;
+      font-size: 0.76rem;
+      font-family: "IBM Plex Mono", monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .tracking-sheet-detail-head span {
+      margin: 0;
+      color: #6c8090;
+      font-size: 0.78rem;
+      line-height: 1.4;
+      font-family: "Sora", "Segoe UI", sans-serif;
+      letter-spacing: normal;
+      text-transform: none;
+    }
+
+    .tracking-sheet-detail-cell {
+      color: #34495e;
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+
+    .tracking-sheet-detail-cell strong {
+      display: block;
+      color: #243746;
+      font-size: 0.92rem;
+      line-height: 1.35;
+    }
+
+    .tracking-sheet-detail-cell small {
+      display: block;
+      margin-top: 4px;
+      color: #6c8090;
+      font-size: 0.76rem;
+      line-height: 1.35;
+    }
+
+    .tracking-sheet-detail-cell.is-mono {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.8rem;
     }
 
     .tracking-sheet-wrap {
@@ -2162,10 +2333,20 @@
         grid-template-columns: 1fr;
       }
 
+      .tracking-sheet-actions {
+        justify-content: flex-start;
+      }
+
       .tracking-sheet-table thead th,
       .tracking-sheet-table tbody th,
       .tracking-sheet-table tbody td {
         min-width: 250px;
+      }
+
+      .tracking-sheet-detail-table thead th,
+      .tracking-sheet-detail-table tbody th,
+      .tracking-sheet-detail-table tbody td {
+        min-width: 130px;
       }
     }
 
@@ -2185,6 +2366,21 @@
       .mode-banner-stats,
       .tracking-legend {
         grid-template-columns: 1fr;
+      }
+
+      .tracking-sheet-filters,
+      .tracking-sheet-actions {
+        width: 100%;
+        flex-direction: column;
+      }
+
+      .tracking-sheet-filter {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .tracking-sheet-actions button {
+        width: 100%;
       }
 
       .toolbar,
@@ -2223,6 +2419,12 @@
       .tracking-sheet-table tbody th,
       .tracking-sheet-table tbody td {
         min-width: 220px;
+      }
+
+      .tracking-sheet-detail-table thead th,
+      .tracking-sheet-detail-table tbody th,
+      .tracking-sheet-detail-table tbody td {
+        min-width: 160px;
       }
 
       body[data-module-mode="assigned"] table {
@@ -2605,6 +2807,9 @@
         prioridad: "",
         responsable: "",
         asignado: "",
+        trackingSheetAssignee: "__all__",
+        trackingSheetOutcome: "__all__",
+        trackingSheetDataset: "__all__",
         sort: "priority",
         quickFilter: "",
         detailId: "",
@@ -5261,6 +5466,64 @@
         return "EN REVISIÓN";
       }
 
+      function getTrackingOutcomeTone(outcome) {
+        const normalized = normalizeText(outcome);
+        if (normalized === "favorable") {
+          return "favorable";
+        }
+        if (normalized === "no favorable") {
+          return "no-favorable";
+        }
+        return "review";
+      }
+
+      function getTrackingOutcomeClass(outcome) {
+        const tone = getTrackingOutcomeTone(outcome);
+        if (tone === "favorable") {
+          return "outcome-favorable";
+        }
+        if (tone === "no-favorable") {
+          return "outcome-no-favorable";
+        }
+        return "outcome-review";
+      }
+
+      function getTrackingRecordClass(outcome) {
+        const tone = getTrackingOutcomeTone(outcome);
+        if (tone === "favorable") {
+          return "is-favorable";
+        }
+        if (tone === "no-favorable") {
+          return "is-no-favorable";
+        }
+        return "is-review";
+      }
+
+      function getTrackingOutcomeLabel(outcome) {
+        const tone = getTrackingOutcomeTone(outcome);
+        if (tone === "favorable") {
+          return "Favorable";
+        }
+        if (tone === "no-favorable") {
+          return "No favorable";
+        }
+        return "En revision";
+      }
+
+      function getTrackingDatasetLabel(dataset) {
+        if (dataset === "history") {
+          return "Historial";
+        }
+        if (dataset === "active") {
+          return "Activo";
+        }
+        return "Consolidado";
+      }
+
+      function getTrackingDatasetClass(dataset) {
+        return dataset === "history" ? "dataset-history" : "dataset-active";
+      }
+
       function getTrackingAnalytics() {
         const records = getTrackingSourceRecords();
         const activeIds = new Set(getActiveSourceRecords().map((record) => record.id));
@@ -5425,6 +5688,7 @@
         records.forEach((record) => {
           const name = getAssignee(record.id) || "Sin asignacion interna";
           const outcome = getEgobOutcome(record);
+          const reviewSummary = getReviewSummary(record.id);
           const dataset = activeIds.has(record.id)
             ? "active"
             : historyIds.has(record.id)
@@ -5466,6 +5730,9 @@
             outcome,
             egobState: getEgobState(record),
             dataset,
+            reviewAnswered: reviewSummary.yes + reviewSummary.no,
+            reviewTotal: technicalChecklist.length,
+            evidenceCount: getEvidenceList(record.id).length,
           });
         });
 
@@ -5500,11 +5767,104 @@
             return compareText(left.name, right.name);
           });
 
+        const flatRows = [];
+        columns.forEach((column, columnIndex) => {
+          column.records.forEach((item, rowIndex) => {
+            const record = item.record;
+            flatRows.push({
+              assignee: column.name,
+              assigneeOrder: columnIndex,
+              rowOrder: rowIndex,
+              tramiteNumber: getReportTramiteNumber(record),
+              code: record.codigo || "Sin codigo",
+              applicant: record.solicitante || "Sin solicitante",
+              egobState: item.egobState || "Sin estado",
+              outcome: item.outcome,
+              dataset: item.dataset,
+              datasetLabel: getTrackingDatasetLabel(item.dataset),
+              priority: record.prioridad || "Sin prioridad",
+              dueDateLabel: record.fechaLimite ? formatDate(record.fechaLimite, false) : "Sin fecha",
+              daysLabel: formatDays(record.diasRestantes),
+              evidenceCount: item.evidenceCount,
+              reviewAnswered: item.reviewAnswered,
+              reviewTotal: item.reviewTotal,
+            });
+          });
+        });
+
         return {
           total: records.length,
           columns,
           maxRows: columns.reduce((highest, column) => Math.max(highest, column.records.length), 0),
+          flatRows,
         };
+      }
+
+      function getTrackingSheetVisibleRows(sheet) {
+        return sheet.flatRows.filter((row) => {
+          if (state.trackingSheetAssignee !== "__all__" && row.assignee !== state.trackingSheetAssignee) {
+            return false;
+          }
+          if (state.trackingSheetOutcome !== "__all__" && getTrackingOutcomeTone(row.outcome) !== state.trackingSheetOutcome) {
+            return false;
+          }
+          if (state.trackingSheetDataset !== "__all__" && row.dataset !== state.trackingSheetDataset) {
+            return false;
+          }
+          return true;
+        });
+      }
+
+      function getTrackingDetailExportColumns() {
+        return [
+          { label: "Asignado interno", getValue: (row) => row.assignee },
+          { label: "N. tramite", getValue: (row) => row.tramiteNumber },
+          { label: "Codigo", getValue: (row) => row.code },
+          { label: "Solicitante", getValue: (row) => row.applicant },
+          { label: "Estado EGOB", getValue: (row) => row.egobState },
+          { label: "Resultado", getValue: (row) => getTrackingOutcomeLabel(row.outcome) },
+          { label: "Vista", getValue: (row) => row.datasetLabel },
+          { label: "Prioridad", getValue: (row) => row.priority },
+          { label: "Fecha limite", getValue: (row) => row.dueDateLabel },
+          { label: "Dias restantes", getValue: (row) => row.daysLabel },
+          { label: "Revision tecnica", getValue: (row) => `${row.reviewAnswered}/${row.reviewTotal}` },
+          { label: "Evidencias", getValue: (row) => String(row.evidenceCount) },
+        ];
+      }
+
+      function buildTrackingDetailCsv(rows) {
+        const columns = getTrackingDetailExportColumns();
+        const lines = [columns.map((column) => column.label).join(",")];
+        rows.forEach((row) => {
+          lines.push(
+            columns
+              .map((column) => {
+                const value = column.getValue(row);
+                return `"${String(value == null ? "" : value).replace(/"/g, '""')}"`;
+              })
+              .join(",")
+          );
+        });
+        return lines.join("\n");
+      }
+
+      function buildTrackingDetailExcelWorkbook(rows) {
+        const columns = getTrackingDetailExportColumns();
+        const headerMarkup = columns.map((column) => `<th>${escapeHtml(column.label)}</th>`).join("");
+        const bodyMarkup = rows.length
+          ? rows
+            .map((row) => `
+              <tr class="${getTrackingRecordClass(row.outcome)}">
+                ${columns.map((column) => `<td>${escapeHtml(column.getValue(row))}</td>`).join("")}
+              </tr>
+            `)
+            .join("")
+          : `<tr><td colspan="${columns.length}">No existen tramites visibles con los filtros actuales.</td></tr>`;
+
+        return buildExcelWorkbook(
+          "Seguimiento IPRUS Detalle Visible",
+          `<table><thead><tr>${headerMarkup}</tr></thead><tbody>${bodyMarkup}</tbody></table>`
+        );
       }
 
       function renderTrackingSheetViewer() {
@@ -5518,6 +5878,296 @@
           dom.trackingSheetViewer.innerHTML = `<p class="tracking-empty">Todavia no existen asignaciones internas para mostrar en la hoja tipo Excel.</p>`;
           return;
         }
+
+        const assigneeOptions = sheet.columns.map((column) => column.name);
+        if (state.trackingSheetAssignee !== "__all__" && !assigneeOptions.includes(state.trackingSheetAssignee)) {
+          state.trackingSheetAssignee = "__all__";
+        }
+
+        const visibleRows = getTrackingSheetVisibleRows(sheet);
+        const visibleAssigneeCount = new Set(visibleRows.map((row) => row.assignee)).size;
+        const visibleColumns = state.trackingSheetAssignee === "__all__"
+          ? sheet.columns
+          : sheet.columns.filter((column) => column.name === state.trackingSheetAssignee);
+        const visibleMatrixRows = visibleColumns.reduce((highest, column) => Math.max(highest, column.records.length), 0);
+
+        dom.trackingSheetViewer.innerHTML = `
+          <div class="tracking-sheet-toolbar">
+            <div class="tracking-sheet-toolbar-main">
+              <strong>Visualizador tipo Excel por asignado</strong>
+              <span>Primero se muestra una tabla operativa por tramite y debajo la hoja comparativa por columnas para contrastar la carga completa de cada persona.</span>
+            </div>
+            <div class="tracking-sheet-kpis">
+              <span class="tracking-sheet-kpi">${escapeHtml(`${sheet.columns.length} columna(s)`)}</span>
+              <span class="tracking-sheet-kpi">${escapeHtml(`${sheet.total} tramite(s)`)}</span>
+              <span class="tracking-sheet-kpi">${escapeHtml(`${visibleRows.length} visible(s)`)}</span>
+              <span class="tracking-sheet-kpi">${escapeHtml(`${visibleAssigneeCount} asignado(s) en vista`)}</span>
+            </div>
+          </div>
+          <div class="tracking-sheet-controls">
+            <div class="tracking-sheet-filters">
+              <label class="tracking-sheet-filter">
+                <span>Asignado</span>
+                <select data-tracking-sheet-assignee>
+                  <option value="__all__">Todos los asignados</option>
+                  ${sheet.columns
+                    .map((column) => `<option value="${escapeHtml(column.name)}">${escapeHtml(`${column.name} (${column.total})`)}</option>`)
+                    .join("")}
+                </select>
+              </label>
+              <label class="tracking-sheet-filter">
+                <span>Resultado</span>
+                <select data-tracking-sheet-outcome>
+                  <option value="__all__">Todos los resultados</option>
+                  <option value="favorable">Favorables</option>
+                  <option value="no-favorable">No favorables</option>
+                  <option value="review">En revision</option>
+                </select>
+              </label>
+              <label class="tracking-sheet-filter">
+                <span>Fuente</span>
+                <select data-tracking-sheet-dataset>
+                  <option value="__all__">Activos e historial</option>
+                  <option value="active">Solo activos</option>
+                  <option value="history">Solo historial</option>
+                </select>
+              </label>
+            </div>
+            <div class="tracking-sheet-actions">
+              <button class="secondary tiny" type="button" data-tracking-export="visible-excel">Excel visible</button>
+              <button class="secondary tiny" type="button" data-tracking-export="visible-csv">CSV visible</button>
+              <button class="secondary tiny" type="button" data-tracking-export="matrix-excel">Excel comparativo</button>
+            </div>
+          </div>
+          ${visibleRows.length
+            ? `
+              <div class="tracking-sheet-detail-wrap">
+                <table class="tracking-sheet-detail-table">
+                  <thead>
+                    <tr>
+                      <th class="tracking-sheet-index-head">
+                        <div class="tracking-sheet-index-copy">
+                          <span>Fila</span>
+                          <strong>#</strong>
+                        </div>
+                      </th>
+                      <th><div class="tracking-sheet-detail-head"><strong>Asignado</strong><span>Responsable interno</span></div></th>
+                      <th><div class="tracking-sheet-detail-head"><strong>Tramite</strong><span>Numero y codigo</span></div></th>
+                      <th><div class="tracking-sheet-detail-head"><strong>Solicitante</strong><span>Persona usuaria</span></div></th>
+                      <th><div class="tracking-sheet-detail-head"><strong>Estado EGOB</strong><span>Estado actual</span></div></th>
+                      <th><div class="tracking-sheet-detail-head"><strong>Resultado</strong><span>Favorable o no favorable</span></div></th>
+                      <th><div class="tracking-sheet-detail-head"><strong>Fuente</strong><span>Activo o historial</span></div></th>
+                      <th><div class="tracking-sheet-detail-head"><strong>Prioridad</strong><span>Clasificacion actual</span></div></th>
+                      <th><div class="tracking-sheet-detail-head"><strong>Fecha limite</strong><span>Corte operativo</span></div></th>
+                      <th><div class="tracking-sheet-detail-head"><strong>Dias</strong><span>Tiempo restante</span></div></th>
+                      <th><div class="tracking-sheet-detail-head"><strong>Revision</strong><span>Criterios respondidos</span></div></th>
+                      <th><div class="tracking-sheet-detail-head"><strong>Evidencia</strong><span>Archivos cargados</span></div></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${visibleRows
+                      .map((row, index) => `
+                        <tr class="${getTrackingRecordClass(row.outcome)}">
+                          <th scope="row" class="tracking-sheet-index-cell">
+                            <div class="tracking-sheet-row-number">${index + 1}</div>
+                          </th>
+                          <td class="tracking-sheet-detail-cell"><strong>${escapeHtml(row.assignee)}</strong></td>
+                          <td class="tracking-sheet-detail-cell is-mono">
+                            <strong>${escapeHtml(`Tramite N. ${row.tramiteNumber}`)}</strong>
+                            <small>${escapeHtml(row.code)}</small>
+                          </td>
+                          <td class="tracking-sheet-detail-cell">${escapeHtml(row.applicant)}</td>
+                          <td class="tracking-sheet-detail-cell">${escapeHtml(row.egobState)}</td>
+                          <td class="tracking-sheet-detail-cell">
+                            <div class="tracking-sheet-tags">
+                              <span class="tracking-sheet-tag ${getTrackingOutcomeClass(row.outcome)}">${escapeHtml(getTrackingOutcomeLabel(row.outcome))}</span>
+                            </div>
+                          </td>
+                          <td class="tracking-sheet-detail-cell">
+                            <div class="tracking-sheet-tags">
+                              <span class="tracking-sheet-tag ${getTrackingDatasetClass(row.dataset)}">${escapeHtml(row.datasetLabel)}</span>
+                            </div>
+                          </td>
+                          <td class="tracking-sheet-detail-cell">${escapeHtml(row.priority)}</td>
+                          <td class="tracking-sheet-detail-cell">${escapeHtml(row.dueDateLabel)}</td>
+                          <td class="tracking-sheet-detail-cell">${escapeHtml(row.daysLabel)}</td>
+                          <td class="tracking-sheet-detail-cell">${escapeHtml(`${row.reviewAnswered}/${row.reviewTotal}`)}</td>
+                          <td class="tracking-sheet-detail-cell">${escapeHtml(String(row.evidenceCount))}</td>
+                        </tr>
+                      `)
+                      .join("")}
+                  </tbody>
+                </table>
+              </div>
+            `
+            : `<p class="tracking-empty">No existen tramites visibles con los filtros elegidos en este visualizador.</p>`}
+          <div class="tracking-sheet-toolbar">
+            <div class="tracking-sheet-toolbar-main">
+              <strong>Hoja comparativa por asignado</strong>
+              <span>Cada columna representa a una persona asignada y cada fila muestra el siguiente tramite dentro de su carga consolidada entre activos e historial.</span>
+            </div>
+            <div class="tracking-sheet-kpis">
+              <span class="tracking-sheet-kpi">${escapeHtml(`${visibleColumns.length} columna(s) visibles`)}</span>
+              <span class="tracking-sheet-kpi">${escapeHtml(`${visibleMatrixRows} fila(s) utiles`)}</span>
+            </div>
+          </div>
+          <div class="tracking-sheet-wrap">
+            <table class="tracking-sheet-table">
+              <thead>
+                <tr>
+                  <th class="tracking-sheet-index-head">
+                    <div class="tracking-sheet-index-copy">
+                      <span>Fila</span>
+                      <strong>#</strong>
+                    </div>
+                  </th>
+                  ${visibleColumns
+                    .map(
+                      (column) => `
+                        <th>
+                          <div class="tracking-sheet-head">
+                            <div>
+                              <strong>${escapeHtml(column.name)}</strong>
+                              <span>${escapeHtml(`${column.total} tramite(s) · ${column.active} activo(s) · ${column.history} historico(s)`)}</span>
+                            </div>
+                            <div class="tracking-sheet-head-pills">
+                              <span class="tracking-sheet-head-pill outcome-favorable">${escapeHtml(`${column.favorable} favorable(s)`)}</span>
+                              <span class="tracking-sheet-head-pill outcome-no-favorable">${escapeHtml(`${column.noFavorable} no favorable(s)`)}</span>
+                              <span class="tracking-sheet-head-pill outcome-review">${escapeHtml(`${column.inReview} en revision`)}</span>
+                            </div>
+                          </div>
+                        </th>
+                      `
+                    )
+                    .join("")}
+                </tr>
+              </thead>
+              <tbody>
+                ${Array.from({ length: visibleMatrixRows }, (_, index) => {
+                  const rowNumber = index + 1;
+                  return `
+                    <tr>
+                      <th scope="row" class="tracking-sheet-index-cell">
+                        <div class="tracking-sheet-row-number">${rowNumber}</div>
+                      </th>
+                      ${visibleColumns
+                        .map((column) => {
+                          const item = column.records[index];
+                          if (!item) {
+                            return `<td class="tracking-sheet-cell"><div class="tracking-sheet-empty-cell"></div></td>`;
+                          }
+
+                          const record = item.record;
+                          const tramiteNumber = getReportTramiteNumber(record);
+                          const outcomeClass = getTrackingOutcomeClass(item.outcome);
+                          const recordClass = getTrackingRecordClass(item.outcome);
+                          const datasetClass = getTrackingDatasetClass(item.dataset);
+                          const datasetLabel = getTrackingDatasetLabel(item.dataset);
+                          const fechaLimiteLabel = record.fechaLimite ? formatDate(record.fechaLimite, false) : "Sin fecha";
+                          const prioridadLabel = record.prioridad || "Sin prioridad";
+                          const solicitanteLabel = record.solicitante || "Sin solicitante";
+                          const codigoLabel = record.codigo || "Sin codigo";
+                          const diasLabel = formatDays(record.diasRestantes);
+
+                          return `
+                            <td class="tracking-sheet-cell">
+                              <div class="tracking-sheet-record ${recordClass}">
+                                <div>
+                                  <strong>${escapeHtml(`Tramite N. ${tramiteNumber}`)}</strong>
+                                  <span class="tracking-sheet-record-code">${escapeHtml(codigoLabel)}</span>
+                                </div>
+                                <span class="tracking-sheet-record-applicant">${escapeHtml(solicitanteLabel)}</span>
+                                <div class="tracking-sheet-tags">
+                                  <span class="tracking-sheet-tag ${datasetClass}">${escapeHtml(datasetLabel)}</span>
+                                  <span class="tracking-sheet-tag">${escapeHtml(item.egobState)}</span>
+                                  <span class="tracking-sheet-tag ${outcomeClass}">${escapeHtml(getTrackingOutcomeLabel(item.outcome))}</span>
+                                </div>
+                                <div class="tracking-sheet-record-meta">
+                                  <span>${escapeHtml(`Prioridad: ${prioridadLabel}`)}</span>
+                                  <span>${escapeHtml(`Fecha limite: ${fechaLimiteLabel}`)}</span>
+                                  <span>${escapeHtml(`Dias restantes: ${diasLabel}`)}</span>
+                                </div>
+                              </div>
+                            </td>
+                          `;
+                        })
+                        .join("")}
+                    </tr>
+                  `;
+                }).join("")}
+              </tbody>
+            </table>
+          </div>
+        `;
+
+        const assigneeFilter = dom.trackingSheetViewer.querySelector("[data-tracking-sheet-assignee]");
+        if (assigneeFilter) {
+          assigneeFilter.value = state.trackingSheetAssignee;
+          assigneeFilter.addEventListener("change", (event) => {
+            state.trackingSheetAssignee = event.target.value;
+            renderTrackingSheetViewer();
+          });
+        }
+
+        const outcomeFilter = dom.trackingSheetViewer.querySelector("[data-tracking-sheet-outcome]");
+        if (outcomeFilter) {
+          outcomeFilter.value = state.trackingSheetOutcome;
+          outcomeFilter.addEventListener("change", (event) => {
+            state.trackingSheetOutcome = event.target.value;
+            renderTrackingSheetViewer();
+          });
+        }
+
+        const datasetFilter = dom.trackingSheetViewer.querySelector("[data-tracking-sheet-dataset]");
+        if (datasetFilter) {
+          datasetFilter.value = state.trackingSheetDataset;
+          datasetFilter.addEventListener("change", (event) => {
+            state.trackingSheetDataset = event.target.value;
+            renderTrackingSheetViewer();
+          });
+        }
+
+        const visibleExcelButton = dom.trackingSheetViewer.querySelector('[data-tracking-export="visible-excel"]');
+        if (visibleExcelButton) {
+          visibleExcelButton.addEventListener("click", () => {
+            downloadFile(
+              `\ufeff${buildTrackingDetailExcelWorkbook(visibleRows)}`,
+              `tramites-iprus-seguimiento-visible-${timestampForFile()}.xls`,
+              "application/vnd.ms-excel;charset=utf-8;"
+            );
+            setMessage(dom.exportMessage, `Se descargo el Excel visible del seguimiento con ${visibleRows.length} tramite(s).`);
+          });
+        }
+
+        const visibleCsvButton = dom.trackingSheetViewer.querySelector('[data-tracking-export="visible-csv"]');
+        if (visibleCsvButton) {
+          visibleCsvButton.addEventListener("click", () => {
+            downloadFile(
+              `\ufeff${buildTrackingDetailCsv(visibleRows)}`,
+              `tramites-iprus-seguimiento-visible-${timestampForFile()}.csv`,
+              "text/csv;charset=utf-8;"
+            );
+            setMessage(dom.exportMessage, `Se descargo el CSV visible del seguimiento con ${visibleRows.length} tramite(s).`);
+          });
+        }
+
+        const matrixExcelButton = dom.trackingSheetViewer.querySelector('[data-tracking-export="matrix-excel"]');
+        if (matrixExcelButton) {
+          matrixExcelButton.addEventListener("click", () => {
+            downloadFile(
+              `\ufeff${buildTrackingSheetExcelWorkbook({
+                ...sheet,
+                columns: visibleColumns,
+                maxRows: visibleMatrixRows,
+              })}`,
+              `tramites-iprus-seguimiento-${timestampForFile()}.xls`,
+              "application/vnd.ms-excel;charset=utf-8;"
+            );
+            setMessage(dom.exportMessage, `Se descargo el Excel comparativo del seguimiento con ${visibleColumns.length} columna(s) visibles.`);
+          });
+        }
+
+        return;
 
         dom.trackingSheetViewer.innerHTML = `
           <div class="tracking-sheet-toolbar">
@@ -7806,8 +8456,8 @@
         );
       }
 
-      function buildTrackingSheetExcelWorkbook() {
-        const sheet = getTrackingSheetData();
+      function buildTrackingSheetExcelWorkbook(customSheet = null) {
+        const sheet = customSheet || getTrackingSheetData();
         const headerMarkup = `
           <tr>
             <th class="sheet-label">Fila</th>
