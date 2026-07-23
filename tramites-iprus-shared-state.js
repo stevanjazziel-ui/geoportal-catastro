@@ -1,7 +1,7 @@
 window.TRAMITES_IPRUS_SHARED_STATE = {
   "title": "TRAMITES IPRUS SHARED STATE",
   "sourceDate": "2026-07-23T08:23:00",
-  "generatedAt": "2026-07-23T13:25:45.104Z",
+  "generatedAt": "2026-07-23T14:52:36.504Z",
   "assignments": {
     "GADMR--2026-0398-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0409-IPRUS-ZNP": "Hamilton Torres",
@@ -51,6 +51,7 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
     "GADMR--2026-0356-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0350-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0352-IPRUS-ZNP": "Miriam Guisha",
+    "GADMR--2026-0364-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0346-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0324-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0316-IPRUS-ZNP": "Miriam Guisha",
@@ -125,6 +126,21 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
   "reportDrafts": {},
   "taskQueue": [],
   "activityLog": [
+    {
+      "id": "1784818356502-aq5bi8bx",
+      "recordId": "GADMR--2026-0364-IPRUS-ZNP",
+      "actor": "Fausto Lopez",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Miriam Guisha.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-07-23T14:52:36.502Z",
+      "recordCode": "GADMR--2026-0364-IPRUS-ZNP",
+      "tramiteNumber": "1197860",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
     {
       "id": "1784813065036-1fjbvqi9",
       "recordId": "GADMR--2026-0273-IPRUS-ZNP",
