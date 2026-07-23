@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-23",
-  "generatedAt": "2026-07-23T08:23:00",
+  "generatedAt": "2026-07-23T08:25:04",
   "records": [
     {
       "estado": "Asignado",
@@ -139,7 +139,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE, EN BASE A LA DOCUMENTACIÓN ADJUNTA.",
       "egobLatestReassignmentAt": "2026-07-22 14:53",
       "egobLatestReassignmentAuthor": "RAUL GUSTAVO ARRIETA AGUAGALLO",
-      "egobJournalCount": 2,
+      "egobJournalCount": 3,
       "egobRelevantNotes": []
     },
     {
@@ -4405,7 +4405,7 @@ window.TRAMITES_IPRUS_DATA = {
           "rule": "no_favorable"
         }
       ],
-      "historyArchivedAt": "2026-07-23T08:21:04",
+      "historyArchivedAt": "2026-07-23T08:23:09",
       "historyLastSeenAt": "2026-07-22T17:43:33",
       "historyStatus": "Historico"
     },
@@ -4486,7 +4486,7 @@ window.TRAMITES_IPRUS_DATA = {
           "rule": "tramite_iprus_favorable"
         }
       ],
-      "historyArchivedAt": "2026-07-23T08:21:04",
+      "historyArchivedAt": "2026-07-23T08:23:09",
       "historyLastSeenAt": "2026-07-22T17:43:33",
       "historyStatus": "Historico"
     },
