@@ -3970,7 +3970,7 @@
 
         const historyMatches = getHistorySourceRecords()
           .filter((historyRecord) => {
-            if (!historyRecord || !historyRecord.id || getEgobOutcome(historyRecord) !== "NO FAVORABLE") {
+            if (!historyRecord || !historyRecord.id) {
               return false;
             }
 
@@ -3989,6 +3989,10 @@
 
         for (const historyRecord of historyMatches) {
           const historyTramiteNumber = getReportTramiteNumber(historyRecord);
+          const historyOutcome = getEgobOutcome(historyRecord);
+          const historyReference = historyOutcome === "EN REVISIÓN"
+            ? `del antecedente más reciente del trámite ${historyTramiteNumber}`
+            : `del antecedente ${historyOutcome.toLowerCase()} del trámite ${historyTramiteNumber}`;
           if (hasStoredAssignmentEntry(historyRecord.id)) {
             const previousAssignee = getStoredAssignee(historyRecord.id);
             if (previousAssignee) {
@@ -3996,14 +4000,14 @@
                 assignee: previousAssignee,
                 sourceRecordId: historyRecord.id,
                 sourceType: "historial",
-                detail: `Se recuperó la asignación guardada del historial no favorable del trámite ${historyTramiteNumber}.`,
+                detail: `Se recuperó la asignación guardada ${historyReference}.`,
               };
             }
             return {
               assignee: "",
               sourceRecordId: historyRecord.id,
               sourceType: "historial-vacio",
-              detail: `El historial no favorable del trámite ${historyTramiteNumber} conserva una asignación vacía y se respeta esa decisión.`,
+              detail: `El registro ${historyReference} conserva una asignación vacía y se respeta esa decisión.`,
             };
           }
 
@@ -4013,7 +4017,7 @@
               assignee: reviewerFromActivity,
               sourceRecordId: historyRecord.id,
               sourceType: "bitacora",
-              detail: `Se recuperó el último revisor registrado en la bitácora del historial no favorable del trámite ${historyTramiteNumber}.`,
+              detail: `Se recuperó el último revisor registrado en la bitácora ${historyReference}.`,
             };
           }
         }
@@ -4078,7 +4082,7 @@
           dom.moduleMessage,
           restored.length === 1
             ? `Se restauró automáticamente la asignación del trámite reingresado a ${restored[0].assignee}.`
-            : `Se restauraron automáticamente ${restored.length} asignaciones de trámites reingresados según el historial no favorable.`
+            : `Se restauraron automáticamente ${restored.length} asignaciones de trámites reingresados según su antecedente más reciente.`
         );
 
         return restored.length;
