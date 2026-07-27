@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-27",
-  "generatedAt": "2026-07-27T11:27:31",
+  "generatedAt": "2026-07-27T11:55:00",
   "records": [
     {
       "estado": "Asignado",
@@ -3677,51 +3677,6 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Asignado",
-      "tramite": "Trámite: 1199118 GADMR--2026-0369-IPRUS-ZNP",
-      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
-      "asunto": "HIDALGO GALLEGOS SILVIA MARCELA - IPRUS FUERA DE ZONA PATRIMONIAL",
-      "reasignadoPor": "Angel Javier Tamayo Cepeda",
-      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "expediente": "--",
-      "fechaLimite": null,
-      "fechaIngreso": "2026-07-09T14:42:00",
-      "codigo": "GADMR--2026-0369-IPRUS-ZNP",
-      "nroTramite": 1199118,
-      "issueId": "1199118",
-      "solicitante": "HIDALGO GALLEGOS SILVIA MARCELA",
-      "reasignadoPorCargo": "Analista De Avaluos Y Catastros De Asesoria Legal 1",
-      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
-      "asignadoInterno": "caizaluisae",
-      "sourceRow": 86,
-      "id": "GADMR--2026-0369-IPRUS-ZNP",
-      "egobOutcome": "NO FAVORABLE",
-      "egobOutcomeRule": "no_favorable",
-      "egobOutcomeNote": "Revisada la documentación presentada por la señora MORENO HIDALGO ADRIANA PAULINA, se encontraron las siguientes observaciones: 1. Para continuar con la Solicitud de Iprus deberán proceder a JUSTIFICAR EL OTRO 50% de la casa y terreno del cual no se hace referencia dentro de la documentación adjunta, o a su vez deberán realizar un PODER donde autoricen a una sola persona para que pueda firmar a nombre y representación de todos quienes poseen una acción dentro del presente predio materia del presente tramite en calidad de APODERADO. Por lo expuesto, se emite CRITERIO NO FAVORABLE, se sugiere subsanar las observaciones encontradas, pues constituyen requisitos generales, previo a la emisión del Informe Predial de Regulación de uso de suelo.",
-      "egobOutcomeAt": "2026-07-09 14:42",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
-      "egobLatestReassignmentNote": "Revisada la documentación presentada por la señora MORENO HIDALGO ADRIANA PAULINA, se encontraron las siguientes observaciones: 1. Para continuar con la Solicitud de Iprus deberán proceder a JUSTIFICAR EL OTRO 50% de la casa y terreno del cual no se hace referencia dentro de la documentación adjunta, o a su vez deberán realizar un PODER donde autoricen a una sola persona para que pueda firmar a nombre y representación de todos quienes poseen una acción dentro del presente predio materia del presente tramite en calidad de APODERADO. Por lo expuesto, se emite CRITERIO NO FAVORABLE, se sugiere subsanar las observaciones encontradas, pues constituyen requisitos generales, previo a la emisión del Informe Predial de Regulación de uso de suelo.",
-      "egobLatestReassignmentAt": "2026-07-09 14:42",
-      "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobJournalCount": 7,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6790572",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-09 14:42",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "Revisada la documentación presentada por la señora MORENO HIDALGO ADRIANA PAULINA, se encontraron las siguientes observaciones: 1. Para continuar con la Solicitud de Iprus deberán proceder a JUSTIFICAR EL OTRO 50% de la casa y terreno del cual no se hace referencia dentro de la documentación adjunta, o a su vez deberán realizar un PODER donde autoricen a una sola persona para que pueda firmar a nombre y representación de todos quienes poseen una acción dentro del presente predio materia del presente tramite en calidad de APODERADO. Por lo expuesto, se emite CRITERIO NO FAVORABLE, se sugiere subsanar las observaciones encontradas, pues constituyen requisitos generales, previo a la emisión del Informe Predial de Regulación de uso de suelo.",
-          "outcome": "NO FAVORABLE",
-          "rule": "no_favorable"
-        }
-      ]
-    },
-    {
       "estado": "Complementado",
       "tramite": "Trámite: 1187482 GADMR--2026-0306-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
@@ -3743,7 +3698,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 87,
+      "sourceRow": 86,
       "id": "GADMR--2026-0306-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -3811,7 +3766,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 88,
+      "sourceRow": 87,
       "id": "GADMR--2026-0270-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -3876,7 +3831,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 89,
+      "sourceRow": 88,
       "id": "GADMR--2026-0378-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3913,7 +3868,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 90,
+      "sourceRow": 89,
       "id": "GADMR--2026-0357-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3950,7 +3905,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 91,
+      "sourceRow": 90,
       "id": "GADMR--2026-0380-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -3984,7 +3939,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 92,
+      "sourceRow": 91,
       "id": "GADMR--2026-0364-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -4021,7 +3976,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 93,
+      "sourceRow": 92,
       "id": "GADMR--2026-0346-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -4038,24 +3993,82 @@ window.TRAMITES_IPRUS_DATA = {
     }
   ],
   "summary": {
-    "total": 93,
+    "total": 92,
     "priorities": {
-      "Sin prioridad": 33,
+      "Sin prioridad": 32,
       "Normal": 49,
       "Urgente": 10,
       "Crítico": 1
     },
     "states": {
-      "Asignado": 59,
+      "Asignado": 58,
       "Complementado": 21,
       "En espera": 12,
       "Nuevo": 1
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 93
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 92
     }
   },
   "historyRecords": [
+    {
+      "estado": "Asignado",
+      "tramite": "Trámite: 1199118 GADMR--2026-0369-IPRUS-ZNP",
+      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
+      "asunto": "HIDALGO GALLEGOS SILVIA MARCELA - IPRUS FUERA DE ZONA PATRIMONIAL",
+      "reasignadoPor": "Angel Javier Tamayo Cepeda",
+      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "expediente": "--",
+      "fechaLimite": null,
+      "fechaIngreso": "2026-07-09T14:42:00",
+      "codigo": "GADMR--2026-0369-IPRUS-ZNP",
+      "nroTramite": 1199118,
+      "issueId": "1199118",
+      "solicitante": "HIDALGO GALLEGOS SILVIA MARCELA",
+      "reasignadoPorCargo": "Analista De Avaluos Y Catastros De Asesoria Legal 1",
+      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
+      "asignadoInterno": "caizaluisae",
+      "sourceRow": 86,
+      "id": "GADMR--2026-0369-IPRUS-ZNP",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "no_favorable",
+      "egobOutcomeNote": "Se reasigna tramite IPRUS no favorable con las siguientes observaciones: Observaciones 1. El trámite N.º 1199118 no es favorable en las condiciones presentadas. 2. No se justifica documentalmente el otro 50% de la casa y terreno correspondiente al predio. 3. Se deberá justificar la totalidad de los derechos y acciones existentes sobre el inmueble. 4. En caso de existir varios titulares, se deberá presentar un poder que permita a una sola persona actuar y suscribir documentos en representación de todos los propietarios o titulares de acciones. 5. La planimetría presentada en formato PDF deberá incluir el cuadro de áreas y linderos correspondiente. 6. Se deberá subsanar la documentación legal y técnica previo a continuar con la revisión del trámite.",
+      "egobOutcomeAt": "2026-07-27 11:45",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Reasignación",
+      "egobLatestReassignmentNote": "Se reasigna tramite IPRUS no favorable con las siguientes observaciones: Observaciones 1. El trámite N.º 1199118 no es favorable en las condiciones presentadas. 2. No se justifica documentalmente el otro 50% de la casa y terreno correspondiente al predio. 3. Se deberá justificar la totalidad de los derechos y acciones existentes sobre el inmueble. 4. En caso de existir varios titulares, se deberá presentar un poder que permita a una sola persona actuar y suscribir documentos en representación de todos los propietarios o titulares de acciones. 5. La planimetría presentada en formato PDF deberá incluir el cuadro de áreas y linderos correspondiente. 6. Se deberá subsanar la documentación legal y técnica previo a continuar con la revisión del trámite.",
+      "egobLatestReassignmentAt": "2026-07-27 11:45",
+      "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobJournalCount": 8,
+      "egobRelevantNotes": [
+        {
+          "journalId": "6790572",
+          "entryType": "Reasignación",
+          "timestamp": "2026-07-09 14:42",
+          "author": "ANGEL JAVIER TAMAYO CEPEDA",
+          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
+          "note": "Revisada la documentación presentada por la señora MORENO HIDALGO ADRIANA PAULINA, se encontraron las siguientes observaciones: 1. Para continuar con la Solicitud de Iprus deberán proceder a JUSTIFICAR EL OTRO 50% de la casa y terreno del cual no se hace referencia dentro de la documentación adjunta, o a su vez deberán realizar un PODER donde autoricen a una sola persona para que pueda firmar a nombre y representación de todos quienes poseen una acción dentro del presente predio materia del presente tramite en calidad de APODERADO. Por lo expuesto, se emite CRITERIO NO FAVORABLE, se sugiere subsanar las observaciones encontradas, pues constituyen requisitos generales, previo a la emisión del Informe Predial de Regulación de uso de suelo.",
+          "outcome": "NO FAVORABLE",
+          "rule": "no_favorable"
+        },
+        {
+          "journalId": "6899771",
+          "entryType": "Reasignación",
+          "timestamp": "2026-07-27 11:45",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Se reasigna tramite IPRUS no favorable con las siguientes observaciones: Observaciones 1. El trámite N.º 1199118 no es favorable en las condiciones presentadas. 2. No se justifica documentalmente el otro 50% de la casa y terreno correspondiente al predio. 3. Se deberá justificar la totalidad de los derechos y acciones existentes sobre el inmueble. 4. En caso de existir varios titulares, se deberá presentar un poder que permita a una sola persona actuar y suscribir documentos en representación de todos los propietarios o titulares de acciones. 5. La planimetría presentada en formato PDF deberá incluir el cuadro de áreas y linderos correspondiente. 6. Se deberá subsanar la documentación legal y técnica previo a continuar con la revisión del trámite.",
+          "outcome": "NO FAVORABLE",
+          "rule": "no_favorable"
+        }
+      ],
+      "historyArchivedAt": "2026-07-27T11:54:50",
+      "historyLastSeenAt": "2026-07-27T11:27:31",
+      "historyStatus": "Historico"
+    },
     {
       "estado": "Asignado",
       "tramite": "Trámite: 1152695 GADMR--2026-0101-IPRUS-ZNP",
@@ -4306,18 +4319,18 @@ window.TRAMITES_IPRUS_DATA = {
     }
   ],
   "historySummary": {
-    "total": 4,
+    "total": 5,
     "priorities": {
-      "Normal": 2,
-      "Sin prioridad": 2
+      "Sin prioridad": 3,
+      "Normal": 2
     },
     "states": {
-      "Asignado": 2,
+      "Asignado": 3,
       "Complementado": 1,
       "En espera": 1
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 4
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 5
     }
   }
 };
