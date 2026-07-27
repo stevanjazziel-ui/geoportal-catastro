@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-27",
-  "generatedAt": "2026-07-27T09:57:13",
+  "generatedAt": "2026-07-27T10:25:11",
   "records": [
     {
       "estado": "Asignado",
@@ -2644,14 +2644,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "Complementado",
+      "estado": "En espera",
       "tramite": "Trámite: 1165298 GADMR--2026-0162-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "QUINZO ZABALA MARCO ANTONIO - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-07-28",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-07-15T15:32:00",
       "codigo": "GADMR--2026-0162-IPRUS-ZNP",
       "nroTramite": 1165298,
@@ -2659,9 +2659,6 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "QUINZO ZABALA MARCO ANTONIO",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(1 día restante 🚨)",
-      "diasRestantes": 1,
-      "prioridad": "Crítico",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
@@ -2677,7 +2674,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-07-15 15:32",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 17,
+      "egobJournalCount": 18,
       "egobRelevantNotes": [
         {
           "journalId": "6543905",
@@ -4131,15 +4128,15 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 94,
     "priorities": {
-      "Sin prioridad": 32,
+      "Sin prioridad": 33,
       "Normal": 50,
       "Urgente": 10,
-      "Crítico": 2
+      "Crítico": 1
     },
     "states": {
       "Asignado": 60,
-      "Complementado": 22,
-      "En espera": 11,
+      "Complementado": 21,
+      "En espera": 12,
       "Nuevo": 1
     },
     "responsibles": {
