@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-27",
-  "generatedAt": "2026-07-27T14:41:16",
+  "generatedAt": "2026-07-27T14:43:28",
   "records": [
     {
       "estado": "En espera",
@@ -1329,14 +1329,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1211601 GADMR--2026-0447-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "VILLARROEL BONILLA KEVIN FERNANDO - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-08-11",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-07-27T08:19:00",
       "codigo": "GADMR--2026-0447-IPRUS-ZNP",
       "nroTramite": 1211601,
@@ -1344,9 +1344,6 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "VILLARROEL BONILLA KEVIN FERNANDO",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(15 días)",
-      "diasRestantes": 15,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "DIRECCIÓN GENERAL DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
       "asignadoInterno": "caizaluisae",
@@ -1362,7 +1359,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-07-27 08:19",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 4,
+      "egobJournalCount": 6,
       "egobRelevantNotes": []
     },
     {
@@ -4026,14 +4023,14 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 93,
     "priorities": {
-      "Sin prioridad": 34,
-      "Normal": 48,
+      "Sin prioridad": 35,
+      "Normal": 47,
       "Urgente": 10,
       "Crítico": 1
     },
     "states": {
-      "En espera": 13,
-      "Asignado": 59,
+      "En espera": 14,
+      "Asignado": 58,
       "Complementado": 20,
       "Nuevo": 1
     },
