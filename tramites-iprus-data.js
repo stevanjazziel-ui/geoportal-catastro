@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-07-27",
-  "generatedAt": "2026-07-27T12:26:53",
+  "generatedAt": "2026-07-27T14:41:16",
   "records": [
     {
       "estado": "En espera",
