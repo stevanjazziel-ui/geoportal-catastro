@@ -497,6 +497,7 @@
     let joinedFeatures = [];
     let platformFeatures = [];
     let equipamientosFeatures = [];
+    let equipamientoPlatformBySourceId = new Map();
     let platformStatsByName = {};
     let platformSummary = null;
     let equipamientosStats = null;
@@ -857,6 +858,162 @@
       );
     }
 
+    function matchesCurrentPlatform(platformName) {
+      const normalizedPlatform = displayPlatformName(platformName);
+
+      if (currentPlatform === ALL_PLATFORMS) {
+        return true;
+      }
+
+      if (currentPlatform === OUTSIDE_PLATFORMS) {
+        return !normalizedPlatform;
+      }
+
+      return normalizedPlatform === displayPlatformName(currentPlatform);
+    }
+
+    function getVisiblePlatformFeatures() {
+      if (currentPlatform === ALL_PLATFORMS) {
+        return platformFeatures;
+      }
+
+      if (currentPlatform === OUTSIDE_PLATFORMS) {
+        return [];
+      }
+
+      return platformFeatures.filter((feature) =>
+        matchesCurrentPlatform(feature?.properties?.platform_name)
+      );
+    }
+
+    function rebuildEquipamientoPlatformIndex() {
+      equipamientoPlatformBySourceId = new Map();
+
+      for (const feature of equipamientosFeatures || []) {
+        const props = feature?.properties || {};
+        const platformName = props.platform_name || props.plataforma || "";
+        const keys = [props.source_id, props.objectid, props.codigo]
+          .filter((value) => value !== undefined && value !== null && String(value).trim());
+
+        for (const key of keys) {
+          equipamientoPlatformBySourceId.set(String(key).trim(), platformName);
+        }
+      }
+    }
+
+    function getIsoFeaturePlatformName(feature) {
+      const props = feature?.properties || {};
+      const directPlatform = props.platform_name || props.plataforma || props.target_platform || "";
+      if (directPlatform) {
+        return directPlatform;
+      }
+
+      const sourceKey = [props.source_id, props.objectid, props.codigo]
+        .find((value) => value !== undefined && value !== null && String(value).trim());
+
+      if (sourceKey === undefined || sourceKey === null) {
+        return "";
+      }
+
+      return equipamientoPlatformBySourceId.get(String(sourceKey).trim()) || "";
+    }
+
+    function getPlatformScopedIsocronasFeatures(features = []) {
+      return (features || []).filter(
+        (feature) => feature && feature.properties && matchesCurrentPlatform(getIsoFeaturePlatformName(feature))
+      );
+    }
+
+    function buildThematicIsocronasSummary(container, stats, features) {
+      if (!container || !stats) {
+        if (container) {
+          container.innerHTML = "";
+        }
+        return;
+      }
+
+      let rows;
+      if (currentPlatform === ALL_PLATFORMS) {
+        rows = [
+          ["Equipamientos fuente", stats.summary.total_equipamientos || 0],
+          ["Isocronas generadas", stats.summary.total_isocronas || 0],
+          ["Barrial 1000 m", (stats.by_categoria_isocronas || {}).BARRIAL || 0],
+          ["Zonal 1000 m", (stats.by_categoria_isocronas || {}).ZONAL || 0],
+          ["Cantonales omitidos", (stats.by_categoria_omitidos || {}).CANTONAL || 0],
+          ["Manzanas ajustadas", stats.summary.manzanas_ajustadas || 0],
+          ["Visualizacion", "Area rellena con borde"]
+        ];
+      } else {
+        const scopedFeatures = getPlatformScopedIsocronasFeatures(features);
+        const uniqueSources = new Set();
+        let barrialCount = 0;
+        let zonalCount = 0;
+        let adjustedBlocks = 0;
+
+        for (const feature of scopedFeatures) {
+          const props = feature.properties || {};
+          const sourceKey =
+            [props.source_id, props.objectid, props.codigo, props.nombre]
+              .find((value) => value !== undefined && value !== null && String(value).trim()) || `iso_${uniqueSources.size}`;
+          uniqueSources.add(String(sourceKey));
+
+          const categoria = String(props.categoria || "").toUpperCase();
+          if (categoria === "BARRIAL") barrialCount += 1;
+          if (categoria === "ZONAL") zonalCount += 1;
+          adjustedBlocks += Number(props.manzanas_ajustadas || 0);
+        }
+
+        rows = [
+          ["Plataforma visible", currentPlatform === OUTSIDE_PLATFORMS ? "Fuera de plataformas" : displayPlatformName(currentPlatform)],
+          ["Equipamientos fuente", uniqueSources.size],
+          ["Isocronas visibles", scopedFeatures.length],
+          ["Barrial 1000 m", barrialCount],
+          ["Zonal 1000 m", zonalCount],
+          ["Manzanas ajustadas", adjustedBlocks],
+          ["Visualizacion", "Area rellena con borde"]
+        ];
+      }
+
+      container.innerHTML = rows
+        .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
+        .join("");
+    }
+
+    function updateSelectionStatusText() {
+      if (currentPlatform === ALL_PLATFORMS) {
+        const totalIsocronasCiudad =
+          (window.educacionIsocronasStats?.summary?.total_isocronas || 0) +
+          (window.recreacionIsocronasStats?.summary?.total_isocronas || 0) +
+          (window.bienestarIsocronasStats?.summary?.total_isocronas || 0) +
+          (window.culturaIsocronasStats?.summary?.total_isocronas || 0) +
+          (window.saludIsocronasStats?.summary?.total_isocronas || 0);
+
+        statusText.textContent =
+          `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} ` +
+          `plataformas, ${formatNumber(equipamientosFeatures.length)} puntos publicos y ` +
+          `${formatNumber(totalIsocronasCiudad)} isocronas tematicas de ciudad completa a 1000 m.`;
+        return;
+      }
+
+      const visibleManzanas = getCurrentFeatures().length;
+      const visibleEquipamientos = getVisibleEquipamientosFeatures().length;
+      const visibleIsocronas =
+        getPlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || []).length +
+        getPlatformScopedIsocronasFeatures(window.recreacionIsocronasFeatures || []).length +
+        getPlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || []).length +
+        getPlatformScopedIsocronasFeatures(window.culturaIsocronasFeatures || []).length +
+        getPlatformScopedIsocronasFeatures(window.saludIsocronasFeatures || []).length;
+
+      const selectionLabel = currentPlatform === OUTSIDE_PLATFORMS
+        ? "Fuera de plataformas"
+        : displayPlatformName(currentPlatform);
+
+      statusText.textContent =
+        `Mostrando ${selectionLabel}: ${formatNumber(visibleManzanas)} manzanas, ` +
+        `${formatNumber(visibleEquipamientos)} puntos publicos y ${formatNumber(visibleIsocronas)} ` +
+        `isocronas tematicas visibles.`;
+    }
+
     function ensureEquipamientoCategoriesInitialized() {
       if (!equipamientoCategoriesInitialized) {
         allEquipamientoCategories = sortEquipamientoCategories(
@@ -1208,8 +1365,10 @@
         map.removeLayer(platformLayer);
       }
 
+      const visiblePlatformFeatures = getVisiblePlatformFeatures();
+
       platformLayer = L.geoJSON(
-        { type: "FeatureCollection", features: platformFeatures },
+        { type: "FeatureCollection", features: visiblePlatformFeatures },
         {
           style: platformStyle,
           onEachFeature: (feature, layer) => {
@@ -1557,7 +1716,23 @@
       buildEquipamientoCategoryFilters();
       renderEquipamientosLayer();
       buildEquipamientosSummary();
+      buildEducacionIsocronasSummary();
+      buildRecreacionIsocronasSummary();
+      buildBienestarIsocronasSummary();
+      buildCulturaIsocronasSummary();
+      buildSaludIsocronasSummary();
+      renderEducacionIsocronasLayer();
+      renderEducacionIsocronasStartLayer();
+      renderRecreacionIsocronasLayer();
+      renderRecreacionIsocronasStartLayer();
+      renderBienestarIsocronasLayer();
+      renderBienestarIsocronasStartLayer();
+      renderCulturaIsocronasLayer();
+      renderCulturaIsocronasStartLayer();
+      renderSaludIsocronasLayer();
+      renderSaludIsocronasStartLayer();
       updateSummaryPanel();
+      updateSelectionStatusText();
     }
 
     async function init() {
@@ -1604,7 +1779,8 @@
             ...(platformStatsByName[feature.properties.platform_name] || {})
           }
         }));
-        equipamientosFeatures = equipamientosGeo.features || [];
+         equipamientosFeatures = equipamientosGeo.features || [];
+         rebuildEquipamientoPlatformIndex();
         equipamientoCategoriesInitialized = false;
         allEquipamientoCategories = [];
         selectedEquipamientoCategories = new Set();
@@ -1842,6 +2018,7 @@
           }
         }));
         equipamientosFeatures = equipamientosGeo.features || [];
+        rebuildEquipamientoPlatformIndex();
 
         const byMan = stats.byMan || {};
         const manToPlatform = platformsStats.manToPlatform || {};
@@ -2119,108 +2296,43 @@
     }
 
     function buildEducacionIsocronasSummary() {
-      if (!window.educacionIsocronasStats) {
-        educacionIsocronasSummary.innerHTML = "";
-        return;
-      }
-
-      const rows = [
-        ["Equipamientos fuente", window.educacionIsocronasStats.summary.total_equipamientos || 0],
-        ["Isocronas generadas", window.educacionIsocronasStats.summary.total_isocronas || 0],
-        ["Barrial 1000 m", (window.educacionIsocronasStats.by_categoria_isocronas || {}).BARRIAL || 0],
-        ["Zonal 1000 m", (window.educacionIsocronasStats.by_categoria_isocronas || {}).ZONAL || 0],
-        ["Cantonales omitidos", (window.educacionIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0],
-        ["Manzanas ajustadas", window.educacionIsocronasStats.summary.manzanas_ajustadas || 0],
-        ["Visualizacion", "Area rellena con borde"]
-      ];
-
-      educacionIsocronasSummary.innerHTML = rows
-        .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
-        .join("");
+      buildThematicIsocronasSummary(
+        educacionIsocronasSummary,
+        window.educacionIsocronasStats,
+        window.educacionIsocronasFeatures
+      );
     }
 
     function buildRecreacionIsocronasSummary() {
-      if (!window.recreacionIsocronasStats) {
-        recreacionIsocronasSummary.innerHTML = "";
-        return;
-      }
-
-      const rows = [
-        ["Equipamientos fuente", window.recreacionIsocronasStats.summary.total_equipamientos || 0],
-        ["Isocronas generadas", window.recreacionIsocronasStats.summary.total_isocronas || 0],
-        ["Barrial 1000 m", (window.recreacionIsocronasStats.by_categoria_isocronas || {}).BARRIAL || 0],
-        ["Zonal 1000 m", (window.recreacionIsocronasStats.by_categoria_isocronas || {}).ZONAL || 0],
-        ["Cantonales omitidos", (window.recreacionIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0],
-        ["Manzanas ajustadas", window.recreacionIsocronasStats.summary.manzanas_ajustadas || 0],
-        ["Visualizacion", "Area rellena con borde"]
-      ];
-
-      recreacionIsocronasSummary.innerHTML = rows
-        .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
-        .join("");
+      buildThematicIsocronasSummary(
+        recreacionIsocronasSummary,
+        window.recreacionIsocronasStats,
+        window.recreacionIsocronasFeatures
+      );
     }
 
     function buildBienestarIsocronasSummary() {
-      if (!window.bienestarIsocronasStats) {
-        bienestarIsocronasSummary.innerHTML = "";
-        return;
-      }
-
-      const rows = [
-        ["Equipamientos fuente", window.bienestarIsocronasStats.summary.total_equipamientos || 0],
-        ["Isocronas generadas", window.bienestarIsocronasStats.summary.total_isocronas || 0],
-        ["Barrial 1000 m", (window.bienestarIsocronasStats.by_categoria_isocronas || {}).BARRIAL || 0],
-        ["Zonal 1000 m", (window.bienestarIsocronasStats.by_categoria_isocronas || {}).ZONAL || 0],
-        ["Cantonales omitidos", (window.bienestarIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0],
-        ["Manzanas ajustadas", window.bienestarIsocronasStats.summary.manzanas_ajustadas || 0],
-        ["Visualizacion", "Area rellena con borde"]
-      ];
-
-      bienestarIsocronasSummary.innerHTML = rows
-        .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
-        .join("");
+      buildThematicIsocronasSummary(
+        bienestarIsocronasSummary,
+        window.bienestarIsocronasStats,
+        window.bienestarIsocronasFeatures
+      );
     }
 
     function buildCulturaIsocronasSummary() {
-      if (!window.culturaIsocronasStats) {
-        culturaIsocronasSummary.innerHTML = "";
-        return;
-      }
-
-      const rows = [
-        ["Equipamientos fuente", window.culturaIsocronasStats.summary.total_equipamientos || 0],
-        ["Isocronas generadas", window.culturaIsocronasStats.summary.total_isocronas || 0],
-        ["Barrial 1000 m", (window.culturaIsocronasStats.by_categoria_isocronas || {}).BARRIAL || 0],
-        ["Zonal 1000 m", (window.culturaIsocronasStats.by_categoria_isocronas || {}).ZONAL || 0],
-        ["Cantonales omitidos", (window.culturaIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0],
-        ["Manzanas ajustadas", window.culturaIsocronasStats.summary.manzanas_ajustadas || 0],
-        ["Visualizacion", "Area rellena con borde"]
-      ];
-
-      culturaIsocronasSummary.innerHTML = rows
-        .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
-        .join("");
+      buildThematicIsocronasSummary(
+        culturaIsocronasSummary,
+        window.culturaIsocronasStats,
+        window.culturaIsocronasFeatures
+      );
     }
 
     function buildSaludIsocronasSummary() {
-      if (!window.saludIsocronasStats) {
-        saludIsocronasSummary.innerHTML = "";
-        return;
-      }
-
-      const rows = [
-        ["Equipamientos fuente", window.saludIsocronasStats.summary.total_equipamientos || 0],
-        ["Isocronas generadas", window.saludIsocronasStats.summary.total_isocronas || 0],
-        ["Barrial 1000 m", (window.saludIsocronasStats.by_categoria_isocronas || {}).BARRIAL || 0],
-        ["Zonal 1000 m", (window.saludIsocronasStats.by_categoria_isocronas || {}).ZONAL || 0],
-        ["Cantonales omitidos", (window.saludIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0],
-        ["Manzanas ajustadas", window.saludIsocronasStats.summary.manzanas_ajustadas || 0],
-        ["Visualizacion", "Area rellena con borde"]
-      ];
-
-      saludIsocronasSummary.innerHTML = rows
-        .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
-        .join("");
+      buildThematicIsocronasSummary(
+        saludIsocronasSummary,
+        window.saludIsocronasStats,
+        window.saludIsocronasFeatures
+      );
     }
 
     function buildParadasBusIsocronasSummary() {
@@ -2450,7 +2562,7 @@
         map.removeLayer(window.educacionIsocronasStartLayer);
       }
 
-      const features = buildEducacionStartPointFeatures().sort(
+      const features = getPlatformScopedIsocronasFeatures(buildEducacionStartPointFeatures()).sort(
         (left, right) => Number(right.properties?.distance_m || 0) - Number(left.properties?.distance_m || 0)
       );
 
@@ -2503,7 +2615,7 @@
         map.removeLayer(window.recreacionIsocronasStartLayer);
       }
 
-      const features = buildRecreacionStartPointFeatures().sort(
+      const features = getPlatformScopedIsocronasFeatures(buildRecreacionStartPointFeatures()).sort(
         (left, right) => Number(right.properties?.distance_m || 0) - Number(left.properties?.distance_m || 0)
       );
 
@@ -2556,7 +2668,7 @@
         map.removeLayer(window.bienestarIsocronasStartLayer);
       }
 
-      const features = buildBienestarStartPointFeatures().sort(
+      const features = getPlatformScopedIsocronasFeatures(buildBienestarStartPointFeatures()).sort(
         (left, right) => Number(right.properties?.distance_m || 0) - Number(left.properties?.distance_m || 0)
       );
 
@@ -2609,7 +2721,7 @@
         map.removeLayer(window.culturaIsocronasStartLayer);
       }
 
-      const features = buildCulturaStartPointFeatures().sort(
+      const features = getPlatformScopedIsocronasFeatures(buildCulturaStartPointFeatures()).sort(
         (left, right) => Number(right.properties?.distance_m || 0) - Number(left.properties?.distance_m || 0)
       );
 
@@ -2662,7 +2774,7 @@
         map.removeLayer(window.saludIsocronasStartLayer);
       }
 
-      const features = buildSaludStartPointFeatures().sort(
+      const features = getPlatformScopedIsocronasFeatures(buildSaludStartPointFeatures()).sort(
         (left, right) => Number(right.properties?.distance_m || 0) - Number(left.properties?.distance_m || 0)
       );
 
@@ -2760,7 +2872,7 @@
         map.removeLayer(window.educacionIsocronasLayer);
       }
 
-      const features = (window.educacionIsocronasFeatures || [])
+      const features = getPlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || [])
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
         .filter(Boolean)
@@ -2820,7 +2932,7 @@
         map.removeLayer(window.recreacionIsocronasLayer);
       }
 
-      const features = (window.recreacionIsocronasFeatures || [])
+      const features = getPlatformScopedIsocronasFeatures(window.recreacionIsocronasFeatures || [])
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
         .filter(Boolean)
@@ -2880,7 +2992,7 @@
         map.removeLayer(window.bienestarIsocronasLayer);
       }
 
-      const features = (window.bienestarIsocronasFeatures || [])
+      const features = getPlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || [])
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
         .filter(Boolean)
@@ -2940,7 +3052,7 @@
         map.removeLayer(window.culturaIsocronasLayer);
       }
 
-      const features = (window.culturaIsocronasFeatures || [])
+      const features = getPlatformScopedIsocronasFeatures(window.culturaIsocronasFeatures || [])
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
         .filter(Boolean)
@@ -3000,7 +3112,7 @@
         map.removeLayer(window.saludIsocronasLayer);
       }
 
-      const features = (window.saludIsocronasFeatures || [])
+      const features = getPlatformScopedIsocronasFeatures(window.saludIsocronasFeatures || [])
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
         .filter(Boolean)
@@ -3553,6 +3665,7 @@
           }
         }));
         equipamientosFeatures = equipamientosGeo.features || [];
+        rebuildEquipamientoPlatformIndex();
 
         const byMan = stats.byMan || {};
         const manToPlatform = platformsStats.manToPlatform || {};
@@ -3576,21 +3689,6 @@
 
         buildPlatformOptions();
         buildCoverageList();
-        buildEducacionIsocronasSummary();
-        buildRecreacionIsocronasSummary();
-        buildBienestarIsocronasSummary();
-        buildCulturaIsocronasSummary();
-        buildSaludIsocronasSummary();
-        renderEducacionIsocronasLayer();
-        renderEducacionIsocronasStartLayer();
-        renderRecreacionIsocronasLayer();
-        renderRecreacionIsocronasStartLayer();
-        renderBienestarIsocronasLayer();
-        renderBienestarIsocronasStartLayer();
-        renderCulturaIsocronasLayer();
-        renderCulturaIsocronasStartLayer();
-        renderSaludIsocronasLayer();
-        renderSaludIsocronasStartLayer();
         renderAll(false);
 
         const totalIsocronasCiudad =
