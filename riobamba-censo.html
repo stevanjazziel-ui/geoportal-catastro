@@ -162,6 +162,19 @@
       font-weight: 700;
     }
 
+    .inline-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .inline-actions button {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 0.9rem;
+    }
+
     .layer-toggles {
       display: grid;
       gap: 10px;
@@ -256,6 +269,18 @@
       <section class="panel">
         <h2>Plataforma territorial</h2>
         <select id="platformSelect"></select>
+      </section>
+
+      <section class="panel">
+        <h2>Categorias del entorno</h2>
+        <div class="inline-actions">
+          <button id="selectAllCategoriesButton" type="button">Mostrar todas</button>
+          <button id="clearCategoriesButton" type="button">Limpiar</button>
+        </div>
+        <div class="layer-toggles" id="equipamientoCategoryFilters"></div>
+        <p style="margin-top:10px;">
+          Separa los puntos publicos por categoria tematica y deja visibles solo las que quieras revisar.
+        </p>
       </section>
 
       <section class="panel">
@@ -484,6 +509,9 @@
     let isocronaPolygonLayer = null;
     let isocronaNetworkLayer = null;
     let layerControl = null;
+    let allEquipamientoCategories = [];
+    let selectedEquipamientoCategories = new Set();
+    let equipamientoCategoriesInitialized = false;
     const layerVisibility = {
       manzanas: true,
       plataformas: true,
@@ -515,6 +543,9 @@
     const summaryTitle = document.getElementById("summaryTitle");
     const coverageList = document.getElementById("coverageList");
     const equipamientosSummary = document.getElementById("equipamientosSummary");
+    const equipamientoCategoryFilters = document.getElementById("equipamientoCategoryFilters");
+    const selectAllCategoriesButton = document.getElementById("selectAllCategoriesButton");
+    const clearCategoriesButton = document.getElementById("clearCategoriesButton");
     const isocronasSummary = document.getElementById("isocronasSummary");
     const educacionIsocronasSummary = document.getElementById("educacionIsocronasSummary");
     const recreacionIsocronasSummary = document.getElementById("recreacionIsocronasSummary");
@@ -587,12 +618,12 @@
     introText.innerHTML = "Visualizador por manzana censal y plataforma territorial. Incluye la isocrona peatonal de 1000 m desde equipamientos de la <strong>PLATAFORMA Ñ</strong>, la isocrona exacta de red de 400 m desde su borde y una referencia cartografica ajustada a manzanas.";
 
     function simplifyInterfaceForPublicEntorno() {
-      introText.innerHTML = "Visualizador por manzana censal y plataforma territorial. Muestra <strong>solo las manzanas censales</strong>, <strong>las plataformas</strong> y el <strong>levantamiento del entorno publico</strong> en puntos.";
+      introText.innerHTML = "Visualizador por manzana censal y plataforma territorial. Muestra <strong>solo las manzanas censales</strong>, <strong>las plataformas</strong> y el <strong>levantamiento del entorno publico</strong> en puntos, separado por categorias tematicas.";
       overlayTitle.textContent = "Riobamba por manzana, plataforma y entorno publico";
-      overlayText.textContent = "Haz clic en una manzana, plataforma o punto publico para ver sus datos.";
+      overlayText.textContent = "Haz clic en una manzana, plataforma o punto publico para ver sus datos y separar la capa por categoria.";
 
-      toggleEquipamientos.closest("label").querySelector("span").textContent = "Entorno publico";
-      equipamientosSummary.closest(".panel").querySelector("h2").textContent = "Entorno publico";
+      toggleEquipamientos.closest("label").querySelector("span").textContent = "Puntos publicos";
+      equipamientosSummary.closest(".panel").querySelector("h2").textContent = "Resumen por categoria";
 
       [
         toggleRedVial1000m,
@@ -689,6 +720,113 @@
 
     function formatNumber(value) {
       return Number(value || 0).toLocaleString("es-EC");
+    }
+
+    function repairText(value) {
+      return String(value || "")
+        .replaceAll("Ã¡", "á")
+        .replaceAll("Ã©", "é")
+        .replaceAll("Ã­", "í")
+        .replaceAll("Ã³", "ó")
+        .replaceAll("Ãº", "ú")
+        .replaceAll("Ã", "Á")
+        .replaceAll("Ã‰", "É")
+        .replaceAll("Ã", "Í")
+        .replaceAll("Ã“", "Ó")
+        .replaceAll("Ãš", "Ú")
+        .replaceAll("Ã±", "ñ")
+        .replaceAll("Ã‘", "Ñ");
+    }
+
+    function normalizeCategoryKey(value) {
+      return repairText(value)
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim();
+    }
+
+    const preferredEquipamientoCategoryOrder = [
+      "Educación",
+      "Salud",
+      "Bienestar social",
+      "Cultura",
+      "Recreación y deporte",
+      "Seguridad",
+      "Transporte",
+      "Administración pública",
+      "Infraestructura",
+      "Religioso",
+      "Especial",
+      "Servicios funerarios"
+    ];
+
+    const equipamientoCategoryAliases = {
+      educacion: "Educación",
+      salud: "Salud",
+      "bienestar social": "Bienestar social",
+      cultural: "Cultura",
+      cultura: "Cultura",
+      "recreativo y deporte": "Recreación y deporte",
+      "recreacion y deporte": "Recreación y deporte",
+      seguridad: "Seguridad",
+      transporte: "Transporte",
+      "administracion publica": "Administración pública",
+      infraestructura: "Infraestructura",
+      religioso: "Religioso",
+      especial: "Especial",
+      "servicios funerarios": "Servicios funerarios"
+    };
+
+    function sortEquipamientoCategories(categories) {
+      const orderIndex = new Map(
+        preferredEquipamientoCategoryOrder.map((label, index) => [label, index])
+      );
+
+      return [...categories].sort((a, b) => {
+        const indexA = orderIndex.has(a) ? orderIndex.get(a) : Number.MAX_SAFE_INTEGER;
+        const indexB = orderIndex.has(b) ? orderIndex.get(b) : Number.MAX_SAFE_INTEGER;
+        if (indexA !== indexB) {
+          return indexA - indexB;
+        }
+        return a.localeCompare(b, "es");
+      });
+    }
+
+    function getEquipamientoCategory(properties = {}) {
+      const rawValue = repairText(
+        properties.tipo_eleme || properties.elemento || properties.equipamien || properties.categoria || "Sin clasificar"
+      ).trim();
+      const normalized = normalizeCategoryKey(rawValue);
+      return equipamientoCategoryAliases[normalized] || rawValue || "Sin clasificar";
+    }
+
+    function getPlatformScopedEquipamientosFeatures() {
+      if (currentPlatform === ALL_PLATFORMS) {
+        return equipamientosFeatures;
+      }
+
+      if (currentPlatform === OUTSIDE_PLATFORMS) {
+        return equipamientosFeatures.filter((feature) => !feature.properties.platform_name);
+      }
+
+      const selected = displayPlatformName(currentPlatform);
+      return equipamientosFeatures.filter(
+        (feature) => displayPlatformName(feature.properties.platform_name) === selected
+      );
+    }
+
+    function ensureEquipamientoCategoriesInitialized() {
+      if (!equipamientoCategoriesInitialized) {
+        allEquipamientoCategories = sortEquipamientoCategories(
+          [...new Set(
+            (equipamientosFeatures || []).map((feature) => getEquipamientoCategory(feature.properties))
+          )]
+        );
+        selectedEquipamientoCategories = new Set(allEquipamientoCategories);
+        equipamientoCategoriesInitialized = true;
+      }
     }
 
     function featureToExteriorBoundary(feature) {
@@ -790,39 +928,32 @@
     }
 
     function getEquipamienValue(properties = {}) {
-      return properties.tipo_eleme || properties.elemento || properties.equipamien || properties.categoria || "Sin clasificar";
+      return getEquipamientoCategory(properties);
     }
 
     function getEquipamientoBuckets() {
-      if (!equipamientosStats) {
-        return {};
+      const counts = {};
+      for (const feature of getPlatformScopedEquipamientosFeatures()) {
+        const category = getEquipamientoCategory(feature.properties);
+        counts[category] = (counts[category] || 0) + 1;
       }
-
-      return equipamientosStats.byTipoEleme || equipamientosStats.byEquipamien || equipamientosStats.byCategory || {};
+      return counts;
     }
 
     function getVisibleEquipamientosFeatures() {
-      if (currentPlatform === ALL_PLATFORMS) {
-        return equipamientosFeatures;
-      }
-
-      if (currentPlatform === OUTSIDE_PLATFORMS) {
-        return equipamientosFeatures.filter((feature) => !feature.properties.platform_name);
-      }
-
-      const selected = displayPlatformName(currentPlatform);
-      return equipamientosFeatures.filter(
-        (feature) => displayPlatformName(feature.properties.platform_name) === selected
+      ensureEquipamientoCategoriesInitialized();
+      return getPlatformScopedEquipamientosFeatures().filter((feature) =>
+        selectedEquipamientoCategories.has(getEquipamientoCategory(feature.properties))
       );
     }
 
     function getEquipamientoColor(category) {
-      const buckets = getEquipamientoBuckets();
-      if (!Object.keys(buckets).length) {
+      ensureEquipamientoCategoriesInitialized();
+      if (!allEquipamientoCategories.length) {
         return "#ffd166";
       }
 
-      const categories = Object.keys(buckets);
+      const categories = allEquipamientoCategories;
       const index = Math.max(0, categories.indexOf(category));
       return equipamientoPalette[index % equipamientoPalette.length];
     }
@@ -880,29 +1011,54 @@
         return;
       }
 
+      ensureEquipamientoCategoriesInitialized();
       const visibleFeatures = getVisibleEquipamientosFeatures();
       const byTipo = {};
-      const byElemento = {};
       for (const feature of visibleFeatures) {
-        const tipo = getEquipamienValue(feature.properties);
-        const elemento = feature.properties.elemento || "Sin elemento";
+        const tipo = getEquipamientoCategory(feature.properties);
         byTipo[tipo] = (byTipo[tipo] || 0) + 1;
-        byElemento[elemento] = (byElemento[elemento] || 0) + 1;
       }
 
-      const rows = [
-        ["Puntos publicos", visibleFeatures.length],
-        ["Tipos principales", Object.keys(byTipo).length],
-        ["Elementos distintos", Object.keys(byElemento).length]
-      ];
+      const rows = [["Puntos visibles", visibleFeatures.length]];
 
-      const topCategories = Object.entries(byTipo).sort((a, b) => b[1] - a[1]).slice(0, 6);
+      const topCategories = sortEquipamientoCategories(Object.keys(byTipo))
+        .map((category) => [category, byTipo[category]]);
       for (const [category, count] of topCategories) {
         rows.push([category, count]);
       }
 
       equipamientosSummary.innerHTML = rows
         .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${formatNumber(value)}</strong></div>`)
+        .join("");
+    }
+
+    function buildEquipamientoCategoryFilters() {
+      ensureEquipamientoCategoriesInitialized();
+
+      const counts = {};
+      for (const feature of getPlatformScopedEquipamientosFeatures()) {
+        const category = getEquipamientoCategory(feature.properties);
+        counts[category] = (counts[category] || 0) + 1;
+      }
+
+      const categories = sortEquipamientoCategories(Object.keys(counts));
+      if (!categories.length) {
+        equipamientoCategoryFilters.innerHTML = `<p style="margin:0;color:var(--muted);">No hay puntos publicos en esta seleccion.</p>`;
+        selectAllCategoriesButton.disabled = true;
+        clearCategoriesButton.disabled = true;
+        return;
+      }
+
+      selectAllCategoriesButton.disabled = false;
+      clearCategoriesButton.disabled = false;
+
+      equipamientoCategoryFilters.innerHTML = categories
+        .map((category) => `
+          <label class="layer-toggle">
+            <span>${category} (${formatNumber(counts[category] || 0)})</span>
+            <input type="checkbox" data-category="${category}" ${selectedEquipamientoCategories.has(category) ? "checked" : ""}>
+          </label>
+        `)
         .join("");
     }
 
@@ -1065,7 +1221,7 @@
         {
           pane: "equipamientosPane",
           pointToLayer: (feature, latlng) => {
-            const equipamien = getEquipamienValue(feature.properties);
+            const equipamien = getEquipamientoCategory(feature.properties);
             const color = getEquipamientoColor(equipamien);
             return L.circleMarker(latlng, {
               radius: 6,
@@ -1078,17 +1234,17 @@
           },
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
-            const equipamien = getEquipamienValue(props);
-            const nombre = props.nombre_equ || props.nombre_ins || props.elemento || "Punto publico";
+            const equipamien = getEquipamientoCategory(props);
+            const nombre = repairText(props.nombre_equ || props.nombre_ins || props.elemento || "Punto publico");
             layer.bindPopup(`
               <strong>${nombre}</strong><br>
               <strong>Tipo principal:</strong> ${equipamien}<br>
-              <strong>Elemento:</strong> ${props.elemento || "-"}<br>
+              <strong>Elemento:</strong> ${repairText(props.elemento || "-")}<br>
               <strong>Plataforma:</strong> ${displayPlatformName(props.platform_name) || "Sin plataforma"}<br>
-              <strong>Parroquia:</strong> ${props.parroquia || "-"}<br>
-              <strong>Estado:</strong> ${props.estado || "-"}<br>
-              <strong>Tipologia:</strong> ${props.tipologia || "-"}<br>
-              <strong>Gestion:</strong> ${props.tipo_equip || "-"}
+              <strong>Parroquia:</strong> ${repairText(props.parroquia || "-")}<br>
+              <strong>Estado:</strong> ${repairText(props.estado || "-")}<br>
+              <strong>Tipologia:</strong> ${repairText(props.tipologia || "-")}<br>
+              <strong>Gestion:</strong> ${repairText(props.tipo_equip || "-")}
             `);
 
             layer.on("mouseover", () => {
@@ -1356,6 +1512,7 @@
     function renderAll(zoomToSelection = false) {
       renderPlatformLayer();
       renderManzanaLayer(zoomToSelection);
+      buildEquipamientoCategoryFilters();
       renderEquipamientosLayer();
       buildEquipamientosSummary();
       updateSummaryPanel();
@@ -1406,6 +1563,9 @@
           }
         }));
         equipamientosFeatures = equipamientosGeo.features || [];
+        equipamientoCategoriesInitialized = false;
+        allEquipamientoCategories = [];
+        selectedEquipamientoCategories = new Set();
 
         const byMan = stats.byMan || {};
         const manToPlatform = platformsStats.manToPlatform || {};
@@ -3824,6 +3984,33 @@
       } catch (error) {
         statusText.textContent = "No se pudo iniciar la descarga del shapefile de puntos de inicio de paradas de bus.";
       }
+    });
+
+    selectAllCategoriesButton.addEventListener("click", () => {
+      ensureEquipamientoCategoriesInitialized();
+      selectedEquipamientoCategories = new Set(allEquipamientoCategories);
+      renderAll(false);
+    });
+
+    clearCategoriesButton.addEventListener("click", () => {
+      selectedEquipamientoCategories = new Set();
+      renderAll(false);
+    });
+
+    equipamientoCategoryFilters.addEventListener("change", (event) => {
+      const input = event.target;
+      if (!(input instanceof HTMLInputElement) || input.type !== "checkbox" || !input.dataset.category) {
+        return;
+      }
+
+      const category = input.dataset.category;
+      if (input.checked) {
+        selectedEquipamientoCategories.add(category);
+      } else {
+        selectedEquipamientoCategories.delete(category);
+      }
+
+      renderAll(false);
     });
 
     metricSelect.addEventListener("change", () => {
