@@ -289,25 +289,25 @@
           <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Equipamientos</span><input id="toggleEquipamientos" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Red vial OSM 1000 m</span><input id="toggleRedVial1000m" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Red vial OSM 400 m</span><input id="toggleRedVial400m" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Borde externo isocrona exacta 400 m</span><input id="toggleIsocrona400m" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Contorno cartografico 400 m ajustado</span><input id="toggleIsocrona400mCarto" type="checkbox"></label>
-          <label class="layer-toggle"><span>Rutas transporte recortadas 400 m</span><input id="toggleTransporteRutas" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Buffer transporte 200 m por lado</span><input id="toggleTransporteBuffer" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Isocrona 1000 m desde equipamientos</span><input id="toggleIsocronasColindantes" type="checkbox" checked></label>
+          <label class="layer-toggle" style="display:none;"><span>Red vial OSM 1000 m</span><input id="toggleRedVial1000m" type="checkbox"></label>
+          <label class="layer-toggle" style="display:none;"><span>Red vial OSM 400 m</span><input id="toggleRedVial400m" type="checkbox"></label>
+          <label class="layer-toggle" style="display:none;"><span>Borde externo isocrona exacta 400 m</span><input id="toggleIsocrona400m" type="checkbox"></label>
+          <label class="layer-toggle" style="display:none;"><span>Contorno cartografico 400 m ajustado</span><input id="toggleIsocrona400mCarto" type="checkbox"></label>
+          <label class="layer-toggle" style="display:none;"><span>Rutas transporte recortadas 400 m</span><input id="toggleTransporteRutas" type="checkbox"></label>
+          <label class="layer-toggle" style="display:none;"><span>Buffer transporte 200 m por lado</span><input id="toggleTransporteBuffer" type="checkbox"></label>
+          <label class="layer-toggle" style="display:none;"><span>Isocrona 1000 m desde equipamientos</span><input id="toggleIsocronasColindantes" type="checkbox"></label>
           <label class="layer-toggle"><span>Isocronas educacion categorizada</span><input id="toggleEducacionIsocronas" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Puntos inicio educacion</span><input id="toggleEducacionIsocronasPuntos" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Puntos inicio educacion</span><input id="toggleEducacionIsocronasPuntos" type="checkbox"></label>
           <label class="layer-toggle"><span>Isocronas recreacion y deporte</span><input id="toggleRecreacionIsocronas" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Puntos inicio recreacion</span><input id="toggleRecreacionIsocronasPuntos" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Puntos inicio recreacion</span><input id="toggleRecreacionIsocronasPuntos" type="checkbox"></label>
           <label class="layer-toggle"><span>Isocronas bienestar social</span><input id="toggleBienestarIsocronas" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Puntos inicio bienestar social</span><input id="toggleBienestarIsocronasPuntos" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Puntos inicio bienestar social</span><input id="toggleBienestarIsocronasPuntos" type="checkbox"></label>
           <label class="layer-toggle"><span>Isocronas cultura categorizada</span><input id="toggleCulturaIsocronas" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Puntos inicio cultura</span><input id="toggleCulturaIsocronasPuntos" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Puntos inicio cultura</span><input id="toggleCulturaIsocronasPuntos" type="checkbox"></label>
           <label class="layer-toggle"><span>Isocronas salud categorizada</span><input id="toggleSaludIsocronas" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Puntos inicio salud</span><input id="toggleSaludIsocronasPuntos" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Isocronas paradas de bus 400 m</span><input id="toggleParadasBusIsocronas" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Puntos inicio paradas de bus</span><input id="toggleParadasBusPuntos" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Puntos inicio salud</span><input id="toggleSaludIsocronasPuntos" type="checkbox"></label>
+          <label class="layer-toggle" style="display:none;"><span>Isocronas paradas de bus 400 m</span><input id="toggleParadasBusIsocronas" type="checkbox"></label>
+          <label class="layer-toggle" style="display:none;"><span>Puntos inicio paradas de bus</span><input id="toggleParadasBusPuntos" type="checkbox"></label>
         </div>
       </section>
 
@@ -318,11 +318,11 @@
           <option value="xlsx">Excel (.xlsx)</option>
         </select>
         <button id="downloadDataButton" type="button">Descargar datos de la seleccion</button>
-        <button id="downloadIsochroneShpButton" type="button" style="margin-top:10px;">Descargar SHP de la isocrona 1000 m</button>
-        <button id="downloadIsochrone400ShpButton" type="button" style="margin-top:10px;">Descargar SHP de la isocrona 400 m</button>
-        <button id="downloadIsochrone400CartoShpButton" type="button" style="margin-top:10px;">Descargar contorno cartografico 400 m</button>
-        <button id="downloadTransporteRutasShpButton" type="button" style="margin-top:10px;">Descargar SHP rutas transporte recortadas</button>
-        <button id="downloadTransporteBufferShpButton" type="button" style="margin-top:10px;">Descargar SHP buffer transporte 200 m por lado</button>
+        <button id="downloadIsochroneShpButton" type="button" style="margin-top:10px;display:none;">Descargar SHP de la isocrona 1000 m</button>
+        <button id="downloadIsochrone400ShpButton" type="button" style="margin-top:10px;display:none;">Descargar SHP de la isocrona 400 m</button>
+        <button id="downloadIsochrone400CartoShpButton" type="button" style="margin-top:10px;display:none;">Descargar contorno cartografico 400 m</button>
+        <button id="downloadTransporteRutasShpButton" type="button" style="margin-top:10px;display:none;">Descargar SHP rutas transporte recortadas</button>
+        <button id="downloadTransporteBufferShpButton" type="button" style="margin-top:10px;display:none;">Descargar SHP buffer transporte 200 m por lado</button>
         <button id="downloadEducacionIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con poligonos separados de isocronas educacion</button>
         <button id="downloadEducacionStartPointsShpButton" type="button" style="margin-top:10px;">Descargar SHP de puntos de inicio educacion</button>
         <button id="downloadEducacionManzanasInShpButton" type="button" style="margin-top:10px;">Descargar manzanas dentro de cada isocrona de educacion</button>
@@ -338,11 +338,11 @@
         <button id="downloadSaludIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con poligonos separados de isocronas salud</button>
         <button id="downloadSaludStartPointsShpButton" type="button" style="margin-top:10px;">Descargar SHP de puntos de inicio salud</button>
         <button id="downloadSaludManzanasInShpButton" type="button" style="margin-top:10px;">Descargar manzanas dentro de cada isocrona de salud</button>
-        <button id="downloadParadasBusIsocronasShpButton" type="button" style="margin-top:10px;">Descargar ZIP con poligonos separados de paradas de bus</button>
-        <button id="downloadParadasBusStartPointsShpButton" type="button" style="margin-top:10px;">Descargar SHP de puntos de inicio de paradas de bus</button>
+        <button id="downloadParadasBusIsocronasShpButton" type="button" style="margin-top:10px;display:none;">Descargar ZIP con poligonos separados de paradas de bus</button>
+        <button id="downloadParadasBusStartPointsShpButton" type="button" style="margin-top:10px;display:none;">Descargar SHP de puntos de inicio de paradas de bus</button>
         <p style="margin-top:10px;">
-          Descarga la vista actual de la plataforma seleccionada en formato Shape o Excel.
-          Si eliges una plataforma, se exportan sus manzanas censales filtradas.
+          Descarga la plataforma seleccionada en formato Shape o Excel, junto con las
+          nuevas capas tematicas de isocronas 1000 m visibles en el panel.
         </p>
       </section>
 
@@ -376,7 +376,7 @@
         <div class="mini-list" id="equipamientosSummary"></div>
       </section>
 
-      <section class="panel">
+      <section class="panel" style="display:none;">
         <h2>Isocrona 1000 m desde equipamientos</h2>
         <div class="mini-list" id="isocronasSummary"></div>
       </section>
@@ -406,17 +406,17 @@
         <div class="mini-list" id="saludIsocronasSummary"></div>
       </section>
 
-      <section class="panel">
+      <section class="panel" style="display:none;">
         <h2>Isocronas paradas de bus 400 m</h2>
         <div class="mini-list" id="paradasBusIsocronasSummary"></div>
       </section>
 
-      <section class="panel">
+      <section class="panel" style="display:none;">
         <h2>Isocrona exacta 400 m</h2>
         <div class="mini-list" id="isocronas400Summary"></div>
       </section>
 
-      <section class="panel">
+      <section class="panel" style="display:none;">
         <h2>Referencia cartografica 400 m</h2>
         <div class="mini-list" id="isocronas400CartoSummary"></div>
       </section>
