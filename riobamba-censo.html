@@ -291,7 +291,7 @@
           <label class="layer-toggle"><span>Equipamientos</span><input id="toggleEquipamientos" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Red vial OSM 1000 m</span><input id="toggleRedVial1000m" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Red vial OSM 400 m</span><input id="toggleRedVial400m" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Borde externo isocrona exacta 400 m</span><input id="toggleIsocrona400m" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Area isocrona exacta 400 m</span><input id="toggleIsocrona400m" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Contorno cartografico 400 m ajustado</span><input id="toggleIsocrona400mCarto" type="checkbox"></label>
           <label class="layer-toggle"><span>Rutas transporte recortadas 400 m</span><input id="toggleTransporteRutas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Buffer transporte 200 m por lado</span><input id="toggleTransporteBuffer" type="checkbox" checked></label>
@@ -880,8 +880,8 @@
           type: "Feature",
           properties: feature.properties,
           geometry: {
-            type: "LineString",
-            coordinates: geometry.coordinates[0] || []
+            type: "Polygon",
+            coordinates: [geometry.coordinates[0] || []]
           }
         };
       }
@@ -891,8 +891,10 @@
           type: "Feature",
           properties: feature.properties,
           geometry: {
-            type: "MultiLineString",
-            coordinates: geometry.coordinates.map((polygon) => polygon[0]).filter(Boolean)
+            type: "MultiPolygon",
+            coordinates: geometry.coordinates
+              .map((polygon) => [polygon[0]].filter(Boolean))
+              .filter((polygon) => polygon.length)
           }
         };
       }
@@ -2129,7 +2131,7 @@
         ["Zonal 1000 m", (window.educacionIsocronasStats.by_categoria_isocronas || {}).ZONAL || 0],
         ["Cantonales omitidos", (window.educacionIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0],
         ["Manzanas ajustadas", window.educacionIsocronasStats.summary.manzanas_ajustadas || 0],
-        ["Visualizacion", "Solo limite exterior"]
+        ["Visualizacion", "Area rellena con borde"]
       ];
 
       educacionIsocronasSummary.innerHTML = rows
@@ -2150,7 +2152,7 @@
         ["Zonal 1000 m", (window.recreacionIsocronasStats.by_categoria_isocronas || {}).ZONAL || 0],
         ["Cantonales omitidos", (window.recreacionIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0],
         ["Manzanas ajustadas", window.recreacionIsocronasStats.summary.manzanas_ajustadas || 0],
-        ["Visualizacion", "Solo limite exterior"]
+        ["Visualizacion", "Area rellena con borde"]
       ];
 
       recreacionIsocronasSummary.innerHTML = rows
@@ -2171,7 +2173,7 @@
         ["Zonal 1000 m", (window.bienestarIsocronasStats.by_categoria_isocronas || {}).ZONAL || 0],
         ["Cantonales omitidos", (window.bienestarIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0],
         ["Manzanas ajustadas", window.bienestarIsocronasStats.summary.manzanas_ajustadas || 0],
-        ["Visualizacion", "Solo limite exterior"]
+        ["Visualizacion", "Area rellena con borde"]
       ];
 
       bienestarIsocronasSummary.innerHTML = rows
@@ -2192,7 +2194,7 @@
         ["Zonal 1000 m", (window.culturaIsocronasStats.by_categoria_isocronas || {}).ZONAL || 0],
         ["Cantonales omitidos", (window.culturaIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0],
         ["Manzanas ajustadas", window.culturaIsocronasStats.summary.manzanas_ajustadas || 0],
-        ["Visualizacion", "Solo limite exterior"]
+        ["Visualizacion", "Area rellena con borde"]
       ];
 
       culturaIsocronasSummary.innerHTML = rows
@@ -2213,7 +2215,7 @@
         ["Zonal 1000 m", (window.saludIsocronasStats.by_categoria_isocronas || {}).ZONAL || 0],
         ["Cantonales omitidos", (window.saludIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0],
         ["Manzanas ajustadas", window.saludIsocronasStats.summary.manzanas_ajustadas || 0],
-        ["Visualizacion", "Solo limite exterior"]
+        ["Visualizacion", "Area rellena con borde"]
       ];
 
       saludIsocronasSummary.innerHTML = rows
@@ -2233,7 +2235,7 @@
         ["Distancia", `${formatNumber(window.paradasBusIsocronasStats.summary.distancia_m || 400)} m`],
         ["Omitidas", window.paradasBusIsocronasStats.summary.omitidos || 0],
         ["Manzanas ajustadas", window.paradasBusIsocronasStats.summary.manzanas_ajustadas || 0],
-        ["Visualizacion", "Solo limite exterior"]
+        ["Visualizacion", "Area rellena con borde"]
       ];
 
       paradasBusIsocronasSummary.innerHTML = rows
@@ -2250,7 +2252,7 @@
         weight: categoria === "BARRIAL" ? 2.6 : 2.1,
         opacity: 0.95,
         fillColor: color,
-        fillOpacity: categoria === "BARRIAL" ? 0.14 : 0.08,
+        fillOpacity: categoria === "BARRIAL" ? 0.3 : 0.22,
         dashArray: distance >= 1000 ? "10 6" : ""
       };
     }
@@ -2264,7 +2266,7 @@
         weight: categoria === "BARRIAL" ? 2.7 : 2.2,
         opacity: 0.95,
         fillColor: color,
-        fillOpacity: categoria === "BARRIAL" ? 0.12 : 0.08,
+        fillOpacity: categoria === "BARRIAL" ? 0.28 : 0.2,
         dashArray: distance >= 1000 ? "11 6" : ""
       };
     }
@@ -2278,7 +2280,7 @@
         weight: categoria === "BARRIAL" ? 2.7 : 2.2,
         opacity: 0.96,
         fillColor: color,
-        fillOpacity: categoria === "BARRIAL" ? 0.12 : 0.08,
+        fillOpacity: categoria === "BARRIAL" ? 0.27 : 0.19,
         dashArray: distance >= 1000 ? "11 6" : ""
       };
     }
@@ -2292,7 +2294,7 @@
         weight: categoria === "BARRIAL" ? 2.7 : 2.2,
         opacity: 0.96,
         fillColor: color,
-        fillOpacity: categoria === "BARRIAL" ? 0.12 : 0.08,
+        fillOpacity: categoria === "BARRIAL" ? 0.27 : 0.19,
         dashArray: distance >= 1000 ? "11 6" : ""
       };
     }
@@ -2306,7 +2308,7 @@
         weight: categoria === "BARRIAL" ? 2.7 : 2.2,
         opacity: 0.96,
         fillColor: color,
-        fillOpacity: categoria === "BARRIAL" ? 0.12 : 0.08,
+        fillOpacity: categoria === "BARRIAL" ? 0.27 : 0.19,
         dashArray: distance >= 1000 ? "11 6" : ""
       };
     }
@@ -2779,6 +2781,9 @@
               color: baseStyle.color,
               weight: baseStyle.weight,
               opacity: baseStyle.opacity,
+              fillColor: baseStyle.fillColor,
+              fillOpacity: baseStyle.fillOpacity,
+              lineJoin: "round",
               dashArray: baseStyle.dashArray
             };
           },
@@ -2802,7 +2807,7 @@
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocronas educacion categorizada";
-              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales, mostrada solo con el borde exterior y con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
+              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
             });
           }
         }
@@ -2836,6 +2841,9 @@
               color: baseStyle.color,
               weight: baseStyle.weight,
               opacity: baseStyle.opacity,
+              fillColor: baseStyle.fillColor,
+              fillOpacity: baseStyle.fillOpacity,
+              lineJoin: "round",
               dashArray: baseStyle.dashArray
             };
           },
@@ -2859,7 +2867,7 @@
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocronas recreacion y deporte";
-              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales, mostrada solo con el borde exterior y con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
+              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
             });
           }
         }
@@ -2893,6 +2901,9 @@
               color: baseStyle.color,
               weight: baseStyle.weight,
               opacity: baseStyle.opacity,
+              fillColor: baseStyle.fillColor,
+              fillOpacity: baseStyle.fillOpacity,
+              lineJoin: "round",
               dashArray: baseStyle.dashArray
             };
           },
@@ -2916,7 +2927,7 @@
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocronas bienestar social";
-              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales, mostrada solo con el borde exterior y con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
+              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
             });
           }
         }
@@ -2950,6 +2961,9 @@
               color: baseStyle.color,
               weight: baseStyle.weight,
               opacity: baseStyle.opacity,
+              fillColor: baseStyle.fillColor,
+              fillOpacity: baseStyle.fillOpacity,
+              lineJoin: "round",
               dashArray: baseStyle.dashArray
             };
           },
@@ -2973,7 +2987,7 @@
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocronas cultura categorizada";
-              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales, mostrada solo con el borde exterior y con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
+              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
             });
           }
         }
@@ -3007,6 +3021,9 @@
               color: baseStyle.color,
               weight: baseStyle.weight,
               opacity: baseStyle.opacity,
+              fillColor: baseStyle.fillColor,
+              fillOpacity: baseStyle.fillOpacity,
+              lineJoin: "round",
               dashArray: baseStyle.dashArray
             };
           },
@@ -3030,7 +3047,7 @@
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocronas salud categorizada";
-              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales, mostrada solo con el borde exterior y con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
+              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
             });
           }
         }
@@ -3061,6 +3078,9 @@
             color: paradasBusIsoColor,
             weight: 1.9,
             opacity: 0.9,
+            fillColor: paradasBusIsoColor,
+            fillOpacity: 0.2,
+            lineJoin: "round",
             dashArray: "6 4"
           },
           onEachFeature: (feature, layer) => {
@@ -3081,7 +3101,7 @@
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocrona parada de bus 400 m";
-              overlayText.textContent = `${props.nombre || "Parada de bus"} genera una isocrona de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales, mostrada solo con el borde exterior y con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
+              overlayText.textContent = `${props.nombre || "Parada de bus"} genera una isocrona de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
             });
           }
         }
@@ -3157,7 +3177,8 @@
             weight: 2.6,
             opacity: 0.95,
             fillColor: legacyIsochronePolygonColor,
-            fillOpacity: 0.05,
+            fillOpacity: 0.22,
+            lineJoin: "round",
             dashArray: "10 6"
           },
           onEachFeature: (feature, layer) => {
@@ -3256,6 +3277,9 @@
             color: isocronaPolygonColor,
             weight: 3.1,
             opacity: 0.95,
+            fillColor: isocronaPolygonColor,
+            fillOpacity: 0.18,
+            lineJoin: "round",
             dashArray: ""
           },
           onEachFeature: (feature, layer) => {
@@ -3308,6 +3332,9 @@
             color: "#9ff7e5",
             weight: 2.2,
             opacity: 0.8,
+            fillColor: "#9ff7e5",
+            fillOpacity: 0.14,
+            lineJoin: "round",
             dashArray: "8 6"
           },
           onEachFeature: (feature, layer) => {
