@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-31T12:28:33",
+  "generated_at": "2026-07-31T15:44:51",
   "source_geojson": "D:\\codex\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
   "source_osm_cache": "D:\\codex\\riobamba-censo-data\\riobamba_osm_walk_network_5categorias_todas_plataformas.json",
   "summary": {
@@ -7,7 +7,8 @@
     "total_isocronas": 17,
     "categorias_con_isocrona": 2,
     "omitidos": 5,
-    "manzanas_ajustadas": 3876
+    "manzanas_ajustadas": 3876,
+    "manzanas_grandes_recortadas": 108
   },
   "by_categoria_source": {
     "BARRIAL": 10,
@@ -24,5 +25,5 @@
   "by_distance_m": {
     "1000": 17
   },
-  "observacion": "Isocronas de cultura todas las plataformas usando el levantamiento publico de todas las plataformas. BARRIAL y ZONAL se generan a 1000 m. CANTONAL no se procesa. El resultado final queda ajustado a manzanas censales y preparado para mostrar solo el limite exterior."
+  "observacion": "Isocronas de cultura todas las plataformas usando el levantamiento publico de todas las plataformas. BARRIAL y ZONAL se generan a 1000 m. CANTONAL no se procesa. Las manzanas grandes se recortan al limite exacto de red para evitar extensiones mayores a la distancia objetivo y el resultado final se prepara para mostrar solo el limite exterior."
 }

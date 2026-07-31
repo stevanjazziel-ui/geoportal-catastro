@@ -33,6 +33,8 @@ MANZANAS_STATS_PATH = DATA_DIR / "riobamba_manzanas_stats.json"
 MANZANA_OVERLAP_RATIO_THRESHOLD = 0.25
 MANZANA_REP_BUFFER_METERS = 20
 EXTERNAL_CLOSE_GAP_METERS = 10
+HOMOGENIZE_MAX_EXPANSION_METERS = 12
+FINAL_EXACT_CLIP_BUFFER_METERS = 18
 MIN_COMPONENT_AREA_M2 = 1200
 MIN_COMPONENT_RATIO = 0.04
 LARGE_MANZANA_AREA_THRESHOLD_M2 = 20000
@@ -78,7 +80,10 @@ def load_json(path):
 
 def save_json(path, payload):
     with open(path, "w", encoding="utf-8") as handle:
-        json.dump(payload, handle, ensure_ascii=False, indent=2)
+        if str(path).lower().endswith(".geojson"):
+            json.dump(payload, handle, ensure_ascii=False, separators=(",", ":"))
+        else:
+            json.dump(payload, handle, ensure_ascii=False, indent=2)
 
 
 def to_utm(geom):
@@ -416,6 +421,24 @@ def qualifies_special_manzana_tolerance(manzana_id, manzana_geom, isochrone_poly
     return True
 
 
+def clip_large_manzana_geometry(manzana_geom, overlap_geom):
+    manzana_area = float(manzana_geom.area)
+    if manzana_area < LARGE_MANZANA_AREA_THRESHOLD_M2:
+        return manzana_geom, False
+
+    if overlap_geom.is_empty:
+        return manzana_geom, False
+
+    clipped = overlap_geom.buffer(0)
+    if clipped.is_empty:
+        return manzana_geom, False
+
+    if abs(float(clipped.area) - manzana_area) <= 1.0:
+        return manzana_geom, False
+
+    return clipped, True
+
+
 def align_polygon_to_manzanas(
     manzana_features,
     isochrone_polygon,
@@ -426,6 +449,7 @@ def align_polygon_to_manzanas(
 ):
     selected_geometries = []
     selected_ids = []
+    clipped_large_ids = []
     selection_buffer = isochrone_polygon.buffer(MANZANA_REP_BUFFER_METERS)
     reachable_corridor = unary_union(reachable_segments).buffer(NETWORK_FRONTAGE_BUFFER_METERS) if reachable_segments else None
     max_vertex_distance = target_distance_m + MAX_VERTEX_TOLERANCE_BY_DISTANCE.get(
@@ -487,14 +511,20 @@ def align_polygon_to_manzanas(
         ):
             continue
 
-        selected_geometries.append(manzana_geom)
+        geometry_to_add, was_clipped = clip_large_manzana_geometry(
+            manzana_geom,
+            overlap_geom,
+        )
+        selected_geometries.append(geometry_to_add)
         if manzana_id:
             selected_ids.append(manzana_id)
+            if was_clipped:
+                clipped_large_ids.append(manzana_id)
 
     if not selected_geometries:
-        return isochrone_polygon, []
+        return isochrone_polygon, [], []
 
-    return unary_union(selected_geometries), selected_ids
+    return unary_union(selected_geometries), selected_ids, clipped_large_ids
 
 
 def build_external_limit_polygon(aligned_polygon, close_gap_m):
@@ -530,14 +560,28 @@ def keep_significant_components(geometry, min_area_m2, min_area_ratio):
 def homogenize_aligned_polygon(aligned_polygon):
     closed = build_external_limit_polygon(aligned_polygon, EXTERNAL_CLOSE_GAP_METERS)
     holeless = remove_internal_holes(closed)
+    constrained = holeless.intersection(aligned_polygon.buffer(HOMOGENIZE_MAX_EXPANSION_METERS))
+    if constrained.is_empty:
+        constrained = holeless
+    constrained_holeless = remove_internal_holes(constrained)
     filtered = keep_significant_components(
-        holeless,
+        constrained_holeless,
         MIN_COMPONENT_AREA_M2,
         MIN_COMPONENT_RATIO,
     )
     cleaned = filtered.buffer(0)
     if cleaned.is_empty:
-        return holeless
+        return constrained_holeless
+    return cleaned
+
+
+def clip_polygon_to_exact_limit(final_polygon, exact_polygon):
+    clipped = final_polygon.intersection(exact_polygon.buffer(FINAL_EXACT_CLIP_BUFFER_METERS))
+    if clipped.is_empty:
+        return final_polygon
+    cleaned = clipped.buffer(0)
+    if cleaned.is_empty:
+        return clipped
     return cleaned
 
 
@@ -685,7 +729,7 @@ def build_single_isochrone(config, record, manzana_features, manzana_stats_by_id
         return None
 
     source_point = Point(*source_entry["projected_xy"])
-    aligned_polygon, covered_manzanas = align_polygon_to_manzanas(
+    aligned_polygon, covered_manzanas, clipped_large_manzanas = align_polygon_to_manzanas(
         manzana_features,
         exact_polygon,
         source_point,
@@ -697,6 +741,8 @@ def build_single_isochrone(config, record, manzana_features, manzana_stats_by_id
         final_polygon = remove_internal_holes(aligned_polygon.buffer(0))
     if final_polygon.is_empty:
         final_polygon = exact_polygon
+    final_polygon = clip_polygon_to_exact_limit(final_polygon, exact_polygon)
+    final_polygon = remove_internal_holes(final_polygon)
 
     population_total = population_total_for_manzanas(covered_manzanas, manzana_stats_by_id)
 
@@ -723,7 +769,9 @@ def build_single_isochrone(config, record, manzana_features, manzana_stats_by_id
             "segmentos_red": len(segments),
             "longitud_red_m": round(total_length, 2),
             "manzanas_ajustadas": len(covered_manzanas),
+            "manzanas_grandes_recortadas": len(clipped_large_manzanas),
             "covered_manzanas": list(covered_manzanas),
+            "clipped_large_manzanas": list(clipped_large_manzanas),
             "population_total": population_total,
             "area_poligono_red_m2": round(exact_polygon.area, 2),
             "area_poligono_manzanas_m2": round(aligned_polygon.area, 2),
@@ -826,6 +874,10 @@ def run_config(config):
             "categorias_con_isocrona": len(generated_counter),
             "omitidos": sum(skipped_counter.values()),
             "manzanas_ajustadas": sum(int(feature["properties"].get("manzanas_ajustadas", 0) or 0) for feature in isocronas),
+            "manzanas_grandes_recortadas": sum(
+                int(feature["properties"].get("manzanas_grandes_recortadas", 0) or 0)
+                for feature in isocronas
+            ),
         },
         "by_categoria_source": equipamientos_stats["by_categoria"],
         "by_categoria_isocronas": dict(sorted(generated_counter.items(), key=lambda item: (-item[1], item[0]))),
@@ -834,7 +886,9 @@ def run_config(config):
         "observacion": (
             f"Se generan isocronas de {config.display_name} para BARRIAL ({barrial_text}) y "
             f"ZONAL ({zonal_text}). Los registros CANTONAL no se procesan. El resultado final "
-            "queda ajustado a manzanas censales, sin huecos internos y preparado para mostrar "
+            "queda ajustado a manzanas censales; cuando una manzana es grande se recorta al "
+            "limite exacto de red para no extender la cobertura mas alla de la distancia "
+            "objetivo. El resultado final queda sin huecos internos y preparado para mostrar "
             "solo el limite exterior."
         ),
     }

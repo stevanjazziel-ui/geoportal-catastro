@@ -312,6 +312,10 @@ def run_category(run, manzanas_features, manzana_stats_by_id, base_graph, edge_t
             "categorias_con_isocrona": len(generated_counter),
             "omitidos": sum(skipped_counter.values()),
             "manzanas_ajustadas": sum(int(feature["properties"].get("manzanas_ajustadas", 0) or 0) for feature in isocronas),
+            "manzanas_grandes_recortadas": sum(
+                int(feature["properties"].get("manzanas_grandes_recortadas", 0) or 0)
+                for feature in isocronas
+            ),
         },
         "by_categoria_source": equipamientos_stats["by_categoria"],
         "by_categoria_isocronas": dict(sorted(generated_counter.items(), key=lambda item: (-item[1], item[0]))),
@@ -320,7 +324,8 @@ def run_category(run, manzanas_features, manzana_stats_by_id, base_graph, edge_t
         "observacion": (
             f"Isocronas de {run.display_name} usando el levantamiento publico de todas las plataformas. "
             "BARRIAL y ZONAL se generan a 1000 m. CANTONAL no se procesa. "
-            "El resultado final queda ajustado a manzanas censales y preparado para mostrar solo el limite exterior."
+            "Las manzanas grandes se recortan al limite exacto de red para evitar extensiones mayores "
+            "a la distancia objetivo y el resultado final se prepara para mostrar solo el limite exterior."
         ),
     }
 
