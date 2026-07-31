@@ -1,0 +1,649 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 1,
+        "objectid": 1,
+        "codigo": "5ef3b31c",
+        "equipamien": "Bienestar Social",
+        "nombre": "Casa del Bienestar",
+        "categoria": "CANTONAL",
+        "isocrona_distance_m": 0,
+        "genera_isocrona": false,
+        "platform_name": "PLATAFORMA Ñ",
+        "plataforma": "PLATAFORMA Ñ",
+        "elemento": "Casa del Bienestar o Centro de protección de mujeres o menores",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Cantonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6513172,
+          -1.6813748999999985
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 2,
+        "objectid": 2,
+        "codigo": "12667371",
+        "equipamien": "Bienestar Social",
+        "nombre": "Wawateca wayra",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA G",
+        "plataforma": "PLATAFORMA G",
+        "elemento": "Centros infantiles, guarderías o wawatecas",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66352554746841,
+          -1.6479797035189734
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 3,
+        "objectid": 3,
+        "codigo": "def1a026",
+        "equipamien": "Bienestar Social",
+        "nombre": "Centro de desarrollo infantil sembradores del mañana",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA D",
+        "plataforma": "PLATAFORMA D",
+        "elemento": "Centros infantiles, guarderías o wawatecas",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.687455306,
+          -1.6536235620000017
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 4,
+        "objectid": 4,
+        "codigo": "53b0cf55",
+        "equipamien": "Bienestar Social",
+        "nombre": "WAWATECA NINA",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA P",
+        "plataforma": "PLATAFORMA P",
+        "elemento": "Centros infantiles, guarderías o wawatecas",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6359067,
+          -1.6879735000000025
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 5,
+        "objectid": 5,
+        "codigo": "33814998",
+        "equipamien": "Bienestar Social",
+        "nombre": "CENTRO DE FORMACIÓN ARTESANAL",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA P",
+        "plataforma": "PLATAFORMA P",
+        "elemento": "Casas de acogida, centros de formación juvenil y familiar, orfanatos, asilos,",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.635808,
+          -1.687952699999996
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 6,
+        "objectid": 6,
+        "codigo": "336e8a06",
+        "equipamien": "Bienestar Social",
+        "nombre": "CDI MIS ANGELITOS",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA P",
+        "plataforma": "PLATAFORMA P",
+        "elemento": "CDI",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.639595627,
+          -1.6820298889999994
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 7,
+        "objectid": 7,
+        "codigo": "b4118a6f",
+        "equipamien": "Bienestar Social",
+        "nombre": "CDI MI PEQUEÑO PARAÍSO",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA P",
+        "plataforma": "PLATAFORMA P",
+        "elemento": "CDI",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6432154,
+          -1.6880412000000025
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 8,
+        "objectid": 8,
+        "codigo": "46d5568e",
+        "equipamien": "Bienestar Social",
+        "nombre": "Wawateca San Alfonso",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA K",
+        "plataforma": "PLATAFORMA K",
+        "elemento": "Centros infantiles, guarderías o wawatecas",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.646067617,
+          -1.6717244579999933
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 9,
+        "objectid": 9,
+        "codigo": "e6666875",
+        "equipamien": "Bienestar Social",
+        "nombre": "CDI Guardianes de los Andes",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA K",
+        "plataforma": "PLATAFORMA K",
+        "elemento": "CDI",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.645995461,
+          -1.6715684129999961
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 10,
+        "objectid": 10,
+        "codigo": "c96555ff",
+        "equipamien": "Bienestar Social",
+        "nombre": "Ministerio de Desarrollo Humano",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA I",
+        "plataforma": "PLATAFORMA I",
+        "elemento": "Casas de acogida, centros de formación juvenil y familiar, orfanatos, asilos,",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.659933333,
+          -1.6584300000000023
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 11,
+        "objectid": 11,
+        "codigo": "3f3b687e",
+        "equipamien": "Bienestar Social",
+        "nombre": "Centro de desarrollo infantil Francisco Chiriboga",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA I",
+        "plataforma": "PLATAFORMA I",
+        "elemento": "Centros infantiles, guarderías o wawatecas",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.656832903,
+          -1.6619757310000007
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 12,
+        "objectid": 12,
+        "codigo": "a2b0207a",
+        "equipamien": "Bienestar Social",
+        "nombre": "Bienes acompañamiento familiar ministerio de Desarrollo Humano",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA I",
+        "plataforma": "PLATAFORMA I",
+        "elemento": "Casas de acogida, centros de formación juvenil y familiar, orfanatos, asilos,",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.657206972,
+          -1.6592945030000001
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 13,
+        "objectid": 13,
+        "codigo": "eb92695d",
+        "equipamien": "Bienestar Social",
+        "nombre": "CDI Dolores Veitimilla",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA O",
+        "plataforma": "PLATAFORMA O",
+        "elemento": "CDI",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63808394409455,
+          -1.6695706650394244
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 14,
+        "objectid": 14,
+        "codigo": "9a2e8c87",
+        "equipamien": "Bienestar Social",
+        "nombre": "CDI Juan de Velasco",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA O",
+        "plataforma": "PLATAFORMA O",
+        "elemento": "CDI",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6372242100488,
+          -1.6707258413186008
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 15,
+        "objectid": 15,
+        "codigo": "3845e8ab",
+        "equipamien": "Bienestar Social",
+        "nombre": "FEBANOR",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA C",
+        "plataforma": "PLATAFORMA C",
+        "elemento": "CDI",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.678489562,
+          -1.6457470380000083
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 16,
+        "objectid": 16,
+        "codigo": "2f36d8ef",
+        "equipamien": "Bienestar Social",
+        "nombre": "CENTRO DE DESARROLLO INFANTIL GOTITAS DE MIEL",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA C",
+        "plataforma": "PLATAFORMA C",
+        "elemento": "Centros infantiles, guarderías o wawatecas",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6850936,
+          -1.6364874000000023
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 17,
+        "objectid": 17,
+        "codigo": "bb87b150",
+        "equipamien": "Bienestar Social",
+        "nombre": "Centro Infantil",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA B",
+        "plataforma": "PLATAFORMA B",
+        "elemento": "Centros infantiles, guarderías o wawatecas",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.672376637,
+          -1.6435657479999948
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 18,
+        "objectid": 18,
+        "codigo": "f0762a62",
+        "equipamien": "Bienestar Social",
+        "nombre": "CDI Gotitas de Dulzura",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA M",
+        "plataforma": "PLATAFORMA M",
+        "elemento": "Centros infantiles, guarderías o wawatecas",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.644601383,
+          -1.6557147389999958
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 19,
+        "objectid": 19,
+        "codigo": "5e796368",
+        "equipamien": "Bienestar Social",
+        "nombre": "Rinconcitos de amor",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA F",
+        "plataforma": "PLATAFORMA F",
+        "elemento": "Centros infantiles, guarderías o wawatecas",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6717008,
+          -1.651357700000006
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 20,
+        "objectid": 20,
+        "codigo": "0c4b31f0",
+        "equipamien": "Bienestar Social",
+        "nombre": "Espacio de socialización y encuentro Santa Bertilla Boscardini",
+        "categoria": "CANTONAL",
+        "isocrona_distance_m": 0,
+        "genera_isocrona": false,
+        "platform_name": "PLATAFORMA J",
+        "plataforma": "PLATAFORMA J",
+        "elemento": "Casa del Bienestar o Centro de protección de mujeres o menores",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Cantonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.658778,
+          -1.6701480999999996
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 21,
+        "objectid": 21,
+        "codigo": "0192a6e3",
+        "equipamien": "Bienestar Social",
+        "nombre": "CDI Guardianes de La Paz",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA J",
+        "plataforma": "PLATAFORMA J",
+        "elemento": "CDI",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.656894764,
+          -1.6789520400000049
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 22,
+        "objectid": 22,
+        "codigo": "c68dbdaf",
+        "equipamien": "Bienestar Social",
+        "nombre": "Espacio de desarrollo integral casa de Bienestar",
+        "categoria": "CANTONAL",
+        "isocrona_distance_m": 0,
+        "genera_isocrona": false,
+        "platform_name": "PLATAFORMA Ñ",
+        "plataforma": "PLATAFORMA Ñ",
+        "elemento": "Casa del Bienestar o Centro de protección de mujeres o menores",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Cantonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6513123,
+          -1.6813771000000015
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 23,
+        "objectid": 23,
+        "codigo": "61b763b3",
+        "equipamien": "Bienestar Social",
+        "nombre": "Fapani",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA C",
+        "plataforma": "PLATAFORMA C",
+        "elemento": "CDI",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.684558447,
+          -1.6373539830000023
+        ]
+      }
+    }
+  ]
+}

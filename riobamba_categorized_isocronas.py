@@ -7,6 +7,7 @@ import subprocess
 import shutil
 import sys
 import zipfile
+from dataclasses import replace
 
 import networkx as nx
 import shapefile
@@ -803,6 +804,17 @@ def run_config(config):
     )
 
     output_geojson = {"type": "FeatureCollection", "features": isocronas}
+    distance_breakdown = collections.Counter(
+        int(feature["properties"].get("distance_m", 0) or 0)
+        for feature in isocronas
+        if int(feature["properties"].get("distance_m", 0) or 0) > 0
+    )
+
+    barrial_distance = config.distance_by_category.get("BARRIAL")
+    zonal_distance = config.distance_by_category.get("ZONAL")
+    barrial_text = f"{barrial_distance} m" if barrial_distance else "sin isocrona"
+    zonal_text = f"{zonal_distance} m" if zonal_distance else "sin isocrona"
+
     output_stats = {
         "generated_at": __import__("datetime").datetime.now().isoformat(timespec="seconds"),
         "source_archive": str(config.resolve_source_zip()),
@@ -818,14 +830,12 @@ def run_config(config):
         "by_categoria_source": equipamientos_stats["by_categoria"],
         "by_categoria_isocronas": dict(sorted(generated_counter.items(), key=lambda item: (-item[1], item[0]))),
         "by_categoria_omitidos": dict(sorted(skipped_counter.items(), key=lambda item: (-item[1], item[0]))),
-        "by_distance_m": {
-            "400": sum(1 for feature in isocronas if int(feature["properties"].get("distance_m", 0)) == 400),
-            "1000": sum(1 for feature in isocronas if int(feature["properties"].get("distance_m", 0)) == 1000),
-        },
+        "by_distance_m": dict(sorted((str(distance), count) for distance, count in distance_breakdown.items())),
         "observacion": (
-            f"Se generan isocronas de {config.display_name} solo para BARRIAL (400 m) y ZONAL (1000 m). "
-            "Los registros CANTONAL no se procesan. El resultado final queda ajustado a manzanas "
-            "censales, sin huecos internos y preparado para mostrar solo el limite exterior."
+            f"Se generan isocronas de {config.display_name} para BARRIAL ({barrial_text}) y "
+            f"ZONAL ({zonal_text}). Los registros CANTONAL no se procesan. El resultado final "
+            "queda ajustado a manzanas censales, sin huecos internos y preparado para mostrar "
+            "solo el limite exterior."
         ),
     }
 
@@ -840,13 +850,47 @@ def run_config(config):
     print(f"Total isocronas generadas: {len(isocronas)}")
 
 
-def run_named_config(key):
-    run_config(get_categorized_isochrone_config(key))
+def build_variant_config(
+    config,
+    barrial_distance=None,
+    zonal_distance=None,
+    suffix_tag=None,
+    display_name_suffix=None,
+):
+    distance_by_category = dict(config.distance_by_category)
+    if barrial_distance is not None:
+        distance_by_category["BARRIAL"] = int(barrial_distance)
+    if zonal_distance is not None:
+        distance_by_category["ZONAL"] = int(zonal_distance)
+
+    output_suffix = config.output_suffix
+    if suffix_tag:
+        output_suffix = f"{config.output_suffix}_{suffix_tag}"
+
+    display_name = config.display_name
+    if display_name_suffix:
+        display_name = f"{config.display_name} {display_name_suffix}".strip()
+
+    return replace(
+        config,
+        output_suffix=output_suffix,
+        display_name=display_name,
+        distance_by_category=distance_by_category,
+    )
 
 
-def run_all_configs():
+def run_named_config(key, **variant_kwargs):
+    config = get_categorized_isochrone_config(key)
+    if variant_kwargs:
+        config = build_variant_config(config, **variant_kwargs)
+    run_config(config)
+
+
+def run_all_configs(**variant_kwargs):
     for config in iter_categorized_isochrone_configs():
         print(f"Procesando capa categorizada: {config.key}")
+        if variant_kwargs:
+            config = build_variant_config(config, **variant_kwargs)
         run_config(config)
 
 
@@ -862,7 +906,22 @@ def main(argv=None):
     parser.add_argument("--list", action="store_true", help="Muestra las capas categorizadas disponibles")
     parser.add_argument("--all", action="store_true", help="Procesa todas las capas categorizadas registradas")
     parser.add_argument("--exports", action="store_true", help="Actualiza tambien los ZIP de descarga al terminar")
+    parser.add_argument("--distance-barrial", type=int, help="Sobrescribe la distancia de BARRIAL en metros")
+    parser.add_argument("--distance-zonal", type=int, help="Sobrescribe la distancia de ZONAL en metros")
+    parser.add_argument("--suffix-tag", help="Sufijo adicional para no sobreescribir salidas existentes")
+    parser.add_argument("--display-name-suffix", help="Texto adicional para identificar la variante generada")
     args = parser.parse_args(argv)
+
+    variant_kwargs = {
+        "barrial_distance": args.distance_barrial,
+        "zonal_distance": args.distance_zonal,
+        "suffix_tag": args.suffix_tag,
+        "display_name_suffix": args.display_name_suffix,
+    }
+    has_variant = any(value not in (None, "") for value in variant_kwargs.values())
+
+    if args.exports and has_variant:
+        parser.error("--exports no es compatible con variantes temporales. Genera la variante primero y registra una exportacion dedicada si la necesitas.")
 
     if args.list:
         for config in iter_categorized_isochrone_configs():
@@ -874,7 +933,7 @@ def main(argv=None):
         parser.error("Usa una capa puntual o --all, pero no ambos a la vez.")
 
     if args.all:
-        run_all_configs()
+        run_all_configs(**variant_kwargs)
         if args.exports:
             run_download_exports()
         return
@@ -883,7 +942,7 @@ def main(argv=None):
         available = ", ".join(sorted(CATEGORIZED_ISOCHRONE_CONFIGS))
         parser.error(f"Debes indicar una capa. Disponibles: {available}")
 
-    run_named_config(args.dataset)
+    run_named_config(args.dataset, **variant_kwargs)
     if args.exports:
         run_download_exports()
 

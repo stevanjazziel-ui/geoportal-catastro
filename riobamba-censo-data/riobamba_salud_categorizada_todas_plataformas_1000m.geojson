@@ -1,0 +1,509 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 1,
+        "objectid": 1,
+        "codigo": "8d5faf8f",
+        "equipamien": "Salud",
+        "nombre": "Centro de salud n3",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA Q",
+        "plataforma": "PLATAFORMA Q",
+        "elemento": "Centro de salud Tipo B",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63181630071023,
+          -1.6817764672143092
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 2,
+        "objectid": 2,
+        "codigo": "22192ed1",
+        "equipamien": "Salud",
+        "nombre": "Centro de Salud n3",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA Q",
+        "plataforma": "PLATAFORMA Q",
+        "elemento": "Centro de salud Tipo B",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6317953141618,
+          -1.6817332569866799
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 3,
+        "objectid": 3,
+        "codigo": "8ef203f2",
+        "equipamien": "Salud",
+        "nombre": "Centro de Salud Tipo B GADM Riobamba",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA K",
+        "plataforma": "PLATAFORMA K",
+        "elemento": "Centro de salud Tipo B",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.652206749,
+          -1.6743543379999963
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 4,
+        "objectid": 4,
+        "codigo": "9ef53653",
+        "equipamien": "Salud",
+        "nombre": "Centro de Salud Tipo A la Panadería",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA K",
+        "plataforma": "PLATAFORMA K",
+        "elemento": "Centro de salud Tipo A",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65022,
+          -1.668348393000005
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 5,
+        "objectid": 5,
+        "codigo": "723e9ddb",
+        "equipamien": "Salud",
+        "nombre": "Hospital Pediátrico Alfonso Villagomez",
+        "categoria": "CANTONAL",
+        "isocrona_distance_m": 0,
+        "genera_isocrona": false,
+        "platform_name": "PLATAFORMA K",
+        "plataforma": "PLATAFORMA K",
+        "elemento": "Hospital regional- especialización -docente",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Cantonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.649533833,
+          -1.6704294600000051
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 6,
+        "objectid": 6,
+        "codigo": "6db30049",
+        "equipamien": "Salud",
+        "nombre": "Cendiamed",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA J",
+        "plataforma": "PLATAFORMA J",
+        "elemento": "Hospital básico o clínicas",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.663550468,
+          -1.6576576579999938
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 7,
+        "objectid": 7,
+        "codigo": "a9661c88",
+        "equipamien": "Salud",
+        "nombre": "Julio Hiliberto Ramirez Fisioterapia y Quiropraxia",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA J",
+        "plataforma": "PLATAFORMA J",
+        "elemento": "Hospital básico o clínicas",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.663550468,
+          -1.6576576579999938
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 8,
+        "objectid": 8,
+        "codigo": "cebe7dc2",
+        "equipamien": "Salud",
+        "nombre": "Dispensario medico",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA E",
+        "plataforma": "PLATAFORMA E",
+        "elemento": "Centro de salud Tipo B",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.68603,
+          -1.6475416666666598
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 9,
+        "objectid": 9,
+        "codigo": "60d97d6a",
+        "equipamien": "Salud",
+        "nombre": "Centro de Salud tipo A Yaruquies",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA N",
+        "plataforma": "PLATAFORMA N",
+        "elemento": "Centro de salud Tipo A",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6784497,
+          -1.6900118000000026
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 10,
+        "objectid": 10,
+        "codigo": "30bde0ef",
+        "equipamien": "Salud",
+        "nombre": "Centro de salud tipo b Santa Rosa",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA J",
+        "plataforma": "PLATAFORMA J",
+        "elemento": "Centro de salud Tipo B",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.665243579,
+          -1.672368815000002
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 11,
+        "objectid": 11,
+        "codigo": "67260ac2",
+        "equipamien": "Salud",
+        "nombre": "Hospital General Riobamba",
+        "categoria": "CANTONAL",
+        "isocrona_distance_m": 0,
+        "genera_isocrona": false,
+        "platform_name": "PLATAFORMA J",
+        "plataforma": "PLATAFORMA J",
+        "elemento": "Hospital provincial",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Cantonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6591814,
+          -1.668747299999998
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 12,
+        "objectid": 12,
+        "codigo": "f2ae6e4d",
+        "equipamien": "Salud",
+        "nombre": "HOSPITAL PROVINCIAL GENERAL DOCENTE RIOBAMBA",
+        "categoria": "CANTONAL",
+        "isocrona_distance_m": 0,
+        "genera_isocrona": false,
+        "platform_name": "PLATAFORMA P",
+        "plataforma": "PLATAFORMA P",
+        "elemento": "Hospital provincial",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Cantonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6431135,
+          -1.681647100000008
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 13,
+        "objectid": 13,
+        "codigo": "8ab4e1c2",
+        "equipamien": "Salud",
+        "nombre": "HOSPITAL GENERAL IESS",
+        "categoria": "CANTONAL",
+        "isocrona_distance_m": 0,
+        "genera_isocrona": false,
+        "platform_name": "PLATAFORMA J",
+        "plataforma": "PLATAFORMA J",
+        "elemento": "Hospital provincial",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Cantonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65949554,
+          -1.6687745639999927
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 14,
+        "objectid": 14,
+        "codigo": "348a5ccb",
+        "equipamien": "Salud",
+        "nombre": "Hospital geriátrico",
+        "categoria": "CANTONAL",
+        "isocrona_distance_m": 0,
+        "genera_isocrona": false,
+        "platform_name": "PLATAFORMA Ñ",
+        "plataforma": "PLATAFORMA Ñ",
+        "elemento": "Hospital provincial",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Cantonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.653998671,
+          -1.6791281270000056
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 15,
+        "objectid": 15,
+        "codigo": "d03bf068",
+        "equipamien": "Salud",
+        "nombre": "Centro Forense Riobamba",
+        "categoria": "CANTONAL",
+        "isocrona_distance_m": 0,
+        "genera_isocrona": false,
+        "platform_name": "PLATAFORMA J",
+        "plataforma": "PLATAFORMA J",
+        "elemento": "Hospital regional- especialización -docente",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Cantonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65626372500002,
+          -1.679850613999995
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 16,
+        "objectid": 16,
+        "codigo": "e96d4a60",
+        "equipamien": "Salud",
+        "nombre": "Hospital Geriátrico Doctor Bolivar Aguello P.",
+        "categoria": "CANTONAL",
+        "isocrona_distance_m": 0,
+        "genera_isocrona": false,
+        "platform_name": "PLATAFORMA Ñ",
+        "plataforma": "PLATAFORMA Ñ",
+        "elemento": "Hospital provincial",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Cantonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.653836641,
+          -1.679324074999997
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 17,
+        "objectid": 17,
+        "codigo": "dbb143f9",
+        "equipamien": "Salud",
+        "nombre": "Coordinación Zonal 3- Salud",
+        "categoria": "CANTONAL",
+        "isocrona_distance_m": 0,
+        "genera_isocrona": false,
+        "platform_name": "PLATAFORMA Ñ",
+        "plataforma": "PLATAFORMA Ñ",
+        "elemento": "Hospital provincial",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Cantonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6526731,
+          -1.6784164999999933
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 18,
+        "objectid": 18,
+        "codigo": "62a9a3d4",
+        "equipamien": "Salud",
+        "nombre": "Centro de Salud 1",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA Ñ",
+        "plataforma": "PLATAFORMA Ñ",
+        "elemento": "Centro de salud Tipo A",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.652565201,
+          -1.679171183000004
+        ]
+      }
+    }
+  ]
+}

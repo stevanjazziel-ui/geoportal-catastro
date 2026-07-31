@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-07-31T12:18:03",
+  "source_geojson": "D:\\codex\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
+  "source_osm_cache": "D:\\codex\\riobamba-censo-data\\riobamba_osm_walk_network_5categorias_todas_plataformas.json",
+  "summary": {
+    "total_equipamientos": 82,
+    "total_isocronas": 76,
+    "categorias_con_isocrona": 2,
+    "omitidos": 6,
+    "manzanas_ajustadas": 17864
+  },
+  "by_categoria_source": {
+    "ZONAL": 39,
+    "BARRIAL": 37,
+    "CANTONAL": 6
+  },
+  "by_categoria_isocronas": {
+    "ZONAL": 39,
+    "BARRIAL": 37
+  },
+  "by_categoria_omitidos": {
+    "CANTONAL": 6
+  },
+  "by_distance_m": {
+    "1000": 76
+  },
+  "observacion": "Isocronas de educacion todas las plataformas usando el levantamiento publico de todas las plataformas. BARRIAL y ZONAL se generan a 1000 m. CANTONAL no se procesa. El resultado final queda ajustado a manzanas censales y preparado para mostrar solo el limite exterior."
+}

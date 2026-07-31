@@ -462,7 +462,7 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260731-entorno-publico";
+    const DATA_VERSION = "20260731-isocronas-todas-plataformas";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const TRANSPORTE_ROUTES_SHP_KEY = "rutas_transporte_intracantonal_recortadas_400m_carto";
@@ -618,12 +618,27 @@
     introText.innerHTML = "Visualizador por manzana censal y plataforma territorial. Incluye la isocrona peatonal de 1000 m desde equipamientos de la <strong>PLATAFORMA Ñ</strong>, la isocrona exacta de red de 400 m desde su borde y una referencia cartografica ajustada a manzanas.";
 
     function simplifyInterfaceForPublicEntorno() {
-      introText.innerHTML = "Visualizador por manzana censal y plataforma territorial. Muestra <strong>solo las manzanas censales</strong>, <strong>las plataformas</strong> y el <strong>levantamiento del entorno publico</strong> en puntos, separado por categorias tematicas.";
+      introText.innerHTML = "Visualizador por manzana censal y plataforma territorial. Muestra <strong>las manzanas censales</strong>, <strong>las plataformas</strong>, el <strong>levantamiento del entorno publico</strong> en puntos y las <strong>5 capas de isocronas ciudad completa</strong> a 1000 m para categorias barriales y zonales.";
       overlayTitle.textContent = "Riobamba por manzana, plataforma y entorno publico";
-      overlayText.textContent = "Haz clic en una manzana, plataforma o punto publico para ver sus datos y separar la capa por categoria.";
+      overlayText.textContent = "Haz clic en una manzana, plataforma o punto publico para ver sus datos, y activa las isocronas tematicas de ciudad completa cuando quieras analizarlas.";
 
       toggleEquipamientos.closest("label").querySelector("span").textContent = "Puntos publicos";
       equipamientosSummary.closest(".panel").querySelector("h2").textContent = "Resumen por categoria";
+      toggleEducacionIsocronas.closest("label").querySelector("span").textContent = "Isocronas educacion 1000 m";
+      toggleEducacionIsocronasPuntos.closest("label").querySelector("span").textContent = "Puntos inicio educacion";
+      toggleRecreacionIsocronas.closest("label").querySelector("span").textContent = "Isocronas recreacion 1000 m";
+      toggleRecreacionIsocronasPuntos.closest("label").querySelector("span").textContent = "Puntos inicio recreacion";
+      toggleBienestarIsocronas.closest("label").querySelector("span").textContent = "Isocronas bienestar 1000 m";
+      toggleBienestarIsocronasPuntos.closest("label").querySelector("span").textContent = "Puntos inicio bienestar";
+      toggleCulturaIsocronas.closest("label").querySelector("span").textContent = "Isocronas cultura 1000 m";
+      toggleCulturaIsocronasPuntos.closest("label").querySelector("span").textContent = "Puntos inicio cultura";
+      toggleSaludIsocronas.closest("label").querySelector("span").textContent = "Isocronas salud 1000 m";
+      toggleSaludIsocronasPuntos.closest("label").querySelector("span").textContent = "Puntos inicio salud";
+      educacionIsocronasSummary.closest(".panel").querySelector("h2").textContent = "Educacion 1000 m ciudad completa";
+      recreacionIsocronasSummary.closest(".panel").querySelector("h2").textContent = "Recreacion y deporte 1000 m ciudad completa";
+      bienestarIsocronasSummary.closest(".panel").querySelector("h2").textContent = "Bienestar social 1000 m ciudad completa";
+      culturaIsocronasSummary.closest(".panel").querySelector("h2").textContent = "Cultura 1000 m ciudad completa";
+      saludIsocronasSummary.closest(".panel").querySelector("h2").textContent = "Salud 1000 m ciudad completa";
 
       [
         toggleRedVial1000m,
@@ -633,16 +648,6 @@
         toggleTransporteRutas,
         toggleTransporteBuffer,
         toggleIsocronasColindantes,
-        toggleEducacionIsocronas,
-        toggleEducacionIsocronasPuntos,
-        toggleRecreacionIsocronas,
-        toggleRecreacionIsocronasPuntos,
-        toggleBienestarIsocronas,
-        toggleBienestarIsocronasPuntos,
-        toggleCulturaIsocronas,
-        toggleCulturaIsocronasPuntos,
-        toggleSaludIsocronas,
-        toggleSaludIsocronasPuntos,
         toggleParadasBusIsocronas,
         toggleParadasBusPuntos
       ].forEach((input) => {
@@ -683,11 +688,6 @@
 
       [
         isocronasSummary,
-        educacionIsocronasSummary,
-        recreacionIsocronasSummary,
-        bienestarIsocronasSummary,
-        culturaIsocronasSummary,
-        saludIsocronasSummary,
         paradasBusIsocronasSummary,
         isocronas400Summary,
         isocronas400CartoSummary
@@ -697,25 +697,65 @@
         }
       });
 
+      [
+        toggleEducacionIsocronas,
+        toggleEducacionIsocronasPuntos,
+        toggleRecreacionIsocronas,
+        toggleRecreacionIsocronasPuntos,
+        toggleBienestarIsocronas,
+        toggleBienestarIsocronasPuntos,
+        toggleCulturaIsocronas,
+        toggleCulturaIsocronasPuntos,
+        toggleSaludIsocronas,
+        toggleSaludIsocronasPuntos
+      ].forEach((input) => {
+        if (input && input.closest("label")) {
+          input.closest("label").style.display = "";
+        }
+      });
+
+      [
+        educacionIsocronasSummary,
+        recreacionIsocronasSummary,
+        bienestarIsocronasSummary,
+        culturaIsocronasSummary,
+        saludIsocronasSummary
+      ].forEach((container) => {
+        if (container && container.closest(".panel")) {
+          container.closest(".panel").style.display = "";
+        }
+      });
+
       layerVisibility.isocronasColindantes = false;
       layerVisibility.redVial1000m = false;
       layerVisibility.transporteRutas = false;
       layerVisibility.transporteBuffer = false;
-      layerVisibility.educacionIsocronas = false;
+      layerVisibility.educacionIsocronas = true;
       layerVisibility.educacionIsocronasPuntos = false;
-      layerVisibility.recreacionIsocronas = false;
+      layerVisibility.recreacionIsocronas = true;
       layerVisibility.recreacionIsocronasPuntos = false;
-      layerVisibility.bienestarIsocronas = false;
+      layerVisibility.bienestarIsocronas = true;
       layerVisibility.bienestarIsocronasPuntos = false;
-      layerVisibility.culturaIsocronas = false;
+      layerVisibility.culturaIsocronas = true;
       layerVisibility.culturaIsocronasPuntos = false;
-      layerVisibility.saludIsocronas = false;
+      layerVisibility.saludIsocronas = true;
       layerVisibility.saludIsocronasPuntos = false;
       layerVisibility.paradasBusIsocronas = false;
       layerVisibility.paradasBusPuntos = false;
       if ("redVial400m" in layerVisibility) layerVisibility.redVial400m = false;
       if ("isocrona400m" in layerVisibility) layerVisibility.isocrona400m = false;
       if ("isocrona400mCarto" in layerVisibility) layerVisibility.isocrona400mCarto = false;
+
+      toggleEducacionIsocronas.checked = true;
+      toggleEducacionIsocronasPuntos.checked = false;
+      toggleRecreacionIsocronas.checked = true;
+      toggleRecreacionIsocronasPuntos.checked = false;
+      toggleBienestarIsocronas.checked = true;
+      toggleBienestarIsocronasPuntos.checked = false;
+      toggleCulturaIsocronas.checked = true;
+      toggleCulturaIsocronasPuntos.checked = false;
+      toggleSaludIsocronas.checked = true;
+      toggleSaludIsocronasPuntos.checked = false;
     }
 
     function formatNumber(value) {
@@ -2085,8 +2125,8 @@
       const rows = [
         ["Equipamientos fuente", window.educacionIsocronasStats.summary.total_equipamientos || 0],
         ["Isocronas generadas", window.educacionIsocronasStats.summary.total_isocronas || 0],
-        ["Barrial 400 m", window.educacionIsocronasStats.by_distance_m["400"] || 0],
-        ["Zonal 1000 m", window.educacionIsocronasStats.by_distance_m["1000"] || 0],
+        ["Barrial 1000 m", (window.educacionIsocronasStats.by_categoria_isocronas || {}).BARRIAL || 0],
+        ["Zonal 1000 m", (window.educacionIsocronasStats.by_categoria_isocronas || {}).ZONAL || 0],
         ["Cantonales omitidos", (window.educacionIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0],
         ["Manzanas ajustadas", window.educacionIsocronasStats.summary.manzanas_ajustadas || 0],
         ["Visualizacion", "Solo limite exterior"]
@@ -2106,8 +2146,8 @@
       const rows = [
         ["Equipamientos fuente", window.recreacionIsocronasStats.summary.total_equipamientos || 0],
         ["Isocronas generadas", window.recreacionIsocronasStats.summary.total_isocronas || 0],
-        ["Barrial 400 m", window.recreacionIsocronasStats.by_distance_m["400"] || 0],
-        ["Zonal 1000 m", window.recreacionIsocronasStats.by_distance_m["1000"] || 0],
+        ["Barrial 1000 m", (window.recreacionIsocronasStats.by_categoria_isocronas || {}).BARRIAL || 0],
+        ["Zonal 1000 m", (window.recreacionIsocronasStats.by_categoria_isocronas || {}).ZONAL || 0],
         ["Cantonales omitidos", (window.recreacionIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0],
         ["Manzanas ajustadas", window.recreacionIsocronasStats.summary.manzanas_ajustadas || 0],
         ["Visualizacion", "Solo limite exterior"]
@@ -2127,8 +2167,8 @@
       const rows = [
         ["Equipamientos fuente", window.bienestarIsocronasStats.summary.total_equipamientos || 0],
         ["Isocronas generadas", window.bienestarIsocronasStats.summary.total_isocronas || 0],
-        ["Barrial 400 m", window.bienestarIsocronasStats.by_distance_m["400"] || 0],
-        ["Zonal 1000 m", window.bienestarIsocronasStats.by_distance_m["1000"] || 0],
+        ["Barrial 1000 m", (window.bienestarIsocronasStats.by_categoria_isocronas || {}).BARRIAL || 0],
+        ["Zonal 1000 m", (window.bienestarIsocronasStats.by_categoria_isocronas || {}).ZONAL || 0],
         ["Cantonales omitidos", (window.bienestarIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0],
         ["Manzanas ajustadas", window.bienestarIsocronasStats.summary.manzanas_ajustadas || 0],
         ["Visualizacion", "Solo limite exterior"]
@@ -2148,8 +2188,8 @@
       const rows = [
         ["Equipamientos fuente", window.culturaIsocronasStats.summary.total_equipamientos || 0],
         ["Isocronas generadas", window.culturaIsocronasStats.summary.total_isocronas || 0],
-        ["Barrial 400 m", window.culturaIsocronasStats.by_distance_m["400"] || 0],
-        ["Zonal 1000 m", window.culturaIsocronasStats.by_distance_m["1000"] || 0],
+        ["Barrial 1000 m", (window.culturaIsocronasStats.by_categoria_isocronas || {}).BARRIAL || 0],
+        ["Zonal 1000 m", (window.culturaIsocronasStats.by_categoria_isocronas || {}).ZONAL || 0],
         ["Cantonales omitidos", (window.culturaIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0],
         ["Manzanas ajustadas", window.culturaIsocronasStats.summary.manzanas_ajustadas || 0],
         ["Visualizacion", "Solo limite exterior"]
@@ -2169,8 +2209,8 @@
       const rows = [
         ["Equipamientos fuente", window.saludIsocronasStats.summary.total_equipamientos || 0],
         ["Isocronas generadas", window.saludIsocronasStats.summary.total_isocronas || 0],
-        ["Barrial 400 m", window.saludIsocronasStats.by_distance_m["400"] || 0],
-        ["Zonal 1000 m", window.saludIsocronasStats.by_distance_m["1000"] || 0],
+        ["Barrial 1000 m", (window.saludIsocronasStats.by_categoria_isocronas || {}).BARRIAL || 0],
+        ["Zonal 1000 m", (window.saludIsocronasStats.by_categoria_isocronas || {}).ZONAL || 0],
         ["Cantonales omitidos", (window.saludIsocronasStats.by_categoria_omitidos || {}).CANTONAL || 0],
         ["Manzanas ajustadas", window.saludIsocronasStats.summary.manzanas_ajustadas || 0],
         ["Visualizacion", "Solo limite exterior"]
@@ -3393,7 +3433,17 @@
           platformStatsResponse,
           manifestResponse,
           equipamientosGeoResponse,
-          equipamientosStatsResponse
+          equipamientosStatsResponse,
+          educacionIsocronasResponse,
+          educacionIsocronasStatsResponse,
+          recreacionIsocronasResponse,
+          recreacionIsocronasStatsResponse,
+          bienestarIsocronasResponse,
+          bienestarIsocronasStatsResponse,
+          culturaIsocronasResponse,
+          culturaIsocronasStatsResponse,
+          saludIsocronasResponse,
+          saludIsocronasStatsResponse
         ] = await Promise.all([
           fetch(`./riobamba-censo-data/riobamba_manzanas.geojson?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_manzanas_stats.json?v=${DATA_VERSION}`),
@@ -3401,7 +3451,17 @@
           fetch(`./riobamba-censo-data/riobamba_plataformas_stats.json?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/shp/manifest.json?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_entorno_publico.geojson?v=${DATA_VERSION}`),
-          fetch(`./riobamba-censo-data/riobamba_entorno_publico_stats.json?v=${DATA_VERSION}`)
+          fetch(`./riobamba-censo-data/riobamba_entorno_publico_stats.json?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocronas_educacion_categorizada_todas_plataformas_1000m.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocronas_educacion_categorizada_todas_plataformas_1000m_stats.json?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocronas_recreacion_deporte_categorizada_todas_plataformas_1000m.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocronas_recreacion_deporte_categorizada_todas_plataformas_1000m_stats.json?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocronas_bienestar_social_categorizada_todas_plataformas_1000m.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocronas_bienestar_social_categorizada_todas_plataformas_1000m_stats.json?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocronas_cultura_categorizada_todas_plataformas_1000m.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocronas_cultura_categorizada_todas_plataformas_1000m_stats.json?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocronas_salud_categorizada_todas_plataformas_1000m.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocronas_salud_categorizada_todas_plataformas_1000m_stats.json?v=${DATA_VERSION}`)
         ]);
 
         if (
@@ -3410,7 +3470,17 @@
           !platformGeoResponse.ok ||
           !platformStatsResponse.ok ||
           !equipamientosGeoResponse.ok ||
-          !equipamientosStatsResponse.ok
+          !equipamientosStatsResponse.ok ||
+          !educacionIsocronasResponse.ok ||
+          !educacionIsocronasStatsResponse.ok ||
+          !recreacionIsocronasResponse.ok ||
+          !recreacionIsocronasStatsResponse.ok ||
+          !bienestarIsocronasResponse.ok ||
+          !bienestarIsocronasStatsResponse.ok ||
+          !culturaIsocronasResponse.ok ||
+          !culturaIsocronasStatsResponse.ok ||
+          !saludIsocronasResponse.ok ||
+          !saludIsocronasStatsResponse.ok
         ) {
           throw new Error("No se pudieron leer los archivos de datos.");
         }
@@ -3421,12 +3491,32 @@
         const platformsStats = await platformStatsResponse.json();
         const equipamientosGeo = await equipamientosGeoResponse.json();
         const equipamientosStatsData = await equipamientosStatsResponse.json();
+        const educacionIsocronasGeo = await educacionIsocronasResponse.json();
+        const educacionIsocronasStatsData = await educacionIsocronasStatsResponse.json();
+        const recreacionIsocronasGeo = await recreacionIsocronasResponse.json();
+        const recreacionIsocronasStatsData = await recreacionIsocronasStatsResponse.json();
+        const bienestarIsocronasGeo = await bienestarIsocronasResponse.json();
+        const bienestarIsocronasStatsData = await bienestarIsocronasStatsResponse.json();
+        const culturaIsocronasGeo = await culturaIsocronasResponse.json();
+        const culturaIsocronasStatsData = await culturaIsocronasStatsResponse.json();
+        const saludIsocronasGeo = await saludIsocronasResponse.json();
+        const saludIsocronasStatsData = await saludIsocronasStatsResponse.json();
         shpManifest = manifestResponse.ok ? await manifestResponse.json() : {};
 
         globalSummary = stats.summary;
         platformSummary = platformsStats;
         equipamientosStats = equipamientosStatsData;
         isocronasStats = null;
+        window.educacionIsocronasStats = educacionIsocronasStatsData;
+        window.educacionIsocronasFeatures = educacionIsocronasGeo.features || [];
+        window.recreacionIsocronasStats = recreacionIsocronasStatsData;
+        window.recreacionIsocronasFeatures = recreacionIsocronasGeo.features || [];
+        window.bienestarIsocronasStats = bienestarIsocronasStatsData;
+        window.bienestarIsocronasFeatures = bienestarIsocronasGeo.features || [];
+        window.culturaIsocronasStats = culturaIsocronasStatsData;
+        window.culturaIsocronasFeatures = culturaIsocronasGeo.features || [];
+        window.saludIsocronasStats = saludIsocronasStatsData;
+        window.saludIsocronasFeatures = saludIsocronasGeo.features || [];
         platformStatsByName = platformsStats.byName || {};
         platformFeatures = (platformsGeo.features || []).map((feature) => ({
           ...feature,
@@ -3459,9 +3549,31 @@
 
         buildPlatformOptions();
         buildCoverageList();
+        buildEducacionIsocronasSummary();
+        buildRecreacionIsocronasSummary();
+        buildBienestarIsocronasSummary();
+        buildCulturaIsocronasSummary();
+        buildSaludIsocronasSummary();
+        renderEducacionIsocronasLayer();
+        renderEducacionIsocronasStartLayer();
+        renderRecreacionIsocronasLayer();
+        renderRecreacionIsocronasStartLayer();
+        renderBienestarIsocronasLayer();
+        renderBienestarIsocronasStartLayer();
+        renderCulturaIsocronasLayer();
+        renderCulturaIsocronasStartLayer();
+        renderSaludIsocronasLayer();
+        renderSaludIsocronasStartLayer();
         renderAll(false);
 
-        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas y ${formatNumber(equipamientosFeatures.length)} puntos publicos del entorno.`;
+        const totalIsocronasCiudad =
+          (window.educacionIsocronasStats.summary.total_isocronas || 0) +
+          (window.recreacionIsocronasStats.summary.total_isocronas || 0) +
+          (window.bienestarIsocronasStats.summary.total_isocronas || 0) +
+          (window.culturaIsocronasStats.summary.total_isocronas || 0) +
+          (window.saludIsocronasStats.summary.total_isocronas || 0);
+
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} puntos publicos y ${formatNumber(totalIsocronasCiudad)} isocronas tematicas de ciudad completa a 1000 m.`;
 
         if (layerControl) {
           layerControl.remove();
@@ -3473,7 +3585,7 @@
           { position: "topright", collapsed: true }
         ).addTo(map);
       } catch (error) {
-        statusText.textContent = "No pude cargar el visualizador. Verifica manzanas, plataformas y el archivo de entorno publico.";
+        statusText.textContent = "No pude cargar el visualizador. Verifica manzanas, plataformas, entorno publico y las isocronas ciudad completa de las 5 categorias.";
       }
     }
 

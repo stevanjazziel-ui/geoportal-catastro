@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-07-31T12:27:41",
+  "source_geojson": "D:\\codex\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
+  "summary": {
+    "total_equipamientos": 22,
+    "con_isocrona": 17,
+    "sin_isocrona": 5,
+    "categorias": 3,
+    "plataformas_con_puntos": 9,
+    "registros_fuera_rango": 2
+  },
+  "by_categoria": {
+    "BARRIAL": 10,
+    "ZONAL": 7,
+    "CANTONAL": 5
+  },
+  "by_plataforma": {
+    "PLATAFORMA K": 11,
+    "PLATAFORMA C": 2,
+    "PLATAFORMA I": 2,
+    "PLATAFORMA J": 2,
+    "PLATAFORMA B": 1,
+    "PLATAFORMA L": 1,
+    "PLATAFORMA N": 1,
+    "PLATAFORMA P": 1,
+    "PLATAFORMA Ñ": 1
+  }
+}

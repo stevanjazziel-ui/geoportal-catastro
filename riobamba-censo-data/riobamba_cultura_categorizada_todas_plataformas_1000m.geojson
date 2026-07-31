@@ -1,0 +1,621 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 1,
+        "objectid": 1,
+        "codigo": "8846fd72",
+        "equipamien": "Cultural",
+        "nombre": "Casa",
+        "categoria": "CANTONAL",
+        "isocrona_distance_m": 0,
+        "genera_isocrona": false,
+        "platform_name": "PLATAFORMA K",
+        "plataforma": "PLATAFORMA K",
+        "elemento": "Museos",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Cantonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6498879,
+          -1.6743075000000036
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 2,
+        "objectid": 2,
+        "codigo": "6b2cfeb3",
+        "equipamien": "Cultural",
+        "nombre": "Plaza Alfaro",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA K",
+        "plataforma": "PLATAFORMA K",
+        "elemento": "Plazas o plazoletas,",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.654339802,
+          -1.6695508849999927
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 3,
+        "objectid": 3,
+        "codigo": "e13fb636",
+        "equipamien": "Cultural",
+        "nombre": "Casa barrial plaza Dávalos",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA K",
+        "plataforma": "PLATAFORMA K",
+        "elemento": "Casas comunales o barriales",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6483973,
+          -1.6651565999999922
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 4,
+        "objectid": 4,
+        "codigo": "03f4a08a",
+        "equipamien": "Cultural",
+        "nombre": "Parque Sucre",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA K",
+        "plataforma": "PLATAFORMA K",
+        "elemento": "Plazas o plazoletas,",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.650484678,
+          -1.671783962000005
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 5,
+        "objectid": 5,
+        "codigo": "f5f99a3e",
+        "equipamien": "Cultural",
+        "nombre": "Plaza Roja",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA K",
+        "plataforma": "PLATAFORMA K",
+        "elemento": "Plazas o plazoletas,",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.648936872,
+          -1.6710448640000066
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 6,
+        "objectid": 6,
+        "codigo": "108661b8",
+        "equipamien": "Cultural",
+        "nombre": "Parque Maldonado",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA K",
+        "plataforma": "PLATAFORMA K",
+        "elemento": "Plazas o plazoletas,",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.648285356,
+          -1.6726582900000022
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 7,
+        "objectid": 7,
+        "codigo": "23150138",
+        "equipamien": "Cultural",
+        "nombre": "Museo de la Ciudad",
+        "categoria": "CANTONAL",
+        "isocrona_distance_m": 0,
+        "genera_isocrona": false,
+        "platform_name": "PLATAFORMA K",
+        "plataforma": "PLATAFORMA K",
+        "elemento": "Museos",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Cantonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.648769357,
+          -1.672940155999994
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 8,
+        "objectid": 8,
+        "codigo": "7be02be5",
+        "equipamien": "Cultural",
+        "nombre": "Teatro León",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA K",
+        "plataforma": "PLATAFORMA K",
+        "elemento": "Teatros",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.650684455,
+          -1.6712913490000036
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 9,
+        "objectid": 9,
+        "codigo": "67cd0743",
+        "equipamien": "Cultural",
+        "nombre": "Museo Riobamba",
+        "categoria": "CANTONAL",
+        "isocrona_distance_m": 0,
+        "genera_isocrona": false,
+        "platform_name": "PLATAFORMA K",
+        "plataforma": "PLATAFORMA K",
+        "elemento": "Museos",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Cantonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65261401,
+          -1.6685780210000005
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 10,
+        "objectid": 10,
+        "codigo": "d7567888",
+        "equipamien": "Cultural",
+        "nombre": "Supercines",
+        "categoria": "CANTONAL",
+        "isocrona_distance_m": 0,
+        "genera_isocrona": false,
+        "platform_name": "PLATAFORMA L",
+        "plataforma": "PLATAFORMA L",
+        "elemento": "Cine",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Cantonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.645303049,
+          -1.654249498000005
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 11,
+        "objectid": 11,
+        "codigo": "590904ee",
+        "equipamien": "Cultural",
+        "nombre": "Salón de Actos ‘Didonato”",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA I",
+        "plataforma": "PLATAFORMA I",
+        "elemento": "Casas comunales o barriales",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.650892754,
+          -1.6646892890000078
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 12,
+        "objectid": 12,
+        "codigo": "1f3f4f41",
+        "equipamien": "Cultural",
+        "nombre": "Sede social condóminos chimborazo",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA I",
+        "plataforma": "PLATAFORMA I",
+        "elemento": "Casas comunales o barriales",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.658550813,
+          -1.657649555000004
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 13,
+        "objectid": 13,
+        "codigo": "e6592c81",
+        "equipamien": "Cultural",
+        "nombre": "Falta de adoquinado y bordillos",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA C",
+        "plataforma": "PLATAFORMA C",
+        "elemento": "Plazas o plazoletas,",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.686996,
+          -1.6426739000000032
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 14,
+        "objectid": 14,
+        "codigo": "1708b928",
+        "equipamien": "Cultural",
+        "nombre": "Arreglo del lugar y limpieza",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA C",
+        "plataforma": "PLATAFORMA C",
+        "elemento": "Casas comunales o barriales",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.68475587000002,
+          -1.633479685000008
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 15,
+        "objectid": 15,
+        "codigo": "ec88d33b",
+        "equipamien": "Cultural",
+        "nombre": "Casa Comunal Yaruquies",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA N",
+        "plataforma": "PLATAFORMA N",
+        "elemento": "Casas comunales o barriales",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67636,
+          -1.688540000000004
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 16,
+        "objectid": 16,
+        "codigo": "49920283",
+        "equipamien": "Cultural",
+        "nombre": "Casa Barrial Santa Ana",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA B",
+        "plataforma": "PLATAFORMA B",
+        "elemento": "Casas comunales o barriales",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67214141500001,
+          -1.644636943000005
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 17,
+        "objectid": 17,
+        "codigo": "d1a7e145",
+        "equipamien": "Cultural",
+        "nombre": "QUINTA MACAJI",
+        "categoria": "ZONAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA J",
+        "plataforma": "PLATAFORMA J",
+        "elemento": "Centros de convenciones y exposiciones",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Zonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.666229605,
+          -1.6699266970000048
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 18,
+        "objectid": 18,
+        "codigo": "d33541b9",
+        "equipamien": "Cultural",
+        "nombre": "CASA INDÍGENA",
+        "categoria": "CANTONAL",
+        "isocrona_distance_m": 0,
+        "genera_isocrona": false,
+        "platform_name": "PLATAFORMA Ñ",
+        "plataforma": "PLATAFORMA Ñ",
+        "elemento": "Casas de la cultura",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Cantonal",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.646272864,
+          -1.6745647950000015
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 19,
+        "objectid": 19,
+        "codigo": "ce878117",
+        "equipamien": "Cultural",
+        "nombre": "CASA BARRIAL",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA P",
+        "plataforma": "PLATAFORMA P",
+        "elemento": "Casas comunales o barriales",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.642656528,
+          -1.6802882070000085
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 20,
+        "objectid": 20,
+        "codigo": "3e5b1856",
+        "equipamien": "Cultural",
+        "nombre": "Federación provincial de trabajadores de chimborazo",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA K",
+        "plataforma": "PLATAFORMA K",
+        "elemento": "Casas comunales o barriales",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6486964,
+          -1.675825699999991
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 21,
+        "objectid": 21,
+        "codigo": "f8737527",
+        "equipamien": "Cultural",
+        "nombre": "Casa barrial la joya",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA K",
+        "plataforma": "PLATAFORMA K",
+        "elemento": "Casas comunales o barriales",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6489161,
+          -1.6744292000000005
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source_id": 22,
+        "objectid": 22,
+        "codigo": "2e10197c",
+        "equipamien": "Cultural",
+        "nombre": "LA COMICH",
+        "categoria": "BARRIAL",
+        "isocrona_distance_m": 1000,
+        "genera_isocrona": true,
+        "platform_name": "PLATAFORMA J",
+        "plataforma": "PLATAFORMA J",
+        "elemento": "Info centros",
+        "parroquia": "RIOBAMBA",
+        "tipo_equip": "Público",
+        "tipologia": "Barrial",
+        "shape_area": 0.0,
+        "shape_leng": 0.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66260383,
+          -1.6699068989999941
+        ]
+      }
+    }
+  ]
+}
