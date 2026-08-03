@@ -1,7 +1,7 @@
 window.TRAMITES_IPRUS_SHARED_STATE = {
   "title": "TRAMITES IPRUS SHARED STATE",
   "sourceDate": "2026-08-03T11:37:10",
-  "generatedAt": "2026-08-03T20:06:00.687Z",
+  "generatedAt": "2026-08-03T21:19:00.939Z",
   "assignments": {
     "GADMR--2026-0447-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0444-IPRUS-ZNP": "Miriam Guisha",
@@ -9,6 +9,8 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
     "GADMR--2026-0412-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0435-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0455-IPRUS-ZNP": "Hamilton Torres",
+    "GADMR--2026-0480-IPRUS-ZNP": "Fausto Lopez",
+    "GADMR--2026-0400-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0415-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0479-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0475-IPRUS-ZNP": "Miriam Guisha",
@@ -122,6 +124,36 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
   "reportDrafts": {},
   "taskQueue": [],
   "activityLog": [
+    {
+      "id": "1785791940937-60nf7syw",
+      "recordId": "GADMR--2026-0400-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Fausto Lopez.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-08-03T21:19:00.937Z",
+      "recordCode": "GADMR--2026-0400-IPRUS-ZNP",
+      "tramiteNumber": "1202855",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
+    {
+      "id": "1785787601405-smtnhl7n",
+      "recordId": "GADMR--2026-0480-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Fausto Lopez.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-08-03T20:06:41.405Z",
+      "recordCode": "GADMR--2026-0480-IPRUS-ZNP",
+      "tramiteNumber": "1215300",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
     {
       "id": "1785787560684-khwcjn4p",
       "recordId": "GADMR--2026-0479-IPRUS-ZNP",
