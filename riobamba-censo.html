@@ -137,6 +137,15 @@
       color: var(--muted);
     }
 
+    .legend-section-title {
+      margin: 8px 0 2px;
+      color: var(--text);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
     .legend-swatch {
       width: 18px;
       height: 12px;
@@ -1984,52 +1993,66 @@
       return focusedCoverageColors.uncovered;
     }
 
+    function getVisibleThematicLegendEntries() {
+      const groups = [
+        { key: "bienestar", label: "Bienestar social", visible: layerVisibility.bienestarIsocronas },
+        { key: "recreacion", label: "Recreacion y deporte", visible: layerVisibility.recreacionIsocronas },
+        { key: "educacion", label: "Educacion", visible: layerVisibility.educacionIsocronas },
+        { key: "cultura", label: "Cultura", visible: layerVisibility.culturaIsocronas },
+        { key: "salud", label: "Salud", visible: layerVisibility.saludIsocronas }
+      ];
+
+      return groups
+        .filter((group) => group.visible)
+        .flatMap((group) => ([
+          {
+            key: group.key,
+            variant: "BARRIAL",
+            label: `${group.label} barrial`,
+            color: getFocusedThematicColor(group.key, "BARRIAL")
+          },
+          {
+            key: group.key,
+            variant: "ZONAL",
+            label: `${group.label} zonal`,
+            color: getFocusedThematicColor(group.key, "ZONAL")
+          }
+        ]));
+    }
+
     function renderLegend(breaks) {
+      const thematicEntries = getVisibleThematicLegendEntries();
+
       if (hasFocusedPlatformSelection()) {
         const state = focusedCoverageState || {
           uncovered: 0,
           themeVariantCounts: createEmptyFocusedThemeVariantCounts()
         };
-        const rows = [];
-        const visibleGroups = getVisibleThematicIsoGroups();
-
-        for (const group of visibleGroups) {
-          const barrialCount = state.themeVariantCounts?.[group.key]?.BARRIAL || 0;
-          const zonalCount = state.themeVariantCounts?.[group.key]?.ZONAL || 0;
-
-          if (barrialCount > 0) {
-            rows.push([
-              `${group.label} barrial`,
-              getFocusedThematicColor(group.key, "BARRIAL"),
-              barrialCount
-            ]);
-          }
-
-          if (zonalCount > 0) {
-            rows.push([
-              `${group.label} zonal`,
-              getFocusedThematicColor(group.key, "ZONAL"),
-              zonalCount
-            ]);
-          }
-        }
+        const rows = thematicEntries.map((entry) => ([
+          entry.label,
+          entry.color,
+          state.themeVariantCounts?.[entry.key]?.[entry.variant] || 0
+        ]));
 
         rows.push(["Sin cobertura", focusedCoverageColors.uncovered, state.uncovered || 0]);
 
         legend.style.display = "";
-        legend.innerHTML = rows
+        legend.innerHTML = `
+          <div class="legend-section-title">Colores de isocronas</div>
+          ${rows
           .map(([label, color, count]) => `
             <div class="legend-row">
               <span class="legend-swatch" style="background:${color}; border:1px solid rgba(255,255,255,0.28);"></span>
-              <span>${label}: ${formatNumber(count)}</span>
+              <span>${label}: ${formatNumber(count)} manzanas</span>
             </div>
           `)
-          .join("");
+          .join("")}
+        `;
         return;
       }
 
       legend.style.display = "";
-      legend.innerHTML = colorRamp
+      const metricLegend = colorRamp
         .map((color, index) => {
           const min = Math.round(breaks[index]);
           const max = Math.round(breaks[Math.min(index + 1, breaks.length - 1)]);
@@ -2041,6 +2064,25 @@
           `;
         })
         .join("");
+      const thematicLegend = thematicEntries.length
+        ? `
+          <div class="legend-section-title">Colores de isocronas</div>
+          ${thematicEntries
+            .map((entry) => `
+              <div class="legend-row">
+                <span class="legend-swatch" style="background:${entry.color}; border:1px solid rgba(255,255,255,0.28);"></span>
+                <span>${entry.label}</span>
+              </div>
+            `)
+            .join("")}
+        `
+        : "";
+
+      legend.innerHTML = `
+        <div class="legend-section-title">Poblacion</div>
+        ${metricLegend}
+        ${thematicLegend}
+      `;
     }
 
     function updateOverlay() {
