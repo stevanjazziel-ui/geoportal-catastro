@@ -3575,26 +3575,26 @@
     layerVisibility.paradasBusIsocronas = true;
     layerVisibility.paradasBusPuntos = true;
     const educacionIsoColors = {
-      BARRIAL: "#59d8ff",
-      ZONAL: "#8f7dff"
+      BARRIAL: "#2ec5ff",
+      ZONAL: "#2563eb"
     };
     const recreacionIsoColors = {
-      BARRIAL: "#ffb84d",
-      ZONAL: "#3cd6c6"
+      BARRIAL: "#7ed957",
+      ZONAL: "#2f9e44"
     };
     const bienestarIsoColors = {
-      BARRIAL: "#7de2d1",
-      ZONAL: "#b4a7ff"
+      BARRIAL: "#ffb454",
+      ZONAL: "#f97316"
     };
     const culturaIsoColors = {
-      BARRIAL: "#ffd166",
-      ZONAL: "#7aa2ff"
+      BARRIAL: "#d8a4ff",
+      ZONAL: "#8b5cf6"
     };
     const saludIsoColors = {
-      BARRIAL: "#4ee3b5",
-      ZONAL: "#f6bf6c"
+      BARRIAL: "#3dd9c6",
+      ZONAL: "#0f766e"
     };
-    const paradasBusIsoColor = "#ff9f6e";
+    const paradasBusIsoColor = "#ff6b6b";
 
     function displayPlatformName(value) {
       return String(value || "")
@@ -3815,7 +3815,7 @@
 
     function getEducacionIsoStyle(feature) {
       const categoria = String(feature?.properties?.categoria || "").toUpperCase();
-      const color = educacionIsoColors[categoria] || "#8fb6d9";
+      const color = educacionIsoColors[categoria] || "#2563eb";
       const distance = Number(feature?.properties?.distance_m || 0);
       const focused = hasFocusedPlatformSelection();
       return {
@@ -3830,7 +3830,7 @@
 
     function getRecreacionIsoStyle(feature) {
       const categoria = String(feature?.properties?.categoria || "").toUpperCase();
-      const color = recreacionIsoColors[categoria] || "#93c5aa";
+      const color = recreacionIsoColors[categoria] || "#2f9e44";
       const distance = Number(feature?.properties?.distance_m || 0);
       const focused = hasFocusedPlatformSelection();
       return {
@@ -3845,7 +3845,7 @@
 
     function getBienestarIsoStyle(feature) {
       const categoria = String(feature?.properties?.categoria || "").toUpperCase();
-      const color = bienestarIsoColors[categoria] || "#9fc9ff";
+      const color = bienestarIsoColors[categoria] || "#f97316";
       const distance = Number(feature?.properties?.distance_m || 0);
       const focused = hasFocusedPlatformSelection();
       return {
@@ -3860,7 +3860,7 @@
 
     function getCulturaIsoStyle(feature) {
       const categoria = String(feature?.properties?.categoria || "").toUpperCase();
-      const color = culturaIsoColors[categoria] || "#a8bcff";
+      const color = culturaIsoColors[categoria] || "#8b5cf6";
       const distance = Number(feature?.properties?.distance_m || 0);
       const focused = hasFocusedPlatformSelection();
       return {
@@ -3875,7 +3875,7 @@
 
     function getSaludIsoStyle(feature) {
       const categoria = String(feature?.properties?.categoria || "").toUpperCase();
-      const color = saludIsoColors[categoria] || "#9bc8bf";
+      const color = saludIsoColors[categoria] || "#0f766e";
       const distance = Number(feature?.properties?.distance_m || 0);
       const focused = hasFocusedPlatformSelection();
       return {
@@ -4040,7 +4040,7 @@
           pane: "educacionIsocronasStartPane",
           pointToLayer: (feature, latlng) => {
             const categoria = String(feature?.properties?.categoria || "").toUpperCase();
-            const color = educacionIsoColors[categoria] || "#8fb6d9";
+            const color = educacionIsoColors[categoria] || "#2563eb";
             return L.circleMarker(
               latlng,
               {
@@ -4097,7 +4097,7 @@
           pane: "recreacionIsocronasStartPane",
           pointToLayer: (feature, latlng) => {
             const categoria = String(feature?.properties?.categoria || "").toUpperCase();
-            const color = recreacionIsoColors[categoria] || "#93c5aa";
+            const color = recreacionIsoColors[categoria] || "#2f9e44";
             return L.circleMarker(
               latlng,
               {
@@ -4154,7 +4154,7 @@
           pane: "bienestarIsocronasStartPane",
           pointToLayer: (feature, latlng) => {
             const categoria = String(feature?.properties?.categoria || "").toUpperCase();
-            const color = bienestarIsoColors[categoria] || "#9fc9ff";
+            const color = bienestarIsoColors[categoria] || "#f97316";
             return L.circleMarker(
               latlng,
               {
@@ -4211,7 +4211,7 @@
           pane: "culturaIsocronasStartPane",
           pointToLayer: (feature, latlng) => {
             const categoria = String(feature?.properties?.categoria || "").toUpperCase();
-            const color = culturaIsoColors[categoria] || "#a8bcff";
+            const color = culturaIsoColors[categoria] || "#8b5cf6";
             return L.circleMarker(
               latlng,
               {
@@ -4268,7 +4268,7 @@
           pane: "saludIsocronasStartPane",
           pointToLayer: (feature, latlng) => {
             const categoria = String(feature?.properties?.categoria || "").toUpperCase();
-            const color = saludIsoColors[categoria] || "#9bc8bf";
+            const color = saludIsoColors[categoria] || "#0f766e";
             return L.circleMarker(
               latlng,
               {
