@@ -5458,12 +5458,84 @@
         return value || "Sin estado";
       }
 
+      const egobNegativeOutcomePatterns = [
+        "no favorable",
+        "no es favorable",
+        "tramite no favorable",
+        "trámite no favorable",
+        "iprus no favorable",
+        "tramite con observaciones legales",
+        "trámite con observaciones legales",
+        "informe con observaciones",
+        "subsanacion",
+        "subsanación",
+        "se concede un plazo",
+        "observaciones:",
+        "se notifica",
+        "debera subsanar",
+        "deberá subsanar",
+        "debera corregir",
+        "deberá corregir",
+      ];
+
+      const egobPositiveOutcomePatterns = [
+        "tramite_iprus_favorable",
+        "tramite iprus favorable",
+        "trámite iprus favorable",
+        "se reasigna tramite iprus favorable",
+        "se reasigna trámite iprus favorable",
+        "reasigna tramite iprus favorable",
+        "reasigna trámite iprus favorable",
+        "criterio legal favorable",
+        "sin observaciones legales",
+      ];
+
+      function matchesEgobOutcomePattern(value, patterns) {
+        const normalized = normalizeText(value);
+        return Boolean(
+          normalized &&
+          patterns.some((pattern) => normalized.includes(normalizeText(pattern)))
+        );
+      }
+
+      function getEgobOutcomeCandidates(record) {
+        const relevantNotes = Array.isArray(record?.egobRelevantNotes) ? record.egobRelevantNotes : [];
+        return [
+          record?.egobOutcomeRule,
+          record?.egobLatestReassignmentNote,
+          record?.egobOutcomeNote,
+          ...relevantNotes.flatMap((entry) => [entry?.rule, entry?.note, entry?.outcome]),
+        ].filter(Boolean);
+      }
+
       function getEgobOutcome(record) {
         const value = String(record?.egobOutcome || "").trim().toUpperCase();
         if (value === "FAVORABLE" || value === "NO FAVORABLE") {
           return value;
         }
+        const candidates = getEgobOutcomeCandidates(record);
+        if (candidates.some((candidate) => matchesEgobOutcomePattern(candidate, egobNegativeOutcomePatterns))) {
+          return "NO FAVORABLE";
+        }
+        if (candidates.some((candidate) => matchesEgobOutcomePattern(candidate, egobPositiveOutcomePatterns))) {
+          return "FAVORABLE";
+        }
         return "EN REVISIÓN";
+      }
+
+      function getEgobOutcomeCounts(records) {
+        const counts = { favorable: 0, review: 0, blocked: 0 };
+        records.forEach((record) => {
+          const outcome = getEgobOutcome(record);
+          if (outcome === "FAVORABLE") {
+            counts.favorable += 1;
+          } else if (outcome === "NO FAVORABLE") {
+            counts.blocked += 1;
+          } else {
+            counts.review += 1;
+          }
+        });
+        return counts;
       }
 
       function getTrackingOutcomeTone(outcome) {
@@ -6606,9 +6678,8 @@
               ];
           }
         } else {
-          const pending = scopedRecords.filter((record) => getReviewSummary(record.id).pending > 0).length;
           const finished = scopedRecords.filter((record) => getReviewSummary(record.id).pending === 0).length;
-          const blocked = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "NO FAVORABLE").length;
+          const egobCounts = getEgobOutcomeCounts(scopedRecords);
           const evidenceCount = scopedRecords.filter((record) => getEvidenceList(record.id).length > 0).length;
           const reviewed = scopedRecords.filter((record) => {
             const summary = getReviewSummary(record.id);
@@ -6630,14 +6701,14 @@
                   note: "La tabla se reduce con los filtros activos del historial.",
                 },
                 {
-                  label: "Con criterio",
-                  value: reviewed,
-                  note: `${Math.max(scopedRecords.length - reviewed, 0)} históricos aún no registran pronunciamiento técnico.`,
+                  label: "Con estado EGOB",
+                  value: egobCounts.favorable + egobCounts.blocked,
+                  note: `${egobCounts.review} históricos aún siguen en revisión según eGOB.`,
                 },
                 {
-                  label: "No favorables",
-                  value: blocked,
-                  note: `${finished} trámites históricos ya tienen la revisión cerrada.`,
+                  label: "No favorables EGOB",
+                  value: egobCounts.blocked,
+                  note: `${egobCounts.favorable} históricos ya constan como favorables en eGOB.`,
                 },
                 {
                   label: "Con evidencia",
@@ -6657,14 +6728,14 @@
                   note: "La tabla se reduce con los filtros activos de esta bandeja.",
                 },
                 {
-                  label: "Pendientes",
-                  value: pending,
-                  note: `${finished} revisiones ya tienen todos los criterios respondidos.`,
+                  label: "En revisión EGOB",
+                  value: egobCounts.review,
+                  note: `${finished} revisiones ya tienen todos los criterios técnicos respondidos.`,
                 },
                 {
-                  label: "No favorables",
-                  value: blocked,
-                  note: "Trámites con al menos una validación marcada en No.",
+                  label: "No favorables EGOB",
+                  value: egobCounts.blocked,
+                  note: `${egobCounts.favorable} trámites ya figuran como favorables en eGOB.`,
                 },
                 {
                   label: "Con evidencia",
@@ -6770,9 +6841,7 @@
         }
 
         const scopedRecords = getModuleScopedRecords();
-        const favorable = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "FAVORABLE").length;
-        const review = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "EN REVISIÓN").length;
-        const blocked = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "NO FAVORABLE").length;
+        const egobCounts = getEgobOutcomeCounts(scopedRecords);
         const withEvidence = scopedRecords.filter((record) => getEvidenceList(record.id).length > 0).length;
         const reviewed = scopedRecords.filter((record) => {
           const summary = getReviewSummary(record.id);
@@ -6782,15 +6851,15 @@
         dom.loadBoard.innerHTML = (historyMode
           ? [
               { label: "Asignado", value: state.sessionAssignee || "Sin usuario", note: `${scopedRecords.length} trámites en historial.` },
-              { label: "Con criterio", value: reviewed, note: `${Math.max(scopedRecords.length - reviewed, 0)} aún no tienen pronunciamiento técnico.` },
-              { label: "Favorables", value: favorable, note: "Históricos con todos los criterios cumplidos." },
-              { label: "No favorables", value: blocked, note: `${withEvidence} trámites históricos ya tienen evidencia gráfica.` },
+              { label: "Con criterio técnico", value: reviewed, note: `${Math.max(scopedRecords.length - reviewed, 0)} aún no tienen pronunciamiento técnico.` },
+              { label: "Favorables EGOB", value: egobCounts.favorable, note: `${egobCounts.review} históricos siguen en revisión dentro de eGOB.` },
+              { label: "No favorables EGOB", value: egobCounts.blocked, note: `${withEvidence} trámites históricos ya tienen evidencia gráfica.` },
             ]
           : [
               { label: "Asignado", value: state.sessionAssignee || "Sin usuario", note: `${scopedRecords.length} trámites en bandeja.` },
-              { label: "En revisión", value: review, note: "Aún hay criterios técnicos pendientes." },
-              { label: "Favorables", value: favorable, note: "Todos los criterios fueron cumplidos." },
-              { label: "No favorables", value: blocked, note: `${withEvidence} trámites ya tienen evidencia gráfica.` },
+              { label: "En revisión EGOB", value: egobCounts.review, note: "Aún no existe pronunciamiento favorable o no favorable en eGOB." },
+              { label: "Favorables EGOB", value: egobCounts.favorable, note: "Se cuentan desde las reasignaciones o notas favorables detectadas en eGOB." },
+              { label: "No favorables EGOB", value: egobCounts.blocked, note: `${withEvidence} trámites ya tienen evidencia gráfica.` },
             ])
           .map(
             (item) => `
@@ -7525,7 +7594,7 @@
         const scopedRecords = getModuleScopedRecords();
         const datasetRecords = getDatasetRecords();
         const finishedCount = scopedRecords.filter((record) => getReviewSummary(record.id).pending === 0).length;
-        const blockedCount = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "NO FAVORABLE").length;
+        const blockedCount = getEgobOutcomeCounts(scopedRecords).blocked;
 
         dom.brandTitle.textContent = historyMode
           ? (adminMode ? "Historial de Trámites" : "Historial de Revisión")
@@ -7613,7 +7682,7 @@
               <strong>${adminMode ? (historyMode ? scopedRecords.filter((record) => getReviewSummary(record.id).yes > 0 || getReviewSummary(record.id).no > 0).length : selectedIds.size) : finishedCount}</strong>
             </article>
             <article class="mode-banner-stat">
-              <span>${escapeHtml(adminMode ? (historyMode ? "Sin asignar" : "Sin asignar") : "No favorables")}</span>
+              <span>${escapeHtml(adminMode ? (historyMode ? "Sin asignar" : "Sin asignar") : "No favorables EGOB")}</span>
               <strong>${adminMode ? datasetRecords.filter((record) => !getAssignee(record.id)).length : blockedCount}</strong>
             </article>
           </div>
@@ -7635,7 +7704,7 @@
         const scopedRecords = getModuleScopedRecords();
         const datasetRecords = getDatasetRecords();
         const finishedCount = scopedRecords.filter((record) => getReviewSummary(record.id).pending === 0).length;
-        const blockedCount = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "NO FAVORABLE").length;
+        const blockedCount = getEgobOutcomeCounts(scopedRecords).blocked;
         const trackingAnalytics = trackingMode ? getTrackingAnalytics() : null;
 
         dom.brandTitle.textContent = trackingMode
@@ -7751,7 +7820,7 @@
               <strong>${trackingMode ? trackingAnalytics.noFavorable : adminMode ? (historyMode ? scopedRecords.filter((record) => getReviewSummary(record.id).yes > 0 || getReviewSummary(record.id).no > 0).length : selectedIds.size) : finishedCount}</strong>
             </article>
             <article class="mode-banner-stat">
-              <span>${escapeHtml(trackingMode ? "Complementados EGOB" : adminMode ? "Sin asignar" : "No favorables")}</span>
+              <span>${escapeHtml(trackingMode ? "Complementados EGOB" : adminMode ? "Sin asignar" : "No favorables EGOB")}</span>
               <strong>${trackingMode ? trackingAnalytics.egobComplementado : adminMode ? datasetRecords.filter((record) => !getAssignee(record.id)).length : blockedCount}</strong>
             </article>
           </div>
@@ -7849,10 +7918,10 @@
               : `Se cargaron ${total} trámites activos con estado compartido central y ajustes locales pendientes de sincronización.`);
         } else {
           const finished = scopedRecords.filter((record) => getReviewSummary(record.id).pending === 0).length;
-          const blocked = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "NO FAVORABLE").length;
+          const blocked = getEgobOutcomeCounts(scopedRecords).blocked;
           dom.metricTotalLabel.textContent = historyMode ? "Mi historial" : "Mi bandeja";
           dom.metricAssignedLabel.textContent = "Revisiones cerradas";
-          dom.metricCriticalLabel.textContent = "No favorables";
+          dom.metricCriticalLabel.textContent = "No favorables EGOB";
           dom.metricSourceDateLabel.textContent = "Última fuente";
           dom.metricTotal.textContent = scopedRecords.length;
           dom.metricAssigned.textContent = finished;
@@ -7924,10 +7993,10 @@
           }
         } else {
           const finished = scopedRecords.filter((record) => getReviewSummary(record.id).pending === 0).length;
-          const blocked = scopedRecords.filter((record) => getTechnicalOutcome(record.id) === "NO FAVORABLE").length;
+          const blocked = getEgobOutcomeCounts(scopedRecords).blocked;
           dom.metricTotalLabel.textContent = historyMode ? "Mi historial" : "Mi bandeja";
           dom.metricAssignedLabel.textContent = "Revisiones cerradas";
-          dom.metricCriticalLabel.textContent = "No favorables";
+          dom.metricCriticalLabel.textContent = "No favorables EGOB";
           dom.metricSourceDateLabel.textContent = "Ultima fuente";
           dom.metricTotal.textContent = scopedRecords.length;
           dom.metricAssigned.textContent = finished;

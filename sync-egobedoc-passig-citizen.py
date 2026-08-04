@@ -109,6 +109,17 @@ EGOB_OUTCOME_POSITIVE_RULES = (
     ),
 )
 
+EGOB_OUTCOME_POSITIVE_RULES = EGOB_OUTCOME_POSITIVE_RULES + (
+    (
+        "criterio_legal_favorable",
+        (
+            "se emite criterio legal favorable",
+            "criterio legal favorable",
+            "sin observaciones legales",
+        ),
+    ),
+)
+
 
 def normalize_text(value: object) -> str:
     text = "" if value is None else str(value)
