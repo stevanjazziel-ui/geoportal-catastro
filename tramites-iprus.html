@@ -5458,37 +5458,41 @@
         return value || "Sin estado";
       }
 
-      const egobNegativeOutcomePatterns = [
-        "no favorable",
-        "no es favorable",
-        "tramite no favorable",
-        "trámite no favorable",
-        "iprus no favorable",
-        "tramite con observaciones legales",
-        "trámite con observaciones legales",
-        "informe con observaciones",
-        "subsanacion",
-        "subsanación",
-        "se concede un plazo",
-        "observaciones:",
-        "se notifica",
-        "debera subsanar",
-        "deberá subsanar",
-        "debera corregir",
-        "deberá corregir",
-      ];
+      function getEgobNegativeOutcomePatterns() {
+        return [
+          "no favorable",
+          "no es favorable",
+          "tramite no favorable",
+          "trámite no favorable",
+          "iprus no favorable",
+          "tramite con observaciones legales",
+          "trámite con observaciones legales",
+          "informe con observaciones",
+          "subsanacion",
+          "subsanación",
+          "se concede un plazo",
+          "observaciones:",
+          "se notifica",
+          "debera subsanar",
+          "deberá subsanar",
+          "debera corregir",
+          "deberá corregir",
+        ];
+      }
 
-      const egobPositiveOutcomePatterns = [
-        "tramite_iprus_favorable",
-        "tramite iprus favorable",
-        "trámite iprus favorable",
-        "se reasigna tramite iprus favorable",
-        "se reasigna trámite iprus favorable",
-        "reasigna tramite iprus favorable",
-        "reasigna trámite iprus favorable",
-        "criterio legal favorable",
-        "sin observaciones legales",
-      ];
+      function getEgobPositiveOutcomePatterns() {
+        return [
+          "tramite_iprus_favorable",
+          "tramite iprus favorable",
+          "trámite iprus favorable",
+          "se reasigna tramite iprus favorable",
+          "se reasigna trámite iprus favorable",
+          "reasigna tramite iprus favorable",
+          "reasigna trámite iprus favorable",
+          "criterio legal favorable",
+          "sin observaciones legales",
+        ];
+      }
 
       function matchesEgobOutcomePattern(value, patterns) {
         const normalized = normalizeText(value);
@@ -5514,10 +5518,10 @@
           return value;
         }
         const candidates = getEgobOutcomeCandidates(record);
-        if (candidates.some((candidate) => matchesEgobOutcomePattern(candidate, egobNegativeOutcomePatterns))) {
+        if (candidates.some((candidate) => matchesEgobOutcomePattern(candidate, getEgobNegativeOutcomePatterns()))) {
           return "NO FAVORABLE";
         }
-        if (candidates.some((candidate) => matchesEgobOutcomePattern(candidate, egobPositiveOutcomePatterns))) {
+        if (candidates.some((candidate) => matchesEgobOutcomePattern(candidate, getEgobPositiveOutcomePatterns()))) {
           return "FAVORABLE";
         }
         return "EN REVISIÓN";
