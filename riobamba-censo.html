@@ -597,6 +597,7 @@
     let allEquipamientoCategories = [];
     let selectedEquipamientoCategories = new Set();
     let equipamientoCategoriesInitialized = false;
+    let lastPlatformSelectValue = ALL_PLATFORMS;
     const layerVisibility = {
       manzanas: true,
       plataformas: true,
@@ -972,6 +973,48 @@
 
     function hasFocusedPlatformSelection() {
       return currentPlatform !== ALL_PLATFORMS && currentPlatform !== OUTSIDE_PLATFORMS;
+    }
+
+    function normalizePlatformSelectionValue(value) {
+      const normalized = String(value || "").trim();
+      if (!normalized) {
+        return ALL_PLATFORMS;
+      }
+      if (normalized === ALL_PLATFORMS || normalized === OUTSIDE_PLATFORMS) {
+        return normalized;
+      }
+      return normalized;
+    }
+
+    function applyPlatformSelection(value, zoomToSelection = true) {
+      const nextPlatform = normalizePlatformSelectionValue(value);
+      const currentValue = normalizePlatformSelectionValue(currentPlatform);
+      const controlValue = normalizePlatformSelectionValue(platformSelect.value);
+
+      if (
+        nextPlatform === currentValue &&
+        nextPlatform === controlValue &&
+        nextPlatform === lastPlatformSelectValue
+      ) {
+        return;
+      }
+
+      currentPlatform = nextPlatform;
+      if (platformSelect.value !== nextPlatform) {
+        platformSelect.value = nextPlatform;
+      }
+      lastPlatformSelectValue = nextPlatform;
+      renderAll(zoomToSelection);
+    }
+
+    function syncPlatformSelectionFromControl(zoomToSelection = true) {
+      const nextValue = normalizePlatformSelectionValue(platformSelect.value);
+      if (
+        nextValue !== normalizePlatformSelectionValue(currentPlatform) ||
+        nextValue !== lastPlatformSelectValue
+      ) {
+        applyPlatformSelection(nextValue, zoomToSelection);
+      }
     }
 
     function matchesCurrentPlatform(platformName) {
@@ -1924,9 +1967,7 @@
             `);
 
             layer.on("click", () => {
-              currentPlatform = props.platform_name;
-              platformSelect.value = currentPlatform;
-              renderAll(true);
+              applyPlatformSelection(props.platform_name, true);
             });
           }
         }
@@ -2246,7 +2287,8 @@
       }
 
       platformSelect.innerHTML = options.join("");
-      platformSelect.value = currentPlatform;
+      platformSelect.value = normalizePlatformSelectionValue(currentPlatform);
+      lastPlatformSelectValue = normalizePlatformSelectionValue(platformSelect.value);
     }
 
     function updateSummaryPanel() {
@@ -4822,9 +4864,31 @@
     });
 
     platformSelect.addEventListener("change", () => {
-      currentPlatform = platformSelect.value;
-      renderAll(true);
+      applyPlatformSelection(platformSelect.value, true);
     });
+
+    platformSelect.addEventListener("input", () => {
+      applyPlatformSelection(platformSelect.value, true);
+    });
+
+    platformSelect.addEventListener("keyup", () => {
+      syncPlatformSelectionFromControl(true);
+    });
+
+    platformSelect.addEventListener("mouseup", () => {
+      syncPlatformSelectionFromControl(true);
+    });
+
+    platformSelect.addEventListener("blur", () => {
+      syncPlatformSelectionFromControl(true);
+    });
+
+    window.setInterval(() => {
+      if (!platformSelect || !platformSelect.options.length) {
+        return;
+      }
+      syncPlatformSelectionFromControl(false);
+    }, 300);
 
     toggleManzanas.addEventListener("change", () => {
       layerVisibility.manzanas = toggleManzanas.checked;
