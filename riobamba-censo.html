@@ -1539,7 +1539,7 @@
 
       if (!map.getPane("equipamientosPane")) {
         map.createPane("equipamientosPane");
-        map.getPane("equipamientosPane").style.zIndex = 440;
+        map.getPane("equipamientosPane").style.zIndex = 650;
       }
 
       const visibleFeatures = getVisibleEquipamientosFeatures();
@@ -1589,6 +1589,9 @@
           }
         }
       );
+      if (typeof equipamientosLayer.bringToFront === "function") {
+        equipamientosLayer.bringToFront();
+      }
       syncSingleLayer(equipamientosLayer, layerVisibility.equipamientos);
     }
 
@@ -2696,7 +2699,7 @@
 
       if (!map.getPane("educacionIsocronasStartPane")) {
         map.createPane("educacionIsocronasStartPane");
-        map.getPane("educacionIsocronasStartPane").style.zIndex = 433;
+        map.getPane("educacionIsocronasStartPane").style.zIndex = 661;
       }
 
       window.educacionIsocronasStartLayer = L.geoJSON(
@@ -2749,7 +2752,7 @@
 
       if (!map.getPane("recreacionIsocronasStartPane")) {
         map.createPane("recreacionIsocronasStartPane");
-        map.getPane("recreacionIsocronasStartPane").style.zIndex = 435;
+        map.getPane("recreacionIsocronasStartPane").style.zIndex = 662;
       }
 
       window.recreacionIsocronasStartLayer = L.geoJSON(
@@ -2802,7 +2805,7 @@
 
       if (!map.getPane("bienestarIsocronasStartPane")) {
         map.createPane("bienestarIsocronasStartPane");
-        map.getPane("bienestarIsocronasStartPane").style.zIndex = 436;
+        map.getPane("bienestarIsocronasStartPane").style.zIndex = 663;
       }
 
       window.bienestarIsocronasStartLayer = L.geoJSON(
@@ -2855,7 +2858,7 @@
 
       if (!map.getPane("culturaIsocronasStartPane")) {
         map.createPane("culturaIsocronasStartPane");
-        map.getPane("culturaIsocronasStartPane").style.zIndex = 437;
+        map.getPane("culturaIsocronasStartPane").style.zIndex = 664;
       }
 
       window.culturaIsocronasStartLayer = L.geoJSON(
@@ -2908,7 +2911,7 @@
 
       if (!map.getPane("saludIsocronasStartPane")) {
         map.createPane("saludIsocronasStartPane");
-        map.getPane("saludIsocronasStartPane").style.zIndex = 434;
+        map.getPane("saludIsocronasStartPane").style.zIndex = 665;
       }
 
       window.saludIsocronasStartLayer = L.geoJSON(
@@ -2959,7 +2962,7 @@
 
       if (!map.getPane("paradasBusIsocronasStartPane")) {
         map.createPane("paradasBusIsocronasStartPane");
-        map.getPane("paradasBusIsocronasStartPane").style.zIndex = 436;
+        map.getPane("paradasBusIsocronasStartPane").style.zIndex = 666;
       }
 
       window.paradasBusIsocronasStartLayer = L.geoJSON(
