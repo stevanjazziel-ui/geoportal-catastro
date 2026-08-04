@@ -860,6 +860,10 @@
       );
     }
 
+    function hasFocusedPlatformSelection() {
+      return currentPlatform !== ALL_PLATFORMS && currentPlatform !== OUTSIDE_PLATFORMS;
+    }
+
     function matchesCurrentPlatform(platformName) {
       const normalizedPlatform = displayPlatformName(platformName);
 
@@ -981,6 +985,16 @@
         .join("");
     }
 
+    function getVisibleThematicIsocronasCount() {
+      return (
+        getPlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || []).length +
+        getPlatformScopedIsocronasFeatures(window.recreacionIsocronasFeatures || []).length +
+        getPlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || []).length +
+        getPlatformScopedIsocronasFeatures(window.culturaIsocronasFeatures || []).length +
+        getPlatformScopedIsocronasFeatures(window.saludIsocronasFeatures || []).length
+      );
+    }
+
     function updateSelectionStatusText() {
       if (currentPlatform === ALL_PLATFORMS) {
         const totalIsocronasCiudad =
@@ -997,19 +1011,21 @@
         return;
       }
 
-      const visibleManzanas = getCurrentFeatures().length;
       const visibleEquipamientos = getVisibleEquipamientosFeatures().length;
-      const visibleIsocronas =
-        getPlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || []).length +
-        getPlatformScopedIsocronasFeatures(window.recreacionIsocronasFeatures || []).length +
-        getPlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || []).length +
-        getPlatformScopedIsocronasFeatures(window.culturaIsocronasFeatures || []).length +
-        getPlatformScopedIsocronasFeatures(window.saludIsocronasFeatures || []).length;
+      const visibleIsocronas = getVisibleThematicIsocronasCount();
 
       const selectionLabel = currentPlatform === OUTSIDE_PLATFORMS
         ? "Fuera de plataformas"
         : displayPlatformName(currentPlatform);
 
+      if (hasFocusedPlatformSelection()) {
+        statusText.textContent =
+          `Mostrando ${selectionLabel}: vista enfocada con ${formatNumber(visibleEquipamientos)} ` +
+          `puntos publicos y ${formatNumber(visibleIsocronas)} isocronas tematicas visibles.`;
+        return;
+      }
+
+      const visibleManzanas = getCurrentFeatures().length;
       statusText.textContent =
         `Mostrando ${selectionLabel}: ${formatNumber(visibleManzanas)} manzanas, ` +
         `${formatNumber(visibleEquipamientos)} puntos publicos y ${formatNumber(visibleIsocronas)} ` +
@@ -1307,6 +1323,13 @@
     }
 
     function renderLegend(breaks) {
+      if (hasFocusedPlatformSelection()) {
+        legend.innerHTML = "";
+        legend.style.display = "none";
+        return;
+      }
+
+      legend.style.display = "";
       legend.innerHTML = colorRamp
         .map((color, index) => {
           const min = Math.round(breaks[index]);
@@ -1336,8 +1359,29 @@
         return;
       }
 
+      if (hasFocusedPlatformSelection()) {
+        overlayTitle.textContent = currentPlatform;
+        overlayText.textContent =
+          `Vista enfocada: ${formatNumber(getVisibleEquipamientosFeatures().length)} puntos publicos y ` +
+          `${formatNumber(getVisibleThematicIsocronasCount())} isocronas visibles dentro de esta plataforma.`;
+        return;
+      }
+
       overlayTitle.textContent = currentPlatform;
       overlayText.textContent = `${formatNumber(summary.manzanas)} manzanas | ${formatNumber(summary.population_total)} habitantes | ${metricLabels[currentMetric]}: ${formatNumber(summary[currentMetric])}`;
+    }
+
+    function updatePlatformFocusUi() {
+      const focused = hasFocusedPlatformSelection();
+      const manzanaLabel = toggleManzanas.closest("label");
+
+      toggleManzanas.disabled = focused;
+      if (manzanaLabel) {
+        manzanaLabel.style.opacity = focused ? "0.45" : "";
+        manzanaLabel.title = focused
+          ? "Al elegir una plataforma, el mapa se enfoca solo en puntos e isocronas."
+          : "";
+      }
     }
 
     function platformStyle(feature) {
@@ -1659,7 +1703,7 @@
           }
         }
       );
-      syncSingleLayer(manzanaLayer, layerVisibility.manzanas);
+      syncSingleLayer(manzanaLayer, layerVisibility.manzanas && !hasFocusedPlatformSelection());
 
       renderLegend(breaks);
 
@@ -1733,6 +1777,7 @@
       renderCulturaIsocronasStartLayer();
       renderSaludIsocronasLayer();
       renderSaludIsocronasStartLayer();
+      updatePlatformFocusUi();
       updateSummaryPanel();
       updateSelectionStatusText();
     }
