@@ -1194,6 +1194,49 @@
       return groups.filter((feature) => feature && feature.geometry && feature.properties);
     }
 
+    function getVisibleThematicIsoGroups() {
+      const groups = [
+        {
+          key: "educacion",
+          label: "Educacion",
+          visible: layerVisibility.educacionIsocronas,
+          features: getPlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || [])
+        },
+        {
+          key: "recreacion",
+          label: "Recreacion y deporte",
+          visible: layerVisibility.recreacionIsocronas,
+          features: getPlatformScopedIsocronasFeatures(window.recreacionIsocronasFeatures || [])
+        },
+        {
+          key: "bienestar",
+          label: "Bienestar social",
+          visible: layerVisibility.bienestarIsocronas,
+          features: getPlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || [])
+        },
+        {
+          key: "cultura",
+          label: "Cultura",
+          visible: layerVisibility.culturaIsocronas,
+          features: getPlatformScopedIsocronasFeatures(window.culturaIsocronasFeatures || [])
+        },
+        {
+          key: "salud",
+          label: "Salud",
+          visible: layerVisibility.saludIsocronas,
+          features: getPlatformScopedIsocronasFeatures(window.saludIsocronasFeatures || [])
+        }
+      ];
+
+      return groups
+        .filter((group) => group.visible)
+        .map((group) => ({
+          ...group,
+          features: (group.features || []).filter((feature) => feature && feature.geometry && feature.properties)
+        }))
+        .filter((group) => group.features.length > 0);
+    }
+
     function getFocusedCoverageKey(feature, index) {
       const man = feature?.properties?.man;
       if (man !== undefined && man !== null && String(man).trim()) {
@@ -1294,6 +1337,57 @@
           hitCount
         });
       });
+
+      return state;
+    }
+
+    function buildCoverageStateForIsochrones(features = [], isochrones = []) {
+      const state = {
+        total: features.length,
+        covered: 0,
+        uncovered: 0,
+        populationTotal: 0,
+        populationCovered: 0,
+        populationUncovered: 0
+      };
+
+      if (typeof turf === "undefined") {
+        return state;
+      }
+
+      if (!isochrones.length) {
+        for (const feature of features) {
+          state.populationTotal += Number(feature?.properties?.population_total || 0);
+        }
+        state.uncovered = features.length;
+        state.populationUncovered = state.populationTotal;
+        return state;
+      }
+
+      for (const feature of features) {
+        const population = Number(feature?.properties?.population_total || 0);
+        state.populationTotal += population;
+
+        let covered = false;
+        for (const isochrone of isochrones) {
+          try {
+            if (turf.booleanIntersects(feature, isochrone)) {
+              covered = true;
+              break;
+            }
+          } catch (error) {
+            continue;
+          }
+        }
+
+        if (covered) {
+          state.covered += 1;
+          state.populationCovered += population;
+        } else {
+          state.uncovered += 1;
+          state.populationUncovered += population;
+        }
+      }
 
       return state;
     }
@@ -1705,6 +1799,8 @@
       }
 
       const state = focusedCoverageState || buildFocusedCoverageState(getCurrentFeatures());
+      const currentFeatures = getCurrentFeatures();
+      const visibleGroups = getVisibleThematicIsoGroups();
       const platformLabel = displayPlatformName(currentPlatform);
       const totalPopulation = Number(state.populationTotal || 0);
       const cards = [
@@ -1719,21 +1815,29 @@
           value: `${formatNumber(state.populationCovered || 0)} hab`,
           meta: `${formatPercent(state.populationCovered || 0, totalPopulation)} del total`,
           wide: true
-        },
-        {
-          label: "Barrial + zonal",
-          value: `${formatNumber(state.populationMixed || 0)} hab`,
-          meta: `${formatPercent(state.populationMixed || 0, totalPopulation)} | ${formatNumber(state.mixed || 0)} manzanas`
-        },
-        {
-          label: "Sin cobertura",
-          value: `${formatNumber(state.populationUncovered || 0)} hab`,
-          meta: `${formatPercent(state.populationUncovered || 0, totalPopulation)} | ${formatNumber(state.uncovered || 0)} manzanas`
         }
       ];
 
+      for (const group of visibleGroups) {
+        const groupState = buildCoverageStateForIsochrones(currentFeatures, group.features);
+        cards.push({
+          label: group.label,
+          value: `${formatNumber(groupState.populationCovered || 0)} hab`,
+          meta:
+            `${formatPercent(groupState.populationCovered || 0, totalPopulation)} | ` +
+            `${formatNumber(groupState.covered || 0)} manzanas | ` +
+            `${formatNumber(group.features.length)} isocronas`
+        });
+      }
+
+      cards.push({
+        label: "Sin cobertura",
+        value: `${formatNumber(state.populationUncovered || 0)} hab`,
+        meta: `${formatPercent(state.populationUncovered || 0, totalPopulation)} | ${formatNumber(state.uncovered || 0)} manzanas`
+      });
+
       focusedAnalysisTitle.textContent = `Analisis de cobertura ${platformLabel}`;
-      focusedAnalysisSubtitle.textContent = "Poblacion calculada desde manzanas censales de la plataforma seleccionada y la cobertura visible de isocronas.";
+      focusedAnalysisSubtitle.textContent = "Poblacion calculada desde manzanas censales de la plataforma seleccionada y desglosada por cada isocrona categorizada visible.";
       focusedAnalysisGrid.innerHTML = cards
         .map((card) => `
           <article class="analysis-item${card.wide ? " wide" : ""}">
