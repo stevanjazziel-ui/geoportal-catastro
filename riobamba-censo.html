@@ -620,7 +620,6 @@
       { key: "age_30_64", label: "30-64" },
       { key: "age_65_plus", label: "65+" }
     ];
-
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
@@ -1381,6 +1380,8 @@
         populationZonal: 0,
         populationMixed: 0,
         populationUncovered: 0,
+        themeCounts: createEmptyFocusedThemeCounts(),
+        themeVariantCounts: createEmptyFocusedThemeVariantCounts(),
         map: new Map()
       };
 
@@ -1388,7 +1389,14 @@
         return state;
       }
 
-      const visibleIsochrones = getVisibleThematicIsocronasFeatures();
+      const visibleGroups = getVisibleThematicIsoGroups();
+      const visibleIsochrones = visibleGroups.flatMap((group) =>
+        (group.features || []).map((feature) => ({
+          feature,
+          key: group.key,
+          label: group.label
+        }))
+      );
       if (!visibleIsochrones.length) {
         state.uncovered = features.length;
         return state;
@@ -1401,8 +1409,11 @@
         let hasBarrial = false;
         let hasZonal = false;
         let hitCount = 0;
+        const groupHits = createEmptyFocusedThemeCounts();
+        const groupVariantHits = createEmptyFocusedThemeVariantCounts();
 
-        for (const isochrone of visibleIsochrones) {
+        for (const item of visibleIsochrones) {
+          const isochrone = item.feature;
           try {
             if (!turf.booleanIntersects(feature, isochrone)) {
               continue;
@@ -1413,18 +1424,48 @@
 
           hitCount += 1;
           const categoria = String(isochrone.properties?.categoria || "").toUpperCase();
+          if (groupHits[item.key] !== undefined) {
+            groupHits[item.key] += 1;
+          }
           if (categoria === "BARRIAL") {
             hasBarrial = true;
+            if (groupVariantHits[item.key]) {
+              groupVariantHits[item.key].BARRIAL += 1;
+            }
           } else if (categoria === "ZONAL") {
             hasZonal = true;
-          }
-
-          if (hasBarrial && hasZonal) {
-            break;
+            if (groupVariantHits[item.key]) {
+              groupVariantHits[item.key].ZONAL += 1;
+            }
           }
         }
 
         const covered = hasBarrial || hasZonal;
+        let dominantGroupKey = null;
+        let dominantGroupLabel = "";
+        let dominantGroupHits = 0;
+
+        for (const group of visibleGroups) {
+          const hits = groupHits[group.key] || 0;
+          if (hits > dominantGroupHits) {
+            dominantGroupHits = hits;
+            dominantGroupKey = group.key;
+            dominantGroupLabel = group.label;
+          }
+        }
+
+        let dominantCategoria = null;
+        if (dominantGroupKey && groupVariantHits[dominantGroupKey]) {
+          const barrialHits = groupVariantHits[dominantGroupKey].BARRIAL || 0;
+          const zonalHits = groupVariantHits[dominantGroupKey].ZONAL || 0;
+          if (barrialHits > 0 || zonalHits > 0) {
+            dominantCategoria = barrialHits >= zonalHits ? "BARRIAL" : "ZONAL";
+          }
+        }
+
+        const thematicColor = covered
+          ? getFocusedThematicColor(dominantGroupKey, dominantCategoria)
+          : focusedCoverageColors.uncovered;
         const type = hasBarrial && hasZonal
           ? "mixed"
           : hasBarrial
@@ -1446,6 +1487,17 @@
             state.zonal += 1;
             state.populationZonal += population;
           }
+          if (dominantGroupKey && state.themeCounts[dominantGroupKey] !== undefined) {
+            state.themeCounts[dominantGroupKey] += 1;
+          }
+          if (
+            dominantGroupKey &&
+            dominantCategoria &&
+            state.themeVariantCounts[dominantGroupKey] &&
+            state.themeVariantCounts[dominantGroupKey][dominantCategoria] !== undefined
+          ) {
+            state.themeVariantCounts[dominantGroupKey][dominantCategoria] += 1;
+          }
         } else {
           state.uncovered += 1;
           state.populationUncovered += population;
@@ -1456,11 +1508,35 @@
           covered,
           hasBarrial,
           hasZonal,
-          hitCount
+          hitCount,
+          dominantGroupKey,
+          dominantGroupLabel,
+          dominantCategoria,
+          thematicColor
         });
       });
 
       return state;
+    }
+
+    function createEmptyFocusedThemeCounts() {
+      return {
+        bienestar: 0,
+        recreacion: 0,
+        educacion: 0,
+        cultura: 0,
+        salud: 0
+      };
+    }
+
+    function createEmptyFocusedThemeVariantCounts() {
+      return {
+        bienestar: { BARRIAL: 0, ZONAL: 0 },
+        recreacion: { BARRIAL: 0, ZONAL: 0 },
+        educacion: { BARRIAL: 0, ZONAL: 0 },
+        cultura: { BARRIAL: 0, ZONAL: 0 },
+        salud: { BARRIAL: 0, ZONAL: 0 }
+      };
     }
 
     function buildCoverageStateForIsochrones(features = [], isochrones = []) {
@@ -1892,15 +1968,53 @@
       return colorRamp[4];
     }
 
+    function getFocusedThematicColor(groupKey, categoria) {
+      const normalizedCategoria = String(categoria || "BARRIAL").toUpperCase() === "ZONAL" ? "ZONAL" : "BARRIAL";
+      const palettes = {
+        bienestar: bienestarIsoColors,
+        recreacion: recreacionIsoColors,
+        educacion: educacionIsoColors,
+        cultura: culturaIsoColors,
+        salud: saludIsoColors
+      };
+      const palette = palettes[groupKey];
+      if (palette && palette[normalizedCategoria]) {
+        return palette[normalizedCategoria];
+      }
+      return focusedCoverageColors.uncovered;
+    }
+
     function renderLegend(breaks) {
       if (hasFocusedPlatformSelection()) {
-        const state = focusedCoverageState || { barrial: 0, zonal: 0, mixed: 0, uncovered: 0 };
-        const rows = [
-          ["Barrial", focusedCoverageColors.barrial, state.barrial],
-          ["Zonal", focusedCoverageColors.zonal, state.zonal],
-          ["Barrial + zonal", focusedCoverageColors.mixed, state.mixed],
-          ["Sin cobertura", focusedCoverageColors.uncovered, state.uncovered]
-        ];
+        const state = focusedCoverageState || {
+          uncovered: 0,
+          themeVariantCounts: createEmptyFocusedThemeVariantCounts()
+        };
+        const rows = [];
+        const visibleGroups = getVisibleThematicIsoGroups();
+
+        for (const group of visibleGroups) {
+          const barrialCount = state.themeVariantCounts?.[group.key]?.BARRIAL || 0;
+          const zonalCount = state.themeVariantCounts?.[group.key]?.ZONAL || 0;
+
+          if (barrialCount > 0) {
+            rows.push([
+              `${group.label} barrial`,
+              getFocusedThematicColor(group.key, "BARRIAL"),
+              barrialCount
+            ]);
+          }
+
+          if (zonalCount > 0) {
+            rows.push([
+              `${group.label} zonal`,
+              getFocusedThematicColor(group.key, "ZONAL"),
+              zonalCount
+            ]);
+          }
+        }
+
+        rows.push(["Sin cobertura", focusedCoverageColors.uncovered, state.uncovered || 0]);
 
         legend.style.display = "";
         legend.innerHTML = rows
@@ -2078,13 +2192,14 @@
       if (hasFocusedPlatformSelection()) {
         const key = getFocusedCoverageKey(feature, -1);
         const coverage = focusedCoverageState?.map?.get(key) || { type: "uncovered", covered: false };
-        const fillColor = focusedCoverageColors[coverage.type] || focusedCoverageColors.uncovered;
+        const fillColor = coverage.thematicColor || focusedCoverageColors.uncovered;
 
         return {
-          color: coverage.covered ? "rgba(239,246,255,0.95)" : "rgba(255,255,255,0.18)",
-          weight: coverage.covered ? 0.9 : 0.4,
+          color: coverage.covered ? fillColor : "rgba(255,255,255,0.18)",
+          opacity: coverage.covered ? 0.7 : 0.2,
+          weight: coverage.covered ? 0.75 : 0.35,
           fillColor,
-          fillOpacity: coverage.covered ? 0.74 : 0.08
+          fillOpacity: coverage.covered ? 0.2 : 0.04
         };
       }
 
@@ -2391,13 +2506,9 @@
             });
             layer.on("click", () => {
               const coverage = focusedCoverageState?.map?.get(getFocusedCoverageKey(feature, -1));
-              const coverageLabel = coverage?.type === "mixed"
-                ? "Barrial + zonal"
-                : coverage?.type === "barrial"
-                  ? "Barrial"
-                  : coverage?.type === "zonal"
-                    ? "Zonal"
-                    : "Sin cobertura";
+              const coverageLabel = coverage?.covered
+                ? `${coverage.dominantGroupLabel || "Cobertura visible"}${coverage.dominantCategoria ? ` ${coverage.dominantCategoria === "BARRIAL" ? "barrial" : "zonal"}` : ""}`
+                : "Sin cobertura";
 
               overlayTitle.textContent = `Manzana ${props.man}`;
               overlayText.textContent = hasFocusedPlatformSelection()
