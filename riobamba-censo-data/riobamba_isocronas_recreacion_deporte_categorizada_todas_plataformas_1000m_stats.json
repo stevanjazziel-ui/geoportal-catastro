@@ -1,29 +1,38 @@
 {
-  "generated_at": "2026-07-31T15:42:14",
-  "source_geojson": "D:\\codex\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
-  "source_osm_cache": "D:\\codex\\riobamba-censo-data\\riobamba_osm_walk_network_5categorias_todas_plataformas.json",
+  "generated_at": "2026-08-04T12:25:29",
+  "source_geojson": "D:\\codex\\_publish_clone_20260731b\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
+  "source_osm_cache": "D:\\codex\\_publish_clone_20260731b\\riobamba-censo-data\\riobamba_osm_walk_network_5categorias_todas_plataformas.json",
   "summary": {
-    "total_equipamientos": 208,
-    "total_isocronas": 191,
+    "total_equipamientos_bruto": 208,
+    "total_equipamientos": 205,
+    "total_isocronas": 188,
     "categorias_con_isocrona": 2,
     "omitidos": 17,
-    "manzanas_ajustadas": 34782,
-    "manzanas_grandes_recortadas": 2014
+    "manzanas_ajustadas": 34243,
+    "manzanas_grandes_recortadas": 1987,
+    "duplicates_removed": 3,
+    "duplicates_exact": 1,
+    "duplicates_probable": 2
   },
   "by_categoria_source": {
+    "ZONAL": 143,
+    "BARRIAL": 45,
+    "CANTONAL": 17
+  },
+  "by_categoria_source_bruto": {
     "ZONAL": 145,
     "BARRIAL": 46,
     "CANTONAL": 17
   },
   "by_categoria_isocronas": {
-    "ZONAL": 145,
-    "BARRIAL": 46
+    "ZONAL": 143,
+    "BARRIAL": 45
   },
   "by_categoria_omitidos": {
     "CANTONAL": 17
   },
   "by_distance_m": {
-    "1000": 191
+    "1000": 188
   },
-  "observacion": "Isocronas de recreacion y deporte todas las plataformas usando el levantamiento publico de todas las plataformas. BARRIAL y ZONAL se generan a 1000 m. CANTONAL no se procesa. Las manzanas grandes se recortan al limite exacto de red para evitar extensiones mayores a la distancia objetivo y el resultado final se prepara para mostrar solo el limite exterior."
+  "observacion": "Isocronas de recreacion y deporte todas las plataformas usando el levantamiento publico de todas las plataformas. BARRIAL y ZONAL se generan a 1000 m. CANTONAL no se procesa. Las manzanas grandes se recortan al limite exacto de red para evitar extensiones mayores a la distancia objetivo y el resultado final se prepara para mostrar solo el limite exterior. Se conservaron las geometrías existentes y se filtraron las asociadas a puntos duplicados."
 }

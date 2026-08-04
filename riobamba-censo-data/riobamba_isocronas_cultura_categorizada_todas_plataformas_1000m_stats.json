@@ -1,16 +1,25 @@
 {
-  "generated_at": "2026-07-31T15:44:51",
-  "source_geojson": "D:\\codex\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
-  "source_osm_cache": "D:\\codex\\riobamba-censo-data\\riobamba_osm_walk_network_5categorias_todas_plataformas.json",
+  "generated_at": "2026-08-04T12:25:30",
+  "source_geojson": "D:\\codex\\_publish_clone_20260731b\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
+  "source_osm_cache": "D:\\codex\\_publish_clone_20260731b\\riobamba-censo-data\\riobamba_osm_walk_network_5categorias_todas_plataformas.json",
   "summary": {
+    "total_equipamientos_bruto": 22,
     "total_equipamientos": 22,
     "total_isocronas": 17,
     "categorias_con_isocrona": 2,
     "omitidos": 5,
     "manzanas_ajustadas": 3876,
-    "manzanas_grandes_recortadas": 108
+    "manzanas_grandes_recortadas": 108,
+    "duplicates_removed": 0,
+    "duplicates_exact": 0,
+    "duplicates_probable": 0
   },
   "by_categoria_source": {
+    "BARRIAL": 10,
+    "ZONAL": 7,
+    "CANTONAL": 5
+  },
+  "by_categoria_source_bruto": {
     "BARRIAL": 10,
     "ZONAL": 7,
     "CANTONAL": 5
@@ -25,5 +34,5 @@
   "by_distance_m": {
     "1000": 17
   },
-  "observacion": "Isocronas de cultura todas las plataformas usando el levantamiento publico de todas las plataformas. BARRIAL y ZONAL se generan a 1000 m. CANTONAL no se procesa. Las manzanas grandes se recortan al limite exacto de red para evitar extensiones mayores a la distancia objetivo y el resultado final se prepara para mostrar solo el limite exterior."
+  "observacion": "Isocronas de cultura todas las plataformas usando el levantamiento publico de todas las plataformas. BARRIAL y ZONAL se generan a 1000 m. CANTONAL no se procesa. Las manzanas grandes se recortan al limite exacto de red para evitar extensiones mayores a la distancia objetivo y el resultado final se prepara para mostrar solo el limite exterior. Se conservaron las geometrías existentes y se filtraron las asociadas a puntos duplicados."
 }

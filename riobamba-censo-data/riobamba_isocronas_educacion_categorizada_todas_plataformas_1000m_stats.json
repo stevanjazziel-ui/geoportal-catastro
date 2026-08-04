@@ -1,29 +1,38 @@
 {
-  "generated_at": "2026-07-31T15:32:07",
-  "source_geojson": "D:\\codex\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
-  "source_osm_cache": "D:\\codex\\riobamba-censo-data\\riobamba_osm_walk_network_5categorias_todas_plataformas.json",
+  "generated_at": "2026-08-04T12:25:23",
+  "source_geojson": "D:\\codex\\_publish_clone_20260731b\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
+  "source_osm_cache": "D:\\codex\\_publish_clone_20260731b\\riobamba-censo-data\\riobamba_osm_walk_network_5categorias_todas_plataformas.json",
   "summary": {
-    "total_equipamientos": 82,
-    "total_isocronas": 76,
+    "total_equipamientos_bruto": 82,
+    "total_equipamientos": 78,
+    "total_isocronas": 72,
     "categorias_con_isocrona": 2,
     "omitidos": 6,
-    "manzanas_ajustadas": 17864,
-    "manzanas_grandes_recortadas": 691
+    "manzanas_ajustadas": 16789,
+    "manzanas_grandes_recortadas": 652,
+    "duplicates_removed": 4,
+    "duplicates_exact": 2,
+    "duplicates_probable": 2
   },
   "by_categoria_source": {
+    "ZONAL": 37,
+    "BARRIAL": 35,
+    "CANTONAL": 6
+  },
+  "by_categoria_source_bruto": {
     "ZONAL": 39,
     "BARRIAL": 37,
     "CANTONAL": 6
   },
   "by_categoria_isocronas": {
-    "ZONAL": 39,
-    "BARRIAL": 37
+    "ZONAL": 37,
+    "BARRIAL": 35
   },
   "by_categoria_omitidos": {
     "CANTONAL": 6
   },
   "by_distance_m": {
-    "1000": 76
+    "1000": 72
   },
-  "observacion": "Isocronas de educacion todas las plataformas usando el levantamiento publico de todas las plataformas. BARRIAL y ZONAL se generan a 1000 m. CANTONAL no se procesa. Las manzanas grandes se recortan al limite exacto de red para evitar extensiones mayores a la distancia objetivo y el resultado final se prepara para mostrar solo el limite exterior."
+  "observacion": "Isocronas de educacion todas las plataformas usando el levantamiento publico de todas las plataformas. BARRIAL y ZONAL se generan a 1000 m. CANTONAL no se procesa. Las manzanas grandes se recortan al limite exacto de red para evitar extensiones mayores a la distancia objetivo y el resultado final se prepara para mostrar solo el limite exterior. Se conservaron las geometrías existentes y se filtraron las asociadas a puntos duplicados."
 }

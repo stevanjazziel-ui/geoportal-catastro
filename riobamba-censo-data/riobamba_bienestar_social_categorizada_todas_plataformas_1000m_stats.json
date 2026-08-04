@@ -1,18 +1,27 @@
 {
-  "generated_at": "2026-07-31T12:26:50",
-  "source_geojson": "D:\\codex\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
+  "generated_at": "2026-08-04T12:25:20",
+  "source_geojson": "D:\\codex\\_publish_clone_20260731b\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
   "summary": {
-    "total_equipamientos": 23,
+    "total_equipamientos_bruto": 23,
+    "total_equipamientos": 22,
     "con_isocrona": 20,
-    "sin_isocrona": 3,
+    "sin_isocrona": 2,
     "categorias": 3,
     "plataformas_con_puntos": 12,
-    "registros_fuera_rango": 2
+    "registros_fuera_rango": 2,
+    "duplicates_removed": 1,
+    "duplicates_exact": 0,
+    "duplicates_probable": 1
+  },
+  "by_categoria_bruto": {
+    "ZONAL": 11,
+    "BARRIAL": 9,
+    "CANTONAL": 3
   },
   "by_categoria": {
     "ZONAL": 11,
     "BARRIAL": 9,
-    "CANTONAL": 3
+    "CANTONAL": 2
   },
   "by_plataforma": {
     "PLATAFORMA P": 4,
@@ -21,11 +30,12 @@
     "PLATAFORMA J": 2,
     "PLATAFORMA K": 2,
     "PLATAFORMA O": 2,
-    "PLATAFORMA Ñ": 2,
     "PLATAFORMA B": 1,
     "PLATAFORMA D": 1,
     "PLATAFORMA F": 1,
     "PLATAFORMA G": 1,
-    "PLATAFORMA M": 1
-  }
+    "PLATAFORMA M": 1,
+    "PLATAFORMA Ñ": 1
+  },
+  "observacion": "Se depuraron 1 puntos duplicados (0 exactos y 1 probables) antes de preparar los equipamientos de esta categoria."
 }

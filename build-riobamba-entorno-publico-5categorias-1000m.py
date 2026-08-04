@@ -1,5 +1,7 @@
 import collections
 import json
+import math
+import re
 import time
 import unicodedata
 from dataclasses import dataclass
@@ -35,6 +37,43 @@ OVERPASS_URLS = [
 ]
 RIOBAMBA_LON_RANGE = (-78.9, -78.45)
 RIOBAMBA_LAT_RANGE = (-1.9, -1.45)
+DUPLICATE_THRESHOLD_METERS = 15
+DUPLICATE_GENERIC_NAMES = {
+    "sin nombre",
+    "prueba",
+    "completo",
+    "area verde",
+    "area verde sin mantenimiento",
+    "parque del sector",
+    "call3 c3 y araguacos",
+}
+DUPLICATE_NAME_STOPWORDS = {
+    "de",
+    "del",
+    "la",
+    "el",
+    "los",
+    "las",
+    "y",
+    "tras",
+    "para",
+    "por",
+    "en",
+    "un",
+    "una",
+}
+DUPLICATE_LEADING_ALIAS_TOKENS = {
+    "iglesia",
+    "parque",
+    "unidad",
+    "ue",
+    "escuela",
+    "colegio",
+    "centro",
+    "subcentro",
+    "casa",
+    "parroquia",
+}
 
 
 @dataclass(frozen=True)
@@ -91,6 +130,188 @@ def get_distance_by_tipologia(tipologia):
     if normalized == "ZONAL":
         return 1000
     return 0
+
+
+def get_feature_name(properties, fallback=""):
+    return (
+        normalize_text(properties.get("nombre_equ"))
+        or normalize_text(properties.get("nombre_ins"))
+        or normalize_text(properties.get("elemento"))
+        or normalize_text(fallback)
+    )
+
+
+def get_duplicate_name_tokens(value):
+    return [
+        token
+        for token in re.split(r"[^a-z0-9]+", normalized_key(value))
+        if token and token not in DUPLICATE_NAME_STOPWORDS
+    ]
+
+
+def get_duplicate_leading_token(value):
+    tokens = get_duplicate_name_tokens(value)
+    return tokens[0] if tokens else ""
+
+
+def get_duplicate_token_overlap(left_value, right_value):
+    left_tokens = set(get_duplicate_name_tokens(left_value))
+    right_tokens = set(get_duplicate_name_tokens(right_value))
+    if not left_tokens or not right_tokens:
+        return 0.0
+
+    return len(left_tokens & right_tokens) / max(1, min(len(left_tokens), len(right_tokens)))
+
+
+def is_generic_duplicate_name(value):
+    return normalized_key(value) in DUPLICATE_GENERIC_NAMES
+
+
+def are_probable_duplicate_names(left_value, right_value):
+    left_name = normalized_key(left_value)
+    right_name = normalized_key(right_value)
+    if not left_name or not right_name:
+        return False
+
+    if left_name == right_name:
+        return True
+
+    if is_generic_duplicate_name(left_name) or is_generic_duplicate_name(right_name):
+        return True
+
+    if left_name in right_name or right_name in left_name:
+        return True
+
+    if get_duplicate_token_overlap(left_name, right_name) >= 0.55:
+        return True
+
+    left_lead = get_duplicate_leading_token(left_name)
+    right_lead = get_duplicate_leading_token(right_name)
+    return bool(left_lead and left_lead == right_lead and left_lead in DUPLICATE_LEADING_ALIAS_TOKENS)
+
+
+def point_distance_meters(left_coords, right_coords):
+    left_lon, left_lat = left_coords
+    right_lon, right_lat = right_coords
+    mean_lat_rad = ((left_lat + right_lat) / 2.0) * math.pi / 180.0
+    dx = (right_lon - left_lon) * 111320.0 * math.cos(mean_lat_rad)
+    dy = (right_lat - left_lat) * 110540.0
+    return math.sqrt(dx * dx + dy * dy)
+
+
+def get_feature_estado_rank(properties):
+    estado = normalized_key(properties.get("estado") or properties.get("ESTADO") or "")
+    if "excelente" in estado or "muy bueno" in estado:
+        return 4
+    if "bueno" in estado:
+        return 3
+    if "regular" in estado:
+        return 2
+    if "malo" in estado:
+        return 1
+    return 0
+
+
+def get_feature_completeness_score(properties):
+    score = 0
+    for value in properties.values():
+        if value is None:
+            continue
+        if isinstance(value, str):
+            score += 1 if value.strip() else 0
+        else:
+            score += 1
+    return score
+
+
+def get_duplicate_name_quality_score(value):
+    normalized_name = normalized_key(value)
+    if not normalized_name:
+        return 0
+
+    score = min(len(normalized_name), 48)
+    score += len(get_duplicate_name_tokens(normalized_name)) * 12
+
+    if is_generic_duplicate_name(normalized_name):
+        score -= 80
+
+    if re.search(r"\btras\b|\bfrente\b|\bcerca\b|\bjunto\b|\bsector\b", normalized_name):
+        score -= 8
+
+    return score
+
+
+def get_duplicate_feature_score(properties, dedupe_name):
+    return (
+        get_feature_estado_rank(properties) * 1000
+        + get_feature_completeness_score(properties)
+        + get_duplicate_name_quality_score(dedupe_name)
+    )
+
+
+def get_duplicate_core_key(properties):
+    parts = [
+        normalized_key(properties.get("tipo_eleme")),
+        normalized_key(properties.get("elemento")),
+        normalized_key(properties.get("platform_name") or properties.get("plataforma")),
+        normalized_key(properties.get("parroquia")),
+        normalized_key(properties.get("tipologia")),
+        normalized_key(properties.get("tipo_equip") or properties.get("gestion")),
+    ]
+    if sum(1 for part in parts if part) < 3:
+        return ""
+    return "||".join(parts)
+
+
+def dedupe_prepared_records(records):
+    kept_records = []
+    duplicate_summary = {
+        "duplicates_removed": 0,
+        "duplicates_exact": 0,
+        "duplicates_probable": 0,
+    }
+
+    for record in records:
+        match_index = None
+        match_type = ""
+
+        for index, kept_record in enumerate(kept_records):
+            if point_distance_meters(record["source_coords"], kept_record["source_coords"]) > DUPLICATE_THRESHOLD_METERS:
+                continue
+
+            exact_match = bool(
+                record["dedupe_name_key"]
+                and kept_record["dedupe_name_key"]
+                and record["dedupe_name_key"] == kept_record["dedupe_name_key"]
+            )
+            probable_match = bool(
+                record["dedupe_core_key"]
+                and kept_record["dedupe_core_key"]
+                and record["dedupe_core_key"] == kept_record["dedupe_core_key"]
+                and are_probable_duplicate_names(record["dedupe_name"], kept_record["dedupe_name"])
+            )
+
+            if exact_match or probable_match:
+                match_index = index
+                match_type = "exact" if exact_match else "probable"
+                break
+
+        if match_index is None:
+            kept_records.append(record)
+            continue
+
+        duplicate_summary["duplicates_removed"] += 1
+        duplicate_summary[f"duplicates_{match_type}"] += 1
+
+        current_score = get_duplicate_feature_score(record["raw_properties"], record["dedupe_name"])
+        existing_score = get_duplicate_feature_score(
+            kept_records[match_index]["raw_properties"],
+            kept_records[match_index]["dedupe_name"],
+        )
+        if current_score > existing_score:
+            kept_records[match_index] = record
+
+    return kept_records, duplicate_summary
 
 
 def is_valid_riobamba_coordinate(coordinates):
@@ -186,13 +407,10 @@ def build_bounds_for_records(records):
 
 def extract_records_for_category(run):
     payload = load_json(SOURCE_PUBLIC_PATH)
-    records = []
-    features = []
-    category_counter = collections.Counter()
-    by_platform = collections.Counter()
+    raw_records = []
     invalid_counter = 0
 
-    for index, feature in enumerate(payload.get("features", []), start=1):
+    for feature in payload.get("features", []):
         props = feature.get("properties", {})
         if not category_matches(props.get("tipo_eleme"), run.tipo_eleme):
             continue
@@ -205,21 +423,14 @@ def extract_records_for_category(run):
         geometry_utm = to_utm(shape(feature["geometry"]))
         tipologia = normalize_text(props.get("tipologia")).upper()
         distance_m = get_distance_by_tipologia(tipologia)
-        nombre = (
-            normalize_text(props.get("nombre_equ"))
-            or normalize_text(props.get("nombre_ins"))
-            or normalize_text(props.get("elemento"))
-            or f"{run.key}_{index:03d}"
-        )
+        source_id = len(raw_records) + 1
+        nombre = get_feature_name(props, fallback=f"{run.key}_{source_id:03d}")
         platform_name = normalize_text(props.get("platform_name") or props.get("plataforma")) or None
 
-        category_counter[tipologia or "SIN_CATEGORIA"] += 1
-        by_platform[platform_name or "SIN_PLATAFORMA"] += 1
-
         out_props = {
-            "source_id": len(records) + 1,
-            "objectid": len(records) + 1,
-            "codigo": normalize_text(props.get("codigo")) or f"{run.key[:3].upper()}_{index:04d}",
+            "source_id": source_id,
+            "objectid": source_id,
+            "codigo": normalize_text(props.get("codigo")) or f"{run.key[:3].upper()}_{source_id:04d}",
             "equipamien": run.tipo_eleme,
             "nombre": nombre,
             "categoria": tipologia,
@@ -235,33 +446,169 @@ def extract_records_for_category(run):
             "shape_leng": 0.0,
         }
 
-        records.append({"properties": out_props, "geometry_utm": geometry_utm})
-        features.append(build_source_feature(geometry_utm, out_props))
+        raw_records.append(
+            {
+                "properties": out_props,
+                "geometry_utm": geometry_utm,
+                "source_coords": (float(coordinates[0]), float(coordinates[1])),
+                "raw_properties": props,
+                "dedupe_name": nombre,
+                "dedupe_name_key": normalized_key(nombre),
+                "dedupe_core_key": get_duplicate_core_key(props),
+            }
+        )
+
+    records, duplicate_summary = dedupe_prepared_records(raw_records)
+    features = [build_source_feature(item["geometry_utm"], item["properties"]) for item in records]
+    category_counter = collections.Counter(
+        (item["properties"].get("categoria") or "SIN_CATEGORIA")
+        for item in records
+    )
+    category_counter_raw = collections.Counter(
+        (item["properties"].get("categoria") or "SIN_CATEGORIA")
+        for item in raw_records
+    )
+    by_platform = collections.Counter(
+        (item["properties"].get("platform_name") or "SIN_PLATAFORMA")
+        for item in records
+    )
 
     stats = {
         "generated_at": __import__("datetime").datetime.now().isoformat(timespec="seconds"),
         "source_geojson": str(SOURCE_PUBLIC_PATH),
         "summary": {
+            "total_equipamientos_bruto": len(raw_records),
             "total_equipamientos": len(records),
             "con_isocrona": sum(1 for item in records if item["properties"]["genera_isocrona"]),
             "sin_isocrona": sum(1 for item in records if not item["properties"]["genera_isocrona"]),
             "categorias": len(category_counter),
             "plataformas_con_puntos": len([key for key in by_platform if key != "SIN_PLATAFORMA"]),
             "registros_fuera_rango": invalid_counter,
+            "duplicates_removed": duplicate_summary["duplicates_removed"],
+            "duplicates_exact": duplicate_summary["duplicates_exact"],
+            "duplicates_probable": duplicate_summary["duplicates_probable"],
         },
+        "by_categoria_bruto": dict(sorted(category_counter_raw.items(), key=lambda item: (-item[1], item[0]))),
         "by_categoria": dict(sorted(category_counter.items(), key=lambda item: (-item[1], item[0]))),
         "by_plataforma": dict(sorted(by_platform.items(), key=lambda item: (-item[1], item[0]))),
+        "observacion": (
+            f"Se depuraron {duplicate_summary['duplicates_removed']} puntos duplicados "
+            f"({duplicate_summary['duplicates_exact']} exactos y {duplicate_summary['duplicates_probable']} probables) "
+            "antes de preparar los equipamientos de esta categoria."
+        ),
     }
     return records, {"type": "FeatureCollection", "features": features}, stats
 
 
-def run_category(run, manzanas_features, manzana_stats_by_id, base_graph, edge_tree, edge_geometries, edge_metadata):
-    records, equipamientos_geojson, equipamientos_stats = extract_records_for_category(run)
-    save_json(run.output_equipamientos, equipamientos_geojson)
-    save_json(run.output_equipamientos_stats, equipamientos_stats)
+def build_isocronas_stats(run, equipamientos_stats, records, isocronas, skipped_counter, mode):
+    generated_counter = collections.Counter(
+        feature["properties"].get("categoria") or "SIN_CATEGORIA"
+        for feature in isocronas
+    )
+    distance_breakdown = collections.Counter(
+        int(feature["properties"].get("distance_m", 0) or 0)
+        for feature in isocronas
+        if int(feature["properties"].get("distance_m", 0) or 0) > 0
+    )
 
+    mode_note = (
+        "Se reconstruyeron geometrías usando la red vial OSM en caché."
+        if mode == "network_rebuilt"
+        else "Se conservaron las geometrías existentes y se filtraron las asociadas a puntos duplicados."
+    )
+
+    return {
+        "generated_at": __import__("datetime").datetime.now().isoformat(timespec="seconds"),
+        "source_geojson": str(SOURCE_PUBLIC_PATH),
+        "source_osm_cache": str(OSM_CACHE_PATH),
+        "summary": {
+            "total_equipamientos_bruto": int(equipamientos_stats["summary"].get("total_equipamientos_bruto", len(records))),
+            "total_equipamientos": len(records),
+            "total_isocronas": len(isocronas),
+            "categorias_con_isocrona": len(generated_counter),
+            "omitidos": sum(skipped_counter.values()),
+            "manzanas_ajustadas": sum(int(feature["properties"].get("manzanas_ajustadas", 0) or 0) for feature in isocronas),
+            "manzanas_grandes_recortadas": sum(
+                int(feature["properties"].get("manzanas_grandes_recortadas", 0) or 0)
+                for feature in isocronas
+            ),
+            "duplicates_removed": int(equipamientos_stats["summary"].get("duplicates_removed", 0) or 0),
+            "duplicates_exact": int(equipamientos_stats["summary"].get("duplicates_exact", 0) or 0),
+            "duplicates_probable": int(equipamientos_stats["summary"].get("duplicates_probable", 0) or 0),
+        },
+        "by_categoria_source": equipamientos_stats["by_categoria"],
+        "by_categoria_source_bruto": equipamientos_stats.get("by_categoria_bruto", equipamientos_stats["by_categoria"]),
+        "by_categoria_isocronas": dict(sorted(generated_counter.items(), key=lambda item: (-item[1], item[0]))),
+        "by_categoria_omitidos": dict(sorted(skipped_counter.items(), key=lambda item: (-item[1], item[0]))),
+        "by_distance_m": dict(sorted((str(distance), count) for distance, count in distance_breakdown.items())),
+        "observacion": (
+            f"Isocronas de {run.display_name} usando el levantamiento publico de todas las plataformas. "
+            "BARRIAL y ZONAL se generan a 1000 m. CANTONAL no se procesa. "
+            "Las manzanas grandes se recortan al limite exacto de red para evitar extensiones mayores "
+            "a la distancia objetivo y el resultado final se prepara para mostrar solo el limite exterior. "
+            f"{mode_note}"
+        ),
+    }
+
+
+def filter_existing_isocronas(run, records):
+    if not run.output_isocronas.exists():
+        raise FileNotFoundError(
+            f"No existe {run.output_isocronas.name} para reutilizar las isocronas actuales de {run.display_name}."
+        )
+
+    payload = load_json(run.output_isocronas)
+    keep_source_ids = {
+        int(item["properties"].get("source_id", 0) or 0)
+        for item in records
+        if item["properties"].get("genera_isocrona")
+    }
+    keep_codes = {
+        normalize_text(item["properties"].get("codigo"))
+        for item in records
+        if item["properties"].get("genera_isocrona") and normalize_text(item["properties"].get("codigo"))
+    }
+
+    filtered = []
+    matched_source_ids = set()
+    matched_codes = set()
+    for feature in payload.get("features", []):
+        props = feature.get("properties", {})
+        source_id = int(props.get("source_id", 0) or 0)
+        code = normalize_text(props.get("codigo"))
+        if source_id in keep_source_ids or (code and code in keep_codes):
+            filtered.append(feature)
+            if source_id:
+                matched_source_ids.add(source_id)
+            if code:
+                matched_codes.add(code)
+
+    filtered.sort(
+        key=lambda feature: (
+            feature["properties"].get("distance_m", 0),
+            feature["properties"].get("categoria", ""),
+            feature["properties"].get("nombre", ""),
+        )
+    )
+
+    skipped_counter = collections.Counter()
+    for record in records:
+        categoria = record["properties"].get("categoria") or "SIN_CATEGORIA"
+        if not record["properties"].get("genera_isocrona"):
+            skipped_counter[categoria] += 1
+            continue
+
+        source_id = int(record["properties"].get("source_id", 0) or 0)
+        code = normalize_text(record["properties"].get("codigo"))
+        if source_id in matched_source_ids or (code and code in matched_codes):
+            continue
+        skipped_counter[f"{categoria}_SIN_EXISTENTE"] += 1
+
+    return filtered, skipped_counter
+
+
+def run_category(run, records, equipamientos_stats, manzanas_features, manzana_stats_by_id, base_graph, edge_tree, edge_geometries, edge_metadata):
     isocronas = []
-    generated_counter = collections.Counter()
     skipped_counter = collections.Counter()
 
     for record in records:
@@ -285,7 +632,6 @@ def run_category(run, manzanas_features, manzana_stats_by_id, base_graph, edge_t
             continue
 
         isocronas.append(feature)
-        generated_counter[categoria] += 1
 
     isocronas.sort(
         key=lambda feature: (
@@ -295,39 +641,15 @@ def run_category(run, manzanas_features, manzana_stats_by_id, base_graph, edge_t
         )
     )
 
-    distance_breakdown = collections.Counter(
-        int(feature["properties"].get("distance_m", 0) or 0)
-        for feature in isocronas
-        if int(feature["properties"].get("distance_m", 0) or 0) > 0
-    )
-
     output_geojson = {"type": "FeatureCollection", "features": isocronas}
-    output_stats = {
-        "generated_at": __import__("datetime").datetime.now().isoformat(timespec="seconds"),
-        "source_geojson": str(SOURCE_PUBLIC_PATH),
-        "source_osm_cache": str(OSM_CACHE_PATH),
-        "summary": {
-            "total_equipamientos": len(records),
-            "total_isocronas": len(isocronas),
-            "categorias_con_isocrona": len(generated_counter),
-            "omitidos": sum(skipped_counter.values()),
-            "manzanas_ajustadas": sum(int(feature["properties"].get("manzanas_ajustadas", 0) or 0) for feature in isocronas),
-            "manzanas_grandes_recortadas": sum(
-                int(feature["properties"].get("manzanas_grandes_recortadas", 0) or 0)
-                for feature in isocronas
-            ),
-        },
-        "by_categoria_source": equipamientos_stats["by_categoria"],
-        "by_categoria_isocronas": dict(sorted(generated_counter.items(), key=lambda item: (-item[1], item[0]))),
-        "by_categoria_omitidos": dict(sorted(skipped_counter.items(), key=lambda item: (-item[1], item[0]))),
-        "by_distance_m": dict(sorted((str(distance), count) for distance, count in distance_breakdown.items())),
-        "observacion": (
-            f"Isocronas de {run.display_name} usando el levantamiento publico de todas las plataformas. "
-            "BARRIAL y ZONAL se generan a 1000 m. CANTONAL no se procesa. "
-            "Las manzanas grandes se recortan al limite exacto de red para evitar extensiones mayores "
-            "a la distancia objetivo y el resultado final se prepara para mostrar solo el limite exterior."
-        ),
-    }
+    output_stats = build_isocronas_stats(
+        run,
+        equipamientos_stats,
+        records,
+        isocronas,
+        skipped_counter,
+        "network_rebuilt",
+    )
 
     save_json(run.output_isocronas, output_geojson)
     save_json(run.output_isocronas_stats, output_stats)
@@ -344,33 +666,59 @@ def main():
     all_records = []
     prepared = []
     for run in CATEGORY_RUNS:
-        records, _, _ = extract_records_for_category(run)
-        prepared.append((run, records))
+        records, equipamientos_geojson, equipamientos_stats = extract_records_for_category(run)
+        save_json(run.output_equipamientos, equipamientos_geojson)
+        save_json(run.output_equipamientos_stats, equipamientos_stats)
+        prepared.append((run, records, equipamientos_stats))
         all_records.extend([record for record in records if record["properties"]["genera_isocrona"]])
 
     if not all_records:
         raise RuntimeError("No se encontraron equipamientos BARRIAL/ZONAL en las 5 categorias del entorno publico.")
 
-    bounds = build_bounds_for_records(all_records)
-    osm_payload = fetch_osm_ways(bounds, use_cache=True)
-    base_graph = build_graph(osm_payload)
-    edge_tree, edge_geometries, edge_metadata = build_edge_index(base_graph)
+    if OSM_CACHE_PATH.exists():
+        bounds = build_bounds_for_records(all_records)
+        osm_payload = fetch_osm_ways(bounds, use_cache=True)
+        base_graph = build_graph(osm_payload)
+        edge_tree, edge_geometries, edge_metadata = build_edge_index(base_graph)
 
-    manzanas_data = load_json(MANZANAS_PATH)
-    manzanas_stats = load_json(MANZANAS_STATS_PATH)
-    manzana_stats_by_id = manzanas_stats.get("byMan", {})
+        manzanas_data = load_json(MANZANAS_PATH)
+        manzanas_stats = load_json(MANZANAS_STATS_PATH)
+        manzana_stats_by_id = manzanas_stats.get("byMan", {})
 
-    for run, _ in prepared:
-        print(f"Procesando categoria ciudad completa: {run.key}")
-        run_category(
-            run,
-            manzanas_data["features"],
-            manzana_stats_by_id,
-            base_graph,
-            edge_tree,
-            edge_geometries,
-            edge_metadata,
+        for run, records, equipamientos_stats in prepared:
+            print(f"Procesando categoria ciudad completa: {run.key}")
+            run_category(
+                run,
+                records,
+                equipamientos_stats,
+                manzanas_data["features"],
+                manzana_stats_by_id,
+                base_graph,
+                edge_tree,
+                edge_geometries,
+                edge_metadata,
+            )
+        return
+
+    print("No se encontro el cache OSM de ciudad completa. Se reutilizaran las isocronas existentes y se filtraran los puntos duplicados.")
+    for run, records, equipamientos_stats in prepared:
+        filtered_isocronas, skipped_counter = filter_existing_isocronas(run, records)
+        save_json(run.output_isocronas, {"type": "FeatureCollection", "features": filtered_isocronas})
+        save_json(
+            run.output_isocronas_stats,
+            build_isocronas_stats(
+                run,
+                equipamientos_stats,
+                records,
+                filtered_isocronas,
+                skipped_counter,
+                "filtered_existing",
+            ),
         )
+        print(f"Procesando categoria ciudad completa: {run.key}")
+        print(f"Isocronas depuradas: {run.output_isocronas}")
+        print(f"Stats iso depuradas: {run.output_isocronas_stats}")
+        print(f"Total isocronas depuradas: {len(filtered_isocronas)}")
 
 
 if __name__ == "__main__":
