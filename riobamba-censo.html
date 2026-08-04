@@ -462,7 +462,7 @@
           <p style="margin:0;color:var(--muted);">Cargando categorias del entorno...</p>
         </div>
         <p style="margin-top:10px;">
-          Separa los puntos publicos por categoria tematica y deja visibles solo las que quieras revisar.
+          Separa los puntos tematicos de las 5 categorias de isocronas y deja visibles solo las que quieras revisar.
         </p>
       </section>
 
@@ -832,11 +832,11 @@
     introText.innerHTML = "Visualizador por manzana censal y plataforma territorial. Incluye la isocrona peatonal de 1000 m desde equipamientos de la <strong>PLATAFORMA Ñ</strong>, la isocrona exacta de red de 400 m desde su borde y una referencia cartografica ajustada a manzanas.";
 
     function simplifyInterfaceForPublicEntorno() {
-      introText.innerHTML = "Visualizador por manzana censal y plataforma territorial. Muestra <strong>las manzanas censales</strong>, <strong>las plataformas</strong>, el <strong>levantamiento del entorno publico</strong> en puntos y las <strong>5 capas de isocronas ciudad completa</strong> a 1000 m para categorias barriales y zonales.";
+      introText.innerHTML = "Visualizador por manzana censal y plataforma territorial. Muestra <strong>las manzanas censales</strong>, <strong>las plataformas</strong>, solo los <strong>5 tipos de puntos tematicos</strong> usados para las isocronas y las <strong>5 capas de isocronas ciudad completa</strong> a 1000 m para categorias barriales y zonales.";
       overlayTitle.textContent = "Riobamba por manzana, plataforma y entorno publico";
-      overlayText.textContent = "Haz clic en una manzana, plataforma o punto publico para ver sus datos, y activa las isocronas tematicas de ciudad completa cuando quieras analizarlas.";
+      overlayText.textContent = "Haz clic en una manzana, plataforma o punto tematico para ver sus datos, y activa las isocronas tematicas de ciudad completa cuando quieras analizarlas.";
 
-      toggleEquipamientos.closest("label").querySelector("span").textContent = "Puntos publicos";
+      toggleEquipamientos.closest("label").querySelector("span").textContent = "Puntos tematicos";
       equipamientosSummary.closest(".panel").querySelector("h2").textContent = "Resumen por categoria";
       toggleEducacionIsocronas.closest("label").querySelector("span").textContent = "Isocronas educacion 1000 m";
       toggleEducacionIsocronasPuntos.closest("label").querySelector("span").textContent = "Puntos inicio educacion";
@@ -1044,6 +1044,15 @@
       "servicios funerarios": "Servicios funerarios"
     };
 
+    const thematicEquipamientoCategoryKeys = new Set([
+      "educacion",
+      "salud",
+      "bienestar social",
+      "cultura",
+      "recreacion y deporte",
+      "recreativo y deporte"
+    ]);
+
     function sortEquipamientoCategories(categories) {
       const orderIndex = new Map(
         preferredEquipamientoCategoryOrder.map((label, index) => [label, index])
@@ -1065,6 +1074,16 @@
       ).trim();
       const normalized = normalizeCategoryKey(rawValue);
       return equipamientoCategoryAliases[normalized] || rawValue || "Sin clasificar";
+    }
+
+    function isThematicEquipamientoCategory(category) {
+      return thematicEquipamientoCategoryKeys.has(normalizeCategoryKey(category));
+    }
+
+    function filterThematicEquipamientoFeatures(features) {
+      return (features || []).filter((feature) =>
+        isThematicEquipamientoCategory(getEquipamientoCategory(feature?.properties || {}))
+      );
     }
 
     function getPlatformScopedEquipamientosFeatures() {
@@ -3209,7 +3228,7 @@
             ...(platformStatsByName[feature.properties.platform_name] || {})
           }
         }));
-         equipamientosFeatures = dedupeProbableEquipamientoFeatures(equipamientosGeo.features || [], {
+         equipamientosFeatures = dedupeProbableEquipamientoFeatures(filterThematicEquipamientoFeatures(equipamientosGeo.features || []), {
            nameKeys: ["nombre_equ", "nombre_ins", "elemento"],
            pointMode: "geometry",
            thresholdMeters: 15
@@ -3451,7 +3470,7 @@
             ...(platformStatsByName[feature.properties.platform_name] || {})
           }
         }));
-        equipamientosFeatures = dedupeProbableEquipamientoFeatures(equipamientosGeo.features || [], {
+        equipamientosFeatures = dedupeProbableEquipamientoFeatures(filterThematicEquipamientoFeatures(equipamientosGeo.features || []), {
           nameKeys: ["nombre_equ", "nombre_ins", "elemento"],
           pointMode: "geometry",
           thresholdMeters: 15
@@ -5107,7 +5126,7 @@
         const saludIsocronasStatsData = await saludIsocronasStatsResponse.json();
         shpManifest = manifestResponse.ok ? await manifestResponse.json() : {};
 
-        const dedupedEquipamientos = dedupeProbableEquipamientoFeatures(equipamientosGeo.features || [], {
+        const dedupedEquipamientos = dedupeProbableEquipamientoFeatures(filterThematicEquipamientoFeatures(equipamientosGeo.features || []), {
           nameKeys: ["nombre_equ", "nombre_ins", "elemento"],
           pointMode: "geometry",
           thresholdMeters: 15
