@@ -448,6 +448,7 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""
   ></script>
+  <script src="https://unpkg.com/@turf/turf@6.5.0/turf.min.js"></script>
   <script>
     const metricLabels = {
       population_total: "Poblacion total",
@@ -854,6 +855,13 @@
         return equipamientosFeatures.filter((feature) => !feature.properties.platform_name);
       }
 
+      const selectedPlatformFeature = getSelectedPlatformFeature();
+      if (selectedPlatformFeature && typeof turf !== "undefined") {
+        return equipamientosFeatures.filter((feature) =>
+          isFeatureInsideSelectedPlatform(feature, selectedPlatformFeature)
+        );
+      }
+
       const selected = displayPlatformName(currentPlatform);
       return equipamientosFeatures.filter(
         (feature) => displayPlatformName(feature.properties.platform_name) === selected
@@ -892,6 +900,60 @@
       );
     }
 
+    function getSelectedPlatformFeature() {
+      if (!hasFocusedPlatformSelection()) {
+        return null;
+      }
+
+      return platformFeatures.find((feature) =>
+        matchesCurrentPlatform(feature?.properties?.platform_name)
+      ) || null;
+    }
+
+    function getFeatureSourceKeys(feature) {
+      const props = feature?.properties || {};
+      return [props.source_id, props.objectid, props.codigo]
+        .filter((value) => value !== undefined && value !== null && String(value).trim())
+        .map((value) => String(value).trim());
+    }
+
+    function isFeatureInsideSelectedPlatform(feature, selectedPlatformFeature) {
+      if (!feature?.geometry || !selectedPlatformFeature?.geometry || typeof turf === "undefined") {
+        return false;
+      }
+
+      try {
+        return turf.booleanPointInPolygon(feature, selectedPlatformFeature);
+      } catch (error) {
+        return false;
+      }
+    }
+
+    function clipFeatureToSelectedPlatform(feature, selectedPlatformFeature) {
+      if (!feature?.geometry || !selectedPlatformFeature?.geometry || typeof turf === "undefined") {
+        return feature;
+      }
+
+      const geometryType = feature.geometry.type;
+      if (geometryType === "Point" || geometryType === "MultiPoint") {
+        return isFeatureInsideSelectedPlatform(feature, selectedPlatformFeature) ? feature : null;
+      }
+
+      try {
+        const clipped = turf.intersect(feature, selectedPlatformFeature);
+        if (!clipped || !clipped.geometry) {
+          return null;
+        }
+
+        return {
+          ...feature,
+          geometry: clipped.geometry
+        };
+      } catch (error) {
+        return feature;
+      }
+    }
+
     function rebuildEquipamientoPlatformIndex() {
       equipamientoPlatformBySourceId = new Map();
 
@@ -925,9 +987,28 @@
     }
 
     function getPlatformScopedIsocronasFeatures(features = []) {
-      return (features || []).filter(
-        (feature) => feature && feature.properties && matchesCurrentPlatform(getIsoFeaturePlatformName(feature))
+      if (!hasFocusedPlatformSelection()) {
+        return (features || []).filter(
+          (feature) => feature && feature.properties && matchesCurrentPlatform(getIsoFeaturePlatformName(feature))
+        );
+      }
+
+      const selectedPlatformFeature = getSelectedPlatformFeature();
+      const visibleSourceKeys = new Set(
+        getPlatformScopedEquipamientosFeatures().flatMap((feature) => getFeatureSourceKeys(feature))
       );
+
+      return (features || [])
+        .filter((feature) => {
+          if (!feature || !feature.properties) {
+            return false;
+          }
+
+          const featureSourceKeys = getFeatureSourceKeys(feature);
+          return featureSourceKeys.length > 0 && featureSourceKeys.some((key) => visibleSourceKeys.has(key));
+        })
+        .map((feature) => clipFeatureToSelectedPlatform(feature, selectedPlatformFeature))
+        .filter(Boolean);
     }
 
     function buildThematicIsocronasSummary(container, stats, features) {
