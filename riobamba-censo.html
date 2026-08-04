@@ -1975,25 +1975,20 @@
       const visibleGroups = getVisibleThematicIsoGroups();
       const platformLabel = displayPlatformName(currentPlatform);
       const totalPopulation = Number(state.populationTotal || 0);
-      const platformBreakdown = buildPopulationBreakdown(currentFeatures);
       const cards = [
         {
           key: "platform_total",
           label: "Poblacion plataforma",
           value: `${formatNumber(totalPopulation)} hab`,
           meta: `${formatNumber(state.total)} manzanas censales`,
-          wide: true,
-          expandable: true,
-          breakdown: platformBreakdown
+          wide: true
         },
         {
           key: "platform_covered",
           label: "Poblacion cubierta",
           value: `${formatNumber(state.populationCovered || 0)} hab`,
           meta: `${formatPercent(state.populationCovered || 0, totalPopulation)} del total`,
-          wide: true,
-          expandable: true,
-          breakdown: state.breakdownCovered || createEmptyPopulationBreakdown()
+          wide: true
         }
       ];
 
@@ -2020,9 +2015,7 @@
         key: "platform_uncovered",
         label: "Sin cobertura",
         value: `${formatNumber(state.populationUncovered || 0)} hab`,
-        meta: `${formatPercent(state.populationUncovered || 0, totalPopulation)} | ${formatNumber(state.uncovered || 0)} manzanas`,
-        expandable: true,
-        breakdown: state.breakdownUncovered || createEmptyPopulationBreakdown()
+        meta: `${formatPercent(state.populationUncovered || 0, totalPopulation)} | ${formatNumber(state.uncovered || 0)} manzanas`
       });
 
       const visibleCardKeys = new Set(cards.map((card) => card.key).filter(Boolean));
