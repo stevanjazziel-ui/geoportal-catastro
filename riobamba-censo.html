@@ -390,6 +390,29 @@
       box-shadow: var(--shadow);
     }
 
+    .map-legend-card {
+      position: absolute;
+      left: 16px;
+      bottom: 16px;
+      z-index: 500;
+      width: min(320px, calc(100% - 32px));
+      max-height: min(42vh, 420px);
+      padding: 14px;
+      background: rgba(7, 17, 27, 0.92);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      overflow-y: auto;
+    }
+
+    .map-legend-card h3 {
+      margin: 0 0 10px;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
     @media (max-width: 920px) {
       .layout { grid-template-columns: 1fr; }
       .sidebar {
@@ -402,6 +425,11 @@
         top: 96px;
         bottom: 16px;
         width: min(380px, calc(100% - 32px));
+      }
+
+      .map-legend-card {
+        width: min(300px, calc(100% - 32px));
+        max-height: min(34vh, 320px);
       }
     }
   </style>
@@ -577,11 +605,6 @@
       </section>
 
       <section class="panel">
-        <h2>Leyenda</h2>
-        <div class="legend" id="legend"></div>
-      </section>
-
-      <section class="panel">
         <h2>Estado</h2>
         <p id="statusText">Cargando manzanas, poblacion y plataformas...</p>
       </section>
@@ -589,6 +612,10 @@
 
     <main class="map-wrap">
       <div id="map"></div>
+      <section class="map-legend-card">
+        <h3>Leyenda</h3>
+        <div class="legend" id="legend"></div>
+      </section>
       <div class="overlay">
         <strong id="overlayTitle">Riobamba por manzana y plataforma</strong>
         <p id="overlayText">Haz clic en una manzana o plataforma para ver sus datos.</p>
@@ -2231,8 +2258,38 @@
         ]));
     }
 
+    function getVisibleEquipamientoLegendEntries() {
+      ensureEquipamientoCategoriesInitialized();
+      return sortEquipamientoCategories([...selectedEquipamientoCategories])
+        .map((category) => {
+          const count = getVisibleEquipamientosFeatures()
+            .filter((feature) => getEquipamientoCategory(feature.properties) === category)
+            .length;
+          return {
+            label: category,
+            color: getEquipamientoColor(category),
+            count
+          };
+        })
+        .filter((entry) => entry.count > 0);
+    }
+
     function renderLegend(breaks) {
+      const pointEntries = getVisibleEquipamientoLegendEntries();
       const thematicEntries = getVisibleThematicLegendEntries();
+      const pointLegend = pointEntries.length
+        ? `
+          <div class="legend-section-title">Puntos del entorno</div>
+          ${pointEntries
+            .map((entry) => `
+              <div class="legend-row">
+                <span class="legend-swatch" style="background:${entry.color}; border:1px solid #02060d;"></span>
+                <span>${entry.label}: ${formatNumber(entry.count)}</span>
+              </div>
+            `)
+            .join("")}
+        `
+        : "";
 
       if (hasFocusedPlatformSelection()) {
         const state = focusedCoverageState || {
@@ -2249,6 +2306,7 @@
 
         legend.style.display = "";
         legend.innerHTML = `
+          ${pointLegend}
           <div class="legend-section-title">Colores de isocronas</div>
           ${rows
           .map(([label, color, count]) => `
@@ -2292,6 +2350,7 @@
       legend.innerHTML = `
         <div class="legend-section-title">Poblacion</div>
         ${metricLegend}
+        ${pointLegend}
         ${thematicLegend}
       `;
     }
