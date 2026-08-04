@@ -786,6 +786,8 @@
       "#c77dff", "#90be6d", "#4cc9f0", "#ff9f1c", "#43aa8b",
       "#f94144", "#577590", "#f9844a", "#8ecae6", "#b8de6f"
     ];
+    const publicPointOutlineColor = "#02060d";
+    const publicPointFillOpacity = 0.96;
     const focusedCoverageColors = {
       uncovered: "rgba(255,255,255,0.06)",
       zonal: "#9ec5ff",
@@ -1830,6 +1832,19 @@
       return equipamientoPalette[index % equipamientoPalette.length];
     }
 
+    function buildPublicPointStyle(fillColor, options = {}) {
+      const radius = Number(options.radius || 6);
+      const hovered = Boolean(options.hovered);
+      return {
+        radius: hovered ? radius + 1.2 : radius,
+        color: publicPointOutlineColor,
+        weight: hovered ? 2.6 : 1.9,
+        fillColor,
+        fillOpacity: hovered ? 1 : Number(options.fillOpacity || publicPointFillOpacity),
+        opacity: 1
+      };
+    }
+
     function syncSingleLayer(layer, visible) {
       if (!layer) return;
       if (visible && !map.hasLayer(layer)) {
@@ -2304,7 +2319,7 @@
 
       if (!map.getPane("equipamientosPane")) {
         map.createPane("equipamientosPane");
-        map.getPane("equipamientosPane").style.zIndex = 650;
+        map.getPane("equipamientosPane").style.zIndex = 670;
       }
 
       const visibleFeatures = getVisibleEquipamientosFeatures();
@@ -2316,14 +2331,7 @@
           pointToLayer: (feature, latlng) => {
             const equipamien = getEquipamientoCategory(feature.properties);
             const color = getEquipamientoColor(equipamien);
-            return L.circleMarker(latlng, {
-              radius: 6,
-              color,
-              weight: 1.5,
-              fillColor: color,
-              fillOpacity: 0.9,
-              opacity: 1
-            });
+            return L.circleMarker(latlng, buildPublicPointStyle(color, { radius: 6 }));
           },
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
@@ -2341,11 +2349,12 @@
             `);
 
             layer.on("mouseover", () => {
-              layer.setStyle({ radius: 7.5, weight: 2.2 });
+              const color = getEquipamientoColor(equipamien);
+              layer.setStyle(buildPublicPointStyle(color, { radius: 6, hovered: true }));
             });
             layer.on("mouseout", () => {
               const color = getEquipamientoColor(equipamien);
-              layer.setStyle({ radius: 6, color, weight: 1.5, fillColor: color, fillOpacity: 0.9, opacity: 1 });
+              layer.setStyle(buildPublicPointStyle(color, { radius: 6 }));
             });
             layer.on("click", () => {
               overlayTitle.textContent = nombre;
@@ -2354,10 +2363,10 @@
           }
         }
       );
-      if (typeof equipamientosLayer.bringToFront === "function") {
+      syncSingleLayer(equipamientosLayer, layerVisibility.equipamientos);
+      if (layerVisibility.equipamientos && typeof equipamientosLayer.bringToFront === "function") {
         equipamientosLayer.bringToFront();
       }
-      syncSingleLayer(equipamientosLayer, layerVisibility.equipamientos);
     }
 
     function renderIsocronasLayer() {
@@ -3489,13 +3498,13 @@
           pointToLayer: (feature, latlng) => {
             const categoria = String(feature?.properties?.categoria || "").toUpperCase();
             const color = educacionIsoColors[categoria] || "#8fb6d9";
-            return L.circleMarker(latlng, {
-              radius: categoria === "BARRIAL" ? 5.5 : 6.5,
-              color: "#f8fbff",
-              weight: 1.5,
-              fillColor: color,
-              fillOpacity: 1
-            });
+            return L.circleMarker(
+              latlng,
+              buildPublicPointStyle(color, {
+                radius: categoria === "BARRIAL" ? 5.5 : 6.5,
+                fillOpacity: 1
+              })
+            );
           },
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
@@ -3542,13 +3551,13 @@
           pointToLayer: (feature, latlng) => {
             const categoria = String(feature?.properties?.categoria || "").toUpperCase();
             const color = recreacionIsoColors[categoria] || "#93c5aa";
-            return L.circleMarker(latlng, {
-              radius: categoria === "BARRIAL" ? 5.5 : 6.5,
-              color: "#f8fbff",
-              weight: 1.5,
-              fillColor: color,
-              fillOpacity: 1
-            });
+            return L.circleMarker(
+              latlng,
+              buildPublicPointStyle(color, {
+                radius: categoria === "BARRIAL" ? 5.5 : 6.5,
+                fillOpacity: 1
+              })
+            );
           },
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
@@ -3595,13 +3604,13 @@
           pointToLayer: (feature, latlng) => {
             const categoria = String(feature?.properties?.categoria || "").toUpperCase();
             const color = bienestarIsoColors[categoria] || "#9fc9ff";
-            return L.circleMarker(latlng, {
-              radius: categoria === "BARRIAL" ? 5.5 : 6.5,
-              color: "#f8fbff",
-              weight: 1.5,
-              fillColor: color,
-              fillOpacity: 1
-            });
+            return L.circleMarker(
+              latlng,
+              buildPublicPointStyle(color, {
+                radius: categoria === "BARRIAL" ? 5.5 : 6.5,
+                fillOpacity: 1
+              })
+            );
           },
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
@@ -3648,13 +3657,13 @@
           pointToLayer: (feature, latlng) => {
             const categoria = String(feature?.properties?.categoria || "").toUpperCase();
             const color = culturaIsoColors[categoria] || "#a8bcff";
-            return L.circleMarker(latlng, {
-              radius: categoria === "BARRIAL" ? 5.5 : 6.5,
-              color: "#f8fbff",
-              weight: 1.5,
-              fillColor: color,
-              fillOpacity: 1
-            });
+            return L.circleMarker(
+              latlng,
+              buildPublicPointStyle(color, {
+                radius: categoria === "BARRIAL" ? 5.5 : 6.5,
+                fillOpacity: 1
+              })
+            );
           },
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
@@ -3701,13 +3710,13 @@
           pointToLayer: (feature, latlng) => {
             const categoria = String(feature?.properties?.categoria || "").toUpperCase();
             const color = saludIsoColors[categoria] || "#9bc8bf";
-            return L.circleMarker(latlng, {
-              radius: categoria === "BARRIAL" ? 5.5 : 6.5,
-              color: "#f8fbff",
-              weight: 1.5,
-              fillColor: color,
-              fillOpacity: 1
-            });
+            return L.circleMarker(
+              latlng,
+              buildPublicPointStyle(color, {
+                radius: categoria === "BARRIAL" ? 5.5 : 6.5,
+                fillOpacity: 1
+              })
+            );
           },
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
@@ -3749,13 +3758,10 @@
         { type: "FeatureCollection", features },
         {
           pane: "paradasBusIsocronasStartPane",
-          pointToLayer: (_feature, latlng) => L.circleMarker(latlng, {
-            radius: 4.8,
-            color: "#f8fbff",
-            weight: 1.3,
-            fillColor: paradasBusIsoColor,
-            fillOpacity: 1
-          }),
+          pointToLayer: (_feature, latlng) => L.circleMarker(
+            latlng,
+            buildPublicPointStyle(paradasBusIsoColor, { radius: 4.8, fillOpacity: 1 })
+          ),
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
             layer.bindPopup(`
