@@ -1894,6 +1894,43 @@
         .trim();
     }
 
+    const duplicateGenericNames = new Set([
+      "sin nombre",
+      "prueba",
+      "completo",
+      "area verde",
+      "area verde sin mantenimiento",
+      "parque del sector",
+      "call3 c3 y araguacos"
+    ]);
+    const duplicateNameStopwords = new Set([
+      "de",
+      "del",
+      "la",
+      "el",
+      "los",
+      "las",
+      "y",
+      "tras",
+      "para",
+      "por",
+      "en",
+      "un",
+      "una"
+    ]);
+    const duplicateLeadingAliasTokens = new Set([
+      "iglesia",
+      "parque",
+      "unidad",
+      "ue",
+      "escuela",
+      "colegio",
+      "centro",
+      "subcentro",
+      "casa",
+      "parroquia"
+    ]);
+
     function getDuplicateFeatureValue(feature, keys = []) {
       const props = feature?.properties || {};
       for (const key of keys) {
@@ -1970,6 +2007,98 @@
       return score;
     }
 
+    function getDuplicateNameTokens(value) {
+      return normalizeDuplicateText(value)
+        .split(/[^a-z0-9]+/g)
+        .map((token) => token.trim())
+        .filter((token) => token && !duplicateNameStopwords.has(token));
+    }
+
+    function getDuplicateLeadingToken(value) {
+      return getDuplicateNameTokens(value)[0] || "";
+    }
+
+    function getDuplicateTokenOverlap(leftValue, rightValue) {
+      const leftTokens = new Set(getDuplicateNameTokens(leftValue));
+      const rightTokens = new Set(getDuplicateNameTokens(rightValue));
+      if (!leftTokens.size || !rightTokens.size) {
+        return 0;
+      }
+
+      let overlap = 0;
+      leftTokens.forEach((token) => {
+        if (rightTokens.has(token)) {
+          overlap += 1;
+        }
+      });
+
+      return overlap / Math.max(1, Math.min(leftTokens.size, rightTokens.size));
+    }
+
+    function isGenericDuplicateName(value) {
+      return duplicateGenericNames.has(normalizeDuplicateText(value));
+    }
+
+    function getDuplicateNameQualityScore(value) {
+      const normalizedName = normalizeDuplicateText(value);
+      if (!normalizedName) {
+        return 0;
+      }
+
+      let score = Math.min(normalizedName.length, 48);
+      score += getDuplicateNameTokens(normalizedName).length * 12;
+
+      if (isGenericDuplicateName(normalizedName)) {
+        score -= 80;
+      }
+
+      if (/\btras\b|\bfrente\b|\bcerca\b|\bjunto\b|\bsector\b/.test(normalizedName)) {
+        score -= 8;
+      }
+
+      return score;
+    }
+
+    function areProbableDuplicateNames(leftValue, rightValue) {
+      const leftName = normalizeDuplicateText(leftValue);
+      const rightName = normalizeDuplicateText(rightValue);
+
+      if (!leftName || !rightName) {
+        return false;
+      }
+
+      if (leftName === rightName) {
+        return true;
+      }
+
+      if (isGenericDuplicateName(leftName) || isGenericDuplicateName(rightName)) {
+        return true;
+      }
+
+      if (leftName.includes(rightName) || rightName.includes(leftName)) {
+        return true;
+      }
+
+      if (getDuplicateTokenOverlap(leftName, rightName) >= 0.55) {
+        return true;
+      }
+
+      const leftLead = getDuplicateLeadingToken(leftName);
+      const rightLead = getDuplicateLeadingToken(rightName);
+      return leftLead && leftLead === rightLead && duplicateLeadingAliasTokens.has(leftLead);
+    }
+
+    function getEquipamientoDuplicateCoreParts(feature) {
+      return [
+        normalizeDuplicateText(getEquipamientoCategory(feature?.properties || {})),
+        normalizeDuplicateText(getDuplicateFeatureValue(feature, ["elemento", "ELEMENTO"])),
+        normalizeDuplicateText(getDuplicateFeatureValue(feature, ["platform_name", "plataforma", "PLATAFORMA"])),
+        normalizeDuplicateText(getDuplicateFeatureValue(feature, ["parroquia", "PARROQUIA"])),
+        normalizeDuplicateText(getDuplicateFeatureValue(feature, ["tipologia", "TIPOLOGIA"])),
+        normalizeDuplicateText(getDuplicateFeatureValue(feature, ["tipo_equip", "TIPO_EQUIP", "gestion", "GESTION"]))
+      ];
+    }
+
     function dedupeNearbyNamedFeatures(features, config = {}) {
       const {
         nameKeys = [],
@@ -2014,8 +2143,12 @@
 
         if (matchedEntry) {
           duplicatesRemoved += 1;
-          const currentScore = getDuplicateFeatureScore(feature, pointMode);
-          const existingScore = getDuplicateFeatureScore(matchedEntry.feature, pointMode);
+          const currentScore =
+            getDuplicateFeatureScore(feature, pointMode) +
+            getDuplicateNameQualityScore(getDuplicateFeatureValue(feature, nameKeys));
+          const existingScore =
+            getDuplicateFeatureScore(matchedEntry.feature, pointMode) +
+            getDuplicateNameQualityScore(getDuplicateFeatureValue(matchedEntry.feature, nameKeys));
           if (currentScore > existingScore) {
             matchedEntry.feature = feature;
             matchedEntry.coords = coords;
@@ -2033,6 +2166,132 @@
       return {
         features: dedupedFeatures.filter(Boolean),
         duplicatesRemoved
+      };
+    }
+
+    function dedupeProbableEquipamientoFeatures(features, config = {}) {
+      const {
+        nameKeys = [],
+        pointMode = "geometry",
+        thresholdMeters = 15
+      } = config;
+
+      const dedupedFeatures = [];
+      const buckets = new Map();
+      let duplicatesRemoved = 0;
+      let exactNameDuplicatesRemoved = 0;
+      let probableDuplicatesRemoved = 0;
+      const duplicatePairs = [];
+
+      for (const feature of features || []) {
+        if (!feature || !feature.properties) {
+          dedupedFeatures.push(feature);
+          continue;
+        }
+
+        const normalizedName = normalizeDuplicateText(getDuplicateFeatureValue(feature, nameKeys));
+        const coords = getDuplicateFeatureCoordinates(feature, pointMode);
+        const coreParts = getEquipamientoDuplicateCoreParts(feature);
+        const coreEvidenceCount = coreParts.filter(Boolean).length;
+        const coreKey = coreEvidenceCount >= 3 ? coreParts.join("||") : "";
+
+        if (!coords || (!normalizedName && !coreKey)) {
+          dedupedFeatures.push(feature);
+          continue;
+        }
+
+        const bucketKeys = [];
+        if (normalizedName) {
+          bucketKeys.push(`name||${normalizedName}`);
+        }
+        if (coreKey) {
+          bucketKeys.push(`core||${coreKey}`);
+        }
+
+        let matchedEntry = null;
+        let matchType = "";
+        const checkedEntries = new Set();
+
+        for (const bucketKey of bucketKeys) {
+          const bucket = buckets.get(bucketKey) || [];
+          for (const entry of bucket) {
+            if (checkedEntries.has(entry)) {
+              continue;
+            }
+            checkedEntries.add(entry);
+
+            if (getPointDistanceMeters(entry.coords, coords) > thresholdMeters) {
+              continue;
+            }
+
+            const exactNameMatch = normalizedName && entry.normalizedName && normalizedName === entry.normalizedName;
+            const probableMatch = coreKey &&
+              entry.coreKey &&
+              coreKey === entry.coreKey &&
+              areProbableDuplicateNames(normalizedName, entry.normalizedName);
+
+            if (exactNameMatch || probableMatch) {
+              matchedEntry = entry;
+              matchType = exactNameMatch ? "exact" : "probable";
+              break;
+            }
+          }
+
+          if (matchedEntry) {
+            break;
+          }
+        }
+
+        if (matchedEntry) {
+          duplicatesRemoved += 1;
+          if (matchType === "exact") {
+            exactNameDuplicatesRemoved += 1;
+          } else {
+            probableDuplicatesRemoved += 1;
+          }
+
+          duplicatePairs.push({
+            keptName: getDuplicateFeatureValue(matchedEntry.feature, nameKeys),
+            removedName: getDuplicateFeatureValue(feature, nameKeys),
+            distanceMeters: getPointDistanceMeters(matchedEntry.coords, coords),
+            matchType
+          });
+
+          const currentScore = getDuplicateFeatureScore(feature, pointMode);
+          const existingScore = getDuplicateFeatureScore(matchedEntry.feature, pointMode);
+          if (currentScore > existingScore) {
+            matchedEntry.feature = feature;
+            matchedEntry.coords = coords;
+            matchedEntry.normalizedName = normalizedName;
+            matchedEntry.coreKey = coreKey;
+            dedupedFeatures[matchedEntry.index] = feature;
+          }
+          continue;
+        }
+
+        const newEntry = {
+          feature,
+          coords,
+          index: dedupedFeatures.length,
+          normalizedName,
+          coreKey
+        };
+
+        bucketKeys.forEach((bucketKey) => {
+          const bucket = buckets.get(bucketKey) || [];
+          bucket.push(newEntry);
+          buckets.set(bucketKey, bucket);
+        });
+
+        dedupedFeatures.push(feature);
+      }
+
+      return {
+        features: dedupedFeatures.filter(Boolean),
+        duplicatesRemoved,
+        exactNameDuplicatesRemoved,
+        probableDuplicatesRemoved,
+        duplicatePairs
       };
     }
 
@@ -2950,11 +3209,10 @@
             ...(platformStatsByName[feature.properties.platform_name] || {})
           }
         }));
-         equipamientosFeatures = dedupeNearbyNamedFeatures(equipamientosGeo.features || [], {
+         equipamientosFeatures = dedupeProbableEquipamientoFeatures(equipamientosGeo.features || [], {
            nameKeys: ["nombre_equ", "nombre_ins", "elemento"],
            pointMode: "geometry",
-           thresholdMeters: 8,
-           categoryResolver: (feature) => getEquipamientoCategory(feature.properties || {})
+           thresholdMeters: 15
          }).features;
          rebuildEquipamientoPlatformIndex();
         equipamientoCategoriesInitialized = false;
@@ -3193,11 +3451,10 @@
             ...(platformStatsByName[feature.properties.platform_name] || {})
           }
         }));
-        equipamientosFeatures = dedupeNearbyNamedFeatures(equipamientosGeo.features || [], {
+        equipamientosFeatures = dedupeProbableEquipamientoFeatures(equipamientosGeo.features || [], {
           nameKeys: ["nombre_equ", "nombre_ins", "elemento"],
           pointMode: "geometry",
-          thresholdMeters: 8,
-          categoryResolver: (feature) => getEquipamientoCategory(feature.properties || {})
+          thresholdMeters: 15
         }).features;
         rebuildEquipamientoPlatformIndex();
 
@@ -4850,11 +5107,10 @@
         const saludIsocronasStatsData = await saludIsocronasStatsResponse.json();
         shpManifest = manifestResponse.ok ? await manifestResponse.json() : {};
 
-        const dedupedEquipamientos = dedupeNearbyNamedFeatures(equipamientosGeo.features || [], {
+        const dedupedEquipamientos = dedupeProbableEquipamientoFeatures(equipamientosGeo.features || [], {
           nameKeys: ["nombre_equ", "nombre_ins", "elemento"],
           pointMode: "geometry",
-          thresholdMeters: 8,
-          categoryResolver: (feature) => getEquipamientoCategory(feature.properties || {})
+          thresholdMeters: 15
         });
         const dedupedEducacionIsocronas = dedupeNearbyNamedFeatures(educacionIsocronasGeo.features || [], {
           nameKeys: ["nombre"],
@@ -4889,6 +5145,8 @@
 
         duplicateCleanupSummary = {
           equipamientos: dedupedEquipamientos.duplicatesRemoved,
+          equipamientosExactos: dedupedEquipamientos.exactNameDuplicatesRemoved,
+          equipamientosProbables: dedupedEquipamientos.probableDuplicatesRemoved,
           educacion: dedupedEducacionIsocronas.duplicatesRemoved,
           recreacion: dedupedRecreacionIsocronas.duplicatesRemoved,
           bienestar: dedupedBienestarIsocronas.duplicatesRemoved,
@@ -4899,6 +5157,7 @@
         globalSummary = stats.summary;
         platformSummary = platformsStats;
         equipamientosStats = equipamientosStatsData;
+        window.equipamientosDuplicatePairs = dedupedEquipamientos.duplicatePairs;
         isocronasStats = null;
         window.educacionIsocronasStats = educacionIsocronasStatsData;
         window.educacionIsocronasFeatures = dedupedEducacionIsocronas.features;
@@ -4951,10 +5210,18 @@
           (window.bienestarIsocronasFeatures || []).length +
           (window.culturaIsocronasFeatures || []).length +
           (window.saludIsocronasFeatures || []).length;
-        const totalDuplicatesRemoved = Object.values(duplicateCleanupSummary || {})
-          .reduce((total, value) => total + Number(value || 0), 0);
+        const totalDuplicatesRemoved =
+          Number(duplicateCleanupSummary?.equipamientos || 0) +
+          Number(duplicateCleanupSummary?.educacion || 0) +
+          Number(duplicateCleanupSummary?.recreacion || 0) +
+          Number(duplicateCleanupSummary?.bienestar || 0) +
+          Number(duplicateCleanupSummary?.cultura || 0) +
+          Number(duplicateCleanupSummary?.salud || 0);
+        const equipamientoDuplicateBreakdown = duplicateCleanupSummary
+          ? ` Puntos publicos depurados: ${formatNumber(duplicateCleanupSummary.equipamientos || 0)} (${formatNumber(duplicateCleanupSummary.equipamientosExactos || 0)} exactos y ${formatNumber(duplicateCleanupSummary.equipamientosProbables || 0)} probables).`
+          : "";
 
-        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} puntos publicos y ${formatNumber(totalIsocronasCiudad)} isocronas tematicas de ciudad completa a 1000 m. Duplicados depurados: ${formatNumber(totalDuplicatesRemoved)}.`;
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} puntos publicos y ${formatNumber(totalIsocronasCiudad)} isocronas tematicas de ciudad completa a 1000 m. Duplicados depurados: ${formatNumber(totalDuplicatesRemoved)}.${equipamientoDuplicateBreakdown}`;
 
         if (layerControl) {
           layerControl.remove();
