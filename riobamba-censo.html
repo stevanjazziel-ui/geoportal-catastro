@@ -686,6 +686,7 @@
     let selectedEquipamientoCategories = new Set();
     let equipamientoCategoriesInitialized = false;
     let lastPlatformSelectValue = ALL_PLATFORMS;
+    let duplicateCleanupSummary = null;
     const layerVisibility = {
       manzanas: true,
       plataformas: true,
@@ -1254,15 +1255,40 @@
         return;
       }
 
+      const featureList = Array.isArray(features) ? features : [];
+      const thematicSummary = featureList.reduce((summary, feature, index) => {
+        const props = feature?.properties || {};
+        const sourceKey =
+          [props.source_id, props.objectid, props.codigo, props.nombre]
+            .find((value) => value !== undefined && value !== null && String(value).trim()) || `iso_${index}`;
+        summary.uniqueSources.add(String(sourceKey));
+        summary.total += 1;
+
+        const categoria = String(props.categoria || "").toUpperCase();
+        if (categoria) {
+          summary.byCategory[categoria] = (summary.byCategory[categoria] || 0) + 1;
+        }
+
+        summary.adjustedBlocks += Number(props.manzanas_ajustadas || 0);
+        return summary;
+      }, {
+        uniqueSources: new Set(),
+        total: 0,
+        byCategory: {},
+        adjustedBlocks: 0
+      });
+
       let rows;
       if (currentPlatform === ALL_PLATFORMS) {
+        const omittedCount = Object.values(stats.by_categoria_omitidos || {})
+          .reduce((total, value) => total + Number(value || 0), 0);
         rows = [
-          ["Equipamientos fuente", stats.summary.total_equipamientos || 0],
-          ["Isocronas generadas", stats.summary.total_isocronas || 0],
-          ["Barrial 1000 m", (stats.by_categoria_isocronas || {}).BARRIAL || 0],
-          ["Zonal 1000 m", (stats.by_categoria_isocronas || {}).ZONAL || 0],
+          ["Equipamientos fuente", thematicSummary.uniqueSources.size + omittedCount],
+          ["Isocronas generadas", thematicSummary.total],
+          ["Barrial 1000 m", thematicSummary.byCategory.BARRIAL || 0],
+          ["Zonal 1000 m", thematicSummary.byCategory.ZONAL || 0],
           ["Cantonales omitidos", (stats.by_categoria_omitidos || {}).CANTONAL || 0],
-          ["Manzanas ajustadas", stats.summary.manzanas_ajustadas || 0],
+          ["Manzanas ajustadas", thematicSummary.adjustedBlocks],
           ["Visualizacion", "Area rellena con borde"]
         ];
       } else {
@@ -1830,6 +1856,157 @@
       const categories = allEquipamientoCategories;
       const index = Math.max(0, categories.indexOf(category));
       return equipamientoPalette[index % equipamientoPalette.length];
+    }
+
+    function normalizeDuplicateText(value) {
+      return repairText(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function getDuplicateFeatureValue(feature, keys = []) {
+      const props = feature?.properties || {};
+      for (const key of keys) {
+        const value = props[key];
+        if (value !== undefined && value !== null && String(value).trim()) {
+          return value;
+        }
+      }
+      return "";
+    }
+
+    function getDuplicateFeatureCoordinates(feature, pointMode = "geometry") {
+      if (!feature) return null;
+
+      if (pointMode === "source") {
+        const lon = Number(feature?.properties?.source_lon);
+        const lat = Number(feature?.properties?.source_lat);
+        return Number.isFinite(lon) && Number.isFinite(lat) ? [lon, lat] : null;
+      }
+
+      const coords = feature?.geometry?.coordinates;
+      if (!Array.isArray(coords) || coords.length < 2) {
+        return null;
+      }
+
+      const lon = Number(coords[0]);
+      const lat = Number(coords[1]);
+      return Number.isFinite(lon) && Number.isFinite(lat) ? [lon, lat] : null;
+    }
+
+    function getPointDistanceMeters(leftCoords, rightCoords) {
+      if (!leftCoords || !rightCoords) return Number.POSITIVE_INFINITY;
+      const [leftLon, leftLat] = leftCoords;
+      const [rightLon, rightLat] = rightCoords;
+      const meanLatRad = ((leftLat + rightLat) / 2) * Math.PI / 180;
+      const dx = (rightLon - leftLon) * 111320 * Math.cos(meanLatRad);
+      const dy = (rightLat - leftLat) * 110540;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    function getFeatureCompletenessScore(properties = {}) {
+      return Object.values(properties).reduce((score, value) => {
+        if (value === undefined || value === null) return score;
+        if (typeof value === "string") {
+          return score + (value.trim() ? 1 : 0);
+        }
+        return score + 1;
+      }, 0);
+    }
+
+    function getFeatureEstadoRank(properties = {}) {
+      const estado = normalizeDuplicateText(properties.estado || properties.ESTADO || "");
+      if (estado.includes("excelente") || estado.includes("muy bueno")) return 4;
+      if (estado.includes("bueno")) return 3;
+      if (estado.includes("regular")) return 2;
+      if (estado.includes("malo")) return 1;
+      return 0;
+    }
+
+    function getDuplicateFeatureScore(feature, pointMode = "geometry") {
+      const props = feature?.properties || {};
+      let score = getFeatureEstadoRank(props) * 1000 + getFeatureCompletenessScore(props);
+
+      const snapMeters = Number(props.snap_m);
+      if (pointMode === "source" && Number.isFinite(snapMeters)) {
+        score += Math.max(0, 200 - Math.min(snapMeters, 200));
+      }
+
+      const population = Number(props.population_total);
+      if (Number.isFinite(population)) {
+        score += Math.min(population / 1000, 50);
+      }
+
+      return score;
+    }
+
+    function dedupeNearbyNamedFeatures(features, config = {}) {
+      const {
+        nameKeys = [],
+        categoryKeys = [],
+        categoryResolver = null,
+        pointMode = "geometry",
+        thresholdMeters = 8
+      } = config;
+
+      const dedupedFeatures = [];
+      const buckets = new Map();
+      let duplicatesRemoved = 0;
+
+      for (const feature of features || []) {
+        if (!feature || !feature.properties) {
+          dedupedFeatures.push(feature);
+          continue;
+        }
+
+        const normalizedName = normalizeDuplicateText(getDuplicateFeatureValue(feature, nameKeys));
+        const rawCategory = typeof categoryResolver === "function"
+          ? categoryResolver(feature)
+          : getDuplicateFeatureValue(feature, categoryKeys);
+        const normalizedCategory = normalizeDuplicateText(rawCategory);
+        const coords = getDuplicateFeatureCoordinates(feature, pointMode);
+
+        if (!normalizedName || !coords) {
+          dedupedFeatures.push(feature);
+          continue;
+        }
+
+        const bucketKey = `${normalizedCategory || "sin-categoria"}||${normalizedName}`;
+        const bucket = buckets.get(bucketKey) || [];
+        let matchedEntry = null;
+
+        for (const entry of bucket) {
+          if (getPointDistanceMeters(entry.coords, coords) <= thresholdMeters) {
+            matchedEntry = entry;
+            break;
+          }
+        }
+
+        if (matchedEntry) {
+          duplicatesRemoved += 1;
+          const currentScore = getDuplicateFeatureScore(feature, pointMode);
+          const existingScore = getDuplicateFeatureScore(matchedEntry.feature, pointMode);
+          if (currentScore > existingScore) {
+            matchedEntry.feature = feature;
+            matchedEntry.coords = coords;
+            dedupedFeatures[matchedEntry.index] = feature;
+          }
+          continue;
+        }
+
+        const newEntry = { feature, coords, index: dedupedFeatures.length };
+        bucket.push(newEntry);
+        buckets.set(bucketKey, bucket);
+        dedupedFeatures.push(feature);
+      }
+
+      return {
+        features: dedupedFeatures.filter(Boolean),
+        duplicatesRemoved
+      };
     }
 
     function buildPublicPointStyle(fillColor, options = {}) {
@@ -2711,7 +2888,12 @@
             ...(platformStatsByName[feature.properties.platform_name] || {})
           }
         }));
-         equipamientosFeatures = equipamientosGeo.features || [];
+         equipamientosFeatures = dedupeNearbyNamedFeatures(equipamientosGeo.features || [], {
+           nameKeys: ["nombre_equ", "nombre_ins", "elemento"],
+           pointMode: "geometry",
+           thresholdMeters: 8,
+           categoryResolver: (feature) => getEquipamientoCategory(feature.properties || {})
+         }).features;
          rebuildEquipamientoPlatformIndex();
         equipamientoCategoriesInitialized = false;
         allEquipamientoCategories = [];
@@ -2949,7 +3131,12 @@
             ...(platformStatsByName[feature.properties.platform_name] || {})
           }
         }));
-        equipamientosFeatures = equipamientosGeo.features || [];
+        equipamientosFeatures = dedupeNearbyNamedFeatures(equipamientosGeo.features || [], {
+          nameKeys: ["nombre_equ", "nombre_ins", "elemento"],
+          pointMode: "geometry",
+          thresholdMeters: 8,
+          categoryResolver: (feature) => getEquipamientoCategory(feature.properties || {})
+        }).features;
         rebuildEquipamientoPlatformIndex();
 
         const byMan = stats.byMan || {};
@@ -4583,20 +4770,66 @@
         const saludIsocronasStatsData = await saludIsocronasStatsResponse.json();
         shpManifest = manifestResponse.ok ? await manifestResponse.json() : {};
 
+        const dedupedEquipamientos = dedupeNearbyNamedFeatures(equipamientosGeo.features || [], {
+          nameKeys: ["nombre_equ", "nombre_ins", "elemento"],
+          pointMode: "geometry",
+          thresholdMeters: 8,
+          categoryResolver: (feature) => getEquipamientoCategory(feature.properties || {})
+        });
+        const dedupedEducacionIsocronas = dedupeNearbyNamedFeatures(educacionIsocronasGeo.features || [], {
+          nameKeys: ["nombre"],
+          categoryKeys: ["categoria"],
+          pointMode: "source",
+          thresholdMeters: 8
+        });
+        const dedupedRecreacionIsocronas = dedupeNearbyNamedFeatures(recreacionIsocronasGeo.features || [], {
+          nameKeys: ["nombre"],
+          categoryKeys: ["categoria"],
+          pointMode: "source",
+          thresholdMeters: 8
+        });
+        const dedupedBienestarIsocronas = dedupeNearbyNamedFeatures(bienestarIsocronasGeo.features || [], {
+          nameKeys: ["nombre"],
+          categoryKeys: ["categoria"],
+          pointMode: "source",
+          thresholdMeters: 8
+        });
+        const dedupedCulturaIsocronas = dedupeNearbyNamedFeatures(culturaIsocronasGeo.features || [], {
+          nameKeys: ["nombre"],
+          categoryKeys: ["categoria"],
+          pointMode: "source",
+          thresholdMeters: 8
+        });
+        const dedupedSaludIsocronas = dedupeNearbyNamedFeatures(saludIsocronasGeo.features || [], {
+          nameKeys: ["nombre"],
+          categoryKeys: ["categoria"],
+          pointMode: "source",
+          thresholdMeters: 8
+        });
+
+        duplicateCleanupSummary = {
+          equipamientos: dedupedEquipamientos.duplicatesRemoved,
+          educacion: dedupedEducacionIsocronas.duplicatesRemoved,
+          recreacion: dedupedRecreacionIsocronas.duplicatesRemoved,
+          bienestar: dedupedBienestarIsocronas.duplicatesRemoved,
+          cultura: dedupedCulturaIsocronas.duplicatesRemoved,
+          salud: dedupedSaludIsocronas.duplicatesRemoved
+        };
+
         globalSummary = stats.summary;
         platformSummary = platformsStats;
         equipamientosStats = equipamientosStatsData;
         isocronasStats = null;
         window.educacionIsocronasStats = educacionIsocronasStatsData;
-        window.educacionIsocronasFeatures = educacionIsocronasGeo.features || [];
+        window.educacionIsocronasFeatures = dedupedEducacionIsocronas.features;
         window.recreacionIsocronasStats = recreacionIsocronasStatsData;
-        window.recreacionIsocronasFeatures = recreacionIsocronasGeo.features || [];
+        window.recreacionIsocronasFeatures = dedupedRecreacionIsocronas.features;
         window.bienestarIsocronasStats = bienestarIsocronasStatsData;
-        window.bienestarIsocronasFeatures = bienestarIsocronasGeo.features || [];
+        window.bienestarIsocronasFeatures = dedupedBienestarIsocronas.features;
         window.culturaIsocronasStats = culturaIsocronasStatsData;
-        window.culturaIsocronasFeatures = culturaIsocronasGeo.features || [];
+        window.culturaIsocronasFeatures = dedupedCulturaIsocronas.features;
         window.saludIsocronasStats = saludIsocronasStatsData;
-        window.saludIsocronasFeatures = saludIsocronasGeo.features || [];
+        window.saludIsocronasFeatures = dedupedSaludIsocronas.features;
         platformStatsByName = platformsStats.byName || {};
         platformFeatures = (platformsGeo.features || []).map((feature) => ({
           ...feature,
@@ -4605,7 +4838,7 @@
             ...(platformStatsByName[feature.properties.platform_name] || {})
           }
         }));
-        equipamientosFeatures = equipamientosGeo.features || [];
+        equipamientosFeatures = dedupedEquipamientos.features;
         rebuildEquipamientoPlatformIndex();
 
         const byMan = stats.byMan || {};
@@ -4633,13 +4866,15 @@
         renderAll(false);
 
         const totalIsocronasCiudad =
-          (window.educacionIsocronasStats.summary.total_isocronas || 0) +
-          (window.recreacionIsocronasStats.summary.total_isocronas || 0) +
-          (window.bienestarIsocronasStats.summary.total_isocronas || 0) +
-          (window.culturaIsocronasStats.summary.total_isocronas || 0) +
-          (window.saludIsocronasStats.summary.total_isocronas || 0);
+          (window.educacionIsocronasFeatures || []).length +
+          (window.recreacionIsocronasFeatures || []).length +
+          (window.bienestarIsocronasFeatures || []).length +
+          (window.culturaIsocronasFeatures || []).length +
+          (window.saludIsocronasFeatures || []).length;
+        const totalDuplicatesRemoved = Object.values(duplicateCleanupSummary || {})
+          .reduce((total, value) => total + Number(value || 0), 0);
 
-        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} puntos publicos y ${formatNumber(totalIsocronasCiudad)} isocronas tematicas de ciudad completa a 1000 m.`;
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} puntos publicos y ${formatNumber(totalIsocronasCiudad)} isocronas tematicas de ciudad completa a 1000 m. Duplicados depurados: ${formatNumber(totalDuplicatesRemoved)}.`;
 
         if (layerControl) {
           layerControl.remove();
