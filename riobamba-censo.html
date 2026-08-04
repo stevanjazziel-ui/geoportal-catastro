@@ -1854,12 +1854,31 @@
       }
     }
 
+    function bringPointLayersToFront() {
+      const pointLayers = [
+        equipamientosLayer,
+        window.educacionIsocronasStartLayer,
+        window.recreacionIsocronasStartLayer,
+        window.bienestarIsocronasStartLayer,
+        window.culturaIsocronasStartLayer,
+        window.saludIsocronasStartLayer,
+        window.paradasBusIsocronasStartLayer
+      ];
+
+      for (const layer of pointLayers) {
+        if (layer && map.hasLayer(layer) && typeof layer.bringToFront === "function") {
+          layer.bringToFront();
+        }
+      }
+    }
+
     function syncVisibleLayers() {
       syncSingleLayer(manzanaLayer, layerVisibility.manzanas || hasFocusedPlatformSelection());
       syncSingleLayer(platformLayer, layerVisibility.plataformas);
       syncSingleLayer(equipamientosLayer, layerVisibility.equipamientos);
       syncSingleLayer(isocronaPolygonLayer, layerVisibility.isocronasColindantes);
       syncSingleLayer(isocronaNetworkLayer, layerVisibility.redVial1000m);
+      bringPointLayersToFront();
     }
 
     function buildSummaryCards(summary) {
@@ -2319,7 +2338,7 @@
 
       if (!map.getPane("equipamientosPane")) {
         map.createPane("equipamientosPane");
-        map.getPane("equipamientosPane").style.zIndex = 670;
+        map.getPane("equipamientosPane").style.zIndex = 760;
       }
 
       const visibleFeatures = getVisibleEquipamientosFeatures();
@@ -2364,9 +2383,7 @@
         }
       );
       syncSingleLayer(equipamientosLayer, layerVisibility.equipamientos);
-      if (layerVisibility.equipamientos && typeof equipamientosLayer.bringToFront === "function") {
-        equipamientosLayer.bringToFront();
-      }
+      bringPointLayersToFront();
     }
 
     function renderIsocronasLayer() {
@@ -3133,6 +3150,7 @@
       syncSingleLayer(window.saludIsocronasStartLayer, layerVisibility.saludIsocronasPuntos);
       syncSingleLayer(window.paradasBusIsocronasLayer, layerVisibility.paradasBusIsocronas);
       syncSingleLayer(window.paradasBusIsocronasStartLayer, layerVisibility.paradasBusPuntos);
+      bringPointLayersToFront();
     }
 
     function buildIsocronasSummary() {
@@ -3488,7 +3506,7 @@
 
       if (!map.getPane("educacionIsocronasStartPane")) {
         map.createPane("educacionIsocronasStartPane");
-        map.getPane("educacionIsocronasStartPane").style.zIndex = 661;
+        map.getPane("educacionIsocronasStartPane").style.zIndex = 751;
       }
 
       window.educacionIsocronasStartLayer = L.geoJSON(
@@ -3528,6 +3546,7 @@
         }
       );
       syncSingleLayer(window.educacionIsocronasStartLayer, layerVisibility.educacionIsocronasPuntos);
+      bringPointLayersToFront();
     }
 
     function renderRecreacionIsocronasStartLayer() {
@@ -3541,7 +3560,7 @@
 
       if (!map.getPane("recreacionIsocronasStartPane")) {
         map.createPane("recreacionIsocronasStartPane");
-        map.getPane("recreacionIsocronasStartPane").style.zIndex = 662;
+        map.getPane("recreacionIsocronasStartPane").style.zIndex = 752;
       }
 
       window.recreacionIsocronasStartLayer = L.geoJSON(
@@ -3581,6 +3600,7 @@
         }
       );
       syncSingleLayer(window.recreacionIsocronasStartLayer, layerVisibility.recreacionIsocronasPuntos);
+      bringPointLayersToFront();
     }
 
     function renderBienestarIsocronasStartLayer() {
@@ -3594,7 +3614,7 @@
 
       if (!map.getPane("bienestarIsocronasStartPane")) {
         map.createPane("bienestarIsocronasStartPane");
-        map.getPane("bienestarIsocronasStartPane").style.zIndex = 663;
+        map.getPane("bienestarIsocronasStartPane").style.zIndex = 753;
       }
 
       window.bienestarIsocronasStartLayer = L.geoJSON(
@@ -3634,6 +3654,7 @@
         }
       );
       syncSingleLayer(window.bienestarIsocronasStartLayer, layerVisibility.bienestarIsocronasPuntos);
+      bringPointLayersToFront();
     }
 
     function renderCulturaIsocronasStartLayer() {
@@ -3647,7 +3668,7 @@
 
       if (!map.getPane("culturaIsocronasStartPane")) {
         map.createPane("culturaIsocronasStartPane");
-        map.getPane("culturaIsocronasStartPane").style.zIndex = 664;
+        map.getPane("culturaIsocronasStartPane").style.zIndex = 754;
       }
 
       window.culturaIsocronasStartLayer = L.geoJSON(
@@ -3687,6 +3708,7 @@
         }
       );
       syncSingleLayer(window.culturaIsocronasStartLayer, layerVisibility.culturaIsocronasPuntos);
+      bringPointLayersToFront();
     }
 
     function renderSaludIsocronasStartLayer() {
@@ -3700,7 +3722,7 @@
 
       if (!map.getPane("saludIsocronasStartPane")) {
         map.createPane("saludIsocronasStartPane");
-        map.getPane("saludIsocronasStartPane").style.zIndex = 665;
+        map.getPane("saludIsocronasStartPane").style.zIndex = 755;
       }
 
       window.saludIsocronasStartLayer = L.geoJSON(
@@ -3740,6 +3762,7 @@
         }
       );
       syncSingleLayer(window.saludIsocronasStartLayer, layerVisibility.saludIsocronasPuntos);
+      bringPointLayersToFront();
     }
 
     function renderParadasBusIsocronasStartLayer() {
@@ -3751,7 +3774,7 @@
 
       if (!map.getPane("paradasBusIsocronasStartPane")) {
         map.createPane("paradasBusIsocronasStartPane");
-        map.getPane("paradasBusIsocronasStartPane").style.zIndex = 666;
+        map.getPane("paradasBusIsocronasStartPane").style.zIndex = 756;
       }
 
       window.paradasBusIsocronasStartLayer = L.geoJSON(
@@ -3782,6 +3805,7 @@
         }
       );
       syncSingleLayer(window.paradasBusIsocronasStartLayer, layerVisibility.paradasBusPuntos);
+      bringPointLayersToFront();
     }
 
     function renderEducacionIsocronasLayer() {
