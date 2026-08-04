@@ -2585,6 +2585,7 @@
         <p class="message" id="github-sync-message"></p>
         <div class="button-stack">
           <button id="export-shared-state-button" type="button">Descargar estado compartido</button>
+          <button id="export-active-excel-button" type="button">Excel bandeja actual</button>
           <button id="export-excel-button" type="button">Descargar Excel</button>
           <button id="export-csv-button" type="button">Descargar CSV</button>
           <button id="export-json-button" class="secondary" type="button">Descargar JSON</button>
@@ -2866,6 +2867,7 @@
         publishGithubSyncButton: document.getElementById("publish-github-sync-button"),
         githubSyncMessage: document.getElementById("github-sync-message"),
         exportSharedStateButton: document.getElementById("export-shared-state-button"),
+        exportActiveExcelButton: document.getElementById("export-active-excel-button"),
         exportExcelButton: document.getElementById("export-excel-button"),
         exportCsvButton: document.getElementById("export-csv-button"),
         exportJsonButton: document.getElementById("export-json-button"),
@@ -5002,6 +5004,16 @@
               ? `Se descargó el estado compartido con ${assignmentCount} asignaciones, ${reviewCount} revisiones, ${evidenceCount} grupos de evidencia, ${draftCount} borradores, ${taskCount} tareas y ${activityCount} eventos de bitácora.`
               : "Se descargó el estado compartido vacío para reiniciar la vista central desde cero."
           );
+        });
+
+        dom.exportActiveExcelButton.addEventListener("click", () => {
+          const rows = buildActiveTrayExportRows();
+          downloadFile(
+            `\ufeff${buildActiveAssignmentsExcelWorkbook(rows)}`,
+            `tramites-iprus-bandeja-activa-${rows.length}-${timestampForFile()}.xls`,
+            "application/vnd.ms-excel;charset=utf-8;"
+          );
+          setMessage(dom.exportMessage, `Se descargÃ³ el Excel de la bandeja activa con ${rows.length} trÃ¡mites y su asignaciÃ³n interna actual.`);
         });
 
         dom.exportExcelButton.addEventListener("click", () => {
@@ -8525,6 +8537,45 @@
 
         return buildExcelWorkbook(
           "Tramites IPRUS",
+          `<table><thead><tr>${headerMarkup}</tr></thead><tbody>${bodyMarkup}</tbody></table>`
+        );
+      }
+
+      function buildActiveTrayExportRows() {
+        return getActiveSourceRecords()
+          .map(enrichRecordForExport)
+          .sort((left, right) => compareDates(right.fechaIngreso, left.fechaIngreso) || compareText(left.codigo, right.codigo));
+      }
+
+      function buildActiveAssignmentsExcelWorkbook(rows) {
+        const columns = [
+          "asignadoInterno",
+          "nroTramite",
+          "codigo",
+          "solicitante",
+          "estado",
+          "prioridad",
+          "responsable",
+          "fechaLimiteFormateada",
+          "fechaIngresoFormateada",
+          "egobOutcome",
+          "egobLatestReassignmentNote",
+        ];
+        const headerMarkup = columns.map((column) => `<th>${escapeHtml(column)}</th>`).join("");
+        const bodyMarkup = rows
+          .map(
+            (row) => `
+              <tr>
+                ${columns
+                  .map((column) => `<td>${escapeHtml(row[column] == null ? "" : String(row[column]))}</td>`)
+                  .join("")}
+              </tr>
+            `
+          )
+          .join("");
+
+        return buildExcelWorkbook(
+          "Asignados Bandeja Activa IPRUS",
           `<table><thead><tr>${headerMarkup}</tr></thead><tbody>${bodyMarkup}</tbody></table>`
         );
       }
