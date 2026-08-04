@@ -2527,7 +2527,10 @@
           pointToLayer: (feature, latlng) => {
             const equipamien = getEquipamientoCategory(feature.properties);
             const color = getEquipamientoColor(equipamien);
-            return L.circleMarker(latlng, buildPublicPointStyle(color, { radius: 6 }));
+            return L.circleMarker(latlng, {
+              pane: "equipamientosPane",
+              ...buildPublicPointStyle(color, { radius: 6 })
+            });
           },
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
@@ -3705,10 +3708,13 @@
             const color = educacionIsoColors[categoria] || "#8fb6d9";
             return L.circleMarker(
               latlng,
-              buildPublicPointStyle(color, {
+              {
+                pane: "educacionIsocronasStartPane",
+                ...buildPublicPointStyle(color, {
                 radius: categoria === "BARRIAL" ? 5.5 : 6.5,
                 fillOpacity: 1
-              })
+                })
+              }
             );
           },
           onEachFeature: (feature, layer) => {
@@ -3759,10 +3765,13 @@
             const color = recreacionIsoColors[categoria] || "#93c5aa";
             return L.circleMarker(
               latlng,
-              buildPublicPointStyle(color, {
+              {
+                pane: "recreacionIsocronasStartPane",
+                ...buildPublicPointStyle(color, {
                 radius: categoria === "BARRIAL" ? 5.5 : 6.5,
                 fillOpacity: 1
-              })
+                })
+              }
             );
           },
           onEachFeature: (feature, layer) => {
@@ -3813,10 +3822,13 @@
             const color = bienestarIsoColors[categoria] || "#9fc9ff";
             return L.circleMarker(
               latlng,
-              buildPublicPointStyle(color, {
+              {
+                pane: "bienestarIsocronasStartPane",
+                ...buildPublicPointStyle(color, {
                 radius: categoria === "BARRIAL" ? 5.5 : 6.5,
                 fillOpacity: 1
-              })
+                })
+              }
             );
           },
           onEachFeature: (feature, layer) => {
@@ -3867,10 +3879,13 @@
             const color = culturaIsoColors[categoria] || "#a8bcff";
             return L.circleMarker(
               latlng,
-              buildPublicPointStyle(color, {
+              {
+                pane: "culturaIsocronasStartPane",
+                ...buildPublicPointStyle(color, {
                 radius: categoria === "BARRIAL" ? 5.5 : 6.5,
                 fillOpacity: 1
-              })
+                })
+              }
             );
           },
           onEachFeature: (feature, layer) => {
@@ -3921,10 +3936,13 @@
             const color = saludIsoColors[categoria] || "#9bc8bf";
             return L.circleMarker(
               latlng,
-              buildPublicPointStyle(color, {
+              {
+                pane: "saludIsocronasStartPane",
+                ...buildPublicPointStyle(color, {
                 radius: categoria === "BARRIAL" ? 5.5 : 6.5,
                 fillOpacity: 1
-              })
+                })
+              }
             );
           },
           onEachFeature: (feature, layer) => {
@@ -3970,7 +3988,10 @@
           pane: "paradasBusIsocronasStartPane",
           pointToLayer: (_feature, latlng) => L.circleMarker(
             latlng,
-            buildPublicPointStyle(paradasBusIsoColor, { radius: 4.8, fillOpacity: 1 })
+            {
+              pane: "paradasBusIsocronasStartPane",
+              ...buildPublicPointStyle(paradasBusIsoColor, { radius: 4.8, fillOpacity: 1 })
+            }
           ),
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
