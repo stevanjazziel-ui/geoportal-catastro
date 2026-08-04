@@ -274,10 +274,12 @@
       <section class="panel">
         <h2>Categorias del entorno</h2>
         <div class="inline-actions">
-          <button id="selectAllCategoriesButton" type="button">Mostrar todas</button>
-          <button id="clearCategoriesButton" type="button">Limpiar</button>
+          <button id="selectAllCategoriesButton" type="button" disabled>Mostrar todas</button>
+          <button id="clearCategoriesButton" type="button" disabled>Limpiar</button>
         </div>
-        <div class="layer-toggles" id="equipamientoCategoryFilters"></div>
+        <div class="layer-toggles" id="equipamientoCategoryFilters">
+          <p style="margin:0;color:var(--muted);">Cargando categorias del entorno...</p>
+        </div>
         <p style="margin-top:10px;">
           Separa los puntos publicos por categoria tematica y deja visibles solo las que quieras revisar.
         </p>
