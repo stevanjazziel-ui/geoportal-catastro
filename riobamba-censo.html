@@ -284,6 +284,27 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
+    .analysis-item.expandable {
+      cursor: pointer;
+      transition: border-color 120ms ease, background 120ms ease, transform 120ms ease;
+    }
+
+    .analysis-item.expandable:hover {
+      border-color: rgba(97, 199, 255, 0.34);
+      background: rgba(97, 199, 255, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .analysis-item.expandable:focus-visible {
+      outline: 2px solid rgba(143, 242, 219, 0.75);
+      outline-offset: 2px;
+    }
+
+    .analysis-item.expanded {
+      border-color: rgba(143, 242, 219, 0.34);
+      background: rgba(143, 242, 219, 0.08);
+    }
+
     .analysis-item.wide {
       grid-column: 1 / -1;
     }
@@ -309,6 +330,43 @@
       color: var(--muted);
       font-size: 0.82rem;
       line-height: 1.3;
+    }
+
+    .analysis-item-hint {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent-2);
+      font-size: 0.76rem;
+      letter-spacing: 0.02em;
+      font-style: normal;
+    }
+
+    .analysis-breakdown {
+      display: grid;
+      gap: 6px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .analysis-breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+    }
+
+    .analysis-breakdown-row span {
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.02em;
+      text-transform: none;
+    }
+
+    .analysis-breakdown-row strong {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.1;
     }
 
     .leaflet-popup-content-wrapper,
@@ -552,6 +610,16 @@
       age_30_64: "Edad 30-64",
       age_65_plus: "Mayores a 65"
     };
+    const analysisBreakdownFields = [
+      { key: "male", label: "Hombres" },
+      { key: "female", label: "Mujeres" },
+      { key: "age_0_4", label: "0-4" },
+      { key: "age_5_11", label: "5-11" },
+      { key: "age_12_17", label: "12-17" },
+      { key: "age_18_29", label: "18-29" },
+      { key: "age_30_64", label: "30-64" },
+      { key: "age_65_plus", label: "65+" }
+    ];
 
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
@@ -597,6 +665,7 @@
     let equipamientosStats = null;
     let isocronasStats = null;
     let focusedCoverageState = null;
+    let focusedAnalysisExpandedKey = null;
     let currentMetric = "population_total";
     let currentPlatform = ALL_PLATFORMS;
     let globalSummary = null;
@@ -1401,7 +1470,9 @@
         uncovered: 0,
         populationTotal: 0,
         populationCovered: 0,
-        populationUncovered: 0
+        populationUncovered: 0,
+        breakdownCovered: createEmptyPopulationBreakdown(),
+        breakdownUncovered: createEmptyPopulationBreakdown()
       };
 
       if (typeof turf === "undefined") {
@@ -1411,6 +1482,7 @@
       if (!isochrones.length) {
         for (const feature of features) {
           state.populationTotal += Number(feature?.properties?.population_total || 0);
+          accumulatePopulationBreakdown(state.breakdownUncovered, feature);
         }
         state.uncovered = features.length;
         state.populationUncovered = state.populationTotal;
@@ -1436,13 +1508,59 @@
         if (covered) {
           state.covered += 1;
           state.populationCovered += population;
+          accumulatePopulationBreakdown(state.breakdownCovered, feature);
         } else {
           state.uncovered += 1;
           state.populationUncovered += population;
+          accumulatePopulationBreakdown(state.breakdownUncovered, feature);
         }
       }
 
       return state;
+    }
+
+    function createEmptyPopulationBreakdown() {
+      return {
+        male: 0,
+        female: 0,
+        age_0_4: 0,
+        age_5_11: 0,
+        age_12_17: 0,
+        age_18_29: 0,
+        age_30_64: 0,
+        age_65_plus: 0
+      };
+    }
+
+    function accumulatePopulationBreakdown(breakdown, feature) {
+      if (!breakdown || !feature) {
+        return breakdown;
+      }
+
+      for (const field of analysisBreakdownFields) {
+        breakdown[field.key] += Number(feature?.properties?.[field.key] || 0);
+      }
+
+      return breakdown;
+    }
+
+    function buildPopulationBreakdown(features = []) {
+      const breakdown = createEmptyPopulationBreakdown();
+      for (const feature of features) {
+        accumulatePopulationBreakdown(breakdown, feature);
+      }
+      return breakdown;
+    }
+
+    function renderAnalysisBreakdownRows(breakdown = createEmptyPopulationBreakdown()) {
+      return analysisBreakdownFields
+        .map((field) => `
+          <div class="analysis-breakdown-row">
+            <span>${field.label}</span>
+            <strong>${formatNumber(breakdown[field.key] || 0)} hab</strong>
+          </div>
+        `)
+        .join("");
     }
 
     function updateSelectionStatusText() {
@@ -1848,6 +1966,7 @@
       if (!hasFocusedPlatformSelection()) {
         focusedAnalysisCard.hidden = true;
         focusedAnalysisGrid.innerHTML = "";
+        focusedAnalysisExpandedKey = null;
         return;
       }
 
@@ -1856,18 +1975,25 @@
       const visibleGroups = getVisibleThematicIsoGroups();
       const platformLabel = displayPlatformName(currentPlatform);
       const totalPopulation = Number(state.populationTotal || 0);
+      const platformBreakdown = buildPopulationBreakdown(currentFeatures);
       const cards = [
         {
+          key: "platform_total",
           label: "Poblacion plataforma",
           value: `${formatNumber(totalPopulation)} hab`,
           meta: `${formatNumber(state.total)} manzanas censales`,
-          wide: true
+          wide: true,
+          expandable: true,
+          breakdown: platformBreakdown
         },
         {
+          key: "platform_covered",
           label: "Poblacion cubierta",
           value: `${formatNumber(state.populationCovered || 0)} hab`,
           meta: `${formatPercent(state.populationCovered || 0, totalPopulation)} del total`,
-          wide: true
+          wide: true,
+          expandable: true,
+          breakdown: state.breakdownCovered || createEmptyPopulationBreakdown()
         }
       ];
 
@@ -1875,6 +2001,7 @@
         const groupState = buildCoverageStateForIsochrones(currentFeatures, group.features);
         const hasCoverage = (group.features.length > 0) && (groupState.covered > 0 || groupState.populationCovered > 0);
         cards.push({
+          key: `coverage_${group.key}`,
           label: group.label,
           value: `${formatNumber(groupState.populationCovered || 0)} hab`,
           meta: hasCoverage
@@ -1883,26 +2010,46 @@
               `${formatNumber(groupState.covered || 0)} manzanas | ` +
               `${formatNumber(group.features.length)} isocronas`
             )
-            : "No cubre esta plataforma | 0 manzanas | 0 isocronas"
+            : "No cubre esta plataforma | 0 manzanas | 0 isocronas",
+          expandable: true,
+          breakdown: groupState.breakdownCovered || createEmptyPopulationBreakdown()
         });
       }
 
       cards.push({
+        key: "platform_uncovered",
         label: "Sin cobertura",
         value: `${formatNumber(state.populationUncovered || 0)} hab`,
-        meta: `${formatPercent(state.populationUncovered || 0, totalPopulation)} | ${formatNumber(state.uncovered || 0)} manzanas`
+        meta: `${formatPercent(state.populationUncovered || 0, totalPopulation)} | ${formatNumber(state.uncovered || 0)} manzanas`,
+        expandable: true,
+        breakdown: state.breakdownUncovered || createEmptyPopulationBreakdown()
       });
+
+      const visibleCardKeys = new Set(cards.map((card) => card.key).filter(Boolean));
+      if (focusedAnalysisExpandedKey && !visibleCardKeys.has(focusedAnalysisExpandedKey)) {
+        focusedAnalysisExpandedKey = null;
+      }
 
       focusedAnalysisTitle.textContent = `Analisis de cobertura ${platformLabel}`;
       focusedAnalysisSubtitle.textContent = "Poblacion calculada desde manzanas censales de la plataforma seleccionada y desglosada por cada isocrona categorizada visible.";
       focusedAnalysisGrid.innerHTML = cards
-        .map((card) => `
-          <article class="analysis-item${card.wide ? " wide" : ""}">
+        .map((card) => {
+          const expanded = card.expandable && card.key === focusedAnalysisExpandedKey;
+          return `
+          <article
+            class="analysis-item${card.wide ? " wide" : ""}${card.expandable ? " expandable" : ""}${expanded ? " expanded" : ""}"
+            ${card.key ? `data-analysis-key="${card.key}"` : ""}
+            ${card.expandable ? 'data-expandable="true" role="button" tabindex="0"' : ""}
+            ${card.expandable ? `aria-expanded="${expanded ? "true" : "false"}"` : ""}
+          >
             <span>${card.label}</span>
             <strong>${card.value}</strong>
             <small>${card.meta}</small>
+            ${card.expandable ? `<em class="analysis-item-hint">${expanded ? "Ocultar detalle" : "Clic para ver detalle"}</em>` : ""}
+            ${expanded ? `<div class="analysis-breakdown">${renderAnalysisBreakdownRows(card.breakdown)}</div>` : ""}
           </article>
-        `)
+        `;
+        })
         .join("");
 
       focusedAnalysisCard.hidden = false;
@@ -4895,6 +5042,33 @@
 
     platformSelect.addEventListener("blur", () => {
       syncPlatformSelectionFromControl(true);
+    });
+
+    focusedAnalysisGrid.addEventListener("click", (event) => {
+      const card = event.target.closest(".analysis-item[data-expandable='true']");
+      if (!card) {
+        return;
+      }
+
+      const nextKey = card.dataset.analysisKey || "";
+      focusedAnalysisExpandedKey = focusedAnalysisExpandedKey === nextKey ? null : nextKey;
+      updateFocusedAnalysisCard();
+    });
+
+    focusedAnalysisGrid.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+
+      const card = event.target.closest(".analysis-item[data-expandable='true']");
+      if (!card) {
+        return;
+      }
+
+      event.preventDefault();
+      const nextKey = card.dataset.analysisKey || "";
+      focusedAnalysisExpandedKey = focusedAnalysisExpandedKey === nextKey ? null : nextKey;
+      updateFocusedAnalysisCard();
     });
 
     window.setInterval(() => {
