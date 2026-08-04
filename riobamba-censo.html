@@ -210,6 +210,7 @@
     .map-wrap {
       position: relative;
       height: 100%;
+      overflow: hidden;
     }
 
     .overlay {
@@ -234,6 +235,7 @@
     .analysis-card {
       position: absolute;
       top: 118px;
+      bottom: 16px;
       right: 16px;
       z-index: 500;
       width: min(380px, calc(100% - 32px));
@@ -243,6 +245,9 @@
       border-radius: 18px;
       box-shadow: var(--shadow);
       backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
 
     .analysis-card[hidden] {
@@ -265,6 +270,11 @@
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      padding-right: 4px;
+      align-content: start;
     }
 
     .analysis-item {
@@ -322,8 +332,9 @@
       }
 
       .analysis-card {
-        top: auto;
+        top: 96px;
         bottom: 16px;
+        width: min(380px, calc(100% - 32px));
       }
     }
   </style>
