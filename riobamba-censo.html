@@ -1276,8 +1276,7 @@
         .map((group) => ({
           ...group,
           features: (group.features || []).filter((feature) => feature && feature.geometry && feature.properties)
-        }))
-        .filter((group) => group.features.length > 0);
+        }));
     }
 
     function getFocusedCoverageKey(feature, index) {
@@ -1863,13 +1862,17 @@
 
       for (const group of visibleGroups) {
         const groupState = buildCoverageStateForIsochrones(currentFeatures, group.features);
+        const hasCoverage = (group.features.length > 0) && (groupState.covered > 0 || groupState.populationCovered > 0);
         cards.push({
           label: group.label,
           value: `${formatNumber(groupState.populationCovered || 0)} hab`,
-          meta:
-            `${formatPercent(groupState.populationCovered || 0, totalPopulation)} | ` +
-            `${formatNumber(groupState.covered || 0)} manzanas | ` +
-            `${formatNumber(group.features.length)} isocronas`
+          meta: hasCoverage
+            ? (
+              `${formatPercent(groupState.populationCovered || 0, totalPopulation)} | ` +
+              `${formatNumber(groupState.covered || 0)} manzanas | ` +
+              `${formatNumber(group.features.length)} isocronas`
+            )
+            : "No cubre esta plataforma | 0 manzanas | 0 isocronas"
         });
       }
 
