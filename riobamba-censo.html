@@ -1197,10 +1197,10 @@
     function getVisibleThematicIsoGroups() {
       const groups = [
         {
-          key: "educacion",
-          label: "Educacion",
-          visible: layerVisibility.educacionIsocronas,
-          features: getPlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || [])
+          key: "bienestar",
+          label: "Bienestar social",
+          visible: layerVisibility.bienestarIsocronas,
+          features: getPlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || [])
         },
         {
           key: "recreacion",
@@ -1209,16 +1209,10 @@
           features: getPlatformScopedIsocronasFeatures(window.recreacionIsocronasFeatures || [])
         },
         {
-          key: "bienestar",
-          label: "Bienestar social",
-          visible: layerVisibility.bienestarIsocronas,
-          features: getPlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || [])
-        },
-        {
-          key: "cultura",
-          label: "Cultura",
-          visible: layerVisibility.culturaIsocronas,
-          features: getPlatformScopedIsocronasFeatures(window.culturaIsocronasFeatures || [])
+          key: "educacion",
+          label: "Educacion",
+          visible: layerVisibility.educacionIsocronas,
+          features: getPlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || [])
         },
         {
           key: "salud",
