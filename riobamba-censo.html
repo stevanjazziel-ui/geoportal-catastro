@@ -849,6 +849,9 @@
     let platformUiRefreshFrameId = 0;
     let secondaryRenderFrameId = 0;
     let secondaryRenderToken = 0;
+    let focusedCoverageFrameId = 0;
+    let focusedCoverageToken = 0;
+    let currentManzanaBreaks = [0, 0, 0, 0, 0];
     const exteriorBoundaryCache = new WeakMap();
     const featureBBoxCache = new WeakMap();
     const layerVisibility = {
@@ -1428,6 +1431,38 @@
       }
 
       schedulePlatformUiRefresh();
+    }
+
+    function scheduleFocusedCoverageRefresh() {
+      focusedCoverageToken += 1;
+      const token = focusedCoverageToken;
+
+      if (focusedCoverageFrameId) {
+        window.cancelAnimationFrame(focusedCoverageFrameId);
+        focusedCoverageFrameId = 0;
+      }
+
+      if (!hasFocusedPlatformSelection()) {
+        focusedCoverageState = null;
+        schedulePlatformUiRefresh();
+        return;
+      }
+
+      focusedCoverageFrameId = window.requestAnimationFrame(() => {
+        focusedCoverageFrameId = 0;
+        if (token !== focusedCoverageToken) {
+          return;
+        }
+
+        const analysisContext = getCurrentAnalysisContext();
+        focusedCoverageState = analysisContext.focusedCoverageState;
+
+        if (manzanaLayer && typeof manzanaLayer.setStyle === "function") {
+          manzanaLayer.setStyle((feature) => manzanaStyle(feature, currentManzanaBreaks));
+        }
+
+        schedulePlatformUiRefresh();
+      });
     }
 
     function matchesCurrentPlatform(platformName) {
@@ -2272,9 +2307,15 @@
         : displayPlatformName(currentPlatform);
 
       if (hasFocusedPlatformSelection()) {
-        const coverage = focusedCoverageState || { covered: 0, total: 0 };
+        if (!focusedCoverageState) {
+          statusText.textContent =
+            `Mostrando ${selectionLabel}: calculando cobertura, ${formatNumber(visibleEquipamientos)} puntos publicos y ` +
+            `${formatNumber(visibleIsocronas)} isocronas tematicas visibles.`;
+          return;
+        }
+
         statusText.textContent =
-          `Mostrando ${selectionLabel}: ${formatNumber(coverage.covered)} de ${formatNumber(coverage.total)} ` +
+          `Mostrando ${selectionLabel}: ${formatNumber(focusedCoverageState.covered)} de ${formatNumber(focusedCoverageState.total)} ` +
           `manzanas cubiertas, ${formatNumber(visibleEquipamientos)} puntos publicos y ` +
           `${formatNumber(visibleIsocronas)} isocronas tematicas visibles.`;
         return;
@@ -3161,10 +3202,16 @@
       }
 
       if (hasFocusedPlatformSelection()) {
-        const coverage = focusedCoverageState || { covered: 0, total: 0 };
         overlayTitle.textContent = currentPlatform;
+        if (!focusedCoverageState) {
+          overlayText.textContent =
+            `Vista enfocada: calculando cobertura, ${formatNumber(getVisibleEquipamientosFeatures().length)} puntos publicos y ` +
+            `${formatNumber(getVisibleThematicIsocronasCount())} isocronas visibles.`;
+          return;
+        }
+
         overlayText.textContent =
-          `Vista enfocada: ${formatNumber(coverage.covered)} de ${formatNumber(coverage.total)} manzanas ` +
+          `Vista enfocada: ${formatNumber(focusedCoverageState.covered)} de ${formatNumber(focusedCoverageState.total)} manzanas ` +
           `cubiertas, ${formatNumber(getVisibleEquipamientosFeatures().length)} puntos publicos y ` +
           `${formatNumber(getVisibleThematicIsocronasCount())} isocronas visibles.`;
         return;
@@ -3183,6 +3230,20 @@
         focusedAnalysisCard.hidden = true;
         focusedAnalysisGrid.innerHTML = "";
         focusedAnalysisExpandedKey = null;
+        return;
+      }
+
+      if (!focusedCoverageState) {
+        focusedAnalysisTitle.textContent = `Analisis de cobertura ${displayPlatformName(currentPlatform)}`;
+        focusedAnalysisSubtitle.textContent = "Calculando cobertura de manzanas e isocronas visibles...";
+        focusedAnalysisGrid.innerHTML = `
+          <article class="analysis-item analysis-item--wide">
+            <div class="analysis-label">Procesando</div>
+            <div class="analysis-value">Calculando...</div>
+            <div class="analysis-meta">Estamos actualizando la cobertura de la plataforma seleccionada.</div>
+          </article>
+        `;
+        focusedAnalysisCard.hidden = false;
         return;
       }
 
@@ -3615,11 +3676,11 @@
     }
 
     function renderManzanaLayer(zoomToSelection = false) {
-      const analysisContext = getCurrentAnalysisContext();
-      const currentFeatures = analysisContext.currentFeatures;
+      const currentFeatures = getCurrentFeatures();
       const values = currentFeatures.map((feature) => feature.properties[currentMetric] || 0);
       const breaks = getBreaks(values);
-      focusedCoverageState = analysisContext.focusedCoverageState;
+      currentManzanaBreaks = breaks;
+      focusedCoverageState = hasFocusedPlatformSelection() ? null : focusedCoverageState;
       const focused = hasFocusedPlatformSelection();
       const enableHover = focused && currentFeatures.length <= 1500;
 
@@ -3689,6 +3750,10 @@
           const bounds = L.geoJSON(feature).getBounds();
           map.fitBounds(bounds, { padding: [18, 18], maxZoom: 15 });
         }
+      }
+
+      if (focused) {
+        scheduleFocusedCoverageRefresh();
       }
     }
 
