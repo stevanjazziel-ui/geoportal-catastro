@@ -1098,15 +1098,23 @@
       return Number(value || 0).toLocaleString("es-EC");
     }
 
-    function formatPercent(value, total) {
+    function getPercentValue(value, total) {
       if (!total) {
-        return "0%";
+        return 0;
       }
 
-      return `${((Number(value || 0) / Number(total || 0)) * 100).toLocaleString("es-EC", {
+      return (Number(value || 0) / Number(total || 0)) * 100;
+    }
+
+    function formatPercentValue(value) {
+      return `${Number(value || 0).toLocaleString("es-EC", {
         minimumFractionDigits: 1,
         maximumFractionDigits: 1
       })}%`;
+    }
+
+    function formatPercent(value, total) {
+      return formatPercentValue(getPercentValue(value, total));
     }
 
     function repairText(value) {
@@ -1358,6 +1366,18 @@
       }
     }
 
+    function featureIntersectsSelectedPlatform(feature, selectedPlatformFeature) {
+      if (!feature?.geometry || !selectedPlatformFeature?.geometry || typeof turf === "undefined") {
+        return false;
+      }
+
+      try {
+        return turf.booleanIntersects(feature, selectedPlatformFeature);
+      } catch (error) {
+        return false;
+      }
+    }
+
     function rebuildEquipamientoPlatformIndex() {
       equipamientoPlatformBySourceId = new Map();
 
@@ -1390,27 +1410,66 @@
       return equipamientoPlatformBySourceId.get(String(sourceKey).trim()) || "";
     }
 
+    function getIsoFeatureOriginPlatform(feature) {
+      return displayPlatformName(getIsoFeaturePlatformName(feature));
+    }
+
+    function getIsoOriginPlatformLabelFromProps(props = {}) {
+      return getIsoFeatureOriginPlatform({ properties: props }) || "Sin plataforma";
+    }
+
+    function summarizeIsochroneOrigins(features = []) {
+      const summary = {
+        internalFeatures: 0,
+        externalFeatures: 0,
+        internalSources: new Set(),
+        externalSources: new Set(),
+        externalPlatforms: new Set()
+      };
+
+      const currentPlatformLabel = displayPlatformName(currentPlatform);
+
+      (features || []).forEach((feature, index) => {
+        if (!feature?.properties) {
+          return;
+        }
+
+        const props = feature.properties || {};
+        const sourceKey =
+          [props.source_id, props.objectid, props.codigo, props.nombre]
+            .find((value) => value !== undefined && value !== null && String(value).trim()) || `iso_${index}`;
+        const originPlatform = getIsoFeatureOriginPlatform(feature);
+        const isInternal = hasFocusedPlatformSelection() && originPlatform === currentPlatformLabel;
+
+        if (isInternal) {
+          summary.internalFeatures += 1;
+          summary.internalSources.add(String(sourceKey));
+        } else {
+          summary.externalFeatures += 1;
+          summary.externalSources.add(String(sourceKey));
+          if (originPlatform) {
+            summary.externalPlatforms.add(originPlatform);
+          }
+        }
+      });
+
+      return summary;
+    }
+
     function getPlatformScopedIsocronasFeatures(features = []) {
+      const validFeatures = (features || []).filter((feature) => feature && feature.properties);
+
       if (!hasFocusedPlatformSelection()) {
-        return (features || []).filter(
-          (feature) => feature && feature.properties && matchesCurrentPlatform(getIsoFeaturePlatformName(feature))
-        );
+        return validFeatures.filter((feature) => matchesCurrentPlatform(getIsoFeaturePlatformName(feature)));
       }
 
       const selectedPlatformFeature = getSelectedPlatformFeature();
-      const visibleSourceKeys = new Set(
-        getPlatformScopedEquipamientosFeatures().flatMap((feature) => getFeatureSourceKeys(feature))
-      );
+      if (!selectedPlatformFeature) {
+        return [];
+      }
 
-      return (features || [])
-        .filter((feature) => {
-          if (!feature || !feature.properties) {
-            return false;
-          }
-
-          const featureSourceKeys = getFeatureSourceKeys(feature);
-          return featureSourceKeys.length > 0 && featureSourceKeys.some((key) => visibleSourceKeys.has(key));
-        })
+      return validFeatures
+        .filter((feature) => featureIntersectsSelectedPlatform(feature, selectedPlatformFeature))
         .map((feature) => clipFeatureToSelectedPlatform(feature, selectedPlatformFeature))
         .filter(Boolean);
     }
@@ -1465,6 +1524,7 @@
         let barrialCount = 0;
         let zonalCount = 0;
         let adjustedBlocks = 0;
+        const originSummary = summarizeIsochroneOrigins(scopedFeatures);
 
         for (const feature of scopedFeatures) {
           const props = feature.properties || {};
@@ -1481,8 +1541,11 @@
 
         rows = [
           ["Plataforma visible", currentPlatform === OUTSIDE_PLATFORMS ? "Fuera de plataformas" : displayPlatformName(currentPlatform)],
-          ["Equipamientos fuente", uniqueSources.size],
-          ["Isocronas visibles", scopedFeatures.length],
+          ["Origenes que la cubren", uniqueSources.size],
+          ["Isocronas que intersectan", scopedFeatures.length],
+          ["Origenes en la plataforma", originSummary.internalSources.size],
+          ["Origenes desde otras plataformas", originSummary.externalSources.size],
+          ["Plataformas que influyen", originSummary.externalPlatforms.size],
           ["Barrial 1000 m", barrialCount],
           ["Zonal 1000 m", zonalCount],
           ["Manzanas ajustadas", adjustedBlocks],
@@ -1522,6 +1585,14 @@
     }
 
     function getVisibleThematicIsoGroups() {
+      return getThematicIsoGroups(false);
+    }
+
+    function getAllThematicIsoGroups() {
+      return getThematicIsoGroups(true);
+    }
+
+    function getThematicIsoGroups(includeHidden = false) {
       const groups = [
         {
           key: "bienestar",
@@ -1556,7 +1627,7 @@
       ];
 
       return groups
-        .filter((group) => group.visible)
+        .filter((group) => includeHidden || group.visible)
         .map((group) => ({
           ...group,
           features: (group.features || []).filter((feature) => feature && feature.geometry && feature.properties)
@@ -1745,6 +1816,7 @@
     }
 
     function buildCoverageStateForIsochrones(features = [], isochrones = []) {
+      const originSummary = summarizeIsochroneOrigins(isochrones);
       const state = {
         total: features.length,
         covered: 0,
@@ -1753,7 +1825,12 @@
         populationCovered: 0,
         populationUncovered: 0,
         breakdownCovered: createEmptyPopulationBreakdown(),
-        breakdownUncovered: createEmptyPopulationBreakdown()
+        breakdownUncovered: createEmptyPopulationBreakdown(),
+        internalIsochrones: originSummary.internalFeatures,
+        externalIsochrones: originSummary.externalFeatures,
+        internalSources: originSummary.internalSources.size,
+        externalSources: originSummary.externalSources.size,
+        externalPlatforms: originSummary.externalPlatforms.size
       };
 
       if (typeof turf === "undefined") {
@@ -2795,8 +2872,20 @@
       const state = focusedCoverageState || buildFocusedCoverageState(getCurrentFeatures());
       const currentFeatures = getCurrentFeatures();
       const visibleGroups = getVisibleThematicIsoGroups();
+      const allGroups = getAllThematicIsoGroups();
       const platformLabel = displayPlatformName(currentPlatform);
       const totalPopulation = Number(state.populationTotal || 0);
+      const allGroupStates = allGroups.map((group) => ({
+        ...group,
+        state: buildCoverageStateForIsochrones(currentFeatures, group.features)
+      }));
+      const averageCoveragePercent = allGroupStates.length
+        ? allGroupStates.reduce(
+          (total, group) => total + getPercentValue(group.state.populationCovered || 0, totalPopulation),
+          0
+        ) / allGroupStates.length
+        : 0;
+      const categoriesWithCoverage = allGroupStates.filter((group) => Number(group.state.populationCovered || 0) > 0).length;
       const cards = [
         {
           key: "platform_total",
@@ -2811,12 +2900,26 @@
           value: `${formatNumber(state.populationCovered || 0)} hab`,
           meta: `${formatPercent(state.populationCovered || 0, totalPopulation)} del total`,
           wide: true
+        },
+        {
+          key: "platform_average_coverage",
+          label: "Promedio 5 categorias",
+          value: formatPercentValue(averageCoveragePercent),
+          meta: `${formatNumber(categoriesWithCoverage)} de 5 categorias cubren esta plataforma`,
+          wide: true
         }
       ];
 
       for (const group of visibleGroups) {
         const groupState = buildCoverageStateForIsochrones(currentFeatures, group.features);
         const hasCoverage = (group.features.length > 0) && (groupState.covered > 0 || groupState.populationCovered > 0);
+        const sourceMeta = groupState.externalSources > 0
+          ? (
+            groupState.internalSources > 0
+              ? `${formatNumber(groupState.externalSources)} origenes externos`
+              : `${formatNumber(groupState.externalSources)} origenes desde otras plataformas`
+          )
+          : `${formatNumber(groupState.internalSources)} origenes internos`;
         cards.push({
           key: `coverage_${group.key}`,
           label: group.label,
@@ -2825,9 +2928,10 @@
             ? (
               `${formatPercent(groupState.populationCovered || 0, totalPopulation)} | ` +
               `${formatNumber(groupState.covered || 0)} manzanas | ` +
-              `${formatNumber(group.features.length)} isocronas`
+              `${formatNumber(group.features.length)} isocronas | ` +
+              sourceMeta
             )
-            : "No cubre esta plataforma | 0 manzanas | 0 isocronas",
+            : `No cubre esta plataforma | 0 manzanas | 0 isocronas | ${sourceMeta}`,
           expandable: true,
           breakdown: groupState.breakdownCovered || createEmptyPopulationBreakdown()
         });
@@ -2846,7 +2950,7 @@
       }
 
       focusedAnalysisTitle.textContent = `Analisis de cobertura ${platformLabel}`;
-      focusedAnalysisSubtitle.textContent = "Poblacion calculada desde manzanas censales de la plataforma seleccionada y desglosada por cada isocrona categorizada visible.";
+      focusedAnalysisSubtitle.textContent = "Poblacion calculada desde manzanas censales de la plataforma seleccionada. La cobertura incluye isocronas propias y tambien las que llegan desde otras plataformas.";
       focusedAnalysisGrid.innerHTML = cards
         .map((card) => {
           const expanded = card.expandable && card.key === focusedAnalysisExpandedKey;
@@ -4509,6 +4613,7 @@
             layer.bindPopup(`
               <strong>${props.nombre || "Equipamiento educativo"}</strong><br>
               <strong>Categoria:</strong> ${categoriaTexto}<br>
+              <strong>Plataforma origen:</strong> ${getIsoOriginPlatformLabelFromProps(props)}<br>
               <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
               <strong>Codigo:</strong> ${props.codigo || "Sin codigo"}<br>
               <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
@@ -4522,7 +4627,7 @@
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocronas educacion categorizada";
-              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
+              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes desde ${getIsoOriginPlatformLabelFromProps(props)}.`;
             });
           }
         }
@@ -4569,6 +4674,7 @@
             layer.bindPopup(`
               <strong>${props.nombre || "Equipamiento recreativo"}</strong><br>
               <strong>Categoria:</strong> ${categoriaTexto}<br>
+              <strong>Plataforma origen:</strong> ${getIsoOriginPlatformLabelFromProps(props)}<br>
               <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
               <strong>Codigo:</strong> ${props.codigo || "Sin codigo"}<br>
               <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
@@ -4582,7 +4688,7 @@
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocronas recreacion y deporte";
-              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
+              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes desde ${getIsoOriginPlatformLabelFromProps(props)}.`;
             });
           }
         }
@@ -4629,6 +4735,7 @@
             layer.bindPopup(`
               <strong>${props.nombre || "Equipamiento de bienestar social"}</strong><br>
               <strong>Categoria:</strong> ${categoriaTexto}<br>
+              <strong>Plataforma origen:</strong> ${getIsoOriginPlatformLabelFromProps(props)}<br>
               <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
               <strong>Codigo:</strong> ${props.codigo || "Sin codigo"}<br>
               <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
@@ -4642,7 +4749,7 @@
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocronas bienestar social";
-              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
+              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes desde ${getIsoOriginPlatformLabelFromProps(props)}.`;
             });
           }
         }
@@ -4689,6 +4796,7 @@
             layer.bindPopup(`
               <strong>${props.nombre || "Equipamiento cultural"}</strong><br>
               <strong>Categoria:</strong> ${categoriaTexto}<br>
+              <strong>Plataforma origen:</strong> ${getIsoOriginPlatformLabelFromProps(props)}<br>
               <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
               <strong>Codigo:</strong> ${props.codigo || "Sin codigo"}<br>
               <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
@@ -4702,7 +4810,7 @@
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocronas cultura categorizada";
-              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
+              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes desde ${getIsoOriginPlatformLabelFromProps(props)}.`;
             });
           }
         }
@@ -4749,6 +4857,7 @@
             layer.bindPopup(`
               <strong>${props.nombre || "Equipamiento de salud"}</strong><br>
               <strong>Categoria:</strong> ${categoriaTexto}<br>
+              <strong>Plataforma origen:</strong> ${getIsoOriginPlatformLabelFromProps(props)}<br>
               <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
               <strong>Codigo:</strong> ${props.codigo || "Sin codigo"}<br>
               <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
@@ -4762,7 +4871,7 @@
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocronas salud categorizada";
-              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
+              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes desde ${getIsoOriginPlatformLabelFromProps(props)}.`;
             });
           }
         }
