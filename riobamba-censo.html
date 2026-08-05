@@ -2852,20 +2852,21 @@
         const fillColor = coverage.thematicColor || focusedCoverageColors.uncovered;
 
         return {
-          color: coverage.covered ? fillColor : "rgba(255,255,255,0.18)",
-          opacity: coverage.covered ? 0.7 : 0.2,
-          weight: coverage.covered ? 0.75 : 0.35,
+          color: coverage.covered ? "rgba(255,255,255,0.92)" : "rgba(160,176,192,0.68)",
+          opacity: coverage.covered ? 0.96 : 0.6,
+          weight: coverage.covered ? 1.15 : 0.65,
           fillColor,
-          fillOpacity: coverage.covered ? 0.2 : 0.04
+          fillOpacity: coverage.covered ? 0.22 : 0.035
         };
       }
 
       const value = feature.properties[currentMetric];
       return {
-        color: "#d7ecff",
-        weight: 0.5,
+        color: "rgba(255,255,255,0.88)",
+        opacity: 0.92,
+        weight: 1.05,
         fillColor: getColor(value, breaks),
-        fillOpacity: 0.74
+        fillOpacity: 0.76
       };
     }
 
@@ -3151,7 +3152,7 @@
             `);
 
             layer.on("mouseover", () => {
-              layer.setStyle({ weight: 1.4, color: "#ffffff" });
+              layer.setStyle({ weight: 1.9, color: "#223142", opacity: 1 });
             });
             layer.on("mouseout", () => {
               manzanaLayer.resetStyle(layer);
