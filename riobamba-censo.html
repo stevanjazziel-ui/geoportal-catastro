@@ -847,6 +847,8 @@
     let pendingPlatformRender = null;
     let platformRenderFrameId = 0;
     let platformUiRefreshFrameId = 0;
+    let secondaryRenderFrameId = 0;
+    let secondaryRenderToken = 0;
     const exteriorBoundaryCache = new WeakMap();
     const featureBBoxCache = new WeakMap();
     const layerVisibility = {
@@ -1278,7 +1280,6 @@
       }
 
       currentPlatform = nextPlatform;
-      resetPlatformDerivedCaches();
       if (platformSelect.value !== nextPlatform) {
         platformSelect.value = nextPlatform;
       }
@@ -1330,6 +1331,103 @@
         updateSelectionStatusText();
         updateFocusedAnalysisCard();
       });
+    }
+
+    function removeLayerIfPresent(layer) {
+      if (layer && map && map.hasLayer(layer)) {
+        map.removeLayer(layer);
+      }
+    }
+
+    function clearSecondaryRenderedLayers() {
+      removeLayerIfPresent(equipamientosLayer);
+      equipamientosLayer = null;
+
+      removeLayerIfPresent(window.educacionIsocronasLayer);
+      window.educacionIsocronasLayer = null;
+      removeLayerIfPresent(window.educacionIsocronasStartLayer);
+      window.educacionIsocronasStartLayer = null;
+
+      removeLayerIfPresent(window.recreacionIsocronasLayer);
+      window.recreacionIsocronasLayer = null;
+      removeLayerIfPresent(window.recreacionIsocronasStartLayer);
+      window.recreacionIsocronasStartLayer = null;
+
+      removeLayerIfPresent(window.bienestarIsocronasLayer);
+      window.bienestarIsocronasLayer = null;
+      removeLayerIfPresent(window.bienestarIsocronasStartLayer);
+      window.bienestarIsocronasStartLayer = null;
+
+      removeLayerIfPresent(window.culturaIsocronasLayer);
+      window.culturaIsocronasLayer = null;
+      removeLayerIfPresent(window.culturaIsocronasStartLayer);
+      window.culturaIsocronasStartLayer = null;
+
+      removeLayerIfPresent(window.saludIsocronasLayer);
+      window.saludIsocronasLayer = null;
+      removeLayerIfPresent(window.saludIsocronasStartLayer);
+      window.saludIsocronasStartLayer = null;
+    }
+
+    function scheduleSecondaryLayerRefresh() {
+      secondaryRenderToken += 1;
+      const token = secondaryRenderToken;
+
+      if (secondaryRenderFrameId) {
+        window.cancelAnimationFrame(secondaryRenderFrameId);
+        secondaryRenderFrameId = 0;
+      }
+
+      if (platformUiRefreshFrameId) {
+        window.cancelAnimationFrame(platformUiRefreshFrameId);
+        platformUiRefreshFrameId = 0;
+      }
+
+      clearSecondaryRenderedLayers();
+
+      const queue = [
+        renderEquipamientosLayer,
+        renderEducacionIsocronasLayer,
+        renderEducacionIsocronasStartLayer,
+        renderRecreacionIsocronasLayer,
+        renderRecreacionIsocronasStartLayer,
+        renderBienestarIsocronasLayer,
+        renderBienestarIsocronasStartLayer,
+        renderCulturaIsocronasLayer,
+        renderCulturaIsocronasStartLayer,
+        renderSaludIsocronasLayer,
+        renderSaludIsocronasStartLayer
+      ];
+
+      const runNext = () => {
+        if (token !== secondaryRenderToken) {
+          return;
+        }
+
+        const nextRender = queue.shift();
+        if (!nextRender) {
+          secondaryRenderFrameId = 0;
+          schedulePlatformUiRefresh();
+          return;
+        }
+
+        nextRender();
+        secondaryRenderFrameId = window.requestAnimationFrame(runNext);
+      };
+
+      secondaryRenderFrameId = window.requestAnimationFrame(runNext);
+    }
+
+    function refreshAfterThematicVisibilityChange(renderLayerFn) {
+      if (hasFocusedPlatformSelection()) {
+        renderManzanaLayer(false);
+      }
+
+      if (typeof renderLayerFn === "function") {
+        renderLayerFn();
+      }
+
+      schedulePlatformUiRefresh();
     }
 
     function matchesCurrentPlatform(platformName) {
@@ -3305,6 +3403,11 @@
         map.removeLayer(equipamientosLayer);
       }
 
+      if (!layerVisibility.equipamientos) {
+        equipamientosLayer = null;
+        return;
+      }
+
       if (!map.getPane("equipamientosPane")) {
         map.createPane("equipamientosPane");
         map.getPane("equipamientosPane").style.zIndex = 760;
@@ -3328,16 +3431,6 @@
             const props = feature.properties;
             const equipamien = getEquipamientoCategory(props);
             const nombre = repairText(props.nombre_equ || props.nombre_ins || props.elemento || "Punto publico");
-            layer.bindPopup(`
-              <strong>${nombre}</strong><br>
-              <strong>Tipo principal:</strong> ${equipamien}<br>
-              <strong>Elemento:</strong> ${repairText(props.elemento || "-")}<br>
-              <strong>Plataforma:</strong> ${displayPlatformName(props.platform_name) || "Sin plataforma"}<br>
-              <strong>Parroquia:</strong> ${repairText(props.parroquia || "-")}<br>
-              <strong>Estado:</strong> ${repairText(props.estado || "-")}<br>
-              <strong>Tipologia:</strong> ${repairText(props.tipologia || "-")}<br>
-              <strong>Gestion:</strong> ${repairText(props.tipo_equip || "-")}
-            `);
 
             layer.on("mouseover", () => {
               const color = getEquipamientoColor(equipamien);
@@ -3348,6 +3441,21 @@
               layer.setStyle(buildPublicPointStyle(color, { radius: 6 }));
             });
             layer.on("click", () => {
+              if (typeof layer.getPopup === "function" && !layer.getPopup()) {
+                layer.bindPopup(`
+                  <strong>${nombre}</strong><br>
+                  <strong>Tipo principal:</strong> ${equipamien}<br>
+                  <strong>Elemento:</strong> ${repairText(props.elemento || "-")}<br>
+                  <strong>Plataforma:</strong> ${displayPlatformName(props.platform_name) || "Sin plataforma"}<br>
+                  <strong>Parroquia:</strong> ${repairText(props.parroquia || "-")}<br>
+                  <strong>Estado:</strong> ${repairText(props.estado || "-")}<br>
+                  <strong>Tipologia:</strong> ${repairText(props.tipologia || "-")}<br>
+                  <strong>Gestion:</strong> ${repairText(props.tipo_equip || "-")}
+                `);
+              }
+              if (typeof layer.openPopup === "function") {
+                layer.openPopup();
+              }
               overlayTitle.textContent = nombre;
               overlayText.textContent = `${equipamien} | ${displayPlatformName(props.platform_name) || "Sin plataforma"} | ${props.estado || "Sin estado"}`;
             });
@@ -3622,18 +3730,7 @@
     function renderAll(zoomToSelection = false) {
       renderPlatformLayer();
       renderManzanaLayer(zoomToSelection);
-      renderEquipamientosLayer();
-      renderEducacionIsocronasLayer();
-      renderEducacionIsocronasStartLayer();
-      renderRecreacionIsocronasLayer();
-      renderRecreacionIsocronasStartLayer();
-      renderBienestarIsocronasLayer();
-      renderBienestarIsocronasStartLayer();
-      renderCulturaIsocronasLayer();
-      renderCulturaIsocronasStartLayer();
-      renderSaludIsocronasLayer();
-      renderSaludIsocronasStartLayer();
-      schedulePlatformUiRefresh();
+      scheduleSecondaryLayerRefresh();
     }
 
     async function init() {
@@ -4806,6 +4903,14 @@
     }
 
     function renderParadasBusIsocronasStartLayer() {
+      if (!layerVisibility.paradasBusPuntos) {
+        if (window.paradasBusIsocronasStartLayer) {
+          map.removeLayer(window.paradasBusIsocronasStartLayer);
+          window.paradasBusIsocronasStartLayer = null;
+        }
+        return;
+      }
+
       if (window.paradasBusIsocronasStartLayer) {
         map.removeLayer(window.paradasBusIsocronasStartLayer);
       }
@@ -4854,6 +4959,11 @@
     function renderEducacionIsocronasLayer() {
       if (window.educacionIsocronasLayer) {
         map.removeLayer(window.educacionIsocronasLayer);
+      }
+
+      if (!layerVisibility.educacionIsocronas) {
+        window.educacionIsocronasLayer = null;
+        return;
       }
 
       const features = getPlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || [], "educacion")
@@ -4918,6 +5028,11 @@
         map.removeLayer(window.recreacionIsocronasLayer);
       }
 
+      if (!layerVisibility.recreacionIsocronas) {
+        window.recreacionIsocronasLayer = null;
+        return;
+      }
+
       const features = getPlatformScopedIsocronasFeatures(window.recreacionIsocronasFeatures || [], "recreacion")
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
@@ -4978,6 +5093,11 @@
     function renderBienestarIsocronasLayer() {
       if (window.bienestarIsocronasLayer) {
         map.removeLayer(window.bienestarIsocronasLayer);
+      }
+
+      if (!layerVisibility.bienestarIsocronas) {
+        window.bienestarIsocronasLayer = null;
+        return;
       }
 
       const features = getPlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || [], "bienestar")
@@ -5042,6 +5162,11 @@
         map.removeLayer(window.culturaIsocronasLayer);
       }
 
+      if (!layerVisibility.culturaIsocronas) {
+        window.culturaIsocronasLayer = null;
+        return;
+      }
+
       const features = getPlatformScopedIsocronasFeatures(window.culturaIsocronasFeatures || [], "cultura")
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
@@ -5104,6 +5229,11 @@
         map.removeLayer(window.saludIsocronasLayer);
       }
 
+      if (!layerVisibility.saludIsocronas) {
+        window.saludIsocronasLayer = null;
+        return;
+      }
+
       const features = getPlatformScopedIsocronasFeatures(window.saludIsocronasFeatures || [], "salud")
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
@@ -5164,6 +5294,11 @@
     function renderParadasBusIsocronasLayer() {
       if (window.paradasBusIsocronasLayer) {
         map.removeLayer(window.paradasBusIsocronasLayer);
+      }
+
+      if (!layerVisibility.paradasBusIsocronas) {
+        window.paradasBusIsocronasLayer = null;
+        return;
       }
 
       const features = (window.paradasBusIsocronasFeatures || [])
@@ -6279,12 +6414,14 @@
     selectAllCategoriesButton.addEventListener("click", () => {
       ensureEquipamientoCategoriesInitialized();
       selectedEquipamientoCategories = new Set(allEquipamientoCategories);
-      renderAll(false);
+      renderEquipamientosLayer();
+      schedulePlatformUiRefresh();
     });
 
     clearCategoriesButton.addEventListener("click", () => {
       selectedEquipamientoCategories = new Set();
-      renderAll(false);
+      renderEquipamientosLayer();
+      schedulePlatformUiRefresh();
     });
 
     equipamientoCategoryFilters.addEventListener("change", (event) => {
@@ -6300,12 +6437,15 @@
         selectedEquipamientoCategories.delete(category);
       }
 
-      renderAll(false);
+      renderEquipamientosLayer();
+      schedulePlatformUiRefresh();
     });
 
     metricSelect.addEventListener("change", () => {
       currentMetric = metricSelect.value;
-      renderAll(false);
+      renderPlatformLayer();
+      renderManzanaLayer(false);
+      schedulePlatformUiRefresh();
     });
 
     downloadFormatSelect.addEventListener("change", () => {
@@ -6355,7 +6495,8 @@
 
     toggleEquipamientos.addEventListener("change", () => {
       layerVisibility.equipamientos = toggleEquipamientos.checked;
-      syncVisibleLayers();
+      renderEquipamientosLayer();
+      schedulePlatformUiRefresh();
     });
 
     toggleIsocronasColindantes.addEventListener("change", () => {
@@ -6395,62 +6536,62 @@
 
     toggleEducacionIsocronas.addEventListener("change", () => {
       layerVisibility.educacionIsocronas = toggleEducacionIsocronas.checked;
-      renderAll(false);
+      refreshAfterThematicVisibilityChange(renderEducacionIsocronasLayer);
     });
 
     toggleEducacionIsocronasPuntos.addEventListener("change", () => {
       layerVisibility.educacionIsocronasPuntos = toggleEducacionIsocronasPuntos.checked;
-      syncVisibleLayers();
+      renderEducacionIsocronasStartLayer();
     });
 
     toggleRecreacionIsocronas.addEventListener("change", () => {
       layerVisibility.recreacionIsocronas = toggleRecreacionIsocronas.checked;
-      renderAll(false);
+      refreshAfterThematicVisibilityChange(renderRecreacionIsocronasLayer);
     });
 
     toggleRecreacionIsocronasPuntos.addEventListener("change", () => {
       layerVisibility.recreacionIsocronasPuntos = toggleRecreacionIsocronasPuntos.checked;
-      syncVisibleLayers();
+      renderRecreacionIsocronasStartLayer();
     });
 
     toggleBienestarIsocronas.addEventListener("change", () => {
       layerVisibility.bienestarIsocronas = toggleBienestarIsocronas.checked;
-      renderAll(false);
+      refreshAfterThematicVisibilityChange(renderBienestarIsocronasLayer);
     });
 
     toggleBienestarIsocronasPuntos.addEventListener("change", () => {
       layerVisibility.bienestarIsocronasPuntos = toggleBienestarIsocronasPuntos.checked;
-      syncVisibleLayers();
+      renderBienestarIsocronasStartLayer();
     });
 
     toggleCulturaIsocronas.addEventListener("change", () => {
       layerVisibility.culturaIsocronas = toggleCulturaIsocronas.checked;
-      renderAll(false);
+      refreshAfterThematicVisibilityChange(renderCulturaIsocronasLayer);
     });
 
     toggleCulturaIsocronasPuntos.addEventListener("change", () => {
       layerVisibility.culturaIsocronasPuntos = toggleCulturaIsocronasPuntos.checked;
-      syncVisibleLayers();
+      renderCulturaIsocronasStartLayer();
     });
 
     toggleSaludIsocronas.addEventListener("change", () => {
       layerVisibility.saludIsocronas = toggleSaludIsocronas.checked;
-      renderAll(false);
+      refreshAfterThematicVisibilityChange(renderSaludIsocronasLayer);
     });
 
     toggleSaludIsocronasPuntos.addEventListener("change", () => {
       layerVisibility.saludIsocronasPuntos = toggleSaludIsocronasPuntos.checked;
-      syncVisibleLayers();
+      renderSaludIsocronasStartLayer();
     });
 
     toggleParadasBusIsocronas.addEventListener("change", () => {
       layerVisibility.paradasBusIsocronas = toggleParadasBusIsocronas.checked;
-      syncVisibleLayers();
+      renderParadasBusIsocronasLayer();
     });
 
     toggleParadasBusPuntos.addEventListener("change", () => {
       layerVisibility.paradasBusPuntos = toggleParadasBusPuntos.checked;
-      syncVisibleLayers();
+      renderParadasBusIsocronasStartLayer();
     });
 
     init();
