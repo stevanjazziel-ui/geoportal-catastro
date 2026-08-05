@@ -214,12 +214,54 @@
       flex: 0 0 auto;
     }
 
-    #map { width: 100%; height: 100%; }
-
     .map-wrap {
       position: relative;
       height: 100%;
       overflow: hidden;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.52), transparent 24%),
+        radial-gradient(circle at 82% 78%, rgba(216, 211, 201, 0.34), transparent 28%),
+        linear-gradient(180deg, #f5f2eb, #ece7de);
+    }
+
+    .map-wrap::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.34), transparent 18%),
+        radial-gradient(circle at 88% 74%, rgba(223, 218, 209, 0.32), transparent 24%),
+        repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0 2px, transparent 2px 9px);
+      opacity: 0.7;
+      mix-blend-mode: multiply;
+    }
+
+    #map,
+    .leaflet-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+    }
+
+    .leaflet-container.diagnostic-map {
+      background: linear-gradient(180deg, #f6f3ed, #ece7de);
+    }
+
+    .leaflet-container.diagnostic-map .leaflet-tile-pane {
+      opacity: 0.78;
+    }
+
+    .leaflet-container.imagery-map .leaflet-tile-pane {
+      opacity: 1;
+    }
+
+    .diagnostic-base-tiles {
+      filter: grayscale(0.55) saturate(0.38) brightness(1.08) contrast(0.78);
     }
 
     .overlay {
@@ -684,10 +726,35 @@
 
     const map = L.map("map", { zoomSnap: 0.5 }).setView([-1.67, -78.65], 12.5);
 
+    const diagnosticBase = L.tileLayer(
+      "https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png",
+      {
+        attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
+        subdomains: "abcd",
+        maxNativeZoom: 20,
+        maxZoom: 20,
+        className: "diagnostic-base-tiles"
+      }
+    ).addTo(map);
+
     const esriBase = L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       { attribution: "Tiles &copy; Esri", maxNativeZoom: 18, maxZoom: 20 }
-    ).addTo(map);
+    );
+
+    const baseLayerOptions = {
+      "Base diagnostico": diagnosticBase,
+      "Esri satelital": esriBase
+    };
+
+    function updateMapBaseTheme() {
+      const container = map.getContainer();
+      container.classList.toggle("diagnostic-map", map.hasLayer(diagnosticBase));
+      container.classList.toggle("imagery-map", map.hasLayer(esriBase));
+    }
+
+    map.on("baselayerchange", updateMapBaseTheme);
+    updateMapBaseTheme();
 
     let manzanaLayer = null;
     let platformLayer = null;
@@ -3274,7 +3341,7 @@
         }
 
         layerControl = L.control.layers(
-          { "Esri satelital": esriBase },
+          baseLayerOptions,
           {},
           { position: "topright", collapsed: true }
         ).addTo(map);
@@ -3513,7 +3580,7 @@
         }
 
         layerControl = L.control.layers(
-          { "Esri satelital": esriBase },
+          baseLayerOptions,
           {},
           { position: "topright", collapsed: true }
         ).addTo(map);
@@ -5247,7 +5314,7 @@
         }
 
         layerControl = L.control.layers(
-          { "Esri satelital": esriBase },
+          baseLayerOptions,
           {},
           { position: "topright", collapsed: true }
         ).addTo(map);
