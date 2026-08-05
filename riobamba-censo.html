@@ -769,7 +769,8 @@
     const PARADAS_BUS_ISOCHRONE_SHP_KEY = "isocronas_paradas_bus_400m";
     const PARADAS_BUS_START_POINTS_SHP_KEY = "puntos_inicio_isocronas_paradas_bus";
 
-    const map = L.map("map", { zoomSnap: 0.5 }).setView([-1.67, -78.65], 12.5);
+    const map = L.map("map", { zoomSnap: 0.5, preferCanvas: true }).setView([-1.67, -78.65], 12.5);
+    const canvasRenderer = L.canvas({ padding: 0.5 });
 
     const osmBase = L.tileLayer(
       "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -839,6 +840,7 @@
     let lastPlatformSelectValue = ALL_PLATFORMS;
     let duplicateCleanupSummary = null;
     let scopedIsochroneCache = new Map();
+    const exteriorBoundaryCache = new WeakMap();
     const layerVisibility = {
       manzanas: true,
       plataformas: true,
@@ -1996,9 +1998,13 @@
         return null;
       }
 
+      if (exteriorBoundaryCache.has(feature)) {
+        return exteriorBoundaryCache.get(feature);
+      }
+
       const geometry = feature.geometry;
       if (geometry.type === "Polygon") {
-        return {
+        const result = {
           type: "Feature",
           properties: feature.properties,
           geometry: {
@@ -2006,10 +2012,12 @@
             coordinates: [geometry.coordinates[0] || []]
           }
         };
+        exteriorBoundaryCache.set(feature, result);
+        return result;
       }
 
       if (geometry.type === "MultiPolygon") {
-        return {
+        const result = {
           type: "Feature",
           properties: feature.properties,
           geometry: {
@@ -2019,8 +2027,11 @@
               .filter((polygon) => polygon.length)
           }
         };
+        exteriorBoundaryCache.set(feature, result);
+        return result;
       }
 
+      exteriorBoundaryCache.set(feature, feature);
       return feature;
     }
 
@@ -3060,20 +3071,20 @@
         { type: "FeatureCollection", features: visiblePlatformFeatures },
         {
           pane: "platformPane",
+          renderer: canvasRenderer,
           style: platformStyle,
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
-            layer.bindPopup(`
-              <strong>${props.platform_name}</strong><br>
-              <strong>Manzanas:</strong> ${formatNumber(props.manzanas)}<br>
-              <strong>Poblacion:</strong> ${formatNumber(props.population_total)}<br>
-              <strong>Hombres:</strong> ${formatNumber(props.male)}<br>
-              <strong>Mujeres:</strong> ${formatNumber(props.female)}<br>
-              <strong>Area:</strong> ${Number(props.area || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })}<br>
-              <strong>${metricLabels[currentMetric]}:</strong> ${formatNumber(props[currentMetric])}
-            `);
-
             layer.on("click", () => {
+              layer.bindPopup(`
+                <strong>${props.platform_name}</strong><br>
+                <strong>Manzanas:</strong> ${formatNumber(props.manzanas)}<br>
+                <strong>Poblacion:</strong> ${formatNumber(props.population_total)}<br>
+                <strong>Hombres:</strong> ${formatNumber(props.male)}<br>
+                <strong>Mujeres:</strong> ${formatNumber(props.female)}<br>
+                <strong>Area:</strong> ${Number(props.area || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })}<br>
+                <strong>${metricLabels[currentMetric]}:</strong> ${formatNumber(props[currentMetric])}
+              `);
               applyPlatformSelection(props.platform_name, true);
             });
           }
@@ -3307,6 +3318,8 @@
       const values = currentFeatures.map((feature) => feature.properties[currentMetric] || 0);
       const breaks = getBreaks(values);
       focusedCoverageState = buildFocusedCoverageState(currentFeatures);
+      const focused = hasFocusedPlatformSelection();
+      const enableHover = focused && currentFeatures.length <= 1500;
 
       if (manzanaLayer) {
         map.removeLayer(manzanaLayer);
@@ -3315,39 +3328,43 @@
       manzanaLayer = L.geoJSON(
         { type: "FeatureCollection", features: currentFeatures },
         {
+          renderer: canvasRenderer,
           style: (feature) => manzanaStyle(feature, breaks),
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
             const platformName = props.platform_name || "Fuera de plataformas";
 
-            layer.bindPopup(`
-              <strong>Manzana:</strong> ${props.man}<br>
-              <strong>Plataforma:</strong> ${platformName}<br>
-              <strong>Poblacion:</strong> ${formatNumber(props.population_total)}<br>
-              <strong>Hombres:</strong> ${formatNumber(props.male)}<br>
-              <strong>Mujeres:</strong> ${formatNumber(props.female)}<br>
-              <strong>0-4:</strong> ${formatNumber(props.age_0_4)}<br>
-              <strong>5-11:</strong> ${formatNumber(props.age_5_11)}<br>
-              <strong>12-17:</strong> ${formatNumber(props.age_12_17)}<br>
-              <strong>18-29:</strong> ${formatNumber(props.age_18_29)}<br>
-              <strong>30-64:</strong> ${formatNumber(props.age_30_64)}<br>
-              <strong>Mayores a 65:</strong> ${formatNumber(props.age_65_plus)}
-            `);
+            if (enableHover) {
+              layer.on("mouseover", () => {
+                layer.setStyle({ weight: 1.9, color: "#223142", opacity: 1 });
+              });
+              layer.on("mouseout", () => {
+                manzanaLayer.resetStyle(layer);
+              });
+            }
 
-            layer.on("mouseover", () => {
-              layer.setStyle({ weight: 1.9, color: "#223142", opacity: 1 });
-            });
-            layer.on("mouseout", () => {
-              manzanaLayer.resetStyle(layer);
-            });
             layer.on("click", () => {
               const coverage = focusedCoverageState?.map?.get(getFocusedCoverageKey(feature, -1));
               const coverageLabel = coverage?.covered
                 ? `${coverage.dominantGroupLabel || "Cobertura visible"}${coverage.dominantCategoria ? ` ${coverage.dominantCategoria === "BARRIAL" ? "barrial" : "zonal"}` : ""}`
                 : "Sin cobertura";
 
+              layer.bindPopup(`
+                <strong>Manzana:</strong> ${props.man}<br>
+                <strong>Plataforma:</strong> ${platformName}<br>
+                <strong>Poblacion:</strong> ${formatNumber(props.population_total)}<br>
+                <strong>Hombres:</strong> ${formatNumber(props.male)}<br>
+                <strong>Mujeres:</strong> ${formatNumber(props.female)}<br>
+                <strong>0-4:</strong> ${formatNumber(props.age_0_4)}<br>
+                <strong>5-11:</strong> ${formatNumber(props.age_5_11)}<br>
+                <strong>12-17:</strong> ${formatNumber(props.age_12_17)}<br>
+                <strong>18-29:</strong> ${formatNumber(props.age_18_29)}<br>
+                <strong>30-64:</strong> ${formatNumber(props.age_30_64)}<br>
+                <strong>Mayores a 65:</strong> ${formatNumber(props.age_65_plus)}
+              `).openPopup();
+
               overlayTitle.textContent = `Manzana ${props.man}`;
-              overlayText.textContent = hasFocusedPlatformSelection()
+              overlayText.textContent = focused
                 ? `${platformName} | Cobertura visible: ${coverageLabel} | Isocronas que la cubren: ${formatNumber(coverage?.hitCount || 0)}`
                 : `${platformName} | ${metricLabels[currentMetric]}: ${formatNumber(props[currentMetric])}`;
             });
@@ -4667,6 +4684,7 @@
         { type: "FeatureCollection", features },
         {
           pane: "educacionIsocronasPane",
+          renderer: canvasRenderer,
           style: (feature) => {
             const baseStyle = getEducacionIsoStyle(feature);
             return {
@@ -4728,6 +4746,7 @@
         { type: "FeatureCollection", features },
         {
           pane: "recreacionIsocronasPane",
+          renderer: canvasRenderer,
           style: (feature) => {
             const baseStyle = getRecreacionIsoStyle(feature);
             return {
@@ -4789,6 +4808,7 @@
         { type: "FeatureCollection", features },
         {
           pane: "bienestarIsocronasPane",
+          renderer: canvasRenderer,
           style: (feature) => {
             const baseStyle = getBienestarIsoStyle(feature);
             return {
@@ -4850,6 +4870,7 @@
         { type: "FeatureCollection", features },
         {
           pane: "culturaIsocronasPane",
+          renderer: canvasRenderer,
           style: (feature) => {
             const baseStyle = getCulturaIsoStyle(feature);
             return {
@@ -4911,6 +4932,7 @@
         { type: "FeatureCollection", features },
         {
           pane: "saludIsocronasPane",
+          renderer: canvasRenderer,
           style: (feature) => {
             const baseStyle = getSaludIsoStyle(feature);
             return {
@@ -6148,13 +6170,6 @@
       focusedAnalysisExpandedKey = focusedAnalysisExpandedKey === nextKey ? null : nextKey;
       updateFocusedAnalysisCard();
     });
-
-    window.setInterval(() => {
-      if (!platformSelect || !platformSelect.options.length) {
-        return;
-      }
-      syncPlatformSelectionFromControl(false);
-    }, 300);
 
     toggleManzanas.addEventListener("change", () => {
       layerVisibility.manzanas = toggleManzanas.checked;
