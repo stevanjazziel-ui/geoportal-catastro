@@ -838,6 +838,7 @@
     let equipamientoCategoriesInitialized = false;
     let lastPlatformSelectValue = ALL_PLATFORMS;
     let duplicateCleanupSummary = null;
+    let scopedIsochroneCache = new Map();
     const layerVisibility = {
       manzanas: true,
       plataformas: true,
@@ -1267,6 +1268,7 @@
       }
 
       currentPlatform = nextPlatform;
+      scopedIsochroneCache = new Map();
       if (platformSelect.value !== nextPlatform) {
         platformSelect.value = nextPlatform;
       }
@@ -1456,8 +1458,12 @@
       return summary;
     }
 
-    function getPlatformScopedIsocronasFeatures(features = []) {
+    function getPlatformScopedIsocronasFeatures(features = [], cacheKey = "") {
       const validFeatures = (features || []).filter((feature) => feature && feature.properties);
+
+      if (currentPlatform === ALL_PLATFORMS) {
+        return validFeatures;
+      }
 
       if (!hasFocusedPlatformSelection()) {
         return validFeatures.filter((feature) => matchesCurrentPlatform(getIsoFeaturePlatformName(feature)));
@@ -1468,13 +1474,26 @@
         return [];
       }
 
-      return validFeatures
+      const scopedCacheKey = cacheKey
+        ? `${displayPlatformName(currentPlatform)}::${cacheKey}`
+        : "";
+      if (scopedCacheKey && scopedIsochroneCache.has(scopedCacheKey)) {
+        return scopedIsochroneCache.get(scopedCacheKey) || [];
+      }
+
+      const scopedFeatures = validFeatures
         .filter((feature) => featureIntersectsSelectedPlatform(feature, selectedPlatformFeature))
         .map((feature) => clipFeatureToSelectedPlatform(feature, selectedPlatformFeature))
         .filter(Boolean);
+
+      if (scopedCacheKey) {
+        scopedIsochroneCache.set(scopedCacheKey, scopedFeatures);
+      }
+
+      return scopedFeatures;
     }
 
-    function buildThematicIsocronasSummary(container, stats, features) {
+    function buildThematicIsocronasSummary(container, stats, features, cacheKey = "") {
       if (!container || !stats) {
         if (container) {
           container.innerHTML = "";
@@ -1519,7 +1538,7 @@
           ["Visualizacion", "Area rellena con borde"]
         ];
       } else {
-        const scopedFeatures = getPlatformScopedIsocronasFeatures(features);
+        const scopedFeatures = getPlatformScopedIsocronasFeatures(features, cacheKey);
         const uniqueSources = new Set();
         let barrialCount = 0;
         let zonalCount = 0;
@@ -1566,19 +1585,19 @@
       const groups = [];
 
       if (layerVisibility.educacionIsocronas) {
-        groups.push(...getPlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || []));
+        groups.push(...getPlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || [], "educacion"));
       }
       if (layerVisibility.recreacionIsocronas) {
-        groups.push(...getPlatformScopedIsocronasFeatures(window.recreacionIsocronasFeatures || []));
+        groups.push(...getPlatformScopedIsocronasFeatures(window.recreacionIsocronasFeatures || [], "recreacion"));
       }
       if (layerVisibility.bienestarIsocronas) {
-        groups.push(...getPlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || []));
+        groups.push(...getPlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || [], "bienestar"));
       }
       if (layerVisibility.culturaIsocronas) {
-        groups.push(...getPlatformScopedIsocronasFeatures(window.culturaIsocronasFeatures || []));
+        groups.push(...getPlatformScopedIsocronasFeatures(window.culturaIsocronasFeatures || [], "cultura"));
       }
       if (layerVisibility.saludIsocronas) {
-        groups.push(...getPlatformScopedIsocronasFeatures(window.saludIsocronasFeatures || []));
+        groups.push(...getPlatformScopedIsocronasFeatures(window.saludIsocronasFeatures || [], "salud"));
       }
 
       return groups.filter((feature) => feature && feature.geometry && feature.properties);
@@ -1598,31 +1617,31 @@
           key: "bienestar",
           label: "Bienestar social",
           visible: layerVisibility.bienestarIsocronas,
-          features: getPlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || [])
+          features: getPlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || [], "bienestar")
         },
         {
           key: "recreacion",
           label: "Recreacion y deporte",
           visible: layerVisibility.recreacionIsocronas,
-          features: getPlatformScopedIsocronasFeatures(window.recreacionIsocronasFeatures || [])
+          features: getPlatformScopedIsocronasFeatures(window.recreacionIsocronasFeatures || [], "recreacion")
         },
         {
           key: "educacion",
           label: "Educacion",
           visible: layerVisibility.educacionIsocronas,
-          features: getPlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || [])
+          features: getPlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || [], "educacion")
         },
         {
           key: "cultura",
           label: "Cultura",
           visible: layerVisibility.culturaIsocronas,
-          features: getPlatformScopedIsocronasFeatures(window.culturaIsocronasFeatures || [])
+          features: getPlatformScopedIsocronasFeatures(window.culturaIsocronasFeatures || [], "cultura")
         },
         {
           key: "salud",
           label: "Salud",
           visible: layerVisibility.saludIsocronas,
-          features: getPlatformScopedIsocronasFeatures(window.saludIsocronasFeatures || [])
+          features: getPlatformScopedIsocronasFeatures(window.saludIsocronasFeatures || [], "salud")
         }
       ];
 
@@ -3980,7 +3999,8 @@
       buildThematicIsocronasSummary(
         educacionIsocronasSummary,
         window.educacionIsocronasStats,
-        window.educacionIsocronasFeatures
+        window.educacionIsocronasFeatures,
+        "educacion"
       );
     }
 
@@ -3988,7 +4008,8 @@
       buildThematicIsocronasSummary(
         recreacionIsocronasSummary,
         window.recreacionIsocronasStats,
-        window.recreacionIsocronasFeatures
+        window.recreacionIsocronasFeatures,
+        "recreacion"
       );
     }
 
@@ -3996,7 +4017,8 @@
       buildThematicIsocronasSummary(
         bienestarIsocronasSummary,
         window.bienestarIsocronasStats,
-        window.bienestarIsocronasFeatures
+        window.bienestarIsocronasFeatures,
+        "bienestar"
       );
     }
 
@@ -4004,7 +4026,8 @@
       buildThematicIsocronasSummary(
         culturaIsocronasSummary,
         window.culturaIsocronasStats,
-        window.culturaIsocronasFeatures
+        window.culturaIsocronasFeatures,
+        "cultura"
       );
     }
 
@@ -4012,7 +4035,8 @@
       buildThematicIsocronasSummary(
         saludIsocronasSummary,
         window.saludIsocronasStats,
-        window.saludIsocronasFeatures
+        window.saludIsocronasFeatures,
+        "salud"
       );
     }
 
@@ -4244,6 +4268,14 @@
     }
 
     function renderEducacionIsocronasStartLayer() {
+      if (!layerVisibility.educacionIsocronasPuntos) {
+        if (window.educacionIsocronasStartLayer) {
+          map.removeLayer(window.educacionIsocronasStartLayer);
+          window.educacionIsocronasStartLayer = null;
+        }
+        return;
+      }
+
       if (window.educacionIsocronasStartLayer) {
         map.removeLayer(window.educacionIsocronasStartLayer);
       }
@@ -4301,6 +4333,14 @@
     }
 
     function renderRecreacionIsocronasStartLayer() {
+      if (!layerVisibility.recreacionIsocronasPuntos) {
+        if (window.recreacionIsocronasStartLayer) {
+          map.removeLayer(window.recreacionIsocronasStartLayer);
+          window.recreacionIsocronasStartLayer = null;
+        }
+        return;
+      }
+
       if (window.recreacionIsocronasStartLayer) {
         map.removeLayer(window.recreacionIsocronasStartLayer);
       }
@@ -4358,6 +4398,14 @@
     }
 
     function renderBienestarIsocronasStartLayer() {
+      if (!layerVisibility.bienestarIsocronasPuntos) {
+        if (window.bienestarIsocronasStartLayer) {
+          map.removeLayer(window.bienestarIsocronasStartLayer);
+          window.bienestarIsocronasStartLayer = null;
+        }
+        return;
+      }
+
       if (window.bienestarIsocronasStartLayer) {
         map.removeLayer(window.bienestarIsocronasStartLayer);
       }
@@ -4415,6 +4463,14 @@
     }
 
     function renderCulturaIsocronasStartLayer() {
+      if (!layerVisibility.culturaIsocronasPuntos) {
+        if (window.culturaIsocronasStartLayer) {
+          map.removeLayer(window.culturaIsocronasStartLayer);
+          window.culturaIsocronasStartLayer = null;
+        }
+        return;
+      }
+
       if (window.culturaIsocronasStartLayer) {
         map.removeLayer(window.culturaIsocronasStartLayer);
       }
@@ -4472,6 +4528,14 @@
     }
 
     function renderSaludIsocronasStartLayer() {
+      if (!layerVisibility.saludIsocronasPuntos) {
+        if (window.saludIsocronasStartLayer) {
+          map.removeLayer(window.saludIsocronasStartLayer);
+          window.saludIsocronasStartLayer = null;
+        }
+        return;
+      }
+
       if (window.saludIsocronasStartLayer) {
         map.removeLayer(window.saludIsocronasStartLayer);
       }
@@ -4579,7 +4643,7 @@
         map.removeLayer(window.educacionIsocronasLayer);
       }
 
-      const features = getPlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || [])
+      const features = getPlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || [], "educacion")
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
         .filter(Boolean)
@@ -4640,7 +4704,7 @@
         map.removeLayer(window.recreacionIsocronasLayer);
       }
 
-      const features = getPlatformScopedIsocronasFeatures(window.recreacionIsocronasFeatures || [])
+      const features = getPlatformScopedIsocronasFeatures(window.recreacionIsocronasFeatures || [], "recreacion")
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
         .filter(Boolean)
@@ -4701,7 +4765,7 @@
         map.removeLayer(window.bienestarIsocronasLayer);
       }
 
-      const features = getPlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || [])
+      const features = getPlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || [], "bienestar")
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
         .filter(Boolean)
@@ -4762,7 +4826,7 @@
         map.removeLayer(window.culturaIsocronasLayer);
       }
 
-      const features = getPlatformScopedIsocronasFeatures(window.culturaIsocronasFeatures || [])
+      const features = getPlatformScopedIsocronasFeatures(window.culturaIsocronasFeatures || [], "cultura")
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
         .filter(Boolean)
@@ -4823,7 +4887,7 @@
         map.removeLayer(window.saludIsocronasLayer);
       }
 
-      const features = getPlatformScopedIsocronasFeatures(window.saludIsocronasFeatures || [])
+      const features = getPlatformScopedIsocronasFeatures(window.saludIsocronasFeatures || [], "salud")
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
         .filter(Boolean)
