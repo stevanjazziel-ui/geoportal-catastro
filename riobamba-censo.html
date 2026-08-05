@@ -840,7 +840,15 @@
     let lastPlatformSelectValue = ALL_PLATFORMS;
     let duplicateCleanupSummary = null;
     let scopedIsochroneCache = new Map();
+    let currentFeaturesByPlatform = new Map();
+    let currentSummaryByPlatform = new Map();
+    let platformFeatureByName = new Map();
+    let analysisContextCache = new Map();
+    let pendingPlatformRender = null;
+    let platformRenderFrameId = 0;
+    let platformUiRefreshFrameId = 0;
     const exteriorBoundaryCache = new WeakMap();
+    const featureBBoxCache = new WeakMap();
     const layerVisibility = {
       manzanas: true,
       plataformas: true,
@@ -1270,22 +1278,58 @@
       }
 
       currentPlatform = nextPlatform;
-      scopedIsochroneCache = new Map();
+      resetPlatformDerivedCaches();
       if (platformSelect.value !== nextPlatform) {
         platformSelect.value = nextPlatform;
       }
       lastPlatformSelectValue = nextPlatform;
-      renderAll(zoomToSelection);
+      if (statusText) {
+        const label = nextPlatform === ALL_PLATFORMS
+          ? "todas las plataformas"
+          : nextPlatform === OUTSIDE_PLATFORMS
+            ? "fuera de plataformas"
+            : displayPlatformName(nextPlatform);
+        statusText.textContent = `Actualizando vista de ${label}...`;
+      }
+      schedulePlatformRender(zoomToSelection);
     }
 
-    function syncPlatformSelectionFromControl(zoomToSelection = true) {
-      const nextValue = normalizePlatformSelectionValue(platformSelect.value);
-      if (
-        nextValue !== normalizePlatformSelectionValue(currentPlatform) ||
-        nextValue !== lastPlatformSelectValue
-      ) {
-        applyPlatformSelection(nextValue, zoomToSelection);
+    function schedulePlatformRender(zoomToSelection = true) {
+      pendingPlatformRender = {
+        zoomToSelection: Boolean(zoomToSelection)
+      };
+
+      if (platformRenderFrameId) {
+        return;
       }
+
+      platformRenderFrameId = window.requestAnimationFrame(() => {
+        const renderOptions = pendingPlatformRender || { zoomToSelection: true };
+        pendingPlatformRender = null;
+        platformRenderFrameId = 0;
+        renderAll(renderOptions.zoomToSelection);
+      });
+    }
+
+    function schedulePlatformUiRefresh() {
+      if (platformUiRefreshFrameId) {
+        window.cancelAnimationFrame(platformUiRefreshFrameId);
+      }
+
+      platformUiRefreshFrameId = window.requestAnimationFrame(() => {
+        platformUiRefreshFrameId = 0;
+        buildEquipamientoCategoryFilters();
+        buildEquipamientosSummary();
+        buildEducacionIsocronasSummary();
+        buildRecreacionIsocronasSummary();
+        buildBienestarIsocronasSummary();
+        buildCulturaIsocronasSummary();
+        buildSaludIsocronasSummary();
+        updatePlatformFocusUi();
+        updateSummaryPanel();
+        updateSelectionStatusText();
+        updateFocusedAnalysisCard();
+      });
     }
 
     function matchesCurrentPlatform(platformName) {
@@ -1311,9 +1355,8 @@
         return [];
       }
 
-      return platformFeatures.filter((feature) =>
-        matchesCurrentPlatform(feature?.properties?.platform_name)
-      );
+      const selectedFeature = platformFeatureByName.get(normalizePlatformSelectionValue(currentPlatform));
+      return selectedFeature ? [selectedFeature] : [];
     }
 
     function getSelectedPlatformFeature() {
@@ -1321,9 +1364,7 @@
         return null;
       }
 
-      return platformFeatures.find((feature) =>
-        matchesCurrentPlatform(feature?.properties?.platform_name)
-      ) || null;
+      return platformFeatureByName.get(normalizePlatformSelectionValue(currentPlatform)) || null;
     }
 
     function getFeatureSourceKeys(feature) {
@@ -1375,11 +1416,100 @@
         return false;
       }
 
+      const featureBBox = getFeatureBBox(feature);
+      const selectedBBox = getFeatureBBox(selectedPlatformFeature);
+      if (featureBBox && selectedBBox && !doBboxesIntersect(featureBBox, selectedBBox)) {
+        return false;
+      }
+
       try {
         return turf.booleanIntersects(feature, selectedPlatformFeature);
       } catch (error) {
         return false;
       }
+    }
+
+    function getFeatureBBox(feature) {
+      if (!feature?.geometry || typeof turf === "undefined") {
+        return null;
+      }
+
+      if (featureBBoxCache.has(feature)) {
+        return featureBBoxCache.get(feature) || null;
+      }
+
+      try {
+        const bbox = turf.bbox(feature);
+        featureBBoxCache.set(feature, bbox);
+        return bbox;
+      } catch (error) {
+        featureBBoxCache.set(feature, null);
+        return null;
+      }
+    }
+
+    function doBboxesIntersect(left, right) {
+      if (!left || !right) {
+        return true;
+      }
+
+      return !(
+        left[2] < right[0] ||
+        left[0] > right[2] ||
+        left[3] < right[1] ||
+        left[1] > right[3]
+      );
+    }
+
+    function resetPlatformDerivedCaches() {
+      scopedIsochroneCache = new Map();
+      analysisContextCache = new Map();
+    }
+
+    function rebuildPlatformSelectionIndexes() {
+      currentFeaturesByPlatform = new Map();
+      currentSummaryByPlatform = new Map();
+      platformFeatureByName = new Map();
+
+      currentFeaturesByPlatform.set(ALL_PLATFORMS, joinedFeatures || []);
+      currentFeaturesByPlatform.set(OUTSIDE_PLATFORMS, []);
+      currentSummaryByPlatform.set(ALL_PLATFORMS, globalSummary);
+
+      if (platformSummary?.unassigned) {
+        currentSummaryByPlatform.set(OUTSIDE_PLATFORMS, {
+          title: "Fuera de plataformas",
+          ...platformSummary.unassigned
+        });
+      }
+
+      for (const [name, stats] of Object.entries(platformStatsByName || {})) {
+        currentSummaryByPlatform.set(normalizePlatformSelectionValue(name), stats);
+      }
+
+      for (const feature of platformFeatures || []) {
+        const platformName = normalizePlatformSelectionValue(feature?.properties?.platform_name);
+        if (!platformName || platformName === ALL_PLATFORMS || platformName === OUTSIDE_PLATFORMS) {
+          continue;
+        }
+        platformFeatureByName.set(platformName, feature);
+        if (!currentFeaturesByPlatform.has(platformName)) {
+          currentFeaturesByPlatform.set(platformName, []);
+        }
+      }
+
+      for (const feature of joinedFeatures || []) {
+        const rawPlatform = feature?.properties?.platform_name;
+        const platformName = rawPlatform
+          ? normalizePlatformSelectionValue(rawPlatform)
+          : OUTSIDE_PLATFORMS;
+
+        if (!currentFeaturesByPlatform.has(platformName)) {
+          currentFeaturesByPlatform.set(platformName, []);
+        }
+        currentFeaturesByPlatform.get(platformName).push(feature);
+      }
+
+      resetPlatformDerivedCaches();
     }
 
     function rebuildEquipamientoPlatformIndex() {
@@ -1663,7 +1793,7 @@
       return `feature_${index}`;
     }
 
-    function buildFocusedCoverageState(features = []) {
+    function buildFocusedCoverageState(features = [], visibleGroups = null) {
       const state = {
         total: features.length,
         covered: 0,
@@ -1686,12 +1816,13 @@
         return state;
       }
 
-      const visibleGroups = getVisibleThematicIsoGroups();
-      const visibleIsochrones = visibleGroups.flatMap((group) =>
+      const thematicGroups = Array.isArray(visibleGroups) ? visibleGroups : getVisibleThematicIsoGroups();
+      const visibleIsochrones = thematicGroups.flatMap((group) =>
         (group.features || []).map((feature) => ({
           feature,
           key: group.key,
-          label: group.label
+          label: group.label,
+          bbox: getFeatureBBox(feature)
         }))
       );
       if (!visibleIsochrones.length) {
@@ -1701,6 +1832,7 @@
 
       features.forEach((feature, index) => {
         const population = Number(feature?.properties?.population_total || 0);
+        const featureBBox = getFeatureBBox(feature);
         state.populationTotal += population;
 
         let hasBarrial = false;
@@ -1711,6 +1843,10 @@
 
         for (const item of visibleIsochrones) {
           const isochrone = item.feature;
+          if (featureBBox && item.bbox && !doBboxesIntersect(featureBBox, item.bbox)) {
+            continue;
+          }
+
           try {
             if (!turf.booleanIntersects(feature, isochrone)) {
               continue;
@@ -1868,14 +2004,24 @@
         return state;
       }
 
+      const preparedIsochrones = isochrones.map((isochrone) => ({
+        feature: isochrone,
+        bbox: getFeatureBBox(isochrone)
+      }));
+
       for (const feature of features) {
         const population = Number(feature?.properties?.population_total || 0);
+        const featureBBox = getFeatureBBox(feature);
         state.populationTotal += population;
 
         let covered = false;
-        for (const isochrone of isochrones) {
+        for (const item of preparedIsochrones) {
+          if (featureBBox && item.bbox && !doBboxesIntersect(featureBBox, item.bbox)) {
+            continue;
+          }
+
           try {
-            if (turf.booleanIntersects(feature, isochrone)) {
+            if (turf.booleanIntersects(feature, item.feature)) {
               covered = true;
               break;
             }
@@ -1896,6 +2042,68 @@
       }
 
       return state;
+    }
+
+    function getThematicVisibilitySignature() {
+      return [
+        layerVisibility.bienestarIsocronas,
+        layerVisibility.recreacionIsocronas,
+        layerVisibility.educacionIsocronas,
+        layerVisibility.culturaIsocronas,
+        layerVisibility.saludIsocronas
+      ].map((value) => (value ? "1" : "0")).join("");
+    }
+
+    function getCurrentAnalysisContext() {
+      const cacheKey = `${normalizePlatformSelectionValue(currentPlatform)}|${getThematicVisibilitySignature()}`;
+      if (analysisContextCache.has(cacheKey)) {
+        return analysisContextCache.get(cacheKey);
+      }
+
+      const currentFeatures = getCurrentFeatures();
+      const focusedSelection = hasFocusedPlatformSelection();
+      const visibleGroups = focusedSelection ? getThematicIsoGroups(false) : [];
+      const focusedState = buildFocusedCoverageState(currentFeatures, visibleGroups);
+
+      const context = {
+        currentFeatures,
+        focusedSelection,
+        allGroups: null,
+        visibleGroups,
+        focusedCoverageState: focusedState,
+        allGroupStates: null
+      };
+
+      analysisContextCache.set(cacheKey, context);
+      return context;
+    }
+
+    function ensureAnalysisAllGroups(context) {
+      if (!context || !context.focusedSelection) {
+        return [];
+      }
+
+      if (!Array.isArray(context.allGroups)) {
+        context.allGroups = getThematicIsoGroups(true);
+      }
+
+      return context.allGroups;
+    }
+
+    function ensureAnalysisAllGroupStates(context) {
+      if (!context || !context.focusedSelection) {
+        return [];
+      }
+
+      if (!Array.isArray(context.allGroupStates)) {
+        const allGroups = ensureAnalysisAllGroups(context);
+        context.allGroupStates = allGroups.map((group) => ({
+          ...group,
+          state: buildCoverageStateForIsochrones(context.currentFeatures, group.features)
+        }));
+      }
+
+      return context.allGroupStates;
     }
 
     function createEmptyPopulationBreakdown() {
@@ -2036,30 +2244,11 @@
     }
 
     function getCurrentFeatures() {
-      if (currentPlatform === ALL_PLATFORMS) {
-        return joinedFeatures;
-      }
-
-      if (currentPlatform === OUTSIDE_PLATFORMS) {
-        return joinedFeatures.filter((feature) => feature.properties.platform_name === null);
-      }
-
-      return joinedFeatures.filter((feature) => feature.properties.platform_name === currentPlatform);
+      return currentFeaturesByPlatform.get(normalizePlatformSelectionValue(currentPlatform)) || [];
     }
 
     function getCurrentSummary() {
-      if (currentPlatform === ALL_PLATFORMS) {
-        return globalSummary;
-      }
-
-      if (currentPlatform === OUTSIDE_PLATFORMS) {
-        return {
-          title: "Fuera de plataformas",
-          ...platformSummary.unassigned
-        };
-      }
-
-      return platformStatsByName[currentPlatform];
+      return currentSummaryByPlatform.get(normalizePlatformSelectionValue(currentPlatform));
     }
 
     function getCurrentSelectionLabel() {
@@ -2899,16 +3088,14 @@
         return;
       }
 
-      const state = focusedCoverageState || buildFocusedCoverageState(getCurrentFeatures());
-      const currentFeatures = getCurrentFeatures();
-      const visibleGroups = getVisibleThematicIsoGroups();
-      const allGroups = getAllThematicIsoGroups();
+      const analysisContext = getCurrentAnalysisContext();
+      const state = focusedCoverageState || analysisContext.focusedCoverageState;
+      const currentFeatures = analysisContext.currentFeatures;
+      const visibleGroups = analysisContext.visibleGroups;
+      const allGroups = ensureAnalysisAllGroups(analysisContext);
       const platformLabel = displayPlatformName(currentPlatform);
       const totalPopulation = Number(state.populationTotal || 0);
-      const allGroupStates = allGroups.map((group) => ({
-        ...group,
-        state: buildCoverageStateForIsochrones(currentFeatures, group.features)
-      }));
+      const allGroupStates = ensureAnalysisAllGroupStates(analysisContext);
       const averageCoveragePercent = allGroupStates.length
         ? allGroupStates.reduce(
           (total, group) => total + getPercentValue(group.state.populationCovered || 0, totalPopulation),
@@ -3320,10 +3507,11 @@
     }
 
     function renderManzanaLayer(zoomToSelection = false) {
-      const currentFeatures = getCurrentFeatures();
+      const analysisContext = getCurrentAnalysisContext();
+      const currentFeatures = analysisContext.currentFeatures;
       const values = currentFeatures.map((feature) => feature.properties[currentMetric] || 0);
       const breaks = getBreaks(values);
-      focusedCoverageState = buildFocusedCoverageState(currentFeatures);
+      focusedCoverageState = analysisContext.focusedCoverageState;
       const focused = hasFocusedPlatformSelection();
       const enableHover = focused && currentFeatures.length <= 1500;
 
@@ -3388,7 +3576,7 @@
       } else if (zoomToSelection && currentFeatures.length) {
         map.fitBounds(manzanaLayer.getBounds(), { padding: [18, 18], maxZoom: 15 });
       } else if (zoomToSelection && currentPlatform !== ALL_PLATFORMS && currentPlatform !== OUTSIDE_PLATFORMS) {
-        const feature = platformFeatures.find((item) => item.properties.platform_name === currentPlatform);
+        const feature = platformFeatureByName.get(normalizePlatformSelectionValue(currentPlatform));
         if (feature) {
           const bounds = L.geoJSON(feature).getBounds();
           map.fitBounds(bounds, { padding: [18, 18], maxZoom: 15 });
@@ -3434,14 +3622,7 @@
     function renderAll(zoomToSelection = false) {
       renderPlatformLayer();
       renderManzanaLayer(zoomToSelection);
-      buildEquipamientoCategoryFilters();
       renderEquipamientosLayer();
-      buildEquipamientosSummary();
-      buildEducacionIsocronasSummary();
-      buildRecreacionIsocronasSummary();
-      buildBienestarIsocronasSummary();
-      buildCulturaIsocronasSummary();
-      buildSaludIsocronasSummary();
       renderEducacionIsocronasLayer();
       renderEducacionIsocronasStartLayer();
       renderRecreacionIsocronasLayer();
@@ -3452,10 +3633,7 @@
       renderCulturaIsocronasStartLayer();
       renderSaludIsocronasLayer();
       renderSaludIsocronasStartLayer();
-      updatePlatformFocusUi();
-      updateSummaryPanel();
-      updateSelectionStatusText();
-      updateFocusedAnalysisCard();
+      schedulePlatformUiRefresh();
     }
 
     async function init() {
@@ -3531,6 +3709,8 @@
             };
           })
           .filter(Boolean);
+
+        rebuildPlatformSelectionIndexes();
 
         buildPlatformOptions();
         buildCoverageList();
@@ -3771,6 +3951,7 @@
           })
           .filter(Boolean);
 
+        rebuildPlatformSelectionIndexes();
         buildPlatformOptions();
         buildCoverageList();
         buildEquipamientosSummary();
@@ -5548,6 +5729,7 @@
           })
           .filter(Boolean);
 
+        rebuildPlatformSelectionIndexes();
         buildPlatformOptions();
         buildCoverageList();
         renderAll(false);
@@ -6132,22 +6314,6 @@
 
     platformSelect.addEventListener("change", () => {
       applyPlatformSelection(platformSelect.value, true);
-    });
-
-    platformSelect.addEventListener("input", () => {
-      applyPlatformSelection(platformSelect.value, true);
-    });
-
-    platformSelect.addEventListener("keyup", () => {
-      syncPlatformSelectionFromControl(true);
-    });
-
-    platformSelect.addEventListener("mouseup", () => {
-      syncPlatformSelectionFromControl(true);
-    });
-
-    platformSelect.addEventListener("blur", () => {
-      syncPlatformSelectionFromControl(true);
     });
 
     focusedAnalysisGrid.addEventListener("click", (event) => {
