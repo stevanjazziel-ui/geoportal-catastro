@@ -556,9 +556,9 @@
       <section class="panel">
         <h2>Capas visibles</h2>
         <div class="layer-toggles">
-          <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Equipamientos</span><input id="toggleEquipamientos" type="checkbox" checked></label>
+          <label class="layer-toggle" style="display:none;"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked></label>
+          <label class="layer-toggle" style="display:none;"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
+          <label class="layer-toggle" style="display:none;"><span>Equipamientos</span><input id="toggleEquipamientos" type="checkbox" checked></label>
           <label class="layer-toggle" style="display:none;"><span>Red vial OSM 1000 m</span><input id="toggleRedVial1000m" type="checkbox"></label>
           <label class="layer-toggle" style="display:none;"><span>Red vial OSM 400 m</span><input id="toggleRedVial400m" type="checkbox"></label>
           <label class="layer-toggle" style="display:none;"><span>Borde externo isocrona exacta 400 m</span><input id="toggleIsocrona400m" type="checkbox"></label>
@@ -566,16 +566,16 @@
           <label class="layer-toggle" style="display:none;"><span>Rutas transporte recortadas 400 m</span><input id="toggleTransporteRutas" type="checkbox"></label>
           <label class="layer-toggle" style="display:none;"><span>Buffer transporte 200 m por lado</span><input id="toggleTransporteBuffer" type="checkbox"></label>
           <label class="layer-toggle" style="display:none;"><span>Isocrona 1000 m desde equipamientos</span><input id="toggleIsocronasColindantes" type="checkbox"></label>
-          <label class="layer-toggle"><span>Isocronas educacion categorizada</span><input id="toggleEducacionIsocronas" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Puntos inicio educacion</span><input id="toggleEducacionIsocronasPuntos" type="checkbox"></label>
-          <label class="layer-toggle"><span>Isocronas recreacion y deporte</span><input id="toggleRecreacionIsocronas" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Puntos inicio recreacion</span><input id="toggleRecreacionIsocronasPuntos" type="checkbox"></label>
-          <label class="layer-toggle"><span>Isocronas bienestar social</span><input id="toggleBienestarIsocronas" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Puntos inicio bienestar social</span><input id="toggleBienestarIsocronasPuntos" type="checkbox"></label>
-          <label class="layer-toggle"><span>Isocronas cultura categorizada</span><input id="toggleCulturaIsocronas" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Puntos inicio cultura</span><input id="toggleCulturaIsocronasPuntos" type="checkbox"></label>
-          <label class="layer-toggle"><span>Isocronas salud categorizada</span><input id="toggleSaludIsocronas" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Puntos inicio salud</span><input id="toggleSaludIsocronasPuntos" type="checkbox"></label>
+          <label class="layer-toggle"><span>Educacion</span><input id="toggleEducacionIsocronas" type="checkbox" checked></label>
+          <label class="layer-toggle" style="display:none;"><span>Puntos inicio educacion</span><input id="toggleEducacionIsocronasPuntos" type="checkbox"></label>
+          <label class="layer-toggle"><span>Recreacion y deporte</span><input id="toggleRecreacionIsocronas" type="checkbox" checked></label>
+          <label class="layer-toggle" style="display:none;"><span>Puntos inicio recreacion</span><input id="toggleRecreacionIsocronasPuntos" type="checkbox"></label>
+          <label class="layer-toggle"><span>Bienestar social</span><input id="toggleBienestarIsocronas" type="checkbox" checked></label>
+          <label class="layer-toggle" style="display:none;"><span>Puntos inicio bienestar social</span><input id="toggleBienestarIsocronasPuntos" type="checkbox"></label>
+          <label class="layer-toggle"><span>Cultura</span><input id="toggleCulturaIsocronas" type="checkbox" checked></label>
+          <label class="layer-toggle" style="display:none;"><span>Puntos inicio cultura</span><input id="toggleCulturaIsocronasPuntos" type="checkbox"></label>
+          <label class="layer-toggle"><span>Salud</span><input id="toggleSaludIsocronas" type="checkbox" checked></label>
+          <label class="layer-toggle" style="display:none;"><span>Puntos inicio salud</span><input id="toggleSaludIsocronasPuntos" type="checkbox"></label>
           <label class="layer-toggle" style="display:none;"><span>Isocronas paradas de bus 400 m</span><input id="toggleParadasBusIsocronas" type="checkbox"></label>
           <label class="layer-toggle" style="display:none;"><span>Puntos inicio paradas de bus</span><input id="toggleParadasBusPuntos" type="checkbox"></label>
         </div>
@@ -962,15 +962,15 @@
 
       toggleEquipamientos.closest("label").querySelector("span").textContent = "Puntos tematicos";
       equipamientosSummary.closest(".panel").querySelector("h2").textContent = "Resumen por categoria";
-      toggleEducacionIsocronas.closest("label").querySelector("span").textContent = "Isocronas educacion 1000 m";
+      toggleEducacionIsocronas.closest("label").querySelector("span").textContent = "Educacion";
       toggleEducacionIsocronasPuntos.closest("label").querySelector("span").textContent = "Puntos inicio educacion";
-      toggleRecreacionIsocronas.closest("label").querySelector("span").textContent = "Isocronas recreacion 1000 m";
+      toggleRecreacionIsocronas.closest("label").querySelector("span").textContent = "Recreacion y deporte";
       toggleRecreacionIsocronasPuntos.closest("label").querySelector("span").textContent = "Puntos inicio recreacion";
-      toggleBienestarIsocronas.closest("label").querySelector("span").textContent = "Isocronas bienestar 1000 m";
+      toggleBienestarIsocronas.closest("label").querySelector("span").textContent = "Bienestar social";
       toggleBienestarIsocronasPuntos.closest("label").querySelector("span").textContent = "Puntos inicio bienestar";
-      toggleCulturaIsocronas.closest("label").querySelector("span").textContent = "Isocronas cultura 1000 m";
+      toggleCulturaIsocronas.closest("label").querySelector("span").textContent = "Cultura";
       toggleCulturaIsocronasPuntos.closest("label").querySelector("span").textContent = "Puntos inicio cultura";
-      toggleSaludIsocronas.closest("label").querySelector("span").textContent = "Isocronas salud 1000 m";
+      toggleSaludIsocronas.closest("label").querySelector("span").textContent = "Salud";
       toggleSaludIsocronasPuntos.closest("label").querySelector("span").textContent = "Puntos inicio salud";
       educacionIsocronasSummary.closest(".panel").querySelector("h2").textContent = "Educacion 1000 m ciudad completa";
       recreacionIsocronasSummary.closest(".panel").querySelector("h2").textContent = "Recreacion y deporte 1000 m ciudad completa";
@@ -979,6 +979,9 @@
       saludIsocronasSummary.closest(".panel").querySelector("h2").textContent = "Salud 1000 m ciudad completa";
 
       [
+        toggleManzanas,
+        togglePlataformas,
+        toggleEquipamientos,
         toggleRedVial1000m,
         toggleRedVial400m,
         toggleIsocrona400m,
@@ -1037,15 +1040,10 @@
 
       [
         toggleEducacionIsocronas,
-        toggleEducacionIsocronasPuntos,
         toggleRecreacionIsocronas,
-        toggleRecreacionIsocronasPuntos,
         toggleBienestarIsocronas,
-        toggleBienestarIsocronasPuntos,
         toggleCulturaIsocronas,
-        toggleCulturaIsocronasPuntos,
-        toggleSaludIsocronas,
-        toggleSaludIsocronasPuntos
+        toggleSaludIsocronas
       ].forEach((input) => {
         if (input && input.closest("label")) {
           input.closest("label").style.display = "";
