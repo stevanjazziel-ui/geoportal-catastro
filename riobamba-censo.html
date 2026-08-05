@@ -256,8 +256,13 @@
       opacity: 0.78;
     }
 
+    .leaflet-container.osm-map .leaflet-tile-pane,
     .leaflet-container.imagery-map .leaflet-tile-pane {
       opacity: 1;
+    }
+
+    .osm-base-tiles {
+      filter: saturate(0.92) contrast(1.02);
     }
 
     .diagnostic-base-tiles {
@@ -726,6 +731,16 @@
 
     const map = L.map("map", { zoomSnap: 0.5 }).setView([-1.67, -78.65], 12.5);
 
+    const osmBase = L.tileLayer(
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        attribution: "&copy; OpenStreetMap contributors",
+        maxNativeZoom: 19,
+        maxZoom: 20,
+        className: "osm-base-tiles"
+      }
+    ).addTo(map);
+
     const diagnosticBase = L.tileLayer(
       "https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png",
       {
@@ -735,7 +750,7 @@
         maxZoom: 20,
         className: "diagnostic-base-tiles"
       }
-    ).addTo(map);
+    );
 
     const esriBase = L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -743,12 +758,14 @@
     );
 
     const baseLayerOptions = {
+      OpenStreetMap: osmBase,
       "Base diagnostico": diagnosticBase,
       "Esri satelital": esriBase
     };
 
     function updateMapBaseTheme() {
       const container = map.getContainer();
+      container.classList.toggle("osm-map", map.hasLayer(osmBase));
       container.classList.toggle("diagnostic-map", map.hasLayer(diagnosticBase));
       container.classList.toggle("imagery-map", map.hasLayer(esriBase));
     }
