@@ -1748,6 +1748,7 @@
 
       const scopedFeatures = validFeatures
         .filter((feature) => featureIntersectsSelectedPlatform(feature, selectedPlatformFeature))
+        .map((feature) => clipFeatureToSelectedPlatform(feature, selectedPlatformFeature))
         .filter(Boolean);
 
       if (scopedCacheKey) {
