@@ -3010,11 +3010,11 @@
     function platformStyle(feature) {
       const isSelected = currentPlatform !== ALL_PLATFORMS && feature.properties.platform_name === currentPlatform;
       return {
-        color: isSelected ? "#f8f0ff" : "#d2a8ff",
-        weight: isSelected ? 3.2 : 1.8,
+        color: isSelected ? "#7b61d1" : "#a78bda",
+        weight: isSelected ? 4.2 : 2.4,
         opacity: isSelected ? 1 : 0.9,
         fillColor: "#d2a8ff",
-        fillOpacity: isSelected ? 0.08 : 0.02,
+        fillOpacity: isSelected ? 0.06 : 0.015,
         dashArray: isSelected ? "" : "6 6"
       };
     }
@@ -3051,9 +3051,15 @@
 
       const visiblePlatformFeatures = getVisiblePlatformFeatures();
 
+      if (!map.getPane("platformPane")) {
+        map.createPane("platformPane");
+        map.getPane("platformPane").style.zIndex = 645;
+      }
+
       platformLayer = L.geoJSON(
         { type: "FeatureCollection", features: visiblePlatformFeatures },
         {
+          pane: "platformPane",
           style: platformStyle,
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
@@ -3074,6 +3080,9 @@
         }
       );
       syncSingleLayer(platformLayer, layerVisibility.plataformas);
+      if (platformLayer && typeof platformLayer.bringToFront === "function") {
+        platformLayer.bringToFront();
+      }
     }
 
     function equipamientoStyle(feature) {
