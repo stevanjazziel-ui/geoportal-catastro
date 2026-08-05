@@ -133,8 +133,29 @@
     .legend-row {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 10px;
       color: var(--muted);
+    }
+
+    .legend-label {
+      flex: 1 1 auto;
+    }
+
+    .legend-symbols {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex: 0 0 auto;
+      min-width: 58px;
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      border: 2px solid #02060d;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14);
     }
 
     .legend-section-title {
@@ -2620,6 +2641,30 @@
         ]));
     }
 
+    function getVisibleCategoryLegendEntries() {
+      const categoriesWithPoints = new Set(
+        getVisibleEquipamientosFeatures().map((feature) => getEquipamientoCategory(feature.properties))
+      );
+
+      return [
+        { key: "bienestar", label: "Bienestar social", isoVisible: layerVisibility.bienestarIsocronas },
+        { key: "recreacion", label: "Recreacion y deporte", isoVisible: layerVisibility.recreacionIsocronas },
+        { key: "educacion", label: "Educacion", isoVisible: layerVisibility.educacionIsocronas },
+        { key: "cultura", label: "Cultura", isoVisible: layerVisibility.culturaIsocronas },
+        { key: "salud", label: "Salud", isoVisible: layerVisibility.saludIsocronas }
+      ]
+        .filter((entry) =>
+          entry.isoVisible ||
+          (layerVisibility.equipamientos && selectedEquipamientoCategories.has(entry.label) && categoriesWithPoints.has(entry.label))
+        )
+        .map((entry) => ({
+          ...entry,
+          pointColor: getEquipamientoColor(entry.label),
+          barrialColor: getFocusedThematicColor(entry.key, "BARRIAL"),
+          zonalColor: getFocusedThematicColor(entry.key, "ZONAL")
+        }));
+    }
+
     function getVisibleEquipamientoLegendEntries() {
       ensureEquipamientoCategoriesInitialized();
       return sortEquipamientoCategories([...selectedEquipamientoCategories])
@@ -2637,84 +2682,56 @@
     }
 
     function renderLegend(breaks) {
-      const pointEntries = getVisibleEquipamientoLegendEntries();
-      const thematicEntries = getVisibleThematicLegendEntries();
-      const pointLegend = pointEntries.length
-        ? `
-          <div class="legend-section-title">Puntos del entorno</div>
-          ${pointEntries
-            .map((entry) => `
-              <div class="legend-row">
-                <span class="legend-swatch" style="background:${entry.color}; border:1px solid #02060d;"></span>
-                <span>${entry.label}: ${formatNumber(entry.count)}</span>
-              </div>
-            `)
-            .join("")}
-        `
-        : "";
+      const categoryEntries = getVisibleCategoryLegendEntries();
 
       if (hasFocusedPlatformSelection()) {
         const state = focusedCoverageState || {
           uncovered: 0,
           themeVariantCounts: createEmptyFocusedThemeVariantCounts()
         };
-        const rows = thematicEntries.map((entry) => ([
-          entry.label,
-          entry.color,
-          state.themeVariantCounts?.[entry.key]?.[entry.variant] || 0
-        ]));
-
-        rows.push(["Sin cobertura", focusedCoverageColors.uncovered, state.uncovered || 0]);
 
         legend.style.display = "";
         legend.innerHTML = `
-          ${pointLegend}
-          <div class="legend-section-title">Colores de isocronas</div>
-          ${rows
-          .map(([label, color, count]) => `
+          <div class="legend-section-title">Categorias activas</div>
+          ${categoryEntries
+          .map((entry) => {
+            const count =
+              Number(state.themeVariantCounts?.[entry.key]?.BARRIAL || 0) +
+              Number(state.themeVariantCounts?.[entry.key]?.ZONAL || 0);
+            return `
             <div class="legend-row">
-              <span class="legend-swatch" style="background:${color}; border:1px solid rgba(255,255,255,0.28);"></span>
-              <span>${label}: ${formatNumber(count)} manzanas</span>
+              <span class="legend-label">${entry.label}: ${formatNumber(count)} manzanas</span>
+              <span class="legend-symbols">
+                <span class="legend-dot" style="background:${entry.pointColor};" title="Punto"></span>
+                <span class="legend-swatch" style="background:${entry.barrialColor}; border:1px solid rgba(255,255,255,0.28);" title="Barrial"></span>
+                <span class="legend-swatch" style="background:${entry.zonalColor}; border:1px solid rgba(255,255,255,0.28);" title="Zonal"></span>
+              </span>
             </div>
-          `)
+          `;
+          })
           .join("")}
         `;
         return;
       }
 
       legend.style.display = "";
-      const metricLegend = colorRamp
-        .map((color, index) => {
-          const min = Math.round(breaks[index]);
-          const max = Math.round(breaks[Math.min(index + 1, breaks.length - 1)]);
-          return `
-            <div class="legend-row">
-              <span class="legend-swatch" style="background:${color};"></span>
-              <span>${formatNumber(min)} - ${formatNumber(max)}</span>
-            </div>
-          `;
-        })
-        .join("");
-      const thematicLegend = thematicEntries.length
+      legend.innerHTML = categoryEntries.length
         ? `
-          <div class="legend-section-title">Colores de isocronas</div>
-          ${thematicEntries
+          <div class="legend-section-title">Categorias activas</div>
+          ${categoryEntries
             .map((entry) => `
-              <div class="legend-row">
-                <span class="legend-swatch" style="background:${entry.color}; border:1px solid rgba(255,255,255,0.28);"></span>
-                <span>${entry.label}</span>
-              </div>
+            <div class="legend-row">
+              <span class="legend-label">${entry.label}</span>
+              <span class="legend-symbols">
+                <span class="legend-dot" style="background:${entry.pointColor};" title="Punto"></span>
+                <span class="legend-swatch" style="background:${entry.barrialColor}; border:1px solid rgba(255,255,255,0.28);" title="Barrial"></span>
+                <span class="legend-swatch" style="background:${entry.zonalColor}; border:1px solid rgba(255,255,255,0.28);" title="Zonal"></span>
+              </span>
+            </div>
             `)
             .join("")}
         `
-        : "";
-
-      legend.innerHTML = `
-        <div class="legend-section-title">Poblacion</div>
-        ${metricLegend}
-        ${pointLegend}
-        ${thematicLegend}
-      `;
+        : `<div style="color:var(--muted);">No hay categorias activas.</div>`;
     }
 
     function updateOverlay() {
