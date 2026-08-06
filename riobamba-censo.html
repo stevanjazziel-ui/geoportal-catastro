@@ -281,20 +281,20 @@
     }
 
     .leaflet-container.diagnostic-map .leaflet-tile-pane {
-      opacity: 0.84;
+      opacity: 0.9;
     }
 
     .leaflet-container.osm-map .leaflet-tile-pane,
     .leaflet-container.imagery-map .leaflet-tile-pane {
-      opacity: 0.8;
+      opacity: 0.92;
     }
 
     .osm-base-tiles {
-      filter: grayscale(0.9) saturate(0.16) brightness(1.18) contrast(0.78);
+      filter: grayscale(0.48) saturate(0.5) brightness(1.08) contrast(0.98);
     }
 
     .diagnostic-base-tiles {
-      filter: grayscale(0.74) saturate(0.2) brightness(1.14) contrast(0.76);
+      filter: grayscale(0.46) saturate(0.34) brightness(1.08) contrast(0.94);
     }
 
     .overlay {
@@ -781,7 +781,7 @@
         maxZoom: 20,
         className: "osm-base-tiles"
       }
-    );
+    ).addTo(map);
 
     const diagnosticBase = L.tileLayer(
       "https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png",
@@ -792,7 +792,7 @@
         maxZoom: 20,
         className: "diagnostic-base-tiles"
       }
-    ).addTo(map);
+    );
 
     const esriBase = L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -3374,12 +3374,12 @@
     function platformStyle(feature) {
       const isSelected = currentPlatform !== ALL_PLATFORMS && feature.properties.platform_name === currentPlatform;
       return {
-        color: isSelected ? "#7b61d1" : "#a78bda",
-        weight: isSelected ? 4.2 : 2.4,
-        opacity: isSelected ? 1 : 0.9,
+        color: isSelected ? "#1f2937" : "#5f6878",
+        weight: isSelected ? 4.2 : 2.9,
+        opacity: isSelected ? 1 : 0.95,
         fillColor: "#d2a8ff",
-        fillOpacity: isSelected ? 0.06 : 0.015,
-        dashArray: isSelected ? "" : "6 6"
+        fillOpacity: isSelected ? 0.04 : 0.01,
+        dashArray: isSelected ? "" : "5 5"
       };
     }
 
@@ -3390,21 +3390,21 @@
         const fillColor = coverage.thematicColor || focusedCoverageColors.uncovered;
 
         return {
-          color: coverage.covered ? "rgba(255,255,255,0.92)" : "rgba(160,176,192,0.68)",
-          opacity: coverage.covered ? 0.96 : 0.6,
-          weight: coverage.covered ? 1.15 : 0.65,
+          color: coverage.covered ? "rgba(84, 94, 108, 0.88)" : "rgba(128, 139, 153, 0.72)",
+          opacity: coverage.covered ? 1 : 0.84,
+          weight: coverage.covered ? 1.28 : 0.82,
           fillColor,
-          fillOpacity: coverage.covered ? 0.22 : 0.035
+          fillOpacity: coverage.covered ? 0.18 : 0.02
         };
       }
 
       const value = feature.properties[currentMetric];
       return {
-        color: "rgba(255,255,255,0.88)",
-        opacity: 0.92,
-        weight: 1.05,
+        color: "rgba(102, 114, 128, 0.82)",
+        opacity: 0.96,
+        weight: 1.12,
         fillColor: getColor(value, breaks),
-        fillOpacity: 0.76
+        fillOpacity: 0.66
       };
     }
 
