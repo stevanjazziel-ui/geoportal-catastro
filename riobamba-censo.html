@@ -3412,9 +3412,17 @@
       }
 
       if (!hasFocusedPlatformSelection()) {
-        focusedAnalysisCard.hidden = true;
-        focusedAnalysisGrid.innerHTML = "";
+        focusedAnalysisTitle.textContent = "Analisis de cobertura";
+        focusedAnalysisSubtitle.textContent = "Selecciona una plataforma territorial para ver la poblacion cubierta por categoria y el detalle por rangos de edad.";
+        focusedAnalysisGrid.innerHTML = `
+          <article class="analysis-item analysis-item--wide">
+            <span>Seleccion de plataforma</span>
+            <strong>Elige una plataforma</strong>
+            <small>Cuando selecciones una plataforma, aqui se mostraran las 5 categorias, la poblacion total y la cobertura calculada.</small>
+          </article>
+        `;
         focusedAnalysisExpandedKey = null;
+        focusedAnalysisCard.hidden = false;
         return;
       }
 
