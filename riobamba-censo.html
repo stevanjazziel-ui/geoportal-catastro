@@ -3300,13 +3300,6 @@
           breakdown: platformBreakdown
         },
         {
-          key: "platform_covered",
-          label: "Poblacion cubierta",
-          value: `${formatNumber(state.populationCovered || 0)} hab`,
-          meta: `${formatPercent(state.populationCovered || 0, totalPopulation)} del total`,
-          wide: true
-        },
-        {
           key: "platform_average_coverage",
           label: "Promedio 5 categorias",
           value: `${formatNumber(Math.round(averageCoveragePopulation))} hab`,
