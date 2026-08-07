@@ -3443,6 +3443,9 @@
       const totalBlocks = Number(currentSummary?.manzanas || state.total || 0);
       const platformBreakdown = buildPopulationBreakdownFromSummary(currentSummary, currentFeatures);
       const allGroupStates = ensureAnalysisAllGroupStates(analysisContext);
+      const visibleIsochroneOriginSummary = summarizeIsochroneOrigins(
+        visibleGroups.flatMap((group) => group.features || [])
+      );
       const averageCoveragePercent = allGroupStates.length
         ? allGroupStates.reduce(
           (total, group) => total + getPercentValue(group.state.populationCovered || 0, totalPopulation),
@@ -3514,7 +3517,10 @@
       }
 
       focusedAnalysisTitle.textContent = `Analisis de cobertura ${platformLabel}`;
-      focusedAnalysisSubtitle.textContent = "Poblacion calculada desde manzanas censales de la plataforma seleccionada. La cobertura incluye isocronas propias y tambien las que llegan desde otras plataformas.";
+      focusedAnalysisSubtitle.textContent =
+        `Poblacion calculada desde manzanas censales de la plataforma seleccionada. ` +
+        `Coberturas de equipamiento dentro de la plataforma: ${formatNumber(visibleIsochroneOriginSummary.internalSources.size)}. ` +
+        `Coberturas de equipamiento fuera de la plataforma: ${formatNumber(visibleIsochroneOriginSummary.externalSources.size)}.`;
       focusedAnalysisGrid.innerHTML = cards
         .map((card) => {
           const expanded = card.expandable && card.key === focusedAnalysisExpandedKey;
