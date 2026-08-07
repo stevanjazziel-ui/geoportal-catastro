@@ -241,6 +241,68 @@
       flex: 0 0 auto;
     }
 
+    .category-filter-item {
+      border-radius: 14px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .category-filter-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 10px 6px 12px;
+    }
+
+    .category-filter-button {
+      width: 100%;
+      padding: 8px 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      text-align: left;
+      color: var(--text);
+      transform: none !important;
+    }
+
+    .category-filter-button:hover:not(:disabled) {
+      border: 0;
+      background: transparent;
+    }
+
+    .category-filter-label {
+      display: block;
+      font-size: 0.96rem;
+      color: var(--text);
+    }
+
+    .category-filter-hint {
+      display: block;
+      margin-top: 4px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-style: normal;
+      letter-spacing: 0.01em;
+    }
+
+    .category-point-list {
+      display: grid;
+      gap: 6px;
+      padding: 0 12px 12px;
+      border-top: 1px dashed rgba(106, 126, 99, 0.2);
+      background: rgba(255, 255, 255, 0.32);
+    }
+
+    .category-point-item {
+      color: var(--text);
+      font-size: 0.9rem;
+      line-height: 1.35;
+      padding-top: 8px;
+    }
+
     .map-wrap {
       position: relative;
       height: 100%;
@@ -838,6 +900,7 @@
     let allEquipamientoCategories = [];
     let selectedEquipamientoCategories = new Set();
     let equipamientoCategoriesInitialized = false;
+    let expandedEquipamientoCategory = null;
     let lastPlatformSelectValue = ALL_PLATFORMS;
     let duplicateCleanupSummary = null;
     let scopedIsochroneCache = new Map();
@@ -1148,6 +1211,15 @@
         .replaceAll("Ãš", "Ú")
         .replaceAll("Ã±", "ñ")
         .replaceAll("Ã‘", "Ñ");
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
     }
 
     function normalizeCategoryKey(value) {
@@ -2461,6 +2533,22 @@
       return counts;
     }
 
+    function getEquipamientoDisplayName(properties = {}) {
+      return repairText(
+        properties.nombre_equ || properties.nombre_ins || properties.elemento || "Punto publico"
+      ).trim() || "Punto publico";
+    }
+
+    function getEquipamientoNamesByCategory(category) {
+      const names = getPlatformScopedEquipamientosFeatures()
+        .filter((feature) => getEquipamientoCategory(feature.properties) === category)
+        .map((feature) => getEquipamientoDisplayName(feature.properties))
+        .filter(Boolean);
+
+      return Array.from(new Set(names))
+        .sort((left, right) => left.localeCompare(right, "es", { sensitivity: "base" }));
+    }
+
     function getVisibleEquipamientosFeatures() {
       ensureEquipamientoCategoriesInitialized();
       return getPlatformScopedEquipamientosFeatures().filter((feature) =>
@@ -3009,7 +3097,12 @@
         equipamientoCategoryFilters.innerHTML = `<p style="margin:0;color:var(--muted);">No hay puntos publicos en esta seleccion.</p>`;
         selectAllCategoriesButton.disabled = true;
         clearCategoriesButton.disabled = true;
+        expandedEquipamientoCategory = null;
         return;
+      }
+
+      if (expandedEquipamientoCategory && !categories.includes(expandedEquipamientoCategory)) {
+        expandedEquipamientoCategory = null;
       }
 
       selectAllCategoriesButton.disabled = false;
@@ -3017,10 +3110,34 @@
 
       equipamientoCategoryFilters.innerHTML = categories
         .map((category) => `
-          <label class="layer-toggle">
-            <span>${category} (${formatNumber(counts[category] || 0)})</span>
-            <input type="checkbox" data-category="${category}" ${selectedEquipamientoCategories.has(category) ? "checked" : ""}>
-          </label>
+          <div class="category-filter-item${expandedEquipamientoCategory === category ? " expanded" : ""}">
+            <div class="category-filter-row">
+              <button
+                type="button"
+                class="category-filter-button"
+                data-category-expand="${escapeHtml(category)}"
+                aria-expanded="${expandedEquipamientoCategory === category ? "true" : "false"}"
+              >
+                <span class="category-filter-label">${escapeHtml(category)} (${formatNumber(counts[category] || 0)})</span>
+                <span class="category-filter-hint">${expandedEquipamientoCategory === category ? "Ocultar nombres" : "Ver nombres de puntos"}</span>
+              </button>
+              <input
+                type="checkbox"
+                data-category="${escapeHtml(category)}"
+                ${selectedEquipamientoCategories.has(category) ? "checked" : ""}
+                aria-label="Mostrar ${escapeHtml(category)}"
+              >
+            </div>
+            ${expandedEquipamientoCategory === category
+              ? `
+              <div class="category-point-list">
+                ${getEquipamientoNamesByCategory(category)
+                  .map((name) => `<div class="category-point-item">${escapeHtml(name)}</div>`)
+                  .join("") || `<div class="category-point-item">No hay nombres disponibles.</div>`}
+              </div>
+            `
+              : ""}
+          </div>
         `)
         .join("");
     }
@@ -6503,6 +6620,17 @@
       selectedEquipamientoCategories = new Set();
       renderEquipamientosLayer();
       schedulePlatformUiRefresh();
+    });
+
+    equipamientoCategoryFilters.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-category-expand]");
+      if (!(button instanceof HTMLElement)) {
+        return;
+      }
+
+      const category = button.dataset.categoryExpand || "";
+      expandedEquipamientoCategory = expandedEquipamientoCategory === category ? null : category;
+      buildEquipamientoCategoryFilters();
     });
 
     equipamientoCategoryFilters.addEventListener("change", (event) => {
