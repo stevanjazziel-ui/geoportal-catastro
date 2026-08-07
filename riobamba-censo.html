@@ -3405,6 +3405,7 @@
           0
         ) / allGroupStates.length
         : 0;
+      const averageUncoveredPercent = Math.max(0, 100 - averageCoveragePercent);
       const categoriesWithCoverage = allGroupStates.filter((group) => Number(group.state.populationCovered || 0) > 0).length;
       const cards = [
         {
@@ -3420,7 +3421,7 @@
           key: "platform_average_coverage",
           label: "Promedio 5 categorias",
           value: `${formatNumber(Math.round(averageCoveragePopulation))} hab`,
-          meta: `${formatPercentValue(averageCoveragePercent)} promedio | ${formatNumber(categoriesWithCoverage)} de 5 categorias cubren esta plataforma`,
+          meta: `${formatPercentValue(averageCoveragePercent)} cubierto | ${formatPercentValue(averageUncoveredPercent)} no cubierto | ${formatNumber(categoriesWithCoverage)} de 5 categorias cubren esta plataforma`,
           wide: true
         }
       ];
