@@ -3503,13 +3503,6 @@
         });
       }
 
-      cards.push({
-        key: "platform_uncovered",
-        label: "Sin cobertura",
-        value: `${formatNumber(state.populationUncovered || 0)} hab`,
-        meta: `${formatPercent(state.populationUncovered || 0, totalPopulation)} | ${formatNumber(state.uncovered || 0)} manzanas`
-      });
-
       const visibleCardKeys = new Set(cards.map((card) => card.key).filter(Boolean));
       if (focusedAnalysisExpandedKey && !visibleCardKeys.has(focusedAnalysisExpandedKey)) {
         focusedAnalysisExpandedKey = null;
