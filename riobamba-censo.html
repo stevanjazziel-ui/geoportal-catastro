@@ -606,6 +606,7 @@
         <h2>Capas visibles</h2>
         <div class="layer-toggles">
           <label class="layer-toggle" style="display:none;"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Manzanas solo contorno</span><input id="toggleManzanasOutlineOnly" type="checkbox"></label>
           <label class="layer-toggle" style="display:none;"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
           <label class="layer-toggle" style="display:none;"><span>Equipamientos</span><input id="toggleEquipamientos" type="checkbox" checked></label>
           <label class="layer-toggle" style="display:none;"><span>Red vial OSM 1000 m</span><input id="toggleRedVial1000m" type="checkbox"></label>
@@ -920,6 +921,7 @@
     const featureBBoxCache = new WeakMap();
     const layerVisibility = {
       manzanas: true,
+      manzanasSoloContorno: false,
       plataformas: true,
       equipamientos: true,
       isocronasColindantes: true,
@@ -992,6 +994,7 @@
     const downloadParadasBusIsocronasShpButton = document.getElementById("downloadParadasBusIsocronasShpButton");
     const downloadParadasBusStartPointsShpButton = document.getElementById("downloadParadasBusStartPointsShpButton");
     const toggleManzanas = document.getElementById("toggleManzanas");
+    const toggleManzanasOutlineOnly = document.getElementById("toggleManzanasOutlineOnly");
     const togglePlataformas = document.getElementById("togglePlataformas");
     const toggleEquipamientos = document.getElementById("toggleEquipamientos");
     const toggleIsocronasColindantes = document.getElementById("toggleIsocronasColindantes");
@@ -1530,9 +1533,7 @@
         const analysisContext = getCurrentAnalysisContext();
         focusedCoverageState = analysisContext.focusedCoverageState;
 
-        if (manzanaLayer && typeof manzanaLayer.setStyle === "function") {
-          manzanaLayer.setStyle((feature) => manzanaStyle(feature, currentManzanaBreaks));
-        }
+        refreshManzanaLayerStyle();
 
         schedulePlatformUiRefresh();
       });
@@ -3571,6 +3572,7 @@
     }
 
     function manzanaStyle(feature, breaks) {
+      const outlineOnly = Boolean(layerVisibility.manzanasSoloContorno);
       if (hasFocusedPlatformSelection()) {
         const key = getFocusedCoverageKey(feature, -1);
         const coverage = focusedCoverageState?.map?.get(key) || { type: "uncovered", covered: false };
@@ -3579,9 +3581,9 @@
         return {
           color: coverage.covered ? "rgba(84, 94, 108, 0.88)" : "rgba(128, 139, 153, 0.72)",
           opacity: coverage.covered ? 1 : 0.84,
-          weight: coverage.covered ? 1.28 : 0.82,
+          weight: outlineOnly ? (coverage.covered ? 1.55 : 1.05) : (coverage.covered ? 1.28 : 0.82),
           fillColor,
-          fillOpacity: coverage.covered ? 0.18 : 0.02
+          fillOpacity: outlineOnly ? 0 : (coverage.covered ? 0.18 : 0.02)
         };
       }
 
@@ -3589,10 +3591,16 @@
       return {
         color: "rgba(102, 114, 128, 0.82)",
         opacity: 0.96,
-        weight: 1.12,
+        weight: outlineOnly ? 1.34 : 1.12,
         fillColor: getColor(value, breaks),
-        fillOpacity: 0.66
+        fillOpacity: outlineOnly ? 0 : 0.66
       };
+    }
+
+    function refreshManzanaLayerStyle() {
+      if (manzanaLayer && typeof manzanaLayer.setStyle === "function") {
+        manzanaLayer.setStyle((feature) => manzanaStyle(feature, currentManzanaBreaks));
+      }
     }
 
     function renderPlatformLayer() {
@@ -6750,6 +6758,11 @@
     toggleManzanas.addEventListener("change", () => {
       layerVisibility.manzanas = toggleManzanas.checked;
       syncVisibleLayers();
+    });
+
+    toggleManzanasOutlineOnly.addEventListener("change", () => {
+      layerVisibility.manzanasSoloContorno = toggleManzanasOutlineOnly.checked;
+      refreshManzanaLayerStyle();
     });
 
     togglePlataformas.addEventListener("change", () => {
