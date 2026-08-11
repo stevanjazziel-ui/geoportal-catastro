@@ -1677,10 +1677,15 @@
       currentFeaturesByPlatform = new Map();
       currentSummaryByPlatform = new Map();
       platformFeatureByName = new Map();
+      const assignedFeatures = (joinedFeatures || []).filter((feature) =>
+        Boolean(normalizePlatformSelectionValue(feature?.properties?.platform_name)) &&
+        normalizePlatformSelectionValue(feature?.properties?.platform_name) !== ALL_PLATFORMS &&
+        normalizePlatformSelectionValue(feature?.properties?.platform_name) !== OUTSIDE_PLATFORMS
+      );
 
-      currentFeaturesByPlatform.set(ALL_PLATFORMS, joinedFeatures || []);
+      currentFeaturesByPlatform.set(ALL_PLATFORMS, assignedFeatures);
       currentFeaturesByPlatform.set(OUTSIDE_PLATFORMS, []);
-      currentSummaryByPlatform.set(ALL_PLATFORMS, globalSummary);
+      currentSummaryByPlatform.set(ALL_PLATFORMS, buildManzanaSummary(assignedFeatures, "Todas las plataformas"));
 
       if (platformSummary?.unassigned) {
         currentSummaryByPlatform.set(OUTSIDE_PLATFORMS, {
@@ -1704,7 +1709,7 @@
         }
       }
 
-      for (const feature of joinedFeatures || []) {
+      for (const feature of assignedFeatures) {
         const rawPlatform = feature?.properties?.platform_name;
         const platformName = rawPlatform
           ? normalizePlatformSelectionValue(rawPlatform)
@@ -2361,6 +2366,29 @@
       }
 
       return buildPopulationBreakdown(fallbackFeatures);
+    }
+
+    function buildManzanaSummary(features = [], title = "") {
+      const breakdown = buildPopulationBreakdown(features);
+      let populationTotal = 0;
+
+      for (const feature of features) {
+        populationTotal += Number(feature?.properties?.population_total || 0);
+      }
+
+      return {
+        title,
+        manzanas: features.length,
+        population_total: populationTotal,
+        male: breakdown.male,
+        female: breakdown.female,
+        age_0_4: breakdown.age_0_4,
+        age_5_11: breakdown.age_5_11,
+        age_12_17: breakdown.age_12_17,
+        age_18_29: breakdown.age_18_29,
+        age_30_64: breakdown.age_30_64,
+        age_65_plus: breakdown.age_65_plus
+      };
     }
 
     function renderAnalysisBreakdownRows(breakdown = createEmptyPopulationBreakdown()) {
@@ -3377,7 +3405,7 @@
 
       if (currentPlatform === ALL_PLATFORMS) {
         overlayTitle.textContent = "Riobamba por manzana y plataforma";
-        overlayText.textContent = `Mostrando ${formatNumber(joinedFeatures.length)} manzanas con ${formatNumber(platformSummary.summary.platforms_total)} plataformas territoriales.`;
+        overlayText.textContent = `Mostrando ${formatNumber(summary?.manzanas || getCurrentFeatures().length)} manzanas dentro de ${formatNumber(platformSummary.summary.platforms_total)} plataformas territoriales.`;
         return;
       }
 
@@ -3954,6 +3982,10 @@
     }
 
     function buildPlatformOptions() {
+      if (currentPlatform === OUTSIDE_PLATFORMS) {
+        currentPlatform = ALL_PLATFORMS;
+      }
+
       const options = [
         `<option value="${ALL_PLATFORMS}">Todas las plataformas</option>`
       ];
@@ -3961,10 +3993,6 @@
       for (const feature of platformFeatures) {
         const name = feature.properties.platform_name;
         options.push(`<option value="${name}">${name}</option>`);
-      }
-
-      if (platformSummary.unassigned && platformSummary.unassigned.manzanas > 0) {
-        options.push(`<option value="${OUTSIDE_PLATFORMS}">Fuera de plataformas</option>`);
       }
 
       platformSelect.innerHTML = options.join("");
