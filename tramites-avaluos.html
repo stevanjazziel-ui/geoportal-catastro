@@ -3,10 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Módulo de visualización del estado de trámites de la Dirección de Avalúos y Catastros de Riobamba." />
-  <title>Estado de Trámites | Avalúos y Catastros</title>
+  <meta name="description" content="Consulta de forma sencilla el estado de trámites de la Dirección de Avalúos y Catastros de Riobamba." />
+  <meta name="theme-color" content="#06131d" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Consulta de Trámites | Avalúos y Catastros" />
+  <meta property="og:description" content="Consulta con tu número eGOB o SOY Riobamba si un trámite está en proceso o finalizado." />
+  <meta property="og:image" content="https://geoportal-catastro-tramites-iprus.netlify.app/tramites-avaluos-social.png" />
+  <meta property="og:image:width" content="1728" />
+  <meta property="og:image:height" content="907" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <title>Consulta de Trámites | Avalúos y Catastros</title>
   <style>
-    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@600;700&display=swap");
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
     :root {
       --bg: #06131d;
@@ -53,7 +61,7 @@
     button, input, select { font: inherit; }
     button, select { cursor: pointer; }
     a { color: inherit; }
-    .app { position: relative; z-index: 1; width: min(1500px, calc(100% - 32px)); margin: 0 auto; padding: 24px 0 48px; }
+    .app { position: relative; z-index: 1; width: min(1320px, calc(100% - 32px)); margin: 0 auto; padding: 24px 0 48px; }
     .topbar { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 18px; }
     .back-link { text-decoration: none; color: var(--muted); font-weight: 700; }
     .back-link:hover { color: var(--mint); }
@@ -71,13 +79,110 @@
       box-shadow: var(--shadow);
     }
     .eyebrow { color: var(--mint); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
-    h1 { margin: 9px 0 12px; font-family: "Orbitron", "Inter", sans-serif; font-size: clamp(1.8rem, 4vw, 3.4rem); line-height: 1.02; }
+    h1 { margin: 9px 0 12px; font-size: clamp(1.8rem, 4vw, 3.2rem); line-height: 1.08; }
     .hero p { max-width: 780px; margin: 0; color: var(--muted); line-height: 1.65; }
     .source-box { padding: 18px; border: 1px solid var(--line); border-radius: 18px; background: rgba(5, 20, 31, 0.5); }
     .source-box strong { display: block; margin-bottom: 8px; color: var(--text); }
     .source-box span { display: block; color: var(--muted); font-size: 0.86rem; line-height: 1.5; }
 
     .notice { margin: 16px 0; padding: 14px 18px; border: 1px solid rgba(246, 200, 95, 0.24); border-radius: 16px; color: #ffe9ad; background: rgba(107, 72, 19, 0.22); font-size: 0.9rem; line-height: 1.5; }
+
+    [hidden] { display: none !important; }
+    .view-tabs {
+      position: sticky;
+      z-index: 8;
+      top: 8px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin: 18px 0;
+      padding: 7px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(6, 19, 29, 0.92);
+      box-shadow: 0 16px 38px rgba(0, 0, 0, 0.24);
+      backdrop-filter: blur(16px);
+    }
+    .view-tab {
+      min-height: 48px;
+      padding: 10px 14px;
+      color: var(--muted);
+      border: 1px solid transparent;
+      border-radius: 12px;
+      background: transparent;
+      font-weight: 800;
+    }
+    .view-tab:hover { color: var(--text); background: rgba(81, 206, 255, 0.06); }
+    .view-tab[aria-selected="true"] { color: #06201d; border-color: rgba(126, 245, 216, 0.7); background: var(--mint); }
+    .view-section { animation: reveal 180ms ease-out; }
+    @keyframes reveal { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+    .lookup-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+      gap: 18px;
+      align-items: stretch;
+      margin-bottom: 18px;
+    }
+    .lookup-card, .help-card {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+    .lookup-card { padding: clamp(24px, 5vw, 46px); }
+    .lookup-card h2 { margin: 8px 0 10px; font-size: clamp(1.55rem, 3vw, 2.35rem); }
+    .lookup-card > p { max-width: 690px; margin: 0 0 24px; color: var(--muted); line-height: 1.65; }
+    .lookup-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
+    .lookup-label { grid-column: 1 / -1; color: var(--text); font-weight: 800; }
+    .lookup-input {
+      width: 100%;
+      min-height: 56px;
+      padding: 0 17px;
+      color: var(--text);
+      border: 1px solid rgba(121, 184, 212, 0.42);
+      border-radius: 14px;
+      outline: none;
+      background: rgba(4, 18, 28, 0.8);
+      font-size: 1.03rem;
+    }
+    .lookup-input:focus { border-color: var(--cyan); box-shadow: 0 0 0 4px rgba(81, 206, 255, 0.13); }
+    .primary-button {
+      min-height: 56px;
+      padding: 0 24px;
+      color: #06201d;
+      border: 0;
+      border-radius: 14px;
+      background: var(--mint);
+      font-weight: 900;
+    }
+    .primary-button:hover { filter: brightness(1.06); transform: translateY(-1px); }
+    .lookup-hint { display: block; grid-column: 1 / -1; color: var(--muted); font-size: 0.8rem; line-height: 1.5; }
+    .help-card { display: grid; gap: 18px; align-content: start; padding: 26px; background: rgba(9, 29, 43, 0.72); }
+    .help-card h3 { margin: 0; font-size: 1.05rem; }
+    .help-card p { margin: 6px 0 0; color: var(--muted); font-size: 0.86rem; line-height: 1.55; }
+    .status-guide { display: grid; gap: 12px; }
+    .status-guide div { display: grid; grid-template-columns: 12px 1fr; gap: 10px; align-items: start; }
+    .status-guide i { width: 11px; height: 11px; margin-top: 4px; border-radius: 50%; }
+    .status-guide .guide-process { background: var(--amber); }
+    .status-guide .guide-finished { background: var(--green); }
+    .status-guide strong { display: block; font-size: 0.88rem; }
+    .status-guide span { display: block; margin-top: 3px; color: var(--muted); font-size: 0.78rem; line-height: 1.4; }
+
+    .lookup-result {
+      margin-top: 18px;
+      padding: 22px;
+      border: 1px solid var(--line-strong);
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(19, 68, 79, 0.58), rgba(7, 30, 43, 0.92));
+    }
+    .lookup-result.not-found { border-color: rgba(239, 107, 115, 0.42); background: rgba(90, 24, 32, 0.28); }
+    .lookup-result h3 { margin: 9px 0 5px; font-size: 1.3rem; }
+    .lookup-result > p { margin: 0; color: var(--muted); line-height: 1.55; }
+    .lookup-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 18px; }
+    .lookup-summary div { min-width: 0; padding: 13px; border: 1px solid rgba(111, 211, 255, 0.13); border-radius: 12px; background: rgba(4, 18, 28, 0.42); }
+    .lookup-summary span { display: block; margin-bottom: 5px; color: var(--muted); font-size: 0.72rem; }
+    .lookup-summary strong { display: block; overflow-wrap: anywhere; font-size: 0.88rem; }
 
     .institutional-dashboard { margin-bottom: 18px; }
     .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin: 24px 0 14px; }
@@ -238,6 +343,8 @@
       .status-panel, .aging-panel, .results-panel, .type-panel, .workload-panel { grid-column: span 12; }
       .case-result.visible { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .institutional-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .lookup-shell { grid-template-columns: 1fr; }
+      .lookup-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 560px) {
       .freshness { display: none; }
@@ -257,6 +364,11 @@
       .month-stack { width: 76%; }
       .month-value { display: none; }
       .month-label { font-size: 0.58rem; }
+      .view-tabs { position: static; grid-template-columns: 1fr; }
+      .lookup-card { padding: 22px 17px; }
+      .lookup-form { grid-template-columns: 1fr; }
+      .lookup-label, .lookup-hint { grid-column: auto; }
+      .lookup-summary { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -270,17 +382,55 @@
     <section class="hero">
       <div>
         <span class="eyebrow">Dirección de Avalúos y Catastros</span>
-        <h1>Estado de trámites 2026</h1>
-        <p>Consulta el estado más reciente de cada trámite, revisa tiempos de atención y compara la carga operativa por área, tipo y responsable.</p>
+        <h1>Seguimiento de trámites</h1>
+        <p>Encuentra el estado de un trámite con su número de ingreso. Los indicadores de gestión y el detalle de registros están disponibles en secciones separadas.</p>
       </div>
       <div class="source-box">
-        <strong>Matriz institucional</strong>
+        <strong>Información actualizada</strong>
         <span id="source-name">Cargando fuente…</span>
         <span id="source-privacy"></span>
       </div>
     </section>
 
-    <div class="notice" id="quality-note">Preparando controles de calidad de la matriz…</div>
+    <nav class="view-tabs" role="tablist" aria-label="Secciones del módulo">
+      <button class="view-tab" id="tab-consulta" type="button" role="tab" aria-selected="true" aria-controls="view-consulta" data-view="consulta">Consultar trámite</button>
+      <button class="view-tab" id="tab-gestion" type="button" role="tab" aria-selected="false" aria-controls="view-gestion" data-view="gestion">Resumen de gestión</button>
+      <button class="view-tab" id="tab-registros" type="button" role="tab" aria-selected="false" aria-controls="view-registros" data-view="registros">Explorar registros</button>
+    </nav>
+
+    <section class="view-section" id="view-consulta" role="tabpanel" aria-labelledby="tab-consulta">
+      <div class="lookup-shell">
+        <article class="lookup-card">
+          <span class="eyebrow">Consulta rápida</span>
+          <h2>¿Cómo va tu trámite?</h2>
+          <p>Escribe el número eGOB o SOY Riobamba tal como aparece en tu comprobante. Solo necesitas uno de los dos.</p>
+          <form class="lookup-form" id="lookup-form">
+            <label class="lookup-label" for="lookup-search">Número del trámite</label>
+            <input class="lookup-input" id="lookup-search" type="search" inputmode="numeric" placeholder="Ejemplo: 1181844" autocomplete="off" />
+            <button class="primary-button" id="lookup-button" type="submit">Consultar</button>
+            <small class="lookup-hint">La consulta no muestra nombres de solicitantes ni observaciones internas.</small>
+          </form>
+          <div class="lookup-result" id="lookup-result" aria-live="polite" hidden></div>
+        </article>
+
+        <aside class="help-card" aria-label="Ayuda para consultar">
+          <div>
+            <h3>¿Dónde está el número?</h3>
+            <p>Revísalo en el comprobante de ingreso de eGOB o en el documento generado por SOY Riobamba.</p>
+          </div>
+          <div>
+            <h3>¿Qué significa el estado?</h3>
+            <div class="status-guide">
+              <div><i class="guide-process"></i><span><strong>En proceso</strong>El trámite continúa en revisión.</span></div>
+              <div><i class="guide-finished"></i><span><strong>Finalizado</strong>El trámite ya concluyó en la matriz.</span></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="view-section" id="view-gestion" role="tabpanel" aria-labelledby="tab-gestion" hidden>
+      <div class="notice" id="quality-note">Preparando controles de calidad de la matriz…</div>
 
     <section class="institutional-dashboard" id="institutional-dashboard" aria-labelledby="institutional-title">
       <div class="section-heading">
@@ -339,6 +489,10 @@
         </article>
       </div>
     </section>
+
+    </section>
+
+    <section class="view-section" id="view-registros" role="tabpanel" aria-labelledby="tab-registros" hidden>
 
     <div class="section-heading">
       <div><h2>Seguimiento por trámite único</h2><p>Consolida movimientos repetidos y conserva el estado más reciente de cada número eGOB o SOY Riobamba.</p></div>
@@ -465,6 +619,7 @@
     </section>
 
     <p class="footer">Los indicadores se calculan sobre el último movimiento identificado por trámite. Los tiempos inválidos o fuera del rango de control se presentan como “Sin dato”.</p>
+    </section>
   </main>
 
   <script src="./tramites-avaluos-data.js"></script>
@@ -477,7 +632,8 @@
       const state = { page: 1, pageSize: 25, sort: "reasignacion", direction: "desc", records: [] };
 
       const dom = Object.fromEntries([
-        "freshness", "source-name", "source-privacy", "quality-note", "search", "state-filter",
+        "freshness", "source-name", "source-privacy", "quality-note", "lookup-form", "lookup-search",
+        "lookup-button", "lookup-result", "search", "state-filter",
         "result-filter", "area-filter", "type-filter", "age-filter", "filter-count", "clear-filters",
         "case-result", "kpi-total", "kpi-total-context", "kpi-process", "kpi-process-context",
         "kpi-finished", "kpi-finished-context", "kpi-overdue", "kpi-unassigned", "status-donut",
@@ -498,6 +654,70 @@
         if (!iso) return "Sin dato";
         const [year, month, day] = iso.split("-").map(Number);
         return dateFormatter.format(new Date(year, month - 1, day));
+      }
+
+      function setView(viewName, focusPanel = false) {
+        document.querySelectorAll("[data-view]").forEach(tab => {
+          const active = tab.dataset.view === viewName;
+          tab.setAttribute("aria-selected", String(active));
+          tab.tabIndex = active ? 0 : -1;
+        });
+        document.querySelectorAll(".view-section").forEach(panel => {
+          panel.hidden = panel.id !== `view-${viewName}`;
+        });
+        if (focusPanel) document.getElementById(`view-${viewName}`)?.focus({ preventScroll: true });
+      }
+
+      function runLookup() {
+        const query = dom["lookup-search"].value.trim().toLocaleUpperCase("es");
+        const result = dom["lookup-result"];
+        result.classList.remove("not-found");
+
+        if (!query) {
+          result.hidden = false;
+          result.classList.add("not-found");
+          result.innerHTML = '<span class="eyebrow">Falta el número</span><h3>Escribe tu número de trámite</h3><p>Ingresa el número eGOB o SOY Riobamba que aparece en el comprobante.</p>';
+          dom["lookup-search"].focus();
+          return;
+        }
+
+        const matches = bundle.records
+          .filter(record => [record.egob, record.soy].some(value => String(value || "").toLocaleUpperCase("es") === query))
+          .sort((a, b) => String(b.despacho || b.reasignacion || "").localeCompare(String(a.despacho || a.reasignacion || "")));
+
+        if (!matches.length) {
+          result.hidden = false;
+          result.classList.add("not-found");
+          result.innerHTML = `<span class="eyebrow">Sin coincidencias</span><h3>No encontramos el trámite ${escapeHtml(query)}</h3><p>Revisa que el número esté completo y vuelve a intentarlo. Si fue ingresado recientemente, es posible que todavía no conste en la matriz.</p>`;
+          return;
+        }
+
+        const record = matches[0];
+        const isFinished = record.estado === "FINALIZADO";
+        const isProcess = record.estado === "EN PROCESO";
+        const title = isFinished ? "Tu trámite fue finalizado" : isProcess ? "Tu trámite está en proceso" : "Tu trámite todavía no tiene estado";
+        const description = isFinished
+          ? `Concluyó en la matriz institucional${record.despacho ? ` el ${formatDate(record.despacho)}` : ""}.`
+          : isProcess
+            ? `Continúa en revisión en ${escapeHtml(record.area || "el área responsable")}.`
+            : "La matriz aún no registra si está en proceso o finalizado.";
+        const resultText = record.resultado && record.resultado !== "SIN RESULTADO" ? record.resultado : "Todavía no registrado";
+        const multipleNote = matches.length > 1 ? `<p class="lookup-hint">Se encontraron ${matches.length} registros asociados; se muestra el más reciente.</p>` : "";
+
+        result.hidden = false;
+        result.innerHTML = `
+          ${badge(record.estado, "state")}
+          <h3>${title}</h3>
+          <p>${description}</p>
+          <div class="lookup-summary">
+            <div><span>Tipo de trámite</span><strong>${escapeHtml(record.tipo || "Sin dato")}</strong></div>
+            <div><span>Área responsable</span><strong>${escapeHtml(record.area || "Sin dato")}</strong></div>
+            <div><span>Último movimiento</span><strong>${formatDate(record.despacho || record.reasignacion)}</strong></div>
+            <div><span>Número eGOB</span><strong>${escapeHtml(record.egob || "No registrado")}</strong></div>
+            <div><span>Número SOY Riobamba</span><strong>${escapeHtml(record.soy || "No registrado")}</strong></div>
+            <div><span>Resultado</span><strong>${escapeHtml(resultText)}</strong></div>
+          </div>
+          ${multipleNote}`;
       }
 
       function countBy(records, field) {
@@ -754,7 +974,6 @@
       function render() {
         state.records = filterRecords();
         dom["filter-count"].textContent = `${number.format(state.records.length)} de ${number.format(bundle.records.length)} trámites visibles`;
-        renderExactCase(state.records);
         renderKpis(state.records);
         renderCharts(state.records);
         renderTable(state.records);
@@ -767,9 +986,26 @@
         }
         const exported = new Date(bundle.source.exportedAt);
         dom.freshness.textContent = `Datos exportados el ${exported.toLocaleString("es-EC", { dateStyle: "medium", timeStyle: "short" })}`;
-        dom["source-name"].textContent = `${bundle.source.workbook} · ${bundle.source.sheet}`;
+        dom["source-name"].textContent = "Base de seguimiento 2026";
         dom["source-privacy"].textContent = bundle.source.privacy;
         dom["quality-note"].textContent = `Se identificaron ${number.format(bundle.quality.uniqueCases)} casos únicos a partir de ${number.format(bundle.quality.usableRows)} filas útiles. Se excluyeron ${number.format(bundle.quality.excludedBlankRows)} filas sin identificación operativa y ${number.format(bundle.quality.invalidCurrentDurations)} tiempos inválidos se muestran como “Sin dato”.`;
+
+        const tabs = [...document.querySelectorAll(".view-tab")];
+        tabs.forEach((tab, index) => {
+          tab.addEventListener("click", () => setView(tab.dataset.view));
+          tab.addEventListener("keydown", event => {
+            if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+            event.preventDefault();
+            const nextIndex = event.key === 'ArrowRight' ? (index + 1) % tabs.length : (index - 1 + tabs.length) % tabs.length;
+            tabs[nextIndex].focus();
+            tabs[nextIndex].click();
+          });
+        });
+        setView("consulta");
+        dom["lookup-form"].addEventListener("submit", event => {
+          event.preventDefault();
+          runLookup();
+        });
 
         renderInstitutionalDashboard();
 
