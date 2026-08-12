@@ -8,7 +8,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Consulta de Trámites | Avalúos y Catastros" />
   <meta property="og:description" content="Consulta con tu número eGOB o SOY Riobamba si un trámite está en proceso o finalizado." />
-  <meta property="og:image" content="https://geoportal-catastro-tramites-iprus.netlify.app/tramites-avaluos-social.png" />
+  <meta property="og:image" content="https://geoportal-catastro-tramites-iprus.netlify.app/tramites-avaluos-social-v2.png" />
   <meta property="og:image:width" content="1728" />
   <meta property="og:image:height" content="907" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -370,35 +370,213 @@
       .lookup-label, .lookup-hint { grid-column: auto; }
       .lookup-summary { grid-template-columns: 1fr; }
     }
+
+    /* Interfaz clara inspirada en un tablero de atención ciudadana */
+    :root {
+      --bg: #e8eeee;
+      --bg-soft: #d9eaea;
+      --panel: #ffffff;
+      --panel-strong: #ffffff;
+      --line: rgba(31, 91, 87, 0.14);
+      --line-strong: rgba(36, 111, 106, 0.34);
+      --text: #102c2a;
+      --muted: #688481;
+      --cyan: #42a9ad;
+      --mint: #2b706c;
+      --green: #3da77d;
+      --amber: #f3a13a;
+      --orange: #fa6044;
+      --red: #d74f59;
+      --slate: #8d92c8;
+      --shadow: 0 14px 38px rgba(28, 73, 70, 0.09);
+    }
+
+    body { background: #e5ebeb; }
+    body::before { display: none; }
+    .app {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr) 292px;
+      width: min(1600px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 0;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 0 0 1px rgba(31, 91, 87, 0.05), 0 24px 70px rgba(28, 73, 70, 0.12);
+    }
+    .sidebar {
+      position: sticky;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      padding: 28px 20px 22px;
+      color: #fff;
+      background: #2b706c;
+    }
+    .brand { display: flex; align-items: center; gap: 11px; color: #fff; font-weight: 900; text-decoration: none; }
+    .brand-mark { display: grid; place-content: center; width: 36px; height: 36px; border-radius: 11px; color: #2b706c; background: #fff; font-size: 0.78rem; letter-spacing: -0.03em; }
+    .brand-text small { display: block; margin-top: 2px; color: rgba(255,255,255,.62); font-size: .62rem; font-weight: 600; }
+    .side-profile { display: grid; justify-items: center; margin: 54px 0 34px; text-align: center; }
+    .profile-orb { display: grid; place-content: center; width: 82px; height: 82px; border: 8px solid rgba(255,255,255,.12); border-radius: 50%; color: #2b706c; background: #d8e7e6; font-size: 1.05rem; font-weight: 900; }
+    .side-profile strong { margin-top: 15px; font-size: .9rem; }
+    .side-profile span { margin-top: 4px; color: rgba(255,255,255,.66); font-size: .68rem; }
+    .view-tabs {
+      position: static;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+    .view-tab { display: flex; align-items: center; gap: 10px; justify-content: flex-start; min-height: 44px; padding: 10px 12px; color: rgba(255,255,255,.7); border-radius: 12px; text-align: left; font-size: .78rem; }
+    .view-tab::before { content: ""; width: 8px; height: 8px; border: 2px solid currentColor; border-radius: 3px; }
+    .view-tab:hover { color: #fff; background: rgba(255,255,255,.08); }
+    .view-tab[aria-selected="true"] { color: #fff; border-color: rgba(255,255,255,.12); background: rgba(255,255,255,.14); }
+    .side-footer { margin-top: auto; padding-top: 26px; }
+    .side-footer a { display: block; padding: 11px 12px; color: rgba(255,255,255,.74); text-decoration: none; border-top: 1px solid rgba(255,255,255,.12); font-size: .75rem; font-weight: 800; }
+    .side-footer a:hover { color: #fff; }
+
+    .content-column { min-width: 0; padding: 34px clamp(24px, 3.2vw, 48px) 42px; background: #fff; }
+    .topbar { align-items: center; margin-bottom: 30px; }
+    .topbar h1 { margin: 4px 0 5px; color: var(--text); font-size: clamp(1.45rem, 2.2vw, 2rem); }
+    .topbar .eyebrow { color: #42a9ad; font-size: .66rem; letter-spacing: .08em; }
+    .freshness { color: #42a9ad; text-align: left; font-size: .72rem; }
+    .back-link { padding: 12px 16px; color: #fff; border-radius: 10px; background: #102c2a; font-size: .74rem; }
+    .back-link:hover { color: #fff; background: #2b706c; }
+    .hero { display: none; }
+
+    .overview-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .overview-card { min-height: 150px; padding: 20px; color: #fff; border-radius: 15px; box-shadow: 0 12px 26px rgba(29, 72, 69, .1); }
+    .overview-card.teal { background: #2b706c; }
+    .overview-card.coral { background: #fa6044; }
+    .overview-card.lilac { background: #8d92c8; }
+    .overview-card span { display: block; color: rgba(255,255,255,.72); font-size: .67rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+    .overview-card strong { display: block; max-width: 170px; margin-top: 12px; font-size: 1.05rem; line-height: 1.25; }
+    .overview-card p { margin: 24px 0 0; color: rgba(255,255,255,.8); font-size: .72rem; line-height: 1.45; }
+    .overview-card .card-line { display: block; width: 100%; height: 5px; margin-top: 14px; overflow: hidden; border-radius: 999px; background: rgba(16,44,42,.7); }
+    .overview-card .card-line::after { content: ""; display: block; width: 68%; height: 100%; border-radius: inherit; background: #fff; }
+
+    .lookup-shell { grid-template-columns: 1fr; gap: 16px; margin-bottom: 0; }
+    .lookup-card { padding: 28px; border: 0; border-radius: 16px; background: #f3f4f3; box-shadow: none; }
+    .lookup-card h2 { margin-top: 7px; font-size: clamp(1.35rem, 2.5vw, 1.8rem); }
+    .lookup-card > p { margin-bottom: 20px; }
+    .lookup-form { grid-template-columns: minmax(0, 1fr) auto; }
+    .lookup-input, .field input, .field select { color: var(--text); border-color: rgba(31, 91, 87, .16); background: #fff; }
+    .primary-button { color: #fff; background: #102c2a; }
+    .primary-button:hover { background: #2b706c; }
+    .lookup-result { color: var(--text); border: 0; background: #fff; box-shadow: 0 8px 24px rgba(28,73,70,.07); }
+    .lookup-result.not-found { background: #fff1ef; }
+    .lookup-summary div { border-color: rgba(31,91,87,.1); background: #f3f4f3; }
+
+    .insight-rail { min-width: 0; padding: 34px 24px; background: #e4f5f6; }
+    .rail-calendar { display: flex; align-items: center; gap: 12px; margin-bottom: 38px; }
+    .rail-calendar i { display: grid; place-content: center; width: 38px; height: 38px; border-radius: 10px; color: #fff; background: #102c2a; font-style: normal; font-size: .88rem; }
+    .rail-calendar strong { display: block; font-size: .95rem; }
+    .rail-calendar span { display: block; margin-top: 3px; color: #42a9ad; font-size: .68rem; }
+    .rail-title { margin: 0 0 18px; font-size: 1rem; }
+    .rail-timeline { display: grid; gap: 22px; }
+    .rail-step { position: relative; padding-left: 18px; border-left: 3px solid #2b706c; }
+    .rail-step:nth-child(2) { border-color: #fa6044; }
+    .rail-step:nth-child(3) { border-color: #8d92c8; }
+    .rail-step small { display: block; color: #42a9ad; font-size: .64rem; font-weight: 800; }
+    .rail-step strong { display: block; margin-top: 5px; font-size: .82rem; }
+    .rail-step p { margin: 4px 0 0; color: var(--muted); font-size: .69rem; line-height: 1.45; }
+    .rail-source { margin-top: 38px; padding-top: 22px; border-top: 1px solid rgba(31,91,87,.14); }
+    .rail-source strong { display: block; font-size: .78rem; }
+    .rail-source span { display: block; margin-top: 6px; color: var(--muted); font-size: .66rem; line-height: 1.5; }
+    .status-guide { margin-top: 24px; }
+    .status-guide strong { color: var(--text); }
+
+    .notice { color: #8a6126; border-color: rgba(243,161,58,.3); background: #fff5df; }
+    .section-heading { margin-top: 0; }
+    .source-badge { color: #2b706c; }
+    .kpi, .panel, .filters, .table-panel { border-color: rgba(31,91,87,.1); background: #f7f8f7; box-shadow: none; }
+    .filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .field.search { grid-column: 1 / -1; }
+    .kpis { grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); }
+    .kpi strong { color: #102c2a; }
+    .institution-month, .institution-area, .institution-type, .institution-technician { grid-column: span 12; }
+    .status-panel, .aging-panel { grid-column: span 6; }
+    .results-panel, .type-panel, .workload-panel { grid-column: span 12; }
+    .donut::after { background: #fff; }
+    .metric-strip div { background: #fff; }
+    th { color: #466663; background: #e6f1f1; }
+    td { color: #24423f; }
+    tbody tr:hover { background: rgba(66,169,173,.08); }
+    .badge.process { color: #7d5415; background: #fff0d0; }
+    .badge.finished, .badge.favorable { color: #1d6c4e; background: #dff3e9; }
+    .badge.unfavorable { color: #a63440; background: #fde5e7; }
+    .badge.neutral { color: #566d70; background: #e8eeee; }
+
+    @media (max-width: 1180px) {
+      .app { grid-template-columns: 210px minmax(0, 1fr); }
+      .insight-rail { display: none; }
+    }
+    @media (max-width: 760px) {
+      .app { display: block; min-height: 100vh; }
+      .sidebar { position: static; min-height: auto; padding: 18px; }
+      .side-profile { display: none; }
+      .view-tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 18px; }
+      .view-tab { justify-content: center; padding: 9px 6px; text-align: center; font-size: .68rem; }
+      .view-tab::before { display: none; }
+      .side-footer { display: none; }
+      .content-column { padding: 24px 17px 36px; }
+      .topbar { align-items: flex-start; }
+      .overview-cards { grid-template-columns: 1fr; }
+      .overview-card { min-height: 125px; }
+      .lookup-form, .filters { grid-template-columns: 1fr; }
+      .field.search { grid-column: auto; }
+      .status-panel, .aging-panel { grid-column: span 12; }
+    }
   </style>
 </head>
 <body>
   <main class="app">
-    <div class="topbar">
-      <a class="back-link" href="./index.html">← Volver al portal</a>
-      <div class="freshness" id="freshness">Cargando fecha de actualización…</div>
-    </div>
+    <aside class="sidebar">
+      <a class="brand" href="./index.html" aria-label="Volver al Geoportal de Catastro">
+        <span class="brand-mark">AC</span>
+        <span class="brand-text">Trámites<small>Avalúos y Catastros</small></span>
+      </a>
 
-    <section class="hero">
-      <div>
-        <span class="eyebrow">Dirección de Avalúos y Catastros</span>
-        <h1>Seguimiento de trámites</h1>
-        <p>Encuentra el estado de un trámite con su número de ingreso. Los indicadores de gestión y el detalle de registros están disponibles en secciones separadas.</p>
+      <div class="side-profile">
+        <div class="profile-orb">GADM</div>
+        <strong>Riobamba</strong>
+        <span>Servicios en línea</span>
       </div>
-      <div class="source-box">
-        <strong>Información actualizada</strong>
-        <span id="source-name">Cargando fuente…</span>
-        <span id="source-privacy"></span>
-      </div>
-    </section>
 
-    <nav class="view-tabs" role="tablist" aria-label="Secciones del módulo">
-      <button class="view-tab" id="tab-consulta" type="button" role="tab" aria-selected="true" aria-controls="view-consulta" data-view="consulta">Consultar trámite</button>
-      <button class="view-tab" id="tab-gestion" type="button" role="tab" aria-selected="false" aria-controls="view-gestion" data-view="gestion">Resumen de gestión</button>
-      <button class="view-tab" id="tab-registros" type="button" role="tab" aria-selected="false" aria-controls="view-registros" data-view="registros">Explorar registros</button>
-    </nav>
+      <nav class="view-tabs" role="tablist" aria-label="Secciones del módulo">
+        <button class="view-tab" id="tab-consulta" type="button" role="tab" aria-selected="true" aria-controls="view-consulta" data-view="consulta">Consultar trámite</button>
+        <button class="view-tab" id="tab-gestion" type="button" role="tab" aria-selected="false" aria-controls="view-gestion" data-view="gestion">Resumen de gestión</button>
+        <button class="view-tab" id="tab-registros" type="button" role="tab" aria-selected="false" aria-controls="view-registros" data-view="registros">Explorar registros</button>
+      </nav>
+
+      <div class="side-footer">
+        <a href="./index.html">← Volver al Geoportal</a>
+      </div>
+    </aside>
+
+    <div class="content-column">
+      <header class="topbar">
+        <div>
+          <span class="eyebrow">Dirección de Avalúos y Catastros</span>
+          <h1>Hola, consulta tu trámite</h1>
+          <div class="freshness" id="freshness">Cargando fecha de actualización…</div>
+        </div>
+        <a class="back-link" href="./index.html">Ir al Geoportal ↗</a>
+      </header>
 
     <section class="view-section" id="view-consulta" role="tabpanel" aria-labelledby="tab-consulta">
+      <div class="overview-cards" aria-label="Pasos de consulta">
+        <article class="overview-card teal"><span>Paso 1</span><strong>Ingresa tu número</strong><p>Usa el código eGOB o SOY Riobamba de tu comprobante.</p><i class="card-line"></i></article>
+        <article class="overview-card coral"><span>Paso 2</span><strong>Consulta el estado</strong><p>El sistema buscará el último movimiento registrado.</p><i class="card-line"></i></article>
+        <article class="overview-card lilac"><span>Paso 3</span><strong>Revisa el detalle</strong><p>Conoce el área, la fecha y el resultado disponible.</p><i class="card-line"></i></article>
+      </div>
+
       <div class="lookup-shell">
         <article class="lookup-card">
           <span class="eyebrow">Consulta rápida</span>
@@ -412,20 +590,6 @@
           </form>
           <div class="lookup-result" id="lookup-result" aria-live="polite" hidden></div>
         </article>
-
-        <aside class="help-card" aria-label="Ayuda para consultar">
-          <div>
-            <h3>¿Dónde está el número?</h3>
-            <p>Revísalo en el comprobante de ingreso de eGOB o en el documento generado por SOY Riobamba.</p>
-          </div>
-          <div>
-            <h3>¿Qué significa el estado?</h3>
-            <div class="status-guide">
-              <div><i class="guide-process"></i><span><strong>En proceso</strong>El trámite continúa en revisión.</span></div>
-              <div><i class="guide-finished"></i><span><strong>Finalizado</strong>El trámite ya concluyó en la matriz.</span></div>
-            </div>
-          </div>
-        </aside>
       </div>
     </section>
 
@@ -620,6 +784,31 @@
 
     <p class="footer">Los indicadores se calculan sobre el último movimiento identificado por trámite. Los tiempos inválidos o fuera del rango de control se presentan como “Sin dato”.</p>
     </section>
+    </div>
+
+    <aside class="insight-rail" aria-label="Guía de consulta">
+      <div class="rail-calendar">
+        <i aria-hidden="true">12</i>
+        <div><strong>Agosto 2026</strong><span>Información institucional</span></div>
+      </div>
+
+      <h2 class="rail-title">Cómo consultar</h2>
+      <div class="rail-timeline">
+        <article class="rail-step"><small>PASO 1</small><strong>Ubica el número</strong><p>Está en el comprobante eGOB o SOY Riobamba.</p></article>
+        <article class="rail-step"><small>PASO 2</small><strong>Escríbelo completo</strong><p>No necesitas ingresar nombres ni datos personales.</p></article>
+        <article class="rail-step"><small>PASO 3</small><strong>Presiona Consultar</strong><p>Verás el estado y el último movimiento disponible.</p></article>
+      </div>
+
+      <div class="status-guide" aria-label="Significado de los estados">
+        <div><i class="guide-process"></i><span><strong>En proceso</strong>Continúa en revisión.</span></div>
+        <div><i class="guide-finished"></i><span><strong>Finalizado</strong>Ya concluyó en la matriz.</span></div>
+      </div>
+
+      <div class="rail-source">
+        <strong id="source-name">Cargando fuente…</strong>
+        <span id="source-privacy"></span>
+      </div>
+    </aside>
   </main>
 
   <script src="./tramites-avaluos-data.js"></script>
