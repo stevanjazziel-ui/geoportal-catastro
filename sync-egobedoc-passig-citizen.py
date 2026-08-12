@@ -1136,7 +1136,7 @@ def main() -> int:
             client=client,
             temp_dir=temp_dir,
             cache=issue_tracking_cache,
-            fetch_missing_only=False,
+            fetch_missing_only=True,
         )
         payload = create_payload(
             records,

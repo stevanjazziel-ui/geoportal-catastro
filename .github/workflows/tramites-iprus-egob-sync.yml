@@ -1,0 +1,70 @@
+name: Sync Tramites IPRUS from eGOB
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Ecuador (UTC-5) lunes a viernes de 08:00 a 11:30
+    - cron: "0,30 13-16 * * 1-5"
+    # Ecuador (UTC-5) lunes a viernes de 14:00 a 17:30
+    - cron: "0,30 19-22 * * 1-5"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tramites-iprus-egob-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      EGOBEDOC_USERNAME: ${{ secrets.EGOBEDOC_USERNAME }}
+      EGOBEDOC_PASSWORD: ${{ secrets.EGOBEDOC_PASSWORD }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate sync credentials
+        shell: bash
+        run: |
+          if [ -z "$EGOBEDOC_USERNAME" ] || [ -z "$EGOBEDOC_PASSWORD" ]; then
+            echo "Faltan los secretos EGOBEDOC_USERNAME y/o EGOBEDOC_PASSWORD."
+            exit 1
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install sync dependencies
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas requests
+
+      - name: Sync active queue from eGOB
+        shell: bash
+        run: |
+          mkdir -p outputs
+          python sync-egobedoc-passig-citizen.py \
+            --insecure \
+            --output tramites-iprus-data.js \
+            --save-html outputs/passig_citizen.html \
+            --save-meta-json outputs/passig_citizen-meta.json
+
+      - name: Commit and publish if data changed
+        shell: bash
+        run: |
+          if git diff --quiet -- tramites-iprus-data.js; then
+            echo "Sin cambios en tramites-iprus-data.js"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git add tramites-iprus-data.js
+          git commit -m "Auto-sync IPRUS queue ($(date -u '+%Y-%m-%d %H:%M UTC'))"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
