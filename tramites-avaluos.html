@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Módulo de visualización del estado de trámites de la Dirección de Avalúos y Catastros de Riobamba." />
+  <title>Estado de Trámites | Avalúos y Catastros</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@600;700&display=swap");
+
+    :root {
+      --bg: #06131d;
+      --bg-soft: #0b2232;
+      --panel: rgba(9, 29, 43, 0.92);
+      --panel-strong: rgba(12, 38, 54, 0.96);
+      --line: rgba(111, 211, 255, 0.2);
+      --line-strong: rgba(126, 245, 216, 0.36);
+      --text: #edf8ff;
+      --muted: #9bb9c7;
+      --cyan: #51ceff;
+      --mint: #7ef5d8;
+      --green: #5ad59f;
+      --amber: #f6c85f;
+      --orange: #f19a5b;
+      --red: #ef6b73;
+      --slate: #6d8898;
+      --shadow: 0 24px 56px rgba(0, 0, 0, 0.36);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(81, 206, 255, 0.18), transparent 28%),
+        radial-gradient(circle at 90% 5%, rgba(126, 245, 216, 0.1), transparent 24%),
+        linear-gradient(180deg, #071722 0%, var(--bg) 72%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(90deg, rgba(112, 212, 255, 0.025) 0 1px, transparent 1px 96px),
+        repeating-linear-gradient(0deg, rgba(112, 212, 255, 0.02) 0 1px, transparent 1px 96px);
+    }
+
+    button, input, select { font: inherit; }
+    button, select { cursor: pointer; }
+    a { color: inherit; }
+    .app { position: relative; z-index: 1; width: min(1500px, calc(100% - 32px)); margin: 0 auto; padding: 24px 0 48px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 18px; }
+    .back-link { text-decoration: none; color: var(--muted); font-weight: 700; }
+    .back-link:hover { color: var(--mint); }
+    .freshness { color: var(--muted); font-size: 0.84rem; text-align: right; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.5fr);
+      gap: 24px;
+      align-items: end;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(145deg, rgba(10, 32, 48, 0.96), rgba(6, 22, 33, 0.9));
+      box-shadow: var(--shadow);
+    }
+    .eyebrow { color: var(--mint); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
+    h1 { margin: 9px 0 12px; font-family: "Orbitron", "Inter", sans-serif; font-size: clamp(1.8rem, 4vw, 3.4rem); line-height: 1.02; }
+    .hero p { max-width: 780px; margin: 0; color: var(--muted); line-height: 1.65; }
+    .source-box { padding: 18px; border: 1px solid var(--line); border-radius: 18px; background: rgba(5, 20, 31, 0.5); }
+    .source-box strong { display: block; margin-bottom: 8px; color: var(--text); }
+    .source-box span { display: block; color: var(--muted); font-size: 0.86rem; line-height: 1.5; }
+
+    .notice { margin: 16px 0; padding: 14px 18px; border: 1px solid rgba(246, 200, 95, 0.24); border-radius: 16px; color: #ffe9ad; background: rgba(107, 72, 19, 0.22); font-size: 0.9rem; line-height: 1.5; }
+
+    .institutional-dashboard { margin-bottom: 18px; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin: 24px 0 14px; }
+    .section-heading h2 { margin: 0; font-size: clamp(1.25rem, 2.4vw, 1.8rem); }
+    .section-heading p { max-width: 720px; margin: 5px 0 0; color: var(--muted); font-size: 0.86rem; line-height: 1.55; }
+    .source-badge { flex: 0 0 auto; padding: 7px 11px; border: 1px solid var(--line-strong); border-radius: 999px; color: var(--mint); font-size: 0.72rem; font-weight: 800; }
+    .institutional-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-bottom: 16px; }
+    .institutional-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; }
+    .institution-month { grid-column: span 7; }
+    .institution-area { grid-column: span 5; }
+    .institution-type, .institution-technician { grid-column: span 6; }
+    .selector-heading { display: flex; align-items: end; justify-content: space-between; gap: 14px; margin-bottom: 16px; }
+    .selector-heading .field { width: min(100%, 310px); }
+    .metric-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 16px; }
+    .metric-strip div { min-width: 0; padding: 10px; border-left: 2px solid var(--line-strong); background: rgba(5, 20, 31, 0.34); }
+    .metric-strip span { display: block; overflow: hidden; color: var(--muted); font-size: 0.7rem; text-overflow: ellipsis; white-space: nowrap; }
+    .metric-strip strong { display: block; margin-top: 4px; font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+    .month-chart { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 7px; min-height: 230px; padding: 12px 4px 0; border-bottom: 1px solid var(--line); }
+    .month-column { display: grid; grid-template-rows: 1fr auto auto; gap: 6px; min-width: 0; align-items: end; text-align: center; }
+    .month-stack { display: flex; flex-direction: column-reverse; justify-content: flex-start; width: min(30px, 80%); height: 170px; margin: 0 auto; border-radius: 6px 6px 0 0; background: rgba(130, 178, 199, 0.09); overflow: hidden; }
+    .month-stack span { display: block; min-height: 0; }
+    .month-stack .finished { background: var(--green); }
+    .month-stack .process { background: var(--amber); }
+    .month-value { color: var(--text); font-size: 0.7rem; font-variant-numeric: tabular-nums; }
+    .month-label { overflow: hidden; color: var(--muted); font-size: 0.66rem; font-weight: 800; text-overflow: clip; white-space: nowrap; }
+    .institution-legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 12px; color: var(--muted); font-size: 0.76rem; }
+    .institution-legend span { display: inline-flex; align-items: center; gap: 6px; }
+
+    .filters {
+      display: grid;
+      grid-template-columns: minmax(240px, 1.6fr) repeat(5, minmax(150px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+    .field { display: grid; gap: 7px; min-width: 0; }
+    .field label { color: var(--muted); font-size: 0.78rem; font-weight: 700; }
+    .field input, .field select {
+      min-width: 0;
+      width: 100%;
+      height: 44px;
+      padding: 0 13px;
+      color: var(--text);
+      border: 1px solid rgba(121, 184, 212, 0.28);
+      border-radius: 12px;
+      outline: none;
+      background: rgba(4, 18, 28, 0.74);
+    }
+    .field input:focus, .field select:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(81, 206, 255, 0.13); }
+    .filter-actions { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .filter-count { color: var(--muted); font-size: 0.88rem; }
+    .clear-button { padding: 9px 14px; color: var(--text); border: 1px solid var(--line); border-radius: 10px; background: transparent; font-weight: 700; }
+    .clear-button:hover { border-color: var(--line-strong); color: var(--mint); }
+
+    .case-result { display: none; margin-bottom: 18px; padding: 20px; border: 1px solid var(--line-strong); border-radius: 20px; background: linear-gradient(135deg, rgba(19, 68, 79, 0.58), rgba(7, 30, 43, 0.92)); }
+    .case-result.visible { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
+    .case-result .case-title { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .case-result h2 { margin: 0; font-size: 1.05rem; }
+    .case-item span { display: block; margin-bottom: 4px; color: var(--muted); font-size: 0.76rem; }
+    .case-item strong { overflow-wrap: anywhere; }
+
+    .kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; margin-bottom: 18px; }
+    .kpi { padding: 18px; border: 1px solid var(--line); border-radius: 18px; background: var(--panel); }
+    .kpi span { display: block; color: var(--muted); font-size: 0.78rem; font-weight: 700; }
+    .kpi strong { display: block; margin-top: 7px; font-size: clamp(1.65rem, 3vw, 2.3rem); line-height: 1; }
+    .kpi small { display: block; margin-top: 7px; color: var(--muted); font-size: 0.76rem; }
+
+    .dashboard { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; margin-bottom: 18px; }
+    .panel { min-width: 0; padding: 20px; border: 1px solid var(--line); border-radius: 20px; background: var(--panel); box-shadow: var(--shadow); }
+    .panel h2 { margin: 0; font-size: 1rem; }
+    .panel-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 18px; }
+    .panel-heading span { color: var(--muted); font-size: 0.78rem; }
+    .status-panel { grid-column: span 4; }
+    .aging-panel { grid-column: span 4; }
+    .results-panel { grid-column: span 4; }
+    .type-panel { grid-column: span 6; }
+    .workload-panel { grid-column: span 6; }
+
+    .donut-wrap { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 22px; align-items: center; }
+    .donut { position: relative; width: 150px; aspect-ratio: 1; border-radius: 50%; background: conic-gradient(var(--amber) 0 0, var(--green) 0 0, var(--slate) 0 100%); }
+    .donut::after { content: ""; position: absolute; inset: 24px; border-radius: 50%; background: #0a2232; box-shadow: inset 0 0 0 1px var(--line); }
+    .donut-center { position: absolute; z-index: 1; inset: 0; display: grid; place-content: center; text-align: center; pointer-events: none; }
+    .donut-center strong { font-size: 1.45rem; }
+    .donut-center span { color: var(--muted); font-size: 0.72rem; }
+    .legend { display: grid; gap: 10px; }
+    .legend-row { display: grid; grid-template-columns: 10px 1fr auto; gap: 9px; align-items: center; font-size: 0.84rem; }
+    .dot { width: 10px; height: 10px; border-radius: 3px; }
+    .dot.process, .institution-legend .process { background: var(--amber); }
+    .dot.finished, .institution-legend .finished { background: var(--green); }
+    .dot.other { background: var(--slate); }
+    .legend-row span:nth-child(2) { color: var(--muted); }
+
+    .bars { display: grid; gap: 12px; }
+    .bar-row { display: grid; grid-template-columns: minmax(120px, 1fr) minmax(120px, 2.2fr) auto; gap: 12px; align-items: center; }
+    .bar-label { overflow: hidden; color: var(--muted); font-size: 0.8rem; text-overflow: ellipsis; white-space: nowrap; }
+    .bar-track { height: 10px; overflow: hidden; border-radius: 999px; background: rgba(130, 178, 199, 0.12); }
+    .bar-fill { height: 100%; min-width: 2px; border-radius: inherit; background: linear-gradient(90deg, var(--cyan), var(--mint)); }
+    .bar-fill.amber { background: linear-gradient(90deg, var(--orange), var(--amber)); }
+    .bar-fill.green { background: linear-gradient(90deg, var(--green), var(--mint)); }
+    .bar-value { min-width: 42px; text-align: right; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+
+    .aging { display: grid; gap: 12px; }
+    .aging-track { display: flex; height: 18px; overflow: hidden; border-radius: 999px; background: rgba(130, 178, 199, 0.12); }
+    .aging-track span { min-width: 2px; }
+    .age-a { background: var(--green); } .age-b { background: var(--cyan); } .age-c { background: var(--amber); } .age-d { background: var(--red); } .age-e { background: var(--slate); }
+    .aging-legend { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px 12px; }
+    .aging-item { display: flex; justify-content: space-between; gap: 10px; color: var(--muted); font-size: 0.8rem; }
+    .aging-item strong { color: var(--text); }
+    .aging-item .dot { display: inline-block; margin-right: 6px; vertical-align: -1px; }
+
+    .table-panel { padding: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 22px; background: var(--panel); box-shadow: var(--shadow); }
+    .table-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px; }
+    .table-header h2 { margin: 0; font-size: 1.06rem; }
+    .table-header p { margin: 5px 0 0; color: var(--muted); font-size: 0.82rem; }
+    .table-wrap { overflow-x: auto; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    table { width: 100%; min-width: 1120px; border-collapse: collapse; }
+    th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid rgba(111, 211, 255, 0.1); font-size: 0.82rem; }
+    th { position: sticky; top: 0; z-index: 1; color: var(--muted); background: #0a2232; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    td { color: #dceff7; }
+    tbody tr:hover { background: rgba(81, 206, 255, 0.05); }
+    .sort-button { padding: 0; color: inherit; border: 0; background: none; font-weight: 800; text-transform: inherit; letter-spacing: inherit; }
+    .number { font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .muted { color: var(--muted); }
+    .badge { display: inline-flex; align-items: center; width: fit-content; padding: 5px 9px; border-radius: 999px; font-size: 0.72rem; font-weight: 800; white-space: nowrap; }
+    .badge.process { color: #ffe5a2; background: rgba(174, 113, 24, 0.28); }
+    .badge.finished { color: #aef2cf; background: rgba(31, 132, 89, 0.28); }
+    .badge.favorable { color: #aef2cf; background: rgba(31, 132, 89, 0.24); }
+    .badge.unfavorable { color: #ffb6bd; background: rgba(171, 52, 62, 0.28); }
+    .badge.neutral { color: #c5d6df; background: rgba(109, 136, 152, 0.24); }
+    .empty-row td { padding: 36px; text-align: center; color: var(--muted); }
+    .pagination { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 15px 20px; }
+    .page-info { color: var(--muted); font-size: 0.82rem; }
+    .page-actions { display: flex; gap: 8px; }
+    .page-actions button { padding: 8px 12px; color: var(--text); border: 1px solid var(--line); border-radius: 9px; background: transparent; font-weight: 700; }
+    .page-actions button:disabled { cursor: not-allowed; opacity: 0.35; }
+    .page-actions button:not(:disabled):hover { color: var(--mint); border-color: var(--line-strong); }
+    .footer { margin-top: 18px; color: var(--muted); font-size: 0.8rem; line-height: 1.6; }
+
+    @media (max-width: 1220px) {
+      .filters { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .field.search { grid-column: span 3; }
+      .status-panel, .aging-panel, .results-panel { grid-column: span 6; }
+      .results-panel { grid-column: span 12; }
+      .case-result.visible { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .institution-month, .institution-area, .institution-type, .institution-technician { grid-column: span 12; }
+    }
+    @media (max-width: 860px) {
+      .app { width: min(100% - 18px, 1500px); padding-top: 14px; }
+      .topbar { align-items: flex-start; }
+      .hero { grid-template-columns: 1fr; padding: 22px; border-radius: 22px; }
+      .filters { grid-template-columns: 1fr 1fr; padding: 14px; }
+      .field.search { grid-column: span 2; }
+      .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .status-panel, .aging-panel, .results-panel, .type-panel, .workload-panel { grid-column: span 12; }
+      .case-result.visible { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .institutional-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 560px) {
+      .freshness { display: none; }
+      .filters { grid-template-columns: 1fr; }
+      .field.search { grid-column: auto; }
+      .filter-actions { align-items: flex-start; flex-direction: column; }
+      .kpis { grid-template-columns: 1fr 1fr; }
+      .kpi:last-child { grid-column: span 2; }
+      .donut-wrap { grid-template-columns: 1fr; justify-items: center; }
+      .legend { width: 100%; }
+      .bar-row { grid-template-columns: minmax(95px, 1fr) minmax(90px, 1.6fr) auto; gap: 8px; }
+      .case-result.visible { grid-template-columns: 1fr; }
+      .table-header, .pagination { align-items: flex-start; flex-direction: column; }
+      .section-heading, .selector-heading { align-items: flex-start; flex-direction: column; }
+      .metric-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .month-chart { gap: 3px; }
+      .month-stack { width: 76%; }
+      .month-value { display: none; }
+      .month-label { font-size: 0.58rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="topbar">
+      <a class="back-link" href="./index.html">← Volver al portal</a>
+      <div class="freshness" id="freshness">Cargando fecha de actualización…</div>
+    </div>
+
+    <section class="hero">
+      <div>
+        <span class="eyebrow">Dirección de Avalúos y Catastros</span>
+        <h1>Estado de trámites 2026</h1>
+        <p>Consulta el estado más reciente de cada trámite, revisa tiempos de atención y compara la carga operativa por área, tipo y responsable.</p>
+      </div>
+      <div class="source-box">
+        <strong>Matriz institucional</strong>
+        <span id="source-name">Cargando fuente…</span>
+        <span id="source-privacy"></span>
+      </div>
+    </section>
+
+    <div class="notice" id="quality-note">Preparando controles de calidad de la matriz…</div>
+
+    <section class="institutional-dashboard" id="institutional-dashboard" aria-labelledby="institutional-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="institutional-title">Dashboard institucional de la matriz</h2>
+          <p>Reproduce los indicadores y agrupaciones que ya existen en la hoja DASHBOARD. Aquí se contabilizan los registros con la misma lógica del libro.</p>
+        </div>
+        <span class="source-badge">Fuente: hoja DASHBOARD</span>
+      </div>
+
+      <div class="institutional-kpis">
+        <article class="kpi"><span>Trámites ingresados</span><strong id="institution-total">—</strong><small>Conteo institucional</small></article>
+        <article class="kpi"><span>En proceso</span><strong id="institution-process">—</strong><small id="institution-process-rate">—</small></article>
+        <article class="kpi"><span>Finalizados</span><strong id="institution-finished">—</strong><small id="institution-finished-rate">—</small></article>
+        <article class="kpi"><span>Culminados</span><strong id="institution-completion">—</strong><small>Indicador anual de la matriz</small></article>
+      </div>
+
+      <div class="institutional-grid">
+        <article class="panel institution-month">
+          <div class="panel-heading"><h2>Estadística general por meses</h2><span>En proceso y finalizados</span></div>
+          <div class="month-chart" id="institution-month-chart" role="img" aria-label="Trámites institucionales por mes"></div>
+          <div class="institution-legend"><span><i class="dot finished"></i>Finalizados</span><span><i class="dot process"></i>En proceso</span></div>
+        </article>
+
+        <article class="panel institution-area">
+          <div class="panel-heading"><h2>Jefatura / unidad técnica</h2><span>Total de trámites</span></div>
+          <div class="bars" id="institution-area-bars"></div>
+        </article>
+
+        <article class="panel institution-type">
+          <div class="selector-heading">
+            <div><h2>Estadística por tipo de trámite</h2></div>
+            <div class="field"><label for="institution-type-select">Tipo</label><select id="institution-type-select"></select></div>
+          </div>
+          <div class="metric-strip">
+            <div><span>Total</span><strong id="type-total">—</strong></div>
+            <div><span>En proceso</span><strong id="type-process">—</strong></div>
+            <div><span>Promedio días</span><strong id="type-days">—</strong></div>
+            <div><span>Avance</span><strong id="type-progress">—</strong></div>
+          </div>
+          <div class="bars" id="institution-type-bars"></div>
+        </article>
+
+        <article class="panel institution-technician">
+          <div class="selector-heading">
+            <div><h2>Estadística por técnico</h2></div>
+            <div class="field"><label for="institution-technician-select">Técnico</label><select id="institution-technician-select"></select></div>
+          </div>
+          <div class="metric-strip">
+            <div><span>Total asignado</span><strong id="technician-total">—</strong></div>
+            <div><span>En proceso</span><strong id="technician-process">—</strong></div>
+            <div><span>Finalizados</span><strong id="technician-finished">—</strong></div>
+            <div><span>Culminación</span><strong id="technician-progress">—</strong></div>
+          </div>
+          <div class="bars" id="institution-technician-bars"></div>
+        </article>
+      </div>
+    </section>
+
+    <div class="section-heading">
+      <div><h2>Seguimiento por trámite único</h2><p>Consolida movimientos repetidos y conserva el estado más reciente de cada número eGOB o SOY Riobamba.</p></div>
+      <span class="source-badge">Fuente: control interno</span>
+    </div>
+
+    <section class="filters" aria-label="Filtros de trámites">
+      <div class="field search">
+        <label for="search">Buscar trámite</label>
+        <input id="search" type="search" placeholder="Número eGOB, SOY Riobamba, tipo o técnico" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label for="state-filter">Estado</label>
+        <select id="state-filter"><option value="">Todos</option></select>
+      </div>
+      <div class="field">
+        <label for="result-filter">Resultado</label>
+        <select id="result-filter"><option value="">Todos</option></select>
+      </div>
+      <div class="field">
+        <label for="area-filter">Área</label>
+        <select id="area-filter"><option value="">Todas</option></select>
+      </div>
+      <div class="field">
+        <label for="type-filter">Tipo de trámite</label>
+        <select id="type-filter"><option value="">Todos</option></select>
+      </div>
+      <div class="field">
+        <label for="age-filter">Tiempo en subproceso</label>
+        <select id="age-filter">
+          <option value="">Todos los plazos</option>
+          <option value="0-15">0 a 15 días</option>
+          <option value="16-30">16 a 30 días</option>
+          <option value="31-60">31 a 60 días</option>
+          <option value="61+">Más de 60 días</option>
+          <option value="missing">Sin dato válido</option>
+        </select>
+      </div>
+      <div class="filter-actions">
+        <span class="filter-count" id="filter-count" aria-live="polite"></span>
+        <button class="clear-button" id="clear-filters" type="button">Limpiar filtros</button>
+      </div>
+    </section>
+
+    <section class="case-result" id="case-result" aria-live="polite"></section>
+
+    <section class="kpis" aria-label="Indicadores principales">
+      <article class="kpi"><span>Trámites visibles</span><strong id="kpi-total">—</strong><small id="kpi-total-context">Casos únicos</small></article>
+      <article class="kpi"><span>En proceso</span><strong id="kpi-process">—</strong><small id="kpi-process-context">—</small></article>
+      <article class="kpi"><span>Finalizados</span><strong id="kpi-finished">—</strong><small id="kpi-finished-context">—</small></article>
+      <article class="kpi"><span>Más de 60 días</span><strong id="kpi-overdue">—</strong><small>Entre los casos en proceso</small></article>
+      <article class="kpi"><span>Sin técnico</span><strong id="kpi-unassigned">—</strong><small>Requieren revisión de asignación</small></article>
+    </section>
+
+    <section class="dashboard" aria-label="Resumen gráfico">
+      <article class="panel status-panel">
+        <div class="panel-heading"><h2>Estado actual</h2><span>Casos visibles</span></div>
+        <div class="donut-wrap">
+          <div class="donut" id="status-donut" role="img" aria-label="Distribución por estado">
+            <div class="donut-center"><strong id="donut-total">—</strong><span>trámites</span></div>
+          </div>
+          <div class="legend" id="status-legend"></div>
+        </div>
+      </article>
+
+      <article class="panel aging-panel">
+        <div class="panel-heading"><h2>Antigüedad en proceso</h2><span>Días de subproceso</span></div>
+        <div class="aging">
+          <div class="aging-track" id="aging-track" role="img" aria-label="Distribución de trámites en proceso por antigüedad"></div>
+          <div class="aging-legend" id="aging-legend"></div>
+        </div>
+      </article>
+
+      <article class="panel results-panel">
+        <div class="panel-heading"><h2>Resultado registrado</h2><span>Último movimiento</span></div>
+        <div class="bars" id="result-bars"></div>
+      </article>
+
+      <article class="panel type-panel">
+        <div class="panel-heading"><h2>Tipos de trámite</h2><span>10 con mayor volumen</span></div>
+        <div class="bars" id="type-bars"></div>
+      </article>
+
+      <article class="panel workload-panel">
+        <div class="panel-heading"><h2>Carga activa por técnico</h2><span>Trámites en proceso</span></div>
+        <div class="bars" id="technician-bars"></div>
+      </article>
+    </section>
+
+    <section class="table-panel" aria-labelledby="table-title">
+      <div class="table-header">
+        <div><h2 id="table-title">Detalle de trámites</h2><p>Se muestra el movimiento más reciente de cada caso.</p></div>
+        <div class="field">
+          <label for="page-size">Filas por página</label>
+          <select id="page-size"><option>25</option><option>50</option><option>100</option></select>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th><button class="sort-button" type="button" data-sort="egob">eGOB</button></th>
+              <th><button class="sort-button" type="button" data-sort="soy">SOY Riobamba</button></th>
+              <th><button class="sort-button" type="button" data-sort="tipo">Trámite</button></th>
+              <th><button class="sort-button" type="button" data-sort="area">Área</button></th>
+              <th><button class="sort-button" type="button" data-sort="tecnico">Técnico</button></th>
+              <th><button class="sort-button" type="button" data-sort="reasignacion">Reasignación</button></th>
+              <th><button class="sort-button" type="button" data-sort="dias">Días</button></th>
+              <th><button class="sort-button" type="button" data-sort="estado">Estado</button></th>
+              <th><button class="sort-button" type="button" data-sort="resultado">Resultado</button></th>
+              <th>Movimientos</th>
+            </tr>
+          </thead>
+          <tbody id="records-body"></tbody>
+        </table>
+      </div>
+      <div class="pagination">
+        <span class="page-info" id="page-info"></span>
+        <div class="page-actions">
+          <button id="previous-page" type="button">Anterior</button>
+          <button id="next-page" type="button">Siguiente</button>
+        </div>
+      </div>
+    </section>
+
+    <p class="footer">Los indicadores se calculan sobre el último movimiento identificado por trámite. Los tiempos inválidos o fuera del rango de control se presentan como “Sin dato”.</p>
+  </main>
+
+  <script src="./tramites-avaluos-data.js"></script>
+  <script>
+    (() => {
+      const bundle = window.TRAMITES_AVALUOS_DATA;
+      const number = new Intl.NumberFormat("es-EC");
+      const percent = new Intl.NumberFormat("es-EC", { style: "percent", maximumFractionDigits: 1 });
+      const dateFormatter = new Intl.DateTimeFormat("es-EC", { day: "2-digit", month: "short", year: "numeric" });
+      const state = { page: 1, pageSize: 25, sort: "reasignacion", direction: "desc", records: [] };
+
+      const dom = Object.fromEntries([
+        "freshness", "source-name", "source-privacy", "quality-note", "search", "state-filter",
+        "result-filter", "area-filter", "type-filter", "age-filter", "filter-count", "clear-filters",
+        "case-result", "kpi-total", "kpi-total-context", "kpi-process", "kpi-process-context",
+        "kpi-finished", "kpi-finished-context", "kpi-overdue", "kpi-unassigned", "status-donut",
+        "donut-total", "status-legend", "aging-track", "aging-legend", "result-bars", "type-bars",
+        "technician-bars", "records-body", "page-size", "page-info", "previous-page", "next-page",
+        "institutional-dashboard", "institution-total", "institution-process", "institution-process-rate",
+        "institution-finished", "institution-finished-rate", "institution-completion", "institution-month-chart",
+        "institution-area-bars", "institution-type-select", "type-total", "type-process", "type-days",
+        "type-progress", "institution-type-bars", "institution-technician-select", "technician-total",
+        "technician-process", "technician-finished", "technician-progress", "institution-technician-bars"
+      ].map(id => [id, document.getElementById(id)]));
+
+      function escapeHtml(value) {
+        return String(value ?? "").replace(/[&<>'"]/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[char]);
+      }
+
+      function formatDate(iso) {
+        if (!iso) return "Sin dato";
+        const [year, month, day] = iso.split("-").map(Number);
+        return dateFormatter.format(new Date(year, month - 1, day));
+      }
+
+      function countBy(records, field) {
+        return records.reduce((counts, record) => {
+          const value = record[field] || "SIN DATO";
+          counts[value] = (counts[value] || 0) + 1;
+          return counts;
+        }, {});
+      }
+
+      function sortedEntries(counts) {
+        return Object.entries(counts).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "es"));
+      }
+
+      function addOptions(select, values) {
+        values.forEach(value => {
+          const option = document.createElement("option");
+          option.value = value;
+          option.textContent = value;
+          select.appendChild(option);
+        });
+      }
+
+      function matchesAge(record, filter) {
+        if (!filter) return true;
+        if (filter === "missing") return record.dias === null;
+        if (record.dias === null) return false;
+        if (filter === "0-15") return record.dias <= 15;
+        if (filter === "16-30") return record.dias >= 16 && record.dias <= 30;
+        if (filter === "31-60") return record.dias >= 31 && record.dias <= 60;
+        return record.dias > 60;
+      }
+
+      function filterRecords() {
+        const query = dom.search.value.trim().toLocaleUpperCase("es");
+        const selectedState = dom["state-filter"].value;
+        const selectedResult = dom["result-filter"].value;
+        const selectedArea = dom["area-filter"].value;
+        const selectedType = dom["type-filter"].value;
+        const selectedAge = dom["age-filter"].value;
+        return bundle.records.filter(record => {
+          const haystack = [record.egob, record.soy, record.tipo, record.area, record.tecnico].join(" ").toLocaleUpperCase("es");
+          return (!query || haystack.includes(query))
+            && (!selectedState || record.estado === selectedState)
+            && (!selectedResult || record.resultado === selectedResult)
+            && (!selectedArea || record.area === selectedArea)
+            && (!selectedType || record.tipo === selectedType)
+            && matchesAge(record, selectedAge);
+        });
+      }
+
+      function renderKpis(records) {
+        const total = records.length;
+        const inProcess = records.filter(record => record.estado === "EN PROCESO").length;
+        const finished = records.filter(record => record.estado === "FINALIZADO").length;
+        const overdue = records.filter(record => record.estado === "EN PROCESO" && record.dias !== null && record.dias > 60).length;
+        const unassigned = records.filter(record => record.tecnico === "SIN TÉCNICO").length;
+        dom["kpi-total"].textContent = number.format(total);
+        dom["kpi-process"].textContent = number.format(inProcess);
+        dom["kpi-finished"].textContent = number.format(finished);
+        dom["kpi-overdue"].textContent = number.format(overdue);
+        dom["kpi-unassigned"].textContent = number.format(unassigned);
+        dom["kpi-total-context"].textContent = `de ${number.format(bundle.quality.uniqueCases)} casos únicos`;
+        dom["kpi-process-context"].textContent = total ? percent.format(inProcess / total) + " del total visible" : "Sin casos visibles";
+        dom["kpi-finished-context"].textContent = total ? percent.format(finished / total) + " del total visible" : "Sin casos visibles";
+      }
+
+      function renderStatus(records) {
+        const counts = countBy(records, "estado");
+        const total = records.length || 1;
+        const processValue = counts["EN PROCESO"] || 0;
+        const finishedValue = counts["FINALIZADO"] || 0;
+        const otherValue = total - processValue - finishedValue;
+        const processEnd = (processValue / total) * 100;
+        const finishedEnd = processEnd + (finishedValue / total) * 100;
+        dom["status-donut"].style.background = `conic-gradient(var(--amber) 0 ${processEnd}%, var(--green) ${processEnd}% ${finishedEnd}%, var(--slate) ${finishedEnd}% 100%)`;
+        dom["status-donut"].setAttribute("aria-label", `${processValue} en proceso, ${finishedValue} finalizados y ${otherValue} sin estado`);
+        dom["donut-total"].textContent = number.format(records.length);
+        const rows = [
+          ["process", "En proceso", processValue], ["finished", "Finalizado", finishedValue], ["other", "Sin estado", otherValue]
+        ];
+        dom["status-legend"].innerHTML = rows.map(([className, label, value]) => `
+          <div class="legend-row"><span class="dot ${className}"></span><span>${label}</span><strong>${number.format(value)}</strong></div>
+        `).join("");
+      }
+
+      function renderAging(records) {
+        const active = records.filter(record => record.estado === "EN PROCESO");
+        const groups = [
+          ["age-a", "0–15 días", active.filter(record => record.dias !== null && record.dias <= 15).length],
+          ["age-b", "16–30 días", active.filter(record => record.dias >= 16 && record.dias <= 30).length],
+          ["age-c", "31–60 días", active.filter(record => record.dias >= 31 && record.dias <= 60).length],
+          ["age-d", "> 60 días", active.filter(record => record.dias > 60).length],
+          ["age-e", "Sin dato", active.filter(record => record.dias === null).length]
+        ];
+        const total = active.length || 1;
+        dom["aging-track"].innerHTML = groups.map(([className, label, value]) => `<span class="${className}" style="width:${(value / total) * 100}%" title="${escapeHtml(label)}: ${value}"></span>`).join("");
+        dom["aging-track"].setAttribute("aria-label", groups.map(([, label, value]) => `${label}: ${value}`).join(", "));
+        dom["aging-legend"].innerHTML = groups.map(([className, label, value]) => `<div class="aging-item"><span><i class="dot ${className}"></i>${label}</span><strong>${number.format(value)}</strong></div>`).join("");
+      }
+
+      function renderBars(container, entries, options = {}) {
+        const limited = entries.slice(0, options.limit || entries.length);
+        const max = Math.max(1, ...limited.map(([, value]) => value));
+        if (!limited.length) {
+          container.innerHTML = '<div class="muted">No existen datos con los filtros actuales.</div>';
+          return;
+        }
+        container.innerHTML = limited.map(([label, value]) => `
+          <div class="bar-row">
+            <span class="bar-label" title="${escapeHtml(label)}">${escapeHtml(label)}</span>
+            <span class="bar-track" aria-hidden="true"><span class="bar-fill ${options.className || ""}" style="width:${Math.max(1.5, (value / max) * 100)}%"></span></span>
+            <strong class="bar-value">${number.format(value)}</strong>
+          </div>
+        `).join("");
+      }
+
+      function renderInstitutionalMonths(dashboard) {
+        const max = Math.max(1, ...dashboard.monthly.map(item => item.total));
+        const monthNames = { ENERO: "ENE", FEBRERO: "FEB", MARZO: "MAR", ABRIL: "ABR", MAYO: "MAY", JUNIO: "JUN", JULIO: "JUL", AGOSTO: "AGO", SEPTIEMBRE: "SEP", OCTUBRE: "OCT", NOVIEMBRE: "NOV", DICIEMBRE: "DIC" };
+        dom["institution-month-chart"].innerHTML = dashboard.monthly.map(item => {
+          const finishedHeight = (item.finished / max) * 100;
+          const processHeight = (item.inProcess / max) * 100;
+          return `<div class="month-column">
+            <div class="month-stack" aria-hidden="true"><span class="finished" style="height:${finishedHeight}%"></span><span class="process" style="height:${processHeight}%"></span></div>
+            <strong class="month-value">${number.format(item.total)}</strong>
+            <span class="month-label">${monthNames[item.month]}</span>
+          </div>`;
+        }).join("");
+        dom["institution-month-chart"].setAttribute("aria-label", dashboard.monthly.map(item => `${item.month}: ${item.total} trámites, ${item.inProcess} en proceso y ${item.finished} finalizados`).join("; "));
+      }
+
+      function renderInstitutionalType(dashboard) {
+        const selected = dashboard.types.find(item => item.name === dom["institution-type-select"].value) || dashboard.types[0];
+        if (!selected) return;
+        dom["type-total"].textContent = number.format(selected.total);
+        dom["type-process"].textContent = number.format(selected.inProcess);
+        dom["type-days"].textContent = selected.averageDays === null ? "Sin dato" : number.format(selected.averageDays);
+        dom["type-progress"].textContent = percent.format(selected.progress);
+        renderBars(dom["institution-type-bars"], Object.entries(selected.months), { limit: 12 });
+      }
+
+      function renderInstitutionalTechnician(dashboard) {
+        const selected = dashboard.technicians.find(item => item.name === dom["institution-technician-select"].value) || dashboard.technicians[0];
+        if (!selected) return;
+        dom["technician-total"].textContent = number.format(selected.total);
+        dom["technician-process"].textContent = number.format(selected.inProcess);
+        dom["technician-finished"].textContent = number.format(selected.finished);
+        dom["technician-progress"].textContent = selected.total ? percent.format(selected.finished / selected.total) : "0%";
+        renderBars(dom["institution-technician-bars"], sortedEntries(selected.types), { limit: 13, className: "amber" });
+      }
+
+      function renderInstitutionalDashboard() {
+        const dashboard = bundle.institutionalDashboard;
+        if (!dashboard) {
+          dom["institutional-dashboard"].hidden = true;
+          return;
+        }
+        const annual = dashboard.annual;
+        dom["institution-total"].textContent = number.format(annual.total);
+        dom["institution-process"].textContent = number.format(annual.inProcess);
+        dom["institution-finished"].textContent = number.format(annual.finished);
+        dom["institution-completion"].textContent = percent.format(annual.completion);
+        dom["institution-process-rate"].textContent = percent.format(annual.inProcess / annual.total) + " del total anual";
+        dom["institution-finished-rate"].textContent = percent.format(annual.finished / annual.total) + " del total anual";
+        renderInstitutionalMonths(dashboard);
+        renderBars(dom["institution-area-bars"], dashboard.areas.map(item => [item.name, item.total]));
+        addOptions(dom["institution-type-select"], dashboard.types.map(item => item.name));
+        addOptions(dom["institution-technician-select"], dashboard.technicians.filter(item => item.total > 0).map(item => item.name));
+        const defaultType = dashboard.types.find(item => item.name === "CERTIFICADO DE JURISDICCIÓN");
+        const defaultTechnician = dashboard.technicians.find(item => item.name === "BRONCANO JHONATAN" && item.total > 0);
+        if (defaultType) dom["institution-type-select"].value = defaultType.name;
+        if (defaultTechnician) dom["institution-technician-select"].value = defaultTechnician.name;
+        renderInstitutionalType(dashboard);
+        renderInstitutionalTechnician(dashboard);
+        dom["institution-type-select"].addEventListener("change", () => renderInstitutionalType(dashboard));
+        dom["institution-technician-select"].addEventListener("change", () => renderInstitutionalTechnician(dashboard));
+      }
+
+      function renderCharts(records) {
+        renderStatus(records);
+        renderAging(records);
+        renderBars(dom["result-bars"], sortedEntries(countBy(records, "resultado")), { limit: 5, className: "green" });
+        renderBars(dom["type-bars"], sortedEntries(countBy(records, "tipo")), { limit: 10 });
+        const active = records.filter(record => record.estado === "EN PROCESO");
+        renderBars(dom["technician-bars"], sortedEntries(countBy(active, "tecnico")), { limit: 10, className: "amber" });
+      }
+
+      function badge(value, kind) {
+        let className = "neutral";
+        if (kind === "state") className = value === "FINALIZADO" ? "finished" : value === "EN PROCESO" ? "process" : "neutral";
+        if (kind === "result") className = value === "FAVORABLE" ? "favorable" : value === "NO FAVORABLE" ? "unfavorable" : "neutral";
+        return `<span class="badge ${className}">${escapeHtml(value)}</span>`;
+      }
+
+      function sortRecords(records) {
+        const field = state.sort;
+        const direction = state.direction === "asc" ? 1 : -1;
+        return [...records].sort((a, b) => {
+          const left = a[field] ?? (field === "dias" ? Number.POSITIVE_INFINITY : "");
+          const right = b[field] ?? (field === "dias" ? Number.POSITIVE_INFINITY : "");
+          if (typeof left === "number" && typeof right === "number") return (left - right) * direction;
+          return String(left).localeCompare(String(right), "es", { numeric: true }) * direction;
+        });
+      }
+
+      function renderTable(records) {
+        const sorted = sortRecords(records);
+        const totalPages = Math.max(1, Math.ceil(sorted.length / state.pageSize));
+        state.page = Math.min(state.page, totalPages);
+        const start = (state.page - 1) * state.pageSize;
+        const pageRecords = sorted.slice(start, start + state.pageSize);
+        dom["records-body"].innerHTML = pageRecords.length ? pageRecords.map(record => `
+          <tr>
+            <td class="number">${escapeHtml(record.egob || "—")}</td>
+            <td class="number">${escapeHtml(record.soy || "—")}</td>
+            <td>${escapeHtml(record.tipo)}</td>
+            <td>${escapeHtml(record.area)}</td>
+            <td>${escapeHtml(record.tecnico)}</td>
+            <td class="number">${formatDate(record.reasignacion)}</td>
+            <td class="number">${record.dias === null ? '<span class="muted">Sin dato</span>' : number.format(record.dias)}</td>
+            <td>${badge(record.estado, "state")}</td>
+            <td>${badge(record.resultado, "result")}</td>
+            <td class="number">${number.format(record.movimientos)}</td>
+          </tr>
+        `).join("") : '<tr class="empty-row"><td colspan="10">No se encontraron trámites con estos filtros.</td></tr>';
+        const from = sorted.length ? start + 1 : 0;
+        const to = Math.min(start + state.pageSize, sorted.length);
+        dom["page-info"].textContent = `Mostrando ${number.format(from)}–${number.format(to)} de ${number.format(sorted.length)}`;
+        dom["previous-page"].disabled = state.page <= 1;
+        dom["next-page"].disabled = state.page >= totalPages;
+      }
+
+      function renderExactCase(records) {
+        const query = dom.search.value.trim();
+        const exact = records.filter(record => query && (record.egob === query || record.soy === query));
+        if (exact.length !== 1) {
+          dom["case-result"].classList.remove("visible");
+          dom["case-result"].innerHTML = "";
+          return;
+        }
+        const record = exact[0];
+        dom["case-result"].innerHTML = `
+          <div class="case-title"><h2>Estado del trámite consultado</h2>${badge(record.estado, "state")}</div>
+          <div class="case-item"><span>eGOB</span><strong>${escapeHtml(record.egob || "Sin número")}</strong></div>
+          <div class="case-item"><span>SOY Riobamba</span><strong>${escapeHtml(record.soy || "Sin número")}</strong></div>
+          <div class="case-item"><span>Tipo</span><strong>${escapeHtml(record.tipo)}</strong></div>
+          <div class="case-item"><span>Técnico</span><strong>${escapeHtml(record.tecnico)}</strong></div>
+          <div class="case-item"><span>Última reasignación</span><strong>${formatDate(record.reasignacion)}</strong></div>
+          <div class="case-item"><span>Resultado</span><strong>${escapeHtml(record.resultado)}</strong></div>`;
+        dom["case-result"].classList.add("visible");
+      }
+
+      function render() {
+        state.records = filterRecords();
+        dom["filter-count"].textContent = `${number.format(state.records.length)} de ${number.format(bundle.records.length)} trámites visibles`;
+        renderExactCase(state.records);
+        renderKpis(state.records);
+        renderCharts(state.records);
+        renderTable(state.records);
+      }
+
+      function initialize() {
+        if (!bundle || !Array.isArray(bundle.records)) {
+          document.body.innerHTML = '<main class="app"><div class="notice">No se pudo cargar el archivo de datos del módulo.</div></main>';
+          return;
+        }
+        const exported = new Date(bundle.source.exportedAt);
+        dom.freshness.textContent = `Datos exportados el ${exported.toLocaleString("es-EC", { dateStyle: "medium", timeStyle: "short" })}`;
+        dom["source-name"].textContent = `${bundle.source.workbook} · ${bundle.source.sheet}`;
+        dom["source-privacy"].textContent = bundle.source.privacy;
+        dom["quality-note"].textContent = `Se identificaron ${number.format(bundle.quality.uniqueCases)} casos únicos a partir de ${number.format(bundle.quality.usableRows)} filas útiles. Se excluyeron ${number.format(bundle.quality.excludedBlankRows)} filas sin identificación operativa y ${number.format(bundle.quality.invalidCurrentDurations)} tiempos inválidos se muestran como “Sin dato”.`;
+
+        renderInstitutionalDashboard();
+
+        addOptions(dom["state-filter"], sortedEntries(bundle.summary.states).map(([value]) => value));
+        addOptions(dom["result-filter"], sortedEntries(bundle.summary.results).map(([value]) => value));
+        addOptions(dom["area-filter"], sortedEntries(bundle.summary.areas).map(([value]) => value));
+        addOptions(dom["type-filter"], sortedEntries(bundle.summary.types).map(([value]) => value));
+
+        [dom.search, dom["state-filter"], dom["result-filter"], dom["area-filter"], dom["type-filter"], dom["age-filter"]].forEach(control => {
+          control.addEventListener(control === dom.search ? "input" : "change", () => { state.page = 1; render(); });
+        });
+        dom["clear-filters"].addEventListener("click", () => {
+          dom.search.value = "";
+          ["state-filter", "result-filter", "area-filter", "type-filter", "age-filter"].forEach(id => { dom[id].value = ""; });
+          state.page = 1;
+          render();
+        });
+        dom["page-size"].addEventListener("change", () => { state.pageSize = Number(dom["page-size"].value); state.page = 1; renderTable(state.records); });
+        dom["previous-page"].addEventListener("click", () => { state.page -= 1; renderTable(state.records); });
+        dom["next-page"].addEventListener("click", () => { state.page += 1; renderTable(state.records); });
+        document.querySelectorAll("[data-sort]").forEach(button => button.addEventListener("click", () => {
+          const field = button.dataset.sort;
+          if (state.sort === field) state.direction = state.direction === "asc" ? "desc" : "asc";
+          else { state.sort = field; state.direction = field === "reasignacion" || field === "dias" ? "desc" : "asc"; }
+          state.page = 1;
+          renderTable(state.records);
+        }));
+        render();
+      }
+
+      initialize();
+    })();
+  </script>
+</body>
+</html>
