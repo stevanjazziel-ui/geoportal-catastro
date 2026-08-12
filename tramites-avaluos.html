@@ -254,7 +254,7 @@
     .kpi strong { display: block; margin-top: 7px; font-size: clamp(1.65rem, 3vw, 2.3rem); line-height: 1; }
     .kpi small { display: block; margin-top: 7px; color: var(--muted); font-size: 0.76rem; }
 
-    .dashboard { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; margin-bottom: 18px; }
+    .dashboard { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; align-items: start; margin-bottom: 18px; }
     .panel { min-width: 0; padding: 20px; border: 1px solid var(--line); border-radius: 20px; background: var(--panel); box-shadow: var(--shadow); }
     .panel h2 { margin: 0; font-size: 1rem; }
     .panel-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 18px; }
@@ -289,14 +289,19 @@
     .bar-value { display: grid; min-width: 66px; text-align: right; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
     .bar-value small { margin-top: 2px; color: var(--muted); font-size: 0.62rem; font-weight: 700; }
 
-    .aging { display: grid; gap: 12px; }
-    .aging-track { display: flex; height: 18px; overflow: hidden; border-radius: 999px; background: rgba(130, 178, 199, 0.12); }
-    .aging-track span { min-width: 2px; }
+    .aging { display: grid; gap: 16px; }
+    .aging-track { display: flex; height: 30px; overflow: hidden; border-radius: 10px; background: #e5eeee; box-shadow: inset 0 1px 2px rgba(16, 44, 42, 0.06); }
+    .aging-track span { display: grid; min-width: 0; place-items: center; color: #fff; font-size: 0.67rem; font-weight: 900; line-height: 1; text-shadow: 0 1px 2px rgba(16, 44, 42, 0.35); }
+    .aging-track span + span { border-left: 2px solid #f7f8f7; }
     .age-a { background: var(--green); } .age-b { background: var(--cyan); } .age-c { background: var(--amber); } .age-d { background: var(--red); } .age-e { background: var(--slate); }
-    .aging-legend { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px 12px; }
-    .aging-item { display: flex; justify-content: space-between; gap: 10px; color: var(--muted); font-size: 0.8rem; }
-    .aging-item strong { color: var(--text); }
-    .aging-item .dot { display: inline-block; margin-right: 6px; vertical-align: -1px; }
+    .aging-legend { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .aging-item { display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; gap: 9px; align-items: center; padding: 10px 11px; border: 1px solid rgba(31, 91, 87, 0.09); border-radius: 11px; background: #fff; color: var(--muted); font-size: 0.76rem; }
+    .aging-item:last-child { grid-column: 1 / -1; }
+    .aging-item .dot { display: block; }
+    .aging-label { min-width: 0; }
+    .aging-values { display: grid; justify-items: end; font-variant-numeric: tabular-nums; }
+    .aging-values strong { color: var(--text); font-size: 0.86rem; }
+    .aging-values small { margin-top: 2px; color: var(--muted); font-size: 0.63rem; font-weight: 700; }
 
     .table-panel { padding: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 22px; background: var(--panel); box-shadow: var(--shadow); }
     .table-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px; }
@@ -352,6 +357,8 @@
       .filters { grid-template-columns: 1fr; }
       .field.search { grid-column: auto; }
       .filter-actions { align-items: flex-start; flex-direction: column; }
+      .aging-legend { grid-template-columns: 1fr; }
+      .aging-item:last-child { grid-column: auto; }
       .kpis { grid-template-columns: 1fr 1fr; }
       .kpi:last-child { grid-column: span 2; }
       .donut-wrap { grid-template-columns: 1fr; justify-items: center; }
@@ -724,7 +731,7 @@
       </article>
 
       <article class="panel aging-panel">
-        <div class="panel-heading"><h2>Antigüedad en proceso</h2><span>Días de subproceso</span></div>
+        <div class="panel-heading"><h2>Antigüedad de trámites en proceso</h2><span id="aging-total">— trámites</span></div>
         <div class="aging">
           <div class="aging-track" id="aging-track" role="img" aria-label="Distribución de trámites en proceso por antigüedad"></div>
           <div class="aging-legend" id="aging-legend"></div>
@@ -827,7 +834,7 @@
         "result-filter", "area-filter", "type-filter", "age-filter", "filter-count", "clear-filters",
         "case-result", "kpi-total", "kpi-total-context", "kpi-process", "kpi-process-context",
         "kpi-finished", "kpi-finished-context", "kpi-overdue", "kpi-unassigned", "status-donut",
-        "donut-total", "status-legend", "aging-track", "aging-legend", "result-bars", "type-bars",
+        "donut-total", "status-legend", "aging-total", "aging-track", "aging-legend", "result-bars", "type-bars",
         "technician-bars", "records-body", "page-size", "page-info", "previous-page", "next-page",
         "institutional-dashboard", "institution-total", "institution-process", "institution-process-rate",
         "institution-finished", "institution-finished-rate", "institution-completion", "institution-month-chart",
@@ -1003,10 +1010,19 @@
           ["age-d", "> 60 días", active.filter(record => record.dias > 60).length],
           ["age-e", "Sin dato", active.filter(record => record.dias === null).length]
         ];
-        const total = active.length || 1;
-        dom["aging-track"].innerHTML = groups.map(([className, label, value]) => `<span class="${className}" style="width:${(value / total) * 100}%" title="${escapeHtml(label)}: ${value}"></span>`).join("");
+        const activeTotal = active.length;
+        const total = activeTotal || 1;
+        dom["aging-total"].textContent = `${number.format(activeTotal)} trámites`;
+        dom["aging-track"].innerHTML = groups.filter(([, , value]) => value > 0).map(([className, label, value]) => {
+          const ratio = value / total;
+          const insideLabel = ratio >= 0.08 ? percent.format(ratio) : "";
+          return `<span class="${className}" style="width:${ratio * 100}%;min-width:5px" title="${escapeHtml(label)}: ${number.format(value)} (${percent.format(ratio)})" aria-hidden="true">${insideLabel}</span>`;
+        }).join("");
         dom["aging-track"].setAttribute("aria-label", groups.map(([, label, value]) => `${label}: ${value}`).join(", "));
-        dom["aging-legend"].innerHTML = groups.map(([className, label, value]) => `<div class="aging-item"><span><i class="dot ${className}"></i>${label}</span><strong>${number.format(value)}</strong></div>`).join("");
+        dom["aging-legend"].innerHTML = groups.map(([className, label, value]) => {
+          const ratio = value / total;
+          return `<div class="aging-item"><i class="dot ${className}"></i><span class="aging-label">${label}</span><span class="aging-values"><strong>${number.format(value)}</strong><small>${percent.format(ratio)}</small></span></div>`;
+        }).join("");
       }
 
       function renderBars(container, entries, options = {}) {
