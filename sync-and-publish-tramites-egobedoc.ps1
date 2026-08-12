@@ -31,10 +31,14 @@ if ($StrictTls) {
 Push-Location $root
 try {
     & $syncScript @syncArguments
+    if ($LASTEXITCODE -ne 0) {
+        throw "La sincronizacion de eGOB devolvio un codigo de salida no valido."
+    }
 
     git diff --quiet -- @publishTargets
     if ($LASTEXITCODE -eq 0) {
         Write-Output ("No hubo cambios en {0}. No se requiere publicacion." -f ($publishTargets -join ", "))
+        $global:LASTEXITCODE = 0
         return
     }
     if ($LASTEXITCODE -ne 1) {
@@ -42,9 +46,18 @@ try {
     }
 
     git add -- @publishTargets
+    if ($LASTEXITCODE -ne 0) {
+        throw ("No se pudo preparar la publicacion de: {0}." -f ($publishTargets -join ", "))
+    }
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     git commit -m "Auto-sync IPRUS queue and shared state ($timestamp)"
+    if ($LASTEXITCODE -ne 0) {
+        throw "No se pudo generar el commit automatico de sincronizacion."
+    }
     git push origin $Branch
+    if ($LASTEXITCODE -ne 0) {
+        throw "No se pudo publicar la sincronizacion automatica hacia GitHub."
+    }
 
     if (Test-Path -LiteralPath $outputPath) {
         $content = Get-Content -Raw -LiteralPath $outputPath
@@ -56,6 +69,7 @@ try {
             Write-Output "Sincronizacion publicada correctamente."
         }
     }
+    $global:LASTEXITCODE = 0
 }
 finally {
     Pop-Location
