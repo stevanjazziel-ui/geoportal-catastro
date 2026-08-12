@@ -1,7 +1,7 @@
 window.TRAMITES_IPRUS_SHARED_STATE = {
   "title": "TRAMITES IPRUS SHARED STATE",
   "sourceDate": "2026-08-11T11:22:58",
-  "generatedAt": "2026-08-12T15:45:30.208Z",
+  "generatedAt": "2026-08-12T15:48:32.854Z",
   "assignments": {
     "GADMR--2026-0493-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0489-IPRUS-ZNP": "Jasiel Caizaluisa",
@@ -34,7 +34,6 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
     "GADMR--2026-0371-IPRUS-ZNP": "Jasiel Caizaluisa",
     "GADMR--2026-0356-IPRUS-ZNP": "Jasiel Caizaluisa",
     "GADMR--2026-0355-IPRUS-ZNP": "Jasiel Caizaluisa",
-    "GADMR--2026-0399-IPRUS-ZNP": "Jasiel Caizaluisa",
     "GADMR--2026-0455-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0475-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0473-IPRUS-ZNP": "Fausto Lopez",
@@ -142,6 +141,21 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
   "reportDrafts": {},
   "taskQueue": [],
   "activityLog": [
+    {
+      "id": "1786549712852-yb3e1y0m",
+      "recordId": "GADMR--2026-0399-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna retirada.",
+      "detail": "Valor anterior: Jasiel Caizaluisa.",
+      "timestamp": "2026-08-12T15:48:32.852Z",
+      "recordCode": "GADMR--2026-0399-IPRUS-ZNP",
+      "tramiteNumber": "1202842",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
     {
       "id": "1785882486757-8ogdvhfw",
       "recordId": "GADMR--2026-0418-IPRUS-ZNP",
