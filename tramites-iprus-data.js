@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-08-12",
-  "generatedAt": "2026-08-12T16:01:04",
+  "generatedAt": "2026-08-12T16:31:10",
   "records": [
     {
       "estado": "Asignado",
@@ -1997,71 +1997,6 @@ window.TRAMITES_IPRUS_DATA = {
     },
     {
       "estado": "Complementado",
-      "tramite": "Trámite: 1199752 GADMR--2026-0371-IPRUS-ZNP",
-      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
-      "asunto": "MOROCHO YAUCAN EDISON PAUL - IPRUS FUERA DE ZONA PATRIMONIAL",
-      "reasignadoPor": "Josselyn Dayana Orozco Velasco",
-      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "expediente": "--",
-      "fechaLimite": null,
-      "fechaIngreso": "2026-08-11T08:26:00",
-      "codigo": "GADMR--2026-0371-IPRUS-ZNP",
-      "nroTramite": 1199752,
-      "issueId": "1199752",
-      "solicitante": "MOROCHO YAUCAN EDISON PAUL",
-      "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
-      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
-      "asignadoInterno": "caizaluisae",
-      "sourceRow": 39,
-      "id": "GADMR--2026-0371-IPRUS-ZNP",
-      "egobOutcome": "NO FAVORABLE",
-      "egobOutcomeRule": "informe_con_observaciones",
-      "egobOutcomeNote": "INFORME CON OBSERVACIONES",
-      "egobOutcomeAt": "2026-07-30 16:36",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-      "egobOutcomeEntryType": "Registro",
-      "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE",
-      "egobLatestReassignmentAt": "2026-08-11 08:26",
-      "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 15,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6787229",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-09 08:36",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "criterio_legal_favorable"
-        },
-        {
-          "journalId": "6866000",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-21 15:36",
-          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
-          "note": "Se reasigna tramite iprus no favorable con las siguientes observaciones Observaciones 1. El trámite N.º 1199752 no es favorable en las condiciones presentadas. 2. Ninguna de las coordenadas se encuentra correctamente colocada en el cuadro de coordenadas. 3. Las coordenadas no corresponden a cada uno de los vértices del polígono presentado. 4. La información del cuadro de coordenadas no guarda concordancia con la planimetría ni con el archivo digital en formato DWG. 5. Se deberá corregir el cuadro de coordenadas y verificar la correspondencia entre coordenadas, vértices, polígono, planimetría y archivo digital.",
-          "outcome": "NO FAVORABLE",
-          "rule": "no_favorable"
-        },
-        {
-          "journalId": "6962898",
-          "entryType": "Registro",
-          "timestamp": "2026-07-30 16:36",
-          "author": "JOSSELYN DAYANA OROZCO VELASCO",
-          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
-          "note": "INFORME CON OBSERVACIONES",
-          "outcome": "NO FAVORABLE",
-          "rule": "informe_con_observaciones"
-        }
-      ]
-    },
-    {
-      "estado": "Complementado",
       "tramite": "Trámite: 1195727 GADMR--2026-0356-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "SEFLA CASTRO ERNESTO PATRICIO - IPRUS FUERA DE ZONA PATRIMONIAL",
@@ -2079,7 +2014,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 40,
+      "sourceRow": 39,
       "id": "GADMR--2026-0356-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -2144,7 +2079,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 41,
+      "sourceRow": 40,
       "id": "GADMR--2026-0355-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -2232,7 +2167,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 42,
+      "sourceRow": 41,
       "id": "GADMR--2026-0399-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "no_favorable",
@@ -2270,22 +2205,90 @@ window.TRAMITES_IPRUS_DATA = {
     }
   ],
   "summary": {
-    "total": 42,
+    "total": 41,
     "priorities": {
       "Normal": 25,
-      "Sin prioridad": 16,
+      "Sin prioridad": 15,
       "Urgente": 1
     },
     "states": {
       "Asignado": 24,
-      "Complementado": 14,
+      "Complementado": 13,
       "En espera": 4
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 42
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 41
     }
   },
   "historyRecords": [
+    {
+      "estado": "Complementado",
+      "tramite": "Trámite: 1199752 GADMR--2026-0371-IPRUS-ZNP",
+      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
+      "asunto": "MOROCHO YAUCAN EDISON PAUL - IPRUS FUERA DE ZONA PATRIMONIAL",
+      "reasignadoPor": "Josselyn Dayana Orozco Velasco",
+      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "expediente": "--",
+      "fechaLimite": null,
+      "fechaIngreso": "2026-08-11T08:26:00",
+      "codigo": "GADMR--2026-0371-IPRUS-ZNP",
+      "nroTramite": 1199752,
+      "issueId": "1199752",
+      "solicitante": "MOROCHO YAUCAN EDISON PAUL",
+      "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
+      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
+      "asignadoInterno": "caizaluisae",
+      "sourceRow": 39,
+      "id": "GADMR--2026-0371-IPRUS-ZNP",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "informe_con_observaciones",
+      "egobOutcomeNote": "INFORME CON OBSERVACIONES",
+      "egobOutcomeAt": "2026-07-30 16:36",
+      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
+      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+      "egobOutcomeEntryType": "Registro",
+      "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE",
+      "egobLatestReassignmentAt": "2026-08-11 08:26",
+      "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
+      "egobJournalCount": 15,
+      "egobRelevantNotes": [
+        {
+          "journalId": "6787229",
+          "entryType": "Reasignación",
+          "timestamp": "2026-07-09 08:36",
+          "author": "ANGEL JAVIER TAMAYO CEPEDA",
+          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
+          "note": "sin observaciones legales",
+          "outcome": "FAVORABLE",
+          "rule": "criterio_legal_favorable"
+        },
+        {
+          "journalId": "6866000",
+          "entryType": "Reasignación",
+          "timestamp": "2026-07-21 15:36",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Se reasigna tramite iprus no favorable con las siguientes observaciones Observaciones 1. El trámite N.º 1199752 no es favorable en las condiciones presentadas. 2. Ninguna de las coordenadas se encuentra correctamente colocada en el cuadro de coordenadas. 3. Las coordenadas no corresponden a cada uno de los vértices del polígono presentado. 4. La información del cuadro de coordenadas no guarda concordancia con la planimetría ni con el archivo digital en formato DWG. 5. Se deberá corregir el cuadro de coordenadas y verificar la correspondencia entre coordenadas, vértices, polígono, planimetría y archivo digital.",
+          "outcome": "NO FAVORABLE",
+          "rule": "no_favorable"
+        },
+        {
+          "journalId": "6962898",
+          "entryType": "Registro",
+          "timestamp": "2026-07-30 16:36",
+          "author": "JOSSELYN DAYANA OROZCO VELASCO",
+          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+          "note": "INFORME CON OBSERVACIONES",
+          "outcome": "NO FAVORABLE",
+          "rule": "informe_con_observaciones"
+        }
+      ],
+      "historyArchivedAt": "2026-08-12T16:31:10",
+      "historyLastSeenAt": "2026-08-12T16:01:04",
+      "historyStatus": "Historico"
+    },
     {
       "estado": "Complementado",
       "tramite": "Trámite: 1205691 GADMR--2026-0412-IPRUS-ZNP",
@@ -7438,21 +7441,21 @@ window.TRAMITES_IPRUS_DATA = {
     }
   ],
   "historySummary": {
-    "total": 80,
+    "total": 81,
     "priorities": {
+      "Sin prioridad": 39,
       "Urgente": 5,
       "Normal": 36,
-      "Sin prioridad": 38,
       "Crítico": 1
     },
     "states": {
-      "Complementado": 39,
+      "Complementado": 40,
       "En espera": 10,
       "Asignado": 30,
       "Nuevo": 1
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 80
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 81
     }
   }
 };
