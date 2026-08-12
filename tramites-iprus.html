@@ -2495,8 +2495,8 @@
         <h2>Asignación Masiva</h2>
         <p class="helper">
           Selecciona filas desde la tabla y escribe el nombre de la persona o técnico que recibirá los trámites.
-          En modo GitHub Pages, cada cambio se publica al repositorio y luego queda visible en cualquier computadora.
-          Además puedes descargar el archivo compartido como respaldo.
+          Esta versión quedó en modo local para empezar de nuevo sin automatizaciones activas.
+          Si quieres, después volvemos a construir la sincronización desde cero sobre una base limpia.
         </p>
         <label for="bulk-assignee">
           Persona asignada
@@ -2549,7 +2549,7 @@
       <section class="panel" id="load-panel">
         <h2 id="load-panel-title">Carga Por Persona</h2>
         <p class="helper" id="load-panel-helper">
-          Este resumen se calcula sobre el estado compartido publicado en GitHub Pages y sobre cualquier ajuste local todavía no sincronizado.
+          Este resumen se calcula sobre el estado local guardado en esta computadora.
         </p>
         <div class="load-board" id="load-board"></div>
       </section>
@@ -2735,19 +2735,22 @@
       const backendSyncDisabled = sharedConfig.disableBackendSync === true;
       const sharedAssignmentsApiUrl = backendSyncDisabled ? "" : resolveSharedStateApiUrl(sharedConfig);
       const sharedStateRefreshIntervalMs = Math.max(10000, Number(sharedConfig.syncRefreshMs) || 20000);
+      const sharedStateSyncDebounceMs = Math.max(1500, Number(sharedConfig.syncDebounceMs) || 6000);
       const githubSyncConfigStorageKey = "tramites-iprus-github-sync-v1";
       const githubSyncTokenStorageKey = "tramites-iprus-github-token-v1";
-      const assignmentStorageKey = "tramites-iprus-assignments-v1";
-      const reviewStorageKey = "tramites-iprus-review-v1";
-      const evidenceStorageKey = "tramites-iprus-evidence-v1";
-      const reportDraftStorageKey = "tramites-iprus-report-drafts-v1";
-      const taskQueueStorageKey = "tramites-iprus-task-queue-v1";
-      const activityLogStorageKey = "tramites-iprus-activity-log-v1";
+      const assignmentStorageKey = "tramites-iprus-assignments-v2";
+      const assignmentMemoryStorageKey = "tramites-iprus-assignment-memory-v1";
+      const reviewStorageKey = "tramites-iprus-review-v2";
+      const evidenceStorageKey = "tramites-iprus-evidence-v2";
+      const reportDraftStorageKey = "tramites-iprus-report-drafts-v2";
+      const taskQueueStorageKey = "tramites-iprus-task-queue-v2";
+      const activityLogStorageKey = "tramites-iprus-activity-log-v2";
       const moduleStorageKey = "tramites-iprus-module-v1";
       const sessionAssigneeStorageKey = "tramites-iprus-session-assignee-v1";
       const editorIdentityStorageKey = "tramites-iprus-editor-identity-v1";
       const sharedAssignments = loadSharedAssignments();
       const manualAssignments = loadAssignments();
+      const assignmentMemory = loadAssignmentMemory();
       const githubSyncConfig = loadGithubSyncConfig();
       let githubSessionToken = loadGithubSessionToken();
       let sharedAssignmentsApiChecked = false;
@@ -2932,6 +2935,7 @@
         wireEvents();
         refreshGithubSyncMessage();
         render();
+        ensureSharedStateAutoRefresh();
         if (backendSyncDisabled) {
           if (hasGithubSyncCredentials() && hasPendingSharedStateChanges()) {
             setMessage(
@@ -3123,6 +3127,195 @@
           }
         });
         return sanitizedAssignments;
+      }
+
+      function normalizeAssignmentMemoryEntry(rawEntry) {
+        if (!rawEntry) {
+          return null;
+        }
+
+        if (typeof rawEntry === "string") {
+          const assignee = String(rawEntry || "").trim();
+          return assignee ? { assignee, updatedAt: "", sourceRecordId: "", recordCode: "", tramiteNumber: "" } : null;
+        }
+
+        if (typeof rawEntry !== "object") {
+          return null;
+        }
+
+        const assignee = String(rawEntry.assignee || rawEntry.value || "").trim();
+        if (!assignee) {
+          return null;
+        }
+
+        return {
+          assignee,
+          updatedAt: String(rawEntry.updatedAt || rawEntry.timestamp || "").trim(),
+          sourceRecordId: String(rawEntry.sourceRecordId || rawEntry.recordId || "").trim(),
+          recordCode: String(rawEntry.recordCode || rawEntry.codigo || "").trim(),
+          tramiteNumber: String(rawEntry.tramiteNumber || rawEntry.nroTramite || "").trim(),
+          sourceType: String(rawEntry.sourceType || rawEntry.source || "").trim(),
+        };
+      }
+
+      function sanitizeAssignmentMemoryMap(rawMemory) {
+        const sanitized = {
+          byIssue: {},
+          byCode: {},
+        };
+
+        if (!rawMemory || typeof rawMemory !== "object") {
+          return sanitized;
+        }
+
+        const rawByIssue = rawMemory.byIssue && typeof rawMemory.byIssue === "object" ? rawMemory.byIssue : {};
+        const rawByCode = rawMemory.byCode && typeof rawMemory.byCode === "object" ? rawMemory.byCode : {};
+
+        Object.entries(rawByIssue).forEach(([key, value]) => {
+          const normalizedKey = String(key || "").trim();
+          const entry = normalizeAssignmentMemoryEntry(value);
+          if (normalizedKey && entry) {
+            sanitized.byIssue[normalizedKey] = entry;
+          }
+        });
+
+        Object.entries(rawByCode).forEach(([key, value]) => {
+          const normalizedKey = String(key || "").trim();
+          const entry = normalizeAssignmentMemoryEntry(value);
+          if (normalizedKey && entry) {
+            sanitized.byCode[normalizedKey] = entry;
+          }
+        });
+
+        return sanitized;
+      }
+
+      function mergeAssignmentMemoryMaps(baseMemory, overlayMemory) {
+        const merged = sanitizeAssignmentMemoryMap(baseMemory);
+        const overlay = sanitizeAssignmentMemoryMap(overlayMemory);
+        Object.entries(overlay.byIssue).forEach(([key, value]) => {
+          merged.byIssue[key] = value;
+        });
+        Object.entries(overlay.byCode).forEach(([key, value]) => {
+          merged.byCode[key] = value;
+        });
+        return merged;
+      }
+
+      function extractAssignmentAssigneeFromEntry(entry) {
+        const directAssignedTo = String(entry?.assignedTo || "").trim();
+        if (directAssignedTo) {
+          return directAssignedTo;
+        }
+
+        const summary = String(entry?.summary || "").trim();
+        if (!summary) {
+          return "";
+        }
+
+        const match = summary.match(/a\s+(.+?)(?:\.|$)/i);
+        return match ? String(match[1] || "").trim() : "";
+      }
+
+      function buildLegacyAssignmentMemory(rawSharedSource) {
+        const legacyMemory = {
+          byIssue: {},
+          byCode: {},
+        };
+
+        if (!rawSharedSource || typeof rawSharedSource !== "object") {
+          return legacyMemory;
+        }
+
+        const assignments = sanitizeAssignmentsMap(rawSharedSource.assignments);
+        const activityEntries = sanitizeActivityLog(rawSharedSource.activityLog);
+
+        function remember(keyType, key, entry) {
+          const normalizedKey = String(key || "").trim();
+          const normalizedEntry = normalizeAssignmentMemoryEntry(entry);
+          if (!normalizedKey || !normalizedEntry) {
+            return;
+          }
+
+          const target = keyType === "issue" ? legacyMemory.byIssue : legacyMemory.byCode;
+          const previous = target[normalizedKey];
+          const previousUpdatedAt = String(previous?.updatedAt || "");
+          const nextUpdatedAt = String(normalizedEntry.updatedAt || "");
+          if (!previous || nextUpdatedAt >= previousUpdatedAt) {
+            target[normalizedKey] = normalizedEntry;
+          }
+        }
+
+        activityEntries.forEach((entry) => {
+          if (!entry || !["asignacion", "asignacion-masiva", "auto-reasignacion"].includes(entry.actionType)) {
+            return;
+          }
+
+          const assignee = extractAssignmentAssigneeFromEntry(entry);
+          if (!assignee) {
+            return;
+          }
+
+          const recordCode = String(entry.recordCode || entry.recordId || "").trim();
+          const tramiteNumber = String(entry.tramiteNumber || "").trim();
+          const memoryEntry = {
+            assignee,
+            updatedAt: String(entry.timestamp || "").trim(),
+            sourceRecordId: String(entry.recordId || "").trim(),
+            recordCode,
+            tramiteNumber,
+            sourceType: "legacy-activity",
+          };
+
+          if (tramiteNumber) {
+            remember("issue", tramiteNumber, memoryEntry);
+          }
+          if (recordCode) {
+            remember("code", recordCode, memoryEntry);
+          }
+        });
+
+        Object.entries(assignments).forEach(([recordCode, assignee]) => {
+          const matchingEntry = activityEntries.find((entry) =>
+            String(entry.recordCode || entry.recordId || "").trim() === String(recordCode || "").trim()
+          );
+          const tramiteNumber = String(matchingEntry?.tramiteNumber || "").trim();
+          const memoryEntry = {
+            assignee,
+            updatedAt: String(matchingEntry?.timestamp || rawSharedSource.generatedAt || "").trim(),
+            sourceRecordId: String(matchingEntry?.recordId || recordCode || "").trim(),
+            recordCode: String(recordCode || "").trim(),
+            tramiteNumber,
+            sourceType: "legacy-assignments",
+          };
+          if (tramiteNumber) {
+            remember("issue", tramiteNumber, memoryEntry);
+          }
+          if (recordCode) {
+            remember("code", recordCode, memoryEntry);
+          }
+        });
+
+        return legacyMemory;
+      }
+
+      function loadAssignmentMemory() {
+        try {
+          const raw = localStorage.getItem(assignmentMemoryStorageKey);
+          const localMemory = raw ? JSON.parse(raw) : {};
+          const sharedMemory = sharedSource && typeof sharedSource === "object" ? sharedSource.assignmentMemory : {};
+          const legacyMemory = buildLegacyAssignmentMemory(sharedSource);
+          return mergeAssignmentMemoryMaps(
+            mergeAssignmentMemoryMaps(legacyMemory, sharedMemory),
+            localMemory
+          );
+        } catch (error) {
+          console.warn("No se pudo leer la memoria de reasignación:", error);
+          return mergeAssignmentMemoryMaps(
+            buildLegacyAssignmentMemory(sharedSource),
+            sharedSource && typeof sharedSource === "object" ? sharedSource.assignmentMemory : {}
+          );
+        }
       }
 
       function loadSharedAssignments() {
@@ -3436,11 +3629,6 @@
         target.splice(0, target.length, ...cloneJson(nextValue || []));
       }
 
-      function resolveSharedStateApiUrl(config) {
-        const baseUrl = typeof config?.backendBaseUrl === "string" ? config.backendBaseUrl.trim().replace(/\/+$/, "") : "";
-        return baseUrl ? `${baseUrl}/.netlify/functions/tramites-shared-state` : "/.netlify/functions/tramites-shared-state";
-      }
-
       function loadReviewResults() {
         try {
           const raw = localStorage.getItem(reviewStorageKey);
@@ -3543,6 +3731,10 @@
         populateAssigneeOptions();
       }
 
+      function persistAssignmentMemory() {
+        localStorage.setItem(assignmentMemoryStorageKey, JSON.stringify(sanitizeAssignmentMemoryMap(assignmentMemory)));
+      }
+
       function persistReportDrafts() {
         localStorage.setItem(reportDraftStorageKey, JSON.stringify(sanitizeReportDraftsMap(reportDrafts)));
       }
@@ -3581,15 +3773,63 @@
         return isAdminMode() ? "admin" : "assigned";
       }
 
+      function resolveSharedStateApiUrl(config) {
+        const baseUrl = String(config?.backendBaseUrl || "").trim();
+        if (!baseUrl) {
+          return "";
+        }
+        return `${baseUrl.replace(/\/+$/, "")}/.netlify/functions/tramites-shared-state`;
+      }
+
+      function getPublishedSharedStateUrl() {
+        return `./tramites-iprus-shared-state.js?flush=${encodeURIComponent(`${Date.now()}`)}`;
+      }
+
+      function parsePublishedSharedStateModule(moduleSource) {
+        const match = String(moduleSource || "").match(
+          /window\.TRAMITES_IPRUS_SHARED_STATE\s*=\s*(\{[\s\S]*\})\s*;?\s*$/
+        );
+        if (!match) {
+          throw new Error("No se pudo leer el estado compartido publicado.");
+        }
+        return JSON.parse(match[1]);
+      }
+
+      async function fetchPublishedSharedStatePayload() {
+        const response = await fetch(getPublishedSharedStateUrl(), {
+          method: "GET",
+          cache: "no-store",
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        return parsePublishedSharedStateModule(await response.text());
+      }
+
       async function hydrateSharedAssignmentsFromApi(options = {}) {
         if ((sharedStateDirty || sharedAssignmentsSyncPromise) && options.allowOverwriteDirty !== true) {
           return false;
         }
 
         if (backendSyncDisabled || !sharedAssignmentsApiUrl) {
-          sharedAssignmentsApiAvailable = false;
-          sharedAssignmentsApiChecked = true;
-          return false;
+          try {
+            const payload = await fetchPublishedSharedStatePayload();
+            sharedAssignmentsApiAvailable = false;
+            sharedAssignmentsApiChecked = true;
+
+            if (isSharedStatePayloadEmpty(payload) && hasAnySharedLocalData() && options.allowSeed !== false && hasGithubSyncCredentials()) {
+              void syncAssignmentsToSharedStore({ notify: false, forceBackend: true });
+              return true;
+            }
+
+            applySavedSharedAssignmentsPayload(payload);
+            return true;
+          } catch (error) {
+            sharedAssignmentsApiAvailable = false;
+            sharedAssignmentsApiChecked = true;
+            console.warn("No se pudo leer el estado compartido publicado:", error);
+            return false;
+          }
         }
 
         try {
@@ -3616,7 +3856,7 @@
 
           applySavedSharedAssignmentsPayload(payload);
           if (!hasGithubSyncCredentials()) {
-            setMessage(dom.githubSyncMessage, "Sincronización automática central activa. Los cambios se comparten sin usar tokens en otras computadoras.");
+            setMessage(dom.githubSyncMessage, "Sincronizacion automatica central activa. Los cambios se comparten sin usar tokens en otras computadoras.");
           }
           return true;
         } catch (error) {
@@ -3724,6 +3964,8 @@
       function hasAnySharedLocalData() {
         return Boolean(
           Object.keys(buildEffectiveAssignmentsMap()).length ||
+          Object.keys(assignmentMemory.byIssue || {}).length ||
+          Object.keys(assignmentMemory.byCode || {}).length ||
           Object.keys(reviewResults).length ||
           Object.keys(evidenceImages).length ||
           Object.keys(reportDrafts).length ||
@@ -3734,6 +3976,8 @@
 
       function isSharedStatePayloadEmpty(payload) {
         return !Object.keys(sanitizeAssignmentsMap(payload?.assignments)).length &&
+          !Object.keys(sanitizeAssignmentMemoryMap(payload?.assignmentMemory).byIssue).length &&
+          !Object.keys(sanitizeAssignmentMemoryMap(payload?.assignmentMemory).byCode).length &&
           !Object.keys(sanitizeReviewResultsMap(payload?.reviewResults)).length &&
           !Object.keys(sanitizeEvidenceImagesMap(payload?.evidenceImages)).length &&
           !Object.keys(sanitizeReportDraftsMap(payload?.reportDrafts)).length &&
@@ -3744,6 +3988,7 @@
       function buildComparableSharedStatePayload(payload) {
         return {
           assignments: sanitizeAssignmentsMap(payload?.assignments),
+          assignmentMemory: sanitizeAssignmentMemoryMap(payload?.assignmentMemory),
           reviewResults: sanitizeReviewResultsMap(payload?.reviewResults),
           evidenceImages: sanitizeEvidenceImagesMap(payload?.evidenceImages),
           reportDrafts: sanitizeReportDraftsMap(payload?.reportDrafts),
@@ -3758,9 +4003,24 @@
         return JSON.stringify(currentPayload) !== JSON.stringify(publishedPayload);
       }
 
+      function replaceAssignmentMemoryMap(target, nextValue) {
+        const sanitized = sanitizeAssignmentMemoryMap(nextValue);
+        target.byIssue = sanitized.byIssue;
+        target.byCode = sanitized.byCode;
+      }
+
       function applySavedSharedAssignmentsPayload(savedPayload, options = {}) {
         const shouldRender = options.render !== false;
-        replaceAssignmentMap(sharedAssignments, sanitizeAssignmentsMap(savedPayload.assignments));
+        const nextAssignments = sanitizeAssignmentsMap(savedPayload.assignments);
+        const nextAssignmentMemory = sanitizeAssignmentMemoryMap(savedPayload.assignmentMemory);
+        const nextReviewResults = sanitizeReviewResultsMap(savedPayload.reviewResults);
+        const nextEvidenceImages = sanitizeEvidenceImagesMap(savedPayload.evidenceImages);
+        const nextReportDrafts = sanitizeReportDraftsMap(savedPayload.reportDrafts);
+        const nextTaskQueue = sanitizeTaskQueue(savedPayload.taskQueue);
+        const nextActivityLog = sanitizeActivityLog(savedPayload.activityLog);
+
+        replaceAssignmentMap(sharedAssignments, nextAssignments);
+        replaceAssignmentMemoryMap(assignmentMemory, nextAssignmentMemory);
         Object.keys(manualAssignments).forEach((recordId) => {
           const localValue = String(manualAssignments[recordId] || "").trim();
           const remoteValue = String(sharedAssignments[recordId] || "").trim();
@@ -3768,12 +4028,23 @@
             delete manualAssignments[recordId];
           }
         });
-        replaceJsonObject(reviewResults, sanitizeReviewResultsMap(savedPayload.reviewResults));
-        replaceJsonObject(evidenceImages, sanitizeEvidenceImagesMap(savedPayload.evidenceImages));
-        replaceJsonObject(reportDrafts, sanitizeReportDraftsMap(savedPayload.reportDrafts));
-        replaceJsonArray(taskQueue, sanitizeTaskQueue(savedPayload.taskQueue));
-        replaceJsonArray(activityLog, sanitizeActivityLog(savedPayload.activityLog));
+        replaceJsonObject(reviewResults, nextReviewResults);
+        replaceJsonObject(evidenceImages, nextEvidenceImages);
+        replaceJsonObject(reportDrafts, nextReportDrafts);
+        replaceJsonArray(taskQueue, nextTaskQueue);
+        replaceJsonArray(activityLog, nextActivityLog);
+
+        sharedSource.generatedAt = String(savedPayload.generatedAt || new Date().toISOString());
+        sharedSource.syncVersion = Number(savedPayload.syncVersion) || 2;
+        sharedSource.assignments = nextAssignments;
+        sharedSource.assignmentMemory = nextAssignmentMemory;
+        sharedSource.reviewResults = nextReviewResults;
+        sharedSource.evidenceImages = nextEvidenceImages;
+        sharedSource.reportDrafts = nextReportDrafts;
+        sharedSource.taskQueue = cloneJson(nextTaskQueue);
+        sharedSource.activityLog = cloneJson(nextActivityLog);
         persistAssignments();
+        persistAssignmentMemory();
         persistReviewResults();
         persistEvidenceImages();
         persistReportDrafts();
@@ -3833,7 +4104,7 @@
                   savedPayload = await publishSharedAssignmentsToGitHub(payload);
                   setMessage(
                     dom.githubSyncMessage,
-                    "El backend central no respondió. Se publicó el estado compartido en GitHub."
+                    "El backend central no respondio. Se publico el estado compartido en GitHub."
                   );
                 } else {
                   throw apiError;
@@ -3847,6 +4118,16 @@
               );
             }
 
+            if (!savedPayload) {
+              if (notify) {
+                setMessage(
+                  dom.assignmentMessage,
+                  "No hay un destino compartido configurado. El cambio quedo guardado solo en esta computadora."
+                );
+              }
+              return false;
+            }
+
             applySavedSharedAssignmentsPayload(savedPayload, { render: false });
             sharedStateDirty = false;
             if (notify) {
@@ -3854,15 +4135,13 @@
                 dom.assignmentMessage,
                 syncedWithBackend
                   ? "Cambio compartido sincronizado. Ya debe verse en cualquier computadora."
-                  : "Cambio publicado en GitHub. Se verá en cualquier computadora cuando GitHub Pages termine de actualizar."
+                  : "Cambio publicado en GitHub. Se vera en cualquier computadora cuando GitHub Pages termine de actualizar."
               );
             }
             return true;
           } catch (error) {
-            if (!sharedAssignmentsApiChecked) {
-              sharedAssignmentsApiChecked = true;
-            }
             sharedAssignmentsApiAvailable = false;
+            sharedAssignmentsApiChecked = true;
             console.warn("No se pudo sincronizar el estado compartido:", error);
             if (hasGithubSyncCredentials()) {
               setMessage(dom.githubSyncMessage, "No se pudo publicar en GitHub. Revisa el token, el repo y la rama.");
@@ -3871,8 +4150,8 @@
               setMessage(
                 dom.assignmentMessage,
                 hasGithubSyncCredentials()
-                  ? "No se pudo publicar el cambio compartido. El cambio quedó solo en esta computadora."
-                  : "No se pudo sincronizar el cambio compartido. El cambio quedó solo en esta computadora."
+                  ? "No se pudo publicar el cambio compartido. El cambio quedo solo en esta computadora."
+                  : "No se pudo sincronizar el cambio compartido. El cambio quedo solo en esta computadora."
               );
             }
             return false;
@@ -3891,7 +4170,7 @@
       }
 
       function ensureSharedStateAutoRefresh() {
-        if (sharedStateAutoRefreshTimer || !sharedAssignmentsApiAvailable) {
+        if (sharedStateAutoRefreshTimer) {
           return;
         }
 
@@ -3927,7 +4206,7 @@
           const queuedNotify = sharedAssignmentsSyncQueuedNotify;
           sharedAssignmentsSyncQueuedNotify = false;
           void syncAssignmentsToSharedStore({ notify: queuedNotify });
-        }, 900);
+        }, sharedStateSyncDebounceMs);
       }
 
       function persistReviewResults() {
@@ -4095,6 +4374,105 @@
         return String(value || "").trim();
       }
 
+      function storeAssignmentMemoryEntry(target, key, entry) {
+        const normalizedKey = String(key || "").trim();
+        const normalizedEntry = normalizeAssignmentMemoryEntry(entry);
+        if (!normalizedKey || !normalizedEntry) {
+          return false;
+        }
+
+        const previous = target[normalizedKey];
+        const previousUpdatedAt = String(previous?.updatedAt || "").trim();
+        const nextUpdatedAt = String(normalizedEntry.updatedAt || "").trim();
+        if (!previous || !previousUpdatedAt || nextUpdatedAt >= previousUpdatedAt) {
+          target[normalizedKey] = normalizedEntry;
+          return true;
+        }
+        return false;
+      }
+
+      function rememberAssignmentMemoryForRecord(record, assignee, options = {}) {
+        if (!record) {
+          return false;
+        }
+
+        const normalizedAssignee = String(assignee || "").trim();
+        if (!normalizedAssignee) {
+          return false;
+        }
+
+        const issueKey = String(options.issueKey || getRecordIssueKey(record) || "").trim();
+        const codeKey = String(options.codeKey || record.codigo || record.id || "").trim();
+        const entry = normalizeAssignmentMemoryEntry({
+          assignee: normalizedAssignee,
+          updatedAt: String(options.updatedAt || new Date().toISOString()).trim(),
+          sourceRecordId: String(options.sourceRecordId || record.id || "").trim(),
+          recordCode: codeKey,
+          tramiteNumber: String(options.tramiteNumber || issueKey || "").trim(),
+          sourceType: String(options.sourceType || "manual").trim(),
+        });
+        if (!entry) {
+          return false;
+        }
+
+        let changed = false;
+        if (issueKey) {
+          changed = storeAssignmentMemoryEntry(assignmentMemory.byIssue, issueKey, entry) || changed;
+        }
+        if (codeKey) {
+          changed = storeAssignmentMemoryEntry(assignmentMemory.byCode, codeKey, entry) || changed;
+        }
+        return changed;
+      }
+
+      function rememberAssignmentMemoryForRecordId(recordId, assignee, options = {}) {
+        const record = findRecordById(recordId);
+        if (record) {
+          return rememberAssignmentMemoryForRecord(record, assignee, options);
+        }
+
+        const normalizedAssignee = String(assignee || "").trim();
+        if (!normalizedAssignee) {
+          return false;
+        }
+
+        const recordCode = String(options.codeKey || recordId || "").trim();
+        return storeAssignmentMemoryEntry(assignmentMemory.byCode, recordCode, {
+          assignee: normalizedAssignee,
+          updatedAt: String(options.updatedAt || new Date().toISOString()).trim(),
+          sourceRecordId: String(options.sourceRecordId || recordId || "").trim(),
+          recordCode,
+          tramiteNumber: String(options.tramiteNumber || "").trim(),
+          sourceType: String(options.sourceType || "manual").trim(),
+        });
+      }
+
+      function getAssignmentMemoryCandidate(record) {
+        if (!record) {
+          return null;
+        }
+
+        const issueKey = getRecordIssueKey(record);
+        const codeKey = String(record.codigo || record.id || "").trim();
+        const issueEntry = issueKey ? normalizeAssignmentMemoryEntry(assignmentMemory.byIssue[issueKey]) : null;
+        if (issueEntry?.assignee) {
+          return {
+            ...issueEntry,
+            matchType: "issue",
+          };
+        }
+
+        const codeEntry = codeKey ? normalizeAssignmentMemoryEntry(assignmentMemory.byCode[codeKey]) : null;
+        if (codeEntry?.assignee) {
+          return {
+            ...codeEntry,
+            matchType: "code",
+          };
+        }
+
+        return null;
+      }
+
       function isGenericActorLabel(value) {
         const normalized = normalizeText(value);
         return !normalized || normalized === "administrador central" || normalized === "asignado local";
@@ -4194,6 +4572,23 @@
             return rightDate.localeCompare(leftDate);
           });
 
+        const memoryCandidate = getAssignmentMemoryCandidate(record);
+        if (
+          memoryCandidate &&
+          memoryCandidate.assignee &&
+          (historyMatches.length || (memoryCandidate.sourceRecordId && memoryCandidate.sourceRecordId !== record.id))
+        ) {
+          const referenceType = memoryCandidate.matchType === "issue"
+            ? "numero de tramite"
+            : "codigo interno";
+          return {
+            assignee: memoryCandidate.assignee,
+            sourceRecordId: memoryCandidate.sourceRecordId || "",
+            sourceType: memoryCandidate.sourceType || "memoria",
+            detail: `Se recupero la asignacion memorizada por ${referenceType} del antecedente mas reciente del tramite reingresado.`,
+          };
+        }
+
         for (const historyRecord of historyMatches) {
           const historyTramiteNumber = getReportTramiteNumber(historyRecord);
           const historyOutcome = getEgobOutcome(historyRecord);
@@ -4264,7 +4659,7 @@
           }
 
           manualAssignments[record.id] = candidate.assignee;
-          appendActivityEntry(
+          const entry = appendActivityEntry(
             record.id,
             `Reasignación automática restaurada a ${candidate.assignee}.`,
             {
@@ -4273,6 +4668,11 @@
               assignedTo: candidate.assignee,
             }
           );
+          rememberAssignmentMemoryForRecord(record, candidate.assignee, {
+            updatedAt: entry.timestamp,
+            sourceRecordId: candidate.sourceRecordId || record.id,
+            sourceType: `auto-${candidate.sourceType || "memoria"}`,
+          });
           restored.push({
             id: record.id,
             assignee: candidate.assignee,
@@ -4284,7 +4684,8 @@
         }
 
         persistAssignments();
-        scheduleSharedStateSync({ notify: false, immediate: true });
+        persistAssignmentMemory();
+        scheduleSharedStateSync({ notify: false });
         setMessage(
           dom.moduleMessage,
           restored.length === 1
@@ -4337,13 +4738,24 @@
           entry.assignedTo = result.next;
           entry.assignedFrom = result.previous;
           persistActivityLog();
+          if (result.next) {
+            rememberAssignmentMemoryForRecordId(id, result.next, {
+              updatedAt: entry.timestamp,
+              sourceRecordId: entry.recordId,
+              codeKey: entry.recordCode,
+              tramiteNumber: entry.tramiteNumber,
+              sourceType: "manual",
+            });
+            persistAssignmentMemory();
+          }
         }
         persistAssignments();
-        scheduleSharedStateSync({ notify: true, immediate: true });
+        scheduleSharedStateSync({ notify: true });
         return result.changed;
       }
 
       function setManyAssignments(entries) {
+        let memoryChanged = false;
         entries.forEach(([id, value]) => {
           const result = assignValue(id, value);
           if (!result.changed) {
@@ -4365,9 +4777,21 @@
           entry.assignedTo = result.next;
           entry.assignedFrom = result.previous;
           persistActivityLog();
+          if (result.next) {
+            memoryChanged = rememberAssignmentMemoryForRecordId(id, result.next, {
+              updatedAt: entry.timestamp,
+              sourceRecordId: entry.recordId,
+              codeKey: entry.recordCode,
+              tramiteNumber: entry.tramiteNumber,
+              sourceType: "manual-masivo",
+            }) || memoryChanged;
+          }
         });
         persistAssignments();
-        scheduleSharedStateSync({ notify: true, immediate: true });
+        if (memoryChanged) {
+          persistAssignmentMemory();
+        }
+        scheduleSharedStateSync({ notify: true });
       }
 
       function getReviewValue(recordId, fieldKey) {
@@ -4961,17 +5385,17 @@
         dom.saveGithubSyncButton.addEventListener("click", () => {
           const nextConfig = updateGithubSyncFromDom();
           if (!nextConfig.owner || !nextConfig.repo || !nextConfig.branch) {
-            setMessage(dom.githubSyncMessage, "Completa owner, repositorio y rama para activar la publicación con GitHub.");
+            setMessage(dom.githubSyncMessage, "Completa owner, repositorio y rama para activar la publicacion con GitHub.");
             return;
           }
           if (!nextConfig.token) {
-            setMessage(dom.githubSyncMessage, "La configuración GitHub quedó guardada, pero falta pegar el token para poder publicar.");
+            setMessage(dom.githubSyncMessage, "La configuracion GitHub quedo guardada, pero falta pegar el token para poder publicar.");
             return;
           }
 
           setMessage(
             dom.githubSyncMessage,
-            `Conexión GitHub lista para ${nextConfig.owner}/${nextConfig.repo} en la rama ${nextConfig.branch}. Desde ahora las asignaciones se publican automáticamente.`
+            `Conexion GitHub lista para ${nextConfig.owner}/${nextConfig.repo} en la rama ${nextConfig.branch}. Desde ahora las asignaciones se publican automaticamente.`
           );
         });
 
@@ -5001,8 +5425,8 @@
           setMessage(
             dom.exportMessage,
             assignmentCount
-              ? `Se descargó el estado compartido con ${assignmentCount} asignaciones, ${reviewCount} revisiones, ${evidenceCount} grupos de evidencia, ${draftCount} borradores, ${taskCount} tareas y ${activityCount} eventos de bitácora.`
-              : "Se descargó el estado compartido vacío para reiniciar la vista central desde cero."
+              ? `Se descargó el estado local con ${assignmentCount} asignaciones, ${reviewCount} revisiones, ${evidenceCount} grupos de evidencia, ${draftCount} borradores, ${taskCount} tareas y ${activityCount} eventos de bitácora.`
+              : "Se descargó el estado local vacío para reiniciar la vista de esta computadora desde cero."
           );
         });
 
@@ -5053,7 +5477,7 @@
           const keys = Object.keys(manualAssignments);
           setManyAssignments(keys.map((key) => [key, ""]));
           render();
-          setMessage(dom.exportMessage, "Se limpiaron las asignaciones locales. Si existe un estado compartido central, seguirá visible.");
+          setMessage(dom.exportMessage, "Se limpiaron las asignaciones locales de esta computadora.");
         });
 
         dom.clearQuickFilterButton.addEventListener("click", () => {
@@ -5332,7 +5756,7 @@
         });
 
         document.addEventListener("visibilitychange", () => {
-          if (!document.hidden && sharedAssignmentsApiAvailable && !sharedStateDirty) {
+          if (!document.hidden && !sharedStateDirty) {
             void hydrateSharedAssignmentsFromApi({ allowOverwriteDirty: false, allowSeed: false });
           }
         });
@@ -7645,9 +8069,9 @@
         dom.loadPanelHelper.textContent = adminMode
           ? historyMode
             ? "Este resumen se calcula sobre los trámites históricos y te permite revisar qué quedó fuera de la bandeja activa."
-            : "Este resumen se calcula sobre el estado compartido central y sobre cualquier ajuste local todavía no sincronizado."
+            : "Este resumen se calcula sobre el estado local guardado en esta computadora."
           : historyMode
-            ? "Aquí se resume el historial del asignado dentro de sus trámites ya sincronizados fuera de la bandeja activa."
+            ? "Aquí se resume el historial del asignado dentro de sus trámites ya registrados fuera de la bandeja activa."
             : "Aquí se resume el avance del asignado dentro de su propia bandeja de revisión técnica.";
         dom.tableTitle.textContent = adminMode
           ? (historyMode ? "Historial de Trámites" : "Panel Maestro de Trámites")
@@ -7672,7 +8096,7 @@
               ${
                 adminMode
                   ? historyMode
-                    ? "Desde aquí puedes revisar los trámites que ya no aparecen en la bandeja activa, mantener su detalle técnico y consultar la trazabilidad de la sincronización."
+                    ? "Desde aquí puedes revisar los trámites que ya no aparecen en la bandeja activa, mantener su detalle técnico y consultar la trazabilidad registrada."
                     : "Desde aquí puedes asignar trámites, revisar prioridades, abrir cualquier ficha técnica y descargar exportables completos."
                   : historyMode
                     ? state.sessionAssignee
@@ -7772,9 +8196,9 @@
         dom.loadPanelHelper.textContent = adminMode
           ? historyMode
             ? "Este resumen se calcula sobre los tramites historicos y te permite revisar que quedo fuera de la bandeja activa."
-            : "Este resumen se calcula sobre el estado compartido central y sobre cualquier ajuste local todavia no sincronizado."
+            : "Este resumen se calcula sobre el estado local guardado en esta computadora."
           : historyMode
-            ? "Aqui se resume el historial del asignado dentro de sus tramites ya sincronizados fuera de la bandeja activa."
+            ? "Aqui se resume el historial del asignado dentro de sus tramites ya registrados fuera de la bandeja activa."
             : "Aqui se resume el avance del asignado dentro de su propia bandeja de revision tecnica.";
         dom.tableTitle.textContent = adminMode
           ? trackingMode
@@ -7810,7 +8234,7 @@
                   ? trackingMode
                     ? "Desde aqui puedes ver el reparto interno completo, comparar cuántos trámites siguen asignados o complementados en EGOB frente al resultado favorable, no favorable o en revisión detectado en sus reasignaciones, y demostrar el avance con gráficos consolidados por asignado."
                     : historyMode
-                      ? "Desde aqui puedes revisar los tramites que ya no aparecen en la bandeja activa, mantener su detalle tecnico y consultar la trazabilidad de la sincronizacion."
+                      ? "Desde aqui puedes revisar los tramites que ya no aparecen en la bandeja activa, mantener su detalle tecnico y consultar la trazabilidad registrada."
                       : "Desde aqui puedes asignar tramites, revisar prioridades, abrir cualquier ficha tecnica y descargar exportables completos."
                   : historyMode
                     ? state.sessionAssignee
@@ -7876,28 +8300,16 @@
 
       function getAdminSharedStateCopy(total) {
         if (sharedAssignmentsApiAvailable) {
-          return sharedStateDirty
-            ? {
-                helper: "Este resumen se calcula sobre el estado compartido central y sobre cualquier ajuste local todavia no sincronizado.",
-                brand: `Se cargaron ${total} tramites activos con estado compartido central y ajustes locales pendientes de sincronizacion.`,
-              }
-            : {
-                helper: "Este resumen se calcula sobre el estado compartido central ya publicado para todas las computadoras.",
-                brand: `Se cargaron ${total} tramites activos con estado compartido central listo para todas las computadoras.`,
-              };
-        }
-
-        if (hasGithubSyncCredentials() && backendSyncDisabled) {
           return {
-            helper: "Este resumen usa GitHub Pages como estado compartido publicado para las otras computadoras.",
-            brand: `Se cargaron ${total} tramites activos con estado compartido publicado directamente en GitHub Pages.`,
+            helper: "Este resumen se calcula sobre el estado compartido central activo.",
+            brand: `Se cargaron ${total} tramites activos con sincronizacion central activa.`,
           };
         }
 
-        if (hasGithubSyncCredentials()) {
+        if (backendSyncDisabled) {
           return {
-            helper: "Este resumen usa el respaldo publicado en GitHub mientras el backend central no esta disponible.",
-            brand: `Se cargaron ${total} tramites activos con respaldo publicado en GitHub mientras el backend central vuelve a estar disponible.`,
+            helper: "Este resumen se calcula sobre el estado compartido publicado en GitHub Pages y la memoria activa de reasignacion.",
+            brand: `Se cargaron ${total} tramites activos con estado compartido publicado en GitHub Pages.`,
           };
         }
 
@@ -7931,7 +8343,7 @@
             `${source.title}. Fuente ${source.sourceFile}. ` +
             (historyMode
               ? `Se mantienen ${total} trámites en historial consultable además de la bandeja activa.`
-              : `Se cargaron ${total} trámites activos con estado compartido central y ajustes locales pendientes de sincronización.`);
+              : `Se cargaron ${total} trámites activos usando el estado local de esta computadora.`);
         } else {
           const finished = scopedRecords.filter((record) => getReviewSummary(record.id).pending === 0).length;
           const blocked = getEgobOutcomeCounts(scopedRecords).blocked;
@@ -8662,7 +9074,9 @@
           title: "TRAMITES IPRUS SHARED STATE",
           sourceDate: source.generatedAt || source.sourceDate || "",
           generatedAt: new Date().toISOString(),
+          syncVersion: 2,
           assignments: buildEffectiveAssignmentsMap(),
+          assignmentMemory: sanitizeAssignmentMemoryMap(assignmentMemory),
           reviewResults: sanitizeReviewResultsMap(reviewResults),
           evidenceImages: sanitizeEvidenceImagesMap(evidenceImages),
           reportDrafts: sanitizeReportDraftsMap(reportDrafts),
