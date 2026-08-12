@@ -24,3 +24,5 @@ riobamba-censo-data/riobamba_osm_walk_network_*.json
 .env.egobedoc.local
 outputs/passig_citizen.html
 outputs/passig_citizen-meta.json
+outputs/sync-scheduler.log
+__pycache__/
