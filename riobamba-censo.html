@@ -491,6 +491,7 @@
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
     const DATA_VERSION = "20260731-isocronas-todas-plataformas";
+    const PUBLISHED_VIEWER_URL = "https://stevanjazziel-ui.github.io/geoportal-catastro/riobamba-censo.html";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const TRANSPORTE_ROUTES_SHP_KEY = "rutas_transporte_intracantonal_recortadas_400m_carto";
@@ -794,6 +795,16 @@
 
     function formatNumber(value) {
       return Number(value || 0).toLocaleString("es-EC");
+    }
+
+    function showLocalOpenWarning() {
+      overlayTitle.textContent = "Abrir desde la web";
+      overlayText.innerHTML =
+        `Este visor no debe abrirse como archivo local.<br>` +
+        `Abre la version publicada aqui: <a href="${PUBLISHED_VIEWER_URL}" target="_blank" rel="noopener noreferrer">${PUBLISHED_VIEWER_URL}</a>`;
+      statusText.innerHTML =
+        `No se cargaron los datos porque el archivo se abrio con <strong>file://</strong>.<br>` +
+        `Usa la version publicada o un servidor local.`;
     }
 
     function repairText(value) {
@@ -3711,6 +3722,11 @@
 
     async function init() {
       try {
+        if (window.location.protocol === "file:") {
+          showLocalOpenWarning();
+          return;
+        }
+
         simplifyInterfaceForPublicEntorno();
 
         const [
