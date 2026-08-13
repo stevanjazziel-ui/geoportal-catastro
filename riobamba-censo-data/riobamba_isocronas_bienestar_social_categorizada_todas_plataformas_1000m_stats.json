@@ -1,25 +1,16 @@
 {
-  "generated_at": "2026-08-04T12:25:30",
-  "source_geojson": "D:\\codex\\_publish_clone_20260731b\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
-  "source_osm_cache": "D:\\codex\\_publish_clone_20260731b\\riobamba-censo-data\\riobamba_osm_walk_network_5categorias_todas_plataformas.json",
+  "generated_at": "2026-07-31T15:43:36",
+  "source_geojson": "D:\\codex\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
+  "source_osm_cache": "D:\\codex\\riobamba-censo-data\\riobamba_osm_walk_network_5categorias_todas_plataformas.json",
   "summary": {
-    "total_equipamientos_bruto": 23,
-    "total_equipamientos": 22,
+    "total_equipamientos": 23,
     "total_isocronas": 20,
     "categorias_con_isocrona": 2,
-    "omitidos": 2,
+    "omitidos": 3,
     "manzanas_ajustadas": 4180,
-    "manzanas_grandes_recortadas": 193,
-    "duplicates_removed": 1,
-    "duplicates_exact": 0,
-    "duplicates_probable": 1
+    "manzanas_grandes_recortadas": 193
   },
   "by_categoria_source": {
-    "ZONAL": 11,
-    "BARRIAL": 9,
-    "CANTONAL": 2
-  },
-  "by_categoria_source_bruto": {
     "ZONAL": 11,
     "BARRIAL": 9,
     "CANTONAL": 3
@@ -29,10 +20,10 @@
     "BARRIAL": 9
   },
   "by_categoria_omitidos": {
-    "CANTONAL": 2
+    "CANTONAL": 3
   },
   "by_distance_m": {
     "1000": 20
   },
-  "observacion": "Isocronas de bienestar social todas las plataformas usando el levantamiento publico de todas las plataformas. BARRIAL y ZONAL se generan a 1000 m. CANTONAL no se procesa. Las manzanas grandes se recortan al limite exacto de red para evitar extensiones mayores a la distancia objetivo y el resultado final se prepara para mostrar solo el limite exterior. Se conservaron las geometrías existentes y se filtraron las asociadas a puntos duplicados."
+  "observacion": "Isocronas de bienestar social todas las plataformas usando el levantamiento publico de todas las plataformas. BARRIAL y ZONAL se generan a 1000 m. CANTONAL no se procesa. Las manzanas grandes se recortan al limite exacto de red para evitar extensiones mayores a la distancia objetivo y el resultado final se prepara para mostrar solo el limite exterior."
 }

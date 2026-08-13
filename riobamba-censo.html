@@ -12,17 +12,17 @@
   />
   <style>
     :root {
-      --bg: #eef3ea;
-      --bg-2: #dde7d7;
-      --panel: rgba(248, 250, 244, 0.95);
-      --panel-2: rgba(241, 245, 236, 0.96);
-      --line: rgba(106, 126, 99, 0.22);
-      --text: #243226;
-      --muted: #627464;
-      --accent: #4f8f52;
-      --accent-2: #5f8eb9;
-      --platform: #b799d5;
-      --shadow: 0 18px 36px rgba(62, 78, 59, 0.14);
+      --bg: #07121c;
+      --bg-2: #0d1d2b;
+      --panel: rgba(10, 21, 32, 0.94);
+      --panel-2: rgba(15, 30, 46, 0.95);
+      --line: rgba(126, 198, 255, 0.16);
+      --text: #edf6ff;
+      --muted: #99b3c8;
+      --accent: #61c7ff;
+      --accent-2: #8ff2db;
+      --platform: #d2a8ff;
+      --shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
     }
 
     * { box-sizing: border-box; }
@@ -32,9 +32,9 @@
       font-family: "Segoe UI", Tahoma, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(95, 142, 185, 0.12), transparent 26%),
-        radial-gradient(circle at 88% 12%, rgba(79, 143, 82, 0.1), transparent 18%),
-        linear-gradient(180deg, #eff4ea, #dde6d7);
+        radial-gradient(circle at top left, rgba(97, 199, 255, 0.12), transparent 26%),
+        radial-gradient(circle at 88% 12%, rgba(143, 242, 219, 0.08), transparent 18%),
+        linear-gradient(180deg, #0c1824, #08111a);
     }
 
     .layout {
@@ -46,8 +46,7 @@
     .sidebar {
       overflow-y: auto;
       padding: 18px;
-      background:
-        linear-gradient(180deg, rgba(242, 246, 238, 0.98), rgba(231, 238, 226, 0.98));
+      background: linear-gradient(180deg, rgba(9, 18, 29, 0.98), rgba(6, 12, 20, 0.98));
       border-right: 1px solid var(--line);
     }
 
@@ -74,17 +73,14 @@
       color: var(--text);
       font: inherit;
       outline: none;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
     }
 
     button {
       width: 100%;
       padding: 12px 14px;
-      border: 1px solid rgba(79, 143, 82, 0.28);
+      border: 1px solid rgba(97, 199, 255, 0.22);
       border-radius: 12px;
-      background:
-        linear-gradient(135deg, rgba(79, 143, 82, 0.18), rgba(95, 142, 185, 0.14)),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0));
+      background: linear-gradient(135deg, rgba(97, 199, 255, 0.2), rgba(143, 242, 219, 0.16));
       color: var(--text);
       font: inherit;
       font-weight: 700;
@@ -94,10 +90,8 @@
 
     button:hover:not(:disabled) {
       transform: translateY(-1px);
-      border-color: rgba(95, 142, 185, 0.34);
-      background:
-        linear-gradient(135deg, rgba(79, 143, 82, 0.24), rgba(95, 142, 185, 0.2)),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.46), rgba(255, 255, 255, 0));
+      border-color: rgba(143, 242, 219, 0.34);
+      background: linear-gradient(135deg, rgba(97, 199, 255, 0.28), rgba(143, 242, 219, 0.2));
     }
 
     button:disabled {
@@ -139,45 +133,15 @@
     .legend-row {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       gap: 10px;
       color: var(--muted);
-    }
-
-    .legend-label {
-      flex: 1 1 auto;
-    }
-
-    .legend-symbols {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      flex: 0 0 auto;
-      min-width: 58px;
-    }
-
-    .legend-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 999px;
-      border: 2px solid rgba(36, 50, 38, 0.85);
-      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.32);
-    }
-
-    .legend-section-title {
-      margin: 8px 0 2px;
-      color: var(--text);
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
     }
 
     .legend-swatch {
       width: 18px;
       height: 12px;
       border-radius: 4px;
-      border: 1px solid rgba(64, 84, 62, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.16);
     }
 
     .mini-list {
@@ -241,122 +205,36 @@
       flex: 0 0 auto;
     }
 
-    .category-filter-item {
-      border-radius: 14px;
-      background: var(--panel-2);
-      border: 1px solid var(--line);
-      overflow: hidden;
-    }
-
-    .category-filter-row {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: center;
-      gap: 12px;
-      padding: 6px 10px 6px 12px;
-    }
-
-    .category-filter-button {
-      width: 100%;
-      padding: 8px 0;
-      border: 0;
-      border-radius: 0;
+    .barrio-label-icon {
       background: transparent;
-      box-shadow: none;
-      text-align: left;
-      color: var(--text);
-      transform: none !important;
-    }
-
-    .category-filter-button:hover:not(:disabled) {
       border: 0;
-      background: transparent;
+      pointer-events: none;
     }
 
-    .category-filter-label {
-      display: block;
-      font-size: 0.96rem;
-      color: var(--text);
-    }
-
-    .category-filter-hint {
-      display: block;
-      margin-top: 4px;
-      font-size: 0.78rem;
-      color: var(--muted);
-      font-style: normal;
+    .barrio-label {
+      transform: translate(-50%, -50%);
+      padding: 3px 7px;
+      border-radius: 10px;
+      background: rgba(6, 14, 22, 0.72);
+      border: 1px solid rgba(255, 236, 153, 0.36);
+      color: #f6fbff;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.15;
+      text-align: center;
       letter-spacing: 0.01em;
+      white-space: normal;
+      max-width: 132px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.24);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+      pointer-events: none;
     }
 
-    .category-point-list {
-      display: grid;
-      gap: 6px;
-      padding: 0 12px 12px;
-      border-top: 1px dashed rgba(106, 126, 99, 0.2);
-      background: rgba(255, 255, 255, 0.32);
-    }
-
-    .category-point-item {
-      color: var(--text);
-      font-size: 0.9rem;
-      line-height: 1.35;
-      padding-top: 8px;
-    }
+    #map { width: 100%; height: 100%; }
 
     .map-wrap {
       position: relative;
       height: 100%;
-      overflow: hidden;
-      isolation: isolate;
-      background:
-        radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.52), transparent 24%),
-        radial-gradient(circle at 82% 78%, rgba(216, 211, 201, 0.34), transparent 28%),
-        linear-gradient(180deg, #f5f2eb, #ece7de);
-    }
-
-    .map-wrap::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.34), transparent 18%),
-        radial-gradient(circle at 88% 74%, rgba(223, 218, 209, 0.32), transparent 24%),
-        repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0 2px, transparent 2px 9px);
-      opacity: 0.7;
-      mix-blend-mode: multiply;
-    }
-
-    #map,
-    .leaflet-container {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      height: 100%;
-      background: transparent;
-    }
-
-    .leaflet-container.diagnostic-map,
-    .leaflet-container.osm-map {
-      background: linear-gradient(180deg, #faf7f2, #f1ede5);
-    }
-
-    .leaflet-container.diagnostic-map .leaflet-tile-pane {
-      opacity: 0.9;
-    }
-
-    .leaflet-container.osm-map .leaflet-tile-pane,
-    .leaflet-container.imagery-map .leaflet-tile-pane {
-      opacity: 1;
-    }
-
-    .osm-base-tiles {
-      filter: grayscale(1) saturate(0) brightness(1.08) contrast(1.08);
-    }
-
-    .diagnostic-base-tiles {
-      filter: grayscale(0.46) saturate(0.34) brightness(1.08) contrast(0.94);
     }
 
     .overlay {
@@ -366,7 +244,7 @@
       z-index: 500;
       width: min(380px, calc(100% - 32px));
       padding: 14px;
-      background: rgba(248, 250, 244, 0.92);
+      background: rgba(8, 18, 28, 0.92);
       border: 1px solid var(--line);
       border-radius: 16px;
       box-shadow: var(--shadow);
@@ -378,146 +256,9 @@
       margin-bottom: 6px;
     }
 
-    .analysis-card {
-      position: absolute;
-      top: 118px;
-      bottom: 16px;
-      right: 16px;
-      z-index: 500;
-      width: min(380px, calc(100% - 32px));
-      padding: 14px;
-      background: rgba(247, 250, 243, 0.94);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .analysis-card[hidden] {
-      display: none !important;
-    }
-
-    .analysis-card h3 {
-      margin: 0 0 4px;
-      font-size: 0.95rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .analysis-card p {
-      margin: 0 0 12px;
-      font-size: 0.88rem;
-    }
-
-    .analysis-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      flex: 1 1 auto;
-      min-height: 0;
-      overflow-y: auto;
-      padding-right: 4px;
-      align-content: start;
-    }
-
-    .analysis-item {
-      padding: 12px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.56);
-      border: 1px solid rgba(106, 126, 99, 0.18);
-    }
-
-    .analysis-item.expandable {
-      cursor: pointer;
-      transition: border-color 120ms ease, background 120ms ease, transform 120ms ease;
-    }
-
-    .analysis-item.expandable:hover {
-      border-color: rgba(95, 142, 185, 0.34);
-      background: rgba(95, 142, 185, 0.12);
-      transform: translateY(-1px);
-    }
-
-    .analysis-item.expandable:focus-visible {
-      outline: 2px solid rgba(79, 143, 82, 0.55);
-      outline-offset: 2px;
-    }
-
-    .analysis-item.expanded {
-      border-color: rgba(79, 143, 82, 0.28);
-      background: rgba(79, 143, 82, 0.1);
-    }
-
-    .analysis-item.wide {
-      grid-column: 1 / -1;
-    }
-
-    .analysis-item span {
-      display: block;
-      color: var(--muted);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .analysis-item strong {
-      display: block;
-      margin-top: 4px;
-      font-size: 1.28rem;
-      line-height: 1.1;
-    }
-
-    .analysis-item small {
-      display: block;
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 0.82rem;
-      line-height: 1.3;
-    }
-
-    .analysis-item-hint {
-      display: block;
-      margin-top: 8px;
-      color: var(--accent-2);
-      font-size: 0.76rem;
-      letter-spacing: 0.02em;
-      font-style: normal;
-    }
-
-    .analysis-breakdown {
-      display: grid;
-      gap: 6px;
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid rgba(106, 126, 99, 0.14);
-    }
-
-    .analysis-breakdown-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: baseline;
-    }
-
-    .analysis-breakdown-row span {
-      color: var(--muted);
-      font-size: 0.8rem;
-      letter-spacing: 0.02em;
-      text-transform: none;
-    }
-
-    .analysis-breakdown-row strong {
-      margin: 0;
-      font-size: 0.95rem;
-      line-height: 1.1;
-    }
-
     .leaflet-popup-content-wrapper,
     .leaflet-popup-tip {
-      background: rgba(248, 250, 244, 0.96);
+      background: rgba(9, 19, 30, 0.96);
       color: var(--text);
       border: 1px solid var(--line);
     }
@@ -527,59 +268,12 @@
       box-shadow: var(--shadow);
     }
 
-    .leaflet-control-layers-expanded,
-    .leaflet-control-layers-toggle,
-    .leaflet-bar a {
-      background: rgba(248, 250, 244, 0.96);
-      color: var(--text);
-    }
-
-    .leaflet-bar a:hover,
-    .leaflet-bar a:focus-visible {
-      background: rgba(234, 241, 231, 0.98);
-      color: var(--text);
-    }
-
-    .map-legend-card {
-      position: absolute;
-      left: 16px;
-      bottom: 16px;
-      z-index: 500;
-      width: min(320px, calc(100% - 32px));
-      max-height: min(42vh, 420px);
-      padding: 14px;
-      background: rgba(247, 250, 243, 0.92);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-      overflow-y: auto;
-    }
-
-    .map-legend-card h3 {
-      margin: 0 0 10px;
-      font-size: 0.9rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
     @media (max-width: 920px) {
       .layout { grid-template-columns: 1fr; }
       .sidebar {
         max-height: 46dvh;
         border-right: none;
         border-bottom: 1px solid var(--line);
-      }
-
-      .analysis-card {
-        top: 96px;
-        bottom: 16px;
-        width: min(380px, calc(100% - 32px));
-      }
-
-      .map-legend-card {
-        width: min(300px, calc(100% - 32px));
-        max-height: min(34vh, 320px);
       }
     }
   </style>
@@ -603,35 +297,6 @@
       </section>
 
       <section class="panel">
-        <h2>Capas visibles</h2>
-        <div class="layer-toggles">
-          <label class="layer-toggle" style="display:none;"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Manzanas solo contorno</span><input id="toggleManzanasOutlineOnly" type="checkbox"></label>
-          <label class="layer-toggle" style="display:none;"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
-          <label class="layer-toggle" style="display:none;"><span>Equipamientos</span><input id="toggleEquipamientos" type="checkbox" checked></label>
-          <label class="layer-toggle" style="display:none;"><span>Red vial OSM 1000 m</span><input id="toggleRedVial1000m" type="checkbox"></label>
-          <label class="layer-toggle" style="display:none;"><span>Red vial OSM 400 m</span><input id="toggleRedVial400m" type="checkbox"></label>
-          <label class="layer-toggle" style="display:none;"><span>Borde externo isocrona exacta 400 m</span><input id="toggleIsocrona400m" type="checkbox"></label>
-          <label class="layer-toggle" style="display:none;"><span>Contorno cartografico 400 m ajustado</span><input id="toggleIsocrona400mCarto" type="checkbox"></label>
-          <label class="layer-toggle" style="display:none;"><span>Rutas transporte recortadas 400 m</span><input id="toggleTransporteRutas" type="checkbox"></label>
-          <label class="layer-toggle" style="display:none;"><span>Buffer transporte 200 m por lado</span><input id="toggleTransporteBuffer" type="checkbox"></label>
-          <label class="layer-toggle" style="display:none;"><span>Isocrona 1000 m desde equipamientos</span><input id="toggleIsocronasColindantes" type="checkbox"></label>
-          <label class="layer-toggle"><span>Educacion</span><input id="toggleEducacionIsocronas" type="checkbox" checked></label>
-          <label class="layer-toggle" style="display:none;"><span>Puntos inicio educacion</span><input id="toggleEducacionIsocronasPuntos" type="checkbox"></label>
-          <label class="layer-toggle"><span>Recreacion y deporte</span><input id="toggleRecreacionIsocronas" type="checkbox" checked></label>
-          <label class="layer-toggle" style="display:none;"><span>Puntos inicio recreacion</span><input id="toggleRecreacionIsocronasPuntos" type="checkbox"></label>
-          <label class="layer-toggle"><span>Bienestar social</span><input id="toggleBienestarIsocronas" type="checkbox" checked></label>
-          <label class="layer-toggle" style="display:none;"><span>Puntos inicio bienestar social</span><input id="toggleBienestarIsocronasPuntos" type="checkbox"></label>
-          <label class="layer-toggle"><span>Cultura</span><input id="toggleCulturaIsocronas" type="checkbox" checked></label>
-          <label class="layer-toggle" style="display:none;"><span>Puntos inicio cultura</span><input id="toggleCulturaIsocronasPuntos" type="checkbox"></label>
-          <label class="layer-toggle"><span>Salud</span><input id="toggleSaludIsocronas" type="checkbox" checked></label>
-          <label class="layer-toggle" style="display:none;"><span>Puntos inicio salud</span><input id="toggleSaludIsocronasPuntos" type="checkbox"></label>
-          <label class="layer-toggle" style="display:none;"><span>Isocronas paradas de bus 400 m</span><input id="toggleParadasBusIsocronas" type="checkbox"></label>
-          <label class="layer-toggle" style="display:none;"><span>Puntos inicio paradas de bus</span><input id="toggleParadasBusPuntos" type="checkbox"></label>
-        </div>
-      </section>
-
-      <section class="panel">
         <h2>Categorias del entorno</h2>
         <div class="inline-actions">
           <button id="selectAllCategoriesButton" type="button" disabled>Mostrar todas</button>
@@ -641,8 +306,37 @@
           <p style="margin:0;color:var(--muted);">Cargando categorias del entorno...</p>
         </div>
         <p style="margin-top:10px;">
-          Separa los puntos tematicos de las 5 categorias de isocronas y deja visibles solo las que quieras revisar.
+          Separa los puntos publicos por categoria tematica y deja visibles solo las que quieras revisar.
         </p>
+      </section>
+
+      <section class="panel">
+        <h2>Capas visibles</h2>
+        <div class="layer-toggles">
+          <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Barrios dentro de plataformas</span><input id="toggleBarrios" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Equipamientos</span><input id="toggleEquipamientos" type="checkbox" checked></label>
+          <label class="layer-toggle" style="display:none;"><span>Red vial OSM 1000 m</span><input id="toggleRedVial1000m" type="checkbox"></label>
+          <label class="layer-toggle" style="display:none;"><span>Red vial OSM 400 m</span><input id="toggleRedVial400m" type="checkbox"></label>
+          <label class="layer-toggle" style="display:none;"><span>Borde externo isocrona exacta 400 m</span><input id="toggleIsocrona400m" type="checkbox"></label>
+          <label class="layer-toggle" style="display:none;"><span>Contorno cartografico 400 m ajustado</span><input id="toggleIsocrona400mCarto" type="checkbox"></label>
+          <label class="layer-toggle" style="display:none;"><span>Rutas transporte recortadas 400 m</span><input id="toggleTransporteRutas" type="checkbox"></label>
+          <label class="layer-toggle" style="display:none;"><span>Buffer transporte 200 m por lado</span><input id="toggleTransporteBuffer" type="checkbox"></label>
+          <label class="layer-toggle" style="display:none;"><span>Isocrona 1000 m desde equipamientos</span><input id="toggleIsocronasColindantes" type="checkbox"></label>
+          <label class="layer-toggle"><span>Isocronas educacion categorizada</span><input id="toggleEducacionIsocronas" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Puntos inicio educacion</span><input id="toggleEducacionIsocronasPuntos" type="checkbox"></label>
+          <label class="layer-toggle"><span>Isocronas recreacion y deporte</span><input id="toggleRecreacionIsocronas" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Puntos inicio recreacion</span><input id="toggleRecreacionIsocronasPuntos" type="checkbox"></label>
+          <label class="layer-toggle"><span>Isocronas bienestar social</span><input id="toggleBienestarIsocronas" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Puntos inicio bienestar social</span><input id="toggleBienestarIsocronasPuntos" type="checkbox"></label>
+          <label class="layer-toggle"><span>Isocronas cultura categorizada</span><input id="toggleCulturaIsocronas" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Puntos inicio cultura</span><input id="toggleCulturaIsocronasPuntos" type="checkbox"></label>
+          <label class="layer-toggle"><span>Isocronas salud categorizada</span><input id="toggleSaludIsocronas" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Puntos inicio salud</span><input id="toggleSaludIsocronasPuntos" type="checkbox"></label>
+          <label class="layer-toggle" style="display:none;"><span>Isocronas paradas de bus 400 m</span><input id="toggleParadasBusIsocronas" type="checkbox"></label>
+          <label class="layer-toggle" style="display:none;"><span>Puntos inicio paradas de bus</span><input id="toggleParadasBusPuntos" type="checkbox"></label>
+        </div>
       </section>
 
       <section class="panel">
@@ -756,6 +450,11 @@
       </section>
 
       <section class="panel">
+        <h2>Leyenda</h2>
+        <div class="legend" id="legend"></div>
+      </section>
+
+      <section class="panel">
         <h2>Estado</h2>
         <p id="statusText">Cargando manzanas, poblacion y plataformas...</p>
       </section>
@@ -763,19 +462,10 @@
 
     <main class="map-wrap">
       <div id="map"></div>
-      <section class="map-legend-card">
-        <h3>Leyenda</h3>
-        <div class="legend" id="legend"></div>
-      </section>
-      <div class="overlay" hidden aria-hidden="true">
+      <div class="overlay">
         <strong id="overlayTitle">Riobamba por manzana y plataforma</strong>
         <p id="overlayText">Haz clic en una manzana o plataforma para ver sus datos.</p>
       </div>
-      <section class="analysis-card" id="focusedAnalysisCard" hidden>
-        <h3 id="focusedAnalysisTitle">Analisis de cobertura</h3>
-        <p id="focusedAnalysisSubtitle">Poblacion calculada desde manzanas censales.</p>
-        <div class="analysis-grid" id="focusedAnalysisGrid"></div>
-      </section>
     </main>
   </div>
 
@@ -784,7 +474,6 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""
   ></script>
-  <script src="https://unpkg.com/@turf/turf@6.5.0/turf.min.js"></script>
   <script>
     const metricLabels = {
       population_total: "Poblacion total",
@@ -797,20 +486,11 @@
       age_30_64: "Edad 30-64",
       age_65_plus: "Mayores a 65"
     };
-    const analysisBreakdownFields = [
-      { key: "male", label: "Hombres" },
-      { key: "female", label: "Mujeres" },
-      { key: "age_0_4", label: "0-4" },
-      { key: "age_5_11", label: "5-11" },
-      { key: "age_12_17", label: "12-17" },
-      { key: "age_18_29", label: "18-29" },
-      { key: "age_30_64", label: "30-64" },
-      { key: "age_65_plus", label: "65+" }
-    ];
+
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260804-isocronas-dedup-todas-plataformas";
+    const DATA_VERSION = "20260731-isocronas-todas-plataformas";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const TRANSPORTE_ROUTES_SHP_KEY = "rutas_transporte_intracantonal_recortadas_400m_carto";
@@ -833,96 +513,41 @@
     const PARADAS_BUS_ISOCHRONE_SHP_KEY = "isocronas_paradas_bus_400m";
     const PARADAS_BUS_START_POINTS_SHP_KEY = "puntos_inicio_isocronas_paradas_bus";
 
-    const map = L.map("map", { zoomSnap: 0.5, preferCanvas: true }).setView([-1.67, -78.65], 12.5);
-    const canvasRenderer = L.canvas({ padding: 0.5 });
-
-    const osmBase = L.tileLayer(
-      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      {
-        attribution: "&copy; OpenStreetMap contributors",
-        maxNativeZoom: 19,
-        maxZoom: 20,
-        className: "osm-base-tiles"
-      }
-    ).addTo(map);
-
-    const diagnosticBase = L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png",
-      {
-        attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
-        subdomains: "abcd",
-        maxNativeZoom: 20,
-        maxZoom: 20,
-        className: "diagnostic-base-tiles"
-      }
-    );
+    const map = L.map("map", { zoomSnap: 0.5 }).setView([-1.67, -78.65], 12.5);
 
     const esriBase = L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       { attribution: "Tiles &copy; Esri", maxNativeZoom: 18, maxZoom: 20 }
-    );
-
-    const baseLayerOptions = {
-      OpenStreetMap: osmBase,
-      "Base diagnostico": diagnosticBase,
-      "Esri satelital": esriBase
-    };
-
-    function updateMapBaseTheme() {
-      const container = map.getContainer();
-      container.classList.toggle("osm-map", map.hasLayer(osmBase));
-      container.classList.toggle("diagnostic-map", map.hasLayer(diagnosticBase));
-      container.classList.toggle("imagery-map", map.hasLayer(esriBase));
-    }
-
-    map.on("baselayerchange", updateMapBaseTheme);
-    updateMapBaseTheme();
+    ).addTo(map);
 
     let manzanaLayer = null;
     let platformLayer = null;
     let joinedFeatures = [];
     let platformFeatures = [];
+    let barriosFeatures = [];
     let equipamientosFeatures = [];
     let equipamientoPlatformBySourceId = new Map();
     let platformStatsByName = {};
     let platformSummary = null;
     let equipamientosStats = null;
     let isocronasStats = null;
-    let focusedCoverageState = null;
-    let focusedAnalysisExpandedKey = null;
     let currentMetric = "population_total";
     let currentPlatform = ALL_PLATFORMS;
     let globalSummary = null;
     let shpManifest = {};
     let equipamientosLayer = null;
+    let barriosLayer = null;
+    let barriosLabelLayer = null;
     let isocronaPolygonLayer = null;
     let isocronaNetworkLayer = null;
     let layerControl = null;
     let allEquipamientoCategories = [];
     let selectedEquipamientoCategories = new Set();
     let equipamientoCategoriesInitialized = false;
-    let expandedEquipamientoCategory = null;
-    let lastPlatformSelectValue = ALL_PLATFORMS;
-    let duplicateCleanupSummary = null;
-    let scopedIsochroneCache = new Map();
-    let currentFeaturesByPlatform = new Map();
-    let currentSummaryByPlatform = new Map();
-    let platformFeatureByName = new Map();
-    let analysisContextCache = new Map();
-    let pendingPlatformRender = null;
-    let platformRenderFrameId = 0;
-    let platformUiRefreshFrameId = 0;
-    let secondaryRenderFrameId = 0;
-    let secondaryRenderToken = 0;
-    let focusedCoverageFrameId = 0;
-    let focusedCoverageToken = 0;
-    let currentManzanaBreaks = [0, 0, 0, 0, 0];
-    const exteriorBoundaryCache = new WeakMap();
-    const featureBBoxCache = new WeakMap();
     const layerVisibility = {
       manzanas: true,
-      manzanasSoloContorno: false,
       plataformas: true,
+      barrios: true,
       equipamientos: true,
       isocronasColindantes: true,
       redVial1000m: true,
@@ -950,10 +575,6 @@
     const summaryCards = document.getElementById("summaryCards");
     const summaryTitle = document.getElementById("summaryTitle");
     const coverageList = document.getElementById("coverageList");
-    const focusedAnalysisCard = document.getElementById("focusedAnalysisCard");
-    const focusedAnalysisTitle = document.getElementById("focusedAnalysisTitle");
-    const focusedAnalysisSubtitle = document.getElementById("focusedAnalysisSubtitle");
-    const focusedAnalysisGrid = document.getElementById("focusedAnalysisGrid");
     const equipamientosSummary = document.getElementById("equipamientosSummary");
     const equipamientoCategoryFilters = document.getElementById("equipamientoCategoryFilters");
     const selectAllCategoriesButton = document.getElementById("selectAllCategoriesButton");
@@ -994,8 +615,8 @@
     const downloadParadasBusIsocronasShpButton = document.getElementById("downloadParadasBusIsocronasShpButton");
     const downloadParadasBusStartPointsShpButton = document.getElementById("downloadParadasBusStartPointsShpButton");
     const toggleManzanas = document.getElementById("toggleManzanas");
-    const toggleManzanasOutlineOnly = document.getElementById("toggleManzanasOutlineOnly");
     const togglePlataformas = document.getElementById("togglePlataformas");
+    const toggleBarrios = document.getElementById("toggleBarrios");
     const toggleEquipamientos = document.getElementById("toggleEquipamientos");
     const toggleIsocronasColindantes = document.getElementById("toggleIsocronasColindantes");
     const toggleRedVial1000m = document.getElementById("toggleRedVial1000m");
@@ -1021,14 +642,6 @@
       "#c77dff", "#90be6d", "#4cc9f0", "#ff9f1c", "#43aa8b",
       "#f94144", "#577590", "#f9844a", "#8ecae6", "#b8de6f"
     ];
-    const publicPointOutlineColor = "#02060d";
-    const publicPointFillOpacity = 0.96;
-    const focusedCoverageColors = {
-      uncovered: "rgba(255,255,255,0.06)",
-      zonal: "#9ec5ff",
-      barrial: "#34e3ff",
-      mixed: "#4f8dff"
-    };
     const isocronaPolygonColor = "#7ef6c9";
     const isocronaNetworkColor = "#61c7ff";
 
@@ -1039,21 +652,21 @@
     introText.innerHTML = "Visualizador por manzana censal y plataforma territorial. Incluye la isocrona peatonal de 1000 m desde equipamientos de la <strong>PLATAFORMA Ñ</strong>, la isocrona exacta de red de 400 m desde su borde y una referencia cartografica ajustada a manzanas.";
 
     function simplifyInterfaceForPublicEntorno() {
-      introText.innerHTML = "Visualizador por manzana censal y plataforma territorial. Muestra <strong>las manzanas censales</strong>, <strong>las plataformas</strong>, solo los <strong>5 tipos de puntos tematicos</strong> usados para las isocronas y las <strong>5 capas de isocronas ciudad completa</strong> a 1000 m para categorias barriales y zonales.";
+      introText.innerHTML = "Visualizador por manzana censal y plataforma territorial. Muestra <strong>las manzanas censales</strong>, <strong>las plataformas</strong>, el <strong>levantamiento del entorno publico</strong> en puntos y las <strong>5 capas de isocronas ciudad completa</strong> a 1000 m para categorias barriales y zonales.";
       overlayTitle.textContent = "Riobamba por manzana, plataforma y entorno publico";
-      overlayText.textContent = "Haz clic en una manzana, plataforma o punto tematico para ver sus datos, y activa las isocronas tematicas de ciudad completa cuando quieras analizarlas.";
+      overlayText.textContent = "Haz clic en una manzana, plataforma o punto publico para ver sus datos, y activa las isocronas tematicas de ciudad completa cuando quieras analizarlas.";
 
-      toggleEquipamientos.closest("label").querySelector("span").textContent = "Puntos tematicos";
+      toggleEquipamientos.closest("label").querySelector("span").textContent = "Puntos publicos";
       equipamientosSummary.closest(".panel").querySelector("h2").textContent = "Resumen por categoria";
-      toggleEducacionIsocronas.closest("label").querySelector("span").textContent = "Educacion";
+      toggleEducacionIsocronas.closest("label").querySelector("span").textContent = "Isocronas educacion 1000 m";
       toggleEducacionIsocronasPuntos.closest("label").querySelector("span").textContent = "Puntos inicio educacion";
-      toggleRecreacionIsocronas.closest("label").querySelector("span").textContent = "Recreacion y deporte";
+      toggleRecreacionIsocronas.closest("label").querySelector("span").textContent = "Isocronas recreacion 1000 m";
       toggleRecreacionIsocronasPuntos.closest("label").querySelector("span").textContent = "Puntos inicio recreacion";
-      toggleBienestarIsocronas.closest("label").querySelector("span").textContent = "Bienestar social";
+      toggleBienestarIsocronas.closest("label").querySelector("span").textContent = "Isocronas bienestar 1000 m";
       toggleBienestarIsocronasPuntos.closest("label").querySelector("span").textContent = "Puntos inicio bienestar";
-      toggleCulturaIsocronas.closest("label").querySelector("span").textContent = "Cultura";
+      toggleCulturaIsocronas.closest("label").querySelector("span").textContent = "Isocronas cultura 1000 m";
       toggleCulturaIsocronasPuntos.closest("label").querySelector("span").textContent = "Puntos inicio cultura";
-      toggleSaludIsocronas.closest("label").querySelector("span").textContent = "Salud";
+      toggleSaludIsocronas.closest("label").querySelector("span").textContent = "Isocronas salud 1000 m";
       toggleSaludIsocronasPuntos.closest("label").querySelector("span").textContent = "Puntos inicio salud";
       educacionIsocronasSummary.closest(".panel").querySelector("h2").textContent = "Educacion 1000 m ciudad completa";
       recreacionIsocronasSummary.closest(".panel").querySelector("h2").textContent = "Recreacion y deporte 1000 m ciudad completa";
@@ -1062,9 +675,6 @@
       saludIsocronasSummary.closest(".panel").querySelector("h2").textContent = "Salud 1000 m ciudad completa";
 
       [
-        toggleManzanas,
-        togglePlataformas,
-        toggleEquipamientos,
         toggleRedVial1000m,
         toggleRedVial400m,
         toggleIsocrona400m,
@@ -1123,10 +733,15 @@
 
       [
         toggleEducacionIsocronas,
+        toggleEducacionIsocronasPuntos,
         toggleRecreacionIsocronas,
+        toggleRecreacionIsocronasPuntos,
         toggleBienestarIsocronas,
+        toggleBienestarIsocronasPuntos,
         toggleCulturaIsocronas,
-        toggleSaludIsocronas
+        toggleCulturaIsocronasPuntos,
+        toggleSaludIsocronas,
+        toggleSaludIsocronasPuntos
       ].forEach((input) => {
         if (input && input.closest("label")) {
           input.closest("label").style.display = "";
@@ -1181,25 +796,6 @@
       return Number(value || 0).toLocaleString("es-EC");
     }
 
-    function getPercentValue(value, total) {
-      if (!total) {
-        return 0;
-      }
-
-      return (Number(value || 0) / Number(total || 0)) * 100;
-    }
-
-    function formatPercentValue(value) {
-      return `${Number(value || 0).toLocaleString("es-EC", {
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 1
-      })}%`;
-    }
-
-    function formatPercent(value, total) {
-      return formatPercentValue(getPercentValue(value, total));
-    }
-
     function repairText(value) {
       return String(value || "")
         .replaceAll("Ã¡", "á")
@@ -1214,15 +810,6 @@
         .replaceAll("Ãš", "Ú")
         .replaceAll("Ã±", "ñ")
         .replaceAll("Ã‘", "Ñ");
-    }
-
-    function escapeHtml(value) {
-      return String(value || "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
     }
 
     function normalizeCategoryKey(value) {
@@ -1266,15 +853,6 @@
       "servicios funerarios": "Servicios funerarios"
     };
 
-    const thematicEquipamientoCategoryKeys = new Set([
-      "educacion",
-      "salud",
-      "bienestar social",
-      "cultura",
-      "recreacion y deporte",
-      "recreativo y deporte"
-    ]);
-
     function sortEquipamientoCategories(categories) {
       const orderIndex = new Map(
         preferredEquipamientoCategoryOrder.map((label, index) => [label, index])
@@ -1298,16 +876,6 @@
       return equipamientoCategoryAliases[normalized] || rawValue || "Sin clasificar";
     }
 
-    function isThematicEquipamientoCategory(category) {
-      return thematicEquipamientoCategoryKeys.has(normalizeCategoryKey(category));
-    }
-
-    function filterThematicEquipamientoFeatures(features) {
-      return (features || []).filter((feature) =>
-        isThematicEquipamientoCategory(getEquipamientoCategory(feature?.properties || {}))
-      );
-    }
-
     function getPlatformScopedEquipamientosFeatures() {
       if (currentPlatform === ALL_PLATFORMS) {
         return equipamientosFeatures;
@@ -1317,226 +885,34 @@
         return equipamientosFeatures.filter((feature) => !feature.properties.platform_name);
       }
 
-      const selectedPlatformFeature = getSelectedPlatformFeature();
-      if (selectedPlatformFeature && typeof turf !== "undefined") {
-        return equipamientosFeatures.filter((feature) =>
-          isFeatureInsideSelectedPlatform(feature, selectedPlatformFeature)
-        );
-      }
-
       const selected = displayPlatformName(currentPlatform);
       return equipamientosFeatures.filter(
         (feature) => displayPlatformName(feature.properties.platform_name) === selected
       );
     }
 
-    function hasFocusedPlatformSelection() {
-      return currentPlatform !== ALL_PLATFORMS && currentPlatform !== OUTSIDE_PLATFORMS;
+    function escapeHtml(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
     }
 
-    function normalizePlatformSelectionValue(value) {
-      const normalized = String(value || "").trim();
-      if (!normalized) {
-        return ALL_PLATFORMS;
-      }
-      if (normalized === ALL_PLATFORMS || normalized === OUTSIDE_PLATFORMS) {
-        return normalized;
-      }
-      return normalized;
-    }
-
-    function applyPlatformSelection(value, zoomToSelection = true) {
-      const nextPlatform = normalizePlatformSelectionValue(value);
-      const currentValue = normalizePlatformSelectionValue(currentPlatform);
-      const controlValue = normalizePlatformSelectionValue(platformSelect.value);
-
-      if (
-        nextPlatform === currentValue &&
-        nextPlatform === controlValue &&
-        nextPlatform === lastPlatformSelectValue
-      ) {
-        return;
+    function getPlatformScopedBarriosFeatures() {
+      if (currentPlatform === ALL_PLATFORMS) {
+        return barriosFeatures;
       }
 
-      currentPlatform = nextPlatform;
-      if (platformSelect.value !== nextPlatform) {
-        platformSelect.value = nextPlatform;
-      }
-      lastPlatformSelectValue = nextPlatform;
-      if (statusText) {
-        const label = nextPlatform === ALL_PLATFORMS
-          ? "todas las plataformas"
-          : nextPlatform === OUTSIDE_PLATFORMS
-            ? "fuera de plataformas"
-            : displayPlatformName(nextPlatform);
-        statusText.textContent = `Actualizando vista de ${label}...`;
-      }
-      schedulePlatformRender(zoomToSelection);
-    }
-
-    function schedulePlatformRender(zoomToSelection = true) {
-      pendingPlatformRender = {
-        zoomToSelection: Boolean(zoomToSelection)
-      };
-
-      if (platformRenderFrameId) {
-        return;
+      if (currentPlatform === OUTSIDE_PLATFORMS) {
+        return [];
       }
 
-      platformRenderFrameId = window.requestAnimationFrame(() => {
-        const renderOptions = pendingPlatformRender || { zoomToSelection: true };
-        pendingPlatformRender = null;
-        platformRenderFrameId = 0;
-        renderAll(renderOptions.zoomToSelection);
-      });
-    }
-
-    function schedulePlatformUiRefresh() {
-      if (platformUiRefreshFrameId) {
-        window.cancelAnimationFrame(platformUiRefreshFrameId);
-      }
-
-      platformUiRefreshFrameId = window.requestAnimationFrame(() => {
-        platformUiRefreshFrameId = 0;
-        buildEquipamientoCategoryFilters();
-        buildEquipamientosSummary();
-        buildEducacionIsocronasSummary();
-        buildRecreacionIsocronasSummary();
-        buildBienestarIsocronasSummary();
-        buildCulturaIsocronasSummary();
-        buildSaludIsocronasSummary();
-        updatePlatformFocusUi();
-        updateSummaryPanel();
-        updateSelectionStatusText();
-        updateFocusedAnalysisCard();
-      });
-    }
-
-    function removeLayerIfPresent(layer) {
-      if (layer && map && map.hasLayer(layer)) {
-        map.removeLayer(layer);
-      }
-    }
-
-    function clearSecondaryRenderedLayers() {
-      removeLayerIfPresent(equipamientosLayer);
-      equipamientosLayer = null;
-
-      removeLayerIfPresent(window.educacionIsocronasLayer);
-      window.educacionIsocronasLayer = null;
-      removeLayerIfPresent(window.educacionIsocronasStartLayer);
-      window.educacionIsocronasStartLayer = null;
-
-      removeLayerIfPresent(window.recreacionIsocronasLayer);
-      window.recreacionIsocronasLayer = null;
-      removeLayerIfPresent(window.recreacionIsocronasStartLayer);
-      window.recreacionIsocronasStartLayer = null;
-
-      removeLayerIfPresent(window.bienestarIsocronasLayer);
-      window.bienestarIsocronasLayer = null;
-      removeLayerIfPresent(window.bienestarIsocronasStartLayer);
-      window.bienestarIsocronasStartLayer = null;
-
-      removeLayerIfPresent(window.culturaIsocronasLayer);
-      window.culturaIsocronasLayer = null;
-      removeLayerIfPresent(window.culturaIsocronasStartLayer);
-      window.culturaIsocronasStartLayer = null;
-
-      removeLayerIfPresent(window.saludIsocronasLayer);
-      window.saludIsocronasLayer = null;
-      removeLayerIfPresent(window.saludIsocronasStartLayer);
-      window.saludIsocronasStartLayer = null;
-    }
-
-    function scheduleSecondaryLayerRefresh() {
-      secondaryRenderToken += 1;
-      const token = secondaryRenderToken;
-
-      if (secondaryRenderFrameId) {
-        window.cancelAnimationFrame(secondaryRenderFrameId);
-        secondaryRenderFrameId = 0;
-      }
-
-      if (platformUiRefreshFrameId) {
-        window.cancelAnimationFrame(platformUiRefreshFrameId);
-        platformUiRefreshFrameId = 0;
-      }
-
-      clearSecondaryRenderedLayers();
-
-      const queue = [
-        renderEquipamientosLayer,
-        renderEducacionIsocronasLayer,
-        renderEducacionIsocronasStartLayer,
-        renderRecreacionIsocronasLayer,
-        renderRecreacionIsocronasStartLayer,
-        renderBienestarIsocronasLayer,
-        renderBienestarIsocronasStartLayer,
-        renderCulturaIsocronasLayer,
-        renderCulturaIsocronasStartLayer,
-        renderSaludIsocronasLayer,
-        renderSaludIsocronasStartLayer
-      ];
-
-      const runNext = () => {
-        if (token !== secondaryRenderToken) {
-          return;
-        }
-
-        const nextRender = queue.shift();
-        if (!nextRender) {
-          secondaryRenderFrameId = 0;
-          schedulePlatformUiRefresh();
-          return;
-        }
-
-        nextRender();
-        secondaryRenderFrameId = window.requestAnimationFrame(runNext);
-      };
-
-      secondaryRenderFrameId = window.requestAnimationFrame(runNext);
-    }
-
-    function refreshAfterThematicVisibilityChange(renderLayerFn) {
-      if (hasFocusedPlatformSelection()) {
-        renderManzanaLayer(false);
-      }
-
-      if (typeof renderLayerFn === "function") {
-        renderLayerFn();
-      }
-
-      schedulePlatformUiRefresh();
-    }
-
-    function scheduleFocusedCoverageRefresh() {
-      focusedCoverageToken += 1;
-      const token = focusedCoverageToken;
-
-      if (focusedCoverageFrameId) {
-        window.cancelAnimationFrame(focusedCoverageFrameId);
-        focusedCoverageFrameId = 0;
-      }
-
-      if (!hasFocusedPlatformSelection()) {
-        focusedCoverageState = null;
-        schedulePlatformUiRefresh();
-        return;
-      }
-
-      focusedCoverageFrameId = window.requestAnimationFrame(() => {
-        focusedCoverageFrameId = 0;
-        if (token !== focusedCoverageToken) {
-          return;
-        }
-
-        const analysisContext = getCurrentAnalysisContext();
-        focusedCoverageState = analysisContext.focusedCoverageState;
-
-        refreshManzanaLayerStyle();
-
-        schedulePlatformUiRefresh();
-      });
+      const selected = displayPlatformName(currentPlatform);
+      return barriosFeatures.filter(
+        (feature) => displayPlatformName(feature?.properties?.platform_name) === selected
+      );
     }
 
     function matchesCurrentPlatform(platformName) {
@@ -1562,166 +938,9 @@
         return [];
       }
 
-      const selectedFeature = platformFeatureByName.get(normalizePlatformSelectionValue(currentPlatform));
-      return selectedFeature ? [selectedFeature] : [];
-    }
-
-    function getSelectedPlatformFeature() {
-      if (!hasFocusedPlatformSelection()) {
-        return null;
-      }
-
-      return platformFeatureByName.get(normalizePlatformSelectionValue(currentPlatform)) || null;
-    }
-
-    function getFeatureSourceKeys(feature) {
-      const props = feature?.properties || {};
-      return [props.source_id, props.objectid, props.codigo]
-        .filter((value) => value !== undefined && value !== null && String(value).trim())
-        .map((value) => String(value).trim());
-    }
-
-    function isFeatureInsideSelectedPlatform(feature, selectedPlatformFeature) {
-      if (!feature?.geometry || !selectedPlatformFeature?.geometry || typeof turf === "undefined") {
-        return false;
-      }
-
-      try {
-        return turf.booleanPointInPolygon(feature, selectedPlatformFeature);
-      } catch (error) {
-        return false;
-      }
-    }
-
-    function clipFeatureToSelectedPlatform(feature, selectedPlatformFeature) {
-      if (!feature?.geometry || !selectedPlatformFeature?.geometry || typeof turf === "undefined") {
-        return feature;
-      }
-
-      const geometryType = feature.geometry.type;
-      if (geometryType === "Point" || geometryType === "MultiPoint") {
-        return isFeatureInsideSelectedPlatform(feature, selectedPlatformFeature) ? feature : null;
-      }
-
-      try {
-        const clipped = turf.intersect(feature, selectedPlatformFeature);
-        if (!clipped || !clipped.geometry) {
-          return null;
-        }
-
-        return {
-          ...feature,
-          geometry: clipped.geometry
-        };
-      } catch (error) {
-        return feature;
-      }
-    }
-
-    function featureIntersectsSelectedPlatform(feature, selectedPlatformFeature) {
-      if (!feature?.geometry || !selectedPlatformFeature?.geometry || typeof turf === "undefined") {
-        return false;
-      }
-
-      const featureBBox = getFeatureBBox(feature);
-      const selectedBBox = getFeatureBBox(selectedPlatformFeature);
-      if (featureBBox && selectedBBox && !doBboxesIntersect(featureBBox, selectedBBox)) {
-        return false;
-      }
-
-      try {
-        return turf.booleanIntersects(feature, selectedPlatformFeature);
-      } catch (error) {
-        return false;
-      }
-    }
-
-    function getFeatureBBox(feature) {
-      if (!feature?.geometry || typeof turf === "undefined") {
-        return null;
-      }
-
-      if (featureBBoxCache.has(feature)) {
-        return featureBBoxCache.get(feature) || null;
-      }
-
-      try {
-        const bbox = turf.bbox(feature);
-        featureBBoxCache.set(feature, bbox);
-        return bbox;
-      } catch (error) {
-        featureBBoxCache.set(feature, null);
-        return null;
-      }
-    }
-
-    function doBboxesIntersect(left, right) {
-      if (!left || !right) {
-        return true;
-      }
-
-      return !(
-        left[2] < right[0] ||
-        left[0] > right[2] ||
-        left[3] < right[1] ||
-        left[1] > right[3]
+      return platformFeatures.filter((feature) =>
+        matchesCurrentPlatform(feature?.properties?.platform_name)
       );
-    }
-
-    function resetPlatformDerivedCaches() {
-      scopedIsochroneCache = new Map();
-      analysisContextCache = new Map();
-    }
-
-    function rebuildPlatformSelectionIndexes() {
-      currentFeaturesByPlatform = new Map();
-      currentSummaryByPlatform = new Map();
-      platformFeatureByName = new Map();
-      const assignedFeatures = (joinedFeatures || []).filter((feature) =>
-        Boolean(normalizePlatformSelectionValue(feature?.properties?.platform_name)) &&
-        normalizePlatformSelectionValue(feature?.properties?.platform_name) !== ALL_PLATFORMS &&
-        normalizePlatformSelectionValue(feature?.properties?.platform_name) !== OUTSIDE_PLATFORMS
-      );
-
-      currentFeaturesByPlatform.set(ALL_PLATFORMS, assignedFeatures);
-      currentFeaturesByPlatform.set(OUTSIDE_PLATFORMS, []);
-      currentSummaryByPlatform.set(ALL_PLATFORMS, buildManzanaSummary(assignedFeatures, "Todas las plataformas"));
-
-      if (platformSummary?.unassigned) {
-        currentSummaryByPlatform.set(OUTSIDE_PLATFORMS, {
-          title: "Fuera de plataformas",
-          ...platformSummary.unassigned
-        });
-      }
-
-      for (const [name, stats] of Object.entries(platformStatsByName || {})) {
-        currentSummaryByPlatform.set(normalizePlatformSelectionValue(name), stats);
-      }
-
-      for (const feature of platformFeatures || []) {
-        const platformName = normalizePlatformSelectionValue(feature?.properties?.platform_name);
-        if (!platformName || platformName === ALL_PLATFORMS || platformName === OUTSIDE_PLATFORMS) {
-          continue;
-        }
-        platformFeatureByName.set(platformName, feature);
-        if (!currentFeaturesByPlatform.has(platformName)) {
-          currentFeaturesByPlatform.set(platformName, []);
-        }
-      }
-
-      for (const feature of assignedFeatures) {
-        const rawPlatform = feature?.properties?.platform_name;
-        const platformName = rawPlatform
-          ? normalizePlatformSelectionValue(rawPlatform)
-          : OUTSIDE_PLATFORMS;
-
-        if (!currentFeaturesByPlatform.has(platformName)) {
-          currentFeaturesByPlatform.set(platformName, []);
-        }
-        currentFeaturesByPlatform.get(platformName).push(feature);
-      }
-
-      resetPlatformDerivedCaches();
     }
 
     function rebuildEquipamientoPlatformIndex() {
@@ -1756,88 +975,13 @@
       return equipamientoPlatformBySourceId.get(String(sourceKey).trim()) || "";
     }
 
-    function getIsoFeatureOriginPlatform(feature) {
-      return displayPlatformName(getIsoFeaturePlatformName(feature));
+    function getPlatformScopedIsocronasFeatures(features = []) {
+      return (features || []).filter(
+        (feature) => feature && feature.properties && matchesCurrentPlatform(getIsoFeaturePlatformName(feature))
+      );
     }
 
-    function getIsoOriginPlatformLabelFromProps(props = {}) {
-      return getIsoFeatureOriginPlatform({ properties: props }) || "Sin plataforma";
-    }
-
-    function summarizeIsochroneOrigins(features = []) {
-      const summary = {
-        internalFeatures: 0,
-        externalFeatures: 0,
-        internalSources: new Set(),
-        externalSources: new Set(),
-        externalPlatforms: new Set()
-      };
-
-      const currentPlatformLabel = displayPlatformName(currentPlatform);
-
-      (features || []).forEach((feature, index) => {
-        if (!feature?.properties) {
-          return;
-        }
-
-        const props = feature.properties || {};
-        const sourceKey =
-          [props.source_id, props.objectid, props.codigo, props.nombre]
-            .find((value) => value !== undefined && value !== null && String(value).trim()) || `iso_${index}`;
-        const originPlatform = getIsoFeatureOriginPlatform(feature);
-        const isInternal = hasFocusedPlatformSelection() && originPlatform === currentPlatformLabel;
-
-        if (isInternal) {
-          summary.internalFeatures += 1;
-          summary.internalSources.add(String(sourceKey));
-        } else {
-          summary.externalFeatures += 1;
-          summary.externalSources.add(String(sourceKey));
-          if (originPlatform) {
-            summary.externalPlatforms.add(originPlatform);
-          }
-        }
-      });
-
-      return summary;
-    }
-
-    function getPlatformScopedIsocronasFeatures(features = [], cacheKey = "") {
-      const validFeatures = (features || []).filter((feature) => feature && feature.properties);
-
-      if (currentPlatform === ALL_PLATFORMS) {
-        return validFeatures;
-      }
-
-      if (!hasFocusedPlatformSelection()) {
-        return validFeatures.filter((feature) => matchesCurrentPlatform(getIsoFeaturePlatformName(feature)));
-      }
-
-      const selectedPlatformFeature = getSelectedPlatformFeature();
-      if (!selectedPlatformFeature) {
-        return [];
-      }
-
-      const scopedCacheKey = cacheKey
-        ? `${displayPlatformName(currentPlatform)}::${cacheKey}`
-        : "";
-      if (scopedCacheKey && scopedIsochroneCache.has(scopedCacheKey)) {
-        return scopedIsochroneCache.get(scopedCacheKey) || [];
-      }
-
-      const scopedFeatures = validFeatures
-        .filter((feature) => featureIntersectsSelectedPlatform(feature, selectedPlatformFeature))
-        .map((feature) => clipFeatureToSelectedPlatform(feature, selectedPlatformFeature))
-        .filter(Boolean);
-
-      if (scopedCacheKey) {
-        scopedIsochroneCache.set(scopedCacheKey, scopedFeatures);
-      }
-
-      return scopedFeatures;
-    }
-
-    function buildThematicIsocronasSummary(container, stats, features, cacheKey = "") {
+    function buildThematicIsocronasSummary(container, stats, features) {
       if (!container || !stats) {
         if (container) {
           container.innerHTML = "";
@@ -1845,49 +989,23 @@
         return;
       }
 
-      const featureList = Array.isArray(features) ? features : [];
-      const thematicSummary = featureList.reduce((summary, feature, index) => {
-        const props = feature?.properties || {};
-        const sourceKey =
-          [props.source_id, props.objectid, props.codigo, props.nombre]
-            .find((value) => value !== undefined && value !== null && String(value).trim()) || `iso_${index}`;
-        summary.uniqueSources.add(String(sourceKey));
-        summary.total += 1;
-
-        const categoria = String(props.categoria || "").toUpperCase();
-        if (categoria) {
-          summary.byCategory[categoria] = (summary.byCategory[categoria] || 0) + 1;
-        }
-
-        summary.adjustedBlocks += Number(props.manzanas_ajustadas || 0);
-        return summary;
-      }, {
-        uniqueSources: new Set(),
-        total: 0,
-        byCategory: {},
-        adjustedBlocks: 0
-      });
-
       let rows;
       if (currentPlatform === ALL_PLATFORMS) {
-        const omittedCount = Object.values(stats.by_categoria_omitidos || {})
-          .reduce((total, value) => total + Number(value || 0), 0);
         rows = [
-          ["Equipamientos fuente", thematicSummary.uniqueSources.size + omittedCount],
-          ["Isocronas generadas", thematicSummary.total],
-          ["Barrial 1000 m", thematicSummary.byCategory.BARRIAL || 0],
-          ["Zonal 1000 m", thematicSummary.byCategory.ZONAL || 0],
+          ["Equipamientos fuente", stats.summary.total_equipamientos || 0],
+          ["Isocronas generadas", stats.summary.total_isocronas || 0],
+          ["Barrial 1000 m", (stats.by_categoria_isocronas || {}).BARRIAL || 0],
+          ["Zonal 1000 m", (stats.by_categoria_isocronas || {}).ZONAL || 0],
           ["Cantonales omitidos", (stats.by_categoria_omitidos || {}).CANTONAL || 0],
-          ["Manzanas ajustadas", thematicSummary.adjustedBlocks],
+          ["Manzanas ajustadas", stats.summary.manzanas_ajustadas || 0],
           ["Visualizacion", "Area rellena con borde"]
         ];
       } else {
-        const scopedFeatures = getPlatformScopedIsocronasFeatures(features, cacheKey);
+        const scopedFeatures = getPlatformScopedIsocronasFeatures(features);
         const uniqueSources = new Set();
         let barrialCount = 0;
         let zonalCount = 0;
         let adjustedBlocks = 0;
-        const originSummary = summarizeIsochroneOrigins(scopedFeatures);
 
         for (const feature of scopedFeatures) {
           const props = feature.properties || {};
@@ -1904,11 +1022,8 @@
 
         rows = [
           ["Plataforma visible", currentPlatform === OUTSIDE_PLATFORMS ? "Fuera de plataformas" : displayPlatformName(currentPlatform)],
-          ["Origenes que la cubren", uniqueSources.size],
-          ["Isocronas que intersectan", scopedFeatures.length],
-          ["Origenes en la plataforma", originSummary.internalSources.size],
-          ["Origenes desde otras plataformas", originSummary.externalSources.size],
-          ["Plataformas que influyen", originSummary.externalPlatforms.size],
+          ["Equipamientos fuente", uniqueSources.size],
+          ["Isocronas visibles", scopedFeatures.length],
           ["Barrial 1000 m", barrialCount],
           ["Zonal 1000 m", zonalCount],
           ["Manzanas ajustadas", adjustedBlocks],
@@ -1918,487 +1033,6 @@
 
       container.innerHTML = rows
         .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
-        .join("");
-    }
-
-    function getVisibleThematicIsocronasCount() {
-      return getVisibleThematicIsocronasFeatures().length;
-    }
-
-    function getVisibleThematicIsocronasFeatures() {
-      const groups = [];
-
-      if (layerVisibility.educacionIsocronas) {
-        groups.push(...getPlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || [], "educacion"));
-      }
-      if (layerVisibility.recreacionIsocronas) {
-        groups.push(...getPlatformScopedIsocronasFeatures(window.recreacionIsocronasFeatures || [], "recreacion"));
-      }
-      if (layerVisibility.bienestarIsocronas) {
-        groups.push(...getPlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || [], "bienestar"));
-      }
-      if (layerVisibility.culturaIsocronas) {
-        groups.push(...getPlatformScopedIsocronasFeatures(window.culturaIsocronasFeatures || [], "cultura"));
-      }
-      if (layerVisibility.saludIsocronas) {
-        groups.push(...getPlatformScopedIsocronasFeatures(window.saludIsocronasFeatures || [], "salud"));
-      }
-
-      return groups.filter((feature) => feature && feature.geometry && feature.properties);
-    }
-
-    function getVisibleThematicIsoGroups() {
-      return getThematicIsoGroups(false);
-    }
-
-    function getAllThematicIsoGroups() {
-      return getThematicIsoGroups(true);
-    }
-
-    function getThematicIsoGroups(includeHidden = false) {
-      const groups = [
-        {
-          key: "bienestar",
-          label: "Bienestar social",
-          visible: layerVisibility.bienestarIsocronas,
-          features: getPlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || [], "bienestar")
-        },
-        {
-          key: "recreacion",
-          label: "Recreacion y deporte",
-          visible: layerVisibility.recreacionIsocronas,
-          features: getPlatformScopedIsocronasFeatures(window.recreacionIsocronasFeatures || [], "recreacion")
-        },
-        {
-          key: "educacion",
-          label: "Educacion",
-          visible: layerVisibility.educacionIsocronas,
-          features: getPlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || [], "educacion")
-        },
-        {
-          key: "cultura",
-          label: "Cultura",
-          visible: layerVisibility.culturaIsocronas,
-          features: getPlatformScopedIsocronasFeatures(window.culturaIsocronasFeatures || [], "cultura")
-        },
-        {
-          key: "salud",
-          label: "Salud",
-          visible: layerVisibility.saludIsocronas,
-          features: getPlatformScopedIsocronasFeatures(window.saludIsocronasFeatures || [], "salud")
-        }
-      ];
-
-      return groups
-        .filter((group) => includeHidden || group.visible)
-        .map((group) => ({
-          ...group,
-          features: (group.features || []).filter((feature) => feature && feature.geometry && feature.properties)
-        }));
-    }
-
-    function getFocusedCoverageKey(feature, index) {
-      const man = feature?.properties?.man;
-      if (man !== undefined && man !== null && String(man).trim()) {
-        return String(man).trim();
-      }
-      return `feature_${index}`;
-    }
-
-    function buildFocusedCoverageState(features = [], visibleGroups = null) {
-      const state = {
-        total: features.length,
-        covered: 0,
-        barrial: 0,
-        zonal: 0,
-        mixed: 0,
-        uncovered: 0,
-        populationTotal: 0,
-        populationCovered: 0,
-        populationBarrial: 0,
-        populationZonal: 0,
-        populationMixed: 0,
-        populationUncovered: 0,
-        themeCounts: createEmptyFocusedThemeCounts(),
-        themeVariantCounts: createEmptyFocusedThemeVariantCounts(),
-        map: new Map()
-      };
-
-      if (!hasFocusedPlatformSelection() || typeof turf === "undefined") {
-        return state;
-      }
-
-      const thematicGroups = Array.isArray(visibleGroups) ? visibleGroups : getVisibleThematicIsoGroups();
-      const visibleIsochrones = thematicGroups.flatMap((group) =>
-        (group.features || []).map((feature) => ({
-          feature,
-          key: group.key,
-          label: group.label,
-          bbox: getFeatureBBox(feature)
-        }))
-      );
-      if (!visibleIsochrones.length) {
-        state.uncovered = features.length;
-        return state;
-      }
-
-      features.forEach((feature, index) => {
-        const population = Number(feature?.properties?.population_total || 0);
-        const featureBBox = getFeatureBBox(feature);
-        state.populationTotal += population;
-
-        let hasBarrial = false;
-        let hasZonal = false;
-        let hitCount = 0;
-        const groupHits = createEmptyFocusedThemeCounts();
-        const groupVariantHits = createEmptyFocusedThemeVariantCounts();
-
-        for (const item of visibleIsochrones) {
-          const isochrone = item.feature;
-          if (featureBBox && item.bbox && !doBboxesIntersect(featureBBox, item.bbox)) {
-            continue;
-          }
-
-          try {
-            if (!turf.booleanIntersects(feature, isochrone)) {
-              continue;
-            }
-          } catch (error) {
-            continue;
-          }
-
-          hitCount += 1;
-          const categoria = String(isochrone.properties?.categoria || "").toUpperCase();
-          if (groupHits[item.key] !== undefined) {
-            groupHits[item.key] += 1;
-          }
-          if (categoria === "BARRIAL") {
-            hasBarrial = true;
-            if (groupVariantHits[item.key]) {
-              groupVariantHits[item.key].BARRIAL += 1;
-            }
-          } else if (categoria === "ZONAL") {
-            hasZonal = true;
-            if (groupVariantHits[item.key]) {
-              groupVariantHits[item.key].ZONAL += 1;
-            }
-          }
-        }
-
-        const covered = hasBarrial || hasZonal;
-        let dominantGroupKey = null;
-        let dominantGroupLabel = "";
-        let dominantGroupHits = 0;
-
-        for (const group of visibleGroups) {
-          const hits = groupHits[group.key] || 0;
-          if (hits > dominantGroupHits) {
-            dominantGroupHits = hits;
-            dominantGroupKey = group.key;
-            dominantGroupLabel = group.label;
-          }
-        }
-
-        let dominantCategoria = null;
-        if (dominantGroupKey && groupVariantHits[dominantGroupKey]) {
-          const barrialHits = groupVariantHits[dominantGroupKey].BARRIAL || 0;
-          const zonalHits = groupVariantHits[dominantGroupKey].ZONAL || 0;
-          if (barrialHits > 0 || zonalHits > 0) {
-            dominantCategoria = barrialHits >= zonalHits ? "BARRIAL" : "ZONAL";
-          }
-        }
-
-        const thematicColor = covered
-          ? getFocusedThematicColor(dominantGroupKey, dominantCategoria)
-          : focusedCoverageColors.uncovered;
-        const type = hasBarrial && hasZonal
-          ? "mixed"
-          : hasBarrial
-            ? "barrial"
-            : hasZonal
-              ? "zonal"
-              : "uncovered";
-
-        if (covered) {
-          state.covered += 1;
-          state.populationCovered += population;
-          if (type === "mixed") {
-            state.mixed += 1;
-            state.populationMixed += population;
-          } else if (type === "barrial") {
-            state.barrial += 1;
-            state.populationBarrial += population;
-          } else if (type === "zonal") {
-            state.zonal += 1;
-            state.populationZonal += population;
-          }
-          if (dominantGroupKey && state.themeCounts[dominantGroupKey] !== undefined) {
-            state.themeCounts[dominantGroupKey] += 1;
-          }
-          if (
-            dominantGroupKey &&
-            dominantCategoria &&
-            state.themeVariantCounts[dominantGroupKey] &&
-            state.themeVariantCounts[dominantGroupKey][dominantCategoria] !== undefined
-          ) {
-            state.themeVariantCounts[dominantGroupKey][dominantCategoria] += 1;
-          }
-        } else {
-          state.uncovered += 1;
-          state.populationUncovered += population;
-        }
-
-        state.map.set(getFocusedCoverageKey(feature, index), {
-          type,
-          covered,
-          hasBarrial,
-          hasZonal,
-          hitCount,
-          dominantGroupKey,
-          dominantGroupLabel,
-          dominantCategoria,
-          thematicColor
-        });
-      });
-
-      return state;
-    }
-
-    function createEmptyFocusedThemeCounts() {
-      return {
-        bienestar: 0,
-        recreacion: 0,
-        educacion: 0,
-        cultura: 0,
-        salud: 0
-      };
-    }
-
-    function createEmptyFocusedThemeVariantCounts() {
-      return {
-        bienestar: { BARRIAL: 0, ZONAL: 0 },
-        recreacion: { BARRIAL: 0, ZONAL: 0 },
-        educacion: { BARRIAL: 0, ZONAL: 0 },
-        cultura: { BARRIAL: 0, ZONAL: 0 },
-        salud: { BARRIAL: 0, ZONAL: 0 }
-      };
-    }
-
-    function buildCoverageStateForIsochrones(features = [], isochrones = []) {
-      const originSummary = summarizeIsochroneOrigins(isochrones);
-      const state = {
-        total: features.length,
-        covered: 0,
-        uncovered: 0,
-        populationTotal: 0,
-        populationCovered: 0,
-        populationUncovered: 0,
-        breakdownCovered: createEmptyPopulationBreakdown(),
-        breakdownUncovered: createEmptyPopulationBreakdown(),
-        internalIsochrones: originSummary.internalFeatures,
-        externalIsochrones: originSummary.externalFeatures,
-        internalSources: originSummary.internalSources.size,
-        externalSources: originSummary.externalSources.size,
-        externalPlatforms: originSummary.externalPlatforms.size
-      };
-
-      if (typeof turf === "undefined") {
-        return state;
-      }
-
-      if (!isochrones.length) {
-        for (const feature of features) {
-          state.populationTotal += Number(feature?.properties?.population_total || 0);
-          accumulatePopulationBreakdown(state.breakdownUncovered, feature);
-        }
-        state.uncovered = features.length;
-        state.populationUncovered = state.populationTotal;
-        return state;
-      }
-
-      const preparedIsochrones = isochrones.map((isochrone) => ({
-        feature: isochrone,
-        bbox: getFeatureBBox(isochrone)
-      }));
-
-      for (const feature of features) {
-        const population = Number(feature?.properties?.population_total || 0);
-        const featureBBox = getFeatureBBox(feature);
-        state.populationTotal += population;
-
-        let covered = false;
-        for (const item of preparedIsochrones) {
-          if (featureBBox && item.bbox && !doBboxesIntersect(featureBBox, item.bbox)) {
-            continue;
-          }
-
-          try {
-            if (turf.booleanIntersects(feature, item.feature)) {
-              covered = true;
-              break;
-            }
-          } catch (error) {
-            continue;
-          }
-        }
-
-        if (covered) {
-          state.covered += 1;
-          state.populationCovered += population;
-          accumulatePopulationBreakdown(state.breakdownCovered, feature);
-        } else {
-          state.uncovered += 1;
-          state.populationUncovered += population;
-          accumulatePopulationBreakdown(state.breakdownUncovered, feature);
-        }
-      }
-
-      return state;
-    }
-
-    function getThematicVisibilitySignature() {
-      return [
-        layerVisibility.bienestarIsocronas,
-        layerVisibility.recreacionIsocronas,
-        layerVisibility.educacionIsocronas,
-        layerVisibility.culturaIsocronas,
-        layerVisibility.saludIsocronas
-      ].map((value) => (value ? "1" : "0")).join("");
-    }
-
-    function getCurrentAnalysisContext() {
-      const cacheKey = `${normalizePlatformSelectionValue(currentPlatform)}|${getThematicVisibilitySignature()}`;
-      if (analysisContextCache.has(cacheKey)) {
-        return analysisContextCache.get(cacheKey);
-      }
-
-      const currentFeatures = getCurrentFeatures();
-      const focusedSelection = hasFocusedPlatformSelection();
-      const visibleGroups = focusedSelection ? getThematicIsoGroups(false) : [];
-      const focusedState = buildFocusedCoverageState(currentFeatures, visibleGroups);
-
-      const context = {
-        currentFeatures,
-        focusedSelection,
-        allGroups: null,
-        visibleGroups,
-        focusedCoverageState: focusedState,
-        allGroupStates: null
-      };
-
-      analysisContextCache.set(cacheKey, context);
-      return context;
-    }
-
-    function ensureAnalysisAllGroups(context) {
-      if (!context || !context.focusedSelection) {
-        return [];
-      }
-
-      if (!Array.isArray(context.allGroups)) {
-        context.allGroups = getThematicIsoGroups(true);
-      }
-
-      return context.allGroups;
-    }
-
-    function ensureAnalysisAllGroupStates(context) {
-      if (!context || !context.focusedSelection) {
-        return [];
-      }
-
-      if (!Array.isArray(context.allGroupStates)) {
-        const allGroups = ensureAnalysisAllGroups(context);
-        context.allGroupStates = allGroups.map((group) => ({
-          ...group,
-          state: buildCoverageStateForIsochrones(context.currentFeatures, group.features)
-        }));
-      }
-
-      return context.allGroupStates;
-    }
-
-    function createEmptyPopulationBreakdown() {
-      return {
-        male: 0,
-        female: 0,
-        age_0_4: 0,
-        age_5_11: 0,
-        age_12_17: 0,
-        age_18_29: 0,
-        age_30_64: 0,
-        age_65_plus: 0
-      };
-    }
-
-    function accumulatePopulationBreakdown(breakdown, feature) {
-      if (!breakdown || !feature) {
-        return breakdown;
-      }
-
-      for (const field of analysisBreakdownFields) {
-        breakdown[field.key] += Number(feature?.properties?.[field.key] || 0);
-      }
-
-      return breakdown;
-    }
-
-    function buildPopulationBreakdown(features = []) {
-      const breakdown = createEmptyPopulationBreakdown();
-      for (const feature of features) {
-        accumulatePopulationBreakdown(breakdown, feature);
-      }
-      return breakdown;
-    }
-
-    function buildPopulationBreakdownFromSummary(summary = null, fallbackFeatures = []) {
-      if (summary) {
-        return {
-          male: Number(summary.male || 0),
-          female: Number(summary.female || 0),
-          age_0_4: Number(summary.age_0_4 || 0),
-          age_5_11: Number(summary.age_5_11 || 0),
-          age_12_17: Number(summary.age_12_17 || 0),
-          age_18_29: Number(summary.age_18_29 || 0),
-          age_30_64: Number(summary.age_30_64 || 0),
-          age_65_plus: Number(summary.age_65_plus || 0)
-        };
-      }
-
-      return buildPopulationBreakdown(fallbackFeatures);
-    }
-
-    function buildManzanaSummary(features = [], title = "") {
-      const breakdown = buildPopulationBreakdown(features);
-      let populationTotal = 0;
-
-      for (const feature of features) {
-        populationTotal += Number(feature?.properties?.population_total || 0);
-      }
-
-      return {
-        title,
-        manzanas: features.length,
-        population_total: populationTotal,
-        male: breakdown.male,
-        female: breakdown.female,
-        age_0_4: breakdown.age_0_4,
-        age_5_11: breakdown.age_5_11,
-        age_12_17: breakdown.age_12_17,
-        age_18_29: breakdown.age_18_29,
-        age_30_64: breakdown.age_30_64,
-        age_65_plus: breakdown.age_65_plus
-      };
-    }
-
-    function renderAnalysisBreakdownRows(breakdown = createEmptyPopulationBreakdown()) {
-      return analysisBreakdownFields
-        .map((field) => `
-          <div class="analysis-breakdown-row">
-            <span>${field.label}</span>
-            <strong>${formatNumber(breakdown[field.key] || 0)} hab</strong>
-          </div>
-        `)
         .join("");
     }
 
@@ -2418,29 +1052,19 @@
         return;
       }
 
+      const visibleManzanas = getCurrentFeatures().length;
       const visibleEquipamientos = getVisibleEquipamientosFeatures().length;
-      const visibleIsocronas = getVisibleThematicIsocronasCount();
+      const visibleIsocronas =
+        getPlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || []).length +
+        getPlatformScopedIsocronasFeatures(window.recreacionIsocronasFeatures || []).length +
+        getPlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || []).length +
+        getPlatformScopedIsocronasFeatures(window.culturaIsocronasFeatures || []).length +
+        getPlatformScopedIsocronasFeatures(window.saludIsocronasFeatures || []).length;
 
       const selectionLabel = currentPlatform === OUTSIDE_PLATFORMS
         ? "Fuera de plataformas"
         : displayPlatformName(currentPlatform);
 
-      if (hasFocusedPlatformSelection()) {
-        if (!focusedCoverageState) {
-          statusText.textContent =
-            `Mostrando ${selectionLabel}: calculando cobertura, ${formatNumber(visibleEquipamientos)} puntos publicos y ` +
-            `${formatNumber(visibleIsocronas)} isocronas tematicas visibles.`;
-          return;
-        }
-
-        statusText.textContent =
-          `Mostrando ${selectionLabel}: ${formatNumber(focusedCoverageState.covered)} de ${formatNumber(focusedCoverageState.total)} ` +
-          `manzanas cubiertas, ${formatNumber(visibleEquipamientos)} puntos publicos y ` +
-          `${formatNumber(visibleIsocronas)} isocronas tematicas visibles.`;
-        return;
-      }
-
-      const visibleManzanas = getCurrentFeatures().length;
       statusText.textContent =
         `Mostrando ${selectionLabel}: ${formatNumber(visibleManzanas)} manzanas, ` +
         `${formatNumber(visibleEquipamientos)} puntos publicos y ${formatNumber(visibleIsocronas)} ` +
@@ -2464,13 +1088,9 @@
         return null;
       }
 
-      if (exteriorBoundaryCache.has(feature)) {
-        return exteriorBoundaryCache.get(feature);
-      }
-
       const geometry = feature.geometry;
       if (geometry.type === "Polygon") {
-        const result = {
+        return {
           type: "Feature",
           properties: feature.properties,
           geometry: {
@@ -2478,12 +1098,10 @@
             coordinates: [geometry.coordinates[0] || []]
           }
         };
-        exteriorBoundaryCache.set(feature, result);
-        return result;
       }
 
       if (geometry.type === "MultiPolygon") {
-        const result = {
+        return {
           type: "Feature",
           properties: feature.properties,
           geometry: {
@@ -2493,20 +1111,36 @@
               .filter((polygon) => polygon.length)
           }
         };
-        exteriorBoundaryCache.set(feature, result);
-        return result;
       }
 
-      exteriorBoundaryCache.set(feature, feature);
       return feature;
     }
 
     function getCurrentFeatures() {
-      return currentFeaturesByPlatform.get(normalizePlatformSelectionValue(currentPlatform)) || [];
+      if (currentPlatform === ALL_PLATFORMS) {
+        return joinedFeatures;
+      }
+
+      if (currentPlatform === OUTSIDE_PLATFORMS) {
+        return joinedFeatures.filter((feature) => feature.properties.platform_name === null);
+      }
+
+      return joinedFeatures.filter((feature) => feature.properties.platform_name === currentPlatform);
     }
 
     function getCurrentSummary() {
-      return currentSummaryByPlatform.get(normalizePlatformSelectionValue(currentPlatform));
+      if (currentPlatform === ALL_PLATFORMS) {
+        return globalSummary;
+      }
+
+      if (currentPlatform === OUTSIDE_PLATFORMS) {
+        return {
+          title: "Fuera de plataformas",
+          ...platformSummary.unassigned
+        };
+      }
+
+      return platformStatsByName[currentPlatform];
     }
 
     function getCurrentSelectionLabel() {
@@ -2562,22 +1196,6 @@
       return counts;
     }
 
-    function getEquipamientoDisplayName(properties = {}) {
-      return repairText(
-        properties.nombre_equ || properties.nombre_ins || properties.elemento || "Punto publico"
-      ).trim() || "Punto publico";
-    }
-
-    function getEquipamientoNamesByCategory(category) {
-      const names = getPlatformScopedEquipamientosFeatures()
-        .filter((feature) => getEquipamientoCategory(feature.properties) === category)
-        .map((feature) => getEquipamientoDisplayName(feature.properties))
-        .filter(Boolean);
-
-      return Array.from(new Set(names))
-        .sort((left, right) => left.localeCompare(right, "es", { sensitivity: "base" }));
-    }
-
     function getVisibleEquipamientosFeatures() {
       ensureEquipamientoCategoriesInitialized();
       return getPlatformScopedEquipamientosFeatures().filter((feature) =>
@@ -2585,57 +1203,7 @@
       );
     }
 
-    function getThematicGroupKeyFromCategory(category) {
-      const normalized = normalizeCategoryKey(category);
-      const thematicCategoryMap = {
-        "bienestar social": "bienestar",
-        "recreacion y deporte": "recreacion",
-        educacion: "educacion",
-        cultura: "cultura",
-        salud: "salud"
-      };
-      return thematicCategoryMap[normalized] || null;
-    }
-
-    function getEquipamientoVariant(properties = {}) {
-      const variantCandidates = [
-        properties.categoria,
-        properties.tipologia,
-        properties.tipo_tipol,
-        properties.nivel
-      ];
-
-      for (const rawValue of variantCandidates) {
-        const normalized = normalizeCategoryKey(rawValue);
-        if (normalized.includes("zonal")) {
-          return "ZONAL";
-        }
-        if (normalized.includes("barrial")) {
-          return "BARRIAL";
-        }
-      }
-
-      return null;
-    }
-
-    function getEquipamientoLegendDotBackground(category) {
-      const thematicKey = getThematicGroupKeyFromCategory(category);
-      if (thematicKey) {
-        const barrialColor = getFocusedThematicColor(thematicKey, "BARRIAL");
-        const zonalColor = getFocusedThematicColor(thematicKey, "ZONAL");
-        return `linear-gradient(135deg, ${barrialColor} 0%, ${barrialColor} 48%, ${zonalColor} 52%, ${zonalColor} 100%)`;
-      }
-
-      return getEquipamientoColor(category);
-    }
-
-    function getEquipamientoColor(category, properties = {}) {
-      const thematicKey = getThematicGroupKeyFromCategory(category);
-      if (thematicKey) {
-        const variant = getEquipamientoVariant(properties);
-        return getFocusedThematicColor(thematicKey, variant || "BARRIAL");
-      }
-
+    function getEquipamientoColor(category) {
       ensureEquipamientoCategoriesInitialized();
       if (!allEquipamientoCategories.length) {
         return "#ffd166";
@@ -2644,429 +1212,6 @@
       const categories = allEquipamientoCategories;
       const index = Math.max(0, categories.indexOf(category));
       return equipamientoPalette[index % equipamientoPalette.length];
-    }
-
-    function normalizeDuplicateText(value) {
-      return repairText(value || "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase()
-        .replace(/\s+/g, " ")
-        .trim();
-    }
-
-    const duplicateGenericNames = new Set([
-      "sin nombre",
-      "prueba",
-      "completo",
-      "area verde",
-      "area verde sin mantenimiento",
-      "parque del sector",
-      "call3 c3 y araguacos"
-    ]);
-    const duplicateNameStopwords = new Set([
-      "de",
-      "del",
-      "la",
-      "el",
-      "los",
-      "las",
-      "y",
-      "tras",
-      "para",
-      "por",
-      "en",
-      "un",
-      "una"
-    ]);
-    const duplicateLeadingAliasTokens = new Set([
-      "iglesia",
-      "parque",
-      "unidad",
-      "ue",
-      "escuela",
-      "colegio",
-      "centro",
-      "subcentro",
-      "casa",
-      "parroquia"
-    ]);
-
-    function getDuplicateFeatureValue(feature, keys = []) {
-      const props = feature?.properties || {};
-      for (const key of keys) {
-        const value = props[key];
-        if (value !== undefined && value !== null && String(value).trim()) {
-          return value;
-        }
-      }
-      return "";
-    }
-
-    function getDuplicateFeatureCoordinates(feature, pointMode = "geometry") {
-      if (!feature) return null;
-
-      if (pointMode === "source") {
-        const lon = Number(feature?.properties?.source_lon);
-        const lat = Number(feature?.properties?.source_lat);
-        return Number.isFinite(lon) && Number.isFinite(lat) ? [lon, lat] : null;
-      }
-
-      const coords = feature?.geometry?.coordinates;
-      if (!Array.isArray(coords) || coords.length < 2) {
-        return null;
-      }
-
-      const lon = Number(coords[0]);
-      const lat = Number(coords[1]);
-      return Number.isFinite(lon) && Number.isFinite(lat) ? [lon, lat] : null;
-    }
-
-    function getPointDistanceMeters(leftCoords, rightCoords) {
-      if (!leftCoords || !rightCoords) return Number.POSITIVE_INFINITY;
-      const [leftLon, leftLat] = leftCoords;
-      const [rightLon, rightLat] = rightCoords;
-      const meanLatRad = ((leftLat + rightLat) / 2) * Math.PI / 180;
-      const dx = (rightLon - leftLon) * 111320 * Math.cos(meanLatRad);
-      const dy = (rightLat - leftLat) * 110540;
-      return Math.sqrt(dx * dx + dy * dy);
-    }
-
-    function getFeatureCompletenessScore(properties = {}) {
-      return Object.values(properties).reduce((score, value) => {
-        if (value === undefined || value === null) return score;
-        if (typeof value === "string") {
-          return score + (value.trim() ? 1 : 0);
-        }
-        return score + 1;
-      }, 0);
-    }
-
-    function getFeatureEstadoRank(properties = {}) {
-      const estado = normalizeDuplicateText(properties.estado || properties.ESTADO || "");
-      if (estado.includes("excelente") || estado.includes("muy bueno")) return 4;
-      if (estado.includes("bueno")) return 3;
-      if (estado.includes("regular")) return 2;
-      if (estado.includes("malo")) return 1;
-      return 0;
-    }
-
-    function getDuplicateFeatureScore(feature, pointMode = "geometry") {
-      const props = feature?.properties || {};
-      let score = getFeatureEstadoRank(props) * 1000 + getFeatureCompletenessScore(props);
-
-      const snapMeters = Number(props.snap_m);
-      if (pointMode === "source" && Number.isFinite(snapMeters)) {
-        score += Math.max(0, 200 - Math.min(snapMeters, 200));
-      }
-
-      const population = Number(props.population_total);
-      if (Number.isFinite(population)) {
-        score += Math.min(population / 1000, 50);
-      }
-
-      return score;
-    }
-
-    function getDuplicateNameTokens(value) {
-      return normalizeDuplicateText(value)
-        .split(/[^a-z0-9]+/g)
-        .map((token) => token.trim())
-        .filter((token) => token && !duplicateNameStopwords.has(token));
-    }
-
-    function getDuplicateLeadingToken(value) {
-      return getDuplicateNameTokens(value)[0] || "";
-    }
-
-    function getDuplicateTokenOverlap(leftValue, rightValue) {
-      const leftTokens = new Set(getDuplicateNameTokens(leftValue));
-      const rightTokens = new Set(getDuplicateNameTokens(rightValue));
-      if (!leftTokens.size || !rightTokens.size) {
-        return 0;
-      }
-
-      let overlap = 0;
-      leftTokens.forEach((token) => {
-        if (rightTokens.has(token)) {
-          overlap += 1;
-        }
-      });
-
-      return overlap / Math.max(1, Math.min(leftTokens.size, rightTokens.size));
-    }
-
-    function isGenericDuplicateName(value) {
-      return duplicateGenericNames.has(normalizeDuplicateText(value));
-    }
-
-    function getDuplicateNameQualityScore(value) {
-      const normalizedName = normalizeDuplicateText(value);
-      if (!normalizedName) {
-        return 0;
-      }
-
-      let score = Math.min(normalizedName.length, 48);
-      score += getDuplicateNameTokens(normalizedName).length * 12;
-
-      if (isGenericDuplicateName(normalizedName)) {
-        score -= 80;
-      }
-
-      if (/\btras\b|\bfrente\b|\bcerca\b|\bjunto\b|\bsector\b/.test(normalizedName)) {
-        score -= 8;
-      }
-
-      return score;
-    }
-
-    function areProbableDuplicateNames(leftValue, rightValue) {
-      const leftName = normalizeDuplicateText(leftValue);
-      const rightName = normalizeDuplicateText(rightValue);
-
-      if (!leftName || !rightName) {
-        return false;
-      }
-
-      if (leftName === rightName) {
-        return true;
-      }
-
-      if (isGenericDuplicateName(leftName) || isGenericDuplicateName(rightName)) {
-        return true;
-      }
-
-      if (leftName.includes(rightName) || rightName.includes(leftName)) {
-        return true;
-      }
-
-      if (getDuplicateTokenOverlap(leftName, rightName) >= 0.55) {
-        return true;
-      }
-
-      const leftLead = getDuplicateLeadingToken(leftName);
-      const rightLead = getDuplicateLeadingToken(rightName);
-      return leftLead && leftLead === rightLead && duplicateLeadingAliasTokens.has(leftLead);
-    }
-
-    function getEquipamientoDuplicateCoreParts(feature) {
-      return [
-        normalizeDuplicateText(getEquipamientoCategory(feature?.properties || {})),
-        normalizeDuplicateText(getDuplicateFeatureValue(feature, ["elemento", "ELEMENTO"])),
-        normalizeDuplicateText(getDuplicateFeatureValue(feature, ["platform_name", "plataforma", "PLATAFORMA"])),
-        normalizeDuplicateText(getDuplicateFeatureValue(feature, ["parroquia", "PARROQUIA"])),
-        normalizeDuplicateText(getDuplicateFeatureValue(feature, ["tipologia", "TIPOLOGIA"])),
-        normalizeDuplicateText(getDuplicateFeatureValue(feature, ["tipo_equip", "TIPO_EQUIP", "gestion", "GESTION"]))
-      ];
-    }
-
-    function dedupeNearbyNamedFeatures(features, config = {}) {
-      const {
-        nameKeys = [],
-        categoryKeys = [],
-        categoryResolver = null,
-        pointMode = "geometry",
-        thresholdMeters = 8
-      } = config;
-
-      const dedupedFeatures = [];
-      const buckets = new Map();
-      let duplicatesRemoved = 0;
-
-      for (const feature of features || []) {
-        if (!feature || !feature.properties) {
-          dedupedFeatures.push(feature);
-          continue;
-        }
-
-        const normalizedName = normalizeDuplicateText(getDuplicateFeatureValue(feature, nameKeys));
-        const rawCategory = typeof categoryResolver === "function"
-          ? categoryResolver(feature)
-          : getDuplicateFeatureValue(feature, categoryKeys);
-        const normalizedCategory = normalizeDuplicateText(rawCategory);
-        const coords = getDuplicateFeatureCoordinates(feature, pointMode);
-
-        if (!normalizedName || !coords) {
-          dedupedFeatures.push(feature);
-          continue;
-        }
-
-        const bucketKey = `${normalizedCategory || "sin-categoria"}||${normalizedName}`;
-        const bucket = buckets.get(bucketKey) || [];
-        let matchedEntry = null;
-
-        for (const entry of bucket) {
-          if (getPointDistanceMeters(entry.coords, coords) <= thresholdMeters) {
-            matchedEntry = entry;
-            break;
-          }
-        }
-
-        if (matchedEntry) {
-          duplicatesRemoved += 1;
-          const currentScore =
-            getDuplicateFeatureScore(feature, pointMode) +
-            getDuplicateNameQualityScore(getDuplicateFeatureValue(feature, nameKeys));
-          const existingScore =
-            getDuplicateFeatureScore(matchedEntry.feature, pointMode) +
-            getDuplicateNameQualityScore(getDuplicateFeatureValue(matchedEntry.feature, nameKeys));
-          if (currentScore > existingScore) {
-            matchedEntry.feature = feature;
-            matchedEntry.coords = coords;
-            dedupedFeatures[matchedEntry.index] = feature;
-          }
-          continue;
-        }
-
-        const newEntry = { feature, coords, index: dedupedFeatures.length };
-        bucket.push(newEntry);
-        buckets.set(bucketKey, bucket);
-        dedupedFeatures.push(feature);
-      }
-
-      return {
-        features: dedupedFeatures.filter(Boolean),
-        duplicatesRemoved
-      };
-    }
-
-    function dedupeProbableEquipamientoFeatures(features, config = {}) {
-      const {
-        nameKeys = [],
-        pointMode = "geometry",
-        thresholdMeters = 15
-      } = config;
-
-      const dedupedFeatures = [];
-      const buckets = new Map();
-      let duplicatesRemoved = 0;
-      let exactNameDuplicatesRemoved = 0;
-      let probableDuplicatesRemoved = 0;
-      const duplicatePairs = [];
-
-      for (const feature of features || []) {
-        if (!feature || !feature.properties) {
-          dedupedFeatures.push(feature);
-          continue;
-        }
-
-        const normalizedName = normalizeDuplicateText(getDuplicateFeatureValue(feature, nameKeys));
-        const coords = getDuplicateFeatureCoordinates(feature, pointMode);
-        const coreParts = getEquipamientoDuplicateCoreParts(feature);
-        const coreEvidenceCount = coreParts.filter(Boolean).length;
-        const coreKey = coreEvidenceCount >= 3 ? coreParts.join("||") : "";
-
-        if (!coords || (!normalizedName && !coreKey)) {
-          dedupedFeatures.push(feature);
-          continue;
-        }
-
-        const bucketKeys = [];
-        if (normalizedName) {
-          bucketKeys.push(`name||${normalizedName}`);
-        }
-        if (coreKey) {
-          bucketKeys.push(`core||${coreKey}`);
-        }
-
-        let matchedEntry = null;
-        let matchType = "";
-        const checkedEntries = new Set();
-
-        for (const bucketKey of bucketKeys) {
-          const bucket = buckets.get(bucketKey) || [];
-          for (const entry of bucket) {
-            if (checkedEntries.has(entry)) {
-              continue;
-            }
-            checkedEntries.add(entry);
-
-            if (getPointDistanceMeters(entry.coords, coords) > thresholdMeters) {
-              continue;
-            }
-
-            const exactNameMatch = normalizedName && entry.normalizedName && normalizedName === entry.normalizedName;
-            const probableMatch = coreKey &&
-              entry.coreKey &&
-              coreKey === entry.coreKey &&
-              areProbableDuplicateNames(normalizedName, entry.normalizedName);
-
-            if (exactNameMatch || probableMatch) {
-              matchedEntry = entry;
-              matchType = exactNameMatch ? "exact" : "probable";
-              break;
-            }
-          }
-
-          if (matchedEntry) {
-            break;
-          }
-        }
-
-        if (matchedEntry) {
-          duplicatesRemoved += 1;
-          if (matchType === "exact") {
-            exactNameDuplicatesRemoved += 1;
-          } else {
-            probableDuplicatesRemoved += 1;
-          }
-
-          duplicatePairs.push({
-            keptName: getDuplicateFeatureValue(matchedEntry.feature, nameKeys),
-            removedName: getDuplicateFeatureValue(feature, nameKeys),
-            distanceMeters: getPointDistanceMeters(matchedEntry.coords, coords),
-            matchType
-          });
-
-          const currentScore = getDuplicateFeatureScore(feature, pointMode);
-          const existingScore = getDuplicateFeatureScore(matchedEntry.feature, pointMode);
-          if (currentScore > existingScore) {
-            matchedEntry.feature = feature;
-            matchedEntry.coords = coords;
-            matchedEntry.normalizedName = normalizedName;
-            matchedEntry.coreKey = coreKey;
-            dedupedFeatures[matchedEntry.index] = feature;
-          }
-          continue;
-        }
-
-        const newEntry = {
-          feature,
-          coords,
-          index: dedupedFeatures.length,
-          normalizedName,
-          coreKey
-        };
-
-        bucketKeys.forEach((bucketKey) => {
-          const bucket = buckets.get(bucketKey) || [];
-          bucket.push(newEntry);
-          buckets.set(bucketKey, bucket);
-        });
-
-        dedupedFeatures.push(feature);
-      }
-
-      return {
-        features: dedupedFeatures.filter(Boolean),
-        duplicatesRemoved,
-        exactNameDuplicatesRemoved,
-        probableDuplicatesRemoved,
-        duplicatePairs
-      };
-    }
-
-    function buildPublicPointStyle(fillColor, options = {}) {
-      const radius = Number(options.radius || 6);
-      const hovered = Boolean(options.hovered);
-      return {
-        radius: hovered ? radius + 1.2 : radius,
-        color: publicPointOutlineColor,
-        weight: hovered ? 2.6 : 1.9,
-        fillColor,
-        fillOpacity: hovered ? 1 : Number(options.fillOpacity || publicPointFillOpacity),
-        opacity: 1
-      };
     }
 
     function syncSingleLayer(layer, visible) {
@@ -3078,31 +1223,14 @@
       }
     }
 
-    function bringPointLayersToFront() {
-      const pointLayers = [
-        equipamientosLayer,
-        window.educacionIsocronasStartLayer,
-        window.recreacionIsocronasStartLayer,
-        window.bienestarIsocronasStartLayer,
-        window.culturaIsocronasStartLayer,
-        window.saludIsocronasStartLayer,
-        window.paradasBusIsocronasStartLayer
-      ];
-
-      for (const layer of pointLayers) {
-        if (layer && map.hasLayer(layer) && typeof layer.bringToFront === "function") {
-          layer.bringToFront();
-        }
-      }
-    }
-
     function syncVisibleLayers() {
-      syncSingleLayer(manzanaLayer, layerVisibility.manzanas || hasFocusedPlatformSelection());
+      syncSingleLayer(manzanaLayer, layerVisibility.manzanas);
       syncSingleLayer(platformLayer, layerVisibility.plataformas);
+      syncSingleLayer(barriosLayer, layerVisibility.barrios);
+      syncSingleLayer(barriosLabelLayer, layerVisibility.barrios);
       syncSingleLayer(equipamientosLayer, layerVisibility.equipamientos);
       syncSingleLayer(isocronaPolygonLayer, layerVisibility.isocronasColindantes);
       syncSingleLayer(isocronaNetworkLayer, layerVisibility.redVial1000m);
-      bringPointLayersToFront();
     }
 
     function buildSummaryCards(summary) {
@@ -3176,12 +1304,7 @@
         equipamientoCategoryFilters.innerHTML = `<p style="margin:0;color:var(--muted);">No hay puntos publicos en esta seleccion.</p>`;
         selectAllCategoriesButton.disabled = true;
         clearCategoriesButton.disabled = true;
-        expandedEquipamientoCategory = null;
         return;
-      }
-
-      if (expandedEquipamientoCategory && !categories.includes(expandedEquipamientoCategory)) {
-        expandedEquipamientoCategory = null;
       }
 
       selectAllCategoriesButton.disabled = false;
@@ -3189,34 +1312,10 @@
 
       equipamientoCategoryFilters.innerHTML = categories
         .map((category) => `
-          <div class="category-filter-item${expandedEquipamientoCategory === category ? " expanded" : ""}">
-            <div class="category-filter-row">
-              <button
-                type="button"
-                class="category-filter-button"
-                data-category-expand="${escapeHtml(category)}"
-                aria-expanded="${expandedEquipamientoCategory === category ? "true" : "false"}"
-              >
-                <span class="category-filter-label">${escapeHtml(category)} (${formatNumber(counts[category] || 0)})</span>
-                <span class="category-filter-hint">${expandedEquipamientoCategory === category ? "Ocultar nombres" : "Ver nombres de puntos"}</span>
-              </button>
-              <input
-                type="checkbox"
-                data-category="${escapeHtml(category)}"
-                ${selectedEquipamientoCategories.has(category) ? "checked" : ""}
-                aria-label="Mostrar ${escapeHtml(category)}"
-              >
-            </div>
-            ${expandedEquipamientoCategory === category
-              ? `
-              <div class="category-point-list">
-                ${getEquipamientoNamesByCategory(category)
-                  .map((name) => `<div class="category-point-item">${escapeHtml(name)}</div>`)
-                  .join("") || `<div class="category-point-item">No hay nombres disponibles.</div>`}
-              </div>
-            `
-              : ""}
-          </div>
+          <label class="layer-toggle">
+            <span>${category} (${formatNumber(counts[category] || 0)})</span>
+            <input type="checkbox" data-category="${category}" ${selectedEquipamientoCategories.has(category) ? "checked" : ""}>
+          </label>
         `)
         .join("");
     }
@@ -3264,140 +1363,19 @@
       return colorRamp[4];
     }
 
-    function getFocusedThematicColor(groupKey, categoria) {
-      const normalizedCategoria = String(categoria || "BARRIAL").toUpperCase() === "ZONAL" ? "ZONAL" : "BARRIAL";
-      const palettes = {
-        bienestar: bienestarIsoColors,
-        recreacion: recreacionIsoColors,
-        educacion: educacionIsoColors,
-        cultura: culturaIsoColors,
-        salud: saludIsoColors
-      };
-      const palette = palettes[groupKey];
-      if (palette && palette[normalizedCategoria]) {
-        return palette[normalizedCategoria];
-      }
-      return focusedCoverageColors.uncovered;
-    }
-
-    function getVisibleThematicLegendEntries() {
-      const groups = [
-        { key: "bienestar", label: "Bienestar social", visible: layerVisibility.bienestarIsocronas },
-        { key: "recreacion", label: "Recreacion y deporte", visible: layerVisibility.recreacionIsocronas },
-        { key: "educacion", label: "Educacion", visible: layerVisibility.educacionIsocronas },
-        { key: "cultura", label: "Cultura", visible: layerVisibility.culturaIsocronas },
-        { key: "salud", label: "Salud", visible: layerVisibility.saludIsocronas }
-      ];
-
-      return groups
-        .filter((group) => group.visible)
-        .flatMap((group) => ([
-          {
-            key: group.key,
-            variant: "BARRIAL",
-            label: `${group.label} barrial`,
-            color: getFocusedThematicColor(group.key, "BARRIAL")
-          },
-          {
-            key: group.key,
-            variant: "ZONAL",
-            label: `${group.label} zonal`,
-            color: getFocusedThematicColor(group.key, "ZONAL")
-          }
-        ]));
-    }
-
-    function getVisibleCategoryLegendEntries() {
-      const categoriesWithPoints = new Set(
-        getVisibleEquipamientosFeatures().map((feature) => getEquipamientoCategory(feature.properties))
-      );
-
-      return [
-        { key: "bienestar", label: "Bienestar social", isoVisible: layerVisibility.bienestarIsocronas },
-        { key: "recreacion", label: "Recreacion y deporte", isoVisible: layerVisibility.recreacionIsocronas },
-        { key: "educacion", label: "Educacion", isoVisible: layerVisibility.educacionIsocronas },
-        { key: "cultura", label: "Cultura", isoVisible: layerVisibility.culturaIsocronas },
-        { key: "salud", label: "Salud", isoVisible: layerVisibility.saludIsocronas }
-      ]
-        .filter((entry) =>
-          entry.isoVisible ||
-          (layerVisibility.equipamientos && selectedEquipamientoCategories.has(entry.label) && categoriesWithPoints.has(entry.label))
-        )
-        .map((entry) => ({
-          ...entry,
-          pointColor: getEquipamientoLegendDotBackground(entry.label),
-          barrialColor: getFocusedThematicColor(entry.key, "BARRIAL"),
-          zonalColor: getFocusedThematicColor(entry.key, "ZONAL")
-        }));
-    }
-
-    function getVisibleEquipamientoLegendEntries() {
-      ensureEquipamientoCategoriesInitialized();
-      return sortEquipamientoCategories([...selectedEquipamientoCategories])
-        .map((category) => {
-          const count = getVisibleEquipamientosFeatures()
-            .filter((feature) => getEquipamientoCategory(feature.properties) === category)
-            .length;
-          return {
-            label: category,
-            color: getEquipamientoLegendDotBackground(category),
-            count
-          };
-        })
-        .filter((entry) => entry.count > 0);
-    }
-
     function renderLegend(breaks) {
-      const categoryEntries = getVisibleCategoryLegendEntries();
-
-      if (hasFocusedPlatformSelection()) {
-        const state = focusedCoverageState || {
-          uncovered: 0,
-          themeVariantCounts: createEmptyFocusedThemeVariantCounts()
-        };
-
-        legend.style.display = "";
-        legend.innerHTML = `
-          <div class="legend-section-title">Categorias activas</div>
-          ${categoryEntries
-          .map((entry) => {
-            const count =
-              Number(state.themeVariantCounts?.[entry.key]?.BARRIAL || 0) +
-              Number(state.themeVariantCounts?.[entry.key]?.ZONAL || 0);
-            return `
+      legend.innerHTML = colorRamp
+        .map((color, index) => {
+          const min = Math.round(breaks[index]);
+          const max = Math.round(breaks[Math.min(index + 1, breaks.length - 1)]);
+          return `
             <div class="legend-row">
-              <span class="legend-label">${entry.label}: ${formatNumber(count)} manzanas</span>
-              <span class="legend-symbols">
-                <span class="legend-dot" style="background:${entry.pointColor};" title="Punto"></span>
-                <span class="legend-swatch" style="background:${entry.barrialColor}; border:1px solid rgba(255,255,255,0.28);" title="Barrial"></span>
-                <span class="legend-swatch" style="background:${entry.zonalColor}; border:1px solid rgba(255,255,255,0.28);" title="Zonal"></span>
-              </span>
+              <span class="legend-swatch" style="background:${color};"></span>
+              <span>${formatNumber(min)} - ${formatNumber(max)}</span>
             </div>
           `;
-          })
-          .join("")}
-        `;
-        return;
-      }
-
-      legend.style.display = "";
-      legend.innerHTML = categoryEntries.length
-        ? `
-          <div class="legend-section-title">Categorias activas</div>
-          ${categoryEntries
-            .map((entry) => `
-            <div class="legend-row">
-              <span class="legend-label">${entry.label}</span>
-              <span class="legend-symbols">
-                <span class="legend-dot" style="background:${entry.pointColor};" title="Punto"></span>
-                <span class="legend-swatch" style="background:${entry.barrialColor}; border:1px solid rgba(255,255,255,0.28);" title="Barrial"></span>
-                <span class="legend-swatch" style="background:${entry.zonalColor}; border:1px solid rgba(255,255,255,0.28);" title="Zonal"></span>
-              </span>
-            </div>
-            `)
-            .join("")}
-        `
-        : `<div style="color:var(--muted);">No hay categorias activas.</div>`;
+        })
+        .join("");
     }
 
     function updateOverlay() {
@@ -3405,7 +1383,7 @@
 
       if (currentPlatform === ALL_PLATFORMS) {
         overlayTitle.textContent = "Riobamba por manzana y plataforma";
-        overlayText.textContent = `Mostrando ${formatNumber(summary?.manzanas || getCurrentFeatures().length)} manzanas dentro de ${formatNumber(platformSummary.summary.platforms_total)} plataformas territoriales.`;
+        overlayText.textContent = `Mostrando ${formatNumber(joinedFeatures.length)} manzanas con ${formatNumber(platformSummary.summary.platforms_total)} plataformas territoriales.`;
         return;
       }
 
@@ -3415,220 +1393,30 @@
         return;
       }
 
-      if (hasFocusedPlatformSelection()) {
-        overlayTitle.textContent = currentPlatform;
-        if (!focusedCoverageState) {
-          overlayText.textContent =
-            `Vista enfocada: calculando cobertura, ${formatNumber(getVisibleEquipamientosFeatures().length)} puntos publicos y ` +
-            `${formatNumber(getVisibleThematicIsocronasCount())} isocronas visibles.`;
-          return;
-        }
-
-        overlayText.textContent =
-          `Vista enfocada: ${formatNumber(focusedCoverageState.covered)} de ${formatNumber(focusedCoverageState.total)} manzanas ` +
-          `cubiertas, ${formatNumber(getVisibleEquipamientosFeatures().length)} puntos publicos y ` +
-          `${formatNumber(getVisibleThematicIsocronasCount())} isocronas visibles.`;
-        return;
-      }
-
       overlayTitle.textContent = currentPlatform;
       overlayText.textContent = `${formatNumber(summary.manzanas)} manzanas | ${formatNumber(summary.population_total)} habitantes | ${metricLabels[currentMetric]}: ${formatNumber(summary[currentMetric])}`;
-    }
-
-    function updateFocusedAnalysisCard() {
-      if (!focusedAnalysisCard || !focusedAnalysisGrid || !focusedAnalysisTitle || !focusedAnalysisSubtitle) {
-        return;
-      }
-
-      if (!hasFocusedPlatformSelection()) {
-        focusedAnalysisCard.hidden = true;
-        focusedAnalysisGrid.innerHTML = "";
-        focusedAnalysisExpandedKey = null;
-        return;
-      }
-
-      if (!focusedCoverageState) {
-        focusedAnalysisTitle.textContent = `Analisis de cobertura ${displayPlatformName(currentPlatform)}`;
-        focusedAnalysisSubtitle.textContent = "Calculando cobertura de manzanas e isocronas visibles...";
-        focusedAnalysisGrid.innerHTML = `
-          <article class="analysis-item analysis-item--wide">
-            <div class="analysis-label">Procesando</div>
-            <div class="analysis-value">Calculando...</div>
-            <div class="analysis-meta">Estamos actualizando la cobertura de la plataforma seleccionada.</div>
-          </article>
-        `;
-        focusedAnalysisCard.hidden = false;
-        return;
-      }
-
-      const analysisContext = getCurrentAnalysisContext();
-      const state = focusedCoverageState || analysisContext.focusedCoverageState;
-      const currentFeatures = analysisContext.currentFeatures;
-      const currentSummary = getCurrentSummary() || null;
-      const visibleGroups = analysisContext.visibleGroups;
-      const allGroups = ensureAnalysisAllGroups(analysisContext);
-      const platformLabel = displayPlatformName(currentPlatform);
-      const totalPopulation = Number(currentSummary?.population_total || state.populationTotal || 0);
-      const totalBlocks = Number(currentSummary?.manzanas || state.total || 0);
-      const platformBreakdown = buildPopulationBreakdownFromSummary(currentSummary, currentFeatures);
-      const allGroupStates = ensureAnalysisAllGroupStates(analysisContext);
-      const visibleIsochroneOriginSummary = summarizeIsochroneOrigins(
-        visibleGroups.flatMap((group) => group.features || [])
-      );
-      const averageCoveragePercent = allGroupStates.length
-        ? allGroupStates.reduce(
-          (total, group) => total + getPercentValue(group.state.populationCovered || 0, totalPopulation),
-          0
-        ) / allGroupStates.length
-        : 0;
-      const averageCoveragePopulation = allGroupStates.length
-        ? allGroupStates.reduce(
-          (total, group) => total + Number(group.state.populationCovered || 0),
-          0
-        ) / allGroupStates.length
-        : 0;
-      const averageUncoveredPopulation = Math.max(0, totalPopulation - averageCoveragePopulation);
-      const averageUncoveredPercent = Math.max(0, 100 - averageCoveragePercent);
-      const categoriesWithCoverage = allGroupStates.filter((group) => Number(group.state.populationCovered || 0) > 0).length;
-      const cards = [
-        {
-          key: "platform_total",
-          label: "Poblacion plataforma",
-          value: `${formatNumber(totalPopulation)} hab`,
-          meta: `${formatNumber(totalBlocks)} manzanas censales`,
-          wide: true,
-          expandable: true,
-          breakdown: platformBreakdown
-        },
-        {
-          key: "platform_average_coverage",
-          label: "Promedio 5 categorias",
-          value: `${formatNumber(Math.round(averageCoveragePopulation))} hab`,
-          meta:
-            `${formatPercentValue(averageCoveragePercent)} cubierto | ` +
-            `${formatNumber(Math.round(averageUncoveredPopulation))} hab no cubiertos | ` +
-            `${formatPercentValue(averageUncoveredPercent)} no cubierto | ` +
-            `${formatNumber(categoriesWithCoverage)} de 5 categorias cubren esta plataforma`,
-          wide: true
-        }
-      ];
-
-      for (const group of visibleGroups) {
-        const groupState = buildCoverageStateForIsochrones(currentFeatures, group.features);
-        const hasCoverage = (group.features.length > 0) && (groupState.covered > 0 || groupState.populationCovered > 0);
-        const sourceMeta = groupState.externalSources > 0
-          ? (
-            groupState.internalSources > 0
-              ? `${formatNumber(groupState.externalSources)} origenes externos`
-              : `${formatNumber(groupState.externalSources)} origenes desde otras plataformas`
-          )
-          : `${formatNumber(groupState.internalSources)} origenes internos`;
-        cards.push({
-          key: `coverage_${group.key}`,
-          label: group.label,
-          value: `${formatNumber(groupState.populationCovered || 0)} hab`,
-          meta: hasCoverage
-            ? (
-              `${formatPercent(groupState.populationCovered || 0, totalPopulation)} | ` +
-              `${formatNumber(groupState.covered || 0)} manzanas | ` +
-              `${formatNumber(group.features.length)} isocronas | ` +
-              sourceMeta
-            )
-            : `No cubre esta plataforma | 0 manzanas | 0 isocronas | ${sourceMeta}`,
-          expandable: true,
-          breakdown: groupState.breakdownCovered || createEmptyPopulationBreakdown()
-        });
-      }
-
-      const visibleCardKeys = new Set(cards.map((card) => card.key).filter(Boolean));
-      if (focusedAnalysisExpandedKey && !visibleCardKeys.has(focusedAnalysisExpandedKey)) {
-        focusedAnalysisExpandedKey = null;
-      }
-
-      focusedAnalysisTitle.textContent = `Analisis de cobertura ${platformLabel}`;
-      focusedAnalysisSubtitle.textContent =
-        `Poblacion calculada desde manzanas censales de la plataforma seleccionada. ` +
-        `Coberturas de equipamiento dentro de la plataforma: ${formatNumber(visibleIsochroneOriginSummary.internalSources.size)}. ` +
-        `Coberturas de equipamiento fuera de la plataforma: ${formatNumber(visibleIsochroneOriginSummary.externalSources.size)}.`;
-      focusedAnalysisGrid.innerHTML = cards
-        .map((card) => {
-          const expanded = card.expandable && card.key === focusedAnalysisExpandedKey;
-          return `
-          <article
-            class="analysis-item${card.wide ? " wide" : ""}${card.expandable ? " expandable" : ""}${expanded ? " expanded" : ""}"
-            ${card.key ? `data-analysis-key="${card.key}"` : ""}
-            ${card.expandable ? 'data-expandable="true" role="button" tabindex="0"' : ""}
-            ${card.expandable ? `aria-expanded="${expanded ? "true" : "false"}"` : ""}
-          >
-            <span>${card.label}</span>
-            <strong>${card.value}</strong>
-            <small>${card.meta}</small>
-            ${card.expandable ? `<em class="analysis-item-hint">${expanded ? "Ocultar detalle" : "Clic para ver detalle"}</em>` : ""}
-            ${expanded ? `<div class="analysis-breakdown">${renderAnalysisBreakdownRows(card.breakdown)}</div>` : ""}
-          </article>
-        `;
-        })
-        .join("");
-
-      focusedAnalysisCard.hidden = false;
-    }
-
-    function updatePlatformFocusUi() {
-      const focused = hasFocusedPlatformSelection();
-      const manzanaLabel = toggleManzanas.closest("label");
-
-      toggleManzanas.disabled = focused;
-      toggleManzanas.checked = focused ? true : layerVisibility.manzanas;
-      if (manzanaLabel) {
-        manzanaLabel.style.opacity = focused ? "0.45" : "";
-        manzanaLabel.title = focused
-          ? "Al elegir una plataforma, el mapa muestra la cobertura por manzana de las isocronas visibles."
-          : "";
-      }
     }
 
     function platformStyle(feature) {
       const isSelected = currentPlatform !== ALL_PLATFORMS && feature.properties.platform_name === currentPlatform;
       return {
-        color: isSelected ? "#1f2937" : "#5f6878",
-        weight: isSelected ? 4.2 : 2.9,
-        opacity: isSelected ? 1 : 0.95,
+        color: isSelected ? "#f8f0ff" : "#d2a8ff",
+        weight: isSelected ? 3.2 : 1.8,
+        opacity: isSelected ? 1 : 0.9,
         fillColor: "#d2a8ff",
-        fillOpacity: isSelected ? 0.04 : 0.01,
-        dashArray: isSelected ? "" : "5 5"
+        fillOpacity: isSelected ? 0.08 : 0.02,
+        dashArray: isSelected ? "" : "6 6"
       };
     }
 
     function manzanaStyle(feature, breaks) {
-      const outlineOnly = Boolean(layerVisibility.manzanasSoloContorno);
-      if (hasFocusedPlatformSelection()) {
-        const key = getFocusedCoverageKey(feature, -1);
-        const coverage = focusedCoverageState?.map?.get(key) || { type: "uncovered", covered: false };
-        const fillColor = coverage.thematicColor || focusedCoverageColors.uncovered;
-
-        return {
-          color: coverage.covered ? "rgba(84, 94, 108, 0.88)" : "rgba(128, 139, 153, 0.72)",
-          opacity: coverage.covered ? 1 : 0.84,
-          weight: outlineOnly ? (coverage.covered ? 1.55 : 1.05) : (coverage.covered ? 1.28 : 0.82),
-          fillColor,
-          fillOpacity: outlineOnly ? 0 : (coverage.covered ? 0.18 : 0.02)
-        };
-      }
-
       const value = feature.properties[currentMetric];
       return {
-        color: "rgba(102, 114, 128, 0.82)",
-        opacity: 0.96,
-        weight: outlineOnly ? 1.34 : 1.12,
+        color: "#d7ecff",
+        weight: 0.5,
         fillColor: getColor(value, breaks),
-        fillOpacity: outlineOnly ? 0 : 0.66
+        fillOpacity: 0.74
       };
-    }
-
-    function refreshManzanaLayerStyle() {
-      if (manzanaLayer && typeof manzanaLayer.setStyle === "function") {
-        manzanaLayer.setStyle((feature) => manzanaStyle(feature, currentManzanaBreaks));
-      }
     }
 
     function renderPlatformLayer() {
@@ -3638,42 +1426,121 @@
 
       const visiblePlatformFeatures = getVisiblePlatformFeatures();
 
-      if (!map.getPane("platformPane")) {
-        map.createPane("platformPane");
-        map.getPane("platformPane").style.zIndex = 645;
-      }
-
       platformLayer = L.geoJSON(
         { type: "FeatureCollection", features: visiblePlatformFeatures },
         {
-          pane: "platformPane",
-          renderer: canvasRenderer,
           style: platformStyle,
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
+            layer.bindPopup(`
+              <strong>${props.platform_name}</strong><br>
+              <strong>Manzanas:</strong> ${formatNumber(props.manzanas)}<br>
+              <strong>Poblacion:</strong> ${formatNumber(props.population_total)}<br>
+              <strong>Hombres:</strong> ${formatNumber(props.male)}<br>
+              <strong>Mujeres:</strong> ${formatNumber(props.female)}<br>
+              <strong>Area:</strong> ${Number(props.area || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })}<br>
+              <strong>${metricLabels[currentMetric]}:</strong> ${formatNumber(props[currentMetric])}
+            `);
+
             layer.on("click", () => {
-              layer.bindPopup(`
-                <strong>${props.platform_name}</strong><br>
-                <strong>Manzanas:</strong> ${formatNumber(props.manzanas)}<br>
-                <strong>Poblacion:</strong> ${formatNumber(props.population_total)}<br>
-                <strong>Hombres:</strong> ${formatNumber(props.male)}<br>
-                <strong>Mujeres:</strong> ${formatNumber(props.female)}<br>
-                <strong>Area:</strong> ${Number(props.area || 0).toLocaleString("es-EC", { maximumFractionDigits: 2 })}<br>
-                <strong>${metricLabels[currentMetric]}:</strong> ${formatNumber(props[currentMetric])}
-              `);
-              applyPlatformSelection(props.platform_name, true);
+              currentPlatform = props.platform_name;
+              platformSelect.value = currentPlatform;
+              renderAll(true);
             });
           }
         }
       );
       syncSingleLayer(platformLayer, layerVisibility.plataformas);
-      if (platformLayer && typeof platformLayer.bringToFront === "function") {
-        platformLayer.bringToFront();
+    }
+
+    function shouldShowBarrioLabels() {
+      return currentPlatform !== ALL_PLATFORMS || map.getZoom() >= 14;
+    }
+
+    function renderBarriosLayer() {
+      if (barriosLayer) {
+        map.removeLayer(barriosLayer);
       }
+
+      if (barriosLabelLayer) {
+        map.removeLayer(barriosLabelLayer);
+      }
+
+      if (!map.getPane("barriosPane")) {
+        map.createPane("barriosPane");
+        map.getPane("barriosPane").style.zIndex = 421;
+      }
+
+      if (!map.getPane("barriosLabelsPane")) {
+        map.createPane("barriosLabelsPane");
+        map.getPane("barriosLabelsPane").style.zIndex = 466;
+      }
+
+      const visibleFeatures = getPlatformScopedBarriosFeatures().filter(
+        (feature) => feature && feature.geometry && feature.properties
+      );
+
+      barriosLayer = L.geoJSON(
+        { type: "FeatureCollection", features: visibleFeatures },
+        {
+          pane: "barriosPane",
+          style: {
+            color: "#ffe39a",
+            weight: currentPlatform === ALL_PLATFORMS ? 1.35 : 1.9,
+            opacity: 0.95,
+            fillOpacity: 0
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties || {};
+            const barrio = repairText(props.barrio || "Barrio");
+            const platformName = displayPlatformName(props.platform_name) || "Sin plataforma";
+            const areaM2 = Math.round(Number(props.area_m2 || 0));
+
+            layer.bindPopup(`
+              <strong>${escapeHtml(barrio)}</strong><br>
+              <strong>Plataforma:</strong> ${escapeHtml(platformName)}<br>
+              <strong>Area dentro de plataforma:</strong> ${formatNumber(areaM2)} m2
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = barrio;
+              overlayText.textContent = `${platformName} | Barrio dentro de plataforma`;
+            });
+          }
+        }
+      );
+
+      const labelFeatures = shouldShowBarrioLabels() ? visibleFeatures : [];
+      barriosLabelLayer = L.layerGroup(
+        labelFeatures
+          .map((feature) => {
+            const props = feature.properties || {};
+            const lat = Number(props.label_lat);
+            const lon = Number(props.label_lon);
+            if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
+              return null;
+            }
+
+            return L.marker([lat, lon], {
+              pane: "barriosLabelsPane",
+              interactive: false,
+              icon: L.divIcon({
+                className: "barrio-label-icon",
+                html: `<div class="barrio-label">${escapeHtml(repairText(props.barrio || "Barrio"))}</div>`,
+                iconSize: [132, 28],
+                iconAnchor: [66, 14]
+              })
+            });
+          })
+          .filter(Boolean)
+      );
+
+      syncSingleLayer(barriosLayer, layerVisibility.barrios);
+      syncSingleLayer(barriosLabelLayer, layerVisibility.barrios);
     }
 
     function equipamientoStyle(feature) {
-      const color = getEquipamientoColor(getEquipamienValue(feature.properties), feature.properties);
+      const color = getEquipamientoColor(getEquipamienValue(feature.properties));
       return {
         color,
         weight: 1.3,
@@ -3688,14 +1555,9 @@
         map.removeLayer(equipamientosLayer);
       }
 
-      if (!layerVisibility.equipamientos) {
-        equipamientosLayer = null;
-        return;
-      }
-
       if (!map.getPane("equipamientosPane")) {
         map.createPane("equipamientosPane");
-        map.getPane("equipamientosPane").style.zIndex = 760;
+        map.getPane("equipamientosPane").style.zIndex = 440;
       }
 
       const visibleFeatures = getVisibleEquipamientosFeatures();
@@ -3706,41 +1568,39 @@
           pane: "equipamientosPane",
           pointToLayer: (feature, latlng) => {
             const equipamien = getEquipamientoCategory(feature.properties);
-            const color = getEquipamientoColor(equipamien, feature.properties);
+            const color = getEquipamientoColor(equipamien);
             return L.circleMarker(latlng, {
-              pane: "equipamientosPane",
-              ...buildPublicPointStyle(color, { radius: 6 })
+              radius: 6,
+              color,
+              weight: 1.5,
+              fillColor: color,
+              fillOpacity: 0.9,
+              opacity: 1
             });
           },
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
             const equipamien = getEquipamientoCategory(props);
             const nombre = repairText(props.nombre_equ || props.nombre_ins || props.elemento || "Punto publico");
+            layer.bindPopup(`
+              <strong>${nombre}</strong><br>
+              <strong>Tipo principal:</strong> ${equipamien}<br>
+              <strong>Elemento:</strong> ${repairText(props.elemento || "-")}<br>
+              <strong>Plataforma:</strong> ${displayPlatformName(props.platform_name) || "Sin plataforma"}<br>
+              <strong>Parroquia:</strong> ${repairText(props.parroquia || "-")}<br>
+              <strong>Estado:</strong> ${repairText(props.estado || "-")}<br>
+              <strong>Tipologia:</strong> ${repairText(props.tipologia || "-")}<br>
+              <strong>Gestion:</strong> ${repairText(props.tipo_equip || "-")}
+            `);
 
             layer.on("mouseover", () => {
-              const color = getEquipamientoColor(equipamien, props);
-              layer.setStyle(buildPublicPointStyle(color, { radius: 6, hovered: true }));
+              layer.setStyle({ radius: 7.5, weight: 2.2 });
             });
             layer.on("mouseout", () => {
-              const color = getEquipamientoColor(equipamien, props);
-              layer.setStyle(buildPublicPointStyle(color, { radius: 6 }));
+              const color = getEquipamientoColor(equipamien);
+              layer.setStyle({ radius: 6, color, weight: 1.5, fillColor: color, fillOpacity: 0.9, opacity: 1 });
             });
             layer.on("click", () => {
-              if (typeof layer.getPopup === "function" && !layer.getPopup()) {
-                layer.bindPopup(`
-                  <strong>${nombre}</strong><br>
-                  <strong>Tipo principal:</strong> ${equipamien}<br>
-                  <strong>Elemento:</strong> ${repairText(props.elemento || "-")}<br>
-                  <strong>Plataforma:</strong> ${displayPlatformName(props.platform_name) || "Sin plataforma"}<br>
-                  <strong>Parroquia:</strong> ${repairText(props.parroquia || "-")}<br>
-                  <strong>Estado:</strong> ${repairText(props.estado || "-")}<br>
-                  <strong>Tipologia:</strong> ${repairText(props.tipologia || "-")}<br>
-                  <strong>Gestion:</strong> ${repairText(props.tipo_equip || "-")}
-                `);
-              }
-              if (typeof layer.openPopup === "function") {
-                layer.openPopup();
-              }
               overlayTitle.textContent = nombre;
               overlayText.textContent = `${equipamien} | ${displayPlatformName(props.platform_name) || "Sin plataforma"} | ${props.estado || "Sin estado"}`;
             });
@@ -3748,7 +1608,6 @@
         }
       );
       syncSingleLayer(equipamientosLayer, layerVisibility.equipamientos);
-      bringPointLayersToFront();
     }
 
     function renderIsocronasLayer() {
@@ -3903,10 +1762,6 @@
       const currentFeatures = getCurrentFeatures();
       const values = currentFeatures.map((feature) => feature.properties[currentMetric] || 0);
       const breaks = getBreaks(values);
-      currentManzanaBreaks = breaks;
-      focusedCoverageState = hasFocusedPlatformSelection() ? null : focusedCoverageState;
-      const focused = hasFocusedPlatformSelection();
-      const enableHover = focused && currentFeatures.length <= 1500;
 
       if (manzanaLayer) {
         map.removeLayer(manzanaLayer);
@@ -3915,50 +1770,39 @@
       manzanaLayer = L.geoJSON(
         { type: "FeatureCollection", features: currentFeatures },
         {
-          renderer: canvasRenderer,
           style: (feature) => manzanaStyle(feature, breaks),
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
             const platformName = props.platform_name || "Fuera de plataformas";
 
-            if (enableHover) {
-              layer.on("mouseover", () => {
-                layer.setStyle({ weight: 1.9, color: "#223142", opacity: 1 });
-              });
-              layer.on("mouseout", () => {
-                manzanaLayer.resetStyle(layer);
-              });
-            }
+            layer.bindPopup(`
+              <strong>Manzana:</strong> ${props.man}<br>
+              <strong>Plataforma:</strong> ${platformName}<br>
+              <strong>Poblacion:</strong> ${formatNumber(props.population_total)}<br>
+              <strong>Hombres:</strong> ${formatNumber(props.male)}<br>
+              <strong>Mujeres:</strong> ${formatNumber(props.female)}<br>
+              <strong>0-4:</strong> ${formatNumber(props.age_0_4)}<br>
+              <strong>5-11:</strong> ${formatNumber(props.age_5_11)}<br>
+              <strong>12-17:</strong> ${formatNumber(props.age_12_17)}<br>
+              <strong>18-29:</strong> ${formatNumber(props.age_18_29)}<br>
+              <strong>30-64:</strong> ${formatNumber(props.age_30_64)}<br>
+              <strong>Mayores a 65:</strong> ${formatNumber(props.age_65_plus)}
+            `);
 
+            layer.on("mouseover", () => {
+              layer.setStyle({ weight: 1.4, color: "#ffffff" });
+            });
+            layer.on("mouseout", () => {
+              manzanaLayer.resetStyle(layer);
+            });
             layer.on("click", () => {
-              const coverage = focusedCoverageState?.map?.get(getFocusedCoverageKey(feature, -1));
-              const coverageLabel = coverage?.covered
-                ? `${coverage.dominantGroupLabel || "Cobertura visible"}${coverage.dominantCategoria ? ` ${coverage.dominantCategoria === "BARRIAL" ? "barrial" : "zonal"}` : ""}`
-                : "Sin cobertura";
-
-              layer.bindPopup(`
-                <strong>Manzana:</strong> ${props.man}<br>
-                <strong>Plataforma:</strong> ${platformName}<br>
-                <strong>Poblacion:</strong> ${formatNumber(props.population_total)}<br>
-                <strong>Hombres:</strong> ${formatNumber(props.male)}<br>
-                <strong>Mujeres:</strong> ${formatNumber(props.female)}<br>
-                <strong>0-4:</strong> ${formatNumber(props.age_0_4)}<br>
-                <strong>5-11:</strong> ${formatNumber(props.age_5_11)}<br>
-                <strong>12-17:</strong> ${formatNumber(props.age_12_17)}<br>
-                <strong>18-29:</strong> ${formatNumber(props.age_18_29)}<br>
-                <strong>30-64:</strong> ${formatNumber(props.age_30_64)}<br>
-                <strong>Mayores a 65:</strong> ${formatNumber(props.age_65_plus)}
-              `).openPopup();
-
               overlayTitle.textContent = `Manzana ${props.man}`;
-              overlayText.textContent = focused
-                ? `${platformName} | Cobertura visible: ${coverageLabel} | Isocronas que la cubren: ${formatNumber(coverage?.hitCount || 0)}`
-                : `${platformName} | ${metricLabels[currentMetric]}: ${formatNumber(props[currentMetric])}`;
+              overlayText.textContent = `${platformName} | ${metricLabels[currentMetric]}: ${formatNumber(props[currentMetric])}`;
             });
           }
         }
       );
-      syncSingleLayer(manzanaLayer, layerVisibility.manzanas || hasFocusedPlatformSelection());
+      syncSingleLayer(manzanaLayer, layerVisibility.manzanas);
 
       renderLegend(breaks);
 
@@ -3969,23 +1813,15 @@
       } else if (zoomToSelection && currentFeatures.length) {
         map.fitBounds(manzanaLayer.getBounds(), { padding: [18, 18], maxZoom: 15 });
       } else if (zoomToSelection && currentPlatform !== ALL_PLATFORMS && currentPlatform !== OUTSIDE_PLATFORMS) {
-        const feature = platformFeatureByName.get(normalizePlatformSelectionValue(currentPlatform));
+        const feature = platformFeatures.find((item) => item.properties.platform_name === currentPlatform);
         if (feature) {
           const bounds = L.geoJSON(feature).getBounds();
           map.fitBounds(bounds, { padding: [18, 18], maxZoom: 15 });
         }
       }
-
-      if (focused) {
-        scheduleFocusedCoverageRefresh();
-      }
     }
 
     function buildPlatformOptions() {
-      if (currentPlatform === OUTSIDE_PLATFORMS) {
-        currentPlatform = ALL_PLATFORMS;
-      }
-
       const options = [
         `<option value="${ALL_PLATFORMS}">Todas las plataformas</option>`
       ];
@@ -3995,9 +1831,12 @@
         options.push(`<option value="${name}">${name}</option>`);
       }
 
+      if (platformSummary.unassigned && platformSummary.unassigned.manzanas > 0) {
+        options.push(`<option value="${OUTSIDE_PLATFORMS}">Fuera de plataformas</option>`);
+      }
+
       platformSelect.innerHTML = options.join("");
-      platformSelect.value = normalizePlatformSelectionValue(currentPlatform);
-      lastPlatformSelectValue = normalizePlatformSelectionValue(platformSelect.value);
+      platformSelect.value = currentPlatform;
     }
 
     function updateSummaryPanel() {
@@ -4019,7 +1858,27 @@
     function renderAll(zoomToSelection = false) {
       renderPlatformLayer();
       renderManzanaLayer(zoomToSelection);
-      scheduleSecondaryLayerRefresh();
+      renderBarriosLayer();
+      buildEquipamientoCategoryFilters();
+      renderEquipamientosLayer();
+      buildEquipamientosSummary();
+      buildEducacionIsocronasSummary();
+      buildRecreacionIsocronasSummary();
+      buildBienestarIsocronasSummary();
+      buildCulturaIsocronasSummary();
+      buildSaludIsocronasSummary();
+      renderEducacionIsocronasLayer();
+      renderEducacionIsocronasStartLayer();
+      renderRecreacionIsocronasLayer();
+      renderRecreacionIsocronasStartLayer();
+      renderBienestarIsocronasLayer();
+      renderBienestarIsocronasStartLayer();
+      renderCulturaIsocronasLayer();
+      renderCulturaIsocronasStartLayer();
+      renderSaludIsocronasLayer();
+      renderSaludIsocronasStartLayer();
+      updateSummaryPanel();
+      updateSelectionStatusText();
     }
 
     async function init() {
@@ -4066,11 +1925,7 @@
             ...(platformStatsByName[feature.properties.platform_name] || {})
           }
         }));
-         equipamientosFeatures = dedupeProbableEquipamientoFeatures(filterThematicEquipamientoFeatures(equipamientosGeo.features || []), {
-           nameKeys: ["nombre_equ", "nombre_ins", "elemento"],
-           pointMode: "geometry",
-           thresholdMeters: 15
-         }).features;
+         equipamientosFeatures = equipamientosGeo.features || [];
          rebuildEquipamientoPlatformIndex();
         equipamientoCategoriesInitialized = false;
         allEquipamientoCategories = [];
@@ -4096,8 +1951,6 @@
           })
           .filter(Boolean);
 
-        rebuildPlatformSelectionIndexes();
-
         buildPlatformOptions();
         buildCoverageList();
         buildEquipamientosSummary();
@@ -4114,7 +1967,7 @@
         }
 
         layerControl = L.control.layers(
-          baseLayerOptions,
+          { "Esri satelital": esriBase },
           {},
           { position: "topright", collapsed: true }
         ).addTo(map);
@@ -4310,11 +2163,7 @@
             ...(platformStatsByName[feature.properties.platform_name] || {})
           }
         }));
-        equipamientosFeatures = dedupeProbableEquipamientoFeatures(filterThematicEquipamientoFeatures(equipamientosGeo.features || []), {
-          nameKeys: ["nombre_equ", "nombre_ins", "elemento"],
-          pointMode: "geometry",
-          thresholdMeters: 15
-        }).features;
+        equipamientosFeatures = equipamientosGeo.features || [];
         rebuildEquipamientoPlatformIndex();
 
         const byMan = stats.byMan || {};
@@ -4337,7 +2186,6 @@
           })
           .filter(Boolean);
 
-        rebuildPlatformSelectionIndexes();
         buildPlatformOptions();
         buildCoverageList();
         buildEquipamientosSummary();
@@ -4354,7 +2202,7 @@
         }
 
         layerControl = L.control.layers(
-          baseLayerOptions,
+          { "Esri satelital": esriBase },
           {},
           { position: "topright", collapsed: true }
         ).addTo(map);
@@ -4416,26 +2264,26 @@
     layerVisibility.paradasBusIsocronas = true;
     layerVisibility.paradasBusPuntos = true;
     const educacionIsoColors = {
-      BARRIAL: "#2ec5ff",
-      ZONAL: "#2563eb"
+      BARRIAL: "#59d8ff",
+      ZONAL: "#8f7dff"
     };
     const recreacionIsoColors = {
-      BARRIAL: "#7ed957",
-      ZONAL: "#2f9e44"
+      BARRIAL: "#ffb84d",
+      ZONAL: "#3cd6c6"
     };
     const bienestarIsoColors = {
-      BARRIAL: "#ffb454",
-      ZONAL: "#f97316"
+      BARRIAL: "#7de2d1",
+      ZONAL: "#b4a7ff"
     };
     const culturaIsoColors = {
-      BARRIAL: "#d8a4ff",
-      ZONAL: "#8b5cf6"
+      BARRIAL: "#ffd166",
+      ZONAL: "#7aa2ff"
     };
     const saludIsoColors = {
-      BARRIAL: "#3dd9c6",
-      ZONAL: "#0f766e"
+      BARRIAL: "#4ee3b5",
+      ZONAL: "#f6bf6c"
     };
-    const paradasBusIsoColor = "#ff6b6b";
+    const paradasBusIsoColor = "#ff9f6e";
 
     function displayPlatformName(value) {
       return String(value || "")
@@ -4496,6 +2344,8 @@
     function syncVisibleLayers() {
       syncSingleLayer(manzanaLayer, layerVisibility.manzanas);
       syncSingleLayer(platformLayer, layerVisibility.plataformas);
+      syncSingleLayer(barriosLayer, layerVisibility.barrios);
+      syncSingleLayer(barriosLabelLayer, layerVisibility.barrios);
       syncSingleLayer(equipamientosLayer, layerVisibility.equipamientos);
       syncSingleLayer(isocronaPolygonLayer, layerVisibility.isocronasColindantes);
       syncSingleLayer(isocronaNetworkLayer, layerVisibility.redVial1000m);
@@ -4516,7 +2366,6 @@
       syncSingleLayer(window.saludIsocronasStartLayer, layerVisibility.saludIsocronasPuntos);
       syncSingleLayer(window.paradasBusIsocronasLayer, layerVisibility.paradasBusIsocronas);
       syncSingleLayer(window.paradasBusIsocronasStartLayer, layerVisibility.paradasBusPuntos);
-      bringPointLayersToFront();
     }
 
     function buildIsocronasSummary() {
@@ -4598,8 +2447,7 @@
       buildThematicIsocronasSummary(
         educacionIsocronasSummary,
         window.educacionIsocronasStats,
-        window.educacionIsocronasFeatures,
-        "educacion"
+        window.educacionIsocronasFeatures
       );
     }
 
@@ -4607,8 +2455,7 @@
       buildThematicIsocronasSummary(
         recreacionIsocronasSummary,
         window.recreacionIsocronasStats,
-        window.recreacionIsocronasFeatures,
-        "recreacion"
+        window.recreacionIsocronasFeatures
       );
     }
 
@@ -4616,8 +2463,7 @@
       buildThematicIsocronasSummary(
         bienestarIsocronasSummary,
         window.bienestarIsocronasStats,
-        window.bienestarIsocronasFeatures,
-        "bienestar"
+        window.bienestarIsocronasFeatures
       );
     }
 
@@ -4625,8 +2471,7 @@
       buildThematicIsocronasSummary(
         culturaIsocronasSummary,
         window.culturaIsocronasStats,
-        window.culturaIsocronasFeatures,
-        "cultura"
+        window.culturaIsocronasFeatures
       );
     }
 
@@ -4634,8 +2479,7 @@
       buildThematicIsocronasSummary(
         saludIsocronasSummary,
         window.saludIsocronasStats,
-        window.saludIsocronasFeatures,
-        "salud"
+        window.saludIsocronasFeatures
       );
     }
 
@@ -4661,75 +2505,70 @@
 
     function getEducacionIsoStyle(feature) {
       const categoria = String(feature?.properties?.categoria || "").toUpperCase();
-      const color = educacionIsoColors[categoria] || "#2563eb";
+      const color = educacionIsoColors[categoria] || "#8fb6d9";
       const distance = Number(feature?.properties?.distance_m || 0);
-      const focused = hasFocusedPlatformSelection();
       return {
         color,
         weight: categoria === "BARRIAL" ? 2.6 : 2.1,
         opacity: 0.95,
         fillColor: color,
-        fillOpacity: focused ? 0.06 : categoria === "BARRIAL" ? 0.3 : 0.22,
+        fillOpacity: categoria === "BARRIAL" ? 0.3 : 0.22,
         dashArray: distance >= 1000 ? "10 6" : ""
       };
     }
 
     function getRecreacionIsoStyle(feature) {
       const categoria = String(feature?.properties?.categoria || "").toUpperCase();
-      const color = recreacionIsoColors[categoria] || "#2f9e44";
+      const color = recreacionIsoColors[categoria] || "#93c5aa";
       const distance = Number(feature?.properties?.distance_m || 0);
-      const focused = hasFocusedPlatformSelection();
       return {
         color,
         weight: categoria === "BARRIAL" ? 2.7 : 2.2,
         opacity: 0.95,
         fillColor: color,
-        fillOpacity: focused ? 0.06 : categoria === "BARRIAL" ? 0.28 : 0.2,
+        fillOpacity: categoria === "BARRIAL" ? 0.28 : 0.2,
         dashArray: distance >= 1000 ? "11 6" : ""
       };
     }
 
     function getBienestarIsoStyle(feature) {
       const categoria = String(feature?.properties?.categoria || "").toUpperCase();
-      const color = bienestarIsoColors[categoria] || "#f97316";
+      const color = bienestarIsoColors[categoria] || "#9fc9ff";
       const distance = Number(feature?.properties?.distance_m || 0);
-      const focused = hasFocusedPlatformSelection();
       return {
         color,
         weight: categoria === "BARRIAL" ? 2.7 : 2.2,
         opacity: 0.96,
         fillColor: color,
-        fillOpacity: focused ? 0.06 : categoria === "BARRIAL" ? 0.27 : 0.19,
+        fillOpacity: categoria === "BARRIAL" ? 0.27 : 0.19,
         dashArray: distance >= 1000 ? "11 6" : ""
       };
     }
 
     function getCulturaIsoStyle(feature) {
       const categoria = String(feature?.properties?.categoria || "").toUpperCase();
-      const color = culturaIsoColors[categoria] || "#8b5cf6";
+      const color = culturaIsoColors[categoria] || "#a8bcff";
       const distance = Number(feature?.properties?.distance_m || 0);
-      const focused = hasFocusedPlatformSelection();
       return {
         color,
         weight: categoria === "BARRIAL" ? 2.7 : 2.2,
         opacity: 0.96,
         fillColor: color,
-        fillOpacity: focused ? 0.06 : categoria === "BARRIAL" ? 0.27 : 0.19,
+        fillOpacity: categoria === "BARRIAL" ? 0.27 : 0.19,
         dashArray: distance >= 1000 ? "11 6" : ""
       };
     }
 
     function getSaludIsoStyle(feature) {
       const categoria = String(feature?.properties?.categoria || "").toUpperCase();
-      const color = saludIsoColors[categoria] || "#0f766e";
+      const color = saludIsoColors[categoria] || "#9bc8bf";
       const distance = Number(feature?.properties?.distance_m || 0);
-      const focused = hasFocusedPlatformSelection();
       return {
         color,
         weight: categoria === "BARRIAL" ? 2.7 : 2.2,
         opacity: 0.96,
         fillColor: color,
-        fillOpacity: focused ? 0.06 : categoria === "BARRIAL" ? 0.27 : 0.19,
+        fillOpacity: categoria === "BARRIAL" ? 0.27 : 0.19,
         dashArray: distance >= 1000 ? "11 6" : ""
       };
     }
@@ -4867,14 +2706,6 @@
     }
 
     function renderEducacionIsocronasStartLayer() {
-      if (!layerVisibility.educacionIsocronasPuntos) {
-        if (window.educacionIsocronasStartLayer) {
-          map.removeLayer(window.educacionIsocronasStartLayer);
-          window.educacionIsocronasStartLayer = null;
-        }
-        return;
-      }
-
       if (window.educacionIsocronasStartLayer) {
         map.removeLayer(window.educacionIsocronasStartLayer);
       }
@@ -4885,7 +2716,7 @@
 
       if (!map.getPane("educacionIsocronasStartPane")) {
         map.createPane("educacionIsocronasStartPane");
-        map.getPane("educacionIsocronasStartPane").style.zIndex = 751;
+        map.getPane("educacionIsocronasStartPane").style.zIndex = 433;
       }
 
       window.educacionIsocronasStartLayer = L.geoJSON(
@@ -4894,17 +2725,14 @@
           pane: "educacionIsocronasStartPane",
           pointToLayer: (feature, latlng) => {
             const categoria = String(feature?.properties?.categoria || "").toUpperCase();
-            const color = educacionIsoColors[categoria] || "#2563eb";
-            return L.circleMarker(
-              latlng,
-              {
-                pane: "educacionIsocronasStartPane",
-                ...buildPublicPointStyle(color, {
-                radius: categoria === "BARRIAL" ? 5.5 : 6.5,
-                fillOpacity: 1
-                })
-              }
-            );
+            const color = educacionIsoColors[categoria] || "#8fb6d9";
+            return L.circleMarker(latlng, {
+              radius: categoria === "BARRIAL" ? 5.5 : 6.5,
+              color: "#f8fbff",
+              weight: 1.5,
+              fillColor: color,
+              fillOpacity: 1
+            });
           },
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
@@ -4928,18 +2756,9 @@
         }
       );
       syncSingleLayer(window.educacionIsocronasStartLayer, layerVisibility.educacionIsocronasPuntos);
-      bringPointLayersToFront();
     }
 
     function renderRecreacionIsocronasStartLayer() {
-      if (!layerVisibility.recreacionIsocronasPuntos) {
-        if (window.recreacionIsocronasStartLayer) {
-          map.removeLayer(window.recreacionIsocronasStartLayer);
-          window.recreacionIsocronasStartLayer = null;
-        }
-        return;
-      }
-
       if (window.recreacionIsocronasStartLayer) {
         map.removeLayer(window.recreacionIsocronasStartLayer);
       }
@@ -4950,7 +2769,7 @@
 
       if (!map.getPane("recreacionIsocronasStartPane")) {
         map.createPane("recreacionIsocronasStartPane");
-        map.getPane("recreacionIsocronasStartPane").style.zIndex = 752;
+        map.getPane("recreacionIsocronasStartPane").style.zIndex = 435;
       }
 
       window.recreacionIsocronasStartLayer = L.geoJSON(
@@ -4959,17 +2778,14 @@
           pane: "recreacionIsocronasStartPane",
           pointToLayer: (feature, latlng) => {
             const categoria = String(feature?.properties?.categoria || "").toUpperCase();
-            const color = recreacionIsoColors[categoria] || "#2f9e44";
-            return L.circleMarker(
-              latlng,
-              {
-                pane: "recreacionIsocronasStartPane",
-                ...buildPublicPointStyle(color, {
-                radius: categoria === "BARRIAL" ? 5.5 : 6.5,
-                fillOpacity: 1
-                })
-              }
-            );
+            const color = recreacionIsoColors[categoria] || "#93c5aa";
+            return L.circleMarker(latlng, {
+              radius: categoria === "BARRIAL" ? 5.5 : 6.5,
+              color: "#f8fbff",
+              weight: 1.5,
+              fillColor: color,
+              fillOpacity: 1
+            });
           },
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
@@ -4993,18 +2809,9 @@
         }
       );
       syncSingleLayer(window.recreacionIsocronasStartLayer, layerVisibility.recreacionIsocronasPuntos);
-      bringPointLayersToFront();
     }
 
     function renderBienestarIsocronasStartLayer() {
-      if (!layerVisibility.bienestarIsocronasPuntos) {
-        if (window.bienestarIsocronasStartLayer) {
-          map.removeLayer(window.bienestarIsocronasStartLayer);
-          window.bienestarIsocronasStartLayer = null;
-        }
-        return;
-      }
-
       if (window.bienestarIsocronasStartLayer) {
         map.removeLayer(window.bienestarIsocronasStartLayer);
       }
@@ -5015,7 +2822,7 @@
 
       if (!map.getPane("bienestarIsocronasStartPane")) {
         map.createPane("bienestarIsocronasStartPane");
-        map.getPane("bienestarIsocronasStartPane").style.zIndex = 753;
+        map.getPane("bienestarIsocronasStartPane").style.zIndex = 436;
       }
 
       window.bienestarIsocronasStartLayer = L.geoJSON(
@@ -5024,17 +2831,14 @@
           pane: "bienestarIsocronasStartPane",
           pointToLayer: (feature, latlng) => {
             const categoria = String(feature?.properties?.categoria || "").toUpperCase();
-            const color = bienestarIsoColors[categoria] || "#f97316";
-            return L.circleMarker(
-              latlng,
-              {
-                pane: "bienestarIsocronasStartPane",
-                ...buildPublicPointStyle(color, {
-                radius: categoria === "BARRIAL" ? 5.5 : 6.5,
-                fillOpacity: 1
-                })
-              }
-            );
+            const color = bienestarIsoColors[categoria] || "#9fc9ff";
+            return L.circleMarker(latlng, {
+              radius: categoria === "BARRIAL" ? 5.5 : 6.5,
+              color: "#f8fbff",
+              weight: 1.5,
+              fillColor: color,
+              fillOpacity: 1
+            });
           },
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
@@ -5058,18 +2862,9 @@
         }
       );
       syncSingleLayer(window.bienestarIsocronasStartLayer, layerVisibility.bienestarIsocronasPuntos);
-      bringPointLayersToFront();
     }
 
     function renderCulturaIsocronasStartLayer() {
-      if (!layerVisibility.culturaIsocronasPuntos) {
-        if (window.culturaIsocronasStartLayer) {
-          map.removeLayer(window.culturaIsocronasStartLayer);
-          window.culturaIsocronasStartLayer = null;
-        }
-        return;
-      }
-
       if (window.culturaIsocronasStartLayer) {
         map.removeLayer(window.culturaIsocronasStartLayer);
       }
@@ -5080,7 +2875,7 @@
 
       if (!map.getPane("culturaIsocronasStartPane")) {
         map.createPane("culturaIsocronasStartPane");
-        map.getPane("culturaIsocronasStartPane").style.zIndex = 754;
+        map.getPane("culturaIsocronasStartPane").style.zIndex = 437;
       }
 
       window.culturaIsocronasStartLayer = L.geoJSON(
@@ -5089,17 +2884,14 @@
           pane: "culturaIsocronasStartPane",
           pointToLayer: (feature, latlng) => {
             const categoria = String(feature?.properties?.categoria || "").toUpperCase();
-            const color = culturaIsoColors[categoria] || "#8b5cf6";
-            return L.circleMarker(
-              latlng,
-              {
-                pane: "culturaIsocronasStartPane",
-                ...buildPublicPointStyle(color, {
-                radius: categoria === "BARRIAL" ? 5.5 : 6.5,
-                fillOpacity: 1
-                })
-              }
-            );
+            const color = culturaIsoColors[categoria] || "#a8bcff";
+            return L.circleMarker(latlng, {
+              radius: categoria === "BARRIAL" ? 5.5 : 6.5,
+              color: "#f8fbff",
+              weight: 1.5,
+              fillColor: color,
+              fillOpacity: 1
+            });
           },
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
@@ -5123,18 +2915,9 @@
         }
       );
       syncSingleLayer(window.culturaIsocronasStartLayer, layerVisibility.culturaIsocronasPuntos);
-      bringPointLayersToFront();
     }
 
     function renderSaludIsocronasStartLayer() {
-      if (!layerVisibility.saludIsocronasPuntos) {
-        if (window.saludIsocronasStartLayer) {
-          map.removeLayer(window.saludIsocronasStartLayer);
-          window.saludIsocronasStartLayer = null;
-        }
-        return;
-      }
-
       if (window.saludIsocronasStartLayer) {
         map.removeLayer(window.saludIsocronasStartLayer);
       }
@@ -5145,7 +2928,7 @@
 
       if (!map.getPane("saludIsocronasStartPane")) {
         map.createPane("saludIsocronasStartPane");
-        map.getPane("saludIsocronasStartPane").style.zIndex = 755;
+        map.getPane("saludIsocronasStartPane").style.zIndex = 434;
       }
 
       window.saludIsocronasStartLayer = L.geoJSON(
@@ -5154,17 +2937,14 @@
           pane: "saludIsocronasStartPane",
           pointToLayer: (feature, latlng) => {
             const categoria = String(feature?.properties?.categoria || "").toUpperCase();
-            const color = saludIsoColors[categoria] || "#0f766e";
-            return L.circleMarker(
-              latlng,
-              {
-                pane: "saludIsocronasStartPane",
-                ...buildPublicPointStyle(color, {
-                radius: categoria === "BARRIAL" ? 5.5 : 6.5,
-                fillOpacity: 1
-                })
-              }
-            );
+            const color = saludIsoColors[categoria] || "#9bc8bf";
+            return L.circleMarker(latlng, {
+              radius: categoria === "BARRIAL" ? 5.5 : 6.5,
+              color: "#f8fbff",
+              weight: 1.5,
+              fillColor: color,
+              fillOpacity: 1
+            });
           },
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
@@ -5188,18 +2968,9 @@
         }
       );
       syncSingleLayer(window.saludIsocronasStartLayer, layerVisibility.saludIsocronasPuntos);
-      bringPointLayersToFront();
     }
 
     function renderParadasBusIsocronasStartLayer() {
-      if (!layerVisibility.paradasBusPuntos) {
-        if (window.paradasBusIsocronasStartLayer) {
-          map.removeLayer(window.paradasBusIsocronasStartLayer);
-          window.paradasBusIsocronasStartLayer = null;
-        }
-        return;
-      }
-
       if (window.paradasBusIsocronasStartLayer) {
         map.removeLayer(window.paradasBusIsocronasStartLayer);
       }
@@ -5208,20 +2979,20 @@
 
       if (!map.getPane("paradasBusIsocronasStartPane")) {
         map.createPane("paradasBusIsocronasStartPane");
-        map.getPane("paradasBusIsocronasStartPane").style.zIndex = 756;
+        map.getPane("paradasBusIsocronasStartPane").style.zIndex = 436;
       }
 
       window.paradasBusIsocronasStartLayer = L.geoJSON(
         { type: "FeatureCollection", features },
         {
           pane: "paradasBusIsocronasStartPane",
-          pointToLayer: (_feature, latlng) => L.circleMarker(
-            latlng,
-            {
-              pane: "paradasBusIsocronasStartPane",
-              ...buildPublicPointStyle(paradasBusIsoColor, { radius: 4.8, fillOpacity: 1 })
-            }
-          ),
+          pointToLayer: (_feature, latlng) => L.circleMarker(latlng, {
+            radius: 4.8,
+            color: "#f8fbff",
+            weight: 1.3,
+            fillColor: paradasBusIsoColor,
+            fillOpacity: 1
+          }),
           onEachFeature: (feature, layer) => {
             const props = feature.properties;
             layer.bindPopup(`
@@ -5242,7 +3013,6 @@
         }
       );
       syncSingleLayer(window.paradasBusIsocronasStartLayer, layerVisibility.paradasBusPuntos);
-      bringPointLayersToFront();
     }
 
     function renderEducacionIsocronasLayer() {
@@ -5250,12 +3020,7 @@
         map.removeLayer(window.educacionIsocronasLayer);
       }
 
-      if (!layerVisibility.educacionIsocronas) {
-        window.educacionIsocronasLayer = null;
-        return;
-      }
-
-      const features = getPlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || [], "educacion")
+      const features = getPlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || [])
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
         .filter(Boolean)
@@ -5270,7 +3035,6 @@
         { type: "FeatureCollection", features },
         {
           pane: "educacionIsocronasPane",
-          renderer: canvasRenderer,
           style: (feature) => {
             const baseStyle = getEducacionIsoStyle(feature);
             return {
@@ -5290,7 +3054,6 @@
             layer.bindPopup(`
               <strong>${props.nombre || "Equipamiento educativo"}</strong><br>
               <strong>Categoria:</strong> ${categoriaTexto}<br>
-              <strong>Plataforma origen:</strong> ${getIsoOriginPlatformLabelFromProps(props)}<br>
               <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
               <strong>Codigo:</strong> ${props.codigo || "Sin codigo"}<br>
               <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
@@ -5304,7 +3067,7 @@
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocronas educacion categorizada";
-              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes desde ${getIsoOriginPlatformLabelFromProps(props)}.`;
+              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
             });
           }
         }
@@ -5317,12 +3080,7 @@
         map.removeLayer(window.recreacionIsocronasLayer);
       }
 
-      if (!layerVisibility.recreacionIsocronas) {
-        window.recreacionIsocronasLayer = null;
-        return;
-      }
-
-      const features = getPlatformScopedIsocronasFeatures(window.recreacionIsocronasFeatures || [], "recreacion")
+      const features = getPlatformScopedIsocronasFeatures(window.recreacionIsocronasFeatures || [])
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
         .filter(Boolean)
@@ -5337,7 +3095,6 @@
         { type: "FeatureCollection", features },
         {
           pane: "recreacionIsocronasPane",
-          renderer: canvasRenderer,
           style: (feature) => {
             const baseStyle = getRecreacionIsoStyle(feature);
             return {
@@ -5357,7 +3114,6 @@
             layer.bindPopup(`
               <strong>${props.nombre || "Equipamiento recreativo"}</strong><br>
               <strong>Categoria:</strong> ${categoriaTexto}<br>
-              <strong>Plataforma origen:</strong> ${getIsoOriginPlatformLabelFromProps(props)}<br>
               <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
               <strong>Codigo:</strong> ${props.codigo || "Sin codigo"}<br>
               <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
@@ -5371,7 +3127,7 @@
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocronas recreacion y deporte";
-              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes desde ${getIsoOriginPlatformLabelFromProps(props)}.`;
+              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
             });
           }
         }
@@ -5384,12 +3140,7 @@
         map.removeLayer(window.bienestarIsocronasLayer);
       }
 
-      if (!layerVisibility.bienestarIsocronas) {
-        window.bienestarIsocronasLayer = null;
-        return;
-      }
-
-      const features = getPlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || [], "bienestar")
+      const features = getPlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || [])
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
         .filter(Boolean)
@@ -5404,7 +3155,6 @@
         { type: "FeatureCollection", features },
         {
           pane: "bienestarIsocronasPane",
-          renderer: canvasRenderer,
           style: (feature) => {
             const baseStyle = getBienestarIsoStyle(feature);
             return {
@@ -5424,7 +3174,6 @@
             layer.bindPopup(`
               <strong>${props.nombre || "Equipamiento de bienestar social"}</strong><br>
               <strong>Categoria:</strong> ${categoriaTexto}<br>
-              <strong>Plataforma origen:</strong> ${getIsoOriginPlatformLabelFromProps(props)}<br>
               <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
               <strong>Codigo:</strong> ${props.codigo || "Sin codigo"}<br>
               <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
@@ -5438,7 +3187,7 @@
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocronas bienestar social";
-              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes desde ${getIsoOriginPlatformLabelFromProps(props)}.`;
+              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
             });
           }
         }
@@ -5451,12 +3200,7 @@
         map.removeLayer(window.culturaIsocronasLayer);
       }
 
-      if (!layerVisibility.culturaIsocronas) {
-        window.culturaIsocronasLayer = null;
-        return;
-      }
-
-      const features = getPlatformScopedIsocronasFeatures(window.culturaIsocronasFeatures || [], "cultura")
+      const features = getPlatformScopedIsocronasFeatures(window.culturaIsocronasFeatures || [])
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
         .filter(Boolean)
@@ -5471,7 +3215,6 @@
         { type: "FeatureCollection", features },
         {
           pane: "culturaIsocronasPane",
-          renderer: canvasRenderer,
           style: (feature) => {
             const baseStyle = getCulturaIsoStyle(feature);
             return {
@@ -5491,7 +3234,6 @@
             layer.bindPopup(`
               <strong>${props.nombre || "Equipamiento cultural"}</strong><br>
               <strong>Categoria:</strong> ${categoriaTexto}<br>
-              <strong>Plataforma origen:</strong> ${getIsoOriginPlatformLabelFromProps(props)}<br>
               <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
               <strong>Codigo:</strong> ${props.codigo || "Sin codigo"}<br>
               <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
@@ -5505,7 +3247,7 @@
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocronas cultura categorizada";
-              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes desde ${getIsoOriginPlatformLabelFromProps(props)}.`;
+              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
             });
           }
         }
@@ -5518,12 +3260,7 @@
         map.removeLayer(window.saludIsocronasLayer);
       }
 
-      if (!layerVisibility.saludIsocronas) {
-        window.saludIsocronasLayer = null;
-        return;
-      }
-
-      const features = getPlatformScopedIsocronasFeatures(window.saludIsocronasFeatures || [], "salud")
+      const features = getPlatformScopedIsocronasFeatures(window.saludIsocronasFeatures || [])
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
         .filter(Boolean)
@@ -5538,7 +3275,6 @@
         { type: "FeatureCollection", features },
         {
           pane: "saludIsocronasPane",
-          renderer: canvasRenderer,
           style: (feature) => {
             const baseStyle = getSaludIsoStyle(feature);
             return {
@@ -5558,7 +3294,6 @@
             layer.bindPopup(`
               <strong>${props.nombre || "Equipamiento de salud"}</strong><br>
               <strong>Categoria:</strong> ${categoriaTexto}<br>
-              <strong>Plataforma origen:</strong> ${getIsoOriginPlatformLabelFromProps(props)}<br>
               <strong>Distancia:</strong> ${formatNumber(props.distance_m)} m<br>
               <strong>Codigo:</strong> ${props.codigo || "Sin codigo"}<br>
               <strong>Manzanas ajustadas:</strong> ${formatNumber(props.manzanas_ajustadas || 0)}<br>
@@ -5572,7 +3307,7 @@
 
             layer.on("click", () => {
               overlayTitle.textContent = "Isocronas salud categorizada";
-              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes desde ${getIsoOriginPlatformLabelFromProps(props)}.`;
+              overlayText.textContent = `${props.nombre || "Equipamiento"} genera una isocrona ${categoriaTexto.toLowerCase()} de ${formatNumber(props.distance_m)} m, ajustada a manzanas censales y mostrada como area rellena con borde exterior, con una cobertura de ${formatNumber(props.population_total || 0)} habitantes.`;
             });
           }
         }
@@ -5583,11 +3318,6 @@
     function renderParadasBusIsocronasLayer() {
       if (window.paradasBusIsocronasLayer) {
         map.removeLayer(window.paradasBusIsocronasLayer);
-      }
-
-      if (!layerVisibility.paradasBusIsocronas) {
-        window.paradasBusIsocronasLayer = null;
-        return;
       }
 
       const features = (window.paradasBusIsocronasFeatures || [])
@@ -5988,6 +3718,7 @@
           statsResponse,
           platformGeoResponse,
           platformStatsResponse,
+          barriosGeoResponse,
           manifestResponse,
           equipamientosGeoResponse,
           equipamientosStatsResponse,
@@ -6006,6 +3737,7 @@
           fetch(`./riobamba-censo-data/riobamba_manzanas_stats.json?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_plataformas.geojson?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_plataformas_stats.json?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_barrios_plataformas.geojson?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/shp/manifest.json?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_entorno_publico.geojson?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_entorno_publico_stats.json?v=${DATA_VERSION}`),
@@ -6026,6 +3758,7 @@
           !statsResponse.ok ||
           !platformGeoResponse.ok ||
           !platformStatsResponse.ok ||
+          !barriosGeoResponse.ok ||
           !equipamientosGeoResponse.ok ||
           !equipamientosStatsResponse.ok ||
           !educacionIsocronasResponse.ok ||
@@ -6046,6 +3779,7 @@
         const stats = await statsResponse.json();
         const platformsGeo = await platformGeoResponse.json();
         const platformsStats = await platformStatsResponse.json();
+        const barriosGeo = await barriosGeoResponse.json();
         const equipamientosGeo = await equipamientosGeoResponse.json();
         const equipamientosStatsData = await equipamientosStatsResponse.json();
         const educacionIsocronasGeo = await educacionIsocronasResponse.json();
@@ -6060,68 +3794,21 @@
         const saludIsocronasStatsData = await saludIsocronasStatsResponse.json();
         shpManifest = manifestResponse.ok ? await manifestResponse.json() : {};
 
-        const dedupedEquipamientos = dedupeProbableEquipamientoFeatures(filterThematicEquipamientoFeatures(equipamientosGeo.features || []), {
-          nameKeys: ["nombre_equ", "nombre_ins", "elemento"],
-          pointMode: "geometry",
-          thresholdMeters: 15
-        });
-        const dedupedEducacionIsocronas = dedupeNearbyNamedFeatures(educacionIsocronasGeo.features || [], {
-          nameKeys: ["nombre"],
-          categoryKeys: ["categoria"],
-          pointMode: "source",
-          thresholdMeters: 8
-        });
-        const dedupedRecreacionIsocronas = dedupeNearbyNamedFeatures(recreacionIsocronasGeo.features || [], {
-          nameKeys: ["nombre"],
-          categoryKeys: ["categoria"],
-          pointMode: "source",
-          thresholdMeters: 8
-        });
-        const dedupedBienestarIsocronas = dedupeNearbyNamedFeatures(bienestarIsocronasGeo.features || [], {
-          nameKeys: ["nombre"],
-          categoryKeys: ["categoria"],
-          pointMode: "source",
-          thresholdMeters: 8
-        });
-        const dedupedCulturaIsocronas = dedupeNearbyNamedFeatures(culturaIsocronasGeo.features || [], {
-          nameKeys: ["nombre"],
-          categoryKeys: ["categoria"],
-          pointMode: "source",
-          thresholdMeters: 8
-        });
-        const dedupedSaludIsocronas = dedupeNearbyNamedFeatures(saludIsocronasGeo.features || [], {
-          nameKeys: ["nombre"],
-          categoryKeys: ["categoria"],
-          pointMode: "source",
-          thresholdMeters: 8
-        });
-
-        duplicateCleanupSummary = {
-          equipamientos: dedupedEquipamientos.duplicatesRemoved,
-          equipamientosExactos: dedupedEquipamientos.exactNameDuplicatesRemoved,
-          equipamientosProbables: dedupedEquipamientos.probableDuplicatesRemoved,
-          educacion: dedupedEducacionIsocronas.duplicatesRemoved,
-          recreacion: dedupedRecreacionIsocronas.duplicatesRemoved,
-          bienestar: dedupedBienestarIsocronas.duplicatesRemoved,
-          cultura: dedupedCulturaIsocronas.duplicatesRemoved,
-          salud: dedupedSaludIsocronas.duplicatesRemoved
-        };
-
         globalSummary = stats.summary;
         platformSummary = platformsStats;
+        barriosFeatures = barriosGeo.features || [];
         equipamientosStats = equipamientosStatsData;
-        window.equipamientosDuplicatePairs = dedupedEquipamientos.duplicatePairs;
         isocronasStats = null;
         window.educacionIsocronasStats = educacionIsocronasStatsData;
-        window.educacionIsocronasFeatures = dedupedEducacionIsocronas.features;
+        window.educacionIsocronasFeatures = educacionIsocronasGeo.features || [];
         window.recreacionIsocronasStats = recreacionIsocronasStatsData;
-        window.recreacionIsocronasFeatures = dedupedRecreacionIsocronas.features;
+        window.recreacionIsocronasFeatures = recreacionIsocronasGeo.features || [];
         window.bienestarIsocronasStats = bienestarIsocronasStatsData;
-        window.bienestarIsocronasFeatures = dedupedBienestarIsocronas.features;
+        window.bienestarIsocronasFeatures = bienestarIsocronasGeo.features || [];
         window.culturaIsocronasStats = culturaIsocronasStatsData;
-        window.culturaIsocronasFeatures = dedupedCulturaIsocronas.features;
+        window.culturaIsocronasFeatures = culturaIsocronasGeo.features || [];
         window.saludIsocronasStats = saludIsocronasStatsData;
-        window.saludIsocronasFeatures = dedupedSaludIsocronas.features;
+        window.saludIsocronasFeatures = saludIsocronasGeo.features || [];
         platformStatsByName = platformsStats.byName || {};
         platformFeatures = (platformsGeo.features || []).map((feature) => ({
           ...feature,
@@ -6130,7 +3817,7 @@
             ...(platformStatsByName[feature.properties.platform_name] || {})
           }
         }));
-        equipamientosFeatures = dedupedEquipamientos.features;
+        equipamientosFeatures = equipamientosGeo.features || [];
         rebuildEquipamientoPlatformIndex();
 
         const byMan = stats.byMan || {};
@@ -6153,36 +3840,26 @@
           })
           .filter(Boolean);
 
-        rebuildPlatformSelectionIndexes();
         buildPlatformOptions();
         buildCoverageList();
         renderAll(false);
 
         const totalIsocronasCiudad =
-          (window.educacionIsocronasFeatures || []).length +
-          (window.recreacionIsocronasFeatures || []).length +
-          (window.bienestarIsocronasFeatures || []).length +
-          (window.culturaIsocronasFeatures || []).length +
-          (window.saludIsocronasFeatures || []).length;
-        const totalDuplicatesRemoved =
-          Number(duplicateCleanupSummary?.equipamientos || 0) +
-          Number(duplicateCleanupSummary?.educacion || 0) +
-          Number(duplicateCleanupSummary?.recreacion || 0) +
-          Number(duplicateCleanupSummary?.bienestar || 0) +
-          Number(duplicateCleanupSummary?.cultura || 0) +
-          Number(duplicateCleanupSummary?.salud || 0);
-        const equipamientoDuplicateBreakdown = duplicateCleanupSummary
-          ? ` Puntos publicos depurados: ${formatNumber(duplicateCleanupSummary.equipamientos || 0)} (${formatNumber(duplicateCleanupSummary.equipamientosExactos || 0)} exactos y ${formatNumber(duplicateCleanupSummary.equipamientosProbables || 0)} probables).`
-          : "";
+          (window.educacionIsocronasStats.summary.total_isocronas || 0) +
+          (window.recreacionIsocronasStats.summary.total_isocronas || 0) +
+          (window.bienestarIsocronasStats.summary.total_isocronas || 0) +
+          (window.culturaIsocronasStats.summary.total_isocronas || 0) +
+          (window.saludIsocronasStats.summary.total_isocronas || 0);
 
-        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} puntos publicos y ${formatNumber(totalIsocronasCiudad)} isocronas tematicas de ciudad completa a 1000 m. Duplicados depurados: ${formatNumber(totalDuplicatesRemoved)}.${equipamientoDuplicateBreakdown}`;
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(equipamientosFeatures.length)} puntos publicos y ${formatNumber(totalIsocronasCiudad)} isocronas tematicas de ciudad completa a 1000 m.`;
+        statusText.textContent = `Listo: ${formatNumber(joinedFeatures.length)} manzanas, ${formatNumber(platformFeatures.length)} plataformas, ${formatNumber(barriosFeatures.length)} barrios dentro de plataformas, ${formatNumber(equipamientosFeatures.length)} puntos publicos y ${formatNumber(totalIsocronasCiudad)} isocronas tematicas de ciudad completa a 1000 m.`;
 
         if (layerControl) {
           layerControl.remove();
         }
 
         layerControl = L.control.layers(
-          baseLayerOptions,
+          { "Esri satelital": esriBase },
           {},
           { position: "topright", collapsed: true }
         ).addTo(map);
@@ -6703,25 +4380,12 @@
     selectAllCategoriesButton.addEventListener("click", () => {
       ensureEquipamientoCategoriesInitialized();
       selectedEquipamientoCategories = new Set(allEquipamientoCategories);
-      renderEquipamientosLayer();
-      schedulePlatformUiRefresh();
+      renderAll(false);
     });
 
     clearCategoriesButton.addEventListener("click", () => {
       selectedEquipamientoCategories = new Set();
-      renderEquipamientosLayer();
-      schedulePlatformUiRefresh();
-    });
-
-    equipamientoCategoryFilters.addEventListener("click", (event) => {
-      const button = event.target.closest("[data-category-expand]");
-      if (!(button instanceof HTMLElement)) {
-        return;
-      }
-
-      const category = button.dataset.categoryExpand || "";
-      expandedEquipamientoCategory = expandedEquipamientoCategory === category ? null : category;
-      buildEquipamientoCategoryFilters();
+      renderAll(false);
     });
 
     equipamientoCategoryFilters.addEventListener("change", (event) => {
@@ -6737,15 +4401,12 @@
         selectedEquipamientoCategories.delete(category);
       }
 
-      renderEquipamientosLayer();
-      schedulePlatformUiRefresh();
+      renderAll(false);
     });
 
     metricSelect.addEventListener("change", () => {
       currentMetric = metricSelect.value;
-      renderPlatformLayer();
-      renderManzanaLayer(false);
-      schedulePlatformUiRefresh();
+      renderAll(false);
     });
 
     downloadFormatSelect.addEventListener("change", () => {
@@ -6753,34 +4414,8 @@
     });
 
     platformSelect.addEventListener("change", () => {
-      applyPlatformSelection(platformSelect.value, true);
-    });
-
-    focusedAnalysisGrid.addEventListener("click", (event) => {
-      const card = event.target.closest(".analysis-item[data-expandable='true']");
-      if (!card) {
-        return;
-      }
-
-      const nextKey = card.dataset.analysisKey || "";
-      focusedAnalysisExpandedKey = focusedAnalysisExpandedKey === nextKey ? null : nextKey;
-      updateFocusedAnalysisCard();
-    });
-
-    focusedAnalysisGrid.addEventListener("keydown", (event) => {
-      if (event.key !== "Enter" && event.key !== " ") {
-        return;
-      }
-
-      const card = event.target.closest(".analysis-item[data-expandable='true']");
-      if (!card) {
-        return;
-      }
-
-      event.preventDefault();
-      const nextKey = card.dataset.analysisKey || "";
-      focusedAnalysisExpandedKey = focusedAnalysisExpandedKey === nextKey ? null : nextKey;
-      updateFocusedAnalysisCard();
+      currentPlatform = platformSelect.value;
+      renderAll(true);
     });
 
     toggleManzanas.addEventListener("change", () => {
@@ -6788,20 +4423,19 @@
       syncVisibleLayers();
     });
 
-    toggleManzanasOutlineOnly.addEventListener("change", () => {
-      layerVisibility.manzanasSoloContorno = toggleManzanasOutlineOnly.checked;
-      refreshManzanaLayerStyle();
-    });
-
     togglePlataformas.addEventListener("change", () => {
       layerVisibility.plataformas = togglePlataformas.checked;
       syncVisibleLayers();
     });
 
+    toggleBarrios.addEventListener("change", () => {
+      layerVisibility.barrios = toggleBarrios.checked;
+      syncVisibleLayers();
+    });
+
     toggleEquipamientos.addEventListener("change", () => {
       layerVisibility.equipamientos = toggleEquipamientos.checked;
-      renderEquipamientosLayer();
-      schedulePlatformUiRefresh();
+      syncVisibleLayers();
     });
 
     toggleIsocronasColindantes.addEventListener("change", () => {
@@ -6841,62 +4475,66 @@
 
     toggleEducacionIsocronas.addEventListener("change", () => {
       layerVisibility.educacionIsocronas = toggleEducacionIsocronas.checked;
-      refreshAfterThematicVisibilityChange(renderEducacionIsocronasLayer);
+      syncVisibleLayers();
     });
 
     toggleEducacionIsocronasPuntos.addEventListener("change", () => {
       layerVisibility.educacionIsocronasPuntos = toggleEducacionIsocronasPuntos.checked;
-      renderEducacionIsocronasStartLayer();
+      syncVisibleLayers();
     });
 
     toggleRecreacionIsocronas.addEventListener("change", () => {
       layerVisibility.recreacionIsocronas = toggleRecreacionIsocronas.checked;
-      refreshAfterThematicVisibilityChange(renderRecreacionIsocronasLayer);
+      syncVisibleLayers();
     });
 
     toggleRecreacionIsocronasPuntos.addEventListener("change", () => {
       layerVisibility.recreacionIsocronasPuntos = toggleRecreacionIsocronasPuntos.checked;
-      renderRecreacionIsocronasStartLayer();
+      syncVisibleLayers();
     });
 
     toggleBienestarIsocronas.addEventListener("change", () => {
       layerVisibility.bienestarIsocronas = toggleBienestarIsocronas.checked;
-      refreshAfterThematicVisibilityChange(renderBienestarIsocronasLayer);
+      syncVisibleLayers();
     });
 
     toggleBienestarIsocronasPuntos.addEventListener("change", () => {
       layerVisibility.bienestarIsocronasPuntos = toggleBienestarIsocronasPuntos.checked;
-      renderBienestarIsocronasStartLayer();
+      syncVisibleLayers();
     });
 
     toggleCulturaIsocronas.addEventListener("change", () => {
       layerVisibility.culturaIsocronas = toggleCulturaIsocronas.checked;
-      refreshAfterThematicVisibilityChange(renderCulturaIsocronasLayer);
+      syncVisibleLayers();
     });
 
     toggleCulturaIsocronasPuntos.addEventListener("change", () => {
       layerVisibility.culturaIsocronasPuntos = toggleCulturaIsocronasPuntos.checked;
-      renderCulturaIsocronasStartLayer();
+      syncVisibleLayers();
     });
 
     toggleSaludIsocronas.addEventListener("change", () => {
       layerVisibility.saludIsocronas = toggleSaludIsocronas.checked;
-      refreshAfterThematicVisibilityChange(renderSaludIsocronasLayer);
+      syncVisibleLayers();
     });
 
     toggleSaludIsocronasPuntos.addEventListener("change", () => {
       layerVisibility.saludIsocronasPuntos = toggleSaludIsocronasPuntos.checked;
-      renderSaludIsocronasStartLayer();
+      syncVisibleLayers();
     });
 
     toggleParadasBusIsocronas.addEventListener("change", () => {
       layerVisibility.paradasBusIsocronas = toggleParadasBusIsocronas.checked;
-      renderParadasBusIsocronasLayer();
+      syncVisibleLayers();
     });
 
     toggleParadasBusPuntos.addEventListener("change", () => {
       layerVisibility.paradasBusPuntos = toggleParadasBusPuntos.checked;
-      renderParadasBusIsocronasStartLayer();
+      syncVisibleLayers();
+    });
+
+    map.on("zoomend", () => {
+      renderBarriosLayer();
     });
 
     init();
