@@ -4166,7 +4166,7 @@
       scheduleSecondaryLayerRefresh();
     }
 
-    async function init() {
+    async function initLegacyPlataformaN1000m() {
       try {
         const [geoResponse, statsResponse, platformGeoResponse, platformStatsResponse, manifestResponse, equipamientosGeoResponse, equipamientosStatsResponse, isocronaPolygonResponse, isocronaNetworkResponse, isocronasStatsResponse] = await Promise.all([
           fetch(`./riobamba-censo-data/riobamba_manzanas.geojson?v=${DATA_VERSION}`),
@@ -4389,7 +4389,7 @@
       syncSingleLayer(isocronaPolygonLayer, layerVisibility.isocronasColindantes);
     }
 
-    async function init() {
+    async function initLegacyPlataformaN400m() {
       try {
         const [
           geoResponse,
@@ -6123,8 +6123,15 @@
       syncSingleLayer(window.transporteIntracantonalRoutesLayer, layerVisibility.transporteRutas);
     }
 
-    async function init() {
+    async function initStableRiobambaCenso() {
       try {
+        if (window.location.protocol === "file:") {
+          statusText.textContent = "Abre este visor desde la URL publicada o desde un servidor local. No debe ejecutarse desde file://.";
+          overlayTitle.textContent = "Visor no inicializado";
+          overlayText.textContent = "La version local del archivo puede bloquear la carga de GeoJSON y mostrar resultados incompletos.";
+          return;
+        }
+
         simplifyInterfaceForPublicEntorno();
 
         const [
@@ -7057,7 +7064,7 @@
       renderBarriosLayer();
     });
 
-    init();
+    initStableRiobambaCenso();
   </script>
 </body>
 </html>
