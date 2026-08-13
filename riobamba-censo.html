@@ -3734,7 +3734,7 @@
 
       if (!map.getPane("barriosPane")) {
         map.createPane("barriosPane");
-        map.getPane("barriosPane").style.zIndex = 421;
+        map.getPane("barriosPane").style.zIndex = 652;
       }
 
       if (!map.getPane("barriosLabelsPane")) {
@@ -3752,9 +3752,12 @@
           pane: "barriosPane",
           renderer: canvasRenderer,
           style: {
-            color: "#b799d5",
-            weight: currentPlatform === ALL_PLATFORMS ? 1.35 : 1.9,
-            opacity: 0.95,
+            color: "#6f42c1",
+            weight: currentPlatform === ALL_PLATFORMS ? 2.2 : 3.1,
+            opacity: 1,
+            lineCap: "round",
+            lineJoin: "round",
+            dashArray: "",
             fillOpacity: 0
           },
           onEachFeature: (feature, layer) => {
@@ -3804,6 +3807,12 @@
 
       syncSingleLayer(barriosLayer, layerVisibility.barrios);
       syncSingleLayer(barriosLabelLayer, layerVisibility.barrios);
+      if (barriosLayer && typeof barriosLayer.bringToFront === "function") {
+        barriosLayer.bringToFront();
+      }
+      if (barriosLabelLayer && typeof barriosLabelLayer.bringToFront === "function") {
+        barriosLabelLayer.bringToFront();
+      }
     }
 
     function equipamientoStyle(feature) {
