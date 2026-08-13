@@ -821,7 +821,11 @@
     </aside>
   </main>
 
-  <script src="./tramites-avaluos-data.js"></script>
+  <script>
+    // Renueva el paquete de datos como máximo cada 10 minutos sin redeploy de la interfaz.
+    const dataCacheWindow = Math.floor(Date.now() / 600000);
+    document.write(`<script src="./tramites-avaluos-data.js?v=${dataCacheWindow}"><\/script>`);
+  </script>
   <script>
     (() => {
       const bundle = window.TRAMITES_AVALUOS_DATA;
