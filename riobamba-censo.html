@@ -933,6 +933,11 @@
     let lastPlatformSelectValue = ALL_PLATFORMS;
     let duplicateCleanupSummary = null;
     let scopedIsochroneCache = new Map();
+    let scopedEquipamientoCache = new Map();
+    let scopedBarrioCache = new Map();
+    let visibleEquipamientoCache = new Map();
+    let equipamientoBucketsCache = new Map();
+    let equipamientoNamesCache = new Map();
     let currentFeaturesByPlatform = new Map();
     let currentSummaryByPlatform = new Map();
     let platformFeatureByName = new Map();
@@ -1339,40 +1344,54 @@
     }
 
     function getPlatformScopedEquipamientosFeatures() {
+      const scopedKey = normalizePlatformSelectionValue(currentPlatform);
+      if (scopedEquipamientoCache.has(scopedKey)) {
+        return scopedEquipamientoCache.get(scopedKey) || [];
+      }
+
+      let scopedFeatures;
       if (currentPlatform === ALL_PLATFORMS) {
-        return equipamientosFeatures;
+        scopedFeatures = equipamientosFeatures;
+      } else if (currentPlatform === OUTSIDE_PLATFORMS) {
+        scopedFeatures = equipamientosFeatures.filter((feature) => !feature.properties.platform_name);
+      } else {
+        const selectedPlatformFeature = getSelectedPlatformFeature();
+        if (selectedPlatformFeature && typeof turf !== "undefined") {
+          scopedFeatures = equipamientosFeatures.filter((feature) =>
+            isFeatureInsideSelectedPlatform(feature, selectedPlatformFeature)
+          );
+        } else {
+          const selected = displayPlatformName(currentPlatform);
+          scopedFeatures = equipamientosFeatures.filter(
+            (feature) => displayPlatformName(feature.properties.platform_name) === selected
+          );
+        }
       }
 
-      if (currentPlatform === OUTSIDE_PLATFORMS) {
-        return equipamientosFeatures.filter((feature) => !feature.properties.platform_name);
-      }
-
-      const selectedPlatformFeature = getSelectedPlatformFeature();
-      if (selectedPlatformFeature && typeof turf !== "undefined") {
-        return equipamientosFeatures.filter((feature) =>
-          isFeatureInsideSelectedPlatform(feature, selectedPlatformFeature)
-        );
-      }
-
-      const selected = displayPlatformName(currentPlatform);
-      return equipamientosFeatures.filter(
-        (feature) => displayPlatformName(feature.properties.platform_name) === selected
-      );
+      scopedEquipamientoCache.set(scopedKey, scopedFeatures);
+      return scopedFeatures;
     }
 
     function getPlatformScopedBarriosFeatures() {
+      const scopedKey = normalizePlatformSelectionValue(currentPlatform);
+      if (scopedBarrioCache.has(scopedKey)) {
+        return scopedBarrioCache.get(scopedKey) || [];
+      }
+
+      let scopedFeatures;
       if (currentPlatform === ALL_PLATFORMS) {
-        return barriosFeatures;
+        scopedFeatures = barriosFeatures;
+      } else if (currentPlatform === OUTSIDE_PLATFORMS) {
+        scopedFeatures = [];
+      } else {
+        const selected = displayPlatformName(currentPlatform);
+        scopedFeatures = barriosFeatures.filter(
+          (feature) => displayPlatformName(feature?.properties?.platform_name) === selected
+        );
       }
 
-      if (currentPlatform === OUTSIDE_PLATFORMS) {
-        return [];
-      }
-
-      const selected = displayPlatformName(currentPlatform);
-      return barriosFeatures.filter(
-        (feature) => displayPlatformName(feature?.properties?.platform_name) === selected
-      );
+      scopedBarrioCache.set(scopedKey, scopedFeatures);
+      return scopedFeatures;
     }
 
     function hasFocusedPlatformSelection() {
@@ -1509,19 +1528,45 @@
 
       clearSecondaryRenderedLayers();
 
-      const queue = [
-        renderEquipamientosLayer,
-        renderEducacionIsocronasLayer,
-        renderEducacionIsocronasStartLayer,
-        renderRecreacionIsocronasLayer,
-        renderRecreacionIsocronasStartLayer,
-        renderBienestarIsocronasLayer,
-        renderBienestarIsocronasStartLayer,
-        renderCulturaIsocronasLayer,
-        renderCulturaIsocronasStartLayer,
-        renderSaludIsocronasLayer,
-        renderSaludIsocronasStartLayer
-      ];
+      const queue = [];
+      if (layerVisibility.equipamientos) {
+        queue.push(renderEquipamientosLayer);
+      }
+      if (layerVisibility.educacionIsocronas) {
+        queue.push(renderEducacionIsocronasLayer);
+      }
+      if (layerVisibility.educacionIsocronasPuntos) {
+        queue.push(renderEducacionIsocronasStartLayer);
+      }
+      if (layerVisibility.recreacionIsocronas) {
+        queue.push(renderRecreacionIsocronasLayer);
+      }
+      if (layerVisibility.recreacionIsocronasPuntos) {
+        queue.push(renderRecreacionIsocronasStartLayer);
+      }
+      if (layerVisibility.bienestarIsocronas) {
+        queue.push(renderBienestarIsocronasLayer);
+      }
+      if (layerVisibility.bienestarIsocronasPuntos) {
+        queue.push(renderBienestarIsocronasStartLayer);
+      }
+      if (layerVisibility.culturaIsocronas) {
+        queue.push(renderCulturaIsocronasLayer);
+      }
+      if (layerVisibility.culturaIsocronasPuntos) {
+        queue.push(renderCulturaIsocronasStartLayer);
+      }
+      if (layerVisibility.saludIsocronas) {
+        queue.push(renderSaludIsocronasLayer);
+      }
+      if (layerVisibility.saludIsocronasPuntos) {
+        queue.push(renderSaludIsocronasStartLayer);
+      }
+
+      if (!queue.length) {
+        schedulePlatformUiRefresh();
+        return;
+      }
 
       const runNext = () => {
         if (token !== secondaryRenderToken) {
@@ -1715,6 +1760,11 @@
 
     function resetPlatformDerivedCaches() {
       scopedIsochroneCache = new Map();
+      scopedEquipamientoCache = new Map();
+      scopedBarrioCache = new Map();
+      visibleEquipamientoCache = new Map();
+      equipamientoBucketsCache = new Map();
+      equipamientoNamesCache = new Map();
       analysisContextCache = new Map();
     }
 
@@ -1849,25 +1899,32 @@
 
     function getPlatformScopedIsocronasFeatures(features = [], cacheKey = "") {
       const validFeatures = (features || []).filter((feature) => feature && feature.properties);
+      const scopedCacheKey = cacheKey
+        ? `${normalizePlatformSelectionValue(currentPlatform)}::${cacheKey}`
+        : "";
+
+      if (scopedCacheKey && scopedIsochroneCache.has(scopedCacheKey)) {
+        return scopedIsochroneCache.get(scopedCacheKey) || [];
+      }
 
       if (currentPlatform === ALL_PLATFORMS) {
+        if (scopedCacheKey) {
+          scopedIsochroneCache.set(scopedCacheKey, validFeatures);
+        }
         return validFeatures;
       }
 
       if (!hasFocusedPlatformSelection()) {
-        return validFeatures.filter((feature) => matchesCurrentPlatform(getIsoFeaturePlatformName(feature)));
+        const filtered = validFeatures.filter((feature) => matchesCurrentPlatform(getIsoFeaturePlatformName(feature)));
+        if (scopedCacheKey) {
+          scopedIsochroneCache.set(scopedCacheKey, filtered);
+        }
+        return filtered;
       }
 
       const selectedPlatformFeature = getSelectedPlatformFeature();
       if (!selectedPlatformFeature) {
         return [];
-      }
-
-      const scopedCacheKey = cacheKey
-        ? `${displayPlatformName(currentPlatform)}::${cacheKey}`
-        : "";
-      if (scopedCacheKey && scopedIsochroneCache.has(scopedCacheKey)) {
-        return scopedIsochroneCache.get(scopedCacheKey) || [];
       }
 
       const scopedFeatures = validFeatures
@@ -2576,7 +2633,7 @@
 
     introText.innerHTML = "Visualizador por manzana censal y por plataforma territorial. Tambien muestra dos isocronas independientes: una de <strong>1000 m</strong> desde equipamientos de la plataforma \u00D1 y otra de <strong>400 m exacta de red</strong> desde el borde de la plataforma \u00D1. Ademas conserva un <strong>contorno cartografico 400 m ajustado a manzanas</strong> solo como referencia.";
 
-    function displayPlatformName(value) {
+    function legacyDisplayPlatformNameAsN(value) {
       const normalized = String(value || "");
       if (!normalized) {
         return "";
@@ -2599,11 +2656,17 @@
     }
 
     function getEquipamientoBuckets() {
+      const cacheKey = normalizePlatformSelectionValue(currentPlatform);
+      if (equipamientoBucketsCache.has(cacheKey)) {
+        return equipamientoBucketsCache.get(cacheKey) || {};
+      }
+
       const counts = {};
       for (const feature of getPlatformScopedEquipamientosFeatures()) {
         const category = getEquipamientoCategory(feature.properties);
         counts[category] = (counts[category] || 0) + 1;
       }
+      equipamientoBucketsCache.set(cacheKey, counts);
       return counts;
     }
 
@@ -2614,20 +2677,35 @@
     }
 
     function getEquipamientoNamesByCategory(category) {
+      const cacheKey = `${normalizePlatformSelectionValue(currentPlatform)}::${normalizeCategoryKey(category)}`;
+      if (equipamientoNamesCache.has(cacheKey)) {
+        return equipamientoNamesCache.get(cacheKey) || [];
+      }
+
       const names = getPlatformScopedEquipamientosFeatures()
         .filter((feature) => getEquipamientoCategory(feature.properties) === category)
         .map((feature) => getEquipamientoDisplayName(feature.properties))
         .filter(Boolean);
 
-      return Array.from(new Set(names))
+      const uniqueNames = Array.from(new Set(names))
         .sort((left, right) => left.localeCompare(right, "es", { sensitivity: "base" }));
+      equipamientoNamesCache.set(cacheKey, uniqueNames);
+      return uniqueNames;
     }
 
     function getVisibleEquipamientosFeatures() {
       ensureEquipamientoCategoriesInitialized();
-      return getPlatformScopedEquipamientosFeatures().filter((feature) =>
+      const signature = sortEquipamientoCategories([...selectedEquipamientoCategories]).join("|");
+      const cacheKey = `${normalizePlatformSelectionValue(currentPlatform)}::${signature}`;
+      if (visibleEquipamientoCache.has(cacheKey)) {
+        return visibleEquipamientoCache.get(cacheKey) || [];
+      }
+
+      const visibleFeatures = getPlatformScopedEquipamientosFeatures().filter((feature) =>
         selectedEquipamientoCategories.has(getEquipamientoCategory(feature.properties))
       );
+      visibleEquipamientoCache.set(cacheKey, visibleFeatures);
+      return visibleFeatures;
     }
 
     function getThematicGroupKeyFromCategory(category) {
@@ -3268,7 +3346,7 @@
         .join("");
     }
 
-    function buildIsocronasSummary() {
+    function legacyBuildIsocronasSummary400() {
       if (!isocronasStats) {
         isocronasSummary.innerHTML = "";
         return;
@@ -3946,7 +4024,7 @@
       syncSingleLayer(isocronasLayer, layerVisibility.isocronasColindantes);
     }
 
-    function renderIsocronaNetworkLayer() {
+    function legacyRenderIsocronaNetworkLayer400() {
       if (isocronaNetworkLayer) {
         map.removeLayer(isocronaNetworkLayer);
       }
@@ -3991,7 +4069,7 @@
       syncSingleLayer(isocronaNetworkLayer, layerVisibility.redVial1000m);
     }
 
-    function renderIsocronaPolygonLayer() {
+    function legacyRenderIsocronaPolygonLayer400() {
       if (isocronaPolygonLayer) {
         map.removeLayer(isocronaPolygonLayer);
       }
@@ -4291,7 +4369,7 @@
         .join("");
     }
 
-    function renderIsocronaNetworkLayer() {
+    function legacyRenderIsocronaNetworkLayer1000() {
       if (isocronaNetworkLayer) {
         map.removeLayer(isocronaNetworkLayer);
       }
@@ -4337,7 +4415,7 @@
       syncSingleLayer(isocronaNetworkLayer, layerVisibility.redVial1000m);
     }
 
-    function renderIsocronaPolygonLayer() {
+    function legacyRenderIsocronaPolygonLayer1000() {
       if (isocronaPolygonLayer) {
         map.removeLayer(isocronaPolygonLayer);
       }
@@ -4581,7 +4659,7 @@
     };
     const paradasBusIsoColor = "#ff6b6b";
 
-    function displayPlatformName(value) {
+    function legacyDisplayPlatformNameBrokenEncoding(value) {
       return String(value || "")
         .replaceAll("PLATAFORMA Ã‘", "PLATAFORMA N")
         .replaceAll("PLATAFORMA Ñ", "PLATAFORMA N")
@@ -4608,7 +4686,7 @@
         .replace(/(?:Ãƒâ€˜|Ã‘|Ă‘|Ń)/g, "Ñ");
     }
 
-    function updateDownloadButtonState() {
+    function legacyUpdateDownloadButtonState() {
       const entry = shpManifest[getCurrentSelectionLabel()];
       const format = downloadFormatSelect.value;
       const file = format === "xlsx" ? entry && entry.xlsx_file : entry && (entry.shp_file || entry.file);
@@ -4637,7 +4715,7 @@
       downloadParadasBusStartPointsShpButton.disabled = !shpManifest[PARADAS_BUS_START_POINTS_SHP_KEY];
     }
 
-    function syncVisibleLayers() {
+    function legacySyncVisibleLayers() {
       syncSingleLayer(manzanaLayer, layerVisibility.manzanas);
       syncSingleLayer(platformLayer, layerVisibility.plataformas);
       syncSingleLayer(equipamientosLayer, layerVisibility.equipamientos);
@@ -4663,7 +4741,7 @@
       bringPointLayersToFront();
     }
 
-    function buildIsocronasSummary() {
+    function legacyBuildIsocronasSummaryExtended() {
       if (!isocronasStats) {
         isocronasSummary.innerHTML = "";
         return;
