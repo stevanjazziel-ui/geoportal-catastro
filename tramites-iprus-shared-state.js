@@ -1,17 +1,29 @@
 window.TRAMITES_IPRUS_SHARED_STATE = {
   "title": "TRAMITES IPRUS SHARED STATE",
   "sourceDate": "2026-08-17T08:38:30",
-  "generatedAt": "2026-08-17T13:42:11.504Z",
+  "generatedAt": "2026-08-17T13:43:44.774Z",
   "syncVersion": 2,
   "assignments": {
+    "GADMR--2026-0556-IPRUS-ZNP": "Jasiel Caizaluisa",
+    "GADMR--2026-0555-IPRUS-ZNP": "Jasiel Caizaluisa",
+    "GADMR--2026-0554-IPRUS-ZNP": "Jasiel Caizaluisa",
+    "GADMR--2026-0553-IPRUS-ZNP": "Jasiel Caizaluisa",
     "GADMR--2026-0457-IPRUS-ZNP": "Fausto Lopez",
+    "GADMR--2026-0306-IPRUS-ZNP": "Fausto Lopez",
+    "GADMR--2026-0374-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0479-IPRUS-ZNP": "Miriam Guisha",
+    "GADMR--2026-0527-IPRUS-ZNP": "Myriam Guisha",
     "GADMR--2026-0466-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0472-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0434-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0444-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0438-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0439-IPRUS-ZNP": "Miriam Guisha",
+    "GADMR--2026-0534-IPRUS-ZNP": "Myriam Guisha",
+    "GADMR--2026-0530-IPRUS-ZNP": "Fausto Lopez",
+    "GADMR--2026-0533-IPRUS-ZNP": "Myriam Guisha",
+    "GADMR--2026-0529-IPRUS-ZNP": "Myriam Guisha",
+    "GADMR--2026-0528-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0489-IPRUS-ZNP": "Jasiel Caizaluisa",
     "GADMR--2026-0486-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0485-IPRUS-ZNP": "Jasiel Caizaluisa",
@@ -172,6 +184,14 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
         "tramiteNumber": "1185380",
         "sourceType": "legacy-activity"
       },
+      "1187482": {
+        "assignee": "Fausto Lopez",
+        "updatedAt": "2026-08-17T13:43:01.186Z",
+        "sourceRecordId": "GADMR--2026-0306-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0306-IPRUS-ZNP",
+        "tramiteNumber": "1187482",
+        "sourceType": "manual"
+      },
       "1188708": {
         "assignee": "Miriam Guisha",
         "updatedAt": "2026-07-15T13:56:00.561Z",
@@ -299,6 +319,14 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
         "recordCode": "GADMR--2026-0372-IPRUS-ZNP",
         "tramiteNumber": "1200044",
         "sourceType": "legacy-activity"
+      },
+      "1200534": {
+        "assignee": "Fausto Lopez",
+        "updatedAt": "2026-08-17T13:43:05.002Z",
+        "sourceRecordId": "GADMR--2026-0374-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0374-IPRUS-ZNP",
+        "tramiteNumber": "1200534",
+        "sourceType": "manual"
       },
       "1200604": {
         "assignee": "Miriam Guisha",
@@ -827,6 +855,86 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
         "recordCode": "GADMR--2026-0461-IPRUS-ZNP",
         "tramiteNumber": "1213175",
         "sourceType": "legacy-assignments"
+      },
+      "1224692": {
+        "assignee": "Myriam Guisha",
+        "updatedAt": "2026-08-17T13:42:28.058Z",
+        "sourceRecordId": "GADMR--2026-0527-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0527-IPRUS-ZNP",
+        "tramiteNumber": "1224692",
+        "sourceType": "manual"
+      },
+      "1224893": {
+        "assignee": "Fausto Lopez",
+        "updatedAt": "2026-08-17T13:42:41.681Z",
+        "sourceRecordId": "GADMR--2026-0528-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0528-IPRUS-ZNP",
+        "tramiteNumber": "1224893",
+        "sourceType": "manual"
+      },
+      "1224935": {
+        "assignee": "Myriam Guisha",
+        "updatedAt": "2026-08-17T13:42:44.338Z",
+        "sourceRecordId": "GADMR--2026-0529-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0529-IPRUS-ZNP",
+        "tramiteNumber": "1224935",
+        "sourceType": "manual"
+      },
+      "1225077": {
+        "assignee": "Fausto Lopez",
+        "updatedAt": "2026-08-17T13:42:47.617Z",
+        "sourceRecordId": "GADMR--2026-0530-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0530-IPRUS-ZNP",
+        "tramiteNumber": "1225077",
+        "sourceType": "manual"
+      },
+      "1225556": {
+        "assignee": "Myriam Guisha",
+        "updatedAt": "2026-08-17T13:42:52.546Z",
+        "sourceRecordId": "GADMR--2026-0533-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0533-IPRUS-ZNP",
+        "tramiteNumber": "1225556",
+        "sourceType": "manual"
+      },
+      "1225564": {
+        "assignee": "Myriam Guisha",
+        "updatedAt": "2026-08-17T13:42:56.338Z",
+        "sourceRecordId": "GADMR--2026-0534-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0534-IPRUS-ZNP",
+        "tramiteNumber": "1225564",
+        "sourceType": "manual"
+      },
+      "1228119": {
+        "assignee": "Jasiel Caizaluisa",
+        "updatedAt": "2026-08-17T13:43:38.763Z",
+        "sourceRecordId": "GADMR--2026-0553-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0553-IPRUS-ZNP",
+        "tramiteNumber": "1228119",
+        "sourceType": "manual"
+      },
+      "1228299": {
+        "assignee": "Jasiel Caizaluisa",
+        "updatedAt": "2026-08-17T13:43:35.099Z",
+        "sourceRecordId": "GADMR--2026-0554-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0554-IPRUS-ZNP",
+        "tramiteNumber": "1228299",
+        "sourceType": "manual"
+      },
+      "1228474": {
+        "assignee": "Jasiel Caizaluisa",
+        "updatedAt": "2026-08-17T13:43:30.386Z",
+        "sourceRecordId": "GADMR--2026-0555-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0555-IPRUS-ZNP",
+        "tramiteNumber": "1228474",
+        "sourceType": "manual"
+      },
+      "1228605": {
+        "assignee": "Jasiel Caizaluisa",
+        "updatedAt": "2026-08-17T13:43:27.019Z",
+        "sourceRecordId": "GADMR--2026-0556-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0556-IPRUS-ZNP",
+        "tramiteNumber": "1228605",
+        "sourceType": "manual"
       }
     },
     "byCode": {
@@ -1845,6 +1953,102 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
         "recordCode": "GADMR--2026-0264-IPRUS-ZNP",
         "tramiteNumber": "1182104",
         "sourceType": "legacy-activity"
+      },
+      "GADMR--2026-0527-IPRUS-ZNP": {
+        "assignee": "Myriam Guisha",
+        "updatedAt": "2026-08-17T13:42:28.058Z",
+        "sourceRecordId": "GADMR--2026-0527-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0527-IPRUS-ZNP",
+        "tramiteNumber": "1224692",
+        "sourceType": "manual"
+      },
+      "GADMR--2026-0528-IPRUS-ZNP": {
+        "assignee": "Fausto Lopez",
+        "updatedAt": "2026-08-17T13:42:41.681Z",
+        "sourceRecordId": "GADMR--2026-0528-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0528-IPRUS-ZNP",
+        "tramiteNumber": "1224893",
+        "sourceType": "manual"
+      },
+      "GADMR--2026-0529-IPRUS-ZNP": {
+        "assignee": "Myriam Guisha",
+        "updatedAt": "2026-08-17T13:42:44.338Z",
+        "sourceRecordId": "GADMR--2026-0529-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0529-IPRUS-ZNP",
+        "tramiteNumber": "1224935",
+        "sourceType": "manual"
+      },
+      "GADMR--2026-0530-IPRUS-ZNP": {
+        "assignee": "Fausto Lopez",
+        "updatedAt": "2026-08-17T13:42:47.617Z",
+        "sourceRecordId": "GADMR--2026-0530-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0530-IPRUS-ZNP",
+        "tramiteNumber": "1225077",
+        "sourceType": "manual"
+      },
+      "GADMR--2026-0533-IPRUS-ZNP": {
+        "assignee": "Myriam Guisha",
+        "updatedAt": "2026-08-17T13:42:52.546Z",
+        "sourceRecordId": "GADMR--2026-0533-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0533-IPRUS-ZNP",
+        "tramiteNumber": "1225556",
+        "sourceType": "manual"
+      },
+      "GADMR--2026-0534-IPRUS-ZNP": {
+        "assignee": "Myriam Guisha",
+        "updatedAt": "2026-08-17T13:42:56.338Z",
+        "sourceRecordId": "GADMR--2026-0534-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0534-IPRUS-ZNP",
+        "tramiteNumber": "1225564",
+        "sourceType": "manual"
+      },
+      "GADMR--2026-0306-IPRUS-ZNP": {
+        "assignee": "Fausto Lopez",
+        "updatedAt": "2026-08-17T13:43:01.186Z",
+        "sourceRecordId": "GADMR--2026-0306-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0306-IPRUS-ZNP",
+        "tramiteNumber": "1187482",
+        "sourceType": "manual"
+      },
+      "GADMR--2026-0374-IPRUS-ZNP": {
+        "assignee": "Fausto Lopez",
+        "updatedAt": "2026-08-17T13:43:05.002Z",
+        "sourceRecordId": "GADMR--2026-0374-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0374-IPRUS-ZNP",
+        "tramiteNumber": "1200534",
+        "sourceType": "manual"
+      },
+      "GADMR--2026-0556-IPRUS-ZNP": {
+        "assignee": "Jasiel Caizaluisa",
+        "updatedAt": "2026-08-17T13:43:27.019Z",
+        "sourceRecordId": "GADMR--2026-0556-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0556-IPRUS-ZNP",
+        "tramiteNumber": "1228605",
+        "sourceType": "manual"
+      },
+      "GADMR--2026-0555-IPRUS-ZNP": {
+        "assignee": "Jasiel Caizaluisa",
+        "updatedAt": "2026-08-17T13:43:30.386Z",
+        "sourceRecordId": "GADMR--2026-0555-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0555-IPRUS-ZNP",
+        "tramiteNumber": "1228474",
+        "sourceType": "manual"
+      },
+      "GADMR--2026-0554-IPRUS-ZNP": {
+        "assignee": "Jasiel Caizaluisa",
+        "updatedAt": "2026-08-17T13:43:35.099Z",
+        "sourceRecordId": "GADMR--2026-0554-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0554-IPRUS-ZNP",
+        "tramiteNumber": "1228299",
+        "sourceType": "manual"
+      },
+      "GADMR--2026-0553-IPRUS-ZNP": {
+        "assignee": "Jasiel Caizaluisa",
+        "updatedAt": "2026-08-17T13:43:38.763Z",
+        "sourceRecordId": "GADMR--2026-0553-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0553-IPRUS-ZNP",
+        "tramiteNumber": "1228119",
+        "sourceType": "manual"
       }
     }
   },
@@ -1853,6 +2057,186 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
   "reportDrafts": {},
   "taskQueue": [],
   "activityLog": [
+    {
+      "id": "1786974218763-gvvhxc5m",
+      "recordId": "GADMR--2026-0553-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Jasiel Caizaluisa.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-08-17T13:43:38.763Z",
+      "recordCode": "GADMR--2026-0553-IPRUS-ZNP",
+      "tramiteNumber": "1228119",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
+    {
+      "id": "1786974215099-x520hsxq",
+      "recordId": "GADMR--2026-0554-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Jasiel Caizaluisa.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-08-17T13:43:35.099Z",
+      "recordCode": "GADMR--2026-0554-IPRUS-ZNP",
+      "tramiteNumber": "1228299",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
+    {
+      "id": "1786974210386-mvica7yg",
+      "recordId": "GADMR--2026-0555-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Jasiel Caizaluisa.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-08-17T13:43:30.386Z",
+      "recordCode": "GADMR--2026-0555-IPRUS-ZNP",
+      "tramiteNumber": "1228474",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
+    {
+      "id": "1786974207019-j2ok2087",
+      "recordId": "GADMR--2026-0556-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Jasiel Caizaluisa.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-08-17T13:43:27.019Z",
+      "recordCode": "GADMR--2026-0556-IPRUS-ZNP",
+      "tramiteNumber": "1228605",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
+    {
+      "id": "1786974185002-z1gv1nvy",
+      "recordId": "GADMR--2026-0374-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Fausto Lopez.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-08-17T13:43:05.002Z",
+      "recordCode": "GADMR--2026-0374-IPRUS-ZNP",
+      "tramiteNumber": "1200534",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
+    {
+      "id": "1786974181186-f44k60j2",
+      "recordId": "GADMR--2026-0306-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Fausto Lopez.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-08-17T13:43:01.186Z",
+      "recordCode": "GADMR--2026-0306-IPRUS-ZNP",
+      "tramiteNumber": "1187482",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
+    {
+      "id": "1786974176338-5dxgigim",
+      "recordId": "GADMR--2026-0534-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Myriam Guisha.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-08-17T13:42:56.338Z",
+      "recordCode": "GADMR--2026-0534-IPRUS-ZNP",
+      "tramiteNumber": "1225564",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
+    {
+      "id": "1786974172546-53v00g4u",
+      "recordId": "GADMR--2026-0533-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Myriam Guisha.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-08-17T13:42:52.546Z",
+      "recordCode": "GADMR--2026-0533-IPRUS-ZNP",
+      "tramiteNumber": "1225556",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
+    {
+      "id": "1786974167617-83233e0t",
+      "recordId": "GADMR--2026-0530-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Fausto Lopez.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-08-17T13:42:47.617Z",
+      "recordCode": "GADMR--2026-0530-IPRUS-ZNP",
+      "tramiteNumber": "1225077",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
+    {
+      "id": "1786974164338-bjfdwnfn",
+      "recordId": "GADMR--2026-0529-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Myriam Guisha.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-08-17T13:42:44.338Z",
+      "recordCode": "GADMR--2026-0529-IPRUS-ZNP",
+      "tramiteNumber": "1224935",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
+    {
+      "id": "1786974161681-1fn22na3",
+      "recordId": "GADMR--2026-0528-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Fausto Lopez.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-08-17T13:42:41.681Z",
+      "recordCode": "GADMR--2026-0528-IPRUS-ZNP",
+      "tramiteNumber": "1224893",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
+    {
+      "id": "1786974148058-a7srif5n",
+      "recordId": "GADMR--2026-0527-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Myriam Guisha.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-08-17T13:42:28.058Z",
+      "recordCode": "GADMR--2026-0527-IPRUS-ZNP",
+      "tramiteNumber": "1224692",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
     {
       "id": "1786640828925-xfrno9vr",
       "recordId": "GADMR--2026-0422-IPRUS-ZNP",
