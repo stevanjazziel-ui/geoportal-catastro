@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-08-17",
-  "generatedAt": "2026-08-17T11:31:29",
+  "generatedAt": "2026-08-17T15:09:21",
   "records": [
     {
       "estado": "Asignado",
@@ -1519,14 +1519,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "Complementado",
+      "estado": "En espera",
       "tramite": "Trámite: 1210125 GADMR--2026-0438-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "MELENDREZ CHAFLA SERGIO ARTURO - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-08-27",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-08-13T10:42:00",
       "codigo": "GADMR--2026-0438-IPRUS-ZNP",
       "nroTramite": 1210125,
@@ -1534,9 +1534,6 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "MELENDREZ CHAFLA SERGIO ARTURO",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(10 días)",
-      "diasRestantes": 10,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
@@ -1544,15 +1541,15 @@ window.TRAMITES_IPRUS_DATA = {
       "id": "GADMR--2026-0438-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
-      "egobOutcomeNote": "OBSERVACIONES: Se concede un plazo de diez (10) días hábiles para la subsanación de las observaciones señaladas. Por favor, revisar los archivos adjuntos para la correcta atención de lo requerido.",
-      "egobOutcomeAt": "2026-08-06 14:30",
-      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+      "egobOutcomeNote": "Por favor subsanar observaciones descritas con anterioridad.",
+      "egobOutcomeAt": "2026-08-17 13:57",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
       "egobOutcomeEntryType": "Registro",
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-08-13 10:42",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 12,
+      "egobJournalCount": 13,
       "egobRelevantNotes": [
         {
           "journalId": "6848242",
@@ -1581,6 +1578,16 @@ window.TRAMITES_IPRUS_DATA = {
           "author": "JOSSELYN DAYANA OROZCO VELASCO",
           "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
           "note": "OBSERVACIONES: Se concede un plazo de diez (10) días hábiles para la subsanación de las observaciones señaladas. Por favor, revisar los archivos adjuntos para la correcta atención de lo requerido.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
+          "journalId": "7065452",
+          "entryType": "Registro",
+          "timestamp": "2026-08-17 13:57",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Por favor subsanar observaciones descritas con anterioridad.",
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
@@ -3180,14 +3187,14 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 63,
     "priorities": {
-      "Normal": 50,
-      "Sin prioridad": 12,
+      "Normal": 49,
+      "Sin prioridad": 13,
       "Urgente": 1
     },
     "states": {
       "Asignado": 42,
-      "Complementado": 18,
-      "En espera": 3
+      "Complementado": 17,
+      "En espera": 4
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 63
