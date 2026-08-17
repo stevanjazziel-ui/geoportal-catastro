@@ -1,7 +1,7 @@
 window.TRAMITES_IPRUS_SHARED_STATE = {
   "title": "TRAMITES IPRUS SHARED STATE",
   "sourceDate": "2026-08-13T09:01:06",
-  "generatedAt": "2026-08-13T17:27:51.321Z",
+  "generatedAt": "2026-08-17T13:27:27.443Z",
   "syncVersion": 2,
   "assignments": {
     "GADMR--2026-0450-IPRUS-ZNP": "Fausto Lopez",
@@ -870,14 +870,6 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
         "tramiteNumber": "1206788",
         "sourceType": "legacy-assignments"
       },
-      "GADMR--2026-0412-IPRUS-ZNP": {
-        "assignee": "Fausto Lopez",
-        "updatedAt": "2026-07-21T21:13:06.824Z",
-        "sourceRecordId": "GADMR--2026-0412-IPRUS-ZNP",
-        "recordCode": "GADMR--2026-0412-IPRUS-ZNP",
-        "tramiteNumber": "1205691",
-        "sourceType": "legacy-assignments"
-      },
       "GADMR--2026-0493-IPRUS-ZNP": {
         "assignee": "Miriam Guisha",
         "updatedAt": "2026-08-13T17:07:14.940Z",
@@ -1070,14 +1062,6 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
         "tramiteNumber": "",
         "sourceType": "restored-assignments"
       },
-      "GADMR--2026-0371-IPRUS-ZNP": {
-        "assignee": "Jasiel Caizaluisa",
-        "updatedAt": "2026-08-13T17:07:14.940Z",
-        "sourceRecordId": "GADMR--2026-0371-IPRUS-ZNP",
-        "recordCode": "GADMR--2026-0371-IPRUS-ZNP",
-        "tramiteNumber": "",
-        "sourceType": "restored-assignments"
-      },
       "GADMR--2026-0355-IPRUS-ZNP": {
         "assignee": "Fausto Lopez",
         "updatedAt": "2026-07-09T23:03:22.173Z",
@@ -1093,6 +1077,22 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
         "recordCode": "GADMR--2026-0399-IPRUS-ZNP",
         "tramiteNumber": "1202842",
         "sourceType": "legacy-activity"
+      },
+      "GADMR--2026-0371-IPRUS-ZNP": {
+        "assignee": "Jasiel Caizaluisa",
+        "updatedAt": "2026-08-13T17:07:14.940Z",
+        "sourceRecordId": "GADMR--2026-0371-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0371-IPRUS-ZNP",
+        "tramiteNumber": "",
+        "sourceType": "restored-assignments"
+      },
+      "GADMR--2026-0412-IPRUS-ZNP": {
+        "assignee": "Fausto Lopez",
+        "updatedAt": "2026-07-21T21:13:06.824Z",
+        "sourceRecordId": "GADMR--2026-0412-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0412-IPRUS-ZNP",
+        "tramiteNumber": "1205691",
+        "sourceType": "legacy-assignments"
       },
       "GADMR--2026-0408-IPRUS-ZNP": {
         "assignee": "Hamilton Torres",
