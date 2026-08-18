@@ -423,14 +423,17 @@ def extract_records_for_category(run):
         geometry_utm = to_utm(shape(feature["geometry"]))
         tipologia = normalize_text(props.get("tipologia")).upper()
         distance_m = get_distance_by_tipologia(tipologia)
-        source_id = len(raw_records) + 1
-        nombre = get_feature_name(props, fallback=f"{run.key}_{source_id:03d}")
+        record_index = len(raw_records) + 1
+        source_id = int(props.get("source_id", 0) or 0) or record_index
+        nombre = get_feature_name(props, fallback=f"{run.key}_{record_index:03d}")
         platform_name = normalize_text(props.get("platform_name") or props.get("plataforma")) or None
 
         out_props = {
             "source_id": source_id,
-            "objectid": source_id,
-            "codigo": normalize_text(props.get("codigo")) or f"{run.key[:3].upper()}_{source_id:04d}",
+            "category_record_id": record_index,
+            "public_source_id": source_id,
+            "objectid": record_index,
+            "codigo": normalize_text(props.get("codigo")) or f"{run.key[:3].upper()}_{record_index:04d}",
             "equipamien": run.tipo_eleme,
             "nombre": nombre,
             "categoria": tipologia,
