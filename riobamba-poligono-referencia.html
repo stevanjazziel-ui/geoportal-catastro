@@ -247,6 +247,18 @@
         linear-gradient(180deg, #f5f2eb, #ece7de);
     }
 
+    .leaflet-container.osm-map {
+      background: linear-gradient(180deg, #faf7f2, #f1ede5);
+    }
+
+    .leaflet-container.osm-map .leaflet-tile-pane {
+      opacity: 1;
+    }
+
+    .osm-base-tiles {
+      filter: grayscale(1) saturate(0) brightness(1.08) contrast(1.08);
+    }
+
     #map { width: 100%; height: 100%; }
 
     .overlay {
@@ -380,7 +392,7 @@
   ></script>
   <script>
     const DOWNLOAD_FILE_NAME = "riobamba-poligono-referencia.geojson";
-    const DATA_VERSION = "20260818-ui-censo";
+    const DATA_VERSION = "20260818-ui-censo-gris";
     const polygonData = {
       type: "FeatureCollection",
       name: "riobamba_poligono_referencia",
@@ -444,11 +456,13 @@
     const toggleCentroid = document.getElementById("toggleCentroid");
 
     const map = L.map("map", { zoomSnap: 0.5 }).setView([-1.6669, -78.6530], 15);
+    map.getContainer().classList.add("osm-map");
 
     const osmBase = L.tileLayer(
       "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       {
         maxZoom: 20,
+        className: "osm-base-tiles",
         attribution: "&copy; OpenStreetMap contributors"
       }
     );
