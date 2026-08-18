@@ -12,17 +12,16 @@
   />
   <style>
     :root {
-      --bg: #07121c;
-      --bg-2: #0d1d2b;
-      --panel: rgba(10, 21, 32, 0.94);
-      --panel-2: rgba(15, 30, 46, 0.95);
-      --line: rgba(126, 198, 255, 0.16);
-      --text: #edf6ff;
-      --muted: #99b3c8;
-      --accent: #61c7ff;
-      --accent-2: #8ff2db;
-      --accent-3: #ffdf8f;
-      --shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+      --bg: #eef3ea;
+      --bg-2: #dde7d7;
+      --panel: rgba(248, 250, 244, 0.95);
+      --panel-2: rgba(241, 245, 236, 0.96);
+      --line: rgba(106, 126, 99, 0.22);
+      --text: #243226;
+      --muted: #627464;
+      --accent: #4f8f52;
+      --accent-2: #5f8eb9;
+      --shadow: 0 18px 36px rgba(62, 78, 59, 0.14);
     }
 
     * { box-sizing: border-box; }
@@ -32,9 +31,9 @@
       font-family: "Segoe UI", Tahoma, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(97, 199, 255, 0.12), transparent 26%),
-        radial-gradient(circle at 88% 12%, rgba(143, 242, 219, 0.08), transparent 18%),
-        linear-gradient(180deg, #0c1824, #08111a);
+        radial-gradient(circle at top left, rgba(95, 142, 185, 0.12), transparent 26%),
+        radial-gradient(circle at 88% 12%, rgba(79, 143, 82, 0.1), transparent 18%),
+        linear-gradient(180deg, #eff4ea, #dde6d7);
     }
 
     .layout {
@@ -46,7 +45,8 @@
     .sidebar {
       overflow-y: auto;
       padding: 18px;
-      background: linear-gradient(180deg, rgba(9, 18, 29, 0.98), rgba(6, 12, 20, 0.98));
+      background:
+        linear-gradient(180deg, rgba(242, 246, 238, 0.98), rgba(231, 238, 226, 0.98));
       border-right: 1px solid var(--line);
     }
 
@@ -64,23 +64,14 @@
     h2 { font-size: 0.95rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
     p { color: var(--muted); line-height: 1.5; }
 
-    select {
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background: var(--panel-2);
-      color: var(--text);
-      font: inherit;
-      outline: none;
-    }
-
     button {
       width: 100%;
       padding: 12px 14px;
-      border: 1px solid rgba(97, 199, 255, 0.22);
+      border: 1px solid rgba(79, 143, 82, 0.28);
       border-radius: 12px;
-      background: linear-gradient(135deg, rgba(97, 199, 255, 0.2), rgba(143, 242, 219, 0.16));
+      background:
+        linear-gradient(135deg, rgba(79, 143, 82, 0.18), rgba(95, 142, 185, 0.14)),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0));
       color: var(--text);
       font: inherit;
       font-weight: 700;
@@ -88,10 +79,12 @@
       transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
     }
 
-    button:hover {
+    button:hover:not(:disabled) {
       transform: translateY(-1px);
-      border-color: rgba(143, 242, 219, 0.34);
-      background: linear-gradient(135deg, rgba(97, 199, 255, 0.28), rgba(143, 242, 219, 0.2));
+      border-color: rgba(95, 142, 185, 0.34);
+      background:
+        linear-gradient(135deg, rgba(79, 143, 82, 0.24), rgba(95, 142, 185, 0.2)),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.46), rgba(255, 255, 255, 0));
     }
 
     .stats {
@@ -193,7 +186,7 @@
       width: 18px;
       height: 12px;
       border-radius: 4px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(64, 84, 62, 0.22);
     }
 
     .coords-table-wrap {
@@ -212,7 +205,7 @@
     .coords-table th,
     .coords-table td {
       padding: 10px 12px;
-      border-bottom: 1px solid rgba(126, 198, 255, 0.12);
+      border-bottom: 1px solid rgba(106, 126, 99, 0.14);
       text-align: left;
       white-space: nowrap;
     }
@@ -222,7 +215,7 @@
       font-size: 0.78rem;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      background: rgba(5, 13, 20, 0.42);
+      background: rgba(255, 255, 255, 0.44);
     }
 
     .coords-table tbody tr {
@@ -231,7 +224,7 @@
     }
 
     .coords-table tbody tr:hover {
-      background: rgba(97, 199, 255, 0.08);
+      background: rgba(95, 142, 185, 0.08);
     }
 
     .coords-table tbody tr:last-child td {
@@ -243,12 +236,18 @@
       font-size: 0.88rem;
     }
 
-    #map { width: 100%; height: 100%; }
-
     .map-wrap {
       position: relative;
       height: 100%;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.52), transparent 24%),
+        radial-gradient(circle at 82% 78%, rgba(216, 211, 201, 0.34), transparent 28%),
+        linear-gradient(180deg, #f5f2eb, #ece7de);
     }
+
+    #map { width: 100%; height: 100%; }
 
     .overlay {
       position: absolute;
@@ -257,7 +256,7 @@
       z-index: 500;
       width: min(380px, calc(100% - 32px));
       padding: 14px;
-      background: rgba(8, 18, 28, 0.92);
+      background: rgba(248, 250, 244, 0.9);
       border: 1px solid var(--line);
       border-radius: 16px;
       box-shadow: var(--shadow);
@@ -271,29 +270,21 @@
 
     .leaflet-popup-content-wrapper,
     .leaflet-popup-tip {
-      background: rgba(9, 19, 30, 0.96);
+      background: rgba(248, 250, 244, 0.96);
       color: var(--text);
       border: 1px solid var(--line);
     }
 
     .leaflet-control-scale-line {
-      border-color: rgba(7, 18, 28, 0.8);
-      background: rgba(7, 18, 28, 0.78);
+      border-color: rgba(106, 126, 99, 0.36);
+      background: rgba(248, 250, 244, 0.88);
       color: var(--text);
     }
 
-    .vertex-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 999px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(145deg, var(--accent-3), #f5b948);
-      border: 2px solid rgba(7, 18, 28, 0.92);
-      color: #08111a;
-      font-size: 0.84rem;
-      font-weight: 800;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
+    .leaflet-bar a {
+      background: rgba(248, 250, 244, 0.96);
+      color: var(--text);
+      border-bottom-color: var(--line);
     }
 
     @media (max-width: 920px) {
@@ -312,9 +303,9 @@
       <section class="panel">
         <h1>Poligono de Referencia</h1>
         <p>
-          Modulo basado en la interfaz de Riobamba Censo 2022 para revisar un poligono
-          puntual definido con 8 vertices UTM. El mapa lo muestra ya convertido a WGS84
-          para Leaflet, pero conservando las coordenadas originales en el panel lateral.
+          Visualizador puntual con la misma interfaz del modulo censal de Riobamba para
+          revisar un poligono definido por coordenadas UTM. El mapa muestra el contorno
+          en WGS84 y el panel conserva las coordenadas originales para consulta rapida.
         </p>
       </section>
 
@@ -327,19 +318,10 @@
       </section>
 
       <section class="panel">
-        <h2>Mapa base</h2>
-        <select id="basemapSelect">
-          <option value="light">Claro</option>
-          <option value="imagery">Satelite</option>
-        </select>
-      </section>
-
-      <section class="panel">
         <h2>Capas visibles</h2>
         <div class="layer-toggles">
           <label class="layer-toggle"><span>Poligono relleno</span><input id="togglePolygonFill" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Contorno resaltado</span><input id="togglePolygonOutline" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Vertices numerados</span><input id="toggleVertices" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Contorno del poligono</span><input id="togglePolygonOutline" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Centroide</span><input id="toggleCentroid" type="checkbox" checked></label>
         </div>
       </section>
@@ -368,7 +350,7 @@
             <tbody id="coordsTableBody"></tbody>
           </table>
         </div>
-        <p class="hint">Haz clic en una fila para centrar el mapa sobre ese vertice.</p>
+        <p class="hint">Haz clic en una fila para ubicar ese vertice en el mapa sin mostrar numeracion sobre el poligono.</p>
       </section>
 
       <section class="panel">
@@ -386,7 +368,7 @@
       <div id="map"></div>
       <div class="overlay">
         <strong id="overlayTitle">Poligono cargado</strong>
-        <p id="overlayText">Haz clic en el poligono o en cualquiera de sus vertices para ver el detalle.</p>
+        <p id="overlayText">Haz clic en el poligono o en la tabla de vertices para revisar el detalle.</p>
       </div>
     </main>
   </div>
@@ -398,6 +380,7 @@
   ></script>
   <script>
     const DOWNLOAD_FILE_NAME = "riobamba-poligono-referencia.geojson";
+    const DATA_VERSION = "20260818-ui-censo";
     const polygonData = {
       type: "FeatureCollection",
       name: "riobamba_poligono_referencia",
@@ -454,38 +437,24 @@
     const statusText = document.getElementById("statusText");
     const overlayTitle = document.getElementById("overlayTitle");
     const overlayText = document.getElementById("overlayText");
-    const basemapSelect = document.getElementById("basemapSelect");
     const focusPolygonButton = document.getElementById("focusPolygonButton");
     const downloadGeoJsonButton = document.getElementById("downloadGeoJsonButton");
     const togglePolygonFill = document.getElementById("togglePolygonFill");
     const togglePolygonOutline = document.getElementById("togglePolygonOutline");
-    const toggleVertices = document.getElementById("toggleVertices");
     const toggleCentroid = document.getElementById("toggleCentroid");
 
     const map = L.map("map", { zoomSnap: 0.5 }).setView([-1.6669, -78.6530], 15);
 
-    const basemaps = {
-      light: L.tileLayer(
-        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-        {
-          maxZoom: 20,
-          attribution: "&copy; OpenStreetMap contributors &copy; CARTO"
-        }
-      ),
-      imagery: L.tileLayer(
-        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        {
-          maxZoom: 19,
-          attribution: "Tiles &copy; Esri"
-        }
-      )
-    };
+    const osmBase = L.tileLayer(
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        maxZoom: 20,
+        attribution: "&copy; OpenStreetMap contributors"
+      }
+    );
 
-    basemaps.light.addTo(map);
+    osmBase.addTo(map);
     L.control.scale({ imperial: false }).addTo(map);
-
-    const vertexMarkerIndex = new Map();
-    let activeBasemapKey = "light";
 
     function formatNumber(value, decimals = 0) {
       return Number(value).toLocaleString("es-EC", {
@@ -514,7 +483,7 @@
       const props = polygonFeature.properties;
       overlayTitle.textContent = props.name;
       overlayText.textContent =
-        `Area aproximada ${formatNumber(props.area_m2, 2)} m2, perimetro ${formatNumber(props.perimeter_m, 2)} m y ${vertexFeatures.length} vertices sobre la zona UTM ${props.utm_zone}.`;
+        `Area aproximada ${formatNumber(props.area_m2, 2)} m2, perimetro ${formatNumber(props.perimeter_m, 2)} m y ${vertexFeatures.length} vertices dentro de la zona UTM ${props.utm_zone}.`;
     }
 
     function updateOverlayForVertex(feature) {
@@ -522,7 +491,11 @@
       const [lon, lat] = feature.geometry.coordinates;
       overlayTitle.textContent = props.label;
       overlayText.textContent =
-        `UTM X ${formatNumber(props.coord_x, 3)}, Y ${formatNumber(props.coord_y, 2)}. WGS84 Lon ${formatLatLon(lon)}, Lat ${formatLatLon(lat)}.`;
+        `Vertice ubicado con X ${formatNumber(props.coord_x, 3)} y Y ${formatNumber(props.coord_y, 2)}. Coordenadas WGS84 Lon ${formatLatLon(lon)}, Lat ${formatLatLon(lat)}.`;
+    }
+
+    function setStatus(message) {
+      statusText.textContent = message;
     }
 
     function buildSummaryCards() {
@@ -573,105 +546,82 @@
 
     function buildLegend() {
       legend.innerHTML = `
-        <div class="legend-row"><span class="legend-swatch" style="background:rgba(97,199,255,0.25);border-color:rgba(97,199,255,0.5);"></span><span>Poligono relleno</span></div>
-        <div class="legend-row"><span class="legend-swatch" style="background:rgba(143,242,219,0.9);border-color:rgba(143,242,219,0.95);"></span><span>Contorno principal</span></div>
-        <div class="legend-row"><span class="legend-swatch" style="background:linear-gradient(120deg,#ffdf8f,#f5b948);border-color:rgba(245,185,72,0.95);"></span><span>Vertices numerados</span></div>
-        <div class="legend-row"><span class="legend-swatch" style="background:rgba(255,105,97,0.9);border-color:rgba(255,105,97,0.95);"></span><span>Centroide</span></div>
+        <div class="legend-row"><span class="legend-swatch" style="background:rgba(95, 142, 185, 0.18);border-color:rgba(95, 142, 185, 0.42);"></span><span>Area del poligono</span></div>
+        <div class="legend-row"><span class="legend-swatch" style="background:rgba(79, 143, 82, 0.82);border-color:rgba(79, 143, 82, 0.96);"></span><span>Contorno principal</span></div>
+        <div class="legend-row"><span class="legend-swatch" style="background:rgba(255, 107, 95, 0.78);border-color:rgba(255, 107, 95, 0.95);"></span><span>Centroide</span></div>
       `;
-    }
-
-    function setStatus(message) {
-      statusText.textContent = message;
-    }
-
-    function vertexIcon(label) {
-      return L.divIcon({
-        className: "",
-        html: `<div class="vertex-icon">${label}</div>`,
-        iconSize: [28, 28],
-        iconAnchor: [14, 14]
-      });
     }
 
     const polygonFillLayer = L.geoJSON(polygonFeature, {
       style: {
-        color: "#61c7ff",
-        weight: 2.5,
-        fillColor: "#61c7ff",
-        fillOpacity: 0.22
+        color: "#5f8eb9",
+        weight: 2,
+        fillColor: "#8cc3ef",
+        fillOpacity: 0.28
       },
       onEachFeature(feature, layer) {
-        layer.bindPopup(`<strong>${feature.properties.name}</strong><br>Area ${formatNumber(feature.properties.area_m2, 2)} m2`);
-        layer.on("click", () => updateOverlayForPolygon());
+        layer.bindPopup(
+          `<strong>${feature.properties.name}</strong><br>Area ${formatNumber(feature.properties.area_m2, 2)} m2<br>Perimetro ${formatNumber(feature.properties.perimeter_m, 2)} m`
+        );
+        layer.on("click", updateOverlayForPolygon);
       }
     });
 
     const polygonOutlineLayer = L.geoJSON(polygonFeature, {
       style: {
-        color: "#8ff2db",
+        color: "#65ded6",
         weight: 4,
-        opacity: 0.95,
+        opacity: 0.92,
         fillOpacity: 0,
-        dashArray: "10 6"
+        dashArray: "9 6"
       },
       onEachFeature(_feature, layer) {
-        layer.on("click", () => updateOverlayForPolygon());
+        layer.on("click", updateOverlayForPolygon);
       }
     });
 
-    const verticesLayer = L.layerGroup(
-      vertexFeatures.map((feature) => {
-        const [lon, lat] = feature.geometry.coordinates;
-        const marker = L.marker([lat, lon], {
-          icon: vertexIcon(feature.properties.point_id)
-        });
-        marker.bindPopup(
-          `<strong>${feature.properties.label}</strong><br>X ${formatNumber(feature.properties.coord_x, 3)}<br>Y ${formatNumber(feature.properties.coord_y, 2)}`
-        );
-        marker.on("click", () => updateOverlayForVertex(feature));
-        vertexMarkerIndex.set(feature.properties.point_id, marker);
-        return marker;
-      })
-    );
+    const centroidFeature = {
+      type: "Feature",
+      properties: {
+        label: "Centroide",
+        centroid_utm_x: polygonFeature.properties.centroid_utm_x,
+        centroid_utm_y: polygonFeature.properties.centroid_utm_y
+      },
+      geometry: {
+        type: "Point",
+        coordinates: [polygonFeature.properties.centroid_lon, polygonFeature.properties.centroid_lat]
+      }
+    };
 
-    const centroidLayer = L.layerGroup([
-      L.circleMarker(
-        [polygonFeature.properties.centroid_lat, polygonFeature.properties.centroid_lon],
-        {
-          radius: 8,
-          color: "#ff6961",
+    const centroidLayer = L.geoJSON(centroidFeature, {
+      pointToLayer(_feature, latlng) {
+        return L.circleMarker(latlng, {
+          radius: 9,
+          color: "#ff6b5f",
           weight: 2,
-          fillColor: "#ff9f97",
-          fillOpacity: 0.9
-        }
-      )
-        .bindPopup(
-          `<strong>Centroide</strong><br>UTM ${formatNumber(polygonFeature.properties.centroid_utm_x, 3)}, ${formatNumber(polygonFeature.properties.centroid_utm_y, 3)}`
-        )
-        .on("click", updateOverlayForPolygon)
-    ]);
+          fillColor: "#ffb3a6",
+          fillOpacity: 0.88
+        });
+      },
+      onEachFeature(feature, layer) {
+        layer.bindPopup(
+          `<strong>${feature.properties.label}</strong><br>UTM ${formatNumber(feature.properties.centroid_utm_x, 3)}, ${formatNumber(feature.properties.centroid_utm_y, 3)}`
+        );
+        layer.on("click", updateOverlayForPolygon);
+      }
+    });
 
     function syncVisibleLayers() {
       syncSingleLayer(polygonFillLayer, togglePolygonFill.checked);
       syncSingleLayer(polygonOutlineLayer, togglePolygonOutline.checked);
-      syncSingleLayer(verticesLayer, toggleVertices.checked);
       syncSingleLayer(centroidLayer, toggleCentroid.checked);
     }
 
     function fitPolygon() {
       map.fitBounds(polygonFillLayer.getBounds(), {
-        padding: [32, 32],
+        padding: [34, 34],
         maxZoom: 16
       });
-    }
-
-    function setBasemap(nextKey) {
-      if (activeBasemapKey === nextKey || !basemaps[nextKey]) {
-        return;
-      }
-      map.removeLayer(basemaps[activeBasemapKey]);
-      basemaps[nextKey].addTo(map);
-      activeBasemapKey = nextKey;
     }
 
     function downloadGeoJson() {
@@ -688,10 +638,21 @@
       window.setTimeout(() => URL.revokeObjectURL(url), 0);
     }
 
-    basemapSelect.addEventListener("change", (event) => setBasemap(event.target.value));
+    function flyToVertex(feature) {
+      const [lon, lat] = feature.geometry.coordinates;
+      map.flyTo([lat, lon], 17, { duration: 0.8 });
+      L.popup({ autoClose: true, closeButton: true })
+        .setLatLng([lat, lon])
+        .setContent(
+          `<strong>${feature.properties.label}</strong><br>X ${formatNumber(feature.properties.coord_x, 3)}<br>Y ${formatNumber(feature.properties.coord_y, 2)}`
+        )
+        .openOn(map);
+      updateOverlayForVertex(feature);
+    }
+
     focusPolygonButton.addEventListener("click", fitPolygon);
     downloadGeoJsonButton.addEventListener("click", downloadGeoJson);
-    [togglePolygonFill, togglePolygonOutline, toggleVertices, toggleCentroid].forEach((input) => {
+    [togglePolygonFill, togglePolygonOutline, toggleCentroid].forEach((input) => {
       input.addEventListener("change", syncVisibleLayers);
     });
 
@@ -701,15 +662,9 @@
         return;
       }
       const pointId = Number(row.dataset.pointId);
-      const marker = vertexMarkerIndex.get(pointId);
-      if (!marker) {
-        return;
-      }
-      map.flyTo(marker.getLatLng(), 17, { duration: 0.8 });
-      marker.openPopup();
-      const selectedFeature = vertexFeatures.find((feature) => feature.properties.point_id === pointId);
-      if (selectedFeature) {
-        updateOverlayForVertex(selectedFeature);
+      const feature = vertexFeatures.find((item) => item.properties.point_id === pointId);
+      if (feature) {
+        flyToVertex(feature);
       }
     });
 
@@ -720,7 +675,7 @@
     syncVisibleLayers();
     fitPolygon();
     updateOverlayForPolygon();
-    setStatus("Listo. El poligono de referencia ya esta visible y centrado.");
+    setStatus(`Listo. Interfaz actualizada con estilo de modulo censal y sin numeracion visible en el mapa. Version ${DATA_VERSION}.`);
   </script>
 </body>
 </html>
