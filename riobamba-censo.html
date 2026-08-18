@@ -645,6 +645,7 @@
           <label class="layer-toggle" style="display:none;"><span>Puntos inicio educacion</span><input id="toggleEducacionIsocronasPuntos" type="checkbox"></label>
           <label class="layer-toggle"><span>Recreacion y deporte</span><input id="toggleRecreacionIsocronas" type="checkbox" checked></label>
           <label class="layer-toggle" style="display:none;"><span>Puntos inicio recreacion</span><input id="toggleRecreacionIsocronasPuntos" type="checkbox"></label>
+          <label class="layer-toggle"><span>2 parques estrategicos</span><input id="toggleParquesEstrategicos" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Bienestar social</span><input id="toggleBienestarIsocronas" type="checkbox" checked></label>
           <label class="layer-toggle" style="display:none;"><span>Puntos inicio bienestar social</span><input id="toggleBienestarIsocronasPuntos" type="checkbox"></label>
           <label class="layer-toggle"><span>Cultura</span><input id="toggleCulturaIsocronas" type="checkbox" checked></label>
@@ -733,6 +734,13 @@
       <section class="panel">
         <h2>Equipamientos</h2>
         <div class="mini-list" id="equipamientosSummary"></div>
+      </section>
+
+      <section class="panel" id="strategicParksPanel" hidden>
+        <h2>2 parques estrategicos</h2>
+        <div class="mini-list" id="strategicParksSummary">
+          <div class="mini-row"><span>Estado</span><strong>Selecciona una plataforma</strong></div>
+        </div>
       </section>
 
       <section class="panel" style="display:none;">
@@ -835,7 +843,7 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260804-isocronas-dedup-todas-plataformas";
+    const DATA_VERSION = "20260818-parques-estrategicos-v1";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const TRANSPORTE_ROUTES_SHP_KEY = "rutas_transporte_intracantonal_recortadas_400m_carto";
@@ -913,6 +921,7 @@
     let platformStatsByName = {};
     let platformSummary = null;
     let equipamientosStats = null;
+    let strategicParksStats = null;
     let isocronasStats = null;
     let focusedCoverageState = null;
     let focusedAnalysisExpandedKey = null;
@@ -966,6 +975,7 @@
       educacionIsocronasPuntos: true,
       recreacionIsocronas: true,
       recreacionIsocronasPuntos: true,
+      parquesEstrategicos: true,
       bienestarIsocronas: true,
       bienestarIsocronasPuntos: true,
       culturaIsocronas: true,
@@ -989,6 +999,8 @@
     const focusedAnalysisSubtitle = document.getElementById("focusedAnalysisSubtitle");
     const focusedAnalysisGrid = document.getElementById("focusedAnalysisGrid");
     const equipamientosSummary = document.getElementById("equipamientosSummary");
+    const strategicParksPanel = document.getElementById("strategicParksPanel");
+    const strategicParksSummary = document.getElementById("strategicParksSummary");
     const equipamientoCategoryFilters = document.getElementById("equipamientoCategoryFilters");
     const selectAllCategoriesButton = document.getElementById("selectAllCategoriesButton");
     const clearCategoriesButton = document.getElementById("clearCategoriesButton");
@@ -1043,6 +1055,7 @@
     const toggleEducacionIsocronasPuntos = document.getElementById("toggleEducacionIsocronasPuntos");
     const toggleRecreacionIsocronas = document.getElementById("toggleRecreacionIsocronas");
     const toggleRecreacionIsocronasPuntos = document.getElementById("toggleRecreacionIsocronasPuntos");
+    const toggleParquesEstrategicos = document.getElementById("toggleParquesEstrategicos");
     const toggleBienestarIsocronas = document.getElementById("toggleBienestarIsocronas");
     const toggleBienestarIsocronasPuntos = document.getElementById("toggleBienestarIsocronasPuntos");
     const toggleCulturaIsocronas = document.getElementById("toggleCulturaIsocronas");
@@ -1063,6 +1076,10 @@
       zonal: "#9ec5ff",
       barrial: "#34e3ff",
       mixed: "#4f8dff"
+    };
+    const strategicParkColors = {
+      1: "#5fd38d",
+      2: "#1f9f6d"
     };
     const isocronaPolygonColor = "#7ef6c9";
     const isocronaNetworkColor = "#61c7ff";
@@ -1464,6 +1481,7 @@
         platformUiRefreshFrameId = 0;
         buildEquipamientoCategoryFilters();
         buildEquipamientosSummary();
+        buildStrategicParksSummary();
         buildEducacionIsocronasSummary();
         buildRecreacionIsocronasSummary();
         buildBienestarIsocronasSummary();
@@ -1495,6 +1513,10 @@
       window.recreacionIsocronasLayer = null;
       removeLayerIfPresent(window.recreacionIsocronasStartLayer);
       window.recreacionIsocronasStartLayer = null;
+      removeLayerIfPresent(window.strategicParkIsoLayer);
+      window.strategicParkIsoLayer = null;
+      removeLayerIfPresent(window.strategicParkPointsLayer);
+      window.strategicParkPointsLayer = null;
 
       removeLayerIfPresent(window.bienestarIsocronasLayer);
       window.bienestarIsocronasLayer = null;
@@ -1543,6 +1565,10 @@
       }
       if (layerVisibility.recreacionIsocronasPuntos) {
         queue.push(renderRecreacionIsocronasStartLayer);
+      }
+      if (layerVisibility.parquesEstrategicos) {
+        queue.push(renderStrategicParkIsoLayer);
+        queue.push(renderStrategicParkPointsLayer);
       }
       if (layerVisibility.bienestarIsocronas) {
         queue.push(renderBienestarIsocronasLayer);
@@ -3206,6 +3232,7 @@
         equipamientosLayer,
         window.educacionIsocronasStartLayer,
         window.recreacionIsocronasStartLayer,
+        window.strategicParkPointsLayer,
         window.bienestarIsocronasStartLayer,
         window.culturaIsocronasStartLayer,
         window.saludIsocronasStartLayer,
@@ -3225,6 +3252,8 @@
       syncSingleLayer(barriosLayer, layerVisibility.barrios);
       syncSingleLayer(barriosLabelLayer, layerVisibility.barrios);
       syncSingleLayer(equipamientosLayer, layerVisibility.equipamientos);
+      syncSingleLayer(window.strategicParkIsoLayer, layerVisibility.parquesEstrategicos && hasFocusedPlatformSelection());
+      syncSingleLayer(window.strategicParkPointsLayer, layerVisibility.parquesEstrategicos && hasFocusedPlatformSelection());
       syncSingleLayer(isocronaPolygonLayer, layerVisibility.isocronasColindantes);
       syncSingleLayer(isocronaNetworkLayer, layerVisibility.redVial1000m);
       bringPointLayersToFront();
@@ -3284,6 +3313,77 @@
 
       equipamientosSummary.innerHTML = rows
         .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${formatNumber(value)}</strong></div>`)
+        .join("");
+    }
+
+    function getCurrentStrategicParkStats() {
+      if (!strategicParksStats || !hasFocusedPlatformSelection()) {
+        return null;
+      }
+
+      const byPlatform = strategicParksStats.by_platform || {};
+      if (byPlatform[currentPlatform]) {
+        return byPlatform[currentPlatform];
+      }
+
+      return Object.values(byPlatform).find((entry) =>
+        displayPlatformName(entry?.platform_name) === displayPlatformName(currentPlatform)
+      ) || null;
+    }
+
+    function getStrategicParkScopedPoints() {
+      if (!hasFocusedPlatformSelection()) {
+        return [];
+      }
+
+      return (window.strategicParkPointsFeatures || []).filter((feature) =>
+        feature?.geometry &&
+        feature?.properties &&
+        matchesCurrentPlatform(feature.properties.target_platform)
+      );
+    }
+
+    function getStrategicParkScopedIsocronas() {
+      if (!hasFocusedPlatformSelection()) {
+        return [];
+      }
+
+      return (window.strategicParkIsoFeatures || []).filter((feature) =>
+        feature?.geometry &&
+        feature?.properties &&
+        matchesCurrentPlatform(feature.properties.target_platform)
+      );
+    }
+
+    function buildStrategicParksSummary() {
+      if (!strategicParksPanel || !strategicParksSummary) {
+        return;
+      }
+
+      const stats = getCurrentStrategicParkStats();
+      if (!hasFocusedPlatformSelection() || !stats) {
+        strategicParksPanel.hidden = true;
+        strategicParksSummary.innerHTML = `<div class="mini-row"><span>Estado</span><strong>Selecciona una plataforma</strong></div>`;
+        return;
+      }
+
+      strategicParksPanel.hidden = false;
+      const pairNames = Array.isArray(stats.pair_names) ? stats.pair_names : [];
+      const rows = [
+        ["Cobertura manzanas", `${formatNumber(stats.covered_manzanas)} / ${formatNumber(stats.total_platform_manzanas)} (${formatPercentValue(stats.covered_blocks_percent)})`],
+        ["Cobertura poblacion", `${formatNumber(stats.covered_population)} / ${formatNumber(stats.total_platform_population)} hab (${formatPercentValue(stats.covered_population_percent)})`],
+        ["Parque 1", pairNames[0] || "Sin dato"],
+        ["Parque 2", pairNames[1] || "Sin dato"],
+        ["Separacion", `${formatNumber(Math.round(Number(stats.pair_distance_m || 0)))} m`],
+        ["Parques efectivos", `${formatNumber(stats.effective_parks)} de 2`]
+      ];
+
+      if (String(stats.selection_mode || "") === "single_effective_plus_support") {
+        rows.push(["Nota", "Solo un parque intersecta esta plataforma; el segundo funciona como apoyo cercano."]);
+      }
+
+      strategicParksSummary.innerHTML = rows
+        .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
         .join("");
     }
 
@@ -4605,6 +4705,11 @@
     window.recreacionIsocronasFeatures = [];
     window.recreacionIsocronasLayer = null;
     window.recreacionIsocronasStartLayer = null;
+    window.strategicParkStats = null;
+    window.strategicParkPointsFeatures = [];
+    window.strategicParkIsoFeatures = [];
+    window.strategicParkPointsLayer = null;
+    window.strategicParkIsoLayer = null;
     window.bienestarIsocronasStats = null;
     window.bienestarIsocronasFeatures = [];
     window.bienestarIsocronasLayer = null;
@@ -4629,6 +4734,7 @@
     layerVisibility.educacionIsocronasPuntos = true;
     layerVisibility.recreacionIsocronas = true;
     layerVisibility.recreacionIsocronasPuntos = true;
+    layerVisibility.parquesEstrategicos = true;
     layerVisibility.bienestarIsocronas = true;
     layerVisibility.bienestarIsocronasPuntos = true;
     layerVisibility.culturaIsocronas = true;
@@ -4998,6 +5104,144 @@
           };
         })
         .filter(Boolean);
+    }
+
+    function getStrategicParkColor(feature) {
+      const rank = Number(feature?.properties?.selected_rank || 1);
+      return strategicParkColors[rank] || strategicParkColors[1];
+    }
+
+    function renderStrategicParkPointsLayer() {
+      if (window.strategicParkPointsLayer) {
+        map.removeLayer(window.strategicParkPointsLayer);
+      }
+
+      if (!layerVisibility.parquesEstrategicos || !hasFocusedPlatformSelection()) {
+        window.strategicParkPointsLayer = null;
+        return;
+      }
+
+      const features = getStrategicParkScopedPoints().sort(
+        (left, right) => Number(left?.properties?.selected_rank || 0) - Number(right?.properties?.selected_rank || 0)
+      );
+
+      if (!features.length) {
+        window.strategicParkPointsLayer = null;
+        return;
+      }
+
+      if (!map.getPane("strategicParkPointsPane")) {
+        map.createPane("strategicParkPointsPane");
+        map.getPane("strategicParkPointsPane").style.zIndex = 757;
+      }
+
+      window.strategicParkPointsLayer = L.geoJSON(
+        { type: "FeatureCollection", features },
+        {
+          pane: "strategicParkPointsPane",
+          pointToLayer: (feature, latlng) => {
+            const color = getStrategicParkColor(feature);
+            return L.circleMarker(
+              latlng,
+              {
+                pane: "strategicParkPointsPane",
+                ...buildPublicPointStyle(color, {
+                  radius: 7.2,
+                  fillOpacity: 1
+                })
+              }
+            );
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties || {};
+            layer.bindPopup(`
+              <strong>Parque estrategico ${formatNumber(props.selected_rank || 0)}</strong><br>
+              <strong>Nombre:</strong> ${props.nombre || "Sin nombre"}<br>
+              <strong>Plataforma objetivo:</strong> ${displayPlatformName(props.target_platform) || "-"}<br>
+              <strong>Plataforma origen:</strong> ${displayPlatformName(props.origin_platform) || "Sin plataforma"}<br>
+              <strong>Cobertura individual:</strong> ${formatNumber(props.covered_manzanas_individual || 0)} manzanas | ${formatNumber(props.covered_population_individual || 0)} hab<br>
+              <strong>Cobertura conjunta:</strong> ${formatNumber(props.covered_manzanas_pair || 0)} / ${formatNumber(props.total_platform_manzanas || 0)} manzanas (${formatPercentValue(props.covered_manzanas_pair_percent || 0)})<br>
+              <strong>Poblacion conjunta:</strong> ${formatNumber(props.covered_population_pair || 0)} / ${formatNumber(props.total_platform_population || 0)} hab (${formatPercentValue(props.covered_population_pair_percent || 0)})<br>
+              <strong>Separacion del par:</strong> ${formatNumber(Math.round(props.pair_distance_m || 0))} m
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = `Parque estrategico ${formatNumber(props.selected_rank || 0)}`;
+              overlayText.textContent = `${props.nombre || "Parque"} aporta ${formatNumber(props.covered_manzanas_individual || 0)} manzanas a la cobertura conjunta de ${displayPlatformName(props.target_platform)}.`;
+            });
+          }
+        }
+      );
+
+      syncSingleLayer(window.strategicParkPointsLayer, layerVisibility.parquesEstrategicos);
+      bringPointLayersToFront();
+    }
+
+    function renderStrategicParkIsoLayer() {
+      if (window.strategicParkIsoLayer) {
+        map.removeLayer(window.strategicParkIsoLayer);
+      }
+
+      if (!layerVisibility.parquesEstrategicos || !hasFocusedPlatformSelection()) {
+        window.strategicParkIsoLayer = null;
+        return;
+      }
+
+      const features = getStrategicParkScopedIsocronas()
+        .map(featureToExteriorBoundary)
+        .filter(Boolean)
+        .sort((left, right) => Number(left?.properties?.selected_rank || 0) - Number(right?.properties?.selected_rank || 0));
+
+      if (!features.length) {
+        window.strategicParkIsoLayer = null;
+        return;
+      }
+
+      if (!map.getPane("strategicParkIsoPane")) {
+        map.createPane("strategicParkIsoPane");
+        map.getPane("strategicParkIsoPane").style.zIndex = 436;
+      }
+
+      window.strategicParkIsoLayer = L.geoJSON(
+        { type: "FeatureCollection", features },
+        {
+          pane: "strategicParkIsoPane",
+          renderer: canvasRenderer,
+          style: (feature) => {
+            const color = getStrategicParkColor(feature);
+            const rank = Number(feature?.properties?.selected_rank || 1);
+            return {
+              color,
+              weight: rank === 1 ? 3 : 2.5,
+              opacity: 0.95,
+              fillColor: color,
+              fillOpacity: rank === 1 ? 0.18 : 0.12,
+              dashArray: rank === 1 ? "" : "8 6",
+              lineJoin: "round"
+            };
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties || {};
+            layer.bindPopup(`
+              <strong>Isocrona parque estrategico ${formatNumber(props.selected_rank || 0)}</strong><br>
+              <strong>Nombre:</strong> ${props.nombre || "Sin nombre"}<br>
+              <strong>Plataforma objetivo:</strong> ${displayPlatformName(props.target_platform) || "-"}<br>
+              <strong>Plataforma origen:</strong> ${displayPlatformName(props.origin_platform) || "Sin plataforma"}<br>
+              <strong>Cobertura individual:</strong> ${formatNumber(props.covered_manzanas_individual || 0)} manzanas | ${formatNumber(props.covered_population_individual || 0)} hab<br>
+              <strong>Cobertura conjunta:</strong> ${formatNumber(props.covered_manzanas_pair || 0)} / ${formatNumber(props.total_platform_manzanas || 0)} manzanas (${formatPercentValue(props.covered_manzanas_pair_percent || 0)})<br>
+              <strong>Poblacion conjunta:</strong> ${formatNumber(props.covered_population_pair || 0)} / ${formatNumber(props.total_platform_population || 0)} hab (${formatPercentValue(props.covered_population_pair_percent || 0)})<br>
+              <strong>Modo de seleccion:</strong> ${props.pair_selection_mode || "-"}
+            `);
+
+            layer.on("click", () => {
+              overlayTitle.textContent = `Isocrona parque estrategico ${formatNumber(props.selected_rank || 0)}`;
+              overlayText.textContent = `${props.nombre || "Parque"} forma parte de la dupla seleccionada para cubrir ${displayPlatformName(props.target_platform)} con ${formatNumber(props.covered_manzanas_pair || 0)} manzanas conjuntas.`;
+            });
+          }
+        }
+      );
+
+      syncSingleLayer(window.strategicParkIsoLayer, layerVisibility.parquesEstrategicos);
     }
 
     function buildBienestarStartPointFeatures() {
@@ -6225,6 +6469,9 @@
           educacionIsocronasStatsResponse,
           recreacionIsocronasResponse,
           recreacionIsocronasStatsResponse,
+          strategicParksGeoResponse,
+          strategicParksIsoResponse,
+          strategicParksStatsResponse,
           bienestarIsocronasResponse,
           bienestarIsocronasStatsResponse,
           culturaIsocronasResponse,
@@ -6244,6 +6491,9 @@
           fetch(`./riobamba-censo-data/riobamba_isocronas_educacion_categorizada_todas_plataformas_1000m_stats.json?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_isocronas_recreacion_deporte_categorizada_todas_plataformas_1000m.geojson?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_isocronas_recreacion_deporte_categorizada_todas_plataformas_1000m_stats.json?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_parques_estrategicos_por_plataforma.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_isocronas_parques_estrategicos_por_plataforma.geojson?v=${DATA_VERSION}`),
+          fetch(`./riobamba-censo-data/riobamba_parques_estrategicos_por_plataforma_stats.json?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_isocronas_bienestar_social_categorizada_todas_plataformas_1000m.geojson?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_isocronas_bienestar_social_categorizada_todas_plataformas_1000m_stats.json?v=${DATA_VERSION}`),
           fetch(`./riobamba-censo-data/riobamba_isocronas_cultura_categorizada_todas_plataformas_1000m.geojson?v=${DATA_VERSION}`),
@@ -6264,6 +6514,9 @@
           !educacionIsocronasStatsResponse.ok ||
           !recreacionIsocronasResponse.ok ||
           !recreacionIsocronasStatsResponse.ok ||
+          !strategicParksGeoResponse.ok ||
+          !strategicParksIsoResponse.ok ||
+          !strategicParksStatsResponse.ok ||
           !bienestarIsocronasResponse.ok ||
           !bienestarIsocronasStatsResponse.ok ||
           !culturaIsocronasResponse.ok ||
@@ -6285,6 +6538,9 @@
         const educacionIsocronasStatsData = await educacionIsocronasStatsResponse.json();
         const recreacionIsocronasGeo = await recreacionIsocronasResponse.json();
         const recreacionIsocronasStatsData = await recreacionIsocronasStatsResponse.json();
+        const strategicParksGeo = await strategicParksGeoResponse.json();
+        const strategicParksIsoGeo = await strategicParksIsoResponse.json();
+        const strategicParksStatsData = await strategicParksStatsResponse.json();
         const bienestarIsocronasGeo = await bienestarIsocronasResponse.json();
         const bienestarIsocronasStatsData = await bienestarIsocronasStatsResponse.json();
         const culturaIsocronasGeo = await culturaIsocronasResponse.json();
@@ -6350,6 +6606,10 @@
         window.educacionIsocronasFeatures = dedupedEducacionIsocronas.features;
         window.recreacionIsocronasStats = recreacionIsocronasStatsData;
         window.recreacionIsocronasFeatures = dedupedRecreacionIsocronas.features;
+        strategicParksStats = strategicParksStatsData;
+        window.strategicParkStats = strategicParksStatsData;
+        window.strategicParkPointsFeatures = strategicParksGeo.features || [];
+        window.strategicParkIsoFeatures = strategicParksIsoGeo.features || [];
         window.bienestarIsocronasStats = bienestarIsocronasStatsData;
         window.bienestarIsocronasFeatures = dedupedBienestarIsocronas.features;
         window.culturaIsocronasStats = culturaIsocronasStatsData;
@@ -7096,6 +7356,13 @@
     toggleRecreacionIsocronasPuntos.addEventListener("change", () => {
       layerVisibility.recreacionIsocronasPuntos = toggleRecreacionIsocronasPuntos.checked;
       renderRecreacionIsocronasStartLayer();
+    });
+
+    toggleParquesEstrategicos.addEventListener("change", () => {
+      layerVisibility.parquesEstrategicos = toggleParquesEstrategicos.checked;
+      renderStrategicParkIsoLayer();
+      renderStrategicParkPointsLayer();
+      schedulePlatformUiRefresh();
     });
 
     toggleBienestarIsocronas.addEventListener("change", () => {

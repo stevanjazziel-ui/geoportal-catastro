@@ -1,0 +1,379 @@
+{
+  "generated_at": "2026-08-18T08:34:35",
+  "source_points": "D:\\codex\\_publish_barrios\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
+  "source_isochrones": "D:\\codex\\_publish_barrios\\riobamba-censo-data\\riobamba_isocronas_recreacion_deporte_categorizada_todas_plataformas_1000m.geojson",
+  "summary": {
+    "platforms_total": 18,
+    "pairs_total": 18,
+    "selected_point_features": 36,
+    "selected_isochrone_features": 35,
+    "unique_parks_selected": 20,
+    "min_pair_distance_m": 250,
+    "platforms_with_two_effective_parks": 17,
+    "platforms_with_one_effective_park": 1,
+    "platforms_without_effective_parks": 0
+  },
+  "by_platform": {
+    "PLATAFORMA F": {
+      "platform_name": "PLATAFORMA F",
+      "pair_names": [
+        "PARQUE LOS ALTARES",
+        "Parque de la Georgina 2, a oado de los condominio faroles."
+      ],
+      "pair_ids": [
+        176,
+        133
+      ],
+      "pair_distance_m": 4417.54,
+      "selection_mode": "best_pair_threshold",
+      "effective_parks": 2,
+      "covered_manzanas": 126,
+      "total_platform_manzanas": 128,
+      "covered_blocks_percent": 98.44,
+      "covered_population": 8187,
+      "total_platform_population": 8442,
+      "covered_population_percent": 96.98
+    },
+    "PLATAFORMA C": {
+      "platform_name": "PLATAFORMA C",
+      "pair_names": [
+        "Parque Saboya área de juegos",
+        "Saboya civil"
+      ],
+      "pair_ids": [
+        124,
+        123
+      ],
+      "pair_distance_m": 264.21,
+      "selection_mode": "best_pair_threshold",
+      "effective_parks": 2,
+      "covered_manzanas": 156,
+      "total_platform_manzanas": 180,
+      "covered_blocks_percent": 86.67,
+      "covered_population": 6433,
+      "total_platform_population": 6939,
+      "covered_population_percent": 92.71
+    },
+    "PLATAFORMA H": {
+      "platform_name": "PLATAFORMA H",
+      "pair_names": [
+        "PARQUE LOS ALTARES",
+        "Parque con dos canchas"
+      ],
+      "pair_ids": [
+        176,
+        95
+      ],
+      "pair_distance_m": 5913.9,
+      "selection_mode": "best_pair_threshold",
+      "effective_parks": 2,
+      "covered_manzanas": 116,
+      "total_platform_manzanas": 144,
+      "covered_blocks_percent": 80.56,
+      "covered_population": 8626,
+      "total_platform_population": 11340,
+      "covered_population_percent": 76.07
+    },
+    "PLATAFORMA A": {
+      "platform_name": "PLATAFORMA A",
+      "pair_names": [
+        "Parque Saboya área de juegos",
+        "Parque"
+      ],
+      "pair_ids": [
+        124,
+        171
+      ],
+      "pair_distance_m": 2984.03,
+      "selection_mode": "single_effective_plus_support",
+      "effective_parks": 1,
+      "covered_manzanas": 1,
+      "total_platform_manzanas": 77,
+      "covered_blocks_percent": 1.3,
+      "covered_population": 9,
+      "total_platform_population": 1545,
+      "covered_population_percent": 0.58
+    },
+    "PLATAFORMA B": {
+      "platform_name": "PLATAFORMA B",
+      "pair_names": [
+        "ÁREA VERDE LA DOLOROSA",
+        "Parque y casa barrial Fausto Molina"
+      ],
+      "pair_ids": [
+        146,
+        23
+      ],
+      "pair_distance_m": 758.87,
+      "selection_mode": "best_pair_threshold",
+      "effective_parks": 2,
+      "covered_manzanas": 69,
+      "total_platform_manzanas": 102,
+      "covered_blocks_percent": 67.65,
+      "covered_population": 3864,
+      "total_platform_population": 5145,
+      "covered_population_percent": 75.1
+    },
+    "PLATAFORMA K": {
+      "platform_name": "PLATAFORMA K",
+      "pair_names": [
+        "Parque activo",
+        "Sin nombre"
+      ],
+      "pair_ids": [
+        113,
+        83
+      ],
+      "pair_distance_m": 6425.24,
+      "selection_mode": "best_pair_threshold",
+      "effective_parks": 2,
+      "covered_manzanas": 181,
+      "total_platform_manzanas": 184,
+      "covered_blocks_percent": 98.37,
+      "covered_population": 11975,
+      "total_platform_population": 12279,
+      "covered_population_percent": 97.52
+    },
+    "PLATAFORMA I": {
+      "platform_name": "PLATAFORMA I",
+      "pair_names": [
+        "Parque con dos canchas",
+        "Sin nombre"
+      ],
+      "pair_ids": [
+        95,
+        83
+      ],
+      "pair_distance_m": 6467.43,
+      "selection_mode": "best_pair_threshold",
+      "effective_parks": 2,
+      "covered_manzanas": 102,
+      "total_platform_manzanas": 102,
+      "covered_blocks_percent": 100.0,
+      "covered_population": 9060,
+      "total_platform_population": 9060,
+      "covered_population_percent": 100.0
+    },
+    "PLATAFORMA D": {
+      "platform_name": "PLATAFORMA D",
+      "pair_names": [
+        "Parque",
+        "Sin nombre"
+      ],
+      "pair_ids": [
+        45,
+        77
+      ],
+      "pair_distance_m": 694.65,
+      "selection_mode": "best_pair_threshold",
+      "effective_parks": 2,
+      "covered_manzanas": 149,
+      "total_platform_manzanas": 192,
+      "covered_blocks_percent": 77.6,
+      "covered_population": 10741,
+      "total_platform_population": 13143,
+      "covered_population_percent": 81.72
+    },
+    "PLATAFORMA G": {
+      "platform_name": "PLATAFORMA G",
+      "pair_names": [
+        "Parque y casa barrial Fausto Molina",
+        "Parque con dos canchas"
+      ],
+      "pair_ids": [
+        23,
+        95
+      ],
+      "pair_distance_m": 5490.79,
+      "selection_mode": "best_pair_threshold",
+      "effective_parks": 2,
+      "covered_manzanas": 128,
+      "total_platform_manzanas": 144,
+      "covered_blocks_percent": 88.89,
+      "covered_population": 7177,
+      "total_platform_population": 8014,
+      "covered_population_percent": 89.56
+    },
+    "PLATAFORMA E": {
+      "platform_name": "PLATAFORMA E",
+      "pair_names": [
+        "PARQUE LOS ALTARES",
+        "Parque de la Georgina 2, a oado de los condominio faroles."
+      ],
+      "pair_ids": [
+        176,
+        133
+      ],
+      "pair_distance_m": 4417.54,
+      "selection_mode": "best_pair_threshold",
+      "effective_parks": 2,
+      "covered_manzanas": 3,
+      "total_platform_manzanas": 3,
+      "covered_blocks_percent": 100.0,
+      "covered_population": 115,
+      "total_platform_population": 115,
+      "covered_population_percent": 100.0
+    },
+    "PLATAFORMA Q": {
+      "platform_name": "PLATAFORMA Q",
+      "pair_names": [
+        "Barrio Pucura",
+        "San luis, sector saboya civil"
+      ],
+      "pair_ids": [
+        44,
+        112
+      ],
+      "pair_distance_m": 4525.68,
+      "selection_mode": "best_pair_threshold",
+      "effective_parks": 2,
+      "covered_manzanas": 107,
+      "total_platform_manzanas": 119,
+      "covered_blocks_percent": 89.92,
+      "covered_population": 8599,
+      "total_platform_population": 9553,
+      "covered_population_percent": 90.01
+    },
+    "PLATAFORMA L": {
+      "platform_name": "PLATAFORMA L",
+      "pair_names": [
+        "Parque",
+        "Sin nombre"
+      ],
+      "pair_ids": [
+        171,
+        83
+      ],
+      "pair_distance_m": 7655.28,
+      "selection_mode": "best_pair_threshold",
+      "effective_parks": 2,
+      "covered_manzanas": 11,
+      "total_platform_manzanas": 33,
+      "covered_blocks_percent": 33.33,
+      "covered_population": 983,
+      "total_platform_population": 2679,
+      "covered_population_percent": 36.69
+    },
+    "PLATAFORMA M": {
+      "platform_name": "PLATAFORMA M",
+      "pair_names": [
+        "Parque",
+        "Sin nombre"
+      ],
+      "pair_ids": [
+        171,
+        83
+      ],
+      "pair_distance_m": 7655.28,
+      "selection_mode": "best_pair_threshold",
+      "effective_parks": 2,
+      "covered_manzanas": 170,
+      "total_platform_manzanas": 185,
+      "covered_blocks_percent": 91.89,
+      "covered_population": 12939,
+      "total_platform_population": 13943,
+      "covered_population_percent": 92.8
+    },
+    "PLATAFORMA O": {
+      "platform_name": "PLATAFORMA O",
+      "pair_names": [
+        "San luis, sector saboya civil",
+        "Parque"
+      ],
+      "pair_ids": [
+        112,
+        102
+      ],
+      "pair_distance_m": 478.99,
+      "selection_mode": "best_pair_threshold",
+      "effective_parks": 2,
+      "covered_manzanas": 221,
+      "total_platform_manzanas": 266,
+      "covered_blocks_percent": 83.08,
+      "covered_population": 15328,
+      "total_platform_population": 18435,
+      "covered_population_percent": 83.15
+    },
+    "PLATAFORMA P": {
+      "platform_name": "PLATAFORMA P",
+      "pair_names": [
+        "Barrio Pucara",
+        "Área verde saraguro sur"
+      ],
+      "pair_ids": [
+        42,
+        207
+      ],
+      "pair_distance_m": 1698.18,
+      "selection_mode": "best_pair_threshold",
+      "effective_parks": 2,
+      "covered_manzanas": 131,
+      "total_platform_manzanas": 143,
+      "covered_blocks_percent": 91.61,
+      "covered_population": 11932,
+      "total_platform_population": 12775,
+      "covered_population_percent": 93.4
+    },
+    "PLATAFORMA Ñ": {
+      "platform_name": "PLATAFORMA Ñ",
+      "pair_names": [
+        "Área verde saraguro sur",
+        "Parque activo"
+      ],
+      "pair_ids": [
+        207,
+        113
+      ],
+      "pair_distance_m": 4883.19,
+      "selection_mode": "best_pair_threshold",
+      "effective_parks": 2,
+      "covered_manzanas": 173,
+      "total_platform_manzanas": 197,
+      "covered_blocks_percent": 87.82,
+      "covered_population": 13493,
+      "total_platform_population": 15730,
+      "covered_population_percent": 85.78
+    },
+    "PLATAFORMA N": {
+      "platform_name": "PLATAFORMA N",
+      "pair_names": [
+        "Parque de la ciudadela 11 de agosto",
+        "Parque los faroles."
+      ],
+      "pair_ids": [
+        142,
+        135
+      ],
+      "pair_distance_m": 1008.22,
+      "selection_mode": "best_pair_threshold",
+      "effective_parks": 2,
+      "covered_manzanas": 79,
+      "total_platform_manzanas": 86,
+      "covered_blocks_percent": 91.86,
+      "covered_population": 3414,
+      "total_platform_population": 3632,
+      "covered_population_percent": 94.0
+    },
+    "PLATAFORMA J": {
+      "platform_name": "PLATAFORMA J",
+      "pair_names": [
+        "Parque con dos canchas",
+        "AREA VERDE UNACH"
+      ],
+      "pair_ids": [
+        95,
+        187
+      ],
+      "pair_distance_m": 5134.32,
+      "selection_mode": "best_pair_threshold",
+      "effective_parks": 2,
+      "covered_manzanas": 91,
+      "total_platform_manzanas": 223,
+      "covered_blocks_percent": 40.81,
+      "covered_population": 6799,
+      "total_platform_population": 18896,
+      "covered_population_percent": 35.98
+    }
+  },
+  "observacion": "Se seleccionan 2 parques/plazas/areas verdes por plataforma priorizando la mayor cobertura de manzanas censales y poblacion dentro de la plataforma. La separacion minima objetivo entre parques es de 250 m; si no existe una pareja valida, la regla se relaja o se agrega un parque de apoyo cercano."
+}
