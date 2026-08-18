@@ -843,7 +843,7 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260818-parques-estrategicos-v4";
+    const DATA_VERSION = "20260818-parques-estrategicos-v5";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const TRANSPORTE_ROUTES_SHP_KEY = "rutas_transporte_intracantonal_recortadas_400m_carto";
@@ -5243,12 +5243,13 @@
           style: (feature) => {
             const color = getStrategicParkColor(feature);
             const rank = Number(feature?.properties?.selected_rank || 1);
+            const overviewMode = !hasFocusedPlatformSelection();
             return {
               color,
-              weight: rank === 1 ? 3 : 2.5,
-              opacity: 0.95,
+              weight: overviewMode ? (rank === 1 ? 3.8 : 3.2) : (rank === 1 ? 3.3 : 2.8),
+              opacity: overviewMode ? 0.98 : 0.96,
               fillColor: color,
-              fillOpacity: rank === 1 ? 0.18 : 0.12,
+              fillOpacity: overviewMode ? (rank === 1 ? 0.32 : 0.25) : (rank === 1 ? 0.24 : 0.18),
               dashArray: rank === 1 ? "" : "8 6",
               lineJoin: "round"
             };
