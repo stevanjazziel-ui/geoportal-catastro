@@ -1,0 +1,200 @@
+{
+  "type": "FeatureCollection",
+  "name": "riobamba_poligono_referencia",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "feature_type": "polygon",
+        "name": "Poligono de referencia",
+        "source_crs": "EPSG:32717",
+        "utm_zone": "17S",
+        "area_m2": 152332.76,
+        "perimeter_m": 1780.71,
+        "centroid_utm_x": 761131.378,
+        "centroid_utm_y": 9815606.516,
+        "centroid_lon": -78.652951,
+        "centroid_lat": -1.666853
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -78.654013,
+              -1.664227
+            ],
+            [
+              -78.650307,
+              -1.667507
+            ],
+            [
+              -78.651719,
+              -1.669286
+            ],
+            [
+              -78.652874,
+              -1.668255
+            ],
+            [
+              -78.653332,
+              -1.668838
+            ],
+            [
+              -78.654349,
+              -1.667969
+            ],
+            [
+              -78.653892,
+              -1.667372
+            ],
+            [
+              -78.655515,
+              -1.665973
+            ],
+            [
+              -78.654013,
+              -1.664227
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "feature_type": "vertex",
+        "point_id": 1,
+        "label": "Punto 1",
+        "coord_x": 761013.575,
+        "coord_y": 9815897.19
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.654013,
+          -1.664227
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "feature_type": "vertex",
+        "point_id": 2,
+        "label": "Punto 2",
+        "coord_x": 761425.652,
+        "coord_y": 9815533.82
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.650307,
+          -1.667507
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "feature_type": "vertex",
+        "point_id": 3,
+        "label": "Punto 3",
+        "coord_x": 761268.259,
+        "coord_y": 9815337.14
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.651719,
+          -1.669286
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "feature_type": "vertex",
+        "point_id": 4,
+        "label": "Punto 4",
+        "coord_x": 761139.822,
+        "coord_y": 9815451.35
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.652874,
+          -1.668255
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "feature_type": "vertex",
+        "point_id": 5,
+        "label": "Punto 5",
+        "coord_x": 761088.702,
+        "coord_y": 9815386.92
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.653332,
+          -1.668838
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "feature_type": "vertex",
+        "point_id": 6,
+        "label": "Punto 6",
+        "coord_x": 760975.645,
+        "coord_y": 9815483.25
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.654349,
+          -1.667969
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "feature_type": "vertex",
+        "point_id": 7,
+        "label": "Punto 7",
+        "coord_x": 761026.589,
+        "coord_y": 9815549.17
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.653892,
+          -1.667372
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "feature_type": "vertex",
+        "point_id": 8,
+        "label": "Punto 8",
+        "coord_x": 760846.114,
+        "coord_y": 9815704.15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.655515,
+          -1.665973
+        ]
+      }
+    }
+  ]
+}

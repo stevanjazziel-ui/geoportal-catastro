@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Riobamba Poligono de Referencia</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <style>
+    :root {
+      --bg: #07121c;
+      --bg-2: #0d1d2b;
+      --panel: rgba(10, 21, 32, 0.94);
+      --panel-2: rgba(15, 30, 46, 0.95);
+      --line: rgba(126, 198, 255, 0.16);
+      --text: #edf6ff;
+      --muted: #99b3c8;
+      --accent: #61c7ff;
+      --accent-2: #8ff2db;
+      --accent-3: #ffdf8f;
+      --shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(97, 199, 255, 0.12), transparent 26%),
+        radial-gradient(circle at 88% 12%, rgba(143, 242, 219, 0.08), transparent 18%),
+        linear-gradient(180deg, #0c1824, #08111a);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      height: 100dvh;
+    }
+
+    .sidebar {
+      overflow-y: auto;
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(9, 18, 29, 0.98), rgba(6, 12, 20, 0.98));
+      border-right: 1px solid var(--line);
+    }
+
+    .panel {
+      margin-bottom: 14px;
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    h1, h2, p { margin: 0; }
+    h1 { font-size: 1.9rem; margin-bottom: 8px; line-height: 1.08; }
+    h2 { font-size: 0.95rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+    p { color: var(--muted); line-height: 1.5; }
+
+    select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--panel-2);
+      color: var(--text);
+      font: inherit;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid rgba(97, 199, 255, 0.22);
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(97, 199, 255, 0.2), rgba(143, 242, 219, 0.16));
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(143, 242, 219, 0.34);
+      background: linear-gradient(135deg, rgba(97, 199, 255, 0.28), rgba(143, 242, 219, 0.2));
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .card {
+      padding: 12px;
+      border-radius: 14px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+    }
+
+    .card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+    }
+
+    .card strong {
+      display: block;
+      font-size: 1.18rem;
+      line-height: 1.15;
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .mini-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .mini-row strong {
+      color: var(--text);
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .inline-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .layer-toggles {
+      display: grid;
+      gap: 10px;
+    }
+
+    .layer-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      color: var(--text);
+    }
+
+    .layer-toggle span {
+      color: var(--text);
+      font-size: 0.96rem;
+    }
+
+    .layer-toggle input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent-2);
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .legend {
+      display: grid;
+      gap: 8px;
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+    }
+
+    .legend-swatch {
+      width: 18px;
+      height: 12px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .coords-table-wrap {
+      overflow-x: auto;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--panel-2);
+    }
+
+    .coords-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .coords-table th,
+    .coords-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(126, 198, 255, 0.12);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .coords-table th {
+      color: var(--text);
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: rgba(5, 13, 20, 0.42);
+    }
+
+    .coords-table tbody tr {
+      cursor: pointer;
+      transition: background 120ms ease;
+    }
+
+    .coords-table tbody tr:hover {
+      background: rgba(97, 199, 255, 0.08);
+    }
+
+    .coords-table tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .hint {
+      margin-top: 10px;
+      font-size: 0.88rem;
+    }
+
+    #map { width: 100%; height: 100%; }
+
+    .map-wrap {
+      position: relative;
+      height: 100%;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 500;
+      width: min(380px, calc(100% - 32px));
+      padding: 14px;
+      background: rgba(8, 18, 28, 0.92);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .overlay strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .leaflet-popup-content-wrapper,
+    .leaflet-popup-tip {
+      background: rgba(9, 19, 30, 0.96);
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .leaflet-control-scale-line {
+      border-color: rgba(7, 18, 28, 0.8);
+      background: rgba(7, 18, 28, 0.78);
+      color: var(--text);
+    }
+
+    .vertex-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, var(--accent-3), #f5b948);
+      border: 2px solid rgba(7, 18, 28, 0.92);
+      color: #08111a;
+      font-size: 0.84rem;
+      font-weight: 800;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
+    }
+
+    @media (max-width: 920px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar {
+        max-height: 48dvh;
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <section class="panel">
+        <h1>Poligono de Referencia</h1>
+        <p>
+          Modulo basado en la interfaz de Riobamba Censo 2022 para revisar un poligono
+          puntual definido con 8 vertices UTM. El mapa lo muestra ya convertido a WGS84
+          para Leaflet, pero conservando las coordenadas originales en el panel lateral.
+        </p>
+      </section>
+
+      <section class="panel">
+        <h2>Acciones</h2>
+        <div class="inline-actions">
+          <button id="focusPolygonButton" type="button">Enfocar poligono</button>
+          <button id="downloadGeoJsonButton" type="button">Descargar GeoJSON</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Mapa base</h2>
+        <select id="basemapSelect">
+          <option value="light">Claro</option>
+          <option value="imagery">Satelite</option>
+        </select>
+      </section>
+
+      <section class="panel">
+        <h2>Capas visibles</h2>
+        <div class="layer-toggles">
+          <label class="layer-toggle"><span>Poligono relleno</span><input id="togglePolygonFill" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Contorno resaltado</span><input id="togglePolygonOutline" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Vertices numerados</span><input id="toggleVertices" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Centroide</span><input id="toggleCentroid" type="checkbox" checked></label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Resumen</h2>
+        <div class="stats" id="summaryCards"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Referencia tecnica</h2>
+        <div class="mini-list" id="technicalSummary"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Vertices UTM</h2>
+        <div class="coords-table-wrap">
+          <table class="coords-table">
+            <thead>
+              <tr>
+                <th>Punto</th>
+                <th>Coord X</th>
+                <th>Coord Y</th>
+              </tr>
+            </thead>
+            <tbody id="coordsTableBody"></tbody>
+          </table>
+        </div>
+        <p class="hint">Haz clic en una fila para centrar el mapa sobre ese vertice.</p>
+      </section>
+
+      <section class="panel">
+        <h2>Leyenda</h2>
+        <div class="legend" id="legend"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Estado</h2>
+        <p id="statusText">Preparando visor...</p>
+      </section>
+    </aside>
+
+    <main class="map-wrap">
+      <div id="map"></div>
+      <div class="overlay">
+        <strong id="overlayTitle">Poligono cargado</strong>
+        <p id="overlayText">Haz clic en el poligono o en cualquiera de sus vertices para ver el detalle.</p>
+      </div>
+    </main>
+  </div>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+  <script>
+    const DOWNLOAD_FILE_NAME = "riobamba-poligono-referencia.geojson";
+    const polygonData = {
+      type: "FeatureCollection",
+      name: "riobamba_poligono_referencia",
+      features: [
+        {
+          type: "Feature",
+          properties: {
+            feature_type: "polygon",
+            name: "Poligono de referencia",
+            source_crs: "EPSG:32717",
+            utm_zone: "17S",
+            area_m2: 152332.76,
+            perimeter_m: 1780.71,
+            centroid_utm_x: 761131.378,
+            centroid_utm_y: 9815606.516,
+            centroid_lon: -78.652951,
+            centroid_lat: -1.666853
+          },
+          geometry: {
+            type: "Polygon",
+            coordinates: [[
+              [-78.654013, -1.664227],
+              [-78.650307, -1.667507],
+              [-78.651719, -1.669286],
+              [-78.652874, -1.668255],
+              [-78.653332, -1.668838],
+              [-78.654349, -1.667969],
+              [-78.653892, -1.667372],
+              [-78.655515, -1.665973],
+              [-78.654013, -1.664227]
+            ]]
+          }
+        },
+        { type: "Feature", properties: { feature_type: "vertex", point_id: 1, label: "Punto 1", coord_x: 761013.575, coord_y: 9815897.19 }, geometry: { type: "Point", coordinates: [-78.654013, -1.664227] } },
+        { type: "Feature", properties: { feature_type: "vertex", point_id: 2, label: "Punto 2", coord_x: 761425.652, coord_y: 9815533.82 }, geometry: { type: "Point", coordinates: [-78.650307, -1.667507] } },
+        { type: "Feature", properties: { feature_type: "vertex", point_id: 3, label: "Punto 3", coord_x: 761268.259, coord_y: 9815337.14 }, geometry: { type: "Point", coordinates: [-78.651719, -1.669286] } },
+        { type: "Feature", properties: { feature_type: "vertex", point_id: 4, label: "Punto 4", coord_x: 761139.822, coord_y: 9815451.35 }, geometry: { type: "Point", coordinates: [-78.652874, -1.668255] } },
+        { type: "Feature", properties: { feature_type: "vertex", point_id: 5, label: "Punto 5", coord_x: 761088.702, coord_y: 9815386.92 }, geometry: { type: "Point", coordinates: [-78.653332, -1.668838] } },
+        { type: "Feature", properties: { feature_type: "vertex", point_id: 6, label: "Punto 6", coord_x: 760975.645, coord_y: 9815483.25 }, geometry: { type: "Point", coordinates: [-78.654349, -1.667969] } },
+        { type: "Feature", properties: { feature_type: "vertex", point_id: 7, label: "Punto 7", coord_x: 761026.589, coord_y: 9815549.17 }, geometry: { type: "Point", coordinates: [-78.653892, -1.667372] } },
+        { type: "Feature", properties: { feature_type: "vertex", point_id: 8, label: "Punto 8", coord_x: 760846.114, coord_y: 9815704.15 }, geometry: { type: "Point", coordinates: [-78.655515, -1.665973] } }
+      ]
+    };
+
+    const polygonFeature = polygonData.features.find((feature) => feature.properties.feature_type === "polygon");
+    const vertexFeatures = polygonData.features
+      .filter((feature) => feature.properties.feature_type === "vertex")
+      .sort((a, b) => a.properties.point_id - b.properties.point_id);
+
+    const summaryCards = document.getElementById("summaryCards");
+    const technicalSummary = document.getElementById("technicalSummary");
+    const coordsTableBody = document.getElementById("coordsTableBody");
+    const legend = document.getElementById("legend");
+    const statusText = document.getElementById("statusText");
+    const overlayTitle = document.getElementById("overlayTitle");
+    const overlayText = document.getElementById("overlayText");
+    const basemapSelect = document.getElementById("basemapSelect");
+    const focusPolygonButton = document.getElementById("focusPolygonButton");
+    const downloadGeoJsonButton = document.getElementById("downloadGeoJsonButton");
+    const togglePolygonFill = document.getElementById("togglePolygonFill");
+    const togglePolygonOutline = document.getElementById("togglePolygonOutline");
+    const toggleVertices = document.getElementById("toggleVertices");
+    const toggleCentroid = document.getElementById("toggleCentroid");
+
+    const map = L.map("map", { zoomSnap: 0.5 }).setView([-1.6669, -78.6530], 15);
+
+    const basemaps = {
+      light: L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+        {
+          maxZoom: 20,
+          attribution: "&copy; OpenStreetMap contributors &copy; CARTO"
+        }
+      ),
+      imagery: L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        {
+          maxZoom: 19,
+          attribution: "Tiles &copy; Esri"
+        }
+      )
+    };
+
+    basemaps.light.addTo(map);
+    L.control.scale({ imperial: false }).addTo(map);
+
+    const vertexMarkerIndex = new Map();
+    let activeBasemapKey = "light";
+
+    function formatNumber(value, decimals = 0) {
+      return Number(value).toLocaleString("es-EC", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      });
+    }
+
+    function formatLatLon(value) {
+      return Number(value).toLocaleString("es-EC", {
+        minimumFractionDigits: 6,
+        maximumFractionDigits: 6
+      });
+    }
+
+    function syncSingleLayer(layer, visible) {
+      if (visible && !map.hasLayer(layer)) {
+        layer.addTo(map);
+      }
+      if (!visible && map.hasLayer(layer)) {
+        map.removeLayer(layer);
+      }
+    }
+
+    function updateOverlayForPolygon() {
+      const props = polygonFeature.properties;
+      overlayTitle.textContent = props.name;
+      overlayText.textContent =
+        `Area aproximada ${formatNumber(props.area_m2, 2)} m2, perimetro ${formatNumber(props.perimeter_m, 2)} m y ${vertexFeatures.length} vertices sobre la zona UTM ${props.utm_zone}.`;
+    }
+
+    function updateOverlayForVertex(feature) {
+      const props = feature.properties;
+      const [lon, lat] = feature.geometry.coordinates;
+      overlayTitle.textContent = props.label;
+      overlayText.textContent =
+        `UTM X ${formatNumber(props.coord_x, 3)}, Y ${formatNumber(props.coord_y, 2)}. WGS84 Lon ${formatLatLon(lon)}, Lat ${formatLatLon(lat)}.`;
+    }
+
+    function buildSummaryCards() {
+      const props = polygonFeature.properties;
+      const hectares = props.area_m2 / 10000;
+      summaryCards.innerHTML = `
+        <div class="card">
+          <span>Vertices</span>
+          <strong>${formatNumber(vertexFeatures.length)}</strong>
+        </div>
+        <div class="card">
+          <span>Area m2</span>
+          <strong>${formatNumber(props.area_m2, 2)}</strong>
+        </div>
+        <div class="card">
+          <span>Hectareas</span>
+          <strong>${formatNumber(hectares, 2)}</strong>
+        </div>
+        <div class="card">
+          <span>Perimetro m</span>
+          <strong>${formatNumber(props.perimeter_m, 2)}</strong>
+        </div>
+      `;
+    }
+
+    function buildTechnicalSummary() {
+      const props = polygonFeature.properties;
+      technicalSummary.innerHTML = `
+        <div class="mini-row"><span>Sistema origen</span><strong>${props.source_crs}</strong></div>
+        <div class="mini-row"><span>Zona UTM</span><strong>${props.utm_zone}</strong></div>
+        <div class="mini-row"><span>Centroide UTM</span><strong>${formatNumber(props.centroid_utm_x, 3)}, ${formatNumber(props.centroid_utm_y, 3)}</strong></div>
+        <div class="mini-row"><span>Centroide WGS84</span><strong>${formatLatLon(props.centroid_lon)}, ${formatLatLon(props.centroid_lat)}</strong></div>
+      `;
+    }
+
+    function buildCoordsTable() {
+      coordsTableBody.innerHTML = vertexFeatures.map((feature) => {
+        const props = feature.properties;
+        return `
+          <tr data-point-id="${props.point_id}">
+            <td>${props.point_id}</td>
+            <td>${formatNumber(props.coord_x, 3)}</td>
+            <td>${formatNumber(props.coord_y, 2)}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function buildLegend() {
+      legend.innerHTML = `
+        <div class="legend-row"><span class="legend-swatch" style="background:rgba(97,199,255,0.25);border-color:rgba(97,199,255,0.5);"></span><span>Poligono relleno</span></div>
+        <div class="legend-row"><span class="legend-swatch" style="background:rgba(143,242,219,0.9);border-color:rgba(143,242,219,0.95);"></span><span>Contorno principal</span></div>
+        <div class="legend-row"><span class="legend-swatch" style="background:linear-gradient(120deg,#ffdf8f,#f5b948);border-color:rgba(245,185,72,0.95);"></span><span>Vertices numerados</span></div>
+        <div class="legend-row"><span class="legend-swatch" style="background:rgba(255,105,97,0.9);border-color:rgba(255,105,97,0.95);"></span><span>Centroide</span></div>
+      `;
+    }
+
+    function setStatus(message) {
+      statusText.textContent = message;
+    }
+
+    function vertexIcon(label) {
+      return L.divIcon({
+        className: "",
+        html: `<div class="vertex-icon">${label}</div>`,
+        iconSize: [28, 28],
+        iconAnchor: [14, 14]
+      });
+    }
+
+    const polygonFillLayer = L.geoJSON(polygonFeature, {
+      style: {
+        color: "#61c7ff",
+        weight: 2.5,
+        fillColor: "#61c7ff",
+        fillOpacity: 0.22
+      },
+      onEachFeature(feature, layer) {
+        layer.bindPopup(`<strong>${feature.properties.name}</strong><br>Area ${formatNumber(feature.properties.area_m2, 2)} m2`);
+        layer.on("click", () => updateOverlayForPolygon());
+      }
+    });
+
+    const polygonOutlineLayer = L.geoJSON(polygonFeature, {
+      style: {
+        color: "#8ff2db",
+        weight: 4,
+        opacity: 0.95,
+        fillOpacity: 0,
+        dashArray: "10 6"
+      },
+      onEachFeature(_feature, layer) {
+        layer.on("click", () => updateOverlayForPolygon());
+      }
+    });
+
+    const verticesLayer = L.layerGroup(
+      vertexFeatures.map((feature) => {
+        const [lon, lat] = feature.geometry.coordinates;
+        const marker = L.marker([lat, lon], {
+          icon: vertexIcon(feature.properties.point_id)
+        });
+        marker.bindPopup(
+          `<strong>${feature.properties.label}</strong><br>X ${formatNumber(feature.properties.coord_x, 3)}<br>Y ${formatNumber(feature.properties.coord_y, 2)}`
+        );
+        marker.on("click", () => updateOverlayForVertex(feature));
+        vertexMarkerIndex.set(feature.properties.point_id, marker);
+        return marker;
+      })
+    );
+
+    const centroidLayer = L.layerGroup([
+      L.circleMarker(
+        [polygonFeature.properties.centroid_lat, polygonFeature.properties.centroid_lon],
+        {
+          radius: 8,
+          color: "#ff6961",
+          weight: 2,
+          fillColor: "#ff9f97",
+          fillOpacity: 0.9
+        }
+      )
+        .bindPopup(
+          `<strong>Centroide</strong><br>UTM ${formatNumber(polygonFeature.properties.centroid_utm_x, 3)}, ${formatNumber(polygonFeature.properties.centroid_utm_y, 3)}`
+        )
+        .on("click", updateOverlayForPolygon)
+    ]);
+
+    function syncVisibleLayers() {
+      syncSingleLayer(polygonFillLayer, togglePolygonFill.checked);
+      syncSingleLayer(polygonOutlineLayer, togglePolygonOutline.checked);
+      syncSingleLayer(verticesLayer, toggleVertices.checked);
+      syncSingleLayer(centroidLayer, toggleCentroid.checked);
+    }
+
+    function fitPolygon() {
+      map.fitBounds(polygonFillLayer.getBounds(), {
+        padding: [32, 32],
+        maxZoom: 16
+      });
+    }
+
+    function setBasemap(nextKey) {
+      if (activeBasemapKey === nextKey || !basemaps[nextKey]) {
+        return;
+      }
+      map.removeLayer(basemaps[activeBasemapKey]);
+      basemaps[nextKey].addTo(map);
+      activeBasemapKey = nextKey;
+    }
+
+    function downloadGeoJson() {
+      const blob = new Blob([JSON.stringify(polygonData, null, 2)], {
+        type: "application/geo+json"
+      });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = DOWNLOAD_FILE_NAME;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 0);
+    }
+
+    basemapSelect.addEventListener("change", (event) => setBasemap(event.target.value));
+    focusPolygonButton.addEventListener("click", fitPolygon);
+    downloadGeoJsonButton.addEventListener("click", downloadGeoJson);
+    [togglePolygonFill, togglePolygonOutline, toggleVertices, toggleCentroid].forEach((input) => {
+      input.addEventListener("change", syncVisibleLayers);
+    });
+
+    coordsTableBody.addEventListener("click", (event) => {
+      const row = event.target.closest("tr[data-point-id]");
+      if (!row) {
+        return;
+      }
+      const pointId = Number(row.dataset.pointId);
+      const marker = vertexMarkerIndex.get(pointId);
+      if (!marker) {
+        return;
+      }
+      map.flyTo(marker.getLatLng(), 17, { duration: 0.8 });
+      marker.openPopup();
+      const selectedFeature = vertexFeatures.find((feature) => feature.properties.point_id === pointId);
+      if (selectedFeature) {
+        updateOverlayForVertex(selectedFeature);
+      }
+    });
+
+    buildSummaryCards();
+    buildTechnicalSummary();
+    buildCoordsTable();
+    buildLegend();
+    syncVisibleLayers();
+    fitPolygon();
+    updateOverlayForPolygon();
+    setStatus("Listo. El poligono de referencia ya esta visible y centrado.");
+  </script>
+</body>
+</html>
