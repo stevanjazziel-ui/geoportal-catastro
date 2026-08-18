@@ -843,7 +843,7 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260818-parques-estrategicos-v8";
+    const DATA_VERSION = "20260818-parques-estrategicos-v9";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const TRANSPORTE_ROUTES_SHP_KEY = "rutas_transporte_intracantonal_recortadas_400m_carto";
@@ -3252,8 +3252,8 @@
       syncSingleLayer(barriosLayer, layerVisibility.barrios);
       syncSingleLayer(barriosLabelLayer, layerVisibility.barrios);
       syncSingleLayer(equipamientosLayer, layerVisibility.equipamientos);
-      syncSingleLayer(window.strategicParkIsoLayer, layerVisibility.parquesEstrategicos && hasFocusedPlatformSelection());
-      syncSingleLayer(window.strategicParkPointsLayer, layerVisibility.parquesEstrategicos && hasFocusedPlatformSelection());
+      syncSingleLayer(window.strategicParkIsoLayer, layerVisibility.parquesEstrategicos);
+      syncSingleLayer(window.strategicParkPointsLayer, layerVisibility.parquesEstrategicos);
       syncSingleLayer(isocronaPolygonLayer, layerVisibility.isocronasColindantes);
       syncSingleLayer(isocronaNetworkLayer, layerVisibility.redVial1000m);
       bringPointLayersToFront();
