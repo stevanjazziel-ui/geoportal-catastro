@@ -843,7 +843,7 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260818-parques-estrategicos-v2";
+    const DATA_VERSION = "20260818-parques-estrategicos-v3";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const TRANSPORTE_ROUTES_SHP_KEY = "rutas_transporte_intracantonal_recortadas_400m_carto";
@@ -3333,7 +3333,10 @@
 
     function getStrategicParkScopedPoints() {
       if (!hasFocusedPlatformSelection()) {
-        return [];
+        return (window.strategicParkPointsFeatures || []).filter((feature) =>
+          feature?.geometry &&
+          feature?.properties
+        );
       }
 
       return (window.strategicParkPointsFeatures || []).filter((feature) =>
@@ -3345,7 +3348,10 @@
 
     function getStrategicParkScopedIsocronas() {
       if (!hasFocusedPlatformSelection()) {
-        return [];
+        return (window.strategicParkIsoFeatures || []).filter((feature) =>
+          feature?.geometry &&
+          feature?.properties
+        );
       }
 
       return (window.strategicParkIsoFeatures || []).filter((feature) =>
@@ -3361,21 +3367,37 @@
       }
 
       const stats = getCurrentStrategicParkStats();
-      if (!hasFocusedPlatformSelection() || !stats) {
+      if (!strategicParksStats) {
         strategicParksPanel.hidden = true;
-        strategicParksSummary.innerHTML = `<div class="mini-row"><span>Estado</span><strong>Selecciona una plataforma</strong></div>`;
+        strategicParksSummary.innerHTML = `<div class="mini-row"><span>Estado</span><strong>Sin datos</strong></div>`;
         return;
       }
 
       strategicParksPanel.hidden = false;
+      if (!hasFocusedPlatformSelection() || !stats) {
+        const summary = strategicParksStats.summary || {};
+        const rows = [
+          ["Vista", "Todas las plataformas"],
+          ["Pares seleccionados", `${formatNumber(summary.pairs_total || 0)} plataformas con 2 parques`],
+          ["Puntos visibles", formatNumber(summary.selected_point_features || 0)],
+          ["Isocronas visibles", formatNumber(summary.selected_isochrone_features || 0)],
+          ["Cobertura total", `${formatNumber(summary.platforms_with_full_pair || 0)} plataformas completas`],
+          ["Cobertura parcial", `${formatNumber(summary.platforms_without_full_pair || 0)} plataformas parciales`]
+        ];
+        strategicParksSummary.innerHTML = rows
+          .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
+          .join("");
+        return;
+      }
+
       const pairNames = Array.isArray(stats.pair_names) ? stats.pair_names : [];
       if (!stats.has_full_pair) {
         const rows = [
-          ["Estado", "No existe una pareja de 2 parques que cubra el 100% de esta plataforma"],
-          ["Mejor cobertura manzanas", `${formatNumber(stats.covered_manzanas)} / ${formatNumber(stats.total_platform_manzanas)} (${formatPercentValue(stats.covered_blocks_percent)})`],
-          ["Mejor cobertura poblacion", `${formatNumber(stats.covered_population)} / ${formatNumber(stats.total_platform_population)} hab (${formatPercentValue(stats.covered_population_percent)})`],
-          ["Parque referencia 1", pairNames[0] || "Sin dato"],
-          ["Parque referencia 2", pairNames[1] || "Sin dato"],
+          ["Estado", "Par parcial de 2 parques"],
+          ["Cobertura manzanas", `${formatNumber(stats.covered_manzanas)} / ${formatNumber(stats.total_platform_manzanas)} (${formatPercentValue(stats.covered_blocks_percent)})`],
+          ["Cobertura poblacion", `${formatNumber(stats.covered_population)} / ${formatNumber(stats.total_platform_population)} hab (${formatPercentValue(stats.covered_population_percent)})`],
+          ["Parque 1", pairNames[0] || "Sin dato"],
+          ["Parque 2", pairNames[1] || "Sin dato"],
           ["Separacion", `${formatNumber(Math.round(Number(stats.pair_distance_m || 0)))} m`]
         ];
         strategicParksSummary.innerHTML = rows
@@ -5127,7 +5149,7 @@
         map.removeLayer(window.strategicParkPointsLayer);
       }
 
-      if (!layerVisibility.parquesEstrategicos || !hasFocusedPlatformSelection()) {
+      if (!layerVisibility.parquesEstrategicos) {
         window.strategicParkPointsLayer = null;
         return;
       }
@@ -5193,7 +5215,7 @@
         map.removeLayer(window.strategicParkIsoLayer);
       }
 
-      if (!layerVisibility.parquesEstrategicos || !hasFocusedPlatformSelection()) {
+      if (!layerVisibility.parquesEstrategicos) {
         window.strategicParkIsoLayer = null;
         return;
       }

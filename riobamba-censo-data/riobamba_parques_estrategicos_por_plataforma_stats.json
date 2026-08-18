@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-08-18T09:07:29",
+  "generated_at": "2026-08-18T09:20:50",
   "source_points": "D:\\codex\\_publish_barrios\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
   "source_isochrones": "D:\\codex\\_publish_barrios\\riobamba-censo-data\\riobamba_isocronas_recreacion_deporte_categorizada_todas_plataformas_1000m.geojson",
   "summary": {
     "platforms_total": 18,
-    "pairs_total": 2,
-    "selected_point_features": 4,
-    "selected_isochrone_features": 4,
-    "unique_parks_selected": 4,
+    "pairs_total": 18,
+    "selected_point_features": 36,
+    "selected_isochrone_features": 35,
+    "unique_parks_selected": 20,
     "min_pair_distance_m": 250,
     "platforms_with_full_pair": 2,
     "platforms_without_full_pair": 16
