@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-08-18",
-  "generatedAt": "2026-08-18T14:50:52",
+  "generatedAt": "2026-08-18T16:31:34",
   "records": [
     {
       "estado": "Asignado",
@@ -1304,7 +1304,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Asignado",
+      "estado": "Complementado",
       "tramite": "Trámite: 1226540 GADMR--2026-0538-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "BARBA PINO DANIEL PACIFICO - IPRUS FUERA DE ZONA PATRIMONIAL",
@@ -1337,7 +1337,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-08-13 14:40",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 4,
+      "egobJournalCount": 7,
       "egobRelevantNotes": []
     },
     {
@@ -1530,14 +1530,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "Complementado",
+      "estado": "En espera",
       "tramite": "Trámite: 1209058 GADMR--2026-0434-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "CARDENAS CONSTANTE FERNANDA PAOLA - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-08-27",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-08-13T10:48:00",
       "codigo": "GADMR--2026-0434-IPRUS-ZNP",
       "nroTramite": 1209058,
@@ -1545,9 +1545,6 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "CARDENAS CONSTANTE FERNANDA PAOLA",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(9 días)",
-      "diasRestantes": 9,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
@@ -1563,7 +1560,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-08-13 10:48",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 8,
+      "egobJournalCount": 9,
       "egobRelevantNotes": [
         {
           "journalId": "6847390",
@@ -1886,14 +1883,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1225556 GADMR--2026-0533-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "QUISI ILVIS JAIME ELIAS - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-08-26",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-08-12T15:09:00",
       "codigo": "GADMR--2026-0533-IPRUS-ZNP",
       "nroTramite": 1225556,
@@ -1901,9 +1898,6 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "QUISI ILVIS JAIME ELIAS",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(8 días)",
-      "diasRestantes": 8,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
@@ -1919,7 +1913,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-08-12 15:09",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 5,
+      "egobJournalCount": 7,
       "egobRelevantNotes": []
     },
     {
@@ -3334,14 +3328,14 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 67,
     "priorities": {
-      "Normal": 53,
-      "Sin prioridad": 13,
+      "Normal": 51,
+      "Sin prioridad": 15,
       "Crítico": 1
     },
     "states": {
-      "Asignado": 46,
+      "Asignado": 44,
       "Complementado": 17,
-      "En espera": 4
+      "En espera": 6
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 67
