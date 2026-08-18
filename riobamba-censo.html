@@ -1669,6 +1669,13 @@
       return normalizedPlatform === displayPlatformName(currentPlatform);
     }
 
+    function isOwnStrategicParkSelection(feature) {
+      const props = feature?.properties || {};
+      const targetPlatform = displayPlatformName(props.target_platform);
+      const originPlatform = displayPlatformName(props.origin_platform);
+      return !!targetPlatform && targetPlatform === originPlatform;
+    }
+
     function getVisiblePlatformFeatures() {
       if (currentPlatform === ALL_PLATFORMS) {
         return platformFeatures;
@@ -3335,7 +3342,8 @@
       if (!hasFocusedPlatformSelection()) {
         return (window.strategicParkPointsFeatures || []).filter((feature) =>
           feature?.geometry &&
-          feature?.properties
+          feature?.properties &&
+          isOwnStrategicParkSelection(feature)
         );
       }
 
@@ -3350,7 +3358,8 @@
       if (!hasFocusedPlatformSelection()) {
         return (window.strategicParkIsoFeatures || []).filter((feature) =>
           feature?.geometry &&
-          feature?.properties
+          feature?.properties &&
+          isOwnStrategicParkSelection(feature)
         );
       }
 
