@@ -843,7 +843,7 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260818-parques-estrategicos-v1";
+    const DATA_VERSION = "20260818-parques-estrategicos-v2";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const TRANSPORTE_ROUTES_SHP_KEY = "rutas_transporte_intracantonal_recortadas_400m_carto";
@@ -3369,6 +3369,21 @@
 
       strategicParksPanel.hidden = false;
       const pairNames = Array.isArray(stats.pair_names) ? stats.pair_names : [];
+      if (!stats.has_full_pair) {
+        const rows = [
+          ["Estado", "No existe una pareja de 2 parques que cubra el 100% de esta plataforma"],
+          ["Mejor cobertura manzanas", `${formatNumber(stats.covered_manzanas)} / ${formatNumber(stats.total_platform_manzanas)} (${formatPercentValue(stats.covered_blocks_percent)})`],
+          ["Mejor cobertura poblacion", `${formatNumber(stats.covered_population)} / ${formatNumber(stats.total_platform_population)} hab (${formatPercentValue(stats.covered_population_percent)})`],
+          ["Parque referencia 1", pairNames[0] || "Sin dato"],
+          ["Parque referencia 2", pairNames[1] || "Sin dato"],
+          ["Separacion", `${formatNumber(Math.round(Number(stats.pair_distance_m || 0)))} m`]
+        ];
+        strategicParksSummary.innerHTML = rows
+          .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
+          .join("");
+        return;
+      }
+
       const rows = [
         ["Cobertura manzanas", `${formatNumber(stats.covered_manzanas)} / ${formatNumber(stats.total_platform_manzanas)} (${formatPercentValue(stats.covered_blocks_percent)})`],
         ["Cobertura poblacion", `${formatNumber(stats.covered_population)} / ${formatNumber(stats.total_platform_population)} hab (${formatPercentValue(stats.covered_population_percent)})`],
@@ -3377,10 +3392,6 @@
         ["Separacion", `${formatNumber(Math.round(Number(stats.pair_distance_m || 0)))} m`],
         ["Parques efectivos", `${formatNumber(stats.effective_parks)} de 2`]
       ];
-
-      if (String(stats.selection_mode || "") === "single_effective_plus_support") {
-        rows.push(["Nota", "Solo un parque intersecta esta plataforma; el segundo funciona como apoyo cercano."]);
-      }
 
       strategicParksSummary.innerHTML = rows
         .map(([label, value]) => `<div class="mini-row"><span>${label}</span><strong>${value}</strong></div>`)
