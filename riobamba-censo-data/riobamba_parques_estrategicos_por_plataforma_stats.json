@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-18T09:43:13",
+  "generated_at": "2026-08-18T17:42:18",
   "source_points": "D:\\codex\\_publish_barrios\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
   "source_recreation_points": "D:\\codex\\_publish_barrios\\riobamba-censo-data\\riobamba_recreacion_deporte_categorizada_todas_plataformas_1000m.geojson",
   "source_isochrones": "D:\\codex\\_publish_barrios\\riobamba-censo-data\\riobamba_isocronas_recreacion_deporte_categorizada_todas_plataformas_1000m.geojson",
@@ -18,22 +18,22 @@
       "platform_name": "PLATAFORMA F",
       "has_full_pair": false,
       "pair_names": [
-        "Parque Maestros 13 de Abril",
-        "Centro de bienestar barrialfebanor"
+        "Parque 11 de Agosto",
+        "Parque Maestros 13 de Abril"
       ],
       "pair_ids": [
-        176,
-        137
+        177,
+        176
       ],
-      "pair_distance_m": 1477.59,
+      "pair_distance_m": 583.66,
       "selection_mode": "best_pair_threshold",
       "effective_parks": 2,
-      "covered_manzanas": 126,
+      "covered_manzanas": 91,
       "total_platform_manzanas": 128,
-      "covered_blocks_percent": 98.44,
-      "covered_population": 8187,
+      "covered_blocks_percent": 71.09,
+      "covered_population": 6296,
       "total_platform_population": 8442,
-      "covered_population_percent": 96.98
+      "covered_population_percent": 74.58
     },
     "PLATAFORMA C": {
       "platform_name": "PLATAFORMA C",
@@ -81,22 +81,22 @@
       "platform_name": "PLATAFORMA A",
       "has_full_pair": false,
       "pair_names": [
-        "Área verde sin mantenimiento",
+        "Calles Javier Espinoza y alausi ( barrio 21 de abril )",
         "Final calle cenepa"
       ],
       "pair_ids": [
-        125,
+        161,
         124
       ],
-      "pair_distance_m": 47.18,
-      "selection_mode": "best_pair_relaxed",
+      "pair_distance_m": 919.8,
+      "selection_mode": "single_effective_plus_support",
       "effective_parks": 2,
-      "covered_manzanas": 1,
+      "covered_manzanas": 66,
       "total_platform_manzanas": 77,
-      "covered_blocks_percent": 1.3,
-      "covered_population": 9,
+      "covered_blocks_percent": 85.71,
+      "covered_population": 1424,
       "total_platform_population": 1545,
-      "covered_population_percent": 0.58
+      "covered_population_percent": 92.17
     },
     "PLATAFORMA B": {
       "platform_name": "PLATAFORMA B",
@@ -124,21 +124,21 @@
       "has_full_pair": false,
       "pair_names": [
         "Barrio Bolivar Chiriboga",
-        "Parque"
+        "Parque 21 de Abril"
       ],
       "pair_ids": [
         3,
-        96
+        72
       ],
-      "pair_distance_m": 1249.92,
+      "pair_distance_m": 989.42,
       "selection_mode": "best_pair_threshold",
       "effective_parks": 2,
-      "covered_manzanas": 179,
+      "covered_manzanas": 174,
       "total_platform_manzanas": 184,
-      "covered_blocks_percent": 97.28,
-      "covered_population": 11896,
+      "covered_blocks_percent": 94.57,
+      "covered_population": 11339,
       "total_platform_population": 12279,
-      "covered_population_percent": 96.88
+      "covered_population_percent": 92.34
     },
     "PLATAFORMA I": {
       "platform_name": "PLATAFORMA I",
@@ -249,22 +249,22 @@
       "platform_name": "PLATAFORMA L",
       "has_full_pair": false,
       "pair_names": [
-        "Parque Galápagos",
+        "Parque San Antonio",
         "Parque sin nombre"
       ],
       "pair_ids": [
-        172,
+        80,
         97
       ],
-      "pair_distance_m": 715.99,
+      "pair_distance_m": 665.62,
       "selection_mode": "best_pair_threshold",
       "effective_parks": 2,
-      "covered_manzanas": 23,
+      "covered_manzanas": 21,
       "total_platform_manzanas": 33,
-      "covered_blocks_percent": 69.7,
-      "covered_population": 2223,
+      "covered_blocks_percent": 63.64,
+      "covered_population": 2084,
       "total_platform_population": 2679,
-      "covered_population_percent": 82.98
+      "covered_population_percent": 77.79
     },
     "PLATAFORMA M": {
       "platform_name": "PLATAFORMA M",

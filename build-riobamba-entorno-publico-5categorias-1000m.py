@@ -132,6 +132,27 @@ def get_distance_by_tipologia(tipologia):
     return 0
 
 
+def get_special_distance_override(run, properties, source_id, platform_name):
+    if run.key != "recreacion":
+        return None
+
+    normalized_platform = normalized_key(platform_name).upper()
+    normalized_tipologia = normalized_key(properties.get("tipologia")).upper()
+    normalized_elemento = normalized_key(properties.get("elemento")).upper()
+
+    # Caso especial pedido por el usuario: en Plataforma A existe un parque
+    # cantonal que debe entrar al analisis con isocrona propia.
+    if (
+        normalized_platform == "PLATAFORMA A"
+        and int(source_id or 0) == 161
+        and normalized_tipologia == "CANTONAL"
+        and normalized_elemento == normalized_key("Parques temáticos").upper()
+    ):
+        return 1000
+
+    return None
+
+
 def get_feature_name(properties, fallback=""):
     return (
         normalize_text(properties.get("nombre_equ"))
@@ -427,6 +448,9 @@ def extract_records_for_category(run):
         source_id = int(props.get("source_id", 0) or 0) or record_index
         nombre = get_feature_name(props, fallback=f"{run.key}_{record_index:03d}")
         platform_name = normalize_text(props.get("platform_name") or props.get("plataforma")) or None
+        special_distance = get_special_distance_override(run, props, source_id, platform_name)
+        if special_distance is not None:
+            distance_m = special_distance
 
         out_props = {
             "source_id": source_id,
