@@ -645,7 +645,7 @@
           <label class="layer-toggle" style="display:none;"><span>Puntos inicio educacion</span><input id="toggleEducacionIsocronasPuntos" type="checkbox"></label>
           <label class="layer-toggle"><span>Recreacion y deporte</span><input id="toggleRecreacionIsocronas" type="checkbox" checked></label>
           <label class="layer-toggle" style="display:none;"><span>Puntos inicio recreacion</span><input id="toggleRecreacionIsocronasPuntos" type="checkbox"></label>
-          <label class="layer-toggle"><span>2 parques estrategicos</span><input id="toggleParquesEstrategicos" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>2 parques y espacios recreativos</span><input id="toggleParquesEstrategicos" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Bienestar social</span><input id="toggleBienestarIsocronas" type="checkbox" checked></label>
           <label class="layer-toggle" style="display:none;"><span>Puntos inicio bienestar social</span><input id="toggleBienestarIsocronasPuntos" type="checkbox"></label>
           <label class="layer-toggle"><span>Cultura</span><input id="toggleCulturaIsocronas" type="checkbox" checked></label>
@@ -737,7 +737,7 @@
       </section>
 
       <section class="panel" id="strategicParksPanel" hidden>
-        <h2>2 parques estrategicos</h2>
+        <h2>2 parques y espacios recreativos</h2>
         <div class="mini-list" id="strategicParksSummary">
           <div class="mini-row"><span>Estado</span><strong>Selecciona una plataforma</strong></div>
         </div>
@@ -843,7 +843,7 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260818-parques-estrategicos-v6";
+    const DATA_VERSION = "20260818-parques-estrategicos-v7";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const TRANSPORTE_ROUTES_SHP_KEY = "rutas_transporte_intracantonal_recortadas_400m_carto";
@@ -1862,7 +1862,7 @@
 
     function getIsoFeaturePlatformName(feature) {
       const props = feature?.properties || {};
-      const directPlatform = props.platform_name || props.plataforma || props.target_platform || "";
+      const directPlatform = props.platform_name || props.plataforma || props.origin_platform || props.target_platform || "";
       if (directPlatform) {
         return directPlatform;
       }
@@ -3770,6 +3770,37 @@
           wide: true
         }
       ];
+
+      if (layerVisibility.parquesEstrategicos) {
+        const strategicParkFeatures = getStrategicParkScopedIsocronas();
+        const strategicParkState = buildCoverageStateForIsochrones(currentFeatures, strategicParkFeatures);
+        const strategicHasCoverage =
+          strategicParkFeatures.length > 0 &&
+          (strategicParkState.covered > 0 || strategicParkState.populationCovered > 0);
+        const strategicSourceMeta = strategicParkState.externalSources > 0
+          ? (
+            strategicParkState.internalSources > 0
+              ? `${formatNumber(strategicParkState.externalSources)} origenes externos`
+              : `${formatNumber(strategicParkState.externalSources)} origenes desde otras plataformas`
+          )
+          : `${formatNumber(strategicParkState.internalSources)} origenes internos`;
+
+        cards.push({
+          key: "coverage_parques_recreativos",
+          label: "Parques y espacios recreativos",
+          value: `${formatNumber(strategicParkState.populationCovered || 0)} hab`,
+          meta: strategicHasCoverage
+            ? (
+              `${formatPercent(strategicParkState.populationCovered || 0, totalPopulation)} | ` +
+              `${formatNumber(strategicParkState.covered || 0)} manzanas | ` +
+              `${formatNumber(strategicParkFeatures.length)} isocronas | ` +
+              strategicSourceMeta
+            )
+            : `No cubre esta plataforma | 0 manzanas | 0 isocronas | ${strategicSourceMeta}`,
+          expandable: true,
+          breakdown: strategicParkState.breakdownCovered || createEmptyPopulationBreakdown()
+        });
+      }
 
       for (const group of visibleGroups) {
         const groupState = buildCoverageStateForIsochrones(currentFeatures, group.features);
