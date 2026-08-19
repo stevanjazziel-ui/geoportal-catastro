@@ -645,7 +645,7 @@
           <label class="layer-toggle" style="display:none;"><span>Puntos inicio educacion</span><input id="toggleEducacionIsocronasPuntos" type="checkbox"></label>
           <label class="layer-toggle"><span>Recreacion y deporte</span><input id="toggleRecreacionIsocronas" type="checkbox" checked></label>
           <label class="layer-toggle" style="display:none;"><span>Puntos inicio recreacion</span><input id="toggleRecreacionIsocronasPuntos" type="checkbox"></label>
-          <label class="layer-toggle"><span>Parque estrategico</span><input id="toggleParquesEstrategicos" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Isocronas parque estrategico</span><input id="toggleParquesEstrategicos" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Bienestar social</span><input id="toggleBienestarIsocronas" type="checkbox" checked></label>
           <label class="layer-toggle" style="display:none;"><span>Puntos inicio bienestar social</span><input id="toggleBienestarIsocronasPuntos" type="checkbox"></label>
           <label class="layer-toggle"><span>Cultura</span><input id="toggleCulturaIsocronas" type="checkbox" checked></label>
@@ -667,7 +667,7 @@
           <p style="margin:0;color:var(--muted);">Cargando categorias del entorno...</p>
         </div>
         <p style="margin-top:10px;">
-          Separa los puntos tematicos de las 5 categorias de isocronas y deja visibles solo las que quieras revisar.
+          Separa los puntos tematicos visibles, incluido parque estrategico, y deja activas solo las categorias que quieras revisar.
         </p>
       </section>
 
@@ -1286,12 +1286,15 @@
         .trim();
     }
 
+    const STRATEGIC_PARK_CATEGORY = "Parque estrategico";
+
     const preferredEquipamientoCategoryOrder = [
       "Educación",
       "Salud",
       "Bienestar social",
       "Cultura",
       "Recreación y deporte",
+      STRATEGIC_PARK_CATEGORY,
       "Seguridad",
       "Transporte",
       "Administración pública",
@@ -1309,6 +1312,7 @@
       cultura: "Cultura",
       "recreativo y deporte": "Recreación y deporte",
       "recreacion y deporte": "Recreación y deporte",
+      "parque estrategico": STRATEGIC_PARK_CATEGORY,
       seguridad: "Seguridad",
       transporte: "Transporte",
       "administracion publica": "Administración pública",
@@ -1568,6 +1572,8 @@
       }
       if (layerVisibility.parquesEstrategicos) {
         queue.push(renderStrategicParkIsoLayer);
+      }
+      if (getStrategicParkPointsVisible()) {
         queue.push(renderStrategicParkPointsLayer);
       }
       if (layerVisibility.bienestarIsocronas) {
@@ -2583,14 +2589,35 @@
     }
 
     function ensureEquipamientoCategoriesInitialized() {
+      const categorySet = new Set(
+        (equipamientosFeatures || []).map((feature) => getEquipamientoCategory(feature.properties))
+      );
+      if ((window.strategicParkPointsFeatures || []).length) {
+        categorySet.add(STRATEGIC_PARK_CATEGORY);
+      }
+
+      const nextCategories = sortEquipamientoCategories([...categorySet]);
+
       if (!equipamientoCategoriesInitialized) {
-        allEquipamientoCategories = sortEquipamientoCategories(
-          [...new Set(
-            (equipamientosFeatures || []).map((feature) => getEquipamientoCategory(feature.properties))
-          )]
-        );
+        allEquipamientoCategories = nextCategories;
         selectedEquipamientoCategories = new Set(allEquipamientoCategories);
         equipamientoCategoriesInitialized = true;
+        return;
+      }
+
+      const previousCategories = new Set(allEquipamientoCategories);
+      allEquipamientoCategories = nextCategories;
+
+      for (const category of nextCategories) {
+        if (!previousCategories.has(category)) {
+          selectedEquipamientoCategories.add(category);
+        }
+      }
+
+      for (const category of [...selectedEquipamientoCategories]) {
+        if (!nextCategories.includes(category)) {
+          selectedEquipamientoCategories.delete(category);
+        }
       }
     }
 
@@ -2699,13 +2726,46 @@
         const category = getEquipamientoCategory(feature.properties);
         counts[category] = (counts[category] || 0) + 1;
       }
+      const strategicCount = getStrategicParkCategoryFeatures().length;
+      if (strategicCount > 0) {
+        counts[STRATEGIC_PARK_CATEGORY] = strategicCount;
+      }
       equipamientoBucketsCache.set(cacheKey, counts);
       return counts;
     }
 
+    function decorateStrategicParkPointFeature(feature) {
+      if (!feature?.geometry || !feature?.properties) {
+        return null;
+      }
+
+      return {
+        ...feature,
+        properties: {
+          ...feature.properties,
+          __strategicPark: true,
+          tipo_eleme: STRATEGIC_PARK_CATEGORY,
+          equipamien: STRATEGIC_PARK_CATEGORY,
+          categoria_entorno: STRATEGIC_PARK_CATEGORY,
+          platform_name: feature.properties.target_platform || feature.properties.origin_platform || feature.properties.platform_name || ""
+        }
+      };
+    }
+
+    function getStrategicParkPointsVisible() {
+      ensureEquipamientoCategoriesInitialized();
+      return selectedEquipamientoCategories.has(STRATEGIC_PARK_CATEGORY);
+    }
+
+    function getStrategicParkCategoryFeatures() {
+      return getStrategicParkScopedPoints()
+        .map(decorateStrategicParkPointFeature)
+        .filter(Boolean);
+    }
+
     function getEquipamientoDisplayName(properties = {}) {
       return repairText(
-        properties.nombre_equ || properties.nombre_ins || properties.elemento || "Punto publico"
+        properties.nombre || properties.nombre_equ || properties.nombre_ins || properties.elemento || "Punto publico"
       ).trim() || "Punto publico";
     }
 
@@ -2715,7 +2775,11 @@
         return equipamientoNamesCache.get(cacheKey) || [];
       }
 
-      const names = getPlatformScopedEquipamientosFeatures()
+      const sourceFeatures = category === STRATEGIC_PARK_CATEGORY
+        ? getStrategicParkCategoryFeatures()
+        : getPlatformScopedEquipamientosFeatures();
+
+      const names = sourceFeatures
         .filter((feature) => getEquipamientoCategory(feature.properties) === category)
         .map((feature) => getEquipamientoDisplayName(feature.properties))
         .filter(Boolean);
@@ -2726,6 +2790,13 @@
       return uniqueNames;
     }
 
+    function getVisibleStandardEquipamientosFeatures() {
+      ensureEquipamientoCategoriesInitialized();
+      return getPlatformScopedEquipamientosFeatures().filter((feature) =>
+        selectedEquipamientoCategories.has(getEquipamientoCategory(feature.properties))
+      );
+    }
+
     function getVisibleEquipamientosFeatures() {
       ensureEquipamientoCategoriesInitialized();
       const signature = sortEquipamientoCategories([...selectedEquipamientoCategories]).join("|");
@@ -2734,9 +2805,11 @@
         return visibleEquipamientoCache.get(cacheKey) || [];
       }
 
-      const visibleFeatures = getPlatformScopedEquipamientosFeatures().filter((feature) =>
-        selectedEquipamientoCategories.has(getEquipamientoCategory(feature.properties))
-      );
+      const visibleFeatures = [...getVisibleStandardEquipamientosFeatures()];
+      if (getStrategicParkPointsVisible()) {
+        visibleFeatures.push(...getStrategicParkCategoryFeatures());
+      }
+
       visibleEquipamientoCache.set(cacheKey, visibleFeatures);
       return visibleFeatures;
     }
@@ -2775,6 +2848,10 @@
     }
 
     function getEquipamientoLegendDotBackground(category) {
+      if (category === STRATEGIC_PARK_CATEGORY) {
+        return `linear-gradient(135deg, ${strategicParkColors[1]} 0%, ${strategicParkColors[1]} 48%, ${strategicParkColors[2]} 52%, ${strategicParkColors[2]} 100%)`;
+      }
+
       const thematicKey = getThematicGroupKeyFromCategory(category);
       if (thematicKey) {
         const barrialColor = getFocusedThematicColor(thematicKey, "BARRIAL");
@@ -2786,6 +2863,10 @@
     }
 
     function getEquipamientoColor(category, properties = {}) {
+      if (category === STRATEGIC_PARK_CATEGORY) {
+        return getStrategicParkColor({ properties });
+      }
+
       const thematicKey = getThematicGroupKeyFromCategory(category);
       if (thematicKey) {
         const variant = getEquipamientoVariant(properties);
@@ -3260,7 +3341,7 @@
       syncSingleLayer(barriosLabelLayer, layerVisibility.barrios);
       syncSingleLayer(equipamientosLayer, layerVisibility.equipamientos);
       syncSingleLayer(window.strategicParkIsoLayer, layerVisibility.parquesEstrategicos);
-      syncSingleLayer(window.strategicParkPointsLayer, layerVisibility.parquesEstrategicos);
+      syncSingleLayer(window.strategicParkPointsLayer, getStrategicParkPointsVisible());
       syncSingleLayer(isocronaPolygonLayer, layerVisibility.isocronasColindantes);
       syncSingleLayer(isocronaNetworkLayer, layerVisibility.redVial1000m);
       bringPointLayersToFront();
@@ -3356,11 +3437,34 @@
 
     function getStrategicParkScopedIsocronas() {
       if (!hasFocusedPlatformSelection()) {
-        return (window.strategicParkIsoFeatures || []).filter((feature) =>
+        const selectedFeatures = (window.strategicParkIsoFeatures || []).filter((feature) =>
           feature?.geometry &&
           feature?.properties &&
           isOwnStrategicParkSelection(feature)
         );
+
+        const recreacionBySourceId = new Map(
+          (window.recreacionIsocronasFeatures || [])
+            .filter((feature) => feature?.geometry && feature?.properties)
+            .map((feature) => [String(feature.properties.source_id || "").trim(), feature])
+        );
+
+        return selectedFeatures.map((feature) => {
+          const sourceId = String(feature?.properties?.source_id || "").trim();
+          const originalFeature = recreacionBySourceId.get(sourceId);
+          if (!originalFeature?.geometry) {
+            return feature;
+          }
+
+          return {
+            ...originalFeature,
+            properties: {
+              ...(originalFeature.properties || {}),
+              ...(feature.properties || {}),
+              __strategicParkFullGeometry: true
+            }
+          };
+        });
       }
 
       return (window.strategicParkIsoFeatures || []).filter((feature) =>
@@ -3436,6 +3540,10 @@
       for (const feature of getPlatformScopedEquipamientosFeatures()) {
         const category = getEquipamientoCategory(feature.properties);
         counts[category] = (counts[category] || 0) + 1;
+      }
+      const strategicCount = getStrategicParkCategoryFeatures().length;
+      if (strategicCount > 0) {
+        counts[STRATEGIC_PARK_CATEGORY] = strategicCount;
       }
 
       const categories = sortEquipamientoCategories(Object.keys(counts));
@@ -3584,17 +3692,18 @@
         { key: "recreacion", label: "Recreacion y deporte", isoVisible: layerVisibility.recreacionIsocronas },
         { key: "educacion", label: "Educacion", isoVisible: layerVisibility.educacionIsocronas },
         { key: "cultura", label: "Cultura", isoVisible: layerVisibility.culturaIsocronas },
-        { key: "salud", label: "Salud", isoVisible: layerVisibility.saludIsocronas }
+        { key: "salud", label: "Salud", isoVisible: layerVisibility.saludIsocronas },
+        { key: "strategic", label: STRATEGIC_PARK_CATEGORY, isoVisible: layerVisibility.parquesEstrategicos }
       ]
         .filter((entry) =>
           entry.isoVisible ||
-          (layerVisibility.equipamientos && selectedEquipamientoCategories.has(entry.label) && categoriesWithPoints.has(entry.label))
+          (selectedEquipamientoCategories.has(entry.label) && categoriesWithPoints.has(entry.label))
         )
         .map((entry) => ({
           ...entry,
           pointColor: getEquipamientoLegendDotBackground(entry.label),
-          barrialColor: getFocusedThematicColor(entry.key, "BARRIAL"),
-          zonalColor: getFocusedThematicColor(entry.key, "ZONAL")
+          barrialColor: entry.key === "strategic" ? strategicParkColors[1] : getFocusedThematicColor(entry.key, "BARRIAL"),
+          zonalColor: entry.key === "strategic" ? strategicParkColors[2] : getFocusedThematicColor(entry.key, "ZONAL")
         }));
     }
 
@@ -3622,15 +3731,21 @@
           uncovered: 0,
           themeVariantCounts: createEmptyFocusedThemeVariantCounts()
         };
+        const strategicLegendState = layerVisibility.parquesEstrategicos
+          ? buildCoverageStateForIsochrones(getCurrentFeatures(), getStrategicParkScopedIsocronas())
+          : null;
 
         legend.style.display = "";
         legend.innerHTML = `
           <div class="legend-section-title">Categorias activas</div>
           ${categoryEntries
           .map((entry) => {
-            const count =
-              Number(state.themeVariantCounts?.[entry.key]?.BARRIAL || 0) +
-              Number(state.themeVariantCounts?.[entry.key]?.ZONAL || 0);
+            const count = entry.key === "strategic"
+              ? Number(strategicLegendState?.covered || 0)
+              : (
+                Number(state.themeVariantCounts?.[entry.key]?.BARRIAL || 0) +
+                Number(state.themeVariantCounts?.[entry.key]?.ZONAL || 0)
+              );
             return `
             <div class="legend-row">
               <span class="legend-label">${entry.label}: ${formatNumber(count)} manzanas</span>
@@ -3704,6 +3819,102 @@
 
     function updateFocusedAnalysisCard() {
       if (!focusedAnalysisCard || !focusedAnalysisGrid || !focusedAnalysisTitle || !focusedAnalysisSubtitle) {
+        return;
+      }
+
+      if (currentPlatform === OUTSIDE_PLATFORMS) {
+        focusedAnalysisCard.hidden = true;
+        focusedAnalysisGrid.innerHTML = "";
+        focusedAnalysisExpandedKey = null;
+        return;
+      }
+
+      if (currentPlatform === ALL_PLATFORMS) {
+        const currentFeatures = getCurrentFeatures();
+        const currentSummary = getCurrentSummary() || platformSummary?.summary || null;
+        const totalPopulation = Number(
+          currentSummary?.population_total ??
+          currentSummary?.population_total_with_platform ??
+          platformSummary?.summary?.population_total_with_platform ??
+          0
+        );
+        const totalBlocks = Number(
+          currentSummary?.manzanas ??
+          currentSummary?.manzanas_assigned ??
+          platformSummary?.summary?.manzanas_assigned ??
+          currentFeatures.length
+        );
+        const platformBreakdown = buildPopulationBreakdownFromSummary(currentSummary, currentFeatures);
+        const strategicParkFeatures = layerVisibility.parquesEstrategicos ? getStrategicParkScopedIsocronas() : [];
+        const strategicParkState = buildCoverageStateForIsochrones(currentFeatures, strategicParkFeatures);
+        const strategicOriginSummary = summarizeIsochroneOrigins(strategicParkFeatures);
+        const strategicCoveragePercent = getPercentValue(strategicParkState.populationCovered || 0, totalPopulation);
+        const strategicUncoveredPercent = Math.max(0, 100 - strategicCoveragePercent);
+        const cards = [
+          {
+            key: "all_platform_total",
+            label: "Poblacion en plataformas",
+            value: `${formatNumber(totalPopulation)} hab`,
+            meta: `${formatNumber(totalBlocks)} manzanas censales dentro de plataformas`,
+            wide: true,
+            expandable: true,
+            breakdown: platformBreakdown
+          },
+          {
+            key: "all_platform_strategic_parks",
+            label: "Parque estrategico",
+            value: `${formatNumber(layerVisibility.parquesEstrategicos ? strategicParkState.populationCovered || 0 : 0)} hab`,
+            meta: layerVisibility.parquesEstrategicos
+              ? (
+                `${formatPercentValue(strategicCoveragePercent)} cubierto | ` +
+                `${formatNumber(strategicParkState.populationUncovered || 0)} hab no cubiertos | ` +
+                `${formatPercentValue(strategicUncoveredPercent)} no cubierto | ` +
+                `${formatNumber(strategicParkState.covered || 0)} manzanas | ` +
+                `${formatNumber(strategicParkFeatures.length)} isocronas`
+              )
+              : "Activa la capa de isocronas de parque estrategico para calcular la cobertura general.",
+            wide: true,
+            expandable: layerVisibility.parquesEstrategicos,
+            breakdown: layerVisibility.parquesEstrategicos
+              ? (strategicParkState.breakdownCovered || createEmptyPopulationBreakdown())
+              : createEmptyPopulationBreakdown()
+          }
+        ];
+
+        const visibleCardKeys = new Set(cards.map((card) => card.key).filter(Boolean));
+        if (focusedAnalysisExpandedKey && !visibleCardKeys.has(focusedAnalysisExpandedKey)) {
+          focusedAnalysisExpandedKey = null;
+        }
+
+        focusedAnalysisTitle.textContent = "Analisis general de cobertura";
+        focusedAnalysisSubtitle.textContent = layerVisibility.parquesEstrategicos
+          ? (
+            `Poblacion calculada desde manzanas censales dentro de las plataformas. ` +
+            `Coberturas de parque estrategico con origen dentro de la plataforma: ${formatNumber(strategicOriginSummary.internalSources.size)}. ` +
+            `Coberturas de parque estrategico desde otras plataformas: ${formatNumber(strategicOriginSummary.externalSources.size)}.`
+          )
+          : "Poblacion calculada desde manzanas censales dentro de las plataformas. Activa la capa de isocronas de parque estrategico para ver su cobertura total.";
+        focusedAnalysisGrid.innerHTML = cards
+          .map((card) => {
+            const expanded = card.expandable && card.key === focusedAnalysisExpandedKey;
+            return `
+          <article
+            class="analysis-item${card.wide ? " wide" : ""}${card.expandable ? " expandable" : ""}${expanded ? " expanded" : ""}"
+            ${card.key ? `data-analysis-key="${card.key}"` : ""}
+            ${card.expandable ? 'data-expandable="true" role="button" tabindex="0"' : ""}
+            ${card.expandable ? `aria-expanded="${expanded ? "true" : "false"}"` : ""}
+          >
+            <span>${card.label}</span>
+            <strong>${card.value}</strong>
+            <small>${card.meta}</small>
+            ${card.expandable ? `<em class="analysis-item-hint">${expanded ? "Ocultar detalle" : "Clic para ver detalle"}</em>` : ""}
+            ${expanded ? `<div class="analysis-breakdown">${renderAnalysisBreakdownRows(card.breakdown)}</div>` : ""}
+          </article>
+        `;
+          })
+          .join("");
+
+        focusedAnalysisCard.hidden = false;
         return;
       }
 
@@ -4092,7 +4303,7 @@
         map.getPane("equipamientosPane").style.zIndex = 760;
       }
 
-      const visibleFeatures = getVisibleEquipamientosFeatures();
+      const visibleFeatures = getVisibleStandardEquipamientosFeatures();
 
       equipamientosLayer = L.geoJSON(
         { type: "FeatureCollection", features: visibleFeatures },
@@ -5189,7 +5400,7 @@
         map.removeLayer(window.strategicParkPointsLayer);
       }
 
-      if (!layerVisibility.parquesEstrategicos) {
+      if (!getStrategicParkPointsVisible()) {
         window.strategicParkPointsLayer = null;
         return;
       }
@@ -5246,7 +5457,7 @@
         }
       );
 
-      syncSingleLayer(window.strategicParkPointsLayer, layerVisibility.parquesEstrategicos);
+      syncSingleLayer(window.strategicParkPointsLayer, getStrategicParkPointsVisible());
       bringPointLayersToFront();
     }
 
@@ -5260,8 +5471,9 @@
         return;
       }
 
+      const overviewMode = !hasFocusedPlatformSelection();
       const features = getStrategicParkScopedIsocronas()
-        .map(featureToExteriorBoundary)
+        .map((feature) => overviewMode ? feature : featureToExteriorBoundary(feature))
         .filter(Boolean)
         .sort((left, right) => Number(left?.properties?.selected_rank || 0) - Number(right?.properties?.selected_rank || 0));
 
@@ -5283,7 +5495,6 @@
           style: (feature) => {
             const color = getStrategicParkColor(feature);
             const rank = Number(feature?.properties?.selected_rank || 1);
-            const overviewMode = !hasFocusedPlatformSelection();
             return {
               color,
               weight: overviewMode ? (rank === 1 ? 3.8 : 3.2) : (rank === 1 ? 3.3 : 2.8),
@@ -7272,12 +7483,14 @@
       ensureEquipamientoCategoriesInitialized();
       selectedEquipamientoCategories = new Set(allEquipamientoCategories);
       renderEquipamientosLayer();
+      renderStrategicParkPointsLayer();
       schedulePlatformUiRefresh();
     });
 
     clearCategoriesButton.addEventListener("click", () => {
       selectedEquipamientoCategories = new Set();
       renderEquipamientosLayer();
+      renderStrategicParkPointsLayer();
       schedulePlatformUiRefresh();
     });
 
@@ -7306,6 +7519,7 @@
       }
 
       renderEquipamientosLayer();
+      renderStrategicParkPointsLayer();
       schedulePlatformUiRefresh();
     });
 
@@ -7435,7 +7649,6 @@
     toggleParquesEstrategicos.addEventListener("change", () => {
       layerVisibility.parquesEstrategicos = toggleParquesEstrategicos.checked;
       renderStrategicParkIsoLayer();
-      renderStrategicParkPointsLayer();
       schedulePlatformUiRefresh();
     });
 
