@@ -399,7 +399,7 @@
   ></script>
   <script>
     const DOWNLOAD_FILE_NAME = "riobamba-poligono-referencia.geojson";
-    const DATA_VERSION = "20260819-isocronas-200-500";
+    const DATA_VERSION = "20260819-isocronas-200-500-limite-exterior";
     const ISOCHRONE_DATA_URL = `./data/riobamba-poligono-isocronas.geojson?v=${DATA_VERSION}`;
     const ISOCHRONE_STATS_URL = `./data/riobamba-poligono-isocronas-stats.json?v=${DATA_VERSION}`;
     const polygonData = {
@@ -793,7 +793,7 @@
       fitMapToVisibleData();
       updateOverlayForPolygon();
 
-      setStatus("Cargando isocronas 200 m y 500 m del poligono...");
+      setStatus("Cargando isocronas 200 m y 500 m desde el limite exterior del poligono...");
 
       try {
         const [isochronesResponse, statsResponse] = await Promise.all([
@@ -816,7 +816,7 @@
         syncVisibleLayers();
         fitMapToVisibleData();
 
-        setStatus(`Listo. Isocronas 200 m y 500 m cargadas. Version ${DATA_VERSION}.`);
+        setStatus(`Listo. Isocronas 200 m y 500 m desde el limite exterior cargadas. Version ${DATA_VERSION}.`);
       } catch (error) {
         console.error(error);
         setStatus(`Se cargó el poligono base, pero falló la carga de isocronas. Version ${DATA_VERSION}.`);

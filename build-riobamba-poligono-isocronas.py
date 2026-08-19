@@ -2,7 +2,7 @@ import datetime as dt
 import importlib.util
 from pathlib import Path
 
-from shapely.geometry import shape
+from shapely.geometry import GeometryCollection, LineString, MultiLineString, shape
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -16,6 +16,7 @@ OUTPUT_STATS = DATA_DIR / "riobamba-poligono-isocronas-stats.json"
 
 DISTANCES_METERS = [200, 500]
 SEARCH_BUFFER_METERS = 1400
+OUTSIDE_CLIP_BUFFER_METERS = 0.75
 
 
 def load_helper_module():
@@ -80,25 +81,68 @@ def summarize_snap(projected_sources):
     return average_snap_m, p95_snap_m, max_snap_m
 
 
-def build_distance_outputs(helper, graph, projected_sources, manzana_features, manzana_stats_by_id, polygon_name, distance_m):
+def iter_line_parts(geometry):
+    if geometry.is_empty:
+        return
+    if isinstance(geometry, LineString):
+        yield geometry
+        return
+    if isinstance(geometry, MultiLineString):
+        for part in geometry.geoms:
+            if not part.is_empty and part.length > 0:
+                yield part
+        return
+    if isinstance(geometry, GeometryCollection):
+        for part in geometry.geoms:
+            yield from iter_line_parts(part)
+        return
+    if hasattr(geometry, "geoms"):
+        for part in geometry.geoms:
+            yield from iter_line_parts(part)
+
+
+def clip_segments_to_outside(segments, exclusion_polygon):
+    clipped_segments = []
+    for segment in segments:
+        difference = segment.difference(exclusion_polygon)
+        for part in iter_line_parts(difference):
+            if part.length > 0:
+                clipped_segments.append(part)
+    return clipped_segments
+
+
+def build_distance_outputs(
+    helper,
+    graph,
+    projected_sources,
+    manzana_features,
+    manzana_stats_by_id,
+    polygon_name,
+    polygon_geom_utm,
+    distance_m,
+):
     reachable = helper.multi_source_reachable(graph, projected_sources, distance_m)
     segments, total_length = helper.build_reachable_segments(graph, reachable, distance_m)
+    exclusion_polygon = polygon_geom_utm.buffer(OUTSIDE_CLIP_BUFFER_METERS)
+    segments_outside = clip_segments_to_outside(segments, exclusion_polygon)
+    total_length_outside = sum(segment.length for segment in segments_outside)
     source_points = [source["projected_xy"] for source in projected_sources]
-    base_polygon = helper.build_isochrone_polygon(segments, source_points)
+    base_polygon = helper.build_isochrone_polygon(segments_outside, source_points)
     exact_polygon = base_polygon.buffer(0)
     if exact_polygon.is_empty:
         exact_polygon = base_polygon
+    exact_polygon = exact_polygon.difference(exclusion_polygon).buffer(0)
 
     aligned_polygon, covered_manzanas = helper.align_polygon_to_manzanas(manzana_features, exact_polygon)
     population_total = helper.population_total_for_manzanas(covered_manzanas, manzana_stats_by_id)
-    network_geom = helper.normalize_multilines(segments)
+    network_geom = helper.normalize_multilines(segments_outside)
 
     return {
         "distance_m": distance_m,
         "reachable": reachable,
-        "segments": segments,
+        "segments": segments_outside,
         "network_geom": network_geom,
-        "total_length": total_length,
+        "total_length": total_length_outside,
         "exact_polygon": exact_polygon,
         "aligned_polygon": aligned_polygon,
         "covered_manzanas": covered_manzanas,
@@ -150,18 +194,19 @@ def main():
             manzanas_data["features"],
             manzana_stats_by_id,
             polygon_name,
+            polygon_geom_utm,
             distance_m,
         )
 
         isochrone_feature = helper.build_polygon_feature(
             result["exact_polygon"],
             {
-                "nombre": f"Isocrona exacta de red {distance_m} m desde el borde de {polygon_name}",
+                "nombre": f"Isocrona exacta de red {distance_m} m desde el limite exterior de {polygon_name}",
                 "target_name": polygon_name,
                 "target_platform": polygon_name,
                 "distance_m": distance_m,
                 "mode": "walking",
-                "source_type": "polygon_boundary",
+                "source_type": "polygon_boundary_outer",
                 "boundary_samples": len(sampled_boundary_points),
                 "source_nodes": source_node_count,
                 "snap_promedio_m": average_snap_m,
@@ -181,12 +226,12 @@ def main():
         network_feature = helper.build_line_feature(
             result["network_geom"],
             {
-                "nombre": f"Red vial OSM alcanzable a {distance_m} m desde el borde de {polygon_name}",
+                "nombre": f"Red vial OSM alcanzable a {distance_m} m desde el limite exterior de {polygon_name}",
                 "target_name": polygon_name,
                 "target_platform": polygon_name,
                 "distance_m": distance_m,
                 "mode": "walking",
-                "source_type": "polygon_boundary",
+                "source_type": "polygon_boundary_outer",
                 "boundary_samples": len(sampled_boundary_points),
                 "source_nodes": source_node_count,
                 "snap_promedio_m": average_snap_m,
@@ -202,7 +247,7 @@ def main():
             "target_name": polygon_name,
             "distance_m": distance_m,
             "mode": "walking",
-            "source_type": "polygon_boundary",
+            "source_type": "polygon_boundary_outer",
             "boundary_samples": len(sampled_boundary_points),
             "source_nodes": source_node_count,
             "snap_promedio_m": average_snap_m,
@@ -217,7 +262,7 @@ def main():
             "area_poligono_manzanas_m2": round(result["aligned_polygon"].area, 2),
             "area_poligono_m2": round(result["exact_polygon"].area, 2),
             "network_source": network_source,
-            "source": "OpenStreetMap peatonal + proyeccion del borde del poligono a la red + descuento del acceso hasta la via + referencia de cobertura contra manzanas censales",
+            "source": "OpenStreetMap peatonal + proyeccion del limite del poligono a la red + recorte para conservar solo cobertura exterior + referencia de cobertura contra manzanas censales",
         }
 
         isochrone_features.append(isochrone_feature)
@@ -230,7 +275,7 @@ def main():
         {
             "generated_at": generated_at,
             "target_name": polygon_name,
-            "source_type": "polygon_boundary",
+            "source_type": "polygon_boundary_outer",
             "boundary_samples": len(sampled_boundary_points),
             "source_nodes": source_node_count,
             "network_source": network_source,
