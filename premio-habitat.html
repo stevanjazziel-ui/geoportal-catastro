@@ -282,8 +282,8 @@
       <section class="panel">
         <h2>Descargas</h2>
         <div class="actions">
-          <button id="downloadIso200Button" type="button">Nodos en isocrona 200 m</button>
-          <button id="downloadIso500Button" type="button">Nodos en isocrona 500 m</button>
+          <button id="downloadIso200Button" type="button">Descargar SHP 200 m</button>
+          <button id="downloadIso500Button" type="button">Descargar SHP 500 m</button>
         </div>
       </section>
     </aside>
@@ -302,8 +302,9 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""
   ></script>
+  <script src="https://unpkg.com/@mapbox/shp-write@0.4.3/shpwrite.js"></script>
   <script>
-    const DATA_VERSION = "20260819-premio-habitat-v3-isocronas-homogeneas-descargas";
+    const DATA_VERSION = "20260819-premio-habitat-v4-descarga-shp";
     const DATA_BASE = `./data/premio-habitat`;
     const URLS = {
       metadata: `${DATA_BASE}/premio-habitat-metadata.json?v=${DATA_VERSION}`,
@@ -509,6 +510,62 @@
       return JSON.parse(JSON.stringify(feature));
     }
 
+    function normalizeShapefileFieldName(name, usedNames) {
+      const ascii = String(name || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^A-Za-z0-9_]/g, "_")
+        .replace(/_+/g, "_")
+        .replace(/^_+|_+$/g, "")
+        .toUpperCase();
+
+      const baseName = (ascii || "FIELD").slice(0, 10);
+      let candidate = baseName;
+      let suffix = 1;
+      while (usedNames.has(candidate)) {
+        const suffixText = String(suffix);
+        candidate = `${baseName.slice(0, Math.max(0, 10 - suffixText.length))}${suffixText}`;
+        suffix += 1;
+      }
+      usedNames.add(candidate);
+      return candidate;
+    }
+
+    function buildShapefilePropertyMap(features) {
+      const keyMap = new Map();
+      const usedNames = new Set();
+      for (const feature of features) {
+        const properties = feature?.properties || {};
+        for (const key of Object.keys(properties)) {
+          if (!keyMap.has(key)) {
+            keyMap.set(key, normalizeShapefileFieldName(key, usedNames));
+          }
+        }
+      }
+      return keyMap;
+    }
+
+    function toShapefileFeatureCollection(features, fileBaseName) {
+      const keyMap = buildShapefilePropertyMap(features);
+      return {
+        type: "FeatureCollection",
+        features: features.map((feature) => {
+          const cloned = cloneFeature(feature);
+          const sourceProperties = cloned.properties || {};
+          const shapefileProperties = {};
+          for (const [sourceKey, shortKey] of keyMap.entries()) {
+            shapefileProperties[shortKey] = sourceProperties[sourceKey] ?? null;
+          }
+          cloned.properties = shapefileProperties;
+          return cloned;
+        }),
+        metadata: {
+          export_name: fileBaseName,
+          field_map: Object.fromEntries(keyMap.entries())
+        }
+      };
+    }
+
     function updateDetailRows(rows) {
       detailRows.innerHTML = rows.map((row) => {
         return `<div class="mini-row"><span>${row.label}</span><strong>${row.value}</strong></div>`;
@@ -711,9 +768,9 @@
       return cloned;
     }
 
-    function downloadGeoJson(filename, payload) {
-      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/geo+json;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
+    function downloadBlob(filename, blob, mimeType) {
+      const safeBlob = blob instanceof Blob ? blob : new Blob([blob], { type: mimeType || "application/octet-stream" });
+      const url = URL.createObjectURL(safeBlob);
       const anchor = document.createElement("a");
       anchor.href = url;
       anchor.download = filename;
@@ -723,30 +780,42 @@
       URL.revokeObjectURL(url);
     }
 
-    function downloadNodesWithinIsochrone(distanceM) {
+    async function downloadNodesWithinIsochrone(distanceM) {
+      if (typeof shpwrite === "undefined" || typeof shpwrite.zip !== "function") {
+        setStatus("Error de descarga", "No fue posible cargar el generador de shapefile para esta vista.");
+        return;
+      }
+
       const nodes = collectNodesWithinIsochrone(distanceM);
       if (!nodes.all.length) {
         setStatus("Descarga vacía", `No se encontraron nodos principales o secundarios dentro de la isocrona ${distanceM} m.`);
         return;
       }
 
-      const payload = {
-        type: "FeatureCollection",
-        name: `premio_habitat_nodos_isocrona_${distanceM}m`,
-        properties: {
-          isocrona_m: distanceM,
-          total_nodos: nodes.all.length,
-          nodos_principales: nodes.primary.length,
-          nodos_secundarios: nodes.secondary.length
-        },
-        features: nodes.all.map((item) => buildDownloadFeature(item.feature, item.nodeGroup, distanceM))
-      };
+      const fileBaseName = `premio_habitat_nodos_isocrona_${distanceM}m`;
+      const exportFeatures = nodes.all.map((item) => buildDownloadFeature(item.feature, item.nodeGroup, distanceM));
+      const shapefileCollection = toShapefileFeatureCollection(exportFeatures, fileBaseName);
 
-      downloadGeoJson(`premio-habitat-nodos-isocrona-${distanceM}m.geojson`, payload);
-      setStatus(
-        "Descarga generada",
-        `Se descargaron ${nodes.all.length} nodos dentro de la isocrona ${distanceM} m (${nodes.primary.length} principales y ${nodes.secondary.length} secundarios).`
-      );
+      try {
+        const zipBlob = shpwrite.zip(shapefileCollection, {
+          folder: fileBaseName,
+          filename: fileBaseName,
+          outputType: "blob",
+          compression: "STORE",
+          types: {
+            point: fileBaseName
+          }
+        });
+
+        downloadBlob(`${fileBaseName}.zip`, zipBlob, "application/zip");
+        setStatus(
+          "Shapefile generado",
+          `Se descargó ${fileBaseName}.zip con ${nodes.all.length} nodos (${nodes.primary.length} principales y ${nodes.secondary.length} secundarios).`
+        );
+      } catch (error) {
+        console.error(error);
+        setStatus("Error de descarga", `No fue posible generar el shapefile de la isocrona ${distanceM} m.`);
+      }
     }
 
     function buildIsochroneBoundaryFeature(feature) {
