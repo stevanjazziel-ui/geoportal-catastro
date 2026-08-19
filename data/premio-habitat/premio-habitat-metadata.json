@@ -1,0 +1,78 @@
+{
+  "generated_at": "2026-08-18T22:47:37",
+  "source_crs": "EPSG:32717",
+  "target_crs": "EPSG:4326",
+  "bounds": [
+    -78.69626,
+    -1.693944,
+    -78.628722,
+    -1.627183
+  ],
+  "layers": {
+    "poligono_intervencion": {
+      "key": "poligono_intervencion",
+      "label": "Poligono de intervencion",
+      "feature_count": 2,
+      "bounds": [
+        -78.655515,
+        -1.675527,
+        -78.645446,
+        -1.664227
+      ],
+      "line_length_m": 0,
+      "output": "premio-habitat-poligono-intervencion.geojson"
+    },
+    "nodos_principales": {
+      "key": "nodos_principales",
+      "label": "Nodos principales",
+      "feature_count": 46,
+      "bounds": [
+        -78.69626,
+        -1.693944,
+        -78.628722,
+        -1.627183
+      ],
+      "line_length_m": 0,
+      "output": "premio-habitat-nodos-principales.geojson"
+    },
+    "nodos_secundarios": {
+      "key": "nodos_secundarios",
+      "label": "Nodos secundarios",
+      "feature_count": 69,
+      "bounds": [
+        -78.695126,
+        -1.68938,
+        -78.6319,
+        -1.634652
+      ],
+      "line_length_m": 0,
+      "output": "premio-habitat-nodos-secundarios.geojson"
+    },
+    "boulevares": {
+      "key": "boulevares",
+      "label": "Boulevares",
+      "feature_count": 18,
+      "bounds": [
+        -78.679743,
+        -1.689077,
+        -78.635971,
+        -1.660764
+      ],
+      "line_length_m": 20503.11,
+      "output": "premio-habitat-boulevares.geojson"
+    },
+    "conexiones": {
+      "key": "conexiones",
+      "label": "Conexiones",
+      "feature_count": 20,
+      "bounds": [
+        -78.679456,
+        -1.690203,
+        -78.629902,
+        -1.646094
+      ],
+      "line_length_m": 26769.74,
+      "output": "premio-habitat-conexiones.geojson"
+    }
+  }
+}

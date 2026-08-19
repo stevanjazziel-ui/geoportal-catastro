@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Premio Habitat | Nodos y Boulevares</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <style>
+    :root {
+      --bg: #eef2ed;
+      --bg-2: #dce5dd;
+      --panel: rgba(248, 250, 246, 0.96);
+      --panel-2: rgba(240, 244, 238, 0.96);
+      --line: rgba(95, 109, 99, 0.2);
+      --text: #223029;
+      --muted: #617168;
+      --accent: #277a52;
+      --accent-2: #ce7b2d;
+      --accent-3: #4a7ea8;
+      --accent-4: #596f7f;
+      --shadow: 0 18px 36px rgba(62, 78, 59, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(74, 126, 168, 0.1), transparent 26%),
+        radial-gradient(circle at 88% 10%, rgba(39, 122, 82, 0.08), transparent 18%),
+        linear-gradient(180deg, #eef3ee, #dae3db);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      height: 100dvh;
+    }
+
+    .sidebar {
+      overflow-y: auto;
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(243, 247, 242, 0.98), rgba(229, 236, 228, 0.98));
+      border-right: 1px solid var(--line);
+    }
+
+    .panel {
+      margin-bottom: 14px;
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    h1, h2, p { margin: 0; }
+    h1 { font-size: 1.9rem; margin-bottom: 8px; line-height: 1.08; }
+    h2 { font-size: 0.95rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+    p { color: var(--muted); line-height: 1.5; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .card {
+      padding: 12px;
+      border-radius: 14px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+    }
+
+    .card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+    }
+
+    .card strong {
+      display: block;
+      font-size: 1.18rem;
+      line-height: 1.15;
+    }
+
+    .layer-toggles,
+    .mini-list,
+    .legend {
+      display: grid;
+      gap: 10px;
+    }
+
+    .layer-toggle,
+    .mini-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+    }
+
+    .layer-toggle span,
+    .mini-row span {
+      color: var(--text);
+      font-size: 0.96rem;
+    }
+
+    .layer-toggle input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent-3);
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .mini-row strong {
+      color: var(--text);
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+    }
+
+    .legend-swatch {
+      width: 18px;
+      height: 12px;
+      border-radius: 4px;
+      border: 1px solid rgba(64, 84, 62, 0.22);
+      flex: 0 0 auto;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    button,
+    .link-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid rgba(74, 126, 168, 0.28);
+      border-radius: 12px;
+      background:
+        linear-gradient(135deg, rgba(39, 122, 82, 0.15), rgba(74, 126, 168, 0.12)),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0));
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+    }
+
+    button:hover,
+    .link-button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(39, 122, 82, 0.34);
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+      background: #d8ddd8;
+    }
+
+    .map-wrap {
+      position: relative;
+      min-width: 0;
+    }
+
+    .status {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      z-index: 500;
+      max-width: min(360px, calc(100% - 36px));
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(248, 250, 246, 0.94);
+      border: 1px solid rgba(95, 109, 99, 0.18);
+      color: var(--muted);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .status strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+
+      .sidebar {
+        max-height: none;
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .map-wrap {
+        height: 64dvh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <section class="panel">
+        <h1>Premio Habitat</h1>
+        <p>
+          Visor operativo para revisar el polígono de intervención y las capas de nodos principales,
+          nodos secundarios, boulevares y conexiones entregadas para Riobamba.
+        </p>
+      </section>
+
+      <section class="panel">
+        <h2>Resumen</h2>
+        <div class="stats" id="summaryCards"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Capas</h2>
+        <div class="layer-toggles">
+          <label class="layer-toggle"><span>Polígono de intervención</span><input id="togglePolygon" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Nodos principales</span><input id="togglePrimary" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Nodos secundarios</span><input id="toggleSecondary" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Boulevares</span><input id="toggleBoulevards" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Conexiones</span><input id="toggleConnections" type="checkbox" checked></label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Detalle</h2>
+        <div class="mini-list" id="detailRows">
+          <div class="mini-row"><span>Estado</span><strong>Cargando capas...</strong></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Referencia</h2>
+        <div class="legend" id="legend"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Acciones</h2>
+        <div class="actions">
+          <button id="fitButton" type="button">Ajustar vista</button>
+          <a class="link-button" href="./index.html">Volver al inicio</a>
+        </div>
+      </section>
+    </aside>
+
+    <section class="map-wrap">
+      <div id="map"></div>
+      <div class="status">
+        <strong id="statusTitle">Premio Habitat</strong>
+        <div id="statusText">Cargando capas territoriales...</div>
+      </div>
+    </section>
+  </div>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+  <script>
+    const DATA_VERSION = "20260819-premio-habitat-v1";
+    const DATA_BASE = `./data/premio-habitat`;
+    const URLS = {
+      metadata: `${DATA_BASE}/premio-habitat-metadata.json?v=${DATA_VERSION}`,
+      polygon: `${DATA_BASE}/premio-habitat-poligono-intervencion.geojson?v=${DATA_VERSION}`,
+      primary: `${DATA_BASE}/premio-habitat-nodos-principales.geojson?v=${DATA_VERSION}`,
+      secondary: `${DATA_BASE}/premio-habitat-nodos-secundarios.geojson?v=${DATA_VERSION}`,
+      boulevards: `${DATA_BASE}/premio-habitat-boulevares.geojson?v=${DATA_VERSION}`,
+      connections: `${DATA_BASE}/premio-habitat-conexiones.geojson?v=${DATA_VERSION}`
+    };
+
+    const map = L.map("map", { zoomControl: true, preferCanvas: true });
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      attribution: '&copy; OpenStreetMap &copy; CARTO',
+      maxZoom: 20
+    }).addTo(map);
+
+    const summaryCards = document.getElementById("summaryCards");
+    const detailRows = document.getElementById("detailRows");
+    const legend = document.getElementById("legend");
+    const statusTitle = document.getElementById("statusTitle");
+    const statusText = document.getElementById("statusText");
+    const fitButton = document.getElementById("fitButton");
+
+    const togglePolygon = document.getElementById("togglePolygon");
+    const togglePrimary = document.getElementById("togglePrimary");
+    const toggleSecondary = document.getElementById("toggleSecondary");
+    const toggleBoulevards = document.getElementById("toggleBoulevards");
+    const toggleConnections = document.getElementById("toggleConnections");
+
+    const layerState = {
+      polygon: null,
+      primary: null,
+      secondary: null,
+      boulevards: null,
+      connections: null
+    };
+
+    let metadata = null;
+
+    function formatNumber(value, decimals = 0) {
+      if (!Number.isFinite(Number(value))) {
+        return "0";
+      }
+      return Number(value).toLocaleString("es-EC", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      });
+    }
+
+    function setStatus(title, text) {
+      statusTitle.textContent = title;
+      statusText.textContent = text;
+    }
+
+    function syncLayer(layer, visible) {
+      if (!layer) {
+        return;
+      }
+      if (visible && !map.hasLayer(layer)) {
+        layer.addTo(map);
+      }
+      if (!visible && map.hasLayer(layer)) {
+        map.removeLayer(layer);
+      }
+    }
+
+    function syncVisibleLayers() {
+      syncLayer(layerState.polygon, togglePolygon.checked);
+      syncLayer(layerState.primary, togglePrimary.checked);
+      syncLayer(layerState.secondary, toggleSecondary.checked);
+      syncLayer(layerState.boulevards, toggleBoulevards.checked);
+      syncLayer(layerState.connections, toggleConnections.checked);
+    }
+
+    function fitToVisibleLayers() {
+      const layers = Object.values(layerState).filter((layer) => layer && map.hasLayer(layer));
+      const bounds = L.latLngBounds([]);
+      for (const layer of layers) {
+        if (layer.getBounds) {
+          bounds.extend(layer.getBounds());
+        }
+      }
+      if (bounds.isValid()) {
+        map.fitBounds(bounds, { padding: [36, 36], maxZoom: 15 });
+      }
+    }
+
+    function getProp(properties, candidates) {
+      for (const key of candidates) {
+        if (properties && Object.prototype.hasOwnProperty.call(properties, key) && properties[key] !== null && properties[key] !== "") {
+          return properties[key];
+        }
+      }
+      return null;
+    }
+
+    function updateDetailRows(rows) {
+      detailRows.innerHTML = rows.map((row) => {
+        return `<div class="mini-row"><span>${row.label}</span><strong>${row.value}</strong></div>`;
+      }).join("");
+    }
+
+    function buildLegend() {
+      legend.innerHTML = `
+        <div class="legend-row"><span class="legend-swatch" style="background:rgba(101, 222, 214, 0.22);border-color:rgba(39, 122, 82, 0.72);"></span><span>Polígono de intervención</span></div>
+        <div class="legend-row"><span class="legend-swatch" style="background:#ce7b2d;border-color:#ce7b2d;"></span><span>Nodos principales</span></div>
+        <div class="legend-row"><span class="legend-swatch" style="background:#4a7ea8;border-color:#4a7ea8;"></span><span>Nodos secundarios</span></div>
+        <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:0;border-top:3px solid #277a52;"></span><span>Boulevares</span></div>
+        <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:0;border-top:3px dashed #596f7f;"></span><span>Conexiones</span></div>
+      `;
+    }
+
+    function buildSummary() {
+      const layers = metadata?.layers || {};
+      const primaryCount = layers.nodos_principales?.feature_count || 0;
+      const secondaryCount = layers.nodos_secundarios?.feature_count || 0;
+      const boulevardsLengthKm = (layers.boulevares?.line_length_m || 0) / 1000;
+      const connectionsLengthKm = (layers.conexiones?.line_length_m || 0) / 1000;
+
+      summaryCards.innerHTML = `
+        <div class="card"><span>Nodos principales</span><strong>${formatNumber(primaryCount)}</strong></div>
+        <div class="card"><span>Nodos secundarios</span><strong>${formatNumber(secondaryCount)}</strong></div>
+        <div class="card"><span>Boulevares km</span><strong>${formatNumber(boulevardsLengthKm, 2)}</strong></div>
+        <div class="card"><span>Conexiones km</span><strong>${formatNumber(connectionsLengthKm, 2)}</strong></div>
+      `;
+    }
+
+    function showOverviewDetail() {
+      updateDetailRows([
+        { label: "Polígono", value: formatNumber(metadata?.layers?.poligono_intervencion?.feature_count || 0) },
+        { label: "Principales", value: formatNumber(metadata?.layers?.nodos_principales?.feature_count || 0) },
+        { label: "Secundarios", value: formatNumber(metadata?.layers?.nodos_secundarios?.feature_count || 0) },
+        { label: "Boulevares", value: `${formatNumber(metadata?.layers?.boulevares?.line_length_m || 0, 2)} m` },
+        { label: "Conexiones", value: `${formatNumber(metadata?.layers?.conexiones?.line_length_m || 0, 2)} m` }
+      ]);
+      setStatus("Premio Habitat", "Capas cargadas. Haz clic en una entidad para revisar su detalle.");
+    }
+
+    function onPolygonClick(feature) {
+      const props = feature.properties || {};
+      updateDetailRows([
+        { label: "Capa", value: "Polígono de intervención" },
+        { label: "Id", value: formatNumber(props.Id || 0) },
+        { label: "Coordenada", value: props.coord || "Sin dato" }
+      ]);
+      setStatus("Polígono de intervención", "Área base para ubicar la intervención territorial del módulo Premio Habitat.");
+    }
+
+    function onPrimaryNodeClick(feature) {
+      const props = feature.properties || {};
+      updateDetailRows([
+        { label: "Nombre", value: getProp(props, ["Nombre", "NOMBRE"]) || "Sin nombre" },
+        { label: "Tipo", value: getProp(props, ["Tipo", "TIPO_", "TIPO"]) || "Sin dato" },
+        { label: "Jerarquía", value: getProp(props, ["Jerarquía", "Jerarquia", "JerarquÃ­a", "Jerarquía", "JERARQUIA"]) || "Sin dato" },
+        { label: "Propuesto", value: getProp(props, ["Propuesto", "PROPUESTO"]) || "No" },
+        { label: "Nodo", value: formatNumber(getProp(props, ["Num", "NUM"]) || 0) }
+      ]);
+      setStatus("Nodo principal", getProp(props, ["Nombre", "NOMBRE"]) || "Nodo principal");
+    }
+
+    function onSecondaryNodeClick(feature) {
+      const props = feature.properties || {};
+      updateDetailRows([
+        { label: "Nombre", value: getProp(props, ["NOMBRE", "Nombre"]) || "Sin nombre" },
+        { label: "Tipo", value: getProp(props, ["TIPO_", "TIPO", "Tipo"]) || "Sin dato" },
+        { label: "Jerarquía", value: getProp(props, ["JERARQUIA", "Jerarquía", "Jerarquia"]) || "Sin dato" },
+        { label: "Propuesto", value: getProp(props, ["PROPUESTO", "Propuesto"]) || "No" },
+        { label: "Nodo", value: formatNumber(getProp(props, ["Num", "NUM"]) || 0) }
+      ]);
+      setStatus("Nodo secundario", getProp(props, ["NOMBRE", "Nombre"]) || "Nodo secundario");
+    }
+
+    function onBoulevardClick(feature) {
+      const props = feature.properties || {};
+      updateDetailRows([
+        { label: "Nombre", value: getProp(props, ["Nombre", "NOMBRE"]) || "Sin nombre" },
+        { label: "Tipología", value: getProp(props, ["TIPOLOGIA"]) || "Sin dato" },
+        { label: "Sistema", value: getProp(props, ["SISTEMA_B"]) || "Sin dato" },
+        { label: "Corredor", value: getProp(props, ["CORREDOR"]) || "Sin dato" },
+        { label: "Longitud", value: `${formatNumber(getProp(props, ["Shape_Length", "Shape_Leng"]) || 0, 2)} m` }
+      ]);
+      setStatus("Boulevard", getProp(props, ["Nombre", "NOMBRE"]) || "Boulevard");
+    }
+
+    function onConnectionClick(feature) {
+      const props = feature.properties || {};
+      updateDetailRows([
+        { label: "Nombre", value: getProp(props, ["NOMBRE", "Nombre"]) || "Sin nombre" },
+        { label: "Longitud", value: `${formatNumber(getProp(props, ["Shape_Length"]) || 0, 2)} m` },
+        { label: "Tipo", value: "Conector secundario" }
+      ]);
+      setStatus("Conexión", getProp(props, ["NOMBRE", "Nombre"]) || "Conector secundario");
+    }
+
+    function buildPolygonLayer(data) {
+      return L.geoJSON(data, {
+        style: {
+          color: "#277a52",
+          weight: 2.6,
+          fillColor: "#65ded6",
+          fillOpacity: 0.18
+        },
+        onEachFeature(feature, layer) {
+          layer.bindPopup("<strong>Polígono de intervención</strong>");
+          layer.on("click", () => onPolygonClick(feature));
+        }
+      });
+    }
+
+    function buildPrimaryNodesLayer(data) {
+      return L.geoJSON(data, {
+        pointToLayer(feature, latlng) {
+          return L.circleMarker(latlng, {
+            radius: 7,
+            color: "#915115",
+            weight: 2,
+            fillColor: "#ce7b2d",
+            fillOpacity: 0.95
+          });
+        },
+        onEachFeature(feature, layer) {
+          const props = feature.properties || {};
+          layer.bindPopup(`<strong>${getProp(props, ["Nombre", "NOMBRE"]) || "Nodo principal"}</strong>`);
+          layer.on("click", () => onPrimaryNodeClick(feature));
+        }
+      });
+    }
+
+    function buildSecondaryNodesLayer(data) {
+      return L.geoJSON(data, {
+        pointToLayer(feature, latlng) {
+          return L.circleMarker(latlng, {
+            radius: 5.2,
+            color: "#31556f",
+            weight: 1.6,
+            fillColor: "#4a7ea8",
+            fillOpacity: 0.9
+          });
+        },
+        onEachFeature(feature, layer) {
+          const props = feature.properties || {};
+          layer.bindPopup(`<strong>${getProp(props, ["NOMBRE", "Nombre"]) || "Nodo secundario"}</strong>`);
+          layer.on("click", () => onSecondaryNodeClick(feature));
+        }
+      });
+    }
+
+    function buildBoulevardsLayer(data) {
+      return L.geoJSON(data, {
+        style: {
+          color: "#277a52",
+          weight: 3.4,
+          opacity: 0.95,
+          lineCap: "round",
+          lineJoin: "round"
+        },
+        onEachFeature(feature, layer) {
+          const props = feature.properties || {};
+          layer.bindPopup(`<strong>${getProp(props, ["Nombre", "NOMBRE"]) || "Boulevard"}</strong>`);
+          layer.on("click", () => onBoulevardClick(feature));
+        }
+      });
+    }
+
+    function buildConnectionsLayer(data) {
+      return L.geoJSON(data, {
+        style: {
+          color: "#596f7f",
+          weight: 2.8,
+          opacity: 0.92,
+          dashArray: "10 8",
+          lineCap: "round",
+          lineJoin: "round"
+        },
+        onEachFeature(feature, layer) {
+          const props = feature.properties || {};
+          layer.bindPopup(`<strong>${getProp(props, ["NOMBRE", "Nombre"]) || "Conexión"}</strong>`);
+          layer.on("click", () => onConnectionClick(feature));
+        }
+      });
+    }
+
+    async function loadJson(url) {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`No se pudo cargar ${url}`);
+      }
+      return response.json();
+    }
+
+    async function main() {
+      buildLegend();
+      setStatus("Premio Habitat", "Cargando nodos, boulevares y conexiones...");
+
+      try {
+        const [metadataData, polygonData, primaryData, secondaryData, boulevardsData, connectionsData] = await Promise.all([
+          loadJson(URLS.metadata),
+          loadJson(URLS.polygon),
+          loadJson(URLS.primary),
+          loadJson(URLS.secondary),
+          loadJson(URLS.boulevards),
+          loadJson(URLS.connections)
+        ]);
+
+        metadata = metadataData;
+        buildSummary();
+
+        layerState.polygon = buildPolygonLayer(polygonData);
+        layerState.primary = buildPrimaryNodesLayer(primaryData);
+        layerState.secondary = buildSecondaryNodesLayer(secondaryData);
+        layerState.boulevards = buildBoulevardsLayer(boulevardsData);
+        layerState.connections = buildConnectionsLayer(connectionsData);
+
+        syncVisibleLayers();
+        fitToVisibleLayers();
+        showOverviewDetail();
+      } catch (error) {
+        console.error(error);
+        updateDetailRows([{ label: "Estado", value: "Error de carga" }]);
+        setStatus("Error de carga", "No fue posible cargar una o más capas de Premio Habitat.");
+      }
+    }
+
+    [togglePolygon, togglePrimary, toggleSecondary, toggleBoulevards, toggleConnections].forEach((input) => {
+      input.addEventListener("change", () => {
+        syncVisibleLayers();
+        fitToVisibleLayers();
+      });
+    });
+
+    fitButton.addEventListener("click", fitToVisibleLayers);
+    main();
+  </script>
+</body>
+</html>
