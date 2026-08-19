@@ -1,0 +1,127 @@
+{
+  "type": "FeatureCollection",
+  "name": "premio_habitat_nodos_isocrona_200m",
+  "properties": {
+    "isocrona_m": 200,
+    "total_nodos": 5,
+    "nodos_principales": 2,
+    "nodos_secundarios": 3
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 0,
+        "Tipo": "CONCENTRACIÓN",
+        "Jerarquía": "PRINCIPAL",
+        "Propuesto": "SI",
+        "Nombre": "Parque Barriga",
+        "Num": 17,
+        "Nodo_Ciclo": 1,
+        "Terminal": null,
+        "grupo_nodo": "principal",
+        "isocrona_m": 200,
+        "origen_descarga": "premio-habitat"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65492433488905,
+          -1.66697659215881
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 0,
+        "Tipo": "TRANSICIÓN",
+        "Jerarquía": "PRINCIPAL",
+        "Propuesto": "SI",
+        "Nombre": "Plaza Alfaro",
+        "Num": 18,
+        "Nodo_Ciclo": 1,
+        "Terminal": 1,
+        "grupo_nodo": "principal",
+        "isocrona_m": 200,
+        "origen_descarga": "premio-habitat"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65420292883826,
+          -1.669474891840573
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 0,
+        "TIPO_": "INTERSECCION",
+        "JERARQUIA": "SECUNDARIA",
+        "PROPUESTO": null,
+        "NOMBRE": "GONZALO DAVALOS Y URUGUAY",
+        "Num": 16,
+        "Nodo_cicl": null,
+        "intersec": null,
+        "grupo_nodo": "secundario",
+        "isocrona_m": 200,
+        "origen_descarga": "premio-habitat"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65384001196101,
+          -1.664037424771583
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 0,
+        "TIPO_": "CONCENTRACION",
+        "JERARQUIA": "SECUNDARIO",
+        "PROPUESTO": null,
+        "NOMBRE": "CONCEJO PROVINCIAL",
+        "Num": 24,
+        "Nodo_cicl": 1,
+        "intersec": 1,
+        "grupo_nodo": "secundario",
+        "isocrona_m": 200,
+        "origen_descarga": "premio-habitat"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65307006175674,
+          -1.668824435836431
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 0,
+        "TIPO_": "INTERSECCION",
+        "JERARQUIA": "SECUNDARIA",
+        "PROPUESTO": null,
+        "NOMBRE": "CARABOBO ENTRE AV DANIEL LEON BORJA Y 10 DE AGOSTO",
+        "Num": 25,
+        "Nodo_cicl": 1,
+        "intersec": 1,
+        "grupo_nodo": "secundario",
+        "isocrona_m": 200,
+        "origen_descarga": "premio-habitat"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65330436677841,
+          -1.669880853632069
+        ]
+      }
+    }
+  ]
+}

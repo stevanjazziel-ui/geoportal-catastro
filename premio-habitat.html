@@ -302,15 +302,23 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""
   ></script>
-  <script src="https://unpkg.com/@mapbox/shp-write@0.4.3/shpwrite.js"></script>
   <script>
-    const DATA_VERSION = "20260819-premio-habitat-v4-descarga-shp";
+    const DATA_VERSION = "20260819-premio-habitat-v7-descarga-shp-precalculada";
     const DATA_BASE = `./data/premio-habitat`;
+    const SHAPEFILE_SCRIPT_URLS = [
+      "./assets/vendor/shpwrite-0.3.2.js",
+      "https://unpkg.com/shp-write@0.3.2/shpwrite.js",
+      "https://cdn.jsdelivr.net/npm/shp-write@0.3.2/shpwrite.js"
+    ];
     const URLS = {
       metadata: `${DATA_BASE}/premio-habitat-metadata.json?v=${DATA_VERSION}`,
       polygon: `${DATA_BASE}/premio-habitat-poligono-intervencion.geojson?v=${DATA_VERSION}`,
       referencePolygon: `./data/riobamba-poligono-referencia.geojson?v=${DATA_VERSION}`,
       isochrones: `./data/riobamba-poligono-isocronas.geojson?v=${DATA_VERSION}`,
+      isoNodes200: `${DATA_BASE}/premio-habitat-nodos-isocrona-200m.geojson?v=${DATA_VERSION}`,
+      isoNodes500: `${DATA_BASE}/premio-habitat-nodos-isocrona-500m.geojson?v=${DATA_VERSION}`,
+      isoNodes200Zip: `${DATA_BASE}/shp/premio-habitat-nodos-isocrona-200m.zip?v=${DATA_VERSION}`,
+      isoNodes500Zip: `${DATA_BASE}/shp/premio-habitat-nodos-isocrona-500m.zip?v=${DATA_VERSION}`,
       primary: `${DATA_BASE}/premio-habitat-nodos-principales.geojson?v=${DATA_VERSION}`,
       secondary: `${DATA_BASE}/premio-habitat-nodos-secundarios.geojson?v=${DATA_VERSION}`,
       boulevards: `${DATA_BASE}/premio-habitat-boulevares.geojson?v=${DATA_VERSION}`,
@@ -355,8 +363,10 @@
     let metadata = null;
     let referencePolygonFeature = null;
     let referenceIsochroneFeatures = [];
+    const isochroneNodeFeaturesByDistance = {};
     let primaryNodeFeatures = [];
     let secondaryNodeFeatures = [];
+    let shpwriteLoaderPromise = null;
 
     function formatNumber(value, decimals = 0) {
       if (!Number.isFinite(Number(value))) {
@@ -508,6 +518,68 @@
 
     function cloneFeature(feature) {
       return JSON.parse(JSON.stringify(feature));
+    }
+
+    function loadExternalScript(url) {
+      const selector = `script[data-shapefile-src="${url}"]`;
+      const existing = document.querySelector(selector);
+      if (existing) {
+        if (existing.dataset.loaded === "true") {
+          return Promise.resolve();
+        }
+        if (existing.dataset.failed === "true") {
+          return Promise.reject(new Error(`No fue posible cargar ${url}.`));
+        }
+        return new Promise((resolve, reject) => {
+          existing.addEventListener("load", () => resolve(), { once: true });
+          existing.addEventListener("error", () => reject(new Error(`No fue posible cargar ${url}.`)), { once: true });
+        });
+      }
+
+      return new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = url;
+        script.async = true;
+        script.dataset.shapefileSrc = url;
+        script.addEventListener("load", () => {
+          script.dataset.loaded = "true";
+          resolve();
+        }, { once: true });
+        script.addEventListener("error", () => {
+          script.dataset.failed = "true";
+          reject(new Error(`No fue posible cargar ${url}.`));
+        }, { once: true });
+        document.head.appendChild(script);
+      });
+    }
+
+    async function ensureShapefileLibrary() {
+      if (window.shpwrite && typeof window.shpwrite.zip === "function") {
+        return window.shpwrite;
+      }
+
+      if (!shpwriteLoaderPromise) {
+        shpwriteLoaderPromise = (async () => {
+          let lastError = null;
+          for (const url of SHAPEFILE_SCRIPT_URLS) {
+            try {
+              await loadExternalScript(url);
+              if (window.shpwrite && typeof window.shpwrite.zip === "function") {
+                return window.shpwrite;
+              }
+              lastError = new Error(`La librería cargada desde ${url} no expuso shpwrite.zip.`);
+            } catch (error) {
+              lastError = error;
+            }
+          }
+          throw lastError || new Error("No fue posible cargar el generador de shapefile.");
+        })().catch((error) => {
+          shpwriteLoaderPromise = null;
+          throw error;
+        });
+      }
+
+      return shpwriteLoaderPromise;
     }
 
     function normalizeShapefileFieldName(name, usedNames) {
@@ -733,7 +805,39 @@
       return referenceIsochroneFeatures.find((feature) => Number(feature?.properties?.distance_m) === Number(distanceM)) || null;
     }
 
+    function normalizeNodeGroup(value) {
+      const normalized = String(value || "").trim().toLowerCase();
+      if (normalized === "principal") {
+        return "principal";
+      }
+      if (normalized === "secundario") {
+        return "secundario";
+      }
+      return "";
+    }
+
+    function collectPrecomputedIsochroneNodes(distanceM) {
+      const distanceKey = String(Number(distanceM));
+      if (!Object.prototype.hasOwnProperty.call(isochroneNodeFeaturesByDistance, distanceKey)) {
+        return null;
+      }
+
+      const features = Array.isArray(isochroneNodeFeaturesByDistance[distanceKey]) ? isochroneNodeFeaturesByDistance[distanceKey] : [];
+      const all = features.map((feature) => ({
+        feature,
+        nodeGroup: normalizeNodeGroup(getProp(feature?.properties || {}, ["grupo_nodo", "GRUPO_NODO"]))
+      }));
+      const primary = all.filter((item) => item.nodeGroup === "principal").map((item) => item.feature);
+      const secondary = all.filter((item) => item.nodeGroup === "secundario").map((item) => item.feature);
+      return { primary, secondary, all };
+    }
+
     function collectNodesWithinIsochrone(distanceM) {
+      const precomputed = collectPrecomputedIsochroneNodes(distanceM);
+      if (precomputed) {
+        return precomputed;
+      }
+
       const isochroneFeature = getReferenceIsochroneFeature(distanceM);
       if (!isochroneFeature) {
         return { primary: [], secondary: [], all: [] };
@@ -768,6 +872,15 @@
       return cloned;
     }
 
+    function triggerFileDownload(url, filename) {
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = filename;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+    }
+
     function downloadBlob(filename, blob, mimeType) {
       const safeBlob = blob instanceof Blob ? blob : new Blob([blob], { type: mimeType || "application/octet-stream" });
       const url = URL.createObjectURL(safeBlob);
@@ -777,15 +890,10 @@
       document.body.appendChild(anchor);
       anchor.click();
       anchor.remove();
-      URL.revokeObjectURL(url);
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
     }
 
     async function downloadNodesWithinIsochrone(distanceM) {
-      if (typeof shpwrite === "undefined" || typeof shpwrite.zip !== "function") {
-        setStatus("Error de descarga", "No fue posible cargar el generador de shapefile para esta vista.");
-        return;
-      }
-
       const nodes = collectNodesWithinIsochrone(distanceM);
       if (!nodes.all.length) {
         setStatus("Descarga vacía", `No se encontraron nodos principales o secundarios dentro de la isocrona ${distanceM} m.`);
@@ -793,29 +901,12 @@
       }
 
       const fileBaseName = `premio_habitat_nodos_isocrona_${distanceM}m`;
-      const exportFeatures = nodes.all.map((item) => buildDownloadFeature(item.feature, item.nodeGroup, distanceM));
-      const shapefileCollection = toShapefileFeatureCollection(exportFeatures, fileBaseName);
-
-      try {
-        const zipBlob = shpwrite.zip(shapefileCollection, {
-          folder: fileBaseName,
-          filename: fileBaseName,
-          outputType: "blob",
-          compression: "STORE",
-          types: {
-            point: fileBaseName
-          }
-        });
-
-        downloadBlob(`${fileBaseName}.zip`, zipBlob, "application/zip");
-        setStatus(
-          "Shapefile generado",
-          `Se descargó ${fileBaseName}.zip con ${nodes.all.length} nodos (${nodes.primary.length} principales y ${nodes.secondary.length} secundarios).`
-        );
-      } catch (error) {
-        console.error(error);
-        setStatus("Error de descarga", `No fue posible generar el shapefile de la isocrona ${distanceM} m.`);
-      }
+      const downloadUrl = Number(distanceM) === 200 ? URLS.isoNodes200Zip : URLS.isoNodes500Zip;
+      triggerFileDownload(downloadUrl, `${fileBaseName}.zip`);
+      setStatus(
+        "Shapefile generado",
+        `Se descargó ${fileBaseName}.zip con ${nodes.all.length} nodos (${nodes.primary.length} principales y ${nodes.secondary.length} secundarios).`
+      );
     }
 
     function buildIsochroneBoundaryFeature(feature) {
@@ -990,11 +1081,13 @@
       setStatus("Premio Habitat", "Cargando nodos, boulevares, conexiones, polígono de referencia e isocronas...");
 
       try {
-        const [metadataData, polygonData, referencePolygonData, isochronesData, primaryData, secondaryData, boulevardsData, connectionsData] = await Promise.all([
+        const [metadataData, polygonData, referencePolygonData, isochronesData, isoNodes200Data, isoNodes500Data, primaryData, secondaryData, boulevardsData, connectionsData] = await Promise.all([
           loadJson(URLS.metadata),
           loadJson(URLS.polygon),
           loadJson(URLS.referencePolygon),
           loadJson(URLS.isochrones),
+          loadJson(URLS.isoNodes200),
+          loadJson(URLS.isoNodes500),
           loadJson(URLS.primary),
           loadJson(URLS.secondary),
           loadJson(URLS.boulevards),
@@ -1004,6 +1097,8 @@
         metadata = metadataData;
         referencePolygonFeature = extractReferencePolygonFeature(referencePolygonData);
         referenceIsochroneFeatures = Array.isArray(isochronesData?.features) ? isochronesData.features : [];
+        isochroneNodeFeaturesByDistance["200"] = Array.isArray(isoNodes200Data?.features) ? isoNodes200Data.features : [];
+        isochroneNodeFeaturesByDistance["500"] = Array.isArray(isoNodes500Data?.features) ? isoNodes500Data.features : [];
         primaryNodeFeatures = Array.isArray(primaryData?.features) ? primaryData.features : [];
         secondaryNodeFeatures = Array.isArray(secondaryData?.features) ? secondaryData.features : [];
 

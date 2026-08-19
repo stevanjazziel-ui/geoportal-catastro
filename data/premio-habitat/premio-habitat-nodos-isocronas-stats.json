@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-08-19T09:48:10",
+  "source": "riobamba-poligono-isocronas.geojson + nodos Premio Habitat",
+  "distances_m": {
+    "200": {
+      "isocrona_m": 200,
+      "total_nodos": 5,
+      "nodos_principales": 2,
+      "nodos_secundarios": 3,
+      "zip_file": "premio-habitat-nodos-isocrona-200m.zip",
+      "zip_path": "shp/premio-habitat-nodos-isocrona-200m.zip"
+    },
+    "500": {
+      "isocrona_m": 500,
+      "total_nodos": 14,
+      "nodos_principales": 8,
+      "nodos_secundarios": 6,
+      "zip_file": "premio-habitat-nodos-isocrona-500m.zip",
+      "zip_path": "shp/premio-habitat-nodos-isocrona-500m.zip"
+    }
+  }
+}

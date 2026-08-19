@@ -1,0 +1,334 @@
+{
+  "type": "FeatureCollection",
+  "name": "premio_habitat_nodos_isocrona_500m",
+  "properties": {
+    "isocrona_m": 500,
+    "total_nodos": 14,
+    "nodos_principales": 8,
+    "nodos_secundarios": 6
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 0,
+        "Tipo": "CONCENTRACIÓN",
+        "Jerarquía": "PRINCIPAL",
+        "Propuesto": "NO",
+        "Nombre": "Parque Guayaquil",
+        "Num": 12,
+        "Nodo_Ciclo": 1,
+        "Terminal": null,
+        "grupo_nodo": "principal",
+        "isocrona_m": 500,
+        "origen_descarga": "premio-habitat"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65885916416667,
+          -1.666657981962646
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 0,
+        "Tipo": "CONCENTRACIÓN",
+        "Jerarquía": "PRINCIPAL",
+        "Propuesto": "NO",
+        "Nombre": "Plaza de Toros",
+        "Num": 15,
+        "Nodo_Ciclo": 1,
+        "Terminal": null,
+        "grupo_nodo": "principal",
+        "isocrona_m": 500,
+        "origen_descarga": "premio-habitat"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6557298230977,
+          -1.668098430091263
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 0,
+        "Tipo": "CONCENTRACIÓN",
+        "Jerarquía": "PRINCIPAL",
+        "Propuesto": "SI",
+        "Nombre": "Parque Barriga",
+        "Num": 17,
+        "Nodo_Ciclo": 1,
+        "Terminal": null,
+        "grupo_nodo": "principal",
+        "isocrona_m": 500,
+        "origen_descarga": "premio-habitat"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65492433488905,
+          -1.66697659215881
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 0,
+        "Tipo": "TRANSICIÓN",
+        "Jerarquía": "PRINCIPAL",
+        "Propuesto": "SI",
+        "Nombre": "Plaza Alfaro",
+        "Num": 18,
+        "Nodo_Ciclo": 1,
+        "Terminal": 1,
+        "grupo_nodo": "principal",
+        "isocrona_m": 500,
+        "origen_descarga": "premio-habitat"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65420292883826,
+          -1.669474891840573
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 0,
+        "Tipo": "CONCENTRACIÓN",
+        "Jerarquía": "PRINCIPAL",
+        "Propuesto": "NO",
+        "Nombre": "Parque Sucre",
+        "Num": 22,
+        "Nodo_Ciclo": null,
+        "Terminal": null,
+        "grupo_nodo": "principal",
+        "isocrona_m": 500,
+        "origen_descarga": "premio-habitat"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65040410541326,
+          -1.671857272184629
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 0,
+        "Tipo": "CONCENTRACIÓN",
+        "Jerarquía": "PRINCIPAL",
+        "Propuesto": "NO",
+        "Nombre": "Mercado Santa Rosa",
+        "Num": 24,
+        "Nodo_Ciclo": null,
+        "Terminal": null,
+        "grupo_nodo": "principal",
+        "isocrona_m": 500,
+        "origen_descarga": "premio-habitat"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65412488379614,
+          -1.672653052738997
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 0,
+        "Tipo": "CONCENTRACIÓN",
+        "Jerarquía": "PRINCIPAL",
+        "Propuesto": "NO",
+        "Nombre": "Plaza Roja - La Concepción",
+        "Num": 25,
+        "Nodo_Ciclo": 1,
+        "Terminal": null,
+        "grupo_nodo": "principal",
+        "isocrona_m": 500,
+        "origen_descarga": "premio-habitat"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64882248122312,
+          -1.67107359756893
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 0,
+        "Tipo": "CONCENTRACIÓN",
+        "Jerarquía": "PRINCIPAL",
+        "Propuesto": "NO",
+        "Nombre": "Mercado General Dávalos",
+        "Num": 27,
+        "Nodo_Ciclo": 0,
+        "Terminal": 1,
+        "grupo_nodo": "principal",
+        "isocrona_m": 500,
+        "origen_descarga": "premio-habitat"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64828856086544,
+          -1.665702234177891
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 0,
+        "TIPO_": "INTERSECCION",
+        "JERARQUIA": "SECUNDARIA",
+        "PROPUESTO": null,
+        "NOMBRE": "GONZALO DAVALOS Y URUGUAY",
+        "Num": 16,
+        "Nodo_cicl": null,
+        "intersec": null,
+        "grupo_nodo": "secundario",
+        "isocrona_m": 500,
+        "origen_descarga": "premio-habitat"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65384001196101,
+          -1.664037424771583
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 0,
+        "TIPO_": "CONCENTRACION",
+        "JERARQUIA": "SECUNDARIO",
+        "PROPUESTO": null,
+        "NOMBRE": "CONCEJO PROVINCIAL",
+        "Num": 24,
+        "Nodo_cicl": 1,
+        "intersec": 1,
+        "grupo_nodo": "secundario",
+        "isocrona_m": 500,
+        "origen_descarga": "premio-habitat"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65307006175674,
+          -1.668824435836431
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 0,
+        "TIPO_": "INTERSECCION",
+        "JERARQUIA": "SECUNDARIA",
+        "PROPUESTO": null,
+        "NOMBRE": "CARABOBO ENTRE AV DANIEL LEON BORJA Y 10 DE AGOSTO",
+        "Num": 25,
+        "Nodo_cicl": 1,
+        "intersec": 1,
+        "grupo_nodo": "secundario",
+        "isocrona_m": 500,
+        "origen_descarga": "premio-habitat"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65330436677841,
+          -1.669880853632069
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 0,
+        "TIPO_": "INTERSECCION",
+        "JERARQUIA": "SECUNDARIA",
+        "PROPUESTO": null,
+        "NOMBRE": "PRIMERA CONSTITUYENTE Y GARCIA MORENO",
+        "Num": 26,
+        "Nodo_cicl": null,
+        "intersec": 1,
+        "grupo_nodo": "secundario",
+        "isocrona_m": 500,
+        "origen_descarga": "premio-habitat"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65102284729691,
+          -1.670830931691888
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 0,
+        "TIPO_": "INTERSECCION",
+        "JERARQUIA": "SECUNDARIA",
+        "PROPUESTO": null,
+        "NOMBRE": "ESPAÑA Y PRIMERA CONSTITUYENTE",
+        "Num": 32,
+        "Nodo_cicl": null,
+        "intersec": 1,
+        "grupo_nodo": "secundario",
+        "isocrona_m": 500,
+        "origen_descarga": "premio-habitat"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65050002209648,
+          -1.671308910114137
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 0,
+        "TIPO_": "INTERSECCION",
+        "JERARQUIA": "SECUNDARIA",
+        "PROPUESTO": null,
+        "NOMBRE": "COLON Y VELOZ",
+        "Num": 33,
+        "Nodo_cicl": null,
+        "intersec": 1,
+        "grupo_nodo": "secundario",
+        "isocrona_m": 500,
+        "origen_descarga": "premio-habitat"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64885454262306,
+          -1.671736642018868
+        ]
+      }
+    }
+  ]
+}
