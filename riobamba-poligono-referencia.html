@@ -399,7 +399,7 @@
   ></script>
   <script>
     const DOWNLOAD_FILE_NAME = "riobamba-poligono-referencia.geojson";
-    const DATA_VERSION = "20260819-isocronas-200-500-limite-exterior-5m";
+    const DATA_VERSION = "20260819-isocronas-200-500-limite-exterior-borde";
     const ISOCHRONE_DATA_URL = `./data/riobamba-poligono-isocronas.geojson?v=${DATA_VERSION}`;
     const ISOCHRONE_STATS_URL = `./data/riobamba-poligono-isocronas-stats.json?v=${DATA_VERSION}`;
     const polygonData = {
@@ -611,8 +611,8 @@
 
     function buildLegend() {
       legend.innerHTML = `
-        <div class="legend-row"><span class="legend-swatch" style="background:rgba(95, 142, 185, 0.16);border-color:rgba(95, 142, 185, 0.4);"></span><span>Isocrona 500 m</span></div>
-        <div class="legend-row"><span class="legend-swatch" style="background:rgba(79, 143, 82, 0.22);border-color:rgba(79, 143, 82, 0.72);"></span><span>Isocrona 200 m</span></div>
+        <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:0;border-top:3px solid #5f8eb9;"></span><span>Limite exterior isocrona 500 m</span></div>
+        <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:0;border-top:3px solid #4f8f52;"></span><span>Limite exterior isocrona 200 m</span></div>
         <div class="legend-row"><span class="legend-swatch" style="background:rgba(140, 195, 239, 0.24);border-color:rgba(95, 142, 185, 0.42);"></span><span>Area del poligono</span></div>
         <div class="legend-row"><span class="legend-swatch" style="background:rgba(101, 222, 214, 0.82);border-color:rgba(101, 222, 214, 0.98);"></span><span>Contorno principal</span></div>
         <div class="legend-row"><span class="legend-swatch" style="background:rgba(255, 107, 95, 0.78);border-color:rgba(255, 107, 95, 0.95);"></span><span>Centroide</span></div>
@@ -623,21 +623,64 @@
       if (Number(distanceM) === 200) {
         return {
           color: "#4f8f52",
-          weight: 2.2,
-          fillColor: "#8fcb8f",
-          fillOpacity: 0.22
+          weight: 3.2,
+          opacity: 0.96,
+          fillOpacity: 0,
+          lineCap: "round",
+          lineJoin: "round"
         };
       }
       return {
         color: "#5f8eb9",
-        weight: 2,
-        fillColor: "#a9cbe8",
-        fillOpacity: 0.16
+        weight: 3,
+        opacity: 0.94,
+        fillOpacity: 0,
+        lineCap: "round",
+        lineJoin: "round"
       };
     }
 
     function getIsochroneFeature(distanceM) {
       return polygonIsochronesFeatures.find((feature) => Number(feature?.properties?.distance_m) === Number(distanceM)) || null;
+    }
+
+    function buildIsochroneBoundaryFeature(feature) {
+      const geometry = feature?.geometry;
+      if (!geometry) {
+        return null;
+      }
+
+      if (geometry.type === "Polygon" && Array.isArray(geometry.coordinates?.[0])) {
+        return {
+          type: "Feature",
+          properties: feature.properties || {},
+          geometry: {
+            type: "LineString",
+            coordinates: geometry.coordinates[0]
+          }
+        };
+      }
+
+      if (geometry.type === "MultiPolygon") {
+        const coordinates = (geometry.coordinates || [])
+          .map((polygon) => polygon?.[0])
+          .filter((ring) => Array.isArray(ring) && ring.length > 1);
+
+        if (!coordinates.length) {
+          return null;
+        }
+
+        return {
+          type: "Feature",
+          properties: feature.properties || {},
+          geometry: {
+            type: coordinates.length === 1 ? "LineString" : "MultiLineString",
+            coordinates: coordinates.length === 1 ? coordinates[0] : coordinates
+          }
+        };
+      }
+
+      return feature;
     }
 
     const polygonFillLayer = L.geoJSON(polygonFeature, {
@@ -701,20 +744,21 @@
 
     function buildIsochroneLayer(distanceM) {
       const feature = getIsochroneFeature(distanceM);
-      if (!feature) {
+      const boundaryFeature = buildIsochroneBoundaryFeature(feature);
+      if (!boundaryFeature) {
         return null;
       }
-      return L.geoJSON(feature, {
+      return L.geoJSON(boundaryFeature, {
         style: getIsochroneStyle(distanceM),
         onEachFeature(geoFeature, layer) {
           const props = geoFeature.properties || {};
           layer.bindPopup(
-            `<strong>Isocrona ${formatNumber(props.distance_m || 0)} m</strong><br>` +
+            `<strong>Limite exterior ${formatNumber(props.distance_m || 0)} m</strong><br>` +
             `Poblacion ref ${formatNumber(props.population_total || 0)}<br>` +
             `Area ${formatNumber(props.area_poligono_m2 || 0, 2)} m2<br>` +
             `Red ${formatNumber(props.longitud_red_m || 0, 2)} m`
           );
-          layer.on("click", () => updateOverlayForIsochrone(geoFeature));
+          layer.on("click", () => updateOverlayForIsochrone(feature));
         }
       });
     }
