@@ -278,6 +278,14 @@
           <a class="link-button" href="./index.html">Volver al inicio</a>
         </div>
       </section>
+
+      <section class="panel">
+        <h2>Descargas</h2>
+        <div class="actions">
+          <button id="downloadIso200Button" type="button">Nodos en isocrona 200 m</button>
+          <button id="downloadIso500Button" type="button">Nodos en isocrona 500 m</button>
+        </div>
+      </section>
     </aside>
 
     <section class="map-wrap">
@@ -320,6 +328,8 @@
     const statusTitle = document.getElementById("statusTitle");
     const statusText = document.getElementById("statusText");
     const fitButton = document.getElementById("fitButton");
+    const downloadIso200Button = document.getElementById("downloadIso200Button");
+    const downloadIso500Button = document.getElementById("downloadIso500Button");
 
     const togglePolygon = document.getElementById("togglePolygon");
     const toggleReferencePolygon = document.getElementById("toggleReferencePolygon");
@@ -344,6 +354,8 @@
     let metadata = null;
     let referencePolygonFeature = null;
     let referenceIsochroneFeatures = [];
+    let primaryNodeFeatures = [];
+    let secondaryNodeFeatures = [];
 
     function formatNumber(value, decimals = 0) {
       if (!Number.isFinite(Number(value))) {
@@ -417,6 +429,86 @@
       return null;
     }
 
+    function isPointOnSegment(point, start, end, epsilon = 1e-10) {
+      const [px, py] = point;
+      const [x1, y1] = start;
+      const [x2, y2] = end;
+      const cross = (px - x1) * (y2 - y1) - (py - y1) * (x2 - x1);
+      if (Math.abs(cross) > epsilon) {
+        return false;
+      }
+
+      const dot = (px - x1) * (x2 - x1) + (py - y1) * (y2 - y1);
+      if (dot < -epsilon) {
+        return false;
+      }
+
+      const squaredLength = (x2 - x1) ** 2 + (y2 - y1) ** 2;
+      if (dot - squaredLength > epsilon) {
+        return false;
+      }
+
+      return true;
+    }
+
+    function pointInRing(point, ring) {
+      let inside = false;
+      for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+        const current = ring[i];
+        const previous = ring[j];
+
+        if (isPointOnSegment(point, current, previous)) {
+          return true;
+        }
+
+        const intersects = ((current[1] > point[1]) !== (previous[1] > point[1]))
+          && (point[0] < ((previous[0] - current[0]) * (point[1] - current[1])) / ((previous[1] - current[1]) || Number.EPSILON) + current[0]);
+
+        if (intersects) {
+          inside = !inside;
+        }
+      }
+      return inside;
+    }
+
+    function pointInPolygonCoordinates(point, polygonCoordinates) {
+      if (!Array.isArray(polygonCoordinates) || !polygonCoordinates.length) {
+        return false;
+      }
+
+      if (!pointInRing(point, polygonCoordinates[0])) {
+        return false;
+      }
+
+      for (let index = 1; index < polygonCoordinates.length; index += 1) {
+        if (pointInRing(point, polygonCoordinates[index])) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    function geometryContainsPoint(geometry, point) {
+      if (!geometry) {
+        return false;
+      }
+
+      if (geometry.type === "Polygon") {
+        return pointInPolygonCoordinates(point, geometry.coordinates);
+      }
+
+      if (geometry.type === "MultiPolygon") {
+        return geometry.coordinates.some((polygonCoordinates) => pointInPolygonCoordinates(point, polygonCoordinates));
+      }
+
+      return false;
+    }
+
+    function cloneFeature(feature) {
+      return JSON.parse(JSON.stringify(feature));
+    }
+
     function updateDetailRows(rows) {
       detailRows.innerHTML = rows.map((row) => {
         return `<div class="mini-row"><span>${row.label}</span><strong>${row.value}</strong></div>`;
@@ -459,11 +551,15 @@
       const referenceProps = referencePolygonFeature?.properties || {};
       const iso200Props = getReferenceIsochroneFeature(200)?.properties || {};
       const iso500Props = getReferenceIsochroneFeature(500)?.properties || {};
+      const iso200Nodes = collectNodesWithinIsochrone(200);
+      const iso500Nodes = collectNodesWithinIsochrone(500);
       updateDetailRows([
         { label: "Polígono", value: formatNumber(metadata?.layers?.poligono_intervencion?.feature_count || 0) },
         { label: "Ref. área", value: `${formatNumber(referenceProps.area_m2 || 0, 2)} m²` },
         { label: "Iso 200 red", value: `${formatNumber(iso200Props.longitud_red_m || 0, 2)} m` },
+        { label: "Iso 200 nodos", value: formatNumber(iso200Nodes.all.length) },
         { label: "Iso 500 red", value: `${formatNumber(iso500Props.longitud_red_m || 0, 2)} m` },
+        { label: "Iso 500 nodos", value: formatNumber(iso500Nodes.all.length) },
         { label: "Principales", value: formatNumber(metadata?.layers?.nodos_principales?.feature_count || 0) },
         { label: "Secundarios", value: formatNumber(metadata?.layers?.nodos_secundarios?.feature_count || 0) },
         { label: "Boulevares", value: `${formatNumber(metadata?.layers?.boulevares?.line_length_m || 0, 2)} m` },
@@ -496,12 +592,15 @@
 
     function onIsochroneClick(feature) {
       const props = feature.properties || {};
+      const nodes = collectNodesWithinIsochrone(props.distance_m || 0);
       updateDetailRows([
         { label: "Capa", value: `Isocrona ${formatNumber(props.distance_m || 0)} m` },
         { label: "Área", value: `${formatNumber(props.area_poligono_m2 || 0, 2)} m²` },
         { label: "Red", value: `${formatNumber(props.longitud_red_m || 0, 2)} m` },
         { label: "Población ref.", value: formatNumber(props.population_total || 0) },
-        { label: "Manzanas", value: formatNumber(props.manzanas_ajustadas || 0) }
+        { label: "Manzanas", value: formatNumber(props.manzanas_ajustadas || 0) },
+        { label: "Nodos principales", value: formatNumber(nodes.primary.length) },
+        { label: "Nodos secundarios", value: formatNumber(nodes.secondary.length) }
       ]);
       setStatus(`Isocrona ${formatNumber(props.distance_m || 0)} m`, props.nombre || "Cobertura de red desde el límite exterior del polígono.");
     }
@@ -575,6 +674,79 @@
 
     function getReferenceIsochroneFeature(distanceM) {
       return referenceIsochroneFeatures.find((feature) => Number(feature?.properties?.distance_m) === Number(distanceM)) || null;
+    }
+
+    function collectNodesWithinIsochrone(distanceM) {
+      const isochroneFeature = getReferenceIsochroneFeature(distanceM);
+      if (!isochroneFeature) {
+        return { primary: [], secondary: [], all: [] };
+      }
+
+      const primary = primaryNodeFeatures.filter((feature) => {
+        const coordinates = feature?.geometry?.coordinates;
+        return Array.isArray(coordinates) && geometryContainsPoint(isochroneFeature.geometry, coordinates);
+      });
+
+      const secondary = secondaryNodeFeatures.filter((feature) => {
+        const coordinates = feature?.geometry?.coordinates;
+        return Array.isArray(coordinates) && geometryContainsPoint(isochroneFeature.geometry, coordinates);
+      });
+
+      const all = [
+        ...primary.map((feature) => ({ feature, nodeGroup: "principal" })),
+        ...secondary.map((feature) => ({ feature, nodeGroup: "secundario" }))
+      ];
+
+      return { primary, secondary, all };
+    }
+
+    function buildDownloadFeature(feature, nodeGroup, distanceM) {
+      const cloned = cloneFeature(feature);
+      cloned.properties = {
+        ...(cloned.properties || {}),
+        grupo_nodo: nodeGroup,
+        isocrona_m: distanceM,
+        origen_descarga: "premio-habitat"
+      };
+      return cloned;
+    }
+
+    function downloadGeoJson(filename, payload) {
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/geo+json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = filename;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function downloadNodesWithinIsochrone(distanceM) {
+      const nodes = collectNodesWithinIsochrone(distanceM);
+      if (!nodes.all.length) {
+        setStatus("Descarga vacía", `No se encontraron nodos principales o secundarios dentro de la isocrona ${distanceM} m.`);
+        return;
+      }
+
+      const payload = {
+        type: "FeatureCollection",
+        name: `premio_habitat_nodos_isocrona_${distanceM}m`,
+        properties: {
+          isocrona_m: distanceM,
+          total_nodos: nodes.all.length,
+          nodos_principales: nodes.primary.length,
+          nodos_secundarios: nodes.secondary.length
+        },
+        features: nodes.all.map((item) => buildDownloadFeature(item.feature, item.nodeGroup, distanceM))
+      };
+
+      downloadGeoJson(`premio-habitat-nodos-isocrona-${distanceM}m.geojson`, payload);
+      setStatus(
+        "Descarga generada",
+        `Se descargaron ${nodes.all.length} nodos dentro de la isocrona ${distanceM} m (${nodes.primary.length} principales y ${nodes.secondary.length} secundarios).`
+      );
     }
 
     function buildIsochroneBoundaryFeature(feature) {
@@ -763,6 +935,8 @@
         metadata = metadataData;
         referencePolygonFeature = extractReferencePolygonFeature(referencePolygonData);
         referenceIsochroneFeatures = Array.isArray(isochronesData?.features) ? isochronesData.features : [];
+        primaryNodeFeatures = Array.isArray(primaryData?.features) ? primaryData.features : [];
+        secondaryNodeFeatures = Array.isArray(secondaryData?.features) ? secondaryData.features : [];
 
         layerState.polygon = buildPolygonLayer(polygonData);
         layerState.referencePolygon = referencePolygonFeature ? buildReferencePolygonLayer(referencePolygonFeature) : null;
@@ -792,6 +966,8 @@
     });
 
     fitButton.addEventListener("click", fitToVisibleLayers);
+    downloadIso200Button.addEventListener("click", () => downloadNodesWithinIsochrone(200));
+    downloadIso500Button.addEventListener("click", () => downloadNodesWithinIsochrone(500));
     main();
   </script>
 </body>

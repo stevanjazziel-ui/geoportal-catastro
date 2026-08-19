@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-18T20:31:32",
+  "generated_at": "2026-08-19T08:50:50",
   "target_name": "Poligono de referencia",
   "source_type": "polygon_boundary_outer",
   "boundary_sample_step_m": 5,
@@ -8,11 +8,12 @@
   "network_source": "cache:riobamba_osm_walk_network_5categorias_todas_plataformas.json",
   "distances": {
     "500": {
-      "generated_at": "2026-08-18T20:31:32",
+      "generated_at": "2026-08-19T08:50:50",
       "target_name": "Poligono de referencia",
       "distance_m": 500,
       "mode": "walking",
       "source_type": "polygon_boundary_outer",
+      "geometry_variant": "cartographic_manzana_shell",
       "boundary_sample_step_m": 5,
       "boundary_samples": 358,
       "source_nodes": 357,
@@ -26,16 +27,18 @@
       "manzanas_ajustadas": 177,
       "area_poligono_red_m2": 897484.92,
       "area_poligono_manzanas_m2": 959287.93,
-      "area_poligono_m2": 897484.92,
+      "area_poligono_cartografico_m2": 1186810.27,
+      "area_poligono_m2": 1186810.27,
       "network_source": "cache:riobamba_osm_walk_network_5categorias_todas_plataformas.json",
-      "source": "OpenStreetMap peatonal + muestreo denso del limite del poligono cada 5 m + proyeccion del limite a la red + recorte para conservar solo cobertura exterior + referencia de cobertura contra manzanas censales"
+      "source": "OpenStreetMap peatonal + muestreo denso del limite del poligono cada 5 m + proyeccion del limite a la red + recorte para conservar solo cobertura exterior + alineacion a manzanas + homogenizacion cartografica exterior"
     },
     "200": {
-      "generated_at": "2026-08-18T20:31:32",
+      "generated_at": "2026-08-19T08:50:50",
       "target_name": "Poligono de referencia",
       "distance_m": 200,
       "mode": "walking",
       "source_type": "polygon_boundary_outer",
+      "geometry_variant": "cartographic_manzana_shell",
       "boundary_sample_step_m": 5,
       "boundary_samples": 358,
       "source_nodes": 357,
@@ -49,9 +52,10 @@
       "manzanas_ajustadas": 67,
       "area_poligono_red_m2": 303918.32,
       "area_poligono_manzanas_m2": 335396.96,
-      "area_poligono_m2": 303918.32,
+      "area_poligono_cartografico_m2": 419952.38,
+      "area_poligono_m2": 419952.38,
       "network_source": "cache:riobamba_osm_walk_network_5categorias_todas_plataformas.json",
-      "source": "OpenStreetMap peatonal + muestreo denso del limite del poligono cada 5 m + proyeccion del limite a la red + recorte para conservar solo cobertura exterior + referencia de cobertura contra manzanas censales"
+      "source": "OpenStreetMap peatonal + muestreo denso del limite del poligono cada 5 m + proyeccion del limite a la red + recorte para conservar solo cobertura exterior + alineacion a manzanas + homogenizacion cartografica exterior"
     }
   }
 }

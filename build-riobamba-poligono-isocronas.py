@@ -135,6 +135,13 @@ def build_distance_outputs(
     exact_polygon = exact_polygon.difference(exclusion_polygon).buffer(0)
 
     aligned_polygon, covered_manzanas = helper.align_polygon_to_manzanas(manzana_features, exact_polygon)
+    aligned_polygon_outside = aligned_polygon.difference(exclusion_polygon).buffer(0)
+    if aligned_polygon_outside.is_empty:
+        aligned_polygon_outside = aligned_polygon
+    cartographic_polygon = helper.homogenize_cartographic_polygon(aligned_polygon_outside)
+    cartographic_polygon = cartographic_polygon.difference(exclusion_polygon).buffer(0)
+    if cartographic_polygon.is_empty:
+        cartographic_polygon = aligned_polygon_outside
     population_total = helper.population_total_for_manzanas(covered_manzanas, manzana_stats_by_id)
     network_geom = helper.normalize_multilines(segments_outside)
 
@@ -146,6 +153,7 @@ def build_distance_outputs(
         "total_length": total_length_outside,
         "exact_polygon": exact_polygon,
         "aligned_polygon": aligned_polygon,
+        "cartographic_polygon": cartographic_polygon,
         "covered_manzanas": covered_manzanas,
         "population_total": population_total,
         "polygon_name": polygon_name,
@@ -201,14 +209,15 @@ def main():
         )
 
         isochrone_feature = helper.build_polygon_feature(
-            result["exact_polygon"],
+            result["cartographic_polygon"],
             {
-                "nombre": f"Isocrona exacta de red {distance_m} m desde el limite exterior de {polygon_name}",
+                "nombre": f"Isocrona homogenizada de red {distance_m} m desde el limite exterior de {polygon_name}",
                 "target_name": polygon_name,
                 "target_platform": polygon_name,
                 "distance_m": distance_m,
                 "mode": "walking",
                 "source_type": "polygon_boundary_outer",
+                "geometry_variant": "cartographic_manzana_shell",
                 "boundary_sample_step_m": BOUNDARY_SAMPLE_STEP_METERS,
                 "boundary_samples": len(sampled_boundary_points),
                 "source_nodes": source_node_count,
@@ -222,7 +231,8 @@ def main():
                 "manzanas_ajustadas": len(result["covered_manzanas"]),
                 "area_poligono_red_m2": round(result["exact_polygon"].area, 2),
                 "area_poligono_manzanas_m2": round(result["aligned_polygon"].area, 2),
-                "area_poligono_m2": round(result["exact_polygon"].area, 2),
+                "area_poligono_cartografico_m2": round(result["cartographic_polygon"].area, 2),
+                "area_poligono_m2": round(result["cartographic_polygon"].area, 2),
             },
         )
 
@@ -252,6 +262,7 @@ def main():
             "distance_m": distance_m,
             "mode": "walking",
             "source_type": "polygon_boundary_outer",
+            "geometry_variant": "cartographic_manzana_shell",
             "boundary_sample_step_m": BOUNDARY_SAMPLE_STEP_METERS,
             "boundary_samples": len(sampled_boundary_points),
             "source_nodes": source_node_count,
@@ -265,9 +276,10 @@ def main():
             "manzanas_ajustadas": len(result["covered_manzanas"]),
             "area_poligono_red_m2": round(result["exact_polygon"].area, 2),
             "area_poligono_manzanas_m2": round(result["aligned_polygon"].area, 2),
-            "area_poligono_m2": round(result["exact_polygon"].area, 2),
+            "area_poligono_cartografico_m2": round(result["cartographic_polygon"].area, 2),
+            "area_poligono_m2": round(result["cartographic_polygon"].area, 2),
             "network_source": network_source,
-            "source": "OpenStreetMap peatonal + muestreo denso del limite del poligono cada 5 m + proyeccion del limite a la red + recorte para conservar solo cobertura exterior + referencia de cobertura contra manzanas censales",
+            "source": "OpenStreetMap peatonal + muestreo denso del limite del poligono cada 5 m + proyeccion del limite a la red + recorte para conservar solo cobertura exterior + alineacion a manzanas + homogenizacion cartografica exterior",
         }
 
         isochrone_features.append(isochrone_feature)
