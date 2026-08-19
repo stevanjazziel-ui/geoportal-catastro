@@ -334,6 +334,8 @@
         <div class="layer-toggles">
           <label class="layer-toggle"><span>Poligono relleno</span><input id="togglePolygonFill" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Contorno del poligono</span><input id="togglePolygonOutline" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Isocrona 200 m</span><input id="toggleIsochrone200" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Isocrona 500 m</span><input id="toggleIsochrone500" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Centroide</span><input id="toggleCentroid" type="checkbox" checked></label>
         </div>
       </section>
@@ -346,6 +348,11 @@
       <section class="panel">
         <h2>Referencia tecnica</h2>
         <div class="mini-list" id="technicalSummary"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Isocronas del poligono</h2>
+        <div class="mini-list" id="isochronasSummary"></div>
       </section>
 
       <section class="panel">
@@ -380,7 +387,7 @@
       <div id="map"></div>
       <div class="overlay">
         <strong id="overlayTitle">Poligono cargado</strong>
-        <p id="overlayText">Haz clic en el poligono o en la tabla de vertices para revisar el detalle.</p>
+        <p id="overlayText">Haz clic en el poligono, en una isocrona o en la tabla de vertices para revisar el detalle.</p>
       </div>
     </main>
   </div>
@@ -392,7 +399,9 @@
   ></script>
   <script>
     const DOWNLOAD_FILE_NAME = "riobamba-poligono-referencia.geojson";
-    const DATA_VERSION = "20260818-ui-censo-gris";
+    const DATA_VERSION = "20260819-isocronas-200-500";
+    const ISOCHRONE_DATA_URL = `./data/riobamba-poligono-isocronas.geojson?v=${DATA_VERSION}`;
+    const ISOCHRONE_STATS_URL = `./data/riobamba-poligono-isocronas-stats.json?v=${DATA_VERSION}`;
     const polygonData = {
       type: "FeatureCollection",
       name: "riobamba_poligono_referencia",
@@ -444,6 +453,7 @@
 
     const summaryCards = document.getElementById("summaryCards");
     const technicalSummary = document.getElementById("technicalSummary");
+    const isochronasSummary = document.getElementById("isochronasSummary");
     const coordsTableBody = document.getElementById("coordsTableBody");
     const legend = document.getElementById("legend");
     const statusText = document.getElementById("statusText");
@@ -453,6 +463,8 @@
     const downloadGeoJsonButton = document.getElementById("downloadGeoJsonButton");
     const togglePolygonFill = document.getElementById("togglePolygonFill");
     const togglePolygonOutline = document.getElementById("togglePolygonOutline");
+    const toggleIsochrone200 = document.getElementById("toggleIsochrone200");
+    const toggleIsochrone500 = document.getElementById("toggleIsochrone500");
     const toggleCentroid = document.getElementById("toggleCentroid");
 
     const map = L.map("map", { zoomSnap: 0.5 }).setView([-1.6669, -78.6530], 15);
@@ -470,6 +482,11 @@
     osmBase.addTo(map);
     L.control.scale({ imperial: false }).addTo(map);
 
+    let polygonIsochronesFeatures = [];
+    let polygonIsochroneStats = {};
+    let isochrone200Layer = null;
+    let isochrone500Layer = null;
+
     function formatNumber(value, decimals = 0) {
       return Number(value).toLocaleString("es-EC", {
         minimumFractionDigits: decimals,
@@ -485,12 +502,19 @@
     }
 
     function syncSingleLayer(layer, visible) {
+      if (!layer) {
+        return;
+      }
       if (visible && !map.hasLayer(layer)) {
         layer.addTo(map);
       }
       if (!visible && map.hasLayer(layer)) {
         map.removeLayer(layer);
       }
+    }
+
+    function setStatus(message) {
+      statusText.textContent = message;
     }
 
     function updateOverlayForPolygon() {
@@ -508,8 +532,11 @@
         `Vertice ubicado con X ${formatNumber(props.coord_x, 3)} y Y ${formatNumber(props.coord_y, 2)}. Coordenadas WGS84 Lon ${formatLatLon(lon)}, Lat ${formatLatLon(lat)}.`;
     }
 
-    function setStatus(message) {
-      statusText.textContent = message;
+    function updateOverlayForIsochrone(feature) {
+      const props = feature.properties || {};
+      overlayTitle.textContent = `Isocrona ${formatNumber(props.distance_m || 0)} m`;
+      overlayText.textContent =
+        `${props.nombre || "Isocrona"} cubre ${formatNumber(props.population_total || 0)} habitantes de referencia, ${formatNumber(props.manzanas_ajustadas || 0)} manzanas y ${formatNumber(props.longitud_red_m || 0, 2)} m de red peatonal.`;
     }
 
     function buildSummaryCards() {
@@ -545,6 +572,30 @@
       `;
     }
 
+    function buildIsochronesSummary() {
+      const stats500 = polygonIsochroneStats["500"];
+      const stats200 = polygonIsochroneStats["200"];
+      const rows = [];
+
+      if (stats200) {
+        rows.push(`<div class="mini-row"><span>200 m · Poblacion ref</span><strong>${formatNumber(stats200.population_total || 0)}</strong></div>`);
+        rows.push(`<div class="mini-row"><span>200 m · Area m2</span><strong>${formatNumber(stats200.area_poligono_m2 || 0, 2)}</strong></div>`);
+        rows.push(`<div class="mini-row"><span>200 m · Red peatonal</span><strong>${formatNumber(stats200.longitud_red_m || 0, 2)} m</strong></div>`);
+      }
+      if (stats500) {
+        rows.push(`<div class="mini-row"><span>500 m · Poblacion ref</span><strong>${formatNumber(stats500.population_total || 0)}</strong></div>`);
+        rows.push(`<div class="mini-row"><span>500 m · Area m2</span><strong>${formatNumber(stats500.area_poligono_m2 || 0, 2)}</strong></div>`);
+        rows.push(`<div class="mini-row"><span>500 m · Red peatonal</span><strong>${formatNumber(stats500.longitud_red_m || 0, 2)} m</strong></div>`);
+      }
+
+      if (!rows.length) {
+        isochronasSummary.innerHTML = `<p style="margin:0;color:var(--muted);">Cargando isocronas...</p>`;
+        return;
+      }
+
+      isochronasSummary.innerHTML = rows.join("");
+    }
+
     function buildCoordsTable() {
       coordsTableBody.innerHTML = vertexFeatures.map((feature) => {
         const props = feature.properties;
@@ -560,10 +611,33 @@
 
     function buildLegend() {
       legend.innerHTML = `
-        <div class="legend-row"><span class="legend-swatch" style="background:rgba(95, 142, 185, 0.18);border-color:rgba(95, 142, 185, 0.42);"></span><span>Area del poligono</span></div>
-        <div class="legend-row"><span class="legend-swatch" style="background:rgba(79, 143, 82, 0.82);border-color:rgba(79, 143, 82, 0.96);"></span><span>Contorno principal</span></div>
+        <div class="legend-row"><span class="legend-swatch" style="background:rgba(95, 142, 185, 0.16);border-color:rgba(95, 142, 185, 0.4);"></span><span>Isocrona 500 m</span></div>
+        <div class="legend-row"><span class="legend-swatch" style="background:rgba(79, 143, 82, 0.22);border-color:rgba(79, 143, 82, 0.72);"></span><span>Isocrona 200 m</span></div>
+        <div class="legend-row"><span class="legend-swatch" style="background:rgba(140, 195, 239, 0.24);border-color:rgba(95, 142, 185, 0.42);"></span><span>Area del poligono</span></div>
+        <div class="legend-row"><span class="legend-swatch" style="background:rgba(101, 222, 214, 0.82);border-color:rgba(101, 222, 214, 0.98);"></span><span>Contorno principal</span></div>
         <div class="legend-row"><span class="legend-swatch" style="background:rgba(255, 107, 95, 0.78);border-color:rgba(255, 107, 95, 0.95);"></span><span>Centroide</span></div>
       `;
+    }
+
+    function getIsochroneStyle(distanceM) {
+      if (Number(distanceM) === 200) {
+        return {
+          color: "#4f8f52",
+          weight: 2.2,
+          fillColor: "#8fcb8f",
+          fillOpacity: 0.22
+        };
+      }
+      return {
+        color: "#5f8eb9",
+        weight: 2,
+        fillColor: "#a9cbe8",
+        fillOpacity: 0.16
+      };
+    }
+
+    function getIsochroneFeature(distanceM) {
+      return polygonIsochronesFeatures.find((feature) => Number(feature?.properties?.distance_m) === Number(distanceM)) || null;
     }
 
     const polygonFillLayer = L.geoJSON(polygonFeature, {
@@ -571,7 +645,7 @@
         color: "#5f8eb9",
         weight: 2,
         fillColor: "#8cc3ef",
-        fillOpacity: 0.28
+        fillOpacity: 0.14
       },
       onEachFeature(feature, layer) {
         layer.bindPopup(
@@ -625,17 +699,62 @@
       }
     });
 
+    function buildIsochroneLayer(distanceM) {
+      const feature = getIsochroneFeature(distanceM);
+      if (!feature) {
+        return null;
+      }
+      return L.geoJSON(feature, {
+        style: getIsochroneStyle(distanceM),
+        onEachFeature(geoFeature, layer) {
+          const props = geoFeature.properties || {};
+          layer.bindPopup(
+            `<strong>Isocrona ${formatNumber(props.distance_m || 0)} m</strong><br>` +
+            `Poblacion ref ${formatNumber(props.population_total || 0)}<br>` +
+            `Area ${formatNumber(props.area_poligono_m2 || 0, 2)} m2<br>` +
+            `Red ${formatNumber(props.longitud_red_m || 0, 2)} m`
+          );
+          layer.on("click", () => updateOverlayForIsochrone(geoFeature));
+        }
+      });
+    }
+
+    function renderIsochroneLayers() {
+      if (isochrone200Layer && map.hasLayer(isochrone200Layer)) {
+        map.removeLayer(isochrone200Layer);
+      }
+      if (isochrone500Layer && map.hasLayer(isochrone500Layer)) {
+        map.removeLayer(isochrone500Layer);
+      }
+      isochrone500Layer = buildIsochroneLayer(500);
+      isochrone200Layer = buildIsochroneLayer(200);
+    }
+
     function syncVisibleLayers() {
+      syncSingleLayer(isochrone500Layer, toggleIsochrone500.checked);
+      syncSingleLayer(isochrone200Layer, toggleIsochrone200.checked);
       syncSingleLayer(polygonFillLayer, togglePolygonFill.checked);
       syncSingleLayer(polygonOutlineLayer, togglePolygonOutline.checked);
       syncSingleLayer(centroidLayer, toggleCentroid.checked);
     }
 
-    function fitPolygon() {
-      map.fitBounds(polygonFillLayer.getBounds(), {
-        padding: [34, 34],
-        maxZoom: 16
-      });
+    function fitMapToVisibleData() {
+      const layers = [isochrone500Layer, isochrone200Layer, polygonFillLayer, polygonOutlineLayer, centroidLayer]
+        .filter((layer) => layer && map.hasLayer(layer));
+
+      const bounds = L.latLngBounds([]);
+      for (const layer of layers) {
+        if (layer.getBounds) {
+          bounds.extend(layer.getBounds());
+        }
+      }
+
+      if (bounds.isValid()) {
+        map.fitBounds(bounds, { padding: [34, 34], maxZoom: 16 });
+        return;
+      }
+
+      map.fitBounds(polygonFillLayer.getBounds(), { padding: [34, 34], maxZoom: 16 });
     }
 
     function downloadGeoJson() {
@@ -664,10 +783,52 @@
       updateOverlayForVertex(feature);
     }
 
-    focusPolygonButton.addEventListener("click", fitPolygon);
+    async function init() {
+      buildSummaryCards();
+      buildTechnicalSummary();
+      buildCoordsTable();
+      buildLegend();
+      buildIsochronesSummary();
+      syncVisibleLayers();
+      fitMapToVisibleData();
+      updateOverlayForPolygon();
+
+      setStatus("Cargando isocronas 200 m y 500 m del poligono...");
+
+      try {
+        const [isochronesResponse, statsResponse] = await Promise.all([
+          fetch(ISOCHRONE_DATA_URL),
+          fetch(ISOCHRONE_STATS_URL)
+        ]);
+
+        if (!isochronesResponse.ok || !statsResponse.ok) {
+          throw new Error("No se pudieron cargar los archivos de isocronas.");
+        }
+
+        const isochronesGeo = await isochronesResponse.json();
+        const isochronesStatsData = await statsResponse.json();
+
+        polygonIsochronesFeatures = Array.isArray(isochronesGeo.features) ? isochronesGeo.features : [];
+        polygonIsochroneStats = isochronesStatsData.distances || {};
+
+        renderIsochroneLayers();
+        buildIsochronesSummary();
+        syncVisibleLayers();
+        fitMapToVisibleData();
+
+        setStatus(`Listo. Isocronas 200 m y 500 m cargadas. Version ${DATA_VERSION}.`);
+      } catch (error) {
+        console.error(error);
+        setStatus(`Se cargó el poligono base, pero falló la carga de isocronas. Version ${DATA_VERSION}.`);
+      }
+    }
+
+    focusPolygonButton.addEventListener("click", fitMapToVisibleData);
     downloadGeoJsonButton.addEventListener("click", downloadGeoJson);
-    [togglePolygonFill, togglePolygonOutline, toggleCentroid].forEach((input) => {
-      input.addEventListener("change", syncVisibleLayers);
+    [togglePolygonFill, togglePolygonOutline, toggleIsochrone200, toggleIsochrone500, toggleCentroid].forEach((input) => {
+      input.addEventListener("change", () => {
+        syncVisibleLayers();
+      });
     });
 
     coordsTableBody.addEventListener("click", (event) => {
@@ -682,14 +843,7 @@
       }
     });
 
-    buildSummaryCards();
-    buildTechnicalSummary();
-    buildCoordsTable();
-    buildLegend();
-    syncVisibleLayers();
-    fitPolygon();
-    updateOverlayForPolygon();
-    setStatus(`Listo. Interfaz actualizada con estilo de modulo censal y sin numeracion visible en el mapa. Version ${DATA_VERSION}.`);
+    init();
   </script>
 </body>
 </html>
