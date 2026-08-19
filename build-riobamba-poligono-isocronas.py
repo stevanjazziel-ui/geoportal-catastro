@@ -17,6 +17,7 @@ OUTPUT_STATS = DATA_DIR / "riobamba-poligono-isocronas-stats.json"
 DISTANCES_METERS = [200, 500]
 SEARCH_BUFFER_METERS = 1400
 OUTSIDE_CLIP_BUFFER_METERS = 0.75
+BOUNDARY_SAMPLE_STEP_METERS = 5
 
 
 def load_helper_module():
@@ -162,7 +163,8 @@ def main():
 
     polygon_geom_utm = helper.to_utm(polygon_geom)
     boundary_geom_utm = polygon_geom_utm.boundary
-    sampled_boundary_points = helper.sample_boundary_points(boundary_geom_utm, helper.BOUNDARY_SAMPLE_STEP_METERS)
+    # This module uses a denser step so the polygon limit behaves as the real base of the isochrone.
+    sampled_boundary_points = helper.sample_boundary_points(boundary_geom_utm, BOUNDARY_SAMPLE_STEP_METERS)
 
     cache_path = find_osm_cache()
     if cache_path:
@@ -207,6 +209,7 @@ def main():
                 "distance_m": distance_m,
                 "mode": "walking",
                 "source_type": "polygon_boundary_outer",
+                "boundary_sample_step_m": BOUNDARY_SAMPLE_STEP_METERS,
                 "boundary_samples": len(sampled_boundary_points),
                 "source_nodes": source_node_count,
                 "snap_promedio_m": average_snap_m,
@@ -232,6 +235,7 @@ def main():
                 "distance_m": distance_m,
                 "mode": "walking",
                 "source_type": "polygon_boundary_outer",
+                "boundary_sample_step_m": BOUNDARY_SAMPLE_STEP_METERS,
                 "boundary_samples": len(sampled_boundary_points),
                 "source_nodes": source_node_count,
                 "snap_promedio_m": average_snap_m,
@@ -248,6 +252,7 @@ def main():
             "distance_m": distance_m,
             "mode": "walking",
             "source_type": "polygon_boundary_outer",
+            "boundary_sample_step_m": BOUNDARY_SAMPLE_STEP_METERS,
             "boundary_samples": len(sampled_boundary_points),
             "source_nodes": source_node_count,
             "snap_promedio_m": average_snap_m,
@@ -262,7 +267,7 @@ def main():
             "area_poligono_manzanas_m2": round(result["aligned_polygon"].area, 2),
             "area_poligono_m2": round(result["exact_polygon"].area, 2),
             "network_source": network_source,
-            "source": "OpenStreetMap peatonal + proyeccion del limite del poligono a la red + recorte para conservar solo cobertura exterior + referencia de cobertura contra manzanas censales",
+            "source": "OpenStreetMap peatonal + muestreo denso del limite del poligono cada 5 m + proyeccion del limite a la red + recorte para conservar solo cobertura exterior + referencia de cobertura contra manzanas censales",
         }
 
         isochrone_features.append(isochrone_feature)
@@ -276,6 +281,7 @@ def main():
             "generated_at": generated_at,
             "target_name": polygon_name,
             "source_type": "polygon_boundary_outer",
+            "boundary_sample_step_m": BOUNDARY_SAMPLE_STEP_METERS,
             "boundary_samples": len(sampled_boundary_points),
             "source_nodes": source_node_count,
             "network_source": network_source,
