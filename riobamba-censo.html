@@ -645,7 +645,7 @@
           <label class="layer-toggle" style="display:none;"><span>Puntos inicio educacion</span><input id="toggleEducacionIsocronasPuntos" type="checkbox"></label>
           <label class="layer-toggle"><span>Recreacion y deporte</span><input id="toggleRecreacionIsocronas" type="checkbox" checked></label>
           <label class="layer-toggle" style="display:none;"><span>Puntos inicio recreacion</span><input id="toggleRecreacionIsocronasPuntos" type="checkbox"></label>
-          <label class="layer-toggle"><span>Isocronas parque estrategico</span><input id="toggleParquesEstrategicos" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Isocronas Parque Estrategico</span><input id="toggleParquesEstrategicos" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Bienestar social</span><input id="toggleBienestarIsocronas" type="checkbox" checked></label>
           <label class="layer-toggle" style="display:none;"><span>Puntos inicio bienestar social</span><input id="toggleBienestarIsocronasPuntos" type="checkbox"></label>
           <label class="layer-toggle"><span>Cultura</span><input id="toggleCulturaIsocronas" type="checkbox" checked></label>
@@ -667,7 +667,7 @@
           <p style="margin:0;color:var(--muted);">Cargando categorias del entorno...</p>
         </div>
         <p style="margin-top:10px;">
-          Separa los puntos tematicos visibles, incluido parque estrategico, y deja activas solo las categorias que quieras revisar.
+          Separa los puntos tematicos visibles, incluido Parque Estrategico, y deja activas solo las categorias que quieras revisar.
         </p>
       </section>
 
@@ -737,7 +737,7 @@
       </section>
 
       <section class="panel" id="strategicParksPanel" hidden>
-        <h2>Parque estrategico</h2>
+        <h2>Parque Estrategico</h2>
         <div class="mini-list" id="strategicParksSummary">
           <div class="mini-row"><span>Estado</span><strong>Selecciona una plataforma</strong></div>
         </div>
@@ -1286,7 +1286,7 @@
         .trim();
     }
 
-    const STRATEGIC_PARK_CATEGORY = "Parque estrategico";
+    const STRATEGIC_PARK_CATEGORY = "Parque Estrategico";
 
     const preferredEquipamientoCategoryOrder = [
       "Educación",
@@ -3862,7 +3862,7 @@
           },
           {
             key: "all_platform_strategic_parks",
-            label: "Parque estrategico",
+            label: "Parque Estrategico",
             value: `${formatNumber(layerVisibility.parquesEstrategicos ? strategicParkState.populationCovered || 0 : 0)} hab`,
             meta: layerVisibility.parquesEstrategicos
               ? (
@@ -3872,7 +3872,7 @@
                 `${formatNumber(strategicParkState.covered || 0)} manzanas | ` +
                 `${formatNumber(strategicParkFeatures.length)} isocronas`
               )
-              : "Activa la capa de isocronas de parque estrategico para calcular la cobertura general.",
+              : "Activa la capa de isocronas de Parque Estrategico para calcular la cobertura general.",
             wide: true,
             expandable: layerVisibility.parquesEstrategicos,
             breakdown: layerVisibility.parquesEstrategicos
@@ -3890,10 +3890,10 @@
         focusedAnalysisSubtitle.textContent = layerVisibility.parquesEstrategicos
           ? (
             `Poblacion calculada desde manzanas censales dentro de las plataformas. ` +
-            `Coberturas de parque estrategico con origen dentro de la plataforma: ${formatNumber(strategicOriginSummary.internalSources.size)}. ` +
-            `Coberturas de parque estrategico desde otras plataformas: ${formatNumber(strategicOriginSummary.externalSources.size)}.`
+            `Coberturas de Parque Estrategico con origen dentro de la plataforma: ${formatNumber(strategicOriginSummary.internalSources.size)}. ` +
+            `Coberturas de Parque Estrategico desde otras plataformas: ${formatNumber(strategicOriginSummary.externalSources.size)}.`
           )
-          : "Poblacion calculada desde manzanas censales dentro de las plataformas. Activa la capa de isocronas de parque estrategico para ver su cobertura total.";
+          : "Poblacion calculada desde manzanas censales dentro de las plataformas. Activa la capa de isocronas de Parque Estrategico para ver su cobertura total.";
         focusedAnalysisGrid.innerHTML = cards
           .map((card) => {
             const expanded = card.expandable && card.key === focusedAnalysisExpandedKey;
@@ -4007,7 +4007,7 @@
 
         cards.push({
           key: "coverage_parques_recreativos",
-          label: "Parque estrategico",
+          label: "Parque Estrategico",
           value: `${formatNumber(strategicParkState.populationCovered || 0)} hab`,
           meta: strategicHasCoverage
             ? (
@@ -5439,7 +5439,7 @@
           onEachFeature: (feature, layer) => {
             const props = feature.properties || {};
             layer.bindPopup(`
-              <strong>Parque estrategico ${formatNumber(props.selected_rank || 0)}</strong><br>
+              <strong>Parque Estrategico ${formatNumber(props.selected_rank || 0)}</strong><br>
               <strong>Nombre:</strong> ${props.nombre || "Sin nombre"}<br>
               <strong>Plataforma objetivo:</strong> ${displayPlatformName(props.target_platform) || "-"}<br>
               <strong>Plataforma origen:</strong> ${displayPlatformName(props.origin_platform) || "Sin plataforma"}<br>
@@ -5450,7 +5450,7 @@
             `);
 
             layer.on("click", () => {
-              overlayTitle.textContent = `Parque estrategico ${formatNumber(props.selected_rank || 0)}`;
+              overlayTitle.textContent = `Parque Estrategico ${formatNumber(props.selected_rank || 0)}`;
               overlayText.textContent = `${props.nombre || "Parque"} aporta ${formatNumber(props.covered_manzanas_individual || 0)} manzanas a la cobertura conjunta de ${displayPlatformName(props.target_platform)}.`;
             });
           }
@@ -5508,7 +5508,7 @@
           onEachFeature: (feature, layer) => {
             const props = feature.properties || {};
             layer.bindPopup(`
-              <strong>Isocrona parque estrategico ${formatNumber(props.selected_rank || 0)}</strong><br>
+              <strong>Isocrona Parque Estrategico ${formatNumber(props.selected_rank || 0)}</strong><br>
               <strong>Nombre:</strong> ${props.nombre || "Sin nombre"}<br>
               <strong>Plataforma objetivo:</strong> ${displayPlatformName(props.target_platform) || "-"}<br>
               <strong>Plataforma origen:</strong> ${displayPlatformName(props.origin_platform) || "Sin plataforma"}<br>
@@ -5519,7 +5519,7 @@
             `);
 
             layer.on("click", () => {
-              overlayTitle.textContent = `Isocrona parque estrategico ${formatNumber(props.selected_rank || 0)}`;
+              overlayTitle.textContent = `Isocrona Parque Estrategico ${formatNumber(props.selected_rank || 0)}`;
               overlayText.textContent = `${props.nombre || "Parque"} forma parte de la dupla seleccionada para cubrir ${displayPlatformName(props.target_platform)} con ${formatNumber(props.covered_manzanas_pair || 0)} manzanas conjuntas.`;
             });
           }
