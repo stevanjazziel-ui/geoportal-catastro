@@ -1,9 +1,13 @@
 window.TRAMITES_IPRUS_SHARED_STATE = {
   "title": "TRAMITES IPRUS SHARED STATE",
   "sourceDate": "2026-08-19T08:11:37",
-  "generatedAt": "2026-08-19T13:14:47.863Z",
+  "generatedAt": "2026-08-19T13:15:49.249Z",
   "syncVersion": 2,
   "assignments": {
+    "GADMR--2026-0560-IPRUS-ZNP": "Miriam Guisha",
+    "GADMR--2026-0559-IPRUS-ZNP": "Fausto Lopez",
+    "GADMR--2026-0558-IPRUS-ZNP": "Fausto Lopez",
+    "GADMR--2026-0557-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0545-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0556-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0555-IPRUS-ZNP": "Fausto Lopez",
@@ -1115,6 +1119,38 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
         "sourceRecordId": "GADMR--2026-0556-IPRUS-ZNP",
         "recordCode": "GADMR--2026-0556-IPRUS-ZNP",
         "tramiteNumber": "1228605",
+        "sourceType": "manual"
+      },
+      "1229396": {
+        "assignee": "Fausto Lopez",
+        "updatedAt": "2026-08-19T13:15:40.377Z",
+        "sourceRecordId": "GADMR--2026-0557-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0557-IPRUS-ZNP",
+        "tramiteNumber": "1229396",
+        "sourceType": "manual"
+      },
+      "1229513": {
+        "assignee": "Fausto Lopez",
+        "updatedAt": "2026-08-19T13:15:43.241Z",
+        "sourceRecordId": "GADMR--2026-0558-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0558-IPRUS-ZNP",
+        "tramiteNumber": "1229513",
+        "sourceType": "manual"
+      },
+      "1229536": {
+        "assignee": "Fausto Lopez",
+        "updatedAt": "2026-08-19T13:15:23.321Z",
+        "sourceRecordId": "GADMR--2026-0559-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0559-IPRUS-ZNP",
+        "tramiteNumber": "1229536",
+        "sourceType": "manual"
+      },
+      "1229905": {
+        "assignee": "Miriam Guisha",
+        "updatedAt": "2026-08-19T13:15:27.553Z",
+        "sourceRecordId": "GADMR--2026-0560-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0560-IPRUS-ZNP",
+        "tramiteNumber": "1229905",
         "sourceType": "manual"
       }
     },
@@ -2374,6 +2410,38 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
         "recordCode": "GADMR--2026-0264-IPRUS-ZNP",
         "tramiteNumber": "1182104",
         "sourceType": "legacy-activity"
+      },
+      "GADMR--2026-0559-IPRUS-ZNP": {
+        "assignee": "Fausto Lopez",
+        "updatedAt": "2026-08-19T13:15:23.321Z",
+        "sourceRecordId": "GADMR--2026-0559-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0559-IPRUS-ZNP",
+        "tramiteNumber": "1229536",
+        "sourceType": "manual"
+      },
+      "GADMR--2026-0560-IPRUS-ZNP": {
+        "assignee": "Miriam Guisha",
+        "updatedAt": "2026-08-19T13:15:27.553Z",
+        "sourceRecordId": "GADMR--2026-0560-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0560-IPRUS-ZNP",
+        "tramiteNumber": "1229905",
+        "sourceType": "manual"
+      },
+      "GADMR--2026-0557-IPRUS-ZNP": {
+        "assignee": "Fausto Lopez",
+        "updatedAt": "2026-08-19T13:15:40.377Z",
+        "sourceRecordId": "GADMR--2026-0557-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0557-IPRUS-ZNP",
+        "tramiteNumber": "1229396",
+        "sourceType": "manual"
+      },
+      "GADMR--2026-0558-IPRUS-ZNP": {
+        "assignee": "Fausto Lopez",
+        "updatedAt": "2026-08-19T13:15:43.241Z",
+        "sourceRecordId": "GADMR--2026-0558-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0558-IPRUS-ZNP",
+        "tramiteNumber": "1229513",
+        "sourceType": "manual"
       }
     }
   },
@@ -2382,6 +2450,66 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
   "reportDrafts": {},
   "taskQueue": [],
   "activityLog": [
+    {
+      "id": "1787145343241-yh3m4ai1",
+      "recordId": "GADMR--2026-0558-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Fausto Lopez.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-08-19T13:15:43.241Z",
+      "recordCode": "GADMR--2026-0558-IPRUS-ZNP",
+      "tramiteNumber": "1229513",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
+    {
+      "id": "1787145340377-9760e2jl",
+      "recordId": "GADMR--2026-0557-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Fausto Lopez.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-08-19T13:15:40.377Z",
+      "recordCode": "GADMR--2026-0557-IPRUS-ZNP",
+      "tramiteNumber": "1229396",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
+    {
+      "id": "1787145327553-1zy8xape",
+      "recordId": "GADMR--2026-0560-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Miriam Guisha.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-08-19T13:15:27.553Z",
+      "recordCode": "GADMR--2026-0560-IPRUS-ZNP",
+      "tramiteNumber": "1229905",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
+    {
+      "id": "1787145323321-pfg9xp7n",
+      "recordId": "GADMR--2026-0559-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Fausto Lopez.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-08-19T13:15:23.321Z",
+      "recordCode": "GADMR--2026-0559-IPRUS-ZNP",
+      "tramiteNumber": "1229536",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
     {
       "id": "1786985938150-yka0qjf0",
       "recordId": "GADMR--2026-0492-IPRUS-ZNP",
