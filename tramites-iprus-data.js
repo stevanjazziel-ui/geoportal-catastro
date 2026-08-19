@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-08-19",
-  "generatedAt": "2026-08-19T16:01:33",
+  "generatedAt": "2026-08-19T16:31:33",
   "records": [
     {
       "estado": "Complementado",
@@ -2930,14 +2930,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "Complementado",
+      "estado": "En espera",
       "tramite": "Trámite: 1202497 GADMR--2026-0398-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "MOROCHO YAUCAN EDISON PAUL - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": null,
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-08-11T08:26:00",
       "codigo": "GADMR--2026-0398-IPRUS-ZNP",
       "nroTramite": 1202497,
@@ -2960,7 +2960,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE",
       "egobLatestReassignmentAt": "2026-08-11 08:26",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 17,
+      "egobJournalCount": 18,
       "egobRelevantNotes": [
         {
           "journalId": "6867204",
@@ -3220,9 +3220,9 @@ window.TRAMITES_IPRUS_DATA = {
       "Sin prioridad": 14
     },
     "states": {
-      "Complementado": 15,
+      "Complementado": 14,
       "Asignado": 44,
-      "En espera": 6
+      "En espera": 7
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 65
