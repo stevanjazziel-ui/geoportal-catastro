@@ -249,6 +249,9 @@
         <h2>Capas</h2>
         <div class="layer-toggles">
           <label class="layer-toggle"><span>Polígono de intervención</span><input id="togglePolygon" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Polígono de referencia</span><input id="toggleReferencePolygon" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Isocrona 200 m</span><input id="toggleIsochrone200" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Isocrona 500 m</span><input id="toggleIsochrone500" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Nodos principales</span><input id="togglePrimary" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Nodos secundarios</span><input id="toggleSecondary" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Boulevares</span><input id="toggleBoulevards" type="checkbox" checked></label>
@@ -292,11 +295,13 @@
     crossorigin=""
   ></script>
   <script>
-    const DATA_VERSION = "20260819-premio-habitat-v1";
+    const DATA_VERSION = "20260819-premio-habitat-v2-poligono-isocronas";
     const DATA_BASE = `./data/premio-habitat`;
     const URLS = {
       metadata: `${DATA_BASE}/premio-habitat-metadata.json?v=${DATA_VERSION}`,
       polygon: `${DATA_BASE}/premio-habitat-poligono-intervencion.geojson?v=${DATA_VERSION}`,
+      referencePolygon: `./data/riobamba-poligono-referencia.geojson?v=${DATA_VERSION}`,
+      isochrones: `./data/riobamba-poligono-isocronas.geojson?v=${DATA_VERSION}`,
       primary: `${DATA_BASE}/premio-habitat-nodos-principales.geojson?v=${DATA_VERSION}`,
       secondary: `${DATA_BASE}/premio-habitat-nodos-secundarios.geojson?v=${DATA_VERSION}`,
       boulevards: `${DATA_BASE}/premio-habitat-boulevares.geojson?v=${DATA_VERSION}`,
@@ -317,6 +322,9 @@
     const fitButton = document.getElementById("fitButton");
 
     const togglePolygon = document.getElementById("togglePolygon");
+    const toggleReferencePolygon = document.getElementById("toggleReferencePolygon");
+    const toggleIsochrone200 = document.getElementById("toggleIsochrone200");
+    const toggleIsochrone500 = document.getElementById("toggleIsochrone500");
     const togglePrimary = document.getElementById("togglePrimary");
     const toggleSecondary = document.getElementById("toggleSecondary");
     const toggleBoulevards = document.getElementById("toggleBoulevards");
@@ -324,6 +332,9 @@
 
     const layerState = {
       polygon: null,
+      referencePolygon: null,
+      isochrone200: null,
+      isochrone500: null,
       primary: null,
       secondary: null,
       boulevards: null,
@@ -331,6 +342,8 @@
     };
 
     let metadata = null;
+    let referencePolygonFeature = null;
+    let referenceIsochroneFeatures = [];
 
     function formatNumber(value, decimals = 0) {
       if (!Number.isFinite(Number(value))) {
@@ -361,6 +374,9 @@
 
     function syncVisibleLayers() {
       syncLayer(layerState.polygon, togglePolygon.checked);
+      syncLayer(layerState.referencePolygon, toggleReferencePolygon.checked);
+      syncLayer(layerState.isochrone200, toggleIsochrone200.checked);
+      syncLayer(layerState.isochrone500, toggleIsochrone500.checked);
       syncLayer(layerState.primary, togglePrimary.checked);
       syncLayer(layerState.secondary, toggleSecondary.checked);
       syncLayer(layerState.boulevards, toggleBoulevards.checked);
@@ -398,6 +414,9 @@
     function buildLegend() {
       legend.innerHTML = `
         <div class="legend-row"><span class="legend-swatch" style="background:rgba(101, 222, 214, 0.22);border-color:rgba(39, 122, 82, 0.72);"></span><span>Polígono de intervención</span></div>
+        <div class="legend-row"><span class="legend-swatch" style="background:rgba(140, 195, 239, 0.18);border-color:rgba(43, 108, 176, 0.82);"></span><span>Polígono de referencia</span></div>
+        <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:0;border-top:3px solid #b64b4b;"></span><span>Isocrona 200 m</span></div>
+        <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:0;border-top:3px solid #2b6cb0;"></span><span>Isocrona 500 m</span></div>
         <div class="legend-row"><span class="legend-swatch" style="background:#ce7b2d;border-color:#ce7b2d;"></span><span>Nodos principales</span></div>
         <div class="legend-row"><span class="legend-swatch" style="background:#4a7ea8;border-color:#4a7ea8;"></span><span>Nodos secundarios</span></div>
         <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:0;border-top:3px solid #277a52;"></span><span>Boulevares</span></div>
@@ -411,24 +430,34 @@
       const secondaryCount = layers.nodos_secundarios?.feature_count || 0;
       const boulevardsLengthKm = (layers.boulevares?.line_length_m || 0) / 1000;
       const connectionsLengthKm = (layers.conexiones?.line_length_m || 0) / 1000;
+      const referenceAreaHa = (referencePolygonFeature?.properties?.area_m2 || 0) / 10000;
+      const isochrone500AreaHa = ((getReferenceIsochroneFeature(500)?.properties?.area_poligono_m2) || 0) / 10000;
 
       summaryCards.innerHTML = `
         <div class="card"><span>Nodos principales</span><strong>${formatNumber(primaryCount)}</strong></div>
         <div class="card"><span>Nodos secundarios</span><strong>${formatNumber(secondaryCount)}</strong></div>
         <div class="card"><span>Boulevares km</span><strong>${formatNumber(boulevardsLengthKm, 2)}</strong></div>
         <div class="card"><span>Conexiones km</span><strong>${formatNumber(connectionsLengthKm, 2)}</strong></div>
+        <div class="card"><span>Polígono ref. ha</span><strong>${formatNumber(referenceAreaHa, 2)}</strong></div>
+        <div class="card"><span>Isocrona 500 ha</span><strong>${formatNumber(isochrone500AreaHa, 2)}</strong></div>
       `;
     }
 
     function showOverviewDetail() {
+      const referenceProps = referencePolygonFeature?.properties || {};
+      const iso200Props = getReferenceIsochroneFeature(200)?.properties || {};
+      const iso500Props = getReferenceIsochroneFeature(500)?.properties || {};
       updateDetailRows([
         { label: "Polígono", value: formatNumber(metadata?.layers?.poligono_intervencion?.feature_count || 0) },
+        { label: "Ref. área", value: `${formatNumber(referenceProps.area_m2 || 0, 2)} m²` },
+        { label: "Iso 200 red", value: `${formatNumber(iso200Props.longitud_red_m || 0, 2)} m` },
+        { label: "Iso 500 red", value: `${formatNumber(iso500Props.longitud_red_m || 0, 2)} m` },
         { label: "Principales", value: formatNumber(metadata?.layers?.nodos_principales?.feature_count || 0) },
         { label: "Secundarios", value: formatNumber(metadata?.layers?.nodos_secundarios?.feature_count || 0) },
         { label: "Boulevares", value: `${formatNumber(metadata?.layers?.boulevares?.line_length_m || 0, 2)} m` },
         { label: "Conexiones", value: `${formatNumber(metadata?.layers?.conexiones?.line_length_m || 0, 2)} m` }
       ]);
-      setStatus("Premio Habitat", "Capas cargadas. Haz clic en una entidad para revisar su detalle.");
+      setStatus("Premio Habitat", "Capas cargadas. Haz clic en una entidad, en el polígono de referencia o en una isocrona para revisar su detalle.");
     }
 
     function onPolygonClick(feature) {
@@ -439,6 +468,30 @@
         { label: "Coordenada", value: props.coord || "Sin dato" }
       ]);
       setStatus("Polígono de intervención", "Área base para ubicar la intervención territorial del módulo Premio Habitat.");
+    }
+
+    function onReferencePolygonClick(feature) {
+      const props = feature.properties || {};
+      updateDetailRows([
+        { label: "Capa", value: "Polígono de referencia" },
+        { label: "Área", value: `${formatNumber(props.area_m2 || 0, 2)} m²` },
+        { label: "Perímetro", value: `${formatNumber(props.perimeter_m || 0, 2)} m` },
+        { label: "UTM", value: props.utm_zone || "Sin dato" },
+        { label: "Centroide", value: `${formatNumber(props.centroid_lon || 0, 6)}, ${formatNumber(props.centroid_lat || 0, 6)}` }
+      ]);
+      setStatus("Polígono de referencia", props.name || "Polígono de referencia");
+    }
+
+    function onIsochroneClick(feature) {
+      const props = feature.properties || {};
+      updateDetailRows([
+        { label: "Capa", value: `Isocrona ${formatNumber(props.distance_m || 0)} m` },
+        { label: "Área", value: `${formatNumber(props.area_poligono_m2 || 0, 2)} m²` },
+        { label: "Red", value: `${formatNumber(props.longitud_red_m || 0, 2)} m` },
+        { label: "Población ref.", value: formatNumber(props.population_total || 0) },
+        { label: "Manzanas", value: formatNumber(props.manzanas_ajustadas || 0) }
+      ]);
+      setStatus(`Isocrona ${formatNumber(props.distance_m || 0)} m`, props.nombre || "Cobertura de red desde el límite exterior del polígono.");
     }
 
     function onPrimaryNodeClick(feature) {
@@ -493,11 +546,107 @@
           color: "#277a52",
           weight: 2.6,
           fillColor: "#65ded6",
-          fillOpacity: 0.18
+          fillOpacity: 0.12
         },
         onEachFeature(feature, layer) {
           layer.bindPopup("<strong>Polígono de intervención</strong>");
           layer.on("click", () => onPolygonClick(feature));
+        }
+      });
+    }
+
+    function extractReferencePolygonFeature(data) {
+      return (data?.features || []).find((feature) => feature?.properties?.feature_type === "polygon")
+        || (data?.features || []).find((feature) => feature?.geometry?.type === "Polygon")
+        || null;
+    }
+
+    function getReferenceIsochroneFeature(distanceM) {
+      return referenceIsochroneFeatures.find((feature) => Number(feature?.properties?.distance_m) === Number(distanceM)) || null;
+    }
+
+    function buildIsochroneBoundaryFeature(feature) {
+      const geometry = feature?.geometry;
+      if (!geometry) {
+        return null;
+      }
+
+      if (geometry.type === "Polygon" && Array.isArray(geometry.coordinates?.[0])) {
+        return {
+          type: "Feature",
+          properties: feature.properties || {},
+          geometry: {
+            type: "LineString",
+            coordinates: geometry.coordinates[0]
+          }
+        };
+      }
+
+      if (geometry.type === "MultiPolygon") {
+        const coordinates = (geometry.coordinates || [])
+          .map((polygon) => polygon?.[0])
+          .filter((ring) => Array.isArray(ring) && ring.length > 1);
+
+        if (!coordinates.length) {
+          return null;
+        }
+
+        return {
+          type: "Feature",
+          properties: feature.properties || {},
+          geometry: {
+            type: coordinates.length === 1 ? "LineString" : "MultiLineString",
+            coordinates: coordinates.length === 1 ? coordinates[0] : coordinates
+          }
+        };
+      }
+
+      return feature;
+    }
+
+    function buildReferencePolygonLayer(feature) {
+      return L.geoJSON(feature, {
+        style: {
+          color: "#2b6cb0",
+          weight: 2.8,
+          opacity: 0.94,
+          dashArray: "9 6",
+          fillColor: "#8cc3ef",
+          fillOpacity: 0.12
+        },
+        onEachFeature(geoFeature, layer) {
+          layer.bindPopup(`<strong>${geoFeature.properties?.name || "Polígono de referencia"}</strong>`);
+          layer.on("click", () => onReferencePolygonClick(geoFeature));
+        }
+      });
+    }
+
+    function buildIsochroneLayer(distanceM) {
+      const feature = getReferenceIsochroneFeature(distanceM);
+      const boundaryFeature = buildIsochroneBoundaryFeature(feature);
+      if (!boundaryFeature) {
+        return null;
+      }
+
+      const is200 = Number(distanceM) === 200;
+      return L.geoJSON(boundaryFeature, {
+        style: {
+          color: is200 ? "#b64b4b" : "#2b6cb0",
+          weight: is200 ? 3.2 : 3,
+          opacity: 0.95,
+          dashArray: is200 ? "8 6" : "12 8",
+          lineCap: "round",
+          lineJoin: "round"
+        },
+        onEachFeature(_geoFeature, layer) {
+          const props = feature?.properties || {};
+          layer.bindPopup(
+            `<strong>Isocrona ${formatNumber(props.distance_m || 0)} m</strong><br>` +
+            `Área ${formatNumber(props.area_poligono_m2 || 0, 2)} m²<br>` +
+            `Red ${formatNumber(props.longitud_red_m || 0, 2)} m<br>` +
+            `Población ref. ${formatNumber(props.population_total || 0)}`
+          );
+          layer.on("click", () => onIsochroneClick(feature));
         }
       });
     }
@@ -585,12 +734,14 @@
 
     async function main() {
       buildLegend();
-      setStatus("Premio Habitat", "Cargando nodos, boulevares y conexiones...");
+      setStatus("Premio Habitat", "Cargando nodos, boulevares, conexiones, polígono de referencia e isocronas...");
 
       try {
-        const [metadataData, polygonData, primaryData, secondaryData, boulevardsData, connectionsData] = await Promise.all([
+        const [metadataData, polygonData, referencePolygonData, isochronesData, primaryData, secondaryData, boulevardsData, connectionsData] = await Promise.all([
           loadJson(URLS.metadata),
           loadJson(URLS.polygon),
+          loadJson(URLS.referencePolygon),
+          loadJson(URLS.isochrones),
           loadJson(URLS.primary),
           loadJson(URLS.secondary),
           loadJson(URLS.boulevards),
@@ -598,25 +749,30 @@
         ]);
 
         metadata = metadataData;
-        buildSummary();
+        referencePolygonFeature = extractReferencePolygonFeature(referencePolygonData);
+        referenceIsochroneFeatures = Array.isArray(isochronesData?.features) ? isochronesData.features : [];
 
         layerState.polygon = buildPolygonLayer(polygonData);
+        layerState.referencePolygon = referencePolygonFeature ? buildReferencePolygonLayer(referencePolygonFeature) : null;
+        layerState.isochrone200 = buildIsochroneLayer(200);
+        layerState.isochrone500 = buildIsochroneLayer(500);
         layerState.primary = buildPrimaryNodesLayer(primaryData);
         layerState.secondary = buildSecondaryNodesLayer(secondaryData);
         layerState.boulevards = buildBoulevardsLayer(boulevardsData);
         layerState.connections = buildConnectionsLayer(connectionsData);
 
+        buildSummary();
         syncVisibleLayers();
         fitToVisibleLayers();
         showOverviewDetail();
       } catch (error) {
         console.error(error);
         updateDetailRows([{ label: "Estado", value: "Error de carga" }]);
-        setStatus("Error de carga", "No fue posible cargar una o más capas de Premio Habitat.");
+        setStatus("Error de carga", "No fue posible cargar una o más capas de Premio Habitat o del polígono de referencia.");
       }
     }
 
-    [togglePolygon, togglePrimary, toggleSecondary, toggleBoulevards, toggleConnections].forEach((input) => {
+    [togglePolygon, toggleReferencePolygon, toggleIsochrone200, toggleIsochrone500, togglePrimary, toggleSecondary, toggleBoulevards, toggleConnections].forEach((input) => {
       input.addEventListener("change", () => {
         syncVisibleLayers();
         fitToVisibleLayers();
