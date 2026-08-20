@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Riobamba | Visor de Parque Estrategico</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <style>
+    :root {
+      --bg: #eef3ea;
+      --bg-2: #dde7d7;
+      --panel: rgba(248, 250, 244, 0.95);
+      --panel-2: rgba(241, 245, 236, 0.96);
+      --line: rgba(106, 126, 99, 0.22);
+      --text: #243226;
+      --muted: #627464;
+      --accent: #4f8f52;
+      --accent-2: #5f8eb9;
+      --platform: #b799d5;
+      --shadow: 0 18px 36px rgba(62, 78, 59, 0.14);
+      --covered: #66cb8b;
+      --covered-2: #1f9f6d;
+      --covered-fill: rgba(102, 203, 139, 0.42);
+      --covered-fill-2: rgba(31, 159, 109, 0.24);
+      --covered-manzana: rgba(120, 217, 156, 0.46);
+      --covered-stroke: rgba(41, 114, 73, 0.9);
+      --uncovered-manzana: rgba(223, 229, 221, 0.54);
+      --uncovered-stroke: rgba(117, 128, 119, 0.68);
+      --map-bg: #edf1eb;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(95, 142, 185, 0.12), transparent 26%),
+        radial-gradient(circle at 88% 12%, rgba(79, 143, 82, 0.1), transparent 18%),
+        linear-gradient(180deg, #eff4ea, #dde6d7);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      height: 100dvh;
+    }
+
+    .sidebar {
+      overflow-y: auto;
+      padding: 18px;
+      background:
+        linear-gradient(180deg, rgba(242, 246, 238, 0.98), rgba(231, 238, 226, 0.98));
+      border-right: 1px solid var(--line);
+    }
+
+    .panel {
+      margin-bottom: 14px;
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(79, 143, 82, 0.12);
+      color: var(--accent);
+      font-size: 0.77rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, p { margin: 0; }
+    h1 { font-size: 1.95rem; margin-bottom: 8px; line-height: 1.08; }
+    h2 { font-size: 0.95rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+    p { color: var(--muted); line-height: 1.5; }
+
+    select, button {
+      width: 100%;
+      font: inherit;
+    }
+
+    select {
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--panel-2);
+      color: var(--text);
+      outline: none;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    }
+
+    button, .ghost-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 14px;
+      border: 1px solid rgba(79, 143, 82, 0.28);
+      border-radius: 12px;
+      background:
+        linear-gradient(135deg, rgba(79, 143, 82, 0.18), rgba(95, 142, 185, 0.14)),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0));
+      color: var(--text);
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+    }
+
+    button:hover:not(:disabled),
+    .ghost-link:hover {
+      transform: translateY(-1px);
+      border-color: rgba(95, 142, 185, 0.34);
+      background:
+        linear-gradient(135deg, rgba(79, 143, 82, 0.24), rgba(95, 142, 185, 0.2)),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.46), rgba(255, 255, 255, 0));
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .card {
+      padding: 12px;
+      border-radius: 14px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      min-height: 104px;
+    }
+
+    .card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+    }
+
+    .card strong {
+      display: block;
+      font-size: 1.18rem;
+      line-height: 1.05;
+      margin-bottom: 6px;
+    }
+
+    .card small {
+      display: block;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .mini-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .mini-row strong {
+      color: var(--text);
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .inline-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .layer-toggles {
+      display: grid;
+      gap: 10px;
+    }
+
+    .layer-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      color: var(--text);
+    }
+
+    .layer-toggle span {
+      color: var(--text);
+      font-size: 0.96rem;
+    }
+
+    .layer-toggle input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent-2);
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .legend {
+      display: grid;
+      gap: 8px;
+    }
+
+    .legend-section-title {
+      margin: 0 0 4px;
+      color: var(--text);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+    }
+
+    .legend-label {
+      flex: 1 1 auto;
+    }
+
+    .legend-symbol {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 2px solid rgba(36, 50, 38, 0.82);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.34);
+      flex: 0 0 auto;
+    }
+
+    .legend-line {
+      width: 24px;
+      height: 0;
+      border-top: 3px solid transparent;
+      flex: 0 0 auto;
+    }
+
+    .park-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .park-item {
+      padding: 12px;
+      border-radius: 14px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+    }
+
+    .park-item-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .park-rank {
+      width: 20px;
+      height: 20px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .park-item small {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .map-shell {
+      position: relative;
+      min-width: 0;
+      background: var(--map-bg);
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      z-index: 700;
+      width: min(100%, 360px);
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(248, 250, 244, 0.94);
+      border: 1px solid rgba(106, 126, 99, 0.22);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .overlay strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1rem;
+    }
+
+    .overlay p {
+      font-size: 0.95rem;
+    }
+
+    .barrio-label-icon {
+      background: transparent;
+      border: 0;
+      pointer-events: none;
+    }
+
+    .barrio-label {
+      transform: translate(-50%, -50%);
+      padding: 3px 7px;
+      border-radius: 10px;
+      background: rgba(248, 250, 244, 0.92);
+      border: 1px solid rgba(123, 97, 179, 0.32);
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.15;
+      text-align: center;
+      white-space: nowrap;
+      box-shadow: 0 6px 16px rgba(62, 78, 59, 0.12);
+    }
+
+    .leaflet-popup-content-wrapper {
+      border-radius: 16px;
+      background: rgba(247, 250, 244, 0.98);
+      color: var(--text);
+      box-shadow: 0 16px 34px rgba(62, 78, 59, 0.18);
+    }
+
+    .leaflet-popup-content {
+      margin: 14px 16px;
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+
+    .leaflet-popup-tip {
+      background: rgba(247, 250, 244, 0.98);
+    }
+
+    @media (max-width: 1080px) {
+      .layout {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+
+      .sidebar {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .map-shell {
+        height: 72vh;
+      }
+
+      .overlay {
+        left: 14px;
+        right: 14px;
+        width: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <section class="panel">
+        <div class="eyebrow">Riobamba · Cobertura especializada</div>
+        <h1>Visor de Parque Estrategico</h1>
+        <p>
+          Visor dedicado exclusivamente a los <strong>Parques Estrategicos</strong> seleccionados por
+          plataforma. Presenta las manzanas censales dentro de plataformas, los parques elegidos,
+          sus isocronas y la cobertura poblacional resultante.
+        </p>
+        <div class="inline-actions">
+          <a class="ghost-link" href="./riobamba-censo.html">Abrir visor completo</a>
+          <button id="resetButton" type="button">Ver todas</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Plataforma territorial</h2>
+        <select id="platformSelect"></select>
+        <div class="inline-actions">
+          <button id="fitButton" type="button">Ajustar vista</button>
+          <button id="refreshButton" type="button">Recargar visor</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Resumen</h2>
+        <div class="stats" id="summaryCards"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Cobertura Parque Estrategico</h2>
+        <div class="mini-list" id="coverageList"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Rangos cubiertos</h2>
+        <div class="mini-list" id="coveredBreakdown"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Rangos no cubiertos</h2>
+        <div class="mini-list" id="uncoveredBreakdown"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Parques del analisis</h2>
+        <div class="park-list" id="parkList"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Capas visibles</h2>
+        <div class="layer-toggles">
+          <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Manzanas solo contorno</span><input id="toggleManzanasOutline" type="checkbox"></label>
+          <label class="layer-toggle"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Barrios</span><input id="toggleBarrios" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Nombres de barrios</span><input id="toggleBarriosLabels" type="checkbox"></label>
+          <label class="layer-toggle"><span>Puntos Parque Estrategico</span><input id="toggleStrategicPoints" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Isocronas Parque Estrategico</span><input id="toggleStrategicIso" type="checkbox" checked></label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Leyenda</h2>
+        <div class="legend" id="legend"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Estado</h2>
+        <p id="statusText">Cargando manzanas, plataformas, barrios y parques estrategicos...</p>
+      </section>
+    </aside>
+
+    <main class="map-shell">
+      <div id="map"></div>
+      <div class="overlay" aria-live="polite">
+        <strong id="overlayTitle">Visor de Parque Estrategico</strong>
+        <p id="overlayText">Se esta cargando la cobertura por plataforma.</p>
+      </div>
+    </main>
+  </div>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+  <script>
+    const DATA_VERSION = "20260820-parques-estrategicos-v1";
+    const ALL_PLATFORMS = "__all__";
+    const bboxCache = new WeakMap();
+    const strategicColorByRank = {
+      1: "#5fd38d",
+      2: "#1f9f6d"
+    };
+    const manzanaStyleColors = {
+      coveredStroke: "rgba(41, 114, 73, 0.9)",
+      uncoveredStroke: "rgba(117, 128, 119, 0.68)",
+      coveredFill: "rgba(120, 217, 156, 0.46)",
+      uncoveredFill: "rgba(223, 229, 221, 0.54)"
+    };
+
+    const breakdownFields = [
+      { key: "age_0_4", label: "0 a 4" },
+      { key: "age_5_11", label: "5 a 11" },
+      { key: "age_12_17", label: "12 a 17" },
+      { key: "age_18_29", label: "18 a 29" },
+      { key: "age_30_64", label: "30 a 64" },
+      { key: "age_65_plus", label: "65 y mas" },
+      { key: "male", label: "Hombres" },
+      { key: "female", label: "Mujeres" }
+    ];
+
+    const map = L.map("map", {
+      zoomControl: false,
+      preferCanvas: true,
+      minZoom: 12
+    });
+    const canvasRenderer = L.canvas({ padding: 0.35 });
+    L.control.zoom({ position: "topright" }).addTo(map);
+
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      attribution: '&copy; OpenStreetMap &copy; CARTO',
+      subdomains: "abcd",
+      maxZoom: 20
+    }).addTo(map);
+
+    const summaryCards = document.getElementById("summaryCards");
+    const coverageList = document.getElementById("coverageList");
+    const coveredBreakdown = document.getElementById("coveredBreakdown");
+    const uncoveredBreakdown = document.getElementById("uncoveredBreakdown");
+    const parkList = document.getElementById("parkList");
+    const legend = document.getElementById("legend");
+    const statusText = document.getElementById("statusText");
+    const overlayTitle = document.getElementById("overlayTitle");
+    const overlayText = document.getElementById("overlayText");
+    const platformSelect = document.getElementById("platformSelect");
+    const fitButton = document.getElementById("fitButton");
+    const resetButton = document.getElementById("resetButton");
+    const refreshButton = document.getElementById("refreshButton");
+
+    const toggleManzanas = document.getElementById("toggleManzanas");
+    const toggleManzanasOutline = document.getElementById("toggleManzanasOutline");
+    const togglePlataformas = document.getElementById("togglePlataformas");
+    const toggleBarrios = document.getElementById("toggleBarrios");
+    const toggleBarriosLabels = document.getElementById("toggleBarriosLabels");
+    const toggleStrategicPoints = document.getElementById("toggleStrategicPoints");
+    const toggleStrategicIso = document.getElementById("toggleStrategicIso");
+
+    const layerVisibility = {
+      manzanas: true,
+      manzanasOutline: false,
+      plataformas: true,
+      barrios: true,
+      barrioLabels: false,
+      strategicPoints: true,
+      strategicIso: true
+    };
+
+    let currentPlatform = ALL_PLATFORMS;
+    let joinedFeatures = [];
+    let platformFeatures = [];
+    let barrioFeatures = [];
+    let strategicPointFeatures = [];
+    let strategicIsoClippedFeatures = [];
+    let strategicIsoFullFeatures = [];
+    let strategicStats = null;
+    let platformsStats = null;
+    let coverageState = null;
+    let manzanaLayer = null;
+    let platformLayer = null;
+    let barrioLayer = null;
+    let barrioLabelLayer = null;
+    let strategicPointLayer = null;
+    let strategicIsoLayer = null;
+
+    function repairText(value) {
+      return String(value ?? "")
+        .replaceAll("Ã¡", "á")
+        .replaceAll("Ã©", "é")
+        .replaceAll("Ã­", "í")
+        .replaceAll("Ã³", "ó")
+        .replaceAll("Ãº", "ú")
+        .replaceAll("Ã", "Á")
+        .replaceAll("Ã‰", "É")
+        .replaceAll("Ã", "Í")
+        .replaceAll("Ã“", "Ó")
+        .replaceAll("Ãš", "Ú")
+        .replaceAll("Ã±", "ñ")
+        .replaceAll("Ã‘", "Ñ")
+        .replaceAll("m�ltiples", "múltiples")
+        .replaceAll("liberaci�n", "liberación")
+        .replaceAll("�", "Ñ");
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function normalizeText(value) {
+      return repairText(value)
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim();
+    }
+
+    function samePlatformName(left, right) {
+      return normalizeText(left) === normalizeText(right);
+    }
+
+    function displayPlatformName(value) {
+      return repairText(value).trim();
+    }
+
+    function formatNumber(value, options = {}) {
+      const number = Number(value || 0);
+      return new Intl.NumberFormat("es-EC", {
+        maximumFractionDigits: options.maximumFractionDigits ?? 0,
+        minimumFractionDigits: options.minimumFractionDigits ?? 0
+      }).format(number);
+    }
+
+    function formatPercentValue(value) {
+      return `${formatNumber(value, { maximumFractionDigits: 1, minimumFractionDigits: 1 })}%`;
+    }
+
+    function getPercentValue(part, total) {
+      if (!Number.isFinite(part) || !Number.isFinite(total) || total <= 0) {
+        return 0;
+      }
+      return (Number(part) / Number(total)) * 100;
+    }
+
+    function sumField(features, field) {
+      return (features || []).reduce((total, feature) => total + Number(feature?.properties?.[field] || 0), 0);
+    }
+
+    function createEmptyBreakdown() {
+      return {
+        age_0_4: 0,
+        age_5_11: 0,
+        age_12_17: 0,
+        age_18_29: 0,
+        age_30_64: 0,
+        age_65_plus: 0,
+        male: 0,
+        female: 0
+      };
+    }
+
+    function accumulateBreakdown(breakdown, feature) {
+      if (!feature?.properties) {
+        return;
+      }
+      for (const field of breakdownFields) {
+        breakdown[field.key] += Number(feature.properties[field.key] || 0);
+      }
+    }
+
+    function renderBreakdown(container, breakdown) {
+      container.innerHTML = breakdownFields
+        .map((field) => `
+          <div class="mini-row">
+            <span>${field.label}</span>
+            <strong>${formatNumber(breakdown?.[field.key] || 0)}</strong>
+          </div>
+        `)
+        .join("");
+    }
+
+    function getFeatureBBox(feature) {
+      if (!feature || typeof turf === "undefined") {
+        return null;
+      }
+      if (bboxCache.has(feature)) {
+        return bboxCache.get(feature);
+      }
+      let bbox = null;
+      try {
+        bbox = turf.bbox(feature);
+      } catch (error) {
+        bbox = null;
+      }
+      bboxCache.set(feature, bbox);
+      return bbox;
+    }
+
+    function doBboxesIntersect(a, b) {
+      if (!a || !b) {
+        return true;
+      }
+      return !(a[2] < b[0] || a[0] > b[2] || a[3] < b[1] || a[1] > b[3]);
+    }
+
+    function getCurrentPlatformFeature() {
+      if (currentPlatform === ALL_PLATFORMS) {
+        return null;
+      }
+      return platformFeatures.find((feature) => samePlatformName(feature?.properties?.platform_name, currentPlatform)) || null;
+    }
+
+    function getCurrentManzanas() {
+      if (currentPlatform === ALL_PLATFORMS) {
+        return joinedFeatures;
+      }
+      return joinedFeatures.filter((feature) => samePlatformName(feature?.properties?.platform_name, currentPlatform));
+    }
+
+    function getCurrentBarrios() {
+      if (currentPlatform === ALL_PLATFORMS) {
+        return barrioFeatures;
+      }
+      return barrioFeatures.filter((feature) => samePlatformName(feature?.properties?.platform_name, currentPlatform));
+    }
+
+    function getCurrentStrategicPoints() {
+      if (currentPlatform === ALL_PLATFORMS) {
+        return strategicPointFeatures;
+      }
+      return strategicPointFeatures.filter((feature) =>
+        samePlatformName(feature?.properties?.target_platform, currentPlatform)
+      );
+    }
+
+    function getCurrentStrategicIsochrones() {
+      if (currentPlatform === ALL_PLATFORMS) {
+        return strategicIsoFullFeatures;
+      }
+      return strategicIsoClippedFeatures.filter((feature) =>
+        samePlatformName(feature?.properties?.target_platform, currentPlatform)
+      );
+    }
+
+    function getCurrentStrategicStats() {
+      if (!strategicStats) {
+        return null;
+      }
+      if (currentPlatform === ALL_PLATFORMS) {
+        return strategicStats.summary || null;
+      }
+      const byPlatform = strategicStats.by_platform || {};
+      if (byPlatform[currentPlatform]) {
+        return byPlatform[currentPlatform];
+      }
+      return Object.values(byPlatform).find((entry) =>
+        samePlatformName(entry?.platform_name, currentPlatform)
+      ) || null;
+    }
+
+    function buildCoverageState(features, isochrones) {
+      const state = {
+        total: features.length,
+        covered: 0,
+        uncovered: 0,
+        populationTotal: 0,
+        populationCovered: 0,
+        populationUncovered: 0,
+        coveredIds: new Set(),
+        breakdownCovered: createEmptyBreakdown(),
+        breakdownUncovered: createEmptyBreakdown()
+      };
+
+      if (!features.length) {
+        return state;
+      }
+
+      state.populationTotal = sumField(features, "population_total");
+
+      if (typeof turf === "undefined" || !isochrones.length) {
+        state.uncovered = features.length;
+        state.populationUncovered = state.populationTotal;
+        for (const feature of features) {
+          accumulateBreakdown(state.breakdownUncovered, feature);
+        }
+        return state;
+      }
+
+      const preparedIsochrones = isochrones.map((feature) => ({
+        feature,
+        bbox: getFeatureBBox(feature)
+      }));
+
+      for (const feature of features) {
+        const featureBBox = getFeatureBBox(feature);
+        const population = Number(feature?.properties?.population_total || 0);
+        let covered = false;
+
+        for (const item of preparedIsochrones) {
+          if (featureBBox && item.bbox && !doBboxesIntersect(featureBBox, item.bbox)) {
+            continue;
+          }
+          try {
+            if (turf.booleanIntersects(feature, item.feature)) {
+              covered = true;
+              break;
+            }
+          } catch (error) {
+            continue;
+          }
+        }
+
+        if (covered) {
+          state.covered += 1;
+          state.populationCovered += population;
+          state.coveredIds.add(String(feature?.properties?.man || ""));
+          accumulateBreakdown(state.breakdownCovered, feature);
+        } else {
+          state.uncovered += 1;
+          state.populationUncovered += population;
+          accumulateBreakdown(state.breakdownUncovered, feature);
+        }
+      }
+
+      return state;
+    }
+
+    function buildFullStrategicIsoFeatures(strategicIsoFeatures, recreationIsoFeatures) {
+      const recreationBySource = new Map(
+        (recreationIsoFeatures || [])
+          .filter((feature) => feature?.geometry && feature?.properties)
+          .map((feature) => [String(feature.properties.source_id || "").trim(), feature])
+      );
+
+      return (strategicIsoFeatures || []).map((feature) => {
+        const sourceId = String(feature?.properties?.source_id || "").trim();
+        const originalFeature = recreationBySource.get(sourceId);
+        if (!originalFeature?.geometry) {
+          return feature;
+        }
+
+        return {
+          ...originalFeature,
+          properties: {
+            ...(originalFeature.properties || {}),
+            ...(feature.properties || {}),
+            __full_geometry: true
+          }
+        };
+      });
+    }
+
+    function renderSummaryCards() {
+      const manzanas = getCurrentManzanas();
+      const points = getCurrentStrategicPoints();
+      const totalPopulation = sumField(manzanas, "population_total");
+      const coveragePercent = getPercentValue(coverageState.populationCovered, totalPopulation);
+      const uncoveredPercent = getPercentValue(coverageState.populationUncovered, totalPopulation);
+      const strategicPlatformStats = getCurrentStrategicStats();
+
+      const rows = [
+        {
+          label: currentPlatform === ALL_PLATFORMS ? "Poblacion en plataformas" : "Poblacion plataforma",
+          value: `${formatNumber(totalPopulation)} hab`,
+          meta: `${formatNumber(manzanas.length)} manzanas censales`
+        },
+        {
+          label: "Poblacion cubierta",
+          value: `${formatNumber(coverageState.populationCovered)} hab`,
+          meta: `${formatPercentValue(coveragePercent)} del total`
+        },
+        {
+          label: "Poblacion no cubierta",
+          value: `${formatNumber(coverageState.populationUncovered)} hab`,
+          meta: `${formatPercentValue(uncoveredPercent)} del total`
+        },
+        {
+          label: currentPlatform === ALL_PLATFORMS ? "Parques seleccionados" : "Parques del par",
+          value: formatNumber(points.length),
+          meta: currentPlatform === ALL_PLATFORMS
+            ? `${formatNumber(strategicStats?.summary?.pairs_total || 0)} plataformas analizadas`
+            : `${formatNumber(strategicPlatformStats?.effective_parks || points.length)} parques efectivos`
+        }
+      ];
+
+      summaryCards.innerHTML = rows
+        .map((row) => `
+          <article class="card">
+            <span>${row.label}</span>
+            <strong>${row.value}</strong>
+            <small>${row.meta}</small>
+          </article>
+        `)
+        .join("");
+    }
+
+    function renderCoverageList() {
+      const manzanas = getCurrentManzanas();
+      const totalPopulation = sumField(manzanas, "population_total");
+      const strategicPlatformStats = getCurrentStrategicStats();
+      const rows = currentPlatform === ALL_PLATFORMS
+        ? [
+          ["Plataformas analizadas", strategicStats?.summary?.platforms_total || platformFeatures.length],
+          ["Plataformas con par completo", strategicStats?.summary?.platforms_with_full_pair || 0],
+          ["Plataformas con cobertura parcial", strategicStats?.summary?.platforms_without_full_pair || 0],
+          ["Parques estrategicos", strategicStats?.summary?.selected_point_features || getCurrentStrategicPoints().length],
+          ["Isocronas visibles", getCurrentStrategicIsochrones().length],
+          ["Cobertura de manzanas", `${formatNumber(coverageState.covered)} / ${formatNumber(manzanas.length)} (${formatPercentValue(getPercentValue(coverageState.covered, manzanas.length))})`],
+          ["Cobertura de poblacion", `${formatNumber(coverageState.populationCovered)} / ${formatNumber(totalPopulation)} hab (${formatPercentValue(getPercentValue(coverageState.populationCovered, totalPopulation))})`]
+        ]
+        : [
+          ["Plataforma visible", displayPlatformName(currentPlatform)],
+          ["Estado del par", strategicPlatformStats?.has_full_pair ? "Cobertura completa" : "Cobertura parcial"],
+          ["Parque 1", repairText(strategicPlatformStats?.pair_names?.[0] || "Sin dato")],
+          ["Parque 2", repairText(strategicPlatformStats?.pair_names?.[1] || "Sin dato")],
+          ["Distancia entre parques", `${formatNumber(strategicPlatformStats?.pair_distance_m || 0)} m`],
+          ["Modo de seleccion", repairText(String(strategicPlatformStats?.selection_mode || "-").replaceAll("_", " "))],
+          ["Cobertura de manzanas", `${formatNumber(coverageState.covered)} / ${formatNumber(manzanas.length)} (${formatPercentValue(getPercentValue(coverageState.covered, manzanas.length))})`],
+          ["Cobertura de poblacion", `${formatNumber(coverageState.populationCovered)} / ${formatNumber(totalPopulation)} hab (${formatPercentValue(getPercentValue(coverageState.populationCovered, totalPopulation))})`]
+        ];
+
+      coverageList.innerHTML = rows
+        .map(([label, value]) => `
+          <div class="mini-row">
+            <span>${escapeHtml(label)}</span>
+            <strong>${escapeHtml(value)}</strong>
+          </div>
+        `)
+        .join("");
+    }
+
+    function renderParkList() {
+      const points = getCurrentStrategicPoints();
+
+      if (!points.length) {
+        parkList.innerHTML = `<div class="park-item"><small>No hay parques estrategicos visibles en esta seleccion.</small></div>`;
+        return;
+      }
+
+      parkList.innerHTML = points
+        .sort((left, right) => Number(left?.properties?.selected_rank || 0) - Number(right?.properties?.selected_rank || 0))
+        .map((feature) => {
+          const props = feature.properties || {};
+          const rank = Number(props.selected_rank || 0);
+          const rankColor = strategicColorByRank[rank] || strategicColorByRank[1];
+          return `
+            <article class="park-item">
+              <div class="park-item-header">
+                <span class="park-rank" style="background:${rankColor};">${formatNumber(rank)}</span>
+                <span>${escapeHtml(repairText(props.nombre || "Parque sin nombre"))}</span>
+              </div>
+              <small>Tipologia: ${escapeHtml(repairText(props.tipologia || "-"))}</small>
+              <small>Plataforma objetivo: ${escapeHtml(displayPlatformName(props.target_platform) || "-")}</small>
+              <small>Plataforma origen: ${escapeHtml(displayPlatformName(props.origin_platform) || "-")}</small>
+              <small>Cobertura conjunta: ${formatNumber(props.covered_population_pair || 0)} hab | ${formatPercentValue(props.covered_population_pair_percent || 0)}</small>
+            </article>
+          `;
+        })
+        .join("");
+    }
+
+    function renderLegend() {
+      const manzanas = getCurrentManzanas();
+      legend.innerHTML = `
+        <div class="legend-section-title">Cobertura por manzana</div>
+        <div class="legend-row">
+          <span class="legend-symbol" style="background:var(--covered-manzana); border-color:var(--covered-stroke);"></span>
+          <span class="legend-label">Manzana cubierta: ${formatNumber(coverageState.covered)} de ${formatNumber(manzanas.length)}</span>
+        </div>
+        <div class="legend-row">
+          <span class="legend-symbol" style="background:var(--uncovered-manzana); border-color:var(--uncovered-stroke);"></span>
+          <span class="legend-label">Manzana no cubierta: ${formatNumber(coverageState.uncovered)}</span>
+        </div>
+        <div class="legend-section-title">Parques e isocronas</div>
+        <div class="legend-row">
+          <span class="legend-symbol" style="background:${strategicColorByRank[1]}; border-color:rgba(36,50,38,0.82);"></span>
+          <span class="legend-label">Parque Estrategico 1</span>
+        </div>
+        <div class="legend-row">
+          <span class="legend-line" style="border-top-color:${strategicColorByRank[1]};"></span>
+          <span class="legend-label">Isocrona Parque Estrategico 1</span>
+        </div>
+        <div class="legend-row">
+          <span class="legend-symbol" style="background:${strategicColorByRank[2]}; border-color:rgba(36,50,38,0.82);"></span>
+          <span class="legend-label">Parque Estrategico 2</span>
+        </div>
+        <div class="legend-row">
+          <span class="legend-line" style="border-top-color:${strategicColorByRank[2]}; border-top-style:dashed;"></span>
+          <span class="legend-label">Isocrona Parque Estrategico 2</span>
+        </div>
+      `;
+    }
+
+    function updateOverlay() {
+      const manzanas = getCurrentManzanas();
+      const totalPopulation = sumField(manzanas, "population_total");
+      const points = getCurrentStrategicPoints();
+
+      if (currentPlatform === ALL_PLATFORMS) {
+        overlayTitle.textContent = "Visor de Parque Estrategico";
+        overlayText.textContent =
+          `Mostrando ${formatNumber(manzanas.length)} manzanas dentro de plataformas, ` +
+          `${formatNumber(points.length)} parques seleccionados y ${formatNumber(getCurrentStrategicIsochrones().length)} isocronas en vista ciudad completa.`;
+        return;
+      }
+
+      overlayTitle.textContent = displayPlatformName(currentPlatform);
+      overlayText.textContent =
+        `${formatNumber(coverageState.covered)} de ${formatNumber(manzanas.length)} manzanas cubiertas | ` +
+        `${formatNumber(coverageState.populationCovered)} de ${formatNumber(totalPopulation)} hab | ` +
+        `${formatNumber(points.length)} parques estrategicos visibles.`;
+    }
+
+    function buildPublicPointStyle(fillColor, radius) {
+      return {
+        radius,
+        color: "#1a2a1d",
+        weight: 1.8,
+        fillColor,
+        fillOpacity: 0.98,
+        opacity: 1
+      };
+    }
+
+    function clearLayer(layer) {
+      if (layer && map.hasLayer(layer)) {
+        map.removeLayer(layer);
+      }
+    }
+
+    function syncLayer(layer, visible) {
+      if (!layer) {
+        return;
+      }
+      if (visible && !map.hasLayer(layer)) {
+        layer.addTo(map);
+      } else if (!visible && map.hasLayer(layer)) {
+        map.removeLayer(layer);
+      }
+    }
+
+    function renderManzanas() {
+      clearLayer(manzanaLayer);
+      if (!layerVisibility.manzanas) {
+        manzanaLayer = null;
+        return;
+      }
+
+      if (!map.getPane("manzanasPane")) {
+        map.createPane("manzanasPane");
+        map.getPane("manzanasPane").style.zIndex = 420;
+      }
+
+      manzanaLayer = L.geoJSON(
+        { type: "FeatureCollection", features: getCurrentManzanas() },
+        {
+          pane: "manzanasPane",
+          renderer: canvasRenderer,
+          style: (feature) => {
+            const covered = coverageState.coveredIds.has(String(feature?.properties?.man || ""));
+            const outlineOnly = layerVisibility.manzanasOutline;
+            return {
+              color: covered ? manzanaStyleColors.coveredStroke : manzanaStyleColors.uncoveredStroke,
+              weight: covered ? 1.25 : 0.85,
+              opacity: covered ? 0.95 : 0.78,
+              fillColor: covered ? manzanaStyleColors.coveredFill : manzanaStyleColors.uncoveredFill,
+              fillOpacity: outlineOnly ? 0 : (covered ? 0.7 : 0.42)
+            };
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties || {};
+            const covered = coverageState.coveredIds.has(String(props.man || ""));
+            layer.on("click", () => {
+              layer.bindPopup(`
+                <strong>Manzana ${escapeHtml(props.man || "-")}</strong><br>
+                <strong>Plataforma:</strong> ${escapeHtml(displayPlatformName(props.platform_name) || "-")}<br>
+                <strong>Cobertura:</strong> ${covered ? "Cubierta por Parque Estrategico" : "No cubierta"}<br>
+                <strong>Poblacion:</strong> ${formatNumber(props.population_total || 0)}<br>
+                <strong>Hombres:</strong> ${formatNumber(props.male || 0)}<br>
+                <strong>Mujeres:</strong> ${formatNumber(props.female || 0)}<br>
+                <strong>0 a 4:</strong> ${formatNumber(props.age_0_4 || 0)}<br>
+                <strong>5 a 11:</strong> ${formatNumber(props.age_5_11 || 0)}<br>
+                <strong>12 a 17:</strong> ${formatNumber(props.age_12_17 || 0)}<br>
+                <strong>18 a 29:</strong> ${formatNumber(props.age_18_29 || 0)}<br>
+                <strong>30 a 64:</strong> ${formatNumber(props.age_30_64 || 0)}<br>
+                <strong>65 y mas:</strong> ${formatNumber(props.age_65_plus || 0)}
+              `).openPopup();
+
+              overlayTitle.textContent = `Manzana ${props.man || "-"}`;
+              overlayText.textContent = `${covered ? "Cubierta" : "No cubierta"} | ${displayPlatformName(props.platform_name) || "-"} | ${formatNumber(props.population_total || 0)} habitantes.`;
+            });
+          }
+        }
+      ).addTo(map);
+    }
+
+    function renderPlataformas() {
+      clearLayer(platformLayer);
+      if (!layerVisibility.plataformas) {
+        platformLayer = null;
+        return;
+      }
+
+      if (!map.getPane("platformPane")) {
+        map.createPane("platformPane");
+        map.getPane("platformPane").style.zIndex = 520;
+      }
+
+      platformLayer = L.geoJSON(
+        { type: "FeatureCollection", features: platformFeatures },
+        {
+          pane: "platformPane",
+          renderer: canvasRenderer,
+          style: (feature) => {
+            const selected = currentPlatform !== ALL_PLATFORMS && samePlatformName(feature?.properties?.platform_name, currentPlatform);
+            return {
+              color: selected ? "#27364d" : "#756d8a",
+              weight: selected ? 3.6 : 2.1,
+              opacity: selected ? 1 : 0.88,
+              fillColor: "#cdb4e5",
+              fillOpacity: selected ? 0.05 : 0.02,
+              dashArray: selected ? "" : "5 4"
+            };
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties || {};
+            layer.on("click", () => {
+              currentPlatform = props.platform_name;
+              platformSelect.value = props.platform_name;
+              renderAll(true);
+            });
+
+            layer.bindPopup(`
+              <strong>${escapeHtml(displayPlatformName(props.platform_name) || "-")}</strong><br>
+              <strong>Manzanas:</strong> ${formatNumber(props.manzanas || 0)}<br>
+              <strong>Poblacion:</strong> ${formatNumber(props.population_total || 0)}<br>
+              <strong>Hombres:</strong> ${formatNumber(props.male || 0)}<br>
+              <strong>Mujeres:</strong> ${formatNumber(props.female || 0)}
+            `);
+          }
+        }
+      ).addTo(map);
+    }
+
+    function shouldShowBarrioLabels() {
+      return layerVisibility.barrioLabels && (currentPlatform !== ALL_PLATFORMS || map.getZoom() >= 14);
+    }
+
+    function renderBarrios() {
+      clearLayer(barrioLayer);
+      clearLayer(barrioLabelLayer);
+
+      if (!layerVisibility.barrios) {
+        barrioLayer = null;
+        barrioLabelLayer = null;
+        return;
+      }
+
+      const scopedBarrios = getCurrentBarrios();
+      if (!scopedBarrios.length) {
+        barrioLayer = null;
+        barrioLabelLayer = null;
+        return;
+      }
+
+      if (!map.getPane("barriosPane")) {
+        map.createPane("barriosPane");
+        map.getPane("barriosPane").style.zIndex = 560;
+      }
+      if (!map.getPane("barriosLabelsPane")) {
+        map.createPane("barriosLabelsPane");
+        map.getPane("barriosLabelsPane").style.zIndex = 760;
+      }
+
+      barrioLayer = L.geoJSON(
+        { type: "FeatureCollection", features: scopedBarrios },
+        {
+          pane: "barriosPane",
+          renderer: canvasRenderer,
+          style: {
+            color: "#9c85c7",
+            weight: 1.35,
+            opacity: 0.9,
+            fillOpacity: 0
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties || {};
+            layer.on("click", () => {
+              overlayTitle.textContent = repairText(props.barrio || "Barrio");
+              overlayText.textContent = `${displayPlatformName(props.platform_name) || "-"} | Barrio dentro de plataforma`;
+            });
+            layer.bindPopup(`
+              <strong>${escapeHtml(repairText(props.barrio || "Barrio sin nombre"))}</strong><br>
+              <strong>Plataforma:</strong> ${escapeHtml(displayPlatformName(props.platform_name) || "-")}<br>
+              <strong>Area:</strong> ${formatNumber(props.area_m2 || 0)} m²
+            `);
+          }
+        }
+      ).addTo(map);
+
+      const labelLayers = [];
+      if (shouldShowBarrioLabels()) {
+        for (const feature of scopedBarrios) {
+          const props = feature.properties || {};
+          const lat = Number(props.label_lat);
+          const lon = Number(props.label_lon);
+          if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
+            continue;
+          }
+          labelLayers.push(
+            L.marker([lat, lon], {
+              pane: "barriosLabelsPane",
+              interactive: false,
+              icon: L.divIcon({
+                className: "barrio-label-icon",
+                html: `<span class="barrio-label">${escapeHtml(repairText(props.barrio || ""))}</span>`
+              })
+            })
+          );
+        }
+      }
+      barrioLabelLayer = labelLayers.length ? L.layerGroup(labelLayers).addTo(map) : null;
+    }
+
+    function renderStrategicIsochrones() {
+      clearLayer(strategicIsoLayer);
+      if (!layerVisibility.strategicIso) {
+        strategicIsoLayer = null;
+        return;
+      }
+
+      const features = getCurrentStrategicIsochrones();
+      if (!features.length) {
+        strategicIsoLayer = null;
+        return;
+      }
+
+      if (!map.getPane("strategicIsoPane")) {
+        map.createPane("strategicIsoPane");
+        map.getPane("strategicIsoPane").style.zIndex = 470;
+      }
+
+      strategicIsoLayer = L.geoJSON(
+        { type: "FeatureCollection", features },
+        {
+          pane: "strategicIsoPane",
+          renderer: canvasRenderer,
+          style: (feature) => {
+            const rank = Number(feature?.properties?.selected_rank || 1);
+            const color = strategicColorByRank[rank] || strategicColorByRank[1];
+            return {
+              color,
+              weight: rank === 1 ? 3.2 : 2.8,
+              opacity: 0.96,
+              fillColor: color,
+              fillOpacity: rank === 1 ? 0.25 : 0.18,
+              dashArray: rank === 2 ? "9 6" : "",
+              lineJoin: "round"
+            };
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties || {};
+            layer.on("click", () => {
+              overlayTitle.textContent = `Isocrona Parque Estrategico ${formatNumber(props.selected_rank || 0)}`;
+              overlayText.textContent =
+                `${repairText(props.nombre || "Parque")} cubre ${formatNumber(props.covered_population_pair || 0)} habitantes ` +
+                `en ${displayPlatformName(props.target_platform) || "-"} con ${formatNumber(props.covered_manzanas_pair || 0)} manzanas conjuntas.`;
+            });
+
+            layer.bindPopup(`
+              <strong>Isocrona Parque Estrategico ${formatNumber(props.selected_rank || 0)}</strong><br>
+              <strong>Nombre:</strong> ${escapeHtml(repairText(props.nombre || "Sin nombre"))}<br>
+              <strong>Plataforma objetivo:</strong> ${escapeHtml(displayPlatformName(props.target_platform) || "-")}<br>
+              <strong>Plataforma origen:</strong> ${escapeHtml(displayPlatformName(props.origin_platform) || "-")}<br>
+              <strong>Tipologia:</strong> ${escapeHtml(repairText(props.tipologia || "-"))}<br>
+              <strong>Poblacion conjunta:</strong> ${formatNumber(props.covered_population_pair || 0)} / ${formatNumber(props.total_platform_population || 0)} hab (${formatPercentValue(props.covered_population_pair_percent || 0)})<br>
+              <strong>Manzanas conjuntas:</strong> ${formatNumber(props.covered_manzanas_pair || 0)} / ${formatNumber(props.total_platform_manzanas || 0)} (${formatPercentValue(props.covered_manzanas_pair_percent || 0)})<br>
+              <strong>Distancia entre parques:</strong> ${formatNumber(props.pair_distance_m || 0)} m
+            `);
+          }
+        }
+      ).addTo(map);
+    }
+
+    function renderStrategicPoints() {
+      clearLayer(strategicPointLayer);
+      if (!layerVisibility.strategicPoints) {
+        strategicPointLayer = null;
+        return;
+      }
+
+      const features = getCurrentStrategicPoints();
+      if (!features.length) {
+        strategicPointLayer = null;
+        return;
+      }
+
+      if (!map.getPane("strategicPointPane")) {
+        map.createPane("strategicPointPane");
+        map.getPane("strategicPointPane").style.zIndex = 780;
+      }
+
+      strategicPointLayer = L.geoJSON(
+        { type: "FeatureCollection", features },
+        {
+          pane: "strategicPointPane",
+          pointToLayer: (feature, latlng) => {
+            const rank = Number(feature?.properties?.selected_rank || 1);
+            const color = strategicColorByRank[rank] || strategicColorByRank[1];
+            return L.circleMarker(latlng, {
+              pane: "strategicPointPane",
+              ...buildPublicPointStyle(color, 7.4)
+            });
+          },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties || {};
+            layer.on("click", () => {
+              overlayTitle.textContent = `Parque Estrategico ${formatNumber(props.selected_rank || 0)}`;
+              overlayText.textContent =
+                `${repairText(props.nombre || "Parque")} aporta ${formatNumber(props.covered_manzanas_individual || 0)} manzanas ` +
+                `y ${formatNumber(props.covered_population_individual || 0)} habitantes a la cobertura conjunta.`;
+            });
+
+            layer.bindPopup(`
+              <strong>Parque Estrategico ${formatNumber(props.selected_rank || 0)}</strong><br>
+              <strong>Nombre:</strong> ${escapeHtml(repairText(props.nombre || "Sin nombre"))}<br>
+              <strong>Elemento:</strong> ${escapeHtml(repairText(props.elemento || "-"))}<br>
+              <strong>Plataforma objetivo:</strong> ${escapeHtml(displayPlatformName(props.target_platform) || "-")}<br>
+              <strong>Plataforma origen:</strong> ${escapeHtml(displayPlatformName(props.origin_platform) || "-")}<br>
+              <strong>Tipologia:</strong> ${escapeHtml(repairText(props.tipologia || "-"))}<br>
+              <strong>Cobertura individual:</strong> ${formatNumber(props.covered_population_individual || 0)} hab | ${formatNumber(props.covered_manzanas_individual || 0)} manzanas<br>
+              <strong>Cobertura conjunta:</strong> ${formatNumber(props.covered_population_pair || 0)} hab (${formatPercentValue(props.covered_population_pair_percent || 0)})
+            `);
+          }
+        }
+      ).addTo(map);
+    }
+
+    function fitToCurrentSelection() {
+      const selectedPlatform = getCurrentPlatformFeature();
+      const targetFeatures = selectedPlatform ? [selectedPlatform] : platformFeatures;
+      if (!targetFeatures.length) {
+        return;
+      }
+      const layer = L.geoJSON({ type: "FeatureCollection", features: targetFeatures });
+      map.fitBounds(layer.getBounds(), { padding: [24, 24], animate: true });
+    }
+
+    function buildPlatformOptions() {
+      const options = [
+        `<option value="${ALL_PLATFORMS}">Todas las plataformas</option>`,
+        ...platformFeatures
+          .map((feature) => feature?.properties?.platform_name)
+          .filter(Boolean)
+          .sort((left, right) => displayPlatformName(left).localeCompare(displayPlatformName(right), "es"))
+          .map((name) => `<option value="${escapeHtml(name)}">${escapeHtml(displayPlatformName(name))}</option>`)
+      ];
+      platformSelect.innerHTML = options.join("");
+      platformSelect.value = currentPlatform;
+    }
+
+    function updateStatusText() {
+      const points = getCurrentStrategicPoints();
+      const isos = getCurrentStrategicIsochrones();
+      const manzanas = getCurrentManzanas();
+      const selectionLabel = currentPlatform === ALL_PLATFORMS ? "todas las plataformas" : displayPlatformName(currentPlatform);
+      statusText.textContent =
+        `Mostrando ${selectionLabel}: ${formatNumber(manzanas.length)} manzanas, ${formatNumber(points.length)} parques estrategicos y ` +
+        `${formatNumber(isos.length)} isocronas dedicadas al analisis.`;
+    }
+
+    function renderAll(adjustView = false) {
+      coverageState = buildCoverageState(getCurrentManzanas(), getCurrentStrategicIsochrones());
+      renderManzanas();
+      renderPlataformas();
+      renderBarrios();
+      renderStrategicIsochrones();
+      renderStrategicPoints();
+      renderSummaryCards();
+      renderCoverageList();
+      renderBreakdown(coveredBreakdown, coverageState.breakdownCovered);
+      renderBreakdown(uncoveredBreakdown, coverageState.breakdownUncovered);
+      renderParkList();
+      renderLegend();
+      updateOverlay();
+      updateStatusText();
+      if (adjustView) {
+        fitToCurrentSelection();
+      }
+    }
+
+    async function fetchJson(url) {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`No se pudo cargar ${url}`);
+      }
+      return response.json();
+    }
+
+    async function loadViewer() {
+      if (window.location.protocol === "file:") {
+        statusText.textContent = "Abre este visor desde la URL publicada o desde un servidor local. No debe ejecutarse desde file://.";
+        overlayTitle.textContent = "Visor no inicializado";
+        overlayText.textContent = "La version local del archivo puede bloquear la carga de GeoJSON y mostrar resultados incompletos.";
+        return;
+      }
+
+      try {
+        const [
+          manzanasGeo,
+          manzanasStats,
+          plataformasGeo,
+          plataformasStatsData,
+          barriosGeo,
+          strategicPointsGeo,
+          strategicIsoGeo,
+          strategicStatsData,
+          recreacionIsoGeo
+        ] = await Promise.all([
+          fetchJson(`./riobamba-censo-data/riobamba_manzanas.geojson?v=${DATA_VERSION}`),
+          fetchJson(`./riobamba-censo-data/riobamba_manzanas_stats.json?v=${DATA_VERSION}`),
+          fetchJson(`./riobamba-censo-data/riobamba_plataformas.geojson?v=${DATA_VERSION}`),
+          fetchJson(`./riobamba-censo-data/riobamba_plataformas_stats.json?v=${DATA_VERSION}`),
+          fetchJson(`./riobamba-censo-data/riobamba_barrios_plataformas.geojson?v=${DATA_VERSION}`),
+          fetchJson(`./riobamba-censo-data/riobamba_parques_estrategicos_por_plataforma.geojson?v=${DATA_VERSION}`),
+          fetchJson(`./riobamba-censo-data/riobamba_isocronas_parques_estrategicos_por_plataforma.geojson?v=${DATA_VERSION}`),
+          fetchJson(`./riobamba-censo-data/riobamba_parques_estrategicos_por_plataforma_stats.json?v=${DATA_VERSION}`),
+          fetchJson(`./riobamba-censo-data/riobamba_isocronas_recreacion_deporte_categorizada_todas_plataformas_1000m.geojson?v=${DATA_VERSION}`)
+        ]);
+
+        platformsStats = plataformasStatsData;
+        strategicStats = strategicStatsData;
+
+        const byMan = manzanasStats.byMan || {};
+        const manToPlatform = plataformasStatsData.manToPlatform || {};
+        joinedFeatures = (manzanasGeo.features || [])
+          .map((feature) => {
+            const man = feature?.properties?.man;
+            const stat = byMan[man];
+            const platformName = manToPlatform[man];
+            if (!stat || !platformName) {
+              return null;
+            }
+            return {
+              ...feature,
+              properties: {
+                ...feature.properties,
+                ...stat,
+                platform_name: platformName
+              }
+            };
+          })
+          .filter(Boolean);
+
+        const platformStatsByName = plataformasStatsData.byName || {};
+        platformFeatures = (plataformasGeo.features || []).map((feature) => {
+          const rawName = feature?.properties?.platform_name;
+          const stat = platformStatsByName[rawName] ||
+            Object.values(platformStatsByName).find((entry) => samePlatformName(entry?.platform_name, rawName)) ||
+            {};
+          return {
+            ...feature,
+            properties: {
+              ...feature.properties,
+              ...stat
+            }
+          };
+        });
+
+        barrioFeatures = (barriosGeo.features || []).filter((feature) => Boolean(feature?.properties?.platform_name));
+        strategicPointFeatures = (strategicPointsGeo.features || []).filter((feature) => feature?.geometry && feature?.properties);
+        strategicIsoClippedFeatures = (strategicIsoGeo.features || []).filter((feature) => feature?.geometry && feature?.properties);
+        strategicIsoFullFeatures = buildFullStrategicIsoFeatures(strategicIsoClippedFeatures, recreacionIsoGeo.features || []);
+
+        buildPlatformOptions();
+        renderAll(true);
+      } catch (error) {
+        console.error(error);
+        statusText.textContent = "No pude cargar el visor de Parque Estrategico. Verifica manzanas, plataformas, barrios e isocronas publicadas.";
+        overlayTitle.textContent = "Error de carga";
+        overlayText.textContent = "La pagina no pudo inicializar los datos del analisis especializado.";
+      }
+    }
+
+    platformSelect.addEventListener("change", () => {
+      currentPlatform = platformSelect.value || ALL_PLATFORMS;
+      renderAll(true);
+    });
+
+    fitButton.addEventListener("click", () => {
+      fitToCurrentSelection();
+    });
+
+    resetButton.addEventListener("click", () => {
+      currentPlatform = ALL_PLATFORMS;
+      platformSelect.value = ALL_PLATFORMS;
+      renderAll(true);
+    });
+
+    refreshButton.addEventListener("click", () => {
+      window.location.reload();
+    });
+
+    toggleManzanas.addEventListener("change", () => {
+      layerVisibility.manzanas = toggleManzanas.checked;
+      renderManzanas();
+    });
+
+    toggleManzanasOutline.addEventListener("change", () => {
+      layerVisibility.manzanasOutline = toggleManzanasOutline.checked;
+      renderManzanas();
+    });
+
+    togglePlataformas.addEventListener("change", () => {
+      layerVisibility.plataformas = togglePlataformas.checked;
+      renderPlataformas();
+    });
+
+    toggleBarrios.addEventListener("change", () => {
+      layerVisibility.barrios = toggleBarrios.checked;
+      renderBarrios();
+    });
+
+    toggleBarriosLabels.addEventListener("change", () => {
+      layerVisibility.barrioLabels = toggleBarriosLabels.checked;
+      renderBarrios();
+    });
+
+    toggleStrategicPoints.addEventListener("change", () => {
+      layerVisibility.strategicPoints = toggleStrategicPoints.checked;
+      renderStrategicPoints();
+    });
+
+    toggleStrategicIso.addEventListener("change", () => {
+      layerVisibility.strategicIso = toggleStrategicIso.checked;
+      renderStrategicIsochrones();
+    });
+
+    map.on("zoomend", () => {
+      if (layerVisibility.barrios) {
+        renderBarrios();
+      }
+    });
+
+    loadViewer();
+  </script>
+</body>
+</html>
