@@ -182,9 +182,12 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
     const DATA_VERSION = "20260820-seguridad-v1";
+    const DATA_BASE_URL = window.location.protocol === "file:"
+      ? "https://stevanjazziel-ui.github.io/geoportal-catastro/"
+      : "./";
     const map = L.map("map", { zoomControl: false, preferCanvas: true, minZoom: 12 });
     L.control.zoom({ position: "topright" }).addTo(map);
-    map.setView([-1.673, -78.65], 13);
+    map.setView([-1.6735, -78.6485], 13);
     const baseLayer = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
       attribution: "&copy; OpenStreetMap &copy; CARTO",
       subdomains: "abcd",
@@ -332,14 +335,10 @@
       overlayText.textContent = `Se cargaron ${formatNumber(points.length)} puntos de seguridad en total.`;
     }
     async function loadData() {
-      if (window.location.protocol === "file:") {
-        overlayTitle.textContent = "Visor no inicializado";
-        overlayText.textContent = "Abre este visor desde la URL publicada. Desde file:// no carga el GeoJSON.";
-        return;
-      }
+      const dataUrl = (file) => `${DATA_BASE_URL}riobamba-censo-data/${file}?v=${DATA_VERSION}`;
       const [securityResponse, platformsResponse] = await Promise.all([
-        fetch(`./riobamba-censo-data/riobamba_seguridad_puntos.geojson?v=${DATA_VERSION}`),
-        fetch(`./riobamba-censo-data/riobamba_plataformas.geojson?v=${DATA_VERSION}`)
+        fetch(dataUrl("riobamba_seguridad_puntos.geojson")),
+        fetch(dataUrl("riobamba_plataformas.geojson"))
       ]);
       if (!securityResponse.ok) throw new Error("No se pudo cargar la capa de seguridad");
       if (!platformsResponse.ok) throw new Error("No se pudo cargar la capa de plataformas");
