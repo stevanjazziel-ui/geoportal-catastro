@@ -294,9 +294,9 @@
       points = (data.features || []).map(centerPoint).filter(Boolean);
       buildPlatformOptions();
       renderSummary();
-      renderPoints();
+      renderPoints(true);
     }
-    function renderPoints() {
+    function renderPoints(shouldFit = false) {
       if (layer) map.removeLayer(layer);
       if (!toggleSecurityPoints.checked) {
         layer = null;
@@ -326,16 +326,16 @@
         bounds.push([lat, lng]);
       });
       buildList(markerFeatures);
-      if (bounds.length) map.fitBounds(bounds, { padding: [24, 24] });
+      if (shouldFit && bounds.length) map.fitBounds(bounds, { padding: [24, 24] });
       renderSummary();
     }
     fitButton.addEventListener("click", fitToPoints);
     reloadButton.addEventListener("click", () => loadData().catch(console.error));
     platformSelect?.addEventListener("change", () => {
       currentPlatform = platformSelect.value || "__all__";
-      renderPoints();
+      renderPoints(false);
     });
-    toggleSecurityPoints.addEventListener("change", () => renderPoints());
+    toggleSecurityPoints.addEventListener("change", () => renderPoints(false));
     loadData().catch((error) => {
       console.error(error);
       overlayTitle.textContent = "Error de carga";
