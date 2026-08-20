@@ -804,11 +804,6 @@
         <strong id="overlayTitle">Riobamba por manzana y plataforma</strong>
         <p id="overlayText">Haz clic en una manzana o plataforma para ver sus datos.</p>
       </div>
-      <section class="analysis-card" id="focusedAnalysisCard" hidden>
-        <h3 id="focusedAnalysisTitle">Analisis de cobertura</h3>
-        <p id="focusedAnalysisSubtitle">Poblacion calculada desde manzanas censales.</p>
-        <div class="analysis-grid" id="focusedAnalysisGrid"></div>
-      </section>
     </main>
   </div>
 
@@ -7538,32 +7533,34 @@
       applyPlatformSelection(platformSelect.value, true);
     });
 
-    focusedAnalysisGrid.addEventListener("click", (event) => {
-      const card = event.target.closest(".analysis-item[data-expandable='true']");
-      if (!card) {
-        return;
-      }
+    if (focusedAnalysisGrid) {
+      focusedAnalysisGrid.addEventListener("click", (event) => {
+        const card = event.target.closest(".analysis-item[data-expandable='true']");
+        if (!card) {
+          return;
+        }
 
-      const nextKey = card.dataset.analysisKey || "";
-      focusedAnalysisExpandedKey = focusedAnalysisExpandedKey === nextKey ? null : nextKey;
-      updateFocusedAnalysisCard();
-    });
+        const nextKey = card.dataset.analysisKey || "";
+        focusedAnalysisExpandedKey = focusedAnalysisExpandedKey === nextKey ? null : nextKey;
+        updateFocusedAnalysisCard();
+      });
 
-    focusedAnalysisGrid.addEventListener("keydown", (event) => {
-      if (event.key !== "Enter" && event.key !== " ") {
-        return;
-      }
+      focusedAnalysisGrid.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") {
+          return;
+        }
 
-      const card = event.target.closest(".analysis-item[data-expandable='true']");
-      if (!card) {
-        return;
-      }
+        const card = event.target.closest(".analysis-item[data-expandable='true']");
+        if (!card) {
+          return;
+        }
 
-      event.preventDefault();
-      const nextKey = card.dataset.analysisKey || "";
-      focusedAnalysisExpandedKey = focusedAnalysisExpandedKey === nextKey ? null : nextKey;
-      updateFocusedAnalysisCard();
-    });
+        event.preventDefault();
+        const nextKey = card.dataset.analysisKey || "";
+        focusedAnalysisExpandedKey = focusedAnalysisExpandedKey === nextKey ? null : nextKey;
+        updateFocusedAnalysisCard();
+      });
+    }
 
     toggleManzanas.addEventListener("change", () => {
       layerVisibility.manzanas = toggleManzanas.checked;
