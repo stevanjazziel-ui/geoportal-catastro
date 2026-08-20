@@ -110,6 +110,22 @@
       </section>
 
       <section class="panel">
+        <h2>Resumen general</h2>
+        <div class="stats">
+          <div class="card">
+            <span>Total de puntos</span>
+            <strong id="totalCount">0</strong>
+            <small id="platformCount">0 plataformas con cobertura</small>
+          </div>
+          <div class="card">
+            <span>Puntos visibles</span>
+            <strong id="visibleCount">0</strong>
+            <small id="visibleMeta">Todas las plataformas</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
         <h2>Plataforma territorial</h2>
         <select id="platformSelect"></select>
       </section>
@@ -118,6 +134,14 @@
         <h2>Capas visibles</h2>
         <div class="layer-toggles">
           <label class="layer-toggle"><span>Puntos de seguridad</span><input id="toggleSecurityPoints" type="checkbox" checked></label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Acciones</h2>
+        <div class="inline-actions">
+          <button id="fitButton" type="button">Ajustar vista</button>
+          <button id="reloadButton" type="button">Recargar visor</button>
         </div>
       </section>
 
@@ -168,6 +192,8 @@
 
     const totalCount = document.getElementById("totalCount");
     const platformCount = document.getElementById("platformCount");
+    const visibleCount = document.getElementById("visibleCount");
+    const visibleMeta = document.getElementById("visibleMeta");
     const pointList = document.getElementById("pointList");
     const summaryCards = document.getElementById("summaryCards");
     const statusText = document.getElementById("statusText");
@@ -278,6 +304,8 @@
       ]);
       totalCount.textContent = formatNumber(points.length);
       platformCount.textContent = `${formatNumber(platformSet.size)} plataformas con puntos`;
+      visibleCount.textContent = formatNumber(visible.length);
+      visibleMeta.textContent = currentPlatform === "__all__" ? "Todas las plataformas" : displayName(currentPlatform);
       statusText.textContent = `Mostrando ${formatNumber(visible.length)} puntos de seguridad${currentPlatform === "__all__" ? "" : ` en ${displayName(currentPlatform)}`}.`;
       overlayTitle.textContent = currentPlatform === "__all__" ? "Seguridad · Todas las plataformas" : `Seguridad · ${displayName(currentPlatform)}`;
       overlayText.textContent = `Se cargaron ${formatNumber(points.length)} puntos de seguridad en total.`;
