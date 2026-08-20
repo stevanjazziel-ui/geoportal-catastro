@@ -45,8 +45,6 @@
     .card span { display: block; color: var(--muted); font-size: 0.75rem; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.05em; }
     .card strong { font-size: 1.18rem; }
     .card small { display: block; margin-top: 6px; color: var(--muted); line-height: 1.4; }
-    .inline-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 12px; }
-    .inline-actions button { width: 100%; padding: 10px 12px; font-size: 0.9rem; }
     button, select {
       width: 100%;
       padding: 12px 14px;
@@ -106,23 +104,7 @@
       <section class="panel">
         <div class="eyebrow">Riobamba · Seguridad</div>
         <h1>Visor de Puntos de Seguridad</h1>
-        <p>La misma interfaz base del visor principal, reducida solo a puntos de seguridad.</p>
-      </section>
-
-      <section class="panel">
-        <h2>Resumen general</h2>
-        <div class="stats">
-          <div class="card">
-            <span>Total de puntos</span>
-            <strong id="totalCount">0</strong>
-            <small id="platformCount">0 plataformas con cobertura</small>
-          </div>
-          <div class="card">
-            <span>Puntos visibles</span>
-            <strong id="visibleCount">0</strong>
-            <small id="visibleMeta">Todas las plataformas</small>
-          </div>
-        </div>
+        <p>La misma interfaz base del visor principal, reducida solo a puntos de seguridad y al límite de la plataforma seleccionada.</p>
       </section>
 
       <section class="panel">
@@ -134,14 +116,6 @@
         <h2>Capas visibles</h2>
         <div class="layer-toggles">
           <label class="layer-toggle"><span>Puntos de seguridad</span><input id="toggleSecurityPoints" type="checkbox" checked></label>
-        </div>
-      </section>
-
-      <section class="panel">
-        <h2>Acciones</h2>
-        <div class="inline-actions">
-          <button id="fitButton" type="button">Ajustar vista</button>
-          <button id="reloadButton" type="button">Recargar visor</button>
         </div>
       </section>
 
@@ -194,10 +168,6 @@
       maxZoom: 20
     }).addTo(map);
 
-    const totalCount = document.getElementById("totalCount");
-    const platformCount = document.getElementById("platformCount");
-    const visibleCount = document.getElementById("visibleCount");
-    const visibleMeta = document.getElementById("visibleMeta");
     const pointList = document.getElementById("pointList");
     const summaryCards = document.getElementById("summaryCards");
     const statusText = document.getElementById("statusText");
@@ -205,8 +175,6 @@
     const toggleSecurityPoints = document.getElementById("toggleSecurityPoints");
     const overlayTitle = document.getElementById("overlayTitle");
     const overlayText = document.getElementById("overlayText");
-    const fitButton = document.getElementById("fitButton");
-    const reloadButton = document.getElementById("reloadButton");
 
     let layer = null;
     let platformLayer = null;
@@ -321,15 +289,11 @@
       const visible = getVisiblePoints();
       const platformSet = new Set(points.map((feature) => displayName(feature.properties?.platform_name || "-")).filter(Boolean));
       buildSummaryCards([
-        { label: "Puntos totales", value: formatNumber(points.length), meta: `${formatNumber(platformSet.size)} plataformas` },
+        { label: "Puntos totales", value: formatNumber(points.length), meta: `${formatNumber(platformSet.size)} plataformas con puntos` },
         { label: "Puntos visibles", value: formatNumber(visible.length), meta: currentPlatform === "__all__" ? "Todas las plataformas" : displayName(currentPlatform) },
         { label: "Capas activas", value: toggleSecurityPoints.checked ? "1" : "0", meta: "Puntos de seguridad" },
         { label: "Selección", value: currentPlatform === "__all__" ? "Todas" : "Una", meta: "Plataforma territorial" }
       ]);
-      totalCount.textContent = formatNumber(points.length);
-      platformCount.textContent = `${formatNumber(platformSet.size)} plataformas con puntos`;
-      visibleCount.textContent = formatNumber(visible.length);
-      visibleMeta.textContent = currentPlatform === "__all__" ? "Todas las plataformas" : displayName(currentPlatform);
       statusText.textContent = `Mostrando ${formatNumber(visible.length)} puntos de seguridad${currentPlatform === "__all__" ? "" : ` en ${displayName(currentPlatform)}`}.`;
       overlayTitle.textContent = currentPlatform === "__all__" ? "Seguridad · Todas las plataformas" : `Seguridad · ${displayName(currentPlatform)}`;
       overlayText.textContent = `Se cargaron ${formatNumber(points.length)} puntos de seguridad en total.`;
@@ -420,8 +384,6 @@
       }
       renderSummary();
     }
-    fitButton.addEventListener("click", fitToPoints);
-    reloadButton.addEventListener("click", () => loadData().catch(console.error));
     platformSelect?.addEventListener("change", () => {
       currentPlatform = platformSelect.value || "__all__";
       renderPlatforms(true);
