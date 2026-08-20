@@ -88,6 +88,7 @@
     .legend-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
     .legend-label { flex: 1 1 auto; color: var(--muted); }
     .legend-symbol { width: 18px; height: 12px; border-radius: 4px; border: 1px solid rgba(64, 84, 62, 0.22); }
+    .legend-dot { width: 14px; height: 14px; border-radius: 999px; border: 2px solid #243226; }
     .legend-line { width: 24px; height: 0; border-top: 3px solid var(--accent); border-radius: 999px; }
     .overlay { display: none; }
     .list { display: flex; flex-direction: column; gap: 8px; max-height: 360px; overflow: auto; }
@@ -141,8 +142,24 @@
         <h3>Leyenda</h3>
         <div class="legend">
           <div class="legend-row">
-            <span class="legend-symbol" style="background:#19c8a8;"></span>
-            <span class="legend-label">Punto de seguridad</span>
+            <span class="legend-dot" style="background:#19c8a8;"></span>
+            <span class="legend-label">UPC</span>
+          </div>
+          <div class="legend-row">
+            <span class="legend-dot" style="background:#f3b23e;"></span>
+            <span class="legend-label">Bomberos</span>
+          </div>
+          <div class="legend-row">
+            <span class="legend-dot" style="background:#7b6ce6;"></span>
+            <span class="legend-label">Cuarteles</span>
+          </div>
+          <div class="legend-row">
+            <span class="legend-dot" style="background:#d84f7d;"></span>
+            <span class="legend-label">DINAPEN</span>
+          </div>
+          <div class="legend-row">
+            <span class="legend-dot" style="background:#6fc17d;"></span>
+            <span class="legend-label">Centros de rehabilitación</span>
           </div>
         </div>
       </section>
@@ -195,6 +212,25 @@
     }
     function displayName(value) {
       return repairText(value).trim();
+    }
+    function securityCategory(featureOrProps = {}) {
+      const props = featureOrProps.properties || featureOrProps || {};
+      const raw = `${displayName(props.elemento || props.tipo_eleme || props.nombre_equ || props.nombre_ins || "UPC")}`.toLowerCase();
+      if (raw.includes("bomberos")) return "Bomberos";
+      if (raw.includes("cuarteles")) return "Cuarteles";
+      if (raw.includes("dinapen")) return "DINAPEN";
+      if (raw.includes("rehabilit")) return "Centros de rehabilitación";
+      return "UPC";
+    }
+    function securityColor(featureOrProps = {}) {
+      const category = securityCategory(featureOrProps);
+      return {
+        UPC: "#19c8a8",
+        Bomberos: "#f3b23e",
+        Cuarteles: "#7b6ce6",
+        DINAPEN: "#d84f7d",
+        "Centros de rehabilitación": "#6fc17d"
+      }[category] || "#19c8a8";
     }
     function formatNumber(value) {
       return new Intl.NumberFormat("es-EC").format(Number(value || 0));
@@ -257,6 +293,7 @@
       return `
         <strong class="popup-title">${escapeHtml(displayName(props.nombre || props.nombre_equ || props.elemento || "Punto de seguridad"))}</strong><br>
         <strong>Tipo:</strong> ${escapeHtml(displayName(props.tipo_eleme || props.categoria || "Seguridad"))}<br>
+        <strong>Categoría:</strong> ${escapeHtml(securityCategory(props))}<br>
         <strong>Plataforma:</strong> ${escapeHtml(displayName(props.platform_name || "-"))}<br>
         <strong>Elemento:</strong> ${escapeHtml(displayName(props.elemento || props.equipamien || "-"))}
       `;
@@ -363,11 +400,12 @@
       const bounds = [];
       visible.forEach((feature) => {
         const [lng, lat] = feature.geometry.coordinates;
+        const color = securityColor(feature.properties || {});
         const marker = L.circleMarker([lat, lng], {
           radius: 8,
-          color: "#1d2b26",
+          color,
           weight: 2,
-          fillColor: "#19c8a8",
+          fillColor: color,
           fillOpacity: 0.95,
           pane: "markerPane"
         }).addTo(layer);
