@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Riobamba | Seguridad</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    :root{
+      --bg:#f4f6f2;
+      --panel:#ffffffee;
+      --text:#20302a;
+      --muted:#6a776f;
+      --line:#d8e1d8;
+      --accent:#0c6b5a;
+      --accent-2:#19a58a;
+      --dot:#1cc7a7;
+      --dot-border:#1d2b26;
+      --shadow:0 16px 40px rgba(20,32,28,.12);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text)}
+    .app{height:100%;display:grid;grid-template-columns:360px 1fr}
+    .sidebar{padding:18px;background:linear-gradient(180deg,#fbfcfa 0%,#eef3ee 100%);border-right:1px solid var(--line);display:flex;flex-direction:column;gap:14px;overflow:auto}
+    .eyebrow{display:inline-flex;align-self:flex-start;padding:8px 12px;border-radius:999px;background:#e4efe9;color:#0e5b4e;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+    h1{margin:0;font-size:30px;line-height:1.05}
+    p{margin:0;color:var(--muted);line-height:1.5}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow)}
+    .stat{display:flex;justify-content:space-between;align-items:end;gap:12px}
+    .stat strong{font-size:34px;line-height:1}
+    .stat small{display:block;margin-top:6px;color:var(--muted)}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    button{border:0;border-radius:14px;padding:12px 14px;font-weight:700;cursor:pointer}
+    .primary{background:var(--accent);color:#fff}
+    .ghost{background:#e9f0eb;color:#17372f}
+    .list{display:flex;flex-direction:column;gap:8px;max-height:380px;overflow:auto}
+    .item{display:flex;flex-direction:column;gap:4px;padding:12px 12px;border-radius:14px;border:1px solid var(--line);background:#fff;cursor:pointer}
+    .item:hover{border-color:#9ed8cb;background:#f4fbf8}
+    .item strong{font-size:14px}
+    .item small{color:var(--muted);font-size:12px}
+    .legend{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px}
+    .dot{width:16px;height:16px;border-radius:50%;background:var(--dot);border:2px solid var(--dot-border);box-shadow:0 0 0 3px rgba(28,199,167,.12)}
+    .map-wrap{position:relative}
+    #map{height:100%;width:100%}
+    .overlay{position:absolute;top:18px;left:18px;z-index:500;background:#ffffffee;border:1px solid var(--line);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow);max-width:360px}
+    .overlay strong{display:block;margin-bottom:6px;font-size:16px}
+    .overlay span{color:var(--muted);font-size:13px;line-height:1.4}
+    .popup-title{font-weight:800}
+    @media (max-width:960px){.app{grid-template-columns:1fr}.sidebar{order:2;max-height:44vh}.map-wrap{order:1;min-height:56vh}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="eyebrow">Riobamba · Seguridad</div>
+      <h1>Visor de puntos de seguridad</h1>
+      <p>Solo muestra los puntos de seguridad. No hay isocronas ni capas extra.</p>
+
+      <section class="card">
+        <div class="stat">
+          <div>
+            <span>Total de puntos</span>
+            <strong id="totalCount">0</strong>
+            <small id="platformCount">0 plataformas con cobertura</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="actions">
+          <button class="primary" id="fitButton" type="button">Ajustar vista</button>
+          <button class="ghost" id="reloadButton" type="button">Recargar</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="legend"><span class="dot"></span><span>Punto de seguridad</span></div>
+      </section>
+
+      <section class="card">
+        <strong style="display:block;margin-bottom:10px;">Puntos</strong>
+        <div id="pointList" class="list"></div>
+      </section>
+    </aside>
+
+    <main class="map-wrap">
+      <div class="overlay">
+        <strong id="overlayTitle">Visor de seguridad</strong>
+        <span id="overlayText">Cargando puntos de seguridad...</span>
+      </div>
+      <div id="map"></div>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const DATA_VERSION = "20260820-seguridad-v1";
+    const map = L.map("map", { zoomControl: false, preferCanvas: true, minZoom: 12 });
+    L.control.zoom({ position: "topright" }).addTo(map);
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      attribution: "&copy; OpenStreetMap &copy; CARTO",
+      subdomains: "abcd",
+      maxZoom: 20
+    }).addTo(map);
+
+    const totalCount = document.getElementById("totalCount");
+    const platformCount = document.getElementById("platformCount");
+    const pointList = document.getElementById("pointList");
+    const overlayTitle = document.getElementById("overlayTitle");
+    const overlayText = document.getElementById("overlayText");
+    const fitButton = document.getElementById("fitButton");
+    const reloadButton = document.getElementById("reloadButton");
+
+    let layer = null;
+    let points = [];
+
+    function repairText(value) {
+      return String(value ?? "")
+        .replaceAll("Ã¡","á").replaceAll("Ã©","é").replaceAll("Ã­","í")
+        .replaceAll("Ã³","ó").replaceAll("Ãº","ú").replaceAll("Ã±","ñ")
+        .replaceAll("Ã","Á").replaceAll("Ã‰","É").replaceAll("Ã","Í")
+        .replaceAll("Ã“","Ó").replaceAll("Ãš","Ú").replaceAll("Ã‘","Ñ")
+        .replaceAll("�","Ñ");
+    }
+    function escapeHtml(value) {
+      return String(value ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");
+    }
+    function displayName(value) {
+      return repairText(value).trim();
+    }
+    function formatNumber(value) {
+      return new Intl.NumberFormat("es-EC").format(Number(value || 0));
+    }
+    function centerPoint(feature) {
+      const g = feature.geometry;
+      if (!g) return null;
+      if (g.type === "Point") return feature;
+      const coords = [];
+      const walk = (arr) => Array.isArray(arr[0]) ? arr.forEach(walk) : coords.push(arr);
+      walk(g.coordinates);
+      if (!coords.length) return null;
+      let sx = 0, sy = 0;
+      for (const [x,y] of coords) { sx += x; sy += y; }
+      return { type: "Feature", properties: feature.properties || {}, geometry: { type: "Point", coordinates: [sx / coords.length, sy / coords.length] } };
+    }
+    function popupHtml(props) {
+      return `
+        <strong class="popup-title">${escapeHtml(displayName(props.nombre || props.nombre_equ || props.elemento || "Punto de seguridad"))}</strong><br>
+        <strong>Tipo:</strong> ${escapeHtml(displayName(props.tipo_eleme || props.categoria || "Seguridad"))}<br>
+        <strong>Plataforma:</strong> ${escapeHtml(displayName(props.platform_name || "-"))}<br>
+        <strong>Elemento:</strong> ${escapeHtml(displayName(props.elemento || props.equipamien || "-"))}
+      `;
+    }
+    function buildList(features) {
+      pointList.innerHTML = features.map((feature, index) => {
+        const p = feature.properties || {};
+        return `
+          <button class="item" type="button" data-index="${index}">
+            <strong>${escapeHtml(displayName(p.nombre || p.nombre_equ || p.elemento || "Punto de seguridad"))}</strong>
+            <small>${escapeHtml(displayName(p.platform_name || "Sin plataforma"))}</small>
+          </button>
+        `;
+      }).join("");
+      pointList.querySelectorAll("[data-index]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const feature = features[Number(btn.dataset.index)];
+          if (!feature || !feature._latlng) return;
+          map.setView(feature._latlng, Math.max(map.getZoom(), 17), { animate: true });
+          feature._marker.openPopup();
+        });
+      });
+    }
+    function fitToPoints() {
+      if (!layer || !layer.getBounds().isValid()) return;
+      map.fitBounds(layer.getBounds().pad(0.18), { animate: true });
+    }
+    async function loadData() {
+      if (window.location.protocol === "file:") {
+        overlayTitle.textContent = "Visor no inicializado";
+        overlayText.textContent = "Abre este visor desde la URL publicada. Desde file:// no carga el GeoJSON.";
+        return;
+      }
+      const response = await fetch(`./riobamba-censo-data/riobamba_seguridad_puntos.geojson?v=${DATA_VERSION}`);
+      if (!response.ok) throw new Error("No se pudo cargar la capa de seguridad");
+      const data = await response.json();
+      points = (data.features || []).map(centerPoint).filter(Boolean);
+      totalCount.textContent = formatNumber(points.length);
+      platformCount.textContent = `${formatNumber(new Set(points.map((f) => String(f.properties?.platform_name || "-"))).size)} plataformas con puntos`;
+      overlayTitle.textContent = "Puntos de seguridad";
+      overlayText.textContent = `Se cargaron ${formatNumber(points.length)} puntos de seguridad.`;
+      renderPoints();
+    }
+    function renderPoints() {
+      if (layer) map.removeLayer(layer);
+      layer = L.layerGroup().addTo(map);
+      const markerFeatures = [];
+      const bounds = [];
+      points.forEach((feature) => {
+        const [lng, lat] = feature.geometry.coordinates;
+        const marker = L.circleMarker([lat, lng], {
+          radius: 8,
+          color: "#1d2b26",
+          weight: 2,
+          fillColor: "#19c8a8",
+          fillOpacity: 0.95,
+          pane: "markerPane"
+        }).addTo(layer);
+        marker.bindPopup(popupHtml(feature.properties || {}), { maxWidth: 320 });
+        marker._feature = feature;
+        feature._latlng = [lat, lng];
+        feature._marker = marker;
+        markerFeatures.push(feature);
+        bounds.push([lat, lng]);
+      });
+      buildList(markerFeatures);
+      if (bounds.length) map.fitBounds(bounds, { padding: [24, 24] });
+    }
+    fitButton.addEventListener("click", fitToPoints);
+    reloadButton.addEventListener("click", () => loadData().catch(console.error));
+    loadData().catch((error) => {
+      console.error(error);
+      overlayTitle.textContent = "Error de carga";
+      overlayText.textContent = "No se pudo cargar la capa de seguridad.";
+    });
+  </script>
+</body>
+</html>
