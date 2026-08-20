@@ -206,6 +206,8 @@
     const reloadButton = document.getElementById("reloadButton");
 
     let layer = null;
+    let platformLayer = null;
+    let platformFeatures = [];
     let points = [];
     let currentPlatform = "__all__";
 
@@ -267,8 +269,13 @@
         ? points
         : points.filter((feature) => sameName(feature.properties?.platform_name, currentPlatform));
     }
+    function getVisiblePlatforms() {
+      return currentPlatform === "__all__"
+        ? platformFeatures
+        : platformFeatures.filter((feature) => sameName(feature.properties?.platform_name, currentPlatform));
+    }
     function buildPlatformOptions() {
-      const platforms = [...new Set(points.map((feature) => displayName(feature.properties?.platform_name || "-")).filter(Boolean))].sort((a, b) => a.localeCompare(b, "es"));
+      const platforms = [...new Set(platformFeatures.map((feature) => displayName(feature.properties?.platform_name || "-")).filter(Boolean))].sort((a, b) => a.localeCompare(b, "es"));
       platformSelect.innerHTML = [
         `<option value="__all__">Todas las plataformas</option>`,
         ...platforms.map((name) => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`)
@@ -303,8 +310,9 @@
       });
     }
     function fitToPoints() {
-      if (!layer || !layer.getBounds().isValid()) return;
-      map.fitBounds(layer.getBounds().pad(0.18), { animate: true });
+      const boundsSource = platformLayer && platformLayer.getBounds().isValid() ? platformLayer : layer;
+      if (!boundsSource || !boundsSource.getBounds().isValid()) return;
+      map.fitBounds(boundsSource.getBounds().pad(0.18), { animate: true });
     }
     function renderSummary() {
       const visible = getVisiblePoints();
@@ -329,13 +337,54 @@
         overlayText.textContent = "Abre este visor desde la URL publicada. Desde file:// no carga el GeoJSON.";
         return;
       }
-      const response = await fetch(`./riobamba-censo-data/riobamba_seguridad_puntos.geojson?v=${DATA_VERSION}`);
-      if (!response.ok) throw new Error("No se pudo cargar la capa de seguridad");
-      const data = await response.json();
-      points = (data.features || []).map(centerPoint).filter(Boolean);
+      const [securityResponse, platformsResponse] = await Promise.all([
+        fetch(`./riobamba-censo-data/riobamba_seguridad_puntos.geojson?v=${DATA_VERSION}`),
+        fetch(`./riobamba-censo-data/riobamba_plataformas.geojson?v=${DATA_VERSION}`)
+      ]);
+      if (!securityResponse.ok) throw new Error("No se pudo cargar la capa de seguridad");
+      if (!platformsResponse.ok) throw new Error("No se pudo cargar la capa de plataformas");
+      const [securityData, platformsData] = await Promise.all([
+        securityResponse.json(),
+        platformsResponse.json()
+      ]);
+      points = (securityData.features || []).map(centerPoint).filter(Boolean);
+      platformFeatures = (platformsData.features || []).filter((feature) => feature?.geometry && feature?.properties);
       buildPlatformOptions();
       renderSummary();
+      renderPlatforms(true);
       renderPoints(true);
+    }
+    function renderPlatforms(shouldFit = false) {
+      if (platformLayer) map.removeLayer(platformLayer);
+      const visible = getVisiblePlatforms();
+      if (!visible.length) {
+        platformLayer = null;
+        return;
+      }
+      if (!map.getPane("platformPane")) {
+        map.createPane("platformPane");
+        map.getPane("platformPane").style.zIndex = 520;
+      }
+      platformLayer = L.geoJSON(
+        { type: "FeatureCollection", features: visible },
+        {
+          pane: "platformPane",
+          style: (feature) => {
+            const selected = currentPlatform !== "__all__" && sameName(feature?.properties?.platform_name, currentPlatform);
+            return {
+              color: selected ? "#243226" : "#5f8eb9",
+              weight: selected ? 3.2 : 2.1,
+              opacity: selected ? 1 : 0.88,
+              fillColor: "#ffffff",
+              fillOpacity: 0,
+              dashArray: selected ? "" : "5 4"
+            };
+          }
+        }
+      ).addTo(map);
+      if (shouldFit && platformLayer.getBounds().isValid()) {
+        map.fitBounds(platformLayer.getBounds().pad(0.12), { animate: true });
+      }
     }
     function renderPoints(shouldFit = false) {
       if (layer) map.removeLayer(layer);
@@ -367,13 +416,16 @@
         bounds.push([lat, lng]);
       });
       buildList(markerFeatures);
-      if (shouldFit && bounds.length) map.fitBounds(bounds, { padding: [24, 24] });
+      if (shouldFit && bounds.length && (!platformLayer || !platformLayer.getBounds().isValid())) {
+        map.fitBounds(bounds, { padding: [24, 24] });
+      }
       renderSummary();
     }
     fitButton.addEventListener("click", fitToPoints);
     reloadButton.addEventListener("click", () => loadData().catch(console.error));
     platformSelect?.addEventListener("change", () => {
       currentPlatform = platformSelect.value || "__all__";
+      renderPlatforms(false);
       renderPoints(false);
     });
     toggleSecurityPoints.addEventListener("change", () => renderPoints(false));
