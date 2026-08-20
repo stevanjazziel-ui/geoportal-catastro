@@ -149,6 +149,13 @@
       </section>
 
       <section class="panel">
+        <h2>Estadísticas de plataforma</h2>
+        <div class="mini-list" id="platformStatsCard">
+          <div class="mini-row"><span>Estado</span><strong>Selecciona una plataforma</strong></div>
+        </div>
+      </section>
+
+      <section class="panel">
         <h2>Capas visibles</h2>
         <div class="layer-toggles">
           <label class="layer-toggle"><span>Puntos de seguridad</span><input id="toggleSecurityPoints" type="checkbox" checked></label>
@@ -222,6 +229,7 @@
 
     const pointList = document.getElementById("pointList");
     const summaryCards = document.getElementById("summaryCards");
+    const platformStatsCard = document.getElementById("platformStatsCard");
     const statusText = document.getElementById("statusText");
     const platformSelect = document.getElementById("platformSelect");
     const toggleSecurityPoints = document.getElementById("toggleSecurityPoints");
@@ -282,6 +290,14 @@
         </div>
         `).join("");
     }
+    function buildMiniRows(rows) {
+      return rows.map((row) => `
+        <div class="mini-row">
+          <span>${escapeHtml(row.label)}</span>
+          <strong>${escapeHtml(row.value)}</strong>
+        </div>
+      `).join("");
+    }
     function renderEmptyState() {
       buildSummaryCards([
         { label: "Puntos totales", value: "0", meta: "Cargando..." },
@@ -289,6 +305,7 @@
         { label: "Capas activas", value: "1", meta: "Puntos de seguridad" },
         { label: "Selección", value: "Todas", meta: "Plataforma territorial" }
       ]);
+      platformStatsCard.innerHTML = `<div class="mini-row"><span>Estado</span><strong>Cargando...</strong></div>`;
       pointList.innerHTML = `<div class="mini-row"><span>Cargando puntos...</span><strong>-</strong></div>`;
       statusText.textContent = "Cargando puntos de seguridad...";
       overlayTitle.textContent = "Visor de seguridad";
@@ -360,12 +377,32 @@
     function renderSummary() {
       const visible = getVisiblePoints();
       const platformSet = new Set(points.map((feature) => displayName(feature.properties?.platform_name || "-")).filter(Boolean));
+      const selectedCategoryCounts = visible.reduce((acc, feature) => {
+        const category = securityCategory(feature.properties || {});
+        acc[category] = (acc[category] || 0) + 1;
+        return acc;
+      }, {});
       buildSummaryCards([
         { label: "Puntos totales", value: formatNumber(points.length), meta: `${formatNumber(platformSet.size)} plataformas con puntos` },
         { label: "Puntos visibles", value: formatNumber(visible.length), meta: currentPlatform === "__all__" ? "Todas las plataformas" : displayName(currentPlatform) },
         { label: "Capas activas", value: toggleSecurityPoints.checked ? "1" : "0", meta: "Puntos de seguridad" },
         { label: "Selección", value: currentPlatform === "__all__" ? "Todas" : "Una", meta: "Plataforma territorial" }
       ]);
+      platformStatsCard.innerHTML = currentPlatform === "__all__"
+        ? buildMiniRows([
+            { label: "Plataformas", value: formatNumber(platformSet.size) },
+            { label: "Puntos visibles", value: formatNumber(visible.length) },
+            { label: "Estado", value: "Selecciona una plataforma" }
+          ])
+        : buildMiniRows([
+            { label: "Plataforma", value: displayName(currentPlatform) },
+            { label: "Puntos", value: formatNumber(visible.length) },
+            { label: "UPC", value: formatNumber(selectedCategoryCounts.UPC || 0) },
+            { label: "Bomberos", value: formatNumber(selectedCategoryCounts.Bomberos || 0) },
+            { label: "Cuarteles", value: formatNumber(selectedCategoryCounts.Cuarteles || 0) },
+            { label: "DINAPEN", value: formatNumber(selectedCategoryCounts.DINAPEN || 0) },
+            { label: "Rehabilitación", value: formatNumber(selectedCategoryCounts["Centros de rehabilitación"] || 0) }
+          ]);
       statusText.textContent = `Mostrando ${formatNumber(visible.length)} puntos de seguridad${currentPlatform === "__all__" ? "" : ` en ${displayName(currentPlatform)}`}.`;
       overlayTitle.textContent = currentPlatform === "__all__" ? "Seguridad · Todas las plataformas" : `Seguridad · ${displayName(currentPlatform)}`;
       overlayText.textContent = `Se cargaron ${formatNumber(points.length)} puntos de seguridad en total.`;
