@@ -185,9 +185,8 @@
     const map = L.map("map", { zoomControl: false, preferCanvas: true, minZoom: 12 });
     L.control.zoom({ position: "topright" }).addTo(map);
     map.setView([-1.673, -78.65], 13);
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-      attribution: "&copy; OpenStreetMap &copy; CARTO",
-      subdomains: "abcd",
+    const baseLayer = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "&copy; OpenStreetMap contributors",
       maxZoom: 20
     }).addTo(map);
 
@@ -236,7 +235,19 @@
           <strong>${escapeHtml(row.value)}</strong>
           <small>${escapeHtml(row.meta)}</small>
         </div>
-      `).join("");
+        `).join("");
+    }
+    function renderEmptyState() {
+      buildSummaryCards([
+        { label: "Puntos totales", value: "0", meta: "Cargando..." },
+        { label: "Puntos visibles", value: "0", meta: "Todas las plataformas" },
+        { label: "Capas activas", value: "1", meta: "Puntos de seguridad" },
+        { label: "Selección", value: "Todas", meta: "Plataforma territorial" }
+      ]);
+      pointList.innerHTML = `<div class="mini-row"><span>Cargando puntos...</span><strong>-</strong></div>`;
+      statusText.textContent = "Cargando puntos de seguridad...";
+      overlayTitle.textContent = "Visor de seguridad";
+      overlayText.textContent = "Cargando puntos de seguridad...";
     }
     function centerPoint(feature) {
       const g = feature.geometry;
@@ -365,6 +376,7 @@
       renderPoints(false);
     });
     toggleSecurityPoints.addEventListener("change", () => renderPoints(false));
+    renderEmptyState();
     loadData().catch((error) => {
       console.error(error);
       overlayTitle.textContent = "Error de carga";
