@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-08-20",
-  "generatedAt": "2026-08-20T11:31:40",
+  "generatedAt": "2026-08-20T14:46:59",
   "records": [
     {
       "estado": "Complementado",
@@ -352,14 +352,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1228474 GADMR--2026-0555-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "TIXE RIVERA DAYANA LIZETH - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-09-02",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-08-16T21:15:00",
       "codigo": "GADMR--2026-0555-IPRUS-ZNP",
       "nroTramite": 1228474,
@@ -367,9 +367,6 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "TIXE RIVERA DAYANA LIZETH",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(13 días)",
-      "diasRestantes": 13,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
@@ -385,7 +382,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-08-16 21:15",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 4,
+      "egobJournalCount": 5,
       "egobRelevantNotes": []
     },
     {
@@ -707,14 +704,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "Complementado",
+      "estado": "En espera",
       "tramite": "Trámite: 1200604 GADMR--2026-0378-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "YUQUILEMA YUQUILEMA JOHNNY JAVIER - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-08-28",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-08-14T14:31:00",
       "codigo": "GADMR--2026-0378-IPRUS-ZNP",
       "nroTramite": 1200604,
@@ -722,9 +719,6 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "YUQUILEMA YUQUILEMA JOHNNY JAVIER",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(8 días)",
-      "diasRestantes": 8,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
@@ -740,7 +734,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD RESPECTO AL ALCANCE.",
       "egobLatestReassignmentAt": "2026-08-14 14:31",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 14,
+      "egobJournalCount": 15,
       "egobRelevantNotes": [
         {
           "journalId": "6787293",
@@ -3274,13 +3268,13 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 66,
     "priorities": {
-      "Normal": 52,
-      "Sin prioridad": 14
+      "Normal": 50,
+      "Sin prioridad": 16
     },
     "states": {
-      "Complementado": 16,
-      "Asignado": 44,
-      "En espera": 6
+      "Complementado": 15,
+      "Asignado": 43,
+      "En espera": 8
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 66
