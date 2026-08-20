@@ -45,6 +45,37 @@
     .card span { display: block; color: var(--muted); font-size: 0.75rem; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.05em; }
     .card strong { font-size: 1.18rem; }
     .card small { display: block; margin-top: 6px; color: var(--muted); line-height: 1.4; }
+    .link-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .link-button {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid rgba(79, 143, 82, 0.28);
+      border-radius: 12px;
+      background:
+        linear-gradient(135deg, rgba(79, 143, 82, 0.18), rgba(95, 142, 185, 0.14)),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0));
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+    }
+    .link-button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(95, 142, 185, 0.34);
+      background:
+        linear-gradient(135deg, rgba(79, 143, 82, 0.24), rgba(95, 142, 185, 0.2)),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.46), rgba(255, 255, 255, 0));
+    }
     button, select {
       width: 100%;
       padding: 12px 14px;
@@ -106,6 +137,10 @@
         <div class="eyebrow">Riobamba · Seguridad</div>
         <h1>Visor de Puntos de Seguridad</h1>
         <p>La misma interfaz base del visor principal, reducida solo a puntos de seguridad y al límite de la plataforma seleccionada.</p>
+        <div class="link-actions" style="margin-top:12px;">
+          <a class="link-button" href="./riobamba-censo.html">Visor principal</a>
+          <a class="link-button" href="./riobamba-seguridad.html">Visor seguridad</a>
+        </div>
       </section>
 
       <section class="panel">
