@@ -424,7 +424,7 @@
     reloadButton.addEventListener("click", () => loadData().catch(console.error));
     platformSelect?.addEventListener("change", () => {
       currentPlatform = platformSelect.value || "__all__";
-      renderPlatforms(false);
+      renderPlatforms(true);
       renderPoints(false);
     });
     toggleSecurityPoints.addEventListener("change", () => renderPoints(false));
