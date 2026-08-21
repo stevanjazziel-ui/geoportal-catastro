@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-08-21",
-  "generatedAt": "2026-08-21T17:01:35",
+  "generatedAt": "2026-08-21T17:31:35",
   "records": [
     {
       "estado": "Asignado",
@@ -2115,14 +2115,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1224935 GADMR--2026-0529-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "GUEVARA VACA FERNANDO ANDRES - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-08-26",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-08-12T15:09:00",
       "codigo": "GADMR--2026-0529-IPRUS-ZNP",
       "nroTramite": 1224935,
@@ -2130,26 +2130,44 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "GUEVARA VACA FERNANDO ANDRES",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(5 días)",
-      "diasRestantes": 5,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
       "sourceRow": 49,
       "id": "GADMR--2026-0529-IPRUS-ZNP",
-      "egobOutcome": "EN REVISIÓN",
-      "egobOutcomeRule": "",
-      "egobOutcomeNote": "",
-      "egobOutcomeAt": "",
-      "egobOutcomeAuthor": "",
-      "egobOutcomeAuthorRole": "",
-      "egobOutcomeEntryType": "",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "subsanacion",
+      "egobOutcomeNote": "Se notifican las observaciones técnicas resultantes de la revisión de la planimetría adjunta. Se solicita revisar la documentación y los archivos adjuntos a fin de realizar las subsanaciones correspondientes. Una vez efectuadas las correcciones se deberá cargar la documentación requerida junto con los archivos en formato DWG y PDF debidamente firmados. Para el cumplimiento de este requerimiento, se concede un plazo de 10 días hábiles a partir de la presente notificación",
+      "egobOutcomeAt": "2026-08-21 17:04",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Registro",
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-08-12 15:09",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 5,
-      "egobRelevantNotes": []
+      "egobJournalCount": 7,
+      "egobRelevantNotes": [
+        {
+          "journalId": "7129487",
+          "entryType": "Registro",
+          "timestamp": "2026-08-21 17:04",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Se notifican las observaciones técnicas resultantes de la revisión de la planimetría adjunta. Se solicita revisar la documentación y los archivos adjuntos a fin de realizar las subsanaciones correspondientes. Una vez efectuadas las correcciones se deberá cargar la documentación requerida junto con los archivos en formato DWG y PDF debidamente firmados. Para el cumplimiento de este requerimiento, se concede un plazo de 10 días hábiles a partir de la presente notificación",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
+          "journalId": "7129488",
+          "entryType": "Registro",
+          "timestamp": "2026-08-21 17:04",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Se notifican las observaciones técnicas resultantes de la revisión de la planimetría adjunta. Se solicita revisar la documentación y los archivos adjuntos a fin de realizar las subsanaciones correspondientes. Una vez efectuadas las correcciones se deberá cargar la documentación requerida junto con los archivos en formato DWG y PDF debidamente firmados. Para el cumplimiento de este requerimiento, se concede un plazo de 10 días hábiles a partir de la presente notificación",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        }
+      ]
     },
     {
       "estado": "Asignado",
@@ -3300,12 +3318,12 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 70,
     "priorities": {
-      "Normal": 57,
-      "Sin prioridad": 13
+      "Normal": 56,
+      "Sin prioridad": 14
     },
     "states": {
-      "Asignado": 51,
-      "En espera": 8,
+      "Asignado": 50,
+      "En espera": 9,
       "Complementado": 11
     },
     "responsibles": {
