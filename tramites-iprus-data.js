@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-08-21",
-  "generatedAt": "2026-08-21T09:01:27",
+  "generatedAt": "2026-08-21T09:34:57",
   "records": [
     {
       "estado": "Asignado",
@@ -2316,7 +2316,8 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "criterio_legal_favorable"
         }
-      ]
+      ],
+      "egobSyncError": "('Connection aborted.', ConnectionResetError(10054, 'Se ha forzado la interrupción de una conexión existente por el host remoto', None, 10054, None))"
     },
     {
       "estado": "Asignado",
