@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-08-21",
-  "generatedAt": "2026-08-21T15:31:25",
+  "generatedAt": "2026-08-21T16:01:31",
   "records": [
     {
       "estado": "Asignado",
@@ -3036,7 +3036,25 @@ window.TRAMITES_IPRUS_DATA = {
           "rule": "subsanacion"
         }
       ]
+    }
+  ],
+  "summary": {
+    "total": 63,
+    "priorities": {
+      "Normal": 49,
+      "Sin prioridad": 13,
+      "Urgente": 1
     },
+    "states": {
+      "Asignado": 44,
+      "En espera": 8,
+      "Complementado": 11
+    },
+    "responsibles": {
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 63
+    }
+  },
+  "historyRecords": [
     {
       "estado": "Complementado",
       "tramite": "Trámite: 1202842 GADMR--2026-0399-IPRUS-ZNP",
@@ -3093,26 +3111,11 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "NO FAVORABLE",
           "rule": "no_favorable"
         }
-      ]
-    }
-  ],
-  "summary": {
-    "total": 64,
-    "priorities": {
-      "Normal": 50,
-      "Sin prioridad": 13,
-      "Urgente": 1
+      ],
+      "historyArchivedAt": "2026-08-21T16:01:31",
+      "historyLastSeenAt": "2026-08-21T15:31:25",
+      "historyStatus": "Historico"
     },
-    "states": {
-      "Asignado": 44,
-      "En espera": 8,
-      "Complementado": 12
-    },
-    "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 64
-    }
-  },
-  "historyRecords": [
     {
       "estado": "Asignado",
       "tramite": "Trámite: 1214972 GADMR--2026-0478-IPRUS-ZNP",
@@ -9009,21 +9012,21 @@ window.TRAMITES_IPRUS_DATA = {
     }
   ],
   "historySummary": {
-    "total": 94,
+    "total": 95,
     "priorities": {
-      "Normal": 43,
+      "Normal": 44,
       "Sin prioridad": 43,
       "Urgente": 7,
       "Crítico": 1
     },
     "states": {
+      "Complementado": 52,
       "Asignado": 32,
-      "Complementado": 51,
       "En espera": 10,
       "Nuevo": 1
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 94
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 95
     }
   }
 };
