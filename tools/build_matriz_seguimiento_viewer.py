@@ -64,6 +64,17 @@ DIRECTION_OVERRIDE_FIELD_MAP = {
     "paid": "MONTO EJECUTADO",
     "balanceToCertify": "PENDIENTE POR CERTIFICAR ",
 }
+FINANCIAL_FIELD_KEYS = [
+    "CODIFICADO",
+    "CERTIFICADO",
+    "COMPROMETIDO",
+    "DEVENGADO",
+    "PAGADO",
+    "SALDO_POR_CERTIFICAR",
+    "SALDO_POR_COMPROMETER",
+    "SALDO_POR_DEVENGAR",
+    "SALDO_POR_PAGAR",
+]
 
 HIGHLIGHT_FIELD_ALIASES = {
     "direction": "DIRECCION",
@@ -441,13 +452,13 @@ def build_supplement_updates(
     base_codes: list[str],
     zero_fill_paths: set[Path] | None = None,
     force_paths: set[Path] | None = None,
-) -> dict[str, dict[str, tuple[float, bool, bool]]]:
+) -> dict[str, dict[str, tuple[float | None, bool, bool, bool]]]:
     counts = Counter(code for code in base_codes if code)
     unique_codes = {code for code, count in counts.items() if count == 1}
     zero_fill_paths = zero_fill_paths or set()
     force_paths = force_paths or set()
 
-    updates: dict[str, dict[str, tuple[float, bool, bool]]] = {}
+    updates: dict[str, dict[str, tuple[float | None, bool, bool, bool]]] = {}
     for source_path in source_paths:
         resolved_path = source_path.resolve()
         allow_zero_fill = resolved_path in zero_fill_paths
@@ -476,15 +487,42 @@ def build_supplement_updates(
                 for base_field, supplement_field in field_map.items():
                     value = row.get(supplement_field.strip(), row.get(supplement_field))
                     if pd.isna(value):
+                        if force_override:
+                            payload[base_field] = (None, allow_zero_fill, force_override, True)
                         continue
                     try:
                         number = float(value)
                     except (TypeError, ValueError):
+                        if force_override:
+                            payload[base_field] = (None, allow_zero_fill, force_override, True)
                         continue
                     if abs(number) < 1e-9 and not allow_zero_fill and not force_override:
                         continue
-                    payload[base_field] = (number, allow_zero_fill, force_override)
+                    payload[base_field] = (number, allow_zero_fill, force_override, False)
     return updates
+
+
+def build_authoritative_direction_scope(source_paths: list[Path], base_direction_by_code: dict[str, str]) -> dict[str, set[str]]:
+    scope: dict[str, set[str]] = {}
+    for source_path in source_paths:
+        matched_directions: Counter[str] = Counter()
+        matched_codes: list[str] = []
+        for sheet_name, header_row_index in discover_supplement_tables(source_path):
+            supplement = pd.read_excel(source_path, sheet_name=sheet_name, header=header_row_index - 1).dropna(how="all")
+            supplement.columns = [str(column).strip() for column in supplement.columns]
+            if "PARTIDA" not in supplement.columns:
+                continue
+            supplement["PARTIDA"] = supplement["PARTIDA"].fillna("").astype(str).str.strip()
+            detail_rows = supplement[supplement["PARTIDA"].str.count(r"\.") >= 8]
+            for code in detail_rows["PARTIDA"]:
+                direction = base_direction_by_code.get(code)
+                if direction:
+                    matched_directions[direction] += 1
+                    matched_codes.append(code)
+        if matched_directions:
+            direction, _ = matched_directions.most_common(1)[0]
+            scope[direction] = {code for code in matched_codes if base_direction_by_code.get(code) == direction}
+    return scope
 
 
 def build_direction_overrides(source_paths: list[Path], base_direction_by_code: dict[str, str]) -> dict[str, dict[str, float]]:
@@ -560,6 +598,9 @@ def build_payload(
         build_supplement_updates(supplement_paths or [], base_codes, zero_fill_paths, force_paths) if supplement_paths else {}
     )
     direction_overrides = build_direction_overrides(supplement_paths or [], base_direction_by_code) if supplement_paths else {}
+    authoritative_direction_scope = (
+        build_authoritative_direction_scope(list(force_paths or []), base_direction_by_code) if force_paths else {}
+    )
     records: list[dict[str, Any]] = []
 
     for row_number in range(DATA_START_ROW_INDEX, matrix_sheet.max_row + 1):
@@ -568,13 +609,20 @@ def build_payload(
             continue
         if code_column:
             code = clean_string(row_values[code_column["index"]])
+            direction = clean_string(row_values[direction_column["index"]]) if direction_column else ""
+            authoritative_codes = authoritative_direction_scope.get(direction)
+            if authoritative_codes is not None and code and code not in authoritative_codes:
+                for field_key in FINANCIAL_FIELD_KEYS:
+                    column = columns_by_key.get(field_key)
+                    if column:
+                        row_values[column["index"]] = None
             updates = supplement_updates.get(code)
             if updates:
-                execution_anomaly = any(allow_zero_fill for _, allow_zero_fill, _ in updates.values()) and has_execution_chain_anomaly(
-                    row_values, columns_by_key
-                )
+                execution_anomaly = any(
+                    allow_zero_fill for _, allow_zero_fill, _, _ in updates.values()
+                ) and has_execution_chain_anomaly(row_values, columns_by_key)
                 for field_key, update in updates.items():
-                    number, allow_zero_fill, force_override = update
+                    number, allow_zero_fill, force_override, explicit_clear = update
                     column = columns_by_key.get(field_key)
                     if not column:
                         continue
@@ -585,7 +633,7 @@ def build_payload(
                     else:
                         should_fill = source_cell_is_fillable(row_values[column["index"]])
                     if should_fill:
-                        row_values[column["index"]] = number
+                        row_values[column["index"]] = None if explicit_clear else number
         records.append(build_record(row_number, row_values, columns))
 
     payload = {
