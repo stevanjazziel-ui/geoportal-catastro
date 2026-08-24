@@ -4,8 +4,76 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-08-24",
-  "generatedAt": "2026-08-24T14:31:38",
+  "generatedAt": "2026-08-24T15:01:47",
   "records": [
+    {
+      "estado": "Complementado",
+      "tramite": "Trámite: 1219283 GADMR--2026-0499-IPRUS-ZNP",
+      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
+      "asunto": "AREVALO NAULA EFRAIN ANGEL - IPRUS FUERA DE ZONA PATRIMONIAL",
+      "reasignadoPor": "Josselyn Dayana Orozco Velasco",
+      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "expediente": "--",
+      "fechaLimite": "2026-08-31",
+      "fechaIngreso": "2026-08-24T14:39:00",
+      "codigo": "GADMR--2026-0499-IPRUS-ZNP",
+      "nroTramite": 1219283,
+      "issueId": "1219283",
+      "solicitante": "AREVALO NAULA EFRAIN ANGEL",
+      "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
+      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "tiempoRestante": "(7 días)",
+      "diasRestantes": 7,
+      "prioridad": "Normal",
+      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
+      "asignadoInterno": "caizaluisae",
+      "sourceRow": 1,
+      "id": "GADMR--2026-0499-IPRUS-ZNP",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "subsanacion",
+      "egobOutcomeNote": "OBSERVACIONES: Se concede un plazo de cinco (10) días hábiles para la subsanación de las observaciones señaladas. Por favor, revisar los archivos adjuntos para la correcta atención de lo requerido.",
+      "egobOutcomeAt": "2026-08-16 20:25",
+      "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
+      "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+      "egobOutcomeEntryType": "Registro",
+      "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
+      "egobLatestReassignmentAt": "2026-08-24 14:39",
+      "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
+      "egobJournalCount": 8,
+      "egobRelevantNotes": [
+        {
+          "journalId": "6985253",
+          "entryType": "Reasignación",
+          "timestamp": "2026-08-04 08:55",
+          "author": "ANGEL JAVIER TAMAYO CEPEDA",
+          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
+          "note": "SIN OBSERVACIONES LEGALES",
+          "outcome": "FAVORABLE",
+          "rule": "criterio_legal_favorable"
+        },
+        {
+          "journalId": "7061783",
+          "entryType": "Registro",
+          "timestamp": "2026-08-16 20:24",
+          "author": "JOSSELYN DAYANA OROZCO VELASCO",
+          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+          "note": "INFORME CON OBSERVACIONES",
+          "outcome": "NO FAVORABLE",
+          "rule": "informe_con_observaciones"
+        },
+        {
+          "journalId": "7061785",
+          "entryType": "Registro",
+          "timestamp": "2026-08-16 20:25",
+          "author": "JOSSELYN DAYANA OROZCO VELASCO",
+          "authorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
+          "note": "OBSERVACIONES: Se concede un plazo de cinco (10) días hábiles para la subsanación de las observaciones señaladas. Por favor, revisar los archivos adjuntos para la correcta atención de lo requerido.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        }
+      ]
+    },
     {
       "estado": "Asignado",
       "tramite": "Trámite: 1232968 GADMR--2026-0574-IPRUS-ZNP",
@@ -28,7 +96,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 1,
+      "sourceRow": 2,
       "id": "GADMR--2026-0574-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -65,7 +133,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 2,
+      "sourceRow": 3,
       "id": "GADMR--2026-0575-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -102,7 +170,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 3,
+      "sourceRow": 4,
       "id": "GADMR--2026-0576-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -139,7 +207,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 4,
+      "sourceRow": 5,
       "id": "GADMR--2026-0577-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -153,74 +221,6 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobJournalCount": 2,
       "egobRelevantNotes": []
-    },
-    {
-      "estado": "Asignado",
-      "tramite": "Trámite: 1212212 GADMR--2026-0450-IPRUS-ZNP",
-      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
-      "asunto": "CHARIGUAMAN CUJI ALEX ROLANDO - IPRUS FUERA DE ZONA PATRIMONIAL",
-      "reasignadoPor": "Josselyn Dayana Orozco Velasco",
-      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "expediente": "--",
-      "fechaLimite": "2026-08-26",
-      "fechaIngreso": "2026-08-24T10:41:00",
-      "codigo": "GADMR--2026-0450-IPRUS-ZNP",
-      "nroTramite": 1212212,
-      "issueId": "1212212",
-      "solicitante": "CHARIGUAMAN CUJI ALEX ROLANDO",
-      "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
-      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(2 días ⚠️)",
-      "diasRestantes": 2,
-      "prioridad": "Urgente",
-      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
-      "asignadoInterno": "caizaluisae",
-      "sourceRow": 5,
-      "id": "GADMR--2026-0450-IPRUS-ZNP",
-      "egobOutcome": "NO FAVORABLE",
-      "egobOutcomeRule": "subsanacion",
-      "egobOutcomeNote": "En la revisón técnica unicamente existe una incompatibilidad con la clave presentada en la planimetría ya que no corresponde al predio en cuestión, se solicita hacer el cambio de clave con la que consta en el pago predial. Subir el archivo digital con la correccion y el pdf debidamente firmado.",
-      "egobOutcomeAt": "2026-08-06 08:57",
-      "egobOutcomeAuthor": "HAMILTON RUBEN TORRES CABEZAS",
-      "egobOutcomeAuthorRole": "ANALISTA 4 DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
-      "egobOutcomeEntryType": "Registro",
-      "egobLatestReassignmentNote": "POR FAVOR VERIFICAR APARTADO 4.5 AFECTACIÓN VIAL",
-      "egobLatestReassignmentAt": "2026-08-24 10:41",
-      "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 15,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6986165",
-          "entryType": "Reasignación",
-          "timestamp": "2026-08-04 10:16",
-          "author": "VERONICA PATRICIA SAGBA AUSAY",
-          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-          "note": "Se emite criterio legal FAVORABLE, continuar con la parte técnica. Gracias",
-          "outcome": "FAVORABLE",
-          "rule": "criterio_legal_favorable"
-        },
-        {
-          "journalId": "7003632",
-          "entryType": "Registro",
-          "timestamp": "2026-08-06 08:57",
-          "author": "HAMILTON RUBEN TORRES CABEZAS",
-          "authorRole": "ANALISTA 4 DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
-          "note": "En la revisón técnica unicamente existe una incompatibilidad con la clave presentada en la planimetría ya que no corresponde al predio en cuestión, se solicita hacer el cambio de clave con la que consta en el pago predial. Subir el archivo digital con la correccion y el pdf debidamente firmado.",
-          "outcome": "NO FAVORABLE",
-          "rule": "subsanacion"
-        },
-        {
-          "journalId": "7003633",
-          "entryType": "Registro",
-          "timestamp": "2026-08-06 08:57",
-          "author": "HAMILTON RUBEN TORRES CABEZAS",
-          "authorRole": "ANALISTA 4 DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
-          "note": "En la revisón técnica unicamente existe una incompatibilidad con la clave presentada en la planimetría ya que no corresponde al predio en cuestión, se solicita hacer el cambio de clave con la que consta en el pago predial. Subir el archivo digital con la correccion y el pdf debidamente firmado.",
-          "outcome": "NO FAVORABLE",
-          "rule": "subsanacion"
-        }
-      ]
     },
     {
       "estado": "Asignado",
@@ -3370,21 +3370,92 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 72,
     "priorities": {
-      "Normal": 36,
-      "Urgente": 12,
+      "Normal": 37,
       "Sin prioridad": 14,
+      "Urgente": 11,
       "Crítico": 10
     },
     "states": {
-      "Asignado": 51,
-      "En espera": 11,
-      "Complementado": 10
+      "Complementado": 11,
+      "Asignado": 50,
+      "En espera": 11
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 72
     }
   },
   "historyRecords": [
+    {
+      "estado": "Asignado",
+      "tramite": "Trámite: 1212212 GADMR--2026-0450-IPRUS-ZNP",
+      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
+      "asunto": "CHARIGUAMAN CUJI ALEX ROLANDO - IPRUS FUERA DE ZONA PATRIMONIAL",
+      "reasignadoPor": "Josselyn Dayana Orozco Velasco",
+      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "expediente": "--",
+      "fechaLimite": "2026-08-26",
+      "fechaIngreso": "2026-08-24T10:41:00",
+      "codigo": "GADMR--2026-0450-IPRUS-ZNP",
+      "nroTramite": 1212212,
+      "issueId": "1212212",
+      "solicitante": "CHARIGUAMAN CUJI ALEX ROLANDO",
+      "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
+      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "tiempoRestante": "(2 días ⚠️)",
+      "diasRestantes": 2,
+      "prioridad": "Urgente",
+      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
+      "asignadoInterno": "caizaluisae",
+      "sourceRow": 5,
+      "id": "GADMR--2026-0450-IPRUS-ZNP",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "subsanacion",
+      "egobOutcomeNote": "En la revisón técnica unicamente existe una incompatibilidad con la clave presentada en la planimetría ya que no corresponde al predio en cuestión, se solicita hacer el cambio de clave con la que consta en el pago predial. Subir el archivo digital con la correccion y el pdf debidamente firmado.",
+      "egobOutcomeAt": "2026-08-06 08:57",
+      "egobOutcomeAuthor": "HAMILTON RUBEN TORRES CABEZAS",
+      "egobOutcomeAuthorRole": "ANALISTA 4 DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
+      "egobOutcomeEntryType": "Registro",
+      "egobLatestReassignmentNote": "POR FAVOR VERIFICAR APARTADO 4.5 AFECTACIÓN VIAL",
+      "egobLatestReassignmentAt": "2026-08-24 10:41",
+      "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
+      "egobJournalCount": 15,
+      "egobRelevantNotes": [
+        {
+          "journalId": "6986165",
+          "entryType": "Reasignación",
+          "timestamp": "2026-08-04 10:16",
+          "author": "VERONICA PATRICIA SAGBA AUSAY",
+          "authorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
+          "note": "Se emite criterio legal FAVORABLE, continuar con la parte técnica. Gracias",
+          "outcome": "FAVORABLE",
+          "rule": "criterio_legal_favorable"
+        },
+        {
+          "journalId": "7003632",
+          "entryType": "Registro",
+          "timestamp": "2026-08-06 08:57",
+          "author": "HAMILTON RUBEN TORRES CABEZAS",
+          "authorRole": "ANALISTA 4 DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
+          "note": "En la revisón técnica unicamente existe una incompatibilidad con la clave presentada en la planimetría ya que no corresponde al predio en cuestión, se solicita hacer el cambio de clave con la que consta en el pago predial. Subir el archivo digital con la correccion y el pdf debidamente firmado.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
+          "journalId": "7003633",
+          "entryType": "Registro",
+          "timestamp": "2026-08-06 08:57",
+          "author": "HAMILTON RUBEN TORRES CABEZAS",
+          "authorRole": "ANALISTA 4 DE GESTIÓN DE AVALÚOS, CATASTROS Y SIG",
+          "note": "En la revisón técnica unicamente existe una incompatibilidad con la clave presentada en la planimetría ya que no corresponde al predio en cuestión, se solicita hacer el cambio de clave con la que consta en el pago predial. Subir el archivo digital con la correccion y el pdf debidamente firmado.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        }
+      ],
+      "historyArchivedAt": "2026-08-24T15:01:47",
+      "historyLastSeenAt": "2026-08-24T14:31:38",
+      "historyStatus": "Historico"
+    },
     {
       "estado": "Asignado",
       "tramite": "Trámite: 1210274 GADMR--2026-0441-IPRUS-ZNP",
@@ -9542,21 +9613,21 @@ window.TRAMITES_IPRUS_DATA = {
     }
   ],
   "historySummary": {
-    "total": 99,
+    "total": 100,
     "priorities": {
+      "Urgente": 9,
       "Normal": 44,
       "Sin prioridad": 44,
-      "Crítico": 3,
-      "Urgente": 8
+      "Crítico": 3
     },
     "states": {
-      "Asignado": 36,
+      "Asignado": 37,
       "Complementado": 52,
       "En espera": 10,
       "Nuevo": 1
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 99
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 100
     }
   }
 };
