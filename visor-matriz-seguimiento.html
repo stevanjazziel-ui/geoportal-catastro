@@ -640,6 +640,14 @@
       overflow: auto;
     }
 
+    .compact-table table {
+      min-width: 0;
+    }
+
+    .compact-table tbody tr {
+      cursor: default;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -1096,10 +1104,10 @@
               <div class="panel-header">
                 <div>
                   <h3>Proyectos de la direccion</h3>
-                  <p>Ranking rapido por monto codificado dentro de la direccion elegida.</p>
+                  <p>Tabla de proyectos con alerta operativa para la direccion elegida.</p>
                 </div>
               </div>
-              <div class="stat-list" id="amountsProjectsList"></div>
+              <div class="table-wrap compact-table" id="amountsProjectsList"></div>
               <div class="inline-kpi" id="amountsBalanceCard"></div>
             </section>
 
@@ -1388,6 +1396,13 @@
         return denominator ? numerator / denominator : null;
       }
 
+      function normalizeText(value) {
+        return String(value || "")
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toUpperCase();
+      }
+
       function uniqueValues(sourceKey) {
         return [...new Set(
           data.records
@@ -1416,6 +1431,8 @@
           const committed = Number(highlights.committed || 0);
           const accrued = Number(highlights.accrued || 0);
           const paid = Number(highlights.paid || 0);
+          const processStatus = normalizeText(highlights.processStatus);
+
           totals.codified += codified;
           totals.certified += certified;
           totals.balanceToCertify += balanceToCertify;
@@ -1428,14 +1445,20 @@
             projects.set(projectLabel, {
               label: projectLabel,
               codified: 0,
+              certified: 0,
+              committed: 0,
               accrued: 0,
+              inExecution: false,
               rows: 0
             });
           }
 
           const project = projects.get(projectLabel);
           project.codified += codified;
+          project.certified += certified;
+          project.committed += committed;
           project.accrued += accrued;
+          project.inExecution = project.inExecution || processStatus === "EN EJECUCION";
           project.rows += 1;
         });
 
@@ -1450,8 +1473,21 @@
             paidVsAccrued: safeRatio(totals.paid, totals.accrued),
             overallExecution: safeRatio(totals.accrued, totals.codified)
           },
-          projects: [...projects.values()].sort((a, b) => b.codified - a.codified).slice(0, 10)
+          projects: [...projects.values()].sort((a, b) => b.codified - a.codified)
         };
+      }
+
+      function getProjectAlert(project) {
+        if (project.certified <= 0) {
+          return { label: "No culmina fase preparatoria", tone: "warning" };
+        }
+        if (project.committed <= 0) {
+          return { label: "No compromete recursos", tone: "danger" };
+        }
+        if (project.inExecution) {
+          return { label: "En ejecución", tone: "success" };
+        }
+        return { label: "Sin alerta", tone: "slate" };
       }
 
       function getFilteredRecords() {
@@ -1688,16 +1724,35 @@
           .join("");
 
         elements.amountsProjectsList.innerHTML = aggregate.projects.length
-          ? aggregate.projects
-              .map(
-                (project) => `
-                  <div class="stat-row">
-                    <span>${escapeHtml(project.label)}</span>
-                    <strong>${escapeHtml(formatMoney(project.codified))}</strong>
-                  </div>
-                `
-              )
-              .join("")
+          ? `
+              <table>
+                <thead>
+                  <tr>
+                    <th>Proyecto</th>
+                    <th>Codificado</th>
+                    <th>Certificado</th>
+                    <th>Comprometido</th>
+                    <th>Alerta</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${aggregate.projects
+                    .map((project) => {
+                      const alertInfo = getProjectAlert(project);
+                      return `
+                        <tr>
+                          <td>${escapeHtml(project.label)}</td>
+                          <td>${escapeHtml(formatMoney(project.codified))}</td>
+                          <td>${escapeHtml(formatMoney(project.certified))}</td>
+                          <td>${escapeHtml(formatMoney(project.committed))}</td>
+                          <td><span class="pill ${alertInfo.tone}">${escapeHtml(alertInfo.label)}</span></td>
+                        </tr>
+                      `;
+                    })
+                    .join("")}
+                </tbody>
+              </table>
+            `
           : "<div class='muted'>Sin proyectos para mostrar.</div>";
 
         elements.amountsBalanceCard.innerHTML = `
