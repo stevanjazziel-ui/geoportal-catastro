@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-08-24",
-  "generatedAt": "2026-08-24T17:01:37",
+  "generatedAt": "2026-08-24T17:31:38",
   "records": [
     {
       "estado": "Asignado",
@@ -2669,54 +2669,6 @@ window.TRAMITES_IPRUS_DATA = {
     },
     {
       "estado": "Asignado",
-      "tramite": "Trámite: 1216241 GADMR--2026-0483-IPRUS-ZNP",
-      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
-      "asunto": "SILVA MERINO JUAN CARLOS - IPRUS FUERA DE ZONA PATRIMONIAL",
-      "reasignadoPor": "Hamilton Ruben Torres Cabezas",
-      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "expediente": "--",
-      "fechaLimite": "2026-08-25",
-      "fechaIngreso": "2026-08-11T11:18:00",
-      "codigo": "GADMR--2026-0483-IPRUS-ZNP",
-      "nroTramite": 1216241,
-      "issueId": "1216241",
-      "solicitante": "SILVA MERINO JUAN CARLOS",
-      "reasignadoPorCargo": "Analista 4 De Gestión De Avalúos, Catastros Y Sig",
-      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(1 día restante 🚨)",
-      "diasRestantes": 1,
-      "prioridad": "Crítico",
-      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
-      "asignadoInterno": "caizaluisae",
-      "sourceRow": 59,
-      "id": "GADMR--2026-0483-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "criterio_legal_favorable",
-      "egobOutcomeNote": "SIN OBSERVACIONES LEGALES",
-      "egobOutcomeAt": "2026-07-28 12:27",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
-      "egobLatestReassignmentNote": "Por favor dar continuidad, según corresponda",
-      "egobLatestReassignmentAt": "2026-08-11 11:18",
-      "egobLatestReassignmentAuthor": "HAMILTON RUBEN TORRES CABEZAS",
-      "egobJournalCount": 7,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6926923",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-28 12:27",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "SIN OBSERVACIONES LEGALES",
-          "outcome": "FAVORABLE",
-          "rule": "criterio_legal_favorable"
-        }
-      ]
-    },
-    {
-      "estado": "Asignado",
       "tramite": "Trámite: 1216044 GADMR--2026-0482-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "MOROCHO YAUCAN EDISON PAUL - IPRUS FUERA DE ZONA PATRIMONIAL",
@@ -2737,7 +2689,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 60,
+      "sourceRow": 59,
       "id": "GADMR--2026-0482-IPRUS-ZNP",
       "egobOutcome": "EN REVISIÓN",
       "egobOutcomeRule": "",
@@ -2771,7 +2723,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 61,
+      "sourceRow": 60,
       "id": "GADMR--2026-0480-IPRUS-ZNP",
       "egobOutcome": "FAVORABLE",
       "egobOutcomeRule": "criterio_legal_favorable",
@@ -2819,7 +2771,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 62,
+      "sourceRow": 61,
       "id": "GADMR--2026-0458-IPRUS-ZNP",
       "egobOutcome": "FAVORABLE",
       "egobOutcomeRule": "criterio_legal_favorable",
@@ -2864,7 +2816,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 63,
+      "sourceRow": 62,
       "id": "GADMR--2026-0440-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -2919,7 +2871,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 64,
+      "sourceRow": 63,
       "id": "GADMR--2026-0435-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -3007,7 +2959,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 65,
+      "sourceRow": 64,
       "id": "GADMR--2026-0413-IPRUS-ZNP",
       "egobOutcome": "FAVORABLE",
       "egobOutcomeRule": "criterio_legal_favorable",
@@ -3055,7 +3007,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 66,
+      "sourceRow": 65,
       "id": "GADMR--2026-0409-IPRUS-ZNP",
       "egobOutcome": "FAVORABLE",
       "egobOutcomeRule": "criterio_legal_favorable",
@@ -3103,7 +3055,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 67,
+      "sourceRow": 66,
       "id": "GADMR--2026-0384-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "no_favorable",
@@ -3151,7 +3103,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 68,
+      "sourceRow": 67,
       "id": "GADMR--2026-0366-IPRUS-ZNP",
       "egobOutcome": "FAVORABLE",
       "egobOutcomeRule": "criterio_legal_favorable",
@@ -3196,7 +3148,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 69,
+      "sourceRow": 68,
       "id": "GADMR--2026-0492-IPRUS-ZNP",
       "egobOutcome": "FAVORABLE",
       "egobOutcomeRule": "criterio_legal_favorable",
@@ -3241,7 +3193,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 70,
+      "sourceRow": 69,
       "id": "GADMR--2026-0356-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -3306,7 +3258,7 @@ window.TRAMITES_IPRUS_DATA = {
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
-      "sourceRow": 71,
+      "sourceRow": 70,
       "id": "GADMR--2026-0355-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
@@ -3374,23 +3326,74 @@ window.TRAMITES_IPRUS_DATA = {
     }
   ],
   "summary": {
-    "total": 71,
+    "total": 70,
     "priorities": {
       "Normal": 38,
       "Sin prioridad": 13,
       "Urgente": 12,
-      "Crítico": 8
+      "Crítico": 7
     },
     "states": {
-      "Asignado": 50,
+      "Asignado": 49,
       "Complementado": 11,
       "En espera": 10
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 71
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 70
     }
   },
   "historyRecords": [
+    {
+      "estado": "Asignado",
+      "tramite": "Trámite: 1216241 GADMR--2026-0483-IPRUS-ZNP",
+      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
+      "asunto": "SILVA MERINO JUAN CARLOS - IPRUS FUERA DE ZONA PATRIMONIAL",
+      "reasignadoPor": "Hamilton Ruben Torres Cabezas",
+      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "expediente": "--",
+      "fechaLimite": "2026-08-25",
+      "fechaIngreso": "2026-08-11T11:18:00",
+      "codigo": "GADMR--2026-0483-IPRUS-ZNP",
+      "nroTramite": 1216241,
+      "issueId": "1216241",
+      "solicitante": "SILVA MERINO JUAN CARLOS",
+      "reasignadoPorCargo": "Analista 4 De Gestión De Avalúos, Catastros Y Sig",
+      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "tiempoRestante": "(1 día restante 🚨)",
+      "diasRestantes": 1,
+      "prioridad": "Crítico",
+      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
+      "asignadoInterno": "caizaluisae",
+      "sourceRow": 59,
+      "id": "GADMR--2026-0483-IPRUS-ZNP",
+      "egobOutcome": "FAVORABLE",
+      "egobOutcomeRule": "criterio_legal_favorable",
+      "egobOutcomeNote": "SIN OBSERVACIONES LEGALES",
+      "egobOutcomeAt": "2026-07-28 12:27",
+      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
+      "egobOutcomeEntryType": "Reasignación",
+      "egobLatestReassignmentNote": "Por favor dar continuidad, según corresponda",
+      "egobLatestReassignmentAt": "2026-08-11 11:18",
+      "egobLatestReassignmentAuthor": "HAMILTON RUBEN TORRES CABEZAS",
+      "egobJournalCount": 7,
+      "egobRelevantNotes": [
+        {
+          "journalId": "6926923",
+          "entryType": "Reasignación",
+          "timestamp": "2026-07-28 12:27",
+          "author": "ANGEL JAVIER TAMAYO CEPEDA",
+          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
+          "note": "SIN OBSERVACIONES LEGALES",
+          "outcome": "FAVORABLE",
+          "rule": "criterio_legal_favorable"
+        }
+      ],
+      "historyArchivedAt": "2026-08-24T17:31:38",
+      "historyLastSeenAt": "2026-08-24T17:01:37",
+      "historyStatus": "Historico"
+    },
     {
       "estado": "Asignado",
       "tramite": "Trámite: 1225564 GADMR--2026-0534-IPRUS-ZNP",
@@ -9720,21 +9723,21 @@ window.TRAMITES_IPRUS_DATA = {
     }
   ],
   "historySummary": {
-    "total": 102,
+    "total": 103,
     "priorities": {
+      "Crítico": 5,
       "Urgente": 10,
-      "Crítico": 4,
       "Normal": 44,
       "Sin prioridad": 44
     },
     "states": {
-      "Asignado": 38,
+      "Asignado": 39,
       "Complementado": 53,
       "En espera": 10,
       "Nuevo": 1
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 102
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 103
     }
   }
 };
