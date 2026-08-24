@@ -1,0 +1,2115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Visor interactivo para la Matriz Institucional de Seguimiento de Ejecucion del Gasto de Inversion." />
+  <title>Visor de Matriz de Seguimiento</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Public+Sans:wght@500;600;700;800&display=swap");
+
+    :root {
+      --bg: #edf1f5;
+      --bg-alt: #f7f9fb;
+      --panel: #ffffff;
+      --panel-soft: #fbfcfd;
+      --line: #d9e1ea;
+      --line-strong: #c7d1dd;
+      --text: #3c4958;
+      --text-strong: #2d3948;
+      --muted: #748396;
+      --sidebar: #31455e;
+      --sidebar-strong: #243549;
+      --accent: #1db7b3;
+      --accent-soft: #c8efec;
+      --mint: #d7f4ea;
+      --warning: #f7e4a5;
+      --danger: #f3c2ca;
+      --lavender: #e3cff9;
+      --shadow: 0 10px 26px rgba(33, 54, 82, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(180deg, #f5f7fa 0%, #edf1f5 100%);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      color: var(--text-strong);
+      font-family: "Public Sans", "IBM Plex Sans", sans-serif;
+      line-height: 1.08;
+    }
+
+    .workspace-shell {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 14px;
+      padding: 10px 8px 12px;
+      background: linear-gradient(180deg, var(--sidebar) 0%, var(--sidebar-strong) 100%);
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 12px 0 26px rgba(27, 42, 58, 0.08);
+    }
+
+    .sidebar-brand,
+    .sidebar-back {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      min-height: 54px;
+      border-radius: 16px;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .sidebar-back {
+      min-height: 48px;
+      color: #dce9f4;
+    }
+
+    .brand-glyph {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(145deg, #20bcb7, #86d6d2);
+      color: #183542;
+      font-size: 1rem;
+    }
+
+    .tabs {
+      display: grid;
+      gap: 10px;
+    }
+
+    .tab-button {
+      display: grid;
+      justify-items: center;
+      gap: 6px;
+      min-height: 60px;
+      padding: 8px 6px;
+      border: 0;
+      border-radius: 16px;
+      color: #d8e4ef;
+      background: transparent;
+      transition: background 140ms ease, transform 140ms ease;
+    }
+
+    .tab-button:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .tab-button[aria-selected="true"] {
+      color: #173642;
+      background: linear-gradient(180deg, #9ae0db 0%, #34bebb 100%);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+    }
+
+    .tab-icon {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .tab-button[aria-selected="true"] .tab-icon {
+      background: rgba(23, 54, 66, 0.12);
+    }
+
+    .tab-label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .main-shell {
+      padding: 12px 14px 24px;
+    }
+
+    .utility-bar {
+      display: grid;
+      grid-template-columns: minmax(180px, 0.6fr) minmax(260px, 1.3fr) auto;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+      padding: 10px 16px;
+    }
+
+    .utility-brand strong {
+      display: block;
+      font-size: 0.95rem;
+      line-height: 1.2;
+    }
+
+    .utility-brand span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 0.74rem;
+    }
+
+    .search-shell input {
+      width: 100%;
+      min-height: 38px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      outline: none;
+      background: #f8fafc;
+      color: var(--text);
+    }
+
+    .search-shell input:focus {
+      border-color: #8acfc9;
+      box-shadow: 0 0 0 4px rgba(29, 183, 179, 0.12);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .toolbar-chip,
+    .badge,
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #f7fbfb;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .back-link {
+      color: #ffffff;
+      border-color: transparent;
+      background: #56b76d;
+    }
+
+    .app {
+      display: grid;
+      gap: 12px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.55fr);
+      gap: 20px;
+      padding: 20px 22px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.96));
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      width: fit-content;
+      margin-bottom: 10px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      color: #138b87;
+      background: #d8f1ee;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(1.7rem, 3.6vw, 2.7rem);
+      letter-spacing: -0.03em;
+    }
+
+    .lead {
+      max-width: 860px;
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+
+    .hero-meta {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .meta-card {
+      padding: 14px 15px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--panel-soft);
+    }
+
+    .meta-card strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--text-strong);
+      font-size: 0.83rem;
+    }
+
+    .meta-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+
+    .view {
+      display: grid;
+      gap: 12px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 2px 4px 0;
+    }
+
+    .section-heading p {
+      max-width: 760px;
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.55;
+    }
+
+    .kpi-grid,
+    .ratio-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .kpi-grid {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
+    .ratio-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      margin-top: 4px;
+    }
+
+    .card {
+      padding: 16px;
+    }
+
+    .kpi-card,
+    .ratio-card {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #ffffff;
+      box-shadow: inset 0 3px 0 rgba(29, 183, 179, 0.14);
+    }
+
+    .kpi-card span,
+    .ratio-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .kpi-card strong,
+    .ratio-card strong {
+      display: block;
+      margin-top: 8px;
+      color: var(--text-strong);
+      font-size: clamp(1rem, 1.8vw, 1.45rem);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .kpi-card small,
+    .ratio-card small {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 0.76rem;
+    }
+
+    .dashboard-reference-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .dashboard-bottom-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+      gap: 12px;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .panel-header p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.45;
+    }
+
+    .badge {
+      color: #12918d;
+      background: #eefbfa;
+      border-color: #caecea;
+    }
+
+    .direction-bars {
+      display: grid;
+      gap: 10px;
+    }
+
+    .direction-row {
+      display: grid;
+      gap: 6px;
+    }
+
+    .direction-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.84rem;
+    }
+
+    .direction-label strong {
+      color: var(--text-strong);
+      font-size: 0.86rem;
+    }
+
+    .direction-label span {
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .bar-track {
+      height: 10px;
+      border-radius: 999px;
+      background: #edf2f7;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #89d5cf 0%, #27b7b3 100%);
+    }
+
+    .direction-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      color: var(--muted);
+      font-size: 0.73rem;
+    }
+
+    .stat-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .stat-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 9px 0;
+      border-bottom: 1px solid #edf1f5;
+      font-size: 0.83rem;
+    }
+
+    .stat-row:last-child {
+      border-bottom: 0;
+    }
+
+    .stat-row span {
+      color: var(--muted);
+      overflow-wrap: anywhere;
+    }
+
+    .stat-row strong {
+      color: var(--text-strong);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .message-copy {
+      margin-bottom: 12px;
+      padding: 12px 13px;
+      border-radius: 14px;
+      background: #effaf8;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 0.82rem;
+    }
+
+    .filters-shell {
+      display: grid;
+      gap: 14px;
+      padding: 16px;
+    }
+
+    .amounts-toolbar {
+      display: grid;
+      grid-template-columns: minmax(240px, 0.7fr) minmax(0, 1.3fr);
+      gap: 12px;
+      margin-bottom: 12px;
+      align-items: end;
+    }
+
+    .amounts-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 0.8fr);
+      gap: 12px;
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: minmax(260px, 1.4fr) repeat(6, minmax(150px, 1fr)) auto;
+      gap: 10px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .field input,
+    .field select {
+      min-height: 40px;
+      width: 100%;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      outline: none;
+      background: #fdfefe;
+      color: var(--text);
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: #8acfc9;
+      box-shadow: 0 0 0 4px rgba(29, 183, 179, 0.12);
+    }
+
+    .ghost-button,
+    .sort-button,
+    .pagination button,
+    .sheet-tab {
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #f8fafc;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .ghost-button:hover,
+    .pagination button:hover,
+    .sheet-tab:hover {
+      background: #f1f6f9;
+    }
+
+    .sheet-tab.is-active {
+      color: #173642;
+      border-color: #bfe7e4;
+      background: #dff5f3;
+    }
+
+    .results-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .pagination {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pagination button[disabled] {
+      opacity: 0.42;
+      cursor: not-allowed;
+    }
+
+    .matrix-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.26fr) minmax(310px, 0.74fr);
+      gap: 12px;
+    }
+
+    .table-shell,
+    .detail-shell {
+      overflow: hidden;
+    }
+
+    .table-wrap,
+    .sheet-table-wrap {
+      overflow: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1120px;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      padding: 10px 9px;
+      border-bottom: 1px solid var(--line);
+      background: #f8fafc;
+      text-align: left;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    tbody td {
+      padding: 11px 9px;
+      border-bottom: 1px solid #edf1f5;
+      vertical-align: top;
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    tbody tr {
+      cursor: pointer;
+      transition: background 140ms ease;
+    }
+
+    tbody tr:hover {
+      background: #f8fcfc;
+    }
+
+    tbody tr.is-selected {
+      background: #ecf9f8;
+      box-shadow: inset 3px 0 0 #27b7b3;
+    }
+
+    .sort-button {
+      min-height: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-size: inherit;
+      letter-spacing: inherit;
+      text-transform: inherit;
+    }
+
+    .cell-title {
+      display: block;
+      color: var(--text-strong);
+      font-weight: 700;
+    }
+
+    .cell-subtitle {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 0.74rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 9px;
+      border-radius: 999px;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .pill.default {
+      color: #446076;
+      background: #eef3f8;
+    }
+
+    .pill.success {
+      color: #23503c;
+      background: var(--mint);
+    }
+
+    .pill.warning {
+      color: #7c6020;
+      background: var(--warning);
+    }
+
+    .pill.danger {
+      color: #824450;
+      background: var(--danger);
+    }
+
+    .pill.slate {
+      color: #55416e;
+      background: var(--lavender);
+    }
+
+    .detail-shell {
+      position: sticky;
+      top: 12px;
+      align-self: start;
+    }
+
+    .detail-card {
+      display: grid;
+      gap: 16px;
+      padding: 16px;
+    }
+
+    .detail-empty,
+    .muted {
+      color: var(--muted);
+    }
+
+    .detail-top {
+      display: grid;
+      gap: 9px;
+    }
+
+    .detail-top p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.5;
+    }
+
+    .metric-strip {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .metric-strip div {
+      min-width: 0;
+      padding: 10px 11px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fafcfd;
+    }
+
+    .metric-strip span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+    }
+
+    .metric-strip strong {
+      display: block;
+      margin-top: 6px;
+      color: var(--text-strong);
+      font-size: 0.96rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .detail-groups {
+      display: grid;
+      gap: 12px;
+    }
+
+    .detail-group {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .detail-group h3 {
+      padding: 12px 14px;
+      border-bottom: 1px solid #edf1f5;
+      font-size: 0.88rem;
+    }
+
+    .detail-fields {
+      display: grid;
+      gap: 0;
+    }
+
+    .detail-field {
+      display: grid;
+      grid-template-columns: minmax(110px, 0.78fr) minmax(0, 1.22fr);
+      gap: 12px;
+      padding: 10px 14px;
+      border-bottom: 1px solid #f0f4f7;
+      font-size: 0.8rem;
+      line-height: 1.45;
+    }
+
+    .detail-field:last-child {
+      border-bottom: 0;
+    }
+
+    .detail-field dt {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .detail-field dd {
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .sheet-panel {
+      padding: 16px;
+    }
+
+    .sheet-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .sheet-description {
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 0.84rem;
+    }
+
+    .sheet-table-wrap {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #ffffff;
+    }
+
+    .sheet-table {
+      min-width: 720px;
+    }
+
+    .sheet-table td,
+    .sheet-table th {
+      min-width: 120px;
+      max-width: 340px;
+      vertical-align: top;
+      overflow-wrap: anywhere;
+    }
+
+    .empty-state {
+      padding: 24px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1280px) {
+      .kpi-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .ratio-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .dashboard-reference-grid,
+      .dashboard-bottom-grid,
+      .amounts-grid,
+      .matrix-layout,
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .filters {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .detail-shell {
+        position: static;
+      }
+    }
+
+    @media (max-width: 920px) {
+      .workspace-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        grid-template-columns: auto 1fr auto;
+        grid-template-rows: 1fr;
+        align-items: center;
+        padding: 10px;
+      }
+
+      .tabs {
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+      }
+
+      .tab-button {
+        min-height: 54px;
+      }
+
+      .main-shell {
+        padding-top: 0;
+      }
+
+      .utility-bar {
+        grid-template-columns: 1fr;
+      }
+
+      .amounts-toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .header-actions {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .main-shell {
+        padding: 10px;
+      }
+
+      .kpi-grid,
+      .ratio-grid,
+      .metric-strip,
+      .filters {
+        grid-template-columns: 1fr;
+      }
+
+      .results-summary {
+        display: grid;
+      }
+
+      .detail-field {
+        grid-template-columns: 1fr;
+        gap: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="workspace-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-glyph">M</div>
+      </div>
+
+      <nav class="tabs" aria-label="Secciones del visor">
+        <button class="tab-button" type="button" data-view="dashboard" aria-selected="true">
+          <span class="tab-icon">D</span>
+          <span class="tab-label">Dash</span>
+        </button>
+        <button class="tab-button" type="button" data-view="amounts" aria-selected="false">
+          <span class="tab-icon">$</span>
+          <span class="tab-label">Datos</span>
+        </button>
+        <button class="tab-button" type="button" data-view="matrix" aria-selected="false">
+          <span class="tab-icon">M</span>
+          <span class="tab-label">Matriz</span>
+        </button>
+        <button class="tab-button" type="button" data-view="sheets" aria-selected="false">
+          <span class="tab-icon">H</span>
+          <span class="tab-label">Hojas</span>
+        </button>
+      </nav>
+
+      <a class="sidebar-back" href="./index.html">P</a>
+    </aside>
+
+    <main class="main-shell">
+      <div class="app">
+        <div class="utility-bar panel">
+          <div class="utility-brand">
+            <strong>Matriz de Inversion</strong>
+            <span>Seguimiento institucional del gasto</span>
+          </div>
+
+          <label class="search-shell" aria-label="Busqueda global">
+            <input id="globalSearch" type="search" placeholder="Buscar proyecto, direccion, objeto o estado..." />
+          </label>
+
+          <div class="header-actions">
+            <span class="toolbar-chip" id="generatedAt"></span>
+            <a class="back-link" href="./index.html">Portal</a>
+          </div>
+        </div>
+
+        <section class="hero panel">
+          <div>
+            <span class="eyebrow">Dashboard de control</span>
+            <h1>Visor operativo de la matriz de inversion</h1>
+            <p class="lead">
+              Adaptamos la matriz a una interfaz tipo tablero corporativo: lectura rapida arriba,
+              paneles comparativos al centro y consulta detallada por fila sin perder la estructura del Excel.
+            </p>
+          </div>
+
+          <div class="hero-meta">
+            <div class="meta-card">
+              <strong>Archivo fuente</strong>
+              <span id="sourceName"></span>
+            </div>
+            <div class="meta-card">
+              <strong>Hojas detectadas</strong>
+              <span id="sheetNames"></span>
+            </div>
+            <div class="meta-card">
+              <strong>Alcance del visor</strong>
+              <span>La imagen enviada se usa solo como referencia visual. El contenido de Resumen y Catalogos sigue viniendo del libro original.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="view-dashboard">
+          <div class="section-heading">
+            <div>
+              <h2>Lectura general</h2>
+              <p>Datos, conversion entre etapas y focos operativos en una estructura cercana al dashboard de referencia.</p>
+            </div>
+          </div>
+
+          <div class="kpi-grid" id="kpiGrid"></div>
+
+          <div class="dashboard-reference-grid">
+            <section class="panel card">
+              <div class="panel-header">
+                <div>
+                  <h3>Distribucion por direccion</h3>
+                  <p>Comparacion del peso codificado por direccion institucional.</p>
+                </div>
+                <span class="badge" id="totalRowsBadge"></span>
+              </div>
+              <div class="direction-bars" id="directionBars"></div>
+            </section>
+
+            <section class="panel card">
+              <div class="panel-header">
+                <div>
+                  <h3>Alertas detectadas</h3>
+                  <p>Concentracion de situaciones que requieren seguimiento inmediato.</p>
+                </div>
+              </div>
+              <div class="stat-list" id="alertList"></div>
+            </section>
+
+            <section class="panel card">
+              <div class="panel-header">
+                <div>
+                  <h3>Riesgo por fila</h3>
+                  <p>Lectura rapida del nivel de no ejecucion al cierre.</p>
+                </div>
+              </div>
+              <div class="stat-list" id="riskList"></div>
+            </section>
+          </div>
+
+          <div class="dashboard-bottom-grid">
+            <section class="panel card">
+              <div class="panel-header">
+                <div>
+                  <h3>Conversion entre etapas</h3>
+                  <p>Lectura horizontal del paso entre codificado, certificado, comprometido, devengado y pagado.</p>
+                </div>
+              </div>
+              <div class="ratio-grid" id="ratioGrid"></div>
+            </section>
+
+            <section class="panel card">
+              <div class="panel-header">
+                <div>
+                  <h3>Mensajes</h3>
+                  <p>Notas operativas y distribucion de fases de contratacion.</p>
+                </div>
+              </div>
+              <div class="message-copy" id="qualityNotice"></div>
+              <div class="stat-list" id="phaseList"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-amounts" hidden>
+          <div class="section-heading">
+            <div>
+              <h2>Datos por direccion</h2>
+              <p>Elige una direccion para revisar sus datos consolidados y los proyectos con mayor peso dentro de esa misma area.</p>
+            </div>
+          </div>
+
+          <section class="panel card">
+            <div class="amounts-toolbar">
+              <div class="field">
+                <label for="directionAmountSelect">Direccion</label>
+                <select id="directionAmountSelect"></select>
+              </div>
+              <div class="message-copy" id="amountsContext"></div>
+            </div>
+
+            <div class="kpi-grid" id="amountsKpiGrid"></div>
+          </section>
+
+          <div class="amounts-grid">
+            <section class="panel card">
+              <div class="panel-header">
+                <div>
+                  <h3>Proyectos de la direccion</h3>
+                  <p>Ranking rapido por monto codificado dentro de la direccion elegida.</p>
+                </div>
+              </div>
+              <div class="stat-list" id="amountsProjectsList"></div>
+            </section>
+
+            <section class="panel card">
+              <div class="panel-header">
+                <div>
+                  <h3>Lectura de conversion</h3>
+                  <p>Porcentajes internos para esta direccion en particular.</p>
+                </div>
+              </div>
+              <div class="stat-list" id="amountsRatiosList"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-matrix" hidden>
+          <div class="section-heading">
+            <div>
+              <h2>Matriz filtrable</h2>
+              <p>Busca por proyecto, direccion, objeto de contratacion o estado, y abre una fila para ver todo su detalle.</p>
+            </div>
+          </div>
+
+          <section class="panel filters-shell">
+            <div class="filters" id="filters"></div>
+            <div class="results-summary">
+              <div id="resultsSummary"></div>
+              <div class="pagination">
+                <button type="button" id="prevPageButton">Anterior</button>
+                <strong id="pageIndicator"></strong>
+                <button type="button" id="nextPageButton">Siguiente</button>
+              </div>
+            </div>
+          </section>
+
+          <div class="matrix-layout">
+            <section class="panel table-shell">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr id="tableHead"></tr>
+                  </thead>
+                  <tbody id="tableBody"></tbody>
+                </table>
+              </div>
+              <div class="empty-state" id="tableEmpty" hidden>No hay filas que coincidan con los filtros actuales.</div>
+            </section>
+
+            <aside class="panel detail-shell">
+              <div class="detail-card" id="detailCard">
+                <div class="detail-empty">Selecciona una fila de la matriz para ver su informacion completa, agrupada segun las secciones del libro.</div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" id="view-sheets" hidden>
+          <div class="section-heading">
+            <div>
+              <h2>Hojas de referencia del libro</h2>
+              <p>Estas tablas preservan el contenido auxiliar del Excel original para consulta rapida dentro del visor.</p>
+            </div>
+          </div>
+
+          <section class="panel sheet-panel">
+            <div class="sheet-tabs" id="sheetTabs"></div>
+            <p class="sheet-description" id="sheetDescription"></p>
+            <div class="sheet-table-wrap">
+              <table class="sheet-table" id="sheetTable">
+                <tbody id="sheetTableBody"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="./visor-matriz-seguimiento-data.js"></script>
+  <script>
+    (function () {
+      const data = window.MATRIX_VIEWER_DATA;
+      if (!data) {
+        document.body.innerHTML = "<div class='app'><p class='notice'>No se encontro el paquete de datos del visor.</p></div>";
+        return;
+      }
+
+      const PAGE_SIZE = 30;
+      const tableColumns = [
+        { key: "direction", label: "Direccion", type: "text" },
+        { key: "project", label: "Proyecto", type: "text" },
+        { key: "procurementObject", label: "Objeto", type: "text" },
+        { key: "codified", label: "Codificado", type: "currency" },
+        { key: "certified", label: "Certificado", type: "currency" },
+        { key: "committed", label: "Comprometido", type: "currency" },
+        { key: "accrued", label: "Devengado", type: "currency" },
+        { key: "paid", label: "Pagado", type: "currency" },
+        { key: "procurementPhase", label: "Fase", type: "pill" },
+        { key: "processStatus", label: "Estado", type: "pill" },
+        { key: "alert", label: "Alerta", type: "pill" },
+        { key: "executionRisk", label: "Riesgo", type: "pill" }
+      ];
+
+      const filterConfig = [
+        { id: "query", label: "Buscar", type: "search", placeholder: "Proyecto, direccion, objeto, estado..." },
+        { id: "direction", label: "Direccion", source: "direction" },
+        { id: "nature", label: "Naturaleza", source: "nature" },
+        { id: "procedureType", label: "Procedimiento", source: "procedureType" },
+        { id: "procurementPhase", label: "Fase", source: "procurementPhase" },
+        { id: "processStatus", label: "Estado", source: "processStatus" },
+        { id: "alert", label: "Alerta", source: "alert" },
+        { id: "executionRisk", label: "Riesgo", source: "executionRisk" }
+      ];
+
+      const columnMap = new Map(data.columns.map((column) => [column.key, column]));
+      const sheetMap = new Map(data.sheetViews.map((sheet) => [sheet.name, sheet]));
+
+      const state = {
+        activeView: "dashboard",
+        activeSheet: data.sheetViews[0] ? data.sheetViews[0].name : null,
+        amountsDirection: "",
+        filters: {
+          query: "",
+          direction: "",
+          nature: "",
+          procedureType: "",
+          procurementPhase: "",
+          processStatus: "",
+          alert: "",
+          executionRisk: ""
+        },
+        sort: {
+          key: "codified",
+          direction: "desc"
+        },
+        page: 1,
+        selectedId: null
+      };
+
+      const elements = {
+        generatedAt: document.getElementById("generatedAt"),
+        globalSearch: document.getElementById("globalSearch"),
+        sourceName: document.getElementById("sourceName"),
+        sheetNames: document.getElementById("sheetNames"),
+        qualityNotice: document.getElementById("qualityNotice"),
+        kpiGrid: document.getElementById("kpiGrid"),
+        ratioGrid: document.getElementById("ratioGrid"),
+        directionAmountSelect: document.getElementById("directionAmountSelect"),
+        amountsContext: document.getElementById("amountsContext"),
+        amountsKpiGrid: document.getElementById("amountsKpiGrid"),
+        amountsProjectsList: document.getElementById("amountsProjectsList"),
+        amountsRatiosList: document.getElementById("amountsRatiosList"),
+        directionBars: document.getElementById("directionBars"),
+        alertList: document.getElementById("alertList"),
+        riskList: document.getElementById("riskList"),
+        phaseList: document.getElementById("phaseList"),
+        totalRowsBadge: document.getElementById("totalRowsBadge"),
+        filters: document.getElementById("filters"),
+        resultsSummary: document.getElementById("resultsSummary"),
+        pageIndicator: document.getElementById("pageIndicator"),
+        prevPageButton: document.getElementById("prevPageButton"),
+        nextPageButton: document.getElementById("nextPageButton"),
+        tableHead: document.getElementById("tableHead"),
+        tableBody: document.getElementById("tableBody"),
+        tableEmpty: document.getElementById("tableEmpty"),
+        detailCard: document.getElementById("detailCard"),
+        sheetTabs: document.getElementById("sheetTabs"),
+        sheetDescription: document.getElementById("sheetDescription"),
+        sheetTableBody: document.getElementById("sheetTableBody")
+      };
+
+      function formatMoney(value) {
+        if (typeof value !== "number" || Number.isNaN(value)) {
+          return "Sin dato";
+        }
+        return new Intl.NumberFormat("es-EC", {
+          style: "currency",
+          currency: "USD",
+          maximumFractionDigits: 2
+        }).format(value);
+      }
+
+      function formatNumber(value) {
+        if (typeof value !== "number" || Number.isNaN(value)) {
+          return "Sin dato";
+        }
+        return new Intl.NumberFormat("es-EC", {
+          maximumFractionDigits: 2
+        }).format(value);
+      }
+
+      function formatPct(value) {
+        if (typeof value !== "number" || Number.isNaN(value)) {
+          return "Sin dato";
+        }
+        return new Intl.NumberFormat("es-EC", {
+          style: "percent",
+          maximumFractionDigits: 1
+        }).format(value);
+      }
+
+      function isIsoDate(value) {
+        return typeof value === "string" && /^\d{4}-\d{2}-\d{2}(T.*)?$/.test(value);
+      }
+
+      function formatDate(value) {
+        if (!isIsoDate(value)) {
+          return value || "Sin dato";
+        }
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) {
+          return value;
+        }
+        return new Intl.DateTimeFormat("es-EC", {
+          dateStyle: "medium"
+        }).format(date);
+      }
+
+      function formatValue(value, type) {
+        if (value == null || value === "") {
+          return "Sin dato";
+        }
+        if (type === "currency") {
+          return formatMoney(value);
+        }
+        if (type === "percent") {
+          return formatPct(value);
+        }
+        if (typeof value === "number") {
+          return formatNumber(value);
+        }
+        if (isIsoDate(value)) {
+          return formatDate(value);
+        }
+        return String(value);
+      }
+
+      function formatFieldValue(columnKey, value) {
+        if (value == null || value === "") {
+          return "<span class='muted'>Sin dato</span>";
+        }
+
+        if (typeof value === "string" && /^#(REF!|VALUE!|DIV\/0!|NAME\?|N\/A|NUM!|NULL!)$/.test(value)) {
+          return `<span class="pill danger">${escapeHtml(value)}</span>`;
+        }
+
+        const column = columnMap.get(columnKey);
+        const label = column ? column.label : columnKey;
+        const upper = (label || "").toUpperCase();
+
+        if (typeof value === "number") {
+          if (upper.includes("%")) {
+            return escapeHtml(formatPct(value));
+          }
+          if (
+            upper.includes("MONTO") ||
+            ["CODIFICADO", "CERTIFICADO", "COMPROMETIDO", "DEVENGADO", "PAGADO", "DEVENGADO PROYECTADO AL CIERRE"].includes(upper)
+          ) {
+            return escapeHtml(formatMoney(value));
+          }
+          return escapeHtml(formatNumber(value));
+        }
+
+        if (isIsoDate(value)) {
+          return escapeHtml(formatDate(value));
+        }
+
+        return escapeHtml(String(value));
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#39;");
+      }
+
+      function sortEntries(mapLike) {
+        return Object.entries(mapLike || {}).sort((a, b) => b[1] - a[1]);
+      }
+
+      function safeRatio(numerator, denominator) {
+        return denominator ? numerator / denominator : null;
+      }
+
+      function uniqueValues(sourceKey) {
+        return [...new Set(
+          data.records
+            .map((record) => record.highlights[sourceKey])
+            .filter((value) => value != null && value !== "")
+        )].sort((a, b) => String(a).localeCompare(String(b), "es"));
+      }
+
+      function getDirectionAggregate(direction) {
+        const records = data.records.filter((record) => (record.highlights.direction || "") === direction);
+        const totals = {
+          codified: 0,
+          certified: 0,
+          committed: 0,
+          accrued: 0,
+          paid: 0
+        };
+        const projects = new Map();
+
+        records.forEach((record) => {
+          const highlights = record.highlights;
+          const codified = Number(highlights.codified || 0);
+          const certified = Number(highlights.certified || 0);
+          const committed = Number(highlights.committed || 0);
+          const accrued = Number(highlights.accrued || 0);
+          const paid = Number(highlights.paid || 0);
+
+          totals.codified += codified;
+          totals.certified += certified;
+          totals.committed += committed;
+          totals.accrued += accrued;
+          totals.paid += paid;
+
+          const projectLabel = highlights.project || "Proyecto sin nombre";
+          if (!projects.has(projectLabel)) {
+            projects.set(projectLabel, {
+              label: projectLabel,
+              codified: 0,
+              accrued: 0,
+              rows: 0
+            });
+          }
+
+          const project = projects.get(projectLabel);
+          project.codified += codified;
+          project.accrued += accrued;
+          project.rows += 1;
+        });
+
+        return {
+          direction,
+          records,
+          totals,
+          ratios: {
+            certifiedVsCodified: safeRatio(totals.certified, totals.codified),
+            committedVsCertified: safeRatio(totals.committed, totals.certified),
+            accruedVsCommitted: safeRatio(totals.accrued, totals.committed),
+            paidVsAccrued: safeRatio(totals.paid, totals.accrued),
+            overallExecution: safeRatio(totals.accrued, totals.codified)
+          },
+          projects: [...projects.values()].sort((a, b) => b.codified - a.codified).slice(0, 10)
+        };
+      }
+
+      function getFilteredRecords() {
+        const query = state.filters.query.trim().toLowerCase();
+        return data.records.filter((record) => {
+          if (query && !record.searchText.includes(query)) {
+            return false;
+          }
+          for (const config of filterConfig) {
+            if (config.type === "search") {
+              continue;
+            }
+            const selected = state.filters[config.id];
+            if (!selected) {
+              continue;
+            }
+            if ((record.highlights[config.source] || "") !== selected) {
+              return false;
+            }
+          }
+          return true;
+        });
+      }
+
+      function compareValues(a, b) {
+        if (typeof a === "number" && typeof b === "number") {
+          return a - b;
+        }
+        return String(a || "").localeCompare(String(b || ""), "es", { sensitivity: "base" });
+      }
+
+      function getSortedRecords(records) {
+        const list = [...records];
+        const { key, direction } = state.sort;
+        list.sort((left, right) => {
+          const result = compareValues(left.highlights[key], right.highlights[key]);
+          return direction === "asc" ? result : -result;
+        });
+        return list;
+      }
+
+      function getPagedRecords(records) {
+        const totalPages = Math.max(1, Math.ceil(records.length / PAGE_SIZE));
+        if (state.page > totalPages) {
+          state.page = totalPages;
+        }
+        const start = (state.page - 1) * PAGE_SIZE;
+        return {
+          pageRecords: records.slice(start, start + PAGE_SIZE),
+          totalPages
+        };
+      }
+
+      function pillClass(value) {
+        const text = String(value || "").toUpperCase();
+        if (!text) {
+          return "default";
+        }
+        if (text.includes("CRITICA") || text.includes("ALTO") || text.includes("VENCIDO")) {
+          return "danger";
+        }
+        if (text.includes("ALERTA") || text.includes("MEDIO") || text.includes("PREPARATORIA")) {
+          return "warning";
+        }
+        if (
+          text.includes("FINALIZADO") ||
+          text.includes("CIERRE") ||
+          text.includes("PAGADO") ||
+          text.includes("LIQUIDACION")
+        ) {
+          return "success";
+        }
+        if (text.includes("SIN DATO") || text.includes("NO APLICA")) {
+          return "slate";
+        }
+        return "default";
+      }
+
+      function renderHeader() {
+        elements.generatedAt.textContent = `Actualizado: ${formatDate(data.meta.generatedAt)}`;
+        elements.sourceName.textContent = data.meta.sourceFileName;
+        elements.sheetNames.textContent = data.meta.sheetNames.join(" • ");
+
+        const errorRows = data.summary.rowsWithFormulaErrors;
+        const riskRows = data.summary.highRiskRows;
+        elements.qualityNotice.innerHTML = `
+          El visor esta armado desde la hoja principal <strong>Matriz Inversion</strong> y conserva como referencia las hojas auxiliares del libro.
+          Se detectaron <strong>${formatNumber(errorRows)}</strong> filas con al menos un valor de error de Excel y
+          <strong>${formatNumber(riskRows)}</strong> filas clasificadas con riesgo alto de no ejecucion.
+        `;
+      }
+
+      function renderDashboard() {
+        const summary = data.summary;
+        const totals = summary.totals;
+        const ratios = summary.ratios;
+
+        const kpis = [
+          {
+            label: "Filas activas",
+            value: formatNumber(summary.totalRows),
+            detail: "Registros con contenido util en la hoja principal."
+          },
+          {
+            label: "Codificado total",
+            value: formatMoney(totals.codified),
+            detail: "Monto total codificado identificado en la matriz."
+          },
+          {
+            label: "Certificado total",
+            value: formatMoney(totals.certified),
+            detail: "Valor certificado acumulado."
+          },
+          {
+            label: "Comprometido total",
+            value: formatMoney(totals.committed),
+            detail: "Valor comprometido acumulado."
+          },
+          {
+            label: "Devengado total",
+            value: formatMoney(totals.accrued),
+            detail: "Monto devengado desde la hoja principal."
+          },
+          {
+            label: "Pagado total",
+            value: formatMoney(totals.paid),
+            detail: "Monto pagado segun la matriz."
+          }
+        ];
+
+        const ratioCards = [
+          ["Certificado / Codificado", ratios.certifiedVsCodified],
+          ["Comprometido / Certificado", ratios.committedVsCertified],
+          ["Devengado / Comprometido", ratios.accruedVsCommitted],
+          ["Pagado / Devengado", ratios.paidVsAccrued],
+          ["Ejecucion global", ratios.overallExecution]
+        ];
+
+        elements.kpiGrid.innerHTML = kpis
+          .map(
+            (item) => `
+              <article class="kpi-card card">
+                <span>${escapeHtml(item.label)}</span>
+                <strong>${escapeHtml(item.value)}</strong>
+                <small>${escapeHtml(item.detail)}</small>
+              </article>
+            `
+          )
+          .join("");
+
+        elements.ratioGrid.innerHTML = ratioCards
+          .map(
+            ([label, value]) => `
+              <article class="ratio-card card">
+                <span>${escapeHtml(label)}</span>
+                <strong>${escapeHtml(formatPct(value))}</strong>
+                <small>Calculado directamente sobre la hoja de datos.</small>
+              </article>
+            `
+          )
+          .join("");
+
+        elements.totalRowsBadge.textContent = `${formatNumber(summary.totalRows)} filas`;
+
+        const maxCodified = Math.max(...summary.topDirections.map((item) => item.codified), 0);
+        elements.directionBars.innerHTML = summary.topDirections
+          .map((item) => {
+            const width = maxCodified ? Math.max(4, (item.codified / maxCodified) * 100) : 0;
+            return `
+              <div class="direction-row">
+                <div class="direction-label">
+                  <strong>${escapeHtml(item.label)}</strong>
+                  <span>${escapeHtml(formatMoney(item.codified))}</span>
+                </div>
+                <div class="bar-track"><div class="bar-fill" style="width:${width}%"></div></div>
+                <div class="direction-meta">
+                  <span>${escapeHtml(formatNumber(item.count))} filas</span>
+                  <span>Devengado ${escapeHtml(formatPct(item.executionPct))}</span>
+                  <span>Alertas activas ${escapeHtml(formatNumber(item.activeAlerts))}</span>
+                  <span>Riesgo alto ${escapeHtml(formatNumber(item.highRisk))}</span>
+                </div>
+              </div>
+            `;
+          })
+          .join("");
+
+        renderStatList(elements.alertList, sortEntries(summary.counts.alerts));
+        renderStatList(elements.riskList, sortEntries(summary.counts.risks));
+        renderStatList(elements.phaseList, sortEntries(summary.counts.phases));
+      }
+
+      function renderAmountsView() {
+        const directions = uniqueValues("direction");
+        if (!state.amountsDirection || !directions.includes(state.amountsDirection)) {
+          state.amountsDirection = directions[0] || "";
+        }
+
+        elements.directionAmountSelect.innerHTML = directions
+          .map(
+            (direction) => `
+              <option value="${escapeHtml(direction)}" ${state.amountsDirection === direction ? "selected" : ""}>${escapeHtml(direction)}</option>
+            `
+          )
+          .join("");
+
+        const aggregate = getDirectionAggregate(state.amountsDirection);
+        const totals = aggregate.totals;
+        const ratios = aggregate.ratios;
+
+        elements.amountsContext.textContent = `${aggregate.records.length} filas encontradas para ${aggregate.direction}. Aqui puedes revisar los datos agregados sin entrar a la matriz completa.`;
+
+        const cards = [
+          ["Codificado", formatMoney(totals.codified), "Monto total codificado de la direccion."],
+          ["Certificado", formatMoney(totals.certified), "Monto certificado acumulado."],
+          ["Comprometido", formatMoney(totals.committed), "Monto comprometido acumulado."],
+          ["Devengado", formatMoney(totals.accrued), "Monto devengado acumulado."],
+          ["Pagado", formatMoney(totals.paid), "Monto pagado acumulado."]
+        ];
+
+        elements.amountsKpiGrid.innerHTML = cards
+          .map(
+            ([label, value, detail]) => `
+              <article class="kpi-card card">
+                <span>${escapeHtml(label)}</span>
+                <strong>${escapeHtml(value)}</strong>
+                <small>${escapeHtml(detail)}</small>
+              </article>
+            `
+          )
+          .join("");
+
+        elements.amountsProjectsList.innerHTML = aggregate.projects.length
+          ? aggregate.projects
+              .map(
+                (project) => `
+                  <div class="stat-row">
+                    <span>${escapeHtml(project.label)}</span>
+                    <strong>${escapeHtml(formatMoney(project.codified))}</strong>
+                  </div>
+                `
+              )
+              .join("")
+          : "<div class='muted'>Sin proyectos para mostrar.</div>";
+
+        elements.amountsRatiosList.innerHTML = [
+          ["Certificado / Codificado", formatPct(ratios.certifiedVsCodified)],
+          ["Comprometido / Certificado", formatPct(ratios.committedVsCertified)],
+          ["Devengado / Comprometido", formatPct(ratios.accruedVsCommitted)],
+          ["Pagado / Devengado", formatPct(ratios.paidVsAccrued)],
+          ["Ejecucion global", formatPct(ratios.overallExecution)]
+        ]
+          .map(
+            ([label, value]) => `
+              <div class="stat-row">
+                <span>${escapeHtml(label)}</span>
+                <strong>${escapeHtml(value)}</strong>
+              </div>
+            `
+          )
+          .join("");
+      }
+
+      function renderStatList(target, entries) {
+        if (!entries.length) {
+          target.innerHTML = "<div class='muted'>Sin datos para mostrar.</div>";
+          return;
+        }
+        target.innerHTML = entries
+          .slice(0, 8)
+          .map(
+            ([label, value]) => `
+              <div class="stat-row">
+                <span>${escapeHtml(label || "Sin dato")}</span>
+                <strong>${escapeHtml(formatNumber(value))}</strong>
+              </div>
+            `
+          )
+          .join("");
+      }
+
+      function renderFilters() {
+        if (elements.globalSearch && elements.globalSearch.value !== state.filters.query) {
+          elements.globalSearch.value = state.filters.query;
+        }
+
+        elements.filters.innerHTML = filterConfig
+          .map((config) => {
+            if (config.type === "search") {
+              return `
+                <div class="field">
+                  <label for="filter-${config.id}">${escapeHtml(config.label)}</label>
+                  <input id="filter-${config.id}" type="search" placeholder="${escapeHtml(config.placeholder)}" value="${escapeHtml(state.filters.query)}" />
+                </div>
+              `;
+            }
+
+            const options = uniqueValues(config.source);
+            return `
+              <div class="field">
+                <label for="filter-${config.id}">${escapeHtml(config.label)}</label>
+                <select id="filter-${config.id}">
+                  <option value="">Todas</option>
+                  ${options
+                    .map(
+                      (option) => `
+                        <option value="${escapeHtml(option)}" ${state.filters[config.id] === option ? "selected" : ""}>${escapeHtml(option)}</option>
+                      `
+                    )
+                    .join("")}
+                </select>
+              </div>
+            `;
+          })
+          .join("") + `
+            <button class="ghost-button" type="button" id="resetFiltersButton">Limpiar filtros</button>
+          `;
+
+        const searchInput = document.getElementById("filter-query");
+        searchInput.addEventListener("input", (event) => {
+          state.filters.query = event.target.value;
+          if (elements.globalSearch) {
+            elements.globalSearch.value = state.filters.query;
+          }
+          state.page = 1;
+          renderMatrix();
+        });
+
+        filterConfig
+          .filter((config) => config.type !== "search")
+          .forEach((config) => {
+            const select = document.getElementById(`filter-${config.id}`);
+            select.addEventListener("change", (event) => {
+              state.filters[config.id] = event.target.value;
+              state.page = 1;
+              renderMatrix();
+            });
+          });
+
+        document.getElementById("resetFiltersButton").addEventListener("click", () => {
+          state.filters = {
+            query: "",
+            direction: "",
+            nature: "",
+            procedureType: "",
+            procurementPhase: "",
+            processStatus: "",
+            alert: "",
+            executionRisk: ""
+          };
+          state.page = 1;
+          if (elements.globalSearch) {
+            elements.globalSearch.value = "";
+          }
+          renderFilters();
+          renderMatrix();
+        });
+      }
+
+      function renderTableHead() {
+        elements.tableHead.innerHTML = tableColumns
+          .map((column) => {
+            const isActive = state.sort.key === column.key;
+            const sortIndicator = isActive ? (state.sort.direction === "asc" ? "↑" : "↓") : "";
+            return `
+              <th>
+                <button class="sort-button" type="button" data-sort-key="${escapeHtml(column.key)}">
+                  ${escapeHtml(column.label)} ${sortIndicator}
+                </button>
+              </th>
+            `;
+          })
+          .join("");
+
+        elements.tableHead.querySelectorAll("[data-sort-key]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const key = button.getAttribute("data-sort-key");
+            if (state.sort.key === key) {
+              state.sort.direction = state.sort.direction === "asc" ? "desc" : "asc";
+            } else {
+              state.sort.key = key;
+              state.sort.direction = key === "direction" || key === "project" ? "asc" : "desc";
+            }
+            renderMatrix();
+          });
+        });
+      }
+
+      function renderMatrix() {
+        const filtered = getFilteredRecords();
+        const sorted = getSortedRecords(filtered);
+        const { pageRecords, totalPages } = getPagedRecords(sorted);
+
+        elements.resultsSummary.textContent = `${formatNumber(filtered.length)} filas coinciden con los filtros actuales.`;
+        elements.pageIndicator.textContent = `Pagina ${state.page} de ${totalPages}`;
+        elements.prevPageButton.disabled = state.page <= 1;
+        elements.nextPageButton.disabled = state.page >= totalPages;
+
+        elements.prevPageButton.onclick = () => {
+          if (state.page > 1) {
+            state.page -= 1;
+            renderMatrix();
+          }
+        };
+        elements.nextPageButton.onclick = () => {
+          if (state.page < totalPages) {
+            state.page += 1;
+            renderMatrix();
+          }
+        };
+
+        elements.tableEmpty.hidden = pageRecords.length > 0;
+        elements.tableBody.innerHTML = pageRecords
+          .map((record) => {
+            const { highlights } = record;
+            const isSelected = state.selectedId === record.id;
+            return `
+              <tr data-record-id="${escapeHtml(record.id)}" class="${isSelected ? "is-selected" : ""}">
+                ${tableColumns
+                  .map((column) => {
+                    const value = highlights[column.key];
+                    if (column.key === "direction") {
+                      return `
+                        <td>
+                          <span class="cell-title">${escapeHtml(value || "Sin dato")}</span>
+                          <span class="cell-subtitle">Fila ${escapeHtml(record.rowNumber)}</span>
+                        </td>
+                      `;
+                    }
+                    if (column.key === "project") {
+                      return `
+                        <td>
+                          <span class="cell-title">${escapeHtml(value || "Sin dato")}</span>
+                          <span class="cell-subtitle">${escapeHtml(highlights.generalItem || "Sin partida general")}</span>
+                        </td>
+                      `;
+                    }
+                    if (column.type === "pill") {
+                      const text = value || "Sin dato";
+                      return `<td><span class="pill ${pillClass(text)}">${escapeHtml(text)}</span></td>`;
+                    }
+                    return `<td>${escapeHtml(formatValue(value, column.type))}</td>`;
+                  })
+                  .join("")}
+              </tr>
+            `;
+          })
+          .join("");
+
+        elements.tableBody.querySelectorAll("[data-record-id]").forEach((row) => {
+          row.addEventListener("click", () => {
+            state.selectedId = row.getAttribute("data-record-id");
+            renderMatrix();
+            renderDetail();
+          });
+        });
+
+        if (!state.selectedId && sorted[0]) {
+          state.selectedId = sorted[0].id;
+        }
+
+        if (state.selectedId && !filtered.some((record) => record.id === state.selectedId)) {
+          state.selectedId = filtered[0] ? filtered[0].id : null;
+        }
+
+        renderDetail();
+      }
+
+      function renderDetail() {
+        const record = data.records.find((item) => item.id === state.selectedId);
+        if (!record) {
+          elements.detailCard.innerHTML = "<div class='detail-empty'>No hay una fila seleccionada en este momento.</div>";
+          return;
+        }
+
+        const groups = new Map();
+        data.columns.forEach((column) => {
+          const value = record.fields[column.key];
+          if (value == null || value === "") {
+            return;
+          }
+          if (!groups.has(column.group)) {
+            groups.set(column.group, []);
+          }
+          groups.get(column.group).push(column);
+        });
+
+        elements.detailCard.innerHTML = `
+          <div class="detail-top">
+            <span class="badge">Fila ${escapeHtml(record.rowNumber)}</span>
+            <h2>${escapeHtml(record.highlights.project || "Proyecto sin nombre")}</h2>
+            <p>${escapeHtml(record.highlights.procurementObject || "Sin objeto de contratacion")}</p>
+            <div>
+              <span class="pill ${pillClass(record.highlights.alert || "Sin dato")}">${escapeHtml(record.highlights.alert || "Sin alerta")}</span>
+              <span class="pill ${pillClass(record.highlights.executionRisk || "Sin dato")}">${escapeHtml(record.highlights.executionRisk || "Sin riesgo")}</span>
+            </div>
+          </div>
+          <div class="metric-strip">
+            <div><span>Codificado</span><strong>${escapeHtml(formatMoney(record.highlights.codified))}</strong></div>
+            <div><span>Certificado</span><strong>${escapeHtml(formatMoney(record.highlights.certified))}</strong></div>
+            <div><span>Comprometido</span><strong>${escapeHtml(formatMoney(record.highlights.committed))}</strong></div>
+            <div><span>Devengado</span><strong>${escapeHtml(formatMoney(record.highlights.accrued))}</strong></div>
+          </div>
+          <div class="detail-groups">
+            ${[...groups.entries()]
+              .map(([groupLabel, columns]) => `
+                <section class="detail-group">
+                  <h3>${escapeHtml(groupLabel)}</h3>
+                  <dl class="detail-fields">
+                    ${columns
+                      .map((column) => `
+                        <div class="detail-field">
+                          <dt>${escapeHtml(column.label)}</dt>
+                          <dd>${formatFieldValue(column.key, record.fields[column.key])}</dd>
+                        </div>
+                      `)
+                      .join("")}
+                  </dl>
+                </section>
+              `)
+              .join("")}
+          </div>
+        `;
+      }
+
+      function renderSheetTabs() {
+        elements.sheetTabs.innerHTML = data.sheetViews
+          .map(
+            (sheet) => `
+              <button type="button" class="sheet-tab ${state.activeSheet === sheet.name ? "is-active" : ""}" data-sheet-name="${escapeHtml(sheet.name)}">
+                ${escapeHtml(sheet.title)}
+              </button>
+            `
+          )
+          .join("");
+
+        elements.sheetTabs.querySelectorAll("[data-sheet-name]").forEach((button) => {
+          button.addEventListener("click", () => {
+            state.activeSheet = button.getAttribute("data-sheet-name");
+            renderSheetTabs();
+            renderSheet();
+          });
+        });
+      }
+
+      function renderSheet() {
+        const sheet = sheetMap.get(state.activeSheet);
+        if (!sheet) {
+          elements.sheetDescription.textContent = "";
+          elements.sheetTableBody.innerHTML = "<tr><td class='empty-state'>No hay hoja disponible.</td></tr>";
+          return;
+        }
+
+        elements.sheetDescription.textContent = sheet.description;
+        elements.sheetTableBody.innerHTML = sheet.rows
+          .map((row) => `
+            <tr>
+              ${row.length
+                ? row.map((cell) => `<td>${cell == null ? "" : escapeHtml(formatValue(cell))}</td>`).join("")
+                : "<td></td>"}
+            </tr>
+          `)
+          .join("");
+      }
+
+      function renderViewState() {
+        document.querySelectorAll(".tab-button").forEach((button) => {
+          const isActive = button.getAttribute("data-view") === state.activeView;
+          button.setAttribute("aria-selected", String(isActive));
+        });
+        document.getElementById("view-dashboard").hidden = state.activeView !== "dashboard";
+        document.getElementById("view-amounts").hidden = state.activeView !== "amounts";
+        document.getElementById("view-matrix").hidden = state.activeView !== "matrix";
+        document.getElementById("view-sheets").hidden = state.activeView !== "sheets";
+      }
+
+      function initTabs() {
+        document.querySelectorAll(".tab-button").forEach((button) => {
+          button.addEventListener("click", () => {
+            state.activeView = button.getAttribute("data-view");
+            renderViewState();
+          });
+        });
+      }
+
+      function init() {
+        if (elements.globalSearch) {
+          elements.globalSearch.addEventListener("input", (event) => {
+            state.filters.query = event.target.value;
+            state.page = 1;
+            if (state.activeView !== "matrix") {
+              state.activeView = "matrix";
+              renderViewState();
+            }
+            renderFilters();
+            renderMatrix();
+          });
+        }
+
+        if (elements.directionAmountSelect) {
+          elements.directionAmountSelect.addEventListener("change", (event) => {
+            state.amountsDirection = event.target.value;
+            renderAmountsView();
+          });
+        }
+
+        renderHeader();
+        renderDashboard();
+        renderAmountsView();
+        renderFilters();
+        renderTableHead();
+        renderMatrix();
+        renderSheetTabs();
+        renderSheet();
+        renderViewState();
+        initTabs();
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>
