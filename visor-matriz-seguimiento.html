@@ -1141,15 +1141,6 @@
               <div class="stat-list" id="amountsProjectsList"></div>
             </section>
 
-            <section class="panel card">
-              <div class="panel-header">
-                <div>
-                  <h3>Lectura de conversion</h3>
-                  <p>Porcentajes internos para esta direccion en particular.</p>
-                </div>
-              </div>
-              <div class="stat-list" id="amountsRatiosList"></div>
-            </section>
           </div>
         </section>
 
@@ -1289,7 +1280,6 @@
         amountsContext: document.getElementById("amountsContext"),
         amountsKpiGrid: document.getElementById("amountsKpiGrid"),
         amountsProjectsList: document.getElementById("amountsProjectsList"),
-        amountsRatiosList: document.getElementById("amountsRatiosList"),
         directionBars: document.getElementById("directionBars"),
         alertList: document.getElementById("alertList"),
         riskList: document.getElementById("riskList"),
@@ -1694,8 +1684,6 @@
 
         const aggregate = getDirectionAggregate(state.amountsDirection);
         const totals = aggregate.totals;
-        const ratios = aggregate.ratios;
-
         elements.amountsContext.textContent = `${aggregate.records.length} filas encontradas para ${aggregate.direction}. Aqui puedes revisar los datos agregados sin entrar a la matriz completa.`;
 
         const cards = [
@@ -1731,22 +1719,6 @@
               .join("")
           : "<div class='muted'>Sin proyectos para mostrar.</div>";
 
-        elements.amountsRatiosList.innerHTML = [
-          ["Certificado / Codificado", formatPct(ratios.certifiedVsCodified)],
-          ["Comprometido / Certificado", formatPct(ratios.committedVsCertified)],
-          ["Devengado / Comprometido", formatPct(ratios.accruedVsCommitted)],
-          ["Pagado / Devengado", formatPct(ratios.paidVsAccrued)],
-          ["Ejecucion global", formatPct(ratios.overallExecution)]
-        ]
-          .map(
-            ([label, value]) => `
-              <div class="stat-row">
-                <span>${escapeHtml(label)}</span>
-                <strong>${escapeHtml(value)}</strong>
-              </div>
-            `
-          )
-          .join("");
       }
 
       function renderStatList(target, entries) {
