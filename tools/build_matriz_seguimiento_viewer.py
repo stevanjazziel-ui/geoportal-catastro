@@ -45,6 +45,14 @@ FORCE_OVERRIDE_FIELD_MAP = {
     "DEVENGADO": "MONTO DEVENGADO",
     "PAGADO": "MONTO EJECUTADO",
 }
+DIRECTION_OVERRIDE_FIELD_MAP = {
+    "codified": "MONTO CODIFICADO",
+    "certified": "MONTO CERTIFICADO ",
+    "committed": "MONTO COMPROMETIDO",
+    "accrued": "MONTO DEVENGADO",
+    "paid": "MONTO EJECUTADO",
+    "balanceToCertify": "PENDIENTE POR CERTIFICAR ",
+}
 
 HIGHLIGHT_FIELD_ALIASES = {
     "direction": "DIRECCION",
@@ -459,6 +467,49 @@ def build_supplement_updates(
     return updates
 
 
+def build_direction_overrides(source_paths: list[Path], base_direction_by_code: dict[str, str]) -> dict[str, dict[str, float]]:
+    overrides: dict[str, dict[str, float]] = {}
+    for source_path in source_paths:
+        matched_directions: Counter[str] = Counter()
+        total_payload: dict[str, float] | None = None
+        for sheet_name, header_row_index in discover_supplement_tables(source_path):
+            supplement = pd.read_excel(source_path, sheet_name=sheet_name, header=header_row_index - 1).dropna(how="all")
+            supplement.columns = [str(column).strip() for column in supplement.columns]
+            if "PARTIDA" not in supplement.columns:
+                continue
+            supplement["PARTIDA"] = supplement["PARTIDA"].fillna("").astype(str).str.strip()
+
+            detail_rows = supplement[supplement["PARTIDA"].str.count(r"\.") >= 8]
+            for code in detail_rows["PARTIDA"]:
+                direction = base_direction_by_code.get(code)
+                if direction:
+                    matched_directions[direction] += 1
+
+            if total_payload is None:
+                total_rows = supplement[
+                    supplement["PARTIDA"].str.upper().isin({"P0", "TOTAL"})
+                    | supplement.get("NOMBRE", pd.Series(dtype=str)).fillna("").astype(str).str.upper().str.contains("TOTAL")
+                ]
+                if not total_rows.empty:
+                    row = total_rows.iloc[-1]
+                    payload: dict[str, float] = {}
+                    for target_field, source_field in DIRECTION_OVERRIDE_FIELD_MAP.items():
+                        value = row.get(source_field.strip(), row.get(source_field))
+                        if pd.isna(value):
+                            continue
+                        try:
+                            payload[target_field] = float(value)
+                        except (TypeError, ValueError):
+                            continue
+                    if payload:
+                        total_payload = payload
+
+        if matched_directions and total_payload:
+            direction, _ = matched_directions.most_common(1)[0]
+            overrides[direction] = total_payload
+    return overrides
+
+
 def build_payload(
     source_path: Path,
     supplement_paths: list[Path] | None = None,
@@ -474,10 +525,18 @@ def build_payload(
     code_column = next((column for column in columns if column["key"] == "PARTIDA_ESPECIFICA"), None)
     columns_by_key = {column["key"]: column for column in columns}
     base_codes = []
+    base_direction_by_code: dict[str, str] = {}
     if code_column:
+        direction_column = columns_by_key.get("DIRECCION")
         for row_number in range(DATA_START_ROW_INDEX, matrix_sheet.max_row + 1):
-            base_codes.append(clean_string(matrix_sheet.cell(row=row_number, column=code_column["index"] + 1).value))
+            code = clean_string(matrix_sheet.cell(row=row_number, column=code_column["index"] + 1).value)
+            base_codes.append(code)
+            if code and direction_column:
+                direction = clean_string(matrix_sheet.cell(row=row_number, column=direction_column["index"] + 1).value)
+                if direction:
+                    base_direction_by_code[code] = direction
     supplement_updates = build_supplement_updates(supplement_paths or [], base_codes, zero_fill_paths) if supplement_paths else {}
+    direction_overrides = build_direction_overrides(supplement_paths or [], base_direction_by_code) if supplement_paths else {}
     records: list[dict[str, Any]] = []
 
     for row_number in range(DATA_START_ROW_INDEX, matrix_sheet.max_row + 1):
@@ -516,6 +575,7 @@ def build_payload(
         "columns": [{key: value for key, value in column.items() if key != "index"} for column in columns],
         "summary": summarize_records(records),
         "records": records,
+        "directionOverrides": direction_overrides,
         "sheetViews": [
             {
                 "name": SUMMARY_SHEET_NAME,

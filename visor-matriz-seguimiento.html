@@ -1441,6 +1441,7 @@
 
       function getDirectionAggregate(direction) {
         const records = data.records.filter((record) => (record.highlights.direction || "") === direction);
+        const directionOverride = (data.directionOverrides || {})[direction];
         const totals = {
           codified: 0,
           certified: 0,
@@ -1478,6 +1479,15 @@
             alert: getRecordAlert(certified, committed, processStatus)
           });
         });
+
+        if (directionOverride) {
+          totals.codified = toNumericAmount(directionOverride.codified);
+          totals.certified = toNumericAmount(directionOverride.certified);
+          totals.balanceToCertify = toNumericAmount(directionOverride.balanceToCertify);
+          totals.committed = toNumericAmount(directionOverride.committed);
+          totals.accrued = toNumericAmount(directionOverride.accrued);
+          totals.paid = toNumericAmount(directionOverride.paid);
+        }
 
         return {
           direction,
