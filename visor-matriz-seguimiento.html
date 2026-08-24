@@ -519,7 +519,28 @@
     }
 
     .inline-kpi {
-      margin-top: 16px;
+      margin-top: 8px;
+    }
+
+    .inline-kpi .balance-alert-card {
+      margin-top: -6px;
+      border-color: #e3b2b9;
+      background: linear-gradient(180deg, #fff6f7 0%, #fdecef 100%);
+      box-shadow:
+        inset 0 3px 0 rgba(188, 76, 92, 0.18),
+        0 8px 20px rgba(145, 49, 65, 0.08);
+    }
+
+    .inline-kpi .balance-alert-card span {
+      color: #a15d69;
+    }
+
+    .inline-kpi .balance-alert-card strong {
+      color: #8d3646;
+    }
+
+    .inline-kpi .balance-alert-card small {
+      color: #8c6170;
     }
 
     .filters-shell {
@@ -1777,7 +1798,7 @@
           : "<div class='muted'>Sin proyectos para mostrar.</div>";
 
         elements.amountsBalanceCard.innerHTML = `
-          <article class="kpi-card card">
+          <article class="kpi-card card balance-alert-card">
             <span>Saldo por certificar</span>
             <strong>${escapeHtml(formatMoney(totals.balanceToCertify))}</strong>
             <small>${escapeHtml(`${formatPct(safeRatio(totals.balanceToCertify, totals.codified))} del codificado.`)}</small>
