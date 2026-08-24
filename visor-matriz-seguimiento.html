@@ -1310,6 +1310,21 @@
         }).format(value);
       }
 
+      function toNumericAmount(value) {
+        if (typeof value === "number") {
+          return Number.isNaN(value) ? 0 : value;
+        }
+        if (typeof value !== "string") {
+          return 0;
+        }
+        const normalized = value.replace(/\$/g, "").replace(/,/g, "").trim();
+        if (!normalized || normalized === "-" || normalized === "--") {
+          return 0;
+        }
+        const parsed = Number(normalized);
+        return Number.isNaN(parsed) ? 0 : parsed;
+      }
+
       function isIsoDate(value) {
         return typeof value === "string" && /^\d{4}-\d{2}-\d{2}(T.*)?$/.test(value);
       }
@@ -1438,12 +1453,12 @@
 
         records.forEach((record) => {
           const highlights = record.highlights;
-          const codified = Number(highlights.codified || 0);
-          const certified = Number(highlights.certified || 0);
-          const balanceToCertify = Number(record.fields.SALDO_POR_CERTIFICAR || 0);
-          const committed = Number(highlights.committed || 0);
-          const accrued = Number(highlights.accrued || 0);
-          const paid = Number(highlights.paid || 0);
+          const codified = toNumericAmount(highlights.codified);
+          const certified = toNumericAmount(highlights.certified);
+          const balanceToCertify = toNumericAmount(record.fields.SALDO_POR_CERTIFICAR);
+          const committed = toNumericAmount(highlights.committed);
+          const accrued = toNumericAmount(highlights.accrued);
+          const paid = toNumericAmount(highlights.paid);
           const processStatus = normalizeText(highlights.processStatus);
 
           totals.codified += codified;
