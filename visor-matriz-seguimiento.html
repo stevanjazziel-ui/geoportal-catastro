@@ -1441,7 +1441,11 @@
 
       function getDirectionAggregate(direction) {
         const records = data.records.filter((record) => (record.highlights.direction || "") === direction);
-        const directionOverride = (data.directionOverrides || {})[direction];
+        const directionOverrides = data.directionOverrides || {};
+        const directionOverride =
+          directionOverrides[direction] ||
+          Object.entries(directionOverrides).find(([label]) => normalizeText(label) === normalizeText(direction))?.[1] ||
+          null;
         const totals = {
           codified: 0,
           certified: 0,
