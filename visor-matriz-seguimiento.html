@@ -1101,7 +1101,6 @@
               </div>
               <div class="stat-list" id="amountsProjectsList"></div>
               <div class="inline-kpi" id="amountsBalanceCard"></div>
-              <div class="stat-list" id="amountsSignalsList"></div>
             </section>
 
             <section class="panel card">
@@ -1253,7 +1252,6 @@
         amountsKpiGrid: document.getElementById("amountsKpiGrid"),
         amountsProjectsList: document.getElementById("amountsProjectsList"),
         amountsBalanceCard: document.getElementById("amountsBalanceCard"),
-        amountsSignalsList: document.getElementById("amountsSignalsList"),
         amountsRatiosList: document.getElementById("amountsRatiosList"),
         directionBars: document.getElementById("directionBars"),
         alertList: document.getElementById("alertList"),
@@ -1408,11 +1406,6 @@
           accrued: 0,
           paid: 0
         };
-        const signals = {
-          preparatoryPending: 0,
-          noResourceCommitted: 0,
-          inExecution: 0
-        };
         const projects = new Map();
 
         records.forEach((record) => {
@@ -1423,25 +1416,12 @@
           const committed = Number(highlights.committed || 0);
           const accrued = Number(highlights.accrued || 0);
           const paid = Number(highlights.paid || 0);
-          const phase = String(highlights.procurementPhase || "").toUpperCase();
-          const processStatus = String(highlights.processStatus || "").toUpperCase();
-
           totals.codified += codified;
           totals.certified += certified;
           totals.balanceToCertify += balanceToCertify;
           totals.committed += committed;
           totals.accrued += accrued;
           totals.paid += paid;
-
-          if (phase === "PREPARATORIA") {
-            signals.preparatoryPending += 1;
-          }
-          if (certified > 0 && committed <= 0) {
-            signals.noResourceCommitted += 1;
-          }
-          if (processStatus === "EN EJECUCIÓN") {
-            signals.inExecution += 1;
-          }
 
           const projectLabel = highlights.project || "Proyecto sin nombre";
           if (!projects.has(projectLabel)) {
@@ -1463,7 +1443,6 @@
           direction,
           records,
           totals,
-          signals,
           ratios: {
             certifiedVsCodified: safeRatio(totals.certified, totals.codified),
             committedVsCertified: safeRatio(totals.committed, totals.certified),
@@ -1728,21 +1707,6 @@
             <small>${escapeHtml(`${formatPct(safeRatio(totals.balanceToCertify, totals.codified))} del codificado.`)}</small>
           </article>
         `;
-
-        elements.amountsSignalsList.innerHTML = [
-          ["No culmina fase preparatoria", aggregate.signals.preparatoryPending],
-          ["No compromete recurso", aggregate.signals.noResourceCommitted],
-          ["En ejecución", aggregate.signals.inExecution]
-        ]
-          .map(
-            ([label, value]) => `
-              <div class="stat-row">
-                <span>${escapeHtml(label)}</span>
-                <strong>${escapeHtml(formatNumber(value))}</strong>
-              </div>
-            `
-          )
-          .join("");
 
         elements.amountsRatiosList.innerHTML = [
           ["Certificado / Codificado", formatPct(ratios.certifiedVsCodified)],
