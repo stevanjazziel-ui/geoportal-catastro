@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-08-24",
-  "generatedAt": "2026-08-24T16:01:39",
+  "generatedAt": "2026-08-24T16:31:39",
   "records": [
     {
       "estado": "Complementado",
@@ -2813,14 +2813,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "Complementado",
+      "estado": "En espera",
       "tramite": "Trámite: 1209290 GADMR--2026-0435-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "BASANTES ESCOBAR MAURICIO FERNANDO - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Hamilton Ruben Torres Cabezas",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-08-25",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-08-11T11:18:00",
       "codigo": "GADMR--2026-0435-IPRUS-ZNP",
       "nroTramite": 1209290,
@@ -2828,9 +2828,6 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "BASANTES ESCOBAR MAURICIO FERNANDO",
       "reasignadoPorCargo": "Analista 4 De Gestión De Avalúos, Catastros Y Sig",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(1 día restante 🚨)",
-      "diasRestantes": 1,
-      "prioridad": "Crítico",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
@@ -2838,26 +2835,16 @@ window.TRAMITES_IPRUS_DATA = {
       "id": "GADMR--2026-0435-IPRUS-ZNP",
       "egobOutcome": "NO FAVORABLE",
       "egobOutcomeRule": "subsanacion",
-      "egobOutcomeNote": "",
-      "egobOutcomeAt": "2026-08-13 12:10",
-      "egobOutcomeAuthor": "CIUDADANO CIUDADANO",
-      "egobOutcomeAuthorRole": "",
+      "egobOutcomeNote": "En la revisión tecnica unicamente se nota un error de digitacion en el cuadro de linderos; por favor realizar dicha correccion y subir el archivo digital dwg y pdf debidamente firmado.",
+      "egobOutcomeAt": "2026-08-24 16:16",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
       "egobOutcomeEntryType": "Registro",
       "egobLatestReassignmentNote": "Por favor dar continuidad, según corresponda",
       "egobLatestReassignmentAt": "2026-08-11 11:18",
       "egobLatestReassignmentAuthor": "HAMILTON RUBEN TORRES CABEZAS",
-      "egobJournalCount": 11,
+      "egobJournalCount": 13,
       "egobRelevantNotes": [
-        {
-          "journalId": "6933067",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-29 11:10",
-          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
-          "note": "IPRUS NO FAVORABLE, se adjuntan el detalle de las reviones en el archivo pdf",
-          "outcome": "NO FAVORABLE",
-          "rule": "no_favorable"
-        },
         {
           "journalId": "6966302",
           "entryType": "Reasignación",
@@ -2885,6 +2872,26 @@ window.TRAMITES_IPRUS_DATA = {
           "author": "CIUDADANO CIUDADANO",
           "authorRole": "",
           "note": "",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
+          "journalId": "7134916",
+          "entryType": "Registro",
+          "timestamp": "2026-08-24 16:16",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "En la revisión tecnica unicamente se nota un error de digitacion en el cuadro de linderos; por favor realizar dicha correccion y subir el archivo digital dwg y pdf debidamente firmado.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
+          "journalId": "7134917",
+          "entryType": "Registro",
+          "timestamp": "2026-08-24 16:16",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "En la revisión tecnica unicamente se nota un error de digitacion en el cuadro de linderos; por favor realizar dicha correccion y subir el archivo digital dwg y pdf debidamente firmado.",
           "outcome": "NO FAVORABLE",
           "rule": "subsanacion"
         }
@@ -3282,14 +3289,14 @@ window.TRAMITES_IPRUS_DATA = {
     "total": 70,
     "priorities": {
       "Normal": 37,
-      "Sin prioridad": 12,
+      "Sin prioridad": 13,
       "Urgente": 12,
-      "Crítico": 9
+      "Crítico": 8
     },
     "states": {
-      "Complementado": 12,
+      "Complementado": 11,
       "Asignado": 49,
-      "En espera": 9
+      "En espera": 10
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 70
