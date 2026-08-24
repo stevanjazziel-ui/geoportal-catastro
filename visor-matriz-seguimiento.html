@@ -1001,32 +1001,6 @@
 
     <main class="main-shell">
       <div class="app">
-        <section class="hero panel">
-          <div>
-            <span class="eyebrow">Dashboard de control</span>
-            <h1>Visor operativo de la matriz de inversion</h1>
-            <p class="lead">
-              Adaptamos la matriz a una interfaz tipo tablero corporativo: lectura rapida arriba,
-              paneles comparativos al centro y consulta detallada por fila sin perder la estructura del Excel.
-            </p>
-          </div>
-
-          <div class="hero-meta">
-            <div class="meta-card">
-              <strong>Archivo fuente</strong>
-              <span id="sourceName"></span>
-            </div>
-            <div class="meta-card">
-              <strong>Hojas detectadas</strong>
-              <span id="sheetNames"></span>
-            </div>
-            <div class="meta-card">
-              <strong>Alcance del visor</strong>
-              <span>La imagen enviada se usa solo como referencia visual. El contenido de Resumen y Catalogos sigue viniendo del libro original.</span>
-            </div>
-          </div>
-        </section>
-
         <section class="view" id="view-dashboard">
           <div class="section-heading">
             <div>
@@ -1554,8 +1528,12 @@
         if (elements.generatedAt) {
           elements.generatedAt.textContent = `Actualizado: ${formatDate(data.meta.generatedAt)}`;
         }
-        elements.sourceName.textContent = data.meta.sourceFileName;
-        elements.sheetNames.textContent = data.meta.sheetNames.join(" • ");
+        if (elements.sourceName) {
+          elements.sourceName.textContent = data.meta.sourceFileName;
+        }
+        if (elements.sheetNames) {
+          elements.sheetNames.textContent = data.meta.sheetNames.join(" • ");
+        }
 
         const errorRows = data.summary.rowsWithFormulaErrors;
         const riskRows = data.summary.highRiskRows;
