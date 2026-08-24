@@ -982,10 +982,6 @@
       </div>
 
       <nav class="tabs" aria-label="Secciones del visor">
-        <button class="tab-button" type="button" data-view="dashboard" aria-selected="true">
-          <span class="tab-icon">D</span>
-          <span class="tab-label">Dash</span>
-        </button>
         <button class="tab-button" type="button" data-view="amounts" aria-selected="false">
           <span class="tab-icon">$</span>
           <span class="tab-label">Datos</span>
@@ -1260,7 +1256,7 @@
       const sheetMap = new Map(data.sheetViews.map((sheet) => [sheet.name, sheet]));
 
       const state = {
-        activeView: "dashboard",
+        activeView: "amounts",
         activeSheet: data.sheetViews[0] ? data.sheetViews[0].name : null,
         amountsDirection: "",
         filters: {
