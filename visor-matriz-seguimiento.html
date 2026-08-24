@@ -1701,10 +1701,10 @@
 
         const cards = [
           ["Codificado", formatMoney(totals.codified), "Monto total codificado de la direccion."],
-          ["Certificado", formatMoney(totals.certified), "Monto certificado acumulado."],
-          ["Comprometido", formatMoney(totals.committed), "Monto comprometido acumulado."],
-          ["Devengado", formatMoney(totals.accrued), "Monto devengado acumulado."],
-          ["Pagado", formatMoney(totals.paid), "Monto pagado acumulado."]
+          ["Certificado", formatMoney(totals.certified), `${formatPct(ratios.certifiedVsCodified)} del codificado.`],
+          ["Comprometido", formatMoney(totals.committed), `${formatPct(safeRatio(totals.committed, totals.codified))} del codificado.`],
+          ["Devengado", formatMoney(totals.accrued), `${formatPct(ratios.overallExecution)} del codificado.`],
+          ["Pagado", formatMoney(totals.paid), `${formatPct(safeRatio(totals.paid, totals.codified))} del codificado.`]
         ];
 
         elements.amountsKpiGrid.innerHTML = cards
