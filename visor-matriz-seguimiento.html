@@ -518,6 +518,10 @@
       font-size: 0.82rem;
     }
 
+    .inline-kpi {
+      margin-top: 16px;
+    }
+
     .filters-shell {
       display: grid;
       gap: 14px;
@@ -1096,6 +1100,7 @@
                 </div>
               </div>
               <div class="stat-list" id="amountsProjectsList"></div>
+              <div class="inline-kpi" id="amountsBalanceCard"></div>
             </section>
 
             <section class="panel card">
@@ -1246,6 +1251,7 @@
         directionAmountSelect: document.getElementById("directionAmountSelect"),
         amountsKpiGrid: document.getElementById("amountsKpiGrid"),
         amountsProjectsList: document.getElementById("amountsProjectsList"),
+        amountsBalanceCard: document.getElementById("amountsBalanceCard"),
         amountsRatiosList: document.getElementById("amountsRatiosList"),
         directionBars: document.getElementById("directionBars"),
         alertList: document.getElementById("alertList"),
@@ -1667,8 +1673,7 @@
           ["Certificado", formatMoney(totals.certified), `${formatPct(ratios.certifiedVsCodified)} del codificado.`],
           ["Comprometido", formatMoney(totals.committed), `${formatPct(safeRatio(totals.committed, totals.codified))} del codificado.`],
           ["Devengado", formatMoney(totals.accrued), `${formatPct(ratios.overallExecution)} del codificado.`],
-          ["Pagado", formatMoney(totals.paid), `${formatPct(safeRatio(totals.paid, totals.codified))} del codificado.`],
-          ["Saldo por certificar", formatMoney(totals.balanceToCertify), `${formatPct(safeRatio(totals.balanceToCertify, totals.codified))} del codificado.`]
+          ["Pagado", formatMoney(totals.paid), `${formatPct(safeRatio(totals.paid, totals.codified))} del codificado.`]
         ];
 
         elements.amountsKpiGrid.innerHTML = cards
@@ -1695,6 +1700,14 @@
               )
               .join("")
           : "<div class='muted'>Sin proyectos para mostrar.</div>";
+
+        elements.amountsBalanceCard.innerHTML = `
+          <article class="kpi-card card">
+            <span>Saldo por certificar</span>
+            <strong>${escapeHtml(formatMoney(totals.balanceToCertify))}</strong>
+            <small>${escapeHtml(`${formatPct(safeRatio(totals.balanceToCertify, totals.codified))} del codificado.`)}</small>
+          </article>
+        `;
 
         elements.amountsRatiosList.innerHTML = [
           ["Certificado / Codificado", formatPct(ratios.certifiedVsCodified)],
