@@ -140,6 +140,31 @@ def source_cell_is_zero_fillable(value: Any) -> bool:
     return abs(number) < 1e-9
 
 
+def row_numeric_field(row_values: list[Any], columns_by_key: dict[str, dict[str, Any]], field_key: str) -> float | None:
+    column = columns_by_key.get(field_key)
+    if not column:
+        return None
+    return numeric_value(row_values[column["index"]])
+
+
+def has_execution_chain_anomaly(row_values: list[Any], columns_by_key: dict[str, dict[str, Any]]) -> bool:
+    codified = row_numeric_field(row_values, columns_by_key, "CODIFICADO")
+    certified = row_numeric_field(row_values, columns_by_key, "CERTIFICADO")
+    committed = row_numeric_field(row_values, columns_by_key, "COMPROMETIDO")
+    accrued = row_numeric_field(row_values, columns_by_key, "DEVENGADO")
+    paid = row_numeric_field(row_values, columns_by_key, "PAGADO")
+
+    if codified is not None and certified is not None and certified > codified + 1e-9:
+        return True
+    if certified is not None and committed is not None and committed > certified + 1e-9:
+        return True
+    if committed is not None and accrued is not None and accrued > committed + 1e-9:
+        return True
+    if accrued is not None and paid is not None and paid > accrued + 1e-9:
+        return True
+    return False
+
+
 def pick_row_indices(worksheet) -> list[int]:
     active_indices: list[int] = []
     for column_index in range(1, worksheet.max_column + 1):
@@ -413,7 +438,7 @@ def build_supplement_updates(
                         number = float(value)
                     except (TypeError, ValueError):
                         continue
-                    if abs(number) < 1e-9:
+                    if abs(number) < 1e-9 and not allow_zero_fill:
                         continue
                     payload[base_field] = (number, allow_zero_fill)
     return updates
@@ -448,13 +473,16 @@ def build_payload(
             code = clean_string(row_values[code_column["index"]])
             updates = supplement_updates.get(code)
             if updates:
+                execution_anomaly = any(allow_zero_fill for _, allow_zero_fill in updates.values()) and has_execution_chain_anomaly(
+                    row_values, columns_by_key
+                )
                 for field_key, update in updates.items():
                     number, allow_zero_fill = update
                     column = columns_by_key.get(field_key)
                     if not column:
                         continue
                     if allow_zero_fill:
-                        should_fill = source_cell_is_zero_fillable(row_values[column["index"]])
+                        should_fill = source_cell_is_zero_fillable(row_values[column["index"]]) or execution_anomaly
                     else:
                         should_fill = source_cell_is_fillable(row_values[column["index"]])
                     if should_fill:
