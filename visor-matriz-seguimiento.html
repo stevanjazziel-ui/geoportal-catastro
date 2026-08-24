@@ -1001,22 +1001,6 @@
 
     <main class="main-shell">
       <div class="app">
-        <div class="utility-bar panel">
-          <div class="utility-brand">
-            <strong>Matriz de Inversion</strong>
-            <span>Seguimiento institucional del gasto</span>
-          </div>
-
-          <label class="search-shell" aria-label="Busqueda global">
-            <input id="globalSearch" type="search" placeholder="Buscar proyecto, direccion, objeto o estado..." />
-          </label>
-
-          <div class="header-actions">
-            <span class="toolbar-chip" id="generatedAt"></span>
-            <a class="back-link" href="./index.html">Portal</a>
-          </div>
-        </div>
-
         <section class="hero panel">
           <div>
             <span class="eyebrow">Dashboard de control</span>
@@ -1567,7 +1551,9 @@
       }
 
       function renderHeader() {
-        elements.generatedAt.textContent = `Actualizado: ${formatDate(data.meta.generatedAt)}`;
+        if (elements.generatedAt) {
+          elements.generatedAt.textContent = `Actualizado: ${formatDate(data.meta.generatedAt)}`;
+        }
         elements.sourceName.textContent = data.meta.sourceFileName;
         elements.sheetNames.textContent = data.meta.sheetNames.join(" • ");
 
