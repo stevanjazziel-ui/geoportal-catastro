@@ -1395,6 +1395,7 @@
         const totals = {
           codified: 0,
           certified: 0,
+          balanceToCertify: 0,
           committed: 0,
           accrued: 0,
           paid: 0
@@ -1405,12 +1406,14 @@
           const highlights = record.highlights;
           const codified = Number(highlights.codified || 0);
           const certified = Number(highlights.certified || 0);
+          const balanceToCertify = Number(record.fields.SALDO_POR_CERTIFICAR || 0);
           const committed = Number(highlights.committed || 0);
           const accrued = Number(highlights.accrued || 0);
           const paid = Number(highlights.paid || 0);
 
           totals.codified += codified;
           totals.certified += certified;
+          totals.balanceToCertify += balanceToCertify;
           totals.committed += committed;
           totals.accrued += accrued;
           totals.paid += paid;
@@ -1662,6 +1665,7 @@
         const cards = [
           ["Codificado", formatMoney(totals.codified), "Monto total codificado de la direccion."],
           ["Certificado", formatMoney(totals.certified), `${formatPct(ratios.certifiedVsCodified)} del codificado.`],
+          ["Saldo por certificar", formatMoney(totals.balanceToCertify), `${formatPct(safeRatio(totals.balanceToCertify, totals.codified))} del codificado.`],
           ["Comprometido", formatMoney(totals.committed), `${formatPct(safeRatio(totals.committed, totals.codified))} del codificado.`],
           ["Devengado", formatMoney(totals.accrued), `${formatPct(ratios.overallExecution)} del codificado.`],
           ["Pagado", formatMoney(totals.paid), `${formatPct(safeRatio(totals.paid, totals.codified))} del codificado.`]
