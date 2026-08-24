@@ -1104,7 +1104,7 @@
               <div class="panel-header">
                 <div>
                   <h3>Proyectos de la direccion</h3>
-                  <p>Tabla de proyectos con alerta operativa para la direccion elegida.</p>
+                  <p>Tabla por proyecto, objeto y partida para respetar mejor la estructura del Excel.</p>
                 </div>
               </div>
               <div class="table-wrap compact-table" id="amountsProjectsList"></div>
@@ -1403,6 +1403,19 @@
           .toUpperCase();
       }
 
+      function getRecordAlert(certified, committed, processStatus) {
+        if (certified <= 0) {
+          return { label: "No culmina fase preparatoria", tone: "warning" };
+        }
+        if (committed <= 0) {
+          return { label: "No compromete recursos", tone: "danger" };
+        }
+        if (processStatus === "EN EJECUCION") {
+          return { label: "En ejecución", tone: "success" };
+        }
+        return { label: "Sin alerta", tone: "slate" };
+      }
+
       function uniqueValues(sourceKey) {
         return [...new Set(
           data.records
@@ -1421,7 +1434,7 @@
           accrued: 0,
           paid: 0
         };
-        const projects = new Map();
+        const projectEntries = [];
 
         records.forEach((record) => {
           const highlights = record.highlights;
@@ -1440,26 +1453,15 @@
           totals.accrued += accrued;
           totals.paid += paid;
 
-          const projectLabel = highlights.project || "Proyecto sin nombre";
-          if (!projects.has(projectLabel)) {
-            projects.set(projectLabel, {
-              label: projectLabel,
-              codified: 0,
-              certified: 0,
-              committed: 0,
-              accrued: 0,
-              inExecution: false,
-              rows: 0
-            });
-          }
-
-          const project = projects.get(projectLabel);
-          project.codified += codified;
-          project.certified += certified;
-          project.committed += committed;
-          project.accrued += accrued;
-          project.inExecution = project.inExecution || processStatus === "EN EJECUCION";
-          project.rows += 1;
+          projectEntries.push({
+            project: highlights.project || "Proyecto sin nombre",
+            object: highlights.procurementObject || "Sin objeto",
+            specificItem: highlights.specificItem || "Sin partida",
+            codified,
+            certified,
+            committed,
+            alert: getRecordAlert(certified, committed, processStatus)
+          });
         });
 
         return {
@@ -1473,21 +1475,8 @@
             paidVsAccrued: safeRatio(totals.paid, totals.accrued),
             overallExecution: safeRatio(totals.accrued, totals.codified)
           },
-          projects: [...projects.values()].sort((a, b) => b.codified - a.codified)
+          projectEntries: projectEntries.sort((a, b) => b.codified - a.codified)
         };
-      }
-
-      function getProjectAlert(project) {
-        if (project.certified <= 0) {
-          return { label: "No culmina fase preparatoria", tone: "warning" };
-        }
-        if (project.committed <= 0) {
-          return { label: "No compromete recursos", tone: "danger" };
-        }
-        if (project.inExecution) {
-          return { label: "En ejecución", tone: "success" };
-        }
-        return { label: "Sin alerta", tone: "slate" };
       }
 
       function getFilteredRecords() {
@@ -1723,12 +1712,14 @@
           )
           .join("");
 
-        elements.amountsProjectsList.innerHTML = aggregate.projects.length
+        elements.amountsProjectsList.innerHTML = aggregate.projectEntries.length
           ? `
               <table>
                 <thead>
                   <tr>
                     <th>Proyecto</th>
+                    <th>Objeto</th>
+                    <th>Partida</th>
                     <th>Codificado</th>
                     <th>Certificado</th>
                     <th>Comprometido</th>
@@ -1736,16 +1727,17 @@
                   </tr>
                 </thead>
                 <tbody>
-                  ${aggregate.projects
-                    .map((project) => {
-                      const alertInfo = getProjectAlert(project);
+                  ${aggregate.projectEntries
+                    .map((entry) => {
                       return `
                         <tr>
-                          <td>${escapeHtml(project.label)}</td>
-                          <td>${escapeHtml(formatMoney(project.codified))}</td>
-                          <td>${escapeHtml(formatMoney(project.certified))}</td>
-                          <td>${escapeHtml(formatMoney(project.committed))}</td>
-                          <td><span class="pill ${alertInfo.tone}">${escapeHtml(alertInfo.label)}</span></td>
+                          <td>${escapeHtml(entry.project)}</td>
+                          <td>${escapeHtml(entry.object)}</td>
+                          <td>${escapeHtml(entry.specificItem)}</td>
+                          <td>${escapeHtml(formatMoney(entry.codified))}</td>
+                          <td>${escapeHtml(formatMoney(entry.certified))}</td>
+                          <td>${escapeHtml(formatMoney(entry.committed))}</td>
+                          <td><span class="pill ${entry.alert.tone}">${escapeHtml(entry.alert.label)}</span></td>
                         </tr>
                       `;
                     })
