@@ -1082,7 +1082,6 @@
                 <label for="directionAmountSelect">Direccion</label>
                 <select id="directionAmountSelect"></select>
               </div>
-              <div class="message-copy" id="amountsContext"></div>
             </div>
 
             <div class="kpi-grid" id="amountsKpiGrid"></div>
@@ -1245,7 +1244,6 @@
         kpiGrid: document.getElementById("kpiGrid"),
         ratioGrid: document.getElementById("ratioGrid"),
         directionAmountSelect: document.getElementById("directionAmountSelect"),
-        amountsContext: document.getElementById("amountsContext"),
         amountsKpiGrid: document.getElementById("amountsKpiGrid"),
         amountsProjectsList: document.getElementById("amountsProjectsList"),
         amountsRatiosList: document.getElementById("amountsRatiosList"),
@@ -1660,8 +1658,6 @@
         const aggregate = getDirectionAggregate(state.amountsDirection);
         const totals = aggregate.totals;
         const ratios = aggregate.ratios;
-
-        elements.amountsContext.textContent = `${aggregate.records.length} filas encontradas para ${aggregate.direction}. Aqui puedes revisar los datos agregados sin entrar a la matriz completa.`;
 
         const cards = [
           ["Codificado", formatMoney(totals.codified), "Monto total codificado de la direccion."],
