@@ -32,6 +32,19 @@ SUPPLEMENT_FIELD_MAP = {
     "DEVENGADO": "MONTO DEVENGADO",
     "PAGADO": "MONTO EJECUTADO",
 }
+FORCE_OVERRIDE_CODES = {
+    "73.02.04.2026.2.4.047.202.099.100.001",
+    "73.02.35.2026.2.4.047.201.006.200.001",
+    "73.04.05.2026.2.4.047.201.099.100.001",
+    "73.08.01.2026.2.4.047.201.099.100.001",
+}
+FORCE_OVERRIDE_FIELD_MAP = {
+    "CODIFICADO": "MONTO CODIFICADO",
+    "CERTIFICADO": "MONTO CERTIFICADO ",
+    "COMPROMETIDO": "MONTO COMPROMETIDO",
+    "DEVENGADO": "MONTO DEVENGADO",
+    "PAGADO": "MONTO EJECUTADO",
+}
 
 HIGHLIGHT_FIELD_ALIASES = {
     "direction": "DIRECCION",
@@ -408,12 +421,12 @@ def build_supplement_updates(
     source_paths: list[Path],
     base_codes: list[str],
     zero_fill_paths: set[Path] | None = None,
-) -> dict[str, dict[str, tuple[float, bool]]]:
+) -> dict[str, dict[str, tuple[float, bool, bool]]]:
     counts = Counter(code for code in base_codes if code)
     unique_codes = {code for code, count in counts.items() if count == 1}
     zero_fill_paths = zero_fill_paths or set()
 
-    updates: dict[str, dict[str, tuple[float, bool]]] = {}
+    updates: dict[str, dict[str, tuple[float, bool, bool]]] = {}
     for source_path in source_paths:
         allow_zero_fill = source_path.resolve() in zero_fill_paths
         for sheet_name, header_row_index in discover_supplement_tables(source_path):
@@ -430,7 +443,9 @@ def build_supplement_updates(
                 if not code:
                     continue
                 payload = updates.setdefault(code, {})
-                for base_field, supplement_field in SUPPLEMENT_FIELD_MAP.items():
+                field_map = FORCE_OVERRIDE_FIELD_MAP if code in FORCE_OVERRIDE_CODES else SUPPLEMENT_FIELD_MAP
+                force_override = code in FORCE_OVERRIDE_CODES
+                for base_field, supplement_field in field_map.items():
                     value = row.get(supplement_field.strip(), row.get(supplement_field))
                     if pd.isna(value):
                         continue
@@ -440,7 +455,7 @@ def build_supplement_updates(
                         continue
                     if abs(number) < 1e-9 and not allow_zero_fill:
                         continue
-                    payload[base_field] = (number, allow_zero_fill)
+                    payload[base_field] = (number, allow_zero_fill, force_override)
     return updates
 
 
@@ -473,15 +488,17 @@ def build_payload(
             code = clean_string(row_values[code_column["index"]])
             updates = supplement_updates.get(code)
             if updates:
-                execution_anomaly = any(allow_zero_fill for _, allow_zero_fill in updates.values()) and has_execution_chain_anomaly(
+                execution_anomaly = any(allow_zero_fill for _, allow_zero_fill, _ in updates.values()) and has_execution_chain_anomaly(
                     row_values, columns_by_key
                 )
                 for field_key, update in updates.items():
-                    number, allow_zero_fill = update
+                    number, allow_zero_fill, force_override = update
                     column = columns_by_key.get(field_key)
                     if not column:
                         continue
-                    if allow_zero_fill:
+                    if force_override:
+                        should_fill = True
+                    elif allow_zero_fill:
                         should_fill = source_cell_is_zero_fillable(row_values[column["index"]]) or execution_anomaly
                     else:
                         should_fill = source_cell_is_fillable(row_values[column["index"]])
