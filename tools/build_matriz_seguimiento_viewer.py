@@ -32,6 +32,17 @@ SUPPLEMENT_FIELD_MAP = {
     "DEVENGADO": "MONTO DEVENGADO",
     "PAGADO": "MONTO EJECUTADO",
 }
+AUTHORITATIVE_SUPPLEMENT_FIELD_MAP = {
+    "CODIFICADO": "MONTO CODIFICADO",
+    "CERTIFICADO": "MONTO CERTIFICADO ",
+    "COMPROMETIDO": "MONTO COMPROMETIDO",
+    "DEVENGADO": "MONTO DEVENGADO",
+    "PAGADO": "MONTO EJECUTADO",
+    "SALDO_POR_CERTIFICAR": "PENDIENTE POR CERTIFICAR ",
+    "SALDO_POR_COMPROMETER": "PENDIENTE POR COMPROMETER",
+    "SALDO_POR_DEVENGAR": "PENDIENTE POR DEVENGAR",
+    "SALDO_POR_PAGAR": "PENDIENTE POR EJECUTAR",
+}
 FORCE_OVERRIDE_CODES = {
     "73.02.04.2026.2.4.047.202.099.100.001",
     "73.02.35.2026.2.4.047.201.006.200.001",
@@ -429,14 +440,18 @@ def build_supplement_updates(
     source_paths: list[Path],
     base_codes: list[str],
     zero_fill_paths: set[Path] | None = None,
+    force_paths: set[Path] | None = None,
 ) -> dict[str, dict[str, tuple[float, bool, bool]]]:
     counts = Counter(code for code in base_codes if code)
     unique_codes = {code for code, count in counts.items() if count == 1}
     zero_fill_paths = zero_fill_paths or set()
+    force_paths = force_paths or set()
 
     updates: dict[str, dict[str, tuple[float, bool, bool]]] = {}
     for source_path in source_paths:
-        allow_zero_fill = source_path.resolve() in zero_fill_paths
+        resolved_path = source_path.resolve()
+        allow_zero_fill = resolved_path in zero_fill_paths
+        force_path = resolved_path in force_paths
         for sheet_name, header_row_index in discover_supplement_tables(source_path):
             supplement = pd.read_excel(source_path, sheet_name=sheet_name, header=header_row_index - 1).dropna(how="all")
             supplement.columns = [str(column).strip() for column in supplement.columns]
@@ -451,8 +466,13 @@ def build_supplement_updates(
                 if not code:
                     continue
                 payload = updates.setdefault(code, {})
-                field_map = FORCE_OVERRIDE_FIELD_MAP if code in FORCE_OVERRIDE_CODES else SUPPLEMENT_FIELD_MAP
-                force_override = code in FORCE_OVERRIDE_CODES
+                if force_path:
+                    field_map = AUTHORITATIVE_SUPPLEMENT_FIELD_MAP
+                elif code in FORCE_OVERRIDE_CODES:
+                    field_map = FORCE_OVERRIDE_FIELD_MAP
+                else:
+                    field_map = SUPPLEMENT_FIELD_MAP
+                force_override = force_path or code in FORCE_OVERRIDE_CODES
                 for base_field, supplement_field in field_map.items():
                     value = row.get(supplement_field.strip(), row.get(supplement_field))
                     if pd.isna(value):
@@ -461,7 +481,7 @@ def build_supplement_updates(
                         number = float(value)
                     except (TypeError, ValueError):
                         continue
-                    if abs(number) < 1e-9 and not allow_zero_fill:
+                    if abs(number) < 1e-9 and not allow_zero_fill and not force_override:
                         continue
                     payload[base_field] = (number, allow_zero_fill, force_override)
     return updates
@@ -514,6 +534,7 @@ def build_payload(
     source_path: Path,
     supplement_paths: list[Path] | None = None,
     zero_fill_paths: set[Path] | None = None,
+    force_paths: set[Path] | None = None,
 ) -> dict[str, Any]:
     workbook = load_workbook(source_path, data_only=True)
     matrix_sheet = workbook[MATRIX_SHEET_NAME]
@@ -535,7 +556,9 @@ def build_payload(
                 direction = clean_string(matrix_sheet.cell(row=row_number, column=direction_column["index"] + 1).value)
                 if direction:
                     base_direction_by_code[code] = direction
-    supplement_updates = build_supplement_updates(supplement_paths or [], base_codes, zero_fill_paths) if supplement_paths else {}
+    supplement_updates = (
+        build_supplement_updates(supplement_paths or [], base_codes, zero_fill_paths, force_paths) if supplement_paths else {}
+    )
     direction_overrides = build_direction_overrides(supplement_paths or [], base_direction_by_code) if supplement_paths else {}
     records: list[dict[str, Any]] = []
 
@@ -617,6 +640,13 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Complement workbook allowed to replace zero values in execution fields by exact partida.",
     )
+    parser.add_argument(
+        "--supplement-priority",
+        type=Path,
+        action="append",
+        default=None,
+        help="Complement workbook that overrides matriz final values by exact partida and direction totals.",
+    )
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="Path to the generated JS data file.")
     return parser.parse_args()
 
@@ -625,15 +655,21 @@ def main() -> None:
     args = parse_args()
     supplement_paths = list(args.supplement or [])
     zero_fill_paths = list(args.supplement_zero_fill or [])
+    priority_paths = list(args.supplement_priority or [])
     ordered_paths: list[Path] = []
     seen_paths: set[Path] = set()
-    for path in supplement_paths + zero_fill_paths:
+    for path in supplement_paths + zero_fill_paths + priority_paths:
         resolved = path.resolve()
         if resolved in seen_paths:
             continue
         seen_paths.add(resolved)
         ordered_paths.append(path)
-    payload = build_payload(args.source, ordered_paths, {path.resolve() for path in zero_fill_paths})
+    payload = build_payload(
+        args.source,
+        ordered_paths,
+        {path.resolve() for path in zero_fill_paths},
+        {path.resolve() for path in priority_paths},
+    )
     write_js_payload(payload, args.output)
     print(f"Generated {args.output} from {args.source}")
 
