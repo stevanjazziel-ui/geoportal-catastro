@@ -1462,6 +1462,19 @@
         )].sort((a, b) => String(a).localeCompare(String(b), "es"));
       }
 
+      function getRecordAlert(certified, committed, processStatus) {
+        if (certified <= 0) {
+          return { label: "No culmina fase preparatoria", tone: "danger" };
+        }
+        if (committed <= 0) {
+          return { label: "No compromete recurso", tone: "default" };
+        }
+        if (processStatus === "EN EJECUCION") {
+          return { label: "Ejecucion", tone: "success" };
+        }
+        return { label: "Sin alerta", tone: "slate" };
+      }
+
       function getDirectionAggregate(direction) {
         const records = data.records.filter((record) => (record.highlights.direction || "") === direction);
         const directionOverrides = data.directionOverrides || {};
