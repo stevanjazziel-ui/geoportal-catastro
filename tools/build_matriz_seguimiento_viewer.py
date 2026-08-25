@@ -533,7 +533,6 @@ def build_direction_overrides(source_paths: list[Path], base_direction_by_code: 
     overrides: dict[str, dict[str, float]] = {}
     for source_path in source_paths:
         matched_directions: Counter[str] = Counter()
-        total_payload: dict[str, float] | None = None
         summed_payload: dict[str, float] = defaultdict(float)
         for sheet_name, header_row_index in discover_supplement_tables(source_path):
             supplement = pd.read_excel(source_path, sheet_name=sheet_name, header=header_row_index - 1).dropna(how="all")
@@ -558,28 +557,9 @@ def build_direction_overrides(source_paths: list[Path], base_direction_by_code: 
                     except (TypeError, ValueError):
                         continue
 
-            if total_payload is None:
-                total_rows = supplement[
-                    supplement["PARTIDA"].str.upper().isin({"P0", "TOTAL"})
-                    | supplement.get("NOMBRE", pd.Series(dtype=str)).fillna("").astype(str).str.upper().str.contains("TOTAL")
-                ]
-                if not total_rows.empty:
-                    row = total_rows.iloc[-1]
-                    payload: dict[str, float] = {}
-                    for target_field, source_field in DIRECTION_OVERRIDE_FIELD_MAP.items():
-                        value = row.get(source_field.strip(), row.get(source_field))
-                        if pd.isna(value):
-                            continue
-                        try:
-                            payload[target_field] = float(value)
-                        except (TypeError, ValueError):
-                            continue
-                    if payload:
-                        total_payload = payload
-
-        if matched_directions and (total_payload or summed_payload):
+        if matched_directions and summed_payload:
             direction, _ = matched_directions.most_common(1)[0]
-            overrides[direction] = total_payload or dict(summed_payload)
+            overrides[direction] = dict(summed_payload)
     return overrides
 
 
