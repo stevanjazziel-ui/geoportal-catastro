@@ -657,14 +657,6 @@ def build_authoritative_extra_rows(
     return extra_rows
 
 
-def keep_codified_record(record: dict[str, Any]) -> bool:
-    highlights = record.get("highlights", {})
-    if not clean_string(highlights.get("specificItem")):
-        return True
-    codified = numeric_value(highlights.get("codified"))
-    return codified is None or abs(codified) >= 1e-9
-
-
 def build_payload(
     source_path: Path,
     supplement_paths: list[Path] | None = None,
@@ -771,8 +763,6 @@ def build_payload(
         record["syntheticSupplementRow"] = True
         records.append(record)
         next_row_number += 1
-
-    records = [record for record in records if keep_codified_record(record)]
 
     payload = {
         "meta": {
