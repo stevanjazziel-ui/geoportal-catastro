@@ -639,20 +639,24 @@ def build_authoritative_extra_rows(
             code = clean_string(row.get("PARTIDA"))
             if not code or code in base_codes or code in seen_codes:
                 continue
+
+            def get_value(field: str) -> Any:
+                return row.get(field.strip(), row.get(field))
+
             extra_rows.append(
                 {
                     "direction": direction,
                     "code": code,
-                    "name": clean_string(row.get("NOMBRE")) or "Registro incorporado desde suplemento",
-                    "codified": numeric_value(row.get("MONTO CODIFICADO")),
-                    "certified": numeric_value(row.get("MONTO CERTIFICADO ")),
-                    "committed": numeric_value(row.get("MONTO COMPROMETIDO")),
-                    "accrued": numeric_value(row.get("MONTO DEVENGADO")),
-                    "paid": numeric_value(row.get("MONTO EJECUTADO")),
-                    "balance_to_certify": numeric_value(row.get("PENDIENTE POR CERTIFICAR ")),
-                    "balance_to_commit": numeric_value(row.get("PENDIENTE POR COMPROMETER")),
-                    "balance_to_accrue": numeric_value(row.get("PENDIENTE POR DEVENGAR")),
-                    "balance_to_pay": numeric_value(row.get("PENDIENTE POR EJECUTAR")),
+                    "name": clean_string(get_value("NOMBRE")) or "Registro incorporado desde suplemento",
+                    "codified": numeric_value(get_value("MONTO CODIFICADO")),
+                    "certified": numeric_value(get_value("MONTO CERTIFICADO ")),
+                    "committed": numeric_value(get_value("MONTO COMPROMETIDO")),
+                    "accrued": numeric_value(get_value("MONTO DEVENGADO")),
+                    "paid": numeric_value(get_value("MONTO EJECUTADO")),
+                    "balance_to_certify": numeric_value(get_value("PENDIENTE POR CERTIFICAR ")),
+                    "balance_to_commit": numeric_value(get_value("PENDIENTE POR COMPROMETER")),
+                    "balance_to_accrue": numeric_value(get_value("PENDIENTE POR DEVENGAR")),
+                    "balance_to_pay": numeric_value(get_value("PENDIENTE POR EJECUTAR")),
                     "source": source_path.name,
                 }
             )
