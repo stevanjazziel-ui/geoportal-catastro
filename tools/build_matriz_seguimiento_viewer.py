@@ -755,7 +755,7 @@ def build_payload(
                 row_values[column["index"]] = value
 
         set_value("DIRECCION", extra_row["direction"])
-        set_value("PROYECTO_PROGRAMA", f"Registro incorporado desde {extra_row['source']}")
+        set_value("PROYECTO_PROGRAMA", extra_row["name"])
         set_value("OBJETO_DE_CONTRATACION", extra_row["name"])
         set_value("PARTIDA_ESPECIFICA", extra_row["code"])
         set_value("CODIFICADO", extra_row["codified"])
