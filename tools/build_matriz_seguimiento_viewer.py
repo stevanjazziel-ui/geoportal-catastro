@@ -323,6 +323,7 @@ def compact_sheet_grid(worksheet) -> list[list[Any]]:
 
 
 def summarize_records(records: list[dict[str, Any]]) -> dict[str, Any]:
+    summary_records = [record for record in records if not record.get("syntheticSupplementRow")]
     totals = defaultdict(float)
     directions: dict[str, dict[str, Any]] = {}
     alert_counts: Counter[str] = Counter()
@@ -333,7 +334,7 @@ def summarize_records(records: list[dict[str, Any]]) -> dict[str, Any]:
     nature_counts: Counter[str] = Counter()
     rows_with_errors = 0
 
-    for record in records:
+    for record in summary_records:
         highlights = record["highlights"]
         if record["flags"]["hasFormulaError"]:
             rows_with_errors += 1
@@ -390,7 +391,7 @@ def summarize_records(records: list[dict[str, Any]]) -> dict[str, Any]:
         if nature:
             nature_counts[nature] += 1
 
-    total_rows = len(records)
+    total_rows = len(summary_records)
     active_alerts = sum(count for label, count in alert_counts.items() if label and label != "NORMAL")
     high_risk = risk_counts.get("ALTO", 0)
 
@@ -739,7 +740,9 @@ def build_payload(
         set_value("SALDO_POR_COMPROMETER", extra_row["balance_to_commit"])
         set_value("SALDO_POR_DEVENGAR", extra_row["balance_to_accrue"])
         set_value("SALDO_POR_PAGAR", extra_row["balance_to_pay"])
-        records.append(build_record(next_row_number, row_values, columns))
+        record = build_record(next_row_number, row_values, columns)
+        record["syntheticSupplementRow"] = True
+        records.append(record)
         next_row_number += 1
 
     payload = {
