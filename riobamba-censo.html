@@ -284,19 +284,19 @@
 
     .barrio-label {
       transform: translate(-50%, -50%);
-      padding: 3px 7px;
-      border-radius: 10px;
-      background: rgba(248, 250, 244, 0.92);
-      border: 1px solid rgba(123, 97, 179, 0.32);
+      padding: 2px 5px;
+      border-radius: 7px;
+      background: rgba(248, 250, 244, 0.8);
+      border: 1px solid rgba(123, 97, 179, 0.22);
       color: var(--text);
-      font-size: 11px;
-      font-weight: 700;
-      line-height: 1.15;
+      font-size: 9px;
+      font-weight: 650;
+      line-height: 1.1;
       text-align: center;
-      letter-spacing: 0.01em;
+      letter-spacing: 0;
       white-space: normal;
-      max-width: 132px;
-      box-shadow: 0 4px 14px rgba(62, 78, 59, 0.16);
+      max-width: 96px;
+      box-shadow: 0 2px 8px rgba(62, 78, 59, 0.1);
       pointer-events: none;
     }
 
@@ -843,6 +843,11 @@
         <strong id="overlayTitle">Riobamba por manzana y plataforma</strong>
         <p id="overlayText">Haz clic en una manzana o plataforma para ver sus datos.</p>
       </div>
+      <section class="analysis-card" id="focusedAnalysisCard" hidden>
+        <h3 id="focusedAnalysisTitle">Analisis de cobertura</h3>
+        <p id="focusedAnalysisSubtitle">Poblacion calculada desde manzanas censales.</p>
+        <div class="analysis-grid" id="focusedAnalysisGrid"></div>
+      </section>
     </main>
   </div>
 
@@ -3864,91 +3869,9 @@
       }
 
       if (currentPlatform === ALL_PLATFORMS) {
-        const currentFeatures = getCurrentFeatures();
-        const currentSummary = getCurrentSummary() || platformSummary?.summary || null;
-        const totalPopulation = Number(
-          currentSummary?.population_total ??
-          currentSummary?.population_total_with_platform ??
-          platformSummary?.summary?.population_total_with_platform ??
-          0
-        );
-        const totalBlocks = Number(
-          currentSummary?.manzanas ??
-          currentSummary?.manzanas_assigned ??
-          platformSummary?.summary?.manzanas_assigned ??
-          currentFeatures.length
-        );
-        const platformBreakdown = buildPopulationBreakdownFromSummary(currentSummary, currentFeatures);
-        const strategicParkFeatures = layerVisibility.parquesEstrategicos ? getStrategicParkScopedIsocronas() : [];
-        const strategicParkState = buildCoverageStateForIsochrones(currentFeatures, strategicParkFeatures);
-        const strategicOriginSummary = summarizeIsochroneOrigins(strategicParkFeatures);
-        const strategicCoveragePercent = getPercentValue(strategicParkState.populationCovered || 0, totalPopulation);
-        const strategicUncoveredPercent = Math.max(0, 100 - strategicCoveragePercent);
-        const cards = [
-          {
-            key: "all_platform_total",
-            label: "Poblacion en plataformas",
-            value: `${formatNumber(totalPopulation)} hab`,
-            meta: `${formatNumber(totalBlocks)} manzanas censales dentro de plataformas`,
-            wide: true,
-            expandable: true,
-            breakdown: platformBreakdown
-          },
-          {
-            key: "all_platform_strategic_parks",
-            label: "Parque Estrategico",
-            value: `${formatNumber(layerVisibility.parquesEstrategicos ? strategicParkState.populationCovered || 0 : 0)} hab`,
-            meta: layerVisibility.parquesEstrategicos
-              ? (
-                `${formatPercentValue(strategicCoveragePercent)} cubierto | ` +
-                `${formatNumber(strategicParkState.populationUncovered || 0)} hab no cubiertos | ` +
-                `${formatPercentValue(strategicUncoveredPercent)} no cubierto | ` +
-                `${formatNumber(strategicParkState.covered || 0)} manzanas | ` +
-                `${formatNumber(strategicParkFeatures.length)} isocronas`
-              )
-              : "Activa la capa de isocronas de Parque Estrategico para calcular la cobertura general.",
-            wide: true,
-            expandable: layerVisibility.parquesEstrategicos,
-            breakdown: layerVisibility.parquesEstrategicos
-              ? (strategicParkState.breakdownCovered || createEmptyPopulationBreakdown())
-              : createEmptyPopulationBreakdown()
-          }
-        ];
-
-        const visibleCardKeys = new Set(cards.map((card) => card.key).filter(Boolean));
-        if (focusedAnalysisExpandedKey && !visibleCardKeys.has(focusedAnalysisExpandedKey)) {
-          focusedAnalysisExpandedKey = null;
-        }
-
-        focusedAnalysisTitle.textContent = "Analisis general de cobertura";
-        focusedAnalysisSubtitle.textContent = layerVisibility.parquesEstrategicos
-          ? (
-            `Poblacion calculada desde manzanas censales dentro de las plataformas. ` +
-            `Coberturas de Parque Estrategico con origen dentro de la plataforma: ${formatNumber(strategicOriginSummary.internalSources.size)}. ` +
-            `Coberturas de Parque Estrategico desde otras plataformas: ${formatNumber(strategicOriginSummary.externalSources.size)}.`
-          )
-          : "Poblacion calculada desde manzanas censales dentro de las plataformas. Activa la capa de isocronas de Parque Estrategico para ver su cobertura total.";
-        focusedAnalysisGrid.innerHTML = cards
-          .map((card) => {
-            const expanded = card.expandable && card.key === focusedAnalysisExpandedKey;
-            return `
-          <article
-            class="analysis-item${card.wide ? " wide" : ""}${card.expandable ? " expandable" : ""}${expanded ? " expanded" : ""}"
-            ${card.key ? `data-analysis-key="${card.key}"` : ""}
-            ${card.expandable ? 'data-expandable="true" role="button" tabindex="0"' : ""}
-            ${card.expandable ? `aria-expanded="${expanded ? "true" : "false"}"` : ""}
-          >
-            <span>${card.label}</span>
-            <strong>${card.value}</strong>
-            <small>${card.meta}</small>
-            ${card.expandable ? `<em class="analysis-item-hint">${expanded ? "Ocultar detalle" : "Clic para ver detalle"}</em>` : ""}
-            ${expanded ? `<div class="analysis-breakdown">${renderAnalysisBreakdownRows(card.breakdown)}</div>` : ""}
-          </article>
-        `;
-          })
-          .join("");
-
-        focusedAnalysisCard.hidden = false;
+        focusedAnalysisCard.hidden = true;
+        focusedAnalysisGrid.innerHTML = "";
+        focusedAnalysisExpandedKey = null;
         return;
       }
 
