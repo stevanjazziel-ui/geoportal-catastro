@@ -76,6 +76,9 @@ FINANCIAL_FIELD_KEYS = [
     "SALDO_POR_DEVENGAR",
     "SALDO_POR_PAGAR",
 ]
+SUPPLEMENT_SHEET_FILTERS = {
+    "TECNOLOGIA_DE_LA_INFORMACION_XLS": {"Hoja2"},
+}
 
 HIGHLIGHT_FIELD_ALIASES = {
     "direction": "DIRECCION",
@@ -438,8 +441,11 @@ def summarize_records(records: list[dict[str, Any]]) -> dict[str, Any]:
 
 def discover_supplement_tables(source_path: Path) -> list[tuple[str, int]]:
     workbook = pd.ExcelFile(source_path)
+    allowed_sheets = SUPPLEMENT_SHEET_FILTERS.get(normalize_key(source_path.name))
     tables: list[tuple[str, int]] = []
     for sheet_name in workbook.sheet_names:
+        if allowed_sheets and sheet_name not in allowed_sheets:
+            continue
         preview = pd.read_excel(source_path, sheet_name=sheet_name, header=None, nrows=20)
         for row_index, row in preview.iterrows():
             normalized = [clean_string(value).upper() for value in row.tolist()]
