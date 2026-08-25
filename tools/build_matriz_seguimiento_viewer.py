@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 import pandas as pd
+import xlrd
 from openpyxl import load_workbook
 
 
@@ -448,6 +449,30 @@ def discover_supplement_tables(source_path: Path) -> list[tuple[str, int]]:
     return tables
 
 
+def load_supplement_dataframe(source_path: Path, sheet_name: str, header_row_index: int) -> pd.DataFrame:
+    supplement = pd.read_excel(source_path, sheet_name=sheet_name, header=header_row_index - 1)
+    hidden_positions: set[int] = set()
+    if source_path.suffix.lower() == ".xls":
+        workbook = xlrd.open_workbook(source_path, formatting_info=True)
+        worksheet = workbook.sheet_by_name(sheet_name)
+        hidden_positions = {
+            excel_row - (header_row_index + 1)
+            for excel_row in range(1, worksheet.nrows + 1)
+            if excel_row > header_row_index and getattr(worksheet.rowinfo_map.get(excel_row - 1), "hidden", 0)
+        }
+    elif source_path.suffix.lower() == ".xlsx":
+        workbook = load_workbook(source_path, data_only=True)
+        worksheet = workbook[sheet_name]
+        hidden_positions = {
+            excel_row - (header_row_index + 1)
+            for excel_row, dimensions in worksheet.row_dimensions.items()
+            if excel_row > header_row_index and dimensions.hidden
+        }
+    if hidden_positions:
+        supplement = supplement.iloc[[index for index in range(len(supplement)) if index not in hidden_positions]]
+    return supplement.dropna(how="all")
+
+
 def build_supplement_updates(
     source_paths: list[Path],
     base_codes: list[str],
@@ -464,7 +489,7 @@ def build_supplement_updates(
         allow_zero_fill = resolved_path in zero_fill_paths
         force_path = resolved_path in force_paths
         for sheet_name, header_row_index in discover_supplement_tables(source_path):
-            supplement = pd.read_excel(source_path, sheet_name=sheet_name, header=header_row_index - 1).dropna(how="all")
+            supplement = load_supplement_dataframe(source_path, sheet_name, header_row_index)
             supplement.columns = [str(column).strip() for column in supplement.columns]
             if "PARTIDA" not in supplement.columns:
                 continue
@@ -512,12 +537,12 @@ def build_authoritative_direction_scope(source_paths: list[Path], base_direction
         matched_directions: Counter[str] = Counter()
         matched_codes: list[str] = []
         for sheet_name, header_row_index in discover_supplement_tables(source_path):
-            supplement = pd.read_excel(source_path, sheet_name=sheet_name, header=header_row_index - 1).dropna(how="all")
+            supplement = load_supplement_dataframe(source_path, sheet_name, header_row_index)
             supplement.columns = [str(column).strip() for column in supplement.columns]
             if "PARTIDA" not in supplement.columns:
                 continue
             supplement["PARTIDA"] = supplement["PARTIDA"].fillna("").astype(str).str.strip()
-            detail_rows = supplement[supplement["PARTIDA"].str.count(r"\.") >= 8]
+            detail_rows = supplement[supplement["PARTIDA"].str.count(r"\.") >= 8].drop_duplicates("PARTIDA")
             for code in detail_rows["PARTIDA"]:
                 direction = base_direction_by_code.get(code)
                 if direction:
@@ -534,28 +559,36 @@ def build_direction_overrides(source_paths: list[Path], base_direction_by_code: 
     for source_path in source_paths:
         matched_directions: Counter[str] = Counter()
         summed_payload: dict[str, float] = defaultdict(float)
+        detail_frames: list[pd.DataFrame] = []
         for sheet_name, header_row_index in discover_supplement_tables(source_path):
-            supplement = pd.read_excel(source_path, sheet_name=sheet_name, header=header_row_index - 1).dropna(how="all")
+            supplement = load_supplement_dataframe(source_path, sheet_name, header_row_index)
             supplement.columns = [str(column).strip() for column in supplement.columns]
             if "PARTIDA" not in supplement.columns:
                 continue
             supplement["PARTIDA"] = supplement["PARTIDA"].fillna("").astype(str).str.strip()
 
-            detail_rows = supplement[supplement["PARTIDA"].str.count(r"\.") >= 8]
-            for code in detail_rows["PARTIDA"]:
-                direction = base_direction_by_code.get(code)
-                if direction:
-                    matched_directions[direction] += 1
+            detail_rows = supplement[supplement["PARTIDA"].str.count(r"\.") >= 8].copy()
+            if not detail_rows.empty:
+                detail_frames.append(detail_rows)
 
-            for _, row in detail_rows.iterrows():
-                for target_field, source_field in DIRECTION_OVERRIDE_FIELD_MAP.items():
-                    value = row.get(source_field.strip(), row.get(source_field))
-                    if pd.isna(value):
-                        continue
-                    try:
-                        summed_payload[target_field] += float(value)
-                    except (TypeError, ValueError):
-                        continue
+        if not detail_frames:
+            continue
+
+        detail_rows = pd.concat(detail_frames, ignore_index=True).drop_duplicates("PARTIDA")
+        for code in detail_rows["PARTIDA"]:
+            direction = base_direction_by_code.get(code)
+            if direction:
+                matched_directions[direction] += 1
+
+        for _, row in detail_rows.iterrows():
+            for target_field, source_field in DIRECTION_OVERRIDE_FIELD_MAP.items():
+                value = row.get(source_field.strip(), row.get(source_field))
+                if pd.isna(value):
+                    continue
+                try:
+                    summed_payload[target_field] += float(value)
+                except (TypeError, ValueError):
+                    continue
 
         if matched_directions and summed_payload:
             direction, _ = matched_directions.most_common(1)[0]
@@ -574,7 +607,7 @@ def build_authoritative_extra_rows(
         matched_directions: Counter[str] = Counter()
         detail_frames: list[pd.DataFrame] = []
         for sheet_name, header_row_index in discover_supplement_tables(source_path):
-            supplement = pd.read_excel(source_path, sheet_name=sheet_name, header=header_row_index - 1).dropna(how="all")
+            supplement = load_supplement_dataframe(source_path, sheet_name, header_row_index)
             supplement.columns = [str(column).strip() for column in supplement.columns]
             if "PARTIDA" not in supplement.columns:
                 continue
@@ -592,7 +625,7 @@ def build_authoritative_extra_rows(
             continue
 
         direction, _ = matched_directions.most_common(1)[0]
-        detail_rows = pd.concat(detail_frames, ignore_index=True)
+        detail_rows = pd.concat(detail_frames, ignore_index=True).drop_duplicates("PARTIDA")
         for _, row in detail_rows.iterrows():
             code = clean_string(row.get("PARTIDA"))
             if not code or code in base_codes or code in seen_codes:
