@@ -582,6 +582,61 @@ def build_direction_overrides(source_paths: list[Path], base_direction_by_code: 
     return overrides
 
 
+def build_authoritative_extra_rows(
+    source_paths: list[Path],
+    base_codes: set[str],
+    base_direction_by_code: dict[str, str],
+) -> list[dict[str, Any]]:
+    extra_rows: list[dict[str, Any]] = []
+    seen_codes: set[str] = set()
+    for source_path in source_paths:
+        matched_directions: Counter[str] = Counter()
+        detail_frames: list[pd.DataFrame] = []
+        for sheet_name, header_row_index in discover_supplement_tables(source_path):
+            supplement = pd.read_excel(source_path, sheet_name=sheet_name, header=header_row_index - 1).dropna(how="all")
+            supplement.columns = [str(column).strip() for column in supplement.columns]
+            if "PARTIDA" not in supplement.columns:
+                continue
+            supplement["PARTIDA"] = supplement["PARTIDA"].fillna("").astype(str).str.strip()
+            detail_rows = supplement[supplement["PARTIDA"].str.count(r"\.") >= 8].copy()
+            if detail_rows.empty:
+                continue
+            detail_frames.append(detail_rows)
+            for code in detail_rows["PARTIDA"]:
+                direction = base_direction_by_code.get(code)
+                if direction:
+                    matched_directions[direction] += 1
+
+        if not detail_frames or not matched_directions:
+            continue
+
+        direction, _ = matched_directions.most_common(1)[0]
+        detail_rows = pd.concat(detail_frames, ignore_index=True)
+        for _, row in detail_rows.iterrows():
+            code = clean_string(row.get("PARTIDA"))
+            if not code or code in base_codes or code in seen_codes:
+                continue
+            extra_rows.append(
+                {
+                    "direction": direction,
+                    "code": code,
+                    "name": clean_string(row.get("NOMBRE")) or "Registro incorporado desde suplemento",
+                    "codified": numeric_value(row.get("MONTO CODIFICADO")),
+                    "certified": numeric_value(row.get("MONTO CERTIFICADO ")),
+                    "committed": numeric_value(row.get("MONTO COMPROMETIDO")),
+                    "accrued": numeric_value(row.get("MONTO DEVENGADO")),
+                    "paid": numeric_value(row.get("MONTO EJECUTADO")),
+                    "balance_to_certify": numeric_value(row.get("PENDIENTE POR CERTIFICAR ")),
+                    "balance_to_commit": numeric_value(row.get("PENDIENTE POR COMPROMETER")),
+                    "balance_to_accrue": numeric_value(row.get("PENDIENTE POR DEVENGAR")),
+                    "balance_to_pay": numeric_value(row.get("PENDIENTE POR EJECUTAR")),
+                    "source": source_path.name,
+                }
+            )
+            seen_codes.add(code)
+    return extra_rows
+
+
 def build_payload(
     source_path: Path,
     supplement_paths: list[Path] | None = None,
@@ -616,6 +671,9 @@ def build_payload(
         build_authoritative_direction_scope(list(force_paths or []), base_direction_by_code) if force_paths else {}
     )
     base_code_counts = Counter(code for code in base_codes if code)
+    authoritative_extra_rows = (
+        build_authoritative_extra_rows(list(force_paths or []), set(base_code_counts), base_direction_by_code) if force_paths else []
+    )
     repeated_code_seen: Counter[str] = Counter()
     records: list[dict[str, Any]] = []
 
@@ -658,6 +716,31 @@ def build_payload(
                     if should_fill:
                         row_values[column["index"]] = None if explicit_clear else number
         records.append(build_record(row_number, row_values, columns))
+
+    next_row_number = matrix_sheet.max_row + 1
+    for extra_row in authoritative_extra_rows:
+        row_values = [None] * matrix_sheet.max_column
+
+        def set_value(key: str, value: Any) -> None:
+            column = columns_by_key.get(key)
+            if column:
+                row_values[column["index"]] = value
+
+        set_value("DIRECCION", extra_row["direction"])
+        set_value("PROYECTO_PROGRAMA", f"Registro incorporado desde {extra_row['source']}")
+        set_value("OBJETO_DE_CONTRATACION", extra_row["name"])
+        set_value("PARTIDA_ESPECIFICA", extra_row["code"])
+        set_value("CODIFICADO", extra_row["codified"])
+        set_value("CERTIFICADO", extra_row["certified"])
+        set_value("COMPROMETIDO", extra_row["committed"])
+        set_value("DEVENGADO", extra_row["accrued"])
+        set_value("PAGADO", extra_row["paid"])
+        set_value("SALDO_POR_CERTIFICAR", extra_row["balance_to_certify"])
+        set_value("SALDO_POR_COMPROMETER", extra_row["balance_to_commit"])
+        set_value("SALDO_POR_DEVENGAR", extra_row["balance_to_accrue"])
+        set_value("SALDO_POR_PAGAR", extra_row["balance_to_pay"])
+        records.append(build_record(next_row_number, row_values, columns))
+        next_row_number += 1
 
     payload = {
         "meta": {
