@@ -454,7 +454,6 @@ def build_supplement_updates(
     force_paths: set[Path] | None = None,
 ) -> dict[str, dict[str, tuple[float | None, bool, bool, bool]]]:
     counts = Counter(code for code in base_codes if code)
-    unique_codes = {code for code, count in counts.items() if count == 1}
     zero_fill_paths = zero_fill_paths or set()
     force_paths = force_paths or set()
 
@@ -470,7 +469,11 @@ def build_supplement_updates(
                 continue
             supplement["PARTIDA"] = supplement["PARTIDA"].fillna("").astype(str).str.strip()
             supplement = supplement[supplement["PARTIDA"].str.count(r"\.") >= 8]
-            supplement = supplement[supplement["PARTIDA"].isin(unique_codes)]
+            if force_path:
+                supplement = supplement[supplement["PARTIDA"].isin(counts)]
+            else:
+                unique_codes = {code for code, count in counts.items() if count == 1}
+                supplement = supplement[supplement["PARTIDA"].isin(unique_codes)]
 
             for _, row in supplement.iterrows():
                 code = row["PARTIDA"]
@@ -612,6 +615,8 @@ def build_payload(
     authoritative_direction_scope = (
         build_authoritative_direction_scope(list(force_paths or []), base_direction_by_code) if force_paths else {}
     )
+    base_code_counts = Counter(code for code in base_codes if code)
+    repeated_code_seen: Counter[str] = Counter()
     records: list[dict[str, Any]] = []
 
     for row_number in range(DATA_START_ROW_INDEX, matrix_sheet.max_row + 1):
@@ -629,6 +634,10 @@ def build_payload(
                         row_values[column["index"]] = None
             updates = supplement_updates.get(code)
             if updates:
+                repeated_code_seen[code] += 1
+                is_repeated_authoritative_code = (
+                    base_code_counts.get(code, 0) > 1 and any(force_override for _, _, force_override, _ in updates.values())
+                )
                 execution_anomaly = any(
                     allow_zero_fill for _, allow_zero_fill, _, _ in updates.values()
                 ) and has_execution_chain_anomaly(row_values, columns_by_key)
@@ -636,6 +645,9 @@ def build_payload(
                     number, allow_zero_fill, force_override, explicit_clear = update
                     column = columns_by_key.get(field_key)
                     if not column:
+                        continue
+                    if is_repeated_authoritative_code and repeated_code_seen[code] > 1:
+                        row_values[column["index"]] = None
                         continue
                     if force_override:
                         should_fill = True
