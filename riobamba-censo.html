@@ -3906,6 +3906,25 @@
           }
         ];
 
+        for (const group of allGroupStates) {
+          const groupState = group.state || {};
+          const hasCoverage = (group.features || []).length > 0 && Number(groupState.populationCovered || 0) > 0;
+          cards.push({
+            key: `all_platform_coverage_${group.key}`,
+            label: group.label,
+            value: `${formatNumber(groupState.populationCovered || 0)} hab`,
+            meta: hasCoverage
+              ? (
+                `${formatPercent(groupState.populationCovered || 0, totalPopulation)} | ` +
+                `${formatNumber(groupState.covered || 0)} manzanas | ` +
+                `${formatNumber((group.features || []).length)} isocronas`
+              )
+              : "No cubre las plataformas | 0 manzanas | 0 isocronas",
+            expandable: true,
+            breakdown: groupState.breakdownCovered || createEmptyPopulationBreakdown()
+          });
+        }
+
         const visibleCardKeys = new Set(cards.map((card) => card.key).filter(Boolean));
         if (focusedAnalysisExpandedKey && !visibleCardKeys.has(focusedAnalysisExpandedKey)) {
           focusedAnalysisExpandedKey = null;
