@@ -3856,9 +3856,84 @@
       }
 
       if (currentPlatform === ALL_PLATFORMS) {
-        focusedAnalysisCard.hidden = true;
-        focusedAnalysisGrid.innerHTML = "";
-        focusedAnalysisExpandedKey = null;
+        const currentFeatures = getCurrentFeatures();
+        const currentSummary = getCurrentSummary() || platformSummary?.summary || null;
+        const totalPopulation = Number(
+          currentSummary?.population_total ??
+          currentSummary?.population_total_with_platform ??
+          platformSummary?.summary?.population_total_with_platform ??
+          0
+        );
+        const totalBlocks = Number(
+          currentSummary?.manzanas ??
+          currentSummary?.manzanas_assigned ??
+          platformSummary?.summary?.manzanas_assigned ??
+          currentFeatures.length
+        );
+        const platformBreakdown = buildPopulationBreakdownFromSummary(currentSummary, currentFeatures);
+        const analysisContext = getCurrentAnalysisContext();
+        const allGroupStates = ensureAnalysisAllGroupStates(analysisContext);
+        const averageCoveragePopulation = allGroupStates.length
+          ? allGroupStates.reduce(
+            (total, group) => total + Number(group.state.populationCovered || 0),
+            0
+          ) / allGroupStates.length
+          : 0;
+        const averageCoveragePercent = getPercentValue(averageCoveragePopulation, totalPopulation);
+        const averageUncoveredPopulation = Math.max(0, totalPopulation - averageCoveragePopulation);
+        const averageUncoveredPercent = Math.max(0, 100 - averageCoveragePercent);
+        const categoriesWithCoverage = allGroupStates.filter((group) => Number(group.state.populationCovered || 0) > 0).length;
+        const cards = [
+          {
+            key: "all_platform_total",
+            label: "Poblacion en plataformas",
+            value: `${formatNumber(totalPopulation)} hab`,
+            meta: `${formatNumber(totalBlocks)} manzanas censales dentro de plataformas`,
+            wide: true,
+            expandable: true,
+            breakdown: platformBreakdown
+          },
+          {
+            key: "all_platform_average_coverage",
+            label: "Promedio 5 categorias",
+            value: `${formatNumber(Math.round(averageCoveragePopulation))} hab`,
+            meta:
+              `${formatPercentValue(averageCoveragePercent)} cubierto | ` +
+              `${formatNumber(Math.round(averageUncoveredPopulation))} hab no cubiertos | ` +
+              `${formatPercentValue(averageUncoveredPercent)} no cubierto | ` +
+              `${formatNumber(categoriesWithCoverage)} de 5 categorias tienen cobertura`,
+            wide: true
+          }
+        ];
+
+        const visibleCardKeys = new Set(cards.map((card) => card.key).filter(Boolean));
+        if (focusedAnalysisExpandedKey && !visibleCardKeys.has(focusedAnalysisExpandedKey)) {
+          focusedAnalysisExpandedKey = null;
+        }
+
+        focusedAnalysisTitle.textContent = "Estadisticas de todas las plataformas";
+        focusedAnalysisSubtitle.textContent = "Poblacion calculada desde manzanas censales dentro de las plataformas.";
+        focusedAnalysisGrid.innerHTML = cards
+          .map((card) => {
+            const expanded = card.expandable && card.key === focusedAnalysisExpandedKey;
+            return `
+          <article
+            class="analysis-item${card.wide ? " wide" : ""}${card.expandable ? " expandable" : ""}${expanded ? " expanded" : ""}"
+            ${card.key ? `data-analysis-key="${card.key}"` : ""}
+            ${card.expandable ? 'data-expandable="true" role="button" tabindex="0"' : ""}
+            ${card.expandable ? `aria-expanded="${expanded ? "true" : "false"}"` : ""}
+          >
+            <span>${card.label}</span>
+            <strong>${card.value}</strong>
+            <small>${card.meta}</small>
+            ${card.expandable ? `<em class="analysis-item-hint">${expanded ? "Ocultar detalle" : "Clic para ver detalle"}</em>` : ""}
+            ${expanded ? `<div class="analysis-breakdown">${renderAnalysisBreakdownRows(card.breakdown)}</div>` : ""}
+          </article>
+        `;
+          })
+          .join("");
+
+        focusedAnalysisCard.hidden = false;
         return;
       }
 
