@@ -14694,32 +14694,6 @@
     {
       "type": "Feature",
       "properties": {
-        "source_id": 955,
-        "globalid": "edce0ff3-409b-4bb8-884d-f4c52c5f0f40",
-        "codigo": "2c5f0f40",
-        "tipo_eleme": "Recreativo y Deporte",
-        "elemento": "Parque con gimnasio al aire libre",
-        "platform_name": "PLATAFORMA Ñ",
-        "plataforma": "PLATAFORMA Ñ",
-        "parroquia": "RIOBAMBA",
-        "estado": "Bueno",
-        "nombre_ins": "",
-        "tipo_equip": "Público",
-        "nombre_equ": "Parque Primera Constituyente",
-        "tipologia": "Zonal",
-        "observacion": ""
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -78.646162634,
-          -1.684835432
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "source_id": 956,
         "globalid": "1da7154a-835a-4f4a-888a-66ef5e0cf054",
         "codigo": "5e0cf054",
