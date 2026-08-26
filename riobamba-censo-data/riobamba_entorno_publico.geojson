@@ -15682,32 +15682,6 @@
     {
       "type": "Feature",
       "properties": {
-        "source_id": 1021,
-        "globalid": "9a787cb2-c91e-4614-8611-b66a461e9bd2",
-        "codigo": "461e9bd2",
-        "tipo_eleme": "Educación",
-        "elemento": "Escuelas",
-        "platform_name": "PLATAFORMA Ñ",
-        "plataforma": "PLATAFORMA Ñ",
-        "parroquia": "RIOBAMBA",
-        "estado": "Regular",
-        "nombre_ins": "",
-        "tipo_equip": "Público",
-        "nombre_equ": "Jose Maria Velasco",
-        "tipologia": "Barrial",
-        "observacion": ""
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -78.6505583,
-          -1.6762712
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "source_id": 1022,
         "globalid": "1095d5fe-af8c-45d8-8ec9-e4fc43404dea",
         "codigo": "43404dea",
