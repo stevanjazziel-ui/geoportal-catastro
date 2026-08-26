@@ -4126,7 +4126,47 @@
     }
 
     function shouldShowBarrioLabels() {
-      return currentPlatform !== ALL_PLATFORMS || map.getZoom() >= 14;
+      const zoom = map.getZoom();
+      return currentPlatform === ALL_PLATFORMS ? zoom >= 15 : zoom >= 14;
+    }
+
+    function getVisibleBarrioLabelFeatures(features) {
+      if (!shouldShowBarrioLabels()) {
+        return [];
+      }
+
+      const zoom = map.getZoom();
+      const minDistance = currentPlatform === ALL_PLATFORMS
+        ? (zoom >= 16 ? 72 : 108)
+        : (zoom >= 16 ? 54 : 78);
+      const maxLabels = currentPlatform === ALL_PLATFORMS
+        ? (zoom >= 16 ? 140 : 70)
+        : (zoom >= 16 ? 80 : 45);
+      const placed = [];
+      const labelCandidates = [...features]
+        .filter((feature) => {
+          const props = feature.properties || {};
+          return Number.isFinite(Number(props.label_lat)) && Number.isFinite(Number(props.label_lon));
+        })
+        .sort((a, b) => Number(b.properties?.area_m2 || 0) - Number(a.properties?.area_m2 || 0));
+
+      const selected = [];
+      for (const feature of labelCandidates) {
+        const props = feature.properties || {};
+        const point = map.latLngToLayerPoint([Number(props.label_lat), Number(props.label_lon)]);
+        const tooClose = placed.some((existing) => point.distanceTo(existing) < minDistance);
+        if (tooClose) {
+          continue;
+        }
+
+        placed.push(point);
+        selected.push(feature);
+        if (selected.length >= maxLabels) {
+          break;
+        }
+      }
+
+      return selected;
     }
 
     function renderBarriosLayer() {
@@ -4186,7 +4226,7 @@
         }
       );
 
-      const labelFeatures = shouldShowBarrioLabels() ? visibleFeatures : [];
+      const labelFeatures = getVisibleBarrioLabelFeatures(visibleFeatures);
       barriosLabelLayer = L.layerGroup(
         labelFeatures
           .map((feature) => {
@@ -4203,8 +4243,8 @@
               icon: L.divIcon({
                 className: "barrio-label-icon",
                 html: `<div class="barrio-label">${escapeHtml(repairText(props.barrio || "Barrio"))}</div>`,
-                iconSize: [132, 28],
-                iconAnchor: [66, 14]
+                iconSize: [82, 20],
+                iconAnchor: [41, 10]
               })
             });
           })
