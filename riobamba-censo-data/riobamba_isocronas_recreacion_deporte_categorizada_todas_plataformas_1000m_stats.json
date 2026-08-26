@@ -3,20 +3,20 @@
   "source_geojson": "D:\\codex\\_publish_barrios\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
   "source_osm_cache": "D:\\codex\\_publish_barrios\\riobamba-censo-data\\riobamba_osm_walk_network_5categorias_todas_plataformas.json",
   "summary": {
-    "total_equipamientos": 205,
-    "total_isocronas": 192,
+    "total_equipamientos": 202,
+    "total_isocronas": 189,
     "categorias_con_isocrona": 3,
-    "omitidos": 16,
-    "manzanas_ajustadas": 34966,
-    "manzanas_grandes_recortadas": 2022
+    "omitidos": 13,
+    "manzanas_ajustadas": 34359,
+    "manzanas_grandes_recortadas": 1988
   },
   "by_categoria_source": {
-    "ZONAL": 143,
+    "ZONAL": 140,
     "BARRIAL": 45,
     "CANTONAL": 17
   },
   "by_categoria_isocronas": {
-    "ZONAL": 145,
+    "ZONAL": 142,
     "BARRIAL": 46,
     "CANTONAL": 1
   },
@@ -24,7 +24,7 @@
     "CANTONAL": 16
   },
   "by_distance_m": {
-    "1000": 192
+    "1000": 189
   },
   "observacion": "Isocronas de recreacion y deporte todas las plataformas usando el levantamiento publico de todas las plataformas. BARRIAL y ZONAL se generan a 1000 m. Caso especial: el parque cantonal de Plataforma A se incorpora con isocrona de 1000 m para el analisis estrategico."
 }

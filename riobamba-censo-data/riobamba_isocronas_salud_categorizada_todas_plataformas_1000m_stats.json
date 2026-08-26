@@ -3,15 +3,15 @@
   "source_geojson": "D:\\codex\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
   "source_osm_cache": "D:\\codex\\riobamba-censo-data\\riobamba_osm_walk_network_5categorias_todas_plataformas.json",
   "summary": {
-    "total_equipamientos": 18,
+    "total_equipamientos": 17,
     "total_isocronas": 10,
     "categorias_con_isocrona": 2,
-    "omitidos": 8,
+    "omitidos": 7,
     "manzanas_ajustadas": 2037,
     "manzanas_grandes_recortadas": 102
   },
   "by_categoria_source": {
-    "CANTONAL": 8,
+    "CANTONAL": 7,
     "ZONAL": 7,
     "BARRIAL": 3
   },
@@ -20,7 +20,7 @@
     "BARRIAL": 3
   },
   "by_categoria_omitidos": {
-    "CANTONAL": 8
+    "CANTONAL": 7
   },
   "by_distance_m": {
     "1000": 10
