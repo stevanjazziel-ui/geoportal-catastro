@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Riobamba | CDIS y Wawateca</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    :root {
+      --bg: #fff8ef;
+      --bg-2: #ffe8d0;
+      --panel: rgba(255, 252, 247, 0.94);
+      --panel-2: rgba(255, 246, 236, 0.98);
+      --line: rgba(177, 112, 48, 0.22);
+      --text: #312116;
+      --muted: #775f4d;
+      --accent: #ff8a3d;
+      --accent-2: #0b9c9a;
+      --accent-3: #d95570;
+      --shadow: 0 20px 44px rgba(112, 70, 31, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+
+    body {
+      font-family: "Manrope", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255, 138, 61, 0.18), transparent 28%),
+        radial-gradient(circle at 100% 10%, rgba(11, 156, 154, 0.14), transparent 20%),
+        linear-gradient(180deg, #fff9f2, #ffeedd 62%, #ffe5cf);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 390px 1fr;
+      height: 100dvh;
+    }
+
+    .sidebar {
+      overflow-y: auto;
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(255, 250, 245, 0.98), rgba(255, 239, 220, 0.98));
+      border-right: 1px solid var(--line);
+    }
+
+    .panel {
+      margin-bottom: 14px;
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: 2rem; line-height: 1.02; margin-bottom: 8px; }
+    h2 {
+      font-size: 0.92rem;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    h3 { font-size: 1rem; margin-bottom: 10px; }
+    p { color: var(--muted); line-height: 1.55; }
+
+    .eyebrow {
+      display: inline-flex;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 138, 61, 0.16), rgba(11, 156, 154, 0.12));
+      color: #925322;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .link-actions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .link-button,
+    button,
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid rgba(177, 112, 48, 0.26);
+      border-radius: 14px;
+      background:
+        linear-gradient(135deg, rgba(255, 138, 61, 0.16), rgba(11, 156, 154, 0.1)),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0));
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+    }
+
+    select {
+      appearance: none;
+      outline: none;
+      text-align: left;
+    }
+
+    .link-button:hover,
+    button:hover:not(:disabled),
+    select:hover {
+      transform: translateY(-1px);
+      border-color: rgba(217, 85, 112, 0.34);
+      background:
+        linear-gradient(135deg, rgba(255, 138, 61, 0.22), rgba(11, 156, 154, 0.16)),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0));
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .card {
+      padding: 12px;
+      border-radius: 16px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+    }
+
+    .card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .card strong {
+      display: block;
+      font-size: 1.24rem;
+      line-height: 1.08;
+      margin-bottom: 4px;
+    }
+
+    .card small {
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .layer-toggles {
+      display: grid;
+      gap: 10px;
+    }
+
+    .layer-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+    }
+
+    .layer-toggle span {
+      color: var(--text);
+      font-size: 0.96rem;
+    }
+
+    .layer-toggle input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent-2);
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .mini-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .mini-row strong {
+      color: var(--text);
+      font-weight: 800;
+      text-align: right;
+    }
+
+    .list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 360px;
+      overflow: auto;
+    }
+
+    .item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.88);
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .item:hover {
+      border-color: rgba(11, 156, 154, 0.34);
+      background: #fffaf4;
+    }
+
+    .item strong {
+      font-size: 14px;
+      line-height: 1.3;
+    }
+
+    .item-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .tag-cdi {
+      background: rgba(11, 156, 154, 0.14);
+      color: #0f6f6d;
+    }
+
+    .tag-wawateca {
+      background: rgba(217, 85, 112, 0.12);
+      color: #9b3451;
+    }
+
+    .map-wrap {
+      position: relative;
+      min-height: 100%;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+
+    .analysis-card,
+    .map-legend-card {
+      position: absolute;
+      right: 18px;
+      z-index: 500;
+      background: rgba(255, 252, 247, 0.95);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 14px 16px;
+      backdrop-filter: blur(12px);
+    }
+
+    .analysis-card {
+      top: 18px;
+      width: min(360px, calc(100% - 36px));
+    }
+
+    .map-legend-card {
+      bottom: 18px;
+      width: min(310px, calc(100% - 36px));
+    }
+
+    .legend {
+      display: grid;
+      gap: 10px;
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+    }
+
+    .legend-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      border: 2px solid rgba(49, 33, 22, 0.6);
+      flex: 0 0 auto;
+    }
+
+    .legend-line {
+      width: 22px;
+      height: 0;
+      border-top: 3px dashed #8b6a54;
+      flex: 0 0 auto;
+    }
+
+    .legend-note {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .leaflet-popup-content-wrapper,
+    .leaflet-popup-tip {
+      background: rgba(255, 251, 246, 0.98);
+      color: var(--text);
+      border: 1px solid rgba(177, 112, 48, 0.22);
+      box-shadow: 0 18px 38px rgba(89, 58, 28, 0.16);
+    }
+
+    .leaflet-popup-content {
+      margin: 12px 14px;
+      line-height: 1.5;
+      font-size: 13px;
+    }
+
+    .popup-title {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    @media (max-width: 960px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar {
+        order: 2;
+        max-height: 46vh;
+        border-right: none;
+        border-top: 1px solid var(--line);
+      }
+      .map-wrap {
+        order: 1;
+        min-height: 54vh;
+      }
+      .analysis-card,
+      .map-legend-card {
+        left: 18px;
+        right: 18px;
+        width: auto;
+      }
+      .link-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <section class="panel">
+        <div class="eyebrow">Riobamba · Desarrollo social</div>
+        <h1>Visor CDIS y Wawateca</h1>
+        <p>
+          Mapa puntual de los equipamientos de atencion infantil y Wawatecas, usando la
+          misma logica territorial del visor de censo para filtrar por plataforma y leer
+          el volumen de ninos reportados.
+        </p>
+        <div class="link-actions">
+          <a class="link-button" href="./riobamba-censo.html">Visor censo</a>
+          <a class="link-button" href="./riobamba-censo-data/riobamba_cdis_wawateca.geojson">GeoJSON</a>
+          <a class="link-button" href="./riobamba-censo-data/riobamba_cdis_wawateca_stats.json">Resumen JSON</a>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Plataforma territorial</h2>
+        <select id="platformSelect"></select>
+      </section>
+
+      <section class="panel">
+        <h2>Tipo de equipamiento</h2>
+        <select id="typeFilter">
+          <option value="__all__">Todos los tipos</option>
+          <option value="CDI">Solo CDI</option>
+          <option value="Wawateca">Solo Wawateca</option>
+        </select>
+      </section>
+
+      <section class="panel">
+        <h2>Capas visibles</h2>
+        <div class="layer-toggles">
+          <label class="layer-toggle"><span>Plataformas</span><input id="togglePlatforms" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Puntos CDIS y Wawateca</span><input id="togglePoints" type="checkbox" checked></label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Resumen general</h2>
+        <div class="stats" id="summaryCards"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Detalle de seleccion</h2>
+        <div class="mini-list" id="platformStatsCard"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Listado</h2>
+        <div id="pointList" class="list"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Estado</h2>
+        <p id="statusText">Cargando visor...</p>
+      </section>
+    </aside>
+
+    <main class="map-wrap">
+      <div id="map"></div>
+      <section class="analysis-card">
+        <h3 id="overlayTitle">CDIS y Wawateca</h3>
+        <p id="overlayText">Preparando capas del visor...</p>
+      </section>
+      <section class="map-legend-card">
+        <h3>Leyenda</h3>
+        <div class="legend">
+          <div class="legend-row">
+            <span class="legend-dot" style="background:#0b9c9a;"></span>
+            <span>CDI</span>
+          </div>
+          <div class="legend-row">
+            <span class="legend-dot" style="background:#d95570;"></span>
+            <span>Wawateca</span>
+          </div>
+          <div class="legend-row">
+            <span class="legend-line"></span>
+            <span>Limite de plataforma</span>
+          </div>
+        </div>
+        <p class="legend-note">
+          Dos puntos quedaron fuera del poligono exacto y se asignaron por cercania a la
+          plataforma mas proxima para mantener la lectura territorial.
+        </p>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="./riobamba-censo-data/riobamba_cdis_wawateca_bundle.js"></script>
+  <script>
+    const bundle = window.RIOBAMBA_CDIS_WAWATECA_DATA;
+
+    const summaryCards = document.getElementById("summaryCards");
+    const platformStatsCard = document.getElementById("platformStatsCard");
+    const pointList = document.getElementById("pointList");
+    const statusText = document.getElementById("statusText");
+    const platformSelect = document.getElementById("platformSelect");
+    const typeFilter = document.getElementById("typeFilter");
+    const togglePlatforms = document.getElementById("togglePlatforms");
+    const togglePoints = document.getElementById("togglePoints");
+    const overlayTitle = document.getElementById("overlayTitle");
+    const overlayText = document.getElementById("overlayText");
+
+    const map = L.map("map", { zoomControl: false, preferCanvas: true, minZoom: 12 });
+    L.control.zoom({ position: "topright" }).addTo(map);
+    map.setView([-1.6735, -78.6485], 13);
+
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      attribution: "&copy; OpenStreetMap &copy; CARTO",
+      subdomains: "abcd",
+      maxZoom: 20
+    }).addTo(map);
+
+    let currentPlatform = "__all__";
+    let currentType = "__all__";
+    let pointLayer = null;
+    let platformLayer = null;
+    let points = [];
+    let platforms = [];
+
+    function repairText(value) {
+      return String(value ?? "")
+        .replaceAll("Ã¡", "á").replaceAll("Ã©", "é").replaceAll("Ã­", "í")
+        .replaceAll("Ã³", "ó").replaceAll("Ãº", "ú").replaceAll("Ã±", "ñ")
+        .replaceAll("Ã", "Á").replaceAll("Ã‰", "É").replaceAll("Ã", "Í")
+        .replaceAll("Ã“", "Ó").replaceAll("Ãš", "Ú").replaceAll("Ã‘", "Ñ")
+        .replaceAll("�", "Ñ")
+        .trim();
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function displayName(value) {
+      return repairText(value);
+    }
+
+    function sameName(left, right) {
+      return displayName(left).toLowerCase() === displayName(right).toLowerCase();
+    }
+
+    function formatNumber(value) {
+      return new Intl.NumberFormat("es-EC").format(Number(value || 0));
+    }
+
+    function typeName(featureOrProps = {}) {
+      const props = featureOrProps.properties || featureOrProps || {};
+      return displayName(props.tipo || "CDI");
+    }
+
+    function typeColor(featureOrProps = {}) {
+      return typeName(featureOrProps) === "Wawateca" ? "#d95570" : "#0b9c9a";
+    }
+
+    function assignmentLabel(featureOrProps = {}) {
+      const props = featureOrProps.properties || featureOrProps || {};
+      return props.platform_assignment_method === "nearest_platform"
+        ? "Cercania"
+        : "Poligono";
+    }
+
+    function currentSelectionLabel() {
+      const platformLabel = currentPlatform === "__all__" ? "todas las plataformas" : displayName(currentPlatform);
+      const typeLabel = currentType === "__all__" ? "todos los tipos" : displayName(currentType);
+      return `${platformLabel} · ${typeLabel}`;
+    }
+
+    function getVisiblePoints() {
+      return points.filter((feature) => {
+        const props = feature.properties || {};
+        const platformMatch = currentPlatform === "__all__" || sameName(props.platform_name, currentPlatform);
+        const typeMatch = currentType === "__all__" || sameName(props.tipo, currentType);
+        return platformMatch && typeMatch;
+      });
+    }
+
+    function getVisiblePlatforms() {
+      if (currentPlatform !== "__all__") {
+        return platforms.filter((feature) => sameName(feature.properties?.platform_name, currentPlatform));
+      }
+
+      const visibleNames = new Set(
+        getVisiblePoints()
+          .map((feature) => displayName(feature.properties?.platform_name || ""))
+          .filter(Boolean)
+      );
+
+      return platforms.filter((feature) => visibleNames.has(displayName(feature.properties?.platform_name || "")));
+    }
+
+    function buildSummaryCards(rows) {
+      summaryCards.innerHTML = rows.map((row) => `
+        <div class="card">
+          <span>${escapeHtml(row.label)}</span>
+          <strong>${escapeHtml(row.value)}</strong>
+          <small>${escapeHtml(row.meta)}</small>
+        </div>
+      `).join("");
+    }
+
+    function buildMiniRows(rows) {
+      return rows.map((row) => `
+        <div class="mini-row">
+          <span>${escapeHtml(row.label)}</span>
+          <strong>${escapeHtml(row.value)}</strong>
+        </div>
+      `).join("");
+    }
+
+    function buildPlatformOptions() {
+      const platformNames = [...new Set(
+        points
+          .map((feature) => displayName(feature.properties?.platform_name || ""))
+          .filter(Boolean)
+      )].sort((left, right) => left.localeCompare(right, "es"));
+
+      platformSelect.innerHTML = [
+        `<option value="__all__">Todas las plataformas</option>`,
+        ...platformNames.map((name) => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`)
+      ].join("");
+
+      platformSelect.value = currentPlatform;
+    }
+
+    function popupHtml(props) {
+      return `
+        <strong class="popup-title">${escapeHtml(displayName(props.nombre || "Equipamiento"))}</strong><br>
+        <strong>Tipo:</strong> ${escapeHtml(typeName(props))}<br>
+        <strong>Ninos reportados:</strong> ${escapeHtml(formatNumber(props.ninos || 0))}<br>
+        <strong>Plataforma:</strong> ${escapeHtml(displayName(props.platform_name || "-"))}<br>
+        <strong>Asignacion:</strong> ${escapeHtml(assignmentLabel(props))}
+      `;
+    }
+
+    function buildList(features) {
+      pointList.innerHTML = features.length ? features.map((feature, index) => {
+        const props = feature.properties || {};
+        const type = typeName(props);
+        const tagClass = type === "Wawateca" ? "tag tag-wawateca" : "tag tag-cdi";
+        return `
+          <button class="item" type="button" data-index="${index}">
+            <strong>${escapeHtml(displayName(props.nombre || "Equipamiento"))}</strong>
+            <div class="item-meta">
+              <span class="${tagClass}">${escapeHtml(type)}</span>
+              <span>${escapeHtml(formatNumber(props.ninos || 0))} ninos</span>
+            </div>
+            <div class="item-meta">
+              <span>${escapeHtml(displayName(props.platform_name || "Sin plataforma"))}</span>
+              <span>${escapeHtml(assignmentLabel(props))}</span>
+            </div>
+          </button>
+        `;
+      }).join("") : `<div class="mini-row"><span>No hay equipamientos visibles</span><strong>-</strong></div>`;
+
+      pointList.querySelectorAll("[data-index]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const feature = features[Number(button.dataset.index)];
+          if (!feature || !feature._latlng || !feature._marker) {
+            return;
+          }
+          map.setView(feature._latlng, Math.max(map.getZoom(), 17), { animate: true });
+          feature._marker.openPopup();
+        });
+      });
+    }
+
+    function renderSummary() {
+      const visible = getVisiblePoints();
+      const visibleNinos = visible.reduce((sum, feature) => sum + Number(feature.properties?.ninos || 0), 0);
+      const visibleCdi = visible.filter((feature) => typeName(feature) === "CDI");
+      const visibleWawateca = visible.filter((feature) => typeName(feature) === "Wawateca");
+      const visibleNearest = visible.filter((feature) => feature.properties?.platform_assignment_method === "nearest_platform");
+      const visiblePlatforms = new Set(visible.map((feature) => displayName(feature.properties?.platform_name || "")).filter(Boolean));
+
+      buildSummaryCards([
+        {
+          label: "Puntos en seleccion",
+          value: formatNumber(visible.length),
+          meta: `de ${formatNumber(points.length)} equipamientos`
+        },
+        {
+          label: "Ninos reportados",
+          value: formatNumber(visibleNinos),
+          meta: currentSelectionLabel()
+        },
+        {
+          label: "CDI",
+          value: formatNumber(visibleCdi.length),
+          meta: `${formatNumber(visibleCdi.reduce((sum, feature) => sum + Number(feature.properties?.ninos || 0), 0))} ninos`
+        },
+        {
+          label: "Wawateca",
+          value: formatNumber(visibleWawateca.length),
+          meta: `${formatNumber(visibleWawateca.reduce((sum, feature) => sum + Number(feature.properties?.ninos || 0), 0))} ninos`
+        }
+      ]);
+
+      if (currentPlatform === "__all__") {
+        platformStatsCard.innerHTML = buildMiniRows([
+          { label: "Plataformas con puntos", value: formatNumber(visiblePlatforms.size) },
+          { label: "Asignacion exacta", value: formatNumber(visible.length - visibleNearest.length) },
+          { label: "Asignacion por cercania", value: formatNumber(visibleNearest.length) },
+          { label: "Filtro activo", value: currentType === "__all__" ? "Todos" : displayName(currentType) }
+        ]);
+      } else {
+        platformStatsCard.innerHTML = buildMiniRows([
+          { label: "Plataforma", value: displayName(currentPlatform) },
+          { label: "Equipamientos", value: formatNumber(visible.length) },
+          { label: "Ninos", value: formatNumber(visibleNinos) },
+          { label: "CDI", value: formatNumber(visibleCdi.length) },
+          { label: "Wawateca", value: formatNumber(visibleWawateca.length) },
+          { label: "Por cercania", value: formatNumber(visibleNearest.length) }
+        ]);
+      }
+
+      statusText.textContent = `Seleccion actual: ${formatNumber(visible.length)} equipamientos y ${formatNumber(visibleNinos)} ninos reportados en ${currentSelectionLabel()}.`;
+      overlayTitle.textContent = currentPlatform === "__all__"
+        ? "CDIS y Wawateca · Vista general"
+        : `CDIS y Wawateca · ${displayName(currentPlatform)}`;
+      overlayText.textContent = `El dataset trae ${formatNumber(points.length)} puntos, ${formatNumber(bundle.stats.summary.ninos_total)} ninos reportados y ${formatNumber(bundle.stats.summary.assigned_by_nearest_platform)} asignaciones por cercania.`;
+    }
+
+    function renderPlatforms(shouldFit = false) {
+      if (platformLayer) {
+        map.removeLayer(platformLayer);
+      }
+
+      if (!togglePlatforms.checked) {
+        platformLayer = null;
+        return;
+      }
+
+      const visiblePlatforms = getVisiblePlatforms();
+      if (!visiblePlatforms.length) {
+        platformLayer = null;
+        return;
+      }
+
+      if (!map.getPane("platformPane")) {
+        map.createPane("platformPane");
+        map.getPane("platformPane").style.zIndex = 410;
+      }
+
+      platformLayer = L.geoJSON(
+        { type: "FeatureCollection", features: visiblePlatforms },
+        {
+          pane: "platformPane",
+          style: (feature) => {
+            const selected = currentPlatform !== "__all__" && sameName(feature?.properties?.platform_name, currentPlatform);
+            return {
+              color: selected ? "#7a4620" : "#8b6a54",
+              weight: selected ? 3.2 : 2.2,
+              opacity: selected ? 1 : 0.82,
+              fillColor: "#ffffff",
+              fillOpacity: 0.03,
+              dashArray: selected ? "" : "6 5"
+            };
+          }
+        }
+      ).addTo(map);
+
+      if (shouldFit && platformLayer.getBounds().isValid()) {
+        map.fitBounds(platformLayer.getBounds().pad(0.14), { animate: true });
+      }
+    }
+
+    function renderPoints(shouldFit = false) {
+      if (pointLayer) {
+        map.removeLayer(pointLayer);
+      }
+
+      if (!togglePoints.checked) {
+        pointLayer = null;
+        pointList.innerHTML = `<div class="mini-row"><span>Puntos desactivados</span><strong>-</strong></div>`;
+        renderSummary();
+        return;
+      }
+
+      const visible = getVisiblePoints();
+      pointLayer = L.layerGroup().addTo(map);
+      const bounds = [];
+      const markerFeatures = [];
+
+      visible.forEach((feature) => {
+        const [lng, lat] = feature.geometry.coordinates;
+        const props = feature.properties || {};
+        const color = typeColor(props);
+        const isNearest = props.platform_assignment_method === "nearest_platform";
+
+        const marker = L.circleMarker([lat, lng], {
+          radius: isNearest ? 9 : 8,
+          color: isNearest ? "#fff4d2" : "#3d2818",
+          weight: isNearest ? 3.6 : 2,
+          fillColor: color,
+          fillOpacity: 0.95
+        }).addTo(pointLayer);
+
+        marker.bindPopup(popupHtml(props), { maxWidth: 320 });
+        feature._latlng = [lat, lng];
+        feature._marker = marker;
+        markerFeatures.push(feature);
+        bounds.push([lat, lng]);
+      });
+
+      buildList(markerFeatures);
+
+      if (shouldFit) {
+        if (platformLayer && platformLayer.getBounds().isValid()) {
+          map.fitBounds(platformLayer.getBounds().pad(0.14), { animate: true });
+        } else if (bounds.length) {
+          map.fitBounds(bounds, { padding: [24, 24] });
+        }
+      }
+
+      renderSummary();
+    }
+
+    function loadBundle() {
+      if (!bundle || !bundle.points || !bundle.platforms) {
+        throw new Error("No se encontro el bundle del visor.");
+      }
+
+      points = (bundle.points.features || []).map((feature) => ({
+        ...feature,
+        properties: { ...(feature.properties || {}) }
+      }));
+
+      platforms = (bundle.platforms.features || []).map((feature) => ({
+        ...feature,
+        properties: { ...(feature.properties || {}) }
+      }));
+
+      buildPlatformOptions();
+      renderPlatforms(true);
+      renderPoints(false);
+      renderSummary();
+    }
+
+    platformSelect.addEventListener("change", () => {
+      currentPlatform = platformSelect.value || "__all__";
+      renderPlatforms(true);
+      renderPoints(false);
+    });
+
+    typeFilter.addEventListener("change", () => {
+      currentType = typeFilter.value || "__all__";
+      renderPlatforms(true);
+      renderPoints(false);
+    });
+
+    togglePlatforms.addEventListener("change", () => renderPlatforms(true));
+    togglePoints.addEventListener("change", () => renderPoints(false));
+
+    try {
+      loadBundle();
+    } catch (error) {
+      console.error(error);
+      overlayTitle.textContent = "Error de carga";
+      overlayText.textContent = "No se pudo abrir el bundle local del visor CDIS y Wawateca.";
+      statusText.textContent = "Fallo la carga del visor.";
+      pointList.innerHTML = `<div class="mini-row"><span>Error</span><strong>Sin datos</strong></div>`;
+      platformStatsCard.innerHTML = `<div class="mini-row"><span>Estado</span><strong>Error</strong></div>`;
+      buildSummaryCards([
+        { label: "Puntos en seleccion", value: "0", meta: "Sin datos" },
+        { label: "Ninos reportados", value: "0", meta: "Sin datos" },
+        { label: "CDI", value: "0", meta: "Sin datos" },
+        { label: "Wawateca", value: "0", meta: "Sin datos" }
+      ]);
+    }
+  </script>
+</body>
+</html>
