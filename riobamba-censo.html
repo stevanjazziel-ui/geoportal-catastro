@@ -684,7 +684,7 @@
           <label class="layer-toggle" style="display:none;"><span>Puntos inicio educacion</span><input id="toggleEducacionIsocronasPuntos" type="checkbox"></label>
           <label class="layer-toggle"><span>Recreacion y deporte</span><input id="toggleRecreacionIsocronas" type="checkbox" checked></label>
           <label class="layer-toggle" style="display:none;"><span>Puntos inicio recreacion</span><input id="toggleRecreacionIsocronasPuntos" type="checkbox"></label>
-          <label class="layer-toggle"><span>Isocronas Parque Estrategico</span><input id="toggleParquesEstrategicos" type="checkbox" checked></label>
+          <label class="layer-toggle" style="display:none;"><span>Isocronas Parque Estrategico</span><input id="toggleParquesEstrategicos" type="checkbox"></label>
           <label class="layer-toggle"><span>Bienestar social</span><input id="toggleBienestarIsocronas" type="checkbox" checked></label>
           <label class="layer-toggle" style="display:none;"><span>Puntos inicio bienestar social</span><input id="toggleBienestarIsocronasPuntos" type="checkbox"></label>
           <label class="layer-toggle"><span>Cultura</span><input id="toggleCulturaIsocronas" type="checkbox" checked></label>
@@ -706,7 +706,7 @@
           <p style="margin:0;color:var(--muted);">Cargando categorias del entorno...</p>
         </div>
         <p style="margin-top:10px;">
-          Separa los puntos tematicos visibles, incluido Parque Estrategico, y deja activas solo las categorias que quieras revisar.
+          Separa los puntos tematicos visibles y deja activas solo las categorias que quieras revisar.
         </p>
       </section>
 
@@ -775,7 +775,7 @@
         <div class="mini-list" id="equipamientosSummary"></div>
       </section>
 
-      <section class="panel" id="strategicParksPanel" hidden>
+      <section class="panel" id="strategicParksPanel" hidden style="display:none;">
         <h2>Parque Estrategico</h2>
         <div class="mini-list" id="strategicParksSummary">
           <div class="mini-row"><span>Estado</span><strong>Selecciona una plataforma</strong></div>
@@ -1014,7 +1014,7 @@
       educacionIsocronasPuntos: true,
       recreacionIsocronas: true,
       recreacionIsocronasPuntos: true,
-      parquesEstrategicos: true,
+      parquesEstrategicos: false,
       bienestarIsocronas: true,
       bienestarIsocronasPuntos: true,
       culturaIsocronas: true,
@@ -2631,10 +2631,6 @@
       const categorySet = new Set(
         (equipamientosFeatures || []).map((feature) => getEquipamientoCategory(feature.properties))
       );
-      if ((window.strategicParkPointsFeatures || []).length) {
-        categorySet.add(STRATEGIC_PARK_CATEGORY);
-      }
-
       const nextCategories = sortEquipamientoCategories([...categorySet]);
 
       if (!equipamientoCategoriesInitialized) {
@@ -2764,10 +2760,6 @@
       for (const feature of getPlatformScopedEquipamientosFeatures()) {
         const category = getEquipamientoCategory(feature.properties);
         counts[category] = (counts[category] || 0) + 1;
-      }
-      const strategicCount = getStrategicParkCategoryFeatures().length;
-      if (strategicCount > 0) {
-        counts[STRATEGIC_PARK_CATEGORY] = strategicCount;
       }
       equipamientoBucketsCache.set(cacheKey, counts);
       return counts;
@@ -3580,11 +3572,6 @@
         const category = getEquipamientoCategory(feature.properties);
         counts[category] = (counts[category] || 0) + 1;
       }
-      const strategicCount = getStrategicParkCategoryFeatures().length;
-      if (strategicCount > 0) {
-        counts[STRATEGIC_PARK_CATEGORY] = strategicCount;
-      }
-
       const categories = sortEquipamientoCategories(Object.keys(counts));
       if (!categories.length) {
         equipamientoCategoryFilters.innerHTML = `<p style="margin:0;color:var(--muted);">No hay puntos publicos en esta seleccion.</p>`;
@@ -4975,7 +4962,7 @@
     layerVisibility.educacionIsocronasPuntos = true;
     layerVisibility.recreacionIsocronas = true;
     layerVisibility.recreacionIsocronasPuntos = true;
-    layerVisibility.parquesEstrategicos = true;
+    layerVisibility.parquesEstrategicos = false;
     layerVisibility.bienestarIsocronas = true;
     layerVisibility.bienestarIsocronasPuntos = true;
     layerVisibility.culturaIsocronas = true;
