@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-08-26",
-  "generatedAt": "2026-08-26T14:42:42",
+  "generatedAt": "2026-08-26T15:01:40",
   "records": [
     {
       "estado": "Asignado",
@@ -1529,10 +1529,10 @@ window.TRAMITES_IPRUS_DATA = {
       "egobOutcomeAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
       "egobOutcomeAuthorRole": "ANALISTA GEOMATICO DE AVALUOS Y CATASTROS 1",
       "egobOutcomeEntryType": "Registro",
-      "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD RESPECTO AL ALCANCE.",
-      "egobLatestReassignmentAt": "2026-08-16 19:32",
-      "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 15,
+      "egobLatestReassignmentNote": "IPRUS FAVORABLE (FL) - DIBUJAR POLIGONO Y CONTINUAR CON EL TRAMITE CORRESPONDIENTE",
+      "egobLatestReassignmentAt": "2026-08-26 15:00",
+      "egobLatestReassignmentAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobJournalCount": 16,
       "egobRelevantNotes": [
         {
           "journalId": "6778096",
