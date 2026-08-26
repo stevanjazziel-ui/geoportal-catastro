@@ -2,7 +2,7 @@
   "generated_at": "2026-07-31T10:47:30",
   "source_zip": "E:\\Riobamba\\equipamientos\\levantamiento_entorno.zip",
   "summary": {
-    "total_publicos": 655,
+    "total_publicos": 654,
     "tipos_principales": 12,
     "elementos_distintos": 64,
     "plataformas_con_puntos": 18
@@ -17,7 +17,7 @@
     "Seguridad": 26,
     "Bienestar Social": 25,
     "Cultural": 24,
-    "Salud": 18,
+    "Salud": 17,
     "Especial": 17,
     "Servicios Funerarios": 3
   },
@@ -43,7 +43,7 @@
     "CDI": 8,
     "Antenas centrales de transmisión y recepción de telecomunicaciones": 6,
     "Estadios barriales": 6,
-    "Hospital provincial": 6,
+    "Hospital provincial": 5,
     "Parques temáticos": 6,
     "Centro de salud Tipo B": 5,
     "Centros o institutos de capacitación": 5,
@@ -90,7 +90,7 @@
   "byPlataforma": {
     "PLATAFORMA K": 103,
     "PLATAFORMA J": 73,
-    "PLATAFORMA Ñ": 62,
+    "PLATAFORMA Ñ": 61,
     "PLATAFORMA P": 48,
     "PLATAFORMA O": 44,
     "SIN_PLATAFORMA": 41,

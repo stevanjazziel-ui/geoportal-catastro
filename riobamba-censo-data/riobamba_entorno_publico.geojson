@@ -15994,32 +15994,6 @@
     {
       "type": "Feature",
       "properties": {
-        "source_id": 1045,
-        "globalid": "82dd0aa1-352d-4732-816d-fdfe348a5ccb",
-        "codigo": "348a5ccb",
-        "tipo_eleme": "Salud",
-        "elemento": "Hospital provincial",
-        "platform_name": "PLATAFORMA Ñ",
-        "plataforma": "PLATAFORMA Ñ",
-        "parroquia": "RIOBAMBA",
-        "estado": "Bueno",
-        "nombre_ins": "",
-        "tipo_equip": "Público",
-        "nombre_equ": "Hospital geriátrico",
-        "tipologia": "Cantonal",
-        "observacion": "Ninguna"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -78.653998671,
-          -1.679128127
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "source_id": 1046,
         "globalid": "7948c04d-ed88-433f-8745-5e19099f373d",
         "codigo": "099f373d",
