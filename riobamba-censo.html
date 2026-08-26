@@ -2454,7 +2454,7 @@
 
       const currentFeatures = getCurrentFeatures();
       const focusedSelection = hasFocusedPlatformSelection();
-      const visibleGroups = focusedSelection ? getThematicIsoGroups(false) : [];
+      const visibleGroups = getThematicIsoGroups(false);
       const focusedState = buildFocusedCoverageState(currentFeatures, visibleGroups);
 
       const context = {
@@ -2471,7 +2471,7 @@
     }
 
     function ensureAnalysisAllGroups(context) {
-      if (!context || !context.focusedSelection) {
+      if (!context) {
         return [];
       }
 
@@ -2483,7 +2483,7 @@
     }
 
     function ensureAnalysisAllGroupStates(context) {
-      if (!context || !context.focusedSelection) {
+      if (!context) {
         return [];
       }
 
