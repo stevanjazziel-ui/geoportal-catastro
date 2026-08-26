@@ -2,13 +2,13 @@
   "generated_at": "2026-07-31T10:47:30",
   "source_zip": "E:\\Riobamba\\equipamientos\\levantamiento_entorno.zip",
   "summary": {
-    "total_publicos": 656,
+    "total_publicos": 655,
     "tipos_principales": 12,
     "elementos_distintos": 64,
     "plataformas_con_puntos": 18
   },
   "byTipoEleme": {
-    "Recreativo y Deporte": 214,
+    "Recreativo y Deporte": 213,
     "Transporte": 115,
     "Educación": 86,
     "Administración Pública": 58,
@@ -29,7 +29,7 @@
     "Parada de taxis": 30,
     "Unidades educativas (niveles básico y bachillerato)": 28,
     "Iglesias hasta 200 puestos": 26,
-    "Parque con gimnasio al aire libre": 24,
+    "Parque con gimnasio al aire libre": 23,
     "Escuelas": 21,
     "Establecimientos de educación inicial": 19,
     "Unidad de vigilancia de policía (UPC)": 18,
@@ -90,7 +90,7 @@
   "byPlataforma": {
     "PLATAFORMA K": 103,
     "PLATAFORMA J": 73,
-    "PLATAFORMA Ñ": 63,
+    "PLATAFORMA Ñ": 62,
     "PLATAFORMA P": 48,
     "PLATAFORMA O": 44,
     "SIN_PLATAFORMA": 41,

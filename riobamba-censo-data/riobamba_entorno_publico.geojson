@@ -14538,32 +14538,6 @@
     {
       "type": "Feature",
       "properties": {
-        "source_id": 943,
-        "globalid": "187dcc42-999a-4753-8295-2e3da3311d53",
-        "codigo": "a3311d53",
-        "tipo_eleme": "Recreativo y Deporte",
-        "elemento": "Parque con gimnasio al aire libre",
-        "platform_name": "PLATAFORMA Ñ",
-        "plataforma": "PLATAFORMA Ñ",
-        "parroquia": "RIOBAMBA",
-        "estado": "Bueno",
-        "nombre_ins": "",
-        "tipo_equip": "Público",
-        "nombre_equ": "Parque",
-        "tipologia": "Zonal",
-        "observacion": ""
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -78.650565714,
-          -1.68129631
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "source_id": 944,
         "globalid": "bbfb584a-5d12-4985-8678-d5961cc175b5",
         "codigo": "1cc175b5",
