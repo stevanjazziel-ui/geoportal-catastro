@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-08-27",
-  "generatedAt": "2026-08-27T10:31:40",
+  "generatedAt": "2026-08-27T11:01:37",
   "records": [
     {
       "estado": "Asignado",
@@ -2103,14 +2103,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1227122 GADMR--2026-0544-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "CONTERO ABARCA LIVINA VIVIANA - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-08-28",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-08-13T14:45:00",
       "codigo": "GADMR--2026-0544-IPRUS-ZNP",
       "nroTramite": 1227122,
@@ -2118,9 +2118,6 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "CONTERO ABARCA LIVINA VIVIANA",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(1 día restante 🚨)",
-      "diasRestantes": 1,
-      "prioridad": "Crítico",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
@@ -2136,7 +2133,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-08-13 14:45",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 4,
+      "egobJournalCount": 5,
       "egobRelevantNotes": []
     },
     {
@@ -3174,13 +3171,13 @@ window.TRAMITES_IPRUS_DATA = {
     "total": 71,
     "priorities": {
       "Normal": 42,
-      "Sin prioridad": 17,
-      "Crítico": 6,
+      "Sin prioridad": 18,
+      "Crítico": 5,
       "Urgente": 6
     },
     "states": {
-      "Asignado": 53,
-      "En espera": 10,
+      "Asignado": 52,
+      "En espera": 11,
       "Complementado": 8
     },
     "responsibles": {
