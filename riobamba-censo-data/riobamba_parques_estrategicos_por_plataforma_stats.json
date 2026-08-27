@@ -6,9 +6,9 @@
   "summary": {
     "platforms_total": 18,
     "pairs_total": 18,
-    "selected_point_features": 36,
-    "selected_isochrone_features": 36,
-    "unique_parks_selected": 36,
+    "selected_point_features": 35,
+    "selected_isochrone_features": 35,
+    "unique_parks_selected": 35,
     "min_pair_distance_m": 250,
     "platforms_with_full_pair": 6,
     "platforms_without_full_pair": 12
@@ -123,16 +123,14 @@
       "platform_name": "PLATAFORMA K",
       "has_full_pair": false,
       "pair_names": [
-        "Barrio Bolivar Chiriboga",
         "Parque 21 de Abril"
       ],
       "pair_ids": [
-        3,
         72
       ],
       "pair_distance_m": 989.42,
-      "selection_mode": "best_pair_threshold",
-      "effective_parks": 2,
+      "selection_mode": "single_after_point_removed",
+      "effective_parks": 1,
       "covered_manzanas": 174,
       "total_platform_manzanas": 184,
       "covered_blocks_percent": 94.57,

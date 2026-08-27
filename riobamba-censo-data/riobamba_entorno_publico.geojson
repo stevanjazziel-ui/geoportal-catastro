@@ -368,32 +368,6 @@
     {
       "type": "Feature",
       "properties": {
-        "source_id": 18,
-        "globalid": "eb47b6dc-1961-4aa9-9b96-7cb8c9c9d31f",
-        "codigo": "c9c9d31f",
-        "tipo_eleme": "Recreativo y Deporte",
-        "elemento": "Parques infantiles con jardines sin canchas",
-        "platform_name": "PLATAFORMA K",
-        "plataforma": "PLATAFORMA K",
-        "parroquia": "RIOBAMBA",
-        "estado": "Regular",
-        "nombre_ins": "",
-        "tipo_equip": "Público",
-        "nombre_equ": "Barrio Bolivar Chiriboga",
-        "tipologia": "Barrial",
-        "observacion": ""
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -78.64976750662187,
-          -1.674276083867801
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "source_id": 21,
         "globalid": "1d13f256-c18f-4b9e-819d-d99292f90749",
         "codigo": "92f90749",
