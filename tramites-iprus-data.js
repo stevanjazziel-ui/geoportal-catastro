@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-08-27",
-  "generatedAt": "2026-08-27T14:46:20",
+  "generatedAt": "2026-08-27T15:01:41",
   "records": [
     {
       "estado": "Asignado",
@@ -991,14 +991,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1232396 GADMR--2026-0570-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "LARA LARA GABRIELA ESTEFANIA - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-09-08",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-08-21T16:31:00",
       "codigo": "GADMR--2026-0570-IPRUS-ZNP",
       "nroTramite": 1232396,
@@ -1006,9 +1006,6 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "LARA LARA GABRIELA ESTEFANIA",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(12 días)",
-      "diasRestantes": 12,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
@@ -1024,7 +1021,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-08-21 16:31",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 4,
+      "egobJournalCount": 6,
       "egobRelevantNotes": []
     },
     {
@@ -2657,7 +2654,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "Por favor dar continuidad, según corresponda",
       "egobLatestReassignmentAt": "2026-08-11 11:18",
       "egobLatestReassignmentAuthor": "HAMILTON RUBEN TORRES CABEZAS",
-      "egobJournalCount": 8,
+      "egobJournalCount": 9,
       "egobRelevantNotes": []
     },
     {
@@ -3226,14 +3223,14 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 74,
     "priorities": {
-      "Normal": 44,
-      "Sin prioridad": 19,
+      "Normal": 43,
+      "Sin prioridad": 20,
       "Crítico": 5,
       "Urgente": 6
     },
     "states": {
-      "Asignado": 53,
-      "En espera": 12,
+      "Asignado": 52,
+      "En espera": 13,
       "Complementado": 9
     },
     "responsibles": {
