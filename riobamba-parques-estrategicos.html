@@ -493,7 +493,7 @@
   ></script>
   <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
   <script>
-    const DATA_VERSION = "20260827-popup-click-v1";
+    const DATA_VERSION = "20260827-html-markers-v1";
     const ALL_PLATFORMS = "__all__";
     const bboxCache = new WeakMap();
     const strategicColorByRank = {
@@ -1074,6 +1074,17 @@
       };
     }
 
+    function buildClickablePointIcon(fillColor, size = 18) {
+      const border = Math.max(3, Math.round(size * 0.18));
+      return L.divIcon({
+        className: "clickable-point-icon",
+        html: `<span style="width:${size}px;height:${size}px;display:block;border-radius:50%;background:${fillColor};border:${border}px solid #1a2a1d;box-shadow:0 2px 8px rgba(0,0,0,0.35);box-sizing:border-box;"></span>`,
+        iconSize: [size, size],
+        iconAnchor: [size / 2, size / 2],
+        popupAnchor: [0, -size / 2]
+      });
+    }
+
     function clearLayer(layer) {
       if (layer && map.hasLayer(layer)) {
         map.removeLayer(layer);
@@ -1364,9 +1375,12 @@
           pointToLayer: (feature, latlng) => {
             const rank = Number(feature?.properties?.selected_rank || 1);
             const color = strategicColorByRank[rank] || strategicColorByRank[1];
-            return L.circleMarker(latlng, {
+            return L.marker(latlng, {
               pane: "strategicPointPane",
-              ...buildPublicPointStyle(color, 7.4)
+              icon: buildClickablePointIcon(color, 19),
+              interactive: true,
+              keyboard: false,
+              bubblingMouseEvents: false
             });
           },
           onEachFeature: (feature, layer) => {
@@ -1413,9 +1427,12 @@
         { type: "FeatureCollection", features },
         {
           pane: "proposalPointPane",
-          pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
+          pointToLayer: (feature, latlng) => L.marker(latlng, {
             pane: "proposalPointPane",
-            ...buildPublicPointStyle(proposalColors.gym, 8.2)
+            icon: buildClickablePointIcon(proposalColors.gym, 20),
+            interactive: true,
+            keyboard: false,
+            bubblingMouseEvents: false
           }),
           onEachFeature: (feature, layer) => {
             const props = feature.properties || {};
@@ -1428,6 +1445,7 @@
               <strong>Estado:</strong> ${escapeHtml(repairText(props.estado || "-"))}<br>
               <strong>Criterio:</strong> ${escapeHtml(repairText(props.criterio || "-"))}
             `);
+            layer.on("click", () => layer.openPopup());
           }
         }
       ).addTo(map);
@@ -1452,9 +1470,12 @@
         { type: "FeatureCollection", features },
         {
           pane: "restAreaPointPane",
-          pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
+          pointToLayer: (feature, latlng) => L.marker(latlng, {
             pane: "restAreaPointPane",
-            ...buildPublicPointStyle(proposalColors.rest, 6.8)
+            icon: buildClickablePointIcon(proposalColors.rest, 17),
+            interactive: true,
+            keyboard: false,
+            bubblingMouseEvents: false
           }),
           onEachFeature: (feature, layer) => {
             const props = feature.properties || {};
