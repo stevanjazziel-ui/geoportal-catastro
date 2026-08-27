@@ -493,7 +493,7 @@
   ></script>
   <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
   <script>
-    const DATA_VERSION = "20260827-google-validacion-v1";
+    const DATA_VERSION = "20260827-popup-click-v1";
     const ALL_PLATFORMS = "__all__";
     const bboxCache = new WeakMap();
     const strategicColorByRank = {
@@ -529,6 +529,8 @@
     });
     const canvasRenderer = L.canvas({ padding: 0.35 });
     L.control.zoom({ position: "topright" }).addTo(map);
+    map.getPane("popupPane").style.zIndex = 1200;
+    map.getPane("tooltipPane").style.zIndex = 1150;
 
     const lightBaseLayer = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
       attribution: '&copy; OpenStreetMap &copy; CARTO',
