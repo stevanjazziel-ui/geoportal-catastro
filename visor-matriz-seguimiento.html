@@ -672,7 +672,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 1120px;
+      min-width: 1260px;
     }
 
     thead th {
@@ -1232,6 +1232,7 @@
         { key: "procurementPhase", label: "Fase", type: "pill" },
         { key: "processStatus", label: "Estado", type: "pill" },
         { key: "alert", label: "Alerta", type: "pill" },
+        { key: "detail", label: "Detalle", type: "text" },
         { key: "executionRisk", label: "Riesgo", type: "pill" }
       ];
 
@@ -1443,13 +1444,13 @@
 
       function getRecordAlert(certified, committed, processStatus) {
         if (certified <= 0) {
-          return { label: "No culmina fase preparatoria", tone: "warning" };
+          return { label: "No culmina fase preparatoria", tone: "danger" };
         }
         if (committed <= 0) {
-          return { label: "No compromete recursos", tone: "danger" };
+          return { label: "No compromete recurso", tone: "default" };
         }
         if (processStatus === "EN EJECUCION") {
-          return { label: "En ejecución", tone: "success" };
+          return { label: "Ejecucion", tone: "success" };
         }
         return { label: "Sin alerta", tone: "slate" };
       }
@@ -1496,7 +1497,7 @@
           const highlights = record.highlights;
           const codified = toNumericAmount(highlights.codified);
           const certified = toNumericAmount(highlights.certified);
-          const balanceToCertify = toNumericAmount(record.fields.SALDO_POR_CERTIFICAR);
+          const balanceToCertify = toNumericAmount(record.fields.SALDO_POR_CERTIFICAR ?? record.fields.SALDO);
           const committed = toNumericAmount(highlights.committed);
           const accrued = toNumericAmount(highlights.accrued);
           const paid = toNumericAmount(highlights.paid);
@@ -1513,6 +1514,7 @@
             project: highlights.project || "Proyecto sin nombre",
             object: highlights.procurementObject || "Sin objeto",
             specificItem: highlights.specificItem || "Sin partida",
+            detail: highlights.detail || "Sin detalle",
             codified,
             certified,
             committed,
@@ -1599,6 +1601,15 @@
         const text = String(value || "").toUpperCase();
         if (!text) {
           return "default";
+        }
+        if (text.includes("NO CULMINA")) {
+          return "danger";
+        }
+        if (text.includes("NO COMPROMETE")) {
+          return "default";
+        }
+        if (text.includes("EJECUCION") || text.includes("EJECUCIÓN")) {
+          return "success";
         }
         if (text.includes("CRITICA") || text.includes("ALTO") || text.includes("VENCIDO")) {
           return "danger";
@@ -1789,6 +1800,7 @@
                     <th>Certificado</th>
                     <th>Comprometido</th>
                     <th>Alerta</th>
+                    <th>Detalle</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1803,6 +1815,7 @@
                           <td>${escapeHtml(formatMoney(entry.certified))}</td>
                           <td>${escapeHtml(formatMoney(entry.committed))}</td>
                           <td><span class="pill ${entry.alert.tone}">${escapeHtml(entry.alert.label)}</span></td>
+                          <td>${escapeHtml(entry.detail)}</td>
                         </tr>
                       `;
                     })
