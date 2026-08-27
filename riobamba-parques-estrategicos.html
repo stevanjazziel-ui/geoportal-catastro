@@ -458,7 +458,7 @@
           <label class="layer-toggle"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Barrios</span><input id="toggleBarrios" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Nombres de barrios</span><input id="toggleBarriosLabels" type="checkbox"></label>
-          <label class="layer-toggle"><span>Imagen satelital Google Maps</span><input id="toggleGoogleSatellite" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Imagen satelital Google Maps</span><input id="toggleGoogleSatellite" type="checkbox"></label>
           <label class="layer-toggle"><span>Puntos Parque Estrategico</span><input id="toggleStrategicPoints" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Isocronas Parque Estrategico</span><input id="toggleStrategicIso" type="checkbox" checked></label>
         </div>
@@ -528,13 +528,13 @@
       attribution: '&copy; OpenStreetMap &copy; CARTO',
       subdomains: "abcd",
       maxZoom: 20
-    });
+    }).addTo(map);
 
     const googleSatelliteLayer = L.tileLayer("https://mt{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}", {
       attribution: 'Imagery &copy; Google',
       subdomains: "0123",
       maxZoom: 21
-    }).addTo(map);
+    });
 
     const summaryCards = document.getElementById("summaryCards");
     const coverageList = document.getElementById("coverageList");
@@ -565,7 +565,7 @@
       plataformas: true,
       barrios: true,
       barrioLabels: false,
-      googleSatellite: true,
+      googleSatellite: false,
       strategicPoints: true,
       strategicIso: true
     };
