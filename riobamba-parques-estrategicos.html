@@ -493,7 +493,7 @@
   ></script>
   <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
   <script>
-    const DATA_VERSION = "20260827-propuestas-parques-v1";
+    const DATA_VERSION = "20260827-parques-popup-v2";
     const ALL_PLATFORMS = "__all__";
     const bboxCache = new WeakMap();
     const strategicColorByRank = {
@@ -1374,6 +1374,7 @@
               overlayText.textContent =
                 `${repairText(props.nombre || "Parque")} aporta ${formatNumber(props.covered_manzanas_individual || 0)} manzanas ` +
                 `y ${formatNumber(props.covered_population_individual || 0)} habitantes a la cobertura conjunta.`;
+              layer.openPopup();
             });
 
             layer.bindPopup(`
