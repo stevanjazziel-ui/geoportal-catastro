@@ -543,6 +543,30 @@
       color: #8c6170;
     }
 
+    .balance-breakdown {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(141, 54, 70, 0.16);
+    }
+
+    .balance-breakdown div {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      color: #734a58;
+      font-size: 0.78rem;
+      line-height: 1.35;
+    }
+
+    .balance-breakdown b {
+      color: #8d3646;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
     .filters-shell {
       display: grid;
       gap: 14px;
@@ -1491,6 +1515,13 @@
           accrued: 0,
           paid: 0
         };
+        const balanceBuckets = {
+          available: 0,
+          unavailable: 0,
+          futureAvailable: 0,
+          administrative: 0,
+          tics: 0
+        };
         const projectEntries = [];
 
         records.forEach((record) => {
@@ -1502,6 +1533,7 @@
           const accrued = toNumericAmount(highlights.accrued);
           const paid = toNumericAmount(highlights.paid);
           const processStatus = normalizeText(highlights.processStatus);
+          const detailText = normalizeText(highlights.detail);
 
           totals.codified += codified;
           totals.certified += certified;
@@ -1509,6 +1541,18 @@
           totals.committed += committed;
           totals.accrued += accrued;
           totals.paid += paid;
+
+          if (detailText.includes("RETIRA") || detailText.includes("04/SEPT") || detailText.includes("04/09")) {
+            balanceBuckets.futureAvailable += balanceToCertify;
+          } else if (detailText.includes("NO DISPONIBLE")) {
+            balanceBuckets.unavailable += balanceToCertify;
+          } else if (detailText.includes("DISPONIBLE")) {
+            balanceBuckets.available += balanceToCertify;
+          } else if (detailText.includes("ADMINISTRATIVO")) {
+            balanceBuckets.administrative += balanceToCertify;
+          } else if (detailText.includes("TICS") || detailText.includes("TIC")) {
+            balanceBuckets.tics += balanceToCertify;
+          }
 
           projectEntries.push({
             project: highlights.project || "Proyecto sin nombre",
@@ -1535,6 +1579,7 @@
           direction,
           records,
           totals,
+          balanceBuckets,
           ratios: {
             certifiedVsCodified: safeRatio(totals.certified, totals.codified),
             committedVsCertified: safeRatio(totals.committed, totals.certified),
@@ -1830,6 +1875,13 @@
             <span>Saldo por certificar</span>
             <strong>${escapeHtml(formatMoney(totals.balanceToCertify))}</strong>
             <small>${escapeHtml(`${formatPct(safeRatio(totals.balanceToCertify, totals.codified))} del codificado.`)}</small>
+            <div class="balance-breakdown">
+              <div><span>Saldo disponible</span><b>${escapeHtml(formatMoney(aggregate.balanceBuckets.available))}</b></div>
+              <div><span>Saldo no disponible</span><b>${escapeHtml(formatMoney(aggregate.balanceBuckets.unavailable))}</b></div>
+              <div><span>Saldo disponible a partir del 04/09/2026</span><b>${escapeHtml(formatMoney(aggregate.balanceBuckets.futureAvailable))}</b></div>
+              <div><span>Saldo a transferir a administrativo</span><b>${escapeHtml(formatMoney(aggregate.balanceBuckets.administrative))}</b></div>
+              <div><span>Saldo a transferir a Tics</span><b>${escapeHtml(formatMoney(aggregate.balanceBuckets.tics))}</b></div>
+            </div>
           </article>
         `;
 
