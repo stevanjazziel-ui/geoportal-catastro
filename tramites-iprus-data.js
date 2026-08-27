@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-08-27",
-  "generatedAt": "2026-08-27T15:01:41",
+  "generatedAt": "2026-08-27T15:31:46",
   "records": [
     {
       "estado": "Asignado",
@@ -2624,14 +2624,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "En espera",
+      "estado": "Complementado",
       "tramite": "Trámite: 1216044 GADMR--2026-0482-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "MOROCHO YAUCAN EDISON PAUL - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Hamilton Ruben Torres Cabezas",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "Tiempo detenido",
+      "fechaLimite": "2026-08-25",
       "fechaIngreso": "2026-08-11T11:18:00",
       "codigo": "GADMR--2026-0482-IPRUS-ZNP",
       "nroTramite": 1216044,
@@ -2639,6 +2639,9 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "MOROCHO YAUCAN EDISON PAUL",
       "reasignadoPorCargo": "Analista 4 De Gestión De Avalúos, Catastros Y Sig",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "tiempoRestante": "(Vencido hace 2 días)",
+      "diasRestantes": 2,
+      "prioridad": "Urgente",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
@@ -3224,14 +3227,14 @@ window.TRAMITES_IPRUS_DATA = {
     "total": 74,
     "priorities": {
       "Normal": 43,
-      "Sin prioridad": 20,
+      "Sin prioridad": 19,
       "Crítico": 5,
-      "Urgente": 6
+      "Urgente": 7
     },
     "states": {
       "Asignado": 52,
-      "En espera": 13,
-      "Complementado": 9
+      "En espera": 12,
+      "Complementado": 10
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 74
