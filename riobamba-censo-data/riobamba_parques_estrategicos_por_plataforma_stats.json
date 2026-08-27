@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-18T17:42:18",
+  "generated_at": "2026-08-27T12:10:00",
   "source_points": "D:\\codex\\_publish_barrios\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
   "source_recreation_points": "D:\\codex\\_publish_barrios\\riobamba-censo-data\\riobamba_recreacion_deporte_categorizada_todas_plataformas_1000m.geojson",
   "source_isochrones": "D:\\codex\\_publish_barrios\\riobamba-censo-data\\riobamba_isocronas_recreacion_deporte_categorizada_todas_plataformas_1000m.geojson",
@@ -14,69 +14,6 @@
     "platforms_without_full_pair": 12
   },
   "by_platform": {
-    "PLATAFORMA F": {
-      "platform_name": "PLATAFORMA F",
-      "has_full_pair": false,
-      "pair_names": [
-        "Parque 11 de Agosto",
-        "Parque Maestros 13 de Abril"
-      ],
-      "pair_ids": [
-        177,
-        176
-      ],
-      "pair_distance_m": 583.66,
-      "selection_mode": "best_pair_threshold",
-      "effective_parks": 2,
-      "covered_manzanas": 91,
-      "total_platform_manzanas": 128,
-      "covered_blocks_percent": 71.09,
-      "covered_population": 6296,
-      "total_platform_population": 8442,
-      "covered_population_percent": 74.58
-    },
-    "PLATAFORMA C": {
-      "platform_name": "PLATAFORMA C",
-      "has_full_pair": false,
-      "pair_names": [
-        "parque en la calle azúay entre aztecas y aymaras",
-        "Sin nombre calles carchi y los rios"
-      ],
-      "pair_ids": [
-        118,
-        123
-      ],
-      "pair_distance_m": 1006.99,
-      "selection_mode": "best_pair_threshold",
-      "effective_parks": 2,
-      "covered_manzanas": 157,
-      "total_platform_manzanas": 180,
-      "covered_blocks_percent": 87.22,
-      "covered_population": 6478,
-      "total_platform_population": 6939,
-      "covered_population_percent": 93.36
-    },
-    "PLATAFORMA H": {
-      "platform_name": "PLATAFORMA H",
-      "has_full_pair": false,
-      "pair_names": [
-        "PARQUE SULTANA DE LOS ANDES",
-        "PARQUE CDL. CEMENTO CHIMBORAZO"
-      ],
-      "pair_ids": [
-        154,
-        151
-      ],
-      "pair_distance_m": 1143.75,
-      "selection_mode": "best_pair_threshold",
-      "effective_parks": 2,
-      "covered_manzanas": 138,
-      "total_platform_manzanas": 144,
-      "covered_blocks_percent": 95.83,
-      "covered_population": 10938,
-      "total_platform_population": 11340,
-      "covered_population_percent": 96.46
-    },
     "PLATAFORMA A": {
       "platform_name": "PLATAFORMA A",
       "has_full_pair": false,
@@ -89,14 +26,14 @@
         124
       ],
       "pair_distance_m": 919.8,
-      "selection_mode": "single_effective_plus_support",
+      "selection_mode": "recalculado_sin_punto_bolivar_chiriboga",
       "effective_parks": 2,
-      "covered_manzanas": 66,
+      "covered_manzanas": 67,
       "total_platform_manzanas": 77,
-      "covered_blocks_percent": 85.71,
-      "covered_population": 1424,
+      "covered_blocks_percent": 87.01,
+      "covered_population": 1439,
       "total_platform_population": 1545,
-      "covered_population_percent": 92.17
+      "covered_population_percent": 93.14
     },
     "PLATAFORMA B": {
       "platform_name": "PLATAFORMA B",
@@ -110,7 +47,7 @@
         64
       ],
       "pair_distance_m": 922.92,
-      "selection_mode": "best_pair_threshold",
+      "selection_mode": "recalculado_sin_punto_bolivar_chiriboga",
       "effective_parks": 2,
       "covered_manzanas": 87,
       "total_platform_manzanas": 102,
@@ -119,45 +56,26 @@
       "total_platform_population": 5145,
       "covered_population_percent": 93.2
     },
-    "PLATAFORMA K": {
-      "platform_name": "PLATAFORMA K",
+    "PLATAFORMA C": {
+      "platform_name": "PLATAFORMA C",
       "has_full_pair": false,
       "pair_names": [
-        "Parque 21 de Abril"
+        "parque en la calle azúay entre aztecas y aymaras",
+        "Sin nombre calles carchi y los rios"
       ],
       "pair_ids": [
-        72
+        118,
+        123
       ],
-      "pair_distance_m": 989.42,
-      "selection_mode": "single_after_point_removed",
-      "effective_parks": 1,
-      "covered_manzanas": 174,
-      "total_platform_manzanas": 184,
-      "covered_blocks_percent": 94.57,
-      "covered_population": 11339,
-      "total_platform_population": 12279,
-      "covered_population_percent": 92.34
-    },
-    "PLATAFORMA I": {
-      "platform_name": "PLATAFORMA I",
-      "has_full_pair": true,
-      "pair_names": [
-        "Parque los pinos",
-        "Parque de la Georgina 2, a oado de los condominio faroles."
-      ],
-      "pair_ids": [
-        84,
-        29
-      ],
-      "pair_distance_m": 1104.57,
-      "selection_mode": "full_pair_threshold",
+      "pair_distance_m": 1006.99,
+      "selection_mode": "recalculado_sin_punto_bolivar_chiriboga",
       "effective_parks": 2,
-      "covered_manzanas": 102,
-      "total_platform_manzanas": 102,
-      "covered_blocks_percent": 100.0,
-      "covered_population": 9060,
-      "total_platform_population": 9060,
-      "covered_population_percent": 100.0
+      "covered_manzanas": 157,
+      "total_platform_manzanas": 180,
+      "covered_blocks_percent": 87.22,
+      "covered_population": 6478,
+      "total_platform_population": 6939,
+      "covered_population_percent": 93.36
     },
     "PLATAFORMA D": {
       "platform_name": "PLATAFORMA D",
@@ -171,7 +89,7 @@
         74
       ],
       "pair_distance_m": 1092.38,
-      "selection_mode": "best_pair_threshold",
+      "selection_mode": "recalculado_sin_punto_bolivar_chiriboga",
       "effective_parks": 2,
       "covered_manzanas": 175,
       "total_platform_manzanas": 192,
@@ -179,27 +97,6 @@
       "covered_population": 12303,
       "total_platform_population": 13143,
       "covered_population_percent": 93.61
-    },
-    "PLATAFORMA G": {
-      "platform_name": "PLATAFORMA G",
-      "has_full_pair": true,
-      "pair_names": [
-        "Parque con dos canchas",
-        "Parque Saboya área de juegos"
-      ],
-      "pair_ids": [
-        19,
-        27
-      ],
-      "pair_distance_m": 1064.36,
-      "selection_mode": "full_pair_threshold",
-      "effective_parks": 2,
-      "covered_manzanas": 144,
-      "total_platform_manzanas": 144,
-      "covered_blocks_percent": 100.0,
-      "covered_population": 8014,
-      "total_platform_population": 8014,
-      "covered_population_percent": 100.0
     },
     "PLATAFORMA E": {
       "platform_name": "PLATAFORMA E",
@@ -213,7 +110,7 @@
         145
       ],
       "pair_distance_m": 2458.84,
-      "selection_mode": "full_pair_threshold",
+      "selection_mode": "recalculado_sin_punto_bolivar_chiriboga",
       "effective_parks": 2,
       "covered_manzanas": 3,
       "total_platform_manzanas": 3,
@@ -222,26 +119,129 @@
       "total_platform_population": 115,
       "covered_population_percent": 100.0
     },
-    "PLATAFORMA Q": {
-      "platform_name": "PLATAFORMA Q",
+    "PLATAFORMA F": {
+      "platform_name": "PLATAFORMA F",
       "has_full_pair": false,
       "pair_names": [
-        "Barrio Pucura",
-        "Sin nombre"
+        "Parque 11 de Agosto",
+        "Parque Maestros 13 de Abril"
       ],
       "pair_ids": [
-        8,
-        14
+        177,
+        176
       ],
-      "pair_distance_m": 1058.2,
-      "selection_mode": "best_pair_threshold",
+      "pair_distance_m": 583.66,
+      "selection_mode": "recalculado_sin_punto_bolivar_chiriboga",
       "effective_parks": 2,
-      "covered_manzanas": 117,
-      "total_platform_manzanas": 119,
-      "covered_blocks_percent": 98.32,
-      "covered_population": 9276,
-      "total_platform_population": 9553,
-      "covered_population_percent": 97.1
+      "covered_manzanas": 91,
+      "total_platform_manzanas": 128,
+      "covered_blocks_percent": 71.09,
+      "covered_population": 6296,
+      "total_platform_population": 8442,
+      "covered_population_percent": 74.58
+    },
+    "PLATAFORMA G": {
+      "platform_name": "PLATAFORMA G",
+      "has_full_pair": true,
+      "pair_names": [
+        "Parque con dos canchas",
+        "Parque Saboya área de juegos"
+      ],
+      "pair_ids": [
+        19,
+        27
+      ],
+      "pair_distance_m": 1064.36,
+      "selection_mode": "recalculado_sin_punto_bolivar_chiriboga",
+      "effective_parks": 2,
+      "covered_manzanas": 144,
+      "total_platform_manzanas": 144,
+      "covered_blocks_percent": 100.0,
+      "covered_population": 8014,
+      "total_platform_population": 8014,
+      "covered_population_percent": 100.0
+    },
+    "PLATAFORMA H": {
+      "platform_name": "PLATAFORMA H",
+      "has_full_pair": false,
+      "pair_names": [
+        "PARQUE SULTANA DE LOS ANDES",
+        "PARQUE CDL. CEMENTO CHIMBORAZO"
+      ],
+      "pair_ids": [
+        154,
+        151
+      ],
+      "pair_distance_m": 1143.75,
+      "selection_mode": "recalculado_sin_punto_bolivar_chiriboga",
+      "effective_parks": 2,
+      "covered_manzanas": 136,
+      "total_platform_manzanas": 144,
+      "covered_blocks_percent": 94.44,
+      "covered_population": 10807,
+      "total_platform_population": 11340,
+      "covered_population_percent": 95.3
+    },
+    "PLATAFORMA I": {
+      "platform_name": "PLATAFORMA I",
+      "has_full_pair": true,
+      "pair_names": [
+        "Parque los pinos",
+        "Parque de la Georgina 2, a oado de los condominio faroles."
+      ],
+      "pair_ids": [
+        84,
+        29
+      ],
+      "pair_distance_m": 1104.57,
+      "selection_mode": "recalculado_sin_punto_bolivar_chiriboga",
+      "effective_parks": 2,
+      "covered_manzanas": 102,
+      "total_platform_manzanas": 102,
+      "covered_blocks_percent": 100.0,
+      "covered_population": 9060,
+      "total_platform_population": 9060,
+      "covered_population_percent": 100.0
+    },
+    "PLATAFORMA J": {
+      "platform_name": "PLATAFORMA J",
+      "has_full_pair": false,
+      "pair_names": [
+        "Parque ubicado entre la Juan Montalvo y 12 de octubre",
+        "Parque la Delicia/ sector Redondel del libro"
+      ],
+      "pair_ids": [
+        178,
+        182
+      ],
+      "pair_distance_m": 1336.28,
+      "selection_mode": "recalculado_sin_punto_bolivar_chiriboga",
+      "effective_parks": 2,
+      "covered_manzanas": 218,
+      "total_platform_manzanas": 223,
+      "covered_blocks_percent": 97.76,
+      "covered_population": 18640,
+      "total_platform_population": 18896,
+      "covered_population_percent": 98.65
+    },
+    "PLATAFORMA K": {
+      "platform_name": "PLATAFORMA K",
+      "has_full_pair": false,
+      "pair_names": [
+        "Parque 21 de Abril"
+      ],
+      "pair_ids": [
+        72
+      ],
+      "pair_distance_m": 989.42,
+      "selection_mode": "recalculado_sin_punto_bolivar_chiriboga",
+      "effective_parks": 1,
+      "covered_manzanas": 118,
+      "total_platform_manzanas": 184,
+      "covered_blocks_percent": 64.13,
+      "covered_population": 7895,
+      "total_platform_population": 12279,
+      "covered_population_percent": 64.3
     },
     "PLATAFORMA L": {
       "platform_name": "PLATAFORMA L",
@@ -255,7 +255,7 @@
         97
       ],
       "pair_distance_m": 665.62,
-      "selection_mode": "best_pair_threshold",
+      "selection_mode": "recalculado_sin_punto_bolivar_chiriboga",
       "effective_parks": 2,
       "covered_manzanas": 21,
       "total_platform_manzanas": 33,
@@ -276,13 +276,34 @@
         169
       ],
       "pair_distance_m": 755.71,
-      "selection_mode": "full_pair_threshold",
+      "selection_mode": "recalculado_sin_punto_bolivar_chiriboga",
       "effective_parks": 2,
       "covered_manzanas": 185,
       "total_platform_manzanas": 185,
       "covered_blocks_percent": 100.0,
       "covered_population": 13943,
       "total_platform_population": 13943,
+      "covered_population_percent": 100.0
+    },
+    "PLATAFORMA N": {
+      "platform_name": "PLATAFORMA N",
+      "has_full_pair": true,
+      "pair_names": [
+        "Parque Yaruquies",
+        "SN"
+      ],
+      "pair_ids": [
+        136,
+        135
+      ],
+      "pair_distance_m": 1218.13,
+      "selection_mode": "recalculado_sin_punto_bolivar_chiriboga",
+      "effective_parks": 2,
+      "covered_manzanas": 86,
+      "total_platform_manzanas": 86,
+      "covered_blocks_percent": 100.0,
+      "covered_population": 3632,
+      "total_platform_population": 3632,
       "covered_population_percent": 100.0
     },
     "PLATAFORMA O": {
@@ -297,7 +318,7 @@
         99
       ],
       "pair_distance_m": 849.47,
-      "selection_mode": "best_pair_threshold",
+      "selection_mode": "recalculado_sin_punto_bolivar_chiriboga",
       "effective_parks": 2,
       "covered_manzanas": 262,
       "total_platform_manzanas": 266,
@@ -318,7 +339,7 @@
         59
       ],
       "pair_distance_m": 1014.7,
-      "selection_mode": "full_pair_threshold",
+      "selection_mode": "recalculado_sin_punto_bolivar_chiriboga",
       "effective_parks": 2,
       "covered_manzanas": 143,
       "total_platform_manzanas": 143,
@@ -326,6 +347,27 @@
       "covered_population": 12775,
       "total_platform_population": 12775,
       "covered_population_percent": 100.0
+    },
+    "PLATAFORMA Q": {
+      "platform_name": "PLATAFORMA Q",
+      "has_full_pair": false,
+      "pair_names": [
+        "Barrio Pucura",
+        "Sin nombre"
+      ],
+      "pair_ids": [
+        8,
+        14
+      ],
+      "pair_distance_m": 1058.2,
+      "selection_mode": "recalculado_sin_punto_bolivar_chiriboga",
+      "effective_parks": 2,
+      "covered_manzanas": 117,
+      "total_platform_manzanas": 119,
+      "covered_blocks_percent": 98.32,
+      "covered_population": 9276,
+      "total_platform_population": 9553,
+      "covered_population_percent": 97.1
     },
     "PLATAFORMA Ñ": {
       "platform_name": "PLATAFORMA Ñ",
@@ -339,7 +381,7 @@
         186
       ],
       "pair_distance_m": 951.77,
-      "selection_mode": "best_pair_threshold",
+      "selection_mode": "recalculado_sin_punto_bolivar_chiriboga",
       "effective_parks": 2,
       "covered_manzanas": 183,
       "total_platform_manzanas": 197,
@@ -347,49 +389,7 @@
       "covered_population": 14382,
       "total_platform_population": 15730,
       "covered_population_percent": 91.43
-    },
-    "PLATAFORMA N": {
-      "platform_name": "PLATAFORMA N",
-      "has_full_pair": true,
-      "pair_names": [
-        "Parque Yaruquies",
-        "SN"
-      ],
-      "pair_ids": [
-        136,
-        135
-      ],
-      "pair_distance_m": 1218.13,
-      "selection_mode": "full_pair_threshold",
-      "effective_parks": 2,
-      "covered_manzanas": 86,
-      "total_platform_manzanas": 86,
-      "covered_blocks_percent": 100.0,
-      "covered_population": 3632,
-      "total_platform_population": 3632,
-      "covered_population_percent": 100.0
-    },
-    "PLATAFORMA J": {
-      "platform_name": "PLATAFORMA J",
-      "has_full_pair": false,
-      "pair_names": [
-        "Parque ubicado entre la Juan Montalvo y 12 de octubre",
-        "Parque la Delicia/ sector Redondel del libro"
-      ],
-      "pair_ids": [
-        178,
-        182
-      ],
-      "pair_distance_m": 1336.28,
-      "selection_mode": "best_pair_threshold",
-      "effective_parks": 2,
-      "covered_manzanas": 218,
-      "total_platform_manzanas": 223,
-      "covered_blocks_percent": 97.76,
-      "covered_population": 18640,
-      "total_platform_population": 18896,
-      "covered_population_percent": 98.65
     }
   },
-  "observacion": "Solo se publican pares de 2 parques/plazas/areas verdes cuando la suma de ambas isocronas cubre el 100% de las manzanas censales de la plataforma. Si no existe una pareja completa, se guarda solo como referencia estadistica la mejor dupla parcial encontrada."
+  "observacion": "Estadisticas recalculadas despues de eliminar el punto Barrio Bolivar Chiriboga y su isocrona."
 }
