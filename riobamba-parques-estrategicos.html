@@ -461,6 +461,8 @@
           <label class="layer-toggle"><span>Imagen satelital Google Maps</span><input id="toggleGoogleSatellite" type="checkbox"></label>
           <label class="layer-toggle"><span>Puntos Parque Estrategico</span><input id="toggleStrategicPoints" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Isocronas Parque Estrategico</span><input id="toggleStrategicIso" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Candidatos gimnasio al aire libre</span><input id="toggleGymCandidates" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Areas descanso/sombra 6x3 m</span><input id="toggleRestAreas" type="checkbox" checked></label>
         </div>
       </section>
 
@@ -491,12 +493,16 @@
   ></script>
   <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
   <script>
-    const DATA_VERSION = "20260820-parques-estrategicos-v1";
+    const DATA_VERSION = "20260827-propuestas-parques-v1";
     const ALL_PLATFORMS = "__all__";
     const bboxCache = new WeakMap();
     const strategicColorByRank = {
       1: "#5fd38d",
       2: "#1f9f6d"
+    };
+    const proposalColors = {
+      gym: "#f97316",
+      rest: "#0ea5e9"
     };
     const manzanaStyleColors = {
       coveredStroke: "rgba(41, 114, 73, 0.9)",
@@ -558,6 +564,8 @@
     const toggleGoogleSatellite = document.getElementById("toggleGoogleSatellite");
     const toggleStrategicPoints = document.getElementById("toggleStrategicPoints");
     const toggleStrategicIso = document.getElementById("toggleStrategicIso");
+    const toggleGymCandidates = document.getElementById("toggleGymCandidates");
+    const toggleRestAreas = document.getElementById("toggleRestAreas");
 
     const layerVisibility = {
       manzanas: true,
@@ -567,7 +575,9 @@
       barrioLabels: false,
       googleSatellite: false,
       strategicPoints: true,
-      strategicIso: true
+      strategicIso: true,
+      gymCandidates: true,
+      restAreas: true
     };
 
     let currentPlatform = ALL_PLATFORMS;
@@ -577,6 +587,8 @@
     let strategicPointFeatures = [];
     let strategicIsoClippedFeatures = [];
     let strategicIsoFullFeatures = [];
+    let gymCandidateFeatures = [];
+    let restAreaFeatures = [];
     let strategicStats = null;
     let platformsStats = null;
     let coverageState = null;
@@ -586,6 +598,8 @@
     let barrioLabelLayer = null;
     let strategicPointLayer = null;
     let strategicIsoLayer = null;
+    let gymCandidateLayer = null;
+    let restAreaLayer = null;
 
     function repairText(value) {
       return String(value ?? "")
@@ -738,6 +752,24 @@
         return strategicPointFeatures;
       }
       return strategicPointFeatures.filter((feature) =>
+        samePlatformName(feature?.properties?.target_platform, currentPlatform)
+      );
+    }
+
+    function getCurrentGymCandidates() {
+      if (currentPlatform === ALL_PLATFORMS) {
+        return gymCandidateFeatures;
+      }
+      return gymCandidateFeatures.filter((feature) =>
+        samePlatformName(feature?.properties?.target_platform, currentPlatform)
+      );
+    }
+
+    function getCurrentRestAreas() {
+      if (currentPlatform === ALL_PLATFORMS) {
+        return restAreaFeatures;
+      }
+      return restAreaFeatures.filter((feature) =>
         samePlatformName(feature?.properties?.target_platform, currentPlatform)
       );
     }
@@ -996,6 +1028,15 @@
         <div class="legend-row">
           <span class="legend-line" style="border-top-color:${strategicColorByRank[2]}; border-top-style:dashed;"></span>
           <span class="legend-label">Isocrona Parque Estrategico 2</span>
+        </div>
+        <div class="legend-section-title">Propuestas</div>
+        <div class="legend-row">
+          <span class="legend-symbol" style="background:${proposalColors.gym}; border-color:rgba(36,50,38,0.82);"></span>
+          <span class="legend-label">Candidato gimnasio al aire libre</span>
+        </div>
+        <div class="legend-row">
+          <span class="legend-symbol" style="background:${proposalColors.rest}; border-color:rgba(36,50,38,0.82);"></span>
+          <span class="legend-label">Area descanso/sombra 6x3 m</span>
         </div>
       `;
     }
@@ -1350,6 +1391,84 @@
       ).addTo(map);
     }
 
+    function renderGymCandidates() {
+      clearLayer(gymCandidateLayer);
+      if (!layerVisibility.gymCandidates) {
+        gymCandidateLayer = null;
+        return;
+      }
+      const features = getCurrentGymCandidates();
+      if (!features.length) {
+        gymCandidateLayer = null;
+        return;
+      }
+      if (!map.getPane("proposalPointPane")) {
+        map.createPane("proposalPointPane");
+        map.getPane("proposalPointPane").style.zIndex = 820;
+      }
+      gymCandidateLayer = L.geoJSON(
+        { type: "FeatureCollection", features },
+        {
+          pane: "proposalPointPane",
+          pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
+            pane: "proposalPointPane",
+            ...buildPublicPointStyle(proposalColors.gym, 8.2)
+          }),
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties || {};
+            layer.bindPopup(`
+              <strong>Candidato a gimnasio al aire libre</strong><br>
+              <strong>Nombre:</strong> ${escapeHtml(repairText(props.nombre || "Sin nombre"))}<br>
+              <strong>Plataforma:</strong> ${escapeHtml(displayPlatformName(props.target_platform) || "-")}<br>
+              <strong>Elemento:</strong> ${escapeHtml(repairText(props.elemento || "-"))}<br>
+              <strong>Prioridad:</strong> ${escapeHtml(repairText(props.prioridad_gimnasio || "-"))}<br>
+              <strong>Estado:</strong> ${escapeHtml(repairText(props.estado || "-"))}<br>
+              <strong>Criterio:</strong> ${escapeHtml(repairText(props.criterio || "-"))}
+            `);
+          }
+        }
+      ).addTo(map);
+    }
+
+    function renderRestAreas() {
+      clearLayer(restAreaLayer);
+      if (!layerVisibility.restAreas) {
+        restAreaLayer = null;
+        return;
+      }
+      const features = getCurrentRestAreas();
+      if (!features.length) {
+        restAreaLayer = null;
+        return;
+      }
+      if (!map.getPane("restAreaPointPane")) {
+        map.createPane("restAreaPointPane");
+        map.getPane("restAreaPointPane").style.zIndex = 830;
+      }
+      restAreaLayer = L.geoJSON(
+        { type: "FeatureCollection", features },
+        {
+          pane: "restAreaPointPane",
+          pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
+            pane: "restAreaPointPane",
+            ...buildPublicPointStyle(proposalColors.rest, 6.8)
+          }),
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties || {};
+            layer.bindPopup(`
+              <strong>Area de descanso y sombra</strong><br>
+              <strong>Nombre:</strong> ${escapeHtml(repairText(props.nombre || "Sin nombre"))}<br>
+              <strong>Plataforma:</strong> ${escapeHtml(displayPlatformName(props.target_platform) || "-")}<br>
+              <strong>Modulo:</strong> ${escapeHtml(repairText(props.modulo_referencia || "6 m x 3 m"))}<br>
+              <strong>Area minima:</strong> ${formatNumber(props.area_minima_m2 || 18)} m2<br>
+              <strong>Uso:</strong> ${escapeHtml(repairText(props.uso || "-"))}<br>
+              <strong>Criterio:</strong> ${escapeHtml(repairText(props.criterio || "-"))}
+            `);
+          }
+        }
+      ).addTo(map);
+    }
+
     function fitToCurrentSelection() {
       const selectedPlatform = getCurrentPlatformFeature();
       const targetFeatures = selectedPlatform ? [selectedPlatform] : platformFeatures;
@@ -1376,11 +1495,13 @@
     function updateStatusText() {
       const points = getCurrentStrategicPoints();
       const isos = getCurrentStrategicIsochrones();
+      const gymCandidates = getCurrentGymCandidates();
+      const restAreas = getCurrentRestAreas();
       const manzanas = getCurrentManzanas();
       const selectionLabel = currentPlatform === ALL_PLATFORMS ? "todas las plataformas" : displayPlatformName(currentPlatform);
       statusText.textContent =
         `Mostrando ${selectionLabel}: ${formatNumber(manzanas.length)} manzanas, ${formatNumber(points.length)} parques estrategicos y ` +
-        `${formatNumber(isos.length)} isocronas dedicadas al analisis.`;
+        `${formatNumber(isos.length)} isocronas. Propuestas visibles: ${formatNumber(gymCandidates.length)} gimnasios y ${formatNumber(restAreas.length)} areas de descanso.`;
     }
 
     function renderAll(adjustView = false) {
@@ -1390,6 +1511,8 @@
       renderBarrios();
       renderStrategicIsochrones();
       renderStrategicPoints();
+      renderGymCandidates();
+      renderRestAreas();
       renderSummaryCards();
       renderCoverageList();
       renderBreakdown(coveredBreakdown, coverageState.breakdownCovered);
@@ -1429,7 +1552,9 @@
           strategicPointsGeo,
           strategicIsoGeo,
           strategicStatsData,
-          recreacionIsoGeo
+          recreacionIsoGeo,
+          gymCandidatesGeo,
+          restAreasGeo
         ] = await Promise.all([
           fetchJson(`./riobamba-censo-data/riobamba_manzanas.geojson?v=${DATA_VERSION}`),
           fetchJson(`./riobamba-censo-data/riobamba_manzanas_stats.json?v=${DATA_VERSION}`),
@@ -1439,7 +1564,9 @@
           fetchJson(`./riobamba-censo-data/riobamba_parques_estrategicos_por_plataforma.geojson?v=${DATA_VERSION}`),
           fetchJson(`./riobamba-censo-data/riobamba_isocronas_parques_estrategicos_por_plataforma.geojson?v=${DATA_VERSION}`),
           fetchJson(`./riobamba-censo-data/riobamba_parques_estrategicos_por_plataforma_stats.json?v=${DATA_VERSION}`),
-          fetchJson(`./riobamba-censo-data/riobamba_isocronas_recreacion_deporte_categorizada_todas_plataformas_1000m.geojson?v=${DATA_VERSION}`)
+          fetchJson(`./riobamba-censo-data/riobamba_isocronas_recreacion_deporte_categorizada_todas_plataformas_1000m.geojson?v=${DATA_VERSION}`),
+          fetchJson(`./riobamba-censo-data/riobamba_gimnasios_aire_libre_candidatos_por_plataforma.geojson?v=${DATA_VERSION}`),
+          fetchJson(`./riobamba-censo-data/riobamba_areas_descanso_sombra_6x3_por_plataforma.geojson?v=${DATA_VERSION}`)
         ]);
 
         platformsStats = plataformasStatsData;
@@ -1485,6 +1612,8 @@
         strategicPointFeatures = (strategicPointsGeo.features || []).filter((feature) => feature?.geometry && feature?.properties);
         strategicIsoClippedFeatures = (strategicIsoGeo.features || []).filter((feature) => feature?.geometry && feature?.properties);
         strategicIsoFullFeatures = buildFullStrategicIsoFeatures(strategicIsoClippedFeatures, recreacionIsoGeo.features || []);
+        gymCandidateFeatures = (gymCandidatesGeo.features || []).filter((feature) => feature?.geometry && feature?.properties);
+        restAreaFeatures = (restAreasGeo.features || []).filter((feature) => feature?.geometry && feature?.properties);
 
         buildPlatformOptions();
         renderAll(true);
@@ -1553,6 +1682,20 @@
     toggleStrategicIso.addEventListener("change", () => {
       layerVisibility.strategicIso = toggleStrategicIso.checked;
       renderStrategicIsochrones();
+    });
+
+    toggleGymCandidates.addEventListener("change", () => {
+      layerVisibility.gymCandidates = toggleGymCandidates.checked;
+      renderGymCandidates();
+      renderLegend();
+      updateStatusText();
+    });
+
+    toggleRestAreas.addEventListener("change", () => {
+      layerVisibility.restAreas = toggleRestAreas.checked;
+      renderRestAreas();
+      renderLegend();
+      updateStatusText();
     });
 
     map.on("zoomend", () => {
