@@ -458,6 +458,7 @@
           <label class="layer-toggle"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Barrios</span><input id="toggleBarrios" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Nombres de barrios</span><input id="toggleBarriosLabels" type="checkbox"></label>
+          <label class="layer-toggle"><span>Imagen satelital Google Maps</span><input id="toggleGoogleSatellite" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Puntos Parque Estrategico</span><input id="toggleStrategicPoints" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Isocronas Parque Estrategico</span><input id="toggleStrategicIso" type="checkbox" checked></label>
         </div>
@@ -523,10 +524,16 @@
     const canvasRenderer = L.canvas({ padding: 0.35 });
     L.control.zoom({ position: "topright" }).addTo(map);
 
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+    const lightBaseLayer = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
       attribution: '&copy; OpenStreetMap &copy; CARTO',
       subdomains: "abcd",
       maxZoom: 20
+    });
+
+    const googleSatelliteLayer = L.tileLayer("https://mt{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}", {
+      attribution: 'Imagery &copy; Google',
+      subdomains: "0123",
+      maxZoom: 21
     }).addTo(map);
 
     const summaryCards = document.getElementById("summaryCards");
@@ -548,6 +555,7 @@
     const togglePlataformas = document.getElementById("togglePlataformas");
     const toggleBarrios = document.getElementById("toggleBarrios");
     const toggleBarriosLabels = document.getElementById("toggleBarriosLabels");
+    const toggleGoogleSatellite = document.getElementById("toggleGoogleSatellite");
     const toggleStrategicPoints = document.getElementById("toggleStrategicPoints");
     const toggleStrategicIso = document.getElementById("toggleStrategicIso");
 
@@ -557,6 +565,7 @@
       plataformas: true,
       barrios: true,
       barrioLabels: false,
+      googleSatellite: true,
       strategicPoints: true,
       strategicIso: true
     };
@@ -1037,6 +1046,11 @@
       } else if (!visible && map.hasLayer(layer)) {
         map.removeLayer(layer);
       }
+    }
+
+    function syncBaseLayer() {
+      syncLayer(googleSatelliteLayer, layerVisibility.googleSatellite);
+      syncLayer(lightBaseLayer, !layerVisibility.googleSatellite);
     }
 
     function renderManzanas() {
@@ -1524,6 +1538,11 @@
     toggleBarriosLabels.addEventListener("change", () => {
       layerVisibility.barrioLabels = toggleBarriosLabels.checked;
       renderBarrios();
+    });
+
+    toggleGoogleSatellite.addEventListener("change", () => {
+      layerVisibility.googleSatellite = toggleGoogleSatellite.checked;
+      syncBaseLayer();
     });
 
     toggleStrategicPoints.addEventListener("change", () => {
