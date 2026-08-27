@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-08-27",
-  "generatedAt": "2026-08-27T11:01:37",
+  "generatedAt": "2026-08-27T11:32:08",
   "records": [
     {
       "estado": "Asignado",
@@ -2066,14 +2066,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1227445 GADMR--2026-0546-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "MOROCHO YAUCAN EDISON PAUL - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-08-31",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-08-13T14:48:00",
       "codigo": "GADMR--2026-0546-IPRUS-ZNP",
       "nroTramite": 1227445,
@@ -2081,9 +2081,6 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "MOROCHO YAUCAN EDISON PAUL",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(4 días)",
-      "diasRestantes": 4,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
@@ -2099,7 +2096,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-08-13 14:48",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 4,
+      "egobJournalCount": 5,
       "egobRelevantNotes": []
     },
     {
@@ -3082,14 +3079,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "En espera",
+      "estado": "Complementado",
       "tramite": "Trámite: 1195334 GADMR--2026-0355-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "MOROCHO YAUCAN EDISON PAUL - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "Tiempo detenido",
+      "fechaLimite": null,
       "fechaIngreso": "2026-08-11T08:26:00",
       "codigo": "GADMR--2026-0355-IPRUS-ZNP",
       "nroTramite": 1195334,
@@ -3112,7 +3109,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE",
       "egobLatestReassignmentAt": "2026-08-11 08:26",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 15,
+      "egobJournalCount": 16,
       "egobRelevantNotes": [
         {
           "journalId": "6743593",
@@ -3170,15 +3167,15 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 71,
     "priorities": {
-      "Normal": 42,
-      "Sin prioridad": 18,
+      "Normal": 41,
+      "Sin prioridad": 19,
       "Crítico": 5,
       "Urgente": 6
     },
     "states": {
-      "Asignado": 52,
+      "Asignado": 51,
       "En espera": 11,
-      "Complementado": 8
+      "Complementado": 9
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 71
