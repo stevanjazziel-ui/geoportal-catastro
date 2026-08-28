@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-08-28",
-  "generatedAt": "2026-08-28T11:32:08",
+  "generatedAt": "2026-08-28T14:37:39",
   "records": [
     {
       "estado": "Asignado",
@@ -1276,14 +1276,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "Complementado",
+      "estado": "En espera",
       "tramite": "Trámite: 1211662 GADMR--2026-0448-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "ALMENDARIZ ALTAMIRANO MARCO VINICIO - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-09-02",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-08-19T11:32:00",
       "codigo": "GADMR--2026-0448-IPRUS-ZNP",
       "nroTramite": 1211662,
@@ -1291,9 +1291,6 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "ALMENDARIZ ALTAMIRANO MARCO VINICIO",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(5 días)",
-      "diasRestantes": 5,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
@@ -1309,7 +1306,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE RESPECTO AL ALCANCE",
       "egobLatestReassignmentAt": "2026-08-19 11:32",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 11,
+      "egobJournalCount": 12,
       "egobRelevantNotes": [
         {
           "journalId": "6853827",
@@ -3131,15 +3128,15 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 71,
     "priorities": {
-      "Normal": 38,
-      "Sin prioridad": 17,
+      "Normal": 37,
+      "Sin prioridad": 18,
       "Urgente": 13,
       "Crítico": 3
     },
     "states": {
       "Asignado": 48,
-      "En espera": 11,
-      "Complementado": 12
+      "En espera": 12,
+      "Complementado": 11
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 71
