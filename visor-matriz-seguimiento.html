@@ -1052,6 +1052,10 @@
           <span class="tab-icon">$</span>
           <span class="tab-label">Datos</span>
         </button>
+        <button class="tab-button" type="button" data-view="balance" aria-selected="false">
+          <span class="tab-icon">S</span>
+          <span class="tab-label">Saldos</span>
+        </button>
         <button class="tab-button" type="button" data-view="matrix" aria-selected="false">
           <span class="tab-icon">M</span>
           <span class="tab-label">Matriz</span>
@@ -1177,6 +1181,32 @@
               </section>
             </div>
 
+          </div>
+        </section>
+
+        <section class="view" id="view-balance" hidden>
+          <div class="section-heading">
+            <div>
+              <h2>Saldo general</h2>
+              <p>Resumen consolidado de toda la matriz, sin dividir por direcciones.</p>
+            </div>
+          </div>
+
+          <section class="panel card">
+            <div class="kpi-grid" id="generalBalanceKpiGrid"></div>
+          </section>
+
+          <div class="amounts-grid">
+            <div class="inline-kpi" id="generalBalanceCard"></div>
+            <section class="panel card">
+              <div class="panel-header">
+                <div>
+                  <h3>Lectura de conversion</h3>
+                  <p>Porcentajes calculados sobre el consolidado general.</p>
+                </div>
+              </div>
+              <div class="stat-list" id="generalBalanceRatiosList"></div>
+            </section>
           </div>
         </section>
 
@@ -1318,6 +1348,9 @@
         amountsProjectsList: document.getElementById("amountsProjectsList"),
         amountsBalanceCard: document.getElementById("amountsBalanceCard"),
         amountsRatiosList: document.getElementById("amountsRatiosList"),
+        generalBalanceKpiGrid: document.getElementById("generalBalanceKpiGrid"),
+        generalBalanceCard: document.getElementById("generalBalanceCard"),
+        generalBalanceRatiosList: document.getElementById("generalBalanceRatiosList"),
         directionBars: document.getElementById("directionBars"),
         alertList: document.getElementById("alertList"),
         riskList: document.getElementById("riskList"),
@@ -1536,13 +1569,7 @@
         return { label: "Sin alerta", tone: "slate" };
       }
 
-      function getDirectionAggregate(direction) {
-        const records = data.records.filter((record) => (record.highlights.direction || "") === direction);
-        const directionOverrides = data.directionOverrides || {};
-        const directionOverride =
-          directionOverrides[direction] ||
-          Object.entries(directionOverrides).find(([label]) => normalizeText(label) === normalizeText(direction))?.[1] ||
-          null;
+      function getRecordsAggregate(records, direction = "General") {
         const totals = {
           codified: 0,
           certified: 0,
@@ -1578,7 +1605,7 @@
           totals.accrued += accrued;
           totals.paid += paid;
 
-          if (detailText.includes("RETIRA") || detailText.includes("04/SEPT") || detailText.includes("04/09") || detailText.includes("2026-09-04")) {
+          if (detailText.includes("RETIRA") || detailText.includes("04/SEPT") || detailText.includes("04/SEP") || detailText.includes("04/09") || detailText.includes("2026-09-04")) {
             balanceBuckets.futureAvailable += balanceToCertify;
           } else if (detailText.includes("NO DISPONIBLE")) {
             balanceBuckets.unavailable += balanceToCertify;
@@ -1603,15 +1630,6 @@
           });
         });
 
-        if (directionOverride) {
-          totals.codified = toNumericAmount(directionOverride.codified);
-          totals.certified = toNumericAmount(directionOverride.certified);
-          totals.balanceToCertify = toNumericAmount(directionOverride.balanceToCertify);
-          totals.committed = toNumericAmount(directionOverride.committed);
-          totals.accrued = toNumericAmount(directionOverride.accrued);
-          totals.paid = toNumericAmount(directionOverride.paid);
-        }
-
         return {
           direction,
           records,
@@ -1626,6 +1644,27 @@
           },
           projectEntries: projectEntries.sort((a, b) => b.codified - a.codified)
         };
+      }
+
+      function getDirectionAggregate(direction) {
+        const records = data.records.filter((record) => (record.highlights.direction || "") === direction);
+        const aggregate = getRecordsAggregate(records, direction);
+        const directionOverrides = data.directionOverrides || {};
+        const directionOverride =
+          directionOverrides[direction] ||
+          Object.entries(directionOverrides).find(([label]) => normalizeText(label) === normalizeText(direction))?.[1] ||
+          null;
+
+        if (directionOverride) {
+          aggregate.totals.codified = toNumericAmount(directionOverride.codified);
+          aggregate.totals.certified = toNumericAmount(directionOverride.certified);
+          aggregate.totals.balanceToCertify = toNumericAmount(directionOverride.balanceToCertify);
+          aggregate.totals.committed = toNumericAmount(directionOverride.committed);
+          aggregate.totals.accrued = toNumericAmount(directionOverride.accrued);
+          aggregate.totals.paid = toNumericAmount(directionOverride.paid);
+        }
+
+        return aggregate;
       }
 
       function getFilteredRecords() {
@@ -1943,6 +1982,62 @@
 
       }
 
+      function renderGeneralBalanceView() {
+        const aggregate = getRecordsAggregate(data.records, "General");
+        const totals = aggregate.totals;
+        const ratios = aggregate.ratios;
+
+        elements.generalBalanceKpiGrid.innerHTML = [
+          ["Codificado", formatMoney(totals.codified), "Monto total codificado general."],
+          ["Certificado", formatMoney(totals.certified), `${formatPct(ratios.certifiedVsCodified)} del codificado.`],
+          ["Comprometido", formatMoney(totals.committed), `${formatPct(safeRatio(totals.committed, totals.codified))} del codificado.`],
+          ["Devengado", formatMoney(totals.accrued), `${formatPct(ratios.overallExecution)} del codificado.`],
+          ["Pagado", formatMoney(totals.paid), `${formatPct(safeRatio(totals.paid, totals.codified))} del codificado.`]
+        ]
+          .map(
+            ([label, value, detail]) => `
+              <article class="kpi-card card">
+                <span>${escapeHtml(label)}</span>
+                <strong>${escapeHtml(value)}</strong>
+                <small>${escapeHtml(detail)}</small>
+              </article>
+            `
+          )
+          .join("");
+
+        elements.generalBalanceCard.innerHTML = `
+          <article class="kpi-card card balance-alert-card">
+            <span>Saldo por certificar</span>
+            <strong>${escapeHtml(formatMoney(totals.balanceToCertify))}</strong>
+            <small>${escapeHtml(`${formatPct(safeRatio(totals.balanceToCertify, totals.codified))} del codificado.`)}</small>
+            <div class="balance-breakdown">
+              <div><span>Saldo disponible</span><b>${escapeHtml(formatMoney(aggregate.balanceBuckets.available))}</b></div>
+              <div><span>Saldo no disponible</span><b>${escapeHtml(formatMoney(aggregate.balanceBuckets.unavailable))}</b></div>
+              <div><span>Saldo disponible a partir del 04/09/2026</span><b>${escapeHtml(formatMoney(aggregate.balanceBuckets.futureAvailable))}</b></div>
+              <div><span>Saldo a transferir a administrativo</span><b>${escapeHtml(formatMoney(aggregate.balanceBuckets.administrative))}</b></div>
+              <div><span>Saldo a transferir a Tics</span><b>${escapeHtml(formatMoney(aggregate.balanceBuckets.tics))}</b></div>
+            </div>
+          </article>
+        `;
+
+        elements.generalBalanceRatiosList.innerHTML = [
+          ["Certificado / Codificado", formatPct(ratios.certifiedVsCodified)],
+          ["Comprometido / Certificado", formatPct(ratios.committedVsCertified)],
+          ["Devengado / Comprometido", formatPct(ratios.accruedVsCommitted)],
+          ["Pagado / Devengado", formatPct(ratios.paidVsAccrued)],
+          ["Ejecucion global", formatPct(ratios.overallExecution)]
+        ]
+          .map(
+            ([label, value]) => `
+              <div class="stat-row">
+                <span>${escapeHtml(label)}</span>
+                <strong>${escapeHtml(value)}</strong>
+              </div>
+            `
+          )
+          .join("");
+      }
+
       function renderStatList(target, entries) {
         if (!entries.length) {
           target.innerHTML = "<div class='muted'>Sin datos para mostrar.</div>";
@@ -2255,6 +2350,7 @@
         });
         document.getElementById("view-dashboard").hidden = state.activeView !== "dashboard";
         document.getElementById("view-amounts").hidden = state.activeView !== "amounts";
+        document.getElementById("view-balance").hidden = state.activeView !== "balance";
         document.getElementById("view-matrix").hidden = state.activeView !== "matrix";
         document.getElementById("view-sheets").hidden = state.activeView !== "sheets";
       }
@@ -2292,6 +2388,7 @@
         renderHeader();
         renderDashboard();
         renderAmountsView();
+        renderGeneralBalanceView();
         renderFilters();
         renderTableHead();
         renderMatrix();
