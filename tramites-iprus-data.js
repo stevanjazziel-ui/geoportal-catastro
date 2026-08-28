@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-08-28",
-  "generatedAt": "2026-08-28T09:01:50",
+  "generatedAt": "2026-08-28T09:31:39",
   "records": [
     {
       "estado": "Asignado",
@@ -951,14 +951,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1232735 GADMR--2026-0572-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "YUPA YUPA EDISON GEOVANNY - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-09-08",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-08-21T16:33:00",
       "codigo": "GADMR--2026-0572-IPRUS-ZNP",
       "nroTramite": 1232735,
@@ -966,26 +966,34 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "YUPA YUPA EDISON GEOVANNY",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(11 días)",
-      "diasRestantes": 11,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
       "sourceRow": 25,
       "id": "GADMR--2026-0572-IPRUS-ZNP",
-      "egobOutcome": "EN REVISIÓN",
-      "egobOutcomeRule": "",
-      "egobOutcomeNote": "",
-      "egobOutcomeAt": "",
-      "egobOutcomeAuthor": "",
-      "egobOutcomeAuthorRole": "",
-      "egobOutcomeEntryType": "",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "subsanacion",
+      "egobOutcomeNote": "En la revisión técnica se nota los siguientes detalles: - La coordenada Y del punto 4 no coincide con lo digitado en el cuadro de coordenadas - El área util de terreno no corresponde al area de terreno Con el propósito de agilizar la revisión técnica del predio y asegurar que el expediente cuente con toda la documentación geométrica correspondiente, se sugiere incorporar a los anexos el Informe de Levantamiento Topográfico. Se concede un plazo de 10 dias habiles para subsanar lo mencionado, una vez hecho las correcciones subir los archivos digitales y pdf debidamente firmado.",
+      "egobOutcomeAt": "2026-08-28 09:01",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Registro",
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-08-21 16:33",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 4,
-      "egobRelevantNotes": []
+      "egobJournalCount": 7,
+      "egobRelevantNotes": [
+        {
+          "journalId": "7164100",
+          "entryType": "Registro",
+          "timestamp": "2026-08-28 09:01",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "En la revisión técnica se nota los siguientes detalles: - La coordenada Y del punto 4 no coincide con lo digitado en el cuadro de coordenadas - El área util de terreno no corresponde al area de terreno Con el propósito de agilizar la revisión técnica del predio y asegurar que el expediente cuente con toda la documentación geométrica correspondiente, se sugiere incorporar a los anexos el Informe de Levantamiento Topográfico. Se concede un plazo de 10 dias habiles para subsanar lo mencionado, una vez hecho las correcciones subir los archivos digitales y pdf debidamente firmado.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        }
+      ]
     },
     {
       "estado": "Asignado",
@@ -3194,14 +3202,14 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 73,
     "priorities": {
-      "Sin prioridad": 17,
-      "Normal": 39,
+      "Sin prioridad": 18,
+      "Normal": 38,
       "Urgente": 13,
       "Crítico": 4
     },
     "states": {
-      "Asignado": 51,
-      "En espera": 10,
+      "Asignado": 50,
+      "En espera": 11,
       "Complementado": 12
     },
     "responsibles": {
