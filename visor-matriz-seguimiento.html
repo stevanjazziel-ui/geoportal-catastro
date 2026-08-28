@@ -1542,7 +1542,7 @@
           totals.accrued += accrued;
           totals.paid += paid;
 
-          if (detailText.includes("RETIRA") || detailText.includes("04/SEPT") || detailText.includes("04/09")) {
+          if (detailText.includes("RETIRA") || detailText.includes("04/SEPT") || detailText.includes("04/09") || detailText.includes("2026-09-04")) {
             balanceBuckets.futureAvailable += balanceToCertify;
           } else if (detailText.includes("NO DISPONIBLE")) {
             balanceBuckets.unavailable += balanceToCertify;
