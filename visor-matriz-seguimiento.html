@@ -695,6 +695,18 @@
       cursor: default;
     }
 
+    .expense-group-table th,
+    .expense-group-table td {
+      font-size: 0.72rem;
+      line-height: 1.35;
+    }
+
+    .expense-group-table .total-row td {
+      color: var(--text-strong);
+      font-weight: 800;
+      background: #f8fafc;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -1196,6 +1208,34 @@
             <div class="kpi-grid" id="generalBalanceKpiGrid"></div>
           </section>
 
+          <section class="panel card">
+            <div class="panel-header">
+              <div>
+                <h3>Distribucion del gasto</h3>
+                <p>Reporte por grupo de gasto con corte al 28 de agosto.</p>
+              </div>
+            </div>
+            <div class="table-wrap compact-table">
+              <table class="expense-group-table">
+                <thead>
+                  <tr>
+                    <th>Grupo</th>
+                    <th>Inicial</th>
+                    <th>Reforma</th>
+                    <th>Codificado</th>
+                    <th>Certificado</th>
+                    <th>Comprometido</th>
+                    <th>Devengado</th>
+                    <th>Ejecutado</th>
+                    <th>Pendiente</th>
+                    <th>Explicacion</th>
+                  </tr>
+                </thead>
+                <tbody id="expenseGroupTableBody"></tbody>
+              </table>
+            </div>
+          </section>
+
           <div class="amounts-grid">
             <div class="inline-kpi" id="generalBalanceCard"></div>
             <section class="panel card">
@@ -1299,6 +1339,81 @@
         { key: "executionRisk", label: "Riesgo", type: "pill" }
       ];
 
+      const expenseGroupRows = [
+        {
+          group: "CORRIENTE",
+          initial: 34080953.82,
+          reform: -1653304.94,
+          codified: 32427648.88,
+          certified: 20129481.36,
+          committed: 18400371.16,
+          accrued: 17155218.66,
+          executed: 16799563.57,
+          pending: 12298167.52,
+          explanation: "Mano de obra personal de nombramiento; definitivo y provisional. Bienes y servicios."
+        },
+        {
+          group: "INVERSION",
+          initial: 49663099.88,
+          reform: 1822522.4,
+          codified: 51485622.28,
+          certified: 28444245.83,
+          committed: 20085303.32,
+          accrued: 8830658.49,
+          executed: 8768371.51,
+          pending: 23041376.45,
+          explanation: "Considerada partidas: 73, 75, 77, 78."
+        },
+        {
+          group: "INVERSION MANO DE OBRA",
+          initial: 9290633.1,
+          reform: -3912157.36,
+          codified: 5378475.74,
+          certified: 3530295.1,
+          committed: 3530295.1,
+          accrued: 3482502.94,
+          executed: 3412129.98,
+          pending: 1848180.64,
+          explanation: "Partida 71 mano de obra personal de contrato."
+        },
+        {
+          group: "CAPITAL",
+          initial: 10757641.94,
+          reform: -2161790.03,
+          codified: 8595851.91,
+          certified: 5193635.83,
+          committed: 2260061.91,
+          accrued: 1207787.51,
+          executed: 1207152.43,
+          pending: 3402216.08,
+          explanation: "Partida 84, bienes de larga duracion."
+        },
+        {
+          group: "APLICACION FINANCIAMIENTO",
+          initial: 3079446.11,
+          reform: 0,
+          codified: 3079446.11,
+          certified: 1632751.62,
+          committed: 1632751.62,
+          accrued: 1632751.62,
+          executed: 1632751.62,
+          pending: 1446694.49,
+          explanation: "Deudas contraidas con las instituciones financieras."
+        },
+        {
+          group: "TOTAL",
+          initial: 106871774.85,
+          reform: -5904729.93,
+          codified: 100967044.92,
+          certified: 58930409.74,
+          committed: 45908783.11,
+          accrued: 32308919.22,
+          executed: 31819969.11,
+          pending: 42036635.18,
+          explanation: ""
+        }
+      ];
+
       const filterConfig = [
         { id: "query", label: "Buscar", type: "search", placeholder: "Proyecto, direccion, objeto, estado..." },
         { id: "direction", label: "Direccion", source: "direction" },
@@ -1351,6 +1466,7 @@
         generalBalanceKpiGrid: document.getElementById("generalBalanceKpiGrid"),
         generalBalanceCard: document.getElementById("generalBalanceCard"),
         generalBalanceRatiosList: document.getElementById("generalBalanceRatiosList"),
+        expenseGroupTableBody: document.getElementById("expenseGroupTableBody"),
         directionBars: document.getElementById("directionBars"),
         alertList: document.getElementById("alertList"),
         riskList: document.getElementById("riskList"),
@@ -2033,6 +2149,23 @@
               </div>
             `
           )
+          .join("");
+
+        elements.expenseGroupTableBody.innerHTML = expenseGroupRows
+          .map((row) => `
+            <tr class="${row.group === "TOTAL" ? "total-row" : ""}">
+              <td>${escapeHtml(row.group)}</td>
+              <td>${escapeHtml(formatMoney(row.initial))}</td>
+              <td>${escapeHtml(formatMoney(row.reform))}</td>
+              <td>${escapeHtml(formatMoney(row.codified))}</td>
+              <td>${escapeHtml(formatMoney(row.certified))}</td>
+              <td>${escapeHtml(formatMoney(row.committed))}</td>
+              <td>${escapeHtml(formatMoney(row.accrued))}</td>
+              <td>${escapeHtml(formatMoney(row.executed))}</td>
+              <td>${escapeHtml(formatMoney(row.pending))}</td>
+              <td>${escapeHtml(row.explanation || "")}</td>
+            </tr>
+          `)
           .join("");
       }
 
