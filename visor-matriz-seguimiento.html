@@ -1468,7 +1468,7 @@
 
       function getRecordAlert(certified, committed, processStatus) {
         if (certified <= 0) {
-          return { label: "No culmina fase preparatoria", tone: "danger" };
+          return { label: "Sin certificar", tone: "danger" };
         }
         if (committed <= 0) {
           return { label: "No compromete recurso", tone: "default" };
@@ -1489,7 +1489,7 @@
 
       function getRecordAlert(certified, committed, processStatus) {
         if (certified <= 0) {
-          return { label: "No culmina fase preparatoria", tone: "danger" };
+          return { label: "Sin certificar", tone: "danger" };
         }
         if (committed <= 0) {
           return { label: "No compromete recurso", tone: "default" };
@@ -1647,7 +1647,7 @@
         if (!text) {
           return "default";
         }
-        if (text.includes("NO CULMINA")) {
+        if (text.includes("NO CULMINA") || text.includes("SIN CERTIFICAR")) {
           return "danger";
         }
         if (text.includes("NO COMPROMETE")) {
