@@ -1914,7 +1914,6 @@
               <table>
                 <thead>
                   <tr>
-                    <th>Proyecto</th>
                     <th>Objeto</th>
                     <th>Partida</th>
                     <th>Codificado</th>
@@ -1930,7 +1929,6 @@
                     .map((entry) => {
                       return `
                         <tr>
-                          <td>${escapeHtml(entry.project)}</td>
                           <td>${escapeHtml(entry.object)}</td>
                           <td>${escapeHtml(entry.specificItem)}</td>
                           <td>${escapeHtml(formatMoney(entry.codified))}</td>
