@@ -682,11 +682,13 @@
 
     .table-wrap,
     .sheet-table-wrap {
-      overflow: auto;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
 
     .compact-table table {
       min-width: 0;
+      table-layout: fixed;
     }
 
     .compact-table tbody tr {
@@ -696,7 +698,8 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 1260px;
+      min-width: 0;
+      table-layout: fixed;
     }
 
     thead th {
@@ -713,11 +716,16 @@
     }
 
     tbody td {
-      padding: 11px 9px;
+      padding: 9px 7px;
       border-bottom: 1px solid #edf1f5;
       vertical-align: top;
-      font-size: 0.82rem;
-      line-height: 1.5;
+      font-size: 0.76rem;
+      line-height: 1.42;
+      overflow-wrap: anywhere;
+    }
+
+    thead th {
+      overflow-wrap: anywhere;
     }
 
     tbody tr {
@@ -768,7 +776,8 @@
       font-weight: 800;
       letter-spacing: 0.03em;
       text-transform: uppercase;
-      white-space: nowrap;
+      white-space: normal;
+      text-align: center;
     }
 
     .pill.default {
@@ -1256,7 +1265,7 @@
         { key: "procurementPhase", label: "Fase", type: "pill" },
         { key: "processStatus", label: "Estado", type: "pill" },
         { key: "alert", label: "Alerta", type: "pill" },
-        { key: "balance", label: "Saldo", type: "currency" },
+        { key: "detail", label: "Detalle", type: "text" },
         { key: "executionRisk", label: "Riesgo", type: "pill" }
       ];
 
@@ -1471,7 +1480,7 @@
           return { label: "Sin certificar", tone: "danger" };
         }
         if (committed <= 0) {
-          return { label: "No compromete recurso", tone: "default" };
+          return { label: "Sin comprometer", tone: "default" };
         }
         if (processStatus === "EN EJECUCION") {
           return { label: "Ejecucion", tone: "success" };
@@ -1492,7 +1501,7 @@
           return { label: "Sin certificar", tone: "danger" };
         }
         if (committed <= 0) {
-          return { label: "No compromete recurso", tone: "default" };
+          return { label: "Sin comprometer", tone: "default" };
         }
         if (processStatus === "EN EJECUCION") {
           return { label: "Ejecucion", tone: "success" };
@@ -1650,7 +1659,7 @@
         if (text.includes("NO CULMINA") || text.includes("SIN CERTIFICAR")) {
           return "danger";
         }
-        if (text.includes("NO COMPROMETE")) {
+        if (text.includes("NO COMPROMETE") || text.includes("SIN COMPROMETER")) {
           return "default";
         }
         if (text.includes("EJECUCION") || text.includes("EJECUCIÓN")) {
@@ -2079,7 +2088,7 @@
                       `;
                     }
                     if (column.type === "pill") {
-                      const text = value || "Sin dato";
+                      const text = value === "No compromete recurso" ? "Sin comprometer" : value || "Sin dato";
                       return `<td><span class="pill ${pillClass(text)}">${escapeHtml(text)}</span></td>`;
                     }
                     return `<td>${escapeHtml(formatValue(value, column.type))}</td>`;
