@@ -1418,6 +1418,29 @@
         return String(value);
       }
 
+      function formatDetailLabel(value) {
+        const text = normalizeText(value);
+        if (!text) {
+          return "Sin detalle";
+        }
+        if (text.includes("RETIRA") || text.includes("04/SEPT") || text.includes("04/SEP") || text.includes("04/09") || text.includes("2026-09-04")) {
+          return "Saldo disponible a partir del 04/09/2026";
+        }
+        if (text.includes("NO DISPONIBLE")) {
+          return "Saldo no disponible";
+        }
+        if (text.includes("ADMINISTRATIVO")) {
+          return "Saldo a transferir a administrativo";
+        }
+        if (text.includes("TICS") || text.includes("TIC")) {
+          return "Saldo a transferir a Tics";
+        }
+        if (text.includes("DISPONIBLE")) {
+          return "Saldo disponible";
+        }
+        return String(value);
+      }
+
       function formatFieldValue(columnKey, value) {
         if (value == null || value === "") {
           return "<span class='muted'>Sin dato</span>";
@@ -1430,6 +1453,10 @@
         const column = columnMap.get(columnKey);
         const label = column ? column.label : columnKey;
         const upper = (label || "").toUpperCase();
+
+        if (upper === "DETALLE") {
+          return escapeHtml(formatDetailLabel(value));
+        }
 
         if (typeof value === "number") {
           if (upper.includes("%")) {
@@ -1567,7 +1594,7 @@
             project: highlights.project || "Proyecto sin nombre",
             object: highlights.procurementObject || "Sin objeto",
             specificItem: highlights.specificItem || "Sin partida",
-            detail: highlights.detail || "Sin detalle",
+            detail: formatDetailLabel(highlights.detail),
             balance: balanceToCertify,
             codified,
             certified,
@@ -2093,6 +2120,9 @@
                     if (column.type === "pill") {
                       const text = value === "No compromete recurso" ? "Sin comprometer" : value || "Sin dato";
                       return `<td><span class="pill ${pillClass(text)}">${escapeHtml(text)}</span></td>`;
+                    }
+                    if (column.key === "detail") {
+                      return `<td>${escapeHtml(formatDetailLabel(value))}</td>`;
                     }
                     return `<td>${escapeHtml(formatValue(value, column.type))}</td>`;
                   })
