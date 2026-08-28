@@ -1256,7 +1256,7 @@
         { key: "procurementPhase", label: "Fase", type: "pill" },
         { key: "processStatus", label: "Estado", type: "pill" },
         { key: "alert", label: "Alerta", type: "pill" },
-        { key: "detail", label: "Detalle", type: "text" },
+        { key: "balance", label: "Saldo", type: "currency" },
         { key: "executionRisk", label: "Riesgo", type: "pill" }
       ];
 
@@ -1558,7 +1558,7 @@
             project: highlights.project || "Proyecto sin nombre",
             object: highlights.procurementObject || "Sin objeto",
             specificItem: highlights.specificItem || "Sin partida",
-            detail: highlights.detail || "Sin detalle",
+            balance: balanceToCertify,
             codified,
             certified,
             committed,
@@ -1845,7 +1845,7 @@
                     <th>Certificado</th>
                     <th>Comprometido</th>
                     <th>Alerta</th>
-                    <th>Detalle</th>
+                    <th>Saldo</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1860,7 +1860,7 @@
                           <td>${escapeHtml(formatMoney(entry.certified))}</td>
                           <td>${escapeHtml(formatMoney(entry.committed))}</td>
                           <td><span class="pill ${entry.alert.tone}">${escapeHtml(entry.alert.label)}</span></td>
-                          <td>${escapeHtml(entry.detail)}</td>
+                          <td>${escapeHtml(formatMoney(entry.balance))}</td>
                         </tr>
                       `;
                     })
