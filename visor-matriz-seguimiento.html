@@ -1618,7 +1618,7 @@
           }
 
           projectEntries.push({
-            project: highlights.project || "Proyecto sin nombre",
+            project: highlights.project || highlights.procurementObject || "Proyecto sin nombre",
             object: highlights.procurementObject || "Sin objeto",
             specificItem: highlights.specificItem || "Sin partida",
             detail: formatDetailLabel(highlights.detail),
@@ -2268,7 +2268,7 @@
         elements.detailCard.innerHTML = `
           <div class="detail-top">
             <span class="badge">Fila ${escapeHtml(record.rowNumber)}</span>
-            <h2>${escapeHtml(record.highlights.project || "Proyecto sin nombre")}</h2>
+            <h2>${escapeHtml(record.highlights.project || record.highlights.procurementObject || "Proyecto sin nombre")}</h2>
             <p>${escapeHtml(record.highlights.procurementObject || "Sin objeto de contratacion")}</p>
             <div>
               <span class="pill ${pillClass(record.highlights.alert || "Sin dato")}">${escapeHtml(record.highlights.alert || "Sin alerta")}</span>
