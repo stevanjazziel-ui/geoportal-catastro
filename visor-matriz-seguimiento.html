@@ -707,6 +707,12 @@
       background: #f8fafc;
     }
 
+    .expense-group-table .highlight-row td {
+      color: #8d3646;
+      font-weight: 800;
+      background: #fff0f2;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -1353,18 +1359,6 @@
           explanation: "Mano de obra personal de nombramiento; definitivo y provisional. Bienes y servicios."
         },
         {
-          group: "INVERSION",
-          initial: 49663099.88,
-          reform: 1822522.4,
-          codified: 51485622.28,
-          certified: 28444245.83,
-          committed: 20085303.32,
-          accrued: 8830658.49,
-          executed: 8768371.51,
-          pending: 23041376.45,
-          explanation: "Considerada partidas: 73, 75, 77, 78."
-        },
-        {
           group: "INVERSION MANO DE OBRA",
           initial: 9290633.1,
           reform: -3912157.36,
@@ -1377,18 +1371,6 @@
           explanation: "Partida 71 mano de obra personal de contrato."
         },
         {
-          group: "CAPITAL",
-          initial: 10757641.94,
-          reform: -2161790.03,
-          codified: 8595851.91,
-          certified: 5193635.83,
-          committed: 2260061.91,
-          accrued: 1207787.51,
-          executed: 1207152.43,
-          pending: 3402216.08,
-          explanation: "Partida 84, bienes de larga duracion."
-        },
-        {
           group: "APLICACION FINANCIAMIENTO",
           initial: 3079446.11,
           reform: 0,
@@ -1399,6 +1381,30 @@
           executed: 1632751.62,
           pending: 1446694.49,
           explanation: "Deudas contraidas con las instituciones financieras."
+        },
+        {
+          group: "INVERSION",
+          initial: 49663099.88,
+          reform: 1822522.4,
+          codified: 51485622.28,
+          certified: 28444245.83,
+          committed: 20085303.32,
+          accrued: 8830658.49,
+          executed: 8768371.51,
+          pending: 23041376.45,
+          explanation: "Considerada partidas: 73, 75, 77, 78."
+        },
+        {
+          group: "CAPITAL",
+          initial: 10757641.94,
+          reform: -2161790.03,
+          codified: 8595851.91,
+          certified: 5193635.83,
+          committed: 2260061.91,
+          accrued: 1207787.51,
+          executed: 1207152.43,
+          pending: 3402216.08,
+          explanation: "Partida 84, bienes de larga duracion."
         },
         {
           group: "TOTAL",
@@ -2153,7 +2159,7 @@
 
         elements.expenseGroupTableBody.innerHTML = expenseGroupRows
           .map((row) => `
-            <tr class="${row.group === "TOTAL" ? "total-row" : ""}">
+            <tr class="${row.group === "TOTAL" ? "total-row" : ["INVERSION", "CAPITAL"].includes(row.group) ? "highlight-row" : ""}">
               <td>${escapeHtml(row.group)}</td>
               <td>${escapeHtml(formatMoney(row.initial))}</td>
               <td>${escapeHtml(formatMoney(row.reform))}</td>
