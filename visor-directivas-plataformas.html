@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Visor cartografico de directivas por plataforma territorial." />
   <title>Directivas por Plataforma</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="./vendor/leaflet/leaflet.css" />
   <style>
     :root { --bg:#eef3ea; --panel:rgba(248,250,244,.95); --panel-2:rgba(241,245,236,.96); --line:rgba(106,126,99,.22); --text:#243226; --muted:#627464; --accent:#4f8f52; --accent-2:#5f8eb9; --selected:#4f9b61; --pending:#c86670; --unknown:#b88432; --shadow:0 16px 34px rgba(49,67,47,.11); }
     * { box-sizing:border-box; } html,body { height:100%; margin:0; }
@@ -44,7 +44,7 @@
     </aside>
     <main class="map-wrap"><div id="map"></div><div class="overlay"><strong id="overlayTitle">Directivas por plataforma territorial</strong><p id="overlayText">Los poligonos se colorean segun la directiva elegida. Haz clic sobre una plataforma para ver su encargado.</p></div></main>
   </div>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9coqIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="./vendor/leaflet/leaflet.js"></script>
   <script src="./visor-directivas-plataformas-data.js"></script>
   <script>
     (() => {
