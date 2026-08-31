@@ -713,6 +713,47 @@
       background: #fff0f2;
     }
 
+    .saldo-matrix table {
+      table-layout: fixed;
+    }
+
+    .saldo-matrix th {
+      background: #1f2937;
+      color: #ffffff;
+      font-size: 0.68rem;
+      line-height: 1.2;
+      vertical-align: bottom;
+    }
+
+    .saldo-matrix td {
+      padding: 5px 4px;
+      font-size: 0.69rem;
+      line-height: 1.18;
+    }
+
+    .saldo-matrix tbody tr:nth-child(odd) td {
+      background: #c6edf8;
+    }
+
+    .saldo-matrix tbody tr:nth-child(even) td {
+      background: #ffffff;
+    }
+
+    .saldo-matrix .total-row td {
+      background: #fde2e8 !important;
+      color: #8d1717;
+      font-weight: 900;
+    }
+
+    .saldo-matrix .numeric-cell {
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .saldo-matrix .direction-cell {
+      overflow-wrap: normal;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -1275,8 +1316,21 @@
                 <p>Distribucion del saldo por certificar segun el detalle.</p>
               </div>
             </div>
-            <div class="table-wrap compact-table">
+            <div class="table-wrap compact-table saldo-matrix">
               <table>
+                <colgroup>
+                  <col style="width: 23%">
+                  <col style="width: 4%">
+                  <col style="width: 11%">
+                  <col style="width: 10%">
+                  <col style="width: 7%">
+                  <col style="width: 9%">
+                  <col style="width: 9%">
+                  <col style="width: 10%">
+                  <col style="width: 8%">
+                  <col style="width: 6%">
+                  <col style="width: 3%">
+                </colgroup>
                 <thead>
                   <tr>
                     <th>Direccion</th>
@@ -2312,20 +2366,44 @@
         });
 
         const summaryRows = [...rowsByDirection.values()].sort((a, b) => b.balance - a.balance);
+        const totalRow = summaryRows.reduce((total, row) => ({
+          direction: "TOTAL",
+          count: total.count + row.count,
+          codified: total.codified + row.codified,
+          balance: total.balance + row.balance,
+          available: total.available + row.available,
+          unavailable: total.unavailable + row.unavailable,
+          futureAvailable: total.futureAvailable + row.futureAvailable,
+          administrative: total.administrative + row.administrative,
+          tics: total.tics + row.tics,
+          other: total.other + row.other
+        }), {
+          direction: "TOTAL",
+          count: 0,
+          codified: 0,
+          balance: 0,
+          available: 0,
+          unavailable: 0,
+          futureAvailable: 0,
+          administrative: 0,
+          tics: 0,
+          other: 0
+        });
         elements.saldoSummaryTableBody.innerHTML = summaryRows
+          .concat(totalRow)
           .map((row) => `
-            <tr>
-              <td>${escapeHtml(row.direction)}</td>
-              <td>${escapeHtml(formatNumber(row.count))}</td>
-              <td>${escapeHtml(formatMoney(row.codified))}</td>
-              <td>${escapeHtml(formatMoney(row.balance))}</td>
-              <td>${escapeHtml(formatPct(safeRatio(row.balance, row.codified)))}</td>
-              <td>${escapeHtml(formatMoney(row.available))}</td>
-              <td>${escapeHtml(formatMoney(row.unavailable))}</td>
-              <td>${escapeHtml(formatMoney(row.futureAvailable))}</td>
-              <td>${escapeHtml(formatMoney(row.administrative))}</td>
-              <td>${escapeHtml(formatMoney(row.tics))}</td>
-              <td>${escapeHtml(formatMoney(row.other))}</td>
+            <tr class="${row.direction === "TOTAL" ? "total-row" : ""}">
+              <td class="direction-cell">${escapeHtml(row.direction)}</td>
+              <td class="numeric-cell">${escapeHtml(formatNumber(row.count))}</td>
+              <td class="numeric-cell">${escapeHtml(formatMoney(row.codified))}</td>
+              <td class="numeric-cell">${escapeHtml(formatMoney(row.balance))}</td>
+              <td class="numeric-cell">${escapeHtml(formatPct(safeRatio(row.balance, row.codified)))}</td>
+              <td class="numeric-cell">${escapeHtml(formatMoney(row.available))}</td>
+              <td class="numeric-cell">${escapeHtml(formatMoney(row.unavailable))}</td>
+              <td class="numeric-cell">${escapeHtml(formatMoney(row.futureAvailable))}</td>
+              <td class="numeric-cell">${escapeHtml(formatMoney(row.administrative))}</td>
+              <td class="numeric-cell">${escapeHtml(formatMoney(row.tics))}</td>
+              <td class="numeric-cell">${escapeHtml(formatMoney(row.other))}</td>
             </tr>
           `)
           .join("");
