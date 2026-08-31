@@ -1074,6 +1074,10 @@
           <span class="tab-icon">$</span>
           <span class="tab-label">Datos por Dirección</span>
         </button>
+        <button class="tab-button" type="button" data-view="saldoSheet" aria-selected="false">
+          <span class="tab-icon">R</span>
+          <span class="tab-label">Saldo por Dirección</span>
+        </button>
         <button class="tab-button" type="button" data-view="matrix" aria-selected="false">
           <span class="tab-icon">M</span>
           <span class="tab-label">Matriz</span>
@@ -1254,6 +1258,68 @@
               <div class="stat-list" id="generalBalanceRatiosList"></div>
             </section>
           </div>
+        </section>
+
+        <section class="view" id="view-saldoSheet" hidden>
+          <div class="section-heading">
+            <div>
+              <h2>Saldo por direccion</h2>
+              <p>Resumen igual al Excel generado: saldos por direccion y detalle de partidas que alimentan la tarjeta.</p>
+            </div>
+          </div>
+
+          <section class="panel card">
+            <div class="panel-header">
+              <div>
+                <h3>Resumen por direccion</h3>
+                <p>Distribucion del saldo por certificar segun el detalle.</p>
+              </div>
+            </div>
+            <div class="table-wrap compact-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Direccion</th>
+                    <th>Filas</th>
+                    <th>Codificado</th>
+                    <th>Saldo por certificar</th>
+                    <th>% del codificado</th>
+                    <th>Disponible</th>
+                    <th>No disponible</th>
+                    <th>Disponible 04/09/2026</th>
+                    <th>Transferir administrativo</th>
+                    <th>Transferir Tics</th>
+                    <th>Otros</th>
+                  </tr>
+                </thead>
+                <tbody id="saldoSummaryTableBody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="panel card">
+            <div class="panel-header">
+              <div>
+                <h3>Detalle de partidas</h3>
+                <p>Partidas con saldo por certificar distinto de cero.</p>
+              </div>
+            </div>
+            <div class="table-wrap compact-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Direccion</th>
+                    <th>Partida</th>
+                    <th>Objeto</th>
+                    <th>Codificado</th>
+                    <th>Saldo por certificar</th>
+                    <th>Detalle</th>
+                  </tr>
+                </thead>
+                <tbody id="saldoDetailTableBody"></tbody>
+              </table>
+            </div>
+          </section>
         </section>
 
         <section class="view" id="view-matrix" hidden>
@@ -1473,6 +1539,8 @@
         generalBalanceCard: document.getElementById("generalBalanceCard"),
         generalBalanceRatiosList: document.getElementById("generalBalanceRatiosList"),
         expenseGroupTableBody: document.getElementById("expenseGroupTableBody"),
+        saldoSummaryTableBody: document.getElementById("saldoSummaryTableBody"),
+        saldoDetailTableBody: document.getElementById("saldoDetailTableBody"),
         directionBars: document.getElementById("directionBars"),
         alertList: document.getElementById("alertList"),
         riskList: document.getElementById("riskList"),
@@ -1597,6 +1665,26 @@
           return "Saldo disponible";
         }
         return String(value);
+      }
+
+      function getSaldoCategory(value) {
+        const label = formatDetailLabel(value);
+        if (label === "Saldo disponible") {
+          return "available";
+        }
+        if (label === "Saldo no disponible") {
+          return "unavailable";
+        }
+        if (label === "Saldo disponible a partir del 04/09/2026") {
+          return "futureAvailable";
+        }
+        if (label === "Saldo a transferir a administrativo") {
+          return "administrative";
+        }
+        if (label === "Saldo a transferir a Tics") {
+          return "tics";
+        }
+        return "other";
       }
 
       function formatFieldValue(columnKey, value) {
@@ -2178,6 +2266,85 @@
           .join("");
       }
 
+      function renderSaldoSheetView() {
+        const rowsByDirection = new Map();
+        const detailRows = [];
+
+        data.records.forEach((record) => {
+          const highlights = record.highlights;
+          const direction = highlights.direction || "Sin direccion";
+          const codified = toNumericAmount(highlights.codified);
+          const balance = toNumericAmount(record.fields.SALDO_POR_CERTIFICAR ?? record.fields.SALDO);
+          const detail = formatDetailLabel(highlights.detail);
+          const category = getSaldoCategory(highlights.detail);
+
+          if (!rowsByDirection.has(direction)) {
+            rowsByDirection.set(direction, {
+              direction,
+              count: 0,
+              codified: 0,
+              balance: 0,
+              available: 0,
+              unavailable: 0,
+              futureAvailable: 0,
+              administrative: 0,
+              tics: 0,
+              other: 0
+            });
+          }
+
+          const row = rowsByDirection.get(direction);
+          row.count += 1;
+          row.codified += codified;
+          row.balance += balance;
+          row[category] += balance;
+
+          if (Math.abs(balance) > 0.01) {
+            detailRows.push({
+              direction,
+              specificItem: highlights.specificItem || "Sin partida",
+              object: highlights.procurementObject || "Sin objeto",
+              codified,
+              balance,
+              detail
+            });
+          }
+        });
+
+        const summaryRows = [...rowsByDirection.values()].sort((a, b) => b.balance - a.balance);
+        elements.saldoSummaryTableBody.innerHTML = summaryRows
+          .map((row) => `
+            <tr>
+              <td>${escapeHtml(row.direction)}</td>
+              <td>${escapeHtml(formatNumber(row.count))}</td>
+              <td>${escapeHtml(formatMoney(row.codified))}</td>
+              <td>${escapeHtml(formatMoney(row.balance))}</td>
+              <td>${escapeHtml(formatPct(safeRatio(row.balance, row.codified)))}</td>
+              <td>${escapeHtml(formatMoney(row.available))}</td>
+              <td>${escapeHtml(formatMoney(row.unavailable))}</td>
+              <td>${escapeHtml(formatMoney(row.futureAvailable))}</td>
+              <td>${escapeHtml(formatMoney(row.administrative))}</td>
+              <td>${escapeHtml(formatMoney(row.tics))}</td>
+              <td>${escapeHtml(formatMoney(row.other))}</td>
+            </tr>
+          `)
+          .join("");
+
+        elements.saldoDetailTableBody.innerHTML = detailRows
+          .sort((a, b) => b.balance - a.balance)
+          .map((row) => `
+            <tr>
+              <td>${escapeHtml(row.direction)}</td>
+              <td>${escapeHtml(row.specificItem)}</td>
+              <td>${escapeHtml(row.object)}</td>
+              <td>${escapeHtml(formatMoney(row.codified))}</td>
+              <td>${escapeHtml(formatMoney(row.balance))}</td>
+              <td>${escapeHtml(row.detail)}</td>
+            </tr>
+          `)
+          .join("");
+      }
+
       function renderStatList(target, entries) {
         if (!entries.length) {
           target.innerHTML = "<div class='muted'>Sin datos para mostrar.</div>";
@@ -2491,6 +2658,7 @@
         document.getElementById("view-dashboard").hidden = state.activeView !== "dashboard";
         document.getElementById("view-amounts").hidden = state.activeView !== "amounts";
         document.getElementById("view-balance").hidden = state.activeView !== "balance";
+        document.getElementById("view-saldoSheet").hidden = state.activeView !== "saldoSheet";
         document.getElementById("view-matrix").hidden = state.activeView !== "matrix";
         document.getElementById("view-sheets").hidden = state.activeView !== "sheets";
       }
@@ -2529,6 +2697,7 @@
         renderDashboard();
         renderAmountsView();
         renderGeneralBalanceView();
+        renderSaldoSheetView();
         renderFilters();
         renderTableHead();
         renderMatrix();
