@@ -1578,6 +1578,9 @@
         if (!text) {
           return "Sin detalle";
         }
+        if (text === "0" || text === "0.0" || text === "CERO") {
+          return "Sin detalle";
+        }
         if (text.includes("RETIRA") || text.includes("04/SEPT") || text.includes("04/SEP") || text.includes("04/09") || text.includes("2026-09-04")) {
           return "Saldo disponible a partir del 04/09/2026";
         }
