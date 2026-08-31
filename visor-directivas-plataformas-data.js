@@ -12,7 +12,19 @@ window.PLATFORM_DIRECTIVES_DATA = {
   },
   platforms: [
     { code: "A", label: "Plataforma A", manager: "Cnel. Marco Miñaca", assignedAt: "2026-07-20", status: "pending" },
-    { code: "B", label: "Plataforma B", manager: "Ing. Diego Layedra", assignedAt: "2026-08-11", status: "selected" },
+    {
+      code: "B",
+      label: "Plataforma B",
+      manager: "Ing. Diego Layedra",
+      assignedAt: "2026-08-11",
+      status: "selected",
+      committee: [
+        { role: "Coordinador", name: "Nicolás Taipe", phone: "0984572317" },
+        { role: "Secretario", name: "Dr. Hernán Garcés", phone: "0984965116" },
+        { role: "Primer vocal principal", name: "Galo Paña", phone: "0995229403" },
+        { role: "Segundo vocal principal", name: "Betty Guaraca", phone: "0983078783" }
+      ]
+    },
     { code: "C", label: "Plataforma C", manager: "Ing. Jessica Guamán", assignedAt: "2026-08-25", status: "pending" },
     { code: "D", label: "Plataforma D", manager: "Ing. Juan Diego Remache", assignedAt: "2026-08-21", status: "pending" },
     { code: "E", label: "Plataforma E", manager: null, assignedAt: null, status: "unknown" },
