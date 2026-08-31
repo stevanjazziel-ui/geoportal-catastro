@@ -1,12 +1,12 @@
 window.PLATFORM_DIRECTIVES_DATA = {
   meta: {
-    title: "Visor de Directivas por Plataforma",
+    title: "Visor de Comités por Plataforma",
     description:
-      "Seguimiento rapido para identificar el encargado de cada plataforma y si ya tiene directiva elegida.",
+      "Seguimiento rapido para identificar el encargado de cada plataforma y si ya tiene comité elegido.",
     updatedAt: "2026-08-31",
     source: "Capturas compartidas por WhatsApp el 31 de agosto de 2026.",
     notes: [
-      "Actualizacion manual aplicada: las plataformas L y P tambien se marcan como elegidas.",
+      "Actualizacion manual aplicada: las plataformas L y P tambien se marcan con comité elegido.",
       "La plataforma E no aparece en las capturas recibidas; se deja visible como pendiente de confirmacion."
     ]
   },
