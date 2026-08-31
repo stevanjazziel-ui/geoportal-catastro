@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-08-31",
-  "generatedAt": "2026-08-31T15:31:53",
+  "generatedAt": "2026-08-31T16:01:56",
   "records": [
     {
       "estado": "Asignado",
@@ -1080,14 +1080,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1233004 GADMR--2026-0576-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "LARA CARGUA GENESIS VANESSA - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-09-09",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-08-24T11:10:00",
       "codigo": "GADMR--2026-0576-IPRUS-ZNP",
       "nroTramite": 1233004,
@@ -1095,26 +1095,44 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "LARA CARGUA GENESIS VANESSA",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(9 días)",
-      "diasRestantes": 9,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
       "sourceRow": 29,
       "id": "GADMR--2026-0576-IPRUS-ZNP",
-      "egobOutcome": "EN REVISIÓN",
-      "egobOutcomeRule": "",
-      "egobOutcomeNote": "",
-      "egobOutcomeAt": "",
-      "egobOutcomeAuthor": "",
-      "egobOutcomeAuthorRole": "",
-      "egobOutcomeEntryType": "",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "subsanacion",
+      "egobOutcomeNote": "(FL) En la revisión técnica se observa que el área digitada no corresponde al area entregada en el plano digital, corregir este particular y subir el archivo digital y pdf debidamente firmado. Se concede un plazo de 10 dias habiles a partir de la fecha de notificación.",
+      "egobOutcomeAt": "2026-08-31 15:36",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Registro",
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-08-24 11:10",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 4,
-      "egobRelevantNotes": []
+      "egobJournalCount": 6,
+      "egobRelevantNotes": [
+        {
+          "journalId": "7196583",
+          "entryType": "Registro",
+          "timestamp": "2026-08-31 15:36",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "(FL) En la revisión técnica se observa que el área digitada no corresponde al area entregada en el plano digital, corregir este particular y subir el archivo digital y pdf debidamente firmado. Se concede un plazo de 10 dias habiles a partir de la fecha de notificación.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
+          "journalId": "7196584",
+          "entryType": "Registro",
+          "timestamp": "2026-08-31 15:36",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "(FL) En la revisión técnica se observa que el área digitada no corresponde al area entregada en el plano digital, corregir este particular y subir el archivo digital y pdf debidamente firmado. Se concede un plazo de 10 dias habiles a partir de la fecha de notificación.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        }
+      ]
     },
     {
       "estado": "Asignado",
@@ -3252,15 +3270,15 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 76,
     "priorities": {
-      "Normal": 44,
-      "Sin prioridad": 18,
+      "Normal": 43,
+      "Sin prioridad": 19,
       "Urgente": 11,
       "Crítico": 3
     },
     "states": {
-      "Asignado": 56,
+      "Asignado": 55,
       "Complementado": 10,
-      "En espera": 10
+      "En espera": 11
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 76
