@@ -11,11 +11,11 @@ window.PLATFORM_DIRECTIVES_DATA = {
     ]
   },
   platforms: [
-    { code: "A", label: "Plataforma A", manager: "Cnel. Marco Miñaca", assignedAt: "2026-07-20", status: "pending" },
+    { code: "A", label: "Plataforma A", manager: "Marco Miñaca", assignedAt: "2026-07-20", status: "pending" },
     {
       code: "B",
       label: "Plataforma B",
-      manager: "Ing. Diego Layedra",
+      manager: "Diego Layedra",
       assignedAt: "2026-08-11",
       status: "selected",
       committee: [
@@ -25,21 +25,21 @@ window.PLATFORM_DIRECTIVES_DATA = {
         { role: "Segundo vocal principal", name: "Betty Guaraca", phone: "0983078783" }
       ]
     },
-    { code: "C", label: "Plataforma C", manager: "Ing. Jessica Guamán", assignedAt: "2026-08-25", status: "pending" },
-    { code: "D", label: "Plataforma D", manager: "Ing. Juan Diego Remache", assignedAt: "2026-08-21", status: "pending" },
+    { code: "C", label: "Plataforma C", manager: "Jessica Guamán", assignedAt: "2026-08-25", status: "pending" },
+    { code: "D", label: "Plataforma D", manager: "Juan Diego Remache", assignedAt: "2026-08-21", status: "pending" },
     { code: "E", label: "Plataforma E", manager: null, assignedAt: null, status: "unknown" },
-    { code: "F", label: "Plataforma F", manager: "Ing. Danny Usca", assignedAt: "2026-08-12", status: "selected" },
-    { code: "G", label: "Plataforma G", manager: "Mgs. Sandra Guevara", assignedAt: "2026-08-31", status: "pending" },
-    { code: "H", label: "Plataforma H", manager: "Cnel. Fabian Codel", assignedAt: "2026-08-14", status: "selected" },
-    { code: "I", label: "Plataforma I", manager: "Mgs. Mauricio Perez", assignedAt: "2026-08-21", status: "pending" },
-    { code: "J", label: "Plataforma J", manager: "Cnel. Fabian Codel", assignedAt: "2026-08-24", status: "pending" },
-    { code: "K", label: "Plataforma K", manager: "Arq. Fernanda Vasco", assignedAt: "2026-08-27", status: "selected" },
-    { code: "L", label: "Plataforma L", manager: "Ing. Alexis Pumagualli", assignedAt: "2026-08-14", status: "selected" },
-    { code: "M", label: "Plataforma M", manager: "Ing. Alejandro Rios", assignedAt: "2026-08-18", status: "pending" },
-    { code: "N", label: "Plataforma N", manager: "Ing. Luis Vasquez", assignedAt: "2026-08-20", status: "pending" },
-    { code: "Ñ", label: "Plataforma Ñ", manager: "Arq. Christian Tello", assignedAt: "2026-08-19", status: "pending" },
-    { code: "O", label: "Plataforma O", manager: "Abg. Ramiro Vallejo", assignedAt: "2026-08-11", status: "selected" },
-    { code: "P", label: "Plataforma P", manager: "Ing. Silvana Vasquez", assignedAt: "2026-08-12", status: "selected" },
-    { code: "Q", label: "Plataforma Q", manager: "Arq. Christian Tello", assignedAt: "2026-08-20", status: "pending" }
+    { code: "F", label: "Plataforma F", manager: "Danny Usca", assignedAt: "2026-08-12", status: "selected" },
+    { code: "G", label: "Plataforma G", manager: "Sandra Guevara", assignedAt: "2026-08-31", status: "pending" },
+    { code: "H", label: "Plataforma H", manager: "Fabián Codel", assignedAt: "2026-08-14", status: "selected" },
+    { code: "I", label: "Plataforma I", manager: "Mauricio Pérez", assignedAt: "2026-08-21", status: "pending" },
+    { code: "J", label: "Plataforma J", manager: "Fabián Borja", assignedAt: "2026-08-24", status: "pending" },
+    { code: "K", label: "Plataforma K", manager: "Fernanda Vasco y Sebastián López", assignedAt: "2026-08-27", status: "selected" },
+    { code: "L", label: "Plataforma L", manager: "Alexis Pumagualli", assignedAt: "2026-08-14", status: "selected" },
+    { code: "M", label: "Plataforma M", manager: "Alejandro Ríos", assignedAt: "2026-08-18", status: "pending" },
+    { code: "N", label: "Plataforma N", manager: "Luis Vásquez", assignedAt: "2026-08-20", status: "pending" },
+    { code: "Ñ", label: "Plataforma Ñ", manager: "Andres Vazques", assignedAt: "2026-08-19", status: "pending" },
+    { code: "O", label: "Plataforma O", manager: "Ramiro Vallejo", assignedAt: "2026-08-11", status: "selected" },
+    { code: "P", label: "Plataforma P", manager: "Silvana Vásquez", assignedAt: "2026-08-12", status: "selected" },
+    { code: "Q", label: "Plataforma Q", manager: "Andrés Viteri", assignedAt: "2026-08-20", status: "pending" }
   ]
 };
