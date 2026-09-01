@@ -882,7 +882,7 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260827-recalculo-bolivar-chiriboga-v1";
+    const DATA_VERSION = "20260901-main-google-maps-base-v1";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const TRANSPORTE_ROUTES_SHP_KEY = "rutas_transporte_intracantonal_recortadas_400m_carto";
@@ -929,22 +929,27 @@
       }
     );
 
-    const esriBase = L.tileLayer(
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-      { attribution: "Tiles &copy; Esri", maxNativeZoom: 18, maxZoom: 20 }
+    const googleMapsBase = L.tileLayer(
+      "https://mt{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+      {
+        attribution: "Imagery &copy; Google",
+        subdomains: "0123",
+        maxNativeZoom: 20,
+        maxZoom: 21
+      }
     );
 
     const baseLayerOptions = {
       OpenStreetMap: osmBase,
       "Base diagnostico": diagnosticBase,
-      "Esri satelital": esriBase
+      "Google Maps": googleMapsBase
     };
 
     function updateMapBaseTheme() {
       const container = map.getContainer();
       container.classList.toggle("osm-map", map.hasLayer(osmBase));
       container.classList.toggle("diagnostic-map", map.hasLayer(diagnosticBase));
-      container.classList.toggle("imagery-map", map.hasLayer(esriBase));
+      container.classList.toggle("imagery-map", map.hasLayer(googleMapsBase));
     }
 
     map.on("baselayerchange", updateMapBaseTheme);
