@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-09-01T00:00:00",
+  "generated_at": "2026-09-01T00:10:00",
   "source_zip": "E:\\Riobamba\\equipamientos\\levantamiento_entorno.zip",
   "summary": {
-    "total_publicos": 651,
+    "total_publicos": 650,
     "tipos_principales": 12,
     "elementos_distintos": 64,
     "plataformas_con_puntos": 19
   },
   "byTipoEleme": {
-    "Recreativo y Deporte": 211,
+    "Recreativo y Deporte": 210,
     "Transporte": 115,
     "Educación": 86,
     "Administración Pública": 58,
@@ -51,7 +51,6 @@
     "Centros o institutos de capacitación": 5,
     "Hospital provincial": 5,
     "Centro de salud Tipo B": 4,
-    "Canchas de vóley": 4,
     "Jardín botánico": 4,
     "Terminal terrestre cantonal y regional": 4,
     "Universidades y escuelas politécnicas": 4,
@@ -67,6 +66,7 @@
     "Colegios secundarios": 3,
     "Cuarteles policías o militares": 3,
     "Centros e institutos tecnológicos superiores": 3,
+    "Canchas de vóley": 3,
     "Cementerios": 3,
     "Piscinas": 3,
     "Lavanderías públicas": 3,
@@ -99,7 +99,7 @@
     "PLATAFORMA N": 36,
     "PLATAFORMA I": 30,
     "PLATAFORMA D": 30,
-    "PLATAFORMA Q": 29,
+    "PLATAFORMA Q": 28,
     "PLATAFORMA G": 19,
     "PLATAFORMA L": 19,
     "PLATAFORMA H": 17,
@@ -108,5 +108,5 @@
     "PLATAFORMA A": 2,
     "PLATAFORMA E": 1
   },
-  "observacion": "Depurado duplicado de salud en Plataforma Q: se conserva Centro de Salud n3 en estado Bueno y se retira el registro repetido en estado Regular."
+  "observacion": "Depurados duplicados en Plataforma Q: Centro de Salud n3 repetido y Canchas deportivas bolivar chirib0ga."
 }

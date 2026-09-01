@@ -316,32 +316,6 @@
     {
       "type": "Feature",
       "properties": {
-        "source_id": 17,
-        "globalid": "3f3023ea-3d1f-456a-b573-43baf3617af3",
-        "codigo": "f3617af3",
-        "tipo_eleme": "Recreativo y Deporte",
-        "elemento": "Canchas de vóley",
-        "platform_name": "PLATAFORMA Q",
-        "plataforma": "PLATAFORMA Q",
-        "parroquia": "RIOBAMBA",
-        "estado": "Bueno",
-        "nombre_ins": "",
-        "tipo_equip": "Público",
-        "nombre_equ": "Canchas deportivas bolivar chirib0ga",
-        "tipologia": "Zonal",
-        "observacion": ""
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -78.63339007995384,
-          -1.683021413270712
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "source_id": 21,
         "globalid": "1d13f256-c18f-4b9e-819d-d99292f90749",
         "codigo": "92f90749",
