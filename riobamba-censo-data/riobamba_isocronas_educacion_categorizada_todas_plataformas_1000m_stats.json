@@ -1,29 +1,29 @@
 {
-  "generated_at": "2026-07-31T15:32:07",
+  "generated_at": "2026-09-01T00:40:00",
   "source_geojson": "D:\\codex\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
   "source_osm_cache": "D:\\codex\\riobamba-censo-data\\riobamba_osm_walk_network_5categorias_todas_plataformas.json",
   "summary": {
-    "total_equipamientos": 81,
-    "total_isocronas": 75,
+    "total_equipamientos": 75,
+    "total_isocronas": 71,
     "categorias_con_isocrona": 2,
     "omitidos": 6,
-    "manzanas_ajustadas": 17538,
-    "manzanas_grandes_recortadas": 685
+    "manzanas_ajustadas": 16241,
+    "manzanas_grandes_recortadas": 664
   },
   "by_categoria_source": {
-    "ZONAL": 39,
-    "BARRIAL": 36,
+    "BARRIAL": 32,
+    "ZONAL": 37,
     "CANTONAL": 6
   },
   "by_categoria_isocronas": {
-    "ZONAL": 39,
-    "BARRIAL": 36
+    "BARRIAL": 32,
+    "ZONAL": 39
   },
   "by_categoria_omitidos": {
     "CANTONAL": 6
   },
   "by_distance_m": {
-    "1000": 75
+    "1000": 71
   },
-  "observacion": "Isocronas de educacion todas las plataformas usando el levantamiento publico de todas las plataformas. BARRIAL y ZONAL se generan a 1000 m. CANTONAL no se procesa. Las manzanas grandes se recortan al limite exacto de red para evitar extensiones mayores a la distancia objetivo y el resultado final se prepara para mostrar solo el limite exterior."
+  "observacion": "Estadisticas actualizadas despues de retirar registros de prueba en Educacion Plataforma K."
 }
