@@ -264,32 +264,6 @@
     {
       "type": "Feature",
       "properties": {
-        "source_id": 14,
-        "globalid": "d5e824fb-02e1-4557-92ee-36498d5faf8f",
-        "codigo": "8d5faf8f",
-        "tipo_eleme": "Salud",
-        "elemento": "Centro de salud Tipo B",
-        "platform_name": "PLATAFORMA Q",
-        "plataforma": "PLATAFORMA Q",
-        "parroquia": "RIOBAMBA",
-        "estado": "Regular",
-        "nombre_ins": "",
-        "tipo_equip": "Público",
-        "nombre_equ": "Centro de salud n3",
-        "tipologia": "Zonal",
-        "observacion": ""
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -78.63181630071023,
-          -1.6817764672143038
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "source_id": 15,
         "globalid": "e7cef803-0cb8-4abf-8393-b41a22192ed1",
         "codigo": "22192ed1",

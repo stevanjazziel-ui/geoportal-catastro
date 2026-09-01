@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-27T12:00:00",
+  "generated_at": "2026-09-01T00:00:00",
   "source_zip": "E:\\Riobamba\\equipamientos\\levantamiento_entorno.zip",
   "summary": {
-    "total_publicos": 652,
+    "total_publicos": 651,
     "tipos_principales": 12,
     "elementos_distintos": 64,
     "plataformas_con_puntos": 19
@@ -18,7 +18,7 @@
     "Bienestar Social": 25,
     "Cultural": 24,
     "Especial": 17,
-    "Salud": 17,
+    "Salud": 16,
     "Servicios Funerarios": 3
   },
   "byElemento": {
@@ -44,13 +44,13 @@
     "Estadios barriales": 6,
     "Parques temáticos": 6,
     "Antenas centrales de transmisión y recepción de telecomunicaciones": 6,
-    "Centro de salud Tipo B": 5,
     "Oficinas de agua potable, energía eléctrica, teléfonos": 5,
     "Estaciones o subestaciones eléctricas": 5,
     "Parada de camionetas": 5,
     "Plazas o plazoletas,": 5,
     "Centros o institutos de capacitación": 5,
     "Hospital provincial": 5,
+    "Centro de salud Tipo B": 4,
     "Canchas de vóley": 4,
     "Jardín botánico": 4,
     "Terminal terrestre cantonal y regional": 4,
@@ -97,9 +97,9 @@
     "PLATAFORMA M": 37,
     "PLATAFORMA C": 36,
     "PLATAFORMA N": 36,
-    "PLATAFORMA Q": 30,
     "PLATAFORMA I": 30,
     "PLATAFORMA D": 30,
+    "PLATAFORMA Q": 29,
     "PLATAFORMA G": 19,
     "PLATAFORMA L": 19,
     "PLATAFORMA H": 17,
@@ -107,5 +107,6 @@
     "PLATAFORMA F": 12,
     "PLATAFORMA A": 2,
     "PLATAFORMA E": 1
-  }
+  },
+  "observacion": "Depurado duplicado de salud en Plataforma Q: se conserva Centro de Salud n3 en estado Bueno y se retira el registro repetido en estado Regular."
 }
