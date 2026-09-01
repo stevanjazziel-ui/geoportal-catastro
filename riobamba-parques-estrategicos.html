@@ -426,6 +426,22 @@
       </section>
 
       <section class="panel">
+        <h2>Capas visibles</h2>
+        <div class="layer-toggles">
+          <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Manzanas solo contorno</span><input id="toggleManzanasOutline" type="checkbox"></label>
+          <label class="layer-toggle"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Barrios</span><input id="toggleBarrios" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Nombres de barrios</span><input id="toggleBarriosLabels" type="checkbox"></label>
+          <label class="layer-toggle"><span>Imagen satelital Google Maps</span><input id="toggleGoogleSatellite" type="checkbox"></label>
+          <label class="layer-toggle"><span>Puntos Parque Estrategico</span><input id="toggleStrategicPoints" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Isocronas Parque Estrategico</span><input id="toggleStrategicIso" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Candidatos gimnasio al aire libre</span><input id="toggleGymCandidates" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Areas descanso/sombra 6x3 m</span><input id="toggleRestAreas" type="checkbox" checked></label>
+        </div>
+      </section>
+
+      <section class="panel">
         <h2>Resumen</h2>
         <div class="stats" id="summaryCards"></div>
       </section>
@@ -450,21 +466,6 @@
         <div class="park-list" id="parkList"></div>
       </section>
 
-      <section class="panel">
-        <h2>Capas visibles</h2>
-        <div class="layer-toggles">
-          <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Manzanas solo contorno</span><input id="toggleManzanasOutline" type="checkbox"></label>
-          <label class="layer-toggle"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Barrios</span><input id="toggleBarrios" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Nombres de barrios</span><input id="toggleBarriosLabels" type="checkbox"></label>
-          <label class="layer-toggle"><span>Imagen satelital Google Maps</span><input id="toggleGoogleSatellite" type="checkbox"></label>
-          <label class="layer-toggle"><span>Puntos Parque Estrategico</span><input id="toggleStrategicPoints" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Isocronas Parque Estrategico</span><input id="toggleStrategicIso" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Candidatos gimnasio al aire libre</span><input id="toggleGymCandidates" type="checkbox" checked></label>
-          <label class="layer-toggle"><span>Areas descanso/sombra 6x3 m</span><input id="toggleRestAreas" type="checkbox" checked></label>
-        </div>
-      </section>
 
       <section class="panel">
         <h2>Leyenda</h2>
@@ -493,7 +494,7 @@
   ></script>
   <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
   <script>
-    const DATA_VERSION = "20260827-popup-manual-v1";
+    const DATA_VERSION = "20260901-capas-after-platform-v1";
     const ALL_PLATFORMS = "__all__";
     const bboxCache = new WeakMap();
     const strategicColorByRank = {
