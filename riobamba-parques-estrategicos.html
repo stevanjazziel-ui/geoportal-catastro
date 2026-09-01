@@ -314,6 +314,41 @@
       height: 100%;
     }
 
+    .leaflet-container.diagnostic-map .leaflet-tile-pane {
+      opacity: 0.9;
+    }
+
+    .leaflet-container.osm-map .leaflet-tile-pane,
+    .leaflet-container.imagery-map .leaflet-tile-pane {
+      opacity: 1;
+    }
+
+    .osm-base-tiles {
+      filter: grayscale(1) saturate(0) brightness(1.08) contrast(1.08);
+    }
+
+    .diagnostic-base-tiles {
+      filter: grayscale(0.46) saturate(0.34) brightness(1.08) contrast(0.94);
+    }
+
+    .leaflet-control-layers {
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .leaflet-control-layers-expanded,
+    .leaflet-control-layers-toggle,
+    .leaflet-bar a {
+      background: rgba(248, 250, 244, 0.96);
+      color: var(--text);
+    }
+
+    .leaflet-bar a:hover,
+    .leaflet-bar a:focus-visible {
+      background: rgba(234, 241, 231, 0.98);
+      color: var(--text);
+    }
+
     .overlay {
       position: absolute;
       top: 18px;
@@ -433,7 +468,6 @@
           <label class="layer-toggle"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Barrios</span><input id="toggleBarrios" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Nombres de barrios</span><input id="toggleBarriosLabels" type="checkbox"></label>
-          <label class="layer-toggle"><span>Imagen satelital Google Maps</span><input id="toggleGoogleSatellite" type="checkbox"></label>
           <label class="layer-toggle"><span>Puntos Parque Estrategico</span><input id="toggleStrategicPoints" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Isocronas Parque Estrategico</span><input id="toggleStrategicIso" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Candidatos gimnasio al aire libre</span><input id="toggleGymCandidates" type="checkbox" checked></label>
@@ -494,7 +528,7 @@
   ></script>
   <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
   <script>
-    const DATA_VERSION = "20260901-capas-after-platform-v1";
+    const DATA_VERSION = "20260901-parques-basemap-main-v1";
     const ALL_PLATFORMS = "__all__";
     const bboxCache = new WeakMap();
     const strategicColorByRank = {
@@ -533,17 +567,49 @@
     map.getPane("popupPane").style.zIndex = 1200;
     map.getPane("tooltipPane").style.zIndex = 1150;
 
-    const lightBaseLayer = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-      attribution: '&copy; OpenStreetMap &copy; CARTO',
-      subdomains: "abcd",
-      maxZoom: 20
-    }).addTo(map);
+    const osmBase = L.tileLayer(
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        attribution: "&copy; OpenStreetMap contributors",
+        maxNativeZoom: 19,
+        maxZoom: 20,
+        className: "osm-base-tiles"
+      }
+    ).addTo(map);
 
-    const googleSatelliteLayer = L.tileLayer("https://mt{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}", {
-      attribution: 'Imagery &copy; Google',
-      subdomains: "0123",
-      maxZoom: 21
-    });
+    const diagnosticBase = L.tileLayer(
+      "https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png",
+      {
+        attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
+        subdomains: "abcd",
+        maxNativeZoom: 20,
+        maxZoom: 20,
+        className: "diagnostic-base-tiles"
+      }
+    );
+
+    const esriBase = L.tileLayer(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      { attribution: "Tiles &copy; Esri", maxNativeZoom: 18, maxZoom: 20 }
+    );
+
+    const baseLayerOptions = {
+      OpenStreetMap: osmBase,
+      "Base diagnostico": diagnosticBase,
+      "Esri satelital": esriBase
+    };
+
+    L.control.layers(baseLayerOptions, {}, { position: "topright", collapsed: true }).addTo(map);
+
+    function updateMapBaseTheme() {
+      const container = map.getContainer();
+      container.classList.toggle("osm-map", map.hasLayer(osmBase));
+      container.classList.toggle("diagnostic-map", map.hasLayer(diagnosticBase));
+      container.classList.toggle("imagery-map", map.hasLayer(esriBase));
+    }
+
+    map.on("baselayerchange", updateMapBaseTheme);
+    updateMapBaseTheme();
 
     const summaryCards = document.getElementById("summaryCards");
     const coverageList = document.getElementById("coverageList");
@@ -564,7 +630,6 @@
     const togglePlataformas = document.getElementById("togglePlataformas");
     const toggleBarrios = document.getElementById("toggleBarrios");
     const toggleBarriosLabels = document.getElementById("toggleBarriosLabels");
-    const toggleGoogleSatellite = document.getElementById("toggleGoogleSatellite");
     const toggleStrategicPoints = document.getElementById("toggleStrategicPoints");
     const toggleStrategicIso = document.getElementById("toggleStrategicIso");
     const toggleGymCandidates = document.getElementById("toggleGymCandidates");
@@ -576,7 +641,6 @@
       plataformas: true,
       barrios: true,
       barrioLabels: false,
-      googleSatellite: false,
       strategicPoints: true,
       strategicIso: true,
       gymCandidates: true,
@@ -1101,11 +1165,6 @@
       } else if (!visible && map.hasLayer(layer)) {
         map.removeLayer(layer);
       }
-    }
-
-    function syncBaseLayer() {
-      syncLayer(googleSatelliteLayer, layerVisibility.googleSatellite);
-      syncLayer(lightBaseLayer, !layerVisibility.googleSatellite);
     }
 
     function renderManzanas() {
@@ -1695,11 +1754,6 @@
     toggleBarriosLabels.addEventListener("change", () => {
       layerVisibility.barrioLabels = toggleBarriosLabels.checked;
       renderBarrios();
-    });
-
-    toggleGoogleSatellite.addEventListener("change", () => {
-      layerVisibility.googleSatellite = toggleGoogleSatellite.checked;
-      syncBaseLayer();
     });
 
     toggleStrategicPoints.addEventListener("change", () => {
