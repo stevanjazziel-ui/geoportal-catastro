@@ -1,7 +1,7 @@
 window.TRAMITES_IPRUS_SHARED_STATE = {
   "title": "TRAMITES IPRUS SHARED STATE",
   "sourceDate": "2026-09-02T09:01:55",
-  "generatedAt": "2026-09-02T15:38:44.334Z",
+  "generatedAt": "2026-09-02T15:41:38.918Z",
   "syncVersion": 2,
   "assignments": {
     "GADMR--2026-0595-IPRUS-ZNP": "Miriam Guisha",
@@ -76,7 +76,7 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
     "GADMR--2026-0528-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0482-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0480-IPRUS-ZNP": "Fausto Lopez",
-    "GADMR--2026-0458-IPRUS-ZNP": "Hamilton Torres",
+    "GADMR--2026-0458-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0440-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0435-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0413-IPRUS-ZNP": "Hamilton Torres",
@@ -915,12 +915,12 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
         "sourceType": "legacy-assignments"
       },
       "1212875": {
-        "assignee": "Hamilton Torres",
-        "updatedAt": "2026-07-27T13:51:50.210Z",
+        "assignee": "Miriam Guisha",
+        "updatedAt": "2026-09-02T15:41:32.442Z",
         "sourceRecordId": "GADMR--2026-0458-IPRUS-ZNP",
         "recordCode": "GADMR--2026-0458-IPRUS-ZNP",
         "tramiteNumber": "1212875",
-        "sourceType": "legacy-assignments"
+        "sourceType": "manual"
       },
       "1213109": {
         "assignee": "Miriam Guisha",
@@ -2389,12 +2389,12 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
         "sourceType": "restored-assignments"
       },
       "GADMR--2026-0458-IPRUS-ZNP": {
-        "assignee": "Hamilton Torres",
-        "updatedAt": "2026-07-27T13:51:50.210Z",
+        "assignee": "Miriam Guisha",
+        "updatedAt": "2026-09-02T15:41:32.442Z",
         "sourceRecordId": "GADMR--2026-0458-IPRUS-ZNP",
         "recordCode": "GADMR--2026-0458-IPRUS-ZNP",
         "tramiteNumber": "1212875",
-        "sourceType": "legacy-assignments"
+        "sourceType": "manual"
       },
       "GADMR--2026-0440-IPRUS-ZNP": {
         "assignee": "Fausto Lopez",
@@ -3291,6 +3291,36 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
   "reportDrafts": {},
   "taskQueue": [],
   "activityLog": [
+    {
+      "id": "1788363692442-olc3gq7k",
+      "recordId": "GADMR--2026-0458-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Miriam Guisha.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-09-02T15:41:32.442Z",
+      "recordCode": "GADMR--2026-0458-IPRUS-ZNP",
+      "tramiteNumber": "1212875",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
+    {
+      "id": "1788363687314-9oagm5bv",
+      "recordId": "GADMR--2026-0458-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna retirada.",
+      "detail": "Valor anterior: Hamilton Torres.",
+      "timestamp": "2026-09-02T15:41:27.314Z",
+      "recordCode": "GADMR--2026-0458-IPRUS-ZNP",
+      "tramiteNumber": "1212875",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
     {
       "id": "1788363518317-6t8i1p7r",
       "recordId": "GADMR--2026-0409-IPRUS-ZNP",
