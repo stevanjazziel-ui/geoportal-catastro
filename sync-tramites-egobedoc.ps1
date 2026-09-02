@@ -3,6 +3,7 @@ param(
     [string]$SaveHtml = "outputs\passig_citizen.html",
     [string]$SaveMetaJson = "outputs\passig_citizen-meta.json",
     [string]$EnvFile = ".env.egobedoc.local",
+    [string]$PythonExe = $env:IPRUS_PYTHON_EXE,
     [switch]$StrictTls
 )
 
@@ -52,9 +53,31 @@ if (-not $StrictTls) {
     $arguments += "--insecure"
 }
 
+$pythonCandidates = @()
+if ($PythonExe) {
+    $pythonCandidates += $PythonExe
+}
+$pythonCandidates += @(
+    (Join-Path $env:LOCALAPPDATA "Python\pythoncore-3.14-64\python.exe"),
+    (Join-Path $env:LOCALAPPDATA "Python\bin\python.exe"),
+    "python"
+)
+
+$resolvedPython = $null
+foreach ($candidate in $pythonCandidates) {
+    if ($candidate -eq "python" -or (Test-Path -LiteralPath $candidate)) {
+        $resolvedPython = $candidate
+        break
+    }
+}
+
+if (-not $resolvedPython) {
+    throw "No se encontro un ejecutable de Python para la sincronizacion."
+}
+
 Push-Location $root
 try {
-    python @arguments
+    & $resolvedPython @arguments
 }
 finally {
     Pop-Location

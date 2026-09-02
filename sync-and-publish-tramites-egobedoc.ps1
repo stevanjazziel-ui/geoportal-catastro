@@ -5,6 +5,7 @@ param(
     [string]$SaveHtml = "outputs\passig_citizen.html",
     [string]$SaveMetaJson = "outputs\passig_citizen-meta.json",
     [string]$EnvFile = ".env.egobedoc.local",
+    [string]$PythonExe = $env:IPRUS_PYTHON_EXE,
     [switch]$StrictTls
 )
 
@@ -23,6 +24,9 @@ $syncArguments = @{
     SaveHtml = $SaveHtml
     SaveMetaJson = $SaveMetaJson
     EnvFile = $EnvFile
+}
+if ($PythonExe) {
+    $syncArguments.PythonExe = $PythonExe
 }
 if ($StrictTls) {
     $syncArguments.StrictTls = $true
