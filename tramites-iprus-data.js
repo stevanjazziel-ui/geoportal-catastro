@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-09-02",
-  "generatedAt": "2026-09-02T16:32:04",
+  "generatedAt": "2026-09-02T17:01:53",
   "records": [
     {
       "estado": "Asignado",
@@ -3380,6 +3380,70 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
+      "estado": "Complementado",
+      "tramite": "Trámite: 1218153 GADMR--2026-0492-IPRUS-ZNP",
+      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
+      "asunto": "FREIRE ORTEGA HERNANDO MARTINIANO - IPRUS FUERA DE ZONA PATRIMONIAL",
+      "reasignadoPor": "Josselyn Dayana Orozco Velasco",
+      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "expediente": "--",
+      "fechaLimite": null,
+      "fechaIngreso": "2026-08-11T08:26:00",
+      "codigo": "GADMR--2026-0492-IPRUS-ZNP",
+      "nroTramite": 1218153,
+      "issueId": "1218153",
+      "solicitante": "FREIRE ORTEGA HERNANDO MARTINIANO",
+      "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
+      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
+      "asignadoInterno": "caizaluisae",
+      "sourceRow": 77,
+      "id": "GADMR--2026-0492-IPRUS-ZNP",
+      "egobOutcome": "FAVORABLE",
+      "egobOutcomeRule": "criterio_legal_favorable",
+      "egobOutcomeNote": "sin observaciones legales",
+      "egobOutcomeAt": "2026-07-30 17:19",
+      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
+      "egobOutcomeEntryType": "Reasignación",
+      "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE",
+      "egobLatestReassignmentAt": "2026-08-11 08:26",
+      "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
+      "egobJournalCount": 9,
+      "egobRelevantNotes": [
+        {
+          "journalId": "6963321",
+          "entryType": "Reasignación",
+          "timestamp": "2026-07-30 17:19",
+          "author": "ANGEL JAVIER TAMAYO CEPEDA",
+          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
+          "note": "sin observaciones legales",
+          "outcome": "FAVORABLE",
+          "rule": "criterio_legal_favorable"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total": 77,
+    "priorities": {
+      "Normal": 50,
+      "Sin prioridad": 18,
+      "Urgente": 4,
+      "Crítico": 5
+    },
+    "states": {
+      "Asignado": 52,
+      "Complementado": 15,
+      "En espera": 10
+    },
+    "responsibles": {
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 77
+    }
+  },
+  "historyRecords": [
+    {
       "estado": "Asignado",
       "tramite": "Trámite: 1205293 GADMR--2026-0409-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
@@ -3425,72 +3489,11 @@ window.TRAMITES_IPRUS_DATA = {
           "outcome": "FAVORABLE",
           "rule": "criterio_legal_favorable"
         }
-      ]
+      ],
+      "historyArchivedAt": "2026-09-02T17:01:53",
+      "historyLastSeenAt": "2026-09-02T16:32:04",
+      "historyStatus": "Historico"
     },
-    {
-      "estado": "Complementado",
-      "tramite": "Trámite: 1218153 GADMR--2026-0492-IPRUS-ZNP",
-      "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
-      "asunto": "FREIRE ORTEGA HERNANDO MARTINIANO - IPRUS FUERA DE ZONA PATRIMONIAL",
-      "reasignadoPor": "Josselyn Dayana Orozco Velasco",
-      "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "expediente": "--",
-      "fechaLimite": null,
-      "fechaIngreso": "2026-08-11T08:26:00",
-      "codigo": "GADMR--2026-0492-IPRUS-ZNP",
-      "nroTramite": 1218153,
-      "issueId": "1218153",
-      "solicitante": "FREIRE ORTEGA HERNANDO MARTINIANO",
-      "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
-      "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
-      "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
-      "asignadoInterno": "caizaluisae",
-      "sourceRow": 78,
-      "id": "GADMR--2026-0492-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "criterio_legal_favorable",
-      "egobOutcomeNote": "sin observaciones legales",
-      "egobOutcomeAt": "2026-07-30 17:19",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
-      "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE",
-      "egobLatestReassignmentAt": "2026-08-11 08:26",
-      "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 9,
-      "egobRelevantNotes": [
-        {
-          "journalId": "6963321",
-          "entryType": "Reasignación",
-          "timestamp": "2026-07-30 17:19",
-          "author": "ANGEL JAVIER TAMAYO CEPEDA",
-          "authorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-          "note": "sin observaciones legales",
-          "outcome": "FAVORABLE",
-          "rule": "criterio_legal_favorable"
-        }
-      ]
-    }
-  ],
-  "summary": {
-    "total": 78,
-    "priorities": {
-      "Normal": 51,
-      "Sin prioridad": 18,
-      "Urgente": 4,
-      "Crítico": 5
-    },
-    "states": {
-      "Asignado": 53,
-      "Complementado": 15,
-      "En espera": 10
-    },
-    "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 78
-    }
-  },
-  "historyRecords": [
     {
       "estado": "Complementado",
       "tramite": "Trámite: 1195334 GADMR--2026-0355-IPRUS-ZNP",
@@ -11297,21 +11300,21 @@ window.TRAMITES_IPRUS_DATA = {
     }
   ],
   "historySummary": {
-    "total": 128,
+    "total": 129,
     "priorities": {
+      "Normal": 53,
       "Sin prioridad": 50,
       "Crítico": 10,
-      "Normal": 52,
       "Urgente": 16
     },
     "states": {
+      "Asignado": 50,
       "Complementado": 67,
-      "Asignado": 49,
       "En espera": 11,
       "Nuevo": 1
     },
     "responsibles": {
-      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 128
+      "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 129
     }
   }
 };
