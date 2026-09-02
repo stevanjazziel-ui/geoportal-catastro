@@ -33,13 +33,54 @@ window.PLATFORM_DIRECTIVES_DATA = {
     { code: "H", label: "Plataforma H", manager: "Fabián Codel", assignedAt: "2026-08-14", status: "selected" },
     { code: "I", label: "Plataforma I", manager: "Mauricio Pérez", assignedAt: "2026-08-21", status: "pending" },
     { code: "J", label: "Plataforma J", manager: "Fabián Borja", assignedAt: "2026-08-24", status: "pending" },
-    { code: "K", label: "Plataforma K", manager: "Fernanda Vasco y Sebastián López", assignedAt: "2026-08-27", status: "selected" },
+    {
+      code: "K",
+      label: "Plataforma K",
+      manager: "Fernanda Vasco y Sebastián López",
+      assignedAt: "2026-08-27",
+      status: "selected",
+      committee: [
+        { role: "Presidencia", name: "María del Carmen Gallegos", phone: "0988952797" },
+        { role: "Vicepresidencia", name: "Ing. Jorge López Sena", phone: "0984763415" },
+        { role: "Secretaría", name: "Miriam López", phone: "0990839018" },
+        { role: "Vocal 1. Eje Plan", name: "Alberto Villa" },
+        { role: "Vocal 2. Eje Gestión", name: "Mirian Silva", phone: "0995512722" },
+        { role: "Vocal 3. Eje Gobernanza", name: "Dr. Sergio Flores" }
+      ]
+    },
     { code: "L", label: "Plataforma L", manager: "Alexis Pumagualli", assignedAt: "2026-08-14", status: "selected" },
     { code: "M", label: "Plataforma M", manager: "Alejandro Ríos", assignedAt: "2026-08-18", status: "selected" },
     { code: "N", label: "Plataforma N", manager: "Luis Vásquez", assignedAt: "2026-08-20", status: "pending" },
     { code: "Ñ", label: "Plataforma Ñ", manager: "Andres Vazques", assignedAt: "2026-08-19", status: "pending" },
-    { code: "O", label: "Plataforma O", manager: "Ramiro Vallejo", assignedAt: "2026-08-11", status: "selected" },
+    {
+      code: "O",
+      label: "Plataforma O",
+      manager: "Ramiro Vallejo",
+      assignedAt: "2026-08-11",
+      status: "selected",
+      committee: [
+        { role: "Coordinador", name: "Hugo Mariño" },
+        { role: "Coordinadora", name: "Olga Uquillas", phone: "0967499180" },
+        { role: "Coordinador", name: "Luis Albán", phone: "0984631389" },
+        { role: "Coordinador", name: "Armando Coloma" },
+        { role: "Coordinadora", name: "Marian Gavidia", phone: "0983305953" },
+        { role: "Coordinador", name: "Washington Machado" },
+        { role: "Coordinadora", name: "Mariana Calderón" },
+        { role: "Coordinadora", name: "Mercedes Jamín", phone: "0986958998" }
+      ]
+    },
     { code: "P", label: "Plataforma P", manager: "Silvana Vásquez", assignedAt: "2026-08-12", status: "selected" },
-    { code: "Q", label: "Plataforma Q", manager: "Christian Tello", assignedAt: "2026-08-20", status: "selected" }
+    {
+      code: "Q",
+      label: "Plataforma Q",
+      manager: "Christian Tello",
+      assignedAt: "2026-08-20",
+      status: "selected",
+      committee: [
+        { role: "Presidencia", name: "Milton Pazmiño Novillo", phone: "0993888329" },
+        { role: "Vicepresidencia", name: "Rosa Elvira Tello Noboa", phone: "0974602641" },
+        { role: "Secretaría", name: "Miguel Vinicio Zúñiga Brito", phone: "0984856020" }
+      ]
+    }
   ]
 };
