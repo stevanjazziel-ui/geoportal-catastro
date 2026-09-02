@@ -1,10 +1,11 @@
 window.TRAMITES_IPRUS_SHARED_STATE = {
   "title": "TRAMITES IPRUS SHARED STATE",
   "sourceDate": "2026-09-02T09:01:55",
-  "generatedAt": "2026-09-02T14:17:17.977Z",
+  "generatedAt": "2026-09-02T14:18:38.376Z",
   "syncVersion": 2,
   "assignments": {
     "GADMR--2026-0461-IPRUS-ZNP": "Hamilton Torres",
+    "GADMR--2026-0579-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0499-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0574-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0576-IPRUS-ZNP": "Fausto Lopez",
@@ -1321,6 +1322,14 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
         "sourceRecordId": "GADMR--2026-0577-IPRUS-ZNP",
         "recordCode": "GADMR--2026-0577-IPRUS-ZNP",
         "tramiteNumber": "1233006",
+        "sourceType": "manual"
+      },
+      "1233887": {
+        "assignee": "Fausto Lopez",
+        "updatedAt": "2026-09-02T14:18:32.372Z",
+        "sourceRecordId": "GADMR--2026-0579-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0579-IPRUS-ZNP",
+        "tramiteNumber": "1233887",
         "sourceType": "manual"
       }
     },
@@ -2748,6 +2757,14 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
         "recordCode": "GADMR--2026-0264-IPRUS-ZNP",
         "tramiteNumber": "1182104",
         "sourceType": "legacy-activity"
+      },
+      "GADMR--2026-0579-IPRUS-ZNP": {
+        "assignee": "Fausto Lopez",
+        "updatedAt": "2026-09-02T14:18:32.372Z",
+        "sourceRecordId": "GADMR--2026-0579-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0579-IPRUS-ZNP",
+        "tramiteNumber": "1233887",
+        "sourceType": "manual"
       }
     }
   },
@@ -2756,6 +2773,21 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
   "reportDrafts": {},
   "taskQueue": [],
   "activityLog": [
+    {
+      "id": "1788358712372-t6l4kw61",
+      "recordId": "GADMR--2026-0579-IPRUS-ZNP",
+      "actor": "Administrador central",
+      "actorMode": "admin",
+      "actionType": "asignacion",
+      "fieldKey": "",
+      "summary": "Asignación interna actualizada a Fausto Lopez.",
+      "detail": "No existía una asignación interna previa.",
+      "timestamp": "2026-09-02T14:18:32.372Z",
+      "recordCode": "GADMR--2026-0579-IPRUS-ZNP",
+      "tramiteNumber": "1233887",
+      "assignedTo": "",
+      "assignedFrom": ""
+    },
     {
       "id": "1787664761749-zwkvuztk",
       "recordId": "GADMR--2026-0563-IPRUS-ZNP",
