@@ -40,6 +40,6 @@ window.PLATFORM_DIRECTIVES_DATA = {
     { code: "Ñ", label: "Plataforma Ñ", manager: "Andres Vazques", assignedAt: "2026-08-19", status: "pending" },
     { code: "O", label: "Plataforma O", manager: "Ramiro Vallejo", assignedAt: "2026-08-11", status: "selected" },
     { code: "P", label: "Plataforma P", manager: "Silvana Vásquez", assignedAt: "2026-08-12", status: "selected" },
-    { code: "Q", label: "Plataforma Q", manager: "Andrés Viteri", assignedAt: "2026-08-20", status: "selected" }
+    { code: "Q", label: "Plataforma Q", manager: "Christian Tello", assignedAt: "2026-08-20", status: "selected" }
   ]
 };
