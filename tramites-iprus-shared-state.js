@@ -1,7 +1,7 @@
 window.TRAMITES_IPRUS_SHARED_STATE = {
   "title": "TRAMITES IPRUS SHARED STATE",
   "sourceDate": "2026-09-02T09:01:55",
-  "generatedAt": "2026-09-02T15:41:38.918Z",
+  "generatedAt": "2026-09-02T20:19:55.806Z",
   "syncVersion": 2,
   "assignments": {
     "GADMR--2026-0595-IPRUS-ZNP": "Miriam Guisha",
@@ -1604,6 +1604,22 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
       }
     },
     "byCode": {
+      "GADMR--2026-0458-IPRUS-ZNP": {
+        "assignee": "Miriam Guisha",
+        "updatedAt": "2026-09-02T15:41:32.442Z",
+        "sourceRecordId": "GADMR--2026-0458-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0458-IPRUS-ZNP",
+        "tramiteNumber": "1212875",
+        "sourceType": "manual"
+      },
+      "GADMR--2026-0409-IPRUS-ZNP": {
+        "assignee": "Fausto Lopez",
+        "updatedAt": "2026-09-02T15:38:38.317Z",
+        "sourceRecordId": "GADMR--2026-0409-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0409-IPRUS-ZNP",
+        "tramiteNumber": "1205293",
+        "sourceType": "manual"
+      },
       "GADMR--2026-0598-IPRUS-ZNP": {
         "assignee": "Miriam Guisha",
         "updatedAt": "2026-09-02T14:22:10.041Z",
@@ -2388,14 +2404,6 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
         "tramiteNumber": "",
         "sourceType": "restored-assignments"
       },
-      "GADMR--2026-0458-IPRUS-ZNP": {
-        "assignee": "Miriam Guisha",
-        "updatedAt": "2026-09-02T15:41:32.442Z",
-        "sourceRecordId": "GADMR--2026-0458-IPRUS-ZNP",
-        "recordCode": "GADMR--2026-0458-IPRUS-ZNP",
-        "tramiteNumber": "1212875",
-        "sourceType": "manual"
-      },
       "GADMR--2026-0440-IPRUS-ZNP": {
         "assignee": "Fausto Lopez",
         "updatedAt": "2026-07-23T13:24:05.972Z",
@@ -2419,14 +2427,6 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
         "recordCode": "GADMR--2026-0413-IPRUS-ZNP",
         "tramiteNumber": "1205784",
         "sourceType": "legacy-assignments"
-      },
-      "GADMR--2026-0409-IPRUS-ZNP": {
-        "assignee": "Fausto Lopez",
-        "updatedAt": "2026-09-02T15:38:38.317Z",
-        "sourceRecordId": "GADMR--2026-0409-IPRUS-ZNP",
-        "recordCode": "GADMR--2026-0409-IPRUS-ZNP",
-        "tramiteNumber": "1205293",
-        "sourceType": "manual"
       },
       "GADMR--2026-0384-IPRUS-ZNP": {
         "assignee": "Hamilton Torres",
