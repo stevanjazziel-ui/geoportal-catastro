@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-08-18T17:39:10",
+  "generated_at": "2026-09-03T15:25:00-05:00",
   "source_geojson": "D:\\codex\\_publish_barrios\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
   "summary": {
     "total_equipamientos_bruto": 205,
-    "total_equipamientos": 205,
-    "con_isocrona": 189,
+    "total_equipamientos": 199,
+    "con_isocrona": 183,
     "sin_isocrona": 16,
     "categorias": 3,
     "plataformas_con_puntos": 17,
     "registros_fuera_rango": 0,
-    "duplicates_removed": 0,
-    "duplicates_exact": 0,
-    "duplicates_probable": 0
+    "duplicates_removed": 6,
+    "duplicates_exact": 1,
+    "duplicates_probable": 5
   },
   "by_categoria_bruto": {
     "ZONAL": 143,
@@ -19,28 +19,28 @@
     "CANTONAL": 17
   },
   "by_categoria": {
-    "ZONAL": 143,
-    "BARRIAL": 45,
-    "CANTONAL": 17
+    "BARRIAL": 43,
+    "CANTONAL": 17,
+    "ZONAL": 139
   },
   "by_plataforma": {
-    "PLATAFORMA O": 21,
-    "PLATAFORMA P": 18,
-    "PLATAFORMA Ñ": 17,
-    "PLATAFORMA I": 16,
-    "PLATAFORMA M": 16,
-    "PLATAFORMA Q": 15,
-    "PLATAFORMA D": 14,
-    "PLATAFORMA C": 13,
-    "PLATAFORMA J": 13,
-    "PLATAFORMA G": 12,
-    "PLATAFORMA N": 12,
-    "PLATAFORMA H": 9,
+    "": 6,
+    "PLATAFORMA A": 1,
     "PLATAFORMA B": 7,
+    "PLATAFORMA C": 13,
+    "PLATAFORMA D": 14,
     "PLATAFORMA F": 6,
-    "SIN_PLATAFORMA": 6,
+    "PLATAFORMA G": 11,
+    "PLATAFORMA H": 9,
+    "PLATAFORMA I": 16,
+    "PLATAFORMA J": 13,
+    "PLATAFORMA K": 3,
     "PLATAFORMA L": 5,
-    "PLATAFORMA K": 4,
-    "PLATAFORMA A": 1
+    "PLATAFORMA M": 16,
+    "PLATAFORMA N": 12,
+    "PLATAFORMA O": 21,
+    "PLATAFORMA P": 17,
+    "PLATAFORMA Q": 14,
+    "PLATAFORMA Ñ": 15
   }
 }

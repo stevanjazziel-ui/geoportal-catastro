@@ -1,30 +1,32 @@
 {
-  "generated_at": "2026-09-01T00:10:00",
+  "generated_at": "2026-09-03T15:25:00-05:00",
   "source_geojson": "D:\\codex\\_publish_barrios\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
   "source_osm_cache": "D:\\codex\\_publish_barrios\\riobamba-censo-data\\riobamba_osm_walk_network_5categorias_todas_plataformas.json",
   "summary": {
-    "total_equipamientos": 201,
-    "total_isocronas": 188,
+    "total_equipamientos": 199,
+    "total_isocronas": 183,
     "categorias_con_isocrona": 3,
-    "omitidos": 13,
-    "manzanas_ajustadas": 34359,
-    "manzanas_grandes_recortadas": 1988
+    "omitidos": 16,
+    "manzanas_ajustadas": 33119,
+    "manzanas_grandes_recortadas": 1927
   },
   "by_categoria_source": {
-    "ZONAL": 139,
-    "BARRIAL": 45,
-    "CANTONAL": 17
+    "BARRIAL": 43,
+    "CANTONAL": 17,
+    "ZONAL": 139
   },
   "by_categoria_isocronas": {
-    "ZONAL": 141,
-    "BARRIAL": 46,
-    "CANTONAL": 1
+    "BARRIAL": 43,
+    "CANTONAL": 1,
+    "ZONAL": 139
   },
   "by_categoria_omitidos": {
-    "CANTONAL": 16
+    "BARRIAL": 0,
+    "CANTONAL": 16,
+    "ZONAL": 0
   },
   "by_distance_m": {
-    "1000": 189
+    "1000": 183
   },
-  "observacion": "Estadisticas actualizadas despues de retirar Canchas deportivas bolivar chirib0ga duplicado en Plataforma Q."
+  "observacion": "Estadisticas reestructuradas despues de unificar Urbanización San Luis, Sector Saboya Civil en Plataforma G y retirar isocronas recreativas huerfanas."
 }

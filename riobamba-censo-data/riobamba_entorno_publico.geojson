@@ -1159,7 +1159,7 @@
         "estado": "Regular",
         "nombre_ins": "",
         "tipo_equip": "Público",
-        "nombre_equ": "Urbanizacion sal luis, sector saboya civil",
+        "nombre_equ": "Urbanización San Luis, Sector Saboya Civil",
         "tipologia": "Zonal",
         "observacion": "Realizar mantenimiento, pintado y arreglo de equipamiento de gimnacio al aire libre."
       },
@@ -1168,32 +1168,6 @@
         "coordinates": [
           -78.66176166666668,
           -1.646715
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "source_id": 112,
-        "globalid": "bb327f21-c69e-4d96-99fa-bdeb7b1862bb",
-        "codigo": "7b1862bb",
-        "tipo_eleme": "Recreativo y Deporte",
-        "elemento": "Parques infantiles con jardines sin canchas",
-        "platform_name": "PLATAFORMA G",
-        "plataforma": "PLATAFORMA G",
-        "parroquia": "RIOBAMBA",
-        "estado": "Regular",
-        "nombre_ins": "",
-        "tipo_equip": "Público",
-        "nombre_equ": "San luis, sector saboya civil",
-        "tipologia": "Barrial",
-        "observacion": "Falta de mantenimiento en areas verdes y repintado de bancas."
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -78.664365,
-          -1.6524300000000003
         ]
       }
     },
