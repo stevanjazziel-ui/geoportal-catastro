@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-09-03",
-  "generatedAt": "2026-09-03T15:31:51",
+  "generatedAt": "2026-09-03T16:01:43",
   "records": [
     {
       "estado": "Asignado",
@@ -594,14 +594,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1236091 GADMR--2026-0595-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "GAVILANEZ AMEZA ERICK JHOEL - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Veronica Patricia Sagba Ausay",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": null,
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-09-01T17:55:00",
       "codigo": "GADMR--2026-0595-IPRUS-ZNP",
       "nroTramite": 1236091,
@@ -624,7 +624,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "Se emite criterio legal FAVORABLE.",
       "egobLatestReassignmentAt": "2026-09-01 17:55",
       "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobJournalCount": 5,
+      "egobJournalCount": 6,
       "egobRelevantNotes": [
         {
           "journalId": "7203260",
@@ -3284,8 +3284,8 @@ window.TRAMITES_IPRUS_DATA = {
       "Urgente": 6
     },
     "states": {
-      "Asignado": 49,
-      "En espera": 4,
+      "Asignado": 48,
+      "En espera": 5,
       "Complementado": 20
     },
     "responsibles": {
