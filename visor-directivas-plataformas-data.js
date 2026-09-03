@@ -62,7 +62,7 @@ window.PLATFORM_DIRECTIVES_DATA = {
         { role: "Vicepresidencia", name: "Truman Tapia" },
         { role: "Secretaría", name: "Prisila Tello Hinojosa", phone: "0989006726" },
         { role: "Vocal 1. Eje Plan", name: "Juana Estrada", phone: "0987071198" },
-        { role: "Vocal 2. Eje Gestión", name: "Yolanda" },
+        { role: "Vocal 2. Eje Gestión", name: "Yolanda León" },
         { role: "Vocal 3. Eje Gobernanza", name: "Germania Borja", phone: "0998940921" },
         { role: "Vocal 4. Eje Resiliencia", name: "Carol Tovar Molina", phone: "0969293972" }
       ]
