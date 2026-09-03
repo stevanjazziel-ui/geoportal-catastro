@@ -992,32 +992,6 @@
     {
       "type": "Feature",
       "properties": {
-        "source_id": 92,
-        "globalid": "0ffca5d0-a557-48eb-8f97-199da4fdecb8",
-        "codigo": "a4fdecb8",
-        "tipo_eleme": "Recreativo y Deporte",
-        "elemento": "Parque con gimnasio al aire libre",
-        "platform_name": "PLATAFORMA G",
-        "plataforma": "PLATAFORMA G",
-        "parroquia": "RIOBAMBA",
-        "estado": "Regular",
-        "nombre_ins": "",
-        "tipo_equip": "Público",
-        "nombre_equ": "Sector Saboya",
-        "tipologia": "Zonal",
-        "observacion": "Parque requiere mantenimiento de áreas verdes, mantenimiento en pintura de cancha múltiple, \nMantenimiento y pintura en gimnasio al aire libre"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -78.662663475,
-          -1.64768358
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "source_id": 94,
         "globalid": "7d321b58-6936-4b11-813d-7e267020cf02",
         "codigo": "7020cf02",

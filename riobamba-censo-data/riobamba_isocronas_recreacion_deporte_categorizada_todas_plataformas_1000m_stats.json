@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-09-03T15:25:00-05:00",
+  "generated_at": "2026-09-03T15:40:00-05:00",
   "source_geojson": "D:\\codex\\_publish_barrios\\riobamba-censo-data\\riobamba_entorno_publico.geojson",
   "source_osm_cache": "D:\\codex\\_publish_barrios\\riobamba-censo-data\\riobamba_osm_walk_network_5categorias_todas_plataformas.json",
   "summary": {
-    "total_equipamientos": 199,
-    "total_isocronas": 183,
+    "total_equipamientos": 198,
+    "total_isocronas": 182,
     "categorias_con_isocrona": 3,
     "omitidos": 16,
-    "manzanas_ajustadas": 33119,
-    "manzanas_grandes_recortadas": 1927
+    "manzanas_ajustadas": 32959,
+    "manzanas_grandes_recortadas": 1922
   },
   "by_categoria_source": {
     "BARRIAL": 43,
     "CANTONAL": 17,
-    "ZONAL": 139
+    "ZONAL": 138
   },
   "by_categoria_isocronas": {
     "BARRIAL": 43,
     "CANTONAL": 1,
-    "ZONAL": 139
+    "ZONAL": 138
   },
   "by_categoria_omitidos": {
     "BARRIAL": 0,
@@ -26,7 +26,7 @@
     "ZONAL": 0
   },
   "by_distance_m": {
-    "1000": 183
+    "1000": 182
   },
-  "observacion": "Estadisticas reestructuradas despues de unificar Urbanización San Luis, Sector Saboya Civil en Plataforma G y retirar isocronas recreativas huerfanas."
+  "observacion": "Estadisticas reestructuradas despues de eliminar Sector Saboya en Plataforma G y limpiar isocronas recreativas sin punto asociado."
 }
