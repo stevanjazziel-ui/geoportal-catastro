@@ -51,7 +51,22 @@ window.PLATFORM_DIRECTIVES_DATA = {
     { code: "L", label: "Plataforma L", manager: "Alexis Pumagualli", assignedAt: "2026-08-14", status: "selected" },
     { code: "M", label: "Plataforma M", manager: "Alejandro Ríos", assignedAt: "2026-08-18", status: "selected" },
     { code: "N", label: "Plataforma N", manager: "Luis Vásquez", assignedAt: "2026-08-20", status: "pending" },
-    { code: "Ñ", label: "Plataforma Ñ", manager: "Andres Vazques", assignedAt: "2026-08-19", status: "pending" },
+    {
+      code: "Ñ",
+      label: "Plataforma Ñ",
+      manager: "Andres Vazques",
+      assignedAt: "2026-08-19",
+      status: "selected",
+      committee: [
+        { role: "Presidencia", name: "María Tenelema", phone: "0980086272" },
+        { role: "Vicepresidencia", name: "Truman Tapia" },
+        { role: "Secretaría", name: "Prisila Tello Hinojosa", phone: "0989006726" },
+        { role: "Vocal 1. Eje Plan", name: "Juana Estrada", phone: "0987071198" },
+        { role: "Vocal 2. Eje Gestión", name: "Yolanda" },
+        { role: "Vocal 3. Eje Gobernanza", name: "Germania Borja", phone: "0998940921" },
+        { role: "Vocal 4. Eje Resiliencia", name: "Carol Tovar Molina", phone: "0969293972" }
+      ]
+    },
     {
       code: "O",
       label: "Plataforma O",
