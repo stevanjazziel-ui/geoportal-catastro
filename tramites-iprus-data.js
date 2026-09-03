@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-09-03",
-  "generatedAt": "2026-09-03T10:31:49",
+  "generatedAt": "2026-09-03T11:01:45",
   "records": [
     {
       "estado": "Asignado",
@@ -366,14 +366,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1236760 GADMR--2026-0601-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "ASHQUI ALLAUCA RODOLFO FERNANDO - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Angel Javier Tamayo Cepeda",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "2026-09-16",
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-09-02T11:19:00",
       "codigo": "GADMR--2026-0601-IPRUS-ZNP",
       "nroTramite": 1236760,
@@ -381,25 +381,22 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "ASHQUI ALLAUCA RODOLFO FERNANDO",
       "reasignadoPorCargo": "Analista De Avaluos Y Catastros De Asesoria Legal 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
-      "tiempoRestante": "(13 días)",
-      "diasRestantes": 13,
-      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
       "sourceRow": 9,
       "id": "GADMR--2026-0601-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "criterio_legal_favorable",
-      "egobOutcomeNote": "SIN OBSERVACIONES LEGALES",
-      "egobOutcomeAt": "2026-09-02 11:19",
-      "egobOutcomeAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobOutcomeAuthorRole": "ANALISTA DE AVALUOS Y CATASTROS DE ASESORIA LEGAL 1",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "subsanacion",
+      "egobOutcomeNote": "Se remite el archivo adjunto que contiene las observaciones a subsanar, para lo cual se concede un plazo de 10 días hábiles a partir de la fecha de notificación; una vez atendidos los requerimientos deberá subir el archivo digital y en formato PDF debidamente firmado.",
+      "egobOutcomeAt": "2026-09-03 10:34",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Registro",
       "egobLatestReassignmentNote": "SIN OBSERVACIONES LEGALES",
       "egobLatestReassignmentAt": "2026-09-02 11:19",
       "egobLatestReassignmentAuthor": "ANGEL JAVIER TAMAYO CEPEDA",
-      "egobJournalCount": 5,
+      "egobJournalCount": 7,
       "egobRelevantNotes": [
         {
           "journalId": "7206038",
@@ -410,6 +407,26 @@ window.TRAMITES_IPRUS_DATA = {
           "note": "SIN OBSERVACIONES LEGALES",
           "outcome": "FAVORABLE",
           "rule": "criterio_legal_favorable"
+        },
+        {
+          "journalId": "7211459",
+          "entryType": "Registro",
+          "timestamp": "2026-09-03 10:34",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Se remite el archivo adjunto que contiene las observaciones a subsanar, para lo cual se concede un plazo de 10 días hábiles a partir de la fecha de notificación; una vez atendidos los requerimientos deberá subir el archivo digital y en formato PDF debidamente firmado.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
+          "journalId": "7211460",
+          "entryType": "Registro",
+          "timestamp": "2026-09-03 10:34",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Se remite el archivo adjunto que contiene las observaciones a subsanar, para lo cual se concede un plazo de 10 días hábiles a partir de la fecha de notificación; una vez atendidos los requerimientos deberá subir el archivo digital y en formato PDF debidamente firmado.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
         }
       ]
     },
@@ -3340,15 +3357,15 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 75,
     "priorities": {
-      "Normal": 52,
-      "Sin prioridad": 12,
+      "Normal": 51,
+      "Sin prioridad": 13,
       "Crítico": 5,
       "Urgente": 6
     },
     "states": {
-      "Asignado": 51,
-      "Complementado": 19,
-      "En espera": 5
+      "Asignado": 50,
+      "En espera": 6,
+      "Complementado": 19
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 75
