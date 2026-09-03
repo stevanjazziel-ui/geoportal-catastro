@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-09-03",
-  "generatedAt": "2026-09-03T11:31:46",
+  "generatedAt": "2026-09-03T14:30:34",
   "records": [
     {
       "estado": "Asignado",
@@ -1689,14 +1689,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "En espera",
+      "estado": "Complementado",
       "tramite": "Trámite: 1232735 GADMR--2026-0572-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "YUPA YUPA EDISON GEOVANNY - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "Tiempo detenido",
+      "fechaLimite": "2026-09-08",
       "fechaIngreso": "2026-08-21T16:33:00",
       "codigo": "GADMR--2026-0572-IPRUS-ZNP",
       "nroTramite": 1232735,
@@ -1704,6 +1704,9 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "YUPA YUPA EDISON GEOVANNY",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "tiempoRestante": "(5 días)",
+      "diasRestantes": 5,
+      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
@@ -1719,7 +1722,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-08-21 16:33",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 7,
+      "egobJournalCount": 8,
       "egobRelevantNotes": [
         {
           "journalId": "7164100",
@@ -3108,14 +3111,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "En espera",
+      "estado": "Complementado",
       "tramite": "Trámite: 1210212 GADMR--2026-0440-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "FLORES LLAMUCA YADIRA ALEXANDRA - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Hamilton Ruben Torres Cabezas",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "Tiempo detenido",
+      "fechaLimite": "2026-08-25",
       "fechaIngreso": "2026-08-11T11:18:00",
       "codigo": "GADMR--2026-0440-IPRUS-ZNP",
       "nroTramite": 1210212,
@@ -3123,6 +3126,9 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "FLORES LLAMUCA YADIRA ALEXANDRA",
       "reasignadoPorCargo": "Analista 4 De Gestión De Avalúos, Catastros Y Sig",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "tiempoRestante": "(Vencido hace 9 días)",
+      "diasRestantes": 9,
+      "prioridad": "Normal",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
@@ -3138,7 +3144,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "Por favor dar continuidad, según corresponda",
       "egobLatestReassignmentAt": "2026-08-11 11:18",
       "egobLatestReassignmentAuthor": "HAMILTON RUBEN TORRES CABEZAS",
-      "egobJournalCount": 14,
+      "egobJournalCount": 15,
       "egobRelevantNotes": [
         {
           "journalId": "6851040",
@@ -3357,15 +3363,15 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 75,
     "priorities": {
-      "Normal": 51,
-      "Sin prioridad": 13,
+      "Normal": 53,
+      "Sin prioridad": 11,
       "Crítico": 5,
       "Urgente": 6
     },
     "states": {
       "Asignado": 50,
-      "En espera": 6,
-      "Complementado": 19
+      "En espera": 4,
+      "Complementado": 21
     },
     "responsibles": {
       "ESTEBAN JASIEL CAIZALUISA CRIOLLO": 75
