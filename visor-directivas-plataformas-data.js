@@ -29,7 +29,19 @@ window.PLATFORM_DIRECTIVES_DATA = {
     { code: "D", label: "Plataforma D", manager: "Juan Diego Remache", assignedAt: "2026-08-21", status: "pending" },
     { code: "E", label: "Plataforma E", manager: null, assignedAt: null, status: "unknown" },
     { code: "F", label: "Plataforma F", manager: "Danny Usca", assignedAt: "2026-08-12", status: "selected" },
-    { code: "G", label: "Plataforma G", manager: "Sandra Guevara", assignedAt: "2026-08-31", status: "pending" },
+    {
+      code: "G",
+      label: "Plataforma G",
+      manager: "Sandra Guevara",
+      assignedAt: "2026-08-31",
+      status: "selected",
+      committee: [
+        { role: "Presidencia", name: "Arq. Washington Maldonado" },
+        { role: "Vicepresidencia", name: "Carlos Gabusango" },
+        { role: "Secretaría", name: "Wilson Andino" },
+        { role: "Vocal 1. Eje Plan", name: "Klever Tarillo" }
+      ]
+    },
     { code: "H", label: "Plataforma H", manager: "Fabián Codel", assignedAt: "2026-08-14", status: "selected" },
     { code: "I", label: "Plataforma I", manager: "Mauricio Pérez", assignedAt: "2026-08-21", status: "pending" },
     { code: "J", label: "Plataforma J", manager: "Fabián Borja", assignedAt: "2026-08-24", status: "pending" },
