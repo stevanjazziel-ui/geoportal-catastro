@@ -4,7 +4,7 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-09-04",
-  "generatedAt": "2026-09-04T14:41:19",
+  "generatedAt": "2026-09-04T15:01:41",
   "records": [
     {
       "estado": "Complementado",
@@ -721,14 +721,14 @@ window.TRAMITES_IPRUS_DATA = {
       ]
     },
     {
-      "estado": "En espera",
+      "estado": "Complementado",
       "tramite": "Trámite: 1236091 GADMR--2026-0595-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "GAVILANEZ AMEZA ERICK JHOEL - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Veronica Patricia Sagba Ausay",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "Tiempo detenido",
+      "fechaLimite": null,
       "fechaIngreso": "2026-09-01T17:55:00",
       "codigo": "GADMR--2026-0595-IPRUS-ZNP",
       "nroTramite": 1236091,
@@ -751,7 +751,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "Se emite criterio legal FAVORABLE.",
       "egobLatestReassignmentAt": "2026-09-01 17:55",
       "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobJournalCount": 6,
+      "egobJournalCount": 7,
       "egobRelevantNotes": [
         {
           "journalId": "7203260",
@@ -2348,14 +2348,14 @@ window.TRAMITES_IPRUS_DATA = {
       "egobRelevantNotes": []
     },
     {
-      "estado": "En espera",
+      "estado": "Complementado",
       "tramite": "Trámite: 1227589 GADMR--2026-0549-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "YUPANQUI MEDINA MARIELA LISET - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Josselyn Dayana Orozco Velasco",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": "Tiempo detenido",
+      "fechaLimite": "2026-09-01",
       "fechaIngreso": "2026-08-14T10:40:00",
       "codigo": "GADMR--2026-0549-IPRUS-ZNP",
       "nroTramite": 1227589,
@@ -2363,6 +2363,9 @@ window.TRAMITES_IPRUS_DATA = {
       "solicitante": "YUPANQUI MEDINA MARIELA LISET",
       "reasignadoPorCargo": "Analista Geomatico De Avaluos Y Catastros 1",
       "ingresadoPor": "Ciudadano Ciudadano (Portal Ciudadano)",
+      "tiempoRestante": "(Vencido hace 3 días)",
+      "diasRestantes": 3,
+      "prioridad": "Urgente",
       "responsable": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
       "cargoResponsable": "AREA TÉCNICA DE GEOMÁTICA",
       "asignadoInterno": "caizaluisae",
@@ -2378,7 +2381,7 @@ window.TRAMITES_IPRUS_DATA = {
       "egobLatestReassignmentNote": "POR FAVOR DAR CONTINUIDAD AL TRAMITE.",
       "egobLatestReassignmentAt": "2026-08-14 10:40",
       "egobLatestReassignmentAuthor": "JOSSELYN DAYANA OROZCO VELASCO",
-      "egobJournalCount": 5,
+      "egobJournalCount": 6,
       "egobRelevantNotes": [
         {
           "journalId": "7217678",
@@ -3128,14 +3131,14 @@ window.TRAMITES_IPRUS_DATA = {
   "summary": {
     "total": 69,
     "priorities": {
-      "Sin prioridad": 15,
+      "Sin prioridad": 14,
       "Normal": 46,
-      "Urgente": 6,
+      "Urgente": 7,
       "Crítico": 2
     },
     "states": {
-      "Complementado": 16,
-      "En espera": 8,
+      "Complementado": 18,
+      "En espera": 6,
       "Asignado": 45
     },
     "responsibles": {
