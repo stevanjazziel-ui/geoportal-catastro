@@ -4,17 +4,17 @@ window.TRAMITES_IPRUS_DATA = {
   "sourcePath": "https://egobedoc.gadmriobamba.gob.ec:8081/my/passig_citizen",
   "sourceNote": "Fuente: sincronizacion autenticada desde eGOB/e-Bedoc via CAS",
   "sourceDate": "2026-09-04",
-  "generatedAt": "2026-09-04T10:31:42",
+  "generatedAt": "2026-09-04T11:01:48",
   "records": [
     {
-      "estado": "Asignado",
+      "estado": "En espera",
       "tramite": "Trámite: 1226868 GADMR--2026-0542-IPRUS-ZNP",
       "tipoTramite": "IPRUS FUERA DE ZONA PATRIMONIAL",
       "asunto": "VILEMA TIGXI BYRON MARCELO - IPRUS FUERA DE ZONA PATRIMONIAL",
       "reasignadoPor": "Veronica Patricia Sagba Ausay",
       "remitente": "Ciudadano Ciudadano (Portal Ciudadano)",
       "expediente": "--",
-      "fechaLimite": null,
+      "fechaLimite": "Tiempo detenido",
       "fechaIngreso": "2026-09-04T10:28:00",
       "codigo": "GADMR--2026-0542-IPRUS-ZNP",
       "nroTramite": 1226868,
@@ -27,17 +27,17 @@ window.TRAMITES_IPRUS_DATA = {
       "asignadoInterno": "caizaluisae",
       "sourceRow": 1,
       "id": "GADMR--2026-0542-IPRUS-ZNP",
-      "egobOutcome": "FAVORABLE",
-      "egobOutcomeRule": "criterio_legal_favorable",
-      "egobOutcomeNote": "Se emite criterio legal FAVORABLE.",
-      "egobOutcomeAt": "2026-09-04 10:28",
-      "egobOutcomeAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobOutcomeAuthorRole": "AYUDANTE 3 DE GESTIÓN DE PLANIFICACIÓN, HÁBITAT Y DESARROLLO URBANÍSTICO",
-      "egobOutcomeEntryType": "Reasignación",
+      "egobOutcome": "NO FAVORABLE",
+      "egobOutcomeRule": "subsanacion",
+      "egobOutcomeNote": "Tras la revisión técnica se identificó que un predio colindante cuenta con una subdivisión aprobada mediante resolución, por lo que se adjunta el polígono de referencia para que realice el ajuste correspondiente en el levantamiento. Una vez efectuadas las correcciones deberá cargar el archivo digital y el documento PDF debidamente firmado en un plazo máximo de 10 días hábiles a partir de la fecha de notificación.",
+      "egobOutcomeAt": "2026-09-04 10:31",
+      "egobOutcomeAuthor": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+      "egobOutcomeAuthorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+      "egobOutcomeEntryType": "Registro",
       "egobLatestReassignmentNote": "Se emite criterio legal FAVORABLE.",
       "egobLatestReassignmentAt": "2026-09-04 10:28",
       "egobLatestReassignmentAuthor": "VERONICA PATRICIA SAGBA AUSAY",
-      "egobJournalCount": 5,
+      "egobJournalCount": 7,
       "egobRelevantNotes": [
         {
           "journalId": "7218232",
@@ -48,6 +48,26 @@ window.TRAMITES_IPRUS_DATA = {
           "note": "Se emite criterio legal FAVORABLE.",
           "outcome": "FAVORABLE",
           "rule": "criterio_legal_favorable"
+        },
+        {
+          "journalId": "7218257",
+          "entryType": "Registro",
+          "timestamp": "2026-09-04 10:31",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Tras la revisión técnica se identificó que un predio colindante cuenta con una subdivisión aprobada mediante resolución, por lo que se adjunta el polígono de referencia para que realice el ajuste correspondiente en el levantamiento. Una vez efectuadas las correcciones deberá cargar el archivo digital y el documento PDF debidamente firmado en un plazo máximo de 10 días hábiles a partir de la fecha de notificación.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
+        },
+        {
+          "journalId": "7218258",
+          "entryType": "Registro",
+          "timestamp": "2026-09-04 10:31",
+          "author": "ESTEBAN JASIEL CAIZALUISA CRIOLLO",
+          "authorRole": "ANALISTA DE AVALÚOS, CATASTROS Y GEOMÁTICA 3",
+          "note": "Tras la revisión técnica se identificó que un predio colindante cuenta con una subdivisión aprobada mediante resolución, por lo que se adjunta el polígono de referencia para que realice el ajuste correspondiente en el levantamiento. Una vez efectuadas las correcciones deberá cargar el archivo digital y el documento PDF debidamente firmado en un plazo máximo de 10 días hábiles a partir de la fecha de notificación.",
+          "outcome": "NO FAVORABLE",
+          "rule": "subsanacion"
         }
       ]
     },
@@ -3089,8 +3109,8 @@ window.TRAMITES_IPRUS_DATA = {
       "Crítico": 2
     },
     "states": {
-      "Asignado": 46,
-      "En espera": 6,
+      "En espera": 7,
+      "Asignado": 45,
       "Complementado": 17
     },
     "responsibles": {
