@@ -1,9 +1,10 @@
 window.TRAMITES_IPRUS_SHARED_STATE = {
   "title": "TRAMITES IPRUS SHARED STATE",
-  "sourceDate": "2026-09-03T15:02:01",
-  "generatedAt": "2026-09-04T14:08:10.521Z",
+  "sourceDate": "2026-09-04T09:06:49",
+  "generatedAt": "2026-09-04T14:11:20.377Z",
   "syncVersion": 2,
   "assignments": {
+    "GADMR--2026-0567-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0608-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0605-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0015-IPRUS-DEC": "Miriam Guisha",
@@ -11,7 +12,6 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
     "GADMR--2026-0599-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0603-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0559-IPRUS-ZNP": "Fausto Lopez",
-    "GADMR--2026-0602-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0601-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0465-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0388-IPRUS-ZNP": "Hamilton Torres",
@@ -21,7 +21,6 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
     "GADMR--2026-0609-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0610-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0612-IPRUS-ZNP": "Fausto Lopez",
-    "GADMR--2026-0604-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0585-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0598-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0597-IPRUS-ZNP": "Miriam Guisha",
@@ -63,7 +62,6 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
     "GADMR--2026-0479-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0379-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0546-IPRUS-ZNP": "Miriam Guisha",
-    "GADMR--2026-0544-IPRUS-ZNP": "Myriam Guisha",
     "GADMR--2026-0543-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0542-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0537-IPRUS-ZNP": "Miriam Guisha",
@@ -73,13 +71,15 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
     "GADMR--2026-0482-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0480-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0458-IPRUS-ZNP": "Miriam Guisha",
-    "GADMR--2026-0440-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0435-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0413-IPRUS-ZNP": "Hamilton Torres",
     "GADMR--2026-0492-IPRUS-ZNP": "Miriam Guisha",
+    "GADMR--2026-0544-IPRUS-ZNP": "Myriam Guisha",
+    "GADMR--2026-0440-IPRUS-ZNP": "Fausto Lopez",
+    "GADMR--2026-0604-IPRUS-ZNP": "Fausto Lopez",
+    "GADMR--2026-0602-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0566-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0499-IPRUS-ZNP": "Fausto Lopez",
-    "GADMR--2026-0567-IPRUS-ZNP": "Miriam Guisha",
     "GADMR--2026-0409-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0355-IPRUS-ZNP": "Fausto Lopez",
     "GADMR--2026-0545-IPRUS-ZNP": "Fausto Lopez",
@@ -2348,20 +2348,20 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
         "tramiteNumber": "1202497",
         "sourceType": "manual"
       },
-      "GADMR--2026-0461-IPRUS-ZNP": {
-        "assignee": "Hamilton Torres",
-        "updatedAt": "2026-07-27T13:52:00.459Z",
-        "sourceRecordId": "GADMR--2026-0461-IPRUS-ZNP",
-        "recordCode": "GADMR--2026-0461-IPRUS-ZNP",
-        "tramiteNumber": "1213175",
-        "sourceType": "legacy-assignments"
-      },
-      "GADMR--2026-0499-IPRUS-ZNP": {
+      "GADMR--2026-0465-IPRUS-ZNP": {
         "assignee": "Fausto Lopez",
-        "updatedAt": "2026-09-02T14:22:16.044Z",
-        "sourceRecordId": "GADMR--2026-0499-IPRUS-ZNP",
-        "recordCode": "GADMR--2026-0499-IPRUS-ZNP",
+        "updatedAt": "2026-08-13T17:07:14.940Z",
+        "sourceRecordId": "GADMR--2026-0465-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0465-IPRUS-ZNP",
         "tramiteNumber": "",
+        "sourceType": "restored-assignments"
+      },
+      "GADMR--2026-0388-IPRUS-ZNP": {
+        "assignee": "Hamilton Torres",
+        "updatedAt": "2026-07-13T13:38:35.099Z",
+        "sourceRecordId": "GADMR--2026-0388-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0388-IPRUS-ZNP",
+        "tramiteNumber": "1201411",
         "sourceType": "legacy-assignments"
       },
       "GADMR--2026-0448-IPRUS-ZNP": {
@@ -2428,6 +2428,30 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
         "tramiteNumber": "1205784",
         "sourceType": "legacy-assignments"
       },
+      "GADMR--2026-0499-IPRUS-ZNP": {
+        "assignee": "Fausto Lopez",
+        "updatedAt": "2026-09-02T14:22:16.044Z",
+        "sourceRecordId": "GADMR--2026-0499-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0499-IPRUS-ZNP",
+        "tramiteNumber": "",
+        "sourceType": "legacy-assignments"
+      },
+      "GADMR--2026-0355-IPRUS-ZNP": {
+        "assignee": "Fausto Lopez",
+        "updatedAt": "2026-07-09T23:03:22.173Z",
+        "sourceRecordId": "GADMR--2026-0355-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0355-IPRUS-ZNP",
+        "tramiteNumber": "1195334",
+        "sourceType": "legacy-activity"
+      },
+      "GADMR--2026-0461-IPRUS-ZNP": {
+        "assignee": "Hamilton Torres",
+        "updatedAt": "2026-07-27T13:52:00.459Z",
+        "sourceRecordId": "GADMR--2026-0461-IPRUS-ZNP",
+        "recordCode": "GADMR--2026-0461-IPRUS-ZNP",
+        "tramiteNumber": "1213175",
+        "sourceType": "legacy-assignments"
+      },
       "GADMR--2026-0384-IPRUS-ZNP": {
         "assignee": "Hamilton Torres",
         "updatedAt": "2026-07-13T13:39:16.692Z",
@@ -2443,14 +2467,6 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
         "recordCode": "GADMR--2026-0366-IPRUS-ZNP",
         "tramiteNumber": "1198610",
         "sourceType": "legacy-assignments"
-      },
-      "GADMR--2026-0355-IPRUS-ZNP": {
-        "assignee": "Fausto Lopez",
-        "updatedAt": "2026-07-09T23:03:22.173Z",
-        "sourceRecordId": "GADMR--2026-0355-IPRUS-ZNP",
-        "recordCode": "GADMR--2026-0355-IPRUS-ZNP",
-        "tramiteNumber": "1195334",
-        "sourceType": "legacy-activity"
       },
       "GADMR--2026-0536-IPRUS-ZNP": {
         "assignee": "Fausto Lopez",
@@ -2812,14 +2828,6 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
         "tramiteNumber": "1203317",
         "sourceType": "legacy-assignments"
       },
-      "GADMR--2026-0465-IPRUS-ZNP": {
-        "assignee": "Fausto Lopez",
-        "updatedAt": "2026-08-13T17:07:14.940Z",
-        "sourceRecordId": "GADMR--2026-0465-IPRUS-ZNP",
-        "recordCode": "GADMR--2026-0465-IPRUS-ZNP",
-        "tramiteNumber": "",
-        "sourceType": "restored-assignments"
-      },
       "GADMR--2026-0464-IPRUS-ZNP": {
         "assignee": "Miriam Guisha",
         "updatedAt": "2026-08-13T17:07:14.940Z",
@@ -2898,14 +2906,6 @@ window.TRAMITES_IPRUS_SHARED_STATE = {
         "sourceRecordId": "GADMR--2026-0390-IPRUS-ZNP",
         "recordCode": "GADMR--2026-0390-IPRUS-ZNP",
         "tramiteNumber": "1201414",
-        "sourceType": "legacy-assignments"
-      },
-      "GADMR--2026-0388-IPRUS-ZNP": {
-        "assignee": "Hamilton Torres",
-        "updatedAt": "2026-07-13T13:38:35.099Z",
-        "sourceRecordId": "GADMR--2026-0388-IPRUS-ZNP",
-        "recordCode": "GADMR--2026-0388-IPRUS-ZNP",
-        "tramiteNumber": "1201411",
         "sourceType": "legacy-assignments"
       },
       "GADMR--2026-0386-IPRUS-ZNP": {
