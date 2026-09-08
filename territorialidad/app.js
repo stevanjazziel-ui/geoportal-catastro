@@ -10,7 +10,7 @@
   const usd=n=>n===null||n===undefined?'Sin monto comparable':new Intl.NumberFormat('es-EC',{style:'currency',currency:'USD',maximumFractionDigits:2,minimumFractionDigits:2}).format(n);
   const usdMini=n=>{if(n===null||n===undefined)return 'Sin monto';const abs=Math.abs(n),f=v=>new Intl.NumberFormat('es-EC',{maximumFractionDigits:2,minimumFractionDigits:0}).format(v);return abs>=1000000?'$'+f(n/1000000)+' M':abs>=1000?'$'+f(n/1000)+' mil':usd(n);};
   const label=c=>model.territoryMap.get(c)?.name||c;
-  const shortArea=area=>({'DESARROLLO SOCIAL':'Desarrollo Social','SECRETARIA GENERAL':'Secretaría General','HABITAT':'Hábitat','CONTROL MUNICIPAL':'Control Municipal','RIOBAMBA EP':'Riobamba EP','ADMINISTRATIVO':'Administrativo','OBRAS PÚBLICAS':'Obras Públicas','DESARROLLO ECONOMICO':'Desarrollo Económico','TICS':'TICS','CULTURA':'Cultura','COOPERACIÓN':'Cooperación','AMBIENTE':'Ambiente','RIESGOS':'Riesgos'}[area]||area);
+  const shortArea=area=>({'DESARROLLO SOCIAL':'Desarrollo Social','SECRETARIA GENERAL':'Secretaría General','HABITAT':'Hábitat','CONTROL MUNICIPAL':'Control Municipal','RIOBAMBA EP':'Riobamba EP','ADMINISTRATIVO':'Administrativo','OBRAS PÚBLICAS':'Obras Públicas','DESARROLLO ECONOMICO':'Desarrollo Económico','TICS':'TICS','CULTURA':'Cultura','COOPERACIÓN':'Cooperación','AMBIENTE':'Ambiente','PATRIMONIO':'Patrimonio','RIESGOS':'Riesgos'}[area]||area);
   let map,polygons,basemaps={},selectionLayer,visibleRecords=[],counts=new Map(),previousFocus;
   const sourceRows=new Map(data.records.map(r=>[r.id,r]));
   const title=()=>state.territory==='ALL'?'Todos los territorios':state.territory==='URBAN'?'Plataformas urbanas':state.territory==='RURAL'?'Parroquias rurales':label(state.territory);
