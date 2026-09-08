@@ -18,16 +18,15 @@
   const title=()=>state.territory==='ALL'||state.territory==='URBAN'?'Plataformas urbanas':label(state.territory);
   function budgetCaption(b){
     const pieces=[];
-    if(b.codes.length>1)pieces.push('Monto compartido; no se suma por plataforma');
-    else if(b.codes.length===1&&!model.isUrbanCode(b.codes[0]))pieces.push('Registro rural fuera del visor');
-    else if(model.isSpecificPlatformBudget(b))pieces.push('Monto específico de plataforma');
+    if(model.isSpecificPlatformBudget(b))pieces.push('Monto específico de plataforma');
+    else if(b.codes.length===1&&!model.isUrbanCode(b.codes[0]))pieces.push('Registro fuera del visor urbano');
     if(b.rows.length>1)pieces.push('Presupuesto agrupado');
     if(b.fromComponent)pieces.push('Tomado del componente presupuestario');
     if(b.value!==null&&!b.comparable)pieces.push('Anual / promedio, excluido de sumas');
     if(!pieces.length)pieces.push('Sin monto específico');
     return pieces.join(' · ');
   }
-  function amountText(b){const amount=platformAmount(b);return amount!==null?usd(amount):b.codes.length>1?'Monto compartido no considerado':b.notes.length?'Por conciliar':'Sin monto específico';}
+  function amountText(b){const amount=platformAmount(b);return amount!==null?usd(amount):'Sin monto específico';}
   const noteText=n=>String(n).replace(/Territorio asociado por el bloque presupuestario combinado.*$/,'Territorio asociado por presupuesto agrupado de la matriz.');
   function getCounts(){
     const rows=model.filter({...state,territory:'ALL'}),out=new Map(data.territories.map(t=>[t.code,0]));
@@ -44,7 +43,7 @@
   }
   function card(r){
     const b=model.budgetMap.get(r.budgetId),warnings=r.notes.length+b.notes.length;
-    return `<article class="record-card"><div class="record-top"><span class="area-tag">${esc(shortArea(r.area))}</span></div><h4>${esc(r.description)}</h4><p class="record-indicator">${esc(r.indicator||'Sin indicador registrado')}</p><div class="tags">${visibleCodes(r).length>1?'<span class="tag">Alcance compartido</span>':visibleCodes(r).map(c=>`<span class="tag">${esc(label(c))}</span>`).join('')}${warnings?'<span class="tag warn">Datos por revisar</span>':''}${r.images.length?`<span class="tag">${r.images.length} ${r.images.length===1?'imagen':'imágenes'}</span>`:''}</div><div class="record-bottom"><div class="record-money">${esc(amountText(b))}<small>${esc(budgetCaption(b))}</small></div><button class="record-button" data-detail="${esc(r.id)}" aria-label="Abrir ficha de ${esc(shortArea(r.area))}">Ver ficha ↗</button></div></article>`;
+    return `<article class="record-card"><div class="record-top"><span class="area-tag">${esc(shortArea(r.area))}</span></div><h4>${esc(r.description)}</h4><p class="record-indicator">${esc(r.indicator||'Sin indicador registrado')}</p><div class="tags">${visibleCodes(r).length===1?visibleCodes(r).map(c=>`<span class="tag">${esc(label(c))}</span>`).join(''):''}${warnings?'<span class="tag warn">Datos por revisar</span>':''}${r.images.length?`<span class="tag">${r.images.length} ${r.images.length===1?'imagen':'imágenes'}</span>`:''}</div><div class="record-bottom"><div class="record-money">${esc(amountText(b))}<small>${esc(budgetCaption(b))}</small></div><button class="record-button" data-detail="${esc(r.id)}" aria-label="Abrir ficha de ${esc(shortArea(r.area))}">Ver ficha ↗</button></div></article>`;
   }
   function renderRecords(){
     const rows=model.sorted(visibleRecords,state.sort).slice(0,state.limit);
@@ -98,7 +97,7 @@
     $('dialogEyebrow').textContent=`${shortArea(r.area)} · ${data.periods[r.period]}`;
     const notes=[...new Set([...r.notes,...b.notes])];
     function field(name,value){return `<div><dt>${esc(name)}</dt><dd>${esc(value??'No registrado')}</dd></div>`;}
-    $('dialogContent').innerHTML=`<p class="source-line">${esc(visibleCodes(r).map(label).join(' · ')||'Sin asignación territorial')} ${r.scope==='grupo presupuestario'?'· Asociado por presupuesto agrupado':''}</p><h2 class="detail-title">${esc(r.description)}</h2><div class="detail-budget"><span class="eyebrow">MONTO ESPECÍFICO DE PLATAFORMA</span><strong>${esc(amountText(b))}</strong><p>${esc(budgetCaption(b))}</p>${b.codes.length>1?'<p>Este presupuesto es compartido y queda fuera del monto específico de plataforma.</p>':''}${b.rows.length>1?`<p>El monto pertenece a un presupuesto agrupado.</p>`:''}</div>${notes.map(n=>`<div class="warning-box">${esc(noteText(n))}</div>`).join('')}<dl class="detail-fields">${field('Indicador de gestión',r.indicator)}${field('Ubicación registrada',r.location)}${field('Cobertura original',r.coverage)}${field('Código territorial',r.originalCode)}${field('Territorio',r.territory)}${field('Tipo de territorio',r.type)}${field('Observaciones',r.observation)}</dl><section class="detail-section"><h3>Datos del período</h3><dl class="detail-fields">${Object.entries(r.fields).map(([col,f])=>field(f.label,f.value)).join('')}</dl></section>${r.images.length?`<section class="detail-section"><h3>Evidencia de soporte</h3><div class="photos">${r.images.map((src,i)=>`<a href="${esc(src)}" target="_blank" rel="noopener"><img src="${esc(src)}" loading="lazy" alt="Evidencia ${i+1} de ${esc(shortArea(r.area))}">Abrir imagen ${i+1}</a>`).join('')}</div></section>`:''}<section class="detail-section"><p class="source-line">Fuente: ${esc(data.source)}. Se conserva la redacción original de la matriz.</p></section>`;
+    $('dialogContent').innerHTML=`<p class="source-line">${esc(visibleCodes(r).map(label).join(' · ')||'Sin asignación territorial')} ${r.scope==='grupo presupuestario'?'· Asociado por presupuesto agrupado':''}</p><h2 class="detail-title">${esc(r.description)}</h2><div class="detail-budget"><span class="eyebrow">MONTO ESPECÍFICO DE PLATAFORMA</span><strong>${esc(amountText(b))}</strong><p>${esc(budgetCaption(b))}</p>${b.rows.length>1?`<p>El monto pertenece a un presupuesto agrupado.</p>`:''}</div>${notes.map(n=>`<div class="warning-box">${esc(noteText(n))}</div>`).join('')}<dl class="detail-fields">${field('Indicador de gestión',r.indicator)}${field('Ubicación registrada',r.location)}${field('Cobertura original',r.coverage)}${field('Código territorial',r.originalCode)}${field('Territorio',r.territory)}${field('Tipo de territorio',r.type)}${field('Observaciones',r.observation)}</dl><section class="detail-section"><h3>Datos del período</h3><dl class="detail-fields">${Object.entries(r.fields).map(([col,f])=>field(f.label,f.value)).join('')}</dl></section>${r.images.length?`<section class="detail-section"><h3>Evidencia de soporte</h3><div class="photos">${r.images.map((src,i)=>`<a href="${esc(src)}" target="_blank" rel="noopener"><img src="${esc(src)}" loading="lazy" alt="Evidencia ${i+1} de ${esc(shortArea(r.area))}">Abrir imagen ${i+1}</a>`).join('')}</div></section>`:''}<section class="detail-section"><p class="source-line">Fuente: ${esc(data.source)}. Se conserva la redacción original de la matriz.</p></section>`;
     previousFocus=document.activeElement;$('detailDialog').showModal();$('detailDialog').scrollTop=0;$('closeDetail').focus();
   }
   function initMap(){
@@ -143,7 +142,7 @@
   $('closeMethod').addEventListener('click',()=>$('methodDialog').close());
   $('areasCount').textContent=`${data.areas.length} áreas`;
   $('sourceName').textContent=data.source;
-  $('methodText').textContent='El visor suma únicamente montos específicos: presupuestos asignados a una sola plataforma urbana. Los montos compartidos y los registros rurales no se incluyen en los totales por plataforma.';
+  $('methodText').textContent='El visor muestra únicamente el monto específico: presupuestos asignados a una sola plataforma urbana. Los demás presupuestos no aparecen como monto por plataforma.';
   $('cartographyText').textContent='La consulta se limita a las 18 plataformas urbanas del mapa. Los registros rurales de la matriz no se muestran ni se suman.';
   initMap();render();
   const context=document.modelContext;
