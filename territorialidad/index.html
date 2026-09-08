@@ -23,7 +23,6 @@
     <button id="all" class="all-button active">Todos los territorios <span id="allCount">—</span></button>
     <div id="territoryList" class="territory-list"></div>
     <p id="scopeNote" class="scope-note">18 plataformas con cartografía disponible.</p>
-    <section id="territorySummary" class="territory-summary" aria-live="polite"></section>
     <div class="side-footer"><button id="methodButton" class="text-button">Fuente y criterios de lectura</button><span id="loadStatus" role="status">Preparando matriz…</span></div>
   </aside>
   <main class="main">
@@ -34,6 +33,8 @@
       <div class="map-legend"><strong>Intervenciones vinculadas</strong><div><i style="background:#e3e9df"></i>0 <i style="background:#c4d8b2"></i>1–10 <i style="background:#86b684"></i>11–30 <i style="background:#438761"></i>31–60 <i style="background:#205238"></i>61+</div></div>
       <div class="map-footnote">Las intervenciones de alcance compartido pueden aparecer en varios territorios.</div>
     </section>
+  </main>
+  <aside class="detail-panel" aria-label="Detalle territorial">
     <section class="results" aria-label="Datos de la selección">
       <div class="results-heading"><div><p class="eyebrow" id="periodLabel">2023–2026</p><h2 id="selectionTitle">Todos los territorios</h2></div><div class="view-tabs" role="group" aria-label="Presentación de intervenciones"><button data-view="cards" class="active" aria-pressed="true">Fichas</button><button data-view="table" aria-pressed="false">Tabla</button></div></div>
       <div class="stats" id="stats" aria-live="polite"></div>
@@ -42,7 +43,7 @@
       <div class="register-heading"><h3>Detalle de intervenciones <span id="resultCount"></span></h3><label>Ordenar<select id="sort"><option value="source">Dirección</option><option value="amount">Monto de mayor a menor</option></select></label></div>
       <div id="records"></div><button id="more" class="more" hidden>Mostrar más</button>
     </section>
-  </main>
+  </aside>
 </div>
 <dialog id="detailDialog"><div class="dialog-top"><span id="dialogEyebrow" class="eyebrow"></span><button id="closeDetail" aria-label="Cerrar ficha">Cerrar ×</button></div><div id="dialogContent"></div></dialog>
 <dialog id="methodDialog"><div class="dialog-top"><h2>Fuente y criterios de lectura</h2><button id="closeMethod" aria-label="Cerrar criterios">Cerrar ×</button></div><div class="method-content"><h3>Matriz original</h3><p id="sourceName"></p><p>Se conservan las 11 áreas municipales y sus tres períodos. Cada ficha agrupa la información disponible sobre una intervención, programa, servicio, indicador o evidencia asociada a un territorio.</p><h3>Cómo se presentan los montos</h3><p id="methodText"></p><p>Cuando el monto total está vacío y existe un solo componente presupuestario numérico, se utiliza ese componente y se indica en la ficha. Si ambos componentes tienen monto sin total, queda pendiente de conciliación. Las cifras son montos registrados, no una certificación de ejecución.</p><h3>Alcance territorial</h3><p id="cartographyText"></p><p>Una actividad con varios códigos aparece en todos los territorios mencionados por la matriz. Su presupuesto se cuenta una sola vez en cada consulta y se identifica como compartido; no se reparte ni se atribuye íntegramente a una plataforma. La clasificación territorial corresponde a la matriz y no equivale a una coordenada de la obra.</p><h3>Datos que requieren revisión</h3><p>El archivo contiene posibles duplicaciones entre direcciones, porcentajes con significados diferentes, montos anuales y formatos ambiguos. Se conserva la redacción original cuando ayuda a interpretar la ficha. Los indicadores no se suman como personas únicas.</p><h3>Fotografías</h3><p>Se muestran las imágenes disponibles como evidencia de cada ficha.</p></div></dialog>
