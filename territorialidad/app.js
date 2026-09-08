@@ -30,8 +30,8 @@
     return out;
   }
   function renderList(){
-    $('territoryList').innerHTML=data.territories.filter(t=>t.type===(state.scope==='urban'?'Urbana':'Rural')).map(t=>`<button class="territory-button ${t.type==='Rural'?'rural':''} ${state.territory===t.code?'active':''}" data-territory="${esc(t.code)}" aria-pressed="${state.territory===t.code}"><span class="territory-code">${esc(t.code)}</span><span class="name">${esc(t.name)}</span><span class="count" title="Intervenciones vinculadas">${num(counts.get(t.code)||0)}</span></button>`).join('');
-    $('allCount').textContent=num(model.filter({...state,territory:'ALL'}).length);
+    $('territoryList').innerHTML=data.territories.filter(t=>t.type===(state.scope==='urban'?'Urbana':'Rural')).map(t=>`<button class="territory-button ${t.type==='Rural'?'rural':''} ${state.territory===t.code?'active':''}" data-territory="${esc(t.code)}" aria-pressed="${state.territory===t.code}"><span class="territory-code">${esc(t.code)}</span><span class="name">${esc(t.name)}</span></button>`).join('');
+    $('allCount').textContent='';
     $('all').classList.toggle('active',state.territory==='ALL');
     $('all').setAttribute('aria-pressed',String(state.territory==='ALL'));
     $('scopeNote').textContent=state.scope==='urban'?'18 plataformas con cartografía disponible.':'11 parroquias consultables en la lista. Sus límites no están cargados en este mapa.';
@@ -43,23 +43,23 @@
   }
   function renderRecords(){
     const rows=model.sorted(visibleRecords,state.sort).slice(0,state.limit);
-    $('resultCount').textContent=`(${num(visibleRecords.length)})`;
     if(!rows.length){$('records').innerHTML='<div class="empty"><strong>No hay intervenciones con estos filtros.</strong>Prueba otra dirección, período o término de búsqueda.</div>';$('more').hidden=true;return;}
     if(state.view==='cards')$('records').innerHTML=`<div class="record-grid">${rows.map(card).join('')}</div>`;
     else $('records').innerHTML=`<div class="table-wrap"><table><thead><tr><th>Dirección</th><th>Intervención</th><th>Territorio</th><th>Monto vinculado</th><th>Consulta</th></tr></thead><tbody>${rows.map(r=>{const b=model.budgetMap.get(r.budgetId);return `<tr><td>${esc(shortArea(r.area))}<small>${esc(data.periods[r.period])}</small></td><td class="table-title">${esc(r.description)}<small>${esc(r.indicator||'Sin indicador registrado')}</small></td><td>${esc(r.codes.length>3?`${r.codes.length} territorios`:r.codes.map(label).join(', ')||'Sin asignar')}</td><td class="table-amount">${esc(amountText(b))}<small>${esc(budgetCaption(b))}</small></td><td><button data-detail="${esc(r.id)}" aria-label="Abrir ficha de ${esc(shortArea(r.area))}">Ver ficha</button></td></tr>`;}).join('')}</tbody></table></div>`;
     $('more').hidden=rows.length>=visibleRecords.length;
-    $('more').textContent=`Mostrar más · ${num(rows.length)} de ${num(visibleRecords.length)}`;
+    $('more').textContent='Mostrar más';
   }
   function render(){
     visibleRecords=model.filter(state);counts=getCounts();renderList();
     const s=model.summarize(visibleRecords);
+    const top=s.countByArea[0];
     $('selectionTitle').textContent=title();$('periodLabel').textContent=data.periods[state.period];
-    $('stats').innerHTML=`<div class="stat"><span class="label">Intervenciones</span><strong>${num(s.count)}</strong><small>Fichas vinculadas a la selección</small></div><div class="stat"><span class="label">Direcciones</span><strong>${s.areas}</strong><small>Con información en la selección</small></div><div class="stat money"><span class="label">Montos específicos</span><strong>${s.specific===null?'—':usd(s.specific)}</strong><small>${s.specificCount} presupuestos de un territorio</small></div><div class="stat money"><span class="label">Montos compartidos</span><strong>${s.shared===null?'—':usd(s.shared)}</strong><small>${s.sharedCount} presupuestos de varios territorios</small></div>`;
-    $('budgetNote').textContent=`Sumas de montos registrados, sin eliminar posibles duplicaciones entre direcciones. Los presupuestos compartidos se cuentan una sola vez en cada consulta. ${s.excluded?`${s.excluded} presupuestos sin monto comparable quedan excluidos. `:''}${s.unassigned?`${s.unassigned} montos sin asignación territorial quedan excluidos de estas dos cifras.`:''}`;
+    $('stats').innerHTML=`<div class="stat"><span class="label">Área principal</span><strong>${top?esc(shortArea(top.area)):'—'}</strong><small>Mayor presencia en la selección</small></div><div class="stat"><span class="label">Alcance</span><strong>${state.territory==='ALL'?'Cantonal':state.territory==='URBAN'?'Urbano':state.territory==='RURAL'?'Rural':'Territorial'}</strong><small>${esc(data.periods[state.period])}</small></div><div class="stat money"><span class="label">Montos específicos</span><strong>${s.specific===null?'—':usd(s.specific)}</strong><small>Asignados a un territorio</small></div><div class="stat money"><span class="label">Montos compartidos</span><strong>${s.shared===null?'—':usd(s.shared)}</strong><small>Asociados a varios territorios</small></div>`;
+    $('budgetNote').textContent='Las cifras son montos registrados por la matriz. Los montos compartidos no se distribuyen entre territorios y la suma entre direcciones puede incluir duplicaciones.';
     const max=Math.max(1,...s.countByArea.map(a=>a.count));
-    $('chart').innerHTML=s.countByArea.map(a=>`<button class="bar-row" data-area="${esc(a.area)}" aria-label="Filtrar ${esc(shortArea(a.area))}, ${a.count} intervenciones"><span class="bar-name">${esc(shortArea(a.area))}</span><span class="bar-track"><span class="bar-fill" style="display:block;width:${a.count/max*100}%"></span></span><span>${a.count}</span></button>`).join('')||'<p class="scope-note">Sin intervenciones en esta selección.</p>';
-    const top=s.countByArea[0];$('insightTitle').textContent=top?`${shortArea(top.area)} reúne ${top.count} intervenciones`:'Sin información para estos filtros';
-    $('insightText').textContent=top?`${num(s.images)} fichas cuentan con imágenes de soporte. ${num(s.warnings)} contienen observaciones de calidad o requieren revisar su asociación territorial o presupuesto.`:'Cambia el período o amplía la selección territorial.';
+    $('chart').innerHTML=s.countByArea.map(a=>`<button class="bar-row" data-area="${esc(a.area)}" aria-label="Filtrar ${esc(shortArea(a.area))}"><span class="bar-name">${esc(shortArea(a.area))}</span><span class="bar-track"><span class="bar-fill" style="display:block;width:${a.count/max*100}%"></span></span></button>`).join('')||'<p class="scope-note">Sin información en esta selección.</p>';
+    $('insightTitle').textContent=top?`${shortArea(top.area)} concentra la mayor actividad`:'Sin información para estos filtros';
+    $('insightText').textContent=top?'La selección muestra información territorial, montos asociados y evidencias de soporte disponibles. Revisa las fichas cuando necesites entrar al detalle de cada intervención.':'Cambia el período o amplía la selección territorial.';
     $('contextNotes').innerHTML=`<div class="context-line">${state.period==='future'?'Los datos de 2027+ son proyecciones.':'La matriz no distingue de forma uniforme lo ejecutado de lo planificado.'} Los indicadores se conservan con sus unidades originales.</div>`;
     document.querySelectorAll('[data-period]').forEach(b=>{b.classList.toggle('active',b.dataset.period===state.period);b.setAttribute('aria-pressed',String(b.dataset.period===state.period));});
     document.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b.dataset.view===state.view);b.setAttribute('aria-pressed',String(b.dataset.view===state.view));});
@@ -70,12 +70,12 @@
     const rural=state.territory==='RURAL'||model.territoryMap.get(state.territory)?.type==='Rural';
     $('mapTitle').textContent=state.territory==='ALL'||state.territory==='URBAN'?'Riobamba':title();
     $('mapSubtitle').textContent=rural?'CONSULTA RURAL · SIN POLÍGONO':data.periods[state.period].toUpperCase();
-    $('mapHint').textContent=rural?'La ficha está seleccionada. El mapa mantiene las plataformas urbanas.':state.territory==='ALL'||state.territory==='URBAN'?'Haz clic en un polígono para consultar su ficha.':`${counts.get(state.territory)||0} intervenciones vinculadas a esta plataforma.`;
+    $('mapHint').textContent=rural?'La ficha está seleccionada. El mapa mantiene las plataformas urbanas.':state.territory==='ALL'||state.territory==='URBAN'?'Haz clic en un polígono para consultar su ficha.':'Plataforma seleccionada. Revisa su ficha territorial.';
     if(!polygons)return;
     polygons.eachLayer(layer=>{
       const c=layer.feature.properties.code,active=c===state.territory;
       layer.setStyle({fillColor:color(counts.get(c)||0),fillOpacity:rural?.13:active?.62:.40,color:active?'#173b25':'#5b7952',weight:active?3:1.2});
-      const tt=layer.getTooltip();if(tt){layer.setTooltipContent(`${esc(c)}<span class="map-count"> · ${counts.get(c)||0}</span>`);const el=tt.getElement();if(el)el.classList.toggle('selected',active);}
+      const tt=layer.getTooltip();if(tt){layer.setTooltipContent(esc(c));const el=tt.getElement();if(el)el.classList.toggle('selected',active);}
       if(active)layer.bringToFront();
     });
   }
@@ -115,7 +115,7 @@
       layer.on('add',()=>{const el=layer.getElement();if(el){el.setAttribute('tabindex','0');el.setAttribute('role','button');el.setAttribute('aria-label',`Consultar Plataforma ${c}`);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();chooseTerritory(c,false);}});}});
     }}).addTo(map);
     map.fitBounds(polygons.getBounds(),{padding:[40,40],animate:false});
-    $('loadStatus').textContent=`${data.areas.length} áreas · ${num(data.records.length)} intervenciones`;
+    $('loadStatus').textContent=`${data.areas.length} áreas`;
   }
   $('area').innerHTML='<option value="all">Todas las direcciones</option>'+data.areas.map(a=>`<option value="${esc(a)}">${esc(shortArea(a))}</option>`).join('');
   $('area').addEventListener('change',e=>{state.area=e.target.value;state.limit=16;render();});
