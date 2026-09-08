@@ -50,6 +50,12 @@
     $('more').hidden=rows.length>=visibleRecords.length;
     $('more').textContent=`Mostrar más · ${num(rows.length)} de ${num(visibleRecords.length)}`;
   }
+  function renderTerritorySummary(s){
+    const t=model.territoryMap.get(state.territory);
+    const kind=state.territory==='ALL'?'Consulta general':state.territory==='URBAN'?'Plataformas urbanas':state.territory==='RURAL'?'Parroquias rurales':t?.type==='Rural'?'Parroquia rural':'Plataforma urbana';
+    const top=s.countByArea.slice(0,3).map(a=>`<li><span>${esc(shortArea(a.area))}</span><strong>${num(a.count)}</strong></li>`).join('');
+    $('territorySummary').innerHTML=`<span class="eyebrow">RESUMEN TERRITORIAL</span><h3>${esc(title())}</h3><p>${esc(kind)} · ${esc(data.periods[state.period])}</p><div class="summary-metrics"><div><span>Intervenciones</span><strong>${num(s.count)}</strong></div><div><span>Direcciones</span><strong>${num(s.areas)}</strong></div></div><div class="summary-money"><span>Monto específico</span><strong>${s.specific===null?'—':esc(usd(s.specific))}</strong></div><div class="summary-money"><span>Monto compartido</span><strong>${s.shared===null?'—':esc(usd(s.shared))}</strong></div>${top?`<div class="summary-top"><span>Áreas principales</span><ol>${top}</ol></div>`:'<p class="summary-empty">Sin información para esta selección.</p>'}`;
+  }
   function render(){
     visibleRecords=model.filter(state);counts=getCounts();renderList();
     const s=model.summarize(visibleRecords);
@@ -63,7 +69,7 @@
     $('contextNotes').innerHTML=`<div class="context-line">${state.period==='future'?'Los datos de 2027+ son proyecciones.':'La matriz no distingue de forma uniforme lo ejecutado de lo planificado.'} Los indicadores se conservan con sus unidades originales.</div>`;
     document.querySelectorAll('[data-period]').forEach(b=>{b.classList.toggle('active',b.dataset.period===state.period);b.setAttribute('aria-pressed',String(b.dataset.period===state.period));});
     document.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b.dataset.view===state.view);b.setAttribute('aria-pressed',String(b.dataset.view===state.view));});
-    renderRecords();updateMap();
+    renderTerritorySummary(s);renderRecords();updateMap();
   }
   function color(n){return n===0?'#e3e9df':n<=10?'#c4d8b2':n<=30?'#86b684':n<=60?'#438761':'#205238';}
   function updateMap(){
