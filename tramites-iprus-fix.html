@@ -3434,9 +3434,8 @@
         target.splice(0, target.length, ...cloneJson(nextValue || []));
       }
 
-      function resolveSharedStateApiUrl(config) {
-        const baseUrl = typeof config?.backendBaseUrl === "string" ? config.backendBaseUrl.trim().replace(/\/+$/, "") : "";
-        return baseUrl ? `${baseUrl}/.netlify/functions/tramites-shared-state` : "/.netlify/functions/tramites-shared-state";
+      function resolveSharedStateApiUrl() {
+        return "";
       }
 
       function loadReviewResults() {
