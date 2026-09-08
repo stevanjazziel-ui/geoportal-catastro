@@ -116,7 +116,7 @@
     $('loadStatus').textContent=`${data.areas.length} áreas`;
   }
   $('area').innerHTML='<option value="all">Todas las direcciones</option>'+data.areas.map(a=>`<option value="${esc(a)}">${esc(shortArea(a))}</option>`).join('');
-  $('area').addEventListener('change',e=>{state.area=e.target.value;state.limit=16;render();});
+  $('area').addEventListener('change',e=>{state.area=e.target.value;state.limit=16;if(state.area!=='all')state.territory='ALL';render();});
   $('query').addEventListener('input',e=>{state.query=e.target.value;state.limit=16;render();});
   $('sort').addEventListener('change',e=>{state.sort=e.target.value;renderRecords();});
   $('all').addEventListener('click',()=>chooseTerritory('ALL'));
