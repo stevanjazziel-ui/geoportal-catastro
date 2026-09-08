@@ -9,7 +9,7 @@
   const num=n=>new Intl.NumberFormat('es-EC').format(n);
   const usd=n=>n===null||n===undefined?'Sin monto comparable':new Intl.NumberFormat('es-EC',{style:'currency',currency:'USD',maximumFractionDigits:2,minimumFractionDigits:2}).format(n);
   const label=c=>model.territoryMap.get(c)?.name||c;
-  const shortArea=area=>({'DESARROLLO SOCIAL':'Desarrollo Social','SECRETARIA GENERAL':'Secretaría General','HABITAT':'Hábitat','CONTROL MUNICIPAL':'Control Municipal','RIOBAMBA EP':'Riobamba EP','ADMINISTRATIVO':'Administrativo','OBRAS PÚBLICAS':'Obras Públicas','DESARROLLO ECONOMICO':'Desarrollo Económico','TICS':'TICS','CULTURA':'Cultura','RIESGOS':'Riesgos'}[area]||area);
+  const shortArea=area=>({'DESARROLLO SOCIAL':'Desarrollo Social','SECRETARIA GENERAL':'Secretaría General','HABITAT':'Hábitat','CONTROL MUNICIPAL':'Control Municipal','RIOBAMBA EP':'Riobamba EP','ADMINISTRATIVO':'Administrativo','OBRAS PÚBLICAS':'Obras Públicas','DESARROLLO ECONOMICO':'Desarrollo Económico','TICS':'TICS','CULTURA':'Cultura','COOPERACIÓN':'Cooperación','AMBIENTE':'Ambiente','RIESGOS':'Riesgos'}[area]||area);
   let map,polygons,basemaps={},selectionLayer,visibleRecords=[],counts=new Map(),previousFocus;
   const sourceRows=new Map(data.records.map(r=>[r.id,r]));
   const title=()=>state.territory==='ALL'?'Todos los territorios':state.territory==='URBAN'?'Plataformas urbanas':state.territory==='RURAL'?'Parroquias rurales':label(state.territory);
@@ -135,6 +135,7 @@
   $('detailDialog').addEventListener('close',()=>previousFocus?.focus());
   $('methodButton').addEventListener('click',()=>$('methodDialog').showModal());
   $('closeMethod').addEventListener('click',()=>$('methodDialog').close());
+  $('areasCount').textContent=`${data.areas.length} áreas`;
   $('sourceName').textContent=data.source;
   $('methodText').textContent='Los montos se agrupan por presupuesto registrado. Los presupuestos compartidos no se distribuyen entre territorios. Los valores anuales, promedios y formatos ambiguos quedan fuera de las sumas. La suma entre direcciones no elimina posibles duplicados.';
   $('cartographyText').textContent=data.cartography;
