@@ -15,7 +15,7 @@
   const sourceRows=new Map(data.records.map(r=>[r.id,r]));
   const visibleCodes=r=>r.codes.filter(model.isUrbanCode);
   const platformAmount=b=>model.isSpecificPlatformBudget(b)?b.value:null;
-  const title=()=>state.territory==='GENERAL'?'General':state.territory==='ALL'||state.territory==='URBAN'?'Proyectos específicos':label(state.territory);
+  const title=()=>state.territory==='GENERAL'?'Varias plataformas':state.territory==='ALL'||state.territory==='URBAN'?'Proyectos específicos':label(state.territory);
   const cleanText=v=>String(v??'').replace(/\s+/g,' ').trim();
   const serviceText=r=>cleanText(r.description).replace(/^(servicio|gestión|gestion|obra|bien|consultoría|consultoria)\s*[:/.-]\s*/i,'')||'Servicio no registrado';
   const hasPopulation=v=>/poblaci[oó]n|beneficiari|habitantes|personas|niñ|adolescen|adult|familias|estudiantes|usuarios|moradores|ciudadan|turistas|participantes/i.test(cleanText(v));
@@ -44,7 +44,7 @@
     $('all').setAttribute('aria-pressed',String(state.territory==='ALL'));
     $('general').classList.toggle('active',state.territory==='GENERAL');
     $('general').setAttribute('aria-pressed',String(state.territory==='GENERAL'));
-    $('scopeNote').textContent='Cada plataforma muestra solo proyectos con código único. Los registros A–Q o de varias plataformas van en General.';
+    $('scopeNote').textContent='Cada plataforma muestra solo proyectos con código único. A–Q o varias plataformas se consultan en Varias plataformas.';
     document.querySelectorAll('[data-scope]').forEach(b=>{b.classList.toggle('active',b.dataset.scope===state.scope);b.setAttribute('aria-pressed',String(b.dataset.scope===state.scope));});
   }
   function card(r){
@@ -75,9 +75,9 @@
   }
   function color(n){return n===0?'#e3e9df':n<=10?'#c4d8b2':n<=30?'#86b684':n<=60?'#438761':'#205238';}
   function updateMap(){
-    $('mapTitle').textContent=state.territory==='ALL'||state.territory==='URBAN'||state.territory==='GENERAL'?'Riobamba':title();
-    $('mapSubtitle').textContent=state.territory==='GENERAL'?'GENERAL':data.periods[state.period].toUpperCase();
-    $('mapHint').textContent=state.territory==='GENERAL'?'Registros que cubren varias plataformas urbanas.':state.territory==='ALL'||state.territory==='URBAN'?'Haz clic en un polígono para consultar su ficha.':'Plataforma seleccionada. Revisa su ficha territorial.';
+    $('mapTitle').textContent=state.territory==='GENERAL'?'Varias plataformas':state.territory==='ALL'||state.territory==='URBAN'?'Riobamba':title();
+    $('mapSubtitle').textContent=state.territory==='GENERAL'?'ALCANCE GENERAL':data.periods[state.period].toUpperCase();
+    $('mapHint').textContent=state.territory==='GENERAL'?'Proyectos A–Q o asociados a más de una plataforma urbana.':state.territory==='ALL'||state.territory==='URBAN'?'Haz clic en un polígono para consultar su ficha.':'Plataforma seleccionada. Revisa su ficha territorial.';
     if(!polygons)return;
     polygons.eachLayer(layer=>{
       const c=layer.feature.properties.code,active=c===state.territory;
@@ -129,7 +129,7 @@
   $('query').addEventListener('input',e=>{state.query=e.target.value;state.limit=16;render();});
   $('sort').addEventListener('change',e=>{state.sort=e.target.value;renderRecords();});
   $('all').addEventListener('click',()=>chooseTerritory('ALL'));
-  $('general').addEventListener('click',()=>chooseTerritory('GENERAL'));
+  $('general').addEventListener('click',()=>{state.area='all';$('area').value='all';state.limit=16;chooseTerritory('GENERAL');});
   $('more').addEventListener('click',()=>{state.limit+=16;renderRecords();});
   document.addEventListener('click',e=>{
     const b=e.target.closest('button');if(!b)return;
