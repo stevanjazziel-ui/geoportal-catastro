@@ -52,15 +52,11 @@
   function render(){
     visibleRecords=model.filter(state);counts=getCounts();renderList();
     const s=model.summarize(visibleRecords);
-    const top=s.countByArea[0];
     $('selectionTitle').textContent=title();$('periodLabel').textContent=data.periods[state.period];
+    const top=s.countByArea[0];
     $('stats').innerHTML=`<div class="stat"><span class="label">Área principal</span><strong>${top?esc(shortArea(top.area)):'—'}</strong><small>Mayor presencia en la selección</small></div><div class="stat"><span class="label">Alcance</span><strong>${state.territory==='ALL'?'Cantonal':state.territory==='URBAN'?'Urbano':state.territory==='RURAL'?'Rural':'Territorial'}</strong><small>${esc(data.periods[state.period])}</small></div><div class="stat money"><span class="label">Montos específicos</span><strong>${s.specific===null?'—':usd(s.specific)}</strong><small>Asignados a un territorio</small></div><div class="stat money"><span class="label">Montos compartidos</span><strong>${s.shared===null?'—':usd(s.shared)}</strong><small>Asociados a varios territorios</small></div>`;
-    $('budgetNote').textContent='Las cifras son montos registrados por la matriz. Los montos compartidos no se distribuyen entre territorios y la suma entre direcciones puede incluir duplicaciones.';
     const max=Math.max(1,...s.countByArea.map(a=>a.count));
     $('chart').innerHTML=s.countByArea.map(a=>`<button class="bar-row" data-area="${esc(a.area)}" aria-label="Filtrar ${esc(shortArea(a.area))}"><span class="bar-name">${esc(shortArea(a.area))}</span><span class="bar-track"><span class="bar-fill" style="display:block;width:${a.count/max*100}%"></span></span></button>`).join('')||'<p class="scope-note">Sin información en esta selección.</p>';
-    $('insightTitle').textContent=top?`${shortArea(top.area)} concentra la mayor actividad`:'Sin información para estos filtros';
-    $('insightText').textContent=top?'La selección muestra información territorial, montos asociados y evidencias de soporte disponibles. Revisa las fichas cuando necesites entrar al detalle de cada intervención.':'Cambia el período o amplía la selección territorial.';
-    $('contextNotes').innerHTML=`<div class="context-line">${state.period==='future'?'Los datos de 2027+ son proyecciones.':'La matriz no distingue de forma uniforme lo ejecutado de lo planificado.'} Los indicadores se conservan con sus unidades originales.</div>`;
     document.querySelectorAll('[data-period]').forEach(b=>{b.classList.toggle('active',b.dataset.period===state.period);b.setAttribute('aria-pressed',String(b.dataset.period===state.period));});
     document.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b.dataset.view===state.view);b.setAttribute('aria-pressed',String(b.dataset.view===state.view));});
     renderRecords();updateMap();
