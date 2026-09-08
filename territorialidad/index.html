@@ -16,10 +16,11 @@
 </header>
 <div class="workspace">
   <aside class="sidebar" aria-label="Filtros territoriales">
-    <div class="side-head"><p class="eyebrow">EXPLORAR EL TERRITORIO</p><h2>Plataformas urbanas</h2><p>Selecciona una plataforma en el mapa o en la lista.</p></div>
+    <div class="side-head"><p class="eyebrow">EXPLORAR EL TERRITORIO</p><h2>Plataformas urbanas</h2><p>Selecciona una plataforma. Los proyectos que cubren varias plataformas están en General.</p></div>
     <label class="field">Dirección<select id="area"><option value="all">Todas las direcciones</option></select></label>
     <label class="field">Buscar en la matriz<input id="query" type="search" placeholder="Obra, servicio, indicador…" autocomplete="off"></label>
-    <button id="all" class="all-button active">Todas las plataformas <span id="allCount">—</span></button>
+    <button id="all" class="all-button active">Proyectos específicos <span id="allCount">—</span></button>
+    <button id="general" class="all-button">General <span></span></button>
     <div id="territoryList" class="territory-list"></div>
     <p id="scopeNote" class="scope-note">18 plataformas con cartografía disponible.</p>
     <div class="side-footer"><button id="methodButton" class="text-button">Fuente y criterios de lectura</button><span id="loadStatus" role="status">Preparando matriz…</span></div>
@@ -30,7 +31,7 @@
       <div class="map-title"><span class="eyebrow" id="mapSubtitle">18 PLATAFORMAS URBANAS</span><strong id="mapTitle">Riobamba</strong><span id="mapHint">Haz clic en un polígono para consultar su ficha.</span></div>
       <div class="map-tools"><label>Mapa base<select id="basemap"><option value="street">Cartográfico</option><option value="satellite">Satelital</option></select></label><button id="fit" title="Ver las 18 plataformas" aria-label="Ver las 18 plataformas">Encuadrar</button><label class="check"><input type="checkbox" id="labels" checked> Etiquetas</label></div>
       <div class="map-legend"><strong>Información territorial</strong><div><i style="background:#e3e9df"></i>Sin datos <i style="background:#c4d8b2"></i>Baja <i style="background:#86b684"></i>Media <i style="background:#438761"></i>Alta <i style="background:#205238"></i>Muy alta</div></div>
-      <div class="map-footnote">Solo se muestra el monto específico de cada plataforma urbana.</div>
+      <div class="map-footnote">Cada plataforma muestra solo proyectos específicos. Los proyectos A–Q o de varias plataformas están en General.</div>
     </section>
   </main>
   <aside class="detail-panel" aria-label="Detalle territorial">
@@ -50,6 +51,6 @@
   </aside>
 </div>
 <dialog id="detailDialog"><div class="dialog-top"><span id="dialogEyebrow" class="eyebrow"></span><button id="closeDetail" aria-label="Cerrar ficha">Cerrar ×</button></div><div id="dialogContent"></div></dialog>
-<dialog id="methodDialog"><div class="dialog-top"><h2>Fuente y criterios de lectura</h2><button id="closeMethod" aria-label="Cerrar criterios">Cerrar ×</button></div><div class="method-content"><h3>Matriz original</h3><p id="sourceName"></p><p>Se conservan las áreas municipales y sus tres períodos. Cada ficha agrupa la información disponible sobre una intervención, programa, servicio, indicador o evidencia asociada a un territorio.</p><h3>Cómo se presentan los montos</h3><p id="methodText"></p><p>Cuando el monto total está vacío y existe un solo componente presupuestario numérico, se utiliza ese componente y se indica en la ficha. Si ambos componentes tienen monto sin total, queda pendiente de conciliación.</p><h3>Alcance territorial</h3><p id="cartographyText"></p><p>El monto visible corresponde únicamente a presupuestos asignados a una sola plataforma urbana. Los registros rurales quedan fuera de esta versión del visor.</p><h3>Datos que requieren revisión</h3><p>El archivo contiene posibles duplicaciones entre direcciones, porcentajes con significados diferentes, montos anuales y formatos ambiguos. Se conserva la redacción original cuando ayuda a interpretar la ficha. Los indicadores no se suman como personas únicas.</p><h3>Fotografías</h3><p>Se muestran las imágenes disponibles como evidencia de cada ficha.</p></div></dialog>
+<dialog id="methodDialog"><div class="dialog-top"><h2>Fuente y criterios de lectura</h2><button id="closeMethod" aria-label="Cerrar criterios">Cerrar ×</button></div><div class="method-content"><h3>Matriz original</h3><p id="sourceName"></p><p>Se conservan las áreas municipales y sus tres períodos. Cada ficha agrupa la información disponible sobre una intervención, programa, servicio, indicador o evidencia asociada a un territorio.</p><h3>Cómo se presentan los montos</h3><p id="methodText"></p><p>Cuando el monto total está vacío y existe un solo componente presupuestario numérico, se utiliza ese componente y se indica en la ficha. Si ambos componentes tienen monto sin total, queda pendiente de conciliación.</p><h3>Alcance territorial</h3><p id="cartographyText"></p><p>Cada plataforma muestra únicamente proyectos con código único de esa plataforma. Los registros A–Q o de varias plataformas se consultan como General. Los registros rurales quedan fuera de esta versión del visor.</p><h3>Datos que requieren revisión</h3><p>El archivo contiene posibles duplicaciones entre direcciones, porcentajes con significados diferentes, montos anuales y formatos ambiguos. Se conserva la redacción original cuando ayuda a interpretar la ficha. Los indicadores no se suman como personas únicas.</p><h3>Fotografías</h3><p>Se muestran las imágenes disponibles como evidencia de cada ficha.</p></div></dialog>
 <noscript>Activa JavaScript para consultar el mapa y las intervenciones de la matriz.</noscript>
 </body></html>

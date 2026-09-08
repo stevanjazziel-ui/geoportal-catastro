@@ -15,7 +15,7 @@
   const sourceRows=new Map(data.records.map(r=>[r.id,r]));
   const visibleCodes=r=>r.codes.filter(model.isUrbanCode);
   const platformAmount=b=>model.isSpecificPlatformBudget(b)?b.value:null;
-  const title=()=>state.territory==='ALL'||state.territory==='URBAN'?'Plataformas urbanas':label(state.territory);
+  const title=()=>state.territory==='GENERAL'?'General':state.territory==='ALL'||state.territory==='URBAN'?'Proyectos específicos':label(state.territory);
   const cleanText=v=>String(v??'').replace(/\s+/g,' ').trim();
   const serviceText=r=>cleanText(r.description).replace(/^(servicio|gestión|gestion|obra|bien|consultoría|consultoria)\s*[:/.-]\s*/i,'')||'Servicio no registrado';
   const hasPopulation=v=>/poblaci[oó]n|beneficiari|habitantes|personas|niñ|adolescen|adult|familias|estudiantes|usuarios|moradores|ciudadan|turistas|participantes/i.test(cleanText(v));
@@ -42,7 +42,9 @@
     $('allCount').textContent='';
     $('all').classList.toggle('active',state.territory==='ALL');
     $('all').setAttribute('aria-pressed',String(state.territory==='ALL'));
-    $('scopeNote').textContent='18 plataformas urbanas con cartografía. Los registros rurales no se incluyen en este visor.';
+    $('general').classList.toggle('active',state.territory==='GENERAL');
+    $('general').setAttribute('aria-pressed',String(state.territory==='GENERAL'));
+    $('scopeNote').textContent='Cada plataforma muestra solo proyectos con código único. Los registros A–Q o de varias plataformas van en General.';
     document.querySelectorAll('[data-scope]').forEach(b=>{b.classList.toggle('active',b.dataset.scope===state.scope);b.setAttribute('aria-pressed',String(b.dataset.scope===state.scope));});
   }
   function card(r){
@@ -63,7 +65,7 @@
     $('selectionTitle').textContent=title();$('periodLabel').textContent=data.periods[state.period];
     const top=s.countByArea[0];
     const platformCount=new Set(visibleRecords.flatMap(visibleCodes)).size;
-    $('stats').innerHTML=`<div class="stat"><span class="label">Intervenciones</span><strong>${num(s.count)}</strong><small>Registros urbanos de la selección</small></div><div class="stat"><span class="label">Direcciones</span><strong>${num(s.areas)}</strong><small>Con información en la selección</small></div><div class="stat"><span class="label">Plataformas</span><strong>${num(platformCount)}</strong><small>Urbanas vinculadas</small></div><div class="stat money"><span class="label">Monto específico</span><strong>${s.specific===null?'—':usd(s.specific)}</strong><small>Solo presupuestos de una plataforma</small></div>`;
+    $('stats').innerHTML=`<div class="stat"><span class="label">Intervenciones</span><strong>${num(s.count)}</strong><small>${state.territory==='GENERAL'?'Registros generales':'Proyectos específicos'}</small></div><div class="stat"><span class="label">Direcciones</span><strong>${num(s.areas)}</strong><small>Con información en la selección</small></div><div class="stat"><span class="label">Plataformas</span><strong>${num(platformCount)}</strong><small>${state.territory==='GENERAL'?'Cubiertas por registros generales':'Con proyectos específicos'}</small></div><div class="stat money"><span class="label">Monto específico</span><strong>${s.specific===null?'—':usd(s.specific)}</strong><small>${state.territory==='GENERAL'?'No se atribuye por plataforma':'Solo código único de plataforma'}</small></div>`;
     const areaAmounts=s.countByArea.map(a=>{const areaSummary=model.summarize(visibleRecords.filter(r=>r.area===a.area)),hasAmount=areaSummary.specific!==null;return {...a,amount:areaSummary.specific??0,hasAmount};}).sort((a,b)=>(b.hasAmount?b.amount:-1)-(a.hasAmount?a.amount:-1)||b.count-a.count);
     const max=Math.max(1,...areaAmounts.map(a=>a.hasAmount?a.amount:0));
     $('chart').innerHTML=areaAmounts.map(a=>`<button class="bar-row" data-area="${esc(a.area)}" aria-label="Filtrar ${esc(shortArea(a.area))}, ${a.hasAmount?esc(usd(a.amount)):'sin monto comparable'}"><span class="bar-name">${esc(shortArea(a.area))}</span><span class="bar-track"><span class="bar-fill" style="display:block;width:${a.hasAmount?a.amount/max*100:0}%"></span></span><span class="bar-amount">${a.hasAmount?esc(usdMini(a.amount)):'Sin monto'}</span></button>`).join('')||'<p class="scope-note">Sin información en esta selección.</p>';
@@ -73,9 +75,9 @@
   }
   function color(n){return n===0?'#e3e9df':n<=10?'#c4d8b2':n<=30?'#86b684':n<=60?'#438761':'#205238';}
   function updateMap(){
-    $('mapTitle').textContent=state.territory==='ALL'||state.territory==='URBAN'?'Riobamba':title();
-    $('mapSubtitle').textContent=data.periods[state.period].toUpperCase();
-    $('mapHint').textContent=state.territory==='ALL'||state.territory==='URBAN'?'Haz clic en un polígono para consultar su ficha.':'Plataforma seleccionada. Revisa su ficha territorial.';
+    $('mapTitle').textContent=state.territory==='ALL'||state.territory==='URBAN'||state.territory==='GENERAL'?'Riobamba':title();
+    $('mapSubtitle').textContent=state.territory==='GENERAL'?'GENERAL':data.periods[state.period].toUpperCase();
+    $('mapHint').textContent=state.territory==='GENERAL'?'Registros que cubren varias plataformas urbanas.':state.territory==='ALL'||state.territory==='URBAN'?'Haz clic en un polígono para consultar su ficha.':'Plataforma seleccionada. Revisa su ficha territorial.';
     if(!polygons)return;
     polygons.eachLayer(layer=>{
       const c=layer.feature.properties.code,active=c===state.territory;
@@ -86,7 +88,7 @@
   }
   function chooseTerritory(code,zoom=true){
     if(code==='RURAL'||(model.territoryMap.has(code)&&!model.isUrbanCode(code)))code='URBAN';
-    if(!['ALL','URBAN'].includes(code)&&!model.territoryMap.has(code))throw new Error('Territorio no válido');
+    if(!['ALL','URBAN','GENERAL'].includes(code)&&!model.territoryMap.has(code))throw new Error('Territorio no válido');
     state.territory=code;state.limit=16;state.scope='urban';
     render();
     if(map&&polygons&&zoom){
@@ -127,6 +129,7 @@
   $('query').addEventListener('input',e=>{state.query=e.target.value;state.limit=16;render();});
   $('sort').addEventListener('change',e=>{state.sort=e.target.value;renderRecords();});
   $('all').addEventListener('click',()=>chooseTerritory('ALL'));
+  $('general').addEventListener('click',()=>chooseTerritory('GENERAL'));
   $('more').addEventListener('click',()=>{state.limit+=16;renderRecords();});
   document.addEventListener('click',e=>{
     const b=e.target.closest('button');if(!b)return;
@@ -152,8 +155,8 @@
   const context=document.modelContext;
   if(context?.registerTool){
     const lifecycle=new AbortController();
-    const tool={name:'consultar_territorio',title:'Consultar plataforma urbana',description:'Selecciona una plataforma urbana y período en el visor y devuelve el resumen visible.',inputSchema:{type:'object',properties:{territory:{type:'string',enum:['ALL','URBAN',...data.territories.filter(t=>t.type==='Urbana').map(t=>t.code)]},period:{type:'string',enum:Object.keys(data.periods)}},required:['territory','period'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:true},execute:input=>{
-      if(!input||!Object.hasOwn(data.periods,input.period)||!['ALL','URBAN',...data.territories.filter(t=>t.type==='Urbana').map(t=>t.code)].includes(input.territory))throw new Error('Territorio o período no válido.');
+    const tool={name:'consultar_territorio',title:'Consultar plataforma urbana',description:'Selecciona una plataforma urbana y período en el visor y devuelve el resumen visible.',inputSchema:{type:'object',properties:{territory:{type:'string',enum:['ALL','URBAN','GENERAL',...data.territories.filter(t=>t.type==='Urbana').map(t=>t.code)]},period:{type:'string',enum:Object.keys(data.periods)}},required:['territory','period'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:true},execute:input=>{
+      if(!input||!Object.hasOwn(data.periods,input.period)||!['ALL','URBAN','GENERAL',...data.territories.filter(t=>t.type==='Urbana').map(t=>t.code)].includes(input.territory))throw new Error('Territorio o período no válido.');
       state.period=input.period;chooseTerritory(input.territory);return {territory:title(),period:data.periods[state.period],...model.summarize(visibleRecords)};
     }};
     try{Promise.resolve(context.registerTool(tool,{signal:lifecycle.signal})).catch(()=>{});}catch{}

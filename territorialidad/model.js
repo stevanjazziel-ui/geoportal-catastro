@@ -6,13 +6,17 @@
     const territoryMap=new Map(data.territories.map(t=>[t.code,t]));
     const text=new Map(data.records.map(r=>[r.id,normalize([r.description,r.indicator,r.location,r.observation,r.area,r.territory,...r.codes].join(' '))]));
     const isUrbanCode=code=>territoryMap.get(code)?.type==='Urbana';
-    const hasUrbanScope=record=>!record.codes.length||record.codes.some(isUrbanCode);
+    const urbanCodes=record=>record.codes.filter(isUrbanCode);
+    const isSpecificPlatformRecord=record=>record.codes.length===1&&isUrbanCode(record.codes[0]);
+    const isGeneralPlatformRecord=record=>urbanCodes(record).length>1;
+    const hasUrbanScope=record=>record.codes.some(isUrbanCode);
     const isSpecificPlatformBudget=budget=>budget?.comparable&&budget.value!==null&&budget.codes.length===1&&isUrbanCode(budget.codes[0]);
     function matchesTerritory(record,territory){
       if(!hasUrbanScope(record))return false;
-      if(!territory||territory==='ALL'||territory==='URBAN')return true;
+      if(territory==='GENERAL')return isGeneralPlatformRecord(record);
+      if(!territory||territory==='ALL'||territory==='URBAN')return isSpecificPlatformRecord(record);
       if(territory==='RURAL')return false;
-      return isUrbanCode(territory)&&record.codes.includes(territory);
+      return isUrbanCode(territory)&&isSpecificPlatformRecord(record)&&record.codes[0]===territory;
     }
     function filter(state){
       const query=normalize(state.query||'').trim();
@@ -37,7 +41,7 @@
       if(sort==='amount')result.sort((a,b)=>(isSpecificPlatformBudget(budgetMap.get(b.budgetId))?budgetMap.get(b.budgetId).value:-Infinity)-(isSpecificPlatformBudget(budgetMap.get(a.budgetId))?budgetMap.get(a.budgetId).value:-Infinity));
       return result;
     }
-    return {filter,summarize,sorted,budgetMap,territoryMap,matchesTerritory,isUrbanCode,isSpecificPlatformBudget};
+    return {filter,summarize,sorted,budgetMap,territoryMap,matchesTerritory,isUrbanCode,isSpecificPlatformBudget,isSpecificPlatformRecord,isGeneralPlatformRecord};
   }
   root.TerritorialModel={create,normalize};
   if(typeof module!=='undefined')module.exports=root.TerritorialModel;
