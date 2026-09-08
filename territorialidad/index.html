@@ -38,11 +38,11 @@
     <section class="results" aria-label="Datos de la selección">
       <div class="results-heading"><div><p class="eyebrow" id="periodLabel">2023–2026</p><h2 id="selectionTitle">Todos los territorios</h2></div></div>
       <div class="stats" id="stats" aria-live="polite"></div>
-      <details class="analysis-block">
-        <summary>Distribución por dirección</summary>
+      <section class="analysis-block" aria-label="Distribución por dirección">
+        <h3>Distribución por dirección</h3>
         <div class="chart-block"><div id="chart"></div></div>
-      </details>
-      <details class="records-drawer">
+      </section>
+      <details class="records-drawer" open>
         <summary>Intervenciones</summary>
         <div class="register-heading"><div class="view-tabs" role="group" aria-label="Presentación de intervenciones"><button data-view="cards" class="active" aria-pressed="true">Fichas</button><button data-view="table" aria-pressed="false">Tabla</button></div><label>Ordenar<select id="sort"><option value="source">Dirección</option><option value="amount">Monto de mayor a menor</option></select></label></div>
         <div id="records"></div><button id="more" class="more" hidden>Mostrar más</button>
