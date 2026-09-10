@@ -604,8 +604,6 @@
     </section>
 
     <section class="view-section" id="view-gestion" role="tabpanel" aria-labelledby="tab-gestion" hidden>
-      <div class="notice" id="quality-note">Preparando controles de calidad de la matriz…</div>
-
     <section class="institutional-dashboard" id="institutional-dashboard" aria-labelledby="institutional-title">
       <div class="section-heading">
         <div>
@@ -835,7 +833,7 @@
       const state = { page: 1, pageSize: 25, sort: "reasignacion", direction: "desc", records: [] };
 
       const dom = Object.fromEntries([
-        "freshness", "source-name", "source-privacy", "quality-note", "lookup-form", "lookup-search",
+        "freshness", "source-name", "source-privacy", "lookup-form", "lookup-search",
         "lookup-button", "lookup-result", "search", "state-filter",
         "result-filter", "area-filter", "type-filter", "age-filter", "filter-count", "clear-filters",
         "case-result", "kpi-total", "kpi-total-context", "kpi-process", "kpi-process-context",
@@ -1210,8 +1208,6 @@
         dom.freshness.textContent = `Datos exportados el ${exported.toLocaleString("es-EC", { dateStyle: "medium", timeStyle: "short" })}`;
         dom["source-name"].textContent = "Base de seguimiento 2026";
         dom["source-privacy"].textContent = bundle.source.privacy;
-        dom["quality-note"].textContent = `Se identificaron ${number.format(bundle.quality.uniqueCases)} casos únicos a partir de ${number.format(bundle.quality.usableRows)} filas útiles. Se excluyeron ${number.format(bundle.quality.excludedBlankRows)} filas sin identificación operativa y ${number.format(bundle.quality.invalidCurrentDurations)} tiempos inválidos se muestran como “Sin dato”.`;
-
         const tabs = [...document.querySelectorAll(".view-tab")];
         tabs.forEach((tab, index) => {
           tab.addEventListener("click", () => setView(tab.dataset.view));
