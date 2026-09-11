@@ -28,6 +28,7 @@
       --gold: #d5a500;
       --green: #15734f;
       --cyan: #0f8fa5;
+      --platform: #d2a8ff;
       --shadow: 0 18px 48px rgba(24, 34, 53, 0.12);
     }
 
@@ -102,6 +103,16 @@
       gap: 10px;
       flex-wrap: wrap;
       justify-content: flex-end;
+    }
+
+    .side-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin-top: 14px;
+    }
+
+    .side-actions .primary {
+      grid-column: 1 / -1;
     }
 
     .btn {
@@ -200,6 +211,25 @@
       border-bottom: 1px solid var(--line);
     }
 
+    .panel-section:first-child {
+      padding-top: 18px;
+    }
+
+    .panel-section h1 {
+      margin: 0 0 8px;
+      font-size: 1.72rem;
+      line-height: 1.08;
+      color: var(--ink);
+    }
+
+    .panel-section h2,
+    .list-title {
+      color: var(--ink);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 0.88rem;
+    }
+
     .filters {
       display: grid;
       gap: 10px;
@@ -225,10 +255,41 @@
       width: 100%;
       min-height: 38px;
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: 12px;
       padding: 0 10px;
       color: var(--ink);
       background: #fff;
+    }
+
+    .layer-toggles {
+      display: grid;
+      gap: 10px;
+    }
+
+    .layer-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--panel-soft);
+      border: 1px solid var(--line);
+      color: var(--ink);
+    }
+
+    .layer-toggle span {
+      color: var(--ink);
+      font-size: 0.92rem;
+      font-weight: 650;
+    }
+
+    .layer-toggle input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--blue-2);
+      cursor: pointer;
+      flex: 0 0 auto;
     }
 
     .kpis {
@@ -240,7 +301,7 @@
     .kpi {
       padding: 13px;
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: 14px;
       background: var(--panel-soft);
     }
 
@@ -278,8 +339,8 @@
       width: 100%;
       text-align: left;
       border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fff;
+      border-radius: 12px;
+      background: var(--panel-soft);
       padding: 12px;
       color: var(--ink);
       transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
@@ -350,7 +411,8 @@
       gap: 8px;
       width: min(360px, calc(100% - 32px));
       padding: 12px;
-      border-radius: 10px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
       background: rgba(255, 255, 255, 0.94);
       box-shadow: var(--shadow);
       backdrop-filter: blur(10px);
@@ -472,11 +534,43 @@
       min-width: 220px;
     }
 
+    .leaflet-popup-content-wrapper,
+    .leaflet-popup-tip {
+      background: #fff;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
     .popup-title {
       font-weight: 800;
       color: var(--ink);
       line-height: 1.25;
       margin-bottom: 8px;
+    }
+
+    .barrio-label-icon {
+      background: transparent;
+      border: 0;
+      pointer-events: none;
+    }
+
+    .barrio-label {
+      transform: translate(-50%, -50%);
+      padding: 3px 7px;
+      border-radius: 10px;
+      background: rgba(6, 14, 22, 0.72);
+      border: 1px solid rgba(255, 236, 153, 0.36);
+      color: #f6fbff;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.15;
+      text-align: center;
+      letter-spacing: 0.01em;
+      white-space: normal;
+      max-width: 132px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.24);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+      pointer-events: none;
     }
 
     @media (max-width: 1180px) {
@@ -496,6 +590,7 @@
       .workspace { display: flex; flex-direction: column; }
       .sidebar, .detail { max-height: none; border-right: 0; }
       .map-wrap { order: -1; height: 520px; min-height: 520px; }
+      .map-card { top: 72px; }
       .filter-row, .kpis { grid-template-columns: 1fr; }
       .bar-row { grid-template-columns: 92px 1fr 42px; }
     }
@@ -528,6 +623,24 @@
 
     <main class="workspace">
       <aside class="sidebar">
+        <section class="panel-section">
+          <h2>Plataforma territorial</h2>
+          <select id="platformSelect" aria-label="Plataforma territorial">
+            <option value="todos">Todas las plataformas</option>
+          </select>
+        </section>
+
+        <section class="panel-section">
+          <h2>Capas visibles</h2>
+          <div class="layer-toggles">
+            <label class="layer-toggle"><span>Obras y proyectos</span><input id="toggleObras" type="checkbox" checked></label>
+            <label class="layer-toggle"><span>Parroquias</span><input id="toggleParroquias" type="checkbox" checked></label>
+            <label class="layer-toggle"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
+            <label class="layer-toggle"><span>Barrios dentro de plataformas</span><input id="toggleBarrios" type="checkbox" checked></label>
+            <label class="layer-toggle"><span>Etiquetas de barrios</span><input id="toggleBarrioLabels" type="checkbox" checked></label>
+          </div>
+        </section>
+
         <section class="panel-section filters" aria-label="Filtros">
           <input class="search" id="searchInput" type="search" placeholder="Buscar obra, codigo, contratista o parroquia" />
           <div class="filter-row">
@@ -603,13 +716,28 @@
   <script>
     const DATA_URL = "https://rioobras.com/datos.json?t=" + Date.now();
     const LOCAL_DATA_URL = "datos.json";
+    const CENSO_VERSION = "20260731-isocronas-todas-plataformas";
+    const CENSO_BASE = "../riobamba-censo-data/";
     const state = {
       view: "resumen",
       records: [],
       filtered: [],
       selectedId: null,
       markers: L.layerGroup(),
-      polygonLayer: L.layerGroup(),
+      parishLayer: L.layerGroup(),
+      platformLayer: L.layerGroup(),
+      barrioLayer: L.layerGroup(),
+      barrioLabelLayer: L.layerGroup(),
+      censoPlatforms: [],
+      barrios: [],
+      platformFilter: "todos",
+      layerVisibility: {
+        obras: true,
+        parroquias: true,
+        plataformas: true,
+        barrios: true,
+        barrioLabels: true,
+      },
       baseLayers: {},
     };
 
@@ -726,7 +854,8 @@
       const obras = (obrasJson.obras || []).map((o) => {
         const latLng = locateObra(o);
         const parish = canonicalParish(o.parroquia_geo || o.parroquia || findGeoName(window.PARROQUIAS_GEO, latLng) || "");
-        const platform = o.plataforma || findGeoName(window.PLATAFORMAS_GEO, latLng) || "";
+        const platform = o.plataforma || findCensoPlatform(latLng) || findGeoName(window.PLATAFORMAS_GEO, latLng) || "";
+        const barrio = findCensoBarrio(latLng);
         return {
           id: "obra-" + o.id,
           kind: "obra",
@@ -739,6 +868,7 @@
           procedure: o.proc || "Sin procedimiento",
           parish,
           platform,
+          barrio,
           contractor: o.contratista || "",
           administrator: o.administrador || o.director || "",
           inspector: o.fiscalizador || "",
@@ -758,6 +888,8 @@
             .map((site) => ({ latLng: [Number(site.lat), Number(site.lng)], sitio: site.sitio || "" }));
           const latLng = sites[0] ? sites[0].latLng : null;
           const siteNames = sites.map((site) => site.sitio).filter(Boolean);
+          const platform = findCensoPlatform(latLng) || findGeoName(window.PLATAFORMAS_GEO, latLng) || "";
+          const barrio = findCensoBarrio(latLng);
           return {
             id: "prep-" + p.item,
             kind: "prep",
@@ -769,7 +901,8 @@
             status: p.estado || "Por ejecutarse",
             procedure: p.categoria || "Por ejecutarse",
             parish: canonicalParish(p.parroquia || findGeoName(window.PARROQUIAS_GEO, latLng) || ""),
-            platform: findGeoName(window.PLATAFORMAS_GEO, latLng) || "",
+            platform,
+            barrio,
             contractor: "",
             administrator: (p.responsables || []).join(", "),
             inspector: "",
@@ -785,6 +918,10 @@
     }
 
     function initMap() {
+      const imagery = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+        maxZoom: 19,
+        attribution: "Tiles &copy; Esri"
+      });
       const light = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
         attribution: "&copy; OpenStreetMap"
@@ -793,39 +930,225 @@
         maxZoom: 17,
         attribution: "&copy; OpenTopoMap"
       });
-      state.map = L.map("map", { zoomControl: true, layers: [light] }).setView([-1.6745, -78.648], 12);
-      state.baseLayers = { "Base clara": light, "Relieve": topo };
-      L.control.layers(state.baseLayers, { "Plataformas": state.polygonLayer }, { collapsed: true }).addTo(state.map);
+      state.map = L.map("map", { zoomControl: true, layers: [imagery] }).setView([-1.6745, -78.648], 12);
+      state.baseLayers = { "Imagen satelital": imagery, "Base clara": light, "Relieve": topo };
+      L.control.layers(state.baseLayers, {
+        "Obras y proyectos": state.markers,
+        "Parroquias": state.parishLayer,
+        "Plataformas": state.platformLayer,
+        "Barrios": state.barrioLayer,
+        "Etiquetas de barrios": state.barrioLabelLayer,
+      }, { collapsed: true }).addTo(state.map);
       state.markers.addTo(state.map);
-      state.polygonLayer.addTo(state.map);
+      state.parishLayer.addTo(state.map);
+      state.platformLayer.addTo(state.map);
+      state.barrioLayer.addTo(state.map);
+      state.barrioLabelLayer.addTo(state.map);
       renderPolygons();
+      state.map.on("zoomend", renderBarrioLabels);
     }
 
     function renderPolygons() {
-      state.polygonLayer.clearLayers();
+      state.parishLayer.clearLayers();
       (window.PARROQUIAS_GEO || []).forEach((p) => {
         (p.rings || []).forEach((ring) => {
           L.polygon(ring, {
             color: "#17447f",
             weight: 1,
-            opacity: 0.4,
-            fillColor: "#17447f",
+            opacity: 0.65,
+            fillColor: "#61c7ff",
             fillOpacity: 0.035
-          }).bindTooltip(p.name || p.parroquia || "Parroquia").addTo(state.polygonLayer);
+          }).bindTooltip(p.name || p.parroquia || "Parroquia").addTo(state.parishLayer);
         });
       });
-      (window.PLATAFORMAS_GEO || []).forEach((p) => {
+      syncLayerVisibility();
+    }
+
+    async function loadTerritorialLayers() {
+      try {
+        const [platformsRes, barriosRes] = await Promise.all([
+          fetch(`${CENSO_BASE}riobamba_plataformas.geojson?v=${CENSO_VERSION}`),
+          fetch(`${CENSO_BASE}riobamba_barrios_plataformas.geojson?v=${CENSO_VERSION}`),
+        ]);
+        if (!platformsRes.ok || !barriosRes.ok) throw new Error("No se pudieron cargar plataformas/barrios");
+        const platformsGeo = await platformsRes.json();
+        const barriosGeo = await barriosRes.json();
+        state.censoPlatforms = platformsGeo.features || [];
+        state.barrios = barriosGeo.features || [];
+        populatePlatformSelect();
+        renderTerritorialLayers();
+      } catch (error) {
+        console.warn(error);
+        state.censoPlatforms = [];
+        state.barrios = [];
+        populatePlatformSelect();
+        renderFallbackPlatforms();
+      }
+    }
+
+    function populatePlatformSelect() {
+      const select = $("platformSelect");
+      const sourceNames = state.censoPlatforms.length
+        ? state.censoPlatforms.map((feature) => feature.properties?.platform_name).filter(Boolean)
+        : (window.PLATAFORMAS_GEO || []).map((p) => p.name).filter(Boolean);
+      const names = [...new Set(sourceNames)].sort((a, b) => a.localeCompare(b, "es"));
+      select.innerHTML = `<option value="todos">Todas las plataformas</option>`;
+      names.forEach((name) => {
+        const opt = document.createElement("option");
+        opt.value = name;
+        opt.textContent = name;
+        select.append(opt);
+      });
+    }
+
+    function platformMatches(name) {
+      return state.platformFilter === "todos" || name === state.platformFilter;
+    }
+
+    function renderTerritorialLayers() {
+      state.platformLayer.clearLayers();
+      state.barrioLayer.clearLayers();
+      state.barrioLabelLayer.clearLayers();
+      const platformFeatures = state.censoPlatforms.filter((feature) => platformMatches(feature.properties?.platform_name || ""));
+      const barrioFeatures = state.barrios.filter((feature) => platformMatches(feature.properties?.platform_name || ""));
+
+      L.geoJSON({ type: "FeatureCollection", features: platformFeatures }, {
+        style: {
+          color: "#d2a8ff",
+          weight: state.platformFilter === "todos" ? 1.6 : 2.4,
+          opacity: 0.98,
+          fillColor: "#d2a8ff",
+          fillOpacity: 0.08,
+        },
+        onEachFeature: (feature, layer) => {
+          const props = feature.properties || {};
+          layer.bindPopup(`
+            <strong>${escapeHtml(props.platform_name || "Plataforma")}</strong><br>
+            <strong>Manzanas:</strong> ${Number(props.manzanas || 0).toLocaleString("es-EC")}<br>
+            <strong>Poblacion:</strong> ${Number(props.population_total || 0).toLocaleString("es-EC")}<br>
+            <strong>Area:</strong> ${Number(props.area || 0).toLocaleString("es-EC")} ha
+          `);
+        }
+      }).addTo(state.platformLayer);
+
+      L.geoJSON({ type: "FeatureCollection", features: barrioFeatures }, {
+        style: {
+          color: "#ffe39a",
+          weight: state.platformFilter === "todos" ? 1.25 : 1.9,
+          opacity: 0.95,
+          fillColor: "#ffe39a",
+          fillOpacity: 0.02,
+        },
+        onEachFeature: (feature, layer) => {
+          const props = feature.properties || {};
+          layer.bindPopup(`
+            <strong>${escapeHtml(props.barrio || "Barrio")}</strong><br>
+            <strong>Plataforma:</strong> ${escapeHtml(props.platform_name || "Sin plataforma")}<br>
+            <strong>Area dentro de plataforma:</strong> ${Math.round(Number(props.area_m2 || 0)).toLocaleString("es-EC")} m2
+          `);
+        }
+      }).addTo(state.barrioLayer);
+      renderBarrioLabels();
+      syncLayerVisibility();
+    }
+
+    function findCensoPlatform(latLng) {
+      const feature = findFeatureContainingPoint(state.censoPlatforms, latLng);
+      return feature ? feature.properties?.platform_name || "" : "";
+    }
+
+    function findCensoBarrio(latLng) {
+      const feature = findFeatureContainingPoint(state.barrios, latLng);
+      return feature ? feature.properties?.barrio || "" : "";
+    }
+
+    function findFeatureContainingPoint(features, latLng) {
+      if (!latLng || !features.length) return null;
+      const point = [latLng[1], latLng[0]];
+      return features.find((feature) => featureContainsPoint(feature, point)) || null;
+    }
+
+    function featureContainsPoint(feature, point) {
+      const geometry = feature && feature.geometry;
+      if (!geometry) return false;
+      if (geometry.type === "Polygon") return polygonContainsPoint(geometry.coordinates, point);
+      if (geometry.type === "MultiPolygon") return geometry.coordinates.some((polygon) => polygonContainsPoint(polygon, point));
+      return false;
+    }
+
+    function polygonContainsPoint(polygon, point) {
+      if (!polygon || !polygon.length) return false;
+      if (!ringContainsPoint(polygon[0], point)) return false;
+      return !polygon.slice(1).some((hole) => ringContainsPoint(hole, point));
+    }
+
+    function ringContainsPoint(ring, point) {
+      let inside = false;
+      const x = point[0];
+      const y = point[1];
+      for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+        const xi = ring[i][0], yi = ring[i][1];
+        const xj = ring[j][0], yj = ring[j][1];
+        const intersects = ((yi > y) !== (yj > y)) && (x < ((xj - xi) * (y - yi)) / ((yj - yi) || 1e-12) + xi);
+        if (intersects) inside = !inside;
+      }
+      return inside;
+    }
+
+    function renderBarrioLabels() {
+      state.barrioLabelLayer.clearLayers();
+      if (!state.layerVisibility.barrioLabels) return;
+      if (state.platformFilter === "todos" && state.map.getZoom() < 14) return;
+      state.barrios
+        .filter((feature) => platformMatches(feature.properties?.platform_name || ""))
+        .forEach((feature) => {
+          const props = feature.properties || {};
+          const lat = Number(props.label_lat);
+          const lon = Number(props.label_lon);
+          if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
+          L.marker([lat, lon], {
+            interactive: false,
+            icon: L.divIcon({
+              className: "barrio-label-icon",
+              html: `<div class="barrio-label">${escapeHtml(props.barrio || "Barrio")}</div>`,
+              iconSize: [132, 28],
+              iconAnchor: [66, 14],
+            })
+          }).addTo(state.barrioLabelLayer);
+        });
+      syncLayerVisibility();
+    }
+
+    function renderFallbackPlatforms() {
+      state.platformLayer.clearLayers();
+      (window.PLATAFORMAS_GEO || []).filter((p) => platformMatches(p.name)).forEach((p) => {
         (p.rings || []).forEach((ring) => {
           L.polygon(ring, {
-            color: "#cf243d",
-            weight: 1.5,
+            color: "#d2a8ff",
+            weight: 1.8,
             dashArray: "5 5",
-            opacity: 0.75,
-            fillColor: "#cf243d",
-            fillOpacity: 0.04
-          }).bindTooltip(p.name).addTo(state.polygonLayer);
+            opacity: 0.9,
+            fillColor: "#d2a8ff",
+            fillOpacity: 0.06
+          }).bindTooltip(p.name).addTo(state.platformLayer);
         });
       });
+      syncLayerVisibility();
+    }
+
+    function syncLayerVisibility() {
+      syncLayer(state.markers, state.layerVisibility.obras);
+      syncLayer(state.parishLayer, state.layerVisibility.parroquias);
+      syncLayer(state.platformLayer, state.layerVisibility.plataformas);
+      syncLayer(state.barrioLayer, state.layerVisibility.barrios);
+      syncLayer(state.barrioLabelLayer, state.layerVisibility.barrioLabels && state.layerVisibility.barrios);
+    }
+
+    function syncLayer(layer, visible) {
+      if (!state.map || !layer) return;
+      const hasLayer = state.map.hasLayer(layer);
+      if (visible && !hasLayer) layer.addTo(state.map);
+      if (!visible && hasLayer) state.map.removeLayer(layer);
     }
 
     function markerIcon(record) {
@@ -853,8 +1176,9 @@
         if (status !== "todos" && r.status !== status) return false;
         if (parish !== "todos" && r.parish !== parish) return false;
         if (procedure !== "todos" && r.procedure !== procedure) return false;
+        if (state.platformFilter !== "todos" && r.platform !== state.platformFilter) return false;
         if (!query) return true;
-        return norm([r.name, r.code, r.egob, r.contractor, r.administrator, r.parish, r.platform, r.notes].join(" ")).includes(query);
+        return norm([r.name, r.code, r.egob, r.contractor, r.administrator, r.parish, r.platform, r.barrio, r.notes].join(" ")).includes(query);
       });
 
       renderAll();
@@ -913,6 +1237,7 @@
         });
       });
       state.bounds = bounds;
+      syncLayerVisibility();
     }
 
     function renderCharts() {
@@ -977,6 +1302,7 @@
           <div class="detail-grid">
             ${field("Codigo / tramite", [r.code, r.egob].filter(Boolean).join(" · ") || "Sin dato")}
             ${field("Parroquia / plataforma", [r.parish, r.platform].filter(Boolean).join(" · ") || "Sin dato")}
+            ${field("Barrio", r.barrio || "Sin dato")}
             ${field("Procedimiento", r.procedure)}
             ${field("Contratista", r.contractor || "Sin dato")}
             ${field("Responsables", r.administrator || "Sin dato")}
@@ -1043,6 +1369,7 @@
         source = "copia local";
       }
       state.records = toRecords(json);
+      window.__rioDebugRecords = state.records;
       state.filtered = state.records.slice();
       state.selectedId = null;
       updateTabs();
@@ -1054,12 +1381,23 @@
 
     function fitAll() {
       const points = (state.bounds || state.records.map((r) => r.latLng).filter(Boolean));
-      if (!points.length) return;
+      if (!points.length) {
+        const territorialBounds = [];
+        [state.platformLayer, state.barrioLayer, state.parishLayer].forEach((layerGroup) => {
+          layerGroup.eachLayer((layer) => {
+            if (layer.getBounds) territorialBounds.push(layer.getBounds());
+          });
+        });
+        if (!territorialBounds.length) return;
+        const bounds = territorialBounds.reduce((acc, boundsItem) => acc ? acc.extend(boundsItem) : boundsItem, null);
+        if (bounds) state.map.fitBounds(bounds.pad(0.08));
+        return;
+      }
       state.map.fitBounds(L.latLngBounds(points).pad(0.18), { maxZoom: 13 });
     }
 
     function exportCsv() {
-      const headers = ["tipo", "nombre", "codigo", "presupuesto", "avance", "estado", "procedimiento", "parroquia", "plataforma", "lat", "lng", "observaciones"];
+      const headers = ["tipo", "nombre", "codigo", "presupuesto", "avance", "estado", "procedimiento", "parroquia", "plataforma", "barrio", "lat", "lng", "observaciones"];
       const rows = state.filtered.map((r) => [
         r.kind === "prep" ? "por_ejecutarse" : "obra",
         r.name,
@@ -1070,6 +1408,7 @@
         r.procedure,
         r.parish,
         r.platform,
+        r.barrio,
         r.latLng ? r.latLng[0] : "",
         r.latLng ? r.latLng[1] : "",
         r.notes
@@ -1120,12 +1459,36 @@
       $(id).addEventListener("input", applyFilters);
       $(id).addEventListener("change", applyFilters);
     });
+    $("platformSelect").addEventListener("change", () => {
+      state.platformFilter = $("platformSelect").value;
+      renderTerritorialLayers();
+      applyFilters();
+      setTimeout(fitAll, 120);
+    });
+    [
+      ["toggleObras", "obras"],
+      ["toggleParroquias", "parroquias"],
+      ["togglePlataformas", "plataformas"],
+      ["toggleBarrios", "barrios"],
+      ["toggleBarrioLabels", "barrioLabels"],
+    ].forEach(([id, key]) => {
+      $(id).addEventListener("change", () => {
+        state.layerVisibility[key] = $(id).checked;
+        if (key === "barrioLabels") renderBarrioLabels();
+        syncLayerVisibility();
+      });
+    });
     $("refreshBtn").addEventListener("click", loadData);
     $("fitBtn").addEventListener("click", fitAll);
     $("csvBtn").addEventListener("click", exportCsv);
 
-    initMap();
-    loadData();
+    async function boot() {
+      initMap();
+      await loadTerritorialLayers();
+      await loadData();
+    }
+
+    boot();
   </script>
 </body>
 </html>
