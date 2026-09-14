@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#243e32"><title>Territorialidad · Riobamba</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%23243e32'/%3E%3Cpath d='M9 11l11-4 11 4v18l-11 4-11-4zM20 7v26M9 20l22-1' fill='none' stroke='%23d2e9a4' stroke-width='2'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css"><link rel="stylesheet" href="styles.css">
-  <script defer src="vendor/leaflet/leaflet.js"></script><script defer src="data.js"></script><script defer src="platforms.js"></script><script defer src="model.js"></script><script defer src="app.js"></script>
+  <script defer src="vendor/leaflet/leaflet.js"></script><script defer src="data.js"></script><script defer src="platforms.js"></script><script defer src="rioobras.js"></script><script defer src="model.js"></script><script defer src="app.js"></script>
 </head>
 <body>
 <header class="topbar">
@@ -29,7 +29,7 @@
     <section class="map-section" aria-label="Mapa de plataformas">
       <div id="map" aria-label="Mapa interactivo de las plataformas urbanas de Riobamba"></div>
       <div class="map-title"><span class="eyebrow" id="mapSubtitle">18 PLATAFORMAS URBANAS</span><strong id="mapTitle">Riobamba</strong><span id="mapHint">Haz clic en un polígono para consultar su ficha.</span></div>
-      <div class="map-tools"><label>Mapa base<select id="basemap"><option value="street">Cartográfico</option><option value="satellite">Satelital</option></select></label><button id="fit" title="Ver las 18 plataformas" aria-label="Ver las 18 plataformas">Encuadrar</button><label class="check"><input type="checkbox" id="labels" checked> Etiquetas</label></div>
+      <div class="map-tools"><label>Mapa base<select id="basemap"><option value="street">Cartográfico</option><option value="satellite">Satelital</option></select></label><button id="fit" title="Ver las 18 plataformas" aria-label="Ver las 18 plataformas">Encuadrar</button><label class="check"><input type="checkbox" id="labels" checked> Etiquetas</label><label class="check"><input type="checkbox" id="rioobrasToggle" checked> Obras RioObras</label></div>
       <div class="map-legend"><strong>Información territorial</strong><div><i style="background:#e3e9df"></i>Sin datos <i style="background:#c4d8b2"></i>Baja <i style="background:#86b684"></i>Media <i style="background:#438761"></i>Alta <i style="background:#205238"></i>Muy alta</div></div>
       <div class="map-footnote">Cada plataforma muestra solo proyectos específicos. A–Q o varias plataformas están separados.</div>
     </section>
@@ -42,6 +42,10 @@
         <h3>Distribución por dirección</h3>
         <div class="chart-block"><div id="chart"></div></div>
       </section>
+      <details class="records-drawer rioobras-drawer" open>
+        <summary id="rioobrasSummary">Puntos RioObras</summary>
+        <div id="rioObrasList"></div>
+      </details>
       <details class="records-drawer" open>
         <summary id="recordSummary">Proyectos de esta plataforma</summary>
         <div class="register-heading"><div class="view-tabs" role="group" aria-label="Presentación de intervenciones"><button data-view="cards" class="active" aria-pressed="true">Fichas</button><button data-view="table" aria-pressed="false">Tabla</button></div><label>Ordenar<select id="sort"><option value="source">Dirección</option><option value="amount">Monto de mayor a menor</option></select></label></div>

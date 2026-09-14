@@ -1,17 +1,18 @@
 (()=>{
   'use strict';
   const data=window.TERRITORIALIDAD;
+  const rioData=window.RIOOBRAS_TERRITORIAL||{records:[],byPlatform:{}};
   const $=id=>document.getElementById(id);
   if(!data||!window.TERRITORY_GEOMETRY||!window.TerritorialModel){$('loadStatus').textContent='No se cargó la matriz. Recarga la página.';return;}
   const model=TerritorialModel.create(data);
-  const state={territory:'ALL',scope:'urban',period:'current',area:'all',query:'',view:'cards',sort:'source',limit:16};
+  const state={territory:'ALL',scope:'urban',period:'current',area:'all',query:'',view:'cards',sort:'source',limit:16,showRioObras:true};
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const num=n=>new Intl.NumberFormat('es-EC').format(n);
   const usd=n=>n===null||n===undefined?'Sin monto comparable':new Intl.NumberFormat('es-EC',{style:'currency',currency:'USD',maximumFractionDigits:2,minimumFractionDigits:2}).format(n);
   const usdMini=n=>{if(n===null||n===undefined)return 'Sin monto';const abs=Math.abs(n),f=v=>new Intl.NumberFormat('es-EC',{maximumFractionDigits:2,minimumFractionDigits:0}).format(v);return abs>=1000000?'$'+f(n/1000000)+' M':abs>=1000?'$'+f(n/1000)+' mil':usd(n);};
   const label=c=>model.territoryMap.get(c)?.name||c;
   const shortArea=area=>({'DESARROLLO SOCIAL':'Desarrollo Social','SECRETARIA GENERAL':'Secretaría General','HABITAT':'Hábitat','CONTROL MUNICIPAL':'Control Municipal','RIOBAMBA EP':'Riobamba EP','ADMINISTRATIVO':'Administrativo','OBRAS PÚBLICAS':'Obras Públicas','DESARROLLO ECONOMICO':'Desarrollo Económico','TICS':'TICS','CULTURA':'Cultura','COOPERACIÓN':'Cooperación','AMBIENTE':'Ambiente','PATRIMONIO':'Patrimonio','RIESGOS':'Riesgos'}[area]||area);
-  let map,polygons,basemaps={},selectionLayer,visibleRecords=[],counts=new Map(),previousFocus;
+  let map,polygons,rioLayer,basemaps={},selectionLayer,visibleRecords=[],counts=new Map(),previousFocus;
   const sourceRows=new Map(data.records.map(r=>[r.id,r]));
   const visibleCodes=r=>r.codes.filter(model.isUrbanCode);
   const platformAmount=b=>model.isSpecificPlatformBudget(b)?b.value:null;
@@ -62,19 +63,61 @@
     $('more').hidden=rows.length>=visibleRecords.length;
     $('more').textContent='Mostrar más';
   }
+  function rioObrasForSelection(){
+    const query=TerritorialModel.normalize(state.query||'').trim();
+    return rioData.records.filter(r=>{
+      const inTerritory=state.territory==='GENERAL'?false:state.territory==='ALL'||state.territory==='URBAN'||!state.territory?true:r.platform===state.territory;
+      const haystack=TerritorialModel.normalize([r.title,r.source,r.status,r.stage,r.type,r.code,r.egob,r.site,r.parish,r.platform].join(' '));
+      return inTerritory&&(!query||haystack.includes(query));
+    });
+  }
+  function renderRioObras(){
+    const rows=rioObrasForSelection();
+    $('rioobrasSummary').textContent=`Puntos RioObras (${num(rows.length)})`;
+    if(!$('rioObrasList'))return;
+    if(!rows.length){$('rioObrasList').innerHTML='<div class="empty compact"><strong>Sin puntos RioObras en esta selección.</strong>Las obras generales, rurales o sin coordenada no se agregan a esta capa.</div>';return;}
+    $('rioObrasList').innerHTML=`<div class="rio-list">${rows.slice(0,12).map(r=>`<button class="rio-item" data-rio="${esc(r.id)}"><span>${esc(r.source)}</span><strong>${esc(r.title)}</strong><small>${esc(label(r.platform))} · ${esc(r.status||'Sin estado')} · ${esc(usdMini(r.budget))}</small></button>`).join('')}</div>${rows.length>12?`<p class="scope-note">Mostrando 12 de ${num(rows.length)} puntos. Usa la búsqueda o selecciona una plataforma.</p>`:''}`;
+  }
+  function focusRioObra(id){
+    const r=rioData.records.find(x=>x.id===id);
+    if(!r||!map)return;
+    if(state.territory!==r.platform)chooseTerritory(r.platform,false);
+    state.showRioObras=true;
+    $('rioobrasToggle').checked=true;
+    updateRioMarkers();
+    map.setView([r.lat,r.lng],16,{animate:false});
+    rioLayer?.eachLayer(layer=>{
+      const ll=layer.getLatLng();
+      if(Math.abs(ll.lat-r.lat)<1e-7&&Math.abs(ll.lng-r.lng)<1e-7)layer.openPopup();
+    });
+  }
+  function rioPopup(r){
+    return `<div class="rio-popup"><strong>${esc(r.title)}</strong><span>${esc(r.source)} · ${esc(label(r.platform))}</span><dl><dt>Monto</dt><dd>${esc(usd(r.budget))}</dd><dt>Estado</dt><dd>${esc(r.status||'Sin estado')}</dd><dt>Código</dt><dd>${esc(r.code||'Sin código')}</dd></dl></div>`;
+  }
+  function updateRioMarkers(){
+    if(!map||!window.L||!rioLayer)return;
+    rioLayer.clearLayers();
+    if(!state.showRioObras)return;
+    rioObrasForSelection().forEach(r=>{
+      const marker=L.circleMarker([r.lat,r.lng],{radius:r.source==='Por ejecutarse'?6:5,weight:2,color:'#8f2f25',fillColor:r.source==='Por ejecutarse'?'#f4b23d':'#e85b47',fillOpacity:.88});
+      marker.bindPopup(rioPopup(r));
+      marker.on('click',()=>{if(state.territory!==r.platform)chooseTerritory(r.platform,false);});
+      marker.addTo(rioLayer);
+    });
+  }
   function render(){
     visibleRecords=model.filter(state);counts=getCounts();renderList();
     const s=model.summarize(visibleRecords);
     $('selectionTitle').textContent=title();$('selectionHint').textContent=selectionHint();$('recordSummary').textContent=recordTitle();$('periodLabel').textContent=data.periods[state.period];
     const top=s.countByArea[0];
     const platformCount=new Set(visibleRecords.flatMap(visibleCodes)).size;
-    $('stats').innerHTML=`<div class="stat"><span class="label">Proyectos</span><strong>${num(s.count)}</strong><small>${state.territory==='GENERAL'?'De alcance general':'Específicos de plataforma'}</small></div><div class="stat"><span class="label">Direcciones</span><strong>${num(s.areas)}</strong><small>Con información en la selección</small></div><div class="stat"><span class="label">Plataformas</span><strong>${num(platformCount)}</strong><small>${state.territory==='GENERAL'?'Cubiertas':'Con proyectos'}</small></div><div class="stat money"><span class="label">Monto específico</span><strong>${s.specific===null?'—':usd(s.specific)}</strong><small>${state.territory==='GENERAL'?'No se atribuye por plataforma':'Solo código único de plataforma'}</small></div>`;
+    $('stats').innerHTML=`<div class="stat"><span class="label">Proyectos</span><strong>${num(s.count)}</strong><small>${state.territory==='GENERAL'?'De alcance general':'Específicos de plataforma'}</small></div><div class="stat"><span class="label">Direcciones</span><strong>${num(s.areas)}</strong><small>Con información en la selección</small></div><div class="stat"><span class="label">Puntos RioObras</span><strong>${num(rioObrasForSelection().length)}</strong><small>Obras específicas georreferenciadas</small></div><div class="stat money"><span class="label">Monto específico</span><strong>${s.specific===null?'—':usd(s.specific)}</strong><small>${state.territory==='GENERAL'?'No se atribuye por plataforma':'Solo código único de plataforma'}</small></div>`;
     const areaAmounts=s.countByArea.map(a=>{const areaSummary=model.summarize(visibleRecords.filter(r=>r.area===a.area)),hasAmount=areaSummary.specific!==null;return {...a,amount:areaSummary.specific??0,hasAmount};}).sort((a,b)=>(b.hasAmount?b.amount:-1)-(a.hasAmount?a.amount:-1)||b.count-a.count);
     const max=Math.max(1,...areaAmounts.map(a=>a.hasAmount?a.amount:0));
     $('chart').innerHTML=areaAmounts.map(a=>`<button class="bar-row" data-area="${esc(a.area)}" aria-label="Filtrar ${esc(shortArea(a.area))}, ${a.hasAmount?esc(usd(a.amount)):'sin monto comparable'}"><span class="bar-name">${esc(shortArea(a.area))}</span><span class="bar-track"><span class="bar-fill" style="display:block;width:${a.hasAmount?a.amount/max*100:0}%"></span></span><span class="bar-amount">${a.hasAmount?esc(usdMini(a.amount)):'Sin monto'}</span></button>`).join('')||'<p class="scope-note">Sin información en esta selección.</p>';
     document.querySelectorAll('[data-period]').forEach(b=>{b.classList.toggle('active',b.dataset.period===state.period);b.setAttribute('aria-pressed',String(b.dataset.period===state.period));});
     document.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b.dataset.view===state.view);b.setAttribute('aria-pressed',String(b.dataset.view===state.view));});
-    renderRecords();updateMap();
+    renderRecords();renderRioObras();updateMap();
   }
   function color(n){return n===0?'#e3e9df':n<=10?'#c4d8b2':n<=30?'#86b684':n<=60?'#438761':'#205238';}
   function updateMap(){
@@ -88,6 +131,7 @@
       const tt=layer.getTooltip();if(tt){layer.setTooltipContent(esc(c));const el=tt.getElement();if(el)el.classList.toggle('selected',active);}
       if(active)layer.bringToFront();
     });
+    updateRioMarkers();
   }
   function chooseTerritory(code,zoom=true){
     if(code==='RURAL'||(model.territoryMap.has(code)&&!model.isUrbanCode(code)))code='URBAN';
@@ -124,6 +168,7 @@
       layer.on('mouseout',updateMap);
       layer.on('add',()=>{const el=layer.getElement();if(el){el.setAttribute('tabindex','0');el.setAttribute('role','button');el.setAttribute('aria-label',`Consultar Plataforma ${c}`);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();chooseTerritory(c,false);}});}});
     }}).addTo(map);
+    rioLayer=L.layerGroup().addTo(map);
     map.fitBounds(polygons.getBounds(),{padding:[40,40],animate:false});
     $('loadStatus').textContent=`${data.areas.length} áreas`;
   }
@@ -142,9 +187,11 @@
     if(b.dataset.view){state.view=b.dataset.view;render();}
     if(b.dataset.area){state.area=b.dataset.area;$('area').value=state.area;state.limit=16;render();}
     if(b.dataset.detail)showDetail(b.dataset.detail);
+    if(b.dataset.rio)focusRioObra(b.dataset.rio);
   });
   $('basemap').addEventListener('change',e=>{if(!map)return;Object.values(basemaps).forEach(l=>map.removeLayer(l));basemaps[e.target.value].addTo(map);});
   $('labels').addEventListener('change',e=>polygons?.eachLayer(l=>e.target.checked?l.openTooltip():l.closeTooltip()));
+  $('rioobrasToggle').addEventListener('change',e=>{state.showRioObras=e.target.checked;updateRioMarkers();});
   $('fit').addEventListener('click',()=>{if(map&&polygons)map.fitBounds(polygons.getBounds(),{padding:[40,40],animate:false});});
   $('closeDetail').addEventListener('click',()=>$('detailDialog').close());
   $('detailDialog').addEventListener('close',()=>previousFocus?.focus());
