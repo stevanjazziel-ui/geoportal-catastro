@@ -882,7 +882,7 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260914-barrios-labels-recorte-v1";
+    const DATA_VERSION = "20260914-barrios-label-dominante-v1";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const TRANSPORTE_ROUTES_SHP_KEY = "rutas_transporte_intracantonal_recortadas_400m_carto";
@@ -4255,12 +4255,14 @@
         : (zoom >= 16 ? 54 : 78);
       const maxLabels = currentPlatform === ALL_PLATFORMS
         ? (zoom >= 16 ? 140 : 70)
-        : (zoom >= 16 ? 80 : 45);
+        : 1;
       const placed = [];
       const labelCandidates = [...features]
         .filter((feature) => {
           const props = feature.properties || {};
-          return Number.isFinite(Number(props.label_lat)) &&
+          const areaM2 = Number(props.area_m2 || 0);
+          return areaM2 >= 1000 &&
+            Number.isFinite(Number(props.label_lat)) &&
             Number.isFinite(Number(props.label_lon)) &&
             isBarrioLabelInsideVisibleGeometry(feature);
         })
