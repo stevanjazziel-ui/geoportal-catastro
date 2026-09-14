@@ -882,7 +882,7 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260903-plataforma-g-sin-sector-saboya-v1";
+    const DATA_VERSION = "20260914-barrios-labels-recorte-v1";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const TRANSPORTE_ROUTES_SHP_KEY = "rutas_transporte_intracantonal_recortadas_400m_carto";
@@ -4229,6 +4229,21 @@
       return currentPlatform === ALL_PLATFORMS ? zoom >= 15 : zoom >= 14;
     }
 
+    function isBarrioLabelInsideVisibleGeometry(feature) {
+      const props = feature?.properties || {};
+      const lat = Number(props.label_lat);
+      const lon = Number(props.label_lon);
+      if (!Number.isFinite(lat) || !Number.isFinite(lon) || !feature?.geometry) {
+        return false;
+      }
+
+      try {
+        return turf.booleanPointInPolygon(turf.point([lon, lat]), feature);
+      } catch (error) {
+        return false;
+      }
+    }
+
     function getVisibleBarrioLabelFeatures(features) {
       if (!shouldShowBarrioLabels()) {
         return [];
@@ -4245,7 +4260,9 @@
       const labelCandidates = [...features]
         .filter((feature) => {
           const props = feature.properties || {};
-          return Number.isFinite(Number(props.label_lat)) && Number.isFinite(Number(props.label_lon));
+          return Number.isFinite(Number(props.label_lat)) &&
+            Number.isFinite(Number(props.label_lon)) &&
+            isBarrioLabelInsideVisibleGeometry(feature);
         })
         .sort((a, b) => Number(b.properties?.area_m2 || 0) - Number(a.properties?.area_m2 || 0));
 
