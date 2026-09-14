@@ -44,7 +44,22 @@ window.PLATFORM_DIRECTIVES_DATA = {
     },
     { code: "H", label: "Plataforma H", manager: "Fabián Codel", assignedAt: "2026-08-14", status: "selected" },
     { code: "I", label: "Plataforma I", manager: "Mauricio Pérez", assignedAt: "2026-08-21", status: "selected" },
-    { code: "J", label: "Plataforma J", manager: "Fabián Borja", assignedAt: "2026-08-24", status: "selected" },
+    {
+      code: "J",
+      label: "Plataforma J",
+      manager: "Fabián Borja",
+      assignedAt: "2026-08-24",
+      status: "selected",
+      committee: [
+        { role: "Vocal principal", name: "Luis Vicente Ramos Morenta", phone: "0995144400" },
+        { role: "Vocal principal", name: "Juan Guacho Otalag", phone: "0988757381" },
+        { role: "Vocal principal", name: "Johny Alfredo Romo Obe", phone: "0984201238" },
+        { role: "Vocal principal", name: "Byron Gabriel Barahona Silva", phone: "0987992521" },
+        { role: "Vocal principal", name: "Adalberto Gustavo Manjarres Martínez", phone: "0983417997" },
+        { role: "Vocal suplente", name: "Segundo Apolinario Atimbay Cruz", phone: "0996311192" },
+        { role: "Vocal suplente", name: "Ángel Gonzalo Paña Soldado", phone: "0984836403" }
+      ]
+    },
     {
       code: "K",
       label: "Plataforma K",
