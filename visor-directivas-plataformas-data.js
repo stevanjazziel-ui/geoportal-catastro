@@ -42,7 +42,21 @@ window.PLATFORM_DIRECTIVES_DATA = {
         { role: "Vocal 1. Eje Plan", name: "Klever Tarillo" }
       ]
     },
-    { code: "H", label: "Plataforma H", manager: "Fabián Codel", assignedAt: "2026-08-14", status: "selected" },
+    {
+      code: "H",
+      label: "Plataforma H",
+      manager: "Fabián Codel",
+      assignedAt: "2026-08-14",
+      status: "selected",
+      committee: [
+        { role: "Presidencia", name: "Jorge Milton Lara", phone: "0993324066" },
+        { role: "Secretaría", name: "Jorge Villa", phone: "0962740731" },
+        { role: "Vocal 1. Eje Plan", name: "Julio Bravo", phone: "0984693854" },
+        { role: "Vocal 2. Eje Gestión", name: "Aníbal Brito Mata", phone: "0993473542" },
+        { role: "Vocal 3. Eje Gobernanza", name: "Galo González", phone: "0995908426" },
+        { role: "Vocal 4. Eje Resiliencia", name: "Colón Vallesteros", phone: "0901615840" }
+      ]
+    },
     { code: "I", label: "Plataforma I", manager: "Mauricio Pérez", assignedAt: "2026-08-21", status: "selected" },
     {
       code: "J",
@@ -75,8 +89,38 @@ window.PLATFORM_DIRECTIVES_DATA = {
         { role: "Vocal 3. Eje Gobernanza", name: "Dr. Sergio Flores" }
       ]
     },
-    { code: "L", label: "Plataforma L", manager: "Alexis Pumagualli", assignedAt: "2026-08-14", status: "selected" },
-    { code: "M", label: "Plataforma M", manager: "Alejandro Ríos", assignedAt: "2026-08-18", status: "selected" },
+    {
+      code: "L",
+      label: "Plataforma L",
+      manager: "Alexis Pumagualli",
+      assignedAt: "2026-08-14",
+      status: "selected",
+      committee: [
+        { role: "Presidencia", name: "Marcelo del Pozo", phone: "0998957918" },
+        { role: "Vicepresidencia", name: "Nicolás Samaniego", phone: "0987910312" },
+        { role: "Secretaría", name: "Oswaldo Miranda" },
+        { role: "Vocal", name: "Pedro Miranda", phone: "0995595224" }
+      ]
+    },
+    {
+      code: "M",
+      label: "Plataforma M",
+      manager: "Alejandro Ríos",
+      assignedAt: "2026-08-18",
+      status: "selected",
+      committee: [
+        { role: "Presidencia", name: "Manuel Antonio Calderón Balseca", phone: "0984371928" },
+        { role: "Vicepresidencia", name: "Segundo Manuel Amaguaya Tarco", phone: "0993966203" },
+        { role: "Secretaría", name: "Tatiana Margoth Benavides Altamirano", phone: "0987826590" },
+        { role: "Vocal 1. Eje Plan", name: "Adrián Roberto Orozco Valle", phone: "0990367724" },
+        { role: "Suplente de Vocal 1", name: "Edu Marlene Sulca", phone: "0986186881" },
+        { role: "Vocal 2. Eje Gestión", name: "Juan Octavio Márquez Matute", phone: "0980226579" },
+        { role: "Suplente de Vocal 2", name: "Rosa Mercedes Farinango López", phone: "0985424032" },
+        { role: "Vocal 3. Eje Gobernanza", name: "Carmen Rosa Sarabia Cabrera", phone: "0987883873" },
+        { role: "Suplente de Vocal 3", name: "María Teresa Zumba Guerra", phone: "0991532839" },
+        { role: "Vocal 4. Eje Resiliencia", name: "Paul Alfredo Maldonado Jara", phone: "0987763335" }
+      ]
+    },
     { code: "N", label: "Plataforma N", manager: "Luis Vásquez", assignedAt: "2026-08-20", status: "pending" },
     {
       code: "Ñ",
