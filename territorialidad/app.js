@@ -155,7 +155,7 @@
   }
   function initMap(){
     if(!window.L){$('mapHint').textContent='No se pudo cargar el mapa. Puedes consultar todas las intervenciones en la lista.';return;}
-    map=L.map('map',{zoomControl:false,scrollWheelZoom:false,zoomSnap:.5}).setView([-1.67,-78.65],12);
+    map=L.map('map',{zoomControl:false,scrollWheelZoom:true,wheelPxPerZoomLevel:90,zoomSnap:.5}).setView([-1.67,-78.65],12);
     L.control.zoom({position:'bottomright'}).addTo(map);
     basemaps.street=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:20,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'});
     basemaps.satellite=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxNativeZoom:18,maxZoom:20,attribution:'Tiles &copy; Esri'});
