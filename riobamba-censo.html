@@ -882,7 +882,9 @@
     const colorRamp = ["#eef7ff", "#b9dcff", "#84bfff", "#4295f8", "#0d62d6"];
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
-    const DATA_VERSION = "20260914-barrios-poligonos-reales-v1";
+    const ABC_PLATFORMS = "__ABC__";
+    const ABC_PLATFORM_NAMES = ["PLATAFORMA A", "PLATAFORMA B", "PLATAFORMA C"];
+    const DATA_VERSION = "20260915-abc-plataformas-v1";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
     const TRANSPORTE_ROUTES_SHP_KEY = "rutas_transporte_intracantonal_recortadas_400m_carto";
@@ -1419,6 +1421,17 @@
         scopedFeatures = equipamientosFeatures;
       } else if (currentPlatform === OUTSIDE_PLATFORMS) {
         scopedFeatures = equipamientosFeatures.filter((feature) => !feature.properties.platform_name);
+      } else if (isAbcPlatformSelection()) {
+        const selectedPlatformFeatures = getSelectedPlatformFeatures();
+        if (selectedPlatformFeatures.length && typeof turf !== "undefined") {
+          scopedFeatures = equipamientosFeatures.filter((feature) =>
+            selectedPlatformFeatures.some((platformFeature) => isFeatureInsideSelectedPlatform(feature, platformFeature))
+          );
+        } else {
+          scopedFeatures = equipamientosFeatures.filter(
+            (feature) => isPlatformInAbcGroup(feature.properties.platform_name)
+          );
+        }
       } else {
         const selectedPlatformFeature = getSelectedPlatformFeature();
         if (selectedPlatformFeature && typeof turf !== "undefined") {
@@ -1448,6 +1461,10 @@
         scopedFeatures = barriosFeatures;
       } else if (currentPlatform === OUTSIDE_PLATFORMS) {
         scopedFeatures = [];
+      } else if (isAbcPlatformSelection()) {
+        scopedFeatures = barriosFeatures.filter(
+          (feature) => isPlatformInAbcGroup(feature?.properties?.platform_name)
+        );
       } else {
         const selected = displayPlatformName(currentPlatform);
         scopedFeatures = barriosFeatures.filter(
@@ -1463,12 +1480,38 @@
       return currentPlatform !== ALL_PLATFORMS && currentPlatform !== OUTSIDE_PLATFORMS;
     }
 
+    function isAbcPlatformSelection(value = currentPlatform) {
+      return normalizePlatformSelectionValue(value) === ABC_PLATFORMS;
+    }
+
+    function getAbcPlatformSet() {
+      return new Set(ABC_PLATFORM_NAMES.map((name) => displayPlatformName(name)));
+    }
+
+    function isPlatformInAbcGroup(platformName) {
+      return getAbcPlatformSet().has(displayPlatformName(platformName));
+    }
+
+    function getPlatformSelectionLabel(value = currentPlatform) {
+      const normalized = normalizePlatformSelectionValue(value);
+      if (normalized === ALL_PLATFORMS) {
+        return "Todas las plataformas";
+      }
+      if (normalized === OUTSIDE_PLATFORMS) {
+        return "Fuera de plataformas";
+      }
+      if (normalized === ABC_PLATFORMS) {
+        return "Plataformas A, B y C";
+      }
+      return displayPlatformName(normalized);
+    }
+
     function normalizePlatformSelectionValue(value) {
       const normalized = String(value || "").trim();
       if (!normalized) {
         return ALL_PLATFORMS;
       }
-      if (normalized === ALL_PLATFORMS || normalized === OUTSIDE_PLATFORMS) {
+      if (normalized === ALL_PLATFORMS || normalized === OUTSIDE_PLATFORMS || normalized === ABC_PLATFORMS) {
         return normalized;
       }
       return normalized;
@@ -1493,12 +1536,7 @@
       }
       lastPlatformSelectValue = nextPlatform;
       if (statusText) {
-        const label = nextPlatform === ALL_PLATFORMS
-          ? "todas las plataformas"
-          : nextPlatform === OUTSIDE_PLATFORMS
-            ? "fuera de plataformas"
-            : displayPlatformName(nextPlatform);
-        statusText.textContent = `Actualizando vista de ${label}...`;
+        statusText.textContent = `Actualizando vista de ${getPlatformSelectionLabel(nextPlatform).toLowerCase()}...`;
       }
       schedulePlatformRender(zoomToSelection);
     }
@@ -1716,6 +1754,10 @@
         return !normalizedPlatform;
       }
 
+      if (isAbcPlatformSelection()) {
+        return isPlatformInAbcGroup(normalizedPlatform);
+      }
+
       return normalizedPlatform === displayPlatformName(currentPlatform);
     }
 
@@ -1735,12 +1777,31 @@
         return [];
       }
 
+      if (isAbcPlatformSelection()) {
+        return platformFeatures.filter((feature) => isPlatformInAbcGroup(feature?.properties?.platform_name));
+      }
+
       const selectedFeature = platformFeatureByName.get(normalizePlatformSelectionValue(currentPlatform));
+      return selectedFeature ? [selectedFeature] : [];
+    }
+
+    function getSelectedPlatformFeatures() {
+      if (!hasFocusedPlatformSelection()) {
+        return [];
+      }
+      if (isAbcPlatformSelection()) {
+        return getVisiblePlatformFeatures();
+      }
+      const selectedFeature = getSelectedPlatformFeature();
       return selectedFeature ? [selectedFeature] : [];
     }
 
     function getSelectedPlatformFeature() {
       if (!hasFocusedPlatformSelection()) {
+        return null;
+      }
+
+      if (isAbcPlatformSelection()) {
         return null;
       }
 
@@ -1863,6 +1924,7 @@
 
       currentFeaturesByPlatform.set(ALL_PLATFORMS, assignedFeatures);
       currentFeaturesByPlatform.set(OUTSIDE_PLATFORMS, []);
+      currentFeaturesByPlatform.set(ABC_PLATFORMS, []);
       currentSummaryByPlatform.set(ALL_PLATFORMS, buildManzanaSummary(assignedFeatures, "Todas las plataformas"));
 
       if (platformSummary?.unassigned) {
@@ -1898,6 +1960,15 @@
         }
         currentFeaturesByPlatform.get(platformName).push(feature);
       }
+
+      const abcFeatures = assignedFeatures.filter((feature) =>
+        isPlatformInAbcGroup(feature?.properties?.platform_name)
+      );
+      currentFeaturesByPlatform.set(ABC_PLATFORMS, abcFeatures);
+      currentSummaryByPlatform.set(
+        ABC_PLATFORMS,
+        buildManzanaSummary(abcFeatures, "Plataformas A, B y C")
+      );
 
       resetPlatformDerivedCaches();
     }
@@ -1963,7 +2034,11 @@
           [props.source_id, props.objectid, props.codigo, props.nombre]
             .find((value) => value !== undefined && value !== null && String(value).trim()) || `iso_${index}`;
         const originPlatform = getIsoFeatureOriginPlatform(feature);
-        const isInternal = hasFocusedPlatformSelection() && originPlatform === currentPlatformLabel;
+        const isInternal = hasFocusedPlatformSelection() && (
+          isAbcPlatformSelection()
+            ? isPlatformInAbcGroup(originPlatform)
+            : originPlatform === currentPlatformLabel
+        );
 
         if (isInternal) {
           summary.internalFeatures += 1;
@@ -2003,6 +2078,24 @@
           scopedIsochroneCache.set(scopedCacheKey, filtered);
         }
         return filtered;
+      }
+
+      if (isAbcPlatformSelection()) {
+        const selectedPlatformFeatures = getSelectedPlatformFeatures();
+        const scopedFeatures = validFeatures.filter((feature) => {
+          if (matchesCurrentPlatform(getIsoFeaturePlatformName(feature))) {
+            return true;
+          }
+          return selectedPlatformFeatures.some((platformFeature) =>
+            featureIntersectsSelectedPlatform(feature, platformFeature)
+          );
+        });
+
+        if (scopedCacheKey) {
+          scopedIsochroneCache.set(scopedCacheKey, scopedFeatures);
+        }
+
+        return scopedFeatures;
       }
 
       const selectedPlatformFeature = getSelectedPlatformFeature();
@@ -2606,9 +2699,7 @@
       const visibleEquipamientos = getVisibleEquipamientosFeatures().length;
       const visibleIsocronas = getVisibleThematicIsocronasCount();
 
-      const selectionLabel = currentPlatform === OUTSIDE_PLATFORMS
-        ? "Fuera de plataformas"
-        : displayPlatformName(currentPlatform);
+      const selectionLabel = getPlatformSelectionLabel(currentPlatform);
 
       if (hasFocusedPlatformSelection()) {
         if (!focusedCoverageState) {
@@ -2714,6 +2805,10 @@
     function getCurrentSelectionLabel() {
       if (currentPlatform === ALL_PLATFORMS) {
         return "riobamba_todas_las_manzanas";
+      }
+
+      if (isAbcPlatformSelection()) {
+        return "riobamba_plataformas_a_b_c";
       }
 
       if (currentPlatform === OUTSIDE_PLATFORMS) {
@@ -3829,7 +3924,7 @@
       }
 
       if (hasFocusedPlatformSelection()) {
-        overlayTitle.textContent = currentPlatform;
+        overlayTitle.textContent = getPlatformSelectionLabel(currentPlatform);
         if (!focusedCoverageState) {
           overlayText.textContent =
             `Vista enfocada: calculando cobertura, ${formatNumber(getVisibleEquipamientosFeatures().length)} puntos publicos y ` +
@@ -3844,7 +3939,7 @@
         return;
       }
 
-      overlayTitle.textContent = currentPlatform;
+      overlayTitle.textContent = getPlatformSelectionLabel(currentPlatform);
       overlayText.textContent = `${formatNumber(summary.manzanas)} manzanas | ${formatNumber(summary.population_total)} habitantes | ${metricLabels[currentMetric]}: ${formatNumber(summary[currentMetric])}`;
     }
 
@@ -3969,7 +4064,7 @@
       }
 
       if (!focusedCoverageState) {
-        focusedAnalysisTitle.textContent = `Analisis de cobertura ${displayPlatformName(currentPlatform)}`;
+        focusedAnalysisTitle.textContent = `Analisis de cobertura ${getPlatformSelectionLabel(currentPlatform)}`;
         focusedAnalysisSubtitle.textContent = "Calculando cobertura de manzanas e isocronas visibles...";
         focusedAnalysisGrid.innerHTML = `
           <article class="analysis-item analysis-item--wide">
@@ -3988,7 +4083,7 @@
       const currentSummary = getCurrentSummary() || null;
       const visibleGroups = analysisContext.visibleGroups;
       const allGroups = ensureAnalysisAllGroups(analysisContext);
-      const platformLabel = displayPlatformName(currentPlatform);
+      const platformLabel = getPlatformSelectionLabel(currentPlatform);
       const totalPopulation = Number(currentSummary?.population_total || state.populationTotal || 0);
       const totalBlocks = Number(currentSummary?.manzanas || state.total || 0);
       const platformBreakdown = buildPopulationBreakdownFromSummary(currentSummary, currentFeatures);
@@ -4014,7 +4109,7 @@
       const cards = [
         {
           key: "platform_total",
-          label: "Poblacion plataforma",
+          label: isAbcPlatformSelection() ? "Poblacion seleccion" : "Poblacion plataforma",
           value: `${formatNumber(totalPopulation)} hab`,
           meta: `${formatNumber(totalBlocks)} manzanas censales`,
           wide: true,
@@ -4099,9 +4194,9 @@
 
       focusedAnalysisTitle.textContent = `Analisis de cobertura ${platformLabel}`;
       focusedAnalysisSubtitle.textContent =
-        `Poblacion calculada desde manzanas censales de la plataforma seleccionada. ` +
-        `Coberturas de equipamiento dentro de la plataforma: ${formatNumber(visibleIsochroneOriginSummary.internalSources.size)}. ` +
-        `Coberturas de equipamiento fuera de la plataforma: ${formatNumber(visibleIsochroneOriginSummary.externalSources.size)}.`;
+        `Poblacion calculada desde manzanas censales de la seleccion. ` +
+        `Coberturas de equipamiento dentro de la seleccion: ${formatNumber(visibleIsochroneOriginSummary.internalSources.size)}. ` +
+        `Coberturas de equipamiento fuera de la seleccion: ${formatNumber(visibleIsochroneOriginSummary.externalSources.size)}.`;
       focusedAnalysisGrid.innerHTML = cards
         .map((card) => {
           const expanded = card.expandable && card.key === focusedAnalysisExpandedKey;
@@ -4140,7 +4235,9 @@
     }
 
     function platformStyle(feature) {
-      const isSelected = currentPlatform !== ALL_PLATFORMS && feature.properties.platform_name === currentPlatform;
+      const isSelected = isAbcPlatformSelection()
+        ? isPlatformInAbcGroup(feature.properties.platform_name)
+        : currentPlatform !== ALL_PLATFORMS && feature.properties.platform_name === currentPlatform;
       return {
         color: isSelected ? "#1f2937" : "#5f6878",
         weight: isSelected ? 4.2 : 2.9,
@@ -4694,7 +4791,8 @@
       }
 
       const options = [
-        `<option value="${ALL_PLATFORMS}">Todas las plataformas</option>`
+        `<option value="${ALL_PLATFORMS}">Todas las plataformas</option>`,
+        `<option value="${ABC_PLATFORMS}">Plataformas A, B y C</option>`
       ];
 
       for (const feature of platformFeatures) {
@@ -4714,6 +4812,8 @@
         summaryTitle.textContent = "Resumen Riobamba";
       } else if (currentPlatform === OUTSIDE_PLATFORMS) {
         summaryTitle.textContent = "Resumen fuera de plataformas";
+      } else if (isAbcPlatformSelection()) {
+        summaryTitle.textContent = "Resumen plataformas A, B y C";
       } else {
         summaryTitle.textContent = `Resumen ${currentPlatform}`;
       }
