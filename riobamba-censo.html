@@ -4269,15 +4269,14 @@
     }
 
     function platformStyle(feature) {
-      const platformColor = getPlatformColor(feature.properties.platform_name);
       const isSelected = isAbcPlatformSelection()
         ? isPlatformInAbcGroup(feature.properties.platform_name)
         : currentPlatform !== ALL_PLATFORMS && feature.properties.platform_name === currentPlatform;
       return {
-        color: platformColor,
+        color: "#111827",
         weight: isSelected ? 3.6 : 2.35,
         opacity: isSelected ? 1 : 0.95,
-        fillColor: platformColor,
+        fillColor: "#111827",
         fill: false,
         fillOpacity: 0,
         dashArray: ""
