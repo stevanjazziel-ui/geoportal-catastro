@@ -71,9 +71,18 @@
       return inTerritory&&(!query||haystack.includes(query));
     });
   }
+  function rioObrasStats(rows){
+    const total=rows.reduce((sum,r)=>sum+(Number(r.budget)||0),0);
+    const executing=rows.filter(r=>r.source==='Obras en ejecución').length;
+    const planned=rows.filter(r=>r.source==='Por ejecutarse').length;
+    const progresses=rows.map(r=>Number(r.physicalProgress??r.progress)).filter(Number.isFinite);
+    const avgProgress=progresses.length?progresses.reduce((sum,v)=>sum+v,0)/progresses.length:null;
+    return {total,executing,planned,avgProgress};
+  }
+  function progressText(value){return value===null?'Sin avance promedio':`${new Intl.NumberFormat('es-EC',{maximumFractionDigits:1}).format(value)}% avance prom.`;}
   function renderRioObras(){
-    const rows=rioObrasForSelection();
-    $('rioobrasSummary').textContent=`Puntos RioObras (${num(rows.length)})`;
+    const rows=rioObrasForSelection(),rio=rioObrasStats(rows);
+    $('rioobrasSummary').textContent=`Puntos RioObras (${num(rows.length)} · ${usdMini(rio.total)})`;
     if(!$('rioObrasList'))return;
     if(!rows.length){$('rioObrasList').innerHTML='<div class="empty compact"><strong>Sin puntos RioObras en esta selección.</strong>Las obras generales, rurales o sin coordenada no se agregan a esta capa.</div>';return;}
     $('rioObrasList').innerHTML=`<div class="rio-list">${rows.slice(0,12).map(r=>`<button class="rio-item" data-rio="${esc(r.id)}"><span>${esc(r.source)}</span><strong>${esc(r.title)}</strong><small>${esc(label(r.platform))} · ${esc(r.status||'Sin estado')} · ${esc(usdMini(r.budget))}</small></button>`).join('')}</div>${rows.length>12?`<p class="scope-note">Mostrando 12 de ${num(rows.length)} puntos. Usa la búsqueda o selecciona una plataforma.</p>`:''}`;
@@ -107,11 +116,10 @@
   }
   function render(){
     visibleRecords=model.filter(state);counts=getCounts();renderList();
-    const s=model.summarize(visibleRecords);
+    const s=model.summarize(visibleRecords),rioRows=rioObrasForSelection(),rio=rioObrasStats(rioRows);
     $('selectionTitle').textContent=title();$('selectionHint').textContent=selectionHint();$('recordSummary').textContent=recordTitle();$('periodLabel').textContent=data.periods[state.period];
     const top=s.countByArea[0];
-    const platformCount=new Set(visibleRecords.flatMap(visibleCodes)).size;
-    $('stats').innerHTML=`<div class="stat"><span class="label">Proyectos</span><strong>${num(s.count)}</strong><small>${state.territory==='GENERAL'?'De alcance general':'Específicos de plataforma'}</small></div><div class="stat"><span class="label">Direcciones</span><strong>${num(s.areas)}</strong><small>Con información en la selección</small></div><div class="stat"><span class="label">Puntos RioObras</span><strong>${num(rioObrasForSelection().length)}</strong><small>Obras específicas georreferenciadas</small></div><div class="stat money"><span class="label">Monto específico</span><strong>${s.specific===null?'—':usd(s.specific)}</strong><small>${state.territory==='GENERAL'?'No se atribuye por plataforma':'Solo código único de plataforma'}</small></div>`;
+    $('stats').innerHTML=`<div class="stat"><span class="label">Proyectos matriz</span><strong>${num(s.count)}</strong><small>${state.territory==='GENERAL'?'De alcance general':'Específicos de plataforma'}</small></div><div class="stat money"><span class="label">Monto matriz</span><strong>${s.specific===null?'—':usd(s.specific)}</strong><small>${state.territory==='GENERAL'?'No se atribuye por plataforma':'Solo monto específico'}</small></div><div class="stat"><span class="label">Puntos RioObras</span><strong>${num(rioRows.length)}</strong><small>${num(rio.executing)} en ejecución · ${num(rio.planned)} por ejecutarse</small></div><div class="stat money"><span class="label">Monto RioObras</span><strong>${usd(rio.total)}</strong><small>${progressText(rio.avgProgress)}</small></div>`;
     const areaAmounts=s.countByArea.map(a=>{const areaSummary=model.summarize(visibleRecords.filter(r=>r.area===a.area)),hasAmount=areaSummary.specific!==null;return {...a,amount:areaSummary.specific??0,hasAmount};}).sort((a,b)=>(b.hasAmount?b.amount:-1)-(a.hasAmount?a.amount:-1)||b.count-a.count);
     const max=Math.max(1,...areaAmounts.map(a=>a.hasAmount?a.amount:0));
     $('chart').innerHTML=areaAmounts.map(a=>`<button class="bar-row" data-area="${esc(a.area)}" aria-label="Filtrar ${esc(shortArea(a.area))}, ${a.hasAmount?esc(usd(a.amount)):'sin monto comparable'}"><span class="bar-name">${esc(shortArea(a.area))}</span><span class="bar-track"><span class="bar-fill" style="display:block;width:${a.hasAmount?a.amount/max*100:0}%"></span></span><span class="bar-amount">${a.hasAmount?esc(usdMini(a.amount)):'Sin monto'}</span></button>`).join('')||'<p class="scope-note">Sin información en esta selección.</p>';
