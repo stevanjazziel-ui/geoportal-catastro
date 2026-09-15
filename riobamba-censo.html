@@ -886,6 +886,11 @@
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
     const ABC_PLATFORMS = "__ABC__";
     const ABC_PLATFORM_NAMES = ["PLATAFORMA A", "PLATAFORMA B", "PLATAFORMA C"];
+    const PLATFORM_BORDER_COLORS = [
+      "#2563eb", "#16a34a", "#f97316", "#9333ea", "#dc2626", "#0891b2",
+      "#ca8a04", "#be185d", "#0f766e", "#4f46e5", "#65a30d", "#ea580c",
+      "#7c3aed", "#0284c7", "#15803d", "#b91c1c", "#a16207", "#475569"
+    ];
     const DATA_VERSION = "20260915-abc-plataformas-v1";
     const ISOCHRONE_SHP_KEY = "limite_isocrona_limite_plataforma_n_400m";
     const CARTO_ISOCHRONE_SHP_KEY = "contorno_cartografico_limite_plataforma_n_400m";
@@ -4251,17 +4256,29 @@
       }
     }
 
+    function getPlatformColor(platformName) {
+      const normalizedName = displayPlatformName(platformName);
+      const index = Math.max(
+        0,
+        platformFeatures.findIndex((feature) =>
+          displayPlatformName(feature?.properties?.platform_name) === normalizedName
+        )
+      );
+      return PLATFORM_BORDER_COLORS[index % PLATFORM_BORDER_COLORS.length];
+    }
+
     function platformStyle(feature) {
+      const platformColor = getPlatformColor(feature.properties.platform_name);
       const isSelected = isAbcPlatformSelection()
         ? isPlatformInAbcGroup(feature.properties.platform_name)
         : currentPlatform !== ALL_PLATFORMS && feature.properties.platform_name === currentPlatform;
       return {
-        color: isSelected ? "#1f2937" : "#5f6878",
-        weight: isSelected ? 4.2 : 2.9,
+        color: platformColor,
+        weight: isSelected ? 4.6 : 3.1,
         opacity: isSelected ? 1 : 0.95,
-        fillColor: "#d2a8ff",
-        fillOpacity: isSelected ? 0.04 : 0.01,
-        dashArray: isSelected ? "" : "5 5"
+        fillColor: platformColor,
+        fillOpacity: isSelected ? 0.05 : 0.012,
+        dashArray: ""
       };
     }
 
@@ -4430,9 +4447,9 @@
           pane: "barriosPane",
           renderer: canvasRenderer,
           style: {
-            color: "#6f42c1",
-            weight: currentPlatform === ALL_PLATFORMS ? 2.2 : 3.1,
-            opacity: 1,
+            color: "rgba(111, 66, 193, 0)",
+            weight: 0,
+            opacity: 0,
             lineCap: "round",
             lineJoin: "round",
             dashArray: "",
@@ -4485,9 +4502,6 @@
 
       syncSingleLayer(barriosLayer, layerVisibility.barrios);
       syncSingleLayer(barriosLabelLayer, layerVisibility.barrios);
-      if (barriosLayer && typeof barriosLayer.bringToFront === "function") {
-        barriosLayer.bringToFront();
-      }
       if (barriosLabelLayer && typeof barriosLabelLayer.bringToFront === "function") {
         barriosLabelLayer.bringToFront();
       }
