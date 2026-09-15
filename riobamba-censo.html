@@ -1854,6 +1854,26 @@
       }
     }
 
+    function clipFeatureToSelectedPlatformFeatures(feature, selectedPlatformFeatures = []) {
+      if (!feature?.geometry || !selectedPlatformFeatures.length || typeof turf === "undefined") {
+        return feature?.geometry ? [feature] : [];
+      }
+
+      const clippedFeatures = [];
+      for (const platformFeature of selectedPlatformFeatures) {
+        if (!featureIntersectsSelectedPlatform(feature, platformFeature)) {
+          continue;
+        }
+
+        const clipped = clipFeatureToSelectedPlatform(feature, platformFeature);
+        if (clipped?.geometry) {
+          clippedFeatures.push(clipped);
+        }
+      }
+
+      return clippedFeatures;
+    }
+
     function featureIntersectsSelectedPlatform(feature, selectedPlatformFeature) {
       if (!feature?.geometry || !selectedPlatformFeature?.geometry || typeof turf === "undefined") {
         return false;
@@ -2084,14 +2104,9 @@
 
       if (isAbcPlatformSelection()) {
         const selectedPlatformFeatures = getSelectedPlatformFeatures();
-        const scopedFeatures = validFeatures.filter((feature) => {
-          if (matchesCurrentPlatform(getIsoFeaturePlatformName(feature))) {
-            return true;
-          }
-          return selectedPlatformFeatures.some((platformFeature) =>
-            featureIntersectsSelectedPlatform(feature, platformFeature)
-          );
-        });
+        const scopedFeatures = validFeatures.flatMap((feature) =>
+          clipFeatureToSelectedPlatformFeatures(feature, selectedPlatformFeatures)
+        );
 
         if (scopedCacheKey) {
           scopedIsochroneCache.set(scopedCacheKey, scopedFeatures);
