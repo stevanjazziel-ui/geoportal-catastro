@@ -39,6 +39,7 @@
   function getCounts(){
     const rows=withoutRioObrasDuplicates(model.filter({...state,territory:'ALL'})),out=new Map(data.territories.map(t=>[t.code,0]));
     rows.forEach(r=>visibleCodes(r).forEach(c=>out.set(c,(out.get(c)||0)+1)));
+    rioObrasForMapCounts().forEach(r=>out.set(r.platform,(out.get(r.platform)||0)+1));
     return out;
   }
   function renderList(){
@@ -64,12 +65,19 @@
     $('more').textContent='Mostrar más';
   }
   function rioObrasForSelection(){
-    const query=TerritorialModel.normalize(state.query||'').trim();
     return rioData.records.filter(r=>{
       const inTerritory=state.territory==='GENERAL'?false:state.territory==='ALL'||state.territory==='URBAN'||!state.territory?true:r.platform===state.territory;
-      const haystack=TerritorialModel.normalize([r.title,r.source,r.status,r.stage,r.type,r.code,r.egob,r.site,r.parish,r.platform].join(' '));
-      return inTerritory&&(!query||haystack.includes(query));
+      return inTerritory&&rioObrasMatchesQuery(r);
     });
+  }
+  function rioObrasMatchesQuery(r){
+    const query=TerritorialModel.normalize(state.query||'').trim();
+    if(!query)return true;
+    const haystack=TerritorialModel.normalize([r.title,r.source,r.status,r.stage,r.type,r.code,r.egob,r.site,r.parish,r.platform].join(' '));
+    return haystack.includes(query);
+  }
+  function rioObrasForMapCounts(){
+    return rioData.records.filter(r=>model.isUrbanCode(r.platform)&&rioObrasMatchesQuery(r));
   }
   const dedupeStop=new Set(['para','por','con','del','las','los','una','uno','sus','que','incluye','incluido','incluida','mediante','municipal','ciudad','riobamba','adquisicion','contratacion','construccion','rehabilitacion','mantenimiento','mejoramiento','implementacion','readecuacion','instalacion','intervencion','obra','obras','servicio','servicios','bien','bienes','gestion','consultoria']);
   function workTokens(value){
@@ -144,9 +152,10 @@
   function render(){
     visibleRecords=withoutRioObrasDuplicates(model.filter(state));counts=getCounts();renderList();
     const s=model.summarize(visibleRecords),rioRows=rioObrasForSelection(),rio=rioObrasStats(rioRows);
+    const totalWorks=s.count+rioRows.length;
     $('selectionTitle').textContent=title();$('selectionHint').textContent=selectionHint();$('recordSummary').textContent=recordTitle();$('periodLabel').textContent=data.periods[state.period];
     const top=s.countByArea[0];
-    $('stats').innerHTML=`<div class="stat"><span class="label">Proyectos matriz</span><strong>${num(s.count)}</strong><small>${state.territory==='GENERAL'?'De alcance general':'Sin duplicados RioObras'}</small></div><div class="stat money"><span class="label">Monto matriz</span><strong>${s.specific===null?'—':usd(s.specific)}</strong><small>${state.territory==='GENERAL'?'No se atribuye por plataforma':'Solo monto específico depurado'}</small></div><div class="stat"><span class="label">Puntos RioObras</span><strong>${num(rioRows.length)}</strong><small>${num(rio.executing)} en ejecución · ${num(rio.planned)} por ejecutarse</small></div><div class="stat money"><span class="label">Monto RioObras</span><strong>${usd(rio.total)}</strong><small>${progressText(rio.avgProgress)}</small></div>`;
+    $('stats').innerHTML=`<div class="stat"><span class="label">Obras contabilizadas</span><strong>${num(totalWorks)}</strong><small>${state.territory==='GENERAL'?'De alcance general':'Matriz depurada + RioObras'}</small></div><div class="stat money"><span class="label">Monto matriz</span><strong>${s.specific===null?'—':usd(s.specific)}</strong><small>${state.territory==='GENERAL'?'No se atribuye por plataforma':'Solo monto específico depurado'}</small></div><div class="stat"><span class="label">Puntos RioObras</span><strong>${num(rioRows.length)}</strong><small>${num(rio.executing)} en ejecución · ${num(rio.planned)} por ejecutarse</small></div><div class="stat money"><span class="label">Monto RioObras</span><strong>${usd(rio.total)}</strong><small>${progressText(rio.avgProgress)}</small></div>`;
     const areaAmounts=s.countByArea.map(a=>{const areaSummary=model.summarize(visibleRecords.filter(r=>r.area===a.area)),hasAmount=areaSummary.specific!==null;return {...a,amount:areaSummary.specific??0,hasAmount};}).sort((a,b)=>(b.hasAmount?b.amount:-1)-(a.hasAmount?a.amount:-1)||b.count-a.count);
     const max=Math.max(1,...areaAmounts.map(a=>a.hasAmount?a.amount:0));
     $('chart').innerHTML=areaAmounts.map(a=>`<button class="bar-row" data-area="${esc(a.area)}" aria-label="Filtrar ${esc(shortArea(a.area))}, ${a.hasAmount?esc(usd(a.amount)):'sin monto comparable'}"><span class="bar-name">${esc(shortArea(a.area))}</span><span class="bar-track"><span class="bar-fill" style="display:block;width:${a.hasAmount?a.amount/max*100:0}%"></span></span><span class="bar-amount">${a.hasAmount?esc(usdMini(a.amount)):'Sin monto'}</span></button>`).join('')||'<p class="scope-note">Sin información en esta selección.</p>';
