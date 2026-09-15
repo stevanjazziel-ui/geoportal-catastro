@@ -168,15 +168,17 @@
 
     .legend {
       display: grid;
-      gap: 8px;
+      gap: 5px;
+      font-size: 0.84rem;
     }
 
     .legend-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: 8px;
       color: var(--muted);
+      line-height: 1.2;
     }
 
     .legend-label {
@@ -186,32 +188,32 @@
     .legend-symbols {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       flex: 0 0 auto;
-      min-width: 58px;
+      min-width: 48px;
     }
 
     .legend-dot {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       border-radius: 999px;
-      border: 2px solid rgba(36, 50, 38, 0.85);
+      border: 1.6px solid rgba(36, 50, 38, 0.85);
       box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.32);
     }
 
     .legend-section-title {
-      margin: 8px 0 2px;
+      margin: 4px 0 2px;
       color: var(--text);
-      font-size: 0.78rem;
+      font-size: 0.68rem;
       font-weight: 700;
       letter-spacing: 0.05em;
       text-transform: uppercase;
     }
 
     .legend-swatch {
-      width: 18px;
-      height: 12px;
-      border-radius: 4px;
+      width: 15px;
+      height: 10px;
+      border-radius: 3px;
       border: 1px solid rgba(64, 84, 62, 0.22);
     }
 
@@ -604,20 +606,20 @@
       left: 16px;
       bottom: 16px;
       z-index: 500;
-      width: min(320px, calc(100% - 32px));
-      max-height: min(42vh, 420px);
-      padding: 14px;
+      width: min(250px, calc(100% - 32px));
+      max-height: min(34vh, 320px);
+      padding: 10px 12px;
       background: rgba(247, 250, 243, 0.92);
       border: 1px solid var(--line);
-      border-radius: 18px;
+      border-radius: 14px;
       box-shadow: var(--shadow);
       backdrop-filter: blur(10px);
       overflow-y: auto;
     }
 
     .map-legend-card h3 {
-      margin: 0 0 10px;
-      font-size: 0.9rem;
+      margin: 0 0 7px;
+      font-size: 0.78rem;
       letter-spacing: 0.06em;
       text-transform: uppercase;
     }
