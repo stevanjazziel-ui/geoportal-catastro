@@ -606,6 +606,7 @@
       left: 16px;
       bottom: 16px;
       z-index: 500;
+      display: none;
       width: min(250px, calc(100% - 32px));
       max-height: min(34vh, 320px);
       padding: 10px 12px;
@@ -4431,7 +4432,7 @@
 
       if (!map.getPane("barriosPane")) {
         map.createPane("barriosPane");
-        map.getPane("barriosPane").style.zIndex = 652;
+        map.getPane("barriosPane").style.zIndex = 642;
       }
 
       if (!map.getPane("barriosLabelsPane")) {
@@ -4449,9 +4450,9 @@
           pane: "barriosPane",
           renderer: canvasRenderer,
           style: {
-            color: "rgba(111, 66, 193, 0)",
-            weight: 0,
-            opacity: 0,
+            color: "rgba(79, 91, 105, 0.34)",
+            weight: currentPlatform === ALL_PLATFORMS ? 0.75 : 0.95,
+            opacity: 0.8,
             lineCap: "round",
             lineJoin: "round",
             dashArray: "",
