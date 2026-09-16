@@ -849,14 +849,9 @@
       const renderPlatformMask = () => {
         platformMaskLayer.clearLayers();
         if (!platformGeojsonCache || mode !== "diagnosis" || diagnosisMetric !== "hotspots") return;
-        L.polygon(platformMaskRings(platformGeojsonCache), {
-          stroke: false,
-          fillColor: "#f7faf5",
-          fillOpacity: 0.72,
-          interactive: false,
-        }).addTo(platformMaskLayer);
-        platformMaskLayer.bringToFront();
-        if (platformLayer) platformLayer.bringToFront();
+        // El raster KDE ya viene con transparencia fuera del ámbito de plataformas.
+        // No agregamos máscara adicional para evitar cubrir la superficie y los límites.
+        return;
       };
       const platformRecord = (name) => diagnosis.byPlatformName?.[name] || diagnosis.platformMaster?.find((item) => item.platformName === name || item.platform === name?.replace("PLATAFORMA ", ""));
       const formatDate = (value) => {
@@ -1364,6 +1359,8 @@
           }).bindPopup(`<strong>${esc(event.id)}</strong><br>${esc(event.event)}<br>${esc(event.location)}<br>Plataforma ${esc(event.platform || "N/D")}`).addTo(hotspotLayer);
         });
         hotspotLayer.bringToFront();
+        if (platformLayer) platformLayer.bringToFront();
+        if (platformLabelLayer) platformLabelLayer.bringToFront();
       }
 
       function renderParishBubbles() {
@@ -1828,10 +1825,15 @@
           if (!elements.toggleManzanas.checked) map.removeLayer(manzanaLayer);
           if (!elements.togglePlatforms.checked) map.removeLayer(platformLayer);
           update();
-          const mappedEvents = events.filter((event) => event.mappable && event.lat != null && event.lng != null);
-          if (mappedEvents.length) {
+          map.invalidateSize();
+          if (isKdeMode() && platformLayer) {
+            map.fitBounds(platformLayer.getBounds().pad(0.08), { maxZoom: 14 });
+          } else {
+            const mappedEvents = events.filter((event) => event.mappable && event.lat != null && event.lng != null);
+            if (mappedEvents.length) {
             const bounds = L.latLngBounds(mappedEvents.map((event) => [event.lat, event.lng]));
             map.fitBounds(bounds.pad(0.18), { maxZoom: 14 });
+            }
           }
           elements.status.textContent = `${elements.status.textContent} Censo: ${fmt(manzanaGeojson.features?.length)} manzanas y ${fmt(platformGeojson.features?.length)} plataformas cargadas.`;
         } catch (error) {
@@ -1878,6 +1880,7 @@
       renderTopbar();
       renderMethodologyPanel();
       update();
+      setTimeout(() => map.invalidateSize(), 250);
       loadCensusLayers();
       loadBoulevardNetwork();
 
