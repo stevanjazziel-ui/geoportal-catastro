@@ -401,7 +401,7 @@
   <script src="./visor-seguridad-riobamba-data.js"></script>
   <script src="./riobamba-camaras-data.js?v=municipio-30"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
-  <script src="./riobamba-seguridad-diagnostico-data.js?v=etapa7-cobertura"></script>
+  <script src="./riobamba-seguridad-diagnostico-data.js?v=etapa8-tipologias"></script>
   <script>
     (() => {
       const dataset = window.RIOBAMBA_SECURITY_DATA || { events: window.RIOBAMBA_SECURITY_EVENTS || [], ecu911: { serviceCounts: [], parishes: [], topSubtypes: [], topByParish: {}, totalRows: 0, securityRows: 0 } };
@@ -823,6 +823,7 @@
         if (mode === "diagnosis") {
           const visible = filteredPlatforms();
           const population = visible.reduce((sum, platform) => sum + Number(platform.population || 0), 0);
+          const typologies = new Set(visible.map((platform) => platform.territorialTypology).filter(Boolean)).size;
           elements.summary.innerHTML = [
             ["Plataformas", visible.length],
             ["Población", population],
@@ -835,6 +836,7 @@
             ["Hotspots", visible.reduce((sum, platform) => sum + Number(platform.hotspots || 0), 0)],
             ["Déficit alto/crítico", visible.filter((platform) => ["ALTO", "CRITICO"].includes(platform.videoDeficit)).length],
             ["Prioridad territorial", diagnosis.summary?.territorialPriorityPlatforms || 0],
+            ["Tipologías", typologies],
             ["Cobertura cámaras", `${((visible.reduce((sum, platform) => sum + Number(platform.cameraCoveredPopulation || 0), 0) / Math.max(population, 1)) * 100).toFixed(1)}%`],
             ["Manz. cruzan límite", diagnosis.summary?.manzanasSplitByPlatforms || 0],
             ["Boulevares+conex. km", ((visible.reduce((sum, platform) => sum + Number(platform.boulevardLengthM || 0) + Number(platform.connectionLengthM || 0), 0)) / 1000).toFixed(2)]
@@ -924,8 +926,12 @@
         const maxCoverage = Math.max(...topCoverage.map((item) => Number(item.cameraCoveredPopulationPct || 0)), 1);
         const deficitCounts = countBy(visible, "videoDeficit");
         const coverageCounts = countBy(visible, "institutionalCoverage");
+        const typologyCounts = countBy(visible, "territorialTypology");
         const deficitRows = ["CRITICO", "ALTO", "MEDIO", "BAJO"].map((key) => ({ label: key, value: deficitCounts[key] || 0, color: (diagnosisPalettes.videoDeficit.find(([value]) => value === key) || [null, "#d8eadf"])[1] }));
         const coverageRows = ["BAJA", "MEDIA", "ALTA"].map((key) => ({ label: key, value: coverageCounts[key] || 0, color: (diagnosisPalettes.institutionalCoverage.find(([value]) => value === key) || [null, "#d8eadf"])[1] }));
+        const typologyRows = Object.entries(typologyCounts)
+          .sort((a, b) => b[1] - a[1])
+          .map(([label, value]) => ({ label, value, color: (diagnosisPalettes.typology.find(([key]) => key === label) || [null, "#d8eadf"])[1] }));
         const priorities = [...visible]
           .sort((a, b) => Number(b.videoDeficitScore || 0) - Number(a.videoDeficitScore || 0) || Number(b.incidents || 0) - Number(a.incidents || 0))
           .slice(0, 5);
@@ -940,6 +946,7 @@
           ${metricBars("Cobertura potencial de cámaras (%)", topCoverage.map((item) => ({ label: item.platform, value: item.cameraCoveredPopulationPct, color: cameraCoverageColor(item.cameraCoveredPopulationPct) })), maxCoverage, "#2f6f5f")}
           ${metricBars("Déficit de videovigilancia", deficitRows, Math.max(...deficitRows.map((item) => item.value), 1), "#d9a441")}
           ${metricBars("Cobertura institucional", coverageRows, Math.max(...coverageRows.map((item) => item.value), 1), "#4f8f52")}
+          ${metricBars("Tipologías territoriales", typologyRows, Math.max(...typologyRows.map((item) => item.value), 1), "#5b7f9d")}
           <div class="graphic-card">
             <h3>Zonas prioritarias</h3>
             ${priorities.map((item, index) => `<div class="priority-row">
@@ -1431,6 +1438,8 @@
             ["6. Cobertura institucional", "Clasificación BAJA / MEDIA / ALTA por plataforma"],
             ["7. Tipología territorial", "Lectura combinada de conflictividad, densidad y cobertura"],
             ["8. Zonas críticas preliminares", "Priorización operativa por plataforma"],
+            ["Etapa 8. Tabla maestra", `${(diagnosis.masterSchema || []).length} campos en ${diagnosis.masterTableName || "ANALISIS_PLATAFORMAS"}`],
+            ["AHP", diagnosis.ahpStatus?.implemented ? "Implementado" : "Pendiente; sin pesos arbitrarios"],
           ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
           elements.detail.innerHTML = "<p>Selecciona una Plataforma Territorial para revisar las fases integradas. Los campos no calculados se muestran como N/D.</p>"
             + phaseRows
@@ -1499,7 +1508,9 @@
           ["Incidentes cerca policía", platform.incidentsNearPolice],
           ["Hotspots baja cobertura", platform.lowCoverageHotspots],
           ["Zona crítica", platform.criticalZones],
-          ["Tipología territorial", platform.territorialTypology]
+          ["Tipología territorial", platform.territorialTypology],
+          ["Factores tipología", (platform.typologyFactors || []).join(" · ")],
+          ["Campos tabla maestra", Object.keys(platform.masterFields || {}).length]
         ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${displayValue(value)}</strong></div>`).join("")
           + `<div class="pill-row">${topTypes || '<span class="pill">Sin tipos de incidente asignados</span>'}</div>`
           + `<p>${esc(platform.hotspotMethod || "")}</p><p>${esc(platform.dataStatus?.population || "")}</p><p>${esc(platform.dataStatus?.securityIndicators || "")}</p><p>${esc(platform.dataStatus?.institutionalCoverage || "")}</p>`;

@@ -429,6 +429,23 @@ def institutional_matrix(conflict_exposure, coverage):
         return "Cobertura consolidada"
     return "Seguimiento"
 
+
+def typology_factors(bucket, density, deficit, coverage, conflict_exposure, population_exposed_250, population):
+    factors = []
+    if conflict_exposure == "ALTA":
+        factors.append("Alta conflictividad/exposicion")
+    if density >= median_density:
+        factors.append("Alta densidad poblacional")
+    if coverage == "BAJA":
+        factors.append("Baja cobertura institucional")
+    if deficit in ("ALTO", "CRITICO"):
+        factors.append("Deficit de videovigilancia")
+    if bucket["incidentsNearPolice"] == 0 and bucket["incidents"] > 0:
+        factors.append("Incidentes sin cercania policial 500 m")
+    if population and (population_exposed_250 / population * 100) >= 5:
+        factors.append("Poblacion expuesta a 250 m")
+    return factors or ["Seguimiento ordinario"]
+
 platforms = []
 for item in stats["platforms"]:
     pop_bucket = population_allocations[item["platform_name"]]
@@ -482,7 +499,37 @@ for item in stats["platforms"]:
     if bucket["incidents"] == 0 and bucket["cameras"] == 0 and bucket["policeInfrastructure"] == 0:
         critical_zone = "Validar demanda local con trabajo de campo"
     typology = territorial_typology(bucket, density, incident_rate if incident_rate != "N/D" else 0, video_deficit, institutional_coverage)
+    factors = typology_factors(bucket, density, video_deficit, institutional_coverage, conflict_exposure, bucket["populationExposed250"], population)
+    master_fields = {
+        "ID_PLAT": int(item["platform_id"]),
+        "PLATAFORMA": item["platform_name"].replace("PLATAFORMA ", ""),
+        "AREA_KM2": round(area_km2, 4),
+        "POBLACION": population,
+        "DENS_POB": round(population / area_km2, 2) if area_km2 else "N/D",
+        "INC_TOTAL": bucket["incidents"],
+        "TASA_INC_1000": incident_rate,
+        "NUM_HOTSPOTS": hotspot_count,
+        "POB_EXP_250": int(round(bucket["populationExposed250"])),
+        "POB_EXP_500": int(round(bucket["populationExposed500"])),
+        "INF_POL": bucket["policeInfrastructure"],
+        "PERSONAL_POL": bucket["policePersonnel"] or "N/D",
+        "POB_X_INF": round(population / bucket["policeInfrastructure"], 2) if bucket["policeInfrastructure"] else "N/D",
+        "POB_X_POL": round(population / bucket["policePersonnel"], 2) if bucket["policePersonnel"] else "N/D",
+        "DIST_INF_MEDIA": population_police_distance,
+        "CAM_TOTAL": bucket["cameras"],
+        "CAM_CAMBIO": bucket["camerasReplacement"],
+        "POB_CUB_CAM": int(round(bucket["cameraCoveredPopulation"])),
+        "PCT_POB_CUB": camera_covered_population_pct,
+        "PCT_AREA_CUB": round(bucket["cameraCoveredAreaPct"], 2),
+        "DEFICIT_VIDEO": video_deficit,
+        "LONG_BOULEV": round(boulevard_total_length, 2),
+        "POB_CERCA_BOULEV": bucket["populationNearBoulevard"],
+        "INC_CERCA_BOULEV": bucket["incidentsNearBoulevard"],
+        "HOTSPOT_BAJA_COB": low_coverage_hotspots,
+        "TIPOLOGIA": typology,
+    }
     platforms.append({
+        "masterFields": master_fields,
         "platformId": int(item["platform_id"]),
         "platform": item["platform_name"].replace("PLATAFORMA ", ""),
         "platformName": item["platform_name"],
@@ -563,6 +610,7 @@ for item in stats["platforms"]:
         "institutionalCoverageMatrix": combined_matrix,
         "territorialPriority": 1 if combined_matrix == "PRIORIDAD TERRITORIAL" else 0,
         "territorialTypology": typology,
+        "typologyFactors": factors,
         "dataStatus": {
             "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
             "area": "DATO CALCULADO desde geometria real de plataformas",
@@ -572,6 +620,9 @@ for item in stats["platforms"]:
     })
 
 platforms.sort(key=lambda row: row["platform"])
+typology_counts = {}
+for row in platforms:
+    typology_counts[row["territorialTypology"]] = typology_counts.get(row["territorialTypology"], 0) + 1
 
 def geojson_geometry_types(geojson):
     return sorted({feature.get("geometry", {}).get("type", "N/D") for feature in geojson.get("features", [])})
@@ -738,12 +789,12 @@ inventory = [
 
 output = {
     "generatedAt": datetime.now().isoformat(timespec="seconds"),
-    "phase": "ETAPA 7 - Cobertura institucional combinada",
+    "phase": "ETAPA 8 - Tabla maestra y tipologias territoriales",
     "masterTableName": "ANALISIS_PLATAFORMAS",
     "methodNotes": [
         "La unidad principal son las 18 plataformas territoriales reales.",
         "No se usan circuitos/subcircuitos como unidad principal.",
-        "Etapas 1 a 7 implementadas: base poblacional areal + clasificacion A/B/C + concentracion/exposicion + infraestructura/accesibilidad + videovigilancia/cobertura/deficit + boulevares + cobertura institucional combinada.",
+        "Etapas 1 a 8 implementadas: tabla maestra ANALISIS_PLATAFORMAS consolidada y tipologias territoriales explicadas.",
         "La poblacion por plataforma se estima por interseccion areal manzana-plataforma: POB_EST = POB_MANZANA * AREA_INTERSECCION / AREA_MANZANA.",
         "Se calculan conteos por plataforma cuando existe geometria verificable.",
         f"La cobertura potencial de camaras usa escenarios {', '.join(str(radius) for radius in CAMERA_SCENARIO_RADII_M)} m; el visor resume {CAMERA_RADIUS_M} m como escenario principal.",
@@ -784,6 +835,7 @@ output = {
         "lowCoverageHotspots": sum(row["lowCoverageHotspots"] for row in platforms if isinstance(row["lowCoverageHotspots"], int)),
         "videoDeficitHighOrCritical": sum(1 for row in platforms if row["videoDeficit"] in ("ALTO", "CRITICO")),
         "territorialPriorityPlatforms": sum(row["territorialPriority"] for row in platforms if isinstance(row["territorialPriority"], int)),
+        "typologyCounts": typology_counts,
         "unassigned": unassigned,
         "assumptions": {
             "cameraRadiusM": CAMERA_RADIUS_M,
@@ -793,6 +845,19 @@ output = {
             "medianDensityPopKm2": round(median_density, 2),
             "medianIncidentRate1000": round(median_incident_rate, 2),
         },
+    },
+    "masterSchema": [
+        "ID_PLAT", "PLATAFORMA", "AREA_KM2", "POBLACION", "DENS_POB",
+        "INC_TOTAL", "TASA_INC_1000", "NUM_HOTSPOTS", "POB_EXP_250", "POB_EXP_500",
+        "INF_POL", "PERSONAL_POL", "POB_X_INF", "POB_X_POL", "DIST_INF_MEDIA",
+        "CAM_TOTAL", "CAM_CAMBIO", "POB_CUB_CAM", "PCT_POB_CUB", "PCT_AREA_CUB",
+        "DEFICIT_VIDEO", "LONG_BOULEV", "POB_CERCA_BOULEV", "INC_CERCA_BOULEV",
+        "HOTSPOT_BAJA_COB", "TIPOLOGIA",
+    ],
+    "ahpStatus": {
+        "implemented": False,
+        "reason": "La metodologia indica no implementar AHP ni pesos arbitrarios todavia.",
+        "preparedDimensions": ["CONFLICTIVIDAD", "EXPOSICION", "DEFICIT_INSTITUCIONAL", "DEFICIT_VIDEOVIGILANCIA", "COMPONENTE_TERRITORIAL"],
     },
     "methodControl": [
         {
@@ -875,6 +940,15 @@ output = {
             "method": "Matriz conceptual: conflictividad/exposicion ALTA/MEDIA/BAJA cruzada con cobertura institucional ALTA/MEDIA/BAJA",
             "parameters": "institutionalCoverageMatrix y territorialPriority",
             "limitations": "No es indice multicriterio final; no define automaticamente zonas inseguras",
+        },
+        {
+            "result": "Tabla maestra y tipologias territoriales",
+            "source": "Indicadores calculados por plataforma territorial",
+            "date": "Generado en visor",
+            "precision": "Una fila por plataforma; variables derivadas documentadas como DATO CALCULADO o ESCENARIO",
+            "method": "Consolidacion ANALISIS_PLATAFORMAS + reglas explicativas de tipologia",
+            "parameters": "masterFields, TIPOLOGIA y typologyFactors",
+            "limitations": "No incluye ranking 1-18 ni AHP; las tipologias orientan validacion tecnica, no etiquetan inseguridad automaticamente",
         },
     ],
     "audit": audit,
