@@ -344,7 +344,7 @@
   <script src="./visor-seguridad-riobamba-data.js"></script>
   <script src="./riobamba-camaras-data.js?v=municipio-30"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
-  <script src="./riobamba-seguridad-diagnostico-data.js?v=phase1"></script>
+  <script src="./riobamba-seguridad-diagnostico-data.js?v=all-phases"></script>
   <script>
     (() => {
       const dataset = window.RIOBAMBA_SECURITY_DATA || { events: window.RIOBAMBA_SECURITY_EVENTS || [], ecu911: { serviceCounts: [], parishes: [], topSubtypes: [], topByParish: {}, totalRows: 0, securityRows: 0 } };
@@ -541,8 +541,10 @@
             ["Población", population],
             ["Incidentes", visible.reduce((sum, platform) => sum + Number(platform.incidents || 0), 0)],
             ["Cámaras", visible.reduce((sum, platform) => sum + Number(platform.cameras || 0), 0)],
-            ["Infraestructura", visible.reduce((sum, platform) => sum + Number(platform.policeInfrastructure || 0), 0)],
-            ["Boulevares km", (visible.reduce((sum, platform) => sum + Number(platform.boulevardLengthM || 0), 0) / 1000).toFixed(2)]
+            ["Hotspots", visible.reduce((sum, platform) => sum + Number(platform.hotspots || 0), 0)],
+            ["Déficit alto/crítico", visible.filter((platform) => ["ALTO", "CRITICO"].includes(platform.videoDeficit)).length],
+            ["Cobertura cámaras", `${((visible.reduce((sum, platform) => sum + Number(platform.cameraCoveredPopulation || 0), 0) / Math.max(population, 1)) * 100).toFixed(1)}%`],
+            ["Boulevares+conex. km", ((visible.reduce((sum, platform) => sum + Number(platform.boulevardLengthM || 0) + Number(platform.connectionLengthM || 0), 0)) / 1000).toFixed(2)]
           ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
           return;
         }
@@ -629,7 +631,9 @@
               <div class="pill-row">
                 <span class="pill">${fmt(Math.round(platform.densityPopKm2))} hab/km²</span>
                 <span class="pill">Incidentes ${esc(platform.incidents)}</span>
-                <span class="pill">Fase 1</span>
+                <span class="pill">Déficit ${esc(platform.videoDeficit)}</span>
+                <span class="pill">Cob. cámaras ${displayValue(platform.cameraCoveredPopulationPct)}%</span>
+                <span class="pill">${esc(platform.institutionalCoverage || "N/D")}</span>
               </div>
             </button>
           `).join("") || "<p>No hay plataformas con los filtros actuales.</p>";
@@ -811,7 +815,7 @@
           elements.status.textContent = `${items.length} de ${events.length} eventos publicados visibles; ${items.filter((event) => event.mappable).length} con referencia en mapa.`;
         } else if (mode === "diagnosis") {
           renderPlatformDetail(selectedPlatform);
-          elements.status.textContent = `Fase 1: ${diagnosis.summary?.platforms || 18} plataformas territoriales, ${fmt(diagnosis.summary?.populationWithPlatform)} habitantes asignados y ${fmt(diagnosis.summary?.manzanasAssigned)} manzanas vinculadas.`;
+          elements.status.textContent = `Fases integradas: ${diagnosis.summary?.platforms || 18} plataformas territoriales, ${fmt(diagnosis.summary?.populationWithPlatform)} habitantes asignados, ${fmt(diagnosis.summary?.hotspots || 0)} hotspots preliminares y ${fmt(diagnosis.summary?.videoDeficitHighOrCritical || 0)} plataformas con déficit alto/crítico.`;
         } else {
           if (mode === "ecu") {
             renderParishDetail(selectedParish);
@@ -979,10 +983,12 @@
         const platform = platformRecord(platformName);
         if (!platform) {
           elements.detailTitle.textContent = "Diagnóstico territorial";
-          elements.detail.innerHTML = "<p>Selecciona una Plataforma Territorial para revisar la ficha Fase 1. Los campos no calculados se muestran como N/D.</p>"
-            + (diagnosis.inventory || []).map((item) => `<div class="mini-row"><span>${esc(item.component)}</span><strong>${esc(item.records)} registros</strong></div>`).join("");
-          elements.overlayTitle.textContent = "Fase 1: Plataformas + población";
-          elements.overlayText.textContent = "Unidad principal: 18 Plataformas Territoriales reales. No se usan circuitos ni subcircuitos como unidad principal.";
+          const notes = (diagnosis.methodNotes || []).map((note) => `<p>${esc(note)}</p>`).join("");
+          elements.detail.innerHTML = "<p>Selecciona una Plataforma Territorial para revisar las fases integradas. Los campos no calculados se muestran como N/D.</p>"
+            + (diagnosis.inventory || []).map((item) => `<div class="mini-row"><span>${esc(item.component)}</span><strong>${esc(item.records)} registros</strong></div>`).join("")
+            + notes;
+          elements.overlayTitle.textContent = "Fases integradas: plataformas territoriales";
+          elements.overlayText.textContent = "Unidad principal: 18 Plataformas Territoriales reales. Los indicadores de hotspot y déficit son preliminares, no un índice ponderado definitivo.";
           return;
         }
         elements.detailTitle.textContent = platform.platformName;
@@ -999,20 +1005,33 @@
           ["65+ años", platform.age65Plus],
           ["Incidentes", platform.incidents],
           ["Tasa / 1.000", platform.incidentRate1000],
+          ["Hotspots preliminares", platform.hotspots],
           ["Infraestructura policial", platform.policeInfrastructure],
           ["Personal policial", platform.policePersonnel],
           ["Pob. / infraestructura", platform.populationPerPoliceInfrastructure],
           ["Pob. / policía", platform.populationPerPoliceOfficer],
+          ["Cobertura institucional", platform.institutionalCoverage],
           ["Cámaras", platform.cameras],
           ["Cámaras a reemplazo", platform.camerasReplacement],
-          ["Déficit video", platform.videoDeficit],
+          ["Pob. cubierta por cámaras", platform.cameraCoveredPopulation],
+          ["% pob. cubierta cámaras", typeof platform.cameraCoveredPopulationPct === "number" ? `${platform.cameraCoveredPopulationPct}%` : platform.cameraCoveredPopulationPct],
+          ["% área cubierta cámaras", typeof platform.cameraCoveredAreaPct === "number" ? `${platform.cameraCoveredAreaPct}%` : platform.cameraCoveredAreaPct],
+          ["Incidentes cubiertos por cámaras", platform.incidentsCoveredByCamera],
+          ["Déficit video", `${platform.videoDeficit} (${platform.videoDeficitScore})`],
           ["Bulevares m", platform.boulevardLengthM],
-          ["Conexiones m", platform.connectionLengthM]
+          ["Conexiones m", platform.connectionLengthM],
+          ["Pob. cerca red bulevar", platform.populationNearBoulevard],
+          ["Incidentes cerca red bulevar", platform.incidentsNearBoulevard],
+          ["Cámaras cerca red bulevar", platform.camerasNearBoulevard],
+          ["Incidentes cerca policía", platform.incidentsNearPolice],
+          ["Hotspots baja cobertura", platform.lowCoverageHotspots],
+          ["Zona crítica", platform.criticalZones],
+          ["Tipología territorial", platform.territorialTypology]
         ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${displayValue(value)}</strong></div>`).join("")
           + `<div class="pill-row">${topTypes || '<span class="pill">Sin tipos de incidente asignados</span>'}</div>`
-          + `<p>${esc(platform.dataStatus?.population || "")}</p><p>${esc(platform.dataStatus?.securityIndicators || "")}</p><p>${esc(platform.dataStatus?.institutionalCoverage || "")}</p>`;
-        elements.overlayTitle.textContent = `${platform.platformName} · Fase 1`;
-        elements.overlayText.textContent = `${fmt(platform.population)} habitantes, ${platform.areaKm2} km², ${fmt(platform.incidents)} incidentes georreferenciables, ${fmt(platform.cameras)} cámaras y ${fmt(platform.policeInfrastructure)} infraestructuras policiales asignadas.`;
+          + `<p>${esc(platform.hotspotMethod || "")}</p><p>${esc(platform.dataStatus?.population || "")}</p><p>${esc(platform.dataStatus?.securityIndicators || "")}</p><p>${esc(platform.dataStatus?.institutionalCoverage || "")}</p>`;
+        elements.overlayTitle.textContent = `${platform.platformName} · fases integradas`;
+        elements.overlayText.textContent = `${fmt(platform.population)} habitantes, ${platform.areaKm2} km², déficit ${platform.videoDeficit}, cobertura institucional ${platform.institutionalCoverage}, ${fmt(platform.incidents)} incidentes y ${fmt(platform.cameras)} cámaras asignadas.`;
       }
 
       function selectPlatform(platformName, pan) {
