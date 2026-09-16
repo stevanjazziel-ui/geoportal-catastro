@@ -813,7 +813,7 @@
           });
           marker.addTo(platformLabelLayer);
         });
-        platformLabelLayer.bringToFront();
+        bringLayerForward(platformLabelLayer);
       };
       const pointInRing = (lng, lat, ring) => {
         let inside = false;
@@ -1358,9 +1358,9 @@
             fillOpacity: 0.95,
           }).bindPopup(`<strong>${esc(event.id)}</strong><br>${esc(event.event)}<br>${esc(event.location)}<br>Plataforma ${esc(event.platform || "N/D")}`).addTo(hotspotLayer);
         });
-        hotspotLayer.bringToFront();
-        if (platformLayer) platformLayer.bringToFront();
-        if (platformLabelLayer) platformLabelLayer.bringToFront();
+        bringLayerForward(hotspotLayer);
+        bringLayerForward(platformLayer);
+        bringLayerForward(platformLabelLayer);
       }
 
       function renderParishBubbles() {
