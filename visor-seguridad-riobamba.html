@@ -1436,6 +1436,7 @@
           elements.toggleBoulevards.checked ? boulevardLayer.addTo(map) : map.removeLayer(boulevardLayer);
           if (manzanaLayer) elements.toggleManzanas.checked ? manzanaLayer.addTo(map) : map.removeLayer(manzanaLayer);
           elements.togglePlatforms.checked && platformLayer ? platformLayer.addTo(map) : platformLayer && map.removeLayer(platformLayer);
+          map.invalidateSize();
           return;
         }
         elements.toggleEvents.checked ? eventLayer.addTo(map) : map.removeLayer(eventLayer);
@@ -1445,6 +1446,7 @@
         elements.toggleBoulevards.checked ? boulevardLayer.addTo(map) : map.removeLayer(boulevardLayer);
         if (manzanaLayer) elements.toggleManzanas.checked ? manzanaLayer.addTo(map) : map.removeLayer(manzanaLayer);
         elements.togglePlatforms.checked && platformLayer ? platformLayer.addTo(map) : platformLayer && map.removeLayer(platformLayer);
+        map.invalidateSize();
       }
 
       function setKdeDefaultContextLayers() {
@@ -1835,6 +1837,7 @@
           if (!elements.toggleManzanas.checked) map.removeLayer(manzanaLayer);
           if (!elements.togglePlatforms.checked) map.removeLayer(platformLayer);
           update();
+          syncMapLayerVisibility();
           map.invalidateSize();
           if (isKdeMode() && platformLayer) {
             map.fitBounds(platformLayer.getBounds().pad(0.08), { maxZoom: 14 });
@@ -1877,6 +1880,7 @@
             }
           }).addTo(boulevardLayer);
           if (!elements.toggleBoulevards.checked) map.removeLayer(boulevardLayer);
+          syncMapLayerVisibility();
           elements.status.textContent = `${elements.status.textContent} Red: ${fmt(boulevards.features?.length)} boulevares y ${fmt(connections.features?.length)} conexiones cargadas.`;
         } catch (error) {
           elements.status.textContent = `${elements.status.textContent} No se cargó la red de boulevares: ${error.message}.`;
