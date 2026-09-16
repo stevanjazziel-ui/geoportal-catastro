@@ -53,6 +53,69 @@ for feature in platform_geojson["features"]:
     }
 
 
+by_man = manzana_stats.get("byMan", {})
+POPULATION_FIELDS = [
+    "population_total",
+    "male",
+    "female",
+    "age_0_4",
+    "age_5_11",
+    "age_12_17",
+    "age_18_29",
+    "age_30_64",
+    "age_65_plus",
+]
+
+
+def empty_population_allocations():
+    return {
+        name: {
+            "manzanasTouched": set(),
+            "manzanasWeighted": 0.0,
+            "splitManzanas": 0,
+            "areaM2": item["geomMeters"].area,
+            **{field: 0.0 for field in POPULATION_FIELDS},
+        }
+        for name, item in platform_geoms.items()
+    }
+
+
+population_allocations = empty_population_allocations()
+manzanas_with_population = 0
+manzanas_intersected = 0
+manzanas_split = 0
+population_allocated_total = 0.0
+
+for feature in manzana_geojson.get("features", []):
+    code = (feature.get("properties") or {}).get("man")
+    stats_row = by_man.get(code) or {}
+    population = float(stats_row.get("population_total") or 0)
+    geom_m = transform(TO_METERS, shape(feature["geometry"]))
+    if geom_m.is_empty or geom_m.area <= 0:
+        continue
+    if population > 0:
+        manzanas_with_population += 1
+    intersections = []
+    for platform_name, item in platform_geoms.items():
+        intersection = geom_m.intersection(item["geomMeters"])
+        if not intersection.is_empty and intersection.area > 0.01:
+            intersections.append((platform_name, intersection.area / geom_m.area))
+    if not intersections:
+        continue
+    manzanas_intersected += 1
+    if len(intersections) > 1:
+        manzanas_split += 1
+    for platform_name, fraction in intersections:
+        bucket = population_allocations[platform_name]
+        bucket["manzanasTouched"].add(code)
+        bucket["manzanasWeighted"] += fraction
+        if len(intersections) > 1:
+            bucket["splitManzanas"] += 1
+        for field in POPULATION_FIELDS:
+            bucket[field] += float(stats_row.get(field) or 0) * fraction
+        population_allocated_total += population * fraction
+
+
 def find_platform_for_point(lng, lat):
     if lng is None or lat is None:
         return None
@@ -166,7 +229,6 @@ all_police_points = [point for bucket in metrics.values() for point in bucket["p
 camera_union = unary_union([point.buffer(CAMERA_RADIUS_M) for point in all_camera_points]) if all_camera_points else None
 police_union = unary_union([point.buffer(POLICE_RADIUS_M) for point in all_police_points]) if all_police_points else None
 
-by_man = manzana_stats.get("byMan", {})
 man_to_platform = stats.get("manToPlatform", {})
 for feature in manzana_geojson.get("features", []):
     code = (feature.get("properties") or {}).get("man")
@@ -199,17 +261,20 @@ for platform_name, bucket in metrics.items():
             bucket["camerasNearBoulevard"] += 1
 
 
-population_by_platform = {item["platform_name"]: int(item["population_total"]) for item in stats["platforms"]}
+population_by_platform = {
+    name: int(round(bucket["population_total"]))
+    for name, bucket in population_allocations.items()
+}
 density_values = [
-    int(item["population_total"]) / (float(item["area"]) / 100)
+    population_by_platform[item["platform_name"]] / (population_allocations[item["platform_name"]]["areaM2"] / 1_000_000)
     for item in stats["platforms"]
-    if float(item["area"]) > 0 and int(item["population_total"]) > 0
+    if population_allocations[item["platform_name"]]["areaM2"] > 0 and population_by_platform[item["platform_name"]] > 0
 ]
 median_density = median(density_values) if density_values else 0
 incident_rates = [
-    metrics[item["platform_name"]]["incidents"] / int(item["population_total"]) * 1000
+    metrics[item["platform_name"]]["incidents"] / population_by_platform[item["platform_name"]] * 1000
     for item in stats["platforms"]
-    if int(item["population_total"]) > 0 and metrics[item["platform_name"]]["incidents"] > 0
+    if population_by_platform[item["platform_name"]] > 0 and metrics[item["platform_name"]]["incidents"] > 0
 ]
 median_incident_rate = median(incident_rates) if incident_rates else 0
 
@@ -249,9 +314,11 @@ def territorial_typology(bucket, density, incident_rate, deficit, coverage):
 
 platforms = []
 for item in stats["platforms"]:
-    area_ha = float(item["area"])
-    area_km2 = area_ha / 100
-    population = int(item["population_total"])
+    pop_bucket = population_allocations[item["platform_name"]]
+    area_m2 = float(pop_bucket["areaM2"])
+    area_km2 = area_m2 / 1_000_000
+    area_ha = area_m2 / 10_000
+    population = int(round(pop_bucket["population_total"]))
     bucket = metrics[item["platform_name"]]
     incident_rate = round(bucket["incidents"] / population * 1000, 2) if population else "N/D"
     camera_covered_population_pct = round(bucket["cameraCoveredPopulation"] / population * 100, 2) if population else "N/D"
@@ -283,18 +350,21 @@ for item in stats["platforms"]:
         "platformId": int(item["platform_id"]),
         "platform": item["platform_name"].replace("PLATAFORMA ", ""),
         "platformName": item["platform_name"],
+        "areaM2": round(area_m2, 2),
         "areaHa": round(area_ha, 4),
         "areaKm2": round(area_km2, 4),
-        "manzanas": int(item["manzanas"]),
+        "manzanas": len(pop_bucket["manzanasTouched"]),
+        "manzanasWeighted": round(pop_bucket["manzanasWeighted"], 2),
+        "splitManzanas": int(pop_bucket["splitManzanas"]),
         "population": population,
-        "male": int(item["male"]),
-        "female": int(item["female"]),
-        "age0_4": int(item["age_0_4"]),
-        "age5_11": int(item["age_5_11"]),
-        "age12_17": int(item["age_12_17"]),
-        "age18_29": int(item["age_18_29"]),
-        "age30_64": int(item["age_30_64"]),
-        "age65Plus": int(item["age_65_plus"]),
+        "male": int(round(pop_bucket["male"])),
+        "female": int(round(pop_bucket["female"])),
+        "age0_4": int(round(pop_bucket["age_0_4"])),
+        "age5_11": int(round(pop_bucket["age_5_11"])),
+        "age12_17": int(round(pop_bucket["age_12_17"])),
+        "age18_29": int(round(pop_bucket["age_18_29"])),
+        "age30_64": int(round(pop_bucket["age_30_64"])),
+        "age65Plus": int(round(pop_bucket["age_65_plus"])),
         "densityPopKm2": round(population / area_km2, 2) if area_km2 else None,
         "incidents": bucket["incidents"],
         "incidentRate1000": incident_rate,
@@ -330,7 +400,7 @@ for item in stats["platforms"]:
         "institutionalCoverage": institutional_coverage,
         "territorialTypology": typology,
         "dataStatus": {
-            "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
+            "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
             "area": "DATO CALCULADO desde geometria real de plataformas",
             "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
             "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada",
@@ -338,6 +408,110 @@ for item in stats["platforms"]:
     })
 
 platforms.sort(key=lambda row: row["platform"])
+
+def geojson_geometry_types(geojson):
+    return sorted({feature.get("geometry", {}).get("type", "N/D") for feature in geojson.get("features", [])})
+
+
+def geojson_fields(geojson):
+    fields = set()
+    for feature in geojson.get("features", []):
+        fields.update((feature.get("properties") or {}).keys())
+    return sorted(fields)
+
+
+audit = [
+    {
+        "name": "Plataformas territoriales",
+        "file": "riobamba-censo-data/riobamba_plataformas.geojson",
+        "geometry": ", ".join(geojson_geometry_types(platform_geojson)),
+        "records": len(platform_geojson.get("features", [])),
+        "fields": geojson_fields(platform_geojson),
+        "crs": "EPSG:4326 en GeoJSON; calculos geometricos reproyectados a EPSG:32717",
+        "source": "GAD Riobamba / capa territorial cargada en el visor",
+        "date": "N/D",
+        "spatialPrecision": "Geometria oficial de plataformas usada sin redibujar ni simplificar",
+        "duplicates": "No evaluado como duplicado geometrico; 18 nombres de plataforma unicos esperados",
+        "emptyFields": "N/D",
+        "relationships": "Unidad territorial principal para ANALISIS_PLATAFORMAS",
+        "variableClass": "DATO ORIGINAL",
+    },
+    {
+        "name": "Manzanas censales",
+        "file": "riobamba-censo-data/riobamba_manzanas.geojson + riobamba_manzanas_stats.json",
+        "geometry": ", ".join(geojson_geometry_types(manzana_geojson)),
+        "records": len(manzana_geojson.get("features", [])),
+        "fields": geojson_fields(manzana_geojson) + ["population_total", "male", "female", "age_* desde tabla estadistica"],
+        "crs": "EPSG:4326 en GeoJSON; interseccion areal reproyectada a EPSG:32717",
+        "source": "INEC CPV 2022 / insumo censal cargado en el visor",
+        "date": "Censo 2022",
+        "spatialPrecision": "Poligonos de manzana censal",
+        "duplicates": "No se modifican atributos originales",
+        "emptyFields": "Manzanas sin registro estadistico quedan sin aporte poblacional",
+        "relationships": "Interseccion areal con plataformas para poblacion y exposicion",
+        "variableClass": "DATO ORIGINAL + DATO CALCULADO",
+    },
+    {
+        "name": "Eventos de seguridad",
+        "file": "visor-seguridad-riobamba-data.js",
+        "geometry": "Puntos para registros mapeables; agregados parroquiales se mantienen separados",
+        "records": len(security.get("events", [])),
+        "fields": sorted({key for event in security.get("events", []) for key in event.keys()}),
+        "crs": "EPSG:4326 para coordenadas lat/lng",
+        "source": "Fuentes publicas ya cargadas en visor",
+        "date": "2024-2026 segun registros disponibles",
+        "spatialPrecision": "Campo precision existente; registros no mapeables no se convierten en puntos",
+        "duplicates": "N/D",
+        "emptyFields": "N/D",
+        "relationships": "Cruce espacial por punto dentro de plataforma",
+        "variableClass": "DATO ORIGINAL + DATO CALCULADO",
+    },
+    {
+        "name": "Infraestructura policial",
+        "file": "policia-06d01-data.js",
+        "geometry": "Puntos",
+        "records": len(police.get("infrastructure", {}).get("features", [])),
+        "fields": sorted({key for feature in police.get("infrastructure", {}).get("features", []) for key in (feature.get("properties") or {}).keys()}),
+        "crs": "EPSG:4326 para coordenadas",
+        "source": "Paquete SIG Policia 06D01 cargado en visor",
+        "date": "N/D",
+        "spatialPrecision": "Punto de infraestructura/dependencia, no todos son UPC",
+        "duplicates": "N/D",
+        "emptyFields": "Personal puede estar vacio o N/D",
+        "relationships": "Cruce espacial por punto dentro de plataforma",
+        "variableClass": "DATO ORIGINAL + DATO CALCULADO",
+    },
+    {
+        "name": "Videovigilancia municipal",
+        "file": "riobamba-camaras-data.js",
+        "geometry": "Puntos",
+        "records": len(cameras.get("cameras", [])),
+        "fields": sorted({key for camera in cameras.get("cameras", []) for key in camera.keys()}),
+        "crs": "EPSG:4326 para coordenadas",
+        "source": "Informe de camaras / georreferenciacion verificada previamente",
+        "date": "2026 / eventos 2025 cuando existe dato",
+        "spatialPrecision": "Subconjunto municipal de 30 camaras; no se usan 103 ECU911 como municipales",
+        "duplicates": "N/D",
+        "emptyFields": "Eventos 2025 puede ser N/D",
+        "relationships": "Cruce espacial por punto dentro de plataforma y escenarios de cobertura",
+        "variableClass": "DATO ORIGINAL + ESCENARIO",
+    },
+    {
+        "name": "Bulevares seguros y conexiones",
+        "file": "data/premio-habitat/premio-habitat-boulevares.geojson + conexiones",
+        "geometry": ", ".join(sorted(set(geojson_geometry_types(boulevards) + geojson_geometry_types(connections)))),
+        "records": len(boulevards.get("features", [])) + len(connections.get("features", [])),
+        "fields": sorted(set(geojson_fields(boulevards) + geojson_fields(connections))),
+        "crs": "EPSG:4326 en GeoJSON; longitudes reproyectadas a EPSG:32717",
+        "source": "Boulevares y conexiones cargados en visor",
+        "date": "N/D",
+        "spatialPrecision": "Lineas territoriales complementarias",
+        "duplicates": "N/D",
+        "emptyFields": "N/D",
+        "relationships": "Longitud intersectada y proximidad como variable complementaria",
+        "variableClass": "DATO ORIGINAL + DATO CALCULADO",
+    },
+]
 
 inventory = [
     {
@@ -351,10 +525,10 @@ inventory = [
     {
         "component": "Manzanas censales y poblacion",
         "file": "riobamba-censo-data/riobamba_manzanas.geojson + riobamba_plataformas_stats.json",
-        "records": int(stats["summary"]["manzanas_assigned"]),
+        "records": manzanas_intersected,
         "role": "Poblacion/exposicion por plataforma",
-        "dataType": "DATO ORIGINAL + agregacion calculada",
-        "status": f"{int(stats['summary']['population_total_with_platform']):,} habitantes asignados".replace(",", "."),
+        "dataType": "DATO ORIGINAL + interseccion areal calculada",
+        "status": f"{int(round(population_allocated_total)):,} habitantes estimados por fraccion de area".replace(",", "."),
     },
     {
         "component": "Eventos georreferenciables",
@@ -400,10 +574,13 @@ inventory = [
 
 output = {
     "generatedAt": datetime.now().isoformat(timespec="seconds"),
-    "phase": "Fases integradas - Diagnostico territorial operativo preliminar",
+    "phase": "ETAPA 1 - Auditoria, plataformas, manzanas y poblacion",
+    "masterTableName": "ANALISIS_PLATAFORMAS",
     "methodNotes": [
         "La unidad principal son las 18 plataformas territoriales reales.",
         "No se usan circuitos/subcircuitos como unidad principal.",
+        "Etapa 1 implementada para validar auditoria, base territorial y poblacion antes de continuar con incidentes/KDE.",
+        "La poblacion por plataforma se estima por interseccion areal manzana-plataforma: POB_EST = POB_MANZANA * AREA_INTERSECCION / AREA_MANZANA.",
         "Se calculan conteos por plataforma cuando existe geometria verificable.",
         f"La cobertura potencial de camaras usa un radio tecnico inicial de {CAMERA_RADIUS_M} m; no equivale a alcance visual real ni analitica forense.",
         f"La poblacion cercana a boulevares/conexiones usa centroides de manzana dentro de {BOULEVARD_RADIUS_M} m.",
@@ -413,10 +590,12 @@ output = {
     ],
     "summary": {
         "platforms": len(platforms),
-        "populationWithPlatform": int(stats["summary"]["population_total_with_platform"]),
-        "populationWithoutPlatform": int(stats["summary"]["population_total_without_platform"]),
-        "manzanasAssigned": int(stats["summary"]["manzanas_assigned"]),
-        "manzanasWithoutPlatform": int(stats["summary"]["manzanas_without_platform"]),
+        "populationWithPlatform": int(round(population_allocated_total)),
+        "populationWithoutPlatform": max(0, int(round(float(manzana_stats.get("summary", {}).get("population_total", 0)) - population_allocated_total))),
+        "manzanasAssigned": manzanas_intersected,
+        "manzanasWithoutPlatform": max(0, len(manzana_geojson.get("features", [])) - manzanas_intersected),
+        "manzanasWithPopulation": manzanas_with_population,
+        "manzanasSplitByPlatforms": manzanas_split,
         "mappedIncidentsAssigned": sum(row["incidents"] for row in platforms),
         "policeInfrastructureAssigned": sum(row["policeInfrastructure"] for row in platforms),
         "camerasAssigned": sum(row["cameras"] for row in platforms),
@@ -436,6 +615,27 @@ output = {
             "medianIncidentRate1000": round(median_incident_rate, 2),
         },
     },
+    "methodControl": [
+        {
+            "result": "Poblacion por plataforma",
+            "source": "Manzanas censales CPV 2022 + plataformas territoriales reales",
+            "date": "Censo 2022",
+            "precision": "Poligonos de manzana y plataforma",
+            "method": "Interseccion areal en EPSG:32717",
+            "parameters": "FRAC_AREA = AREA_INTERSECCION / AREA_MANZANA; POB_EST = POB_MANZANA * FRAC_AREA",
+            "limitations": "Estimacion areal uniforme dentro de cada manzana; no reemplaza microdatos ni distribucion intra-manzana real",
+        },
+        {
+            "result": "Area por plataforma",
+            "source": "Geometria original de plataformas territoriales",
+            "date": "N/D",
+            "precision": "Limites originales de la capa",
+            "method": "Area geodesica proyectada a EPSG:32717",
+            "parameters": "AREA_M2 y AREA_KM2 derivados de geometria real",
+            "limitations": "Depende de la calidad de la capa de plataformas cargada",
+        },
+    ],
+    "audit": audit,
     "inventory": inventory,
     "platformMaster": platforms,
     "byPlatformName": {row["platformName"]: row for row in platforms},

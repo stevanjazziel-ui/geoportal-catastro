@@ -397,7 +397,7 @@
   <script src="./visor-seguridad-riobamba-data.js"></script>
   <script src="./riobamba-camaras-data.js?v=municipio-30"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
-  <script src="./riobamba-seguridad-diagnostico-data.js?v=0bc9e2f"></script>
+  <script src="./riobamba-seguridad-diagnostico-data.js?v=etapa1-areal"></script>
   <script>
     (() => {
       const dataset = window.RIOBAMBA_SECURITY_DATA || { events: window.RIOBAMBA_SECURITY_EVENTS || [], ecu911: { serviceCounts: [], parishes: [], topSubtypes: [], topByParish: {}, totalRows: 0, securityRows: 0 } };
@@ -774,6 +774,7 @@
             ["Hotspots", visible.reduce((sum, platform) => sum + Number(platform.hotspots || 0), 0)],
             ["Déficit alto/crítico", visible.filter((platform) => ["ALTO", "CRITICO"].includes(platform.videoDeficit)).length],
             ["Cobertura cámaras", `${((visible.reduce((sum, platform) => sum + Number(platform.cameraCoveredPopulation || 0), 0) / Math.max(population, 1)) * 100).toFixed(1)}%`],
+            ["Manz. cruzan límite", diagnosis.summary?.manzanasSplitByPlatforms || 0],
             ["Boulevares+conex. km", ((visible.reduce((sum, platform) => sum + Number(platform.boulevardLengthM || 0) + Number(platform.connectionLengthM || 0), 0)) / 1000).toFixed(2)]
           ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
           return;
@@ -1340,7 +1341,12 @@
         if (!platform) {
           elements.detailTitle.textContent = "Diagnóstico territorial";
           const notes = (diagnosis.methodNotes || []).map((note) => `<p>${esc(note)}</p>`).join("");
+          const methodRows = (diagnosis.methodControl || []).map((item) => `<div class="mini-row"><span>${esc(item.result)}</span><strong>${esc(item.method)}</strong></div><p>${esc(item.parameters)}. ${esc(item.limitations)}</p>`).join("");
           const phaseRows = [
+            ["Etapa implementada", diagnosis.phase || "Etapa 1"],
+            ["Tabla maestra", diagnosis.masterTableName || "ANALISIS_PLATAFORMAS"],
+            ["Manzanas intersectadas", `${fmt(diagnosis.summary?.manzanasAssigned || 0)} de ${fmt((diagnosis.summary?.manzanasAssigned || 0) + (diagnosis.summary?.manzanasWithoutPlatform || 0))}`],
+            ["Manzanas cruzan plataformas", diagnosis.summary?.manzanasSplitByPlatforms || 0],
             ["1. Hotspots preliminares", `${fmt(diagnosis.summary?.hotspots || 0)} plataformas con concentración preliminar`],
             ["2. Déficit de videovigilancia", `${fmt(diagnosis.summary?.videoDeficitHighOrCritical || 0)} plataformas en ALTO/CRITICO`],
             ["3. Cobertura potencial de cámaras", `${fmt(diagnosis.summary?.cameraCoveredPopulation || 0)} habitantes en radio técnico`],
@@ -1352,6 +1358,7 @@
           ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
           elements.detail.innerHTML = "<p>Selecciona una Plataforma Territorial para revisar las fases integradas. Los campos no calculados se muestran como N/D.</p>"
             + phaseRows
+            + methodRows
             + (diagnosis.inventory || []).map((item) => `<div class="mini-row"><span>${esc(item.component)}</span><strong>${esc(item.records)} registros</strong></div>`).join("")
             + notes;
           elements.overlayTitle.textContent = "Fases integradas: plataformas territoriales";
@@ -1362,9 +1369,12 @@
         const topTypes = (platform.incidentTypes || []).slice(0, 4).map((item) => `<span class="pill">${esc(item.type)}: ${fmt(item.count)}</span>`).join("");
         elements.detail.innerHTML = [
           ["Población", platform.population],
+          ["Área m²", platform.areaM2],
           ["Área km²", platform.areaKm2],
           ["Densidad", `${fmt(Math.round(platform.densityPopKm2))} hab/km²`],
           ["Manzanas", platform.manzanas],
+          ["Manzanas ponderadas", platform.manzanasWeighted],
+          ["Manzanas cruzan límite", platform.splitManzanas],
           ["Hombres", platform.male],
           ["Mujeres", platform.female],
           ["0-17 años", Number(platform.age0_4 || 0) + Number(platform.age5_11 || 0) + Number(platform.age12_17 || 0)],
