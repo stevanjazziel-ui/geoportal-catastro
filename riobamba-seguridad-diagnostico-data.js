@@ -1,10 +1,11 @@
 window.RIOBAMBA_SECURITY_DIAGNOSIS = {
-  "generatedAt": "2026-09-16T10:59:30",
-  "phase": "FASE 1 - Inventario + tabla maestra + plataformas + poblacion",
+  "generatedAt": "2026-09-16T11:05:45",
+  "phase": "FASE 1 ampliada - Tabla maestra territorial con cruces preliminares",
   "methodNotes": [
     "La unidad principal son las 18 plataformas territoriales reales.",
     "No se usan circuitos/subcircuitos como unidad principal.",
-    "Los campos no calculados se mantienen como N/D.",
+    "Se calculan conteos por plataforma cuando existe geometria verificable.",
+    "Hotspots, deficit de videovigilancia y coberturas poblacionales quedan como N/D hasta su fase tecnica.",
     "No se inventan coordenadas ni indicadores faltantes."
   ],
   "summary": {
@@ -12,7 +13,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
     "populationWithPlatform": 171665,
     "populationWithoutPlatform": 28306,
     "manzanasAssigned": 2508,
-    "manzanasWithoutPlatform": 793
+    "manzanasWithoutPlatform": 793,
+    "mappedIncidentsAssigned": 17,
+    "policeInfrastructureAssigned": 17,
+    "camerasAssigned": 28,
+    "boulevardLengthM": 20520.85,
+    "connectionLengthM": 25987.44,
+    "unassigned": {
+      "events": 2,
+      "policeInfrastructure": 9,
+      "cameras": 2
+    }
   },
   "inventory": [
     {
@@ -35,9 +46,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "component": "Eventos georreferenciables",
       "file": "visor-seguridad-riobamba-data.js",
       "records": 21,
-      "role": "Insumo para conflictividad y hotspots",
-      "dataType": "DATO ORIGINAL geocodificado/verificado previamente",
-      "status": "No se usan registros parroquiales como puntos"
+      "role": "Insumo para conflictividad territorial",
+      "dataType": "DATO ORIGINAL geocodificado/verificado previamente + conteo por plataforma calculado",
+      "status": "No se usan registros parroquiales como puntos; hotspots quedan para fase posterior"
     },
     {
       "component": "Informacion general por parroquia",
@@ -52,7 +63,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "file": "policia-06d01-data.js",
       "records": 26,
       "role": "Cobertura/presencia institucional",
-      "dataType": "DATO ORIGINAL espacial",
+      "dataType": "DATO ORIGINAL espacial + conteo por plataforma calculado",
       "status": "Sin circuitos/subcircuitos como unidad principal"
     },
     {
@@ -60,7 +71,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "file": "riobamba-camaras-data.js",
       "records": 30,
       "role": "Insumo de cobertura",
-      "dataType": "DATO ORIGINAL + georreferenciacion verificada",
+      "dataType": "DATO ORIGINAL + georreferenciacion verificada + conteo por plataforma calculado",
       "status": "Subconjunto municipal de 30 camaras"
     },
     {
@@ -68,7 +79,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "file": "data/premio-habitat/premio-habitat-boulevares.geojson",
       "records": 38,
       "role": "Insumo territorial complementario",
-      "dataType": "DATO ORIGINAL espacial",
+      "dataType": "DATO ORIGINAL espacial + longitud intersectada por plataforma calculada",
       "status": "No es unidad principal del estudio"
     }
   ],
@@ -90,20 +101,24 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 571,
       "age65Plus": 113,
       "densityPopKm2": 1021.2,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 0,
+      "incidentRate1000": 0.0,
+      "incidentTypes": [],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
+      "policeInfrastructure": 0,
+      "policeTypes": {},
       "policePersonnel": "N/D",
       "populationPerPoliceInfrastructure": "N/D",
       "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "cameras": 0,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 0.0,
+      "connectionLengthM": 0.0,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -111,7 +126,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     {
@@ -131,20 +147,24 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 2351,
       "age65Plus": 388,
       "densityPopKm2": 3739.29,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 0,
+      "incidentRate1000": 0.0,
+      "incidentTypes": [],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
+      "policeInfrastructure": 0,
+      "policeTypes": {},
       "policePersonnel": "N/D",
       "populationPerPoliceInfrastructure": "N/D",
       "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "cameras": 0,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 0.0,
+      "connectionLengthM": 0.0,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -152,7 +172,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     {
@@ -172,20 +193,26 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 2956,
       "age65Plus": 460,
       "densityPopKm2": 2881.7,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 0,
+      "incidentRate1000": 0.0,
+      "incidentTypes": [],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
-      "policePersonnel": "N/D",
-      "populationPerPoliceInfrastructure": "N/D",
-      "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "policeInfrastructure": 1,
+      "policeTypes": {
+        "UPC": 1
+      },
+      "policePersonnel": 19,
+      "populationPerPoliceInfrastructure": 6939.0,
+      "populationPerPoliceOfficer": 365.21,
+      "cameras": 0,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 0.0,
+      "connectionLengthM": 0.0,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -193,7 +220,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     {
@@ -213,20 +241,33 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 4688,
       "age65Plus": 600,
       "densityPopKm2": 6711.32,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 2,
+      "incidentRate1000": 0.15,
+      "incidentTypes": [
+        {
+          "type": "Tráfico de drogas",
+          "count": 1
+        },
+        {
+          "type": "Microtráfico / armas",
+          "count": 1
+        }
+      ],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
+      "policeInfrastructure": 0,
+      "policeTypes": {},
       "policePersonnel": "N/D",
       "populationPerPoliceInfrastructure": "N/D",
       "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "cameras": 0,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 0.0,
+      "connectionLengthM": 0.0,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -234,7 +275,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     {
@@ -254,20 +296,29 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 29,
       "age65Plus": 8,
       "densityPopKm2": 94.05,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 1,
+      "incidentRate1000": 8.7,
+      "incidentTypes": [
+        {
+          "type": "Microtráfico",
+          "count": 1
+        }
+      ],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
+      "policeInfrastructure": 0,
+      "policeTypes": {},
       "policePersonnel": "N/D",
       "populationPerPoliceInfrastructure": "N/D",
       "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "cameras": 0,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 0.0,
+      "connectionLengthM": 352.34,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -275,7 +326,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     {
@@ -295,20 +347,24 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 3402,
       "age65Plus": 459,
       "densityPopKm2": 7143.12,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 0,
+      "incidentRate1000": 0.0,
+      "incidentTypes": [],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
+      "policeInfrastructure": 0,
+      "policeTypes": {},
       "policePersonnel": "N/D",
       "populationPerPoliceInfrastructure": "N/D",
       "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "cameras": 0,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 0.0,
+      "connectionLengthM": 523.27,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -316,7 +372,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     {
@@ -336,20 +393,33 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 3678,
       "age65Plus": 707,
       "densityPopKm2": 6484.73,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 3,
+      "incidentRate1000": 0.37,
+      "incidentTypes": [
+        {
+          "type": "Tráfico de drogas",
+          "count": 2
+        },
+        {
+          "type": "Tráfico de drogas y arma",
+          "count": 1
+        }
+      ],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
+      "policeInfrastructure": 0,
+      "policeTypes": {},
       "policePersonnel": "N/D",
       "populationPerPoliceInfrastructure": "N/D",
       "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "cameras": 1,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 0.0,
+      "connectionLengthM": 967.67,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -357,7 +427,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     {
@@ -377,20 +448,31 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 4119,
       "age65Plus": 986,
       "densityPopKm2": 6929.41,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 1,
+      "incidentRate1000": 0.09,
+      "incidentTypes": [
+        {
+          "type": "Tráfico de drogas",
+          "count": 1
+        }
+      ],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
-      "policePersonnel": "N/D",
-      "populationPerPoliceInfrastructure": "N/D",
-      "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "policeInfrastructure": 1,
+      "policeTypes": {
+        "UPC": 1
+      },
+      "policePersonnel": 18,
+      "populationPerPoliceInfrastructure": 11340.0,
+      "populationPerPoliceOfficer": 630.0,
+      "cameras": 3,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 109.17,
+      "connectionLengthM": 3966.04,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -398,7 +480,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     {
@@ -418,20 +501,24 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 3933,
       "age65Plus": 1298,
       "densityPopKm2": 9058.89,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 0,
+      "incidentRate1000": 0.0,
+      "incidentTypes": [],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
+      "policeInfrastructure": 0,
+      "policeTypes": {},
       "policePersonnel": "N/D",
       "populationPerPoliceInfrastructure": "N/D",
       "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "cameras": 0,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 708.88,
+      "connectionLengthM": 2965.82,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -439,7 +526,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     {
@@ -459,20 +547,35 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 7937,
       "age65Plus": 2435,
       "densityPopKm2": 7998.94,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 2,
+      "incidentRate1000": 0.11,
+      "incidentTypes": [
+        {
+          "type": "Robo a personas con arma blanca",
+          "count": 1
+        },
+        {
+          "type": "Microtráfico",
+          "count": 1
+        }
+      ],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
-      "policePersonnel": "N/D",
-      "populationPerPoliceInfrastructure": "N/D",
-      "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "policeInfrastructure": 3,
+      "policeTypes": {
+        "UPC": 3
+      },
+      "policePersonnel": 53,
+      "populationPerPoliceInfrastructure": 6298.67,
+      "populationPerPoliceOfficer": 356.53,
+      "cameras": 6,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 5463.33,
+      "connectionLengthM": 4396.24,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -480,7 +583,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     {
@@ -500,20 +604,44 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 5289,
       "age65Plus": 1677,
       "densityPopKm2": 7764.25,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 4,
+      "incidentRate1000": 0.33,
+      "incidentTypes": [
+        {
+          "type": "Robo a mano armada",
+          "count": 1
+        },
+        {
+          "type": "Microtráfico / delincuencia organizada",
+          "count": 1
+        },
+        {
+          "type": "Homicidio",
+          "count": 1
+        },
+        {
+          "type": "Asesinato / investigación",
+          "count": 1
+        }
+      ],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
-      "policePersonnel": "N/D",
-      "populationPerPoliceInfrastructure": "N/D",
-      "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "policeInfrastructure": 4,
+      "policeTypes": {
+        "UPC": 2,
+        "OTRAS DEPENDENCIAS": 2
+      },
+      "policePersonnel": 25,
+      "populationPerPoliceInfrastructure": 3069.75,
+      "populationPerPoliceOfficer": 491.16,
+      "cameras": 8,
+      "camerasReplacement": 2,
+      "cameraEvents2025": 496,
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 8389.12,
+      "connectionLengthM": 1227.35,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -521,7 +649,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     {
@@ -541,20 +670,24 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 1137,
       "age65Plus": 173,
       "densityPopKm2": 1804.84,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 0,
+      "incidentRate1000": 0.0,
+      "incidentTypes": [],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
+      "policeInfrastructure": 0,
+      "policeTypes": {},
       "policePersonnel": "N/D",
       "populationPerPoliceInfrastructure": "N/D",
       "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "cameras": 0,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 0.0,
+      "connectionLengthM": 71.27,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -562,7 +695,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     {
@@ -582,20 +716,31 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 5626,
       "age65Plus": 1123,
       "densityPopKm2": 7944.68,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 2,
+      "incidentRate1000": 0.14,
+      "incidentTypes": [
+        {
+          "type": "Microtráfico",
+          "count": 2
+        }
+      ],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
-      "policePersonnel": "N/D",
-      "populationPerPoliceInfrastructure": "N/D",
-      "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "policeInfrastructure": 1,
+      "policeTypes": {
+        "UPC": 1
+      },
+      "policePersonnel": 10,
+      "populationPerPoliceInfrastructure": 13943.0,
+      "populationPerPoliceOfficer": 1394.3,
+      "cameras": 1,
+      "camerasReplacement": 1,
+      "cameraEvents2025": 118,
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 344.23,
+      "connectionLengthM": 1136.64,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -603,7 +748,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     {
@@ -623,20 +769,26 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 1501,
       "age65Plus": 378,
       "densityPopKm2": 3419.76,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 0,
+      "incidentRate1000": 0.0,
+      "incidentTypes": [],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
-      "policePersonnel": "N/D",
-      "populationPerPoliceInfrastructure": "N/D",
-      "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "policeInfrastructure": 1,
+      "policeTypes": {
+        "UPC": 1
+      },
+      "policePersonnel": 11,
+      "populationPerPoliceInfrastructure": 3632.0,
+      "populationPerPoliceOfficer": 330.18,
+      "cameras": 1,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 653.64,
+      "connectionLengthM": 1684.14,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -644,7 +796,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     {
@@ -664,20 +817,26 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 8004,
       "age65Plus": 1794,
       "densityPopKm2": 8240.05,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 0,
+      "incidentRate1000": 0.0,
+      "incidentTypes": [],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
-      "policePersonnel": "N/D",
-      "populationPerPoliceInfrastructure": "N/D",
-      "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "policeInfrastructure": 1,
+      "policeTypes": {
+        "UPC": 1
+      },
+      "policePersonnel": 19,
+      "populationPerPoliceInfrastructure": 18435.0,
+      "populationPerPoliceOfficer": 970.26,
+      "cameras": 3,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 2379.55,
+      "connectionLengthM": 1995.45,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -685,7 +844,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     {
@@ -705,20 +865,26 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 5312,
       "age65Plus": 859,
       "densityPopKm2": 8385.35,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 0,
+      "incidentRate1000": 0.0,
+      "incidentTypes": [],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
-      "policePersonnel": "N/D",
-      "populationPerPoliceInfrastructure": "N/D",
-      "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "policeInfrastructure": 1,
+      "policeTypes": {
+        "UPC": 1
+      },
+      "policePersonnel": 22,
+      "populationPerPoliceInfrastructure": 12775.0,
+      "populationPerPoliceOfficer": 580.68,
+      "cameras": 1,
+      "camerasReplacement": 1,
+      "cameraEvents2025": 47,
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 79.53,
+      "connectionLengthM": 2420.69,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -726,7 +892,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     {
@@ -746,20 +913,26 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 3923,
       "age65Plus": 974,
       "densityPopKm2": 4993.87,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 0,
+      "incidentRate1000": 0.0,
+      "incidentTypes": [],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
+      "policeInfrastructure": 2,
+      "policeTypes": {
+        "OTRAS DEPENDENCIAS": 2
+      },
       "policePersonnel": "N/D",
-      "populationPerPoliceInfrastructure": "N/D",
+      "populationPerPoliceInfrastructure": 4776.5,
       "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "cameras": 1,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 183.93,
+      "connectionLengthM": 1976.75,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -767,7 +940,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     {
@@ -787,20 +961,35 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 6767,
       "age65Plus": 1910,
       "densityPopKm2": 7999.46,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 2,
+      "incidentRate1000": 0.13,
+      "incidentTypes": [
+        {
+          "type": "Tráfico de drogas",
+          "count": 1
+        },
+        {
+          "type": "Robo a domicilios",
+          "count": 1
+        }
+      ],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
-      "policePersonnel": "N/D",
-      "populationPerPoliceInfrastructure": "N/D",
-      "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "policeInfrastructure": 2,
+      "policeTypes": {
+        "UPC": 2
+      },
+      "policePersonnel": 19,
+      "populationPerPoliceInfrastructure": 7865.0,
+      "populationPerPoliceOfficer": 827.89,
+      "cameras": 3,
+      "camerasReplacement": 1,
+      "cameraEvents2025": 41,
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 2209.47,
+      "connectionLengthM": 2303.77,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -808,7 +997,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     }
   ],
@@ -830,20 +1020,24 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 571,
       "age65Plus": 113,
       "densityPopKm2": 1021.2,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 0,
+      "incidentRate1000": 0.0,
+      "incidentTypes": [],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
+      "policeInfrastructure": 0,
+      "policeTypes": {},
       "policePersonnel": "N/D",
       "populationPerPoliceInfrastructure": "N/D",
       "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "cameras": 0,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 0.0,
+      "connectionLengthM": 0.0,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -851,7 +1045,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     "PLATAFORMA B": {
@@ -871,20 +1066,24 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 2351,
       "age65Plus": 388,
       "densityPopKm2": 3739.29,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 0,
+      "incidentRate1000": 0.0,
+      "incidentTypes": [],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
+      "policeInfrastructure": 0,
+      "policeTypes": {},
       "policePersonnel": "N/D",
       "populationPerPoliceInfrastructure": "N/D",
       "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "cameras": 0,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 0.0,
+      "connectionLengthM": 0.0,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -892,7 +1091,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     "PLATAFORMA C": {
@@ -912,20 +1112,26 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 2956,
       "age65Plus": 460,
       "densityPopKm2": 2881.7,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 0,
+      "incidentRate1000": 0.0,
+      "incidentTypes": [],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
-      "policePersonnel": "N/D",
-      "populationPerPoliceInfrastructure": "N/D",
-      "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "policeInfrastructure": 1,
+      "policeTypes": {
+        "UPC": 1
+      },
+      "policePersonnel": 19,
+      "populationPerPoliceInfrastructure": 6939.0,
+      "populationPerPoliceOfficer": 365.21,
+      "cameras": 0,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 0.0,
+      "connectionLengthM": 0.0,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -933,7 +1139,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     "PLATAFORMA D": {
@@ -953,20 +1160,33 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 4688,
       "age65Plus": 600,
       "densityPopKm2": 6711.32,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 2,
+      "incidentRate1000": 0.15,
+      "incidentTypes": [
+        {
+          "type": "Tráfico de drogas",
+          "count": 1
+        },
+        {
+          "type": "Microtráfico / armas",
+          "count": 1
+        }
+      ],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
+      "policeInfrastructure": 0,
+      "policeTypes": {},
       "policePersonnel": "N/D",
       "populationPerPoliceInfrastructure": "N/D",
       "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "cameras": 0,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 0.0,
+      "connectionLengthM": 0.0,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -974,7 +1194,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     "PLATAFORMA E": {
@@ -994,20 +1215,29 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 29,
       "age65Plus": 8,
       "densityPopKm2": 94.05,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 1,
+      "incidentRate1000": 8.7,
+      "incidentTypes": [
+        {
+          "type": "Microtráfico",
+          "count": 1
+        }
+      ],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
+      "policeInfrastructure": 0,
+      "policeTypes": {},
       "policePersonnel": "N/D",
       "populationPerPoliceInfrastructure": "N/D",
       "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "cameras": 0,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 0.0,
+      "connectionLengthM": 352.34,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -1015,7 +1245,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     "PLATAFORMA F": {
@@ -1035,20 +1266,24 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 3402,
       "age65Plus": 459,
       "densityPopKm2": 7143.12,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 0,
+      "incidentRate1000": 0.0,
+      "incidentTypes": [],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
+      "policeInfrastructure": 0,
+      "policeTypes": {},
       "policePersonnel": "N/D",
       "populationPerPoliceInfrastructure": "N/D",
       "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "cameras": 0,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 0.0,
+      "connectionLengthM": 523.27,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -1056,7 +1291,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     "PLATAFORMA G": {
@@ -1076,20 +1312,33 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 3678,
       "age65Plus": 707,
       "densityPopKm2": 6484.73,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 3,
+      "incidentRate1000": 0.37,
+      "incidentTypes": [
+        {
+          "type": "Tráfico de drogas",
+          "count": 2
+        },
+        {
+          "type": "Tráfico de drogas y arma",
+          "count": 1
+        }
+      ],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
+      "policeInfrastructure": 0,
+      "policeTypes": {},
       "policePersonnel": "N/D",
       "populationPerPoliceInfrastructure": "N/D",
       "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "cameras": 1,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 0.0,
+      "connectionLengthM": 967.67,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -1097,7 +1346,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     "PLATAFORMA H": {
@@ -1117,20 +1367,31 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 4119,
       "age65Plus": 986,
       "densityPopKm2": 6929.41,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 1,
+      "incidentRate1000": 0.09,
+      "incidentTypes": [
+        {
+          "type": "Tráfico de drogas",
+          "count": 1
+        }
+      ],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
-      "policePersonnel": "N/D",
-      "populationPerPoliceInfrastructure": "N/D",
-      "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "policeInfrastructure": 1,
+      "policeTypes": {
+        "UPC": 1
+      },
+      "policePersonnel": 18,
+      "populationPerPoliceInfrastructure": 11340.0,
+      "populationPerPoliceOfficer": 630.0,
+      "cameras": 3,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 109.17,
+      "connectionLengthM": 3966.04,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -1138,7 +1399,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     "PLATAFORMA I": {
@@ -1158,20 +1420,24 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 3933,
       "age65Plus": 1298,
       "densityPopKm2": 9058.89,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 0,
+      "incidentRate1000": 0.0,
+      "incidentTypes": [],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
+      "policeInfrastructure": 0,
+      "policeTypes": {},
       "policePersonnel": "N/D",
       "populationPerPoliceInfrastructure": "N/D",
       "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "cameras": 0,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 708.88,
+      "connectionLengthM": 2965.82,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -1179,7 +1445,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     "PLATAFORMA J": {
@@ -1199,20 +1466,35 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 7937,
       "age65Plus": 2435,
       "densityPopKm2": 7998.94,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 2,
+      "incidentRate1000": 0.11,
+      "incidentTypes": [
+        {
+          "type": "Robo a personas con arma blanca",
+          "count": 1
+        },
+        {
+          "type": "Microtráfico",
+          "count": 1
+        }
+      ],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
-      "policePersonnel": "N/D",
-      "populationPerPoliceInfrastructure": "N/D",
-      "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "policeInfrastructure": 3,
+      "policeTypes": {
+        "UPC": 3
+      },
+      "policePersonnel": 53,
+      "populationPerPoliceInfrastructure": 6298.67,
+      "populationPerPoliceOfficer": 356.53,
+      "cameras": 6,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 5463.33,
+      "connectionLengthM": 4396.24,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -1220,7 +1502,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     "PLATAFORMA K": {
@@ -1240,20 +1523,44 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 5289,
       "age65Plus": 1677,
       "densityPopKm2": 7764.25,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 4,
+      "incidentRate1000": 0.33,
+      "incidentTypes": [
+        {
+          "type": "Robo a mano armada",
+          "count": 1
+        },
+        {
+          "type": "Microtráfico / delincuencia organizada",
+          "count": 1
+        },
+        {
+          "type": "Homicidio",
+          "count": 1
+        },
+        {
+          "type": "Asesinato / investigación",
+          "count": 1
+        }
+      ],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
-      "policePersonnel": "N/D",
-      "populationPerPoliceInfrastructure": "N/D",
-      "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "policeInfrastructure": 4,
+      "policeTypes": {
+        "UPC": 2,
+        "OTRAS DEPENDENCIAS": 2
+      },
+      "policePersonnel": 25,
+      "populationPerPoliceInfrastructure": 3069.75,
+      "populationPerPoliceOfficer": 491.16,
+      "cameras": 8,
+      "camerasReplacement": 2,
+      "cameraEvents2025": 496,
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 8389.12,
+      "connectionLengthM": 1227.35,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -1261,7 +1568,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     "PLATAFORMA L": {
@@ -1281,20 +1589,24 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 1137,
       "age65Plus": 173,
       "densityPopKm2": 1804.84,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 0,
+      "incidentRate1000": 0.0,
+      "incidentTypes": [],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
+      "policeInfrastructure": 0,
+      "policeTypes": {},
       "policePersonnel": "N/D",
       "populationPerPoliceInfrastructure": "N/D",
       "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "cameras": 0,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 0.0,
+      "connectionLengthM": 71.27,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -1302,7 +1614,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     "PLATAFORMA M": {
@@ -1322,20 +1635,31 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 5626,
       "age65Plus": 1123,
       "densityPopKm2": 7944.68,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 2,
+      "incidentRate1000": 0.14,
+      "incidentTypes": [
+        {
+          "type": "Microtráfico",
+          "count": 2
+        }
+      ],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
-      "policePersonnel": "N/D",
-      "populationPerPoliceInfrastructure": "N/D",
-      "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "policeInfrastructure": 1,
+      "policeTypes": {
+        "UPC": 1
+      },
+      "policePersonnel": 10,
+      "populationPerPoliceInfrastructure": 13943.0,
+      "populationPerPoliceOfficer": 1394.3,
+      "cameras": 1,
+      "camerasReplacement": 1,
+      "cameraEvents2025": 118,
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 344.23,
+      "connectionLengthM": 1136.64,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -1343,7 +1667,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     "PLATAFORMA N": {
@@ -1363,20 +1688,26 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 1501,
       "age65Plus": 378,
       "densityPopKm2": 3419.76,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 0,
+      "incidentRate1000": 0.0,
+      "incidentTypes": [],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
-      "policePersonnel": "N/D",
-      "populationPerPoliceInfrastructure": "N/D",
-      "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "policeInfrastructure": 1,
+      "policeTypes": {
+        "UPC": 1
+      },
+      "policePersonnel": 11,
+      "populationPerPoliceInfrastructure": 3632.0,
+      "populationPerPoliceOfficer": 330.18,
+      "cameras": 1,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 653.64,
+      "connectionLengthM": 1684.14,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -1384,7 +1715,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     "PLATAFORMA O": {
@@ -1404,20 +1736,26 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 8004,
       "age65Plus": 1794,
       "densityPopKm2": 8240.05,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 0,
+      "incidentRate1000": 0.0,
+      "incidentTypes": [],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
-      "policePersonnel": "N/D",
-      "populationPerPoliceInfrastructure": "N/D",
-      "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "policeInfrastructure": 1,
+      "policeTypes": {
+        "UPC": 1
+      },
+      "policePersonnel": 19,
+      "populationPerPoliceInfrastructure": 18435.0,
+      "populationPerPoliceOfficer": 970.26,
+      "cameras": 3,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 2379.55,
+      "connectionLengthM": 1995.45,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -1425,7 +1763,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     "PLATAFORMA P": {
@@ -1445,20 +1784,26 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 5312,
       "age65Plus": 859,
       "densityPopKm2": 8385.35,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 0,
+      "incidentRate1000": 0.0,
+      "incidentTypes": [],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
-      "policePersonnel": "N/D",
-      "populationPerPoliceInfrastructure": "N/D",
-      "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "policeInfrastructure": 1,
+      "policeTypes": {
+        "UPC": 1
+      },
+      "policePersonnel": 22,
+      "populationPerPoliceInfrastructure": 12775.0,
+      "populationPerPoliceOfficer": 580.68,
+      "cameras": 1,
+      "camerasReplacement": 1,
+      "cameraEvents2025": 47,
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 79.53,
+      "connectionLengthM": 2420.69,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -1466,7 +1811,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     "PLATAFORMA Q": {
@@ -1486,20 +1832,26 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 3923,
       "age65Plus": 974,
       "densityPopKm2": 4993.87,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 0,
+      "incidentRate1000": 0.0,
+      "incidentTypes": [],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
+      "policeInfrastructure": 2,
+      "policeTypes": {
+        "OTRAS DEPENDENCIAS": 2
+      },
       "policePersonnel": "N/D",
-      "populationPerPoliceInfrastructure": "N/D",
+      "populationPerPoliceInfrastructure": 4776.5,
       "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "cameras": 1,
+      "camerasReplacement": 0,
+      "cameraEvents2025": "N/D",
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 183.93,
+      "connectionLengthM": 1976.75,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -1507,7 +1859,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     },
     "PLATAFORMA Ñ": {
@@ -1527,20 +1880,35 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age30_64": 6767,
       "age65Plus": 1910,
       "densityPopKm2": 7999.46,
-      "incidents": "N/D",
-      "incidentRate1000": "N/D",
+      "incidents": 2,
+      "incidentRate1000": 0.13,
+      "incidentTypes": [
+        {
+          "type": "Tráfico de drogas",
+          "count": 1
+        },
+        {
+          "type": "Robo a domicilios",
+          "count": 1
+        }
+      ],
       "hotspots": "N/D",
-      "policeInfrastructure": "N/D",
-      "policePersonnel": "N/D",
-      "populationPerPoliceInfrastructure": "N/D",
-      "populationPerPoliceOfficer": "N/D",
-      "cameras": "N/D",
-      "camerasReplacement": "N/D",
+      "policeInfrastructure": 2,
+      "policeTypes": {
+        "UPC": 2
+      },
+      "policePersonnel": 19,
+      "populationPerPoliceInfrastructure": 7865.0,
+      "populationPerPoliceOfficer": 827.89,
+      "cameras": 3,
+      "camerasReplacement": 1,
+      "cameraEvents2025": 41,
       "cameraCoveredPopulation": "N/D",
       "cameraCoveredPopulationPct": "N/D",
       "cameraCoveredAreaPct": "N/D",
       "videoDeficit": "N/D",
-      "boulevardLengthM": "N/D",
+      "boulevardLengthM": 2209.47,
+      "connectionLengthM": 2303.77,
       "populationNearBoulevard": "N/D",
       "incidentsNearBoulevard": "N/D",
       "lowCoverageHotspots": "N/D",
@@ -1548,7 +1916,8 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO desde manzanas censales CPV 2022 asignadas a plataforma",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "N/D en Fase 1; se calculara en fases posteriores"
+        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspots/deficit quedan N/D",
+        "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma y longitud intersectada"
       }
     }
   }

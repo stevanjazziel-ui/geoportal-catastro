@@ -536,12 +536,13 @@
         if (mode === "diagnosis") {
           const visible = filteredPlatforms();
           const population = visible.reduce((sum, platform) => sum + Number(platform.population || 0), 0);
-          const areaKm2 = visible.reduce((sum, platform) => sum + Number(platform.areaKm2 || 0), 0);
           elements.summary.innerHTML = [
             ["Plataformas", visible.length],
             ["Población", population],
-            ["Área km²", areaKm2.toFixed(2)],
-            ["Manzanas", visible.reduce((sum, platform) => sum + Number(platform.manzanas || 0), 0)]
+            ["Incidentes", visible.reduce((sum, platform) => sum + Number(platform.incidents || 0), 0)],
+            ["Cámaras", visible.reduce((sum, platform) => sum + Number(platform.cameras || 0), 0)],
+            ["Infraestructura", visible.reduce((sum, platform) => sum + Number(platform.policeInfrastructure || 0), 0)],
+            ["Boulevares km", (visible.reduce((sum, platform) => sum + Number(platform.boulevardLengthM || 0), 0) / 1000).toFixed(2)]
           ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
           return;
         }
@@ -985,6 +986,7 @@
           return;
         }
         elements.detailTitle.textContent = platform.platformName;
+        const topTypes = (platform.incidentTypes || []).slice(0, 4).map((item) => `<span class="pill">${esc(item.type)}: ${fmt(item.count)}</span>`).join("");
         elements.detail.innerHTML = [
           ["Población", platform.population],
           ["Área km²", platform.areaKm2],
@@ -998,13 +1000,19 @@
           ["Incidentes", platform.incidents],
           ["Tasa / 1.000", platform.incidentRate1000],
           ["Infraestructura policial", platform.policeInfrastructure],
+          ["Personal policial", platform.policePersonnel],
+          ["Pob. / infraestructura", platform.populationPerPoliceInfrastructure],
+          ["Pob. / policía", platform.populationPerPoliceOfficer],
           ["Cámaras", platform.cameras],
+          ["Cámaras a reemplazo", platform.camerasReplacement],
           ["Déficit video", platform.videoDeficit],
-          ["Bulevares", platform.boulevardLengthM]
+          ["Bulevares m", platform.boulevardLengthM],
+          ["Conexiones m", platform.connectionLengthM]
         ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${displayValue(value)}</strong></div>`).join("")
-          + `<p>${esc(platform.dataStatus?.population || "")}</p><p>${esc(platform.dataStatus?.securityIndicators || "")}</p>`;
+          + `<div class="pill-row">${topTypes || '<span class="pill">Sin tipos de incidente asignados</span>'}</div>`
+          + `<p>${esc(platform.dataStatus?.population || "")}</p><p>${esc(platform.dataStatus?.securityIndicators || "")}</p><p>${esc(platform.dataStatus?.institutionalCoverage || "")}</p>`;
         elements.overlayTitle.textContent = `${platform.platformName} · Fase 1`;
-        elements.overlayText.textContent = `${fmt(platform.population)} habitantes, ${platform.areaKm2} km² y ${fmt(Math.round(platform.densityPopKm2))} hab/km². Indicadores de seguridad territorial quedan en N/D hasta fases siguientes.`;
+        elements.overlayText.textContent = `${fmt(platform.population)} habitantes, ${platform.areaKm2} km², ${fmt(platform.incidents)} incidentes georreferenciables, ${fmt(platform.cameras)} cámaras y ${fmt(platform.policeInfrastructure)} infraestructuras policiales asignadas.`;
       }
 
       function selectPlatform(platformName, pan) {
