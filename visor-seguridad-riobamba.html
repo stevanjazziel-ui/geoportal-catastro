@@ -1429,13 +1429,13 @@
       function syncMapLayerVisibility() {
         if (isKdeMode()) {
           if (map.hasLayer(eventLayer)) map.removeLayer(eventLayer);
-          if (map.hasLayer(parishLayer)) map.removeLayer(parishLayer);
-          if (map.hasLayer(cameraLayer)) map.removeLayer(cameraLayer);
-          if (map.hasLayer(policeInfrastructureLayer)) map.removeLayer(policeInfrastructureLayer);
-          if (map.hasLayer(boulevardLayer)) map.removeLayer(boulevardLayer);
-          if (manzanaLayer && map.hasLayer(manzanaLayer)) map.removeLayer(manzanaLayer);
           if (!map.hasLayer(hotspotLayer)) hotspotLayer.addTo(map);
-          if (platformLayer && !map.hasLayer(platformLayer)) platformLayer.addTo(map);
+          elements.toggleParishes.checked ? parishLayer.addTo(map) : map.removeLayer(parishLayer);
+          elements.toggleCameras.checked ? cameraLayer.addTo(map) : map.removeLayer(cameraLayer);
+          elements.togglePoliceInfrastructure.checked ? policeInfrastructureLayer.addTo(map) : map.removeLayer(policeInfrastructureLayer);
+          elements.toggleBoulevards.checked ? boulevardLayer.addTo(map) : map.removeLayer(boulevardLayer);
+          if (manzanaLayer) elements.toggleManzanas.checked ? manzanaLayer.addTo(map) : map.removeLayer(manzanaLayer);
+          elements.togglePlatforms.checked && platformLayer ? platformLayer.addTo(map) : platformLayer && map.removeLayer(platformLayer);
           return;
         }
         elements.toggleEvents.checked ? eventLayer.addTo(map) : map.removeLayer(eventLayer);
@@ -1445,6 +1445,16 @@
         elements.toggleBoulevards.checked ? boulevardLayer.addTo(map) : map.removeLayer(boulevardLayer);
         if (manzanaLayer) elements.toggleManzanas.checked ? manzanaLayer.addTo(map) : map.removeLayer(manzanaLayer);
         elements.togglePlatforms.checked && platformLayer ? platformLayer.addTo(map) : platformLayer && map.removeLayer(platformLayer);
+      }
+
+      function setKdeDefaultContextLayers() {
+        elements.toggleEvents.checked = true;
+        elements.toggleParishes.checked = false;
+        elements.toggleCameras.checked = false;
+        elements.togglePoliceInfrastructure.checked = false;
+        elements.toggleManzanas.checked = false;
+        elements.toggleBoulevards.checked = false;
+        elements.togglePlatforms.checked = true;
       }
 
       function update() {
@@ -1876,6 +1886,7 @@
       fillSelect(elements.category, "Todas las categorías/tipos", [...new Set([...events.map((event) => event.category), ...cameras.map((camera) => camera.type)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
       fillSelect(elements.precision, "Toda precisión/confianza", [...new Set([...events.map((event) => event.precision), ...cameras.map((camera) => camera.confidence)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
       fillSelect(elements.source, "Todas las fuentes", [...new Set([...events.map((event) => event.source), ...cameras.map((camera) => camera.institution)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
+      setKdeDefaultContextLayers();
       renderLegend();
       renderTopbar();
       renderMethodologyPanel();
@@ -1885,8 +1896,8 @@
       loadBoulevardNetwork();
 
       [elements.search, elements.category, elements.precision, elements.source].forEach((control) => control.addEventListener("input", update));
-      elements.diagnosisMetric.addEventListener("change", () => { diagnosisMetric = elements.diagnosisMetric.value; mode = "diagnosis"; syncModeButtons(); update(); });
-      elements.kdeAnalysis.addEventListener("click", () => { mode = "diagnosis"; diagnosisMetric = "hotspots"; elements.diagnosisMetric.value = "hotspots"; selectedId = null; selectedParish = null; selectedCamera = null; selectedPolice = null; syncModeButtons(); update(); });
+      elements.diagnosisMetric.addEventListener("change", () => { diagnosisMetric = elements.diagnosisMetric.value; mode = "diagnosis"; if (diagnosisMetric === "hotspots") setKdeDefaultContextLayers(); syncModeButtons(); update(); });
+      elements.kdeAnalysis.addEventListener("click", () => { mode = "diagnosis"; diagnosisMetric = "hotspots"; elements.diagnosisMetric.value = "hotspots"; selectedId = null; selectedParish = null; selectedCamera = null; selectedPolice = null; setKdeDefaultContextLayers(); syncModeButtons(); update(); });
       elements.eventsMode.addEventListener("click", () => { mode = "events"; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
       elements.ecuMode.addEventListener("click", () => { mode = "ecu"; selectedId = null; selectedCamera = null; selectedPlatform = null; syncModeButtons(); update(); });
       elements.camerasMode.addEventListener("click", () => { mode = "cameras"; selectedId = null; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
