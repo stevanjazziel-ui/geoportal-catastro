@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Validación metodológica KDE de incidentes georreferenciados en Riobamba." />
+  <title>Riobamba | Validación KDE</title>
+  <link rel="stylesheet" href="./vendor/leaflet/leaflet.css" />
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7faf5;
+      --panel: #ffffff;
+      --panel-2: #f2f6f2;
+      --line: rgba(38, 58, 51, 0.14);
+      --text: #263a33;
+      --muted: #64736c;
+      --accent: #2f6f5f;
+      --accent-2: #5b7f9d;
+      --warn: #b88432;
+      --danger: #9c3f52;
+      --shadow: 0 18px 42px rgba(65, 88, 78, 0.11);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: end;
+      padding: 22px 26px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: clamp(24px, 3vw, 38px); letter-spacing: 0; }
+    h2 { font-size: 18px; }
+    h3 { font-size: 14px; }
+    p { color: var(--muted); line-height: 1.45; }
+    a { color: var(--accent); text-decoration: none; font-weight: 700; }
+
+    main {
+      display: grid;
+      gap: 14px;
+      padding: 14px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      box-shadow: 0 10px 26px rgba(65, 88, 78, 0.08);
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(120px, 1fr));
+      gap: 10px;
+    }
+
+    .status {
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    .status span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .status strong {
+      display: block;
+      margin-top: 5px;
+      font-size: 22px;
+    }
+
+    .map-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    .map-grid.two {
+      grid-template-columns: repeat(2, minmax(300px, 1fr));
+    }
+
+    .map-card {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .map {
+      height: 390px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #dfe5dd;
+    }
+
+    .map.small { height: 320px; }
+    .leaflet-tile-pane { filter: grayscale(1) saturate(0.1) brightness(1.04); }
+    .platform-label {
+      color: #12221c;
+      font-weight: 900;
+      font-size: 15px;
+      text-shadow: 0 1px 2px white, 0 -1px 2px white, 1px 0 2px white, -1px 0 2px white;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .legend span {
+      display: inline-flex;
+      width: 16px;
+      height: 10px;
+      border-radius: 2px;
+      border: 1px solid rgba(38, 58, 51, 0.2);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      background: var(--panel-2);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .note {
+      display: grid;
+      gap: 6px;
+      padding: 10px 12px;
+      background: #fff9e9;
+      border: 1px solid rgba(184, 132, 50, 0.28);
+      border-radius: 8px;
+      color: #5c4b24;
+    }
+
+    .note p { color: #5c4b24; }
+    .pill {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 980px) {
+      header { grid-template-columns: 1fr; }
+      .status-grid, .map-grid, .map-grid.two { grid-template-columns: 1fr; }
+      .map { height: 340px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Validación metodológica KDE</h1>
+      <p>DENSIDAD_INCIDENTES_KDE · Solo mapa base, 18 Plataformas Territoriales reales e incidentes georreferenciados.</p>
+    </div>
+    <a href="./visor-seguridad-riobamba.html">Volver al visor</a>
+  </header>
+
+  <main>
+    <section class="panel note">
+      <h2>Alcance temporal de validación</h2>
+      <p>Capas apagadas: cámaras, UPC, infraestructura policial, bulevares, circuitos, subcircuitos, buffers y demás capas temáticas. Esta vista se detiene en la validación del insumo KDE.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Tabla de control</h2>
+      <div id="controlTable" class="status-grid"></div>
+    </section>
+
+    <section class="panel">
+      <h2>1. Mapa de puntos utilizados</h2>
+      <p>Se dibujan todos los registros que entran al KDE como puntos simples. Los eventos coincidentes se preservan como registros diferentes.</p>
+      <div id="pointsMap" class="map"></div>
+      <div class="legend">
+        <span style="background:#111827"></span>Registro KDE A/B
+        <span style="background:transparent;border:2px solid #2f6f5f"></span>Límite de plataforma
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Registros excluidos</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Precisión</th><th>Evento</th><th>Ubicación</th><th>Lat/Lng</th><th>Razón</th></tr></thead>
+          <tbody id="excludedRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Registros usados en KDE</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Precisión</th><th>Evento</th><th>Ubicación</th><th>Plataforma</th><th>Lat/Lng</th></tr></thead>
+          <tbody id="usedRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Validación de coordenadas</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Control</th><th>Resultado</th></tr></thead>
+          <tbody id="coordinateRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>2. Comparación visual de bandwidth</h2>
+      <p>Mismos puntos, misma extensión, misma celda de 20 m y mismo método. No se selecciona automáticamente ningún resultado.</p>
+      <div class="map-grid">
+        <div class="map-card">
+          <h3>KDE 200 m</h3>
+          <div id="kde200Map" class="map small"></div>
+        </div>
+        <div class="map-card">
+          <h3>KDE 300 m</h3>
+          <div id="kde300Map" class="map small"></div>
+        </div>
+        <div class="map-card">
+          <h3>KDE 500 m</h3>
+          <div id="kde500Map" class="map small"></div>
+        </div>
+      </div>
+      <div class="legend">
+        <span style="background:transparent"></span>Transparente
+        <span style="background:#ffe66d"></span>Amarillo
+        <span style="background:#ff7c20"></span>Naranja
+        <span style="background:#e11d36"></span>Rojo
+        <span style="background:#63192d"></span>Rojo oscuro
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Bandwidth</th><th>Concentraciones observables</th><th>Fragmentación</th><th>Suavizado</th></tr></thead>
+          <tbody id="comparisonRows"></tbody>
+        </table>
+      </div>
+      <p id="stabilityText"></p>
+    </section>
+
+    <section class="panel">
+      <h2>3. Zoom de validación</h2>
+      <p>Se usa el KDE 300 m como vista intermedia para comprobar visualmente que la densidad aumenta donde hay varios puntos y se aproxima a transparencia donde no hay eventos cercanos.</p>
+      <div class="map-grid">
+        <div class="map-card">
+          <h3>Varios incidentes próximos</h3>
+          <div id="zoomMultipleMap" class="map small"></div>
+        </div>
+        <div class="map-card">
+          <h3>Un incidente aislado</h3>
+          <div id="zoomSingleMap" class="map small"></div>
+        </div>
+        <div class="map-card">
+          <h3>Sin incidentes cercanos</h3>
+          <div id="zoomNoneMap" class="map small"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Metadatos</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Campo</th><th>Valor</th></tr></thead>
+          <tbody id="metadataRows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="./vendor/leaflet/leaflet.js"></script>
+  <script src="./riobamba-seguridad-kde-validacion-data.js?v=paso-kde-1"></script>
+  <script>
+    (() => {
+      const data = window.RIOBAMBA_KDE_VALIDATION;
+      const fmt = (value) => Number(value || 0).toLocaleString("es-EC");
+      const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[char]));
+      const maps = [];
+
+      const baseLayer = () => L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: "&copy; OpenStreetMap"
+      });
+
+      function makeMap(id) {
+        const map = L.map(id, { zoomControl: true, preferCanvas: true });
+        baseLayer().addTo(map);
+        maps.push(map);
+        return map;
+      }
+
+      function platformStyle() {
+        return { color: "#2f6f5f", weight: 2, opacity: 0.92, fillColor: "#d8eadf", fillOpacity: 0.08 };
+      }
+
+      function pointLayer() {
+        return L.layerGroup(data.kdeInputPoints.map((point) => {
+          const marker = L.circleMarker([point.lat, point.lng], {
+            radius: 4,
+            color: "#ffffff",
+            weight: 1,
+            fillColor: "#111827",
+            fillOpacity: 0.92
+          });
+          marker.bindPopup(`<strong>${esc(point.id)}</strong><br>${esc(point.event)}<br>${esc(point.location)}<br><span class="pill">${esc(point.precision)}</span>`);
+          return marker;
+        }));
+      }
+
+      function addLabels(map, platformLayer) {
+        platformLayer.eachLayer((layer) => {
+          const props = layer.feature?.properties || {};
+          const label = String(props.platform_name || "").replace("PLATAFORMA ", "");
+          L.marker(layer.getBounds().getCenter(), {
+            interactive: false,
+            icon: L.divIcon({ className: "platform-label", html: esc(label), iconSize: [24, 18] })
+          }).addTo(map);
+        });
+      }
+
+      function addRaster(map, bandwidth) {
+        const raster = data.rasters[String(bandwidth)];
+        return L.imageOverlay(raster.url, raster.bounds, { opacity: 0.82, interactive: false }).addTo(map);
+      }
+
+      function populateControl() {
+        document.getElementById("controlTable").innerHTML = Object.entries(data.controlTable).map(([key, value]) => `
+          <div class="status"><span>${esc(key)}</span><strong>${fmt(value)}</strong></div>
+        `).join("");
+        document.getElementById("excludedRows").innerHTML = data.excludedRecords.map((item) => `
+          <tr>
+            <td>${esc(item.id)}</td>
+            <td>${esc(item.precision)}</td>
+            <td>${esc(item.event)}</td>
+            <td>${esc(item.location)}</td>
+            <td>${item.lat == null || item.lng == null ? "N/D" : `${esc(item.lat)}, ${esc(item.lng)}`}</td>
+            <td>${esc(item.reason)}</td>
+          </tr>
+        `).join("");
+        document.getElementById("usedRows").innerHTML = data.kdeInputPoints.map((item) => `
+          <tr>
+            <td>${esc(item.id)}</td>
+            <td>${esc(item.precision)}</td>
+            <td>${esc(item.event)}</td>
+            <td>${esc(item.location)}</td>
+            <td>${esc(item.platform)}</td>
+            <td>${esc(item.lat)}, ${esc(item.lng)}</td>
+          </tr>
+        `).join("");
+        const checks = [
+          ["Coordenadas 0,0", data.coordinateChecks.zeroZeroCoordinates],
+          ["Sospecha lat/lon intercambiadas", data.coordinateChecks.swappedLatLonSuspects],
+          ["Fuera de Riobamba/ámbito de plataformas", data.coordinateChecks.outsideRiobambaOrStudyArea],
+          ["CRS de cálculo de distancia", data.coordinateChecks.crsDistanceCalculation],
+          ["Centroides artificiales usados", data.coordinateChecks.artificialCentroidsUsed ? "Sí" : "No"],
+          ["Coordenadas de cámaras/UPC usadas", data.coordinateChecks.cameraOrPoliceCoordinatesUsed ? "Sí" : "No"],
+          ["Registros parroquiales convertidos a puntos", data.coordinateChecks.parishRecordsConvertedToPoints ? "Sí" : "No"],
+          ["Puntos coincidentes preservados", data.coordinateChecks.coincidentPointsPreserved ? "Sí" : "No"],
+        ];
+        document.getElementById("coordinateRows").innerHTML = checks.map(([label, value]) => `
+          <tr><td>${esc(label)}</td><td>${esc(value)}</td></tr>
+        `).join("");
+        document.getElementById("comparisonRows").innerHTML = data.comparison.bandwidths.map((item) => `
+          <tr>
+            <td>${fmt(item.bandwidth)} m</td>
+            <td>${fmt(item.observableConcentrations)}</td>
+            <td>${esc(item.fragmentation)}</td>
+            <td>${esc(item.smoothing)}</td>
+          </tr>
+        `).join("");
+        document.getElementById("stabilityText").textContent = `Estabilidad espacial de concentraciones principales: ${data.comparison.stabilityMainConcentrations}; desplazamiento máximo entre picos: ${fmt(data.comparison.peakDisplacementMaxM)} m.`;
+        document.getElementById("metadataRows").innerHTML = Object.entries(data.metadata).map(([key, value]) => `
+          <tr><td>${esc(key)}</td><td>${esc(value)}</td></tr>
+        `).join("");
+      }
+
+      async function init() {
+        populateControl();
+        const platformGeojson = await fetch("./riobamba-censo-data/riobamba_plataformas.geojson").then((response) => response.json());
+        const bounds = L.geoJSON(platformGeojson).getBounds().pad(0.08);
+
+        const pointsMap = makeMap("pointsMap");
+        const platformLayer = L.geoJSON(platformGeojson, { style: platformStyle }).addTo(pointsMap);
+        pointLayer().addTo(pointsMap);
+        addLabels(pointsMap, platformLayer);
+        pointsMap.fitBounds(bounds);
+
+        [
+          ["kde200Map", 200],
+          ["kde300Map", 300],
+          ["kde500Map", 500]
+        ].forEach(([id, bandwidth]) => {
+          const map = makeMap(id);
+          addRaster(map, bandwidth);
+          const layer = L.geoJSON(platformGeojson, { style: platformStyle }).addTo(map);
+          pointLayer().addTo(map);
+          addLabels(map, layer);
+          map.fitBounds(bounds);
+        });
+
+        [
+          ["zoomMultipleMap", data.validationZones.multipleIncidents],
+          ["zoomSingleMap", data.validationZones.singleIncident],
+          ["zoomNoneMap", data.validationZones.noIncident]
+        ].forEach(([id, zone]) => {
+          const map = makeMap(id);
+          addRaster(map, 300);
+          const layer = L.geoJSON(platformGeojson, { style: platformStyle }).addTo(map);
+          pointLayer().addTo(map);
+          addLabels(map, layer);
+          map.fitBounds(zone.bounds);
+        });
+
+        setTimeout(() => maps.forEach((map) => map.invalidateSize()), 200);
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>
