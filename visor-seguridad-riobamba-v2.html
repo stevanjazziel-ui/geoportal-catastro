@@ -218,6 +218,19 @@
       overflow: hidden;
       background: #eef1ed;
     }
+    .access-donut {
+      width: 190px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      margin: 0 auto;
+      display: grid;
+      place-items: center;
+      background: conic-gradient(var(--d1) 0 var(--p1), var(--d2) var(--p1) var(--p2), var(--d3) var(--p2) var(--p3), var(--d4) var(--p3) var(--p4), var(--d5) var(--p4) 100%);
+    }
+    .access-donut strong { display: grid; place-items: center; width: 96px; height: 96px; border-radius: 50%; background: #fff; text-align: center; font-size: 0.9rem; }
+    .mini-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+    .mini-table th, .mini-table td { padding: 6px; border-bottom: 1px solid var(--line); text-align: right; }
+    .mini-table th:first-child, .mini-table td:first-child { text-align: left; }
 
     .map-wrap { position: relative; height: 100%; }
     #map { width: 100%; height: 100%; background: #f4f5f2; }
@@ -451,7 +464,7 @@
         <button type="button" disabled>◐ Análisis temporal · En procesamiento</button>
         <h2>Cobertura territorial</h2>
         <button class="mode-button" id="policeMode" type="button">Infraestructura policial</button>
-        <button type="button" disabled>Accesibilidad policial · Próximamente</button>
+        <button class="mode-button" id="policeAccessibilityMode" type="button">● Accesibilidad policial</button>
         <button class="mode-button" id="camerasMode" type="button">Videovigilancia</button>
         <button type="button" disabled>Cobertura potencial de cámaras · Próximamente</button>
         <button type="button" disabled>Cobertura poblacional · Próximamente</button>
@@ -554,6 +567,7 @@
   <script src="./visor-seguridad-riobamba-data.js"></script>
   <script src="./riobamba-camaras-data.js?v=municipio-30"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
+  <script src="./riobamba-accesibilidad-policial-data.js?v=1"></script>
   <script src="./riobamba-seguridad-diagnostico-data.js?v=etapa8-tipologias"></script>
   <script src="./riobamba-seguridad-kde-validacion-data.js?v=kde-real"></script>
   <script>
@@ -565,6 +579,7 @@
       const cameras = cameraDataset.cameras || [];
       const policeDataset = window.RIOBAMBA_POLICE_SIG_DATA || { summary: {}, district: { features: [] }, infrastructure: { features: [] } };
       const policeInfrastructure = policeDataset.infrastructure?.features || [];
+      const policeAccessibility = window.RIOBAMBA_POLICE_ACCESSIBILITY || { summary: {}, table: [], byPlatformName: {}, byMan: {}, validations: {} };
       const diagnosis = window.RIOBAMBA_SECURITY_DIAGNOSIS || { summary: {}, inventory: [], platformMaster: [], byPlatformName: {} };
       const kdeValidation = window.RIOBAMBA_KDE_VALIDATION || { controlTable: {}, kdeInputPoints: [], rasters: {}, metadata: {} };
       const categoryPalette = ["#4f8f52", "#5f8eb9", "#2d9b94", "#b88432", "#c86670", "#9c3f52", "#8f5fb9", "#7e7f92", "#4f7890", "#7c8c47"];
@@ -583,6 +598,7 @@
         ecuMode: document.getElementById("ecuMode"),
         camerasMode: document.getElementById("camerasMode"),
         policeMode: document.getElementById("policeMode"),
+        policeAccessibilityMode: document.getElementById("policeAccessibilityMode"),
         diagnosisMode: document.getElementById("diagnosisMode"),
         kdeAnalysis: document.getElementById("kdeAnalysisButton"),
         diagnosisMetric: document.getElementById("diagnosisMetricSelect"),
@@ -703,6 +719,20 @@
             ["Resultado", diagnosisMetric === "incidentCount" ? "Número de eventos registrados" : "Tasa por 1.000 habitantes"],
             ["Limitación", "No es índice de inseguridad ni ranking"],
           ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+          return;
+        }
+        if (diagnosisMetric === "policeAccessibility") {
+          panel.innerHTML = [
+            ["Análisis", "Accesibilidad policial"],
+            ["Fuente plataformas", "18 Plataformas Territoriales"],
+            ["Fuente población", "CPV 2022 / manzanas censales"],
+            ["Infraestructura policial", `${fmt(policeAccessibility.validations?.policeInfrastructure || 0)} registros reales`],
+            ["UPC identificadas", `${fmt(policeAccessibility.validations?.upc || 0)} registros tipo UPC`],
+            ["CRS", policeAccessibility.crs || "EPSG:32717 / EPSG:4326"],
+            ["Método de distancia", policeAccessibility.method || "Distancia euclidiana a infraestructura más cercana"],
+            ["Fecha procesamiento", (policeAccessibility.generatedAt || "").slice(0, 10) || "No disponible"],
+          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")
+            + `<p>La proximidad espacial no representa tiempo de respuesta policial ni determina por sí sola el nivel de seguridad de un sector.</p>`;
           return;
         }
         panel.innerHTML = `<p>La metodología cambia según el análisis activo.</p>`;
@@ -963,6 +993,15 @@
         if (n <= 15000) return "#d9a441";
         return "#c86670";
       };
+      const policeDistanceColor = (distance) => {
+        const n = Number(distance || 0);
+        if (!n) return "#f7f7f7";
+        if (n <= 250) return "#179b52";
+        if (n <= 500) return "#8fd36f";
+        if (n <= 1000) return "#ffd43b";
+        if (n <= 2000) return "#ff7c43";
+        return "#e11d48";
+      };
       const ringAreaKm2 = (ring) => {
         if (!ring || ring.length < 3) return 0;
         const meanLat = ring.reduce((sum, point) => sum + Number(point[1] || 0), 0) / ring.length;
@@ -997,6 +1036,10 @@
         }
         if (diagnosisMetric === "populationDensity") {
           return { color: selected ? "#111827" : "#7e8790", weight: selected ? 1.4 : 0.35, fillColor: densityColor(manzanaDensity(feature)), fillOpacity: 0.72, opacity: 0.55 };
+        }
+        if (diagnosisMetric === "policeAccessibility") {
+          const row = policeAccessibility.byMan?.[feature?.properties?.man];
+          return { color: selected ? "#111827" : "#7e8790", weight: selected ? 1.4 : 0.28, fillColor: policeDistanceColor(row?.DIST_INF_POL), fillOpacity: 0.68, opacity: 0.5 };
         }
         return { color: "#7e8790", weight: 0.45, fillColor: "#f7f7f7", fillOpacity: 0.13, opacity: 0.45 };
       };
@@ -1194,6 +1237,22 @@
             elements.graphicAnalysis.innerHTML = `${metricBars(diagnosisMetric === "incidentCount" ? "Eventos registrados por plataforma" : "Tasa por 1.000 habitantes", rows, Math.max(...rows.map((item) => Number(item.value || 0)), 1), diagnosisMetric === "incidentCount" ? "#c86670" : "#d9a441")}`;
             return;
           }
+          if (diagnosisMetric === "policeAccessibility") {
+            const selected = selectedPlatform ? policeAccessibility.byPlatformName?.[selectedPlatform] : null;
+            const source = selected || policeAccessibility.summary || {};
+            const population = Number(source.POBLACION || source.population || 0);
+            const infra = Number(source.NUM_INF_POL ?? policeAccessibility.summary?.infrastructure ?? 0);
+            const upc = Number(source.NUM_UPC ?? policeAccessibility.summary?.upc ?? 0);
+            elements.summary.innerHTML = [
+              ["Población total", `${fmt(population)} habitantes`],
+              ["Infraestructura policial", `${fmt(infra)} registros`],
+              ["UPC", `${fmt(upc)} registros`],
+              ["Infraestructura / 10.000 hab.", source.INF_10K ?? "N/D"],
+              ["UPC / 10.000 hab.", source.UPC_10K ?? "N/D"],
+              ["Población / UPC", source.POB_POR_UPC == null ? "N/D" : fmt(source.POB_POR_UPC)]
+            ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+            return;
+          }
           const visible = filteredPlatforms();
           const population = visible.reduce((sum, platform) => sum + Number(platform.population || 0), 0);
           const typologies = new Set(visible.map((platform) => platform.territorialTypology).filter(Boolean)).size;
@@ -1333,6 +1392,36 @@
           elements.graphicAnalysis.innerHTML = `${metricBars(title, rows, Math.max(...rows.map((item) => Number(item.value || 0)), 1), color)}`;
           return;
         }
+        if (diagnosisMetric === "policeAccessibility") {
+          const selected = selectedPlatform ? policeAccessibility.byPlatformName?.[selectedPlatform] : null;
+          const source = selected || policeAccessibility.summary || {};
+          const total = Number(source.POBLACION || source.population || 0) || 1;
+          const values = [
+            ["≤ 250 m", Number(source.POB_0_250 || 0), "#179b52"],
+            ["250 - 500 m", Number(source.POB_250_500 || 0), "#8fd36f"],
+            ["500 - 1.000 m", Number(source.POB_500_1000 || 0), "#ffd43b"],
+            ["1.000 - 2.000 m", Number(source.POB_1000_2000 || 0), "#ff7c43"],
+            ["> 2.000 m", Number(source.POB_MAS_2000 || 0), "#e11d48"],
+          ];
+          let acc = 0;
+          const stops = values.map(([, value], index) => {
+            acc += value / total * 100;
+            return `--p${index + 1}:${acc}%`;
+          }).join(";");
+          const table = (policeAccessibility.table || []).map((row) => `<tr><td>${esc(row.PLATAFORMA)}</td><td>${fmt(row.POBLACION)}</td><td>${fmt(row.NUM_INF_POL)}</td><td>${fmt(row.NUM_UPC)}</td><td>${row.INF_10K}</td><td>${row.UPC_10K}</td><td>${row.POB_POR_UPC == null ? "N/D" : fmt(row.POB_POR_UPC)}</td><td>${row.DIST_MEDIA ?? "N/D"}</td><td>${row.DIST_MAX ?? "N/D"}</td></tr>`).join("");
+          elements.graphicAnalysis.innerHTML = `
+            <div class="graphic-card">
+              <h3>Población según proximidad</h3>
+              <div class="access-donut" style="--d1:#179b52;--d2:#8fd36f;--d3:#ffd43b;--d4:#ff7c43;--d5:#e11d48;${stops}"><strong>${fmt(total)}<br>habitantes</strong></div>
+              ${values.map(([label, value, color]) => `<div class="mini-row"><span><span class="legend-swatch" style="background:${color};border-color:#7e8790"></span>${esc(label)}</span><strong>${fmt(value)} (${(value / total * 100).toFixed(1)}%)</strong></div>`).join("")}
+            </div>
+            <div class="graphic-card">
+              <h3>Indicadores por Plataforma</h3>
+              <table class="mini-table"><thead><tr><th>Plat.</th><th>Pobl.</th><th>Inf.</th><th>UPC</th><th>Inf/10k</th><th>UPC/10k</th><th>Pob/UPC</th><th>Dist. media</th><th>Dist. máx.</th></tr></thead><tbody>${table}</tbody></table>
+            </div>
+          `;
+          return;
+        }
         const visible = filteredPlatforms();
         const topIncidents = [...visible].sort((a, b) => Number(b.incidents || 0) - Number(a.incidents || 0)).slice(0, 6);
         const maxIncidents = Math.max(...topIncidents.map((item) => Number(item.incidents || 0)), 1);
@@ -1409,6 +1498,18 @@
               <div class="legend-row"><span class="legend-swatch" style="background:#d9a441;border-color:#7e8790"></span>7.501 - 15.000</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#c86670;border-color:#7e8790"></span>15.000+ hab/km²</div>
               <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:2px solid #263a33"></span>Plataforma territorial</div>
+            `;
+            return;
+          }
+          if (diagnosisMetric === "policeAccessibility") {
+            elements.legend.innerHTML = `
+              <div class="legend-row"><span class="legend-swatch" style="background:#179b52;border-color:#7e8790"></span>≤ 250 m</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#8fd36f;border-color:#7e8790"></span>250 - 500 m</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#ffd43b;border-color:#7e8790"></span>500 - 1.000 m</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#ff7c43;border-color:#7e8790"></span>1.000 - 2.000 m</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#e11d48;border-color:#7e8790"></span>> 2.000 m</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#7c3aed;border-color:#fff"></span>UPC / infraestructura policial</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:2px solid #263a33"></span>Límite de Plataforma</div>
             `;
             return;
           }
@@ -1743,6 +1844,16 @@
         elements.togglePlatforms.checked = true;
       }
 
+      function setPoliceAccessibilityContextLayers() {
+        elements.toggleEvents.checked = false;
+        elements.toggleParishes.checked = false;
+        elements.toggleCameras.checked = false;
+        elements.togglePoliceInfrastructure.checked = true;
+        elements.toggleManzanas.checked = true;
+        elements.toggleBoulevards.checked = false;
+        elements.togglePlatforms.checked = true;
+      }
+
       function activateDiagnosisMetric(metric) {
         mode = "diagnosis";
         diagnosisMetric = metric;
@@ -1753,6 +1864,7 @@
         selectedPolice = null;
         if (metric === "hotspots") setKdeDefaultContextLayers();
         if (isBlockOneMetric()) setBlockOneContextLayers(metric);
+        if (metric === "policeAccessibility") setPoliceAccessibilityContextLayers();
         syncModeButtons();
         update();
       }
@@ -1802,6 +1914,9 @@
           } else if (diagnosisMetric === "incidentRate") {
             elements.overlayTitle.textContent = "Tasa por 1.000 habitantes";
             elements.overlayText.textContent = "TASA_INC_1000 = (INC_TOTAL / POBLACION) * 1000. No representa un índice de inseguridad.";
+          } else if (diagnosisMetric === "policeAccessibility") {
+            elements.overlayTitle.textContent = "Accesibilidad policial";
+            elements.overlayText.textContent = "Distribución de infraestructura policial y distancia espacial de la población hacia estos equipamientos. No representa tiempo de respuesta ni nivel de seguridad.";
           }
           elements.status.textContent = `Fases integradas: ${diagnosis.summary?.platforms || 18} plataformas territoriales, ${fmt(diagnosis.summary?.populationWithPlatform)} habitantes asignados, ${fmt(diagnosis.summary?.hotspots || 0)} hotspots preliminares y ${fmt(diagnosis.summary?.videoDeficitHighOrCritical || 0)} plataformas con déficit alto/crítico.`;
         } else {
@@ -2144,6 +2259,24 @@
           ["Registros KDE", kdeValidation.controlTable?.REGISTROS_KDE || "No disponible"],
           ["Registros excluidos", kdeValidation.controlTable?.REGISTROS_EXCLUIDOS || "No disponible"],
         ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+        const accessRow = policeAccessibility.byPlatformName?.[platform.platformName];
+        const accessDetail = accessRow ? `
+          <h3>Accesibilidad policial</h3>
+          ${[
+            ["Infraestructura policial", accessRow.NUM_INF_POL],
+            ["UPC", accessRow.NUM_UPC],
+            ["Infraestructura / 10.000 hab.", accessRow.INF_10K],
+            ["UPC / 10.000 hab.", accessRow.UPC_10K],
+            ["Población por UPC", accessRow.POB_POR_UPC == null ? "N/D" : accessRow.POB_POR_UPC],
+            ["Población ≤250 m", `${fmt(accessRow.POB_0_250)} (${accessRow.PCT_0_250}%)`],
+            ["Población 250-500 m", `${fmt(accessRow.POB_250_500)} (${accessRow.PCT_250_500}%)`],
+            ["Población 500-1.000 m", `${fmt(accessRow.POB_500_1000)} (${accessRow.PCT_500_1000}%)`],
+            ["Población 1.000-2.000 m", `${fmt(accessRow.POB_1000_2000)} (${accessRow.PCT_1000_2000}%)`],
+            ["Población >2.000 m", `${fmt(accessRow.POB_MAS_2000)} (${accessRow.PCT_MAS_2000}%)`],
+            ["Distancia media", accessRow.DIST_MEDIA == null ? "N/D" : `${fmt(accessRow.DIST_MEDIA)} m`],
+            ["Distancia máxima", accessRow.DIST_MAX == null ? "N/D" : `${fmt(accessRow.DIST_MAX)} m`],
+          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")}
+        ` : "";
         elements.detail.innerHTML = `
           <div class="detail-tabs">
             <input id="tab-summary" name="platformDetailTabs" type="radio" checked>
@@ -2158,6 +2291,7 @@
               <div class="summary-cards">${summaryCards}</div>
               <h3>¿Qué nos dicen los datos?</h3>
               <div class="interpretation-list">${interpretationHtml}</div>
+              ${diagnosisMetric === "policeAccessibility" ? accessDetail : ""}
             </div>
             <div class="detail-tab-panel map-panel">
               <div class="detail-mini-map" id="detailMiniMap"></div>
@@ -2166,6 +2300,7 @@
               <div class="mini-row"><span>Cámaras</span><strong>${valueOrNA(platform.cameras)}</strong></div>
               <div class="mini-row"><span>Infraestructura policial</span><strong>${valueOrNA(platform.policeInfrastructure)}</strong></div>
               <div class="mini-row"><span>Bulevares / conexiones</span><strong>${km(platform.boulevardTotalLengthM)}</strong></div>
+              ${diagnosisMetric === "policeAccessibility" ? accessDetail : ""}
               ${concentrationButtons}
             </div>
             <div class="detail-tab-panel tech-panel">
@@ -2214,6 +2349,7 @@
         elements.ecuMode.classList.toggle("is-active", mode === "ecu");
         elements.camerasMode.classList.toggle("is-active", mode === "cameras");
         elements.policeMode.classList.toggle("is-active", mode === "police");
+        elements.policeAccessibilityMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "policeAccessibility");
         elements.populationMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "population");
         elements.populationDensityMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "populationDensity");
         elements.platformIncidentsMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "incidentCount");
@@ -2320,6 +2456,7 @@
       elements.populationDensityMode.addEventListener("click", () => activateDiagnosisMetric("populationDensity"));
       elements.platformIncidentsMode.addEventListener("click", () => activateDiagnosisMetric("incidentCount"));
       elements.incidentRateMode.addEventListener("click", () => activateDiagnosisMetric("incidentRate"));
+      elements.policeAccessibilityMode.addEventListener("click", () => activateDiagnosisMetric("policeAccessibility"));
       elements.kdeAnalysis.addEventListener("click", () => activateDiagnosisMetric("hotspots"));
       elements.eventsMode.addEventListener("click", () => { mode = "events"; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
       elements.ecuMode.addEventListener("click", () => { mode = "ecu"; selectedId = null; selectedCamera = null; selectedPlatform = null; syncModeButtons(); update(); });
