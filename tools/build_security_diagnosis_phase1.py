@@ -166,6 +166,12 @@ def empty_platform_metrics():
             "policeTypes": {},
             "policePersonnel": 0,
             "policePointsM": [],
+            "populationNearPolice500": 0.0,
+            "populationWeightedPoliceDistanceSum": 0.0,
+            "populationWeightedPoliceDistancePopulation": 0.0,
+            "incidentPoliceDistanceSum": 0.0,
+            "incidentPoliceDistanceCount": 0,
+            "nearestIncidentPoliceDistanceM": None,
             "cameras": 0,
             "camerasReplacement": 0,
             "cameraEvents2025": 0,
@@ -262,6 +268,7 @@ all_police_points = [point for bucket in metrics.values() for point in bucket["p
 all_event_points = [point for bucket in metrics.values() for point in bucket["eventPointsM"]]
 camera_union = unary_union([point.buffer(CAMERA_RADIUS_M) for point in all_camera_points]) if all_camera_points else None
 police_union = unary_union([point.buffer(POLICE_RADIUS_M) for point in all_police_points]) if all_police_points else None
+police_access_union = unary_union([point.buffer(500) for point in all_police_points]) if all_police_points else None
 exposure_buffers = {
     radius: unary_union([point.buffer(radius) for point in all_event_points]) if all_event_points else None
     for radius in (100, 250, 500)
@@ -282,6 +289,12 @@ for feature in manzana_geojson.get("features", []):
         metrics[platform_name]["cameraCoveredPopulation"] += population
     if network_buffer and network_buffer.covers(representative):
         metrics[platform_name]["populationNearBoulevard"] += population
+    if police_access_union and police_access_union.covers(representative):
+        metrics[platform_name]["populationNearPolice500"] += population
+    if all_police_points:
+        nearest_police = min(representative.distance(point) for point in all_police_points)
+        metrics[platform_name]["populationWeightedPoliceDistanceSum"] += nearest_police * population
+        metrics[platform_name]["populationWeightedPoliceDistancePopulation"] += population
 
 for feature in manzana_geojson.get("features", []):
     code = (feature.get("properties") or {}).get("man")
@@ -315,6 +328,12 @@ for platform_name, bucket in metrics.items():
             bucket["incidentsCoveredByCamera"] += 1
         if police_union and police_union.covers(event_point):
             bucket["incidentsNearPolice"] += 1
+        if all_police_points:
+            distance = min(event_point.distance(point) for point in all_police_points)
+            bucket["incidentPoliceDistanceSum"] += distance
+            bucket["incidentPoliceDistanceCount"] += 1
+            if bucket["nearestIncidentPoliceDistanceM"] is None or distance < bucket["nearestIncidentPoliceDistanceM"]:
+                bucket["nearestIncidentPoliceDistanceM"] = distance
     for camera_point in bucket["cameraPointsM"]:
         if network_union and camera_point.distance(network_union) <= BOULEVARD_RADIUS_M:
             bucket["camerasNearBoulevard"] += 1
@@ -401,6 +420,16 @@ for item in stats["platforms"]:
     video_deficit = classify_deficit(deficit_score)
     hotspot_count = 1 if bucket["incidents"] >= 2 else 0
     low_coverage_hotspots = hotspot_count if hotspot_count and video_deficit in ("ALTO", "CRITICO") else 0
+    population_police_distance = (
+        round(bucket["populationWeightedPoliceDistanceSum"] / bucket["populationWeightedPoliceDistancePopulation"], 2)
+        if bucket["populationWeightedPoliceDistancePopulation"]
+        else "N/D"
+    )
+    incident_police_distance = (
+        round(bucket["incidentPoliceDistanceSum"] / bucket["incidentPoliceDistanceCount"], 2)
+        if bucket["incidentPoliceDistanceCount"]
+        else "N/D"
+    )
     critical_zone = "Priorizar evaluacion territorial" if video_deficit in ("ALTO", "CRITICO") else "Seguimiento ordinario"
     if bucket["incidents"] == 0 and bucket["cameras"] == 0 and bucket["policeInfrastructure"] == 0:
         critical_zone = "Validar demanda local con trabajo de campo"
@@ -446,6 +475,10 @@ for item in stats["platforms"]:
         "policePersonnel": bucket["policePersonnel"] or "N/D",
         "populationPerPoliceInfrastructure": round(population / bucket["policeInfrastructure"], 2) if bucket["policeInfrastructure"] else "N/D",
         "populationPerPoliceOfficer": round(population / bucket["policePersonnel"], 2) if bucket["policePersonnel"] else "N/D",
+        "populationNearPolice500": int(round(bucket["populationNearPolice500"])),
+        "avgPopulationDistancePoliceM": population_police_distance,
+        "avgIncidentDistancePoliceM": incident_police_distance,
+        "nearestIncidentDistancePoliceM": round(bucket["nearestIncidentPoliceDistanceM"], 2) if bucket["nearestIncidentPoliceDistanceM"] is not None else "N/D",
         "cameras": bucket["cameras"],
         "camerasReplacement": bucket["camerasReplacement"],
         "cameraEvents2025": bucket["cameraEvents2025"] or "N/D",
@@ -640,12 +673,12 @@ inventory = [
 
 output = {
     "generatedAt": datetime.now().isoformat(timespec="seconds"),
-    "phase": "ETAPA 3 - KDE, hotspots y exposicion poblacional",
+    "phase": "ETAPA 4 - Infraestructura policial y accesibilidad",
     "masterTableName": "ANALISIS_PLATAFORMAS",
     "methodNotes": [
         "La unidad principal son las 18 plataformas territoriales reales.",
         "No se usan circuitos/subcircuitos como unidad principal.",
-        "Etapas 1, 2 y 3 implementadas: auditoria/base poblacional areal + clasificacion A/B/C + concentracion visual y exposicion poblacional.",
+        "Etapas 1 a 4 implementadas: base poblacional areal + clasificacion A/B/C + concentracion/exposicion + infraestructura policial/accesibilidad.",
         "La poblacion por plataforma se estima por interseccion areal manzana-plataforma: POB_EST = POB_MANZANA * AREA_INTERSECCION / AREA_MANZANA.",
         "Se calculan conteos por plataforma cuando existe geometria verificable.",
         f"La cobertura potencial de camaras usa un radio tecnico inicial de {CAMERA_RADIUS_M} m; no equivale a alcance visual real ni analitica forense.",
@@ -665,6 +698,7 @@ output = {
         "mappedIncidentsAssigned": sum(row["incidents"] for row in platforms),
         "incidentSpatialQuality": event_quality,
         "policeInfrastructureAssigned": sum(row["policeInfrastructure"] for row in platforms),
+        "populationNearPolice500": sum(row["populationNearPolice500"] for row in platforms if isinstance(row["populationNearPolice500"], int)),
         "camerasAssigned": sum(row["cameras"] for row in platforms),
         "boulevardLengthM": round(sum(row["boulevardLengthM"] for row in platforms), 2),
         "connectionLengthM": round(sum(row["connectionLengthM"] for row in platforms), 2),
@@ -721,6 +755,15 @@ output = {
             "method": "Union de buffers 100/250/500 m intersectada con manzana y plataforma; poblacion estimada por fraccion de area expuesta",
             "parameters": "POB_EXP_100, POB_EXP_250, POB_EXP_500",
             "limitations": "Escenario de proximidad, no mide exposicion real individual ni desplazamientos cotidianos",
+        },
+        {
+            "result": "Accesibilidad a infraestructura policial",
+            "source": "Infraestructura policial 06D01 + manzanas censales + incidentes A/B",
+            "date": "N/D infraestructura; Censo 2022; incidentes 2024-2026",
+            "precision": "Distancia euclidiana desde centroides representativos de manzana e incidentes georreferenciables",
+            "method": "Distancia minima a infraestructura policial mas cercana y poblacion dentro de 500 m",
+            "parameters": "DIST_INF_MEDIA, DIST_INC_INF_MEDIA, DIST_INC_INF_MIN, POB_CERCA_INF_500",
+            "limitations": "No representa tiempo de respuesta ni accesibilidad por red vial; no asume que toda dependencia es UPC",
         },
     ],
     "audit": audit,

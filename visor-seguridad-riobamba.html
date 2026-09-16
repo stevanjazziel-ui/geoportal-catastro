@@ -336,6 +336,7 @@
           <option value="cameraCoverage">Cobertura potencial de cámaras</option>
           <option value="boulevardPopulation">Población cercana a boulevares/conexiones</option>
           <option value="incidentProximity">Incidentes cerca de cámaras, policía y red</option>
+          <option value="policeAccessibility">Accesibilidad a infraestructura policial</option>
           <option value="institutionalCoverage">Cobertura institucional</option>
           <option value="typology">Tipología territorial</option>
           <option value="criticalZones">Zonas críticas preliminares</option>
@@ -400,7 +401,7 @@
   <script src="./visor-seguridad-riobamba-data.js"></script>
   <script src="./riobamba-camaras-data.js?v=municipio-30"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
-  <script src="./riobamba-seguridad-diagnostico-data.js?v=etapa3-exposicion"></script>
+  <script src="./riobamba-seguridad-diagnostico-data.js?v=etapa4-policia"></script>
   <script>
     (() => {
       const dataset = window.RIOBAMBA_SECURITY_DATA || { events: window.RIOBAMBA_SECURITY_EVENTS || [], ecu911: { serviceCounts: [], parishes: [], topSubtypes: [], topByParish: {}, totalRows: 0, securityRows: 0 } };
@@ -535,6 +536,12 @@
           ["1", "#d9a441", "1 incidente"],
           ["2", "#c86670", "2+ incidentes"],
         ],
+        policeAccessibility: [
+          ["500", "#4f8f52", "≤ 500 m"],
+          ["1000", "#d9a441", "501-1.000 m"],
+          ["1500", "#ff8c2a", "1.001-1.500 m"],
+          ["1501", "#c86670", "1.500+ m"],
+        ],
         institutionalCoverage: [
           ["BAJA", "#c86670", "Baja"],
           ["MEDIA", "#d9a441", "Media"],
@@ -596,6 +603,14 @@
           const total = Number(platform.incidentsCoveredByCamera || 0) + Number(platform.incidentsNearPolice || 0) + Number(platform.incidentsNearBoulevard || 0);
           if (total <= 0) return "#e5e8e1";
           if (total === 1) return "#d9a441";
+          return "#c86670";
+        }
+        if (diagnosisMetric === "policeAccessibility") {
+          const value = Number(platform.avgPopulationDistancePoliceM || 0);
+          if (!value) return "#e5e8e1";
+          if (value <= 500) return "#4f8f52";
+          if (value <= 1000) return "#d9a441";
+          if (value <= 1500) return "#ff8c2a";
           return "#c86670";
         }
         if (diagnosisMetric === "institutionalCoverage") return (diagnosisPalettes.institutionalCoverage.find(([key]) => key === platform.institutionalCoverage) || [null, "#d8eadf"])[1];
@@ -814,6 +829,7 @@
             ["Incidentes", visible.reduce((sum, platform) => sum + Number(platform.incidents || 0), 0)],
             ["Precisión A/B", `${fmt(diagnosis.summary?.incidentSpatialQuality?.spatialValidAB || 0)} usados`],
             ["Pob. expuesta 250 m", diagnosis.summary?.populationExposed250 || 0],
+            ["Pob. cerca policía", diagnosis.summary?.populationNearPolice500 || 0],
             ["Cámaras", visible.reduce((sum, platform) => sum + Number(platform.cameras || 0), 0)],
             ["Hotspots", visible.reduce((sum, platform) => sum + Number(platform.hotspots || 0), 0)],
             ["Déficit alto/crítico", visible.filter((platform) => ["ALTO", "CRITICO"].includes(platform.videoDeficit)).length],
@@ -1442,6 +1458,10 @@
           ["Personal policial", platform.policePersonnel],
           ["Pob. / infraestructura", platform.populationPerPoliceInfrastructure],
           ["Pob. / policía", platform.populationPerPoliceOfficer],
+          ["Pob. cerca policía 500 m", platform.populationNearPolice500],
+          ["Dist. media pob.-policía m", platform.avgPopulationDistancePoliceM],
+          ["Dist. media inc.-policía m", platform.avgIncidentDistancePoliceM],
+          ["Dist. mínima inc.-policía m", platform.nearestIncidentDistancePoliceM],
           ["Cobertura institucional", platform.institutionalCoverage],
           ["Cámaras", platform.cameras],
           ["Cámaras a reemplazo", platform.camerasReplacement],
