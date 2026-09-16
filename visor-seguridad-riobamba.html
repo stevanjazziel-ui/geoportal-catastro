@@ -448,12 +448,14 @@
       const eventLayer = L.layerGroup().addTo(map);
       const hotspotLayer = L.layerGroup().addTo(map);
       const platformLabelLayer = L.layerGroup().addTo(map);
+      const platformMaskLayer = L.layerGroup().addTo(map);
       const parishLayer = L.layerGroup().addTo(map);
       const cameraLayer = L.layerGroup().addTo(map);
       const policeInfrastructureLayer = L.layerGroup().addTo(map);
       const boulevardLayer = L.layerGroup().addTo(map);
       let platformLayer = null;
       let manzanaLayer = null;
+      let platformGeojsonCache = null;
       let manzanaStats = null;
       let platformStats = null;
       let selectedId = null;
@@ -591,6 +593,49 @@
           marker.addTo(platformLabelLayer);
         });
         platformLabelLayer.bringToFront();
+      };
+      const pointInRing = (lng, lat, ring) => {
+        let inside = false;
+        for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+          const xi = ring[i][0], yi = ring[i][1];
+          const xj = ring[j][0], yj = ring[j][1];
+          const intersect = ((yi > lat) !== (yj > lat)) && (lng < (xj - xi) * (lat - yi) / ((yj - yi) || 1e-12) + xi);
+          if (intersect) inside = !inside;
+        }
+        return inside;
+      };
+      const pointInsidePlatforms = (lng, lat) => {
+        if (!platformGeojsonCache) return true;
+        return (platformGeojsonCache.features || []).some((feature) => {
+          const geom = feature.geometry || {};
+          if (geom.type === "Polygon") return pointInRing(lng, lat, geom.coordinates?.[0] || []);
+          if (geom.type === "MultiPolygon") return (geom.coordinates || []).some((polygon) => pointInRing(lng, lat, polygon?.[0] || []));
+          return false;
+        });
+      };
+      const platformMaskRings = (geojson) => {
+        const outer = [[-78.86, -1.41], [-78.86, -1.91], [-78.42, -1.91], [-78.42, -1.41]];
+        const rings = [outer.map(([lng, lat]) => [lat, lng])];
+        (geojson.features || []).forEach((feature) => {
+          const geom = feature.geometry || {};
+          if (geom.type === "Polygon") rings.push((geom.coordinates?.[0] || []).map(([lng, lat]) => [lat, lng]).reverse());
+          if (geom.type === "MultiPolygon") {
+            (geom.coordinates || []).forEach((polygon) => rings.push((polygon?.[0] || []).map(([lng, lat]) => [lat, lng]).reverse()));
+          }
+        });
+        return rings;
+      };
+      const renderPlatformMask = () => {
+        platformMaskLayer.clearLayers();
+        if (!platformGeojsonCache || mode !== "diagnosis" || diagnosisMetric !== "hotspots") return;
+        L.polygon(platformMaskRings(platformGeojsonCache), {
+          stroke: false,
+          fillColor: "#f7faf5",
+          fillOpacity: 0.72,
+          interactive: false,
+        }).addTo(platformMaskLayer);
+        platformMaskLayer.bringToFront();
+        if (platformLayer) platformLayer.bringToFront();
       };
       const platformRecord = (name) => diagnosis.byPlatformName?.[name] || diagnosis.platformMaster?.find((item) => item.platformName === name || item.platform === name?.replace("PLATAFORMA ", ""));
       const formatDate = (value) => {
@@ -976,6 +1021,7 @@
         markers.clear();
         items.forEach((event) => {
           if (!event.mappable || event.lat == null || event.lng == null) return;
+          if (mode === "diagnosis" && diagnosisMetric === "hotspots" && !pointInsidePlatforms(event.lng, event.lat)) return;
           const color = categoryColors.get(event.category) || "#7e7f92";
           const marker = L.marker([event.lat, event.lng], {
             icon: L.divIcon({
@@ -997,6 +1043,7 @@
         if (mode !== "diagnosis" || diagnosisMetric !== "hotspots") return;
         items.forEach((event) => {
           if (!event.mappable || event.lat == null || event.lng == null) return;
+          if (!pointInsidePlatforms(event.lng, event.lat)) return;
           [
             { radius: 920, color: "#9bd8ff", opacity: 0.1 },
             { radius: 690, color: "#fff176", opacity: 0.18 },
@@ -1103,6 +1150,7 @@
         renderCameraMarkers();
         renderPoliceLayers();
         updatePlatformStyles();
+        renderPlatformMask();
         renderPlatformLabels();
         renderLegend();
         renderGraphicAnalysis();
@@ -1388,6 +1436,7 @@
           if (!platformResponse.ok) throw new Error("No se pudo cargar la capa de plataformas");
           if (!manzanaResponse.ok) throw new Error("No se pudo cargar la capa de manzanas");
           const [platformGeojson, manzanaGeojson] = await Promise.all([platformResponse.json(), manzanaResponse.json()]);
+          platformGeojsonCache = platformGeojson;
           platformStats = platformStatsResponse.ok ? await platformStatsResponse.json() : null;
           manzanaStats = manzanaStatsResponse.ok ? await manzanaStatsResponse.json() : null;
           manzanaLayer = L.geoJSON(manzanaGeojson, {
@@ -1411,6 +1460,7 @@
           }).addTo(map);
           if (!elements.toggleManzanas.checked) map.removeLayer(manzanaLayer);
           if (!elements.togglePlatforms.checked) map.removeLayer(platformLayer);
+          update();
           const mappedEvents = events.filter((event) => event.mappable && event.lat != null && event.lng != null);
           if (mappedEvents.length) {
             const bounds = L.latLngBounds(mappedEvents.map((event) => [event.lat, event.lng]));
