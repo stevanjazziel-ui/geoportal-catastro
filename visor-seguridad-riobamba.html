@@ -402,6 +402,7 @@
   <script src="./riobamba-camaras-data.js?v=municipio-30"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
   <script src="./riobamba-seguridad-diagnostico-data.js?v=etapa8-tipologias"></script>
+  <script src="./riobamba-seguridad-kde-validacion-data.js?v=kde-real"></script>
   <script>
     (() => {
       const dataset = window.RIOBAMBA_SECURITY_DATA || { events: window.RIOBAMBA_SECURITY_EVENTS || [], ecu911: { serviceCounts: [], parishes: [], topSubtypes: [], topByParish: {}, totalRows: 0, securityRows: 0 } };
@@ -412,6 +413,7 @@
       const policeDataset = window.RIOBAMBA_POLICE_SIG_DATA || { summary: {}, district: { features: [] }, infrastructure: { features: [] } };
       const policeInfrastructure = policeDataset.infrastructure?.features || [];
       const diagnosis = window.RIOBAMBA_SECURITY_DIAGNOSIS || { summary: {}, inventory: [], platformMaster: [], byPlatformName: {} };
+      const kdeValidation = window.RIOBAMBA_KDE_VALIDATION || { controlTable: {}, kdeInputPoints: [], rasters: {}, metadata: {} };
       const categoryPalette = ["#4f8f52", "#5f8eb9", "#2d9b94", "#b88432", "#c86670", "#9c3f52", "#8f5fb9", "#7e7f92", "#4f7890", "#7c8c47"];
       const categoryColors = new Map([...new Set(events.map((event) => event.category))].map((category, index) => [category, categoryPalette[index % categoryPalette.length]]));
       const precisionRank = { "A - Intersección": "Alta", "A - Tramo de calle": "Alta", "B - Sector": "Media", "B - Sector/parroquia": "Media", "C - Ciudad": "Referencial", "C - Ciudad/distrito": "Referencial" };
@@ -469,6 +471,7 @@
       let selectedPlatform = null;
       let mode = "events";
       let diagnosisMetric = "videoDeficit";
+      const isKdeMode = () => mode === "diagnosis" && diagnosisMetric === "hotspots";
       const markers = new Map();
       const parishMarkers = new Map();
       const cameraMarkers = new Map();
@@ -620,6 +623,15 @@
       };
       const platformVisualStyle = (feature) => {
         const platform = platformRecord(feature?.properties?.platform_name);
+        if (isKdeMode()) {
+          return {
+            color: "#263a33",
+            weight: 2.4,
+            fillColor: "#ffffff",
+            fillOpacity: 0.02,
+            opacity: 0.95
+          };
+        }
         return {
           color: mode === "diagnosis" ? "#263a33" : "#2f6f5f",
           weight: mode === "diagnosis" ? 2.4 : 2.2,
@@ -961,13 +973,17 @@
       function renderLegend() {
         if (mode === "diagnosis") {
           if (diagnosisMetric === "hotspots") {
+            const raster = kdeValidation.rasters?.["300"] || {};
             elements.legend.innerHTML = `
-              <div class="legend-row"><span class="legend-swatch" style="background:#e71d36;border-color:#fff"></span>Núcleo hotspot</div>
-              <div class="legend-row"><span class="legend-swatch" style="background:#ff8c2a;border-color:#fff"></span>Alta concentración</div>
-              <div class="legend-row"><span class="legend-swatch" style="background:#ffe66d;border-color:#fff"></span>Influencia cercana</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:rgba(255,230,109,.24);border-color:#fff"></span>Muy baja</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#ffe66d;border-color:#fff"></span>Baja</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#ffbe37;border-color:#fff"></span>Media</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#ff7c20;border-color:#fff"></span>Alta</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#9c1f33;border-color:#fff"></span>Muy alta</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#111827;border-color:#fff"></span>Incidente georreferenciado</div>
-              <div class="legend-row"><span class="legend-swatch" style="background:#d8eadf;border-color:#263a33"></span>Plataforma sin hotspot</div>
-              <div class="legend-row"><span class="legend-swatch" style="background:#f7f7f7;border-color:#7e8790"></span>Manzana censal</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:2px solid #263a33"></span>Plataforma territorial</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:linear-gradient(90deg, transparent, #ffe66d, #ff7c20, #9c1f33);border-color:#fff"></span>DENSIDAD_INCIDENTES_KDE</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#fff;border-color:#7e8790"></span>${fmt(kdeValidation.controlTable?.REGISTROS_KDE || 0)} registros · ${raster.bandwidth || 300} m · ${raster.cellSize || 20} m</div>
             `;
             return;
           }
@@ -1097,6 +1113,7 @@
       function renderMarkers(items) {
         eventLayer.clearLayers();
         markers.clear();
+        if (isKdeMode()) return;
         items.forEach((event) => {
           if (!event.mappable || event.lat == null || event.lng == null) return;
           if (mode === "diagnosis" && diagnosisMetric === "hotspots" && !pointInsidePlatforms(event.lng, event.lat)) return;
@@ -1118,35 +1135,22 @@
 
       function renderHotspots(items) {
         hotspotLayer.clearLayers();
-        if (mode !== "diagnosis" || diagnosisMetric !== "hotspots") return;
-        items.forEach((event) => {
-          if (!event.mappable || event.lat == null || event.lng == null) return;
-          if (!String(event.precision || "").startsWith("A") && !String(event.precision || "").startsWith("B")) return;
-          if (!pointInsidePlatforms(event.lng, event.lat)) return;
-          [
-            { radius: 920, color: "#9bd8ff", opacity: 0.1 },
-            { radius: 690, color: "#fff176", opacity: 0.18 },
-            { radius: 460, color: "#ff9f1c", opacity: 0.28 },
-            { radius: 245, color: "#ff3b30", opacity: 0.44 },
-            { radius: 95, color: "#b00020", opacity: 0.68 },
-          ].forEach((ring) => {
-            L.circle([event.lat, event.lng], {
-              radius: ring.radius,
-              stroke: false,
-              fillColor: ring.color,
-              fillOpacity: ring.opacity,
-              interactive: false,
-              pane: "overlayPane",
-            }).addTo(hotspotLayer);
-          });
+        if (!isKdeMode()) return;
+        const raster = kdeValidation.rasters?.["300"] || Object.values(kdeValidation.rasters || {})[0];
+        if (raster?.url && raster?.bounds) {
+          L.imageOverlay(raster.url, raster.bounds, {
+            opacity: 0.58,
+            interactive: false,
+          }).addTo(hotspotLayer);
+        }
+        (kdeValidation.kdeInputPoints || []).forEach((event) => {
           L.circleMarker([event.lat, event.lng], {
             radius: 3.8,
             color: "#ffffff",
             weight: 0.8,
             fillColor: "#111827",
             fillOpacity: 0.95,
-            interactive: false,
-          }).addTo(hotspotLayer);
+          }).bindPopup(`<strong>${esc(event.id)}</strong><br>${esc(event.event)}<br>${esc(event.location)}<br>Plataforma ${esc(event.platform || "N/D")}`).addTo(hotspotLayer);
         });
         hotspotLayer.bringToFront();
       }
@@ -1214,6 +1218,27 @@
         });
       }
 
+      function syncMapLayerVisibility() {
+        if (isKdeMode()) {
+          if (map.hasLayer(eventLayer)) map.removeLayer(eventLayer);
+          if (map.hasLayer(parishLayer)) map.removeLayer(parishLayer);
+          if (map.hasLayer(cameraLayer)) map.removeLayer(cameraLayer);
+          if (map.hasLayer(policeInfrastructureLayer)) map.removeLayer(policeInfrastructureLayer);
+          if (map.hasLayer(boulevardLayer)) map.removeLayer(boulevardLayer);
+          if (manzanaLayer && map.hasLayer(manzanaLayer)) map.removeLayer(manzanaLayer);
+          if (!map.hasLayer(hotspotLayer)) hotspotLayer.addTo(map);
+          if (platformLayer && !map.hasLayer(platformLayer)) platformLayer.addTo(map);
+          return;
+        }
+        elements.toggleEvents.checked ? eventLayer.addTo(map) : map.removeLayer(eventLayer);
+        elements.toggleParishes.checked ? parishLayer.addTo(map) : map.removeLayer(parishLayer);
+        elements.toggleCameras.checked ? cameraLayer.addTo(map) : map.removeLayer(cameraLayer);
+        elements.togglePoliceInfrastructure.checked ? policeInfrastructureLayer.addTo(map) : map.removeLayer(policeInfrastructureLayer);
+        elements.toggleBoulevards.checked ? boulevardLayer.addTo(map) : map.removeLayer(boulevardLayer);
+        if (manzanaLayer) elements.toggleManzanas.checked ? manzanaLayer.addTo(map) : map.removeLayer(manzanaLayer);
+        elements.togglePlatforms.checked && platformLayer ? platformLayer.addTo(map) : platformLayer && map.removeLayer(platformLayer);
+      }
+
       function update() {
         const items = filteredEvents();
         if (selectedId && !items.some((event) => event.id === selectedId)) selectedId = null;
@@ -1228,6 +1253,7 @@
         renderParishBubbles();
         renderCameraMarkers();
         renderPoliceLayers();
+        syncMapLayerVisibility();
         updatePlatformStyles();
         renderPlatformMask();
         renderPlatformLabels();
@@ -1239,8 +1265,9 @@
         } else if (mode === "diagnosis") {
           renderPlatformDetail(selectedPlatform);
           if (diagnosisMetric === "hotspots") {
-            elements.overlayTitle.textContent = "Concentración de incidentes (hotspots)";
-            elements.overlayText.textContent = `Mapa de calor preliminar con ${items.filter((event) => event.mappable).length} incidentes georreferenciables. Radio visual aproximado: 920 m; no es un KDE estadístico definitivo.`;
+            const raster = kdeValidation.rasters?.["300"] || {};
+            elements.overlayTitle.textContent = "Densidad de incidentes (KDE)";
+            elements.overlayText.textContent = `${fmt(kdeValidation.controlTable?.REGISTROS_KDE || 0)} incidentes A/B válidos · bandwidth ${raster.bandwidth || 300} m · celda ${raster.cellSize || 20} m · superficie continua DENSIDAD_INCIDENTES_KDE.`;
           }
           elements.status.textContent = `Fases integradas: ${diagnosis.summary?.platforms || 18} plataformas territoriales, ${fmt(diagnosis.summary?.populationWithPlatform)} habitantes asignados, ${fmt(diagnosis.summary?.hotspots || 0)} hotspots preliminares y ${fmt(diagnosis.summary?.videoDeficitHighOrCritical || 0)} plataformas con déficit alto/crítico.`;
         } else {
@@ -1644,19 +1671,18 @@
       elements.camerasMode.addEventListener("click", () => { mode = "cameras"; selectedId = null; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
       elements.policeMode.addEventListener("click", () => { mode = "police"; selectedId = null; selectedParish = null; selectedCamera = null; selectedPlatform = null; syncModeButtons(); update(); });
       elements.diagnosisMode.addEventListener("click", () => { mode = "diagnosis"; selectedId = null; selectedParish = null; selectedCamera = null; selectedPolice = null; syncModeButtons(); update(); });
-      elements.toggleEvents.addEventListener("change", () => elements.toggleEvents.checked ? eventLayer.addTo(map) : map.removeLayer(eventLayer));
-      elements.toggleParishes.addEventListener("change", () => elements.toggleParishes.checked ? parishLayer.addTo(map) : map.removeLayer(parishLayer));
-      elements.toggleCameras.addEventListener("change", () => elements.toggleCameras.checked ? cameraLayer.addTo(map) : map.removeLayer(cameraLayer));
-      elements.togglePoliceInfrastructure.addEventListener("change", () => elements.togglePoliceInfrastructure.checked ? policeInfrastructureLayer.addTo(map) : map.removeLayer(policeInfrastructureLayer));
+      elements.toggleEvents.addEventListener("change", syncMapLayerVisibility);
+      elements.toggleParishes.addEventListener("change", syncMapLayerVisibility);
+      elements.toggleCameras.addEventListener("change", syncMapLayerVisibility);
+      elements.togglePoliceInfrastructure.addEventListener("change", syncMapLayerVisibility);
       elements.togglePlatforms.addEventListener("change", () => {
         if (!platformLayer) return;
-        elements.togglePlatforms.checked ? platformLayer.addTo(map) : map.removeLayer(platformLayer);
+        syncMapLayerVisibility();
       });
       elements.toggleManzanas.addEventListener("change", () => {
-        if (!manzanaLayer) return;
-        elements.toggleManzanas.checked ? manzanaLayer.addTo(map) : map.removeLayer(manzanaLayer);
+        syncMapLayerVisibility();
       });
-      elements.toggleBoulevards.addEventListener("change", () => elements.toggleBoulevards.checked ? boulevardLayer.addTo(map) : map.removeLayer(boulevardLayer));
+      elements.toggleBoulevards.addEventListener("change", syncMapLayerVisibility);
       elements.toggleSatellite.addEventListener("change", () => {
         if (elements.toggleSatellite.checked) {
           lightLayer.remove();
