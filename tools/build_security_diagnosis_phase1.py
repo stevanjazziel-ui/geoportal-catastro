@@ -38,7 +38,8 @@ security = read_js_object(ROOT / "visor-seguridad-riobamba-data.js", "RIOBAMBA_S
 boulevards = load_json(ROOT / "data" / "premio-habitat" / "premio-habitat-boulevares.geojson")
 connections = load_json(ROOT / "data" / "premio-habitat" / "premio-habitat-conexiones.geojson")
 
-CAMERA_RADIUS_M = 250
+CAMERA_SCENARIO_RADII_M = (100, 150, 200)
+CAMERA_RADIUS_M = 150
 BOULEVARD_RADIUS_M = 100
 POLICE_RADIUS_M = 500
 
@@ -176,8 +177,14 @@ def empty_platform_metrics():
             "camerasReplacement": 0,
             "cameraEvents2025": 0,
             "cameraPointsM": [],
-            "cameraCoveredPopulation": 0,
+            "cameraCoveredPopulation": 0.0,
+            "cameraCoveredPopulation100": 0.0,
+            "cameraCoveredPopulation150": 0.0,
+            "cameraCoveredPopulation200": 0.0,
             "cameraCoveredAreaPct": 0,
+            "cameraCoveredAreaPct100": 0,
+            "cameraCoveredAreaPct150": 0,
+            "cameraCoveredAreaPct200": 0,
             "camerasNearBoulevard": 0,
             "populationExposed100": 0.0,
             "populationExposed250": 0.0,
@@ -267,6 +274,10 @@ all_camera_points = [point for bucket in metrics.values() for point in bucket["c
 all_police_points = [point for bucket in metrics.values() for point in bucket["policePointsM"]]
 all_event_points = [point for bucket in metrics.values() for point in bucket["eventPointsM"]]
 camera_union = unary_union([point.buffer(CAMERA_RADIUS_M) for point in all_camera_points]) if all_camera_points else None
+camera_buffers = {
+    radius: unary_union([point.buffer(radius) for point in all_camera_points]) if all_camera_points else None
+    for radius in CAMERA_SCENARIO_RADII_M
+}
 police_union = unary_union([point.buffer(POLICE_RADIUS_M) for point in all_police_points]) if all_police_points else None
 police_access_union = unary_union([point.buffer(500) for point in all_police_points]) if all_police_points else None
 exposure_buffers = {
@@ -285,8 +296,6 @@ for feature in manzana_geojson.get("features", []):
         continue
     geom_m = transform(TO_METERS, shape(feature["geometry"]))
     representative = geom_m.representative_point()
-    if camera_union and camera_union.covers(representative):
-        metrics[platform_name]["cameraCoveredPopulation"] += population
     if network_buffer and network_buffer.covers(representative):
         metrics[platform_name]["populationNearBoulevard"] += population
     if police_access_union and police_access_union.covers(representative):
@@ -316,11 +325,22 @@ for feature in manzana_geojson.get("features", []):
             if exposed.is_empty:
                 continue
             metrics[platform_name][f"populationExposed{radius}"] += population * (exposed.area / geom_m.area)
+        for radius, buffer_geom in camera_buffers.items():
+            if not buffer_geom or buffer_geom.is_empty:
+                continue
+            covered = manzana_platform.intersection(buffer_geom)
+            if covered.is_empty:
+                continue
+            metrics[platform_name][f"cameraCoveredPopulation{radius}"] += population * (covered.area / geom_m.area)
 
 for platform_name, bucket in metrics.items():
     geom_m = platform_geoms[platform_name]["geomMeters"]
     if camera_union and not geom_m.is_empty and geom_m.area:
         bucket["cameraCoveredAreaPct"] = min(100, camera_union.intersection(geom_m).area / geom_m.area * 100)
+    for radius, buffer_geom in camera_buffers.items():
+        if buffer_geom and not geom_m.is_empty and geom_m.area:
+            bucket[f"cameraCoveredAreaPct{radius}"] = min(100, buffer_geom.intersection(geom_m).area / geom_m.area * 100)
+    bucket["cameraCoveredPopulation"] = bucket[f"cameraCoveredPopulation{CAMERA_RADIUS_M}"]
     for event_point in bucket["eventPointsM"]:
         if network_union and event_point.distance(network_union) <= BOULEVARD_RADIUS_M:
             bucket["incidentsNearBoulevard"] += 1
@@ -400,6 +420,10 @@ for item in stats["platforms"]:
     bucket = metrics[item["platform_name"]]
     incident_rate = round(bucket["incidents"] / population * 1000, 2) if population else "N/D"
     camera_covered_population_pct = round(bucket["cameraCoveredPopulation"] / population * 100, 2) if population else "N/D"
+    camera_coverage_pct_by_radius = {
+        str(radius): round(bucket[f"cameraCoveredPopulation{radius}"] / population * 100, 2) if population else "N/D"
+        for radius in CAMERA_SCENARIO_RADII_M
+    }
     institutional_coverage = classify_institutional_coverage(bucket)
     deficit_score = 0
     density = population / area_km2 if area_km2 else 0
@@ -480,11 +504,22 @@ for item in stats["platforms"]:
         "avgIncidentDistancePoliceM": incident_police_distance,
         "nearestIncidentDistancePoliceM": round(bucket["nearestIncidentPoliceDistanceM"], 2) if bucket["nearestIncidentPoliceDistanceM"] is not None else "N/D",
         "cameras": bucket["cameras"],
+        "cameraTotal": bucket["cameras"],
         "camerasReplacement": bucket["camerasReplacement"],
+        "cameraReplacement": bucket["camerasReplacement"],
         "cameraEvents2025": bucket["cameraEvents2025"] or "N/D",
-        "cameraCoveredPopulation": bucket["cameraCoveredPopulation"],
+        "cameraCoverageRadiusM": CAMERA_RADIUS_M,
+        "cameraCoveredPopulation": int(round(bucket["cameraCoveredPopulation"])),
+        "cameraCoveredPopulation100": int(round(bucket["cameraCoveredPopulation100"])),
+        "cameraCoveredPopulation150": int(round(bucket["cameraCoveredPopulation150"])),
+        "cameraCoveredPopulation200": int(round(bucket["cameraCoveredPopulation200"])),
+        "cameraUncoveredPopulation": max(0, population - int(round(bucket["cameraCoveredPopulation"]))),
         "cameraCoveredPopulationPct": camera_covered_population_pct,
+        "cameraCoveragePctByRadius": camera_coverage_pct_by_radius,
         "cameraCoveredAreaPct": round(bucket["cameraCoveredAreaPct"], 2),
+        "cameraCoveredAreaPct100": round(bucket["cameraCoveredAreaPct100"], 2),
+        "cameraCoveredAreaPct150": round(bucket["cameraCoveredAreaPct150"], 2),
+        "cameraCoveredAreaPct200": round(bucket["cameraCoveredAreaPct200"], 2),
         "incidentsCoveredByCamera": bucket["incidentsCoveredByCamera"],
         "videoDeficit": video_deficit,
         "videoDeficitScore": deficit_score,
@@ -673,15 +708,15 @@ inventory = [
 
 output = {
     "generatedAt": datetime.now().isoformat(timespec="seconds"),
-    "phase": "ETAPA 4 - Infraestructura policial y accesibilidad",
+    "phase": "ETAPA 5 - Videovigilancia, cobertura poblacional y deficit",
     "masterTableName": "ANALISIS_PLATAFORMAS",
     "methodNotes": [
         "La unidad principal son las 18 plataformas territoriales reales.",
         "No se usan circuitos/subcircuitos como unidad principal.",
-        "Etapas 1 a 4 implementadas: base poblacional areal + clasificacion A/B/C + concentracion/exposicion + infraestructura policial/accesibilidad.",
+        "Etapas 1 a 5 implementadas: base poblacional areal + clasificacion A/B/C + concentracion/exposicion + infraestructura/accesibilidad + videovigilancia/cobertura/deficit.",
         "La poblacion por plataforma se estima por interseccion areal manzana-plataforma: POB_EST = POB_MANZANA * AREA_INTERSECCION / AREA_MANZANA.",
         "Se calculan conteos por plataforma cuando existe geometria verificable.",
-        f"La cobertura potencial de camaras usa un radio tecnico inicial de {CAMERA_RADIUS_M} m; no equivale a alcance visual real ni analitica forense.",
+        f"La cobertura potencial de camaras usa escenarios {', '.join(str(radius) for radius in CAMERA_SCENARIO_RADII_M)} m; el visor resume {CAMERA_RADIUS_M} m como escenario principal.",
         f"La poblacion cercana a boulevares/conexiones usa centroides de manzana dentro de {BOULEVARD_RADIUS_M} m.",
         f"La cercania institucional policial usa un radio tecnico inicial de {POLICE_RADIUS_M} m.",
         "Hotspots y deficit de videovigilancia son indicadores preliminares; no constituyen un indice ponderado definitivo.",
@@ -700,9 +735,14 @@ output = {
         "policeInfrastructureAssigned": sum(row["policeInfrastructure"] for row in platforms),
         "populationNearPolice500": sum(row["populationNearPolice500"] for row in platforms if isinstance(row["populationNearPolice500"], int)),
         "camerasAssigned": sum(row["cameras"] for row in platforms),
+        "cameraCoverageRadiusM": CAMERA_RADIUS_M,
         "boulevardLengthM": round(sum(row["boulevardLengthM"] for row in platforms), 2),
         "connectionLengthM": round(sum(row["connectionLengthM"] for row in platforms), 2),
         "cameraCoveredPopulation": sum(row["cameraCoveredPopulation"] for row in platforms if isinstance(row["cameraCoveredPopulation"], int)),
+        "cameraCoveredPopulation100": sum(row["cameraCoveredPopulation100"] for row in platforms if isinstance(row["cameraCoveredPopulation100"], int)),
+        "cameraCoveredPopulation150": sum(row["cameraCoveredPopulation150"] for row in platforms if isinstance(row["cameraCoveredPopulation150"], int)),
+        "cameraCoveredPopulation200": sum(row["cameraCoveredPopulation200"] for row in platforms if isinstance(row["cameraCoveredPopulation200"], int)),
+        "cameraUncoveredPopulation": sum(row["cameraUncoveredPopulation"] for row in platforms if isinstance(row["cameraUncoveredPopulation"], int)),
         "populationNearBoulevard": sum(row["populationNearBoulevard"] for row in platforms if isinstance(row["populationNearBoulevard"], int)),
         "hotspots": sum(row["hotspots"] for row in platforms if isinstance(row["hotspots"], int)),
         "populationExposed100": sum(row["populationExposed100"] for row in platforms if isinstance(row["populationExposed100"], int)),
@@ -713,6 +753,7 @@ output = {
         "unassigned": unassigned,
         "assumptions": {
             "cameraRadiusM": CAMERA_RADIUS_M,
+            "cameraScenarioRadiiM": list(CAMERA_SCENARIO_RADII_M),
             "boulevardRadiusM": BOULEVARD_RADIUS_M,
             "policeRadiusM": POLICE_RADIUS_M,
             "medianDensityPopKm2": round(median_density, 2),
@@ -764,6 +805,24 @@ output = {
             "method": "Distancia minima a infraestructura policial mas cercana y poblacion dentro de 500 m",
             "parameters": "DIST_INF_MEDIA, DIST_INC_INF_MEDIA, DIST_INC_INF_MIN, POB_CERCA_INF_500",
             "limitations": "No representa tiempo de respuesta ni accesibilidad por red vial; no asume que toda dependencia es UPC",
+        },
+        {
+            "result": "Cobertura poblacional de videovigilancia",
+            "source": "30 camaras municipales + manzanas censales CPV 2022",
+            "date": "2026 camaras; Censo 2022 poblacion",
+            "precision": "Escenarios euclidianos de cobertura potencial",
+            "method": "Union de buffers de camaras 100/150/200 m intersectada con manzana y plataforma; evita doble conteo por union espacial",
+            "parameters": "CAM_TOTAL, CAM_CAMBIO, POB_CUB_CAM, POB_NO_CUB_CAM, PCT_POB_CUB, PCT_AREA_CUB",
+            "limitations": "Cobertura potencial, no distancia garantizada de identificacion ni calidad visual real",
+        },
+        {
+            "result": "Deficit de videovigilancia",
+            "source": "Conflictividad A/B + exposicion poblacional + cobertura potencial de camaras + presencia institucional",
+            "date": "Datos disponibles en visor",
+            "precision": "Clasificacion exploratoria por plataforma",
+            "method": "Reglas exploratorias sin ponderaciones definitivas; combina incidentes, densidad, cobertura poblacional de camaras, infraestructura y camaras",
+            "parameters": "DEFICIT_VIDEO = BAJO/MEDIO/ALTO/CRITICO; videoDeficitScore conserva trazabilidad inicial",
+            "limitations": "No es ranking final ni AHP; requiere validacion tecnica antes de decisiones de inversion",
         },
     ],
     "audit": audit,

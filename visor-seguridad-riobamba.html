@@ -401,7 +401,7 @@
   <script src="./visor-seguridad-riobamba-data.js"></script>
   <script src="./riobamba-camaras-data.js?v=municipio-30"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
-  <script src="./riobamba-seguridad-diagnostico-data.js?v=etapa4-policia"></script>
+  <script src="./riobamba-seguridad-diagnostico-data.js?v=etapa5-video"></script>
   <script>
     (() => {
       const dataset = window.RIOBAMBA_SECURITY_DATA || { events: window.RIOBAMBA_SECURITY_EVENTS || [], ecu911: { serviceCounts: [], parishes: [], topSubtypes: [], topByParish: {}, totalRows: 0, securityRows: 0 } };
@@ -831,6 +831,7 @@
             ["Pob. expuesta 250 m", diagnosis.summary?.populationExposed250 || 0],
             ["Pob. cerca policía", diagnosis.summary?.populationNearPolice500 || 0],
             ["Cámaras", visible.reduce((sum, platform) => sum + Number(platform.cameras || 0), 0)],
+            [`Pob. cubierta cámaras ${diagnosis.summary?.cameraCoverageRadiusM || 150} m`, diagnosis.summary?.cameraCoveredPopulation || 0],
             ["Hotspots", visible.reduce((sum, platform) => sum + Number(platform.hotspots || 0), 0)],
             ["Déficit alto/crítico", visible.filter((platform) => ["ALTO", "CRITICO"].includes(platform.videoDeficit)).length],
             ["Cobertura cámaras", `${((visible.reduce((sum, platform) => sum + Number(platform.cameraCoveredPopulation || 0), 0) / Math.max(population, 1)) * 100).toFixed(1)}%`],
@@ -931,7 +932,7 @@
           <div class="status-grid">
             <div class="status-tile"><span>Hotspots</span><strong>${fmt(diagnosis.summary?.hotspots || 0)}</strong></div>
             <div class="status-tile"><span>Déficit alto/crítico</span><strong>${fmt(diagnosis.summary?.videoDeficitHighOrCritical || 0)}</strong></div>
-            <div class="status-tile"><span>Pob. con cámaras</span><strong>${fmt(diagnosis.summary?.cameraCoveredPopulation || 0)}</strong></div>
+            <div class="status-tile"><span>Pob. con cámaras 150 m</span><strong>${fmt(diagnosis.summary?.cameraCoveredPopulation150 || diagnosis.summary?.cameraCoveredPopulation || 0)}</strong></div>
             <div class="status-tile"><span>Pob. bulevares</span><strong>${fmt(diagnosis.summary?.populationNearBoulevard || 0)}</strong></div>
           </div>
           ${metricBars("Incidentes de seguridad", topIncidents.map((item) => ({ label: item.platform, value: item.incidents, color: colorForPlatformMetric(item) })), maxIncidents, "#c86670")}
@@ -1411,6 +1412,10 @@
             ["Pob. expuesta 100 m", diagnosis.summary?.populationExposed100 || 0],
             ["Pob. expuesta 250 m", diagnosis.summary?.populationExposed250 || 0],
             ["Pob. expuesta 500 m", diagnosis.summary?.populationExposed500 || 0],
+            ["Pob. cubierta cámaras 100 m", diagnosis.summary?.cameraCoveredPopulation100 || 0],
+            ["Pob. cubierta cámaras 150 m", diagnosis.summary?.cameraCoveredPopulation150 || 0],
+            ["Pob. cubierta cámaras 200 m", diagnosis.summary?.cameraCoveredPopulation200 || 0],
+            ["Pob. no cubierta cámaras", diagnosis.summary?.cameraUncoveredPopulation || 0],
             ["Manzanas intersectadas", `${fmt(diagnosis.summary?.manzanasAssigned || 0)} de ${fmt((diagnosis.summary?.manzanasAssigned || 0) + (diagnosis.summary?.manzanasWithoutPlatform || 0))}`],
             ["Manzanas cruzan plataformas", diagnosis.summary?.manzanasSplitByPlatforms || 0],
             ["1. Hotspots preliminares", `${fmt(diagnosis.summary?.hotspots || 0)} plataformas con concentración preliminar`],
@@ -1465,7 +1470,12 @@
           ["Cobertura institucional", platform.institutionalCoverage],
           ["Cámaras", platform.cameras],
           ["Cámaras a reemplazo", platform.camerasReplacement],
+          ["Radio cobertura cámaras", `${platform.cameraCoverageRadiusM || 150} m`],
+          ["Pob. cub. cámaras 100 m", platform.cameraCoveredPopulation100],
+          ["Pob. cub. cámaras 150 m", platform.cameraCoveredPopulation150],
+          ["Pob. cub. cámaras 200 m", platform.cameraCoveredPopulation200],
           ["Pob. cubierta por cámaras", platform.cameraCoveredPopulation],
+          ["Pob. no cubierta cámaras", platform.cameraUncoveredPopulation],
           ["% pob. cubierta cámaras", typeof platform.cameraCoveredPopulationPct === "number" ? `${platform.cameraCoveredPopulationPct}%` : platform.cameraCoveredPopulationPct],
           ["% área cubierta cámaras", typeof platform.cameraCoveredAreaPct === "number" ? `${platform.cameraCoveredAreaPct}%` : platform.cameraCoveredAreaPct],
           ["Incidentes cubiertos por cámaras", platform.incidentsCoveredByCamera],
