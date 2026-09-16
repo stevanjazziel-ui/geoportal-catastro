@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Visor de eventos de seguridad publicados en Riobamba durante 2026." />
+  <title>Riobamba | Eventos de Seguridad 2026</title>
+  <link rel="stylesheet" href="./vendor/leaflet/leaflet.css" />
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7faf5;
+      --panel: rgba(255, 255, 255, 0.96);
+      --panel-2: #f8faf7;
+      --line: rgba(51, 76, 65, 0.14);
+      --text: #293330;
+      --muted: #61736a;
+      --accent: #2f6f5f;
+      --accent-2: #5b7f9d;
+      --drug: #4f8f52;
+      --micro: #5f8eb9;
+      --violent: #c86670;
+      --weapon: #b88432;
+      --city: #7e7f92;
+      --shadow: 0 18px 42px rgba(65, 88, 78, 0.11);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    .layout { display: grid; grid-template-columns: 390px 1fr; height: 100dvh; }
+    .sidebar {
+      overflow-y: auto;
+      padding: 18px;
+      background: #f7faf5;
+      border-right: 1px solid var(--line);
+    }
+    .panel {
+      margin-bottom: 14px;
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: 1.9rem; line-height: 1.08; margin-bottom: 8px; }
+    h2 { font-size: 0.92rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+    h3 { font-size: 1rem; line-height: 1.25; }
+    p { color: var(--muted); line-height: 1.55; }
+    a { color: var(--accent); font-weight: 700; }
+
+    button, select, input[type="search"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+      outline: none;
+    }
+    button { cursor: pointer; text-align: left; }
+    select:focus, input[type="search"]:focus {
+      border-color: rgba(95, 142, 185, 0.42);
+      box-shadow: 0 0 0 4px rgba(95, 142, 185, 0.12);
+    }
+    .back-link { display: inline-block; margin-top: 12px; font-size: 0.86rem; text-decoration: none; }
+
+    .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .card {
+      padding: 12px;
+      border-radius: 14px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+    }
+    .card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+    .card strong { display: block; font-size: 1.18rem; line-height: 1.1; }
+
+    .filter-grid, .layer-toggles, .legend, .mini-list, .event-list, .mode-switch { display: grid; gap: 10px; }
+    .mode-switch { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .mode-button {
+      text-align: center;
+      font-weight: 700;
+      min-height: 42px;
+      padding: 10px;
+    }
+    .mode-button.is-active {
+      border-color: rgba(79, 143, 82, 0.42);
+      background: #edf5f1;
+    }
+    .layer-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+    }
+    .layer-toggle span { color: var(--text); font-size: 0.95rem; }
+    .layer-toggle input { width: 18px; height: 18px; accent-color: var(--accent-2); cursor: pointer; }
+    .mini-row, .legend-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+    .mini-row strong { color: var(--text); text-align: right; }
+    .legend-row { justify-content: flex-start; }
+    .legend-swatch {
+      width: 18px;
+      height: 12px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.38);
+      flex: 0 0 auto;
+    }
+
+    .event-list { max-height: 430px; overflow: auto; }
+    .event-item {
+      display: grid;
+      gap: 7px;
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--panel-2);
+      transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+    }
+    .event-item:hover, .event-item.is-active {
+      transform: translateY(-1px);
+      border-color: rgba(95, 142, 185, 0.42);
+      background: rgba(250, 252, 247, 0.98);
+    }
+    .event-item small, .pill {
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.35;
+    }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(95, 142, 185, 0.1);
+      border: 1px solid rgba(95, 142, 185, 0.16);
+    }
+    .bar-row { display: grid; gap: 5px; }
+    .bar-head { display: flex; justify-content: space-between; gap: 12px; color: var(--text); font-size: 0.9rem; }
+    .bar-track { height: 8px; overflow: hidden; border-radius: 999px; background: rgba(95, 142, 185, 0.12); }
+    .bar-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+
+    .map-wrap { position: relative; height: 100%; }
+    #map { width: 100%; height: 100%; background: #f4f5f2; }
+    .osm-gray-tile {
+      filter: grayscale(1) saturate(0.15) contrast(0.96) brightness(1.04);
+    }
+    .overlay {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 500;
+      width: min(420px, calc(100% - 32px));
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .overlay strong { display: block; margin-bottom: 6px; }
+
+    .event-marker {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.88);
+      box-shadow: 0 9px 20px rgba(35, 49, 37, 0.24);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .event-marker.precision-c { opacity: 0.72; }
+    .parish-marker {
+      display: grid;
+      place-items: center;
+      min-width: 34px;
+      height: 34px;
+      padding: 0 8px;
+      border-radius: 999px;
+      color: #243226;
+      border: 2px solid rgba(255,255,255,0.92);
+      background: rgba(247, 228, 165, 0.94);
+      box-shadow: 0 9px 20px rgba(35, 49, 37, 0.2);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .camera-marker {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      color: #243226;
+      border: 2px solid rgba(255,255,255,0.92);
+      background: rgba(255,255,255,0.96);
+      box-shadow: 0 9px 20px rgba(35, 49, 37, 0.22);
+      font-size: 11px;
+      font-weight: 900;
+    }
+    .camera-marker.change { background: #f3c2ca; }
+    .camera-marker.megaphone { border-color: #b88432; }
+    .police-marker {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.92);
+      background: #345c85;
+      box-shadow: 0 9px 20px rgba(35, 49, 37, 0.22);
+      font-size: 10px;
+      font-weight: 900;
+    }
+    .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+      background: rgba(248, 250, 244, 0.98);
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+    .leaflet-popup-content { margin: 14px 16px; }
+    .popup-title { margin-bottom: 8px; font-size: 1rem; }
+    .popup-row { margin: 5px 0; color: var(--muted); }
+    .popup-row strong { color: var(--text); }
+    .popup-note { margin-top: 8px; color: var(--muted); font-size: 0.82rem; }
+
+    @media (max-width: 920px) {
+      .layout { grid-template-columns: 1fr; height: auto; min-height: 100dvh; }
+      .sidebar { max-height: 56dvh; border-right: 0; border-bottom: 1px solid var(--line); }
+      .map-wrap { min-height: 62dvh; }
+      .overlay { position: static; width: auto; margin: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <section class="panel">
+        <h1>Eventos de Seguridad 2026</h1>
+        <p>Visor operativo de hechos publicados para Riobamba. Los puntos reflejan la ubicación informada por fuente pública y conservan su nivel de precisión.</p>
+        <a class="back-link" href="./index.html">Volver al portal</a>
+      </section>
+
+      <section class="panel">
+        <h2>Filtros</h2>
+        <div class="filter-grid">
+          <input id="searchInput" type="search" placeholder="Buscar evento, ubicación o fuente" />
+          <select id="categorySelect" aria-label="Filtrar por categoría"></select>
+          <select id="precisionSelect" aria-label="Filtrar por precisión"></select>
+          <select id="sourceSelect" aria-label="Filtrar por fuente"></select>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Vista</h2>
+        <div class="mode-switch">
+          <button class="mode-button is-active" id="eventsMode" type="button">Eventos</button>
+          <button class="mode-button" id="ecuMode" type="button">ECU911</button>
+          <button class="mode-button" id="camerasMode" type="button">Cámaras</button>
+          <button class="mode-button" id="policeMode" type="button">Policía</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Capas visibles</h2>
+        <div class="layer-toggles">
+          <label class="layer-toggle"><span>Eventos de seguridad</span><input id="toggleEvents" type="checkbox" checked /></label>
+          <label class="layer-toggle"><span>Burbujas ECU911</span><input id="toggleParishes" type="checkbox" checked /></label>
+          <label class="layer-toggle"><span>Cámaras</span><input id="toggleCameras" type="checkbox" checked /></label>
+          <label class="layer-toggle"><span>Circuitos 06D01</span><input id="togglePoliceCircuits" type="checkbox" checked /></label>
+          <label class="layer-toggle"><span>Subcircuitos 06D01</span><input id="togglePoliceSubcircuits" type="checkbox" checked /></label>
+          <label class="layer-toggle"><span>Infraestructura policial</span><input id="togglePoliceInfrastructure" type="checkbox" checked /></label>
+          <label class="layer-toggle"><span>Plataformas territoriales</span><input id="togglePlatforms" type="checkbox" checked /></label>
+          <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked /></label>
+          <label class="layer-toggle"><span>Base satelital</span><input id="toggleSatellite" type="checkbox" /></label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Resumen filtrado</h2>
+        <div class="stats" id="summaryCards"></div>
+      </section>
+
+      <section class="panel">
+        <h2 id="detailTitle">Detalle</h2>
+        <div class="mini-list" id="detailList"><p>Selecciona un evento en el mapa o en el listado.</p></div>
+      </section>
+
+      <section class="panel">
+        <h2>Leyenda</h2>
+        <div class="legend" id="legend"></div>
+      </section>
+
+      <section class="panel">
+        <h2 id="listTitle">Eventos</h2>
+        <div class="event-list" id="eventList"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Estado</h2>
+        <p id="statusText">Cargando visor...</p>
+      </section>
+    </aside>
+
+    <main class="map-wrap">
+      <div id="map"></div>
+      <div class="overlay">
+        <strong id="overlayTitle">Mapa de eventos publicados</strong>
+        <p id="overlayText">Usa los filtros para revisar patrones por categoría, precisión territorial y fuente institucional.</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="./vendor/leaflet/leaflet.js"></script>
+  <script src="./visor-seguridad-riobamba-data.js"></script>
+  <script src="./riobamba-camaras-data.js?v=municipio-30"></script>
+  <script src="./policia-06d01-data.js?v=1"></script>
+  <script>
+    (() => {
+      const dataset = window.RIOBAMBA_SECURITY_DATA || { events: window.RIOBAMBA_SECURITY_EVENTS || [], ecu911: { serviceCounts: [], parishes: [], topSubtypes: [], topByParish: {}, totalRows: 0, securityRows: 0 } };
+      const events = dataset.events || [];
+      const ecu911 = dataset.ecu911 || {};
+      const cameraDataset = window.RIOBAMBA_CAMERAS_DATA || { cameras: [] };
+      const cameras = cameraDataset.cameras || [];
+      const policeDataset = window.RIOBAMBA_POLICE_SIG_DATA || { summary: {}, district: { features: [] }, circuits: { features: [] }, subcircuits: { features: [] }, infrastructure: { features: [] } };
+      const policeInfrastructure = policeDataset.infrastructure?.features || [];
+      const categoryPalette = ["#4f8f52", "#5f8eb9", "#2d9b94", "#b88432", "#c86670", "#9c3f52", "#8f5fb9", "#7e7f92", "#4f7890", "#7c8c47"];
+      const categoryColors = new Map([...new Set(events.map((event) => event.category))].map((category, index) => [category, categoryPalette[index % categoryPalette.length]]));
+      const precisionRank = { "A - Intersección": "Alta", "A - Tramo de calle": "Alta", "B - Sector": "Media", "B - Circuito": "Media", "B - Sector/parroquia": "Media", "C - Ciudad": "Referencial", "C - Ciudad/distrito": "Referencial" };
+      const elements = {
+        search: document.getElementById("searchInput"),
+        category: document.getElementById("categorySelect"),
+        precision: document.getElementById("precisionSelect"),
+        source: document.getElementById("sourceSelect"),
+        eventsMode: document.getElementById("eventsMode"),
+        ecuMode: document.getElementById("ecuMode"),
+        camerasMode: document.getElementById("camerasMode"),
+        policeMode: document.getElementById("policeMode"),
+        summary: document.getElementById("summaryCards"),
+        detailTitle: document.getElementById("detailTitle"),
+        detail: document.getElementById("detailList"),
+        listTitle: document.getElementById("listTitle"),
+        list: document.getElementById("eventList"),
+        legend: document.getElementById("legend"),
+        status: document.getElementById("statusText"),
+        overlayTitle: document.getElementById("overlayTitle"),
+        overlayText: document.getElementById("overlayText"),
+        toggleEvents: document.getElementById("toggleEvents"),
+        toggleParishes: document.getElementById("toggleParishes"),
+        toggleCameras: document.getElementById("toggleCameras"),
+        togglePoliceCircuits: document.getElementById("togglePoliceCircuits"),
+        togglePoliceSubcircuits: document.getElementById("togglePoliceSubcircuits"),
+        togglePoliceInfrastructure: document.getElementById("togglePoliceInfrastructure"),
+        togglePlatforms: document.getElementById("togglePlatforms"),
+        toggleManzanas: document.getElementById("toggleManzanas"),
+        toggleSatellite: document.getElementById("toggleSatellite")
+      };
+
+      const map = L.map("map", { zoomSnap: 0.5, preferCanvas: true }).setView([-1.6636, -78.6546], 13);
+      const lightLayer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap", maxZoom: 20, className: "osm-gray-tile" }).addTo(map);
+      const satelliteLayer = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", { attribution: "Tiles &copy; Esri", maxNativeZoom: 18, maxZoom: 20 });
+      const eventLayer = L.layerGroup().addTo(map);
+      const parishLayer = L.layerGroup().addTo(map);
+      const cameraLayer = L.layerGroup().addTo(map);
+      const policeSubcircuitLayer = L.layerGroup().addTo(map);
+      const policeCircuitLayer = L.layerGroup().addTo(map);
+      const policeInfrastructureLayer = L.layerGroup().addTo(map);
+      let platformLayer = null;
+      let manzanaLayer = null;
+      let manzanaStats = null;
+      let platformStats = null;
+      let selectedId = null;
+      let selectedParish = null;
+      let selectedCamera = null;
+      let selectedPolice = null;
+      let mode = "events";
+      const markers = new Map();
+      const parishMarkers = new Map();
+      const cameraMarkers = new Map();
+      const policeMarkers = new Map();
+
+      const clean = (value) => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+      const unique = (key) => [...new Set(events.map((item) => item[key]).filter(Boolean))].sort((a, b) => a.localeCompare(b, "es"));
+      const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[char]));
+      const fmt = (value) => Number(value || 0).toLocaleString("es-EC");
+      const formatDate = (value) => {
+        const [year, month, day] = value.split("-").map(Number);
+        const months = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+        return `${day} ${months[month - 1]} ${year}`;
+      };
+      const markerClass = (event) => event.precision.startsWith("C") ? "precision-c" : "";
+      const popupContent = (event) => `
+        <div class="popup-title"><strong>${esc(event.category)}</strong></div>
+        <div class="popup-row">Fecha: <strong>${formatDate(event.date)}</strong></div>
+        <div class="popup-row">Ubicación: <strong>${esc(event.location)}</strong></div>
+        <div class="popup-row">Precisión: <strong>${esc(event.precision)}</strong></div>
+        <div class="popup-row">Fuente: <strong>${esc(event.source)}</strong></div>
+        <div class="popup-note">${esc(event.observation)}</div>
+        <div class="popup-note">${esc(event.geocode)}</div>
+        <div class="popup-note"><a href="${esc(event.sourceUrl)}" target="_blank" rel="noopener">Abrir fuente</a></div>
+      `;
+      const parishPopup = (parish) => {
+        const top = (ecu911.topByParish?.[parish.parish] || []).slice(0, 4).map((item) => `<div class="popup-row">${esc(item.subtype)}: <strong>${item.n}</strong></div>`).join("");
+        return `<div class="popup-title"><strong>${esc(parish.parish)}</strong></div><div class="popup-row">ECU911 total agosto: <strong>${parish.total}</strong></div><div class="popup-row">Seguridad Ciudadana: <strong>${parish.security}</strong></div>${top}<div class="popup-note">Registros agregados por parroquia; no representan puntos de ocurrencia.</div>`;
+      };
+      const cameraPopup = (camera) => `
+        <div class="popup-title"><strong>${esc(camera.id)}</strong></div>
+        <div class="popup-row">Dirección: <strong>${esc(camera.address)}</strong></div>
+        <div class="popup-row">Tipo: <strong>${esc(camera.type)}</strong></div>
+        <div class="popup-row">Megáfono: <strong>${camera.megaphone ? "Sí" : "No"}</strong></div>
+        <div class="popup-row">Requiere cambio: <strong>${camera.requiresChange ? "Sí" : "No"}</strong></div>
+        <div class="popup-note">${esc(camera.reference || "Sin referencia adicional")}</div>
+        <div class="popup-note">${esc(camera.method)}. Confianza: ${esc(camera.confidence)}.</div>
+      `;
+      const policePopup = (props, kind = "Infraestructura policial") => `
+        <div class="popup-title"><strong>${esc(props.name || props.code)}</strong></div>
+        <div class="popup-row">Capa: <strong>${esc(kind)}</strong></div>
+        <div class="popup-row">Tipo: <strong>${esc(props.type || props.class || "Territorio")}</strong></div>
+        <div class="popup-row">Circuito: <strong>${esc(props.circuit || props.name || "-")}</strong></div>
+        <div class="popup-row">Subcircuito: <strong>${esc(props.subcircuit || "-")}</strong></div>
+        <div class="popup-row">Estado: <strong>${esc(props.status || "-")}</strong></div>
+        <div class="popup-note">${esc(props.address || props.category || "")}</div>
+      `;
+      const platformPopup = (props) => `
+        <div class="popup-title"><strong>${esc(props.platform_name || "Plataforma")}</strong></div>
+        <div class="popup-row">Manzanas: <strong>${fmt(props.manzanas)}</strong></div>
+        <div class="popup-row">Población: <strong>${fmt(props.population_total)}</strong></div>
+        <div class="popup-row">Hombres: <strong>${fmt(props.male)}</strong></div>
+        <div class="popup-row">Mujeres: <strong>${fmt(props.female)}</strong></div>
+        <div class="popup-note">Área: ${fmt(Math.round(Number(props.area || 0)))} ha aprox.</div>
+      `;
+      const manzanaPopup = (props) => {
+        const code = props.man;
+        const stats = manzanaStats?.byMan?.[code] || {};
+        const platform = platformStats?.manToPlatform?.[code] || "Fuera de plataformas";
+        return `
+          <div class="popup-title"><strong>Manzana ${esc(code)}</strong></div>
+          <div class="popup-row">Plataforma: <strong>${esc(platform)}</strong></div>
+          <div class="popup-row">Población: <strong>${fmt(stats.population_total)}</strong></div>
+          <div class="popup-row">Hombres: <strong>${fmt(stats.male)}</strong></div>
+          <div class="popup-row">Mujeres: <strong>${fmt(stats.female)}</strong></div>
+          <div class="popup-note">Censo 2022 por manzana censal.</div>
+        `;
+      };
+
+      function fillSelect(select, label, values) {
+        select.innerHTML = `<option value="__ALL__">${esc(label)}</option>${values.map((value) => `<option value="${esc(value)}">${esc(value)}</option>`).join("")}`;
+      }
+
+      function filteredEvents() {
+        const query = clean(elements.search.value);
+        return events.filter((event) => {
+          const haystack = clean(`${event.date} ${event.category} ${event.event} ${event.precision} ${event.location} ${event.source} ${event.observation}`);
+          return (!query || haystack.includes(query))
+            && (elements.category.value === "__ALL__" || event.category === elements.category.value)
+            && (elements.precision.value === "__ALL__" || event.precision === elements.precision.value)
+            && (elements.source.value === "__ALL__" || event.source === elements.source.value);
+        });
+      }
+
+      function filteredParishes() {
+        const query = clean(elements.search.value);
+        const topText = (parish) => (ecu911.topByParish?.[parish.parish] || []).map((item) => `${item.subtype} ${item.n}`).join(" ");
+        return (ecu911.parishes || []).filter((parish) => !query || clean(`${parish.parish} ${topText(parish)}`).includes(query));
+      }
+
+      function filteredCameras() {
+        const query = clean(elements.search.value);
+        return cameras.filter((camera) => {
+          const haystack = clean(`${camera.id} ${camera.type} ${camera.address} ${camera.reference} ${camera.institution} ${camera.confidence}`);
+          return (!query || haystack.includes(query))
+            && (elements.source.value === "__ALL__" || camera.institution === elements.source.value)
+            && (elements.category.value === "__ALL__" || camera.type === elements.category.value)
+            && (elements.precision.value === "__ALL__" || camera.confidence === elements.precision.value);
+        });
+      }
+
+      function filteredPoliceInfrastructure() {
+        const query = clean(elements.search.value);
+        return policeInfrastructure.filter((feature) => {
+          const props = feature.properties || {};
+          const haystack = clean(`${props.code} ${props.type} ${props.name} ${props.address} ${props.status} ${props.circuit} ${props.subcircuit}`);
+          return !query || haystack.includes(query);
+        });
+      }
+
+      function renderSummary(items) {
+        if (mode === "ecu") {
+          const parishes = filteredParishes();
+          elements.summary.innerHTML = [
+            ["ECU911 agosto", ecu911.totalRows || 0],
+            ["Seguridad ciudadana", ecu911.securityRows || 0],
+            ["Parroquias", parishes.length],
+            ["Subtipos seguridad", (ecu911.topSubtypes || []).length]
+          ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+          return;
+        }
+        if (mode === "cameras") {
+          const visible = filteredCameras();
+          elements.summary.innerHTML = [
+            ["Cámaras", visible.length],
+            ["DOMO", visible.filter((camera) => camera.type === "DOMO").length],
+            ["FIJA", visible.filter((camera) => camera.type === "FIJA").length],
+            ["Requiere cambio", visible.filter((camera) => camera.requiresChange).length]
+          ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+          return;
+        }
+        if (mode === "police") {
+          const visible = filteredPoliceInfrastructure();
+          elements.summary.innerHTML = [
+            ["Distrito", policeDataset.summary?.districts || 0],
+            ["Circuitos", policeDataset.summary?.circuits || 0],
+            ["Subcircuitos", policeDataset.summary?.subcircuits || 0],
+            ["Infraestructura", visible.length]
+          ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+          return;
+        }
+        const high = items.filter((event) => event.precision.startsWith("A")).length;
+        const media = items.filter((event) => event.precision.startsWith("B")).length;
+        const mapped = items.filter((event) => event.mappable).length;
+        const first = items.map((event) => event.date).sort()[0] || "-";
+        const last = items.map((event) => event.date).sort().at(-1) || "-";
+        elements.summary.innerHTML = [
+          ["Eventos", items.length],
+          ["En mapa", mapped],
+          ["Precisión alta", high],
+          ["Periodo", first === "-" ? "-" : `${formatDate(first)} - ${formatDate(last)}`]
+        ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+      }
+
+      function renderLegend() {
+        elements.legend.innerHTML = [...categoryColors.entries()].map(([label, color]) => `
+          <div class="legend-row"><span class="legend-swatch" style="background:${color}"></span>${esc(label)}</div>
+        `).join("") + `<div class="legend-row"><span class="legend-swatch" style="background:#f7e4a5"></span>ECU911 agregado por parroquia</div><div class="legend-row"><span class="legend-swatch" style="background:#fff"></span>Cámara operativa</div><div class="legend-row"><span class="legend-swatch" style="background:#f3c2ca"></span>Cámara requiere cambio</div><div class="legend-row"><span class="legend-swatch" style="background:#fff;border-color:#2f8f62"></span>Circuito 06D01</div><div class="legend-row"><span class="legend-swatch" style="background:#d9e8f5;border-color:#3f6fa3"></span>Subcircuito 06D01</div><div class="legend-row"><span class="legend-swatch" style="background:#345c85"></span>Infraestructura policial</div><div class="legend-row"><span class="legend-swatch" style="background:#d8eadf;border-color:#2f6f5f"></span>Plataforma territorial</div><div class="legend-row"><span class="legend-swatch" style="background:#f7f7f7;border-color:#7e8790"></span>Manzana censal</div>`;
+      }
+
+      function renderDetail(event) {
+        if (!event) {
+          elements.detailTitle.textContent = "Detalle";
+          elements.detail.innerHTML = "<p>Selecciona un evento en el mapa o en el listado.</p>";
+          elements.overlayTitle.textContent = "Mapa de eventos publicados";
+          elements.overlayText.textContent = "Usa los filtros para revisar patrones por categoría, precisión territorial y fuente institucional.";
+          return;
+        }
+        elements.detailTitle.textContent = event.id;
+        elements.detail.innerHTML = [
+          ["Fecha", formatDate(event.date)],
+          ["Categoría", event.category],
+          ["Ubicación", event.location],
+          ["Precisión", `${event.precision} (${precisionRank[event.precision] || "Sin clasificar"})`],
+          ["Fuente", event.source]
+        ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")
+          + `<p>${esc(event.observation)}</p><p>${esc(event.geocode)}</p><p>${esc(event.rule || "")}</p><p><a href="${esc(event.sourceUrl)}" target="_blank" rel="noopener">Abrir fuente original</a></p>`;
+        elements.overlayTitle.textContent = `${event.category} - ${formatDate(event.date)}`;
+        elements.overlayText.textContent = `${event.location}. ${event.geocode}`;
+      }
+
+      function renderList(items) {
+        elements.listTitle.textContent = mode === "events" ? "Eventos publicados" : mode === "ecu" ? "ECU911 agosto" : mode === "cameras" ? "Cámaras de videovigilancia" : "Infraestructura policial";
+        if (mode === "ecu") {
+          const parishes = filteredParishes();
+          const max = Math.max(...parishes.map((parish) => parish.security), 1);
+          elements.list.innerHTML = parishes.map((parish) => {
+            const top = (ecu911.topByParish?.[parish.parish] || []).slice(0, 3).map((item) => `<span class="pill">${esc(item.subtype)}: ${item.n}</span>`).join("");
+            return `<button class="event-item ${parish.parish === selectedParish ? "is-active" : ""}" type="button" data-parish="${esc(parish.parish)}">
+              <h3>${esc(parish.parish)}</h3>
+              <small>${parish.security} registros de Seguridad Ciudadana · ${parish.total} ECU911 total</small>
+              <div class="bar-row"><div class="bar-head"><span>Seguridad Ciudadana</span><strong>${parish.security}</strong></div><div class="bar-track"><div class="bar-fill" style="width:${Math.max(4, parish.security / max * 100)}%"></div></div></div>
+              <div class="pill-row">${top}</div>
+            </button>`;
+          }).join("") || "<p>No hay parroquias con los filtros actuales.</p>";
+          elements.list.querySelectorAll("[data-parish]").forEach((button) => {
+            button.addEventListener("click", () => selectParish(button.dataset.parish, true));
+          });
+          return;
+        }
+        if (mode === "cameras") {
+          const visible = filteredCameras();
+          elements.list.innerHTML = visible.map((camera) => `
+            <button class="event-item ${camera.id === selectedCamera ? "is-active" : ""}" type="button" data-camera="${esc(camera.id)}">
+              <h3>${esc(camera.id)}</h3>
+              <small>${esc(camera.address)}</small>
+              <div class="pill-row">
+                <span class="pill">${esc(camera.type)}</span>
+                <span class="pill">${camera.megaphone ? "Con megáfono" : "Sin megáfono"}</span>
+                <span class="pill">${camera.requiresChange ? "Requiere cambio" : "Sin cambio reportado"}</span>
+                <span class="pill">Confianza ${esc(camera.confidence)}</span>
+              </div>
+            </button>
+          `).join("") || "<p>No hay cámaras con los filtros actuales.</p>";
+          elements.list.querySelectorAll("[data-camera]").forEach((button) => {
+            button.addEventListener("click", () => selectCamera(button.dataset.camera, true));
+          });
+          return;
+        }
+        if (mode === "police") {
+          const visible = filteredPoliceInfrastructure();
+          elements.list.innerHTML = visible.map((feature) => {
+            const props = feature.properties || {};
+            return `<button class="event-item ${props.code === selectedPolice ? "is-active" : ""}" type="button" data-police="${esc(props.code)}">
+              <h3>${esc(props.name || props.code)}</h3>
+              <small>${esc(props.address || props.circuit || "")}</small>
+              <div class="pill-row">
+                <span class="pill">${esc(props.type || "Infraestructura")}</span>
+                <span class="pill">${esc(props.status || "Sin estado")}</span>
+                <span class="pill">${esc(props.circuit || "Sin circuito")}</span>
+              </div>
+            </button>`;
+          }).join("") || "<p>No hay infraestructura policial con los filtros actuales.</p>";
+          elements.list.querySelectorAll("[data-police]").forEach((button) => {
+            button.addEventListener("click", () => selectPolice(button.dataset.police, true));
+          });
+          return;
+        }
+        elements.list.innerHTML = items.map((event) => `
+          <button class="event-item ${event.id === selectedId ? "is-active" : ""}" type="button" data-id="${event.id}">
+            <h3>${esc(event.category)}</h3>
+            <small>${formatDate(event.date)} · ${esc(event.location)}</small>
+            <div class="pill-row">
+              <span class="pill">${esc(event.precision)}</span>
+              <span class="pill">${event.mappable ? "Con referencia en mapa" : "Sin punto"}</span>
+            </div>
+          </button>
+        `).join("") || "<p>No hay eventos con los filtros actuales.</p>";
+        elements.list.querySelectorAll("[data-id]").forEach((button) => {
+          button.addEventListener("click", () => selectEvent(button.dataset.id, true));
+        });
+      }
+
+      function renderMarkers(items) {
+        eventLayer.clearLayers();
+        markers.clear();
+        items.forEach((event) => {
+          if (!event.mappable || event.lat == null || event.lng == null) return;
+          const color = categoryColors.get(event.category) || "#7e7f92";
+          const marker = L.marker([event.lat, event.lng], {
+            icon: L.divIcon({
+              className: "",
+              html: `<span class="event-marker ${markerClass(event)}" style="background:${color}">${event.id.split("-").at(-1)}</span>`,
+              iconSize: [30, 30],
+              iconAnchor: [15, 15],
+              popupAnchor: [0, -14]
+            })
+          }).bindPopup(popupContent(event));
+          marker.on("click", () => selectEvent(event.id, false));
+          marker.addTo(eventLayer);
+          markers.set(event.id, marker);
+        });
+      }
+
+      function renderParishBubbles() {
+        parishLayer.clearLayers();
+        parishMarkers.clear();
+        const parishes = filteredParishes();
+        const max = Math.max(...(ecu911.parishes || []).map((parish) => parish.security), 1);
+        parishes.forEach((parish) => {
+          if (parish.lat == null || parish.lng == null) return;
+          const marker = L.marker([parish.lat, parish.lng], {
+            icon: L.divIcon({
+              className: "",
+              html: `<span class="parish-marker">${parish.security}</span>`,
+              iconSize: [Math.min(72, 34 + parish.security / max * 38), 34],
+              iconAnchor: [17, 17],
+              popupAnchor: [0, -16]
+            })
+          }).bindPopup(parishPopup(parish));
+          marker.on("click", () => selectParish(parish.parish, false));
+          marker.addTo(parishLayer);
+          parishMarkers.set(parish.parish, marker);
+        });
+      }
+
+      function renderCameraMarkers() {
+        cameraLayer.clearLayers();
+        cameraMarkers.clear();
+        filteredCameras().forEach((camera) => {
+          const marker = L.marker([camera.lat, camera.lng], {
+            icon: L.divIcon({
+              className: "",
+              html: `<span class="camera-marker ${camera.requiresChange ? "change" : ""} ${camera.megaphone ? "megaphone" : ""}">${String(camera.n).padStart(2, "0")}</span>`,
+              iconSize: [30, 30],
+              iconAnchor: [15, 15],
+              popupAnchor: [0, -14]
+            })
+          }).bindPopup(cameraPopup(camera));
+          marker.on("click", () => selectCamera(camera.id, false));
+          marker.addTo(cameraLayer);
+          cameraMarkers.set(camera.id, marker);
+        });
+      }
+
+      function renderPoliceLayers() {
+        policeCircuitLayer.clearLayers();
+        policeSubcircuitLayer.clearLayers();
+        policeInfrastructureLayer.clearLayers();
+        policeMarkers.clear();
+        L.geoJSON(policeDataset.district, {
+          style: { color: "#243226", weight: 2.5, fillOpacity: 0, dashArray: "8 6" },
+          interactive: false
+        }).addTo(policeCircuitLayer);
+        L.geoJSON(policeDataset.circuits, {
+          style: { color: "#2f8f62", weight: 3, fillOpacity: 0, opacity: 0.95 },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties || {};
+            layer.bindPopup(policePopup(props, "Circuito policial"));
+            layer.bindTooltip(`Circuito: ${esc(props.name || props.code)}`, { sticky: true });
+          }
+        }).addTo(policeCircuitLayer);
+        L.geoJSON(policeDataset.subcircuits, {
+          style: { color: "#3f6fa3", weight: 1.25, fillColor: "#d9e8f5", fillOpacity: 0.22, dashArray: "3 5" },
+          onEachFeature: (feature, layer) => {
+            const props = feature.properties || {};
+            layer.bindPopup(policePopup(props, "Subcircuito policial"));
+            layer.bindTooltip(`Subcircuito: ${esc(props.name || props.code)}`, { sticky: true });
+          }
+        }).addTo(policeSubcircuitLayer);
+        filteredPoliceInfrastructure().forEach((feature) => {
+          const props = feature.properties || {};
+          const coords = feature.geometry?.coordinates;
+          if (!coords) return;
+          const marker = L.marker([coords[1], coords[0]], {
+            icon: L.divIcon({
+              className: "",
+              html: `<span class="police-marker">${esc((props.type || "P").slice(0, 3))}</span>`,
+              iconSize: [30, 30],
+              iconAnchor: [15, 15],
+              popupAnchor: [0, -14]
+            })
+          }).bindPopup(policePopup(props, "Infraestructura policial"));
+          marker.on("click", () => selectPolice(props.code, false));
+          marker.addTo(policeInfrastructureLayer);
+          policeMarkers.set(props.code, marker);
+        });
+      }
+
+      function update() {
+        const items = filteredEvents();
+        if (selectedId && !items.some((event) => event.id === selectedId)) selectedId = null;
+        if (selectedParish && !filteredParishes().some((parish) => parish.parish === selectedParish)) selectedParish = null;
+        if (selectedCamera && !filteredCameras().some((camera) => camera.id === selectedCamera)) selectedCamera = null;
+        if (selectedPolice && !filteredPoliceInfrastructure().some((feature) => feature.properties?.code === selectedPolice)) selectedPolice = null;
+        renderSummary(items);
+        renderList(items);
+        renderMarkers(items);
+        renderParishBubbles();
+        renderCameraMarkers();
+        renderPoliceLayers();
+        if (mode === "events") {
+          renderDetail(events.find((event) => event.id === selectedId));
+          elements.status.textContent = `${items.length} de ${events.length} eventos publicados visibles; ${items.filter((event) => event.mappable).length} con referencia en mapa.`;
+        } else {
+          if (mode === "ecu") {
+            renderParishDetail(selectedParish);
+            elements.status.textContent = `${ecu911.totalRows || 0} registros ECU911 de agosto; ${ecu911.securityRows || 0} corresponden a Seguridad Ciudadana.`;
+          } else if (mode === "cameras") {
+            renderCameraDetail(selectedCamera);
+            elements.status.textContent = `${filteredCameras().length} de ${cameras.length} cámaras visibles. Subconjunto actual: RIO-001 a RIO-030.`;
+          } else {
+            renderPoliceDetail(selectedPolice);
+            elements.status.textContent = `${filteredPoliceInfrastructure().length} de ${policeInfrastructure.length} infraestructuras policiales visibles; ${policeDataset.summary?.circuits || 0} circuitos y ${policeDataset.summary?.subcircuits || 0} subcircuitos cargados.`;
+          }
+        }
+      }
+
+      function selectEvent(id, pan) {
+        selectedId = id;
+        selectedParish = null;
+        selectedCamera = null;
+        selectedPolice = null;
+        mode = "events";
+        syncModeButtons();
+        const event = events.find((item) => item.id === id);
+        renderDetail(event);
+        renderList(filteredEvents());
+        const marker = markers.get(id);
+        if (marker) {
+          if (pan) map.setView(marker.getLatLng(), Math.max(map.getZoom(), 15), { animate: true });
+          marker.openPopup();
+        }
+      }
+
+      function renderParishDetail(parishName) {
+        const parish = (ecu911.parishes || []).find((item) => item.parish === parishName);
+        if (!parish) {
+          elements.detailTitle.textContent = "ECU911";
+          elements.detail.innerHTML = "<p>Selecciona una parroquia para revisar sus subtipos principales de Seguridad Ciudadana.</p>";
+          elements.overlayTitle.textContent = "ECU911 agosto 2026";
+          elements.overlayText.textContent = "Las burbujas muestran registros agregados por parroquia; no son puntos exactos de ocurrencia.";
+          return;
+        }
+        const top = (ecu911.topByParish?.[parish.parish] || []).slice(0, 8);
+        elements.detailTitle.textContent = parish.parish;
+        elements.detail.innerHTML = [
+          ["ECU911 total", parish.total],
+          ["Seguridad Ciudadana", parish.security],
+          ["Participación seguridad", `${Math.round(parish.security / Math.max(parish.total, 1) * 100)}%`]
+        ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")
+          + top.map((item) => `<div class="bar-row"><div class="bar-head"><span>${esc(item.subtype)}</span><strong>${item.n}</strong></div><div class="bar-track"><div class="bar-fill" style="width:${Math.max(4, item.n / Math.max(top[0]?.n || 1, 1) * 100)}%"></div></div></div>`).join("");
+        elements.overlayTitle.textContent = parish.parish;
+        elements.overlayText.textContent = `${parish.security} registros de Seguridad Ciudadana sobre ${parish.total} registros ECU911 en agosto de 2026.`;
+      }
+
+      function selectParish(parishName, pan) {
+        selectedParish = parishName;
+        selectedId = null;
+        selectedCamera = null;
+        selectedPolice = null;
+        mode = "ecu";
+        syncModeButtons();
+        renderParishDetail(parishName);
+        renderSummary(filteredEvents());
+        renderList(filteredEvents());
+        const marker = parishMarkers.get(parishName);
+        if (marker) {
+          if (pan) map.setView(marker.getLatLng(), Math.max(map.getZoom(), 12.5), { animate: true });
+          marker.openPopup();
+        }
+      }
+
+      function renderCameraDetail(cameraId) {
+        const camera = cameras.find((item) => item.id === cameraId);
+        if (!camera) {
+          elements.detailTitle.textContent = "Cámaras";
+          elements.detail.innerHTML = "<p>Selecciona una cámara para revisar su dirección, estado y método de ubicación.</p>";
+          elements.overlayTitle.textContent = "Cámaras de videovigilancia";
+          elements.overlayText.textContent = "Capa transcrita del informe de estado de cámaras. Las ubicaciones son georreferenciadas desde calles del informe y OSM local.";
+          return;
+        }
+        elements.detailTitle.textContent = camera.id;
+        elements.detail.innerHTML = [
+          ["Dirección", camera.address],
+          ["Referencia", camera.reference || "Sin referencia"],
+          ["Tipo", camera.type],
+          ["Megáfono", camera.megaphone ? "Sí" : "No"],
+          ["Requiere cambio", camera.requiresChange ? "Sí" : "No"],
+          ["Confianza", camera.confidence]
+        ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")
+          + `<p>${esc(camera.method)}</p>`;
+        elements.overlayTitle.textContent = `${camera.id} - ${camera.address}`;
+        elements.overlayText.textContent = `${camera.requiresChange ? "Requiere cambio. " : ""}${camera.megaphone ? "Cuenta con megáfono. " : ""}Confianza de ubicación: ${camera.confidence}.`;
+      }
+
+      function selectCamera(cameraId, pan) {
+        selectedCamera = cameraId;
+        selectedId = null;
+        selectedParish = null;
+        selectedPolice = null;
+        mode = "cameras";
+        syncModeButtons();
+        renderCameraDetail(cameraId);
+        renderSummary(filteredEvents());
+        renderList(filteredEvents());
+        const marker = cameraMarkers.get(cameraId);
+        if (marker) {
+          if (pan) map.setView(marker.getLatLng(), Math.max(map.getZoom(), 15), { animate: true });
+          marker.openPopup();
+        }
+      }
+
+      function renderPoliceDetail(code) {
+        const feature = policeInfrastructure.find((item) => item.properties?.code === code);
+        if (!feature) {
+          elements.detailTitle.textContent = "Policía 06D01";
+          elements.detail.innerHTML = "<p>Selecciona una infraestructura policial para revisar estado, circuito y subcircuito.</p>";
+          elements.overlayTitle.textContent = "Distrito policial 06D01";
+          elements.overlayText.textContent = "Capa SIG policial con distrito, circuitos, subcircuitos e infraestructura operativa.";
+          return;
+        }
+        const props = feature.properties || {};
+        elements.detailTitle.textContent = props.name || props.code;
+        elements.detail.innerHTML = [
+          ["Código", props.code],
+          ["Tipo", props.type],
+          ["Estado", props.status || "-"],
+          ["Condición", props.condition || "-"],
+          ["Circuito", props.circuit || "-"],
+          ["Subcircuito", props.subcircuit || "-"],
+          ["Personal", props.personnel || "0"],
+          ["Vehículos", props.vehicles || "0"],
+          ["Motos", props.motorcycles || "0"]
+        ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")
+          + `<p>${esc(props.address || "Sin dirección registrada")}</p>`;
+        elements.overlayTitle.textContent = `${props.name || props.code} - ${props.type || "Infraestructura"}`;
+        elements.overlayText.textContent = `${props.status || "Sin estado"}. Circuito ${props.circuit || "-"}, subcircuito ${props.subcircuit || "-"}.`;
+      }
+
+      function selectPolice(code, pan) {
+        selectedPolice = code;
+        selectedCamera = null;
+        selectedId = null;
+        selectedParish = null;
+        mode = "police";
+        syncModeButtons();
+        renderPoliceDetail(code);
+        renderSummary(filteredEvents());
+        renderList(filteredEvents());
+        const marker = policeMarkers.get(code);
+        if (marker) {
+          if (pan) map.setView(marker.getLatLng(), Math.max(map.getZoom(), 14), { animate: true });
+          marker.openPopup();
+        }
+      }
+
+      function syncModeButtons() {
+        elements.eventsMode.classList.toggle("is-active", mode === "events");
+        elements.ecuMode.classList.toggle("is-active", mode === "ecu");
+        elements.camerasMode.classList.toggle("is-active", mode === "cameras");
+        elements.policeMode.classList.toggle("is-active", mode === "police");
+      }
+
+      async function loadCensusLayers() {
+        try {
+          const [platformResponse, manzanaResponse, platformStatsResponse, manzanaStatsResponse] = await Promise.all([
+            fetch("./riobamba-censo-data/riobamba_plataformas.geojson"),
+            fetch("./riobamba-censo-data/riobamba_manzanas.geojson"),
+            fetch("./riobamba-censo-data/riobamba_plataformas_stats.json"),
+            fetch("./riobamba-censo-data/riobamba_manzanas_stats.json")
+          ]);
+          if (!platformResponse.ok) throw new Error("No se pudo cargar la capa de plataformas");
+          if (!manzanaResponse.ok) throw new Error("No se pudo cargar la capa de manzanas");
+          const [platformGeojson, manzanaGeojson] = await Promise.all([platformResponse.json(), manzanaResponse.json()]);
+          platformStats = platformStatsResponse.ok ? await platformStatsResponse.json() : null;
+          manzanaStats = manzanaStatsResponse.ok ? await manzanaStatsResponse.json() : null;
+          manzanaLayer = L.geoJSON(manzanaGeojson, {
+            style: {
+              color: "#7e8790",
+              weight: 0.45,
+              fillColor: "#f7f7f7",
+              fillOpacity: 0.13,
+              opacity: 0.45
+            },
+            onEachFeature: (feature, layer) => layer.bindPopup(manzanaPopup(feature.properties || {}))
+          }).addTo(map);
+          platformLayer = L.geoJSON(platformGeojson, {
+            style: {
+              color: "#2f6f5f",
+              weight: 2.2,
+              fillColor: "#d8eadf",
+              fillOpacity: 0.2,
+              opacity: 0.9
+            },
+            onEachFeature: (feature, layer) => {
+              const props = feature.properties || {};
+              layer.bindPopup(platformPopup(props));
+              layer.bindTooltip(esc(props.platform_name || "Plataforma"), { sticky: true });
+            }
+          }).addTo(map);
+          if (!elements.toggleManzanas.checked) map.removeLayer(manzanaLayer);
+          if (!elements.togglePlatforms.checked) map.removeLayer(platformLayer);
+          const mappedEvents = events.filter((event) => event.mappable && event.lat != null && event.lng != null);
+          if (mappedEvents.length) {
+            const bounds = L.latLngBounds(mappedEvents.map((event) => [event.lat, event.lng]));
+            map.fitBounds(bounds.pad(0.18), { maxZoom: 14 });
+          }
+          elements.status.textContent = `${elements.status.textContent} Censo: ${fmt(manzanaGeojson.features?.length)} manzanas y ${fmt(platformGeojson.features?.length)} plataformas cargadas.`;
+        } catch (error) {
+          elements.status.textContent = `${elements.status.textContent} No se cargaron capas censales: ${error.message}.`;
+        }
+      }
+
+      fillSelect(elements.category, "Todas las categorías/tipos", [...new Set([...events.map((event) => event.category), ...cameras.map((camera) => camera.type)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
+      fillSelect(elements.precision, "Toda precisión/confianza", [...new Set([...events.map((event) => event.precision), ...cameras.map((camera) => camera.confidence)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
+      fillSelect(elements.source, "Todas las fuentes", [...new Set([...events.map((event) => event.source), ...cameras.map((camera) => camera.institution)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
+      renderLegend();
+      update();
+      loadCensusLayers();
+
+      [elements.search, elements.category, elements.precision, elements.source].forEach((control) => control.addEventListener("input", update));
+      elements.eventsMode.addEventListener("click", () => { mode = "events"; selectedParish = null; syncModeButtons(); update(); });
+      elements.ecuMode.addEventListener("click", () => { mode = "ecu"; selectedId = null; selectedCamera = null; syncModeButtons(); update(); });
+      elements.camerasMode.addEventListener("click", () => { mode = "cameras"; selectedId = null; selectedParish = null; syncModeButtons(); update(); });
+      elements.policeMode.addEventListener("click", () => { mode = "police"; selectedId = null; selectedParish = null; selectedCamera = null; syncModeButtons(); update(); });
+      elements.toggleEvents.addEventListener("change", () => elements.toggleEvents.checked ? eventLayer.addTo(map) : map.removeLayer(eventLayer));
+      elements.toggleParishes.addEventListener("change", () => elements.toggleParishes.checked ? parishLayer.addTo(map) : map.removeLayer(parishLayer));
+      elements.toggleCameras.addEventListener("change", () => elements.toggleCameras.checked ? cameraLayer.addTo(map) : map.removeLayer(cameraLayer));
+      elements.togglePoliceCircuits.addEventListener("change", () => elements.togglePoliceCircuits.checked ? policeCircuitLayer.addTo(map) : map.removeLayer(policeCircuitLayer));
+      elements.togglePoliceSubcircuits.addEventListener("change", () => elements.togglePoliceSubcircuits.checked ? policeSubcircuitLayer.addTo(map) : map.removeLayer(policeSubcircuitLayer));
+      elements.togglePoliceInfrastructure.addEventListener("change", () => elements.togglePoliceInfrastructure.checked ? policeInfrastructureLayer.addTo(map) : map.removeLayer(policeInfrastructureLayer));
+      elements.togglePlatforms.addEventListener("change", () => {
+        if (!platformLayer) return;
+        elements.togglePlatforms.checked ? platformLayer.addTo(map) : map.removeLayer(platformLayer);
+      });
+      elements.toggleManzanas.addEventListener("change", () => {
+        if (!manzanaLayer) return;
+        elements.toggleManzanas.checked ? manzanaLayer.addTo(map) : map.removeLayer(manzanaLayer);
+      });
+      elements.toggleSatellite.addEventListener("change", () => {
+        if (elements.toggleSatellite.checked) {
+          lightLayer.remove();
+          satelliteLayer.addTo(map);
+        } else {
+          satelliteLayer.remove();
+          lightLayer.addTo(map);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
