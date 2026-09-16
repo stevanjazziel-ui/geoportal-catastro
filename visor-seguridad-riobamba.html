@@ -262,6 +262,20 @@
       font-size: 10px;
       font-weight: 900;
     }
+    .platform-label {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      color: #111827;
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.92);
+      font-size: 1.12rem;
+      font-weight: 900;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+    }
     .leaflet-popup-content-wrapper, .leaflet-popup-tip {
       background: rgba(248, 250, 244, 0.98);
       color: var(--text);
@@ -433,6 +447,7 @@
       const satelliteLayer = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", { attribution: "Tiles &copy; Esri", maxNativeZoom: 18, maxZoom: 20 });
       const eventLayer = L.layerGroup().addTo(map);
       const hotspotLayer = L.layerGroup().addTo(map);
+      const platformLabelLayer = L.layerGroup().addTo(map);
       const parishLayer = L.layerGroup().addTo(map);
       const cameraLayer = L.layerGroup().addTo(map);
       const policeInfrastructureLayer = L.layerGroup().addTo(map);
@@ -557,6 +572,25 @@
       const updatePlatformStyles = () => {
         if (!platformLayer) return;
         platformLayer.eachLayer((layer) => layer.setStyle(platformVisualStyle(layer.feature)));
+      };
+      const renderPlatformLabels = () => {
+        platformLabelLayer.clearLayers();
+        if (!platformLayer || mode !== "diagnosis" || diagnosisMetric !== "hotspots") return;
+        platformLayer.eachLayer((layer) => {
+          const name = layer.feature?.properties?.platform_name || "";
+          const label = name.replace("PLATAFORMA ", "");
+          const marker = L.marker(layer.getBounds().getCenter(), {
+            interactive: false,
+            icon: L.divIcon({
+              className: "",
+              html: `<span class="platform-label">${esc(label)}</span>`,
+              iconSize: [34, 34],
+              iconAnchor: [17, 17],
+            })
+          });
+          marker.addTo(platformLabelLayer);
+        });
+        platformLabelLayer.bringToFront();
       };
       const platformRecord = (name) => diagnosis.byPlatformName?.[name] || diagnosis.platformMaster?.find((item) => item.platformName === name || item.platform === name?.replace("PLATAFORMA ", ""));
       const formatDate = (value) => {
@@ -808,6 +842,7 @@
               <div class="legend-row"><span class="legend-swatch" style="background:#e71d36;border-color:#fff"></span>Núcleo hotspot</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#ff8c2a;border-color:#fff"></span>Alta concentración</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#ffe66d;border-color:#fff"></span>Influencia cercana</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#111827;border-color:#fff"></span>Incidente georreferenciado</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#d8eadf;border-color:#263a33"></span>Plataforma sin hotspot</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#f7f7f7;border-color:#7e8790"></span>Manzana censal</div>
             `;
@@ -963,9 +998,11 @@
         items.forEach((event) => {
           if (!event.mappable || event.lat == null || event.lng == null) return;
           [
-            { radius: 520, color: "#ffe66d", opacity: 0.18 },
-            { radius: 310, color: "#ff8c2a", opacity: 0.28 },
-            { radius: 135, color: "#e71d36", opacity: 0.54 },
+            { radius: 920, color: "#9bd8ff", opacity: 0.1 },
+            { radius: 690, color: "#fff176", opacity: 0.18 },
+            { radius: 460, color: "#ff9f1c", opacity: 0.28 },
+            { radius: 245, color: "#ff3b30", opacity: 0.44 },
+            { radius: 95, color: "#b00020", opacity: 0.68 },
           ].forEach((ring) => {
             L.circle([event.lat, event.lng], {
               radius: ring.radius,
@@ -977,10 +1014,10 @@
             }).addTo(hotspotLayer);
           });
           L.circleMarker([event.lat, event.lng], {
-            radius: 4.5,
+            radius: 3.8,
             color: "#ffffff",
-            weight: 1.2,
-            fillColor: "#001f3f",
+            weight: 0.8,
+            fillColor: "#111827",
             fillOpacity: 0.95,
             interactive: false,
           }).addTo(hotspotLayer);
@@ -1066,6 +1103,7 @@
         renderCameraMarkers();
         renderPoliceLayers();
         updatePlatformStyles();
+        renderPlatformLabels();
         renderLegend();
         renderGraphicAnalysis();
         if (mode === "events") {
@@ -1073,6 +1111,10 @@
           elements.status.textContent = `${items.length} de ${events.length} eventos publicados visibles; ${items.filter((event) => event.mappable).length} con referencia en mapa.`;
         } else if (mode === "diagnosis") {
           renderPlatformDetail(selectedPlatform);
+          if (diagnosisMetric === "hotspots") {
+            elements.overlayTitle.textContent = "Concentración de incidentes (hotspots)";
+            elements.overlayText.textContent = `Mapa de calor preliminar con ${items.filter((event) => event.mappable).length} incidentes georreferenciables. Radio visual aproximado: 920 m; no es un KDE estadístico definitivo.`;
+          }
           elements.status.textContent = `Fases integradas: ${diagnosis.summary?.platforms || 18} plataformas territoriales, ${fmt(diagnosis.summary?.populationWithPlatform)} habitantes asignados, ${fmt(diagnosis.summary?.hotspots || 0)} hotspots preliminares y ${fmt(diagnosis.summary?.videoDeficitHighOrCritical || 0)} plataformas con déficit alto/crítico.`;
         } else {
           if (mode === "ecu") {
