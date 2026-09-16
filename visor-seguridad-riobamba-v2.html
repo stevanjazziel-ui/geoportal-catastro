@@ -406,17 +406,17 @@
     <div class="dashboard-main">
       <nav class="analysis-nav" aria-label="Análisis">
         <h2>Demografía</h2>
-        <button type="button" disabled>Población · Próximamente</button>
-        <button type="button" disabled>Densidad poblacional · Próximamente</button>
-        <button type="button" disabled>Exposición poblacional · Próximamente</button>
+        <button class="mode-button" id="populationMode" type="button">● Población</button>
+        <button class="mode-button" id="populationDensityMode" type="button">● Densidad poblacional</button>
+        <button type="button" disabled>◐ Exposición poblacional · En procesamiento</button>
         <h2>Conflictividad</h2>
         <button class="mode-button" id="eventsMode" type="button">Incidentes</button>
-        <button type="button" disabled>Incidentes por Plataforma · Próximamente</button>
-        <button type="button" disabled>Tasa por 1.000 habitantes · Próximamente</button>
+        <button class="mode-button" id="platformIncidentsMode" type="button">● Incidentes por Plataforma</button>
+        <button class="mode-button" id="incidentRateMode" type="button">● Tasa por 1.000 habitantes</button>
         <button class="mode-button is-active" id="kdeAnalysisButton" type="button">Densidad de incidentes (KDE)</button>
-        <button type="button" disabled>Hotspots estadísticos · Próximamente</button>
-        <button type="button" disabled>Tipologías de incidentes · Próximamente</button>
-        <button type="button" disabled>Análisis temporal · Próximamente</button>
+        <button type="button" disabled>◌ Hotspots estadísticos · Pendiente metodológico</button>
+        <button type="button" disabled>◐ Tipologías de incidentes · En procesamiento</button>
+        <button type="button" disabled>◐ Análisis temporal · En procesamiento</button>
         <h2>Cobertura territorial</h2>
         <button class="mode-button" id="policeMode" type="button">Infraestructura policial</button>
         <button type="button" disabled>Accesibilidad policial · Próximamente</button>
@@ -458,6 +458,8 @@
             <select id="precisionSelect" aria-label="Filtrar por precisión"></select>
             <select id="sourceSelect" aria-label="Filtrar por fuente"></select>
             <select id="diagnosisMetricSelect" aria-label="Indicador gráfico de diagnóstico">
+              <option value="population">Población por manzana</option>
+              <option value="populationDensity">Densidad poblacional por manzana</option>
               <option value="videoDeficit">Déficit de videovigilancia</option>
               <option value="incidentCount">Incidentes absolutos</option>
               <option value="incidentRate">Tasa de incidentes / 1.000 hab.</option>
@@ -541,6 +543,10 @@
         category: document.getElementById("categorySelect"),
         precision: document.getElementById("precisionSelect"),
         source: document.getElementById("sourceSelect"),
+        populationMode: document.getElementById("populationMode"),
+        populationDensityMode: document.getElementById("populationDensityMode"),
+        platformIncidentsMode: document.getElementById("platformIncidentsMode"),
+        incidentRateMode: document.getElementById("incidentRateMode"),
         eventsMode: document.getElementById("eventsMode"),
         ecuMode: document.getElementById("ecuMode"),
         camerasMode: document.getElementById("camerasMode"),
@@ -630,6 +636,39 @@
             ["Cell size", `${raster.cellSize || 20} m`],
             ["Periodo", kdeValidation.metadata?.PERIODO || "N/D"],
             ["CRS", "EPSG:32717 cálculo / EPSG:4326 visualización"],
+          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+          return;
+        }
+        if (diagnosisMetric === "population") {
+          panel.innerHTML = [
+            ["Análisis", "Población"],
+            ["Input", "Manzanas censales CPV 2022"],
+            ["Registros", `${fmt(Object.keys(manzanaStats?.byMan || {}).length)} manzanas con población`],
+            ["Método", "Coropleta por manzana"],
+            ["Resultado", "Población absoluta por manzana y plataforma"],
+            ["Validación", "Datos reales de riobamba_manzanas_stats.json"],
+          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+          return;
+        }
+        if (diagnosisMetric === "populationDensity") {
+          panel.innerHTML = [
+            ["Análisis", "Densidad poblacional"],
+            ["Input", "Población + geometría de manzanas"],
+            ["Registros", `${fmt(Object.keys(manzanaStats?.byMan || {}).length)} manzanas con población`],
+            ["Fórmula", "DENS_POB = POBLACION / AREA_KM2"],
+            ["Área", "Calculada en proyección métrica local"],
+            ["Limitación", "Manzanas sin población quedan en 0/sin dato"],
+          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+          return;
+        }
+        if (diagnosisMetric === "incidentCount" || diagnosisMetric === "incidentRate") {
+          panel.innerHTML = [
+            ["Análisis", diagnosisMetric === "incidentCount" ? "Incidentes por Plataforma" : "Tasa por 1.000 habitantes"],
+            ["Input", "Incidentes A/B + Plataformas + población"],
+            ["Registros", `${fmt(diagnosis.summary?.incidentSpatialQuality?.spatialValidAB || 0)} eventos espaciales usados`],
+            ["Método", diagnosisMetric === "incidentCount" ? "Spatial join incidente-plataforma" : "(INC_TOTAL / POBLACION) * 1000"],
+            ["Resultado", diagnosisMetric === "incidentCount" ? "Número de eventos registrados" : "Tasa por 1.000 habitantes"],
+            ["Limitación", "No es índice de inseguridad ni ranking"],
           ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
           return;
         }
@@ -784,6 +823,15 @@
             opacity: 0.95
           };
         }
+        if (isPopulationMode()) {
+          return {
+            color: "#263a33",
+            weight: 1.5,
+            fillColor: "#ffffff",
+            fillOpacity: 0.01,
+            opacity: 0.9
+          };
+        }
         return {
           color: mode === "diagnosis" ? "#263a33" : "#2f6f5f",
           weight: mode === "diagnosis" ? 2.4 : 2.2,
@@ -795,6 +843,10 @@
       const updatePlatformStyles = () => {
         if (!platformLayer) return;
         platformLayer.eachLayer((layer) => layer.setStyle(platformVisualStyle(layer.feature)));
+      };
+      const updateManzanaStyles = () => {
+        if (!manzanaLayer) return;
+        manzanaLayer.eachLayer((layer) => layer.setStyle(manzanaVisualStyle(layer.feature)));
       };
       const renderPlatformLabels = () => {
         platformLabelLayer.clearLayers();
@@ -854,6 +906,61 @@
         return;
       };
       const platformRecord = (name) => diagnosis.byPlatformName?.[name] || diagnosis.platformMaster?.find((item) => item.platformName === name || item.platform === name?.replace("PLATAFORMA ", ""));
+      const isPopulationMode = () => mode === "diagnosis" && ["population", "populationDensity"].includes(diagnosisMetric);
+      const isBlockOneMetric = () => ["population", "populationDensity", "incidentCount", "incidentRate"].includes(diagnosisMetric);
+      const populationColor = (value) => {
+        const n = Number(value || 0);
+        if (n <= 0) return "#f7f7f7";
+        if (n <= 50) return "#d8eadf";
+        if (n <= 150) return "#8fb96a";
+        if (n <= 300) return "#4f8f52";
+        return "#245b34";
+      };
+      const densityColor = (value) => {
+        const n = Number(value || 0);
+        if (n <= 0) return "#f7f7f7";
+        if (n <= 2500) return "#d8eadf";
+        if (n <= 7500) return "#8fb96a";
+        if (n <= 15000) return "#d9a441";
+        return "#c86670";
+      };
+      const ringAreaKm2 = (ring) => {
+        if (!ring || ring.length < 3) return 0;
+        const meanLat = ring.reduce((sum, point) => sum + Number(point[1] || 0), 0) / ring.length;
+        const metersPerLng = 111320 * Math.cos(meanLat * Math.PI / 180);
+        const metersPerLat = 110540;
+        let area = 0;
+        for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+          const xi = Number(ring[i][0]) * metersPerLng;
+          const yi = Number(ring[i][1]) * metersPerLat;
+          const xj = Number(ring[j][0]) * metersPerLng;
+          const yj = Number(ring[j][1]) * metersPerLat;
+          area += (xj * yi) - (xi * yj);
+        }
+        return Math.abs(area) / 2 / 1000000;
+      };
+      const geometryAreaKm2 = (geometry) => {
+        if (!geometry) return 0;
+        if (geometry.type === "Polygon") return ringAreaKm2(geometry.coordinates?.[0] || []);
+        if (geometry.type === "MultiPolygon") return (geometry.coordinates || []).reduce((sum, polygon) => sum + ringAreaKm2(polygon?.[0] || []), 0);
+        return 0;
+      };
+      const manzanaPopulation = (feature) => Number(manzanaStats?.byMan?.[feature?.properties?.man]?.population_total || 0);
+      const manzanaDensity = (feature) => {
+        const area = geometryAreaKm2(feature?.geometry);
+        return area > 0 ? manzanaPopulation(feature) / area : 0;
+      };
+      const manzanaVisualStyle = (feature) => {
+        const platform = platformStats?.manToPlatform?.[feature?.properties?.man] || "";
+        const selected = selectedPlatform && platform === selectedPlatform;
+        if (diagnosisMetric === "population") {
+          return { color: selected ? "#111827" : "#7e8790", weight: selected ? 1.4 : 0.35, fillColor: populationColor(manzanaPopulation(feature)), fillOpacity: 0.72, opacity: 0.55 };
+        }
+        if (diagnosisMetric === "populationDensity") {
+          return { color: selected ? "#111827" : "#7e8790", weight: selected ? 1.4 : 0.35, fillColor: densityColor(manzanaDensity(feature)), fillOpacity: 0.72, opacity: 0.55 };
+        }
+        return { color: "#7e8790", weight: 0.45, fillColor: "#f7f7f7", fillOpacity: 0.13, opacity: 0.45 };
+      };
       const formatDate = (value) => {
         const [year, month, day] = value.split("-").map(Number);
         const months = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
@@ -907,14 +1014,18 @@
         <div class="popup-row">Mujeres: <strong>${fmt(props.female)}</strong></div>
         <div class="popup-note">Área: ${fmt(Math.round(Number(props.area || 0)))} ha aprox.</div>
       `;
-      const manzanaPopup = (props) => {
+      const manzanaPopup = (props, feature = null) => {
         const code = props.man;
         const stats = manzanaStats?.byMan?.[code] || {};
         const platform = platformStats?.manToPlatform?.[code] || "Fuera de plataformas";
+        const areaKm2 = geometryAreaKm2(feature?.geometry);
+        const density = areaKm2 > 0 ? Number(stats.population_total || 0) / areaKm2 : 0;
         return `
           <div class="popup-title"><strong>Manzana ${esc(code)}</strong></div>
           <div class="popup-row">Plataforma: <strong>${esc(platform)}</strong></div>
           <div class="popup-row">Población: <strong>${fmt(stats.population_total)}</strong></div>
+          <div class="popup-row">Área: <strong>${areaKm2 ? areaKm2.toFixed(4) : "N/D"} km²</strong></div>
+          <div class="popup-row">Densidad: <strong>${density ? fmt(Math.round(density)) : "N/D"} hab/km²</strong></div>
           <div class="popup-row">Hombres: <strong>${fmt(stats.male)}</strong></div>
           <div class="popup-row">Mujeres: <strong>${fmt(stats.female)}</strong></div>
           <div class="popup-note">Censo 2022 por manzana censal.</div>
@@ -1004,6 +1115,44 @@
               </div>
               ${metricBars("Incidentes KDE por Plataforma", graphRows, Math.max(...graphRows.map((item) => item.value), 1), "#9c1f33")}
             `;
+            return;
+          }
+          if (diagnosisMetric === "population" || diagnosisMetric === "populationDensity") {
+            const byMan = Object.values(manzanaStats?.byMan || {});
+            const withPopulation = byMan.filter((item) => Number(item.population_total || 0) > 0);
+            const totalPopulation = byMan.reduce((sum, item) => sum + Number(item.population_total || 0), 0);
+            const platformPopulation = filteredPlatforms().reduce((sum, platform) => sum + Number(platform.population || 0), 0);
+            const topPlatforms = [...filteredPlatforms()].sort((a, b) => Number(b.population || 0) - Number(a.population || 0)).slice(0, 6);
+            const rows = diagnosisMetric === "population"
+              ? topPlatforms.map((item) => ({ label: item.platform, value: item.population, color: "#4f8f52" }))
+              : [...filteredPlatforms()].sort((a, b) => Number(b.densityPopKm2 || 0) - Number(a.densityPopKm2 || 0)).slice(0, 6).map((item) => ({ label: item.platform, value: Math.round(item.densityPopKm2 || 0), color: "#c86670" }));
+            elements.summary.innerHTML = [
+              ["Manzanas geométricas", manzanaLayer ? manzanaLayer.getLayers().length : 0],
+              ["Manzanas con población", withPopulation.length],
+              ["Población censal", totalPopulation],
+              ["Población en plataformas", platformPopulation],
+              ["Plataformas", filteredPlatforms().length],
+              ["Método", diagnosisMetric === "population" ? "Coropleta por manzana" : "POB / AREA_KM2"]
+            ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+            elements.graphicAnalysis.innerHTML = `${metricBars(diagnosisMetric === "population" ? "Población por plataforma" : "Densidad por plataforma (hab/km²)", rows, Math.max(...rows.map((item) => Number(item.value || 0)), 1), diagnosisMetric === "population" ? "#4f8f52" : "#c86670")}`;
+            return;
+          }
+          if (diagnosisMetric === "incidentCount" || diagnosisMetric === "incidentRate") {
+            const visible = filteredPlatforms();
+            const totalIncidents = visible.reduce((sum, platform) => sum + Number(platform.incidents || 0), 0);
+            const population = visible.reduce((sum, platform) => sum + Number(platform.population || 0), 0);
+            const rows = diagnosisMetric === "incidentCount"
+              ? [...visible].sort((a, b) => Number(b.incidents || 0) - Number(a.incidents || 0)).slice(0, 8).map((item) => ({ label: item.platform, value: item.incidents, color: "#c86670" }))
+              : [...visible].sort((a, b) => Number(b.incidentRate1000 || 0) - Number(a.incidentRate1000 || 0)).slice(0, 8).map((item) => ({ label: item.platform, value: item.incidentRate1000, color: "#d9a441" }));
+            elements.summary.innerHTML = [
+              ["Plataformas", visible.length],
+              ["Eventos registrados", totalIncidents],
+              ["Población base", population],
+              ["Tasa ciudad / 1.000", population ? ((totalIncidents / population) * 1000).toFixed(2) : "N/D"],
+              ["Eventos A/B usados", diagnosis.summary?.incidentSpatialQuality?.spatialValidAB || 0],
+              ["Fórmula", diagnosisMetric === "incidentCount" ? "Spatial join" : "(INC_TOTAL / POB) * 1000"]
+            ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+            elements.graphicAnalysis.innerHTML = `${metricBars(diagnosisMetric === "incidentCount" ? "Eventos registrados por plataforma" : "Tasa por 1.000 habitantes", rows, Math.max(...rows.map((item) => Number(item.value || 0)), 1), diagnosisMetric === "incidentCount" ? "#c86670" : "#d9a441")}`;
             return;
           }
           const visible = filteredPlatforms();
@@ -1121,6 +1270,30 @@
           `;
           return;
         }
+        if (isBlockOneMetric()) {
+          const visible = filteredPlatforms();
+          let rows = [];
+          let title = "";
+          let color = "#4f8f52";
+          if (diagnosisMetric === "population") {
+            title = "Población por plataforma";
+            rows = [...visible].sort((a, b) => Number(b.population || 0) - Number(a.population || 0)).slice(0, 8).map((item) => ({ label: item.platform, value: item.population, color }));
+          } else if (diagnosisMetric === "populationDensity") {
+            title = "Densidad por plataforma (hab/km²)";
+            color = "#c86670";
+            rows = [...visible].sort((a, b) => Number(b.densityPopKm2 || 0) - Number(a.densityPopKm2 || 0)).slice(0, 8).map((item) => ({ label: item.platform, value: Math.round(item.densityPopKm2 || 0), color }));
+          } else if (diagnosisMetric === "incidentCount") {
+            title = "Eventos registrados por plataforma";
+            color = "#c86670";
+            rows = [...visible].sort((a, b) => Number(b.incidents || 0) - Number(a.incidents || 0)).slice(0, 8).map((item) => ({ label: item.platform, value: item.incidents, color }));
+          } else {
+            title = "Tasa por 1.000 habitantes";
+            color = "#d9a441";
+            rows = [...visible].sort((a, b) => Number(b.incidentRate1000 || 0) - Number(a.incidentRate1000 || 0)).slice(0, 8).map((item) => ({ label: item.platform, value: item.incidentRate1000, color }));
+          }
+          elements.graphicAnalysis.innerHTML = `${metricBars(title, rows, Math.max(...rows.map((item) => Number(item.value || 0)), 1), color)}`;
+          return;
+        }
         const visible = filteredPlatforms();
         const topIncidents = [...visible].sort((a, b) => Number(b.incidents || 0) - Number(a.incidents || 0)).slice(0, 6);
         const maxIncidents = Math.max(...topIncidents.map((item) => Number(item.incidents || 0)), 1);
@@ -1178,6 +1351,28 @@
 
       function renderLegend() {
         if (mode === "diagnosis") {
+          if (diagnosisMetric === "population") {
+            elements.legend.innerHTML = `
+              <div class="legend-row"><span class="legend-swatch" style="background:#f7f7f7;border-color:#7e8790"></span>0 habitantes / sin dato</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#d8eadf;border-color:#7e8790"></span>1 - 50 hab.</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#8fb96a;border-color:#7e8790"></span>51 - 150 hab.</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#4f8f52;border-color:#7e8790"></span>151 - 300 hab.</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#245b34;border-color:#7e8790"></span>300+ hab.</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:2px solid #263a33"></span>Plataforma territorial</div>
+            `;
+            return;
+          }
+          if (diagnosisMetric === "populationDensity") {
+            elements.legend.innerHTML = `
+              <div class="legend-row"><span class="legend-swatch" style="background:#f7f7f7;border-color:#7e8790"></span>0 / sin dato</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#d8eadf;border-color:#7e8790"></span>≤ 2.500 hab/km²</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#8fb96a;border-color:#7e8790"></span>2.501 - 7.500</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#d9a441;border-color:#7e8790"></span>7.501 - 15.000</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#c86670;border-color:#7e8790"></span>15.000+ hab/km²</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:2px solid #263a33"></span>Plataforma territorial</div>
+            `;
+            return;
+          }
           if (diagnosisMetric === "hotspots") {
             const raster = kdeValidation.rasters?.["300"] || {};
             elements.legend.innerHTML = `
@@ -1499,6 +1694,30 @@
         elements.togglePlatforms.checked = true;
       }
 
+      function setBlockOneContextLayers(metric) {
+        elements.toggleEvents.checked = metric === "incidentCount" || metric === "incidentRate";
+        elements.toggleParishes.checked = false;
+        elements.toggleCameras.checked = false;
+        elements.togglePoliceInfrastructure.checked = false;
+        elements.toggleManzanas.checked = metric === "population" || metric === "populationDensity";
+        elements.toggleBoulevards.checked = false;
+        elements.togglePlatforms.checked = true;
+      }
+
+      function activateDiagnosisMetric(metric) {
+        mode = "diagnosis";
+        diagnosisMetric = metric;
+        elements.diagnosisMetric.value = metric;
+        selectedId = null;
+        selectedParish = null;
+        selectedCamera = null;
+        selectedPolice = null;
+        if (metric === "hotspots") setKdeDefaultContextLayers();
+        if (isBlockOneMetric()) setBlockOneContextLayers(metric);
+        syncModeButtons();
+        update();
+      }
+
       function update() {
         const items = filteredEvents();
         if (selectedId && !items.some((event) => event.id === selectedId)) selectedId = null;
@@ -1514,6 +1733,7 @@
         renderCameraMarkers();
         renderPoliceLayers();
         updatePlatformStyles();
+        updateManzanaStyles();
         renderPlatformMask();
         renderPlatformLabels();
         syncMapLayerVisibility();
@@ -1531,6 +1751,18 @@
             const raster = kdeValidation.rasters?.["300"] || {};
             elements.overlayTitle.textContent = "Densidad de incidentes (KDE)";
             elements.overlayText.textContent = `${fmt(kdeValidation.controlTable?.REGISTROS_KDE || 0)} incidentes A/B válidos · bandwidth ${raster.bandwidth || 300} m · celda ${raster.cellSize || 20} m · superficie continua DENSIDAD_INCIDENTES_KDE.`;
+          } else if (diagnosisMetric === "population") {
+            elements.overlayTitle.textContent = "Población por manzana";
+            elements.overlayText.textContent = "Coropleta de población absoluta con manzanas censales reales CPV 2022. Las plataformas son referencia territorial.";
+          } else if (diagnosisMetric === "populationDensity") {
+            elements.overlayTitle.textContent = "Densidad poblacional por manzana";
+            elements.overlayText.textContent = "DENS_POB = POBLACION / AREA_KM2. El área se calcula desde geometría censal en unidades métricas locales.";
+          } else if (diagnosisMetric === "incidentCount") {
+            elements.overlayTitle.textContent = "Incidentes por Plataforma";
+            elements.overlayText.textContent = "Número de eventos registrados por Plataforma Territorial mediante unión espacial de incidentes georreferenciados válidos.";
+          } else if (diagnosisMetric === "incidentRate") {
+            elements.overlayTitle.textContent = "Tasa por 1.000 habitantes";
+            elements.overlayText.textContent = "TASA_INC_1000 = (INC_TOTAL / POBLACION) * 1000. No representa un índice de inseguridad.";
           }
           elements.status.textContent = `Fases integradas: ${diagnosis.summary?.platforms || 18} plataformas territoriales, ${fmt(diagnosis.summary?.populationWithPlatform)} habitantes asignados, ${fmt(diagnosis.summary?.hotspots || 0)} hotspots preliminares y ${fmt(diagnosis.summary?.videoDeficitHighOrCritical || 0)} plataformas con déficit alto/crítico.`;
         } else {
@@ -1819,6 +2051,7 @@
         renderPlatformDetail(platformName);
         renderSummary(filteredEvents());
         renderList(filteredEvents());
+        updateManzanaStyles();
         if (platformLayer) {
           let target = null;
           platformLayer.eachLayer((layer) => {
@@ -1837,7 +2070,11 @@
         elements.ecuMode.classList.toggle("is-active", mode === "ecu");
         elements.camerasMode.classList.toggle("is-active", mode === "cameras");
         elements.policeMode.classList.toggle("is-active", mode === "police");
-        elements.diagnosisMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric !== "hotspots");
+        elements.populationMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "population");
+        elements.populationDensityMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "populationDensity");
+        elements.platformIncidentsMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "incidentCount");
+        elements.incidentRateMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "incidentRate");
+        elements.diagnosisMode.classList.toggle("is-active", mode === "diagnosis" && !["hotspots", "population", "populationDensity", "incidentCount", "incidentRate"].includes(diagnosisMetric));
         elements.kdeAnalysis.classList.toggle("is-active", isKdeMode());
       }
 
@@ -1856,14 +2093,8 @@
           platformStats = platformStatsResponse.ok ? await platformStatsResponse.json() : null;
           manzanaStats = manzanaStatsResponse.ok ? await manzanaStatsResponse.json() : null;
           manzanaLayer = L.geoJSON(manzanaGeojson, {
-            style: {
-              color: "#7e8790",
-              weight: 0.45,
-              fillColor: "#f7f7f7",
-              fillOpacity: 0.13,
-              opacity: 0.45
-            },
-            onEachFeature: (feature, layer) => layer.bindPopup(manzanaPopup(feature.properties || {}))
+            style: manzanaVisualStyle,
+            onEachFeature: (feature, layer) => layer.bindPopup(manzanaPopup(feature.properties || {}, feature))
           }).addTo(map);
           platformLayer = L.geoJSON(platformGeojson, {
             style: platformVisualStyle,
@@ -1940,8 +2171,12 @@
       loadBoulevardNetwork();
 
       [elements.search, elements.category, elements.precision, elements.source].forEach((control) => control.addEventListener("input", update));
-      elements.diagnosisMetric.addEventListener("change", () => { diagnosisMetric = elements.diagnosisMetric.value; mode = "diagnosis"; if (diagnosisMetric === "hotspots") setKdeDefaultContextLayers(); syncModeButtons(); update(); });
-      elements.kdeAnalysis.addEventListener("click", () => { mode = "diagnosis"; diagnosisMetric = "hotspots"; elements.diagnosisMetric.value = "hotspots"; selectedId = null; selectedParish = null; selectedCamera = null; selectedPolice = null; setKdeDefaultContextLayers(); syncModeButtons(); update(); });
+      elements.diagnosisMetric.addEventListener("change", () => activateDiagnosisMetric(elements.diagnosisMetric.value));
+      elements.populationMode.addEventListener("click", () => activateDiagnosisMetric("population"));
+      elements.populationDensityMode.addEventListener("click", () => activateDiagnosisMetric("populationDensity"));
+      elements.platformIncidentsMode.addEventListener("click", () => activateDiagnosisMetric("incidentCount"));
+      elements.incidentRateMode.addEventListener("click", () => activateDiagnosisMetric("incidentRate"));
+      elements.kdeAnalysis.addEventListener("click", () => activateDiagnosisMetric("hotspots"));
       elements.eventsMode.addEventListener("click", () => { mode = "events"; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
       elements.ecuMode.addEventListener("click", () => { mode = "ecu"; selectedId = null; selectedCamera = null; selectedPlatform = null; syncModeButtons(); update(); });
       elements.camerasMode.addEventListener("click", () => { mode = "cameras"; selectedId = null; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
