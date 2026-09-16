@@ -709,11 +709,17 @@
         select.innerHTML = `<option value="__ALL__">${esc(label)}</option>${values.map((value) => `<option value="${esc(value)}">${esc(value)}</option>`).join("")}`;
       }
 
+      const insidePlatformsOnly = (lng, lat) => {
+        if (lng == null || lat == null) return false;
+        return pointInsidePlatforms(Number(lng), Number(lat));
+      };
+
       function filteredEvents() {
         const query = clean(elements.search.value);
         return events.filter((event) => {
           const haystack = clean(`${event.date} ${event.category} ${event.event} ${event.precision} ${event.location} ${event.source} ${event.observation}`);
           return (!query || haystack.includes(query))
+            && (!event.mappable || insidePlatformsOnly(event.lng, event.lat))
             && (elements.category.value === "__ALL__" || event.category === elements.category.value)
             && (elements.precision.value === "__ALL__" || event.precision === elements.precision.value)
             && (elements.source.value === "__ALL__" || event.source === elements.source.value);
@@ -723,7 +729,7 @@
       function filteredParishes() {
         const query = clean(elements.search.value);
         const topText = (parish) => (ecu911.topByParish?.[parish.parish] || []).map((item) => `${item.subtype} ${item.n}`).join(" ");
-        return (ecu911.parishes || []).filter((parish) => !query || clean(`${parish.parish} ${topText(parish)}`).includes(query));
+        return (ecu911.parishes || []).filter((parish) => (!query || clean(`${parish.parish} ${topText(parish)}`).includes(query)) && insidePlatformsOnly(parish.lng, parish.lat));
       }
 
       function filteredCameras() {
@@ -731,6 +737,7 @@
         return cameras.filter((camera) => {
           const haystack = clean(`${camera.id} ${camera.type} ${camera.address} ${camera.reference} ${camera.institution} ${camera.confidence}`);
           return (!query || haystack.includes(query))
+            && insidePlatformsOnly(camera.lng, camera.lat)
             && (elements.source.value === "__ALL__" || camera.institution === elements.source.value)
             && (elements.category.value === "__ALL__" || camera.type === elements.category.value)
             && (elements.precision.value === "__ALL__" || camera.confidence === elements.precision.value);
@@ -741,8 +748,9 @@
         const query = clean(elements.search.value);
         return policeInfrastructure.filter((feature) => {
           const props = feature.properties || {};
+          const coords = (feature.geometry || {}).coordinates || [];
           const haystack = clean(`${props.code} ${props.type} ${props.name} ${props.address} ${props.status} ${props.condition}`);
-          return !query || haystack.includes(query);
+          return (!query || haystack.includes(query)) && insidePlatformsOnly(coords[0], coords[1]);
         });
       }
 
