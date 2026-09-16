@@ -299,6 +299,7 @@
           <label class="layer-toggle"><span>Infraestructura policial</span><input id="togglePoliceInfrastructure" type="checkbox" checked /></label>
           <label class="layer-toggle"><span>Plataformas territoriales</span><input id="togglePlatforms" type="checkbox" checked /></label>
           <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked /></label>
+          <label class="layer-toggle"><span>Red de boulevares</span><input id="toggleBoulevards" type="checkbox" checked /></label>
           <label class="layer-toggle"><span>Base satelital</span><input id="toggleSatellite" type="checkbox" /></label>
         </div>
       </section>
@@ -378,6 +379,7 @@
         togglePoliceInfrastructure: document.getElementById("togglePoliceInfrastructure"),
         togglePlatforms: document.getElementById("togglePlatforms"),
         toggleManzanas: document.getElementById("toggleManzanas"),
+        toggleBoulevards: document.getElementById("toggleBoulevards"),
         toggleSatellite: document.getElementById("toggleSatellite")
       };
 
@@ -388,6 +390,7 @@
       const parishLayer = L.layerGroup().addTo(map);
       const cameraLayer = L.layerGroup().addTo(map);
       const policeInfrastructureLayer = L.layerGroup().addTo(map);
+      const boulevardLayer = L.layerGroup().addTo(map);
       let platformLayer = null;
       let manzanaLayer = null;
       let manzanaStats = null;
@@ -442,6 +445,14 @@
         <div class="popup-row">Estado: <strong>${esc(props.status || "-")}</strong></div>
         <div class="popup-row">Condición: <strong>${esc(props.condition || "-")}</strong></div>
         <div class="popup-note">${esc(props.address || props.category || "")}</div>
+      `;
+      const corridorPopup = (props, kind) => `
+        <div class="popup-title"><strong>${esc(props.Nombre || props.NOMBRE || kind)}</strong></div>
+        <div class="popup-row">Capa: <strong>${esc(kind)}</strong></div>
+        <div class="popup-row">Tipología: <strong>${esc(props.TIPOLOGIA || "-")}</strong></div>
+        <div class="popup-row">Eje: <strong>${esc(props.NOMBRE_DE || "-")}</strong></div>
+        <div class="popup-row">Longitud: <strong>${fmt(Math.round(Number(props.Shape_Length || props.Shape_Leng || 0)))} m</strong></div>
+        <div class="popup-note">${esc(props.SISTEMA_B || props.CORREDOR || "")}</div>
       `;
       const platformPopup = (props) => `
         <div class="popup-title"><strong>${esc(props.platform_name || "Plataforma")}</strong></div>
@@ -551,7 +562,7 @@
       function renderLegend() {
         elements.legend.innerHTML = [...categoryColors.entries()].map(([label, color]) => `
           <div class="legend-row"><span class="legend-swatch" style="background:${color}"></span>${esc(label)}</div>
-        `).join("") + `<div class="legend-row"><span class="legend-swatch" style="background:#f7e4a5"></span>ECU911 agregado por parroquia</div><div class="legend-row"><span class="legend-swatch" style="background:#fff"></span>Cámara operativa</div><div class="legend-row"><span class="legend-swatch" style="background:#f3c2ca"></span>Cámara requiere cambio</div><div class="legend-row"><span class="legend-swatch" style="background:#345c85"></span>Infraestructura policial</div><div class="legend-row"><span class="legend-swatch" style="background:#d8eadf;border-color:#2f6f5f"></span>Plataforma territorial</div><div class="legend-row"><span class="legend-swatch" style="background:#f7f7f7;border-color:#7e8790"></span>Manzana censal</div>`;
+        `).join("") + `<div class="legend-row"><span class="legend-swatch" style="background:#f7e4a5"></span>ECU911 agregado por parroquia</div><div class="legend-row"><span class="legend-swatch" style="background:#fff"></span>Cámara operativa</div><div class="legend-row"><span class="legend-swatch" style="background:#f3c2ca"></span>Cámara requiere cambio</div><div class="legend-row"><span class="legend-swatch" style="background:#345c85"></span>Infraestructura policial</div><div class="legend-row"><span class="legend-swatch" style="background:#d8eadf;border-color:#2f6f5f"></span>Plataforma territorial</div><div class="legend-row"><span class="legend-swatch" style="background:#f7f7f7;border-color:#7e8790"></span>Manzana censal</div><div class="legend-row"><span class="legend-swatch" style="background:transparent;border:0;border-top:3px solid #277a52"></span>Boulevares</div><div class="legend-row"><span class="legend-swatch" style="background:transparent;border:0;border-top:3px dashed #4a74a5"></span>Conexiones</div>`;
       }
 
       function renderDetail(event) {
@@ -954,12 +965,45 @@
         }
       }
 
+      async function loadBoulevardNetwork() {
+        try {
+          const [boulevardResponse, connectionResponse] = await Promise.all([
+            fetch("./data/premio-habitat/premio-habitat-boulevares.geojson?v=boulevards"),
+            fetch("./data/premio-habitat/premio-habitat-conexiones.geojson?v=boulevards")
+          ]);
+          if (!boulevardResponse.ok) throw new Error("No se pudo cargar boulevares");
+          if (!connectionResponse.ok) throw new Error("No se pudo cargar conexiones");
+          const [boulevards, connections] = await Promise.all([boulevardResponse.json(), connectionResponse.json()]);
+          L.geoJSON(connections, {
+            style: { color: "#4a74a5", weight: 3, opacity: 0.8, dashArray: "7 7" },
+            onEachFeature: (feature, layer) => {
+              const props = feature.properties || {};
+              layer.bindPopup(corridorPopup(props, "Conexión"));
+              layer.bindTooltip(esc(props.Nombre || props.NOMBRE || "Conexión"), { sticky: true });
+            }
+          }).addTo(boulevardLayer);
+          L.geoJSON(boulevards, {
+            style: { color: "#277a52", weight: 4, opacity: 0.92 },
+            onEachFeature: (feature, layer) => {
+              const props = feature.properties || {};
+              layer.bindPopup(corridorPopup(props, "Boulevard"));
+              layer.bindTooltip(esc(props.Nombre || props.NOMBRE || "Boulevard"), { sticky: true });
+            }
+          }).addTo(boulevardLayer);
+          if (!elements.toggleBoulevards.checked) map.removeLayer(boulevardLayer);
+          elements.status.textContent = `${elements.status.textContent} Red: ${fmt(boulevards.features?.length)} boulevares y ${fmt(connections.features?.length)} conexiones cargadas.`;
+        } catch (error) {
+          elements.status.textContent = `${elements.status.textContent} No se cargó la red de boulevares: ${error.message}.`;
+        }
+      }
+
       fillSelect(elements.category, "Todas las categorías/tipos", [...new Set([...events.map((event) => event.category), ...cameras.map((camera) => camera.type)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
       fillSelect(elements.precision, "Toda precisión/confianza", [...new Set([...events.map((event) => event.precision), ...cameras.map((camera) => camera.confidence)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
       fillSelect(elements.source, "Todas las fuentes", [...new Set([...events.map((event) => event.source), ...cameras.map((camera) => camera.institution)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
       renderLegend();
       update();
       loadCensusLayers();
+      loadBoulevardNetwork();
 
       [elements.search, elements.category, elements.precision, elements.source].forEach((control) => control.addEventListener("input", update));
       elements.eventsMode.addEventListener("click", () => { mode = "events"; selectedParish = null; syncModeButtons(); update(); });
@@ -978,6 +1022,7 @@
         if (!manzanaLayer) return;
         elements.toggleManzanas.checked ? manzanaLayer.addTo(map) : map.removeLayer(manzanaLayer);
       });
+      elements.toggleBoulevards.addEventListener("change", () => elements.toggleBoulevards.checked ? boulevardLayer.addTo(map) : map.removeLayer(boulevardLayer));
       elements.toggleSatellite.addEventListener("change", () => {
         if (elements.toggleSatellite.checked) {
           lightLayer.remove();
