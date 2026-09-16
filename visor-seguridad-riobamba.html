@@ -166,6 +166,26 @@
     .bar-head { display: flex; justify-content: space-between; gap: 12px; color: var(--text); font-size: 0.9rem; }
     .bar-track { height: 8px; overflow: hidden; border-radius: 999px; background: rgba(95, 142, 185, 0.12); }
     .bar-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+    .graphic-grid { display: grid; gap: 10px; }
+    .graphic-card {
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #ffffff, #f5f8f4);
+    }
+    .graphic-card h3 { font-size: 0.86rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    .metric-bar { display: grid; gap: 4px; }
+    .metric-label { display: flex; justify-content: space-between; gap: 8px; font-size: 0.78rem; color: var(--muted); }
+    .metric-track { height: 10px; overflow: hidden; border-radius: 999px; background: rgba(95, 142, 185, 0.12); }
+    .metric-fill { height: 100%; border-radius: inherit; background: var(--metric-color, var(--accent)); }
+    .status-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .status-tile { padding: 9px; border-radius: 10px; border: 1px solid var(--line); background: #fff; }
+    .status-tile span { display: block; color: var(--muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    .status-tile strong { display: block; margin-top: 4px; font-size: 1rem; }
+    .priority-row { display: grid; grid-template-columns: 28px 1fr auto; gap: 8px; align-items: center; font-size: 0.82rem; color: var(--muted); }
+    .priority-rank { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: #263a33; color: #fff; font-weight: 800; }
 
     .map-wrap { position: relative; height: 100%; }
     #map { width: 100%; height: 100%; background: #f4f5f2; }
@@ -325,6 +345,11 @@
       </section>
 
       <section class="panel">
+        <h2>Análisis gráfico</h2>
+        <div class="graphic-grid" id="graphicAnalysis"><p>Cambia a Diagnóstico para ver los gráficos por plataforma.</p></div>
+      </section>
+
+      <section class="panel">
         <h2 id="detailTitle">Detalle</h2>
         <div class="mini-list" id="detailList"><p>Selecciona un evento en el mapa o en el listado.</p></div>
       </section>
@@ -384,6 +409,7 @@
         diagnosisMode: document.getElementById("diagnosisMode"),
         diagnosisMetric: document.getElementById("diagnosisMetricSelect"),
         summary: document.getElementById("summaryCards"),
+        graphicAnalysis: document.getElementById("graphicAnalysis"),
         detailTitle: document.getElementById("detailTitle"),
         detail: document.getElementById("detailList"),
         listTitle: document.getElementById("listTitle"),
@@ -707,6 +733,73 @@
         ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
       }
 
+      function countBy(items, key) {
+        return items.reduce((acc, item) => {
+          const value = item[key] || "N/D";
+          acc[value] = (acc[value] || 0) + 1;
+          return acc;
+        }, {});
+      }
+
+      function metricBars(title, rows, maxValue, color = "#2f6f5f") {
+        return `<div class="graphic-card"><h3>${esc(title)}</h3>${
+          rows.map((row) => {
+            const width = maxValue ? Math.max(3, Number(row.value || 0) / maxValue * 100) : 3;
+            return `<div class="metric-bar">
+              <div class="metric-label"><span>${esc(row.label)}</span><strong>${displayValue(row.value)}</strong></div>
+              <div class="metric-track"><div class="metric-fill" style="width:${width}%;--metric-color:${row.color || color}"></div></div>
+            </div>`;
+          }).join("")
+        }</div>`;
+      }
+
+      function cameraCoverageColor(value) {
+        const pct = Number(value || 0);
+        if (pct <= 0) return "#c86670";
+        if (pct < 25) return "#d9a441";
+        if (pct < 50) return "#8fb96a";
+        return "#2f6f5f";
+      }
+
+      function renderGraphicAnalysis() {
+        if (mode !== "diagnosis") {
+          elements.graphicAnalysis.innerHTML = "<p>Cambia a Diagnóstico para ver los gráficos por plataforma.</p>";
+          return;
+        }
+        const visible = filteredPlatforms();
+        const topIncidents = [...visible].sort((a, b) => Number(b.incidents || 0) - Number(a.incidents || 0)).slice(0, 6);
+        const maxIncidents = Math.max(...topIncidents.map((item) => Number(item.incidents || 0)), 1);
+        const topCoverage = [...visible].sort((a, b) => Number(b.cameraCoveredPopulationPct || 0) - Number(a.cameraCoveredPopulationPct || 0)).slice(0, 6);
+        const maxCoverage = Math.max(...topCoverage.map((item) => Number(item.cameraCoveredPopulationPct || 0)), 1);
+        const deficitCounts = countBy(visible, "videoDeficit");
+        const coverageCounts = countBy(visible, "institutionalCoverage");
+        const deficitRows = ["CRITICO", "ALTO", "MEDIO", "BAJO"].map((key) => ({ label: key, value: deficitCounts[key] || 0, color: (diagnosisPalettes.videoDeficit.find(([value]) => value === key) || [null, "#d8eadf"])[1] }));
+        const coverageRows = ["BAJA", "MEDIA", "ALTA"].map((key) => ({ label: key, value: coverageCounts[key] || 0, color: (diagnosisPalettes.institutionalCoverage.find(([value]) => value === key) || [null, "#d8eadf"])[1] }));
+        const priorities = [...visible]
+          .sort((a, b) => Number(b.videoDeficitScore || 0) - Number(a.videoDeficitScore || 0) || Number(b.incidents || 0) - Number(a.incidents || 0))
+          .slice(0, 5);
+        elements.graphicAnalysis.innerHTML = `
+          <div class="status-grid">
+            <div class="status-tile"><span>Hotspots</span><strong>${fmt(diagnosis.summary?.hotspots || 0)}</strong></div>
+            <div class="status-tile"><span>Déficit alto/crítico</span><strong>${fmt(diagnosis.summary?.videoDeficitHighOrCritical || 0)}</strong></div>
+            <div class="status-tile"><span>Pob. con cámaras</span><strong>${fmt(diagnosis.summary?.cameraCoveredPopulation || 0)}</strong></div>
+            <div class="status-tile"><span>Pob. bulevares</span><strong>${fmt(diagnosis.summary?.populationNearBoulevard || 0)}</strong></div>
+          </div>
+          ${metricBars("Incidentes de seguridad", topIncidents.map((item) => ({ label: item.platform, value: item.incidents, color: colorForPlatformMetric(item) })), maxIncidents, "#c86670")}
+          ${metricBars("Cobertura potencial de cámaras (%)", topCoverage.map((item) => ({ label: item.platform, value: item.cameraCoveredPopulationPct, color: cameraCoverageColor(item.cameraCoveredPopulationPct) })), maxCoverage, "#2f6f5f")}
+          ${metricBars("Déficit de videovigilancia", deficitRows, Math.max(...deficitRows.map((item) => item.value), 1), "#d9a441")}
+          ${metricBars("Cobertura institucional", coverageRows, Math.max(...coverageRows.map((item) => item.value), 1), "#4f8f52")}
+          <div class="graphic-card">
+            <h3>Zonas prioritarias</h3>
+            ${priorities.map((item, index) => `<div class="priority-row">
+              <span class="priority-rank">${index + 1}</span>
+              <span>${esc(item.platform)} · ${esc(item.criticalZones)}</span>
+              <strong>${esc(item.videoDeficit)}</strong>
+            </div>`).join("")}
+          </div>
+        `;
+      }
+
       function renderLegend() {
         if (mode === "diagnosis") {
           const labels = diagnosisPalettes[diagnosisMetric] || diagnosisPalettes.videoDeficit;
@@ -931,6 +1024,7 @@
         renderPoliceLayers();
         updatePlatformStyles();
         renderLegend();
+        renderGraphicAnalysis();
         if (mode === "events") {
           renderDetail(events.find((event) => event.id === selectedId));
           elements.status.textContent = `${items.length} de ${events.length} eventos publicados visibles; ${items.filter((event) => event.mappable).length} con referencia en mapa.`;
