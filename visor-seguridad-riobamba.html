@@ -415,6 +415,17 @@
       const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[char]));
       const fmt = (value) => Number(value || 0).toLocaleString("es-EC");
       const displayValue = (value) => typeof value === "number" ? fmt(value) : esc(value ?? "N/D");
+      const pctValue = (value) => typeof value === "number" ? `${value}%` : displayValue(value);
+      const compactPlatformPhases = (platform) => [
+        ["Hotspot", platform.hotspots],
+        ["Déficit", platform.videoDeficit],
+        ["Cob. cámaras", pctValue(platform.cameraCoveredPopulationPct)],
+        ["Pob. bulevar", platform.populationNearBoulevard],
+        ["Inc. cámara/policía/red", `${displayValue(platform.incidentsCoveredByCamera)} / ${displayValue(platform.incidentsNearPolice)} / ${displayValue(platform.incidentsNearBoulevard)}`],
+        ["Cobertura inst.", platform.institutionalCoverage],
+        ["Tipología", platform.territorialTypology],
+        ["Zona crítica", platform.criticalZones],
+      ];
       const platformRecord = (name) => diagnosis.byPlatformName?.[name] || diagnosis.platformMaster?.find((item) => item.platformName === name || item.platform === name?.replace("PLATAFORMA ", ""));
       const formatDate = (value) => {
         const [year, month, day] = value.split("-").map(Number);
@@ -629,11 +640,7 @@
               <small>${fmt(platform.population)} hab · ${platform.areaKm2} km² · ${fmt(platform.manzanas)} manzanas</small>
               <div class="bar-row"><div class="bar-head"><span>Población</span><strong>${fmt(platform.population)}</strong></div><div class="bar-track"><div class="bar-fill" style="width:${Math.max(4, platform.population / maxPop * 100)}%"></div></div></div>
               <div class="pill-row">
-                <span class="pill">${fmt(Math.round(platform.densityPopKm2))} hab/km²</span>
-                <span class="pill">Incidentes ${esc(platform.incidents)}</span>
-                <span class="pill">Déficit ${esc(platform.videoDeficit)}</span>
-                <span class="pill">Cob. cámaras ${displayValue(platform.cameraCoveredPopulationPct)}%</span>
-                <span class="pill">${esc(platform.institutionalCoverage || "N/D")}</span>
+                ${compactPlatformPhases(platform).map(([label, value]) => `<span class="pill">${esc(label)}: ${displayValue(value)}</span>`).join("")}
               </div>
             </button>
           `).join("") || "<p>No hay plataformas con los filtros actuales.</p>";
@@ -984,7 +991,18 @@
         if (!platform) {
           elements.detailTitle.textContent = "Diagnóstico territorial";
           const notes = (diagnosis.methodNotes || []).map((note) => `<p>${esc(note)}</p>`).join("");
+          const phaseRows = [
+            ["1. Hotspots preliminares", `${fmt(diagnosis.summary?.hotspots || 0)} plataformas con concentración preliminar`],
+            ["2. Déficit de videovigilancia", `${fmt(diagnosis.summary?.videoDeficitHighOrCritical || 0)} plataformas en ALTO/CRITICO`],
+            ["3. Cobertura potencial de cámaras", `${fmt(diagnosis.summary?.cameraCoveredPopulation || 0)} habitantes en radio técnico`],
+            ["4. Población cercana a boulevares/conexiones", `${fmt(diagnosis.summary?.populationNearBoulevard || 0)} habitantes`],
+            ["5. Incidentes cerca de cámaras, policía y red", "Ver conteo por plataforma al seleccionar una ficha"],
+            ["6. Cobertura institucional", "Clasificación BAJA / MEDIA / ALTA por plataforma"],
+            ["7. Tipología territorial", "Lectura combinada de conflictividad, densidad y cobertura"],
+            ["8. Zonas críticas preliminares", "Priorización operativa por plataforma"],
+          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
           elements.detail.innerHTML = "<p>Selecciona una Plataforma Territorial para revisar las fases integradas. Los campos no calculados se muestran como N/D.</p>"
+            + phaseRows
             + (diagnosis.inventory || []).map((item) => `<div class="mini-row"><span>${esc(item.component)}</span><strong>${esc(item.records)} registros</strong></div>`).join("")
             + notes;
           elements.overlayTitle.textContent = "Fases integradas: plataformas territoriales";
