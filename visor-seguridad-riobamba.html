@@ -329,7 +329,10 @@
         <h2>Indicador gráfico</h2>
         <select id="diagnosisMetricSelect" aria-label="Indicador gráfico de diagnóstico">
           <option value="videoDeficit">Déficit de videovigilancia</option>
+          <option value="incidentCount">Incidentes absolutos</option>
+          <option value="incidentRate">Tasa de incidentes / 1.000 hab.</option>
           <option value="hotspots">Hotspots preliminares</option>
+          <option value="populationExposure">Exposición poblacional a hotspots</option>
           <option value="cameraCoverage">Cobertura potencial de cámaras</option>
           <option value="boulevardPopulation">Población cercana a boulevares/conexiones</option>
           <option value="incidentProximity">Incidentes cerca de cámaras, policía y red</option>
@@ -397,7 +400,7 @@
   <script src="./visor-seguridad-riobamba-data.js"></script>
   <script src="./riobamba-camaras-data.js?v=municipio-30"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
-  <script src="./riobamba-seguridad-diagnostico-data.js?v=etapa1-areal"></script>
+  <script src="./riobamba-seguridad-diagnostico-data.js?v=etapa3-exposicion"></script>
   <script>
     (() => {
       const dataset = window.RIOBAMBA_SECURITY_DATA || { events: window.RIOBAMBA_SECURITY_EVENTS || [], ecu911: { serviceCounts: [], parishes: [], topSubtypes: [], topByParish: {}, totalRows: 0, securityRows: 0 } };
@@ -487,6 +490,18 @@
         ["Zona crítica", platform.criticalZones],
       ];
       const diagnosisPalettes = {
+        incidentCount: [
+          ["0", "#e5e8e1", "0"],
+          ["1", "#ffe08a", "1"],
+          ["2", "#ff9f1c", "2"],
+          ["3", "#e71d36", "3+"],
+        ],
+        incidentRate: [
+          ["0", "#e5e8e1", "0"],
+          ["0.1", "#ffe08a", "0,01-0,10"],
+          ["0.25", "#ff9f1c", "0,11-0,25"],
+          ["0.26", "#e71d36", "0,26+"],
+        ],
         videoDeficit: [
           ["CRITICO", "#9c3f52", "Crítico"],
           ["ALTO", "#c86670", "Alto"],
@@ -502,6 +517,12 @@
           ["25", "#d9a441", "1-24%"],
           ["50", "#8fb96a", "25-49%"],
           ["100", "#2f6f5f", "50%+"],
+        ],
+        populationExposure: [
+          ["0", "#e5e8e1", "0 hab."],
+          ["500", "#ffe08a", "1-499 hab."],
+          ["2000", "#ff9f1c", "500-1.999 hab."],
+          ["2001", "#e71d36", "2.000+ hab."],
         ],
         boulevardPopulation: [
           ["0", "#e5e8e1", "0 hab."],
@@ -534,8 +555,29 @@
       };
       const colorForPlatformMetric = (platform) => {
         if (!platform) return "#d8eadf";
+        if (diagnosisMetric === "incidentCount") {
+          const value = Number(platform.incidents || 0);
+          if (value <= 0) return "#e5e8e1";
+          if (value === 1) return "#ffe08a";
+          if (value === 2) return "#ff9f1c";
+          return "#e71d36";
+        }
+        if (diagnosisMetric === "incidentRate") {
+          const value = Number(platform.incidentRate1000 || 0);
+          if (value <= 0) return "#e5e8e1";
+          if (value <= 0.1) return "#ffe08a";
+          if (value <= 0.25) return "#ff9f1c";
+          return "#e71d36";
+        }
         if (diagnosisMetric === "videoDeficit") return (diagnosisPalettes.videoDeficit.find(([key]) => key === platform.videoDeficit) || [null, "#d8eadf"])[1];
         if (diagnosisMetric === "hotspots") return Number(platform.hotspots || 0) > 0 ? "#c86670" : "#d8eadf";
+        if (diagnosisMetric === "populationExposure") {
+          const value = Number(platform.populationExposed250 || 0);
+          if (value <= 0) return "#e5e8e1";
+          if (value < 500) return "#ffe08a";
+          if (value < 2000) return "#ff9f1c";
+          return "#e71d36";
+        }
         if (diagnosisMetric === "cameraCoverage") {
           const pct = Number(platform.cameraCoveredPopulationPct || 0);
           if (pct <= 0) return "#c86670";
@@ -770,6 +812,8 @@
             ["Plataformas", visible.length],
             ["Población", population],
             ["Incidentes", visible.reduce((sum, platform) => sum + Number(platform.incidents || 0), 0)],
+            ["Precisión A/B", `${fmt(diagnosis.summary?.incidentSpatialQuality?.spatialValidAB || 0)} usados`],
+            ["Pob. expuesta 250 m", diagnosis.summary?.populationExposed250 || 0],
             ["Cámaras", visible.reduce((sum, platform) => sum + Number(platform.cameras || 0), 0)],
             ["Hotspots", visible.reduce((sum, platform) => sum + Number(platform.hotspots || 0), 0)],
             ["Déficit alto/crítico", visible.filter((platform) => ["ALTO", "CRITICO"].includes(platform.videoDeficit)).length],
@@ -1052,6 +1096,7 @@
         if (mode !== "diagnosis" || diagnosisMetric !== "hotspots") return;
         items.forEach((event) => {
           if (!event.mappable || event.lat == null || event.lng == null) return;
+          if (!String(event.precision || "").startsWith("A") && !String(event.precision || "").startsWith("B")) return;
           if (!pointInsidePlatforms(event.lng, event.lat)) return;
           [
             { radius: 920, color: "#9bd8ff", opacity: 0.1 },
@@ -1345,6 +1390,11 @@
           const phaseRows = [
             ["Etapa implementada", diagnosis.phase || "Etapa 1"],
             ["Tabla maestra", diagnosis.masterTableName || "ANALISIS_PLATAFORMAS"],
+            ["Eventos A/B usados", `${fmt(diagnosis.summary?.incidentSpatialQuality?.spatialValidAB || 0)} de ${fmt(diagnosis.summary?.incidentSpatialQuality?.total || 0)}`],
+            ["Eventos C no espaciales", diagnosis.summary?.incidentSpatialQuality?.byPrecisionGeo?.C || 0],
+            ["Pob. expuesta 100 m", diagnosis.summary?.populationExposed100 || 0],
+            ["Pob. expuesta 250 m", diagnosis.summary?.populationExposed250 || 0],
+            ["Pob. expuesta 500 m", diagnosis.summary?.populationExposed500 || 0],
             ["Manzanas intersectadas", `${fmt(diagnosis.summary?.manzanasAssigned || 0)} de ${fmt((diagnosis.summary?.manzanasAssigned || 0) + (diagnosis.summary?.manzanasWithoutPlatform || 0))}`],
             ["Manzanas cruzan plataformas", diagnosis.summary?.manzanasSplitByPlatforms || 0],
             ["1. Hotspots preliminares", `${fmt(diagnosis.summary?.hotspots || 0)} plataformas con concentración preliminar`],
@@ -1381,8 +1431,13 @@
           ["18-64 años", Number(platform.age18_29 || 0) + Number(platform.age30_64 || 0)],
           ["65+ años", platform.age65Plus],
           ["Incidentes", platform.incidents],
+          ["Incidentes precisión A", platform.incidentsA],
+          ["Incidentes precisión B", platform.incidentsB],
           ["Tasa / 1.000", platform.incidentRate1000],
           ["Hotspots preliminares", platform.hotspots],
+          ["Pob. expuesta 100 m", platform.populationExposed100],
+          ["Pob. expuesta 250 m", platform.populationExposed250],
+          ["Pob. expuesta 500 m", platform.populationExposed500],
           ["Infraestructura policial", platform.policeInfrastructure],
           ["Personal policial", platform.policePersonnel],
           ["Pob. / infraestructura", platform.populationPerPoliceInfrastructure],

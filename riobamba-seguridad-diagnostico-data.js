@@ -1,11 +1,11 @@
 window.RIOBAMBA_SECURITY_DIAGNOSIS = {
-  "generatedAt": "2026-09-16T11:59:33",
-  "phase": "ETAPA 1 - Auditoria, plataformas, manzanas y poblacion",
+  "generatedAt": "2026-09-16T12:06:36",
+  "phase": "ETAPA 3 - KDE, hotspots y exposicion poblacional",
   "masterTableName": "ANALISIS_PLATAFORMAS",
   "methodNotes": [
     "La unidad principal son las 18 plataformas territoriales reales.",
     "No se usan circuitos/subcircuitos como unidad principal.",
-    "Etapa 1 implementada para validar auditoria, base territorial y poblacion antes de continuar con incidentes/KDE.",
+    "Etapas 1, 2 y 3 implementadas: auditoria/base poblacional areal + clasificacion A/B/C + concentracion visual y exposicion poblacional.",
     "La poblacion por plataforma se estima por interseccion areal manzana-plataforma: POB_EST = POB_MANZANA * AREA_INTERSECCION / AREA_MANZANA.",
     "Se calculan conteos por plataforma cuando existe geometria verificable.",
     "La cobertura potencial de camaras usa un radio tecnico inicial de 250 m; no equivale a alcance visual real ni analitica forense.",
@@ -23,6 +23,16 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
     "manzanasWithPopulation": 3301,
     "manzanasSplitByPlatforms": 86,
     "mappedIncidentsAssigned": 17,
+    "incidentSpatialQuality": {
+      "total": 21,
+      "byPrecisionGeo": {
+        "A": 8,
+        "B": 11,
+        "C": 2
+      },
+      "spatialValidAB": 19,
+      "notUsedForSpatialAnalysis": 2
+    },
     "policeInfrastructureAssigned": 17,
     "camerasAssigned": 28,
     "boulevardLengthM": 20520.85,
@@ -30,6 +40,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
     "cameraCoveredPopulation": 33599,
     "populationNearBoulevard": 50855,
     "hotspots": 6,
+    "populationExposed100": 2957,
+    "populationExposed250": 14790,
+    "populationExposed500": 48955,
     "lowCoverageHotspots": 2,
     "videoDeficitHighOrCritical": 7,
     "unassigned": {
@@ -63,6 +76,24 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "method": "Area geodesica proyectada a EPSG:32717",
       "parameters": "AREA_M2 y AREA_KM2 derivados de geometria real",
       "limitations": "Depende de la calidad de la capa de plataformas cargada"
+    },
+    {
+      "result": "Conflictividad territorial",
+      "source": "Eventos de seguridad cargados en visor",
+      "date": "2024-2026 segun registros disponibles",
+      "precision": "PRECISION_GEO A/B/C derivada del campo precision",
+      "method": "Cruce espacial de registros A y B mapeables dentro de plataformas",
+      "parameters": "INC_TOTAL, INC_A, INC_B, INC_TIPO y TASA_INC_1000 = INC_TOTAL / POBLACION * 1000",
+      "limitations": "Registros C no se convierten en puntos ni se usan para KDE/hotspots; el conteo depende de registros publicados y georreferenciables"
+    },
+    {
+      "result": "Exposicion poblacional a conflictividad",
+      "source": "Incidentes A/B georreferenciables + manzanas censales CPV 2022",
+      "date": "2024-2026 incidentes; Censo 2022 poblacion",
+      "precision": "Buffers euclidianos alrededor de puntos A/B; registros C excluidos",
+      "method": "Union de buffers 100/250/500 m intersectada con manzana y plataforma; poblacion estimada por fraccion de area expuesta",
+      "parameters": "POB_EXP_100, POB_EXP_250, POB_EXP_500",
+      "limitations": "Escenario de proximidad, no mide exposicion real individual ni desplazamientos cotidianos"
     }
   ],
   "audit": [
@@ -311,10 +342,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 115,
       "densityPopKm2": 1034.42,
       "incidents": 0,
+      "incidentsA": 0,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.0,
       "incidentTypes": [],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 0,
+      "populationExposed250": 0,
+      "populationExposed500": 0,
       "policeInfrastructure": 0,
       "policeTypes": {},
       "policePersonnel": "N/D",
@@ -342,7 +380,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -367,10 +405,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 388,
       "densityPopKm2": 3742.92,
       "incidents": 0,
+      "incidentsA": 0,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.0,
       "incidentTypes": [],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 0,
+      "populationExposed250": 0,
+      "populationExposed500": 0,
       "policeInfrastructure": 0,
       "policeTypes": {},
       "policePersonnel": "N/D",
@@ -398,7 +443,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -423,10 +468,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 460,
       "densityPopKm2": 2879.62,
       "incidents": 0,
+      "incidentsA": 0,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.0,
       "incidentTypes": [],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 0,
+      "populationExposed250": 0,
+      "populationExposed500": 0,
       "policeInfrastructure": 1,
       "policeTypes": {
         "UPC": 1
@@ -456,7 +508,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -481,6 +533,10 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 597,
       "densityPopKm2": 6668.43,
       "incidents": 2,
+      "incidentsA": 0,
+      "incidentsB": 2,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.15,
       "incidentTypes": [
         {
@@ -494,6 +550,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       ],
       "hotspots": 1,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 513,
+      "populationExposed250": 1719,
+      "populationExposed500": 4333,
       "policeInfrastructure": 0,
       "policeTypes": {},
       "policePersonnel": "N/D",
@@ -521,7 +580,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -546,6 +605,10 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 6,
       "densityPopKm2": 105.5,
       "incidents": 1,
+      "incidentsA": 0,
+      "incidentsB": 1,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 7.75,
       "incidentTypes": [
         {
@@ -555,6 +618,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       ],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 24,
+      "populationExposed250": 59,
+      "populationExposed500": 63,
       "policeInfrastructure": 0,
       "policeTypes": {},
       "policePersonnel": "N/D",
@@ -582,7 +648,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -607,10 +673,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 464,
       "densityPopKm2": 7189.65,
       "incidents": 0,
+      "incidentsA": 0,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.0,
       "incidentTypes": [],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 0,
+      "populationExposed250": 0,
+      "populationExposed500": 0,
       "policeInfrastructure": 0,
       "policeTypes": {},
       "policePersonnel": "N/D",
@@ -638,7 +711,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -663,6 +736,10 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 717,
       "densityPopKm2": 6512.25,
       "incidents": 3,
+      "incidentsA": 3,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.37,
       "incidentTypes": [
         {
@@ -676,6 +753,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       ],
       "hotspots": 1,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 370,
+      "populationExposed250": 1810,
+      "populationExposed500": 3616,
       "policeInfrastructure": 0,
       "policeTypes": {},
       "policePersonnel": "N/D",
@@ -703,7 +783,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -728,6 +808,10 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 986,
       "densityPopKm2": 6913.52,
       "incidents": 1,
+      "incidentsA": 1,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.09,
       "incidentTypes": [
         {
@@ -737,6 +821,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       ],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 319,
+      "populationExposed250": 1315,
+      "populationExposed500": 4942,
       "policeInfrastructure": 1,
       "policeTypes": {
         "UPC": 1
@@ -766,7 +853,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -791,10 +878,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 1299,
       "densityPopKm2": 9073.89,
       "incidents": 0,
+      "incidentsA": 0,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.0,
       "incidentTypes": [],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 0,
+      "populationExposed250": 0,
+      "populationExposed500": 595,
       "policeInfrastructure": 0,
       "policeTypes": {},
       "policePersonnel": "N/D",
@@ -822,7 +916,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -847,6 +941,10 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 2437,
       "densityPopKm2": 8004.44,
       "incidents": 2,
+      "incidentsA": 1,
+      "incidentsB": 1,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.11,
       "incidentTypes": [
         {
@@ -860,6 +958,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       ],
       "hotspots": 1,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 303,
+      "populationExposed250": 1274,
+      "populationExposed500": 5666,
       "policeInfrastructure": 3,
       "policeTypes": {
         "UPC": 3
@@ -889,7 +990,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -914,6 +1015,10 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 1674,
       "densityPopKm2": 8410.09,
       "incidents": 4,
+      "incidentsA": 2,
+      "incidentsB": 2,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.33,
       "incidentTypes": [
         {
@@ -935,6 +1040,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       ],
       "hotspots": 1,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 611,
+      "populationExposed250": 3289,
+      "populationExposed500": 9074,
       "policeInfrastructure": 4,
       "policeTypes": {
         "UPC": 2,
@@ -965,7 +1073,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -990,10 +1098,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 173,
       "densityPopKm2": 1805.52,
       "incidents": 0,
+      "incidentsA": 0,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.0,
       "incidentTypes": [],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 0,
+      "populationExposed250": 0,
+      "populationExposed500": 0,
       "policeInfrastructure": 0,
       "policeTypes": {},
       "policePersonnel": "N/D",
@@ -1021,7 +1136,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -1046,6 +1161,10 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 1126,
       "densityPopKm2": 7964.62,
       "incidents": 2,
+      "incidentsA": 0,
+      "incidentsB": 2,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.14,
       "incidentTypes": [
         {
@@ -1055,6 +1174,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       ],
       "hotspots": 1,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 284,
+      "populationExposed250": 2124,
+      "populationExposed500": 7804,
       "policeInfrastructure": 1,
       "policeTypes": {
         "UPC": 1
@@ -1084,7 +1206,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -1109,10 +1231,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 403,
       "densityPopKm2": 3670.21,
       "incidents": 0,
+      "incidentsA": 0,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.0,
       "incidentTypes": [],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 0,
+      "populationExposed250": 0,
+      "populationExposed500": 78,
       "policeInfrastructure": 1,
       "policeTypes": {
         "UPC": 1
@@ -1142,7 +1271,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -1167,10 +1296,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 1799,
       "densityPopKm2": 8265.08,
       "incidents": 0,
+      "incidentsA": 0,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.0,
       "incidentTypes": [],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 0,
+      "populationExposed250": 3,
+      "populationExposed500": 1914,
       "policeInfrastructure": 1,
       "policeTypes": {
         "UPC": 1
@@ -1200,7 +1336,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -1225,10 +1361,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 859,
       "densityPopKm2": 8384.03,
       "incidents": 0,
+      "incidentsA": 0,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.0,
       "incidentTypes": [],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 0,
+      "populationExposed250": 604,
+      "populationExposed500": 3483,
       "policeInfrastructure": 1,
       "policeTypes": {
         "UPC": 1
@@ -1258,7 +1401,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -1283,10 +1426,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 972,
       "densityPopKm2": 4984.98,
       "incidents": 0,
+      "incidentsA": 0,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.0,
       "incidentTypes": [],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 0,
+      "populationExposed250": 0,
+      "populationExposed500": 0,
       "policeInfrastructure": 2,
       "policeTypes": {
         "OTRAS DEPENDENCIAS": 2
@@ -1316,7 +1466,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -1341,6 +1491,10 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 1909,
       "densityPopKm2": 7987.76,
       "incidents": 2,
+      "incidentsA": 0,
+      "incidentsB": 2,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.13,
       "incidentTypes": [
         {
@@ -1354,6 +1508,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       ],
       "hotspots": 1,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 533,
+      "populationExposed250": 2593,
+      "populationExposed500": 7387,
       "policeInfrastructure": 2,
       "policeTypes": {
         "UPC": 2
@@ -1383,7 +1540,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     }
@@ -1410,10 +1567,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 115,
       "densityPopKm2": 1034.42,
       "incidents": 0,
+      "incidentsA": 0,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.0,
       "incidentTypes": [],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 0,
+      "populationExposed250": 0,
+      "populationExposed500": 0,
       "policeInfrastructure": 0,
       "policeTypes": {},
       "policePersonnel": "N/D",
@@ -1441,7 +1605,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -1466,10 +1630,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 388,
       "densityPopKm2": 3742.92,
       "incidents": 0,
+      "incidentsA": 0,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.0,
       "incidentTypes": [],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 0,
+      "populationExposed250": 0,
+      "populationExposed500": 0,
       "policeInfrastructure": 0,
       "policeTypes": {},
       "policePersonnel": "N/D",
@@ -1497,7 +1668,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -1522,10 +1693,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 460,
       "densityPopKm2": 2879.62,
       "incidents": 0,
+      "incidentsA": 0,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.0,
       "incidentTypes": [],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 0,
+      "populationExposed250": 0,
+      "populationExposed500": 0,
       "policeInfrastructure": 1,
       "policeTypes": {
         "UPC": 1
@@ -1555,7 +1733,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -1580,6 +1758,10 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 597,
       "densityPopKm2": 6668.43,
       "incidents": 2,
+      "incidentsA": 0,
+      "incidentsB": 2,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.15,
       "incidentTypes": [
         {
@@ -1593,6 +1775,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       ],
       "hotspots": 1,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 513,
+      "populationExposed250": 1719,
+      "populationExposed500": 4333,
       "policeInfrastructure": 0,
       "policeTypes": {},
       "policePersonnel": "N/D",
@@ -1620,7 +1805,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -1645,6 +1830,10 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 6,
       "densityPopKm2": 105.5,
       "incidents": 1,
+      "incidentsA": 0,
+      "incidentsB": 1,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 7.75,
       "incidentTypes": [
         {
@@ -1654,6 +1843,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       ],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 24,
+      "populationExposed250": 59,
+      "populationExposed500": 63,
       "policeInfrastructure": 0,
       "policeTypes": {},
       "policePersonnel": "N/D",
@@ -1681,7 +1873,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -1706,10 +1898,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 464,
       "densityPopKm2": 7189.65,
       "incidents": 0,
+      "incidentsA": 0,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.0,
       "incidentTypes": [],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 0,
+      "populationExposed250": 0,
+      "populationExposed500": 0,
       "policeInfrastructure": 0,
       "policeTypes": {},
       "policePersonnel": "N/D",
@@ -1737,7 +1936,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -1762,6 +1961,10 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 717,
       "densityPopKm2": 6512.25,
       "incidents": 3,
+      "incidentsA": 3,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.37,
       "incidentTypes": [
         {
@@ -1775,6 +1978,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       ],
       "hotspots": 1,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 370,
+      "populationExposed250": 1810,
+      "populationExposed500": 3616,
       "policeInfrastructure": 0,
       "policeTypes": {},
       "policePersonnel": "N/D",
@@ -1802,7 +2008,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -1827,6 +2033,10 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 986,
       "densityPopKm2": 6913.52,
       "incidents": 1,
+      "incidentsA": 1,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.09,
       "incidentTypes": [
         {
@@ -1836,6 +2046,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       ],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 319,
+      "populationExposed250": 1315,
+      "populationExposed500": 4942,
       "policeInfrastructure": 1,
       "policeTypes": {
         "UPC": 1
@@ -1865,7 +2078,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -1890,10 +2103,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 1299,
       "densityPopKm2": 9073.89,
       "incidents": 0,
+      "incidentsA": 0,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.0,
       "incidentTypes": [],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 0,
+      "populationExposed250": 0,
+      "populationExposed500": 595,
       "policeInfrastructure": 0,
       "policeTypes": {},
       "policePersonnel": "N/D",
@@ -1921,7 +2141,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -1946,6 +2166,10 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 2437,
       "densityPopKm2": 8004.44,
       "incidents": 2,
+      "incidentsA": 1,
+      "incidentsB": 1,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.11,
       "incidentTypes": [
         {
@@ -1959,6 +2183,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       ],
       "hotspots": 1,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 303,
+      "populationExposed250": 1274,
+      "populationExposed500": 5666,
       "policeInfrastructure": 3,
       "policeTypes": {
         "UPC": 3
@@ -1988,7 +2215,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -2013,6 +2240,10 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 1674,
       "densityPopKm2": 8410.09,
       "incidents": 4,
+      "incidentsA": 2,
+      "incidentsB": 2,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.33,
       "incidentTypes": [
         {
@@ -2034,6 +2265,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       ],
       "hotspots": 1,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 611,
+      "populationExposed250": 3289,
+      "populationExposed500": 9074,
       "policeInfrastructure": 4,
       "policeTypes": {
         "UPC": 2,
@@ -2064,7 +2298,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -2089,10 +2323,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 173,
       "densityPopKm2": 1805.52,
       "incidents": 0,
+      "incidentsA": 0,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.0,
       "incidentTypes": [],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 0,
+      "populationExposed250": 0,
+      "populationExposed500": 0,
       "policeInfrastructure": 0,
       "policeTypes": {},
       "policePersonnel": "N/D",
@@ -2120,7 +2361,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -2145,6 +2386,10 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 1126,
       "densityPopKm2": 7964.62,
       "incidents": 2,
+      "incidentsA": 0,
+      "incidentsB": 2,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.14,
       "incidentTypes": [
         {
@@ -2154,6 +2399,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       ],
       "hotspots": 1,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 284,
+      "populationExposed250": 2124,
+      "populationExposed500": 7804,
       "policeInfrastructure": 1,
       "policeTypes": {
         "UPC": 1
@@ -2183,7 +2431,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -2208,10 +2456,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 403,
       "densityPopKm2": 3670.21,
       "incidents": 0,
+      "incidentsA": 0,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.0,
       "incidentTypes": [],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 0,
+      "populationExposed250": 0,
+      "populationExposed500": 78,
       "policeInfrastructure": 1,
       "policeTypes": {
         "UPC": 1
@@ -2241,7 +2496,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -2266,10 +2521,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 1799,
       "densityPopKm2": 8265.08,
       "incidents": 0,
+      "incidentsA": 0,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.0,
       "incidentTypes": [],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 0,
+      "populationExposed250": 3,
+      "populationExposed500": 1914,
       "policeInfrastructure": 1,
       "policeTypes": {
         "UPC": 1
@@ -2299,7 +2561,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -2324,10 +2586,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 859,
       "densityPopKm2": 8384.03,
       "incidents": 0,
+      "incidentsA": 0,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.0,
       "incidentTypes": [],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 0,
+      "populationExposed250": 604,
+      "populationExposed500": 3483,
       "policeInfrastructure": 1,
       "policeTypes": {
         "UPC": 1
@@ -2357,7 +2626,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -2382,10 +2651,17 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 972,
       "densityPopKm2": 4984.98,
       "incidents": 0,
+      "incidentsA": 0,
+      "incidentsB": 0,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.0,
       "incidentTypes": [],
       "hotspots": 0,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 0,
+      "populationExposed250": 0,
+      "populationExposed500": 0,
       "policeInfrastructure": 2,
       "policeTypes": {
         "OTRAS DEPENDENCIAS": 2
@@ -2415,7 +2691,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     },
@@ -2440,6 +2716,10 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "age65Plus": 1909,
       "densityPopKm2": 7987.76,
       "incidents": 2,
+      "incidentsA": 0,
+      "incidentsB": 2,
+      "incidentsC": "N/D",
+      "precisionGeoUsed": "A/B",
       "incidentRate1000": 0.13,
       "incidentTypes": [
         {
@@ -2453,6 +2733,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       ],
       "hotspots": 1,
       "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+      "populationExposed100": 533,
+      "populationExposed250": 2593,
+      "populationExposed500": 7387,
       "policeInfrastructure": 2,
       "policeTypes": {
         "UPC": 2
@@ -2482,7 +2765,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
         "area": "DATO CALCULADO desde geometria real de plataformas",
-        "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+        "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
         "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada"
       }
     }

@@ -127,10 +127,36 @@ def find_platform_for_point(lng, lat):
     return None
 
 
+def precision_geo(event):
+    precision = str(event.get("precision") or "").strip().upper()
+    if precision.startswith("A"):
+        return "A"
+    if precision.startswith("B"):
+        return "B"
+    return "C"
+
+
+event_quality = {
+    "total": len(security.get("events", [])),
+    "byPrecisionGeo": {"A": 0, "B": 0, "C": 0},
+    "spatialValidAB": 0,
+    "notUsedForSpatialAnalysis": 0,
+}
+for event in security.get("events", []):
+    precision = precision_geo(event)
+    event_quality["byPrecisionGeo"][precision] += 1
+    if precision in ("A", "B") and event.get("mappable") and event.get("lat") is not None and event.get("lng") is not None:
+        event_quality["spatialValidAB"] += 1
+    else:
+        event_quality["notUsedForSpatialAnalysis"] += 1
+
+
 def empty_platform_metrics():
     return {
         name: {
             "incidents": 0,
+            "incidentsA": 0,
+            "incidentsB": 0,
             "incidentTypes": {},
             "eventPointsM": [],
             "incidentsNearBoulevard": 0,
@@ -147,6 +173,9 @@ def empty_platform_metrics():
             "cameraCoveredPopulation": 0,
             "cameraCoveredAreaPct": 0,
             "camerasNearBoulevard": 0,
+            "populationExposed100": 0.0,
+            "populationExposed250": 0.0,
+            "populationExposed500": 0.0,
             "boulevardLengthM": 0.0,
             "connectionLengthM": 0.0,
             "populationNearBoulevard": 0,
@@ -163,6 +192,9 @@ unassigned = {
 }
 
 for event in security.get("events", []):
+    precision = precision_geo(event)
+    if precision not in ("A", "B"):
+        continue
     if not event.get("mappable") or event.get("lat") is None or event.get("lng") is None:
         continue
     platform_name = find_platform_for_point(event.get("lng"), event.get("lat"))
@@ -171,6 +203,7 @@ for event in security.get("events", []):
         continue
     bucket = metrics[platform_name]
     bucket["incidents"] += 1
+    bucket[f"incidents{precision}"] += 1
     bucket["eventPointsM"].append(transform(TO_METERS, Point(float(event.get("lng")), float(event.get("lat")))))
     category = event.get("category") or "Sin categoria"
     bucket["incidentTypes"][category] = bucket["incidentTypes"].get(category, 0) + 1
@@ -226,8 +259,13 @@ network_buffer = network_union.buffer(BOULEVARD_RADIUS_M) if network_union and n
 
 all_camera_points = [point for bucket in metrics.values() for point in bucket["cameraPointsM"]]
 all_police_points = [point for bucket in metrics.values() for point in bucket["policePointsM"]]
+all_event_points = [point for bucket in metrics.values() for point in bucket["eventPointsM"]]
 camera_union = unary_union([point.buffer(CAMERA_RADIUS_M) for point in all_camera_points]) if all_camera_points else None
 police_union = unary_union([point.buffer(POLICE_RADIUS_M) for point in all_police_points]) if all_police_points else None
+exposure_buffers = {
+    radius: unary_union([point.buffer(radius) for point in all_event_points]) if all_event_points else None
+    for radius in (100, 250, 500)
+}
 
 man_to_platform = stats.get("manToPlatform", {})
 for feature in manzana_geojson.get("features", []):
@@ -244,6 +282,27 @@ for feature in manzana_geojson.get("features", []):
         metrics[platform_name]["cameraCoveredPopulation"] += population
     if network_buffer and network_buffer.covers(representative):
         metrics[platform_name]["populationNearBoulevard"] += population
+
+for feature in manzana_geojson.get("features", []):
+    code = (feature.get("properties") or {}).get("man")
+    stats_row = by_man.get(code) or {}
+    population = float(stats_row.get("population_total") or 0)
+    if not population:
+        continue
+    geom_m = transform(TO_METERS, shape(feature["geometry"]))
+    if geom_m.is_empty or geom_m.area <= 0:
+        continue
+    for platform_name, item in platform_geoms.items():
+        manzana_platform = geom_m.intersection(item["geomMeters"])
+        if manzana_platform.is_empty or manzana_platform.area <= 0.01:
+            continue
+        for radius, buffer_geom in exposure_buffers.items():
+            if not buffer_geom or buffer_geom.is_empty:
+                continue
+            exposed = manzana_platform.intersection(buffer_geom)
+            if exposed.is_empty:
+                continue
+            metrics[platform_name][f"populationExposed{radius}"] += population * (exposed.area / geom_m.area)
 
 for platform_name, bucket in metrics.items():
     geom_m = platform_geoms[platform_name]["geomMeters"]
@@ -367,6 +426,10 @@ for item in stats["platforms"]:
         "age65Plus": int(round(pop_bucket["age_65_plus"])),
         "densityPopKm2": round(population / area_km2, 2) if area_km2 else None,
         "incidents": bucket["incidents"],
+        "incidentsA": bucket["incidentsA"],
+        "incidentsB": bucket["incidentsB"],
+        "incidentsC": "N/D",
+        "precisionGeoUsed": "A/B",
         "incidentRate1000": incident_rate,
         "incidentTypes": sorted(
             [{"type": key, "count": value} for key, value in bucket["incidentTypes"].items()],
@@ -375,6 +438,9 @@ for item in stats["platforms"]:
         ),
         "hotspots": hotspot_count,
         "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+        "populationExposed100": int(round(bucket["populationExposed100"])),
+        "populationExposed250": int(round(bucket["populationExposed250"])),
+        "populationExposed500": int(round(bucket["populationExposed500"])),
         "policeInfrastructure": bucket["policeInfrastructure"],
         "policeTypes": bucket["policeTypes"],
         "policePersonnel": bucket["policePersonnel"] or "N/D",
@@ -402,7 +468,7 @@ for item in stats["platforms"]:
         "dataStatus": {
             "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
             "area": "DATO CALCULADO desde geometria real de plataformas",
-            "securityIndicators": "DATO CALCULADO preliminar desde puntos georreferenciables; hotspot no reemplaza un analisis kernel definitivo",
+            "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
             "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada",
         },
     })
@@ -574,12 +640,12 @@ inventory = [
 
 output = {
     "generatedAt": datetime.now().isoformat(timespec="seconds"),
-    "phase": "ETAPA 1 - Auditoria, plataformas, manzanas y poblacion",
+    "phase": "ETAPA 3 - KDE, hotspots y exposicion poblacional",
     "masterTableName": "ANALISIS_PLATAFORMAS",
     "methodNotes": [
         "La unidad principal son las 18 plataformas territoriales reales.",
         "No se usan circuitos/subcircuitos como unidad principal.",
-        "Etapa 1 implementada para validar auditoria, base territorial y poblacion antes de continuar con incidentes/KDE.",
+        "Etapas 1, 2 y 3 implementadas: auditoria/base poblacional areal + clasificacion A/B/C + concentracion visual y exposicion poblacional.",
         "La poblacion por plataforma se estima por interseccion areal manzana-plataforma: POB_EST = POB_MANZANA * AREA_INTERSECCION / AREA_MANZANA.",
         "Se calculan conteos por plataforma cuando existe geometria verificable.",
         f"La cobertura potencial de camaras usa un radio tecnico inicial de {CAMERA_RADIUS_M} m; no equivale a alcance visual real ni analitica forense.",
@@ -597,6 +663,7 @@ output = {
         "manzanasWithPopulation": manzanas_with_population,
         "manzanasSplitByPlatforms": manzanas_split,
         "mappedIncidentsAssigned": sum(row["incidents"] for row in platforms),
+        "incidentSpatialQuality": event_quality,
         "policeInfrastructureAssigned": sum(row["policeInfrastructure"] for row in platforms),
         "camerasAssigned": sum(row["cameras"] for row in platforms),
         "boulevardLengthM": round(sum(row["boulevardLengthM"] for row in platforms), 2),
@@ -604,6 +671,9 @@ output = {
         "cameraCoveredPopulation": sum(row["cameraCoveredPopulation"] for row in platforms if isinstance(row["cameraCoveredPopulation"], int)),
         "populationNearBoulevard": sum(row["populationNearBoulevard"] for row in platforms if isinstance(row["populationNearBoulevard"], int)),
         "hotspots": sum(row["hotspots"] for row in platforms if isinstance(row["hotspots"], int)),
+        "populationExposed100": sum(row["populationExposed100"] for row in platforms if isinstance(row["populationExposed100"], int)),
+        "populationExposed250": sum(row["populationExposed250"] for row in platforms if isinstance(row["populationExposed250"], int)),
+        "populationExposed500": sum(row["populationExposed500"] for row in platforms if isinstance(row["populationExposed500"], int)),
         "lowCoverageHotspots": sum(row["lowCoverageHotspots"] for row in platforms if isinstance(row["lowCoverageHotspots"], int)),
         "videoDeficitHighOrCritical": sum(1 for row in platforms if row["videoDeficit"] in ("ALTO", "CRITICO")),
         "unassigned": unassigned,
@@ -633,6 +703,24 @@ output = {
             "method": "Area geodesica proyectada a EPSG:32717",
             "parameters": "AREA_M2 y AREA_KM2 derivados de geometria real",
             "limitations": "Depende de la calidad de la capa de plataformas cargada",
+        },
+        {
+            "result": "Conflictividad territorial",
+            "source": "Eventos de seguridad cargados en visor",
+            "date": "2024-2026 segun registros disponibles",
+            "precision": "PRECISION_GEO A/B/C derivada del campo precision",
+            "method": "Cruce espacial de registros A y B mapeables dentro de plataformas",
+            "parameters": "INC_TOTAL, INC_A, INC_B, INC_TIPO y TASA_INC_1000 = INC_TOTAL / POBLACION * 1000",
+            "limitations": "Registros C no se convierten en puntos ni se usan para KDE/hotspots; el conteo depende de registros publicados y georreferenciables",
+        },
+        {
+            "result": "Exposicion poblacional a conflictividad",
+            "source": "Incidentes A/B georreferenciables + manzanas censales CPV 2022",
+            "date": "2024-2026 incidentes; Censo 2022 poblacion",
+            "precision": "Buffers euclidianos alrededor de puntos A/B; registros C excluidos",
+            "method": "Union de buffers 100/250/500 m intersectada con manzana y plataforma; poblacion estimada por fraccion de area expuesta",
+            "parameters": "POB_EXP_100, POB_EXP_250, POB_EXP_500",
+            "limitations": "Escenario de proximidad, no mide exposicion real individual ni desplazamientos cotidianos",
         },
     ],
     "audit": audit,
