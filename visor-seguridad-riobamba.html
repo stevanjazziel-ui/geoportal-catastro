@@ -287,6 +287,7 @@
           <button class="mode-button" id="ecuMode" type="button">ECU911</button>
           <button class="mode-button" id="camerasMode" type="button">Cámaras</button>
           <button class="mode-button" id="policeMode" type="button">Policía</button>
+          <button class="mode-button" id="diagnosisMode" type="button">Diagnóstico</button>
         </div>
       </section>
 
@@ -343,6 +344,7 @@
   <script src="./visor-seguridad-riobamba-data.js"></script>
   <script src="./riobamba-camaras-data.js?v=municipio-30"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
+  <script src="./riobamba-seguridad-diagnostico-data.js?v=phase1"></script>
   <script>
     (() => {
       const dataset = window.RIOBAMBA_SECURITY_DATA || { events: window.RIOBAMBA_SECURITY_EVENTS || [], ecu911: { serviceCounts: [], parishes: [], topSubtypes: [], topByParish: {}, totalRows: 0, securityRows: 0 } };
@@ -352,6 +354,7 @@
       const cameras = cameraDataset.cameras || [];
       const policeDataset = window.RIOBAMBA_POLICE_SIG_DATA || { summary: {}, district: { features: [] }, infrastructure: { features: [] } };
       const policeInfrastructure = policeDataset.infrastructure?.features || [];
+      const diagnosis = window.RIOBAMBA_SECURITY_DIAGNOSIS || { summary: {}, inventory: [], platformMaster: [], byPlatformName: {} };
       const categoryPalette = ["#4f8f52", "#5f8eb9", "#2d9b94", "#b88432", "#c86670", "#9c3f52", "#8f5fb9", "#7e7f92", "#4f7890", "#7c8c47"];
       const categoryColors = new Map([...new Set(events.map((event) => event.category))].map((category, index) => [category, categoryPalette[index % categoryPalette.length]]));
       const precisionRank = { "A - Intersección": "Alta", "A - Tramo de calle": "Alta", "B - Sector": "Media", "B - Sector/parroquia": "Media", "C - Ciudad": "Referencial", "C - Ciudad/distrito": "Referencial" };
@@ -364,6 +367,7 @@
         ecuMode: document.getElementById("ecuMode"),
         camerasMode: document.getElementById("camerasMode"),
         policeMode: document.getElementById("policeMode"),
+        diagnosisMode: document.getElementById("diagnosisMode"),
         summary: document.getElementById("summaryCards"),
         detailTitle: document.getElementById("detailTitle"),
         detail: document.getElementById("detailList"),
@@ -399,6 +403,7 @@
       let selectedParish = null;
       let selectedCamera = null;
       let selectedPolice = null;
+      let selectedPlatform = null;
       let mode = "events";
       const markers = new Map();
       const parishMarkers = new Map();
@@ -409,6 +414,8 @@
       const unique = (key) => [...new Set(events.map((item) => item[key]).filter(Boolean))].sort((a, b) => a.localeCompare(b, "es"));
       const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[char]));
       const fmt = (value) => Number(value || 0).toLocaleString("es-EC");
+      const displayValue = (value) => typeof value === "number" ? fmt(value) : esc(value ?? "N/D");
+      const platformRecord = (name) => diagnosis.byPlatformName?.[name] || diagnosis.platformMaster?.find((item) => item.platformName === name || item.platform === name?.replace("PLATAFORMA ", ""));
       const formatDate = (value) => {
         const [year, month, day] = value.split("-").map(Number);
         const months = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
@@ -517,7 +524,27 @@
         });
       }
 
+      function filteredPlatforms() {
+        const query = clean(elements.search.value);
+        return (diagnosis.platformMaster || []).filter((platform) => {
+          const haystack = clean(`${platform.platformName} ${platform.platform} ${platform.population} ${platform.manzanas}`);
+          return !query || haystack.includes(query);
+        });
+      }
+
       function renderSummary(items) {
+        if (mode === "diagnosis") {
+          const visible = filteredPlatforms();
+          const population = visible.reduce((sum, platform) => sum + Number(platform.population || 0), 0);
+          const areaKm2 = visible.reduce((sum, platform) => sum + Number(platform.areaKm2 || 0), 0);
+          elements.summary.innerHTML = [
+            ["Plataformas", visible.length],
+            ["Población", population],
+            ["Área km²", areaKm2.toFixed(2)],
+            ["Manzanas", visible.reduce((sum, platform) => sum + Number(platform.manzanas || 0), 0)]
+          ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+          return;
+        }
         if (mode === "ecu") {
           const parishes = filteredParishes();
           const conflictTotal = parishes.reduce((sum, parish) => sum + Number(parish.conflictivity?.total || 0), 0);
@@ -589,7 +616,27 @@
       }
 
       function renderList(items) {
-        elements.listTitle.textContent = mode === "events" ? "Eventos publicados" : mode === "ecu" ? "ECU911 agosto" : mode === "cameras" ? "Cámaras de videovigilancia" : "Infraestructura policial";
+        elements.listTitle.textContent = mode === "events" ? "Eventos publicados" : mode === "ecu" ? "ECU911 agosto" : mode === "cameras" ? "Cámaras de videovigilancia" : mode === "police" ? "Infraestructura policial" : "Plataformas territoriales";
+        if (mode === "diagnosis") {
+          const visible = filteredPlatforms();
+          const maxPop = Math.max(...visible.map((platform) => platform.population || 0), 1);
+          elements.list.innerHTML = visible.map((platform) => `
+            <button class="event-item ${platform.platformName === selectedPlatform ? "is-active" : ""}" type="button" data-platform="${esc(platform.platformName)}">
+              <h3>${esc(platform.platformName)}</h3>
+              <small>${fmt(platform.population)} hab · ${platform.areaKm2} km² · ${fmt(platform.manzanas)} manzanas</small>
+              <div class="bar-row"><div class="bar-head"><span>Población</span><strong>${fmt(platform.population)}</strong></div><div class="bar-track"><div class="bar-fill" style="width:${Math.max(4, platform.population / maxPop * 100)}%"></div></div></div>
+              <div class="pill-row">
+                <span class="pill">${fmt(Math.round(platform.densityPopKm2))} hab/km²</span>
+                <span class="pill">Incidentes ${esc(platform.incidents)}</span>
+                <span class="pill">Fase 1</span>
+              </div>
+            </button>
+          `).join("") || "<p>No hay plataformas con los filtros actuales.</p>";
+          elements.list.querySelectorAll("[data-platform]").forEach((button) => {
+            button.addEventListener("click", () => selectPlatform(button.dataset.platform, true));
+          });
+          return;
+        }
         if (mode === "ecu") {
           const parishes = filteredParishes();
           const max = Math.max(...parishes.map((parish) => parish.security), 1);
@@ -751,6 +798,7 @@
         if (selectedParish && !filteredParishes().some((parish) => parish.parish === selectedParish)) selectedParish = null;
         if (selectedCamera && !filteredCameras().some((camera) => camera.id === selectedCamera)) selectedCamera = null;
         if (selectedPolice && !filteredPoliceInfrastructure().some((feature) => feature.properties?.code === selectedPolice)) selectedPolice = null;
+        if (selectedPlatform && !filteredPlatforms().some((platform) => platform.platformName === selectedPlatform)) selectedPlatform = null;
         renderSummary(items);
         renderList(items);
         renderMarkers(items);
@@ -760,6 +808,9 @@
         if (mode === "events") {
           renderDetail(events.find((event) => event.id === selectedId));
           elements.status.textContent = `${items.length} de ${events.length} eventos publicados visibles; ${items.filter((event) => event.mappable).length} con referencia en mapa.`;
+        } else if (mode === "diagnosis") {
+          renderPlatformDetail(selectedPlatform);
+          elements.status.textContent = `Fase 1: ${diagnosis.summary?.platforms || 18} plataformas territoriales, ${fmt(diagnosis.summary?.populationWithPlatform)} habitantes asignados y ${fmt(diagnosis.summary?.manzanasAssigned)} manzanas vinculadas.`;
         } else {
           if (mode === "ecu") {
             renderParishDetail(selectedParish);
@@ -780,6 +831,7 @@
         selectedParish = null;
         selectedCamera = null;
         selectedPolice = null;
+        selectedPlatform = null;
         mode = "events";
         syncModeButtons();
         const event = events.find((item) => item.id === id);
@@ -824,6 +876,7 @@
         selectedId = null;
         selectedCamera = null;
         selectedPolice = null;
+        selectedPlatform = null;
         mode = "ecu";
         syncModeButtons();
         renderParishDetail(parishName);
@@ -865,6 +918,7 @@
         selectedId = null;
         selectedParish = null;
         selectedPolice = null;
+        selectedPlatform = null;
         mode = "cameras";
         syncModeButtons();
         renderCameraDetail(cameraId);
@@ -907,6 +961,7 @@
         selectedCamera = null;
         selectedId = null;
         selectedParish = null;
+        selectedPlatform = null;
         mode = "police";
         syncModeButtons();
         renderPoliceDetail(code);
@@ -919,11 +974,69 @@
         }
       }
 
+      function renderPlatformDetail(platformName) {
+        const platform = platformRecord(platformName);
+        if (!platform) {
+          elements.detailTitle.textContent = "Diagnóstico territorial";
+          elements.detail.innerHTML = "<p>Selecciona una Plataforma Territorial para revisar la ficha Fase 1. Los campos no calculados se muestran como N/D.</p>"
+            + (diagnosis.inventory || []).map((item) => `<div class="mini-row"><span>${esc(item.component)}</span><strong>${esc(item.records)} registros</strong></div>`).join("");
+          elements.overlayTitle.textContent = "Fase 1: Plataformas + población";
+          elements.overlayText.textContent = "Unidad principal: 18 Plataformas Territoriales reales. No se usan circuitos ni subcircuitos como unidad principal.";
+          return;
+        }
+        elements.detailTitle.textContent = platform.platformName;
+        elements.detail.innerHTML = [
+          ["Población", platform.population],
+          ["Área km²", platform.areaKm2],
+          ["Densidad", `${fmt(Math.round(platform.densityPopKm2))} hab/km²`],
+          ["Manzanas", platform.manzanas],
+          ["Hombres", platform.male],
+          ["Mujeres", platform.female],
+          ["0-17 años", Number(platform.age0_4 || 0) + Number(platform.age5_11 || 0) + Number(platform.age12_17 || 0)],
+          ["18-64 años", Number(platform.age18_29 || 0) + Number(platform.age30_64 || 0)],
+          ["65+ años", platform.age65Plus],
+          ["Incidentes", platform.incidents],
+          ["Tasa / 1.000", platform.incidentRate1000],
+          ["Infraestructura policial", platform.policeInfrastructure],
+          ["Cámaras", platform.cameras],
+          ["Déficit video", platform.videoDeficit],
+          ["Bulevares", platform.boulevardLengthM]
+        ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${displayValue(value)}</strong></div>`).join("")
+          + `<p>${esc(platform.dataStatus?.population || "")}</p><p>${esc(platform.dataStatus?.securityIndicators || "")}</p>`;
+        elements.overlayTitle.textContent = `${platform.platformName} · Fase 1`;
+        elements.overlayText.textContent = `${fmt(platform.population)} habitantes, ${platform.areaKm2} km² y ${fmt(Math.round(platform.densityPopKm2))} hab/km². Indicadores de seguridad territorial quedan en N/D hasta fases siguientes.`;
+      }
+
+      function selectPlatform(platformName, pan) {
+        selectedPlatform = platformName;
+        selectedPolice = null;
+        selectedCamera = null;
+        selectedId = null;
+        selectedParish = null;
+        mode = "diagnosis";
+        syncModeButtons();
+        renderPlatformDetail(platformName);
+        renderSummary(filteredEvents());
+        renderList(filteredEvents());
+        if (platformLayer) {
+          let target = null;
+          platformLayer.eachLayer((layer) => {
+            const props = layer.feature?.properties || {};
+            if (props.platform_name === platformName) target = layer;
+          });
+          if (target) {
+            if (pan) map.fitBounds(target.getBounds().pad(0.18), { maxZoom: 15 });
+            target.openPopup();
+          }
+        }
+      }
+
       function syncModeButtons() {
         elements.eventsMode.classList.toggle("is-active", mode === "events");
         elements.ecuMode.classList.toggle("is-active", mode === "ecu");
         elements.camerasMode.classList.toggle("is-active", mode === "cameras");
         elements.policeMode.classList.toggle("is-active", mode === "police");
+        elements.diagnosisMode.classList.toggle("is-active", mode === "diagnosis");
       }
 
       async function loadCensusLayers() {
@@ -961,6 +1074,7 @@
               const props = feature.properties || {};
               layer.bindPopup(platformPopup(props));
               layer.bindTooltip(esc(props.platform_name || "Plataforma"), { sticky: true });
+              layer.on("click", () => selectPlatform(props.platform_name, false));
             }
           }).addTo(map);
           if (!elements.toggleManzanas.checked) map.removeLayer(manzanaLayer);
@@ -1017,10 +1131,11 @@
       loadBoulevardNetwork();
 
       [elements.search, elements.category, elements.precision, elements.source].forEach((control) => control.addEventListener("input", update));
-      elements.eventsMode.addEventListener("click", () => { mode = "events"; selectedParish = null; syncModeButtons(); update(); });
-      elements.ecuMode.addEventListener("click", () => { mode = "ecu"; selectedId = null; selectedCamera = null; syncModeButtons(); update(); });
-      elements.camerasMode.addEventListener("click", () => { mode = "cameras"; selectedId = null; selectedParish = null; syncModeButtons(); update(); });
-      elements.policeMode.addEventListener("click", () => { mode = "police"; selectedId = null; selectedParish = null; selectedCamera = null; syncModeButtons(); update(); });
+      elements.eventsMode.addEventListener("click", () => { mode = "events"; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
+      elements.ecuMode.addEventListener("click", () => { mode = "ecu"; selectedId = null; selectedCamera = null; selectedPlatform = null; syncModeButtons(); update(); });
+      elements.camerasMode.addEventListener("click", () => { mode = "cameras"; selectedId = null; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
+      elements.policeMode.addEventListener("click", () => { mode = "police"; selectedId = null; selectedParish = null; selectedCamera = null; selectedPlatform = null; syncModeButtons(); update(); });
+      elements.diagnosisMode.addEventListener("click", () => { mode = "diagnosis"; selectedId = null; selectedParish = null; selectedCamera = null; selectedPolice = null; syncModeButtons(); update(); });
       elements.toggleEvents.addEventListener("change", () => elements.toggleEvents.checked ? eventLayer.addTo(map) : map.removeLayer(eventLayer));
       elements.toggleParishes.addEventListener("change", () => elements.toggleParishes.checked ? parishLayer.addTo(map) : map.removeLayer(parishLayer));
       elements.toggleCameras.addEventListener("change", () => elements.toggleCameras.checked ? cameraLayer.addTo(map) : map.removeLayer(cameraLayer));
