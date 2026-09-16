@@ -91,7 +91,7 @@
     .card strong { display: block; font-size: 1.18rem; line-height: 1.1; }
 
     .filter-grid, .layer-toggles, .legend, .mini-list, .event-list, .mode-switch { display: grid; gap: 10px; }
-    .mode-switch { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .mode-switch { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .mode-button {
       text-align: center;
       font-weight: 700;
@@ -292,6 +292,20 @@
       </section>
 
       <section class="panel">
+        <h2>Indicador gráfico</h2>
+        <select id="diagnosisMetricSelect" aria-label="Indicador gráfico de diagnóstico">
+          <option value="videoDeficit">Déficit de videovigilancia</option>
+          <option value="hotspots">Hotspots preliminares</option>
+          <option value="cameraCoverage">Cobertura potencial de cámaras</option>
+          <option value="boulevardPopulation">Población cercana a boulevares/conexiones</option>
+          <option value="incidentProximity">Incidentes cerca de cámaras, policía y red</option>
+          <option value="institutionalCoverage">Cobertura institucional</option>
+          <option value="typology">Tipología territorial</option>
+          <option value="criticalZones">Zonas críticas preliminares</option>
+        </select>
+      </section>
+
+      <section class="panel">
         <h2>Capas visibles</h2>
         <div class="layer-toggles">
           <label class="layer-toggle"><span>Eventos de seguridad</span><input id="toggleEvents" type="checkbox" checked /></label>
@@ -368,6 +382,7 @@
         camerasMode: document.getElementById("camerasMode"),
         policeMode: document.getElementById("policeMode"),
         diagnosisMode: document.getElementById("diagnosisMode"),
+        diagnosisMetric: document.getElementById("diagnosisMetricSelect"),
         summary: document.getElementById("summaryCards"),
         detailTitle: document.getElementById("detailTitle"),
         detail: document.getElementById("detailList"),
@@ -405,6 +420,7 @@
       let selectedPolice = null;
       let selectedPlatform = null;
       let mode = "events";
+      let diagnosisMetric = "videoDeficit";
       const markers = new Map();
       const parishMarkers = new Map();
       const cameraMarkers = new Map();
@@ -426,6 +442,95 @@
         ["Tipología", platform.territorialTypology],
         ["Zona crítica", platform.criticalZones],
       ];
+      const diagnosisPalettes = {
+        videoDeficit: [
+          ["CRITICO", "#9c3f52", "Crítico"],
+          ["ALTO", "#c86670", "Alto"],
+          ["MEDIO", "#d9a441", "Medio"],
+          ["BAJO", "#4f8f52", "Bajo"],
+        ],
+        hotspots: [
+          ["1", "#c86670", "Con hotspot"],
+          ["0", "#d8eadf", "Sin hotspot"],
+        ],
+        cameraCoverage: [
+          ["0", "#c86670", "0%"],
+          ["25", "#d9a441", "1-24%"],
+          ["50", "#8fb96a", "25-49%"],
+          ["100", "#2f6f5f", "50%+"],
+        ],
+        boulevardPopulation: [
+          ["0", "#e5e8e1", "0 hab."],
+          ["1000", "#b9d6d1", "1-999 hab."],
+          ["4000", "#6fa29a", "1.000-3.999 hab."],
+          ["4001", "#2f6f5f", "4.000+ hab."],
+        ],
+        incidentProximity: [
+          ["0", "#e5e8e1", "0 incidentes"],
+          ["1", "#d9a441", "1 incidente"],
+          ["2", "#c86670", "2+ incidentes"],
+        ],
+        institutionalCoverage: [
+          ["BAJA", "#c86670", "Baja"],
+          ["MEDIA", "#d9a441", "Media"],
+          ["ALTA", "#4f8f52", "Alta"],
+        ],
+        typology: [
+          ["Alta conflictividad + baja cobertura", "#9c3f52", "Alta conflictividad + baja cobertura"],
+          ["Alta conflictividad + cobertura presente", "#c86670", "Alta conflictividad + cobertura"],
+          ["Alta densidad + deficit potencial", "#d9a441", "Alta densidad + déficit"],
+          ["Baja cobertura institucional", "#8f6f45", "Baja cobertura"],
+          ["Cobertura relativa / conflictividad baja", "#4f8f52", "Cobertura relativa"],
+        ],
+        criticalZones: [
+          ["Priorizar evaluacion territorial", "#c86670", "Priorizar evaluación"],
+          ["Validar demanda local con trabajo de campo", "#d9a441", "Validar en campo"],
+          ["Seguimiento ordinario", "#4f8f52", "Seguimiento ordinario"],
+        ],
+      };
+      const colorForPlatformMetric = (platform) => {
+        if (!platform) return "#d8eadf";
+        if (diagnosisMetric === "videoDeficit") return (diagnosisPalettes.videoDeficit.find(([key]) => key === platform.videoDeficit) || [null, "#d8eadf"])[1];
+        if (diagnosisMetric === "hotspots") return Number(platform.hotspots || 0) > 0 ? "#c86670" : "#d8eadf";
+        if (diagnosisMetric === "cameraCoverage") {
+          const pct = Number(platform.cameraCoveredPopulationPct || 0);
+          if (pct <= 0) return "#c86670";
+          if (pct < 25) return "#d9a441";
+          if (pct < 50) return "#8fb96a";
+          return "#2f6f5f";
+        }
+        if (diagnosisMetric === "boulevardPopulation") {
+          const population = Number(platform.populationNearBoulevard || 0);
+          if (population <= 0) return "#e5e8e1";
+          if (population < 1000) return "#b9d6d1";
+          if (population < 4000) return "#6fa29a";
+          return "#2f6f5f";
+        }
+        if (diagnosisMetric === "incidentProximity") {
+          const total = Number(platform.incidentsCoveredByCamera || 0) + Number(platform.incidentsNearPolice || 0) + Number(platform.incidentsNearBoulevard || 0);
+          if (total <= 0) return "#e5e8e1";
+          if (total === 1) return "#d9a441";
+          return "#c86670";
+        }
+        if (diagnosisMetric === "institutionalCoverage") return (diagnosisPalettes.institutionalCoverage.find(([key]) => key === platform.institutionalCoverage) || [null, "#d8eadf"])[1];
+        if (diagnosisMetric === "typology") return (diagnosisPalettes.typology.find(([key]) => key === platform.territorialTypology) || [null, "#d8eadf"])[1];
+        if (diagnosisMetric === "criticalZones") return (diagnosisPalettes.criticalZones.find(([key]) => key === platform.criticalZones) || [null, "#d8eadf"])[1];
+        return "#d8eadf";
+      };
+      const platformVisualStyle = (feature) => {
+        const platform = platformRecord(feature?.properties?.platform_name);
+        return {
+          color: mode === "diagnosis" ? "#263a33" : "#2f6f5f",
+          weight: mode === "diagnosis" ? 2.4 : 2.2,
+          fillColor: mode === "diagnosis" ? colorForPlatformMetric(platform) : "#d8eadf",
+          fillOpacity: mode === "diagnosis" ? 0.58 : 0.2,
+          opacity: 0.92
+        };
+      };
+      const updatePlatformStyles = () => {
+        if (!platformLayer) return;
+        platformLayer.eachLayer((layer) => layer.setStyle(platformVisualStyle(layer.feature)));
+      };
       const platformRecord = (name) => diagnosis.byPlatformName?.[name] || diagnosis.platformMaster?.find((item) => item.platformName === name || item.platform === name?.replace("PLATAFORMA ", ""));
       const formatDate = (value) => {
         const [year, month, day] = value.split("-").map(Number);
@@ -603,6 +708,13 @@
       }
 
       function renderLegend() {
+        if (mode === "diagnosis") {
+          const labels = diagnosisPalettes[diagnosisMetric] || diagnosisPalettes.videoDeficit;
+          elements.legend.innerHTML = labels.map(([, color, label]) => `
+            <div class="legend-row"><span class="legend-swatch" style="background:${color};border-color:#263a33"></span>${esc(label)}</div>
+          `).join("") + `<div class="legend-row"><span class="legend-swatch" style="background:#f7f7f7;border-color:#7e8790"></span>Manzana censal</div><div class="legend-row"><span class="legend-swatch" style="background:transparent;border:0;border-top:3px solid #277a52"></span>Boulevares</div><div class="legend-row"><span class="legend-swatch" style="background:transparent;border:0;border-top:3px dashed #4a74a5"></span>Conexiones</div>`;
+          return;
+        }
         elements.legend.innerHTML = [...categoryColors.entries()].map(([label, color]) => `
           <div class="legend-row"><span class="legend-swatch" style="background:${color}"></span>${esc(label)}</div>
         `).join("") + `<div class="legend-row"><span class="legend-swatch" style="background:#f7e4a5"></span>ECU911 agregado por parroquia</div><div class="legend-row"><span class="legend-swatch" style="background:#fff"></span>Cámara operativa</div><div class="legend-row"><span class="legend-swatch" style="background:#f3c2ca"></span>Cámara requiere cambio</div><div class="legend-row"><span class="legend-swatch" style="background:#345c85"></span>Infraestructura policial</div><div class="legend-row"><span class="legend-swatch" style="background:#d8eadf;border-color:#2f6f5f"></span>Plataforma territorial</div><div class="legend-row"><span class="legend-swatch" style="background:#f7f7f7;border-color:#7e8790"></span>Manzana censal</div><div class="legend-row"><span class="legend-swatch" style="background:transparent;border:0;border-top:3px solid #277a52"></span>Boulevares</div><div class="legend-row"><span class="legend-swatch" style="background:transparent;border:0;border-top:3px dashed #4a74a5"></span>Conexiones</div>`;
@@ -817,6 +929,8 @@
         renderParishBubbles();
         renderCameraMarkers();
         renderPoliceLayers();
+        updatePlatformStyles();
+        renderLegend();
         if (mode === "events") {
           renderDetail(events.find((event) => event.id === selectedId));
           elements.status.textContent = `${items.length} de ${events.length} eventos publicados visibles; ${items.filter((event) => event.mappable).length} con referencia en mapa.`;
@@ -1108,13 +1222,7 @@
             onEachFeature: (feature, layer) => layer.bindPopup(manzanaPopup(feature.properties || {}))
           }).addTo(map);
           platformLayer = L.geoJSON(platformGeojson, {
-            style: {
-              color: "#2f6f5f",
-              weight: 2.2,
-              fillColor: "#d8eadf",
-              fillOpacity: 0.2,
-              opacity: 0.9
-            },
+            style: platformVisualStyle,
             onEachFeature: (feature, layer) => {
               const props = feature.properties || {};
               layer.bindPopup(platformPopup(props));
@@ -1176,6 +1284,7 @@
       loadBoulevardNetwork();
 
       [elements.search, elements.category, elements.precision, elements.source].forEach((control) => control.addEventListener("input", update));
+      elements.diagnosisMetric.addEventListener("change", () => { diagnosisMetric = elements.diagnosisMetric.value; mode = "diagnosis"; syncModeButtons(); update(); });
       elements.eventsMode.addEventListener("click", () => { mode = "events"; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
       elements.ecuMode.addEventListener("click", () => { mode = "ecu"; selectedId = null; selectedCamera = null; selectedPlatform = null; syncModeButtons(); update(); });
       elements.camerasMode.addEventListener("click", () => { mode = "cameras"; selectedId = null; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
