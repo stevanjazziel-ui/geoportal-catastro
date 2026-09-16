@@ -432,6 +432,7 @@
       const lightLayer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap", maxZoom: 20, className: "osm-gray-tile" }).addTo(map);
       const satelliteLayer = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", { attribution: "Tiles &copy; Esri", maxNativeZoom: 18, maxZoom: 20 });
       const eventLayer = L.layerGroup().addTo(map);
+      const hotspotLayer = L.layerGroup().addTo(map);
       const parishLayer = L.layerGroup().addTo(map);
       const cameraLayer = L.layerGroup().addTo(map);
       const policeInfrastructureLayer = L.layerGroup().addTo(map);
@@ -549,7 +550,7 @@
           color: mode === "diagnosis" ? "#263a33" : "#2f6f5f",
           weight: mode === "diagnosis" ? 2.4 : 2.2,
           fillColor: mode === "diagnosis" ? colorForPlatformMetric(platform) : "#d8eadf",
-          fillOpacity: mode === "diagnosis" ? 0.58 : 0.2,
+          fillOpacity: mode === "diagnosis" ? (diagnosisMetric === "hotspots" ? 0.22 : 0.58) : 0.2,
           opacity: 0.92
         };
       };
@@ -802,6 +803,16 @@
 
       function renderLegend() {
         if (mode === "diagnosis") {
+          if (diagnosisMetric === "hotspots") {
+            elements.legend.innerHTML = `
+              <div class="legend-row"><span class="legend-swatch" style="background:#e71d36;border-color:#fff"></span>Núcleo hotspot</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#ff8c2a;border-color:#fff"></span>Alta concentración</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#ffe66d;border-color:#fff"></span>Influencia cercana</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#d8eadf;border-color:#263a33"></span>Plataforma sin hotspot</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#f7f7f7;border-color:#7e8790"></span>Manzana censal</div>
+            `;
+            return;
+          }
           const labels = diagnosisPalettes[diagnosisMetric] || diagnosisPalettes.videoDeficit;
           elements.legend.innerHTML = labels.map(([, color, label]) => `
             <div class="legend-row"><span class="legend-swatch" style="background:${color};border-color:#263a33"></span>${esc(label)}</div>
@@ -946,6 +957,37 @@
         });
       }
 
+      function renderHotspots(items) {
+        hotspotLayer.clearLayers();
+        if (mode !== "diagnosis" || diagnosisMetric !== "hotspots") return;
+        items.forEach((event) => {
+          if (!event.mappable || event.lat == null || event.lng == null) return;
+          [
+            { radius: 520, color: "#ffe66d", opacity: 0.18 },
+            { radius: 310, color: "#ff8c2a", opacity: 0.28 },
+            { radius: 135, color: "#e71d36", opacity: 0.54 },
+          ].forEach((ring) => {
+            L.circle([event.lat, event.lng], {
+              radius: ring.radius,
+              stroke: false,
+              fillColor: ring.color,
+              fillOpacity: ring.opacity,
+              interactive: false,
+              pane: "overlayPane",
+            }).addTo(hotspotLayer);
+          });
+          L.circleMarker([event.lat, event.lng], {
+            radius: 4.5,
+            color: "#ffffff",
+            weight: 1.2,
+            fillColor: "#001f3f",
+            fillOpacity: 0.95,
+            interactive: false,
+          }).addTo(hotspotLayer);
+        });
+        hotspotLayer.bringToFront();
+      }
+
       function renderParishBubbles() {
         parishLayer.clearLayers();
         parishMarkers.clear();
@@ -1018,6 +1060,7 @@
         if (selectedPlatform && !filteredPlatforms().some((platform) => platform.platformName === selectedPlatform)) selectedPlatform = null;
         renderSummary(items);
         renderList(items);
+        renderHotspots(items);
         renderMarkers(items);
         renderParishBubbles();
         renderCameraMarkers();
