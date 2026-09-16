@@ -401,7 +401,7 @@
   <script src="./visor-seguridad-riobamba-data.js"></script>
   <script src="./riobamba-camaras-data.js?v=municipio-30"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
-  <script src="./riobamba-seguridad-diagnostico-data.js?v=etapa6-boulevares"></script>
+  <script src="./riobamba-seguridad-diagnostico-data.js?v=etapa7-cobertura"></script>
   <script>
     (() => {
       const dataset = window.RIOBAMBA_SECURITY_DATA || { events: window.RIOBAMBA_SECURITY_EVENTS || [], ecu911: { serviceCounts: [], parishes: [], topSubtypes: [], topByParish: {}, totalRows: 0, securityRows: 0 } };
@@ -834,6 +834,7 @@
             [`Pob. cubierta cámaras ${diagnosis.summary?.cameraCoverageRadiusM || 150} m`, diagnosis.summary?.cameraCoveredPopulation || 0],
             ["Hotspots", visible.reduce((sum, platform) => sum + Number(platform.hotspots || 0), 0)],
             ["Déficit alto/crítico", visible.filter((platform) => ["ALTO", "CRITICO"].includes(platform.videoDeficit)).length],
+            ["Prioridad territorial", diagnosis.summary?.territorialPriorityPlatforms || 0],
             ["Cobertura cámaras", `${((visible.reduce((sum, platform) => sum + Number(platform.cameraCoveredPopulation || 0), 0) / Math.max(population, 1)) * 100).toFixed(1)}%`],
             ["Manz. cruzan límite", diagnosis.summary?.manzanasSplitByPlatforms || 0],
             ["Boulevares+conex. km", ((visible.reduce((sum, platform) => sum + Number(platform.boulevardLengthM || 0) + Number(platform.connectionLengthM || 0), 0)) / 1000).toFixed(2)]
@@ -1419,6 +1420,7 @@
             ["Red bulevar/conexión m", diagnosis.summary?.boulevardTotalLengthM || 0],
             ["Inc. cerca bulevar", diagnosis.summary?.incidentsNearBoulevard || 0],
             ["Hotspots cerca bulevar", diagnosis.summary?.hotspotsNearBoulevard || 0],
+            ["Prioridad territorial", diagnosis.summary?.territorialPriorityPlatforms || 0],
             ["Manzanas intersectadas", `${fmt(diagnosis.summary?.manzanasAssigned || 0)} de ${fmt((diagnosis.summary?.manzanasAssigned || 0) + (diagnosis.summary?.manzanasWithoutPlatform || 0))}`],
             ["Manzanas cruzan plataformas", diagnosis.summary?.manzanasSplitByPlatforms || 0],
             ["1. Hotspots preliminares", `${fmt(diagnosis.summary?.hotspots || 0)} plataformas con concentración preliminar`],
@@ -1471,6 +1473,9 @@
           ["Dist. media inc.-policía m", platform.avgIncidentDistancePoliceM],
           ["Dist. mínima inc.-policía m", platform.nearestIncidentDistancePoliceM],
           ["Cobertura institucional", platform.institutionalCoverage],
+          ["Conflictividad/exposición", platform.conflictExposureLevel],
+          ["Matriz institucional", platform.institutionalCoverageMatrix],
+          ["Prioridad territorial", platform.territorialPriority],
           ["Cámaras", platform.cameras],
           ["Cámaras a reemplazo", platform.camerasReplacement],
           ["Radio cobertura cámaras", `${platform.cameraCoverageRadiusM || 150} m`],

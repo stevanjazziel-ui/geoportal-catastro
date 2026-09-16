@@ -410,6 +410,25 @@ def territorial_typology(bucket, density, incident_rate, deficit, coverage):
         return "Baja cobertura institucional"
     return "Cobertura relativa / conflictividad baja"
 
+
+def classify_conflict_exposure(bucket, population_exposed_250, population, incident_rate):
+    exposure_pct = population_exposed_250 / population * 100 if population else 0
+    if bucket["incidents"] >= 2 and exposure_pct >= 5:
+        return "ALTA"
+    if bucket["incidents"] > 0 or exposure_pct >= 5 or (incident_rate != "N/D" and incident_rate >= median_incident_rate and bucket["incidents"] > 0):
+        return "MEDIA"
+    return "BAJA"
+
+
+def institutional_matrix(conflict_exposure, coverage):
+    if conflict_exposure == "ALTA" and coverage == "BAJA":
+        return "PRIORIDAD TERRITORIAL"
+    if conflict_exposure == "ALTA":
+        return "Atencion existente"
+    if coverage == "ALTA":
+        return "Cobertura consolidada"
+    return "Seguimiento"
+
 platforms = []
 for item in stats["platforms"]:
     pop_bucket = population_allocations[item["platform_name"]]
@@ -444,6 +463,8 @@ for item in stats["platforms"]:
     video_deficit = classify_deficit(deficit_score)
     hotspot_count = 1 if bucket["incidents"] >= 2 else 0
     low_coverage_hotspots = hotspot_count if hotspot_count and video_deficit in ("ALTO", "CRITICO") else 0
+    conflict_exposure = classify_conflict_exposure(bucket, bucket["populationExposed250"], population, incident_rate)
+    combined_matrix = institutional_matrix(conflict_exposure, institutional_coverage)
     boulevard_total_length = bucket["boulevardLengthM"] + bucket["connectionLengthM"]
     boulevard_density = round(boulevard_total_length / area_km2, 2) if area_km2 else "N/D"
     hotspot_near_boulevard = 1 if hotspot_count and bucket["incidentsNearBoulevard"] > 0 else 0
@@ -538,6 +559,9 @@ for item in stats["platforms"]:
         "lowCoverageHotspots": low_coverage_hotspots,
         "criticalZones": critical_zone,
         "institutionalCoverage": institutional_coverage,
+        "conflictExposureLevel": conflict_exposure,
+        "institutionalCoverageMatrix": combined_matrix,
+        "territorialPriority": 1 if combined_matrix == "PRIORIDAD TERRITORIAL" else 0,
         "territorialTypology": typology,
         "dataStatus": {
             "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -714,12 +738,12 @@ inventory = [
 
 output = {
     "generatedAt": datetime.now().isoformat(timespec="seconds"),
-    "phase": "ETAPA 6 - Bulevares como variable territorial complementaria",
+    "phase": "ETAPA 7 - Cobertura institucional combinada",
     "masterTableName": "ANALISIS_PLATAFORMAS",
     "methodNotes": [
         "La unidad principal son las 18 plataformas territoriales reales.",
         "No se usan circuitos/subcircuitos como unidad principal.",
-        "Etapas 1 a 6 implementadas: base poblacional areal + clasificacion A/B/C + concentracion/exposicion + infraestructura/accesibilidad + videovigilancia/cobertura/deficit + boulevares como variable complementaria.",
+        "Etapas 1 a 7 implementadas: base poblacional areal + clasificacion A/B/C + concentracion/exposicion + infraestructura/accesibilidad + videovigilancia/cobertura/deficit + boulevares + cobertura institucional combinada.",
         "La poblacion por plataforma se estima por interseccion areal manzana-plataforma: POB_EST = POB_MANZANA * AREA_INTERSECCION / AREA_MANZANA.",
         "Se calculan conteos por plataforma cuando existe geometria verificable.",
         f"La cobertura potencial de camaras usa escenarios {', '.join(str(radius) for radius in CAMERA_SCENARIO_RADII_M)} m; el visor resume {CAMERA_RADIUS_M} m como escenario principal.",
@@ -759,6 +783,7 @@ output = {
         "populationExposed500": sum(row["populationExposed500"] for row in platforms if isinstance(row["populationExposed500"], int)),
         "lowCoverageHotspots": sum(row["lowCoverageHotspots"] for row in platforms if isinstance(row["lowCoverageHotspots"], int)),
         "videoDeficitHighOrCritical": sum(1 for row in platforms if row["videoDeficit"] in ("ALTO", "CRITICO")),
+        "territorialPriorityPlatforms": sum(row["territorialPriority"] for row in platforms if isinstance(row["territorialPriority"], int)),
         "unassigned": unassigned,
         "assumptions": {
             "cameraRadiusM": CAMERA_RADIUS_M,
@@ -841,6 +866,15 @@ output = {
             "method": "Longitud por plataforma, densidad lineal por km2 y proximidad de poblacion/incidentes a 100 m",
             "parameters": "LONG_BOULEV, DENS_BOULEV, POB_CERCA_BOULEV, INC_CERCA_BOULEV, HOTSPOT_CERCA_BOULEV",
             "limitations": "Variable territorial complementaria; no se interpreta cercania a bulevar como seguridad garantizada",
+        },
+        {
+            "result": "Cobertura institucional combinada",
+            "source": "Infraestructura policial + camaras + red de boulevares/conexiones + conflictividad/exposicion",
+            "date": "Datos disponibles en visor",
+            "precision": "Clasificacion por plataforma territorial",
+            "method": "Matriz conceptual: conflictividad/exposicion ALTA/MEDIA/BAJA cruzada con cobertura institucional ALTA/MEDIA/BAJA",
+            "parameters": "institutionalCoverageMatrix y territorialPriority",
+            "limitations": "No es indice multicriterio final; no define automaticamente zonas inseguras",
         },
     ],
     "audit": audit,

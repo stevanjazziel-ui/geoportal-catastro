@@ -1,11 +1,11 @@
 window.RIOBAMBA_SECURITY_DIAGNOSIS = {
-  "generatedAt": "2026-09-16T12:15:35",
-  "phase": "ETAPA 6 - Bulevares como variable territorial complementaria",
+  "generatedAt": "2026-09-16T12:17:21",
+  "phase": "ETAPA 7 - Cobertura institucional combinada",
   "masterTableName": "ANALISIS_PLATAFORMAS",
   "methodNotes": [
     "La unidad principal son las 18 plataformas territoriales reales.",
     "No se usan circuitos/subcircuitos como unidad principal.",
-    "Etapas 1 a 6 implementadas: base poblacional areal + clasificacion A/B/C + concentracion/exposicion + infraestructura/accesibilidad + videovigilancia/cobertura/deficit + boulevares como variable complementaria.",
+    "Etapas 1 a 7 implementadas: base poblacional areal + clasificacion A/B/C + concentracion/exposicion + infraestructura/accesibilidad + videovigilancia/cobertura/deficit + boulevares + cobertura institucional combinada.",
     "La poblacion por plataforma se estima por interseccion areal manzana-plataforma: POB_EST = POB_MANZANA * AREA_INTERSECCION / AREA_MANZANA.",
     "Se calculan conteos por plataforma cuando existe geometria verificable.",
     "La cobertura potencial de camaras usa escenarios 100, 150, 200 m; el visor resume 150 m como escenario principal.",
@@ -54,6 +54,7 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
     "populationExposed500": 48955,
     "lowCoverageHotspots": 3,
     "videoDeficitHighOrCritical": 9,
+    "territorialPriorityPlatforms": 1,
     "unassigned": {
       "events": 2,
       "policeInfrastructure": 9,
@@ -144,6 +145,15 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "method": "Longitud por plataforma, densidad lineal por km2 y proximidad de poblacion/incidentes a 100 m",
       "parameters": "LONG_BOULEV, DENS_BOULEV, POB_CERCA_BOULEV, INC_CERCA_BOULEV, HOTSPOT_CERCA_BOULEV",
       "limitations": "Variable territorial complementaria; no se interpreta cercania a bulevar como seguridad garantizada"
+    },
+    {
+      "result": "Cobertura institucional combinada",
+      "source": "Infraestructura policial + camaras + red de boulevares/conexiones + conflictividad/exposicion",
+      "date": "Datos disponibles en visor",
+      "precision": "Clasificacion por plataforma territorial",
+      "method": "Matriz conceptual: conflictividad/exposicion ALTA/MEDIA/BAJA cruzada con cobertura institucional ALTA/MEDIA/BAJA",
+      "parameters": "institutionalCoverageMatrix y territorialPriority",
+      "limitations": "No es indice multicriterio final; no define automaticamente zonas inseguras"
     }
   ],
   "audit": [
@@ -448,6 +458,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Validar demanda local con trabajo de campo",
       "institutionalCoverage": "BAJA",
+      "conflictExposureLevel": "BAJA",
+      "institutionalCoverageMatrix": "Seguimiento",
+      "territorialPriority": 0,
       "territorialTypology": "Baja cobertura institucional",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -533,6 +546,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Validar demanda local con trabajo de campo",
       "institutionalCoverage": "BAJA",
+      "conflictExposureLevel": "BAJA",
+      "institutionalCoverageMatrix": "Seguimiento",
+      "territorialPriority": 0,
       "territorialTypology": "Baja cobertura institucional",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -620,6 +636,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Seguimiento ordinario",
       "institutionalCoverage": "BAJA",
+      "conflictExposureLevel": "BAJA",
+      "institutionalCoverageMatrix": "Seguimiento",
+      "territorialPriority": 0,
       "territorialTypology": "Baja cobertura institucional",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -714,6 +733,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 1,
       "criticalZones": "Priorizar evaluacion territorial",
       "institutionalCoverage": "BAJA",
+      "conflictExposureLevel": "ALTA",
+      "institutionalCoverageMatrix": "PRIORIDAD TERRITORIAL",
+      "territorialPriority": 1,
       "territorialTypology": "Alta conflictividad + baja cobertura",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -804,6 +826,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Priorizar evaluacion territorial",
       "institutionalCoverage": "BAJA",
+      "conflictExposureLevel": "MEDIA",
+      "institutionalCoverageMatrix": "Seguimiento",
+      "territorialPriority": 0,
       "territorialTypology": "Alta conflictividad + baja cobertura",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -889,6 +914,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Validar demanda local con trabajo de campo",
       "institutionalCoverage": "BAJA",
+      "conflictExposureLevel": "BAJA",
+      "institutionalCoverageMatrix": "Seguimiento",
+      "territorialPriority": 0,
       "territorialTypology": "Alta densidad + deficit potencial",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -983,6 +1011,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 1,
       "criticalZones": "Priorizar evaluacion territorial",
       "institutionalCoverage": "MEDIA",
+      "conflictExposureLevel": "ALTA",
+      "institutionalCoverageMatrix": "Atencion existente",
+      "territorialPriority": 0,
       "territorialTypology": "Alta conflictividad + baja cobertura",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -1075,6 +1106,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Seguimiento ordinario",
       "institutionalCoverage": "ALTA",
+      "conflictExposureLevel": "MEDIA",
+      "institutionalCoverageMatrix": "Cobertura consolidada",
+      "territorialPriority": 0,
       "territorialTypology": "Cobertura relativa / conflictividad baja",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -1160,6 +1194,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Validar demanda local con trabajo de campo",
       "institutionalCoverage": "BAJA",
+      "conflictExposureLevel": "BAJA",
+      "institutionalCoverageMatrix": "Seguimiento",
+      "territorialPriority": 0,
       "territorialTypology": "Alta densidad + deficit potencial",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -1256,6 +1293,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Seguimiento ordinario",
       "institutionalCoverage": "ALTA",
+      "conflictExposureLevel": "ALTA",
+      "institutionalCoverageMatrix": "Atencion existente",
+      "territorialPriority": 0,
       "territorialTypology": "Alta conflictividad + cobertura presente",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -1361,6 +1401,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 1,
       "criticalZones": "Priorizar evaluacion territorial",
       "institutionalCoverage": "ALTA",
+      "conflictExposureLevel": "ALTA",
+      "institutionalCoverageMatrix": "Atencion existente",
+      "territorialPriority": 0,
       "territorialTypology": "Alta conflictividad + baja cobertura",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -1446,6 +1489,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Validar demanda local con trabajo de campo",
       "institutionalCoverage": "BAJA",
+      "conflictExposureLevel": "BAJA",
+      "institutionalCoverageMatrix": "Seguimiento",
+      "territorialPriority": 0,
       "territorialTypology": "Baja cobertura institucional",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -1538,6 +1584,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Seguimiento ordinario",
       "institutionalCoverage": "ALTA",
+      "conflictExposureLevel": "ALTA",
+      "institutionalCoverageMatrix": "Atencion existente",
+      "territorialPriority": 0,
       "territorialTypology": "Alta conflictividad + cobertura presente",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -1625,6 +1674,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Seguimiento ordinario",
       "institutionalCoverage": "ALTA",
+      "conflictExposureLevel": "BAJA",
+      "institutionalCoverageMatrix": "Cobertura consolidada",
+      "territorialPriority": 0,
       "territorialTypology": "Cobertura relativa / conflictividad baja",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -1712,6 +1764,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Seguimiento ordinario",
       "institutionalCoverage": "ALTA",
+      "conflictExposureLevel": "BAJA",
+      "institutionalCoverageMatrix": "Cobertura consolidada",
+      "territorialPriority": 0,
       "territorialTypology": "Cobertura relativa / conflictividad baja",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -1799,6 +1854,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Seguimiento ordinario",
       "institutionalCoverage": "ALTA",
+      "conflictExposureLevel": "BAJA",
+      "institutionalCoverageMatrix": "Cobertura consolidada",
+      "territorialPriority": 0,
       "territorialTypology": "Cobertura relativa / conflictividad baja",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -1886,6 +1944,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Seguimiento ordinario",
       "institutionalCoverage": "ALTA",
+      "conflictExposureLevel": "BAJA",
+      "institutionalCoverageMatrix": "Cobertura consolidada",
+      "territorialPriority": 0,
       "territorialTypology": "Cobertura relativa / conflictividad baja",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -1982,6 +2043,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Seguimiento ordinario",
       "institutionalCoverage": "ALTA",
+      "conflictExposureLevel": "ALTA",
+      "institutionalCoverageMatrix": "Atencion existente",
+      "territorialPriority": 0,
       "territorialTypology": "Alta conflictividad + cobertura presente",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -2069,6 +2133,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Validar demanda local con trabajo de campo",
       "institutionalCoverage": "BAJA",
+      "conflictExposureLevel": "BAJA",
+      "institutionalCoverageMatrix": "Seguimiento",
+      "territorialPriority": 0,
       "territorialTypology": "Baja cobertura institucional",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -2154,6 +2221,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Validar demanda local con trabajo de campo",
       "institutionalCoverage": "BAJA",
+      "conflictExposureLevel": "BAJA",
+      "institutionalCoverageMatrix": "Seguimiento",
+      "territorialPriority": 0,
       "territorialTypology": "Baja cobertura institucional",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -2241,6 +2311,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Seguimiento ordinario",
       "institutionalCoverage": "BAJA",
+      "conflictExposureLevel": "BAJA",
+      "institutionalCoverageMatrix": "Seguimiento",
+      "territorialPriority": 0,
       "territorialTypology": "Baja cobertura institucional",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -2335,6 +2408,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 1,
       "criticalZones": "Priorizar evaluacion territorial",
       "institutionalCoverage": "BAJA",
+      "conflictExposureLevel": "ALTA",
+      "institutionalCoverageMatrix": "PRIORIDAD TERRITORIAL",
+      "territorialPriority": 1,
       "territorialTypology": "Alta conflictividad + baja cobertura",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -2425,6 +2501,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Priorizar evaluacion territorial",
       "institutionalCoverage": "BAJA",
+      "conflictExposureLevel": "MEDIA",
+      "institutionalCoverageMatrix": "Seguimiento",
+      "territorialPriority": 0,
       "territorialTypology": "Alta conflictividad + baja cobertura",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -2510,6 +2589,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Validar demanda local con trabajo de campo",
       "institutionalCoverage": "BAJA",
+      "conflictExposureLevel": "BAJA",
+      "institutionalCoverageMatrix": "Seguimiento",
+      "territorialPriority": 0,
       "territorialTypology": "Alta densidad + deficit potencial",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -2604,6 +2686,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 1,
       "criticalZones": "Priorizar evaluacion territorial",
       "institutionalCoverage": "MEDIA",
+      "conflictExposureLevel": "ALTA",
+      "institutionalCoverageMatrix": "Atencion existente",
+      "territorialPriority": 0,
       "territorialTypology": "Alta conflictividad + baja cobertura",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -2696,6 +2781,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Seguimiento ordinario",
       "institutionalCoverage": "ALTA",
+      "conflictExposureLevel": "MEDIA",
+      "institutionalCoverageMatrix": "Cobertura consolidada",
+      "territorialPriority": 0,
       "territorialTypology": "Cobertura relativa / conflictividad baja",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -2781,6 +2869,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Validar demanda local con trabajo de campo",
       "institutionalCoverage": "BAJA",
+      "conflictExposureLevel": "BAJA",
+      "institutionalCoverageMatrix": "Seguimiento",
+      "territorialPriority": 0,
       "territorialTypology": "Alta densidad + deficit potencial",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -2877,6 +2968,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Seguimiento ordinario",
       "institutionalCoverage": "ALTA",
+      "conflictExposureLevel": "ALTA",
+      "institutionalCoverageMatrix": "Atencion existente",
+      "territorialPriority": 0,
       "territorialTypology": "Alta conflictividad + cobertura presente",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -2982,6 +3076,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 1,
       "criticalZones": "Priorizar evaluacion territorial",
       "institutionalCoverage": "ALTA",
+      "conflictExposureLevel": "ALTA",
+      "institutionalCoverageMatrix": "Atencion existente",
+      "territorialPriority": 0,
       "territorialTypology": "Alta conflictividad + baja cobertura",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -3067,6 +3164,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Validar demanda local con trabajo de campo",
       "institutionalCoverage": "BAJA",
+      "conflictExposureLevel": "BAJA",
+      "institutionalCoverageMatrix": "Seguimiento",
+      "territorialPriority": 0,
       "territorialTypology": "Baja cobertura institucional",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -3159,6 +3259,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Seguimiento ordinario",
       "institutionalCoverage": "ALTA",
+      "conflictExposureLevel": "ALTA",
+      "institutionalCoverageMatrix": "Atencion existente",
+      "territorialPriority": 0,
       "territorialTypology": "Alta conflictividad + cobertura presente",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -3246,6 +3349,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Seguimiento ordinario",
       "institutionalCoverage": "ALTA",
+      "conflictExposureLevel": "BAJA",
+      "institutionalCoverageMatrix": "Cobertura consolidada",
+      "territorialPriority": 0,
       "territorialTypology": "Cobertura relativa / conflictividad baja",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -3333,6 +3439,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Seguimiento ordinario",
       "institutionalCoverage": "ALTA",
+      "conflictExposureLevel": "BAJA",
+      "institutionalCoverageMatrix": "Cobertura consolidada",
+      "territorialPriority": 0,
       "territorialTypology": "Cobertura relativa / conflictividad baja",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -3420,6 +3529,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Seguimiento ordinario",
       "institutionalCoverage": "ALTA",
+      "conflictExposureLevel": "BAJA",
+      "institutionalCoverageMatrix": "Cobertura consolidada",
+      "territorialPriority": 0,
       "territorialTypology": "Cobertura relativa / conflictividad baja",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -3507,6 +3619,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Seguimiento ordinario",
       "institutionalCoverage": "ALTA",
+      "conflictExposureLevel": "BAJA",
+      "institutionalCoverageMatrix": "Cobertura consolidada",
+      "territorialPriority": 0,
       "territorialTypology": "Cobertura relativa / conflictividad baja",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
@@ -3603,6 +3718,9 @@ window.RIOBAMBA_SECURITY_DIAGNOSIS = {
       "lowCoverageHotspots": 0,
       "criticalZones": "Seguimiento ordinario",
       "institutionalCoverage": "ALTA",
+      "conflictExposureLevel": "ALTA",
+      "institutionalCoverageMatrix": "Atencion existente",
+      "territorialPriority": 0,
       "territorialTypology": "Alta conflictividad + cobertura presente",
       "dataStatus": {
         "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
