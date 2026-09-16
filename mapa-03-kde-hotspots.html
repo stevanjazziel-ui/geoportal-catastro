@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="03_KDE_HOTSPOTS - Densidad de incidentes KDE del diagnóstico de seguridad ciudadana de Riobamba." />
+  <title>03_KDE_HOTSPOTS | Riobamba</title>
+  <link rel="stylesheet" href="./vendor/leaflet/leaflet.css" />
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #eef3ef;
+      --ink: #11231d;
+      --muted: #61726b;
+      --panel: rgba(255, 255, 255, 0.94);
+      --panel-solid: #ffffff;
+      --line: rgba(31, 55, 46, 0.18);
+      --accent: #2f6f5f;
+      --danger: #9c1f33;
+      --shadow: 0 18px 42px rgba(24, 42, 35, 0.13);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+    }
+
+    .sheet {
+      min-height: 100%;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: 12px;
+      gap: 10px;
+    }
+
+    header, footer, aside {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: center;
+      padding: 14px 18px;
+      border-radius: 8px;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: clamp(24px, 2.6vw, 38px); letter-spacing: 0; }
+    h2 { font-size: 15px; text-transform: uppercase; letter-spacing: .02em; }
+    h3 { font-size: 13px; text-transform: uppercase; color: var(--muted); }
+    p { color: var(--muted); line-height: 1.4; }
+
+    .kicker {
+      color: var(--muted);
+      font-size: 15px;
+      margin-top: 4px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: end;
+    }
+
+    select, button, a.button {
+      min-height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel-solid);
+      color: var(--ink);
+      padding: 0 10px;
+      font-weight: 700;
+      text-decoration: none;
+      font: inherit;
+    }
+
+    button, a.button { cursor: pointer; display: inline-flex; align-items: center; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 28%);
+      gap: 10px;
+      min-height: 0;
+    }
+
+    .map-wrap {
+      position: relative;
+      min-height: 620px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #dce2dc;
+      box-shadow: var(--shadow);
+    }
+
+    #map { position: absolute; inset: 0; }
+    .leaflet-tile-pane.is-gray { filter: grayscale(1) saturate(0.12) brightness(0.96) contrast(1.05); }
+
+    aside {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+      padding: 14px;
+      border-radius: 8px;
+      overflow: auto;
+    }
+
+    .section {
+      display: grid;
+      gap: 8px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section:last-child { border-bottom: 0; padding-bottom: 0; }
+
+    .legend-ramp {
+      display: grid;
+      grid-template-columns: 20px 1fr;
+      gap: 7px 10px;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    .swatch {
+      width: 20px;
+      height: 14px;
+      border: 1px solid rgba(17, 35, 29, 0.16);
+      border-radius: 3px;
+    }
+
+    .mini-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: baseline;
+      font-size: 13px;
+      border-bottom: 1px dashed rgba(31, 55, 46, 0.16);
+      padding: 5px 0;
+    }
+
+    .mini-row span { color: var(--muted); }
+    .mini-row strong { text-align: right; }
+
+    .results {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .result {
+      background: #f5f8f5;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 8px;
+      min-width: 0;
+    }
+
+    .result span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .result strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 18px;
+    }
+
+    .north {
+      position: absolute;
+      left: 16px;
+      top: 16px;
+      z-index: 550;
+      width: 46px;
+      height: 62px;
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(17,35,29,.18);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: var(--ink);
+      font-weight: 900;
+      pointer-events: none;
+    }
+
+    .north::before {
+      content: "";
+      width: 0;
+      height: 0;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-bottom: 38px solid var(--ink);
+      filter: drop-shadow(0 1px 0 #fff);
+    }
+
+    .north span {
+      position: absolute;
+      top: 5px;
+      font-size: 13px;
+      color: #fff;
+      text-shadow: 0 1px 1px #000;
+    }
+
+    .platform-label {
+      color: #0e2119;
+      font-weight: 900;
+      font-size: 15px;
+      text-shadow: 0 1px 2px #fff, 0 -1px 2px #fff, 1px 0 2px #fff, -1px 0 2px #fff;
+    }
+
+    footer {
+      display: flex;
+      gap: 14px;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 12px;
+      border-radius: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .print-note { display: none; }
+
+    @media print {
+      .sheet { width: 1920px; height: 1080px; padding: 10px; }
+      button, a.button, select { display: none; }
+      .print-note { display: block; }
+      .map-wrap { min-height: 835px; }
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+
+    @media (max-width: 980px) {
+      .layout, header { grid-template-columns: 1fr; }
+      aside { overflow: visible; }
+      .map-wrap { min-height: 520px; }
+      .header-actions { justify-content: start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="sheet">
+    <header>
+      <div>
+        <h1>03_KDE_HOTSPOTS</h1>
+        <p class="kicker">Diagnóstico Territorial de Seguridad Ciudadana - Riobamba · Densidad de incidentes (KDE)</p>
+      </div>
+      <div class="header-actions">
+        <label>
+          <span class="sr-only">Bandwidth</span>
+          <select id="bandwidthSelect" aria-label="Bandwidth KDE">
+            <option value="200">Bandwidth 200 m</option>
+            <option value="300" selected>Bandwidth 300 m</option>
+            <option value="500">Bandwidth 500 m</option>
+          </select>
+        </label>
+        <label>
+          <span class="sr-only">Mapa base</span>
+          <select id="basemapSelect" aria-label="Mapa base">
+            <option value="gray" selected>Fondo gris</option>
+            <option value="streets">Calles</option>
+            <option value="satellite">Satelital</option>
+          </select>
+        </label>
+        <button id="printButton" type="button">Exportar PDF</button>
+        <a class="button" href="./visor-seguridad-kde-validacion.html">Validación KDE</a>
+      </div>
+    </header>
+
+    <div class="layout">
+      <div class="map-wrap">
+        <div id="map" aria-label="Mapa KDE de incidentes"></div>
+        <div class="north"><span>N</span></div>
+      </div>
+
+      <aside>
+        <section class="section">
+          <h2>Leyenda</h2>
+          <h3>Concentración de incidentes</h3>
+          <div class="legend-ramp">
+            <span class="swatch" style="background:rgba(255,230,109,.18)"></span><span>Muy baja</span>
+            <span class="swatch" style="background:#ffe66d"></span><span>Baja</span>
+            <span class="swatch" style="background:#ffbe37"></span><span>Media</span>
+            <span class="swatch" style="background:#ff7c20"></span><span>Alta</span>
+            <span class="swatch" style="background:#9c1f33"></span><span>Muy alta</span>
+            <span class="swatch" style="background:#111827;border-radius:50%;width:10px;height:10px;justify-self:center"></span><span>Incidente georreferenciado</span>
+            <span class="swatch" style="background:transparent;border:2px solid #ffffff"></span><span>Plataforma Territorial</span>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2>Indicadores</h2>
+          <div id="indicatorRows"></div>
+        </section>
+
+        <section class="section">
+          <h2>Resultados clave</h2>
+          <div class="results" id="resultTiles"></div>
+        </section>
+
+        <section class="section">
+          <h2>Panel de resultados</h2>
+          <p id="selectionTitle">Resumen general</p>
+          <div id="panelRows"></div>
+        </section>
+
+        <section class="section">
+          <h2>Metodología</h2>
+          <p>Kernel Density Estimation calculado en CRS métrico EPSG:32717. Se utiliza una grilla regular única para todo el ámbito urbano; los límites de plataforma no interrumpen la superficie.</p>
+          <p class="print-note">Exportación cartográfica desde la vista visible del navegador.</p>
+        </section>
+      </aside>
+    </div>
+
+    <footer>
+      <span>Fuente: registros de incidentes georreferenciados del visor | Plataformas territoriales reales GAD Riobamba</span>
+      <span id="footerMeta">CRS: EPSG:4326 / EPSG:32717 | Elaboración: Equipo SIG</span>
+    </footer>
+  </div>
+
+  <script src="./vendor/leaflet/leaflet.js"></script>
+  <script src="./riobamba-seguridad-kde-validacion-data.js?v=03-kde-hotspots"></script>
+  <script>
+    (() => {
+      const data = window.RIOBAMBA_KDE_VALIDATION;
+      const fmt = (value) => Number(value || 0).toLocaleString("es-EC");
+      const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[char]));
+      const map = L.map("map", { preferCanvas: true, zoomControl: false });
+      L.control.zoom({ position: "bottomleft" }).addTo(map);
+      L.control.scale({ position: "bottomleft", metric: true, imperial: false }).addTo(map);
+
+      const basemaps = {
+        gray: L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "&copy; OpenStreetMap" }),
+        streets: L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "&copy; OpenStreetMap" }),
+        satellite: L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", { maxZoom: 19, attribution: "Tiles &copy; Esri" }),
+      };
+
+      let activeBasemap = basemaps.gray.addTo(map);
+      let rasterLayer = null;
+      let platformLayer = null;
+      let labelLayer = L.layerGroup().addTo(map);
+      let pointLayer = null;
+      let platformStats = {};
+      let selectedPlatform = null;
+
+      function platformLetter(name) {
+        return String(name || "").replace("PLATAFORMA ", "");
+      }
+
+      function pointInRing(point, ring) {
+        const [x, y] = point;
+        let inside = false;
+        for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+          const xi = ring[i][0], yi = ring[i][1];
+          const xj = ring[j][0], yj = ring[j][1];
+          const intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / ((yj - yi) || 1e-12) + xi);
+          if (intersect) inside = !inside;
+        }
+        return inside;
+      }
+
+      function pointInPolygon(point, polygon) {
+        if (!pointInRing(point, polygon[0])) return false;
+        return !polygon.slice(1).some((hole) => pointInRing(point, hole));
+      }
+
+      function pointOnSurface(feature) {
+        const polygons = feature.geometry.type === "MultiPolygon" ? feature.geometry.coordinates : [feature.geometry.coordinates];
+        const allCoords = polygons.flat(2);
+        const bounds = allCoords.reduce((acc, coord) => ({
+          minX: Math.min(acc.minX, coord[0]),
+          maxX: Math.max(acc.maxX, coord[0]),
+          minY: Math.min(acc.minY, coord[1]),
+          maxY: Math.max(acc.maxY, coord[1]),
+        }), { minX: Infinity, maxX: -Infinity, minY: Infinity, maxY: -Infinity });
+        const cx = (bounds.minX + bounds.maxX) / 2;
+        const cy = (bounds.minY + bounds.maxY) / 2;
+        let best = null;
+        let bestDistance = Infinity;
+        const steps = 26;
+        for (let ix = 0; ix <= steps; ix += 1) {
+          for (let iy = 0; iy <= steps; iy += 1) {
+            const point = [
+              bounds.minX + (bounds.maxX - bounds.minX) * ix / steps,
+              bounds.minY + (bounds.maxY - bounds.minY) * iy / steps,
+            ];
+            if (!polygons.some((polygon) => pointInPolygon(point, polygon))) continue;
+            const distance = Math.hypot(point[0] - cx, point[1] - cy);
+            if (distance < bestDistance) {
+              bestDistance = distance;
+              best = point;
+            }
+          }
+        }
+        if (!best) best = allCoords[0];
+        return [best[1], best[0]];
+      }
+
+      function buildStats() {
+        platformStats = {};
+        data.kdeInputPoints.forEach((point) => {
+          const key = point.platform || "N/D";
+          if (!platformStats[key]) platformStats[key] = { incidents: 0, events: [] };
+          platformStats[key].incidents += 1;
+          platformStats[key].events.push(point);
+        });
+      }
+
+      function renderIndicators() {
+        const bandwidth = document.getElementById("bandwidthSelect").value;
+        const raster = data.rasters[bandwidth];
+        document.getElementById("indicatorRows").innerHTML = [
+          ["Método", "Kernel Density Estimation"],
+          ["Registros utilizados", data.controlTable.REGISTROS_KDE],
+          ["Registros descartados", data.controlTable.REGISTROS_EXCLUIDOS],
+          ["Bandwidth", `${raster.bandwidth} m`],
+          ["Resolución", `${raster.cellSize} m`],
+          ["Concentraciones observables", raster.observableConcentrations],
+          ["Fragmentación", raster.fragmentation],
+          ["Suavizado", raster.smoothing],
+        ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+      }
+
+      function renderResults() {
+        const entries = Object.entries(platformStats).sort((a, b) => b[1].incidents - a[1].incidents);
+        const top = entries[0] || ["N/D", { incidents: 0 }];
+        const bandwidth = document.getElementById("bandwidthSelect").value;
+        const raster = data.rasters[bandwidth];
+        document.getElementById("resultTiles").innerHTML = [
+          ["Mayor concentración", `Plataforma ${top[0]}`],
+          ["Incidentes en esa plataforma", top[1].incidents],
+          ["Puntos KDE", data.controlTable.REGISTROS_KDE],
+          ["Raster", raster.name],
+        ].map(([label, value]) => `<div class="result"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+      }
+
+      function renderPanel() {
+        const rows = [];
+        if (!selectedPlatform) {
+          document.getElementById("selectionTitle").textContent = "Resumen general";
+          rows.push(
+            ["Total registros", data.controlTable.TOTAL_REGISTROS],
+            ["Precisión A", data.controlTable.PRECISION_A],
+            ["Precisión B", data.controlTable.PRECISION_B],
+            ["Precisión C", data.controlTable.PRECISION_C],
+            ["Registros KDE", data.controlTable.REGISTROS_KDE],
+            ["Registros excluidos", data.controlTable.REGISTROS_EXCLUIDOS]
+          );
+        } else {
+          const stats = platformStats[selectedPlatform] || { incidents: 0, events: [] };
+          document.getElementById("selectionTitle").textContent = `Plataforma ${selectedPlatform}`;
+          rows.push(
+            ["Incidentes KDE", stats.incidents],
+            ["Eventos listados", stats.events.map((item) => item.id).join(", ") || "N/D"],
+            ["Criterio", "Solo incidentes A/B con coordenada válida"],
+            ["Capa", data.metadata.CAPA]
+          );
+        }
+        document.getElementById("panelRows").innerHTML = rows.map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+      }
+
+      function setRaster() {
+        const bandwidth = document.getElementById("bandwidthSelect").value;
+        if (rasterLayer) rasterLayer.remove();
+        const raster = data.rasters[bandwidth];
+        rasterLayer = L.imageOverlay(raster.url, raster.bounds, { opacity: 0.58, interactive: false }).addTo(map);
+        if (platformLayer) platformLayer.bringToFront();
+        if (pointLayer) pointLayer.bringToFront();
+        labelLayer.eachLayer((layer) => layer.addTo(map));
+        renderIndicators();
+        renderResults();
+        renderPanel();
+      }
+
+      function setBasemap(value) {
+        if (activeBasemap) activeBasemap.remove();
+        activeBasemap = basemaps[value].addTo(map);
+        map.getPanes().tilePane.classList.toggle("is-gray", value === "gray");
+        if (rasterLayer) rasterLayer.bringToFront();
+        if (platformLayer) platformLayer.bringToFront();
+        if (pointLayer) pointLayer.bringToFront();
+      }
+
+      async function init() {
+        buildStats();
+        const platformGeojson = await fetch("./riobamba-censo-data/riobamba_plataformas.geojson").then((response) => response.json());
+        platformLayer = L.geoJSON(platformGeojson, {
+          style: (feature) => ({
+            color: selectedPlatform === platformLetter(feature.properties.platform_name) ? "#ffffff" : "#ffffff",
+            weight: selectedPlatform === platformLetter(feature.properties.platform_name) ? 3.5 : 2,
+            opacity: 0.95,
+            fillOpacity: 0.02,
+            fillColor: "#ffffff",
+          }),
+          onEachFeature: (feature, layer) => {
+            const letter = platformLetter(feature.properties.platform_name);
+            layer.on("click", () => {
+              selectedPlatform = selectedPlatform === letter ? null : letter;
+              platformLayer.setStyle((f) => ({
+                color: selectedPlatform === platformLetter(f.properties.platform_name) ? "#ffe66d" : "#ffffff",
+                weight: selectedPlatform === platformLetter(f.properties.platform_name) ? 4 : 2,
+                opacity: 0.95,
+                fillOpacity: selectedPlatform === platformLetter(f.properties.platform_name) ? 0.08 : 0.02,
+                fillColor: "#ffe66d",
+              }));
+              renderPanel();
+            });
+          }
+        }).addTo(map);
+
+        platformGeojson.features.forEach((feature) => {
+          const letter = platformLetter(feature.properties.platform_name);
+          L.marker(pointOnSurface(feature), {
+            interactive: false,
+            icon: L.divIcon({ className: "platform-label", html: esc(letter), iconSize: [24, 18] })
+          }).addTo(labelLayer);
+        });
+
+        pointLayer = L.layerGroup(data.kdeInputPoints.map((point) => {
+          const marker = L.circleMarker([point.lat, point.lng], {
+            radius: 3.5,
+            color: "#ffffff",
+            weight: 1,
+            fillColor: "#111827",
+            fillOpacity: 0.92
+          });
+          marker.bindPopup(`<strong>${esc(point.id)}</strong><br>${esc(point.event)}<br>${esc(point.location)}<br>Plataforma ${esc(point.platform)}`);
+          return marker;
+        })).addTo(map);
+
+        setBasemap("gray");
+        setRaster();
+        map.fitBounds(platformLayer.getBounds().pad(0.06));
+        document.getElementById("footerMeta").textContent = `${data.metadata.CRS} | Periodo: ${data.metadata.PERIODO} | Fecha: ${data.metadata.FECHA_PROCESAMIENTO}`;
+      }
+
+      document.getElementById("bandwidthSelect").addEventListener("change", setRaster);
+      document.getElementById("basemapSelect").addEventListener("change", (event) => setBasemap(event.target.value));
+      document.getElementById("printButton").addEventListener("click", () => window.print());
+      init();
+    })();
+  </script>
+</body>
+</html>
