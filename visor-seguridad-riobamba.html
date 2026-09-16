@@ -1426,16 +1426,42 @@
         });
       }
 
+      function bringLayerForward(layer) {
+        if (!layer || !map.hasLayer(layer)) return;
+        if (typeof layer.bringToFront === "function") {
+          layer.bringToFront();
+          return;
+        }
+        if (typeof layer.eachLayer === "function") {
+          layer.eachLayer((child) => {
+            if (typeof child.bringToFront === "function") child.bringToFront();
+          });
+        }
+      }
+
+      function sendLayerBackward(layer) {
+        if (!layer || !map.hasLayer(layer)) return;
+        if (typeof layer.bringToBack === "function") {
+          layer.bringToBack();
+          return;
+        }
+        if (typeof layer.eachLayer === "function") {
+          layer.eachLayer((child) => {
+            if (typeof child.bringToBack === "function") child.bringToBack();
+          });
+        }
+      }
+
       function bringVisibleContextToFront() {
-        if (map.hasLayer(hotspotLayer)) hotspotLayer.bringToFront();
-        if (manzanaLayer && map.hasLayer(manzanaLayer)) manzanaLayer.bringToBack();
-        if (platformLayer && map.hasLayer(platformLayer)) platformLayer.bringToFront();
-        if (map.hasLayer(boulevardLayer)) boulevardLayer.bringToFront();
-        if (map.hasLayer(parishLayer)) parishLayer.bringToFront();
-        if (map.hasLayer(eventLayer)) eventLayer.bringToFront();
-        if (map.hasLayer(cameraLayer)) cameraLayer.bringToFront();
-        if (map.hasLayer(policeInfrastructureLayer)) policeInfrastructureLayer.bringToFront();
-        if (platformLabelLayer && map.hasLayer(platformLabelLayer)) platformLabelLayer.bringToFront();
+        bringLayerForward(hotspotLayer);
+        sendLayerBackward(manzanaLayer);
+        bringLayerForward(platformLayer);
+        bringLayerForward(boulevardLayer);
+        bringLayerForward(parishLayer);
+        bringLayerForward(eventLayer);
+        bringLayerForward(cameraLayer);
+        bringLayerForward(policeInfrastructureLayer);
+        bringLayerForward(platformLabelLayer);
       }
 
       function syncMapLayerVisibility() {
@@ -1487,10 +1513,10 @@
         renderParishBubbles();
         renderCameraMarkers();
         renderPoliceLayers();
-        syncMapLayerVisibility();
         updatePlatformStyles();
         renderPlatformMask();
         renderPlatformLabels();
+        syncMapLayerVisibility();
         renderLegend();
         renderGraphicAnalysis();
         renderTopbar();
