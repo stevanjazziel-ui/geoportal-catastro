@@ -15,7 +15,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Avenida 9 de Octubre / Madrid",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": 47,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 2,
@@ -30,7 +32,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Avenida Eloy Alfaro / Avenida Leopoldo Freire",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 3,
@@ -45,7 +49,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: José de Orozco / Loja",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 4,
@@ -60,7 +66,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: José Veloz / Alvarado",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 5,
@@ -75,7 +83,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Junín / 5 de Junio",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 6,
@@ -90,7 +100,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Avenida Antonio José de Sucre / León Febres Cordero",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 7,
@@ -105,7 +117,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Primera Constituyente / 5 de Junio",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 8,
@@ -120,7 +134,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Primera Constituyente / 5 de Junio",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 9,
@@ -135,7 +151,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Guayaquil / Cristóbal Colón",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 10,
@@ -150,7 +168,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Avenida Daniel León Borja / Avenida Miguel Angel León",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": 453,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 11,
@@ -165,7 +185,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Avenida Daniel León Borja / Avenida Carlos Zambrano",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 12,
@@ -180,7 +202,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "Aproximado: Av. La Prensa, sector Monumental Libro",
       "distanceMeters": null,
       "confidence": "media",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 13,
@@ -195,7 +219,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Avenida 9 de Octubre / Carabobo",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 14,
@@ -210,7 +236,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Avenida Pedro Vicente Maldonado / Avenida 11 de Noviembre",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 15,
@@ -225,7 +253,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Avenida Antonio José de Sucre / Victor Emilio Estrada",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": 118,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 16,
@@ -240,7 +270,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Avenida Leopoldo Freire / Calle V",
       "distanceMeters": 2413.1,
       "confidence": "baja",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 17,
@@ -255,7 +287,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Avenida Leopoldo Freire / Calle V",
       "distanceMeters": 2413.1,
       "confidence": "baja",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 18,
@@ -270,7 +304,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Colombia / Carabobo",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 19,
@@ -285,7 +321,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: 10 de Agosto / Morona",
       "distanceMeters": 166.0,
       "confidence": "baja",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": 41,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 20,
@@ -300,7 +338,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Avenida Daniel León Borja / Avenida La Prensa",
       "distanceMeters": 14.6,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 21,
@@ -315,7 +355,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: José de Orozco / Cristóbal Colón",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": 43,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 22,
@@ -330,7 +372,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Argentinos / Juan de Lavalle",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 23,
@@ -345,7 +389,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Avenida Unidad Nacional / Duchicela",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 24,
@@ -360,7 +406,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Avenida 9 de Octubre / Duchicela",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 25,
@@ -375,7 +423,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Avenida Canónigo Ramos / Teófilo Sáenz",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 26,
@@ -390,7 +440,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Avenida 11 de Noviembre / Avenida Jose A. Lizarzaburu",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 27,
@@ -405,7 +457,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "Aproximado: Av. Alfonso Chávez y vía de circunvalación",
       "distanceMeters": null,
       "confidence": "media",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 28,
@@ -420,7 +474,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "Aproximado: Panamericana Sur y bypass",
       "distanceMeters": null,
       "confidence": "media",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": 161,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 29,
@@ -435,7 +491,9 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "OSM local: Avenida Atahualpa / San Andres",
       "distanceMeters": 0.0,
       "confidence": "alta",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     },
     {
       "n": 30,
@@ -450,7 +508,11 @@ window.RIOBAMBA_CAMERAS_DATA = {
       "method": "Aproximado: Av. Circunvalación, Parque Ecológico",
       "distanceMeters": null,
       "confidence": "media",
-      "institution": "ECU 911 Riobamba"
+      "institution": "ECU 911 Riobamba",
+      "events2025": null,
+      "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
     }
-  ]
+  ],
+  "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip",
+  "events2025Matched": 6
 };

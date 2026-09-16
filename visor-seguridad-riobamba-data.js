@@ -378,84 +378,320 @@ window.RIOBAMBA_SECURITY_DATA = {
         "total": 4743,
         "security": 3046,
         "lat": -1.6636,
-        "lng": -78.6546
+        "lng": -78.6546,
+        "securityBreakdown": {
+          "robos": 136,
+          "hurtos": 68,
+          "violencia": 118,
+          "escandalos": 237,
+          "libadores": 512,
+          "armas": 14,
+          "drogas": 0,
+          "otros": 1961,
+          "porcentajeCanton": 0.9155395250976857
+        },
+        "conflictivity": {
+          "robos": 136,
+          "hurtos": 68,
+          "violencia": 118,
+          "agresiones": 33,
+          "extorsion": 6,
+          "estafa": 18,
+          "secuestro": 1,
+          "armas": 14,
+          "drogas": 1,
+          "delitosSexuales": 1,
+          "total": 396
+        }
       },
       {
         "parish": "SAN LUIS",
         "total": 193,
         "security": 116,
         "lat": -1.7445,
-        "lng": -78.6272
+        "lng": -78.6272,
+        "securityBreakdown": {
+          "robos": 10,
+          "hurtos": 1,
+          "violencia": 11,
+          "escandalos": 9,
+          "libadores": 10,
+          "armas": 1,
+          "drogas": 0,
+          "otros": 74,
+          "porcentajeCanton": 0.03486624586714758
+        },
+        "conflictivity": {
+          "robos": 10,
+          "hurtos": 1,
+          "violencia": 11,
+          "agresiones": 2,
+          "extorsion": 1,
+          "estafa": 0,
+          "secuestro": 0,
+          "armas": 1,
+          "drogas": 0,
+          "delitosSexuales": 1,
+          "total": 27
+        }
       },
       {
         "parish": "LICÁN",
         "total": 140,
         "security": 81,
         "lat": -1.6309,
-        "lng": -78.7058
+        "lng": -78.7058,
+        "securityBreakdown": {
+          "robos": 3,
+          "hurtos": 1,
+          "violencia": 4,
+          "escandalos": 10,
+          "libadores": 12,
+          "armas": 0,
+          "drogas": 0,
+          "otros": 51,
+          "porcentajeCanton": 0.024346257889990983
+        },
+        "conflictivity": {
+          "robos": 3,
+          "hurtos": 1,
+          "violencia": 4,
+          "agresiones": 7,
+          "extorsion": 0,
+          "estafa": 0,
+          "secuestro": 0,
+          "armas": 0,
+          "drogas": 0,
+          "delitosSexuales": 1,
+          "total": 16
+        }
       },
       {
         "parish": "CALPI",
         "total": 64,
         "security": 30,
         "lat": -1.6467,
-        "lng": -78.7501
+        "lng": -78.7501,
+        "securityBreakdown": {
+          "robos": 2,
+          "hurtos": 3,
+          "violencia": 3,
+          "escandalos": 3,
+          "libadores": 1,
+          "armas": 0,
+          "drogas": 0,
+          "otros": 18,
+          "porcentajeCanton": 0.009017132551848512
+        },
+        "conflictivity": {
+          "robos": 2,
+          "hurtos": 3,
+          "violencia": 3,
+          "agresiones": 0,
+          "extorsion": 0,
+          "estafa": 0,
+          "secuestro": 0,
+          "armas": 0,
+          "drogas": 0,
+          "delitosSexuales": 0,
+          "total": 8
+        }
       },
       {
         "parish": "LICTO",
         "total": 39,
         "security": 15,
         "lat": -1.7794,
-        "lng": -78.5994
+        "lng": -78.5994,
+        "securityBreakdown": {
+          "robos": 0,
+          "hurtos": 0,
+          "violencia": 0,
+          "escandalos": 3,
+          "libadores": 0,
+          "armas": 0,
+          "drogas": 0,
+          "otros": 12,
+          "porcentajeCanton": 0.004508566275924256
+        }
       },
       {
         "parish": "PUNÍN",
         "total": 22,
         "security": 10,
         "lat": -1.7622,
-        "lng": -78.6848
+        "lng": -78.6848,
+        "securityBreakdown": {
+          "robos": 1,
+          "hurtos": 0,
+          "violencia": 1,
+          "escandalos": 0,
+          "libadores": 1,
+          "armas": 0,
+          "drogas": 0,
+          "otros": 7,
+          "porcentajeCanton": 0.003005710850616171
+        },
+        "conflictivity": {
+          "robos": 1,
+          "hurtos": 0,
+          "violencia": 1,
+          "agresiones": 0,
+          "extorsion": 0,
+          "estafa": 0,
+          "secuestro": 0,
+          "armas": 0,
+          "drogas": 0,
+          "delitosSexuales": 0,
+          "total": 2
+        }
       },
       {
         "parish": "SAN JUAN",
         "total": 39,
         "security": 9,
         "lat": -1.6262,
-        "lng": -78.7832
+        "lng": -78.7832,
+        "securityBreakdown": {
+          "robos": 0,
+          "hurtos": 0,
+          "violencia": 2,
+          "escandalos": 2,
+          "libadores": 0,
+          "armas": 0,
+          "drogas": 0,
+          "otros": 5,
+          "porcentajeCanton": 0.002705139765554554
+        },
+        "conflictivity": {
+          "robos": 0,
+          "hurtos": 0,
+          "violencia": 2,
+          "agresiones": 0,
+          "extorsion": 0,
+          "estafa": 0,
+          "secuestro": 0,
+          "armas": 0,
+          "drogas": 0,
+          "delitosSexuales": 0,
+          "total": 2
+        }
       },
       {
         "parish": "CUBIJÍES",
         "total": 17,
         "security": 8,
         "lat": -1.6369,
-        "lng": -78.5944
+        "lng": -78.5944,
+        "securityBreakdown": {
+          "robos": 1,
+          "hurtos": 0,
+          "violencia": 0,
+          "escandalos": 1,
+          "libadores": 1,
+          "armas": 0,
+          "drogas": 0,
+          "otros": 5,
+          "porcentajeCanton": 0.0024045686804929365
+        },
+        "conflictivity": {
+          "robos": 1,
+          "hurtos": 0,
+          "violencia": 0,
+          "agresiones": 0,
+          "extorsion": 0,
+          "estafa": 0,
+          "secuestro": 0,
+          "armas": 0,
+          "drogas": 0,
+          "delitosSexuales": 0,
+          "total": 1
+        }
       },
       {
         "parish": "QUIMIAG",
         "total": 23,
         "security": 6,
         "lat": -1.6556,
-        "lng": -78.5542
+        "lng": -78.5542,
+        "securityBreakdown": {
+          "robos": 0,
+          "hurtos": 0,
+          "violencia": 0,
+          "escandalos": 0,
+          "libadores": 0,
+          "armas": 0,
+          "drogas": 0,
+          "otros": 6,
+          "porcentajeCanton": 0.0018034265103697023
+        }
       },
       {
         "parish": "FLORES",
         "total": 9,
         "security": 4,
         "lat": -1.8208,
-        "lng": -78.6464
+        "lng": -78.6464,
+        "securityBreakdown": {
+          "robos": 0,
+          "hurtos": 0,
+          "violencia": 0,
+          "escandalos": 0,
+          "libadores": 0,
+          "armas": 0,
+          "drogas": 0,
+          "otros": 4,
+          "porcentajeCanton": 0.0012022843402464682
+        }
       },
       {
         "parish": "PUNGALÁ",
         "total": 14,
         "security": 1,
         "lat": -1.8179,
-        "lng": -78.5791
+        "lng": -78.5791,
+        "securityBreakdown": {
+          "robos": 0,
+          "hurtos": 0,
+          "violencia": 1,
+          "escandalos": 0,
+          "libadores": 0,
+          "armas": 0,
+          "drogas": 0,
+          "otros": 0,
+          "porcentajeCanton": 0.00030057108506161706
+        },
+        "conflictivity": {
+          "robos": 0,
+          "hurtos": 0,
+          "violencia": 1,
+          "agresiones": 0,
+          "extorsion": 0,
+          "estafa": 0,
+          "secuestro": 0,
+          "armas": 0,
+          "drogas": 0,
+          "delitosSexuales": 0,
+          "total": 1
+        }
       },
       {
         "parish": "CACHA (CAB. EN MACHÁNGARA)",
         "total": 7,
         "security": 1,
         "lat": -1.7037,
-        "lng": -78.6962
+        "lng": -78.6962,
+        "securityBreakdown": {
+          "robos": 0,
+          "hurtos": 0,
+          "violencia": 0,
+          "escandalos": 0,
+          "libadores": 0,
+          "armas": 0,
+          "drogas": 0,
+          "otros": 1,
+          "porcentajeCanton": 0.00030057108506161706
+        }
       }
     ],
     "topSubtypes": [
@@ -849,7 +1085,121 @@ window.RIOBAMBA_SECURITY_DATA = {
           "n": 3
         }
       ]
-    }
+    },
+    "conflictivity": [
+      {
+        "parish": "RIOBAMBA, CABECERA CANTONAL Y CAPITAL PROVINCIAL",
+        "robos": 136,
+        "hurtos": 68,
+        "violencia": 118,
+        "agresiones": 33,
+        "extorsion": 6,
+        "estafa": 18,
+        "secuestro": 1,
+        "armas": 14,
+        "drogas": 1,
+        "delitosSexuales": 1,
+        "total": 396
+      },
+      {
+        "parish": "SAN LUIS",
+        "robos": 10,
+        "hurtos": 1,
+        "violencia": 11,
+        "agresiones": 2,
+        "extorsion": 1,
+        "estafa": 0,
+        "secuestro": 0,
+        "armas": 1,
+        "drogas": 0,
+        "delitosSexuales": 1,
+        "total": 27
+      },
+      {
+        "parish": "LICÁN",
+        "robos": 3,
+        "hurtos": 1,
+        "violencia": 4,
+        "agresiones": 7,
+        "extorsion": 0,
+        "estafa": 0,
+        "secuestro": 0,
+        "armas": 0,
+        "drogas": 0,
+        "delitosSexuales": 1,
+        "total": 16
+      },
+      {
+        "parish": "CALPI",
+        "robos": 2,
+        "hurtos": 3,
+        "violencia": 3,
+        "agresiones": 0,
+        "extorsion": 0,
+        "estafa": 0,
+        "secuestro": 0,
+        "armas": 0,
+        "drogas": 0,
+        "delitosSexuales": 0,
+        "total": 8
+      },
+      {
+        "parish": "PUNÍN",
+        "robos": 1,
+        "hurtos": 0,
+        "violencia": 1,
+        "agresiones": 0,
+        "extorsion": 0,
+        "estafa": 0,
+        "secuestro": 0,
+        "armas": 0,
+        "drogas": 0,
+        "delitosSexuales": 0,
+        "total": 2
+      },
+      {
+        "parish": "SAN JUAN",
+        "robos": 0,
+        "hurtos": 0,
+        "violencia": 2,
+        "agresiones": 0,
+        "extorsion": 0,
+        "estafa": 0,
+        "secuestro": 0,
+        "armas": 0,
+        "drogas": 0,
+        "delitosSexuales": 0,
+        "total": 2
+      },
+      {
+        "parish": "CUBIJÍES",
+        "robos": 1,
+        "hurtos": 0,
+        "violencia": 0,
+        "agresiones": 0,
+        "extorsion": 0,
+        "estafa": 0,
+        "secuestro": 0,
+        "armas": 0,
+        "drogas": 0,
+        "delitosSexuales": 0,
+        "total": 1
+      },
+      {
+        "parish": "PUNGALÁ",
+        "robos": 0,
+        "hurtos": 0,
+        "violencia": 1,
+        "agresiones": 0,
+        "extorsion": 0,
+        "estafa": 0,
+        "secuestro": 0,
+        "armas": 0,
+        "drogas": 0,
+        "delitosSexuales": 0,
+        "total": 1
+      }
+    ]
   },
   "methodology": [
     {
@@ -867,6 +1217,7 @@ window.RIOBAMBA_SECURITY_DATA = {
       "meaning": "Parroquia, ciudad o distrito",
       "use": "Agregación; no punto arbitrario"
     }
-  ]
+  ],
+  "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip"
 };
 window.RIOBAMBA_SECURITY_EVENTS = window.RIOBAMBA_SECURITY_DATA.events;

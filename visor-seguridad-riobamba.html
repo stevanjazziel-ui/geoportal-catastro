@@ -520,21 +520,23 @@
       function renderSummary(items) {
         if (mode === "ecu") {
           const parishes = filteredParishes();
+          const conflictTotal = parishes.reduce((sum, parish) => sum + Number(parish.conflictivity?.total || 0), 0);
           elements.summary.innerHTML = [
             ["ECU911 agosto", ecu911.totalRows || 0],
             ["Seguridad ciudadana", ecu911.securityRows || 0],
             ["Parroquias", parishes.length],
-            ["Subtipos seguridad", (ecu911.topSubtypes || []).length]
+            ["Conflictividad", conflictTotal]
           ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
           return;
         }
         if (mode === "cameras") {
           const visible = filteredCameras();
+          const eventTotal = visible.reduce((sum, camera) => sum + Number(camera.events2025 || 0), 0);
           elements.summary.innerHTML = [
             ["Cámaras", visible.length],
             ["DOMO", visible.filter((camera) => camera.type === "DOMO").length],
             ["FIJA", visible.filter((camera) => camera.type === "FIJA").length],
-            ["Requiere cambio", visible.filter((camera) => camera.requiresChange).length]
+            ["Eventos 2025", eventTotal]
           ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
           return;
         }
@@ -615,6 +617,7 @@
                 <span class="pill">${esc(camera.type)}</span>
                 <span class="pill">${camera.megaphone ? "Con megáfono" : "Sin megáfono"}</span>
                 <span class="pill">${camera.requiresChange ? "Requiere cambio" : "Sin cambio reportado"}</span>
+                <span class="pill">${camera.events2025 != null ? `${fmt(camera.events2025)} eventos 2025` : "Eventos 2025 s/d"}</span>
                 <span class="pill">Confianza ${esc(camera.confidence)}</span>
               </div>
             </button>
@@ -760,10 +763,11 @@
         } else {
           if (mode === "ecu") {
             renderParishDetail(selectedParish);
-            elements.status.textContent = `${ecu911.totalRows || 0} registros ECU911 de agosto; ${ecu911.securityRows || 0} corresponden a Seguridad Ciudadana.`;
+            elements.status.textContent = `${ecu911.totalRows || 0} registros ECU911 de agosto; ${ecu911.securityRows || 0} corresponden a Seguridad Ciudadana. V2: ${(ecu911.conflictivity || []).length} parroquias con conflictividad.`;
           } else if (mode === "cameras") {
             renderCameraDetail(selectedCamera);
-            elements.status.textContent = `${filteredCameras().length} de ${cameras.length} cámaras visibles. Subconjunto actual: RIO-001 a RIO-030.`;
+            const camerasWithEvents = cameras.filter((camera) => camera.events2025 != null).length;
+            elements.status.textContent = `${filteredCameras().length} de ${cameras.length} cámaras visibles. V2: ${camerasWithEvents} cámaras con eventos 2025.`;
           } else {
             renderPoliceDetail(selectedPolice);
             elements.status.textContent = `${filteredPoliceInfrastructure().length} de ${policeInfrastructure.length} infraestructuras policiales visibles.`;
@@ -798,15 +802,21 @@
           return;
         }
         const top = (ecu911.topByParish?.[parish.parish] || []).slice(0, 8);
+        const conflict = parish.conflictivity || {};
+        const security = parish.securityBreakdown || {};
         elements.detailTitle.textContent = parish.parish;
         elements.detail.innerHTML = [
           ["ECU911 total", parish.total],
           ["Seguridad Ciudadana", parish.security],
-          ["Participación seguridad", `${Math.round(parish.security / Math.max(parish.total, 1) * 100)}%`]
+          ["Participación seguridad", `${Math.round(parish.security / Math.max(parish.total, 1) * 100)}%`],
+          ["Conflictividad V2", conflict.total ?? "-"],
+          ["Robos / hurtos", `${conflict.robos ?? security.robos ?? "-"} / ${conflict.hurtos ?? security.hurtos ?? "-"}`],
+          ["Violencia", conflict.violencia ?? security.violencia ?? "-"],
+          ["Escándalos / libadores", `${security.escandalos ?? "-"} / ${security.libadores ?? "-"}`]
         ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")
           + top.map((item) => `<div class="bar-row"><div class="bar-head"><span>${esc(item.subtype)}</span><strong>${item.n}</strong></div><div class="bar-track"><div class="bar-fill" style="width:${Math.max(4, item.n / Math.max(top[0]?.n || 1, 1) * 100)}%"></div></div></div>`).join("");
         elements.overlayTitle.textContent = parish.parish;
-        elements.overlayText.textContent = `${parish.security} registros de Seguridad Ciudadana sobre ${parish.total} registros ECU911 en agosto de 2026.`;
+        elements.overlayText.textContent = `${parish.security} registros de Seguridad Ciudadana sobre ${parish.total} registros ECU911 en agosto de 2026. Conflictividad V2: ${conflict.total ?? "sin dato"}.`;
       }
 
       function selectParish(parishName, pan) {
@@ -842,11 +852,12 @@
           ["Tipo", camera.type],
           ["Megáfono", camera.megaphone ? "Sí" : "No"],
           ["Requiere cambio", camera.requiresChange ? "Sí" : "No"],
+          ["Eventos 2025", camera.events2025 ?? "Sin dato"],
           ["Confianza", camera.confidence]
         ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")
           + `<p>${esc(camera.method)}</p>`;
         elements.overlayTitle.textContent = `${camera.id} - ${camera.address}`;
-        elements.overlayText.textContent = `${camera.requiresChange ? "Requiere cambio. " : ""}${camera.megaphone ? "Cuenta con megáfono. " : ""}Confianza de ubicación: ${camera.confidence}.`;
+        elements.overlayText.textContent = `${camera.requiresChange ? "Requiere cambio. " : ""}${camera.megaphone ? "Cuenta con megáfono. " : ""}${camera.events2025 != null ? `${camera.events2025} eventos 2025. ` : ""}Confianza de ubicación: ${camera.confidence}.`;
       }
 
       function selectCamera(cameraId, pan) {
