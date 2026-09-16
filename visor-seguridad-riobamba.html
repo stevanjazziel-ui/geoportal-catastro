@@ -287,114 +287,233 @@
     .popup-row strong { color: var(--text); }
     .popup-note { margin-top: 8px; color: var(--muted); font-size: 0.82rem; }
 
-    @media (max-width: 920px) {
-      .layout { grid-template-columns: 1fr; height: auto; min-height: 100dvh; }
-      .sidebar { max-height: 56dvh; border-right: 0; border-bottom: 1px solid var(--line); }
-      .map-wrap { min-height: 62dvh; }
-      .overlay { position: static; width: auto; margin: 12px; }
+    .dashboard-shell {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) minmax(190px, 24vh);
+      height: 100dvh;
+      background: #eaf0ef;
+    }
+    .topbar {
+      display: grid;
+      grid-template-columns: minmax(280px, 1.4fr) repeat(6, minmax(92px, .62fr)) minmax(160px, .85fr);
+      gap: 1px;
+      align-items: stretch;
+      background: #123049;
+      border-bottom: 1px solid rgba(255,255,255,.16);
+      color: #fff;
+    }
+    .brand-block, .top-metric {
+      padding: 12px 14px;
+      border-right: 1px solid rgba(255,255,255,.12);
+    }
+    .brand-block strong { display: block; font-size: 1.18rem; letter-spacing: .03em; }
+    .brand-block span, .top-metric span { color: rgba(255,255,255,.72); font-size: .76rem; }
+    .top-metric strong { display: block; margin-top: 4px; font-size: 1.28rem; line-height: 1; }
+    .dashboard-main {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 245px minmax(0, 1fr) 340px;
+      gap: 10px;
+      padding: 10px;
+    }
+    .analysis-nav, .right-panel, .bottom-panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      min-width: 0;
+    }
+    .analysis-nav {
+      overflow: auto;
+      padding: 12px;
+      background: #102b42;
+      color: #fff;
+    }
+    .analysis-nav h2 { color: rgba(255,255,255,.62); margin: 14px 0 8px; }
+    .analysis-nav h2:first-child { margin-top: 0; }
+    .analysis-nav button {
+      min-height: 34px;
+      margin-bottom: 6px;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border-color: rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.86);
+      font-size: .86rem;
+    }
+    .analysis-nav button.is-active, .analysis-nav button:hover {
+      background: #2b82bd;
+      color: #fff;
+    }
+    .analysis-nav button:disabled {
+      cursor: not-allowed;
+      color: rgba(255,255,255,.38);
+      background: rgba(255,255,255,.035);
+    }
+    .right-panel {
+      overflow: auto;
+      padding: 12px;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+    }
+    .right-panel .panel, .bottom-panel .panel {
+      margin: 0;
+      padding: 12px;
+      box-shadow: none;
+      border-radius: 8px;
+    }
+    .right-panel .panel h2, .bottom-panel .panel h2 { margin-bottom: 8px; }
+    .dashboard-main .map-wrap {
+      height: auto;
+      min-height: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .bottom-panel {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr 1.25fr;
+      gap: 10px;
+      margin: 0 10px 10px;
+      padding: 10px;
+      overflow: auto;
+    }
+    .legacy-hidden { display: none; }
+    @media (max-width: 1100px) {
+      .topbar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .dashboard-main { grid-template-columns: 1fr; grid-template-rows: auto minmax(520px, 1fr) auto; overflow: auto; }
+      .analysis-nav { max-height: 220px; }
+      .bottom-panel { grid-template-columns: 1fr; }
+      .dashboard-shell { height: auto; min-height: 100dvh; }
     }
   </style>
 </head>
 <body>
-  <div class="layout">
-    <aside class="sidebar">
-      <section class="panel">
-        <h1>Eventos de Seguridad 2026</h1>
-        <p>Visor operativo de hechos publicados para Riobamba. Los puntos reflejan la ubicación informada por fuente pública y conservan su nivel de precisión.</p>
-        <a class="back-link" href="./index.html">Volver al portal</a>
-      </section>
+  <div class="dashboard-shell">
+    <header class="topbar">
+      <div class="brand-block"><strong>SEGURIDAD CIUDADANA</strong><span>Diagnóstico Territorial - Riobamba</span></div>
+      <div class="top-metric"><span>Plataformas</span><strong id="topPlatforms">18</strong></div>
+      <div class="top-metric"><span>Población</span><strong id="topPopulation">-</strong></div>
+      <div class="top-metric"><span>Incidentes</span><strong id="topIncidents">-</strong></div>
+      <div class="top-metric"><span>Concentraciones</span><strong id="topHotspots">-</strong></div>
+      <div class="top-metric"><span>Infraestructura policial</span><strong id="topPolice">-</strong></div>
+      <div class="top-metric"><span>Cámaras</span><strong id="topCameras">-</strong></div>
+      <div class="top-metric"><span>Periodo de datos</span><strong id="topPeriod">-</strong></div>
+    </header>
 
-      <section class="panel">
-        <h2>Filtros</h2>
-        <div class="filter-grid">
-          <input id="searchInput" type="search" placeholder="Buscar evento, ubicación o fuente" />
-          <select id="categorySelect" aria-label="Filtrar por categoría"></select>
-          <select id="precisionSelect" aria-label="Filtrar por precisión"></select>
-          <select id="sourceSelect" aria-label="Filtrar por fuente"></select>
-        </div>
-      </section>
-
-      <section class="panel">
-        <h2>Vista</h2>
-        <div class="mode-switch">
-          <button class="mode-button is-active" id="eventsMode" type="button">Eventos</button>
+    <div class="dashboard-main">
+      <nav class="analysis-nav" aria-label="Análisis">
+        <h2>Demografía</h2>
+        <button type="button" disabled>Población · Próximamente</button>
+        <button type="button" disabled>Densidad poblacional · Próximamente</button>
+        <button type="button" disabled>Exposición poblacional · Próximamente</button>
+        <h2>Conflictividad</h2>
+        <button class="mode-button" id="eventsMode" type="button">Incidentes</button>
+        <button type="button" disabled>Incidentes por Plataforma · Próximamente</button>
+        <button type="button" disabled>Tasa por 1.000 habitantes · Próximamente</button>
+        <button class="mode-button is-active" id="kdeAnalysisButton" type="button">Densidad de incidentes (KDE)</button>
+        <button type="button" disabled>Hotspots estadísticos · Próximamente</button>
+        <button type="button" disabled>Tipologías de incidentes · Próximamente</button>
+        <button type="button" disabled>Análisis temporal · Próximamente</button>
+        <h2>Cobertura territorial</h2>
+        <button class="mode-button" id="policeMode" type="button">Infraestructura policial</button>
+        <button type="button" disabled>Accesibilidad policial · Próximamente</button>
+        <button class="mode-button" id="camerasMode" type="button">Videovigilancia</button>
+        <button type="button" disabled>Cobertura potencial de cámaras · Próximamente</button>
+        <button type="button" disabled>Cobertura poblacional · Próximamente</button>
+        <button type="button" disabled>Bulevares Seguros · Próximamente</button>
+        <button type="button" disabled>Cobertura institucional · Próximamente</button>
+        <h2>Brechas</h2>
+        <button type="button" disabled>Déficit potencial de videovigilancia · Próximamente</button>
+        <button type="button" disabled>Concentraciones con baja cobertura · Próximamente</button>
+        <button type="button" disabled>Exposición + baja cobertura · Próximamente</button>
+        <button type="button" disabled>Brechas territoriales · Próximamente</button>
+        <button type="button" disabled>Zonas candidatas de intervención · Próximamente</button>
+        <h2>Diagnóstico</h2>
+        <button class="mode-button" id="diagnosisMode" type="button">Comparación de Plataformas</button>
+        <button type="button" disabled>Tipologías territoriales · Próximamente</button>
+        <button type="button" disabled>Ficha de Plataforma · Próximamente</button>
+        <button type="button" disabled>Diagnóstico integrado · Próximamente</button>
+        <div class="legacy-hidden">
           <button class="mode-button" id="ecuMode" type="button">ECU911</button>
-          <button class="mode-button" id="camerasMode" type="button">Cámaras</button>
-          <button class="mode-button" id="policeMode" type="button">Policía</button>
-          <button class="mode-button" id="diagnosisMode" type="button">Diagnóstico</button>
         </div>
-      </section>
+      </nav>
 
-      <section class="panel">
-        <h2>Indicador gráfico</h2>
-        <select id="diagnosisMetricSelect" aria-label="Indicador gráfico de diagnóstico">
-          <option value="videoDeficit">Déficit de videovigilancia</option>
-          <option value="incidentCount">Incidentes absolutos</option>
-          <option value="incidentRate">Tasa de incidentes / 1.000 hab.</option>
-          <option value="hotspots">Hotspots preliminares</option>
-          <option value="populationExposure">Exposición poblacional a hotspots</option>
-          <option value="cameraCoverage">Cobertura potencial de cámaras</option>
-          <option value="boulevardPopulation">Población cercana a boulevares/conexiones</option>
-          <option value="incidentProximity">Incidentes cerca de cámaras, policía y red</option>
-          <option value="policeAccessibility">Accesibilidad a infraestructura policial</option>
-          <option value="institutionalCoverage">Cobertura institucional</option>
-          <option value="typology">Tipología territorial</option>
-          <option value="criticalZones">Zonas críticas preliminares</option>
-        </select>
-      </section>
-
-      <section class="panel">
-        <h2>Capas visibles</h2>
-        <div class="layer-toggles">
-          <label class="layer-toggle"><span>Eventos de seguridad</span><input id="toggleEvents" type="checkbox" checked /></label>
-          <label class="layer-toggle"><span>Burbujas ECU911</span><input id="toggleParishes" type="checkbox" checked /></label>
-          <label class="layer-toggle"><span>Cámaras</span><input id="toggleCameras" type="checkbox" checked /></label>
-          <label class="layer-toggle"><span>Infraestructura policial</span><input id="togglePoliceInfrastructure" type="checkbox" checked /></label>
-          <label class="layer-toggle"><span>Plataformas territoriales</span><input id="togglePlatforms" type="checkbox" checked /></label>
-          <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked /></label>
-          <label class="layer-toggle"><span>Red de boulevares</span><input id="toggleBoulevards" type="checkbox" checked /></label>
-          <label class="layer-toggle"><span>Base satelital</span><input id="toggleSatellite" type="checkbox" /></label>
+      <main class="map-wrap">
+        <div id="map"></div>
+        <div class="overlay">
+          <strong id="overlayTitle">Densidad de incidentes (KDE)</strong>
+          <p id="overlayText">Superficie continua calculada desde incidentes georreferenciados válidos.</p>
         </div>
-      </section>
+      </main>
 
+      <aside class="right-panel">
+        <section class="panel">
+          <h2>Filtros</h2>
+          <div class="filter-grid">
+            <input id="searchInput" type="search" placeholder="Buscar evento, ubicación o fuente" />
+            <select id="categorySelect" aria-label="Filtrar por categoría"></select>
+            <select id="precisionSelect" aria-label="Filtrar por precisión"></select>
+            <select id="sourceSelect" aria-label="Filtrar por fuente"></select>
+            <select id="diagnosisMetricSelect" aria-label="Indicador gráfico de diagnóstico">
+              <option value="videoDeficit">Déficit de videovigilancia</option>
+              <option value="incidentCount">Incidentes absolutos</option>
+              <option value="incidentRate">Tasa de incidentes / 1.000 hab.</option>
+              <option value="hotspots" selected>Densidad de incidentes (KDE)</option>
+              <option value="populationExposure">Exposición poblacional a hotspots</option>
+              <option value="cameraCoverage">Cobertura potencial de cámaras</option>
+              <option value="boulevardPopulation">Población cercana a boulevares/conexiones</option>
+              <option value="incidentProximity">Incidentes cerca de cámaras, policía y red</option>
+              <option value="policeAccessibility">Accesibilidad a infraestructura policial</option>
+              <option value="institutionalCoverage">Cobertura institucional</option>
+              <option value="typology">Tipología territorial</option>
+              <option value="criticalZones">Zonas críticas preliminares</option>
+            </select>
+          </div>
+        </section>
+        <section class="panel">
+          <h2>Capas de contexto</h2>
+          <div class="layer-toggles">
+            <label class="layer-toggle"><span>Eventos de seguridad</span><input id="toggleEvents" type="checkbox" checked /></label>
+            <label class="layer-toggle"><span>Burbujas ECU911</span><input id="toggleParishes" type="checkbox" /></label>
+            <label class="layer-toggle"><span>Cámaras</span><input id="toggleCameras" type="checkbox" /></label>
+            <label class="layer-toggle"><span>Infraestructura policial</span><input id="togglePoliceInfrastructure" type="checkbox" /></label>
+            <label class="layer-toggle"><span>Plataformas territoriales</span><input id="togglePlatforms" type="checkbox" checked /></label>
+            <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" /></label>
+            <label class="layer-toggle"><span>Red de boulevares</span><input id="toggleBoulevards" type="checkbox" /></label>
+            <label class="layer-toggle"><span>Base satelital</span><input id="toggleSatellite" type="checkbox" /></label>
+          </div>
+        </section>
+        <section class="panel">
+          <h2>Leyenda</h2>
+          <div class="legend" id="legend"></div>
+        </section>
+        <section class="panel">
+          <h2>Metodología</h2>
+          <div class="mini-list" id="methodologyPanel"></div>
+        </section>
+      </aside>
+    </div>
+
+    <section class="bottom-panel">
       <section class="panel">
-        <h2>Resumen filtrado</h2>
+        <h2>Resultados clave</h2>
         <div class="stats" id="summaryCards"></div>
       </section>
-
       <section class="panel">
-        <h2>Análisis gráfico</h2>
+        <h2>Gráfico</h2>
         <div class="graphic-grid" id="graphicAnalysis"><p>Cambia a Diagnóstico para ver los gráficos por plataforma.</p></div>
       </section>
-
       <section class="panel">
-        <h2 id="detailTitle">Detalle</h2>
-        <div class="mini-list" id="detailList"><p>Selecciona un evento en el mapa o en el listado.</p></div>
+        <h2 id="detailTitle">Detalles territoriales</h2>
+        <div class="mini-list" id="detailList"><p>Selecciona una plataforma o incidente.</p></div>
+        <h2 class="legacy-hidden" id="listTitle">Eventos</h2>
+        <div class="event-list legacy-hidden" id="eventList"></div>
+        <p class="legacy-hidden" id="statusText">Cargando visor...</p>
       </section>
-
-      <section class="panel">
-        <h2>Leyenda</h2>
-        <div class="legend" id="legend"></div>
-      </section>
-
-      <section class="panel">
-        <h2 id="listTitle">Eventos</h2>
-        <div class="event-list" id="eventList"></div>
-      </section>
-
-      <section class="panel">
-        <h2>Estado</h2>
-        <p id="statusText">Cargando visor...</p>
-      </section>
-    </aside>
-
-    <main class="map-wrap">
-      <div id="map"></div>
-      <div class="overlay">
-        <strong id="overlayTitle">Mapa de eventos publicados</strong>
-        <p id="overlayText">Usa los filtros para revisar patrones por categoría, precisión territorial y fuente institucional.</p>
-      </div>
-    </main>
+    </section>
   </div>
 
   <script src="./vendor/leaflet/leaflet.js"></script>
@@ -427,6 +546,7 @@
         camerasMode: document.getElementById("camerasMode"),
         policeMode: document.getElementById("policeMode"),
         diagnosisMode: document.getElementById("diagnosisMode"),
+        kdeAnalysis: document.getElementById("kdeAnalysisButton"),
         diagnosisMetric: document.getElementById("diagnosisMetricSelect"),
         summary: document.getElementById("summaryCards"),
         graphicAnalysis: document.getElementById("graphicAnalysis"),
@@ -469,8 +589,8 @@
       let selectedCamera = null;
       let selectedPolice = null;
       let selectedPlatform = null;
-      let mode = "events";
-      let diagnosisMetric = "videoDeficit";
+      let mode = "diagnosis";
+      let diagnosisMetric = "hotspots";
       const isKdeMode = () => mode === "diagnosis" && diagnosisMetric === "hotspots";
       const markers = new Map();
       const parishMarkers = new Map();
@@ -483,6 +603,38 @@
       const fmt = (value) => Number(value || 0).toLocaleString("es-EC");
       const displayValue = (value) => typeof value === "number" ? fmt(value) : esc(value ?? "N/D");
       const pctValue = (value) => typeof value === "number" ? `${value}%` : displayValue(value);
+      const setText = (id, value) => {
+        const node = document.getElementById(id);
+        if (node) node.textContent = value;
+      };
+      const renderTopbar = () => {
+        const dated = events.map((event) => event.date).filter(Boolean).sort();
+        setText("topPlatforms", fmt(diagnosis.summary?.platforms || 18));
+        setText("topPopulation", fmt(diagnosis.summary?.populationWithPlatform || 0));
+        setText("topIncidents", fmt(kdeValidation.controlTable?.TOTAL_REGISTROS || events.length));
+        setText("topHotspots", fmt(kdeValidation.rasters?.["300"]?.observableConcentrations || diagnosis.summary?.hotspots || 0));
+        setText("topPolice", fmt(policeInfrastructure.length || diagnosis.summary?.policeInfrastructureAssigned || 0));
+        setText("topCameras", fmt(cameras.length || diagnosis.summary?.camerasAssigned || 0));
+        setText("topPeriod", dated.length ? `${formatDate(dated[0])} - ${formatDate(dated.at(-1))}` : "N/D");
+      };
+      const renderMethodologyPanel = () => {
+        const panel = document.getElementById("methodologyPanel");
+        if (!panel) return;
+        if (isKdeMode()) {
+          const raster = kdeValidation.rasters?.["300"] || {};
+          panel.innerHTML = [
+            ["Método", "Kernel Density Estimation"],
+            ["Registros utilizados", kdeValidation.controlTable?.REGISTROS_KDE || "N/D"],
+            ["Registros excluidos", kdeValidation.controlTable?.REGISTROS_EXCLUIDOS || "N/D"],
+            ["Bandwidth", `${raster.bandwidth || 300} m`],
+            ["Cell size", `${raster.cellSize || 20} m`],
+            ["Periodo", kdeValidation.metadata?.PERIODO || "N/D"],
+            ["CRS", "EPSG:32717 cálculo / EPSG:4326 visualización"],
+          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+          return;
+        }
+        panel.innerHTML = `<p>La metodología cambia según el análisis activo.</p>`;
+      };
       const compactPlatformPhases = (platform) => [
         ["Hotspot", platform.hotspots],
         ["Déficit", platform.videoDeficit],
@@ -833,6 +985,32 @@
 
       function renderSummary(items) {
         if (mode === "diagnosis") {
+          if (isKdeMode()) {
+            const raster = kdeValidation.rasters?.["300"] || {};
+            const counts = countBy(kdeValidation.kdeInputPoints || [], "platform");
+            const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0] || ["N/D", 0];
+            const graphRows = Object.entries(counts)
+              .sort((a, b) => b[1] - a[1])
+              .map(([label, value]) => ({ label, value, color: "#9c1f33" }));
+            elements.summary.innerHTML = [
+              ["Registros analizados", kdeValidation.controlTable?.REGISTROS_KDE || 0],
+              ["Registros excluidos", kdeValidation.controlTable?.REGISTROS_EXCLUIDOS || 0],
+              ["Concentraciones", raster.observableConcentrations || 0],
+              ["Plataforma mayor concentración", top[0]],
+              ["Bandwidth", `${raster.bandwidth || 300} m`],
+              ["Cell size", `${raster.cellSize || 20} m`],
+              ["Fragmentación", raster.fragmentation || "N/D"],
+              ["Suavizado", raster.smoothing || "N/D"]
+            ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+            elements.graphicAnalysis.innerHTML = `
+              <div class="status-grid">
+                <div class="status-tile"><span>Concentraciones principales</span><strong>${fmt(raster.observableConcentrations || 0)}</strong></div>
+                <div class="status-tile"><span>Plataforma superior</span><strong>${esc(top[0])}</strong></div>
+              </div>
+              ${metricBars("Incidentes KDE por Plataforma", graphRows, Math.max(...graphRows.map((item) => item.value), 1), "#9c1f33")}
+            `;
+            return;
+          }
           const visible = filteredPlatforms();
           const population = visible.reduce((sum, platform) => sum + Number(platform.population || 0), 0);
           const typologies = new Set(visible.map((platform) => platform.territorialTypology).filter(Boolean)).size;
@@ -931,6 +1109,23 @@
           elements.graphicAnalysis.innerHTML = "<p>Cambia a Diagnóstico para ver los gráficos por plataforma.</p>";
           return;
         }
+        if (isKdeMode()) {
+          const counts = countBy(kdeValidation.kdeInputPoints || [], "platform");
+          const rows = Object.entries(counts)
+            .sort((a, b) => b[1] - a[1])
+            .map(([label, value]) => ({ label, value, color: "#9c1f33" }));
+          const raster = kdeValidation.rasters?.["300"] || {};
+          elements.graphicAnalysis.innerHTML = `
+            <div class="status-grid">
+              <div class="status-tile"><span>Registros analizados</span><strong>${fmt(kdeValidation.controlTable?.REGISTROS_KDE || 0)}</strong></div>
+              <div class="status-tile"><span>Concentraciones principales</span><strong>${fmt(raster.observableConcentrations || 0)}</strong></div>
+              <div class="status-tile"><span>Fragmentación</span><strong>${esc(raster.fragmentation || "N/D")}</strong></div>
+              <div class="status-tile"><span>Suavizado</span><strong>${esc(raster.smoothing || "N/D")}</strong></div>
+            </div>
+            ${metricBars("Incidentes KDE por Plataforma", rows, Math.max(...rows.map((item) => item.value), 1), "#9c1f33")}
+          `;
+          return;
+        }
         const visible = filteredPlatforms();
         const topIncidents = [...visible].sort((a, b) => Number(b.incidents || 0) - Number(a.incidents || 0)).slice(0, 6);
         const maxIncidents = Math.max(...topIncidents.map((item) => Number(item.incidents || 0)), 1);
@@ -967,6 +1162,22 @@
               <strong>${esc(item.videoDeficit)}</strong>
             </div>`).join("")}
           </div>
+        `;
+      }
+
+      function renderKdeGraphicPanel() {
+        const counts = countBy(kdeValidation.kdeInputPoints || [], "platform");
+        const rows = Object.entries(counts)
+          .sort((a, b) => b[1] - a[1])
+          .map(([label, value]) => ({ label, value, color: "#9c1f33" }));
+        const raster = kdeValidation.rasters?.["300"] || {};
+        const top = rows[0] || { label: "N/D", value: 0 };
+        elements.graphicAnalysis.innerHTML = `
+          <div class="status-grid">
+            <div class="status-tile"><span>Concentraciones principales</span><strong>${fmt(raster.observableConcentrations || 0)}</strong></div>
+            <div class="status-tile"><span>Plataforma superior</span><strong>${esc(top.label)}</strong></div>
+          </div>
+          ${metricBars("Incidentes KDE por Plataforma", rows, Math.max(...rows.map((item) => item.value), 1), "#9c1f33")}
         `;
       }
 
@@ -1259,6 +1470,9 @@
         renderPlatformLabels();
         renderLegend();
         renderGraphicAnalysis();
+        renderTopbar();
+        renderMethodologyPanel();
+        if (isKdeMode()) renderKdeGraphicPanel();
         if (mode === "events") {
           renderDetail(events.find((event) => event.id === selectedId));
           elements.status.textContent = `${items.length} de ${events.length} eventos publicados visibles; ${items.filter((event) => event.mappable).length} con referencia en mapa.`;
@@ -1574,7 +1788,8 @@
         elements.ecuMode.classList.toggle("is-active", mode === "ecu");
         elements.camerasMode.classList.toggle("is-active", mode === "cameras");
         elements.policeMode.classList.toggle("is-active", mode === "police");
-        elements.diagnosisMode.classList.toggle("is-active", mode === "diagnosis");
+        elements.diagnosisMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric !== "hotspots");
+        elements.kdeAnalysis.classList.toggle("is-active", isKdeMode());
       }
 
       async function loadCensusLayers() {
@@ -1660,12 +1875,15 @@
       fillSelect(elements.precision, "Toda precisión/confianza", [...new Set([...events.map((event) => event.precision), ...cameras.map((camera) => camera.confidence)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
       fillSelect(elements.source, "Todas las fuentes", [...new Set([...events.map((event) => event.source), ...cameras.map((camera) => camera.institution)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
       renderLegend();
+      renderTopbar();
+      renderMethodologyPanel();
       update();
       loadCensusLayers();
       loadBoulevardNetwork();
 
       [elements.search, elements.category, elements.precision, elements.source].forEach((control) => control.addEventListener("input", update));
       elements.diagnosisMetric.addEventListener("change", () => { diagnosisMetric = elements.diagnosisMetric.value; mode = "diagnosis"; syncModeButtons(); update(); });
+      elements.kdeAnalysis.addEventListener("click", () => { mode = "diagnosis"; diagnosisMetric = "hotspots"; elements.diagnosisMetric.value = "hotspots"; selectedId = null; selectedParish = null; selectedCamera = null; selectedPolice = null; syncModeButtons(); update(); });
       elements.eventsMode.addEventListener("click", () => { mode = "events"; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
       elements.ecuMode.addEventListener("click", () => { mode = "ecu"; selectedId = null; selectedCamera = null; selectedPlatform = null; syncModeButtons(); update(); });
       elements.camerasMode.addEventListener("click", () => { mode = "cameras"; selectedId = null; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
