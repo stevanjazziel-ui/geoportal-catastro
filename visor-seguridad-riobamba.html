@@ -296,8 +296,6 @@
           <label class="layer-toggle"><span>Eventos de seguridad</span><input id="toggleEvents" type="checkbox" checked /></label>
           <label class="layer-toggle"><span>Burbujas ECU911</span><input id="toggleParishes" type="checkbox" checked /></label>
           <label class="layer-toggle"><span>Cámaras</span><input id="toggleCameras" type="checkbox" checked /></label>
-          <label class="layer-toggle"><span>Circuitos 06D01</span><input id="togglePoliceCircuits" type="checkbox" checked /></label>
-          <label class="layer-toggle"><span>Subcircuitos 06D01</span><input id="togglePoliceSubcircuits" type="checkbox" checked /></label>
           <label class="layer-toggle"><span>Infraestructura policial</span><input id="togglePoliceInfrastructure" type="checkbox" checked /></label>
           <label class="layer-toggle"><span>Plataformas territoriales</span><input id="togglePlatforms" type="checkbox" checked /></label>
           <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked /></label>
@@ -351,11 +349,11 @@
       const ecu911 = dataset.ecu911 || {};
       const cameraDataset = window.RIOBAMBA_CAMERAS_DATA || { cameras: [] };
       const cameras = cameraDataset.cameras || [];
-      const policeDataset = window.RIOBAMBA_POLICE_SIG_DATA || { summary: {}, district: { features: [] }, circuits: { features: [] }, subcircuits: { features: [] }, infrastructure: { features: [] } };
+      const policeDataset = window.RIOBAMBA_POLICE_SIG_DATA || { summary: {}, district: { features: [] }, infrastructure: { features: [] } };
       const policeInfrastructure = policeDataset.infrastructure?.features || [];
       const categoryPalette = ["#4f8f52", "#5f8eb9", "#2d9b94", "#b88432", "#c86670", "#9c3f52", "#8f5fb9", "#7e7f92", "#4f7890", "#7c8c47"];
       const categoryColors = new Map([...new Set(events.map((event) => event.category))].map((category, index) => [category, categoryPalette[index % categoryPalette.length]]));
-      const precisionRank = { "A - Intersección": "Alta", "A - Tramo de calle": "Alta", "B - Sector": "Media", "B - Circuito": "Media", "B - Sector/parroquia": "Media", "C - Ciudad": "Referencial", "C - Ciudad/distrito": "Referencial" };
+      const precisionRank = { "A - Intersección": "Alta", "A - Tramo de calle": "Alta", "B - Sector": "Media", "B - Sector/parroquia": "Media", "C - Ciudad": "Referencial", "C - Ciudad/distrito": "Referencial" };
       const elements = {
         search: document.getElementById("searchInput"),
         category: document.getElementById("categorySelect"),
@@ -377,8 +375,6 @@
         toggleEvents: document.getElementById("toggleEvents"),
         toggleParishes: document.getElementById("toggleParishes"),
         toggleCameras: document.getElementById("toggleCameras"),
-        togglePoliceCircuits: document.getElementById("togglePoliceCircuits"),
-        togglePoliceSubcircuits: document.getElementById("togglePoliceSubcircuits"),
         togglePoliceInfrastructure: document.getElementById("togglePoliceInfrastructure"),
         togglePlatforms: document.getElementById("togglePlatforms"),
         toggleManzanas: document.getElementById("toggleManzanas"),
@@ -391,8 +387,6 @@
       const eventLayer = L.layerGroup().addTo(map);
       const parishLayer = L.layerGroup().addTo(map);
       const cameraLayer = L.layerGroup().addTo(map);
-      const policeSubcircuitLayer = L.layerGroup().addTo(map);
-      const policeCircuitLayer = L.layerGroup().addTo(map);
       const policeInfrastructureLayer = L.layerGroup().addTo(map);
       let platformLayer = null;
       let manzanaLayer = null;
@@ -444,10 +438,9 @@
       const policePopup = (props, kind = "Infraestructura policial") => `
         <div class="popup-title"><strong>${esc(props.name || props.code)}</strong></div>
         <div class="popup-row">Capa: <strong>${esc(kind)}</strong></div>
-        <div class="popup-row">Tipo: <strong>${esc(props.type || props.class || "Territorio")}</strong></div>
-        <div class="popup-row">Circuito: <strong>${esc(props.circuit || props.name || "-")}</strong></div>
-        <div class="popup-row">Subcircuito: <strong>${esc(props.subcircuit || "-")}</strong></div>
+        <div class="popup-row">Tipo: <strong>${esc(props.type || "Infraestructura")}</strong></div>
         <div class="popup-row">Estado: <strong>${esc(props.status || "-")}</strong></div>
+        <div class="popup-row">Condición: <strong>${esc(props.condition || "-")}</strong></div>
         <div class="popup-note">${esc(props.address || props.category || "")}</div>
       `;
       const platformPopup = (props) => `
@@ -508,7 +501,7 @@
         const query = clean(elements.search.value);
         return policeInfrastructure.filter((feature) => {
           const props = feature.properties || {};
-          const haystack = clean(`${props.code} ${props.type} ${props.name} ${props.address} ${props.status} ${props.circuit} ${props.subcircuit}`);
+          const haystack = clean(`${props.code} ${props.type} ${props.name} ${props.address} ${props.status} ${props.condition}`);
           return !query || haystack.includes(query);
         });
       }
@@ -538,8 +531,6 @@
           const visible = filteredPoliceInfrastructure();
           elements.summary.innerHTML = [
             ["Distrito", policeDataset.summary?.districts || 0],
-            ["Circuitos", policeDataset.summary?.circuits || 0],
-            ["Subcircuitos", policeDataset.summary?.subcircuits || 0],
             ["Infraestructura", visible.length]
           ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
           return;
@@ -560,7 +551,7 @@
       function renderLegend() {
         elements.legend.innerHTML = [...categoryColors.entries()].map(([label, color]) => `
           <div class="legend-row"><span class="legend-swatch" style="background:${color}"></span>${esc(label)}</div>
-        `).join("") + `<div class="legend-row"><span class="legend-swatch" style="background:#f7e4a5"></span>ECU911 agregado por parroquia</div><div class="legend-row"><span class="legend-swatch" style="background:#fff"></span>Cámara operativa</div><div class="legend-row"><span class="legend-swatch" style="background:#f3c2ca"></span>Cámara requiere cambio</div><div class="legend-row"><span class="legend-swatch" style="background:#fff;border-color:#2f8f62"></span>Circuito 06D01</div><div class="legend-row"><span class="legend-swatch" style="background:#d9e8f5;border-color:#3f6fa3"></span>Subcircuito 06D01</div><div class="legend-row"><span class="legend-swatch" style="background:#345c85"></span>Infraestructura policial</div><div class="legend-row"><span class="legend-swatch" style="background:#d8eadf;border-color:#2f6f5f"></span>Plataforma territorial</div><div class="legend-row"><span class="legend-swatch" style="background:#f7f7f7;border-color:#7e8790"></span>Manzana censal</div>`;
+        `).join("") + `<div class="legend-row"><span class="legend-swatch" style="background:#f7e4a5"></span>ECU911 agregado por parroquia</div><div class="legend-row"><span class="legend-swatch" style="background:#fff"></span>Cámara operativa</div><div class="legend-row"><span class="legend-swatch" style="background:#f3c2ca"></span>Cámara requiere cambio</div><div class="legend-row"><span class="legend-swatch" style="background:#345c85"></span>Infraestructura policial</div><div class="legend-row"><span class="legend-swatch" style="background:#d8eadf;border-color:#2f6f5f"></span>Plataforma territorial</div><div class="legend-row"><span class="legend-swatch" style="background:#f7f7f7;border-color:#7e8790"></span>Manzana censal</div>`;
       }
 
       function renderDetail(event) {
@@ -628,11 +619,11 @@
             const props = feature.properties || {};
             return `<button class="event-item ${props.code === selectedPolice ? "is-active" : ""}" type="button" data-police="${esc(props.code)}">
               <h3>${esc(props.name || props.code)}</h3>
-              <small>${esc(props.address || props.circuit || "")}</small>
+              <small>${esc(props.address || "")}</small>
               <div class="pill-row">
                 <span class="pill">${esc(props.type || "Infraestructura")}</span>
                 <span class="pill">${esc(props.status || "Sin estado")}</span>
-                <span class="pill">${esc(props.circuit || "Sin circuito")}</span>
+                <span class="pill">${esc(props.condition || "Sin condición")}</span>
               </div>
             </button>`;
           }).join("") || "<p>No hay infraestructura policial con los filtros actuales.</p>";
@@ -719,30 +710,8 @@
       }
 
       function renderPoliceLayers() {
-        policeCircuitLayer.clearLayers();
-        policeSubcircuitLayer.clearLayers();
         policeInfrastructureLayer.clearLayers();
         policeMarkers.clear();
-        L.geoJSON(policeDataset.district, {
-          style: { color: "#243226", weight: 2.5, fillOpacity: 0, dashArray: "8 6" },
-          interactive: false
-        }).addTo(policeCircuitLayer);
-        L.geoJSON(policeDataset.circuits, {
-          style: { color: "#2f8f62", weight: 3, fillOpacity: 0, opacity: 0.95 },
-          onEachFeature: (feature, layer) => {
-            const props = feature.properties || {};
-            layer.bindPopup(policePopup(props, "Circuito policial"));
-            layer.bindTooltip(`Circuito: ${esc(props.name || props.code)}`, { sticky: true });
-          }
-        }).addTo(policeCircuitLayer);
-        L.geoJSON(policeDataset.subcircuits, {
-          style: { color: "#3f6fa3", weight: 1.25, fillColor: "#d9e8f5", fillOpacity: 0.22, dashArray: "3 5" },
-          onEachFeature: (feature, layer) => {
-            const props = feature.properties || {};
-            layer.bindPopup(policePopup(props, "Subcircuito policial"));
-            layer.bindTooltip(`Subcircuito: ${esc(props.name || props.code)}`, { sticky: true });
-          }
-        }).addTo(policeSubcircuitLayer);
         filteredPoliceInfrastructure().forEach((feature) => {
           const props = feature.properties || {};
           const coords = feature.geometry?.coordinates;
@@ -786,7 +755,7 @@
             elements.status.textContent = `${filteredCameras().length} de ${cameras.length} cámaras visibles. Subconjunto actual: RIO-001 a RIO-030.`;
           } else {
             renderPoliceDetail(selectedPolice);
-            elements.status.textContent = `${filteredPoliceInfrastructure().length} de ${policeInfrastructure.length} infraestructuras policiales visibles; ${policeDataset.summary?.circuits || 0} circuitos y ${policeDataset.summary?.subcircuits || 0} subcircuitos cargados.`;
+            elements.status.textContent = `${filteredPoliceInfrastructure().length} de ${policeInfrastructure.length} infraestructuras policiales visibles.`;
           }
         }
       }
@@ -890,9 +859,9 @@
         const feature = policeInfrastructure.find((item) => item.properties?.code === code);
         if (!feature) {
           elements.detailTitle.textContent = "Policía 06D01";
-          elements.detail.innerHTML = "<p>Selecciona una infraestructura policial para revisar estado, circuito y subcircuito.</p>";
+          elements.detail.innerHTML = "<p>Selecciona una infraestructura policial para revisar estado, recursos y ubicación.</p>";
           elements.overlayTitle.textContent = "Distrito policial 06D01";
-          elements.overlayText.textContent = "Capa SIG policial con distrito, circuitos, subcircuitos e infraestructura operativa.";
+          elements.overlayText.textContent = "Capa SIG policial enfocada en infraestructura operativa.";
           return;
         }
         const props = feature.properties || {};
@@ -902,15 +871,13 @@
           ["Tipo", props.type],
           ["Estado", props.status || "-"],
           ["Condición", props.condition || "-"],
-          ["Circuito", props.circuit || "-"],
-          ["Subcircuito", props.subcircuit || "-"],
           ["Personal", props.personnel || "0"],
           ["Vehículos", props.vehicles || "0"],
           ["Motos", props.motorcycles || "0"]
         ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")
           + `<p>${esc(props.address || "Sin dirección registrada")}</p>`;
         elements.overlayTitle.textContent = `${props.name || props.code} - ${props.type || "Infraestructura"}`;
-        elements.overlayText.textContent = `${props.status || "Sin estado"}. Circuito ${props.circuit || "-"}, subcircuito ${props.subcircuit || "-"}.`;
+        elements.overlayText.textContent = `${props.status || "Sin estado"}. ${props.condition ? `Condición: ${props.condition}.` : ""}`;
       }
 
       function selectPolice(code, pan) {
@@ -1002,8 +969,6 @@
       elements.toggleEvents.addEventListener("change", () => elements.toggleEvents.checked ? eventLayer.addTo(map) : map.removeLayer(eventLayer));
       elements.toggleParishes.addEventListener("change", () => elements.toggleParishes.checked ? parishLayer.addTo(map) : map.removeLayer(parishLayer));
       elements.toggleCameras.addEventListener("change", () => elements.toggleCameras.checked ? cameraLayer.addTo(map) : map.removeLayer(cameraLayer));
-      elements.togglePoliceCircuits.addEventListener("change", () => elements.togglePoliceCircuits.checked ? policeCircuitLayer.addTo(map) : map.removeLayer(policeCircuitLayer));
-      elements.togglePoliceSubcircuits.addEventListener("change", () => elements.togglePoliceSubcircuits.checked ? policeSubcircuitLayer.addTo(map) : map.removeLayer(policeSubcircuitLayer));
       elements.togglePoliceInfrastructure.addEventListener("change", () => elements.togglePoliceInfrastructure.checked ? policeInfrastructureLayer.addTo(map) : map.removeLayer(policeInfrastructureLayer));
       elements.togglePlatforms.addEventListener("change", () => {
         if (!platformLayer) return;
