@@ -444,6 +444,9 @@ for item in stats["platforms"]:
     video_deficit = classify_deficit(deficit_score)
     hotspot_count = 1 if bucket["incidents"] >= 2 else 0
     low_coverage_hotspots = hotspot_count if hotspot_count and video_deficit in ("ALTO", "CRITICO") else 0
+    boulevard_total_length = bucket["boulevardLengthM"] + bucket["connectionLengthM"]
+    boulevard_density = round(boulevard_total_length / area_km2, 2) if area_km2 else "N/D"
+    hotspot_near_boulevard = 1 if hotspot_count and bucket["incidentsNearBoulevard"] > 0 else 0
     population_police_distance = (
         round(bucket["populationWeightedPoliceDistanceSum"] / bucket["populationWeightedPoliceDistancePopulation"], 2)
         if bucket["populationWeightedPoliceDistancePopulation"]
@@ -525,8 +528,11 @@ for item in stats["platforms"]:
         "videoDeficitScore": deficit_score,
         "boulevardLengthM": round(bucket["boulevardLengthM"], 2),
         "connectionLengthM": round(bucket["connectionLengthM"], 2),
+        "boulevardTotalLengthM": round(boulevard_total_length, 2),
+        "boulevardDensityMPerKm2": boulevard_density,
         "populationNearBoulevard": bucket["populationNearBoulevard"],
         "incidentsNearBoulevard": bucket["incidentsNearBoulevard"],
+        "hotspotNearBoulevard": hotspot_near_boulevard,
         "camerasNearBoulevard": bucket["camerasNearBoulevard"],
         "incidentsNearPolice": bucket["incidentsNearPolice"],
         "lowCoverageHotspots": low_coverage_hotspots,
@@ -708,12 +714,12 @@ inventory = [
 
 output = {
     "generatedAt": datetime.now().isoformat(timespec="seconds"),
-    "phase": "ETAPA 5 - Videovigilancia, cobertura poblacional y deficit",
+    "phase": "ETAPA 6 - Bulevares como variable territorial complementaria",
     "masterTableName": "ANALISIS_PLATAFORMAS",
     "methodNotes": [
         "La unidad principal son las 18 plataformas territoriales reales.",
         "No se usan circuitos/subcircuitos como unidad principal.",
-        "Etapas 1 a 5 implementadas: base poblacional areal + clasificacion A/B/C + concentracion/exposicion + infraestructura/accesibilidad + videovigilancia/cobertura/deficit.",
+        "Etapas 1 a 6 implementadas: base poblacional areal + clasificacion A/B/C + concentracion/exposicion + infraestructura/accesibilidad + videovigilancia/cobertura/deficit + boulevares como variable complementaria.",
         "La poblacion por plataforma se estima por interseccion areal manzana-plataforma: POB_EST = POB_MANZANA * AREA_INTERSECCION / AREA_MANZANA.",
         "Se calculan conteos por plataforma cuando existe geometria verificable.",
         f"La cobertura potencial de camaras usa escenarios {', '.join(str(radius) for radius in CAMERA_SCENARIO_RADII_M)} m; el visor resume {CAMERA_RADIUS_M} m como escenario principal.",
@@ -738,12 +744,15 @@ output = {
         "cameraCoverageRadiusM": CAMERA_RADIUS_M,
         "boulevardLengthM": round(sum(row["boulevardLengthM"] for row in platforms), 2),
         "connectionLengthM": round(sum(row["connectionLengthM"] for row in platforms), 2),
+        "boulevardTotalLengthM": round(sum(row["boulevardTotalLengthM"] for row in platforms), 2),
         "cameraCoveredPopulation": sum(row["cameraCoveredPopulation"] for row in platforms if isinstance(row["cameraCoveredPopulation"], int)),
         "cameraCoveredPopulation100": sum(row["cameraCoveredPopulation100"] for row in platforms if isinstance(row["cameraCoveredPopulation100"], int)),
         "cameraCoveredPopulation150": sum(row["cameraCoveredPopulation150"] for row in platforms if isinstance(row["cameraCoveredPopulation150"], int)),
         "cameraCoveredPopulation200": sum(row["cameraCoveredPopulation200"] for row in platforms if isinstance(row["cameraCoveredPopulation200"], int)),
         "cameraUncoveredPopulation": sum(row["cameraUncoveredPopulation"] for row in platforms if isinstance(row["cameraUncoveredPopulation"], int)),
         "populationNearBoulevard": sum(row["populationNearBoulevard"] for row in platforms if isinstance(row["populationNearBoulevard"], int)),
+        "incidentsNearBoulevard": sum(row["incidentsNearBoulevard"] for row in platforms if isinstance(row["incidentsNearBoulevard"], int)),
+        "hotspotsNearBoulevard": sum(row["hotspotNearBoulevard"] for row in platforms if isinstance(row["hotspotNearBoulevard"], int)),
         "hotspots": sum(row["hotspots"] for row in platforms if isinstance(row["hotspots"], int)),
         "populationExposed100": sum(row["populationExposed100"] for row in platforms if isinstance(row["populationExposed100"], int)),
         "populationExposed250": sum(row["populationExposed250"] for row in platforms if isinstance(row["populationExposed250"], int)),
@@ -823,6 +832,15 @@ output = {
             "method": "Reglas exploratorias sin ponderaciones definitivas; combina incidentes, densidad, cobertura poblacional de camaras, infraestructura y camaras",
             "parameters": "DEFICIT_VIDEO = BAJO/MEDIO/ALTO/CRITICO; videoDeficitScore conserva trazabilidad inicial",
             "limitations": "No es ranking final ni AHP; requiere validacion tecnica antes de decisiones de inversion",
+        },
+        {
+            "result": "Bulevares seguros como variable complementaria",
+            "source": "Bulevares y conexiones cargados en el visor",
+            "date": "N/D",
+            "precision": "Lineas intersectadas con plataformas en EPSG:32717",
+            "method": "Longitud por plataforma, densidad lineal por km2 y proximidad de poblacion/incidentes a 100 m",
+            "parameters": "LONG_BOULEV, DENS_BOULEV, POB_CERCA_BOULEV, INC_CERCA_BOULEV, HOTSPOT_CERCA_BOULEV",
+            "limitations": "Variable territorial complementaria; no se interpreta cercania a bulevar como seguridad garantizada",
         },
     ],
     "audit": audit,

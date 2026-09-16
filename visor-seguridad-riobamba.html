@@ -401,7 +401,7 @@
   <script src="./visor-seguridad-riobamba-data.js"></script>
   <script src="./riobamba-camaras-data.js?v=municipio-30"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
-  <script src="./riobamba-seguridad-diagnostico-data.js?v=etapa5-video"></script>
+  <script src="./riobamba-seguridad-diagnostico-data.js?v=etapa6-boulevares"></script>
   <script>
     (() => {
       const dataset = window.RIOBAMBA_SECURITY_DATA || { events: window.RIOBAMBA_SECURITY_EVENTS || [], ecu911: { serviceCounts: [], parishes: [], topSubtypes: [], topByParish: {}, totalRows: 0, securityRows: 0 } };
@@ -1416,6 +1416,9 @@
             ["Pob. cubierta cámaras 150 m", diagnosis.summary?.cameraCoveredPopulation150 || 0],
             ["Pob. cubierta cámaras 200 m", diagnosis.summary?.cameraCoveredPopulation200 || 0],
             ["Pob. no cubierta cámaras", diagnosis.summary?.cameraUncoveredPopulation || 0],
+            ["Red bulevar/conexión m", diagnosis.summary?.boulevardTotalLengthM || 0],
+            ["Inc. cerca bulevar", diagnosis.summary?.incidentsNearBoulevard || 0],
+            ["Hotspots cerca bulevar", diagnosis.summary?.hotspotsNearBoulevard || 0],
             ["Manzanas intersectadas", `${fmt(diagnosis.summary?.manzanasAssigned || 0)} de ${fmt((diagnosis.summary?.manzanasAssigned || 0) + (diagnosis.summary?.manzanasWithoutPlatform || 0))}`],
             ["Manzanas cruzan plataformas", diagnosis.summary?.manzanasSplitByPlatforms || 0],
             ["1. Hotspots preliminares", `${fmt(diagnosis.summary?.hotspots || 0)} plataformas con concentración preliminar`],
@@ -1482,8 +1485,11 @@
           ["Déficit video", `${platform.videoDeficit} (${platform.videoDeficitScore})`],
           ["Bulevares m", platform.boulevardLengthM],
           ["Conexiones m", platform.connectionLengthM],
+          ["Red bulevar/conexión m", platform.boulevardTotalLengthM],
+          ["Dens. red bulevar m/km²", platform.boulevardDensityMPerKm2],
           ["Pob. cerca red bulevar", platform.populationNearBoulevard],
           ["Incidentes cerca red bulevar", platform.incidentsNearBoulevard],
+          ["Hotspot cerca red bulevar", platform.hotspotNearBoulevard],
           ["Cámaras cerca red bulevar", platform.camerasNearBoulevard],
           ["Incidentes cerca policía", platform.incidentsNearPolice],
           ["Hotspots baja cobertura", platform.lowCoverageHotspots],
