@@ -237,17 +237,17 @@
     .camera-marker {
       display: grid;
       place-items: center;
-      width: 30px;
-      height: 30px;
+      width: 34px;
+      height: 34px;
       border-radius: 8px;
-      color: #243226;
+      color: #ffffff;
       border: 2px solid rgba(255,255,255,0.92);
-      background: rgba(255,255,255,0.96);
-      box-shadow: 0 9px 20px rgba(35, 49, 37, 0.22);
+      background: #1d4ed8;
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.24), 0 9px 20px rgba(35, 49, 37, 0.28);
       font-size: 11px;
       font-weight: 900;
     }
-    .camera-marker.change { background: #f3c2ca; }
+    .camera-marker.change { background: #dc2626; }
     .camera-marker.megaphone { border-color: #b88432; }
     .police-marker {
       display: grid;
@@ -257,8 +257,8 @@
       border-radius: 50%;
       color: #fff;
       border: 2px solid rgba(255,255,255,0.92);
-      background: #345c85;
-      box-shadow: 0 9px 20px rgba(35, 49, 37, 0.22);
+      background: #7c3aed;
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2), 0 9px 20px rgba(35, 49, 37, 0.25);
       font-size: 10px;
       font-weight: 900;
     }
@@ -1426,16 +1426,29 @@
         });
       }
 
+      function bringVisibleContextToFront() {
+        if (map.hasLayer(hotspotLayer)) hotspotLayer.bringToFront();
+        if (manzanaLayer && map.hasLayer(manzanaLayer)) manzanaLayer.bringToBack();
+        if (platformLayer && map.hasLayer(platformLayer)) platformLayer.bringToFront();
+        if (map.hasLayer(boulevardLayer)) boulevardLayer.bringToFront();
+        if (map.hasLayer(parishLayer)) parishLayer.bringToFront();
+        if (map.hasLayer(eventLayer)) eventLayer.bringToFront();
+        if (map.hasLayer(cameraLayer)) cameraLayer.bringToFront();
+        if (map.hasLayer(policeInfrastructureLayer)) policeInfrastructureLayer.bringToFront();
+        if (platformLabelLayer && map.hasLayer(platformLabelLayer)) platformLabelLayer.bringToFront();
+      }
+
       function syncMapLayerVisibility() {
         if (isKdeMode()) {
-          if (map.hasLayer(eventLayer)) map.removeLayer(eventLayer);
           if (!map.hasLayer(hotspotLayer)) hotspotLayer.addTo(map);
+          elements.toggleEvents.checked ? eventLayer.addTo(map) : map.removeLayer(eventLayer);
           elements.toggleParishes.checked ? parishLayer.addTo(map) : map.removeLayer(parishLayer);
           elements.toggleCameras.checked ? cameraLayer.addTo(map) : map.removeLayer(cameraLayer);
           elements.togglePoliceInfrastructure.checked ? policeInfrastructureLayer.addTo(map) : map.removeLayer(policeInfrastructureLayer);
           elements.toggleBoulevards.checked ? boulevardLayer.addTo(map) : map.removeLayer(boulevardLayer);
           if (manzanaLayer) elements.toggleManzanas.checked ? manzanaLayer.addTo(map) : map.removeLayer(manzanaLayer);
           elements.togglePlatforms.checked && platformLayer ? platformLayer.addTo(map) : platformLayer && map.removeLayer(platformLayer);
+          bringVisibleContextToFront();
           map.invalidateSize();
           return;
         }
@@ -1446,6 +1459,7 @@
         elements.toggleBoulevards.checked ? boulevardLayer.addTo(map) : map.removeLayer(boulevardLayer);
         if (manzanaLayer) elements.toggleManzanas.checked ? manzanaLayer.addTo(map) : map.removeLayer(manzanaLayer);
         elements.togglePlatforms.checked && platformLayer ? platformLayer.addTo(map) : platformLayer && map.removeLayer(platformLayer);
+        bringVisibleContextToFront();
         map.invalidateSize();
       }
 
