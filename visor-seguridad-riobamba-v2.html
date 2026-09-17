@@ -410,64 +410,90 @@
        Shared components: KpiCard, ChartCard, DataTable, MiniMap, TerritoryDetailPanel. */
     .dashboard-shell {
       display: grid;
-      grid-template-rows: auto minmax(0, 1fr) minmax(190px, 24vh);
+      grid-template-rows: 64px minmax(0, 1fr);
       height: 100dvh;
-      background: #eaf0ef;
+      background: #eef5f7;
+      overflow: hidden;
     }
     .topbar {
       display: grid;
-      grid-template-columns: minmax(280px, 1.4fr) repeat(6, minmax(92px, .62fr)) minmax(160px, .85fr);
-      gap: 1px;
-      align-items: stretch;
-      background: #123049;
+      grid-template-columns: 270px minmax(0, 1fr) auto auto;
+      gap: 12px;
+      align-items: center;
+      padding: 0 18px;
+      background: linear-gradient(90deg, #062844, #06375c);
       border-bottom: 1px solid rgba(255,255,255,.16);
       color: #fff;
     }
-    .brand-block, .top-metric {
-      padding: 12px 14px;
-      border-right: 1px solid rgba(255,255,255,.12);
+    .brand-block { display: grid; gap: 1px; }
+    .brand-block strong { display: block; font-size: 1rem; letter-spacing: .03em; }
+    .brand-block span { color: rgba(255,255,255,.72); font-size: .78rem; }
+    .top-nav { display: flex; align-items: center; justify-content: center; gap: 6px; min-width: 0; }
+    .top-nav button {
+      width: auto;
+      min-height: 44px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: rgba(255,255,255,.86);
+      text-align: center;
+      font-size: .78rem;
+      font-weight: 700;
     }
-    .brand-block strong { display: block; font-size: 1.18rem; letter-spacing: .03em; }
-    .brand-block span, .top-metric span { color: rgba(255,255,255,.72); font-size: .76rem; }
-    .top-metric strong { display: block; margin-top: 4px; font-size: 1.28rem; line-height: 1; }
+    .top-nav button.is-active, .top-nav button:hover {
+      background: #1177d8;
+      color: #fff;
+      border-color: rgba(255,255,255,.18);
+    }
+    .period-pill {
+      display: grid;
+      gap: 1px;
+      min-width: 180px;
+      padding: 7px 12px;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 8px;
+      background: rgba(255,255,255,.07);
+    }
+    .period-pill span { color: rgba(255,255,255,.7); font-size: .68rem; }
+    .period-pill strong { font-size: .82rem; line-height: 1.1; }
     .header-action {
-      width: 100%;
+      width: auto;
       border: 1px solid rgba(255,255,255,.18);
       background: rgba(255,255,255,.08);
       color: #fff;
       border-radius: 6px;
-      padding: 6px 8px;
+      padding: 9px 10px;
       font-weight: 700;
       cursor: pointer;
-      text-align: left;
+      text-align: center;
+      white-space: nowrap;
     }
     .header-action:hover { background: rgba(255,255,255,.16); }
     .dashboard-main {
       min-height: 0;
       display: grid;
-      grid-template-columns: 245px minmax(0, 1fr) 340px;
-      gap: 10px;
-      padding: 10px;
+      grid-template-columns: 240px minmax(0, 1fr);
+      gap: 0;
     }
     .dashboard-shell.sidebar-collapsed .dashboard-main {
-      grid-template-columns: 64px minmax(0, 1fr) 340px;
+      grid-template-columns: 64px minmax(0, 1fr);
     }
     .dashboard-shell.analysis-fullscreen {
-      grid-template-rows: 0 minmax(0, 1fr) 0;
+      grid-template-rows: 0 minmax(0, 1fr);
     }
     .dashboard-shell.analysis-fullscreen .topbar,
-    .dashboard-shell.analysis-fullscreen .analysis-nav,
-    .dashboard-shell.analysis-fullscreen .bottom-panel {
+    .dashboard-shell.analysis-fullscreen .analysis-nav {
       display: none;
     }
     .dashboard-shell.analysis-fullscreen .dashboard-main {
-      grid-template-columns: minmax(0, 1fr) 340px;
+      grid-template-columns: minmax(0, 1fr);
       padding: 0;
     }
     .dashboard-shell.analysis-fullscreen .map-wrap {
       border-radius: 0;
     }
-    .analysis-nav, .right-panel, .bottom-panel {
+    .analysis-nav, .filter-bar, .kpi-row, .map-panel, .detail-panel, .chart-panel, .support-panel {
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -475,10 +501,13 @@
       min-width: 0;
     }
     .analysis-nav {
-      overflow: auto;
+      overflow-y: auto;
       padding: 10px;
-      background: #102b42;
+      background: linear-gradient(180deg, #062844, #06375c);
       color: #fff;
+      border-radius: 0;
+      border-width: 0 1px 0 0;
+      box-shadow: none;
     }
     .sidebar-head {
       display: flex;
@@ -571,104 +600,203 @@
       content: attr(data-icon);
       font-size: 1rem;
     }
-    .right-panel {
-      overflow: auto;
-      padding: 12px;
+    .analysis-workspace {
+      min-width: 0;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
       display: grid;
       align-content: start;
       gap: 12px;
+      padding: 14px 18px 18px;
     }
-    .right-panel .panel, .bottom-panel .panel {
+    .workspace-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .workspace-title h1 {
+      color: #082d59;
+      font-size: 1.5rem;
+      line-height: 1.1;
       margin: 0;
-      padding: 12px;
-      box-shadow: none;
-      border-radius: 8px;
     }
-    .right-panel .panel h2, .bottom-panel .panel h2 { margin-bottom: 8px; }
-    .dashboard-main .map-wrap {
-      height: auto;
-      min-height: 0;
-      border: 1px solid var(--line);
+    .workspace-title p {
+      margin-top: 4px;
+      color: #315a89;
+      font-size: .9rem;
+    }
+    .workspace-actions { display: flex; gap: 8px; flex: 0 0 auto; }
+    .workspace-actions .header-action {
+      color: #0759b8;
+      background: #fff;
+      border-color: rgba(17, 119, 216, .35);
+    }
+    .filter-bar {
+      padding: 10px;
+      box-shadow: none;
+    }
+    .filter-bar .filter-grid {
+      grid-template-columns: minmax(180px, 1.2fr) repeat(4, minmax(135px, 1fr));
+      gap: 8px;
+      align-items: end;
+    }
+    .filter-bar .panel,
+    .kpi-row .panel,
+    .analysis-grid .panel {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+    .filter-bar h2,
+    .kpi-row h2 { display: none; }
+    .kpi-row {
+      padding: 0;
+      border: 0;
+      box-shadow: none;
+      background: transparent;
+    }
+    .kpi-row .stats {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(150px, 1fr));
+      gap: 10px;
+    }
+    .kpi-row .card {
+      min-height: 78px;
+      padding: 14px 16px;
       border-radius: 8px;
-      overflow: hidden;
+      background: #fff;
       box-shadow: var(--shadow);
     }
-    .bottom-panel {
+    .kpi-row .card strong { font-size: 1.3rem; color: #062d60; }
+    .map-detail-grid {
       display: grid;
-      grid-template-columns: 1fr 1.2fr 1.25fr;
-      gap: 10px;
-      margin: 0 10px 10px;
-      padding: 10px;
-      max-height: 230px;
+      grid-template-columns: minmax(0, 2.05fr) minmax(300px, .78fr);
+      gap: 12px;
+      align-items: stretch;
+    }
+    .map-panel {
+      overflow: hidden;
+      padding: 0;
+    }
+    .panel-title {
+      padding: 8px 12px;
+      background: linear-gradient(90deg, #064d7a, #075f95);
+      color: #fff;
+      font-weight: 800;
+      font-size: .9rem;
+    }
+    .map-wrap {
+      position: relative;
+      height: clamp(500px, 58vh, 640px);
+      min-height: 500px;
+      border: 1px solid var(--line);
+      border-width: 0;
+      border-radius: 0;
       overflow: hidden;
     }
-    .bottom-panel .panel {
-      min-height: 0;
-      overflow: auto;
-      padding: 10px 12px;
+    .detail-panel {
+      display: grid;
+      align-content: start;
+      gap: 10px;
+      padding: 0 0 12px;
+      overflow: visible;
     }
-    .bottom-panel .panel h2 {
-      margin-bottom: 6px;
-      font-size: 0.82rem;
-      letter-spacing: 0.08em;
+    .detail-panel h2 {
+      margin: 0;
+      padding: 8px 12px;
+      background: linear-gradient(90deg, #064d7a, #075f95);
+      color: #fff;
+      border-radius: 8px 8px 0 0;
+      font-size: .9rem;
+      letter-spacing: 0;
+      text-transform: none;
     }
-    .bottom-panel p {
-      font-size: 0.86rem;
-      line-height: 1.45;
+    .detail-panel .mini-list {
+      padding: 0 12px;
+      gap: 8px;
     }
-    .bottom-panel .stats,
-    .bottom-panel .status-grid,
-    .bottom-panel .summary-cards {
-      gap: 7px;
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(320px, .8fr);
+      gap: 12px;
     }
-    .bottom-panel .card,
-    .bottom-panel .status-tile,
-    .bottom-panel .summary-card,
-    .bottom-panel .graphic-card {
-      padding: 8px 9px;
-      border-radius: 9px;
+    .chart-panel,
+    .support-panel {
+      padding: 0 0 12px;
+      overflow: visible;
     }
-    .bottom-panel .card span,
-    .bottom-panel .status-tile span,
-    .bottom-panel .summary-card span {
-      margin-bottom: 4px;
-      font-size: 0.64rem;
-      letter-spacing: 0.04em;
+    .chart-panel h2,
+    .support-panel h2 {
+      margin: 0 0 10px;
+      padding: 8px 12px;
+      background: linear-gradient(90deg, #064d7a, #075f95);
+      color: #fff;
+      border-radius: 8px 8px 0 0;
+      font-size: .86rem;
+      letter-spacing: 0;
+      text-transform: none;
     }
-    .bottom-panel .card strong,
-    .bottom-panel .status-tile strong,
-    .bottom-panel .summary-card strong {
-      font-size: 0.98rem;
-      line-height: 1.15;
+    .chart-panel .graphic-grid,
+    .support-panel .mini-list,
+    .support-panel .legend,
+    .support-panel .layer-toggles {
+      padding: 0 12px 10px;
     }
-    .bottom-panel .graphic-grid,
-    .bottom-panel .mini-list,
-    .bottom-panel .detail-tabs,
-    .bottom-panel .interpretation-list {
-      gap: 7px;
+    .support-panel {
+      display: grid;
+      gap: 12px;
     }
-    .bottom-panel .graphic-card h3,
-    .bottom-panel .bar-head,
-    .bottom-panel .mini-row,
-    .bottom-panel .metric-label,
-    .bottom-panel .event-item small,
-    .bottom-panel .pill {
-      font-size: 0.74rem;
+    .support-panel .panel {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
     }
-    .bottom-panel .detail-tab-labels label {
-      padding: 7px 6px;
-      font-size: 0.7rem;
-    }
-    .bottom-panel .detail-mini-map {
-      min-height: 155px;
+    .overlay {
+      top: 12px;
+      right: 12px;
+      width: min(260px, calc(100% - 24px));
     }
     .app-hidden { display: none; }
+    @media (max-width: 1366px) {
+      .dashboard-shell:not(.sidebar-collapsed) .dashboard-main { grid-template-columns: 64px minmax(0, 1fr); }
+      .dashboard-shell:not(.sidebar-collapsed) .sidebar-title,
+      .dashboard-shell:not(.sidebar-collapsed) .nav-group summary,
+      .dashboard-shell:not(.sidebar-collapsed) .analysis-nav button span { display: none; }
+      .dashboard-shell:not(.sidebar-collapsed) .analysis-nav button {
+        width: 44px;
+        height: 40px;
+        min-height: 40px;
+        padding: 0;
+        display: grid;
+        place-items: center;
+        font-size: 0;
+      }
+      .dashboard-shell:not(.sidebar-collapsed) .analysis-nav button[data-icon]::before {
+        content: attr(data-icon);
+        font-size: 1rem;
+      }
+      .top-nav button { padding: 8px; font-size: .72rem; }
+      .filter-bar .filter-grid { grid-template-columns: repeat(3, minmax(130px, 1fr)); }
+      .kpi-row .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
     @media (max-width: 1100px) {
-      .topbar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .dashboard-main { grid-template-columns: 1fr; grid-template-rows: auto minmax(520px, 1fr) auto; overflow: auto; }
-      .analysis-nav { max-height: 220px; }
-      .bottom-panel { grid-template-columns: 1fr; }
-      .dashboard-shell { height: auto; min-height: 100dvh; }
+      .topbar { grid-template-columns: 1fr auto; }
+      .top-nav, .period-pill { display: none; }
+      .dashboard-main { grid-template-columns: 1fr; overflow: hidden; }
+      .analysis-nav { display: none; }
+      .analysis-workspace { padding: 12px; }
+      .workspace-head { display: grid; }
+      .filter-bar .filter-grid,
+      .kpi-row .stats,
+      .map-detail-grid,
+      .analysis-grid { grid-template-columns: 1fr; }
+      .map-wrap { height: 520px; min-height: 420px; }
     }
   </style>
 </head>
@@ -676,13 +804,18 @@
   <div class="dashboard-shell">
     <header class="topbar">
       <div class="brand-block"><strong>SEGURIDAD CIUDADANA</strong><span>Diagnóstico Territorial - Riobamba</span></div>
-      <div class="top-metric"><span>Plataformas</span><strong id="topPlatforms">18</strong></div>
-      <div class="top-metric"><span>Población</span><strong id="topPopulation">-</strong></div>
-      <div class="top-metric"><span>Incidentes</span><strong id="topIncidents">-</strong></div>
-      <div class="top-metric"><span>Concentraciones</span><strong id="topHotspots">-</strong></div>
-      <div class="top-metric"><span>Infraestructura policial</span><strong id="topPolice">-</strong></div>
-      <div class="top-metric"><span>Cámaras</span><strong id="topCameras">-</strong></div>
-      <div class="top-metric"><span>Periodo de datos</span><strong id="topPeriod">-</strong><button class="header-action" id="fullscreenAnalysisButton" type="button">⛶ Pantalla completa</button></div>
+      <div class="top-nav" aria-label="Navegación principal">
+        <button type="button">Inicio</button>
+        <button type="button">Diagnóstico</button>
+        <button type="button">Demografía</button>
+        <button class="is-active" type="button">Conflictividad</button>
+        <button type="button">Cobertura Territorial</button>
+        <button type="button">Brechas</button>
+        <button type="button">Detalle Territorial</button>
+        <button type="button">Descargas</button>
+      </div>
+      <div class="period-pill"><span>Periodo de análisis</span><strong id="topPeriod">-</strong></div>
+      <button class="header-action" id="fullscreenAnalysisButton" type="button">⛶</button>
     </header>
 
     <div class="dashboard-main">
@@ -744,17 +877,18 @@
         </div>
       </nav>
 
-      <main class="map-wrap">
-        <div id="map"></div>
-        <div class="overlay">
-          <strong id="overlayTitle">Concentración de incidentes</strong>
-          <p id="overlayText">Superficie continua calculada desde incidentes georreferenciados válidos.</p>
-        </div>
-      </main>
+      <main class="analysis-workspace">
+        <section class="workspace-head">
+          <div class="workspace-title">
+            <h1 id="overlayTitle">Concentración de incidentes</h1>
+            <p id="overlayText">Superficie continua calculada desde incidentes georreferenciados válidos.</p>
+          </div>
+          <div class="workspace-actions">
+            <button class="header-action" type="button">Metodología</button>
+          </div>
+        </section>
 
-      <aside class="right-panel">
-        <section class="panel">
-          <h2>Filtros</h2>
+        <section class="filter-bar">
           <div class="filter-grid">
             <input id="searchInput" type="search" placeholder="Buscar evento, ubicación o fuente" />
             <select id="categorySelect" aria-label="Filtrar por categoría"></select>
@@ -808,47 +942,61 @@
             </div>
           </div>
         </section>
-        <section class="panel">
-          <h2>Capas de contexto</h2>
-          <div class="layer-toggles">
-            <label class="layer-toggle"><span>Eventos de seguridad</span><input id="toggleEvents" type="checkbox" checked /></label>
-            <label class="layer-toggle"><span>Burbujas ECU911</span><input id="toggleParishes" type="checkbox" /></label>
-            <label class="layer-toggle"><span>Cámaras</span><input id="toggleCameras" type="checkbox" /></label>
-            <label class="layer-toggle"><span>Infraestructura policial</span><input id="togglePoliceInfrastructure" type="checkbox" /></label>
-            <label class="layer-toggle"><span>Plataformas territoriales</span><input id="togglePlatforms" type="checkbox" checked /></label>
-            <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" /></label>
-            <label class="layer-toggle"><span>Red de boulevares</span><input id="toggleBoulevards" type="checkbox" /></label>
-            <label class="layer-toggle"><span>Base satelital</span><input id="toggleSatellite" type="checkbox" /></label>
-          </div>
-        </section>
-        <section class="panel">
-          <h2>Leyenda</h2>
-          <div class="legend" id="legend"></div>
-        </section>
-        <section class="panel">
-          <h2>Metodología</h2>
-          <div class="mini-list" id="methodologyPanel"></div>
-        </section>
-      </aside>
-    </div>
 
-    <section class="bottom-panel">
-      <section class="panel">
-        <h2>Resultados clave</h2>
-        <div class="stats" id="summaryCards"></div>
-      </section>
-      <section class="panel">
-        <h2>Gráfico</h2>
-        <div class="graphic-grid" id="graphicAnalysis"><p>Cambia a Diagnóstico para ver los gráficos por plataforma.</p></div>
-      </section>
-      <section class="panel">
-        <h2 id="detailTitle">Detalles territoriales</h2>
-        <div class="mini-list" id="detailList"><p>Selecciona una plataforma o incidente.</p></div>
-        <h2 class="app-hidden" id="listTitle">Eventos</h2>
-        <div class="event-list app-hidden" id="eventList"></div>
-        <p class="app-hidden" id="statusText">Cargando visor...</p>
-      </section>
-    </section>
+        <section class="kpi-row">
+          <section class="panel">
+            <h2>KPI del análisis</h2>
+            <div class="stats" id="summaryCards"></div>
+          </section>
+        </section>
+
+        <section class="map-detail-grid">
+          <section class="map-panel">
+            <div class="panel-title">Mapa principal</div>
+            <div class="map-wrap">
+              <div id="map"></div>
+            </div>
+          </section>
+          <aside class="detail-panel">
+            <h2 id="detailTitle">Detalles territoriales</h2>
+            <div class="mini-list" id="detailList"><p>Selecciona una plataforma o incidente.</p></div>
+            <h2 class="app-hidden" id="listTitle">Eventos</h2>
+            <div class="event-list app-hidden" id="eventList"></div>
+            <p class="app-hidden" id="statusText">Cargando visor...</p>
+          </aside>
+        </section>
+
+        <section class="analysis-grid">
+          <section class="chart-panel">
+            <h2>Gráficos y resultados</h2>
+            <div class="graphic-grid" id="graphicAnalysis"><p>Cambia a Diagnóstico para ver los gráficos por plataforma.</p></div>
+          </section>
+          <aside class="support-panel">
+            <section class="panel">
+              <h2>Capas de contexto</h2>
+              <div class="layer-toggles">
+                <label class="layer-toggle"><span>Eventos de seguridad</span><input id="toggleEvents" type="checkbox" checked /></label>
+                <label class="layer-toggle"><span>Burbujas ECU911</span><input id="toggleParishes" type="checkbox" /></label>
+                <label class="layer-toggle"><span>Cámaras</span><input id="toggleCameras" type="checkbox" /></label>
+                <label class="layer-toggle"><span>Infraestructura policial</span><input id="togglePoliceInfrastructure" type="checkbox" /></label>
+                <label class="layer-toggle"><span>Plataformas territoriales</span><input id="togglePlatforms" type="checkbox" checked /></label>
+                <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" /></label>
+                <label class="layer-toggle"><span>Red de boulevares</span><input id="toggleBoulevards" type="checkbox" /></label>
+                <label class="layer-toggle"><span>Base satelital</span><input id="toggleSatellite" type="checkbox" /></label>
+              </div>
+            </section>
+            <section class="panel">
+              <h2>Leyenda</h2>
+              <div class="legend" id="legend"></div>
+            </section>
+            <section class="panel">
+              <h2>Metodología</h2>
+              <div class="mini-list" id="methodologyPanel"></div>
+            </section>
+          </aside>
+        </section>
+      </main>
+    </div>
   </div>
 
   <script src="./vendor/leaflet/leaflet.js"></script>
@@ -997,12 +1145,6 @@
       };
       const renderTopbar = () => {
         const dated = events.map((event) => event.date).filter(Boolean).sort();
-        setText("topPlatforms", fmt(diagnosis.summary?.platforms || 18));
-        setText("topPopulation", fmt(diagnosis.summary?.populationWithPlatform || 0));
-        setText("topIncidents", fmt(kdeValidation.controlTable?.TOTAL_REGISTROS || events.length));
-        setText("topHotspots", fmt(kdeValidation.rasters?.["300"]?.observableConcentrations || diagnosis.summary?.hotspots || 0));
-        setText("topPolice", fmt(policeInfrastructure.length || diagnosis.summary?.policeInfrastructureAssigned || 0));
-        setText("topCameras", fmt(municipalCameras.length || diagnosis.summary?.camerasAssigned || 0));
         setText("topPeriod", dated.length ? `${formatDate(dated[0])} - ${formatDate(dated.at(-1))}` : "N/D");
       };
       const renderMethodologyPanel = () => {
