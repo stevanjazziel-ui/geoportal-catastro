@@ -1223,35 +1223,6 @@
         if (fraction > 0) return "#f3c84b";
         return "#edf1ed";
       };
-      const coverageManzanaStyle = (feature, selected) => {
-        const fraction = manzanaCoverageFraction(feature, getCameraCoverageAnalysis().cameraSet || []);
-        if (fraction >= 0.95) {
-          return {
-            color: selected ? "#111827" : "#2f6f5f",
-            weight: selected ? 1.2 : 0.45,
-            fillColor: "#2f6f5f",
-            fillOpacity: 0.26,
-            opacity: 0.72
-          };
-        }
-        if (fraction > 0) {
-          return {
-            color: selected ? "#111827" : "#d9a441",
-            weight: selected ? 1.2 : 0.9,
-            dashArray: "4 4",
-            fillColor: "#f3c84b",
-            fillOpacity: 0.06,
-            opacity: 0.78
-          };
-        }
-        return {
-          color: selected ? "#111827" : "#9aa3a1",
-          weight: selected ? 1.1 : 0.22,
-          fillColor: "#edf1ed",
-          fillOpacity: 0.015,
-          opacity: 0.26
-        };
-      };
       const ringAreaKm2 = (ring) => {
         if (!ring || ring.length < 3) return 0;
         const meanLat = ring.reduce((sum, point) => sum + Number(point[1] || 0), 0) / ring.length;
@@ -1323,6 +1294,53 @@
         const covered = points.filter((point) => pointCoveredByCameraSet(point, cameraSet)).length;
         return covered / points.length;
       };
+      const edgeFeaturePoints = (feature) => {
+        const geom = feature?.geometry || {};
+        const rings = geom.type === "Polygon" ? [geom.coordinates?.[0] || []] : (geom.coordinates || []).map((polygon) => polygon?.[0] || []);
+        const points = [];
+        rings.forEach((ring) => {
+          const step = Math.max(1, Math.floor(ring.length / 18));
+          for (let index = 0; index < ring.length; index += step) points.push(ring[index]);
+        });
+        return points;
+      };
+      const manzanaFullyCoveredVisual = (feature, cameraSet, fraction) => {
+        if (fraction < 0.995 || !cameraSet.length) return false;
+        const edgePoints = edgeFeaturePoints(feature);
+        if (!edgePoints.length) return false;
+        return edgePoints.every((point) => pointCoveredByCameraSet(point, cameraSet));
+      };
+      const coverageManzanaStyle = (feature, selected) => {
+        const cameraSet = getCameraCoverageAnalysis().cameraSet || [];
+        const fraction = manzanaCoverageFraction(feature, cameraSet);
+        const fullyCovered = manzanaFullyCoveredVisual(feature, cameraSet, fraction);
+        if (fullyCovered) {
+          return {
+            color: selected ? "#111827" : "#2f6f5f",
+            weight: selected ? 1.2 : 0.55,
+            fillColor: "#2f6f5f",
+            fillOpacity: 0.16,
+            opacity: 0.72
+          };
+        }
+        if (fraction > 0) {
+          return {
+            color: selected ? "#111827" : "#d9a441",
+            weight: selected ? 1.2 : 0.95,
+            dashArray: "4 4",
+            fillColor: "#f3c84b",
+            fillOpacity: 0.035,
+            opacity: 0.82
+          };
+        }
+        return {
+          color: selected ? "#111827" : "#9aa3a1",
+          weight: selected ? 1.1 : 0.2,
+          fillColor: "#edf1ed",
+          fillOpacity: 0.01,
+          opacity: 0.24
+        };
+      };
       const getCameraCoverageAnalysis = () => {
         const key = `${cameraCoverageScenario}-${cameraCoverageSet}-${manzanaGeojsonCache ? "ready" : "pending"}`;
         if (cameraCoverageCache && cameraCoverageCacheKey === key) return cameraCoverageCache;
@@ -1357,7 +1375,7 @@
           row.uncoveredPopulation += Math.max(0, population - coveredPopulation);
           row.areaKm2 += area;
           row.coveredAreaKm2 += area * fraction;
-          if (fraction >= 0.95) row.coveredManzanas += 1;
+          if (manzanaFullyCoveredVisual(feature, cameraSet, fraction)) row.coveredManzanas += 1;
           else if (fraction > 0) {
             row.partialManzanas += 1;
             row.partialPopulation += population;
