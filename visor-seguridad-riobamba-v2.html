@@ -1094,6 +1094,8 @@
             <select id="categorySelect" data-filter-control="category" aria-label="Filtrar por categoría"></select>
             <select id="precisionSelect" data-filter-control="precision" aria-label="Filtrar por precisión"></select>
             <select id="sourceSelect" data-filter-control="source" aria-label="Filtrar por fuente"></select>
+            <select id="kdePlatformSelect" data-filter-control="kdePlatform" aria-label="Filtrar KDE por Plataforma"></select>
+            <select id="kdePeriodSelect" data-filter-control="kdePeriod" aria-label="Filtrar KDE por periodo"></select>
             <select id="diagnosisMetricSelect" data-filter-control="metric" aria-label="Indicador gráfico de diagnóstico">
               <option value="population">Población por manzana</option>
               <option value="populationDensity">Densidad poblacional por manzana</option>
@@ -1253,6 +1255,8 @@
         category: document.getElementById("categorySelect"),
         precision: document.getElementById("precisionSelect"),
         source: document.getElementById("sourceSelect"),
+        kdePlatform: document.getElementById("kdePlatformSelect"),
+        kdePeriod: document.getElementById("kdePeriodSelect"),
         workspace: document.querySelector(".analysis-workspace"),
         populationMode: document.getElementById("populationMode"),
         populationDensityMode: document.getElementById("populationDensityMode"),
@@ -1374,7 +1378,7 @@
         return "diagnosis";
       };
       const analysisConfig = {
-        kde: { filters: ["search", "category", "source"] },
+        kde: { filters: ["category", "kdePlatform", "kdePeriod"] },
         giHotspots: { filters: ["search", "category", "source", "giHotspots"] },
         cameraCoverage: { filters: ["search", "cameraCoverage"] },
         populationCoverage: { filters: ["search", "cameraCoverage"] },
@@ -1943,6 +1947,7 @@
       const syncCoverageControls = () => {
         syncWorkspaceLayout();
         syncLayerControl();
+        syncKdeFilterOptions();
         const activeFilters = new Set((analysisConfig[analysisKey()] || analysisConfig.diagnosis).filters);
         document.querySelectorAll("[data-filter-control]").forEach((control) => {
           control.hidden = !activeFilters.has(control.dataset.filterControl);
@@ -2307,6 +2312,76 @@
         const months = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
         return `${day} ${months[month - 1]} ${year}`;
       };
+      const monthLabel = (value) => {
+        const [year, month] = String(value || "").split("-").map(Number);
+        const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        return month && year ? `${months[month - 1]} ${year}` : "Sin fecha";
+      };
+      const kdeAllPoints = () => kdeValidation.kdeInputPoints || [];
+      const kdeFilterMatches = (item) => {
+        const categoryOk = elements.category.value === "__ALL__" || item.category === elements.category.value;
+        const platformOk = !elements.kdePlatform || elements.kdePlatform.value === "__ALL__" || item.platform === elements.kdePlatform.value;
+        const periodOk = !elements.kdePeriod || elements.kdePeriod.value === "__ALL__" || String(item.date || "").startsWith(elements.kdePeriod.value);
+        return categoryOk && platformOk && periodOk;
+      };
+      const filteredKdePoints = () => kdeAllPoints().filter(kdeFilterMatches);
+      const kdeCandidateEvents = () => {
+        const pointIds = new Set(kdeAllPoints().map((point) => point.id));
+        return events.filter((event) => {
+          const platform = String(event.platform || "").replace("PLATAFORMA ", "");
+          return (elements.category.value === "__ALL__" || event.category === elements.category.value)
+            && (!elements.kdePlatform || elements.kdePlatform.value === "__ALL__" || platform === elements.kdePlatform.value)
+            && (!elements.kdePeriod || elements.kdePeriod.value === "__ALL__" || String(event.date || "").startsWith(elements.kdePeriod.value))
+            && (pointIds.has(event.id) || event.precision?.startsWith("C") || event.mappable === false || !insidePlatformsOnly(event.lng, event.lat));
+        });
+      };
+      const kdeFilterLabel = () => {
+        const type = elements.category.value === "__ALL__" ? "Todos los tipos" : elements.category.value;
+        const platform = !elements.kdePlatform || elements.kdePlatform.value === "__ALL__" ? "Todo Riobamba" : `Plataforma ${elements.kdePlatform.value}`;
+        const period = !elements.kdePeriod || elements.kdePeriod.value === "__ALL__" ? (kdeValidation.metadata?.PERIODO || "Todo el periodo") : monthLabel(elements.kdePeriod.value);
+        return { type, platform, period };
+      };
+      const estimateKdeConcentrations = (points) => {
+        if (!points.length) return 0;
+        const cell = 300;
+        const cells = new Set(points.map((point) => `${Math.round(point.x / cell)}:${Math.round(point.y / cell)}`));
+        const visited = new Set();
+        let groups = 0;
+        cells.forEach((key) => {
+          if (visited.has(key)) return;
+          groups += 1;
+          const stack = [key];
+          visited.add(key);
+          while (stack.length) {
+            const [x, y] = stack.pop().split(":").map(Number);
+            [[1,0],[-1,0],[0,1],[0,-1]].forEach(([dx, dy]) => {
+              const next = `${x + dx}:${y + dy}`;
+              if (cells.has(next) && !visited.has(next)) {
+                visited.add(next);
+                stack.push(next);
+              }
+            });
+          }
+        });
+        return groups;
+      };
+      const kdeState = () => {
+        const points = filteredKdePoints();
+        const candidates = kdeCandidateEvents();
+        const counts = countBy(points, "platform");
+        const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0] || ["N/D", 0];
+        const raster = kdeValidation.rasters?.["300"] || Object.values(kdeValidation.rasters || {})[0] || {};
+        return {
+          points,
+          candidates,
+          excluded: Math.max(0, candidates.length - points.length),
+          counts,
+          top,
+          concentrations: estimateKdeConcentrations(points),
+          bandwidth: raster.bandwidth || 300,
+          cellSize: raster.cellSize || 20
+        };
+      };
       const markerClass = (event) => event.precision.startsWith("C") ? "precision-c" : "";
       const popupContent = (event) => `
         <div class="popup-title"><strong>${esc(event.category)}</strong></div>
@@ -2381,6 +2456,29 @@
       function fillSelect(select, label, values) {
         select.innerHTML = `<option value="__ALL__">${esc(label)}</option>${values.map((value) => `<option value="${esc(value)}">${esc(value)}</option>`).join("")}`;
       }
+      let categoryFilterContext = "";
+      const defaultCategoryOptions = [...new Set([...events.map((event) => event.category), ...cameras.map((camera) => camera.type)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es"));
+      const syncKdeFilterOptions = () => {
+        const context = isKdeMode() ? "kde" : "default";
+        if (categoryFilterContext !== context) {
+          const previous = elements.category.value;
+          const values = context === "kde"
+            ? [...new Set(kdeAllPoints().map((point) => point.category).filter(Boolean))].sort((a, b) => a.localeCompare(b, "es"))
+            : defaultCategoryOptions;
+          fillSelect(elements.category, context === "kde" ? "Todos los tipos" : "Todas las categorías/tipos", values);
+          elements.category.value = values.includes(previous) ? previous : "__ALL__";
+          categoryFilterContext = context;
+        }
+        if (!elements.kdePlatform || !elements.kdePeriod) return;
+        if (!elements.kdePlatform.options.length) {
+          const platforms = [...new Set((diagnosis.platformMaster || []).map((platform) => platform.platform).filter(Boolean))].sort((a, b) => a.localeCompare(b, "es"));
+          fillSelect(elements.kdePlatform, "Todas las Plataformas", platforms);
+        }
+        if (!elements.kdePeriod.options.length) {
+          const periods = [...new Set(kdeAllPoints().map((point) => String(point.date || "").slice(0, 7)).filter(Boolean))].sort();
+          elements.kdePeriod.innerHTML = `<option value="__ALL__">Todo el periodo</option>${periods.map((period) => `<option value="${esc(period)}">${esc(monthLabel(period))}</option>`).join("")}`;
+        }
+      };
 
       const insidePlatformsOnly = (lng, lat) => {
         if (lng == null || lat == null) return false;
@@ -2428,7 +2526,7 @@
       }
 
       function filteredPlatforms() {
-        const query = clean(elements.search.value);
+        const query = isKdeMode() ? "" : clean(elements.search.value);
         return (diagnosis.platformMaster || []).filter((platform) => {
           const haystack = clean(`${platform.platformName} ${platform.platform} ${platform.population} ${platform.manzanas}`);
           return !query || haystack.includes(query);
@@ -2438,25 +2536,26 @@
       function renderSummary(items) {
         if (mode === "diagnosis") {
           if (isKdeMode()) {
-            const raster = kdeValidation.rasters?.["300"] || {};
-            const counts = countBy(kdeValidation.kdeInputPoints || [], "platform");
-            const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0] || ["N/D", 0];
-            const graphRows = Object.entries(counts)
+            const state = kdeState();
+            const labels = kdeFilterLabel();
+            const graphRows = Object.entries(state.counts)
               .sort((a, b) => b[1] - a[1])
               .map(([label, value]) => ({ label, value, color: "#9c1f33" }));
             elements.summary.innerHTML = [
-              ["Registros analizados", kdeValidation.controlTable?.REGISTROS_KDE || 0],
-              ["Registros excluidos", kdeValidation.controlTable?.REGISTROS_EXCLUIDOS || 0],
-              ["Concentraciones", raster.observableConcentrations || 0],
-              ["Plataforma mayor concentración", top[0]],
-              ["Bandwidth", `${raster.bandwidth || 300} m`]
+              ["Registros analizados", state.points.length],
+              ["Registros excluidos", state.excluded],
+              ["Concentraciones", state.concentrations],
+              ["Plataforma mayor concentración", state.top[0]],
+              ["Bandwidth", `${state.bandwidth} m`]
             ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
             elements.graphicAnalysis.innerHTML = `
               <div class="status-grid">
-                <div class="status-tile"><span>Concentraciones principales</span><strong>${fmt(raster.observableConcentrations || 0)}</strong></div>
-                <div class="status-tile"><span>Plataforma superior</span><strong>${esc(top[0])}</strong></div>
+                <div class="status-tile"><span>Filtro activo</span><strong>${esc(labels.type)}</strong></div>
+                <div class="status-tile"><span>Ámbito</span><strong>${esc(labels.platform)}</strong></div>
+                <div class="status-tile"><span>Periodo</span><strong>${esc(labels.period)}</strong></div>
+                <div class="status-tile"><span>Concentraciones principales</span><strong>${fmt(state.concentrations)}</strong></div>
               </div>
-              ${metricBars("Incidentes KDE por Plataforma", graphRows, Math.max(...graphRows.map((item) => item.value), 1), "#9c1f33")}
+              ${graphRows.length ? metricBars("Incidentes KDE por Plataforma", graphRows, Math.max(...graphRows.map((item) => item.value), 1), "#9c1f33") : "<p>No existen datos suficientes para generar este gráfico.</p>"}
             `;
             return;
           }
@@ -2724,19 +2823,18 @@
           return;
         }
         if (isKdeMode()) {
-          const counts = countBy(kdeValidation.kdeInputPoints || [], "platform");
-          const rows = Object.entries(counts)
+          const state = kdeState();
+          const rows = Object.entries(state.counts)
             .sort((a, b) => b[1] - a[1])
             .map(([label, value]) => ({ label, value, color: "#9c1f33" }));
-          const raster = kdeValidation.rasters?.["300"] || {};
           elements.graphicAnalysis.innerHTML = `
             <div class="status-grid">
-              <div class="status-tile"><span>Registros analizados</span><strong>${fmt(kdeValidation.controlTable?.REGISTROS_KDE || 0)}</strong></div>
-              <div class="status-tile"><span>Concentraciones principales</span><strong>${fmt(raster.observableConcentrations || 0)}</strong></div>
-              <div class="status-tile"><span>Fragmentación</span><strong>${esc(raster.fragmentation || "N/D")}</strong></div>
-              <div class="status-tile"><span>Suavizado</span><strong>${esc(raster.smoothing || "N/D")}</strong></div>
+              <div class="status-tile"><span>Registros analizados</span><strong>${fmt(state.points.length)}</strong></div>
+              <div class="status-tile"><span>Registros excluidos</span><strong>${fmt(state.excluded)}</strong></div>
+              <div class="status-tile"><span>Concentraciones principales</span><strong>${fmt(state.concentrations)}</strong></div>
+              <div class="status-tile"><span>Bandwidth</span><strong>${state.bandwidth} m</strong></div>
             </div>
-            ${metricBars("Incidentes KDE por Plataforma", rows, Math.max(...rows.map((item) => item.value), 1), "#9c1f33")}
+            ${rows.length ? metricBars("Incidentes KDE por Plataforma", rows, Math.max(...rows.map((item) => item.value), 1), "#9c1f33") : "<p>No existen datos suficientes para generar este gráfico.</p>"}
             `;
             return;
           }
@@ -3160,18 +3258,23 @@
       }
 
       function renderKdeGraphicPanel() {
-        const counts = countBy(kdeValidation.kdeInputPoints || [], "platform");
-        const rows = Object.entries(counts)
+        const state = kdeState();
+        const labels = kdeFilterLabel();
+        const rows = Object.entries(state.counts)
           .sort((a, b) => b[1] - a[1])
           .map(([label, value]) => ({ label, value, color: "#9c1f33" }));
-        const raster = kdeValidation.rasters?.["300"] || {};
-        const top = rows[0] || { label: "N/D", value: 0 };
+        const typeRows = categorySummary(state.points);
+        const tableRows = rows.map((row) => `<tr><td>${esc(row.label)}</td><td>${fmt(row.value)}</td><td>${state.points.length ? (row.value / state.points.length * 100).toFixed(1) : 0}%</td></tr>`).join("");
         elements.graphicAnalysis.innerHTML = `
           <div class="status-grid">
-            <div class="status-tile"><span>Concentraciones principales</span><strong>${fmt(raster.observableConcentrations || 0)}</strong></div>
-            <div class="status-tile"><span>Plataforma superior</span><strong>${esc(top.label)}</strong></div>
+            <div class="status-tile"><span>Tipo</span><strong>${esc(labels.type)}</strong></div>
+            <div class="status-tile"><span>Ámbito</span><strong>${esc(labels.platform)}</strong></div>
+            <div class="status-tile"><span>Periodo</span><strong>${esc(labels.period)}</strong></div>
+            <div class="status-tile"><span>Registros KDE</span><strong>${fmt(state.points.length)}</strong></div>
           </div>
-          ${metricBars("Incidentes KDE por Plataforma", rows, Math.max(...rows.map((item) => item.value), 1), "#9c1f33")}
+          ${rows.length ? metricBars("Incidentes KDE por Plataforma", rows, Math.max(...rows.map((item) => item.value), 1), "#9c1f33") : "<p>No existen datos suficientes para generar este gráfico.</p>"}
+          ${typeRows.length ? metricBars("Tipologías usadas en KDE", typeRows, Math.max(...typeRows.map((item) => item.value), 1), "#1d6fd8") : ""}
+          ${rows.length ? `<div class="graphic-card"><h3>Tabla KDE por Plataforma</h3><table class="mini-table"><thead><tr><th>Plataforma</th><th>Incidentes</th><th>%</th></tr></thead><tbody>${tableRows}</tbody></table></div>` : ""}
         `;
       }
 
@@ -3321,9 +3424,9 @@
         };
 
         if (isKdeMode()) {
-          const raster = kdeValidation.rasters?.["300"] || {};
+          const state = kdeState();
           addHeader("Densidad de incidentes");
-          rows.push(`<div class="legend-row"><span>Alta</span><span class="legend-gradient"></span></div><div class="legend-row"><span>Baja</span><strong>${fmt(kdeValidation.controlTable?.REGISTROS_KDE || 0)} registros · ${raster.bandwidth || 300} m</strong></div>`);
+          rows.push(`<div class="legend-row"><span>Alta</span><span class="legend-gradient"></span></div><div class="legend-row"><span>Baja</span><strong>${fmt(state.points.length)} registros · ${state.bandwidth} m</strong></div>`);
           addContext();
           elements.legend.innerHTML = rows.join("");
           return;
@@ -3525,6 +3628,67 @@
         });
       }
 
+      const kdeBounds = () => {
+        const raster = kdeValidation.rasters?.["300"] || Object.values(kdeValidation.rasters || {})[0] || {};
+        if (raster.bounds) return raster.bounds;
+        if (platformLayer) {
+          const b = platformLayer.getBounds();
+          return [[b.getSouth(), b.getWest()], [b.getNorth(), b.getEast()]];
+        }
+        return [[-1.72, -78.72], [-1.61, -78.58]];
+      };
+      const kdeColor = (t) => {
+        if (t <= 0.08) return [255, 230, 109, 0];
+        if (t < 0.32) return [255, 230, 109, Math.round(48 + t * 120)];
+        if (t < 0.58) return [255, 190, 55, Math.round(72 + t * 140)];
+        if (t < 0.82) return [255, 124, 32, Math.round(96 + t * 150)];
+        return [156, 31, 51, 230];
+      };
+      const renderFilteredKdeSurface = (points) => {
+        if (!points.length) return;
+        const bounds = kdeBounds();
+        const [[south, west], [north, east]] = bounds;
+        const width = 220;
+        const height = 220;
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        const image = ctx.createImageData(width, height);
+        const centerLat = (north + south) / 2;
+        const metersLat = 110540;
+        const metersLng = 111320 * Math.cos(centerLat * Math.PI / 180);
+        const bandwidth = 300;
+        let maxDensity = 0;
+        const density = new Float32Array(width * height);
+        for (let y = 0; y < height; y += 1) {
+          const lat = north - (y / (height - 1)) * (north - south);
+          for (let x = 0; x < width; x += 1) {
+            const lng = west + (x / (width - 1)) * (east - west);
+            let value = 0;
+            points.forEach((point) => {
+              const dx = (lng - point.lng) * metersLng;
+              const dy = (lat - point.lat) * metersLat;
+              const d2 = dx * dx + dy * dy;
+              if (d2 <= bandwidth * bandwidth * 9) value += Math.exp(-0.5 * d2 / (bandwidth * bandwidth));
+            });
+            const index = y * width + x;
+            density[index] = value;
+            if (value > maxDensity) maxDensity = value;
+          }
+        }
+        for (let i = 0; i < density.length; i += 1) {
+          const [r, g, b, a] = kdeColor(maxDensity ? density[i] / maxDensity : 0);
+          const p = i * 4;
+          image.data[p] = r;
+          image.data[p + 1] = g;
+          image.data[p + 2] = b;
+          image.data[p + 3] = a;
+        }
+        ctx.putImageData(image, 0, 0);
+        L.imageOverlay(canvas.toDataURL("image/png"), bounds, { opacity: 0.68, interactive: false }).addTo(hotspotLayer);
+      };
+
       function renderHotspots(items) {
         hotspotLayer.clearLayers();
         if (isGiHotspotsMode()) {
@@ -3550,14 +3714,9 @@
           return;
         }
         if (!isKdeMode()) return;
-        const raster = kdeValidation.rasters?.["300"] || Object.values(kdeValidation.rasters || {})[0];
-        if (raster?.url && raster?.bounds) {
-          L.imageOverlay(raster.url, raster.bounds, {
-            opacity: 0.58,
-            interactive: false,
-          }).addTo(hotspotLayer);
-        }
-        (kdeValidation.kdeInputPoints || []).forEach((event) => {
+        const points = filteredKdePoints();
+        renderFilteredKdeSurface(points);
+        points.forEach((event) => {
           L.circleMarker([event.lat, event.lng], {
             radius: 3.8,
             color: "#ffffff",
@@ -3853,9 +4012,10 @@
             renderPlatformDetail(selectedPlatform);
           }
           if (diagnosisMetric === "hotspots") {
-            const raster = kdeValidation.rasters?.["300"] || {};
+            const state = kdeState();
+            const labels = kdeFilterLabel();
             elements.overlayTitle.textContent = "Concentración de incidentes";
-            elements.overlayText.textContent = `${fmt(kdeValidation.controlTable?.REGISTROS_KDE || 0)} incidentes A/B válidos · bandwidth ${raster.bandwidth || 300} m · celda ${raster.cellSize || 20} m · superficie continua DENSIDAD_INCIDENTES_KDE.`;
+            elements.overlayText.textContent = `${labels.type} · ${fmt(state.points.length)} incidentes analizados · ${labels.platform} · ${labels.period} · bandwidth ${state.bandwidth} m · superficie DENSIDAD_INCIDENTES_KDE.`;
           } else if (diagnosisMetric === "population") {
             elements.overlayTitle.textContent = "Población";
             elements.overlayText.textContent = "Distribución de la población en las Plataformas Territoriales y manzanas censales.";
@@ -4732,7 +4892,7 @@
         }
       }
 
-      fillSelect(elements.category, "Todas las categorías/tipos", [...new Set([...events.map((event) => event.category), ...cameras.map((camera) => camera.type)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
+      fillSelect(elements.category, "Todas las categorías/tipos", defaultCategoryOptions);
       fillSelect(elements.precision, "Toda precisión/confianza", [...new Set([...events.map((event) => event.precision), ...cameras.map((camera) => camera.confidence)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
       fillSelect(elements.source, "Todas las fuentes", [...new Set([...events.map((event) => event.source), ...cameras.map((camera) => camera.institution)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
       setKdeDefaultContextLayers();
@@ -4745,7 +4905,7 @@
       loadCensusLayers();
       loadBoulevardNetwork();
 
-      [elements.search, elements.category, elements.precision, elements.source].forEach((control) => control.addEventListener("input", update));
+      [elements.search, elements.category, elements.precision, elements.source, elements.kdePlatform, elements.kdePeriod].forEach((control) => control.addEventListener("input", update));
       elements.diagnosisMetric.addEventListener("change", () => activateDiagnosisMetric(elements.diagnosisMetric.value));
       elements.populationMode.addEventListener("click", () => activateDiagnosisMetric("population"));
       elements.populationDensityMode.addEventListener("click", () => activateDiagnosisMetric("populationDensity"));
