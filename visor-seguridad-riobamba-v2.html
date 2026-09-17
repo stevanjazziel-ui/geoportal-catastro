@@ -728,8 +728,8 @@
       overflow-x: hidden;
       display: grid;
       align-content: start;
-      gap: 12px;
-      padding: 14px 18px 18px;
+      gap: 8px;
+      padding: 10px 14px 14px;
     }
     .workspace-head {
       display: flex;
@@ -739,29 +739,42 @@
     }
     .workspace-title h1 {
       color: #082d59;
-      font-size: 1.5rem;
+      font-size: 1.18rem;
       line-height: 1.1;
       margin: 0;
     }
     .workspace-title p {
-      margin-top: 4px;
+      margin-top: 2px;
       color: #315a89;
-      font-size: .9rem;
+      font-size: .78rem;
+      line-height: 1.25;
     }
     .workspace-actions { display: flex; gap: 8px; flex: 0 0 auto; }
     .workspace-actions .header-action {
+      min-height: 34px;
+      padding: 7px 10px;
+      border-radius: 8px;
       color: #0759b8;
       background: #fff;
       border-color: rgba(17, 119, 216, .35);
+      font-size: .86rem;
+      font-weight: 800;
     }
     .filter-bar {
-      padding: 10px;
+      padding: 7px;
       box-shadow: none;
     }
     .filter-bar .filter-grid {
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 8px;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 6px;
       align-items: end;
+    }
+    .filter-bar select,
+    .filter-bar input[type="search"] {
+      min-height: 40px;
+      padding: 8px 10px;
+      border-radius: 9px;
+      font-size: .86rem;
     }
     .filter-bar .panel,
     .kpi-row .panel,
@@ -783,16 +796,20 @@
     .kpi-row .stats {
       display: grid;
       grid-template-columns: repeat(5, minmax(150px, 1fr));
-      gap: 10px;
+      gap: 8px;
     }
     .kpi-row .card {
-      min-height: 78px;
-      padding: 14px 16px;
+      min-height: 58px;
+      padding: 10px 12px;
       border-radius: 8px;
       background: #fff;
       box-shadow: var(--shadow);
     }
-    .kpi-row .card strong { font-size: 1.3rem; color: #062d60; }
+    .kpi-row .card span {
+      font-size: .62rem;
+      margin-bottom: 4px;
+    }
+    .kpi-row .card strong { font-size: 1.05rem; color: #062d60; }
     .map-detail-grid {
       display: grid;
       grid-template-columns: minmax(0, 2.05fr) minmax(300px, .78fr);
