@@ -589,12 +589,13 @@
         <button type="button" disabled>◐ Exposición poblacional · En procesamiento</button>
         <h2>Conflictividad</h2>
         <button class="mode-button" id="eventsMode" type="button">Incidentes</button>
-        <button class="mode-button" id="platformIncidentsMode" type="button">● Incidentes por Plataforma</button>
-        <button class="mode-button" id="incidentRateMode" type="button">● Tasa por 1.000 habitantes</button>
-        <button class="mode-button is-active" id="kdeAnalysisButton" type="button">Densidad de incidentes (KDE)</button>
-        <button class="mode-button" id="giHotspotsMode" type="button">Hotspots estadísticos</button>
-        <button class="mode-button" id="typologiesMode" type="button">Tipologías de incidentes</button>
-        <button class="mode-button" id="temporalMode" type="button">Análisis temporal</button>
+        <button class="mode-button legacy-hidden" id="platformIncidentsMode" type="button">● Incidentes por Plataforma</button>
+        <button class="mode-button legacy-hidden" id="incidentRateMode" type="button">● Tasa por 1.000 habitantes</button>
+        <button class="mode-button is-active" id="kdeAnalysisButton" type="button">Concentración de incidentes</button>
+        <button class="mode-button" id="giHotspotsMode" type="button">Zonas críticas</button>
+        <button class="mode-button" id="typologiesMode" type="button">Tipos de incidentes</button>
+        <button class="mode-button" id="temporalMode" type="button">Evolución temporal</button>
+        <button class="mode-button" id="incidentQueryMode" type="button">Consulta de incidentes</button>
         <h2>Cobertura territorial</h2>
         <button class="mode-button" id="policeMode" type="button">Infraestructura policial</button>
         <button class="mode-button" id="policeAccessibilityMode" type="button">● Accesibilidad policial</button>
@@ -622,7 +623,7 @@
       <main class="map-wrap">
         <div id="map"></div>
         <div class="overlay">
-          <strong id="overlayTitle">Densidad de incidentes (KDE)</strong>
+          <strong id="overlayTitle">Concentración de incidentes</strong>
           <p id="overlayText">Superficie continua calculada desde incidentes georreferenciados válidos.</p>
         </div>
       </main>
@@ -641,10 +642,10 @@
               <option value="videoDeficit">Déficit de videovigilancia</option>
               <option value="incidentCount">Incidentes absolutos</option>
               <option value="incidentRate">Tasa de incidentes / 1.000 hab.</option>
-              <option value="hotspots" selected>Densidad de incidentes (KDE)</option>
-              <option value="giHotspots">Hotspots estadísticos</option>
-              <option value="incidentTypologies">Tipologías de incidentes</option>
-              <option value="temporalAnalysis">Análisis temporal</option>
+              <option value="hotspots" selected>Concentración de incidentes</option>
+              <option value="giHotspots">Zonas críticas</option>
+              <option value="incidentTypologies">Tipos de incidentes</option>
+              <option value="temporalAnalysis">Evolución temporal</option>
               <option value="populationExposure">Exposición poblacional a hotspots</option>
               <option value="cameraCoverage">Cobertura potencial de cámaras</option>
               <option value="boulevardPopulation">Población cercana a boulevares/conexiones</option>
@@ -771,6 +772,7 @@
         giHotspotsMode: document.getElementById("giHotspotsMode"),
         typologiesMode: document.getElementById("typologiesMode"),
         temporalMode: document.getElementById("temporalMode"),
+        incidentQueryMode: document.getElementById("incidentQueryMode"),
         eventsMode: document.getElementById("eventsMode"),
         ecuMode: document.getElementById("ecuMode"),
         camerasMode: document.getElementById("camerasMode"),
@@ -838,6 +840,7 @@
       let giResultType = "hot";
       let mode = "diagnosis";
       let diagnosisMetric = "hotspots";
+      let incidentMenuView = "incidents";
       let cameraCoverageScenario = 150;
       let cameraCoverageSet = "municipal";
       let cameraCoverageCacheKey = "";
@@ -2648,7 +2651,7 @@
       }
 
       function renderList(items) {
-        elements.listTitle.textContent = mode === "events" ? "Eventos publicados" : mode === "ecu" ? "ECU911 agosto" : mode === "cameras" ? "Cámaras de videovigilancia" : mode === "police" ? "Infraestructura policial" : "Plataformas territoriales";
+        elements.listTitle.textContent = mode === "events" ? "Consulta de incidentes" : mode === "ecu" ? "ECU911 agosto" : mode === "cameras" ? "Cámaras de videovigilancia" : mode === "police" ? "Infraestructura policial" : "Plataformas territoriales";
         if (mode === "diagnosis") {
           const visible = filteredPlatforms();
           const maxPop = Math.max(...visible.map((platform) => platform.population || 0), 1);
@@ -3088,7 +3091,7 @@
           }
           if (diagnosisMetric === "hotspots") {
             const raster = kdeValidation.rasters?.["300"] || {};
-            elements.overlayTitle.textContent = "Densidad de incidentes (KDE)";
+            elements.overlayTitle.textContent = "Concentración de incidentes";
             elements.overlayText.textContent = `${fmt(kdeValidation.controlTable?.REGISTROS_KDE || 0)} incidentes A/B válidos · bandwidth ${raster.bandwidth || 300} m · celda ${raster.cellSize || 20} m · superficie continua DENSIDAD_INCIDENTES_KDE.`;
           } else if (diagnosisMetric === "population") {
             elements.overlayTitle.textContent = "Población por manzana";
@@ -3116,14 +3119,14 @@
             elements.overlayTitle.textContent = "Cobertura institucional";
             elements.overlayText.textContent = "Integración territorial de infraestructura policial, videovigilancia y Bulevares Seguros.";
           } else if (isGiHotspotsMode()) {
-            elements.overlayTitle.textContent = "Hotspots estadísticos";
-            elements.overlayText.textContent = "Identificación de concentraciones estadísticamente significativas de incidentes mediante Getis-Ord Gi*.";
+            elements.overlayTitle.textContent = "Zonas críticas";
+            elements.overlayText.textContent = "Hotspots estadísticos mediante Getis-Ord Gi*: concentraciones significativas de valores altos de incidentes.";
           } else if (isTypologiesMode()) {
-            elements.overlayTitle.textContent = "Tipologías de incidentes";
-            elements.overlayText.textContent = "Distribución espacial de los incidentes según las categorías reales del campo category.";
+            elements.overlayTitle.textContent = "Tipos de incidentes";
+            elements.overlayText.textContent = "Distribución territorial según tipología real de la base de incidentes.";
           } else if (isTemporalMode()) {
-            elements.overlayTitle.textContent = "Análisis temporal";
-            elements.overlayText.textContent = "Evolución temporal de los incidentes usando el campo real date; la base no contiene hora.";
+            elements.overlayTitle.textContent = "Evolución temporal";
+            elements.overlayText.textContent = "Patrones temporales de los incidentes usando el campo real date; la base no contiene hora.";
           }
           if (isCameraCoverageMode()) {
             const totals = cameraCoverageTotals();
@@ -3839,7 +3842,8 @@
       }
 
       function syncModeButtons() {
-        elements.eventsMode.classList.toggle("is-active", mode === "events");
+        elements.eventsMode.classList.toggle("is-active", mode === "events" && incidentMenuView === "incidents");
+        elements.incidentQueryMode.classList.toggle("is-active", mode === "events" && incidentMenuView === "query");
         elements.ecuMode.classList.toggle("is-active", mode === "ecu");
         elements.camerasMode.classList.toggle("is-active", mode === "cameras");
         elements.cameraCoverageMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "cameraCoverage");
@@ -3972,7 +3976,8 @@
       elements.boulevardsMode.addEventListener("click", () => activateDiagnosisMetric("boulevards"));
       elements.institutionalCoverageMode.addEventListener("click", () => activateDiagnosisMetric("institutionalDashboard"));
       elements.kdeAnalysis.addEventListener("click", () => activateDiagnosisMetric("hotspots"));
-      elements.eventsMode.addEventListener("click", () => { mode = "events"; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
+      elements.eventsMode.addEventListener("click", () => { mode = "events"; incidentMenuView = "incidents"; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
+      elements.incidentQueryMode.addEventListener("click", () => { mode = "events"; incidentMenuView = "query"; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
       elements.ecuMode.addEventListener("click", () => { mode = "ecu"; selectedId = null; selectedCamera = null; selectedPlatform = null; syncModeButtons(); update(); });
       elements.camerasMode.addEventListener("click", () => { mode = "cameras"; selectedId = null; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
       elements.policeMode.addEventListener("click", () => { mode = "police"; selectedId = null; selectedParish = null; selectedCamera = null; selectedPlatform = null; syncModeButtons(); update(); });
