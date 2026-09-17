@@ -115,6 +115,76 @@
     }
     .layer-toggle span { color: var(--text); font-size: 0.95rem; }
     .layer-toggle input { width: 18px; height: 18px; accent-color: var(--accent-2); cursor: pointer; }
+    .map-layer-control {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 650;
+      width: min(300px, calc(100% - 24px));
+      display: grid;
+      justify-items: end;
+      gap: 8px;
+      pointer-events: none;
+    }
+    .map-layer-button {
+      width: auto;
+      min-height: 38px;
+      padding: 9px 13px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.95);
+      box-shadow: 0 12px 30px rgba(6, 40, 68, .16);
+      font-weight: 800;
+      pointer-events: auto;
+    }
+    .map-floating-buttons {
+      display: grid;
+      justify-items: end;
+      gap: 8px;
+    }
+    .map-layer-popover {
+      width: 100%;
+      max-height: min(520px, calc(100dvh - 190px));
+      overflow: auto;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255,255,255,.97);
+      box-shadow: 0 24px 60px rgba(6, 40, 68, .22);
+      backdrop-filter: blur(10px);
+      pointer-events: auto;
+    }
+    .map-layer-popover h3 {
+      margin: 10px 0 8px;
+      color: #073b63;
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .map-layer-popover h3:first-child { margin-top: 0; }
+    .base-layer-options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .base-layer-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--panel-2);
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .base-layer-option input { width: 16px; height: 16px; accent-color: var(--accent-2); }
+    .legend-gradient {
+      width: 100%;
+      height: 14px;
+      border: 1px solid rgba(38,58,51,.25);
+      border-radius: 5px;
+      background: linear-gradient(90deg, rgba(255,230,109,.12), #ffe66d, #ffbe37, #ff7c20, #9c1f33);
+    }
     .mini-row, .legend-row {
       display: flex;
       align-items: center;
@@ -337,7 +407,7 @@
     .overlay {
       position: absolute;
       top: 14px;
-      right: 14px;
+      left: 14px;
       z-index: 500;
       width: min(320px, calc(100% - 28px));
       padding: 10px 12px;
@@ -769,6 +839,7 @@
       grid-template-columns: minmax(0, 1.35fr) minmax(320px, .8fr);
       gap: 12px;
     }
+    .analysis-grid > .chart-panel:only-child { grid-column: 1 / -1; }
     .analysis-workspace.layout-map-analytics .map-detail-grid {
       grid-template-columns: minmax(0, 1.7fr) minmax(340px, .9fr);
     }
@@ -1084,6 +1155,38 @@
             <div class="panel-title">Mapa principal</div>
             <div class="map-wrap">
               <div id="map"></div>
+              <div class="map-layer-control" id="mapLayerControl">
+                <div class="map-floating-buttons">
+                  <button class="map-layer-button" id="layersButton" type="button" aria-expanded="false">Capas</button>
+                  <button class="map-layer-button" id="legendButton" type="button" aria-expanded="false">Leyenda</button>
+                </div>
+                <div class="map-layer-popover" id="layersPopover" hidden>
+                  <h3>Capas del análisis</h3>
+                  <div class="layer-toggles">
+                    <label class="layer-toggle" data-layer-row="analysisResult"><span id="analysisResultLayerLabel">Resultado del análisis</span><input id="toggleAnalysisResult" type="checkbox" checked disabled /></label>
+                    <label class="layer-toggle" data-layer-row="platforms"><span>Plataformas territoriales</span><input id="togglePlatforms" type="checkbox" checked /></label>
+                  </div>
+                  <h3>Capas de contexto</h3>
+                  <div class="layer-toggles">
+                    <label class="layer-toggle" data-layer-row="events"><span>Incidentes</span><input id="toggleEvents" type="checkbox" checked /></label>
+                    <label class="layer-toggle" data-layer-row="parishes"><span>Burbujas ECU911</span><input id="toggleParishes" type="checkbox" /></label>
+                    <label class="layer-toggle" data-layer-row="cameras"><span>Cámaras municipales</span><input id="toggleCameras" type="checkbox" /></label>
+                    <label class="layer-toggle" data-layer-row="police"><span>Infraestructura policial</span><input id="togglePoliceInfrastructure" type="checkbox" /></label>
+                    <label class="layer-toggle" data-layer-row="manzanas"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" /></label>
+                    <label class="layer-toggle" data-layer-row="boulevards"><span>Red de bulevares</span><input id="toggleBoulevards" type="checkbox" /></label>
+                    <label class="layer-toggle" data-layer-row="externalCameras" hidden><span>Cámaras externas</span><input id="toggleExternalCameras" type="checkbox" disabled /></label>
+                  </div>
+                  <h3>Mapa base</h3>
+                  <div class="base-layer-options">
+                    <label class="base-layer-option"><input id="baseCartographic" name="baseLayer" type="radio" value="cartographic" checked />Cartográfico</label>
+                    <label class="base-layer-option"><input id="baseSatellite" name="baseLayer" type="radio" value="satellite" />Satelital</label>
+                  </div>
+                </div>
+                <div class="map-layer-popover" id="legendPopover" hidden>
+                  <h3>Leyenda</h3>
+                  <div class="legend" id="legend"></div>
+                </div>
+              </div>
             </div>
           </section>
           <aside class="detail-panel">
@@ -1100,25 +1203,6 @@
             <h2>Gráficos y resultados</h2>
             <div class="graphic-grid" id="graphicAnalysis"><p>Este análisis aún no dispone de resultados calculados.</p></div>
           </section>
-          <aside class="support-panel">
-            <section class="panel">
-              <h2>Capas de contexto</h2>
-              <div class="layer-toggles">
-                <label class="layer-toggle"><span>Eventos de seguridad</span><input id="toggleEvents" type="checkbox" checked /></label>
-                <label class="layer-toggle"><span>Burbujas ECU911</span><input id="toggleParishes" type="checkbox" /></label>
-                <label class="layer-toggle"><span>Cámaras</span><input id="toggleCameras" type="checkbox" /></label>
-                <label class="layer-toggle"><span>Infraestructura policial</span><input id="togglePoliceInfrastructure" type="checkbox" /></label>
-                <label class="layer-toggle"><span>Plataformas territoriales</span><input id="togglePlatforms" type="checkbox" checked /></label>
-                <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" /></label>
-                <label class="layer-toggle"><span>Red de boulevares</span><input id="toggleBoulevards" type="checkbox" /></label>
-                <label class="layer-toggle"><span>Base satelital</span><input id="toggleSatellite" type="checkbox" /></label>
-              </div>
-            </section>
-            <section class="panel">
-              <h2>Leyenda</h2>
-              <div class="legend" id="legend"></div>
-            </section>
-          </aside>
         </section>
       </main>
     </div>
@@ -1212,7 +1296,16 @@
         togglePlatforms: document.getElementById("togglePlatforms"),
         toggleManzanas: document.getElementById("toggleManzanas"),
         toggleBoulevards: document.getElementById("toggleBoulevards"),
-        toggleSatellite: document.getElementById("toggleSatellite"),
+        toggleExternalCameras: document.getElementById("toggleExternalCameras"),
+        toggleAnalysisResult: document.getElementById("toggleAnalysisResult"),
+        analysisResultLayerLabel: document.getElementById("analysisResultLayerLabel"),
+        layersButton: document.getElementById("layersButton"),
+        layersPopover: document.getElementById("layersPopover"),
+        legendButton: document.getElementById("legendButton"),
+        legendPopover: document.getElementById("legendPopover"),
+        mapLayerControl: document.getElementById("mapLayerControl"),
+        baseCartographic: document.getElementById("baseCartographic"),
+        baseSatellite: document.getElementById("baseSatellite"),
         shell: document.querySelector(".dashboard-shell"),
         sidebarToggle: document.getElementById("sidebarToggle"),
         fullscreenAnalysis: document.getElementById("fullscreenAnalysisButton"),
@@ -1296,6 +1389,22 @@
         demography: { filters: ["search"] },
         diagnosis: { filters: ["search", "metric"] }
       };
+      const layerConfig = {
+        kde: { result: "Densidad de incidentes (KDE)", context: ["events", "cameras", "police", "boulevards"] },
+        giHotspots: { result: "Zonas críticas", context: ["events", "cameras", "police", "boulevards"] },
+        cameraCoverage: { result: "Cobertura potencial", context: ["manzanas", "police", "boulevards", "externalCameras"] },
+        populationCoverage: { result: "Cobertura poblacional", context: ["cameras", "manzanas", "police", "boulevards"] },
+        boulevards: { result: "Red / proximidad a Bulevares", context: ["cameras", "police", "events"] },
+        institutionalCoverage: { result: "Cobertura institucional", context: ["cameras", "police", "boulevards", "manzanas"] },
+        temporal: { result: "Evolución temporal", context: ["events", "cameras", "police"] },
+        typologies: { result: "Tipos de incidentes", context: ["events", "cameras", "police", "boulevards"] },
+        incidents: { result: "Incidentes", context: ["cameras", "police", "boulevards", "manzanas"] },
+        incidentQuery: { result: "Consulta de incidentes", context: ["events", "cameras", "police", "boulevards"] },
+        cameras: { result: "Cámaras municipales", context: ["externalCameras", "police", "manzanas", "boulevards"] },
+        police: { result: "Infraestructura policial", context: ["manzanas", "cameras", "boulevards"] },
+        demography: { result: diagnosisMetric === "populationDensity" ? "Densidad poblacional" : "Población", context: ["manzanas", "cameras", "police"] },
+        diagnosis: { result: "Diagnóstico territorial", context: ["events", "cameras", "police", "manzanas", "boulevards", "parishes"] }
+      };
       const analysisLayout = () => {
         const key = analysisKey();
         if (["typologies", "temporal"].includes(key)) return "layout-analytics";
@@ -1307,6 +1416,25 @@
         if (!elements.workspace) return;
         elements.workspace.classList.remove("layout-map-dominant", "layout-map-analytics", "layout-analytics", "layout-table");
         elements.workspace.classList.add(analysisLayout());
+      };
+      const activeLayerConfig = () => {
+        const key = analysisKey();
+        const config = layerConfig[key] || layerConfig.diagnosis;
+        if (key === "demography") {
+          const result = diagnosisMetric === "populationDensity" ? "Densidad poblacional"
+            : diagnosisMetric === "populationExposure" ? "Exposición poblacional"
+            : "Población";
+          return { ...config, result };
+        }
+        return config;
+      };
+      const syncLayerControl = () => {
+        const config = activeLayerConfig();
+        if (elements.analysisResultLayerLabel) elements.analysisResultLayerLabel.textContent = config.result;
+        const visibleRows = new Set(["analysisResult", "platforms", ...(config.context || [])]);
+        document.querySelectorAll("[data-layer-row]").forEach((row) => {
+          row.hidden = !visibleRows.has(row.dataset.layerRow);
+        });
       };
       const markers = new Map();
       const parishMarkers = new Map();
@@ -1814,6 +1942,7 @@
       };
       const syncCoverageControls = () => {
         syncWorkspaceLayout();
+        syncLayerControl();
         const activeFilters = new Set((analysisConfig[analysisKey()] || analysisConfig.diagnosis).filters);
         document.querySelectorAll("[data-filter-control]").forEach((control) => {
           control.hidden = !activeFilters.has(control.dataset.filterControl);
@@ -2220,14 +2349,17 @@
         <div class="popup-row">Longitud: <strong>${fmt(Math.round(Number(props.Shape_Length || props.Shape_Leng || 0)))} m</strong></div>
         <div class="popup-note">${esc(props.SISTEMA_B || props.CORREDOR || "")}</div>
       `;
-      const platformPopup = (props) => `
-        <div class="popup-title"><strong>${esc(props.platform_name || "Plataforma")}</strong></div>
-        <div class="popup-row">Manzanas: <strong>${fmt(props.manzanas)}</strong></div>
-        <div class="popup-row">Población: <strong>${fmt(props.population_total)}</strong></div>
-        <div class="popup-row">Hombres: <strong>${fmt(props.male)}</strong></div>
-        <div class="popup-row">Mujeres: <strong>${fmt(props.female)}</strong></div>
-        <div class="popup-note">Área: ${fmt(Math.round(Number(props.area || 0)))} ha aprox.</div>
-      `;
+      const platformPopup = (props) => {
+        const platform = platformRecord(props.platform_name);
+        return `
+          <div class="popup-title"><strong>${esc(props.platform_name || "Plataforma")}</strong></div>
+          <div class="popup-row">Manzanas: <strong>${fmt(platform?.manzanas ?? props.manzanas)}</strong></div>
+          <div class="popup-row">Población: <strong>${fmt(platform?.population ?? props.population_total)}</strong></div>
+          <div class="popup-row">Hombres: <strong>${fmt(props.male)}</strong></div>
+          <div class="popup-row">Mujeres: <strong>${fmt(props.female)}</strong></div>
+          <div class="popup-note">Fuente poblacional canónica: CPV 2022 / manzanas asignadas a Plataformas. Área: ${fmt(Math.round(Number(props.area || 0)))} ha aprox.</div>
+        `;
+      };
       const manzanaPopup = (props, feature = null) => {
         const code = props.man;
         const stats = manzanaStats?.byMan?.[code] || {};
@@ -3050,7 +3182,7 @@
               <div class="legend-row"><span class="legend-swatch" style="background:#277a52;border-color:#277a52"></span>Bulevares Seguros</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#4a74a5;border-color:#4a74a5"></span>Conexiones</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#1d4ed8;border-color:#fff"></span>Cámara</div>
-              <div class="legend-row"><span class="legend-swatch" style="background:#dc2626;border-color:#fff"></span>Cámara para cambio</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#dc2626;border-color:#fff"></span>Cámara municipal que requiere cambio</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#7c3aed;border-color:#fff"></span>Infraestructura policial</div>
               <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:2px solid #263a33"></span>Plataforma</div>
             `;
@@ -3087,7 +3219,7 @@
               <div class="legend-row"><span class="legend-swatch" style="background:#8fb96a;border-color:#7e8790"></span>51 - 150 hab.</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#4f8f52;border-color:#7e8790"></span>151 - 300 hab.</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#245b34;border-color:#7e8790"></span>300+ hab.</div>
-              <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:2px solid #263a33"></span>Plataforma territorial</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:2px solid #263a33"></span>Plataformas Territoriales</div>
             `;
             return;
           }
@@ -3098,7 +3230,7 @@
               <div class="legend-row"><span class="legend-swatch" style="background:#8fb96a;border-color:#7e8790"></span>2.501 - 7.500</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#d9a441;border-color:#7e8790"></span>7.501 - 15.000</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#c86670;border-color:#7e8790"></span>15.000+ hab/km²</div>
-              <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:2px solid #263a33"></span>Plataforma territorial</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:2px solid #263a33"></span>Plataformas Territoriales</div>
             `;
             return;
           }
@@ -3149,7 +3281,7 @@
               <div class="legend-row"><span class="legend-swatch" style="background:#ff7c20;border-color:#fff"></span>Alta</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#9c1f33;border-color:#fff"></span>Muy alta</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#111827;border-color:#fff"></span>Incidente georreferenciado</div>
-              <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:2px solid #263a33"></span>Plataforma territorial</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:2px solid #263a33"></span>Plataformas Territoriales</div>
               <div class="legend-row"><span class="legend-swatch" style="background:linear-gradient(90deg, transparent, #ffe66d, #ff7c20, #9c1f33);border-color:#fff"></span>DENSIDAD_INCIDENTES_KDE</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#fff;border-color:#7e8790"></span>${fmt(kdeValidation.controlTable?.REGISTROS_KDE || 0)} registros · ${raster.bandwidth || 300} m · ${raster.cellSize || 20} m</div>
             `;
@@ -3163,8 +3295,100 @@
         }
         elements.legend.innerHTML = [...categoryColors.entries()].map(([label, color]) => `
           <div class="legend-row"><span class="legend-swatch" style="background:${color}"></span>${esc(label)}</div>
-        `).join("") + `<div class="legend-row"><span class="legend-swatch" style="background:#f7e4a5"></span>ECU911 agregado por parroquia</div><div class="legend-row"><span class="legend-swatch" style="background:#fff"></span>Cámara municipal</div><div class="legend-row"><span class="legend-swatch" style="background:#f3c2ca"></span>Municipal con cambio previsto</div><div class="legend-row"><span class="legend-swatch" style="background:#345c85"></span>Infraestructura policial</div><div class="legend-row"><span class="legend-swatch" style="background:#d8eadf;border-color:#2f6f5f"></span>Plataforma territorial</div><div class="legend-row"><span class="legend-swatch" style="background:#f7f7f7;border-color:#7e8790"></span>Manzana censal</div><div class="legend-row"><span class="legend-swatch" style="background:transparent;border:0;border-top:3px solid #277a52"></span>Boulevares</div><div class="legend-row"><span class="legend-swatch" style="background:transparent;border:0;border-top:3px dashed #4a74a5"></span>Conexiones</div>`;
+        `).join("") + `<div class="legend-row"><span class="legend-swatch" style="background:#f7e4a5"></span>ECU911 agregado por parroquia</div><div class="legend-row"><span class="legend-swatch" style="background:#fff"></span>Cámara municipal</div><div class="legend-row"><span class="legend-swatch" style="background:#f3c2ca"></span>Municipal con cambio previsto</div><div class="legend-row"><span class="legend-swatch" style="background:#345c85"></span>Infraestructura policial</div><div class="legend-row"><span class="legend-swatch" style="background:#d8eadf;border-color:#2f6f5f"></span>Plataformas Territoriales</div><div class="legend-row"><span class="legend-swatch" style="background:#f7f7f7;border-color:#7e8790"></span>Manzana censal</div><div class="legend-row"><span class="legend-swatch" style="background:transparent;border:0;border-top:3px solid #277a52"></span>Boulevares</div><div class="legend-row"><span class="legend-swatch" style="background:transparent;border:0;border-top:3px dashed #4a74a5"></span>Conexiones de la red de Bulevares</div>`;
       }
+
+      renderLegend = function renderContextualLegend() {
+        if (!elements.legend) return;
+        const rows = [];
+        const addHeader = (label) => rows.push(`<div class="legend-row"><strong>${esc(label)}</strong></div>`);
+        const addSwatch = (label, style) => rows.push(`<div class="legend-row"><span class="legend-swatch" style="${style}"></span>${esc(label)}</div>`);
+        const addContext = () => {
+          if (elements.togglePlatforms?.checked) addSwatch("Plataformas Territoriales", "background:transparent;border:2px solid #263a33");
+          if (elements.toggleEvents?.checked) addSwatch("Incidente georreferenciado", "background:#111827;border-color:#fff;border-radius:50%");
+          if (elements.toggleCameras?.checked) {
+            addSwatch("Cámara municipal operativa", "background:#1d4ed8;border-color:#fff;border-radius:50%");
+            const changeCount = municipalCameras.filter((camera) => camera.requiresChange).length;
+            if (changeCount) addSwatch("Cámara municipal que requiere cambio", "background:#dc2626;border-color:#fff;border-radius:50%");
+          }
+          if (elements.togglePoliceInfrastructure?.checked) addSwatch("Infraestructura policial", "background:#7c3aed;border-color:#fff;border-radius:50%");
+          if (elements.toggleManzanas?.checked) addSwatch("Manzana censal", "background:#f7f7f7;border-color:#7e8790");
+          if (elements.toggleBoulevards?.checked || isBoulevardsMode()) {
+            addSwatch("Bulevares Seguros", "background:transparent;border:0;border-top:3px solid #277a52");
+            addSwatch("Conexiones de la red de Bulevares", "background:transparent;border:0;border-top:3px dashed #4a74a5");
+          }
+          if (elements.toggleParishes?.checked) addSwatch("ECU911 agregado por parroquia", "background:#f7e4a5;border-color:#d9a441");
+        };
+
+        if (isKdeMode()) {
+          const raster = kdeValidation.rasters?.["300"] || {};
+          addHeader("Densidad de incidentes");
+          rows.push(`<div class="legend-row"><span>Alta</span><span class="legend-gradient"></span></div><div class="legend-row"><span>Baja</span><strong>${fmt(kdeValidation.controlTable?.REGISTROS_KDE || 0)} registros · ${raster.bandwidth || 300} m</strong></div>`);
+          addContext();
+          elements.legend.innerHTML = rows.join("");
+          return;
+        }
+        if (isGiHotspotsMode()) {
+          addHeader("Zonas críticas Getis-Ord Gi*");
+          ["HOTSPOT 99 %", "HOTSPOT 95 %", "HOTSPOT 90 %", "NO SIGNIFICATIVO", "COLDSPOT 90 %", "COLDSPOT 95 %", "COLDSPOT 99 %"].forEach((label) => addSwatch(label.replace("HOTSPOT", "Hotspot").replace("COLDSPOT", "Coldspot").replace("NO SIGNIFICATIVO", "No significativo"), `background:${giClassColor(label)};border-color:#fff`));
+          addContext();
+          elements.legend.innerHTML = rows.join("");
+          return;
+        }
+        if (isCameraCoverageMode()) {
+          addHeader("Cobertura potencial");
+          addSwatch(`Área de cobertura · escenario ${cameraCoverageScenario} m`, "background:rgba(217,164,65,.32);border-color:#d9a441");
+          if (elements.toggleManzanas?.checked) {
+            addSwatch("Manzana cubierta/parcial", "background:rgba(230,178,79,.55);border-color:#263a33");
+            addSwatch("Manzana no cubierta", "background:#edf1ed;border-color:#7e8790");
+          }
+          addContext();
+          elements.legend.innerHTML = rows.join("");
+          return;
+        }
+        if (diagnosisMetric === "population") {
+          addHeader("Población");
+          [["0 habitantes / sin dato", "#f7f7f7"], ["1 - 50 hab.", "#d8eadf"], ["51 - 150 hab.", "#8fb96a"], ["151 - 300 hab.", "#4f8f52"], ["300+ hab.", "#245b34"]].forEach(([label, color]) => addSwatch(label, `background:${color};border-color:#7e8790`));
+          addContext();
+          elements.legend.innerHTML = rows.join("");
+          return;
+        }
+        if (diagnosisMetric === "populationDensity") {
+          addHeader("Densidad poblacional");
+          [["0 / sin dato", "#f7f7f7"], ["≤ 2.500 hab/km²", "#d8eadf"], ["2.501 - 7.500", "#8fb96a"], ["7.501 - 15.000", "#d9a441"], ["15.000+ hab/km²", "#c86670"]].forEach(([label, color]) => addSwatch(label, `background:${color};border-color:#7e8790`));
+          addContext();
+          elements.legend.innerHTML = rows.join("");
+          return;
+        }
+        if (diagnosisMetric === "policeAccessibility") {
+          addHeader("Accesibilidad policial");
+          [["≤ 250 m", "#179b52"], ["250 - 500 m", "#8fd36f"], ["500 - 1.000 m", "#ffd43b"], ["1.000 - 2.000 m", "#ff7c43"], ["> 2.000 m", "#e11d48"]].forEach(([label, color]) => addSwatch(label, `background:${color};border-color:#7e8790`));
+          addContext();
+          elements.legend.innerHTML = rows.join("");
+          return;
+        }
+        if (isTypologiesMode()) {
+          addHeader("Tipos de incidentes");
+          categorySummary(geoIncidentEvents()).forEach((row) => addSwatch(row.label, `background:${row.color};border-color:#fff`));
+          addContext();
+          elements.legend.innerHTML = rows.join("");
+          return;
+        }
+        if (isTemporalMode()) {
+          addHeader("Evolución temporal");
+          addSwatch("Incidentes por mes", "background:#1d6fd8;border-color:#fff");
+          addContext();
+          elements.legend.innerHTML = rows.join("");
+          return;
+        }
+        if (isBoulevardsMode()) addHeader("Bulevares Seguros");
+        else if (isInstitutionalMode()) addHeader("Cobertura institucional");
+        else if (mode === "police") addHeader("Infraestructura policial");
+        else if (mode === "cameras") addHeader("Cámaras municipales");
+        else addHeader("Capas visibles");
+        addContext();
+        elements.legend.innerHTML = rows.join("") || "<p>No hay capas visibles.</p>";
+      };
 
       function renderDetail(event) {
         if (!event) {
@@ -3478,6 +3702,7 @@
           elements.togglePlatforms.checked && platformLayer ? platformLayer.addTo(map) : platformLayer && map.removeLayer(platformLayer);
           map.removeLayer(cameraCoverageLayer);
           bringVisibleContextToFront();
+          renderLegend();
           map.invalidateSize();
           return;
         }
@@ -3491,6 +3716,7 @@
         elements.togglePlatforms.checked && platformLayer ? platformLayer.addTo(map) : platformLayer && map.removeLayer(platformLayer);
         isCameraCoverageMode() ? cameraCoverageLayer.addTo(map) : map.removeLayer(cameraCoverageLayer);
         bringVisibleContextToFront();
+        renderLegend();
         map.invalidateSize();
       }
 
@@ -3843,49 +4069,61 @@
       }
 
       function renderCameraCoverageMiniMap(platform) {
-        const node = document.getElementById("coverageMiniMap");
+        renderTerritoryMiniMap("coverageMiniMap", platform);
+      }
+
+      function renderTerritoryMiniMap(containerId, platform) {
+        const node = document.getElementById(containerId);
         if (!node) return;
         if (detailMiniMap) {
           detailMiniMap.remove();
           detailMiniMap = null;
         }
-        detailMiniMap = L.map(node, { zoomControl: false, attributionControl: false, dragging: true, scrollWheelZoom: false });
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 20, className: "osm-gray-tile" }).addTo(detailMiniMap);
-        let feature = null;
-        if (platformGeojsonCache && platform) {
-          feature = (platformGeojsonCache.features || []).find((item) => item.properties?.platform_name === platform.platformName);
+        if (!platform || !platformGeojsonCache) {
+          node.innerHTML = "<p>Selecciona una Plataforma en el mapa</p>";
+          return;
         }
-        const miniCameras = coverageCameraSet(null);
-        if (manzanaLayer && platformStats && feature && platform) {
-          manzanaLayer.eachLayer((layer) => {
-            const man = layer.feature?.properties?.man;
-            if (platformStats.manToPlatform?.[man] === platform.platformName) {
-              L.geoJSON(layer.feature, { style: { color: "#7e8790", weight: 0.25, fillColor: "#f7f7f7", fillOpacity: 0.22 } }).addTo(detailMiniMap);
-            }
-          });
+        const feature = (platformGeojsonCache.features || []).find((item) => item.properties?.platform_name === platform.platformName);
+        if (!feature) {
+          node.innerHTML = "<p>No disponible</p>";
+          return;
         }
-        miniCameras.forEach((camera) => {
-          L.circle([camera.lat, camera.lng], {
-            radius: cameraCoverageScenario,
-            color: camera.requiresChange ? "#dc2626" : "#2f6f5f",
-            weight: 1,
-            fillColor: camera.requiresChange ? "#dc2626" : "#2f6f5f",
-            fillOpacity: 0.12,
-            opacity: 0.55,
-          }).addTo(detailMiniMap);
-          L.circleMarker([camera.lat, camera.lng], { radius: 4, color: "#fff", weight: 1, fillColor: camera.requiresChange ? "#dc2626" : "#1d4ed8", fillOpacity: 0.95 }).bindPopup(cameraPopup(camera)).addTo(detailMiniMap);
+        detailMiniMap = L.map(node, {
+          zoomControl: false,
+          attributionControl: false,
+          dragging: false,
+          scrollWheelZoom: false,
+          doubleClickZoom: false,
+          boxZoom: false,
+          keyboard: false,
+          tap: false
         });
-        if (feature) {
-          const selectedLayer = L.geoJSON(feature, { style: { color: "#111827", weight: 2, fillColor: "#2f6f5f", fillOpacity: 0.08 } }).addTo(detailMiniMap);
-          detailMiniMap.fitBounds(selectedLayer.getBounds().pad(0.25));
-        } else if (miniCameras.length) {
-          detailMiniMap.fitBounds(L.latLngBounds(miniCameras.map((camera) => [camera.lat, camera.lng])).pad(0.25));
-        } else if (platformLayer) {
-          detailMiniMap.fitBounds(platformLayer.getBounds().pad(0.12));
-        } else {
-          detailMiniMap.setView([-1.6636, -78.6546], 12);
-        }
-        setTimeout(() => detailMiniMap.invalidateSize(), 0);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 20, className: "osm-gray-tile" }).addTo(detailMiniMap);
+        L.geoJSON(platformGeojsonCache, {
+          interactive: false,
+          style: (item) => item.properties?.platform_name === platform.platformName
+            ? { color: "#111827", weight: 2.4, fillColor: "#2f6f5f", fillOpacity: 0.28 }
+            : { color: "#7e8790", weight: 0.7, fillColor: "#e8ede8", fillOpacity: 0.16 }
+        }).addTo(detailMiniMap);
+        const selectedLayer = L.geoJSON(feature, { interactive: false, style: { color: "#111827", weight: 2.8, fillColor: "#2f6f5f", fillOpacity: 0.34 } }).addTo(detailMiniMap);
+        L.marker(selectedLayer.getBounds().getCenter(), {
+          interactive: false,
+          icon: L.divIcon({
+            className: "",
+            html: `<span class="platform-label">${esc(platform.platform || platform.platformName.replace("PLATAFORMA ", ""))}</span>`,
+            iconSize: [34, 34],
+            iconAnchor: [17, 17],
+          })
+        }).addTo(detailMiniMap);
+        const fitTerritory = () => {
+          if (!detailMiniMap) return;
+          detailMiniMap.invalidateSize();
+          detailMiniMap.fitBounds(selectedLayer.getBounds(), { padding: [18, 18], maxZoom: 15 });
+        };
+        const observer = new ResizeObserver(() => fitTerritory());
+        observer.observe(node);
+        detailMiniMap.once("unload", () => observer.disconnect());
+        fitTerritory();
       }
 
       function renderCameraCoverageDetail() {
@@ -4047,7 +4285,7 @@
             ["Área Plataforma", platform ? `${platform.areaKm2} km²` : "Todas"]
           ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")}`;
         wireModulePlatformSelect();
-        if (platform) setTimeout(() => renderDetailMiniMap(platform), 0);
+        if (platform) renderDetailMiniMap(platform);
       }
 
       function renderInstitutionalDetail() {
@@ -4073,39 +4311,11 @@
             ["Área Plataforma", platform ? `${platform.areaKm2} km²` : "Todas"]
           ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")}`;
         wireModulePlatformSelect();
-        if (platform) setTimeout(() => renderDetailMiniMap(platform), 0);
+        if (platform) renderDetailMiniMap(platform);
       }
 
       function renderDetailMiniMap(platform) {
-        const node = document.getElementById("detailMiniMap");
-        if (!node || !platformGeojsonCache) return;
-        if (detailMiniMap) {
-          detailMiniMap.remove();
-          detailMiniMap = null;
-        }
-        const feature = (platformGeojsonCache.features || []).find((item) => item.properties?.platform_name === platform.platformName);
-        if (!feature) {
-          node.innerHTML = "<p>No disponible</p>";
-          return;
-        }
-        detailMiniMap = L.map(node, { zoomControl: false, attributionControl: false, dragging: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false });
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 20, className: "osm-gray-tile" }).addTo(detailMiniMap);
-        const platformMini = L.geoJSON(feature, { style: { color: "#263a33", weight: 2, fillColor: "#d8eadf", fillOpacity: 0.34 } }).addTo(detailMiniMap);
-        events.filter((event) => event.mappable && pointInsideFeature(feature, event.lng, event.lat)).forEach((event) => {
-          L.circleMarker([event.lat, event.lng], { radius: 4, color: "#fff", weight: 1, fillColor: "#c86670", fillOpacity: 0.9 }).addTo(detailMiniMap);
-        });
-        municipalCameras.filter((camera) => pointInsideFeature(feature, camera.lng, camera.lat)).forEach((camera) => {
-          L.circleMarker([camera.lat, camera.lng], { radius: 4, color: "#fff", weight: 1, fillColor: camera.requiresChange ? "#dc2626" : "#1d4ed8", fillOpacity: 0.9 }).addTo(detailMiniMap);
-        });
-        policeInfrastructure.filter((item) => {
-          const coords = item.geometry?.coordinates || [];
-          return pointInsideFeature(feature, coords[0], coords[1]);
-        }).forEach((item) => {
-          const coords = item.geometry.coordinates;
-          L.circleMarker([coords[1], coords[0]], { radius: 4, color: "#fff", weight: 1, fillColor: "#7c3aed", fillOpacity: 0.9 }).addTo(detailMiniMap);
-        });
-        detailMiniMap.fitBounds(platformMini.getBounds().pad(0.18));
-        setTimeout(() => detailMiniMap && detailMiniMap.invalidateSize(), 80);
+        renderTerritoryMiniMap("detailMiniMap", platform);
       }
 
       function selectPolice(code, pan) {
@@ -4370,7 +4580,7 @@
             });
           });
         });
-        setTimeout(() => renderDetailMiniMap(platform), 0);
+        renderDetailMiniMap(platform);
       }
 
       function selectPlatform(platformName, pan) {
@@ -4601,15 +4811,42 @@
         syncMapLayerVisibility();
       });
       elements.toggleBoulevards.addEventListener("change", syncMapLayerVisibility);
-      elements.toggleSatellite.addEventListener("change", () => {
-        if (elements.toggleSatellite.checked) {
+      const closeMapPopovers = (except = null) => {
+        if (except !== "layers") {
+          elements.layersPopover.hidden = true;
+          elements.layersButton.setAttribute("aria-expanded", "false");
+        }
+        if (except !== "legend") {
+          elements.legendPopover.hidden = true;
+          elements.legendButton.setAttribute("aria-expanded", "false");
+        }
+      };
+      elements.layersButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const open = elements.layersPopover.hidden;
+        closeMapPopovers(open ? "layers" : null);
+        elements.layersPopover.hidden = !open;
+        elements.layersButton.setAttribute("aria-expanded", String(open));
+      });
+      elements.legendButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        renderLegend();
+        const open = elements.legendPopover.hidden;
+        closeMapPopovers(open ? "legend" : null);
+        elements.legendPopover.hidden = !open;
+        elements.legendButton.setAttribute("aria-expanded", String(open));
+      });
+      elements.mapLayerControl.addEventListener("click", (event) => event.stopPropagation());
+      document.addEventListener("click", () => closeMapPopovers());
+      [elements.baseCartographic, elements.baseSatellite].forEach((control) => control.addEventListener("change", () => {
+        if (elements.baseSatellite.checked) {
           lightLayer.remove();
           satelliteLayer.addTo(map);
         } else {
           satelliteLayer.remove();
           lightLayer.addTo(map);
         }
-      });
+      }));
       elements.sidebarToggle.addEventListener("click", () => {
         elements.shell.classList.toggle("sidebar-collapsed");
         elements.sidebarToggle.setAttribute("aria-label", elements.shell.classList.contains("sidebar-collapsed") ? "Expandir menú" : "Contraer menú");
