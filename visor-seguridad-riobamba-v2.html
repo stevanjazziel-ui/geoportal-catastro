@@ -347,15 +347,15 @@
     .camera-marker.change { background: #dc2626; }
     .camera-marker.megaphone { border-color: #b88432; }
     .camera-marker.compact {
-      width: 12px;
-      height: 12px;
-      min-width: 12px;
+      width: 14px;
+      height: 14px;
+      min-width: 14px;
       border-radius: 50%;
       font-size: 0;
       border-width: 2px;
-      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.16);
+      box-shadow: 0 0 0 4px rgba(218, 166, 61, 0.42);
     }
-    .camera-marker.compact.change { box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.16); }
+    .camera-marker.compact.change { box-shadow: 0 0 0 4px rgba(218, 166, 61, 0.42); }
     .police-marker {
       display: grid;
       place-items: center;
@@ -1317,8 +1317,8 @@
           return {
             color: selected ? "#111827" : "#263a33",
             weight: selected ? 1.35 : 0.85,
-            fillColor: "#f3c84b",
-            fillOpacity: 0.42,
+            fillColor: "#e6b24f",
+            fillOpacity: 0.5,
             opacity: 0.78
           };
         }
@@ -1981,8 +1981,8 @@
           if (isCameraCoverageMode()) {
             elements.legend.innerHTML = `
               <div class="legend-row"><strong>Cobertura potencial ${cameraCoverageScenario} m</strong></div>
-              <div class="legend-row"><span class="legend-swatch" style="background:rgba(47,111,95,.22);border-color:#2f6f5f"></span>Buffer técnico de cámara</div>
-              <div class="legend-row"><span class="legend-swatch" style="background:rgba(243,200,75,.48);border-color:#263a33"></span>Manzana con cobertura potencial</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:rgba(217,164,65,.32);border-color:#d9a441"></span>Buffer técnico de cámara</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:rgba(230,178,79,.55);border-color:#263a33"></span>Manzana con cobertura potencial</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#edf1ed;border-color:#7e8790"></span>Manzana no cubierta</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#1d4ed8;border-color:#fff"></span>Cámara</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#dc2626;border-color:#fff"></span>Cámara prevista para cambio</div>
@@ -2258,11 +2258,11 @@
         coverageCameraSet(null).forEach((camera) => {
           L.circle([camera.lat, camera.lng], {
             radius: cameraCoverageScenario,
-            color: camera.requiresChange ? "#dc2626" : "#2f6f5f",
+            color: "#d9a441",
             weight: 1.8,
-            fillColor: camera.requiresChange ? "#dc2626" : "#2f6f5f",
-            fillOpacity: 0.16,
-            opacity: 0.72,
+            fillColor: "#d9a441",
+            fillOpacity: 0.22,
+            opacity: 0.7,
           }).bindPopup(`${cameraPopup(camera)}<div class="popup-row">Escenario: <strong>${cameraCoverageScenario} m</strong></div>`).addTo(cameraCoverageLayer);
         });
       }
