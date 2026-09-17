@@ -527,39 +527,15 @@
 
     /* ACTIVE UI: NEW ANALYSIS DASHBOARD
        Root: AppShell (.dashboard-shell)
-       Layout: TopHeader + Sidebar + AnalysisWorkspace
+       Layout: Sidebar + AnalysisWorkspace
        Shared components: KpiCard, ChartCard, DataTable, MiniMap, TerritoryDetailPanel. */
     .dashboard-shell {
       display: grid;
-      grid-template-rows: 54px minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr);
       height: 100dvh;
       background: #eef5f7;
       overflow: hidden;
     }
-    .topbar {
-      display: grid;
-      grid-template-columns: minmax(220px, 1fr) auto auto;
-      gap: 10px;
-      align-items: center;
-      padding: 0 14px 0 18px;
-      background: linear-gradient(90deg, #062844, #06375c);
-      border-bottom: 1px solid rgba(255,255,255,.16);
-      color: #fff;
-    }
-    .brand-block { display: grid; gap: 1px; }
-    .brand-block strong { display: block; font-size: 1rem; letter-spacing: .03em; }
-    .brand-block span { color: rgba(255,255,255,.72); font-size: .78rem; }
-    .period-pill {
-      display: grid;
-      gap: 1px;
-      min-width: 180px;
-      padding: 6px 11px;
-      border: 1px solid rgba(255,255,255,.24);
-      border-radius: 8px;
-      background: rgba(255,255,255,.07);
-    }
-    .period-pill span { color: rgba(255,255,255,.7); font-size: .68rem; }
-    .period-pill strong { font-size: .82rem; line-height: 1.1; }
     .header-action {
       width: auto;
       border: 1px solid rgba(255,255,255,.18);
@@ -582,10 +558,6 @@
     .dashboard-shell.sidebar-collapsed .dashboard-main {
       grid-template-columns: 64px minmax(0, 1fr);
     }
-    .dashboard-shell.analysis-fullscreen {
-      grid-template-rows: 0 minmax(0, 1fr);
-    }
-    .dashboard-shell.analysis-fullscreen .topbar,
     .dashboard-shell.analysis-fullscreen .analysis-nav {
       display: none;
     }
@@ -731,6 +703,7 @@
       font-size: .78rem;
       line-height: 1.25;
     }
+    #analysisPeriod { color: #42698d; }
     .workspace-actions { display: flex; gap: 8px; flex: 0 0 auto; }
     .workspace-actions .header-action {
       min-height: 34px;
@@ -797,7 +770,7 @@
       grid-template-columns: minmax(0, 2.05fr) minmax(300px, .78fr);
       gap: 12px;
       align-items: stretch;
-      height: clamp(540px, 62vh, 720px);
+      height: clamp(580px, calc(100dvh - 230px), 820px);
       min-height: 0;
     }
     .map-panel {
@@ -858,7 +831,7 @@
     .analysis-grid > .chart-panel:only-child { grid-column: 1 / -1; }
     .analysis-workspace.layout-map-analytics .map-detail-grid {
       grid-template-columns: minmax(0, 1.7fr) minmax(340px, .9fr);
-      height: clamp(500px, 56vh, 650px);
+      height: clamp(560px, calc(100dvh - 250px), 760px);
     }
     .analysis-workspace.layout-map-analytics .map-wrap {
       height: 100%;
@@ -1002,7 +975,6 @@
       .kpi-row .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
     @media (max-width: 1100px) {
-      .topbar { grid-template-columns: minmax(0, 1fr) auto auto; }
       .dashboard-main { grid-template-columns: 1fr; overflow: hidden; }
       .analysis-nav { display: none; }
       .analysis-workspace { padding: 12px; }
@@ -1021,12 +993,6 @@
 </head>
 <body>
   <div class="dashboard-shell">
-    <header class="topbar">
-      <div class="brand-block"><strong>SEGURIDAD CIUDADANA</strong><span>Diagnóstico Territorial - Riobamba</span></div>
-      <div class="period-pill"><span>Periodo de análisis</span><strong id="topPeriod">-</strong></div>
-      <button class="header-action" id="fullscreenAnalysisButton" type="button">⛶</button>
-    </header>
-
     <div class="dashboard-main">
       <nav class="analysis-nav" aria-label="Sidebar">
         <div class="sidebar-head">
@@ -1090,10 +1056,11 @@
         <section class="workspace-head">
           <div class="workspace-title">
             <h1 id="overlayTitle">Concentración de incidentes</h1>
-            <p id="overlayText">Superficie continua calculada desde incidentes georreferenciados válidos.</p>
+            <p><span id="overlayText">Superficie continua calculada desde incidentes georreferenciados válidos.</span><span id="analysisPeriod"></span></p>
           </div>
           <div class="workspace-actions">
             <button class="header-action" id="methodologyButton" type="button">Metodología</button>
+            <button class="header-action" id="fullscreenAnalysisButton" type="button">⛶</button>
           </div>
         </section>
 
@@ -1299,6 +1266,7 @@
         status: document.getElementById("statusText"),
         overlayTitle: document.getElementById("overlayTitle"),
         overlayText: document.getElementById("overlayText"),
+        analysisPeriod: document.getElementById("analysisPeriod"),
         giHotspotControls: document.getElementById("giHotspotControls"),
         giSignificance: document.getElementById("giSignificanceSelect"),
         giType: document.getElementById("giTypeSelect"),
@@ -1342,7 +1310,16 @@
       const invalidateMapLayout = () => {
         requestAnimationFrame(() => {
           map.invalidateSize();
-          if (detailMiniMap) detailMiniMap.invalidateSize();
+          if (detailMiniMap) {
+            detailMiniMap.invalidateSize();
+            if (selectedPlatform && platformLayer) {
+              platformLayer.eachLayer((layer) => {
+                if (layer.feature?.properties?.platform_name === selectedPlatform) {
+                  detailMiniMap.fitBounds(layer.getBounds(), { padding: [18, 18], maxZoom: 15 });
+                }
+              });
+            }
+          }
         });
       };
       let platformLayer = null;
@@ -1472,7 +1449,7 @@
       };
       const renderTopbar = () => {
         const dated = events.map((event) => event.date).filter(Boolean).sort();
-        setText("topPeriod", dated.length ? `${formatDate(dated[0])} - ${formatDate(dated.at(-1))}` : "N/D");
+        setText("analysisPeriod", dated.length ? ` · Periodo: ${formatDate(dated[0])} - ${formatDate(dated.at(-1))}` : " · Periodo: N/D");
       };
       const methodRowsHtml = (rows) => rows.map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
       const crsHtml = () => `
@@ -5034,7 +5011,7 @@
       });
       elements.fullscreenAnalysis.addEventListener("click", () => {
         elements.shell.classList.toggle("analysis-fullscreen");
-        elements.fullscreenAnalysis.textContent = elements.shell.classList.contains("analysis-fullscreen") ? "⛶ Salir" : "⛶ Pantalla completa";
+        elements.fullscreenAnalysis.textContent = elements.shell.classList.contains("analysis-fullscreen") ? "Salir" : "⛶";
         invalidateMapLayout();
       });
       window.addEventListener("resize", invalidateMapLayout);
