@@ -590,9 +590,9 @@
         <button class="mode-button" id="policeAccessibilityMode" type="button">● Accesibilidad policial</button>
         <button class="mode-button" id="camerasMode" type="button">Videovigilancia</button>
         <button class="mode-button" id="cameraCoverageMode" type="button">● Cobertura potencial de cámaras</button>
-        <button type="button" disabled>Cobertura poblacional · Próximamente</button>
-        <button type="button" disabled>Bulevares Seguros · Próximamente</button>
-        <button type="button" disabled>Cobertura institucional · Próximamente</button>
+        <button class="mode-button" id="populationCoverageMode" type="button">● Cobertura poblacional</button>
+        <button class="mode-button" id="boulevardsMode" type="button">● Bulevares Seguros</button>
+        <button class="mode-button" id="institutionalCoverageMode" type="button">● Cobertura institucional</button>
         <h2>Brechas</h2>
         <button type="button" disabled>Déficit potencial de videovigilancia · Próximamente</button>
         <button type="button" disabled>Concentraciones con baja cobertura · Próximamente</button>
@@ -734,6 +734,9 @@
         ecuMode: document.getElementById("ecuMode"),
         camerasMode: document.getElementById("camerasMode"),
         cameraCoverageMode: document.getElementById("cameraCoverageMode"),
+        populationCoverageMode: document.getElementById("populationCoverageMode"),
+        boulevardsMode: document.getElementById("boulevardsMode"),
+        institutionalCoverageMode: document.getElementById("institutionalCoverageMode"),
         cameraCoverageControls: document.getElementById("cameraCoverageControls"),
         policeMode: document.getElementById("policeMode"),
         policeAccessibilityMode: document.getElementById("policeAccessibilityMode"),
@@ -791,7 +794,10 @@
       let cameraCoverageCacheKey = "";
       let cameraCoverageCache = null;
       const isKdeMode = () => mode === "diagnosis" && diagnosisMetric === "hotspots";
-      const isCameraCoverageMode = () => mode === "diagnosis" && diagnosisMetric === "cameraCoverage";
+      const isPopulationCoverageMode = () => mode === "diagnosis" && diagnosisMetric === "populationCoverage";
+      const isCameraCoverageMode = () => mode === "diagnosis" && ["cameraCoverage", "populationCoverage"].includes(diagnosisMetric);
+      const isBoulevardsMode = () => mode === "diagnosis" && diagnosisMetric === "boulevards";
+      const isInstitutionalMode = () => mode === "diagnosis" && diagnosisMetric === "institutionalDashboard";
       const markers = new Map();
       const parishMarkers = new Map();
       const cameraMarkers = new Map();
@@ -1181,7 +1187,9 @@
         const uncovered = selectedRows.reduce((sum, row) => sum + row.uncoveredPopulation, 0);
         const area = selectedRows.reduce((sum, row) => sum + row.areaKm2, 0);
         const coveredArea = selectedRows.reduce((sum, row) => sum + row.coveredAreaKm2, 0);
-        return { rows, population, camerasCount, changeCount, covered, partial, uncovered, area, coveredArea, coveredPct: coveragePercent(covered, population), partialPct: coveragePercent(partial, population), coveredAreaPct: coveragePercent(coveredArea, area) };
+        const manzanas = selectedRows.reduce((sum, row) => sum + row.coveredManzanas + row.partialManzanas + row.uncoveredManzanas, 0);
+        const coveredManzanas = selectedRows.reduce((sum, row) => sum + row.coveredManzanas + row.partialManzanas, 0);
+        return { rows, population, camerasCount, changeCount, covered, partial, uncovered, area, coveredArea, manzanas, coveredManzanas, coveredPct: coveragePercent(covered, population), partialPct: coveragePercent(partial, population), coveredAreaPct: coveragePercent(coveredArea, area) };
       };
       const syncCoverageControls = () => {
         if (!elements.cameraCoverageControls) return;
@@ -1619,13 +1627,53 @@
             const camerasVisible = coverageCameraSet(selectedPlatform).length;
             const changeVisible = cameras.filter((camera) => camera.requiresChange && cameraInPlatform(camera, selectedPlatform)).length;
             const cameraRate = totals.population ? (camerasVisible / totals.population * 10000).toFixed(2) : "N/D";
+            const rows = isPopulationCoverageMode()
+              ? [
+                ["Población analizada", `${fmt(totals.population)} hab.`],
+                ["Población potencialmente cubierta", `${fmt(Math.round(totals.covered || 0))} hab. (${totals.coveredPct || 0}%)`],
+                ["Población fuera de cobertura", `${fmt(Math.round(totals.uncovered || 0))} hab. (${totals.coveredPct == null ? 0 : (100 - totals.coveredPct).toFixed(1)}%)`],
+                ["Manzanas analizadas", fmt(totals.manzanas || 0)],
+                ["Manzanas con cobertura", fmt(totals.coveredManzanas || 0)]
+              ]
+              : [
+                ["Total de cámaras", camerasVisible],
+                ["Cámaras para cambio", changeVisible],
+                ["Población analizada", `${fmt(totals.population)} habitantes`],
+                ["Cámaras / 10.000 hab.", cameraRate],
+                ["Población potencialmente cubierta", totals.coveredPct == null ? "No disponible" : `${totals.coveredPct}%`],
+                ["Área potencialmente cubierta", totals.coveredArea == null ? "No disponible" : `${totals.coveredArea.toFixed(2)} km² / ${totals.coveredAreaPct}%`]
+              ];
+            elements.summary.innerHTML = rows.map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+            return;
+          }
+          if (isBoulevardsMode()) {
+            const visible = filteredPlatforms();
+            const population = visible.reduce((sum, platform) => sum + Number(platform.population || 0), 0);
+            const nearPop = visible.reduce((sum, platform) => sum + Number(platform.populationNearBoulevard || 0), 0);
             elements.summary.innerHTML = [
-              ["Total de cámaras", camerasVisible],
-              ["Cámaras para cambio", changeVisible],
-              ["Población analizada", `${fmt(totals.population)} habitantes`],
-              ["Cámaras / 10.000 hab.", cameraRate],
-              ["Población potencialmente cubierta", totals.coveredPct == null ? "No disponible" : `${totals.coveredPct}%`],
-              ["Área potencialmente cubierta", totals.coveredArea == null ? "No disponible" : `${totals.coveredArea.toFixed(2)} km² / ${totals.coveredAreaPct}%`]
+              ["Longitud total de bulevares", `${(visible.reduce((sum, platform) => sum + Number(platform.boulevardTotalLengthM || 0), 0) / 1000).toFixed(2)} km`],
+              ["Plataformas intersectadas", visible.filter((platform) => Number(platform.boulevardTotalLengthM || 0) > 0).length],
+              ["Población cercana a red", `${fmt(nearPop)} (${population ? (nearPop / population * 100).toFixed(1) : 0}%)`],
+              ["Cámaras cerca de red", visible.reduce((sum, platform) => sum + Number(platform.camerasNearBoulevard || 0), 0)],
+              ["Infraestructura policial", visible.reduce((sum, platform) => sum + Number(platform.policeInfrastructure || 0), 0)],
+              ["Incidentes cerca de red", visible.reduce((sum, platform) => sum + Number(platform.incidentsNearBoulevard || 0), 0)]
+            ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+            return;
+          }
+          if (isInstitutionalMode()) {
+            const visible = filteredPlatforms();
+            const population = visible.reduce((sum, platform) => sum + Number(platform.population || 0), 0);
+            const covered = visible.reduce((sum, platform) => sum + Number(platform.cameraCoveredPopulation200 || platform.cameraCoveredPopulation || 0), 0);
+            const weightedDist = visible.reduce((sum, platform) => sum + Number(platform.avgPopulationDistancePoliceM || 0) * Number(platform.population || 0), 0);
+            elements.summary.innerHTML = [
+              ["Población", `${fmt(population)} hab.`],
+              ["Infraestructura policial", visible.reduce((sum, platform) => sum + Number(platform.policeInfrastructure || 0), 0)],
+              ["UPC", (policeAccessibility.table || []).reduce((sum, row) => sum + Number(row.NUM_UPC || 0), 0)],
+              ["Cámaras", visible.reduce((sum, platform) => sum + Number(platform.cameras || 0), 0)],
+              ["Cámaras para cambio", visible.reduce((sum, platform) => sum + Number(platform.camerasReplacement || 0), 0)],
+              ["Población cubierta", `${fmt(covered)} / ${population ? (covered / population * 100).toFixed(1) : 0}%`],
+              ["Bulevares", `${(visible.reduce((sum, platform) => sum + Number(platform.boulevardTotalLengthM || 0), 0) / 1000).toFixed(2)} km`],
+              ["Distancia media a infraestructura", `${population ? Math.round(weightedDist / population) : 0} m`]
             ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
             return;
           }
@@ -1729,6 +1777,14 @@
         }
         if (isCameraCoverageMode()) {
           renderCameraCoverageGraphics();
+          return;
+        }
+        if (isBoulevardsMode()) {
+          renderBoulevardGraphics();
+          return;
+        }
+        if (isInstitutionalMode()) {
+          renderInstitutionalGraphics();
           return;
         }
         if (isKdeMode()) {
@@ -1960,6 +2016,92 @@
         URL.revokeObjectURL(url);
       }
 
+      function renderBoulevardGraphics() {
+        const rows = filteredPlatforms().map((platform) => ({
+          platform,
+          lengthKm: Number(platform.boulevardTotalLengthM || 0) / 1000,
+          density: Number(platform.boulevardDensityMPerKm2 || 0) / 1000,
+          populationNear: Number(platform.populationNearBoulevard || 0),
+          camerasNear: Number(platform.camerasNearBoulevard || 0),
+          police: Number(platform.policeInfrastructure || 0),
+          incidentsNear: Number(platform.incidentsNearBoulevard || 0),
+        }));
+        const population = rows.reduce((sum, row) => sum + Number(row.platform.population || 0), 0);
+        const near = rows.reduce((sum, row) => sum + row.populationNear, 0);
+        const tableRows = rows.map((row) => `
+          <tr class="selectable-row" data-platform-row="${esc(row.platform.platformName)}">
+            <td>${esc(row.platform.platform)}</td>
+            <td>${row.lengthKm.toFixed(2)}</td>
+            <td>${row.density.toFixed(2)}</td>
+            <td>${fmt(row.populationNear)}</td>
+            <td>${fmt(row.camerasNear)}</td>
+            <td>${fmt(row.police)}</td>
+            <td>${fmt(row.incidentsNear)}</td>
+          </tr>`).join("");
+        elements.graphicAnalysis.innerHTML = `
+          <div class="graphic-card">
+            <h3>Población según proximidad a Bulevares</h3>
+            <div class="coverage-donut" style="--covered:${population ? near / population * 100 : 0}%;--partial:${population ? near / population * 100 : 0}%"><strong>${fmt(population)}<br>hab.</strong></div>
+            <div class="mini-row"><span><span class="legend-swatch" style="background:#2f6f5f;border-color:#7e8790"></span>Cercana a red</span><strong>${fmt(near)} (${population ? (near / population * 100).toFixed(1) : 0}%)</strong></div>
+            <div class="mini-row"><span><span class="legend-swatch" style="background:#e8ede8;border-color:#7e8790"></span>Resto de población</span><strong>${fmt(Math.max(0, population - near))}</strong></div>
+          </div>
+          ${metricBars("Longitud de Bulevares por Plataforma", rows.map((row) => ({ label: row.platform.platform, value: Number(row.lengthKm.toFixed(2)), color: "#1d6fd8" })), Math.max(...rows.map((row) => row.lengthKm), 1), "#1d6fd8")}
+          <div class="graphic-card">
+            <h3>Indicadores de Bulevares por Plataforma</h3>
+            <table class="mini-table"><thead><tr><th>Plat.</th><th>Long. km</th><th>Dens.</th><th>Pob. cercana</th><th>Cámaras</th><th>Infra.</th><th>Incid.</th></tr></thead><tbody>${tableRows}</tbody></table>
+          </div>
+        `;
+        document.querySelectorAll("[data-platform-row]").forEach((row) => row.addEventListener("click", () => selectPlatform(row.dataset.platformRow, true)));
+      }
+
+      function renderInstitutionalGraphics() {
+        const accessByPlatform = Object.fromEntries((policeAccessibility.table || []).map((row) => [row.PLATFORM_NAME, row]));
+        const rows = filteredPlatforms().map((platform) => {
+          const access = accessByPlatform[platform.platformName] || {};
+          const population = Number(platform.population || 0);
+          return {
+            platform,
+            population,
+            police: Number(platform.policeInfrastructure || 0),
+            upc: Number(access.NUM_UPC || 0),
+            inf10k: access.INF_10K ?? (population ? (Number(platform.policeInfrastructure || 0) / population * 10000).toFixed(2) : 0),
+            upc10k: access.UPC_10K ?? 0,
+            cameras: Number(platform.cameras || 0),
+            change: Number(platform.camerasReplacement || 0),
+            cameras10k: population ? (Number(platform.cameras || 0) / population * 10000).toFixed(2) : 0,
+            coveredPct: Number(platform.cameraCoveragePctByRadius?.["200"] ?? platform.cameraCoveredPopulationPct ?? 0),
+            boulevardKm: Number(platform.boulevardTotalLengthM || 0) / 1000,
+            distance: access.DIST_MEDIA ?? platform.avgPopulationDistancePoliceM ?? "N/D",
+          };
+        });
+        const selected = selectedPlatform ? rows.find((row) => row.platform.platformName === selectedPlatform) : rows[0];
+        const profile = selected ? [
+          ["Infraestructura / 10k", selected.inf10k, "#1d6fd8"],
+          ["UPC / 10k", selected.upc10k, "#0f766e"],
+          ["Cámaras / 10k", selected.cameras10k, "#2563eb"],
+          ["% población cubierta", `${selected.coveredPct}%`, "#2f6f5f"],
+          ["Bulevares km", selected.boulevardKm.toFixed(2), "#1d6fd8"],
+          ["Distancia media m", selected.distance, "#a855f7"],
+        ] : [];
+        const tableRows = rows.map((row) => `
+          <tr class="selectable-row" data-platform-row="${esc(row.platform.platformName)}">
+            <td>${esc(row.platform.platform)}</td><td>${fmt(row.population)}</td><td>${fmt(row.police)}</td><td>${fmt(row.upc)}</td>
+            <td>${row.inf10k}</td><td>${row.upc10k}</td><td>${fmt(row.cameras)}</td><td>${fmt(row.change)}</td>
+            <td>${row.cameras10k}</td><td>${row.coveredPct}%</td><td>${row.boulevardKm.toFixed(2)}</td><td>${esc(row.distance)}</td>
+          </tr>`).join("");
+        elements.graphicAnalysis.innerHTML = `
+          <div class="graphic-card">
+            <h3>Perfil institucional ${selected ? `(${esc(selected.platform.platform)})` : ""}</h3>
+            ${profile.map(([label, value, color]) => `<div class="metric-bar"><div class="metric-label"><span>${esc(label)}</span><strong>${esc(value)}</strong></div><div class="metric-track"><div class="metric-fill" style="width:70%;--metric-color:${color}"></div></div></div>`).join("")}
+          </div>
+          <div class="graphic-card">
+            <h3>Cobertura institucional por Plataforma</h3>
+            <table class="mini-table"><thead><tr><th>Plat.</th><th>Pob.</th><th>Inf.</th><th>UPC</th><th>Inf/10k</th><th>UPC/10k</th><th>Cám.</th><th>Cambio</th><th>Cám/10k</th><th>% cub.</th><th>Boul. km</th><th>Dist.</th></tr></thead><tbody>${tableRows}</tbody></table>
+          </div>
+        `;
+        document.querySelectorAll("[data-platform-row]").forEach((row) => row.addEventListener("click", () => selectPlatform(row.dataset.platformRow, true)));
+      }
+
       function renderKdeGraphicPanel() {
         const counts = countBy(kdeValidation.kdeInputPoints || [], "platform");
         const rows = Object.entries(counts)
@@ -1978,6 +2120,29 @@
 
       function renderLegend() {
         if (mode === "diagnosis") {
+          if (isBoulevardsMode()) {
+            elements.legend.innerHTML = `
+              <div class="legend-row"><span class="legend-swatch" style="background:#277a52;border-color:#277a52"></span>Bulevares Seguros</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#4a74a5;border-color:#4a74a5"></span>Conexiones</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#1d4ed8;border-color:#fff"></span>Cámara</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#dc2626;border-color:#fff"></span>Cámara para cambio</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#7c3aed;border-color:#fff"></span>Infraestructura policial</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:2px solid #263a33"></span>Plataforma</div>
+            `;
+            return;
+          }
+          if (isInstitutionalMode()) {
+            elements.legend.innerHTML = `
+              <div class="legend-row"><strong>Recursos institucionales</strong></div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#7c3aed;border-color:#fff"></span>Infraestructura policial / UPC</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#1d4ed8;border-color:#fff"></span>Cámara operativa</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#dc2626;border-color:#fff"></span>Cámara para cambio</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#277a52;border-color:#277a52"></span>Bulevares</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:rgba(217,164,65,.32);border-color:#d9a441"></span>Cobertura potencial</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:2px solid #263a33"></span>Plataforma</div>
+            `;
+            return;
+          }
           if (isCameraCoverageMode()) {
             elements.legend.innerHTML = `
               <div class="legend-row"><strong>Cobertura potencial ${cameraCoverageScenario} m</strong></div>
@@ -2235,7 +2400,7 @@
         cameraLayer.clearLayers();
         cameraMarkers.clear();
         filteredCameras().forEach((camera) => {
-          const compact = isCameraCoverageMode();
+          const compact = isCameraCoverageMode() || isBoulevardsMode() || isInstitutionalMode();
           const marker = L.marker([camera.lat, camera.lng], {
             icon: L.divIcon({
               className: "",
@@ -2395,6 +2560,26 @@
         elements.togglePlatforms.checked = true;
       }
 
+      function setBoulevardContextLayers() {
+        elements.toggleEvents.checked = false;
+        elements.toggleParishes.checked = false;
+        elements.toggleCameras.checked = true;
+        elements.togglePoliceInfrastructure.checked = true;
+        elements.toggleManzanas.checked = false;
+        elements.toggleBoulevards.checked = true;
+        elements.togglePlatforms.checked = true;
+      }
+
+      function setInstitutionalContextLayers() {
+        elements.toggleEvents.checked = false;
+        elements.toggleParishes.checked = false;
+        elements.toggleCameras.checked = true;
+        elements.togglePoliceInfrastructure.checked = true;
+        elements.toggleManzanas.checked = false;
+        elements.toggleBoulevards.checked = true;
+        elements.togglePlatforms.checked = true;
+      }
+
       function activateDiagnosisMetric(metric) {
         mode = "diagnosis";
         diagnosisMetric = metric;
@@ -2406,7 +2591,9 @@
         if (metric === "hotspots") setKdeDefaultContextLayers();
         if (isBlockOneMetric()) setBlockOneContextLayers(metric);
         if (metric === "policeAccessibility") setPoliceAccessibilityContextLayers();
-        if (metric === "cameraCoverage") setCameraCoverageContextLayers();
+        if (metric === "cameraCoverage" || metric === "populationCoverage") setCameraCoverageContextLayers();
+        if (metric === "boulevards") setBoulevardContextLayers();
+        if (metric === "institutionalDashboard") setInstitutionalContextLayers();
         syncCoverageControls();
         syncModeButtons();
         update();
@@ -2444,6 +2631,10 @@
         } else if (mode === "diagnosis") {
           if (isCameraCoverageMode()) {
             renderCameraCoverageDetail();
+          } else if (isBoulevardsMode()) {
+            renderBoulevardDetail();
+          } else if (isInstitutionalMode()) {
+            renderInstitutionalDetail();
           } else {
             renderPlatformDetail(selectedPlatform);
           }
@@ -2470,10 +2661,20 @@
             const totals = cameraCoverageTotals();
             elements.overlayTitle.textContent = "Cobertura potencial de cámaras";
             elements.overlayText.textContent = `Escenario ${cameraCoverageScenario} m · ${cameraCoverageSet === "change" ? "cámaras previstas para cambio" : "todas las cámaras"} · ${totals.coveredPct == null ? "cobertura poblacional no disponible para este subconjunto" : `${totals.coveredPct}% de población potencialmente cubierta`}.`;
+          } else if (isBoulevardsMode()) {
+            elements.overlayTitle.textContent = "Bulevares Seguros";
+            elements.overlayText.textContent = "Red de Bulevares y conexiones con cámaras, infraestructura policial y Plataformas Territoriales.";
+          } else if (isInstitutionalMode()) {
+            elements.overlayTitle.textContent = "Cobertura institucional";
+            elements.overlayText.textContent = "Integración territorial de infraestructura policial, videovigilancia y Bulevares Seguros.";
           }
           if (isCameraCoverageMode()) {
             const totals = cameraCoverageTotals();
             elements.status.textContent = `Cobertura potencial de cámaras: ${cameraCoverageScenario} m, ${cameraCoverageSet === "change" ? "cámaras previstas para cambio" : "todas las cámaras"}, ${fmt(Math.round(totals.covered || 0))} habitantes potencialmente cubiertos.`;
+          } else if (isBoulevardsMode()) {
+            elements.status.textContent = "Bulevares Seguros: red, recursos próximos e indicadores por Plataforma.";
+          } else if (isInstitutionalMode()) {
+            elements.status.textContent = "Cobertura institucional: infraestructura policial, cámaras, bulevares y cobertura poblacional integrada.";
           } else {
             elements.status.textContent = `Fases integradas: ${diagnosis.summary?.platforms || 18} plataformas territoriales, ${fmt(diagnosis.summary?.populationWithPlatform)} habitantes asignados, ${fmt(diagnosis.summary?.hotspots || 0)} hotspots preliminares y ${fmt(diagnosis.summary?.videoDeficitHighOrCritical || 0)} plataformas con déficit alto/crítico.`;
           }
@@ -2716,6 +2917,70 @@
           update();
         });
         renderCameraCoverageMiniMap(platform);
+      }
+
+      function modulePlatformOptions() {
+        return [`<option value="">Todas las Plataformas</option>`].concat(filteredPlatforms().map((item) => `<option value="${esc(item.platformName)}" ${item.platformName === selectedPlatform ? "selected" : ""}>${esc(item.platform)}</option>`)).join("");
+      }
+
+      function wireModulePlatformSelect() {
+        const select = document.getElementById("modulePlatformSelect");
+        if (!select) return;
+        select.addEventListener("change", () => {
+          selectedPlatform = select.value || null;
+          update();
+          if (selectedPlatform && platformLayer) platformLayer.eachLayer((layer) => {
+            if (layer.feature?.properties?.platform_name === selectedPlatform) map.fitBounds(layer.getBounds().pad(0.18), { maxZoom: 15 });
+          });
+        });
+      }
+
+      function renderBoulevardDetail() {
+        const platform = selectedPlatform ? platformRecord(selectedPlatform) : null;
+        const rows = platform ? [platform] : filteredPlatforms();
+        const population = rows.reduce((sum, row) => sum + Number(row.population || 0), 0);
+        const near = rows.reduce((sum, row) => sum + Number(row.populationNearBoulevard || 0), 0);
+        elements.detailTitle.textContent = "Detalle de Plataforma";
+        elements.detail.innerHTML = `
+          <select id="modulePlatformSelect">${modulePlatformOptions()}</select>
+          ${platform ? '<div class="detail-mini-map" id="detailMiniMap"></div>' : ''}
+          ${[
+            ["Longitud de Bulevares", `${(rows.reduce((sum, row) => sum + Number(row.boulevardTotalLengthM || 0), 0) / 1000).toFixed(2)} km`],
+            ["Densidad", platform ? `${(Number(platform.boulevardDensityMPerKm2 || 0) / 1000).toFixed(2)} km/km²` : "Seleccione una Plataforma"],
+            ["Población cercana a red", `${fmt(near)} (${population ? (near / population * 100).toFixed(1) : 0}%)`],
+            ["Cámaras cerca de red", rows.reduce((sum, row) => sum + Number(row.camerasNearBoulevard || 0), 0)],
+            ["Infraestructura policial", rows.reduce((sum, row) => sum + Number(row.policeInfrastructure || 0), 0)],
+            ["Incidentes cerca de red", rows.reduce((sum, row) => sum + Number(row.incidentsNearBoulevard || 0), 0)],
+            ["Área Plataforma", platform ? `${platform.areaKm2} km²` : "Todas"]
+          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")}`;
+        wireModulePlatformSelect();
+        if (platform) setTimeout(() => renderDetailMiniMap(platform), 0);
+      }
+
+      function renderInstitutionalDetail() {
+        const platform = selectedPlatform ? platformRecord(selectedPlatform) : null;
+        const rows = platform ? [platform] : filteredPlatforms();
+        const accessByPlatform = Object.fromEntries((policeAccessibility.table || []).map((row) => [row.PLATFORM_NAME, row]));
+        const access = platform ? accessByPlatform[platform.platformName] || {} : {};
+        const population = rows.reduce((sum, row) => sum + Number(row.population || 0), 0);
+        const covered = rows.reduce((sum, row) => sum + Number(row.cameraCoveredPopulation200 || row.cameraCoveredPopulation || 0), 0);
+        elements.detailTitle.textContent = "Detalle de Plataforma";
+        elements.detail.innerHTML = `
+          <select id="modulePlatformSelect">${modulePlatformOptions()}</select>
+          ${platform ? '<div class="detail-mini-map" id="detailMiniMap"></div>' : ''}
+          ${[
+            ["Población", `${fmt(population)} hab.`],
+            ["Infraestructura policial", rows.reduce((sum, row) => sum + Number(row.policeInfrastructure || 0), 0)],
+            ["UPC", platform ? Number(access.NUM_UPC || 0) : (policeAccessibility.table || []).reduce((sum, row) => sum + Number(row.NUM_UPC || 0), 0)],
+            ["Cámaras", rows.reduce((sum, row) => sum + Number(row.cameras || 0), 0)],
+            ["Cámaras para cambio", rows.reduce((sum, row) => sum + Number(row.camerasReplacement || 0), 0)],
+            ["Población cubierta", `${fmt(covered)} (${population ? (covered / population * 100).toFixed(1) : 0}%)`],
+            ["Longitud Bulevares", `${(rows.reduce((sum, row) => sum + Number(row.boulevardTotalLengthM || 0), 0) / 1000).toFixed(2)} km`],
+            ["Distancia media a infraestructura", platform ? `${access.DIST_MEDIA ?? platform.avgPopulationDistancePoliceM ?? "N/D"} m` : "Seleccione una Plataforma"],
+            ["Área Plataforma", platform ? `${platform.areaKm2} km²` : "Todas"]
+          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")}`;
+        wireModulePlatformSelect();
+        if (platform) setTimeout(() => renderDetailMiniMap(platform), 0);
       }
 
       function renderDetailMiniMap(platform) {
@@ -2983,6 +3248,10 @@
         syncModeButtons();
         if (isCameraCoverageMode()) {
           renderCameraCoverageDetail();
+        } else if (isBoulevardsMode()) {
+          renderBoulevardDetail();
+        } else if (isInstitutionalMode()) {
+          renderInstitutionalDetail();
         } else {
           renderPlatformDetail(platformName);
         }
@@ -3013,14 +3282,17 @@
         elements.eventsMode.classList.toggle("is-active", mode === "events");
         elements.ecuMode.classList.toggle("is-active", mode === "ecu");
         elements.camerasMode.classList.toggle("is-active", mode === "cameras");
-        elements.cameraCoverageMode.classList.toggle("is-active", isCameraCoverageMode());
+        elements.cameraCoverageMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "cameraCoverage");
+        elements.populationCoverageMode.classList.toggle("is-active", isPopulationCoverageMode());
+        elements.boulevardsMode.classList.toggle("is-active", isBoulevardsMode());
+        elements.institutionalCoverageMode.classList.toggle("is-active", isInstitutionalMode());
         elements.policeMode.classList.toggle("is-active", mode === "police");
         elements.policeAccessibilityMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "policeAccessibility");
         elements.populationMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "population");
         elements.populationDensityMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "populationDensity");
         elements.platformIncidentsMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "incidentCount");
         elements.incidentRateMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "incidentRate");
-        elements.diagnosisMode.classList.toggle("is-active", mode === "diagnosis" && !["hotspots", "population", "populationDensity", "incidentCount", "incidentRate", "cameraCoverage"].includes(diagnosisMetric));
+        elements.diagnosisMode.classList.toggle("is-active", mode === "diagnosis" && !["hotspots", "population", "populationDensity", "incidentCount", "incidentRate", "cameraCoverage", "populationCoverage", "boulevards", "institutionalDashboard"].includes(diagnosisMetric));
         elements.kdeAnalysis.classList.toggle("is-active", isKdeMode());
       }
 
@@ -3128,6 +3400,9 @@
       elements.incidentRateMode.addEventListener("click", () => activateDiagnosisMetric("incidentRate"));
       elements.policeAccessibilityMode.addEventListener("click", () => activateDiagnosisMetric("policeAccessibility"));
       elements.cameraCoverageMode.addEventListener("click", () => activateDiagnosisMetric("cameraCoverage"));
+      elements.populationCoverageMode.addEventListener("click", () => activateDiagnosisMetric("populationCoverage"));
+      elements.boulevardsMode.addEventListener("click", () => activateDiagnosisMetric("boulevards"));
+      elements.institutionalCoverageMode.addEventListener("click", () => activateDiagnosisMetric("institutionalDashboard"));
       elements.kdeAnalysis.addEventListener("click", () => activateDiagnosisMetric("hotspots"));
       elements.eventsMode.addEventListener("click", () => { mode = "events"; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
       elements.ecuMode.addEventListener("click", () => { mode = "ecu"; selectedId = null; selectedCamera = null; selectedPlatform = null; syncModeButtons(); update(); });
