@@ -3917,6 +3917,16 @@
         elements.togglePlatforms.checked = true;
       }
 
+      function setIncidentContextLayers() {
+        elements.toggleEvents.checked = true;
+        elements.toggleParishes.checked = false;
+        elements.toggleCameras.checked = false;
+        elements.togglePoliceInfrastructure.checked = false;
+        elements.toggleManzanas.checked = false;
+        elements.toggleBoulevards.checked = false;
+        elements.togglePlatforms.checked = true;
+      }
+
       function setBlockOneContextLayers(metric) {
         elements.toggleEvents.checked = metric === "incidentCount" || metric === "incidentRate";
         elements.toggleParishes.checked = false;
@@ -3999,6 +4009,7 @@
       }
 
       function update() {
+        syncCoverageControls();
         const items = filteredEvents();
         if (selectedId && !items.some((event) => event.id === selectedId)) selectedId = null;
         if (selectedParish && !filteredParishes().some((parish) => parish.parish === selectedParish)) selectedParish = null;
@@ -4022,7 +4033,6 @@
         renderGraphicAnalysis();
         renderTopbar();
         renderMethodologyPanel();
-        syncCoverageControls();
         if (isKdeMode()) renderKdeGraphicPanel();
         if (mode === "events") {
           renderDetail(events.find((event) => event.id === selectedId));
@@ -4944,8 +4954,8 @@
       elements.boulevardsMode.addEventListener("click", () => activateDiagnosisMetric("boulevards"));
       elements.institutionalCoverageMode.addEventListener("click", () => activateDiagnosisMetric("institutionalDashboard"));
       elements.kdeAnalysis.addEventListener("click", () => activateDiagnosisMetric("hotspots"));
-      elements.eventsMode.addEventListener("click", () => { mode = "events"; incidentMenuView = "incidents"; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
-      elements.incidentQueryMode.addEventListener("click", () => { mode = "events"; incidentMenuView = "query"; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
+      elements.eventsMode.addEventListener("click", () => { mode = "events"; incidentMenuView = "incidents"; selectedParish = null; selectedPlatform = null; setIncidentContextLayers(); syncModeButtons(); update(); });
+      elements.incidentQueryMode.addEventListener("click", () => { mode = "events"; incidentMenuView = "query"; selectedParish = null; selectedPlatform = null; setIncidentContextLayers(); syncModeButtons(); update(); });
       elements.ecuMode.addEventListener("click", () => { mode = "ecu"; selectedId = null; selectedCamera = null; selectedPlatform = null; syncModeButtons(); update(); });
       elements.camerasMode.addEventListener("click", () => { mode = "cameras"; selectedId = null; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
       elements.policeMode.addEventListener("click", () => { mode = "police"; selectedId = null; selectedParish = null; selectedCamera = null; selectedPlatform = null; syncModeButtons(); update(); });
