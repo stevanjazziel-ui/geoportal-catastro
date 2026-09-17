@@ -768,6 +768,34 @@
       grid-template-columns: minmax(0, 1.35fr) minmax(320px, .8fr);
       gap: 12px;
     }
+    .analysis-workspace.layout-map-analytics .map-detail-grid {
+      grid-template-columns: minmax(0, 1.7fr) minmax(340px, .9fr);
+    }
+    .analysis-workspace.layout-map-analytics .map-wrap {
+      height: clamp(430px, 50vh, 560px);
+      min-height: 430px;
+    }
+    .analysis-workspace.layout-analytics .map-detail-grid {
+      display: none;
+    }
+    .analysis-workspace.layout-analytics .analysis-grid {
+      grid-template-columns: 1fr;
+    }
+    .analysis-workspace.layout-analytics .chart-panel .graphic-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .analysis-workspace.layout-analytics .chart-panel .graphic-card:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+    .analysis-workspace.layout-table .map-detail-grid {
+      grid-template-columns: minmax(0, .9fr) minmax(340px, .8fr);
+    }
+    .analysis-workspace.layout-table .map-wrap {
+      height: 360px;
+      min-height: 320px;
+    }
     .chart-panel,
     .support-panel {
       padding: 0 0 12px;
@@ -896,6 +924,7 @@
       .map-detail-grid,
       .analysis-grid { grid-template-columns: 1fr; }
       .map-wrap { height: 520px; min-height: 420px; }
+      .analysis-workspace.layout-analytics .chart-panel .graphic-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -931,7 +960,7 @@
           <summary>Demografía</summary>
           <button class="mode-button" id="populationMode" type="button" data-icon="P"><span>Población</span></button>
           <button class="mode-button" id="populationDensityMode" type="button" data-icon="D"><span>Densidad poblacional</span></button>
-          <button type="button" disabled data-icon="E"><span>Exposición poblacional</span></button>
+          <button class="mode-button" id="populationExposureMode" type="button" data-icon="E"><span>Exposición poblacional</span></button>
         </details>
         <details class="nav-group" open>
           <summary>Conflictividad</summary>
@@ -1139,8 +1168,10 @@
         category: document.getElementById("categorySelect"),
         precision: document.getElementById("precisionSelect"),
         source: document.getElementById("sourceSelect"),
+        workspace: document.querySelector(".analysis-workspace"),
         populationMode: document.getElementById("populationMode"),
         populationDensityMode: document.getElementById("populationDensityMode"),
+        populationExposureMode: document.getElementById("populationExposureMode"),
         platformIncidentsMode: document.getElementById("platformIncidentsMode"),
         incidentRateMode: document.getElementById("incidentRateMode"),
         giHotspotsMode: document.getElementById("giHotspotsMode"),
@@ -1245,7 +1276,7 @@
         if (mode === "events") return incidentMenuView === "query" ? "incidentQuery" : "incidents";
         if (mode === "cameras") return "cameras";
         if (mode === "police") return "police";
-        if (["population", "populationDensity"].includes(diagnosisMetric)) return "demography";
+        if (["population", "populationDensity", "populationExposure"].includes(diagnosisMetric)) return "demography";
         return "diagnosis";
       };
       const analysisConfig = {
@@ -1263,6 +1294,18 @@
         police: { filters: ["search", "category", "source"] },
         demography: { filters: ["search"] },
         diagnosis: { filters: ["search", "metric"] }
+      };
+      const analysisLayout = () => {
+        const key = analysisKey();
+        if (["typologies", "temporal"].includes(key)) return "layout-analytics";
+        if (key === "incidentQuery") return "layout-table";
+        if (["diagnosis", "populationCoverage", "institutionalCoverage"].includes(key)) return "layout-map-analytics";
+        return "layout-map-dominant";
+      };
+      const syncWorkspaceLayout = () => {
+        if (!elements.workspace) return;
+        elements.workspace.classList.remove("layout-map-dominant", "layout-map-analytics", "layout-analytics", "layout-table");
+        elements.workspace.classList.add(analysisLayout());
       };
       const markers = new Map();
       const parishMarkers = new Map();
@@ -1327,6 +1370,16 @@
             ["Área", "Calculada en proyección métrica local"],
             ["Limitación", "Manzanas sin población quedan en 0/sin dato"],
           ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+          return;
+        }
+        if (diagnosisMetric === "populationExposure") {
+          panel.innerHTML = `<h3>Exposición poblacional</h3>` + methodRowsHtml([
+            ["Análisis", "Población expuesta por proximidad"],
+            ["Distancias", "100 m / 250 m / 500 m"],
+            ["Fuente población", "CPV 2022 / manzanas censales"],
+            ["Unidad territorial", "Plataformas Territoriales"],
+            ["Método", "Intersección/proximidad espacial con resultados derivados existentes"],
+          ]) + crsHtml() + `<h3>Limitaciones</h3><p>La exposición por proximidad no equivale a afectación directa ni a nivel de riesgo individual.</p>`;
           return;
         }
         if (isCameraCoverageMode()) {
@@ -1682,7 +1735,7 @@
       };
       const platformRecord = (name) => diagnosis.byPlatformName?.[name] || diagnosis.platformMaster?.find((item) => item.platformName === name || item.platform === name?.replace("PLATAFORMA ", ""));
       const isPopulationMode = () => mode === "diagnosis" && ["population", "populationDensity"].includes(diagnosisMetric);
-      const isBlockOneMetric = () => ["population", "populationDensity", "incidentCount", "incidentRate"].includes(diagnosisMetric);
+      const isBlockOneMetric = () => ["population", "populationDensity", "populationExposure", "incidentCount", "incidentRate"].includes(diagnosisMetric);
       const cameraCoveragePopulationKey = () => `cameraCoveredPopulation${cameraCoverageScenario}`;
       const cameraCoverageAreaKey = () => `cameraCoveredAreaPct${cameraCoverageScenario}`;
       const cameraCoverageUsesAllCameras = () => false;
@@ -1759,6 +1812,7 @@
         return { rows, population, camerasCount, changeCount, covered, partial, uncovered, area, coveredArea, manzanas, coveredManzanas, coveredPct: coveragePercent(covered, population), partialPct: coveragePercent(partial, population), coveredAreaPct: coveragePercent(coveredArea, area) };
       };
       const syncCoverageControls = () => {
+        syncWorkspaceLayout();
         const activeFilters = new Set((analysisConfig[analysisKey()] || analysisConfig.diagnosis).filters);
         document.querySelectorAll("[data-filter-control]").forEach((control) => {
           control.hidden = !activeFilters.has(control.dataset.filterControl);
@@ -2273,24 +2327,26 @@
             `;
             return;
           }
-          if (diagnosisMetric === "population" || diagnosisMetric === "populationDensity") {
-            const byMan = Object.values(manzanaStats?.byMan || {});
-            const withPopulation = byMan.filter((item) => Number(item.population_total || 0) > 0);
-            const totalPopulation = byMan.reduce((sum, item) => sum + Number(item.population_total || 0), 0);
-            const platformPopulation = filteredPlatforms().reduce((sum, platform) => sum + Number(platform.population || 0), 0);
-            const topPlatforms = [...filteredPlatforms()].sort((a, b) => Number(b.population || 0) - Number(a.population || 0)).slice(0, 6);
-            const rows = diagnosisMetric === "population"
-              ? topPlatforms.map((item) => ({ label: item.platform, value: item.population, color: "#4f8f52" }))
-              : [...filteredPlatforms()].sort((a, b) => Number(b.densityPopKm2 || 0) - Number(a.densityPopKm2 || 0)).slice(0, 6).map((item) => ({ label: item.platform, value: Math.round(item.densityPopKm2 || 0), color: "#c86670" }));
+        if (diagnosisMetric === "population" || diagnosisMetric === "populationDensity" || diagnosisMetric === "populationExposure") {
+          const byMan = Object.values(manzanaStats?.byMan || {});
+          const withPopulation = byMan.filter((item) => Number(item.population_total || 0) > 0);
+          const totalPopulation = byMan.reduce((sum, item) => sum + Number(item.population_total || 0), 0);
+          const platformPopulation = filteredPlatforms().reduce((sum, platform) => sum + Number(platform.population || 0), 0);
+          const topPlatforms = [...filteredPlatforms()].sort((a, b) => Number(b.population || 0) - Number(a.population || 0)).slice(0, 6);
+          const rows = diagnosisMetric === "population"
+            ? topPlatforms.map((item) => ({ label: item.platform, value: item.population, color: "#4f8f52" }))
+            : diagnosisMetric === "populationDensity"
+              ? [...filteredPlatforms()].sort((a, b) => Number(b.densityPopKm2 || 0) - Number(a.densityPopKm2 || 0)).slice(0, 6).map((item) => ({ label: item.platform, value: Math.round(item.densityPopKm2 || 0), color: "#c86670" }))
+              : [...filteredPlatforms()].sort((a, b) => Number(b.populationExposed250 || 0) - Number(a.populationExposed250 || 0)).slice(0, 6).map((item) => ({ label: item.platform, value: item.populationExposed250 || 0, color: "#c86670" }));
             elements.summary.innerHTML = [
-              ["Manzanas geométricas", manzanaLayer ? manzanaLayer.getLayers().length : 0],
-              ["Manzanas con población", withPopulation.length],
-              ["Población censal", totalPopulation],
+              [diagnosisMetric === "populationExposure" ? "Población expuesta 100 m" : "Manzanas geométricas", diagnosisMetric === "populationExposure" ? diagnosis.summary?.populationExposed100 || 0 : (manzanaLayer ? manzanaLayer.getLayers().length : 0)],
+              [diagnosisMetric === "populationExposure" ? "Población expuesta 250 m" : "Manzanas con población", diagnosisMetric === "populationExposure" ? diagnosis.summary?.populationExposed250 || 0 : withPopulation.length],
+              [diagnosisMetric === "populationExposure" ? "Población expuesta 500 m" : "Población censal", diagnosisMetric === "populationExposure" ? diagnosis.summary?.populationExposed500 || 0 : totalPopulation],
               ["Población en plataformas", platformPopulation],
               ["Plataformas", filteredPlatforms().length],
-              ["Método", diagnosisMetric === "population" ? "Coropleta por manzana" : "POB / AREA_KM2"]
+              ["Método", diagnosisMetric === "population" ? "Coropleta por manzana" : diagnosisMetric === "populationDensity" ? "POB / AREA_KM2" : "Proximidad 100/250/500 m"]
             ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
-            elements.graphicAnalysis.innerHTML = `${metricBars(diagnosisMetric === "population" ? "Población por plataforma" : "Densidad por plataforma (hab/km²)", rows, Math.max(...rows.map((item) => Number(item.value || 0)), 1), diagnosisMetric === "population" ? "#4f8f52" : "#c86670")}`;
+            elements.graphicAnalysis.innerHTML = `${metricBars(diagnosisMetric === "population" ? "Población por plataforma" : diagnosisMetric === "populationDensity" ? "Densidad por plataforma (hab/km²)" : "Población expuesta por plataforma (250 m)", rows, Math.max(...rows.map((item) => Number(item.value || 0)), 1), diagnosisMetric === "population" ? "#4f8f52" : "#c86670")}`;
             return;
           }
           if (diagnosisMetric === "incidentCount" || diagnosisMetric === "incidentRate") {
@@ -2636,6 +2692,10 @@
             title = "Densidad por plataforma (hab/km²)";
             color = "#c86670";
             rows = [...visible].sort((a, b) => Number(b.densityPopKm2 || 0) - Number(a.densityPopKm2 || 0)).slice(0, 8).map((item) => ({ label: item.platform, value: Math.round(item.densityPopKm2 || 0), color }));
+          } else if (diagnosisMetric === "populationExposure") {
+            title = "Población expuesta por plataforma (250 m)";
+            color = "#c86670";
+            rows = [...visible].sort((a, b) => Number(b.populationExposed250 || 0) - Number(a.populationExposed250 || 0)).slice(0, 8).map((item) => ({ label: item.platform, value: item.populationExposed250 || 0, color }));
           } else if (diagnosisMetric === "incidentCount") {
             title = "Eventos registrados por plataforma";
             color = "#c86670";
@@ -3474,7 +3534,7 @@
         selectedGiCell = null;
         if (metric === "hotspots") setKdeDefaultContextLayers();
         if (["giHotspots", "incidentTypologies", "temporalAnalysis"].includes(metric)) setConflictContextLayers(metric);
-        if (isBlockOneMetric()) setBlockOneContextLayers(metric);
+        if (isBlockOneMetric() || metric === "populationExposure") setBlockOneContextLayers(metric);
         if (metric === "policeAccessibility") setPoliceAccessibilityContextLayers();
         if (metric === "cameraCoverage" || metric === "populationCoverage") setCameraCoverageContextLayers();
         if (metric === "boulevards") setBoulevardContextLayers();
@@ -3530,14 +3590,17 @@
             elements.overlayTitle.textContent = "Concentración de incidentes";
             elements.overlayText.textContent = `${fmt(kdeValidation.controlTable?.REGISTROS_KDE || 0)} incidentes A/B válidos · bandwidth ${raster.bandwidth || 300} m · celda ${raster.cellSize || 20} m · superficie continua DENSIDAD_INCIDENTES_KDE.`;
           } else if (diagnosisMetric === "population") {
-            elements.overlayTitle.textContent = "Población por manzana";
-            elements.overlayText.textContent = "Coropleta de población absoluta con manzanas censales reales CPV 2022. Las plataformas son referencia territorial.";
+            elements.overlayTitle.textContent = "Población";
+            elements.overlayText.textContent = "Distribución de la población en las Plataformas Territoriales y manzanas censales.";
           } else if (diagnosisMetric === "populationDensity") {
-            elements.overlayTitle.textContent = "Densidad poblacional por manzana";
-            elements.overlayText.textContent = "DENS_POB = POBLACION / AREA_KM2. El área se calcula desde geometría censal en unidades métricas locales.";
+            elements.overlayTitle.textContent = "Densidad poblacional";
+            elements.overlayText.textContent = "Densidad de población por manzana censal y patrones espaciales.";
+          } else if (diagnosisMetric === "populationExposure") {
+            elements.overlayTitle.textContent = "Exposición poblacional";
+            elements.overlayText.textContent = "Población expuesta según proximidad a concentraciones e infraestructura territorial analizada.";
           } else if (diagnosisMetric === "incidentCount") {
-            elements.overlayTitle.textContent = "Incidentes por Plataforma";
-            elements.overlayText.textContent = "Número de eventos registrados por Plataforma Territorial mediante unión espacial de incidentes georreferenciados válidos.";
+            elements.overlayTitle.textContent = "Incidentes";
+            elements.overlayText.textContent = "Distribución de incidentes georreferenciados dentro de las Plataformas Territoriales.";
           } else if (diagnosisMetric === "incidentRate") {
             elements.overlayTitle.textContent = "Tasa por 1.000 habitantes";
             elements.overlayText.textContent = "TASA_INC_1000 = (INC_TOTAL / POBLACION) * 1000. No representa un índice de inseguridad.";
@@ -3563,6 +3626,9 @@
           } else if (isTemporalMode()) {
             elements.overlayTitle.textContent = "Evolución temporal";
             elements.overlayText.textContent = "Patrones temporales de los incidentes usando el campo real date; la base no contiene hora.";
+          } else {
+            elements.overlayTitle.textContent = "Diagnóstico Territorial";
+            elements.overlayText.textContent = "Vista general del territorio de Riobamba con indicadores clave y acceso rápido a análisis.";
           }
           if (isCameraCoverageMode()) {
             const totals = cameraCoverageTotals();
@@ -4324,12 +4390,13 @@
         elements.policeAccessibilityMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "policeAccessibility");
         elements.populationMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "population");
         elements.populationDensityMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "populationDensity");
+        elements.populationExposureMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "populationExposure");
         elements.platformIncidentsMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "incidentCount");
         elements.incidentRateMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "incidentRate");
         elements.giHotspotsMode.classList.toggle("is-active", isGiHotspotsMode());
         elements.typologiesMode.classList.toggle("is-active", isTypologiesMode());
         elements.temporalMode.classList.toggle("is-active", isTemporalMode());
-        elements.diagnosisMode.classList.toggle("is-active", mode === "diagnosis" && !["hotspots", "giHotspots", "incidentTypologies", "temporalAnalysis", "population", "populationDensity", "incidentCount", "incidentRate", "cameraCoverage", "populationCoverage", "boulevards", "institutionalDashboard"].includes(diagnosisMetric));
+        elements.diagnosisMode.classList.toggle("is-active", mode === "diagnosis" && !["hotspots", "giHotspots", "incidentTypologies", "temporalAnalysis", "population", "populationDensity", "populationExposure", "incidentCount", "incidentRate", "cameraCoverage", "populationCoverage", "boulevards", "institutionalDashboard"].includes(diagnosisMetric));
         elements.kdeAnalysis.classList.toggle("is-active", isKdeMode());
       }
 
@@ -4435,6 +4502,7 @@
       elements.diagnosisMetric.addEventListener("change", () => activateDiagnosisMetric(elements.diagnosisMetric.value));
       elements.populationMode.addEventListener("click", () => activateDiagnosisMetric("population"));
       elements.populationDensityMode.addEventListener("click", () => activateDiagnosisMetric("populationDensity"));
+      elements.populationExposureMode.addEventListener("click", () => activateDiagnosisMetric("populationExposure"));
       elements.platformIncidentsMode.addEventListener("click", () => activateDiagnosisMetric("incidentCount"));
       elements.incidentRateMode.addEventListener("click", () => activateDiagnosisMetric("incidentRate"));
       elements.giHotspotsMode.addEventListener("click", () => activateDiagnosisMetric("giHotspots"));
