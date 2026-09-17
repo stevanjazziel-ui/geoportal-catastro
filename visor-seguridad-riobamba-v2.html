@@ -404,6 +404,10 @@
     .popup-row strong { color: var(--text); }
     .popup-note { margin-top: 8px; color: var(--muted); font-size: 0.82rem; }
 
+    /* ACTIVE UI: NEW ANALYSIS DASHBOARD
+       Root: AppShell (.dashboard-shell)
+       Layout: TopHeader + Sidebar + AnalysisWorkspace
+       Shared components: KpiCard, ChartCard, DataTable, MiniMap, TerritoryDetailPanel. */
     .dashboard-shell {
       display: grid;
       grid-template-rows: auto minmax(0, 1fr) minmax(190px, 24vh);
@@ -426,12 +430,42 @@
     .brand-block strong { display: block; font-size: 1.18rem; letter-spacing: .03em; }
     .brand-block span, .top-metric span { color: rgba(255,255,255,.72); font-size: .76rem; }
     .top-metric strong { display: block; margin-top: 4px; font-size: 1.28rem; line-height: 1; }
+    .header-action {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      border-radius: 6px;
+      padding: 6px 8px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: left;
+    }
+    .header-action:hover { background: rgba(255,255,255,.16); }
     .dashboard-main {
       min-height: 0;
       display: grid;
       grid-template-columns: 245px minmax(0, 1fr) 340px;
       gap: 10px;
       padding: 10px;
+    }
+    .dashboard-shell.sidebar-collapsed .dashboard-main {
+      grid-template-columns: 64px minmax(0, 1fr) 340px;
+    }
+    .dashboard-shell.analysis-fullscreen {
+      grid-template-rows: 0 minmax(0, 1fr) 0;
+    }
+    .dashboard-shell.analysis-fullscreen .topbar,
+    .dashboard-shell.analysis-fullscreen .analysis-nav,
+    .dashboard-shell.analysis-fullscreen .bottom-panel {
+      display: none;
+    }
+    .dashboard-shell.analysis-fullscreen .dashboard-main {
+      grid-template-columns: minmax(0, 1fr) 340px;
+      padding: 0;
+    }
+    .dashboard-shell.analysis-fullscreen .map-wrap {
+      border-radius: 0;
     }
     .analysis-nav, .right-panel, .bottom-panel {
       background: var(--panel);
@@ -442,10 +476,54 @@
     }
     .analysis-nav {
       overflow: auto;
-      padding: 12px;
+      padding: 10px;
       background: #102b42;
       color: #fff;
     }
+    .sidebar-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .sidebar-toggle {
+      width: 38px;
+      min-width: 38px;
+      min-height: 34px;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      font-size: 1.05rem;
+      font-weight: 800;
+    }
+    .sidebar-title {
+      color: rgba(255,255,255,.88);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .nav-group {
+      border-top: 1px solid rgba(255,255,255,.1);
+      padding: 6px 0;
+    }
+    .nav-group summary {
+      cursor: pointer;
+      list-style: none;
+      color: rgba(255,255,255,.68);
+      font-size: .73rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 8px 4px;
+    }
+    .nav-group summary::-webkit-details-marker { display: none; }
+    .nav-group summary::after {
+      content: "▾";
+      float: right;
+      color: rgba(255,255,255,.45);
+    }
+    .nav-group:not([open]) summary::after { content: "▸"; }
     .analysis-nav h2 { color: rgba(255,255,255,.62); margin: 14px 0 8px; }
     .analysis-nav h2:first-child { margin-top: 0; }
     .analysis-nav button {
@@ -466,6 +544,32 @@
       cursor: not-allowed;
       color: rgba(255,255,255,.38);
       background: rgba(255,255,255,.035);
+    }
+    .dashboard-shell.sidebar-collapsed .analysis-nav {
+      padding: 10px 8px;
+      overflow: visible;
+    }
+    .dashboard-shell.sidebar-collapsed .sidebar-title,
+    .dashboard-shell.sidebar-collapsed .nav-group summary,
+    .dashboard-shell.sidebar-collapsed .analysis-nav button span {
+      display: none;
+    }
+    .dashboard-shell.sidebar-collapsed .sidebar-head { justify-content: center; }
+    .dashboard-shell.sidebar-collapsed .analysis-nav button {
+      width: 44px;
+      height: 40px;
+      min-height: 40px;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      font-size: 0;
+    }
+    .dashboard-shell.sidebar-collapsed .analysis-nav button::first-letter {
+      font-size: 1rem;
+    }
+    .dashboard-shell.sidebar-collapsed .analysis-nav button[data-icon]::before {
+      content: attr(data-icon);
+      font-size: 1rem;
     }
     .right-panel {
       overflow: auto;
@@ -558,7 +662,7 @@
     .bottom-panel .detail-mini-map {
       min-height: 155px;
     }
-    .legacy-hidden { display: none; }
+    .app-hidden { display: none; }
     @media (max-width: 1100px) {
       .topbar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .dashboard-main { grid-template-columns: 1fr; grid-template-rows: auto minmax(520px, 1fr) auto; overflow: auto; }
@@ -578,44 +682,64 @@
       <div class="top-metric"><span>Concentraciones</span><strong id="topHotspots">-</strong></div>
       <div class="top-metric"><span>Infraestructura policial</span><strong id="topPolice">-</strong></div>
       <div class="top-metric"><span>Cámaras</span><strong id="topCameras">-</strong></div>
-      <div class="top-metric"><span>Periodo de datos</span><strong id="topPeriod">-</strong></div>
+      <div class="top-metric"><span>Periodo de datos</span><strong id="topPeriod">-</strong><button class="header-action" id="fullscreenAnalysisButton" type="button">⛶ Pantalla completa</button></div>
     </header>
 
     <div class="dashboard-main">
-      <nav class="analysis-nav" aria-label="Análisis">
-        <h2>Demografía</h2>
-        <button class="mode-button" id="populationMode" type="button">● Población</button>
-        <button class="mode-button" id="populationDensityMode" type="button">● Densidad poblacional</button>
-        <button type="button" disabled>◐ Exposición poblacional · En procesamiento</button>
-        <h2>Conflictividad</h2>
-        <button class="mode-button" id="eventsMode" type="button">Incidentes</button>
-        <button class="mode-button legacy-hidden" id="platformIncidentsMode" type="button">● Incidentes por Plataforma</button>
-        <button class="mode-button legacy-hidden" id="incidentRateMode" type="button">● Tasa por 1.000 habitantes</button>
-        <button class="mode-button is-active" id="kdeAnalysisButton" type="button">Concentración de incidentes</button>
-        <button class="mode-button" id="giHotspotsMode" type="button">Zonas críticas</button>
-        <button class="mode-button" id="typologiesMode" type="button">Tipos de incidentes</button>
-        <button class="mode-button" id="temporalMode" type="button">Evolución temporal</button>
-        <button class="mode-button" id="incidentQueryMode" type="button">Consulta de incidentes</button>
-        <h2>Cobertura territorial</h2>
-        <button class="mode-button" id="policeMode" type="button">Infraestructura policial</button>
-        <button class="mode-button" id="policeAccessibilityMode" type="button">● Accesibilidad policial</button>
-        <button class="mode-button" id="camerasMode" type="button">Videovigilancia</button>
-        <button class="mode-button" id="cameraCoverageMode" type="button">● Cobertura potencial de cámaras</button>
-        <button class="mode-button" id="populationCoverageMode" type="button">● Cobertura poblacional</button>
-        <button class="mode-button" id="boulevardsMode" type="button">● Bulevares Seguros</button>
-        <button class="mode-button" id="institutionalCoverageMode" type="button">● Cobertura institucional</button>
-        <h2>Brechas</h2>
-        <button type="button" disabled>Déficit potencial de videovigilancia · Próximamente</button>
-        <button type="button" disabled>Concentraciones con baja cobertura · Próximamente</button>
-        <button type="button" disabled>Exposición + baja cobertura · Próximamente</button>
-        <button type="button" disabled>Brechas territoriales · Próximamente</button>
-        <button type="button" disabled>Zonas candidatas de intervención · Próximamente</button>
-        <h2>Diagnóstico</h2>
-        <button class="mode-button" id="diagnosisMode" type="button">Comparación de Plataformas</button>
-        <button type="button" disabled>Tipologías territoriales · Próximamente</button>
-        <button type="button" disabled>Ficha de Plataforma · Próximamente</button>
-        <button type="button" disabled>Diagnóstico integrado · Próximamente</button>
-        <div class="legacy-hidden">
+      <nav class="analysis-nav" aria-label="Sidebar">
+        <div class="sidebar-head">
+          <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="Contraer menú">☰</button>
+          <div class="sidebar-title">Módulos</div>
+        </div>
+        <details class="nav-group" open>
+          <summary>Inicio</summary>
+          <button class="mode-button" id="diagnosisMode" type="button" data-icon="⌂"><span>Diagnóstico Territorial</span></button>
+        </details>
+        <details class="nav-group" open>
+          <summary>Demografía</summary>
+          <button class="mode-button" id="populationMode" type="button" data-icon="P"><span>Población</span></button>
+          <button class="mode-button" id="populationDensityMode" type="button" data-icon="D"><span>Densidad poblacional</span></button>
+          <button type="button" disabled data-icon="E"><span>Exposición poblacional</span></button>
+        </details>
+        <details class="nav-group" open>
+          <summary>Conflictividad</summary>
+          <button class="mode-button" id="eventsMode" type="button" data-icon="I"><span>Incidentes</span></button>
+          <button class="mode-button app-hidden" id="platformIncidentsMode" type="button" data-icon="P"><span>Incidentes por Plataforma</span></button>
+          <button class="mode-button app-hidden" id="incidentRateMode" type="button" data-icon="T"><span>Tasa por 1.000 habitantes</span></button>
+          <button class="mode-button is-active" id="kdeAnalysisButton" type="button" data-icon="K"><span>Concentración de incidentes</span></button>
+          <button class="mode-button" id="giHotspotsMode" type="button" data-icon="Z"><span>Zonas críticas</span></button>
+          <button class="mode-button" id="typologiesMode" type="button" data-icon="T"><span>Tipos de incidentes</span></button>
+          <button class="mode-button" id="temporalMode" type="button" data-icon="E"><span>Evolución temporal</span></button>
+          <button class="mode-button" id="incidentQueryMode" type="button" data-icon="C"><span>Consulta de incidentes</span></button>
+        </details>
+        <details class="nav-group" open>
+          <summary>Cobertura territorial</summary>
+          <button class="mode-button" id="policeMode" type="button" data-icon="P"><span>Infraestructura policial</span></button>
+          <button class="mode-button" id="policeAccessibilityMode" type="button" data-icon="A"><span>Accesibilidad policial</span></button>
+          <button class="mode-button" id="camerasMode" type="button" data-icon="V"><span>Videovigilancia</span></button>
+          <button class="mode-button" id="cameraCoverageMode" type="button" data-icon="C"><span>Cobertura potencial de cámaras</span></button>
+          <button class="mode-button" id="populationCoverageMode" type="button" data-icon="H"><span>Cobertura poblacional</span></button>
+          <button class="mode-button" id="boulevardsMode" type="button" data-icon="B"><span>Bulevares Seguros</span></button>
+          <button class="mode-button" id="institutionalCoverageMode" type="button" data-icon="I"><span>Cobertura institucional</span></button>
+        </details>
+        <details class="nav-group">
+          <summary>Brechas</summary>
+          <button type="button" disabled data-icon="D"><span>Déficit potencial de videovigilancia</span></button>
+          <button type="button" disabled data-icon="C"><span>Concentraciones con baja cobertura</span></button>
+          <button type="button" disabled data-icon="E"><span>Exposición + baja cobertura</span></button>
+          <button type="button" disabled data-icon="B"><span>Brechas territoriales</span></button>
+          <button type="button" disabled data-icon="Z"><span>Zonas candidatas de intervención</span></button>
+        </details>
+        <details class="nav-group">
+          <summary>Detalle territorial</summary>
+          <button type="button" disabled data-icon="F"><span>Ficha de Plataforma</span></button>
+          <button type="button" disabled data-icon="D"><span>Diagnóstico integrado</span></button>
+        </details>
+        <details class="nav-group">
+          <summary>Descargas</summary>
+          <button type="button" disabled data-icon="↓"><span>Exportaciones</span></button>
+        </details>
+        <div class="app-hidden">
           <button class="mode-button" id="ecuMode" type="button">ECU911</button>
         </div>
       </nav>
@@ -720,9 +844,9 @@
       <section class="panel">
         <h2 id="detailTitle">Detalles territoriales</h2>
         <div class="mini-list" id="detailList"><p>Selecciona una plataforma o incidente.</p></div>
-        <h2 class="legacy-hidden" id="listTitle">Eventos</h2>
-        <div class="event-list legacy-hidden" id="eventList"></div>
-        <p class="legacy-hidden" id="statusText">Cargando visor...</p>
+        <h2 class="app-hidden" id="listTitle">Eventos</h2>
+        <div class="event-list app-hidden" id="eventList"></div>
+        <p class="app-hidden" id="statusText">Cargando visor...</p>
       </section>
     </section>
   </div>
@@ -806,7 +930,10 @@
         togglePlatforms: document.getElementById("togglePlatforms"),
         toggleManzanas: document.getElementById("toggleManzanas"),
         toggleBoulevards: document.getElementById("toggleBoulevards"),
-        toggleSatellite: document.getElementById("toggleSatellite")
+        toggleSatellite: document.getElementById("toggleSatellite"),
+        shell: document.querySelector(".dashboard-shell"),
+        sidebarToggle: document.getElementById("sidebarToggle"),
+        fullscreenAnalysis: document.getElementById("fullscreenAnalysisButton")
       };
 
       const map = L.map("map", { zoomSnap: 0.5, preferCanvas: true }).setView([-1.6636, -78.6546], 13);
@@ -4034,6 +4161,16 @@
           satelliteLayer.remove();
           lightLayer.addTo(map);
         }
+      });
+      elements.sidebarToggle.addEventListener("click", () => {
+        elements.shell.classList.toggle("sidebar-collapsed");
+        elements.sidebarToggle.setAttribute("aria-label", elements.shell.classList.contains("sidebar-collapsed") ? "Expandir menú" : "Contraer menú");
+        setTimeout(() => map.invalidateSize(), 120);
+      });
+      elements.fullscreenAnalysis.addEventListener("click", () => {
+        elements.shell.classList.toggle("analysis-fullscreen");
+        elements.fullscreenAnalysis.textContent = elements.shell.classList.contains("analysis-fullscreen") ? "⛶ Salir" : "⛶ Pantalla completa";
+        setTimeout(() => map.invalidateSize(), 120);
       });
     })();
   </script>
