@@ -346,6 +346,16 @@
     }
     .camera-marker.change { background: #dc2626; }
     .camera-marker.megaphone { border-color: #b88432; }
+    .camera-marker.compact {
+      width: 12px;
+      height: 12px;
+      min-width: 12px;
+      border-radius: 50%;
+      font-size: 0;
+      border-width: 2px;
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.16);
+    }
+    .camera-marker.compact.change { box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.16); }
     .police-marker {
       display: grid;
       place-items: center;
@@ -765,6 +775,7 @@
       let platformLayer = null;
       let manzanaLayer = null;
       let platformGeojsonCache = null;
+      let manzanaGeojsonCache = null;
       let manzanaStats = null;
       let platformStats = null;
       let detailMiniMap = null;
@@ -777,6 +788,8 @@
       let diagnosisMetric = "hotspots";
       let cameraCoverageScenario = 150;
       let cameraCoverageSet = "all";
+      let cameraCoverageCacheKey = "";
+      let cameraCoverageCache = null;
       const isKdeMode = () => mode === "diagnosis" && diagnosisMetric === "hotspots";
       const isCameraCoverageMode = () => mode === "diagnosis" && diagnosisMetric === "cameraCoverage";
       const markers = new Map();
@@ -848,7 +861,7 @@
             ["Escenario activo", `${cameraCoverageScenario} m`],
             ["Cámaras", cameraCoverageSet === "change" ? "Previstas para cambio" : "Todas"],
             ["Fuente", "Informe municipal de cámaras + diagnóstico territorial"],
-            ["Cálculo población/área", cameraCoverageUsesAllCameras() ? "Campos precalculados 100/150/200 m por plataforma" : "No disponible para subconjunto"],
+            ["Cálculo población/área", "Manzanas censales evaluadas contra cobertura disuelta por distancia métrica"],
             ["Precaución", "Cobertura potencial; no equivale a alcance visual real ni seguridad"]
           ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
           return;
@@ -1132,8 +1145,15 @@
       const isBlockOneMetric = () => ["population", "populationDensity", "incidentCount", "incidentRate"].includes(diagnosisMetric);
       const cameraCoveragePopulationKey = () => `cameraCoveredPopulation${cameraCoverageScenario}`;
       const cameraCoverageAreaKey = () => `cameraCoveredAreaPct${cameraCoverageScenario}`;
-      const cameraCoverageUsesAllCameras = () => cameraCoverageSet === "all";
-      const coverageValue = (platform, key) => cameraCoverageUsesAllCameras() ? Number(platform?.[key] || 0) : null;
+      const cameraCoverageUsesAllCameras = () => true;
+      const coverageValue = (platform, key) => {
+        const analysis = getCameraCoverageAnalysis();
+        const row = analysis.byPlatformName[platform?.platformName];
+        if (!row) return 0;
+        if (key.startsWith("cameraCoveredPopulation")) return row.coveredPopulation;
+        if (key.startsWith("cameraCoveredAreaPct")) return row.coveredAreaPct;
+        return 0;
+      };
       const coveragePercent = (covered, population) => population > 0 && covered != null ? Number((covered / population * 100).toFixed(1)) : null;
       const selectedCoveragePlatforms = () => {
         const rows = filteredPlatforms();
@@ -1150,16 +1170,18 @@
       });
       const cameraCoverageTotals = () => {
         const rows = selectedCoveragePlatforms();
-        const population = rows.reduce((sum, platform) => sum + Number(platform.population || 0), 0);
+        const analysis = getCameraCoverageAnalysis();
+        const selectedNames = new Set(rows.map((platform) => platform.platformName));
+        const selectedRows = Object.values(analysis.byPlatformName).filter((row) => selectedNames.has(row.platformName));
+        const population = selectedRows.reduce((sum, row) => sum + row.population, 0);
         const camerasCount = rows.reduce((sum, platform) => sum + Number(platform.cameras || 0), 0);
         const changeCount = rows.reduce((sum, platform) => sum + Number(platform.camerasReplacement || 0), 0);
-        const covered = cameraCoverageUsesAllCameras() ? rows.reduce((sum, platform) => sum + Number(platform[cameraCoveragePopulationKey()] || 0), 0) : null;
-        const uncovered = covered == null ? null : Math.max(0, population - covered);
-        const area = rows.reduce((sum, platform) => sum + Number(platform.areaKm2 || 0), 0);
-        const coveredArea = cameraCoverageUsesAllCameras()
-          ? rows.reduce((sum, platform) => sum + Number(platform.areaKm2 || 0) * Number(platform[cameraCoverageAreaKey()] || 0) / 100, 0)
-          : null;
-        return { rows, population, camerasCount, changeCount, covered, uncovered, area, coveredArea, coveredPct: coveragePercent(covered, population), coveredAreaPct: coveragePercent(coveredArea, area) };
+        const covered = selectedRows.reduce((sum, row) => sum + row.coveredPopulation, 0);
+        const partial = selectedRows.reduce((sum, row) => sum + row.partialPopulation, 0);
+        const uncovered = selectedRows.reduce((sum, row) => sum + row.uncoveredPopulation, 0);
+        const area = selectedRows.reduce((sum, row) => sum + row.areaKm2, 0);
+        const coveredArea = selectedRows.reduce((sum, row) => sum + row.coveredAreaKm2, 0);
+        return { rows, population, camerasCount, changeCount, covered, partial, uncovered, area, coveredArea, coveredPct: coveragePercent(covered, population), partialPct: coveragePercent(partial, population), coveredAreaPct: coveragePercent(coveredArea, area) };
       };
       const syncCoverageControls = () => {
         if (!elements.cameraCoverageControls) return;
@@ -1196,6 +1218,11 @@
         if (n <= 2000) return "#ff7c43";
         return "#e11d48";
       };
+      const coverageFractionColor = (fraction) => {
+        if (fraction >= 0.95) return "#2f6f5f";
+        if (fraction > 0) return "#d9a441";
+        return "#edf1ed";
+      };
       const ringAreaKm2 = (ring) => {
         if (!ring || ring.length < 3) return 0;
         const meanLat = ring.reduce((sum, point) => sum + Number(point[1] || 0), 0) / ring.length;
@@ -1217,6 +1244,107 @@
         if (geometry.type === "MultiPolygon") return (geometry.coordinates || []).reduce((sum, polygon) => sum + ringAreaKm2(polygon?.[0] || []), 0);
         return 0;
       };
+      const pointDistanceMeters = (lng1, lat1, lng2, lat2) => {
+        const meanLat = ((Number(lat1) + Number(lat2)) / 2) * Math.PI / 180;
+        const dx = (Number(lng2) - Number(lng1)) * 111320 * Math.cos(meanLat);
+        const dy = (Number(lat2) - Number(lat1)) * 110540;
+        return Math.hypot(dx, dy);
+      };
+      const ringBounds = (ring) => ring.reduce((acc, point) => ({
+        minLng: Math.min(acc.minLng, Number(point[0])),
+        minLat: Math.min(acc.minLat, Number(point[1])),
+        maxLng: Math.max(acc.maxLng, Number(point[0])),
+        maxLat: Math.max(acc.maxLat, Number(point[1])),
+      }), { minLng: Infinity, minLat: Infinity, maxLng: -Infinity, maxLat: -Infinity });
+      const ringCentroid = (ring) => {
+        if (!ring?.length) return null;
+        const valid = ring.slice(0, -1);
+        return [
+          valid.reduce((sum, point) => sum + Number(point[0] || 0), 0) / Math.max(valid.length, 1),
+          valid.reduce((sum, point) => sum + Number(point[1] || 0), 0) / Math.max(valid.length, 1),
+        ];
+      };
+      const sampleFeaturePoints = (feature) => {
+        const geom = feature?.geometry || {};
+        const rings = geom.type === "Polygon" ? [geom.coordinates?.[0] || []] : (geom.coordinates || []).map((polygon) => polygon?.[0] || []);
+        const points = [];
+        rings.forEach((ring) => {
+          if (!ring.length) return;
+          const centroid = ringCentroid(ring);
+          if (centroid) points.push(centroid);
+          const bounds = ringBounds(ring);
+          const cols = 3;
+          const rows = 3;
+          for (let ix = 1; ix <= cols; ix += 1) {
+            for (let iy = 1; iy <= rows; iy += 1) {
+              const lng = bounds.minLng + (bounds.maxLng - bounds.minLng) * ix / (cols + 1);
+              const lat = bounds.minLat + (bounds.maxLat - bounds.minLat) * iy / (rows + 1);
+              if (pointInsideFeature(feature, lng, lat)) points.push([lng, lat]);
+            }
+          }
+          const step = Math.max(1, Math.floor(ring.length / 8));
+          for (let index = 0; index < ring.length; index += step) points.push(ring[index]);
+        });
+        return points;
+      };
+      const pointCoveredByCameraSet = (point, cameraSet) => cameraSet.some((camera) => pointDistanceMeters(point[0], point[1], camera.lng, camera.lat) <= cameraCoverageScenario);
+      const manzanaCoverageFraction = (feature, cameraSet) => {
+        const points = sampleFeaturePoints(feature);
+        if (!points.length || !cameraSet.length) return 0;
+        const covered = points.filter((point) => pointCoveredByCameraSet(point, cameraSet)).length;
+        return covered / points.length;
+      };
+      const getCameraCoverageAnalysis = () => {
+        const key = `${cameraCoverageScenario}-${cameraCoverageSet}-${manzanaGeojsonCache ? "ready" : "pending"}`;
+        if (cameraCoverageCache && cameraCoverageCacheKey === key) return cameraCoverageCache;
+        const cameraSet = cameras.filter((camera) => cameraCoverageSet === "all" || camera.requiresChange);
+        const byPlatformName = {};
+        filteredPlatforms().forEach((platform) => {
+          byPlatformName[platform.platformName] = {
+            platformName: platform.platformName,
+            platform: platform.platform,
+            population: 0,
+            coveredPopulation: 0,
+            partialPopulation: 0,
+            uncoveredPopulation: 0,
+            areaKm2: 0,
+            coveredAreaKm2: 0,
+            partialManzanas: 0,
+            coveredManzanas: 0,
+            uncoveredManzanas: 0,
+          };
+        });
+        (manzanaGeojsonCache?.features || []).forEach((feature) => {
+          const man = feature?.properties?.man;
+          const platformName = platformStats?.manToPlatform?.[man];
+          const row = byPlatformName[platformName];
+          if (!row) return;
+          const population = manzanaPopulation(feature);
+          const area = geometryAreaKm2(feature.geometry);
+          const fraction = manzanaCoverageFraction(feature, cameraSet);
+          const coveredPopulation = population * fraction;
+          row.population += population;
+          row.coveredPopulation += coveredPopulation;
+          row.uncoveredPopulation += Math.max(0, population - coveredPopulation);
+          row.areaKm2 += area;
+          row.coveredAreaKm2 += area * fraction;
+          if (fraction >= 0.95) row.coveredManzanas += 1;
+          else if (fraction > 0) {
+            row.partialManzanas += 1;
+            row.partialPopulation += population;
+          } else row.uncoveredManzanas += 1;
+        });
+        Object.values(byPlatformName).forEach((row) => {
+          row.coveredPopulation = Math.round(row.coveredPopulation);
+          row.uncoveredPopulation = Math.max(0, Math.round(row.population - row.coveredPopulation));
+          row.coveredPct = coveragePercent(row.coveredPopulation, row.population);
+          row.uncoveredPct = row.coveredPct == null ? null : Number((100 - row.coveredPct).toFixed(1));
+          row.coveredAreaPct = coveragePercent(row.coveredAreaKm2, row.areaKm2);
+        });
+        cameraCoverageCacheKey = key;
+        cameraCoverageCache = { byPlatformName, cameraSet };
+        return cameraCoverageCache;
+      };
       const manzanaPopulation = (feature) => Number(manzanaStats?.byMan?.[feature?.properties?.man]?.population_total || 0);
       const manzanaDensity = (feature) => {
         const area = geometryAreaKm2(feature?.geometry);
@@ -1234,6 +1362,10 @@
         if (diagnosisMetric === "policeAccessibility") {
           const row = policeAccessibility.byMan?.[feature?.properties?.man];
           return { color: selected ? "#111827" : "#7e8790", weight: selected ? 1.4 : 0.28, fillColor: policeDistanceColor(row?.DIST_INF_POL), fillOpacity: 0.68, opacity: 0.5 };
+        }
+        if (isCameraCoverageMode()) {
+          const fraction = manzanaCoverageFraction(feature, getCameraCoverageAnalysis().cameraSet || []);
+          return { color: selected ? "#111827" : "#7e8790", weight: selected ? 1.2 : 0.25, fillColor: coverageFractionColor(fraction), fillOpacity: 0.5, opacity: 0.42 };
         }
         return { color: "#7e8790", weight: 0.45, fillColor: "#f7f7f7", fillOpacity: 0.13, opacity: 0.45 };
       };
@@ -1449,11 +1581,12 @@
           }
           if (isCameraCoverageMode()) {
             const totals = cameraCoverageTotals();
-            const camerasVisible = cameraCoverageSet === "change" ? coverageCameraSet().length : totals.camerasCount;
+            const camerasVisible = coverageCameraSet(selectedPlatform).length;
+            const changeVisible = cameras.filter((camera) => camera.requiresChange && cameraInPlatform(camera, selectedPlatform)).length;
             const cameraRate = totals.population ? (camerasVisible / totals.population * 10000).toFixed(2) : "N/D";
             elements.summary.innerHTML = [
               ["Total de cámaras", camerasVisible],
-              ["Cámaras para cambio", cameraCoverageSet === "change" ? camerasVisible : totals.changeCount],
+              ["Cámaras para cambio", changeVisible],
               ["Población analizada", `${fmt(totals.population)} habitantes`],
               ["Cámaras / 10.000 hab.", cameraRate],
               ["Población potencialmente cubierta", totals.coveredPct == null ? "No disponible" : `${totals.coveredPct}%`],
@@ -1674,25 +1807,27 @@
       }
 
       function cameraCoverageRows() {
+        const analysis = getCameraCoverageAnalysis();
         return filteredPlatforms().map((platform) => {
-          const population = Number(platform.population || 0);
-          const covered = coverageValue(platform, cameraCoveragePopulationKey());
-          const uncovered = covered == null ? null : Math.max(0, population - covered);
+          const analysisRow = analysis.byPlatformName[platform.platformName] || {};
+          const population = Math.round(analysisRow.population ?? Number(platform.population || 0));
+          const covered = Math.round(analysisRow.coveredPopulation || 0);
+          const uncovered = Math.max(0, Math.round(analysisRow.uncoveredPopulation ?? (population - covered)));
           const coveredPct = coveragePercent(covered, population);
           const uncoveredPct = coveredPct == null ? null : Number((100 - coveredPct).toFixed(1));
-          const areaPct = coverageValue(platform, cameraCoverageAreaKey());
-          const coveredArea = areaPct == null ? null : Number(platform.areaKm2 || 0) * areaPct / 100;
+          const coveredArea = Number(analysisRow.coveredAreaKm2 || 0);
           return {
             platform,
             population,
-            cameras: Number(platform.cameras || 0),
-            change: Number(platform.camerasReplacement || 0),
-            rate: population ? Number((Number(platform.cameras || 0) / population * 10000).toFixed(2)) : null,
+            cameras: cameras.filter((camera) => cameraInPlatform(camera, platform.platformName)).length,
+            change: cameras.filter((camera) => camera.requiresChange && cameraInPlatform(camera, platform.platformName)).length,
+            rate: population ? Number((cameras.filter((camera) => cameraInPlatform(camera, platform.platformName)).length / population * 10000).toFixed(2)) : null,
             covered,
             coveredPct,
             uncovered,
             uncoveredPct,
             coveredArea,
+            partialPopulation: Math.round(analysisRow.partialPopulation || 0),
           };
         });
       }
@@ -1700,12 +1835,20 @@
       function renderCameraCoverageGraphics() {
         const totals = cameraCoverageTotals();
         const coveredPct = totals.coveredPct == null ? 0 : totals.coveredPct;
-        const partialPct = coveredPct;
+        const partialPct = Math.min(100, coveredPct + Number(totals.partialPct || 0));
         const donutStyle = `--covered:${coveredPct}%;--partial:${partialPct}%`;
         const scenarios = [100, 150, 200].map((radius) => {
-          const covered = cameraCoverageUsesAllCameras() ? filteredPlatforms().reduce((sum, platform) => sum + Number(platform[`cameraCoveredPopulation${radius}`] || 0), 0) : null;
-          const uncovered = covered == null ? null : Math.max(0, filteredPlatforms().reduce((sum, platform) => sum + Number(platform.population || 0), 0) - covered);
-          return { radius, covered, uncovered, pct: coveragePercent(covered, filteredPlatforms().reduce((sum, platform) => sum + Number(platform.population || 0), 0)) };
+          const oldScenario = cameraCoverageScenario;
+          const oldKey = cameraCoverageCacheKey;
+          const oldCache = cameraCoverageCache;
+          cameraCoverageScenario = radius;
+          cameraCoverageCacheKey = "";
+          cameraCoverageCache = null;
+          const totals = cameraCoverageTotals();
+          cameraCoverageScenario = oldScenario;
+          cameraCoverageCacheKey = oldKey;
+          cameraCoverageCache = oldCache;
+          return { radius, covered: totals.covered, uncovered: totals.uncovered, pct: totals.coveredPct };
         });
         const rows = cameraCoverageRows()
           .filter((row) => !selectedPlatform || row.platform.platformName === selectedPlatform)
@@ -1728,7 +1871,7 @@
             <h3>Población según cobertura</h3>
             <div class="coverage-donut" style="${donutStyle}"><strong>${fmt(totals.population)}<br>hab.</strong></div>
             <div class="mini-row"><span><span class="legend-swatch" style="background:#2f6f5f;border-color:#7e8790"></span>Potencialmente cubierta</span><strong>${totals.covered == null ? "No disponible" : `${fmt(totals.covered)} (${totals.coveredPct}%)`}</strong></div>
-            <div class="mini-row"><span><span class="legend-swatch" style="background:#d9a441;border-color:#7e8790"></span>Parcialmente cubierta</span><strong>No disponible</strong></div>
+            <div class="mini-row"><span><span class="legend-swatch" style="background:#d9a441;border-color:#7e8790"></span>Parcialmente cubierta</span><strong>${fmt(totals.partial || 0)} (${totals.partialPct || 0}%)</strong></div>
             <div class="mini-row"><span><span class="legend-swatch" style="background:#e8ede8;border-color:#7e8790"></span>No cubierta</span><strong>${totals.uncovered == null ? "No disponible" : `${fmt(totals.uncovered)} (${(100 - totals.coveredPct).toFixed(1)}%)`}</strong></div>
           </div>
           ${metricBars("Población potencialmente cubierta por escenario", scenarios.map((item) => ({ label: `${item.radius} m`, value: item.covered == null ? 0 : item.covered, color: item.radius === cameraCoverageScenario ? "#2f6f5f" : "#8fb96a" })), Math.max(...scenarios.map((item) => Number(item.covered || 0)), 1), "#2f6f5f")}
@@ -1804,6 +1947,9 @@
             elements.legend.innerHTML = `
               <div class="legend-row"><strong>Cobertura potencial ${cameraCoverageScenario} m</strong></div>
               <div class="legend-row"><span class="legend-swatch" style="background:rgba(47,111,95,.22);border-color:#2f6f5f"></span>Buffer técnico de cámara</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#2f6f5f;border-color:#7e8790"></span>Manzana cubierta</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#d9a441;border-color:#7e8790"></span>Manzana parcialmente cubierta</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#edf1ed;border-color:#7e8790"></span>Manzana no cubierta</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#1d4ed8;border-color:#fff"></span>Cámara</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#dc2626;border-color:#fff"></span>Cámara prevista para cambio</div>
               <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:2px solid #263a33"></span>Plataforma Territorial</div>
@@ -2055,15 +2201,17 @@
         cameraLayer.clearLayers();
         cameraMarkers.clear();
         filteredCameras().forEach((camera) => {
+          const compact = isCameraCoverageMode();
           const marker = L.marker([camera.lat, camera.lng], {
             icon: L.divIcon({
               className: "",
-              html: `<span class="camera-marker ${camera.requiresChange ? "change" : ""} ${camera.megaphone ? "megaphone" : ""}">${String(camera.n).padStart(2, "0")}</span>`,
-              iconSize: [30, 30],
-              iconAnchor: [15, 15],
+              html: `<span class="camera-marker ${compact ? "compact" : ""} ${camera.requiresChange ? "change" : ""} ${camera.megaphone ? "megaphone" : ""}">${compact ? "" : String(camera.n).padStart(2, "0")}</span>`,
+              iconSize: compact ? [16, 16] : [30, 30],
+              iconAnchor: compact ? [8, 8] : [15, 15],
               popupAnchor: [0, -14]
             })
-          }).bindPopup(cameraPopup(camera));
+          }).bindTooltip(`${esc(camera.id)} · ${esc(camera.address)}`, { sticky: true });
+          if (!compact) marker.bindPopup(cameraPopup(camera));
           marker.on("click", () => selectCamera(camera.id, false));
           marker.addTo(cameraLayer);
           cameraMarkers.set(camera.id, marker);
@@ -2073,7 +2221,7 @@
       function renderCameraCoverageLayer() {
         cameraCoverageLayer.clearLayers();
         if (!isCameraCoverageMode()) return;
-        coverageCameraSet().forEach((camera) => {
+        coverageCameraSet(null).forEach((camera) => {
           L.circle([camera.lat, camera.lng], {
             radius: cameraCoverageScenario,
             color: camera.requiresChange ? "#dc2626" : "#2f6f5f",
@@ -2289,7 +2437,12 @@
             elements.overlayTitle.textContent = "Cobertura potencial de cámaras";
             elements.overlayText.textContent = `Escenario ${cameraCoverageScenario} m · ${cameraCoverageSet === "change" ? "cámaras previstas para cambio" : "todas las cámaras"} · ${totals.coveredPct == null ? "cobertura poblacional no disponible para este subconjunto" : `${totals.coveredPct}% de población potencialmente cubierta`}.`;
           }
-          elements.status.textContent = `Fases integradas: ${diagnosis.summary?.platforms || 18} plataformas territoriales, ${fmt(diagnosis.summary?.populationWithPlatform)} habitantes asignados, ${fmt(diagnosis.summary?.hotspots || 0)} hotspots preliminares y ${fmt(diagnosis.summary?.videoDeficitHighOrCritical || 0)} plataformas con déficit alto/crítico.`;
+          if (isCameraCoverageMode()) {
+            const totals = cameraCoverageTotals();
+            elements.status.textContent = `Cobertura potencial de cámaras: ${cameraCoverageScenario} m, ${cameraCoverageSet === "change" ? "cámaras previstas para cambio" : "todas las cámaras"}, ${fmt(Math.round(totals.covered || 0))} habitantes potencialmente cubiertos.`;
+          } else {
+            elements.status.textContent = `Fases integradas: ${diagnosis.summary?.platforms || 18} plataformas territoriales, ${fmt(diagnosis.summary?.populationWithPlatform)} habitantes asignados, ${fmt(diagnosis.summary?.hotspots || 0)} hotspots preliminares y ${fmt(diagnosis.summary?.videoDeficitHighOrCritical || 0)} plataformas con déficit alto/crítico.`;
+          }
         } else {
           if (mode === "ecu") {
             renderParishDetail(selectedParish);
@@ -2393,20 +2546,27 @@
       }
 
       function selectCamera(cameraId, pan) {
+        const wasCoverage = isCameraCoverageMode();
         selectedCamera = cameraId;
         selectedId = null;
         selectedParish = null;
         selectedPolice = null;
         selectedPlatform = null;
-        mode = "cameras";
+        if (!wasCoverage) mode = "cameras";
         syncModeButtons();
         renderCameraDetail(cameraId);
         renderSummary(filteredEvents());
         renderList(filteredEvents());
+        if (wasCoverage) {
+          renderGraphicAnalysis();
+          renderLegend();
+          renderMethodologyPanel();
+          syncCoverageControls();
+        }
         const marker = cameraMarkers.get(cameraId);
         if (marker) {
           if (pan) map.setView(marker.getLatLng(), Math.max(map.getZoom(), 15), { animate: true });
-          marker.openPopup();
+          if (!wasCoverage && marker.openPopup) marker.openPopup();
         }
       }
 
@@ -2448,7 +2608,7 @@
         if (platformGeojsonCache && platform) {
           feature = (platformGeojsonCache.features || []).find((item) => item.properties?.platform_name === platform.platformName);
         }
-        const miniCameras = coverageCameraSet(platform?.platformName || null);
+        const miniCameras = coverageCameraSet(null);
         if (manzanaLayer && platformStats && feature && platform) {
           manzanaLayer.eachLayer((layer) => {
             const man = layer.feature?.properties?.man;
@@ -2485,8 +2645,8 @@
         const platform = selectedPlatform ? platformRecord(selectedPlatform) : null;
         const totals = cameraCoverageTotals();
         const population = platform ? Number(platform.population || 0) : totals.population;
-        const camerasCount = platform ? (cameraCoverageSet === "change" ? Number(platform.camerasReplacement || 0) : Number(platform.cameras || 0)) : (cameraCoverageSet === "change" ? totals.changeCount : totals.camerasCount);
-        const changeCount = platform ? Number(platform.camerasReplacement || 0) : totals.changeCount;
+        const camerasCount = coverageCameraSet(selectedPlatform).length;
+        const changeCount = cameras.filter((camera) => camera.requiresChange && cameraInPlatform(camera, selectedPlatform)).length;
         const covered = platform ? coverageValue(platform, cameraCoveragePopulationKey()) : totals.covered;
         const coveredPct = coveragePercent(covered, population);
         const uncovered = covered == null ? null : Math.max(0, population - covered);
@@ -2842,6 +3002,9 @@
           if (!manzanaResponse.ok) throw new Error("No se pudo cargar la capa de manzanas");
           const [platformGeojson, manzanaGeojson] = await Promise.all([platformResponse.json(), manzanaResponse.json()]);
           platformGeojsonCache = platformGeojson;
+          manzanaGeojsonCache = manzanaGeojson;
+          cameraCoverageCacheKey = "";
+          cameraCoverageCache = null;
           platformStats = platformStatsResponse.ok ? await platformStatsResponse.json() : null;
           manzanaStats = manzanaStatsResponse.ok ? await manzanaStatsResponse.json() : null;
           manzanaLayer = L.geoJSON(manzanaGeojson, {
@@ -2941,12 +3104,16 @@
         elements.cameraCoverageControls.querySelectorAll("[data-coverage-radius]").forEach((button) => {
           button.addEventListener("click", () => {
             cameraCoverageScenario = Number(button.dataset.coverageRadius);
+            cameraCoverageCacheKey = "";
+            cameraCoverageCache = null;
             update();
           });
         });
         elements.cameraCoverageControls.querySelectorAll("[data-camera-set]").forEach((button) => {
           button.addEventListener("click", () => {
             cameraCoverageSet = button.dataset.cameraSet;
+            cameraCoverageCacheKey = "";
+            cameraCoverageCache = null;
             update();
           });
         });
