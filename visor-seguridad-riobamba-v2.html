@@ -210,6 +210,50 @@
     .summary-card { padding: 10px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
     .summary-card span { display: block; color: var(--muted); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em; }
     .summary-card strong { display: block; margin-top: 4px; font-size: 1rem; }
+    .territory-empty,
+    .territory-card { display: grid; gap: 10px; }
+    .territory-kpis {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .territory-kpi {
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: #fff;
+    }
+    .territory-kpi span {
+      display: block;
+      color: var(--muted);
+      font-size: .67rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .territory-kpi strong {
+      display: block;
+      margin-top: 4px;
+      color: #062d60;
+      font-size: 1.05rem;
+    }
+    .territory-accordion {
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: #fff;
+      overflow: hidden;
+    }
+    .territory-accordion summary {
+      cursor: pointer;
+      padding: 10px 12px;
+      font-weight: 800;
+      color: #082d59;
+      background: #f5f9fb;
+    }
+    .territory-accordion .accordion-body {
+      display: grid;
+      gap: 8px;
+      padding: 10px 12px 12px;
+    }
     .interpretation-list { display: grid; gap: 8px; }
     .detail-mini-map {
       min-height: 230px;
@@ -3894,60 +3938,52 @@
       function renderPlatformDetail(platformName) {
         const platform = platformRecord(platformName);
         if (!platform) {
-          elements.detailTitle.textContent = "Diagnóstico territorial";
+          elements.detailTitle.textContent = "Detalle territorial";
           const currentCoverageTotals = cameraCoverageTotalsAtScenario(cameraCoverageScenario);
-          const coverage100Total = cameraCoverageTotalsAtScenario(100).covered || 0;
-          const coverage150Total = cameraCoverageTotalsAtScenario(150).covered || 0;
-          const coverage200Total = cameraCoverageTotalsAtScenario(200).covered || 0;
           const notes = (diagnosis.methodNotes || []).map((note) => `<p>${esc(note)}</p>`).join("");
           const methodRows = (diagnosis.methodControl || []).map((item) => `<div class="mini-row"><span>${esc(item.result)}</span><strong>${esc(item.method)}</strong></div><p>${esc(item.parameters)}. ${esc(item.limitations)}</p>`).join("");
-          const phaseRows = [
-            ["Etapa implementada", diagnosis.phase || "Etapa 1"],
-            ["Tabla maestra", diagnosis.masterTableName || "ANALISIS_PLATAFORMAS"],
-            ["Eventos A/B usados", `${fmt(diagnosis.summary?.incidentSpatialQuality?.spatialValidAB || 0)} de ${fmt(diagnosis.summary?.incidentSpatialQuality?.total || 0)}`],
-            ["Eventos C no espaciales", diagnosis.summary?.incidentSpatialQuality?.byPrecisionGeo?.C || 0],
-            ["Pob. expuesta 100 m", diagnosis.summary?.populationExposed100 || 0],
-            ["Pob. expuesta 250 m", diagnosis.summary?.populationExposed250 || 0],
-            ["Pob. expuesta 500 m", diagnosis.summary?.populationExposed500 || 0],
-            ["Pob. cubierta cámaras municipales 100 m", coverage100Total],
-            ["Pob. cubierta cámaras municipales 150 m", coverage150Total],
-            ["Pob. cubierta cámaras municipales 200 m", coverage200Total],
-            ["Pob. no cubierta cámaras municipales", currentCoverageTotals.uncovered || 0],
-            ["Red bulevar/conexión m", diagnosis.summary?.boulevardTotalLengthM || 0],
-            ["Inc. cerca bulevar", diagnosis.summary?.incidentsNearBoulevard || 0],
-            ["Hotspots cerca bulevar", diagnosis.summary?.hotspotsNearBoulevard || 0],
-            ["Prioridad territorial", diagnosis.summary?.territorialPriorityPlatforms || 0],
-            ["Manzanas intersectadas", `${fmt(diagnosis.summary?.manzanasAssigned || 0)} de ${fmt((diagnosis.summary?.manzanasAssigned || 0) + (diagnosis.summary?.manzanasWithoutPlatform || 0))}`],
-            ["Manzanas cruzan plataformas", diagnosis.summary?.manzanasSplitByPlatforms || 0],
-            ["1. Hotspots preliminares", `${fmt(diagnosis.summary?.hotspots || 0)} plataformas con concentración preliminar`],
-            ["2. Déficit de videovigilancia", `${fmt(diagnosis.summary?.videoDeficitHighOrCritical || 0)} plataformas en ALTO/CRITICO`],
-            ["3. Cobertura potencial de cámaras municipales", `${fmt(currentCoverageTotals.covered || 0)} habitantes en radio técnico`],
-            ["4. Población cercana a boulevares/conexiones", `${fmt(diagnosis.summary?.populationNearBoulevard || 0)} habitantes`],
-            ["5. Incidentes cerca de cámaras, policía y red", "Ver conteo por plataforma al seleccionar una ficha"],
-            ["6. Cobertura institucional", "Clasificación BAJA / MEDIA / ALTA por plataforma"],
-            ["7. Tipología territorial", "Lectura combinada de conflictividad, densidad y cobertura"],
-            ["8. Zonas críticas preliminares", "Priorización operativa por plataforma"],
-            ["Etapa 8. Tabla maestra", `${(diagnosis.masterSchema || []).length} campos en ${diagnosis.masterTableName || "ANALISIS_PLATAFORMAS"}`],
-            ["AHP", diagnosis.ahpStatus?.implemented ? "Implementado" : "Pendiente; sin pesos arbitrarios"],
-          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
-          elements.detail.innerHTML = "<p>Selecciona una Plataforma Territorial para revisar las fases integradas. Los campos no calculados se muestran como N/D.</p>"
-            + phaseRows
-            + methodRows
-            + (diagnosis.inventory || []).map((item) => `<div class="mini-row"><span>${esc(item.component)}</span><strong>${esc(item.records)} registros</strong></div>`).join("")
-            + notes;
-          elements.overlayTitle.textContent = "Fases integradas: plataformas territoriales";
-          elements.overlayText.textContent = "Unidad principal: 18 Plataformas Territoriales reales. Los indicadores de hotspot y déficit son preliminares, no un índice ponderado definitivo.";
+          const totalIncidents = kdeValidation.controlTable?.TOTAL_REGISTROS || events.length;
+          const technicalTrace = [
+            ["Tabla", diagnosis.masterTableName || "ANALISIS_PLATAFORMAS"],
+            ["Eventos publicados", diagnosis.summary?.incidentSpatialQuality?.total || totalIncidents],
+            ["Eventos georreferenciados válidos", diagnosis.summary?.incidentSpatialQuality?.spatialValidAB || kdeValidation.controlTable?.REGISTROS_KDE || "N/D"],
+            ["Eventos no espaciales", diagnosis.summary?.incidentSpatialQuality?.byPrecisionGeo?.C ?? kdeValidation.controlTable?.REGISTROS_EXCLUIDOS ?? "N/D"],
+            ["Etapa", diagnosis.phase || "Etapa 8"],
+            ["Campos tabla maestra", (diagnosis.masterSchema || []).length || "N/D"],
+            ["Población cubierta cámaras municipales", currentCoverageTotals.covered || 0],
+            ["Escenario cámaras", `${cameraCoverageScenario} m`],
+          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${displayValue(value)}</strong></div>`).join("");
+          elements.detail.innerHTML = `
+            <div class="territory-empty">
+              <p>Selecciona una Plataforma Territorial en el mapa para consultar sus indicadores.</p>
+              <div class="territory-kpis">
+                <div class="territory-kpi"><span>Plataformas</span><strong>${fmt(diagnosis.summary?.platforms || 18)}</strong></div>
+                <div class="territory-kpi"><span>Población total</span><strong>${fmt(diagnosis.summary?.populationWithPlatform || 0)}</strong></div>
+                <div class="territory-kpi"><span>Incidentes</span><strong>${fmt(totalIncidents)}</strong></div>
+                <div class="territory-kpi"><span>Cámaras municipales</span><strong>${fmt(municipalCameras.length)}</strong></div>
+                <div class="territory-kpi"><span>Infraestructura policial</span><strong>${fmt(policeInfrastructure.length || diagnosis.summary?.policeInfrastructureAssigned || 0)}</strong></div>
+              </div>
+              <select id="territoryPlatformSelect" aria-label="Seleccionar Plataforma">
+                <option value="">Seleccionar Plataforma</option>
+                ${filteredPlatforms().map((item) => `<option value="${esc(item.platformName)}">${esc(item.platformName)}</option>`).join("")}
+              </select>
+            </div>`;
+          const platformSelect = document.getElementById("territoryPlatformSelect");
+          if (platformSelect) platformSelect.addEventListener("change", () => platformSelect.value && selectPlatform(platformSelect.value, true));
+          const panel = document.getElementById("methodologyPanel");
+          if (panel) {
+            panel.innerHTML = `<h3>Calidad y trazabilidad de datos</h3>${technicalTrace}${methodRows}${(diagnosis.inventory || []).map((item) => `<div class="mini-row"><span>${esc(item.component)}</span><strong>${esc(item.records)} registros</strong></div>`).join("")}${notes}`;
+          }
+          elements.overlayTitle.textContent = "Detalle territorial";
+          elements.overlayText.textContent = "Unidad principal: 18 Plataformas Territoriales reales. Selecciona una Plataforma para revisar indicadores compactos por bloque.";
           return;
         }
-        elements.detailTitle.textContent = platform.platformName;
+        elements.detailTitle.textContent = "Detalle territorial";
         const topTypes = (platform.incidentTypes || []).slice(0, 4).map((item) => `<span class="pill">${esc(item.type)}: ${fmt(item.count)}</span>`).join("");
         const valueOrNA = (value, suffix = "") => (value === null || value === undefined || value === "" || value === "N/D") ? "No disponible" : `${displayValue(value)}${suffix}`;
         const km = (meters) => typeof meters === "number" ? `${(meters / 1000).toFixed(2)} km` : valueOrNA(meters);
         const municipalCount = municipalCamerasInPlatform(platform.platformName).length;
         const municipalChange = municipalCamerasInPlatform(platform.platformName).filter((camera) => camera.requiresChange).length;
-        const coverage100 = cameraCoverageRowAtScenario(platform.platformName, 100);
-        const coverage150 = cameraCoverageRowAtScenario(platform.platformName, 150);
-        const coverage200 = cameraCoverageRowAtScenario(platform.platformName, 200);
         const activeCoverage = cameraCoverageRowAtScenario(platform.platformName, cameraCoverageScenario);
         const activeCoveragePct = activeCoverage.coveredPct;
         const camerasNearBoulevard = municipalCamerasNearBoulevard(platform.platformName);
@@ -3995,9 +4031,7 @@
           ["Incidentes precisión B", platform.incidentsB],
           ["Tasa / 1.000", platform.incidentRate1000],
           ["Hotspots preliminares", platform.hotspots],
-          ["Pob. expuesta 100 m", platform.populationExposed100],
-          ["Pob. expuesta 250 m", platform.populationExposed250],
-          ["Pob. expuesta 500 m", platform.populationExposed500],
+          ["Pob. expuesta a concentración", platform.populationExposed250],
           ["Infraestructura policial", platform.policeInfrastructure],
           ["Personal policial", platform.policePersonnel],
           ["Pob. / infraestructura", platform.populationPerPoliceInfrastructure],
@@ -4013,9 +4047,7 @@
           ["Cámaras municipales", municipalCount],
           ["Municipales con cambio previsto", municipalChange],
           ["Radio cobertura cámaras municipales", `${cameraCoverageScenario} m`],
-          ["Pob. cub. cámaras municipales 100 m", coverage100.coveredPopulation],
-          ["Pob. cub. cámaras municipales 150 m", coverage150.coveredPopulation],
-          ["Pob. cub. cámaras municipales 200 m", coverage200.coveredPopulation],
+          ["Escenario cámaras municipales", `${cameraCoverageScenario} m`],
           ["Pob. cubierta por cámaras municipales", activeCoverage.coveredPopulation],
           ["Pob. no cubierta cámaras municipales", activeCoverage.uncoveredPopulation],
           ["% pob. cubierta cámaras municipales", typeof activeCoverage.coveredPct === "number" ? `${activeCoverage.coveredPct}%` : activeCoverage.coveredPct],
@@ -4066,43 +4098,88 @@
             ["Distancia máxima", accessRow.DIST_MAX == null ? "N/D" : `${fmt(accessRow.DIST_MAX)} m`],
           ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")}
         ` : "";
+        const rowHtml = (rows) => rows.map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${displayValue(value)}</strong></div>`).join("");
+        const proximityRows = accessRow ? [
+          ["≤250 m", `${fmt(accessRow.POB_0_250)} (${accessRow.PCT_0_250}%)`],
+          ["250-500 m", `${fmt(accessRow.POB_250_500)} (${accessRow.PCT_250_500}%)`],
+          ["500-1.000 m", `${fmt(accessRow.POB_500_1000)} (${accessRow.PCT_500_1000}%)`],
+          [">2.000 m", `${fmt(accessRow.POB_MAS_2000)} (${accessRow.PCT_MAS_2000}%)`],
+        ] : [];
+        const accordionOrder = isKdeMode() || isGiHotspotsMode()
+          ? ["Conflictividad", "Demografía", "Videovigilancia municipal", "Accesibilidad policial", "Bulevares Seguros"]
+          : isCameraCoverageMode()
+            ? ["Videovigilancia municipal", "Demografía", "Conflictividad", "Accesibilidad policial", "Bulevares Seguros"]
+            : isBoulevardsMode()
+              ? ["Bulevares Seguros", "Demografía", "Conflictividad", "Videovigilancia municipal", "Accesibilidad policial"]
+              : ["Demografía", "Conflictividad", "Videovigilancia municipal", "Accesibilidad policial", "Bulevares Seguros"];
+        const accordionContent = {
+          "Demografía": rowHtml([
+            ["Población", `${fmt(platform.population)} hab.`],
+            ["Área", `${displayValue(platform.areaKm2)} km²`],
+            ["Densidad", `${fmt(Math.round(platform.densityPopKm2 || 0))} hab/km²`],
+            ["Manzanas censales", platform.manzanas],
+          ]),
+          "Conflictividad": rowHtml([
+            ["Incidentes", platform.incidents],
+            ["Tasa", `${displayValue(platform.incidentRate1000)} / 1.000 hab.`],
+            ["Tipología predominante", (platform.incidentTypes || [])[0]?.type || "N/D"],
+            ["Concentraciones KDE", platform.hotspots],
+            ["Hotspots significativos", platform.giHotspots || platform.hotspots || "N/D"],
+          ]) + `<div class="pill-row">${topTypes || '<span class="pill">Sin tipos de incidente asignados</span>'}</div>`,
+          "Videovigilancia municipal": rowHtml([
+            ["Cámaras municipales", municipalCount],
+            ["Cámaras / 10.000 hab.", platform.population ? ((municipalCount / Number(platform.population)) * 10000).toFixed(2) : "N/D"],
+            ["Cobertura potencial seleccionada", `${cameraCoverageScenario} m`],
+            ["Población potencialmente cubierta", activeCoverage.coveredPopulation],
+            ["Cobertura poblacional", typeof activeCoverage.coveredPct === "number" ? `${activeCoverage.coveredPct}%` : "N/D"],
+          ]),
+          "Accesibilidad policial": rowHtml([
+            ["Infraestructura policial", accessRow?.NUM_INF_POL ?? platform.policeInfrastructure],
+            ["UPC", accessRow?.NUM_UPC ?? "N/D"],
+            ["Distancia media", accessRow?.DIST_MEDIA == null ? (platform.avgPopulationDistancePoliceM ? `${fmt(platform.avgPopulationDistancePoliceM)} m` : "N/D") : `${fmt(accessRow.DIST_MEDIA)} m`],
+          ]) + (proximityRows.length ? `<h3>Población según proximidad</h3>${rowHtml(proximityRows)}` : ""),
+          "Bulevares Seguros": rowHtml([
+            ["Longitud", km(platform.boulevardTotalLengthM)],
+            ["Densidad", platform.boulevardDensityMPerKm2 ? `${(Number(platform.boulevardDensityMPerKm2) / 1000).toFixed(2)} km/km²` : "N/D"],
+            ["Población ≤250 m", platform.populationNearBoulevard],
+            ["Cámaras municipales ≤250 m", camerasNearBoulevard],
+          ])
+        };
         elements.detail.innerHTML = `
-          <div class="detail-tabs">
-            <input id="tab-summary" name="platformDetailTabs" type="radio" checked>
-            <input id="tab-map" name="platformDetailTabs" type="radio">
-            <input id="tab-tech" name="platformDetailTabs" type="radio">
-            <div class="detail-tab-labels">
-              <label for="tab-summary">Resumen</label>
-              <label for="tab-map">Mapa de detalle</label>
-              <label for="tab-tech">Información técnica</label>
+          <div class="territory-card">
+            <h3>${esc(platform.platformName)}</h3>
+            <div class="detail-mini-map" id="detailMiniMap"></div>
+            <div class="territory-kpis">
+              <div class="territory-kpi"><span>Población</span><strong>${fmt(platform.population)}</strong></div>
+              <div class="territory-kpi"><span>Incidentes</span><strong>${fmt(platform.incidents)}</strong></div>
+              <div class="territory-kpi"><span>Cámaras mun.</span><strong>${fmt(municipalCount)}</strong></div>
+              <div class="territory-kpi"><span>Policía</span><strong>${fmt(platform.policeInfrastructure || 0)}</strong></div>
             </div>
-            <div class="detail-tab-panel summary-panel">
-              <div class="summary-cards">${summaryCards}</div>
-              <h3>¿Qué nos dicen los datos?</h3>
-              <div class="interpretation-list">${interpretationHtml}</div>
-              ${diagnosisMetric === "policeAccessibility" ? accessDetail : ""}
-            </div>
-            <div class="detail-tab-panel map-panel">
-              <div class="detail-mini-map" id="detailMiniMap"></div>
-              <p>El mapa principal muestra la Plataforma seleccionada con las capas reales disponibles. Activa o desactiva eventos, cámaras, infraestructura policial y bulevares desde “Capas de contexto”.</p>
-              <div class="mini-row"><span>Eventos</span><strong>${valueOrNA(platform.incidents)}</strong></div>
-              <div class="mini-row"><span>Cámaras municipales</span><strong>${valueOrNA(municipalCount)}</strong></div>
-              <div class="mini-row"><span>Infraestructura policial</span><strong>${valueOrNA(platform.policeInfrastructure)}</strong></div>
-              <div class="mini-row"><span>Bulevares / conexiones</span><strong>${km(platform.boulevardTotalLengthM)}</strong></div>
-              ${diagnosisMetric === "policeAccessibility" ? accessDetail : ""}
-              ${concentrationButtons}
-            </div>
-            <div class="detail-tab-panel tech-panel">
-              ${technicalRows}
-              <div class="pill-row">${topTypes || '<span class="pill">Sin tipos de incidente asignados</span>'}</div>
-              <h3>Fuentes, metodología y limitaciones</h3>
-              ${technicalMeta}
-              <p>${esc(platform.hotspotMethod || "No disponible")}</p>
-              <p>${esc(platform.dataStatus?.population || "No disponible")}</p>
-              <p>${esc(platform.dataStatus?.securityIndicators || "No disponible")}</p>
-              <p>${esc(platform.dataStatus?.institutionalCoverage || "No disponible")}</p>
-            </div>
+            ${accordionOrder.map((name, index) => `
+              <details class="territory-accordion" ${index === 0 ? "open" : ""}>
+                <summary>${esc(name)}</summary>
+                <div class="accordion-body">${accordionContent[name]}</div>
+              </details>
+            `).join("")}
+            <details class="territory-accordion">
+              <summary>Información técnica</summary>
+              <div class="accordion-body">
+                ${technicalRows}
+                <h3>Calidad y trazabilidad</h3>
+                ${technicalMeta}
+              </div>
+            </details>
+            <h3>¿Qué nos dicen los datos?</h3>
+            <div class="interpretation-list">${interpretationHtml}</div>
           </div>`;
+        elements.detail.querySelectorAll(".territory-accordion").forEach((detail) => {
+          detail.addEventListener("toggle", () => {
+            if (!detail.open) return;
+            elements.detail.querySelectorAll(".territory-accordion").forEach((other) => {
+              if (other !== detail) other.open = false;
+            });
+          });
+        });
         setTimeout(() => renderDetailMiniMap(platform), 0);
         elements.overlayTitle.textContent = `${platform.platformName} · fases integradas`;
         elements.overlayText.textContent = `${fmt(platform.population)} habitantes, ${platform.areaKm2} km², déficit ${platform.videoDeficit}, cobertura institucional ${platform.institutionalCoverage}, ${fmt(platform.incidents)} incidentes y ${fmt(municipalCount)} cámaras municipales asignadas.`;
