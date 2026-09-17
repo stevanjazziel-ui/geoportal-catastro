@@ -531,17 +531,17 @@
        Shared components: KpiCard, ChartCard, DataTable, MiniMap, TerritoryDetailPanel. */
     .dashboard-shell {
       display: grid;
-      grid-template-rows: 64px minmax(0, 1fr);
+      grid-template-rows: 54px minmax(0, 1fr);
       height: 100dvh;
       background: #eef5f7;
       overflow: hidden;
     }
     .topbar {
       display: grid;
-      grid-template-columns: 270px minmax(0, 1fr) auto auto;
-      gap: 12px;
+      grid-template-columns: minmax(220px, 1fr) auto auto;
+      gap: 10px;
       align-items: center;
-      padding: 0 18px;
+      padding: 0 14px 0 18px;
       background: linear-gradient(90deg, #062844, #06375c);
       border-bottom: 1px solid rgba(255,255,255,.16);
       color: #fff;
@@ -549,29 +549,11 @@
     .brand-block { display: grid; gap: 1px; }
     .brand-block strong { display: block; font-size: 1rem; letter-spacing: .03em; }
     .brand-block span { color: rgba(255,255,255,.72); font-size: .78rem; }
-    .top-nav { display: flex; align-items: center; justify-content: center; gap: 6px; min-width: 0; }
-    .top-nav button {
-      width: auto;
-      min-height: 44px;
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: 1px solid transparent;
-      background: transparent;
-      color: rgba(255,255,255,.86);
-      text-align: center;
-      font-size: .78rem;
-      font-weight: 700;
-    }
-    .top-nav button.is-active, .top-nav button:hover {
-      background: #1177d8;
-      color: #fff;
-      border-color: rgba(255,255,255,.18);
-    }
     .period-pill {
       display: grid;
       gap: 1px;
       min-width: 180px;
-      padding: 7px 12px;
+      padding: 6px 11px;
       border: 1px solid rgba(255,255,255,.24);
       border-radius: 8px;
       background: rgba(255,255,255,.07);
@@ -1016,13 +998,11 @@
         content: attr(data-icon);
         font-size: 1rem;
       }
-      .top-nav button { padding: 8px; font-size: .72rem; }
       .filter-bar .filter-grid { grid-template-columns: repeat(3, minmax(130px, 1fr)); }
       .kpi-row .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
     @media (max-width: 1100px) {
-      .topbar { grid-template-columns: 1fr auto; }
-      .top-nav, .period-pill { display: none; }
+      .topbar { grid-template-columns: minmax(0, 1fr) auto auto; }
       .dashboard-main { grid-template-columns: 1fr; overflow: hidden; }
       .analysis-nav { display: none; }
       .analysis-workspace { padding: 12px; }
@@ -1043,16 +1023,6 @@
   <div class="dashboard-shell">
     <header class="topbar">
       <div class="brand-block"><strong>SEGURIDAD CIUDADANA</strong><span>Diagnóstico Territorial - Riobamba</span></div>
-      <div class="top-nav" aria-label="Navegación principal">
-        <button type="button">Inicio</button>
-        <button type="button">Diagnóstico</button>
-        <button type="button">Demografía</button>
-        <button class="is-active" type="button">Conflictividad</button>
-        <button type="button">Cobertura Territorial</button>
-        <button type="button">Brechas</button>
-        <button type="button">Detalle Territorial</button>
-        <button type="button">Descargas</button>
-      </div>
       <div class="period-pill"><span>Periodo de análisis</span><strong id="topPeriod">-</strong></div>
       <button class="header-action" id="fullscreenAnalysisButton" type="button">⛶</button>
     </header>
