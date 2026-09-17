@@ -667,6 +667,20 @@
                 <button type="button" data-camera-set="external" disabled>Externas</button>
               </div>
             </div>
+            <div class="coverage-controls" id="giHotspotControls" hidden>
+              <span class="control-label">Nivel de significancia</span>
+              <select id="giSignificanceSelect" aria-label="Nivel de significancia">
+                <option value="all">Todos</option>
+                <option value="99">99 %</option>
+                <option value="95">95 % o superior</option>
+                <option value="90">90 % o superior</option>
+              </select>
+              <span class="control-label">Tipo</span>
+              <select id="giTypeSelect" aria-label="Tipo de resultado Gi*">
+                <option value="hot">Hotspots</option>
+                <option value="both">Hotspots + Coldspots</option>
+              </select>
+            </div>
           </div>
         </section>
         <section class="panel">
@@ -780,6 +794,9 @@
         status: document.getElementById("statusText"),
         overlayTitle: document.getElementById("overlayTitle"),
         overlayText: document.getElementById("overlayText"),
+        giHotspotControls: document.getElementById("giHotspotControls"),
+        giSignificance: document.getElementById("giSignificanceSelect"),
+        giType: document.getElementById("giTypeSelect"),
         toggleEvents: document.getElementById("toggleEvents"),
         toggleParishes: document.getElementById("toggleParishes"),
         toggleCameras: document.getElementById("toggleCameras"),
@@ -816,6 +833,9 @@
       let selectedCamera = null;
       let selectedPolice = null;
       let selectedPlatform = null;
+      let selectedGiCell = null;
+      let giSignificanceLevel = "all";
+      let giResultType = "hot";
       let mode = "diagnosis";
       let diagnosisMetric = "hotspots";
       let cameraCoverageScenario = 150;
@@ -1109,7 +1129,17 @@
       };
       const platformVisualStyle = (feature) => {
         const platform = platformRecord(feature?.properties?.platform_name);
-        if (isKdeMode() || isGiHotspotsMode() || isTypologiesMode() || isTemporalMode()) {
+        if (isGiHotspotsMode()) {
+          const selected = selectedPlatform && feature?.properties?.platform_name === selectedPlatform;
+          return {
+            color: "#263a33",
+            weight: selected ? 2 : 0.7,
+            fillColor: "#ffffff",
+            fillOpacity: selected ? 0.08 : 0.01,
+            opacity: selected ? 0.85 : 0.35
+          };
+        }
+        if (isKdeMode() || isTypologiesMode() || isTemporalMode()) {
           return {
             color: "#263a33",
             weight: 2.4,
@@ -1297,6 +1327,9 @@
       const syncCoverageControls = () => {
         if (!elements.cameraCoverageControls) return;
         elements.cameraCoverageControls.hidden = !isCameraCoverageMode();
+        if (elements.giHotspotControls) elements.giHotspotControls.hidden = !isGiHotspotsMode();
+        if (elements.giSignificance) elements.giSignificance.value = giSignificanceLevel;
+        if (elements.giType) elements.giType.value = giResultType;
         elements.cameraCoverageControls.querySelectorAll("[data-coverage-radius]").forEach((button) => {
           button.classList.toggle("is-active", Number(button.dataset.coverageRadius) === cameraCoverageScenario);
         });
@@ -1387,6 +1420,17 @@
         if (z <= -1.65) return "COLDSPOT 90 %";
         return "NO SIGNIFICATIVO";
       };
+      const giClassRank = (label) => label.includes("99") ? 99 : label.includes("95") ? 95 : label.includes("90") ? 90 : 0;
+      const giClassColor = (label) => label.startsWith("HOT") && label.includes("99") ? "#7f1d1d" : label.startsWith("HOT") && label.includes("95") ? "#dc2626" : label.startsWith("HOT") && label.includes("90") ? "#fca5a5" : label.startsWith("COLD") && label.includes("99") ? "#1e3a8a" : label.startsWith("COLD") && label.includes("95") ? "#2563eb" : label.startsWith("COLD") && label.includes("90") ? "#93c5fd" : "#f3f4f6";
+      const giCellPassesFilter = (cell) => {
+        if (cell.giClass === "NO SIGNIFICATIVO") return giSignificanceLevel === "all";
+        const isCold = cell.giClass.startsWith("COLD");
+        if (isCold && giResultType !== "both") return false;
+        const rank = giClassRank(cell.giClass);
+        const minRank = giSignificanceLevel === "99" ? 99 : giSignificanceLevel === "95" ? 95 : giSignificanceLevel === "90" ? 90 : 0;
+        return rank >= minRank;
+      };
+      const filteredGiCells = () => getGiHotspotAnalysis().cells.filter(giCellPassesFilter);
       let giHotspotCache = null;
       const getGiHotspotAnalysis = () => {
         if (giHotspotCache && giHotspotCache.platformReady === Boolean(platformGeojsonCache)) return giHotspotCache;
@@ -2031,15 +2075,18 @@
           if (isGiHotspotsMode()) {
             const analysis = getGiHotspotAnalysis();
             const totalHotInc = analysis.hotspotCells.reduce((sum, cell) => sum + cell.incCount, 0);
+            const hot99 = analysis.hotspotCells.filter((cell) => cell.giClass === "HOTSPOT 99 %").length;
+            const hot9590 = analysis.hotspotCells.filter((cell) => ["HOTSPOT 95 %", "HOTSPOT 90 %"].includes(cell.giClass)).length;
             const hotArea = analysis.hotspotCells.reduce((sum, cell) => sum + cell.areaKm2, 0);
             const totalArea = analysis.cells.reduce((sum, cell) => sum + cell.areaKm2, 0) || 1;
             elements.summary.innerHTML = [
               ["Incidentes analizados", analysis.points.length],
               ["Celdas hotspot", analysis.hotspotCells.length],
-              ["Celdas coldspot", analysis.coldspotCells.length],
+              ["Hotspot 99 %", `${hot99} celdas`],
+              ["Hotspot 95/90 %", `${hot9590} celdas`],
               ["Incidentes en hotspots", `${fmt(totalHotInc)} / ${analysis.points.length ? (totalHotInc / analysis.points.length * 100).toFixed(1) : 0}%`],
-              ["Área en hotspots", `${hotArea.toFixed(2)} km² / ${(hotArea / totalArea * 100).toFixed(1)}%`],
-              ["Capa derivada", analysis.layerName]
+              ["Coldspots", analysis.coldspotCells.length],
+              ["Área en hotspots", `${hotArea.toFixed(2)} km² / ${(hotArea / totalArea * 100).toFixed(1)}%`]
             ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
             return;
           }
@@ -2074,13 +2121,15 @@
         }
         if (isGiHotspotsMode()) {
           const analysis = getGiHotspotAnalysis();
-          const classRows = Object.entries(analysis.cells.reduce((acc, cell) => {
-            acc[cell.giClass] = (acc[cell.giClass] || 0) + cell.incCount;
+          const classOrder = ["HOTSPOT 99 %", "HOTSPOT 95 %", "HOTSPOT 90 %", "NO SIGNIFICATIVO", "COLDSPOT 90 %", "COLDSPOT 95 %", "COLDSPOT 99 %"];
+          const classCounts = analysis.cells.reduce((acc, cell) => {
+            acc[cell.giClass] = (acc[cell.giClass] || 0) + 1;
             return acc;
-          }, {})).map(([label, value]) => ({ label, value, color: label.startsWith("HOT") ? "#dc2626" : label.startsWith("COLD") ? "#2563eb" : "#9ca3af" }));
+          }, {});
+          const classRows = classOrder.map((label) => ({ label, value: classCounts[label] || 0, color: giClassColor(label) }));
           const hotEvents = analysis.hotspotCells.flatMap((cell) => cell.incidents);
           const typeRows = categorySummary(hotEvents);
-          const byPlatform = Object.values(analysis.hotspotCells.reduce((acc, cell) => {
+          const byPlatformRaw = analysis.hotspotCells.reduce((acc, cell) => {
             const key = cell.platform || "No asignada";
             acc[key] = acc[key] || { platform: key, incidents: 0, cells: 0, area: 0, max: cell.giClass, types: [] };
             acc[key].incidents += cell.incCount;
@@ -2089,13 +2138,15 @@
             acc[key].types.push(...cell.incidents.map((event) => event.category || "Sin categoría"));
             if (Math.abs(cell.zScore) > Math.abs((acc[key].z || 0))) { acc[key].z = cell.zScore; acc[key].max = cell.giClass; }
             return acc;
-          }, {}));
+          }, {});
+          const byPlatform = filteredPlatforms().map((platform) => byPlatformRaw[platform.platformName] || { platform: platform.platformName, incidents: 0, cells: 0, area: 0, max: "NO SIGNIFICATIVO", types: [] });
           const table = byPlatform.map((row) => {
             const predominant = Object.entries(row.types.reduce((acc, type) => ((acc[type] = (acc[type] || 0) + 1), acc), {})).sort((a, b) => b[1] - a[1])[0]?.[0] || "N/D";
             return `<tr><td>${esc(row.platform.replace("PLATAFORMA ", ""))}</td><td>${fmt(row.incidents)}</td><td>${fmt(row.cells)}</td><td>${row.area.toFixed(2)}</td><td>${esc(row.max)}</td><td>${esc(predominant)}</td></tr>`;
           }).join("");
           elements.graphicAnalysis.innerHTML = `
-            ${metricBars("Incidentes por nivel de significancia", classRows, Math.max(...classRows.map((row) => row.value), 1), "#dc2626")}
+            ${metricBars("Celdas por significancia", classRows, Math.max(...classRows.map((row) => row.value), 1), "#dc2626")}
+            ${metricBars("Incidentes en hotspots por Plataforma", byPlatform.map((row) => ({ label: row.platform.replace("PLATAFORMA ", ""), value: row.incidents, color: "#dc2626" })), Math.max(...byPlatform.map((row) => row.incidents), 1), "#dc2626")}
             ${metricBars("Tipologías en hotspots", typeRows, Math.max(...typeRows.map((row) => row.value), 1), "#1d6fd8")}
             <div class="graphic-card"><h3>Hotspots por Plataforma</h3><table class="mini-table"><thead><tr><th>Plataforma</th><th>Inc.</th><th>Celdas</th><th>Área km²</th><th>Nivel máx.</th><th>Tipología</th></tr></thead><tbody>${table || "<tr><td colspan='6'>Sin hotspots significativos</td></tr>"}</tbody></table></div>
           `;
@@ -2524,15 +2575,20 @@
             return;
           }
           if (isGiHotspotsMode()) {
+            const analysis = getGiHotspotAnalysis();
             elements.legend.innerHTML = `
+              <div class="legend-row"><strong>HOTSPOTS ESTADÍSTICOS</strong></div>
               <div class="legend-row"><strong>Getis-Ord Gi*</strong></div>
-              <div class="legend-row"><span class="legend-swatch" style="background:#991b1b;border-color:#fff"></span>Hotspot 99 %</div>
-              <div class="legend-row"><span class="legend-swatch" style="background:#dc2626;border-color:#fff"></span>Hotspot 95 %</div>
-              <div class="legend-row"><span class="legend-swatch" style="background:#f97316;border-color:#fff"></span>Hotspot 90 %</div>
-              <div class="legend-row"><span class="legend-swatch" style="background:#e5e7eb;border-color:#7e8790"></span>No significativo</div>
-              <div class="legend-row"><span class="legend-swatch" style="background:#60a5fa;border-color:#fff"></span>Coldspot 90 %</div>
-              <div class="legend-row"><span class="legend-swatch" style="background:#2563eb;border-color:#fff"></span>Coldspot 95 %</div>
-              <div class="legend-row"><span class="legend-swatch" style="background:#1e3a8a;border-color:#fff"></span>Coldspot 99 %</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:${giClassColor("HOTSPOT 99 %")};border-color:#fff"></span>Hotspot 99 %</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:${giClassColor("HOTSPOT 95 %")};border-color:#fff"></span>Hotspot 95 %</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:${giClassColor("HOTSPOT 90 %")};border-color:#fff"></span>Hotspot 90 %</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:${giClassColor("NO SIGNIFICATIVO")};border-color:#7e8790"></span>No significativo</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:${giClassColor("COLDSPOT 90 %")};border-color:#fff"></span>Coldspot 90 %</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:${giClassColor("COLDSPOT 95 %")};border-color:#fff"></span>Coldspot 95 %</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:${giClassColor("COLDSPOT 99 %")};border-color:#fff"></span>Coldspot 99 %</div>
+              <div class="legend-row"><span>Celda</span><strong>${analysis.cellSize} m</strong></div>
+              <div class="legend-row"><span>Vecindad</span><strong>${analysis.neighborDistance} m</strong></div>
+              <div class="legend-row"><span>Incidentes analizados</span><strong>${fmt(analysis.points.length)}</strong></div>
             `;
             return;
           }
@@ -2710,18 +2766,20 @@
         if (isGiHotspotsMode()) {
           const analysis = getGiHotspotAnalysis();
           const half = analysis.cellSize / 2;
-          const colorByClass = (label) => label.startsWith("HOT") && label.includes("99") ? "#991b1b" : label.startsWith("HOT") && label.includes("95") ? "#dc2626" : label.startsWith("HOT") && label.includes("90") ? "#f97316" : label.startsWith("COLD") && label.includes("99") ? "#1e3a8a" : label.startsWith("COLD") && label.includes("95") ? "#2563eb" : label.startsWith("COLD") && label.includes("90") ? "#60a5fa" : "#e5e7eb";
-          analysis.cells.forEach((cell) => {
+          filteredGiCells().forEach((cell) => {
             const dLat = half / 110540;
             const dLng = half / (111320 * Math.cos(cell.lat * Math.PI / 180));
-            const color = colorByClass(cell.giClass);
-            L.polygon([[cell.lat - dLat, cell.lng - dLng], [cell.lat - dLat, cell.lng + dLng], [cell.lat + dLat, cell.lng + dLng], [cell.lat + dLat, cell.lng - dLng]], {
-              color: "#ffffff",
-              weight: 0.4,
+            const color = giClassColor(cell.giClass);
+            const layer = L.polygon([[cell.lat - dLat, cell.lng - dLng], [cell.lat - dLat, cell.lng + dLng], [cell.lat + dLat, cell.lng + dLng], [cell.lat + dLat, cell.lng - dLng]], {
+              color: cell.cellId === selectedGiCell ? "#111827" : "#ffffff",
+              weight: cell.cellId === selectedGiCell ? 1.4 : 0.45,
               fillColor: color,
-              fillOpacity: cell.giClass === "NO SIGNIFICATIVO" ? 0.22 : 0.68,
+              fillOpacity: cell.giClass === "NO SIGNIFICATIVO" ? 0.08 : 0.7,
               opacity: 0.8,
-            }).bindPopup(`<strong>${esc(cell.giClass)}</strong><br>Incidentes: ${fmt(cell.incCount)}<br>Z-score: ${cell.zScore}<br>p-value: ${cell.pValue}<br>${esc(cell.platform)}`).addTo(hotspotLayer);
+            }).bindTooltip(`${esc(cell.giClass)}<br>${fmt(cell.incCount)} incidentes`, { sticky: true })
+              .bindPopup(`<strong>CELDA: ${esc(cell.cellId)}</strong><br>Incidentes: ${fmt(cell.incCount)}<br>Getis-Ord Gi*: ${cell.giStar}<br>Z-score: ${cell.zScore}<br>p-value: ${cell.pValue}<br>Clasificación: ${esc(cell.giClass)}<br>Plataforma: ${esc(cell.platform)}<br>Tipología predominante: ${esc(categorySummary(cell.incidents)[0]?.label || "N/D")}`);
+            layer.on("click", () => { selectedGiCell = cell.cellId; renderConflictModuleDetail(); renderHotspots(filteredEvents()); });
+            layer.addTo(hotspotLayer);
           });
           bringLayerForward(hotspotLayer);
           bringLayerForward(platformLayer);
@@ -2974,6 +3032,7 @@
         selectedParish = null;
         selectedCamera = null;
         selectedPolice = null;
+        selectedGiCell = null;
         if (metric === "hotspots") setKdeDefaultContextLayers();
         if (["giHotspots", "incidentTypologies", "temporalAnalysis"].includes(metric)) setConflictContextLayers(metric);
         if (isBlockOneMetric()) setBlockOneContextLayers(metric);
@@ -3329,19 +3388,47 @@
       function renderConflictModuleDetail() {
         if (isGiHotspotsMode()) {
           const analysis = getGiHotspotAnalysis();
+          const selectedCell = analysis.cells.find((cell) => cell.cellId === selectedGiCell);
+          if (selectedCell) {
+            elements.detailTitle.textContent = "Detalle de hotspot";
+            elements.detail.innerHTML = [
+              ["Celda", selectedCell.cellId],
+              ["Incidentes", selectedCell.incCount],
+              ["Área", `${selectedCell.areaKm2.toFixed(3)} km²`],
+              ["Densidad descriptiva", `${(selectedCell.incCount / selectedCell.areaKm2).toFixed(1)} inc/km²`],
+              ["Plataforma", selectedCell.platform],
+              ["Getis-Ord Gi*", selectedCell.giStar],
+              ["Z-score", selectedCell.zScore],
+              ["p-value", selectedCell.pValue],
+              ["Clasificación", selectedCell.giClass],
+              ["Tipología predominante", categorySummary(selectedCell.incidents)[0]?.label || "N/D"]
+            ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+            return;
+          }
+          if (selectedPlatform) {
+            const platform = platformRecord(selectedPlatform);
+            const cells = analysis.hotspotCells.filter((cell) => cell.platform === selectedPlatform);
+            const incidents = cells.reduce((sum, cell) => sum + cell.incCount, 0);
+            const area = cells.reduce((sum, cell) => sum + cell.areaKm2, 0);
+            const territoryArea = Number(platform?.areaKm2 || 0) || 1;
+            const types = cells.flatMap((cell) => cell.incidents);
+            elements.detailTitle.textContent = selectedPlatform;
+            elements.detail.innerHTML = [
+              ["Incidentes georreferenciados", geoIncidentEvents().filter((event) => eventPlatformName(event) === selectedPlatform).length],
+              ["Celdas hotspot", cells.length],
+              ["Hotspot 99 %", cells.filter((cell) => cell.giClass === "HOTSPOT 99 %").length],
+              ["Hotspot 95 %", cells.filter((cell) => cell.giClass === "HOTSPOT 95 %").length],
+              ["Hotspot 90 %", cells.filter((cell) => cell.giClass === "HOTSPOT 90 %").length],
+              ["Incidentes dentro de hotspots", incidents],
+              ["Área hotspot", `${area.toFixed(2)} km²`],
+              ["% territorio en hotspot", `${(area / territoryArea * 100).toFixed(1)}%`],
+              ["Tipología predominante", categorySummary(types)[0]?.label || "N/D"]
+            ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+            return;
+          }
           const top = [...analysis.hotspotCells].sort((a, b) => b.incCount - a.incCount || b.zScore - a.zScore)[0];
           elements.detailTitle.textContent = "Detalle de hotspot";
-          elements.detail.innerHTML = top ? [
-            ["Incidentes", top.incCount],
-            ["Área", `${top.areaKm2.toFixed(3)} km²`],
-            ["Densidad descriptiva", `${(top.incCount / top.areaKm2).toFixed(1)} inc/km²`],
-            ["Plataforma", top.platform],
-            ["Z-score", top.zScore],
-            ["p-value", top.pValue],
-            ["Nivel de significancia", top.giClass],
-            ["Tipología predominante", categorySummary(top.incidents)[0]?.label || "N/D"],
-            ["Periodo de mayor ocurrencia", categorySummary(top.incidents.map((event) => ({ category: monthKey(event) })))[0]?.label || "N/D"]
-          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("") : "<p>No hay celdas hotspot significativas con los parámetros actuales.</p>";
+          elements.detail.innerHTML = top ? "<p>Selecciona una celda o una Plataforma para ver el detalle estadístico.</p>" : "<p>No hay celdas hotspot significativas con los parámetros actuales.</p>";
           return;
         }
         if (isTypologiesMode()) {
@@ -3712,6 +3799,7 @@
 
       function selectPlatform(platformName, pan) {
         selectedPlatform = platformName;
+        selectedGiCell = null;
         selectedPolice = null;
         selectedCamera = null;
         selectedId = null;
@@ -3905,6 +3993,20 @@
             cameraCoverageCache = null;
             update();
           });
+        });
+      }
+      if (elements.giSignificance) {
+        elements.giSignificance.addEventListener("change", () => {
+          giSignificanceLevel = elements.giSignificance.value;
+          selectedGiCell = null;
+          update();
+        });
+      }
+      if (elements.giType) {
+        elements.giType.addEventListener("change", () => {
+          giResultType = elements.giType.value;
+          selectedGiCell = null;
+          update();
         });
       }
       elements.toggleEvents.addEventListener("change", syncMapLayerVisibility);
