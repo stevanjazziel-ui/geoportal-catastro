@@ -1220,8 +1220,37 @@
       };
       const coverageFractionColor = (fraction) => {
         if (fraction >= 0.95) return "#2f6f5f";
-        if (fraction > 0) return "#d9a441";
+        if (fraction > 0) return "#f3c84b";
         return "#edf1ed";
+      };
+      const coverageManzanaStyle = (feature, selected) => {
+        const fraction = manzanaCoverageFraction(feature, getCameraCoverageAnalysis().cameraSet || []);
+        if (fraction >= 0.95) {
+          return {
+            color: selected ? "#111827" : "#2f6f5f",
+            weight: selected ? 1.2 : 0.45,
+            fillColor: "#2f6f5f",
+            fillOpacity: 0.26,
+            opacity: 0.72
+          };
+        }
+        if (fraction > 0) {
+          return {
+            color: selected ? "#111827" : "#d9a441",
+            weight: selected ? 1.2 : 0.9,
+            dashArray: "4 4",
+            fillColor: "#f3c84b",
+            fillOpacity: 0.06,
+            opacity: 0.78
+          };
+        }
+        return {
+          color: selected ? "#111827" : "#9aa3a1",
+          weight: selected ? 1.1 : 0.22,
+          fillColor: "#edf1ed",
+          fillOpacity: 0.015,
+          opacity: 0.26
+        };
       };
       const ringAreaKm2 = (ring) => {
         if (!ring || ring.length < 3) return 0;
@@ -1364,8 +1393,7 @@
           return { color: selected ? "#111827" : "#7e8790", weight: selected ? 1.4 : 0.28, fillColor: policeDistanceColor(row?.DIST_INF_POL), fillOpacity: 0.68, opacity: 0.5 };
         }
         if (isCameraCoverageMode()) {
-          const fraction = manzanaCoverageFraction(feature, getCameraCoverageAnalysis().cameraSet || []);
-          return { color: selected ? "#111827" : "#7e8790", weight: selected ? 1.2 : 0.25, fillColor: coverageFractionColor(fraction), fillOpacity: 0.5, opacity: 0.42 };
+          return coverageManzanaStyle(feature, selected);
         }
         return { color: "#7e8790", weight: 0.45, fillColor: "#f7f7f7", fillOpacity: 0.13, opacity: 0.45 };
       };
@@ -1947,8 +1975,8 @@
             elements.legend.innerHTML = `
               <div class="legend-row"><strong>Cobertura potencial ${cameraCoverageScenario} m</strong></div>
               <div class="legend-row"><span class="legend-swatch" style="background:rgba(47,111,95,.22);border-color:#2f6f5f"></span>Buffer técnico de cámara</div>
-              <div class="legend-row"><span class="legend-swatch" style="background:#2f6f5f;border-color:#7e8790"></span>Manzana cubierta</div>
-              <div class="legend-row"><span class="legend-swatch" style="background:#d9a441;border-color:#7e8790"></span>Manzana parcialmente cubierta</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:rgba(47,111,95,.26);border-color:#2f6f5f"></span>Manzana cubierta casi completa</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:rgba(243,200,75,.10);border:2px dashed #d9a441"></span>Manzana intersectada parcialmente</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#edf1ed;border-color:#7e8790"></span>Manzana no cubierta</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#1d4ed8;border-color:#fff"></span>Cámara</div>
               <div class="legend-row"><span class="legend-swatch" style="background:#dc2626;border-color:#fff"></span>Cámara prevista para cambio</div>
@@ -2225,10 +2253,10 @@
           L.circle([camera.lat, camera.lng], {
             radius: cameraCoverageScenario,
             color: camera.requiresChange ? "#dc2626" : "#2f6f5f",
-            weight: 1.2,
+            weight: 1.8,
             fillColor: camera.requiresChange ? "#dc2626" : "#2f6f5f",
-            fillOpacity: 0.13,
-            opacity: 0.58,
+            fillOpacity: 0.16,
+            opacity: 0.72,
           }).bindPopup(`${cameraPopup(camera)}<div class="popup-row">Escenario: <strong>${cameraCoverageScenario} m</strong></div>`).addTo(cameraCoverageLayer);
         });
       }
