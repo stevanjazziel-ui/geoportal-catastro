@@ -806,6 +806,61 @@
       right: 12px;
       width: min(260px, calc(100% - 24px));
     }
+    .methodology-modal {
+      width: min(760px, calc(100vw - 32px));
+      max-height: min(760px, calc(100dvh - 32px));
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 28px 80px rgba(6, 40, 68, .28);
+      overflow: hidden;
+    }
+    .methodology-modal::backdrop {
+      background: rgba(6, 25, 45, .42);
+      backdrop-filter: blur(3px);
+    }
+    .methodology-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      color: #fff;
+      background: linear-gradient(90deg, #064d7a, #075f95);
+    }
+    .methodology-head h2 {
+      margin: 0;
+      color: #fff;
+      letter-spacing: .04em;
+    }
+    .methodology-close {
+      width: auto;
+      min-height: 34px;
+      padding: 6px 10px;
+      color: #fff;
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.2);
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 900;
+    }
+    .methodology-body {
+      display: grid;
+      gap: 14px;
+      padding: 16px;
+      max-height: calc(min(760px, 100dvh - 32px) - 58px);
+      overflow: auto;
+    }
+    .methodology-body h3 {
+      margin-top: 4px;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+      color: #082d59;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      font-size: .82rem;
+    }
     .app-hidden { display: none; }
     @media (max-width: 1366px) {
       .dashboard-shell:not(.sidebar-collapsed) .dashboard-main { grid-template-columns: 64px minmax(0, 1fr); }
@@ -928,7 +983,7 @@
             <p id="overlayText">Superficie continua calculada desde incidentes georreferenciados válidos.</p>
           </div>
           <div class="workspace-actions">
-            <button class="header-action" type="button">Metodología</button>
+            <button class="header-action" id="methodologyButton" type="button">Metodología</button>
           </div>
         </section>
 
@@ -1033,14 +1088,17 @@
               <h2>Leyenda</h2>
               <div class="legend" id="legend"></div>
             </section>
-            <section class="panel">
-              <h2>Metodología</h2>
-              <div class="mini-list" id="methodologyPanel"></div>
-            </section>
           </aside>
         </section>
       </main>
     </div>
+    <dialog class="methodology-modal" id="methodologyModal">
+      <div class="methodology-head">
+        <h2>Metodología</h2>
+        <button class="methodology-close" id="methodologyClose" type="button">Cerrar</button>
+      </div>
+      <div class="methodology-body mini-list" id="methodologyPanel"></div>
+    </dialog>
   </div>
 
   <script src="./vendor/leaflet/leaflet.js"></script>
@@ -1125,7 +1183,10 @@
         toggleSatellite: document.getElementById("toggleSatellite"),
         shell: document.querySelector(".dashboard-shell"),
         sidebarToggle: document.getElementById("sidebarToggle"),
-        fullscreenAnalysis: document.getElementById("fullscreenAnalysisButton")
+        fullscreenAnalysis: document.getElementById("fullscreenAnalysisButton"),
+        methodologyButton: document.getElementById("methodologyButton"),
+        methodologyModal: document.getElementById("methodologyModal"),
+        methodologyClose: document.getElementById("methodologyClose")
       };
 
       const map = L.map("map", { zoomSnap: 0.5, preferCanvas: true }).setView([-1.6636, -78.6546], 13);
@@ -1222,12 +1283,18 @@
         const dated = events.map((event) => event.date).filter(Boolean).sort();
         setText("topPeriod", dated.length ? `${formatDate(dated[0])} - ${formatDate(dated.at(-1))}` : "N/D");
       };
+      const methodRowsHtml = (rows) => rows.map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+      const crsHtml = () => `
+        <h3>CRS</h3>
+        <div class="mini-row"><span>CRS de análisis</span><strong>WGS 84 / UTM zona 17S · EPSG:32717</strong></div>
+        <div class="mini-row"><span>CRS de visualización</span><strong>WGS 84 · EPSG:4326</strong></div>
+      `;
       const renderMethodologyPanel = () => {
         const panel = document.getElementById("methodologyPanel");
         if (!panel) return;
         if (isKdeMode()) {
           const raster = kdeValidation.rasters?.["300"] || {};
-          panel.innerHTML = [
+          panel.innerHTML = `<h3>Concentración de incidentes</h3>` + methodRowsHtml([
             ["Método", "Kernel Density Estimation"],
             ["Registros utilizados", kdeValidation.controlTable?.REGISTROS_KDE || "N/D"],
             ["Registros excluidos", kdeValidation.controlTable?.REGISTROS_EXCLUIDOS || "N/D"],
@@ -1236,9 +1303,8 @@
             ["Fragmentación", raster.fragmentation || "N/D"],
             ["Suavizado", raster.smoothing || "N/D"],
             ["Periodo", kdeValidation.metadata?.PERIODO || "N/D"],
-            ["CRS", "EPSG:32717 cálculo / EPSG:4326 visualización"],
             ["Fuente", kdeValidation.metadata?.FUENTE || "N/D"],
-          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+          ]) + crsHtml() + `<h3>Limitaciones</h3><p>KDE representa densidad/concentración espacial; no equivale por sí solo a significancia estadística ni a nivel de inseguridad.</p>`;
           return;
         }
         if (diagnosisMetric === "population") {
@@ -1264,27 +1330,27 @@
           return;
         }
         if (isCameraCoverageMode()) {
-          panel.innerHTML = [
+          panel.innerHTML = `<h3>Cobertura potencial de cámaras</h3>` + methodRowsHtml([
             ["Análisis", "Cobertura potencial de cámaras"],
             ["Escenario activo", `${cameraCoverageScenario} m`],
-            ["Cámaras", cameraCoverageSet === "external" ? "Videovigilancia externa / otras instituciones" : "Cámaras municipales"],
+            ["Universo analítico", "30 cámaras municipales"],
             ["Fuente", "Informe municipal de cámaras + diagnóstico territorial"],
-            ["Cálculo población/área", "Manzanas censales evaluadas contra cobertura disuelta por distancia métrica"],
-            ["Precaución", "Cobertura potencial; no equivale a alcance visual real ni seguridad"]
-          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+            ["Procesamiento", "Buffers métricos 100/150/200 m y cobertura disuelta para evitar doble conteo"],
+            ["Población", "Manzanas censales evaluadas contra la cobertura disuelta"],
+          ]) + crsHtml() + `<h3>Limitaciones</h3><p>Cobertura potencial no equivale a alcance visual real, operación efectiva ni nivel de seguridad.</p>`;
           return;
         }
         if (isGiHotspotsMode()) {
           const analysis = getGiHotspotAnalysis();
-          panel.innerHTML = [
+          panel.innerHTML = `<h3>Zonas críticas</h3>` + methodRowsHtml([
             ["Método", "Getis-Ord Gi*"],
             ["Unidad espacial", "Malla regular"],
             ["Tamaño de celda", `${analysis.cellSize} m`],
             ["Vecindad", `Distancia fija ${analysis.neighborDistance} m`],
-            ["CRS", analysis.crs],
             ["Incidentes", analysis.points.length],
+            ["Estadísticos", "Z-score, p-value y niveles de significancia"],
             ["Niveles", "90 / 95 / 99 %"]
-          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+          ]) + crsHtml() + `<h3>Limitaciones</h3><p>Los hotspots Gi* indican concentración estadística relativa bajo los parámetros definidos; requieren interpretación territorial y validación de campo.</p>`;
           return;
         }
         if (isTypologiesMode()) {
@@ -1312,6 +1378,26 @@
           ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
           return;
         }
+        if (isBoulevardsMode()) {
+          panel.innerHTML = `<h3>Bulevares Seguros</h3>` + methodRowsHtml([
+            ["Fuente", "Red de Bulevares y conexiones"],
+            ["Unidad territorial", "Plataformas Territoriales"],
+            ["Procesamiento", "Intersección espacial y proximidad a población, cámaras e infraestructura"],
+            ["Cámaras", "Cámaras municipales dentro de distancia de proximidad a red"],
+            ["Limitación", "La cercanía a red vial no implica seguridad efectiva ni operación permanente"],
+          ]) + crsHtml();
+          return;
+        }
+        if (isInstitutionalMode()) {
+          panel.innerHTML = `<h3>Cobertura institucional</h3>` + methodRowsHtml([
+            ["Fuentes integradas", "Infraestructura policial, cámaras municipales, Bulevares y población"],
+            ["Unidad territorial", "Plataformas Territoriales"],
+            ["Cámaras", "30 cámaras municipales"],
+            ["Indicadores", "Presencia institucional, cobertura potencial y proximidad a red"],
+            ["Regla de integración", "Clasificación territorial BAJA / MEDIA / ALTA a partir de indicadores disponibles"],
+          ]) + crsHtml() + `<h3>Limitaciones</h3><p>La cobertura institucional es una lectura territorial sintética; no reemplaza evaluación operativa ni validación de campo.</p>`;
+          return;
+        }
         if (diagnosisMetric === "incidentCount" || diagnosisMetric === "incidentRate") {
           panel.innerHTML = [
             ["Análisis", diagnosisMetric === "incidentCount" ? "Incidentes por Plataforma" : "Tasa por 1.000 habitantes"],
@@ -1324,17 +1410,15 @@
           return;
         }
         if (diagnosisMetric === "policeAccessibility") {
-          panel.innerHTML = [
+          panel.innerHTML = `<h3>Accesibilidad policial</h3>` + methodRowsHtml([
             ["Análisis", "Accesibilidad policial"],
             ["Fuente plataformas", "18 Plataformas Territoriales"],
             ["Fuente población", "CPV 2022 / manzanas censales"],
             ["Infraestructura policial", `${fmt(policeAccessibility.validations?.policeInfrastructure || 0)} registros reales`],
             ["UPC identificadas", `${fmt(policeAccessibility.validations?.upc || 0)} registros tipo UPC`],
-            ["CRS", policeAccessibility.crs || "EPSG:32717 / EPSG:4326"],
             ["Método de distancia", policeAccessibility.method || "Distancia euclidiana a infraestructura más cercana"],
             ["Fecha procesamiento", (policeAccessibility.generatedAt || "").slice(0, 10) || "No disponible"],
-          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")
-            + `<p>La proximidad espacial no representa tiempo de respuesta policial ni determina por sí sola el nivel de seguridad de un sector.</p>`;
+          ]) + crsHtml() + `<h3>Limitaciones</h3><p>La proximidad espacial no representa tiempo de respuesta policial ni determina por sí sola el nivel de seguridad de un sector.</p>`;
           return;
         }
         panel.innerHTML = `<p>La metodología cambia según el análisis activo.</p>`;
@@ -4076,7 +4160,8 @@
           ["Precisión espacial", platform.precisionGeoUsed || "A/B"],
           ["Bandwidth KDE", `${kdeValidation.rasters?.["300"]?.bandwidth || 300} m`],
           ["Cell size", `${kdeValidation.rasters?.["300"]?.cellSize || 20} m`],
-          ["CRS", "EPSG:32717 cálculo / EPSG:4326 visualización"],
+          ["CRS de análisis", "WGS 84 / UTM zona 17S · EPSG:32717"],
+          ["CRS de visualización", "WGS 84 · EPSG:4326"],
           ["Registros KDE", kdeValidation.controlTable?.REGISTROS_KDE || "No disponible"],
           ["Registros excluidos", kdeValidation.controlTable?.REGISTROS_EXCLUIDOS || "No disponible"],
         ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
@@ -4429,6 +4514,18 @@
         elements.shell.classList.toggle("analysis-fullscreen");
         elements.fullscreenAnalysis.textContent = elements.shell.classList.contains("analysis-fullscreen") ? "⛶ Salir" : "⛶ Pantalla completa";
         setTimeout(() => map.invalidateSize(), 120);
+      });
+      elements.methodologyButton.addEventListener("click", () => {
+        renderMethodologyPanel();
+        if (typeof elements.methodologyModal.showModal === "function") {
+          elements.methodologyModal.showModal();
+        } else {
+          elements.methodologyModal.setAttribute("open", "");
+        }
+      });
+      elements.methodologyClose.addEventListener("click", () => elements.methodologyModal.close());
+      elements.methodologyModal.addEventListener("click", (event) => {
+        if (event.target === elements.methodologyModal) elements.methodologyModal.close();
       });
     })();
   </script>
