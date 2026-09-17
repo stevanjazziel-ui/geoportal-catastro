@@ -592,9 +592,9 @@
         <button class="mode-button" id="platformIncidentsMode" type="button">● Incidentes por Plataforma</button>
         <button class="mode-button" id="incidentRateMode" type="button">● Tasa por 1.000 habitantes</button>
         <button class="mode-button is-active" id="kdeAnalysisButton" type="button">Densidad de incidentes (KDE)</button>
-        <button type="button" disabled>◌ Hotspots estadísticos · Pendiente metodológico</button>
-        <button type="button" disabled>◐ Tipologías de incidentes · En procesamiento</button>
-        <button type="button" disabled>◐ Análisis temporal · En procesamiento</button>
+        <button class="mode-button" id="giHotspotsMode" type="button">Hotspots estadísticos</button>
+        <button class="mode-button" id="typologiesMode" type="button">Tipologías de incidentes</button>
+        <button class="mode-button" id="temporalMode" type="button">Análisis temporal</button>
         <h2>Cobertura territorial</h2>
         <button class="mode-button" id="policeMode" type="button">Infraestructura policial</button>
         <button class="mode-button" id="policeAccessibilityMode" type="button">● Accesibilidad policial</button>
@@ -642,6 +642,9 @@
               <option value="incidentCount">Incidentes absolutos</option>
               <option value="incidentRate">Tasa de incidentes / 1.000 hab.</option>
               <option value="hotspots" selected>Densidad de incidentes (KDE)</option>
+              <option value="giHotspots">Hotspots estadísticos</option>
+              <option value="incidentTypologies">Tipologías de incidentes</option>
+              <option value="temporalAnalysis">Análisis temporal</option>
               <option value="populationExposure">Exposición poblacional a hotspots</option>
               <option value="cameraCoverage">Cobertura potencial de cámaras</option>
               <option value="boulevardPopulation">Población cercana a boulevares/conexiones</option>
@@ -751,6 +754,9 @@
         populationDensityMode: document.getElementById("populationDensityMode"),
         platformIncidentsMode: document.getElementById("platformIncidentsMode"),
         incidentRateMode: document.getElementById("incidentRateMode"),
+        giHotspotsMode: document.getElementById("giHotspotsMode"),
+        typologiesMode: document.getElementById("typologiesMode"),
+        temporalMode: document.getElementById("temporalMode"),
         eventsMode: document.getElementById("eventsMode"),
         ecuMode: document.getElementById("ecuMode"),
         camerasMode: document.getElementById("camerasMode"),
@@ -817,6 +823,9 @@
       let cameraCoverageCacheKey = "";
       let cameraCoverageCache = null;
       const isKdeMode = () => mode === "diagnosis" && diagnosisMetric === "hotspots";
+      const isGiHotspotsMode = () => mode === "diagnosis" && diagnosisMetric === "giHotspots";
+      const isTypologiesMode = () => mode === "diagnosis" && diagnosisMetric === "incidentTypologies";
+      const isTemporalMode = () => mode === "diagnosis" && diagnosisMetric === "temporalAnalysis";
       const isPopulationCoverageMode = () => mode === "diagnosis" && diagnosisMetric === "populationCoverage";
       const isCameraCoverageMode = () => mode === "diagnosis" && ["cameraCoverage", "populationCoverage"].includes(diagnosisMetric);
       const isBoulevardsMode = () => mode === "diagnosis" && diagnosisMetric === "boulevards";
@@ -892,6 +901,44 @@
             ["Fuente", "Informe municipal de cámaras + diagnóstico territorial"],
             ["Cálculo población/área", "Manzanas censales evaluadas contra cobertura disuelta por distancia métrica"],
             ["Precaución", "Cobertura potencial; no equivale a alcance visual real ni seguridad"]
+          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+          return;
+        }
+        if (isGiHotspotsMode()) {
+          const analysis = getGiHotspotAnalysis();
+          panel.innerHTML = [
+            ["Método", "Getis-Ord Gi*"],
+            ["Unidad espacial", "Malla regular"],
+            ["Tamaño de celda", `${analysis.cellSize} m`],
+            ["Vecindad", `Distancia fija ${analysis.neighborDistance} m`],
+            ["CRS", analysis.crs],
+            ["Incidentes", analysis.points.length],
+            ["Niveles", "90 / 95 / 99 %"]
+          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+          return;
+        }
+        if (isTypologiesMode()) {
+          const rows = categorySummary(geoIncidentEvents());
+          panel.innerHTML = [
+            ["Fuente", "Base real de incidentes publicados"],
+            ["Campo de tipología", "category"],
+            ["Normalización aplicada", "Conserva texto original; solo se usa para agrupación exacta"],
+            ["Registros utilizados", geoIncidentEvents().length],
+            ["Categorías reales", rows.length],
+            ["Sin categoría", geoIncidentEvents().filter((event) => !event.category).length]
+          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+          return;
+        }
+        if (isTemporalMode()) {
+          const dated = temporalRecords();
+          const dates = dated.map((event) => event.date).sort();
+          panel.innerHTML = [
+            ["Campo fecha", "date"],
+            ["Campo hora", "No disponible"],
+            ["Registros válidos", dated.length],
+            ["Registros sin fecha", events.length - dated.length],
+            ["Periodo disponible", dates.length ? `${formatDate(dates[0])} - ${formatDate(dates.at(-1))}` : "N/D"],
+            ["Franjas horarias", "No calculadas por ausencia de hora real"]
           ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
           return;
         }
@@ -1062,7 +1109,7 @@
       };
       const platformVisualStyle = (feature) => {
         const platform = platformRecord(feature?.properties?.platform_name);
-        if (isKdeMode()) {
+        if (isKdeMode() || isGiHotspotsMode() || isTypologiesMode() || isTemporalMode()) {
           return {
             color: "#263a33",
             weight: 2.4,
@@ -1315,6 +1362,87 @@
         const dy = (Number(lat2) - Number(lat1)) * 110540;
         return Math.hypot(dx, dy);
       };
+      const eventPlatformName = (event) => {
+        if (!platformGeojsonCache || !event?.mappable) return "No asignada";
+        const feature = (platformGeojsonCache.features || []).find((item) => pointInsideFeature(item, event.lng, event.lat));
+        return feature?.properties?.platform_name || "No asignada";
+      };
+      const geoIncidentEvents = () => filteredEvents().filter((event) => event.mappable && event.lat != null && event.lng != null && insidePlatformsOnly(event.lng, event.lat));
+      const validDate = (event) => event.date && !Number.isNaN(Date.parse(`${event.date}T00:00:00`));
+      const monthKey = (event) => event.date?.slice(0, 7) || "Sin fecha";
+      const weekdayName = (date) => ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"][date.getDay()];
+      const giNormalCdf = (z) => {
+        const sign = z < 0 ? -1 : 1;
+        const x = Math.abs(z) / Math.SQRT2;
+        const t = 1 / (1 + 0.3275911 * x);
+        const erf = sign * (1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x));
+        return 0.5 * (1 + erf);
+      };
+      const giClass = (z) => {
+        if (z >= 2.58) return "HOTSPOT 99 %";
+        if (z >= 1.96) return "HOTSPOT 95 %";
+        if (z >= 1.65) return "HOTSPOT 90 %";
+        if (z <= -2.58) return "COLDSPOT 99 %";
+        if (z <= -1.96) return "COLDSPOT 95 %";
+        if (z <= -1.65) return "COLDSPOT 90 %";
+        return "NO SIGNIFICATIVO";
+      };
+      let giHotspotCache = null;
+      const getGiHotspotAnalysis = () => {
+        if (giHotspotCache && giHotspotCache.platformReady === Boolean(platformGeojsonCache)) return giHotspotCache;
+        const cellSize = 250;
+        const neighborDistance = 500;
+        const points = events.filter((event) => event.mappable && event.lat != null && event.lng != null && insidePlatformsOnly(event.lng, event.lat));
+        const boundsSource = platformLayer ? platformLayer.getBounds() : L.latLngBounds(points.map((event) => [event.lat, event.lng]));
+        const centerLat = boundsSource.getCenter().lat;
+        const metersPerLng = 111320 * Math.cos(centerLat * Math.PI / 180);
+        const metersPerLat = 110540;
+        const minLng = boundsSource.getWest();
+        const maxLng = boundsSource.getEast();
+        const minLat = boundsSource.getSouth();
+        const maxLat = boundsSource.getNorth();
+        const cols = Math.max(1, Math.ceil(((maxLng - minLng) * metersPerLng) / cellSize));
+        const rows = Math.max(1, Math.ceil(((maxLat - minLat) * metersPerLat) / cellSize));
+        const cells = [];
+        for (let row = 0; row < rows; row += 1) {
+          for (let col = 0; col < cols; col += 1) {
+            const lng = minLng + ((col + 0.5) * cellSize / metersPerLng);
+            const lat = minLat + ((row + 0.5) * cellSize / metersPerLat);
+            if (!insidePlatformsOnly(lng, lat)) continue;
+            const incidents = points.filter((event) => Math.abs((event.lng - lng) * metersPerLng) <= cellSize / 2 && Math.abs((event.lat - lat) * metersPerLat) <= cellSize / 2);
+            const platform = eventPlatformName({ mappable: true, lng, lat });
+            cells.push({ cellId: `GI-${row}-${col}`, row, col, lng, lat, incCount: incidents.length, incidents, platform });
+          }
+        }
+        const n = cells.length || 1;
+        const mean = cells.reduce((sum, cell) => sum + cell.incCount, 0) / n;
+        const s = Math.sqrt(Math.max(0, cells.reduce((sum, cell) => sum + cell.incCount * cell.incCount, 0) / n - mean * mean));
+        cells.forEach((cell) => {
+          const neighbors = cells.filter((other) => pointDistanceMeters(cell.lng, cell.lat, other.lng, other.lat) <= neighborDistance);
+          const sumW = neighbors.length;
+          const sumWX = neighbors.reduce((sum, other) => sum + other.incCount, 0);
+          const denominator = s * Math.sqrt(Math.max(0, (n * sumW - sumW * sumW) / Math.max(1, n - 1)));
+          const z = denominator ? (sumWX - mean * sumW) / denominator : 0;
+          cell.zScore = Number(z.toFixed(3));
+          cell.pValue = Number((2 * (1 - giNormalCdf(Math.abs(z)))).toFixed(4));
+          cell.giStar = Number(sumWX.toFixed(3));
+          cell.giClass = giClass(z);
+          cell.areaKm2 = (cellSize * cellSize) / 1000000;
+        });
+        const hotspotCells = cells.filter((cell) => cell.giClass.startsWith("HOTSPOT"));
+        const coldspotCells = cells.filter((cell) => cell.giClass.startsWith("COLDSPOT"));
+        giHotspotCache = { platformReady: Boolean(platformGeojsonCache), layerName: "HOTSPOTS_GI", cellSize, neighborDistance, crs: "EPSG:32717 aproximado en cálculo métrico local", points, cells, hotspotCells, coldspotCells };
+        return giHotspotCache;
+      };
+      const categorySummary = (items) => Object.entries(items.reduce((acc, event) => {
+        const key = event.category || "Sin categoría";
+        acc[key] = (acc[key] || 0) + 1;
+        return acc;
+      }, {})).sort((a, b) => b[1] - a[1]).map(([label, value]) => ({ label, value, pct: items.length ? Number((value / items.length * 100).toFixed(1)) : 0, color: categoryColors.get(label) || "#7e7f92" }));
+      const temporalRecords = () => filteredEvents().filter(validDate).map((event) => {
+        const date = new Date(`${event.date}T00:00:00`);
+        return { ...event, year: date.getFullYear(), month: monthKey(event), weekday: weekdayName(date), hour: null, timeBand: "Hora no disponible" };
+      });
       const toLocalMeters = (lng, lat, originLng, originLat) => {
         const meanLat = ((Number(lat) + Number(originLat)) / 2) * Math.PI / 180;
         return [
@@ -1897,6 +2025,112 @@
               <div class="status-tile"><span>Suavizado</span><strong>${esc(raster.smoothing || "N/D")}</strong></div>
             </div>
             ${metricBars("Incidentes KDE por Plataforma", rows, Math.max(...rows.map((item) => item.value), 1), "#9c1f33")}
+            `;
+            return;
+          }
+          if (isGiHotspotsMode()) {
+            const analysis = getGiHotspotAnalysis();
+            const totalHotInc = analysis.hotspotCells.reduce((sum, cell) => sum + cell.incCount, 0);
+            const hotArea = analysis.hotspotCells.reduce((sum, cell) => sum + cell.areaKm2, 0);
+            const totalArea = analysis.cells.reduce((sum, cell) => sum + cell.areaKm2, 0) || 1;
+            elements.summary.innerHTML = [
+              ["Incidentes analizados", analysis.points.length],
+              ["Celdas hotspot", analysis.hotspotCells.length],
+              ["Celdas coldspot", analysis.coldspotCells.length],
+              ["Incidentes en hotspots", `${fmt(totalHotInc)} / ${analysis.points.length ? (totalHotInc / analysis.points.length * 100).toFixed(1) : 0}%`],
+              ["Área en hotspots", `${hotArea.toFixed(2)} km² / ${(hotArea / totalArea * 100).toFixed(1)}%`],
+              ["Capa derivada", analysis.layerName]
+            ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+            return;
+          }
+          if (isTypologiesMode()) {
+            const geo = geoIncidentEvents();
+            const rows = categorySummary(geo);
+            elements.summary.innerHTML = [
+              ["Total de incidentes", geo.length],
+              ["Tipología más frecuente", rows[0] ? `${rows[0].label} · ${rows[0].pct}%` : "N/D"],
+              ["Segunda tipología", rows[1] ? `${rows[1].label} · ${rows[1].pct}%` : "N/D"],
+              ["Tercera tipología", rows[2] ? `${rows[2].label} · ${rows[2].pct}%` : "N/D"],
+              ["Otras", `${rows.slice(3).reduce((sum, row) => sum + row.pct, 0).toFixed(1)}%`],
+              ["Campo utilizado", "category"]
+            ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+            return;
+          }
+          if (isTemporalMode()) {
+            const dated = temporalRecords();
+            const byMonth = Object.entries(dated.reduce((acc, event) => ((acc[event.month] = (acc[event.month] || 0) + 1), acc), {})).sort();
+            const counts = byMonth.map(([, value]) => value);
+            const max = byMonth.reduce((best, item) => item[1] > (best?.[1] || -1) ? item : best, null);
+            const min = byMonth.reduce((best, item) => item[1] < (best?.[1] ?? Infinity) ? item : best, null);
+            elements.summary.innerHTML = [
+              ["Total de incidentes", dated.length],
+              ["Promedio mensual", counts.length ? (counts.reduce((a, b) => a + b, 0) / counts.length).toFixed(1) : "N/D"],
+              ["Mes con más incidentes", max ? `${max[0]} / ${max[1]}` : "N/D"],
+              ["Mes con menos incidentes", min ? `${min[0]} / ${min[1]}` : "N/D"],
+              ["Variación interanual", "N/D"],
+              ["Registros sin fecha", events.length - dated.length]
+            ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+          return;
+        }
+        if (isGiHotspotsMode()) {
+          const analysis = getGiHotspotAnalysis();
+          const classRows = Object.entries(analysis.cells.reduce((acc, cell) => {
+            acc[cell.giClass] = (acc[cell.giClass] || 0) + cell.incCount;
+            return acc;
+          }, {})).map(([label, value]) => ({ label, value, color: label.startsWith("HOT") ? "#dc2626" : label.startsWith("COLD") ? "#2563eb" : "#9ca3af" }));
+          const hotEvents = analysis.hotspotCells.flatMap((cell) => cell.incidents);
+          const typeRows = categorySummary(hotEvents);
+          const byPlatform = Object.values(analysis.hotspotCells.reduce((acc, cell) => {
+            const key = cell.platform || "No asignada";
+            acc[key] = acc[key] || { platform: key, incidents: 0, cells: 0, area: 0, max: cell.giClass, types: [] };
+            acc[key].incidents += cell.incCount;
+            acc[key].cells += 1;
+            acc[key].area += cell.areaKm2;
+            acc[key].types.push(...cell.incidents.map((event) => event.category || "Sin categoría"));
+            if (Math.abs(cell.zScore) > Math.abs((acc[key].z || 0))) { acc[key].z = cell.zScore; acc[key].max = cell.giClass; }
+            return acc;
+          }, {}));
+          const table = byPlatform.map((row) => {
+            const predominant = Object.entries(row.types.reduce((acc, type) => ((acc[type] = (acc[type] || 0) + 1), acc), {})).sort((a, b) => b[1] - a[1])[0]?.[0] || "N/D";
+            return `<tr><td>${esc(row.platform.replace("PLATAFORMA ", ""))}</td><td>${fmt(row.incidents)}</td><td>${fmt(row.cells)}</td><td>${row.area.toFixed(2)}</td><td>${esc(row.max)}</td><td>${esc(predominant)}</td></tr>`;
+          }).join("");
+          elements.graphicAnalysis.innerHTML = `
+            ${metricBars("Incidentes por nivel de significancia", classRows, Math.max(...classRows.map((row) => row.value), 1), "#dc2626")}
+            ${metricBars("Tipologías en hotspots", typeRows, Math.max(...typeRows.map((row) => row.value), 1), "#1d6fd8")}
+            <div class="graphic-card"><h3>Hotspots por Plataforma</h3><table class="mini-table"><thead><tr><th>Plataforma</th><th>Inc.</th><th>Celdas</th><th>Área km²</th><th>Nivel máx.</th><th>Tipología</th></tr></thead><tbody>${table || "<tr><td colspan='6'>Sin hotspots significativos</td></tr>"}</tbody></table></div>
+          `;
+          return;
+        }
+        if (isTypologiesMode()) {
+          const geo = geoIncidentEvents();
+          const rows = categorySummary(geo);
+          const platformNames = filteredPlatforms().map((platform) => platform.platformName);
+          const categories = rows.map((row) => row.label);
+          const tableRows = platformNames.map((name) => {
+            const items = geo.filter((event) => eventPlatformName(event) === name);
+            const counts = Object.fromEntries(categorySummary(items).map((row) => [row.label, row.value]));
+            return `<tr><td>${esc(name.replace("PLATAFORMA ", ""))}</td>${categories.map((cat) => `<td>${fmt(counts[cat] || 0)}</td>`).join("")}<td>${fmt(items.length)}</td></tr>`;
+          }).join("");
+          elements.graphicAnalysis.innerHTML = `
+            ${metricBars("Distribución de incidentes por tipología", rows, Math.max(...rows.map((row) => row.value), 1), "#1d6fd8")}
+            <div class="graphic-card"><h3>Incidentes por Plataforma y tipología</h3><table class="mini-table"><thead><tr><th>Plat.</th>${categories.map((cat) => `<th>${esc(cat)}</th>`).join("")}<th>Total</th></tr></thead><tbody>${tableRows}</tbody></table></div>
+          `;
+          return;
+        }
+        if (isTemporalMode()) {
+          const dated = temporalRecords();
+          const monthly = Object.entries(dated.reduce((acc, event) => ((acc[event.month] = (acc[event.month] || 0) + 1), acc), {})).sort().map(([label, value]) => ({ label, value, color: "#1d6fd8" }));
+          const byType = categorySummary(dated);
+          const categories = byType.map((row) => row.label);
+          const tableRows = monthly.map((month) => {
+            const items = dated.filter((event) => event.month === month.label);
+            const counts = Object.fromEntries(categorySummary(items).map((row) => [row.label, row.value]));
+            return `<tr><td>${esc(month.label)}</td>${categories.map((cat) => `<td>${fmt(counts[cat] || 0)}</td>`).join("")}<td>${fmt(items.length)}</td></tr>`;
+          }).join("");
+          elements.graphicAnalysis.innerHTML = `
+            ${metricBars("Evolución mensual de incidentes", monthly, Math.max(...monthly.map((row) => row.value), 1), "#1d6fd8")}
+            ${metricBars("Tendencia temporal de incidentes", monthly, Math.max(...monthly.map((row) => row.value), 1), "#2f6f5f")}
+            <div class="graphic-card"><h3>Mes por tipología</h3><table class="mini-table"><thead><tr><th>Mes</th>${categories.map((cat) => `<th>${esc(cat)}</th>`).join("")}<th>Total</th></tr></thead><tbody>${tableRows}</tbody></table><p>Heatmap día/hora: no se genera porque la base no tiene campo hora real.</p></div>
           `;
           return;
         }
@@ -2289,6 +2523,27 @@
             `;
             return;
           }
+          if (isGiHotspotsMode()) {
+            elements.legend.innerHTML = `
+              <div class="legend-row"><strong>Getis-Ord Gi*</strong></div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#991b1b;border-color:#fff"></span>Hotspot 99 %</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#dc2626;border-color:#fff"></span>Hotspot 95 %</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#f97316;border-color:#fff"></span>Hotspot 90 %</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#e5e7eb;border-color:#7e8790"></span>No significativo</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#60a5fa;border-color:#fff"></span>Coldspot 90 %</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#2563eb;border-color:#fff"></span>Coldspot 95 %</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#1e3a8a;border-color:#fff"></span>Coldspot 99 %</div>
+            `;
+            return;
+          }
+          if (isTypologiesMode()) {
+            elements.legend.innerHTML = categorySummary(geoIncidentEvents()).map((row) => `<div class="legend-row"><span class="legend-swatch" style="background:${row.color};border-color:#fff"></span>${esc(row.label)}</div>`).join("");
+            return;
+          }
+          if (isTemporalMode()) {
+            elements.legend.innerHTML = `<div class="legend-row"><strong>Análisis temporal</strong></div><div class="legend-row"><span class="legend-swatch" style="background:#1d6fd8;border-color:#fff"></span>Incidentes por mes</div><div class="legend-row"><span class="legend-swatch" style="background:#e5e7eb;border-color:#7e8790"></span>Hora no disponible</div>`;
+            return;
+          }
           if (diagnosisMetric === "hotspots") {
             const raster = kdeValidation.rasters?.["300"] || {};
             elements.legend.innerHTML = `
@@ -2430,7 +2685,7 @@
       function renderMarkers(items) {
         eventLayer.clearLayers();
         markers.clear();
-        if (isKdeMode()) return;
+        if (isKdeMode() || isGiHotspotsMode()) return;
         items.forEach((event) => {
           if (!event.mappable || event.lat == null || event.lng == null) return;
           if (mode === "diagnosis" && diagnosisMetric === "hotspots" && !pointInsidePlatforms(event.lng, event.lat)) return;
@@ -2452,6 +2707,26 @@
 
       function renderHotspots(items) {
         hotspotLayer.clearLayers();
+        if (isGiHotspotsMode()) {
+          const analysis = getGiHotspotAnalysis();
+          const half = analysis.cellSize / 2;
+          const colorByClass = (label) => label.startsWith("HOT") && label.includes("99") ? "#991b1b" : label.startsWith("HOT") && label.includes("95") ? "#dc2626" : label.startsWith("HOT") && label.includes("90") ? "#f97316" : label.startsWith("COLD") && label.includes("99") ? "#1e3a8a" : label.startsWith("COLD") && label.includes("95") ? "#2563eb" : label.startsWith("COLD") && label.includes("90") ? "#60a5fa" : "#e5e7eb";
+          analysis.cells.forEach((cell) => {
+            const dLat = half / 110540;
+            const dLng = half / (111320 * Math.cos(cell.lat * Math.PI / 180));
+            const color = colorByClass(cell.giClass);
+            L.polygon([[cell.lat - dLat, cell.lng - dLng], [cell.lat - dLat, cell.lng + dLng], [cell.lat + dLat, cell.lng + dLng], [cell.lat + dLat, cell.lng - dLng]], {
+              color: "#ffffff",
+              weight: 0.4,
+              fillColor: color,
+              fillOpacity: cell.giClass === "NO SIGNIFICATIVO" ? 0.22 : 0.68,
+              opacity: 0.8,
+            }).bindPopup(`<strong>${esc(cell.giClass)}</strong><br>Incidentes: ${fmt(cell.incCount)}<br>Z-score: ${cell.zScore}<br>p-value: ${cell.pValue}<br>${esc(cell.platform)}`).addTo(hotspotLayer);
+          });
+          bringLayerForward(hotspotLayer);
+          bringLayerForward(platformLayer);
+          return;
+        }
         if (!isKdeMode()) return;
         const raster = kdeValidation.rasters?.["300"] || Object.values(kdeValidation.rasters || {})[0];
         if (raster?.url && raster?.bounds) {
@@ -2594,7 +2869,7 @@
       }
 
       function syncMapLayerVisibility() {
-        if (isKdeMode()) {
+        if (isKdeMode() || isGiHotspotsMode()) {
           if (!map.hasLayer(hotspotLayer)) hotspotLayer.addTo(map);
           elements.toggleEvents.checked ? eventLayer.addTo(map) : map.removeLayer(eventLayer);
           elements.toggleParishes.checked ? parishLayer.addTo(map) : map.removeLayer(parishLayer);
@@ -2609,6 +2884,7 @@
           return;
         }
         elements.toggleEvents.checked ? eventLayer.addTo(map) : map.removeLayer(eventLayer);
+        map.removeLayer(hotspotLayer);
         elements.toggleParishes.checked ? parishLayer.addTo(map) : map.removeLayer(parishLayer);
         elements.toggleCameras.checked ? cameraLayer.addTo(map) : map.removeLayer(cameraLayer);
         elements.togglePoliceInfrastructure.checked ? policeInfrastructureLayer.addTo(map) : map.removeLayer(policeInfrastructureLayer);
@@ -2646,6 +2922,16 @@
         elements.toggleCameras.checked = false;
         elements.togglePoliceInfrastructure.checked = true;
         elements.toggleManzanas.checked = true;
+        elements.toggleBoulevards.checked = false;
+        elements.togglePlatforms.checked = true;
+      }
+
+      function setConflictContextLayers(metric) {
+        elements.toggleEvents.checked = metric !== "giHotspots";
+        elements.toggleParishes.checked = false;
+        elements.toggleCameras.checked = false;
+        elements.togglePoliceInfrastructure.checked = false;
+        elements.toggleManzanas.checked = false;
         elements.toggleBoulevards.checked = false;
         elements.togglePlatforms.checked = true;
       }
@@ -2689,6 +2975,7 @@
         selectedCamera = null;
         selectedPolice = null;
         if (metric === "hotspots") setKdeDefaultContextLayers();
+        if (["giHotspots", "incidentTypologies", "temporalAnalysis"].includes(metric)) setConflictContextLayers(metric);
         if (isBlockOneMetric()) setBlockOneContextLayers(metric);
         if (metric === "policeAccessibility") setPoliceAccessibilityContextLayers();
         if (metric === "cameraCoverage" || metric === "populationCoverage") setCameraCoverageContextLayers();
@@ -2735,6 +3022,8 @@
             renderBoulevardDetail();
           } else if (isInstitutionalMode()) {
             renderInstitutionalDetail();
+          } else if (isGiHotspotsMode() || isTypologiesMode() || isTemporalMode()) {
+            renderConflictModuleDetail();
           } else {
             renderPlatformDetail(selectedPlatform);
           }
@@ -2767,6 +3056,15 @@
           } else if (isInstitutionalMode()) {
             elements.overlayTitle.textContent = "Cobertura institucional";
             elements.overlayText.textContent = "Integración territorial de infraestructura policial, videovigilancia y Bulevares Seguros.";
+          } else if (isGiHotspotsMode()) {
+            elements.overlayTitle.textContent = "Hotspots estadísticos";
+            elements.overlayText.textContent = "Identificación de concentraciones estadísticamente significativas de incidentes mediante Getis-Ord Gi*.";
+          } else if (isTypologiesMode()) {
+            elements.overlayTitle.textContent = "Tipologías de incidentes";
+            elements.overlayText.textContent = "Distribución espacial de los incidentes según las categorías reales del campo category.";
+          } else if (isTemporalMode()) {
+            elements.overlayTitle.textContent = "Análisis temporal";
+            elements.overlayText.textContent = "Evolución temporal de los incidentes usando el campo real date; la base no contiene hora.";
           }
           if (isCameraCoverageMode()) {
             const totals = cameraCoverageTotals();
@@ -2775,6 +3073,13 @@
             elements.status.textContent = "Bulevares Seguros: red, recursos próximos e indicadores por Plataforma.";
           } else if (isInstitutionalMode()) {
             elements.status.textContent = "Cobertura institucional: infraestructura policial, cámaras, bulevares y cobertura poblacional integrada.";
+          } else if (isGiHotspotsMode()) {
+            const analysis = getGiHotspotAnalysis();
+            elements.status.textContent = `HOTSPOTS_GI: ${analysis.points.length} incidentes, celda ${analysis.cellSize} m, vecindad ${analysis.neighborDistance} m.`;
+          } else if (isTypologiesMode()) {
+            elements.status.textContent = `Tipologías: ${categorySummary(geoIncidentEvents()).length} categorías reales desde el campo category.`;
+          } else if (isTemporalMode()) {
+            elements.status.textContent = `Temporal: ${temporalRecords().length} registros con fecha válida; hora no disponible en la base.`;
           } else {
             elements.status.textContent = `Fases integradas: ${diagnosis.summary?.platforms || 18} plataformas territoriales, ${fmt(diagnosis.summary?.populationWithPlatform)} habitantes asignados, ${fmt(diagnosis.summary?.hotspots || 0)} hotspots preliminares y ${fmt(diagnosis.summary?.videoDeficitHighOrCritical || 0)} plataformas con déficit alto/crítico.`;
           }
@@ -3019,6 +3324,59 @@
           update();
         });
         renderCameraCoverageMiniMap(platform);
+      }
+
+      function renderConflictModuleDetail() {
+        if (isGiHotspotsMode()) {
+          const analysis = getGiHotspotAnalysis();
+          const top = [...analysis.hotspotCells].sort((a, b) => b.incCount - a.incCount || b.zScore - a.zScore)[0];
+          elements.detailTitle.textContent = "Detalle de hotspot";
+          elements.detail.innerHTML = top ? [
+            ["Incidentes", top.incCount],
+            ["Área", `${top.areaKm2.toFixed(3)} km²`],
+            ["Densidad descriptiva", `${(top.incCount / top.areaKm2).toFixed(1)} inc/km²`],
+            ["Plataforma", top.platform],
+            ["Z-score", top.zScore],
+            ["p-value", top.pValue],
+            ["Nivel de significancia", top.giClass],
+            ["Tipología predominante", categorySummary(top.incidents)[0]?.label || "N/D"],
+            ["Periodo de mayor ocurrencia", categorySummary(top.incidents.map((event) => ({ category: monthKey(event) })))[0]?.label || "N/D"]
+          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("") : "<p>No hay celdas hotspot significativas con los parámetros actuales.</p>";
+          return;
+        }
+        if (isTypologiesMode()) {
+          const platform = selectedPlatform ? platformRecord(selectedPlatform) : null;
+          const items = geoIncidentEvents().filter((event) => !platform || eventPlatformName(event) === platform.platformName);
+          const rows = categorySummary(items);
+          elements.detailTitle.textContent = platform ? "Detalle de Plataforma" : "Tipologías de incidentes";
+          elements.detail.innerHTML = [
+            ["Incidentes", items.length],
+            ["Tipología principal", rows[0] ? `${rows[0].label} (${rows[0].pct}%)` : "N/D"],
+            ["Segunda", rows[1] ? `${rows[1].label} (${rows[1].pct}%)` : "N/D"],
+            ["Tercera", rows[2] ? `${rows[2].label} (${rows[2].pct}%)` : "N/D"],
+            ["Población", platform ? fmt(platform.population) : "Todas"],
+            ["Tasa total / 1.000 hab.", platform?.population ? ((items.length / platform.population) * 1000).toFixed(2) : "N/D"],
+            ["Área", platform ? `${platform.areaKm2} km²` : "Todas"]
+          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+          return;
+        }
+        if (isTemporalMode()) {
+          const dated = temporalRecords();
+          const months = Object.entries(dated.reduce((acc, event) => ((acc[event.month] = (acc[event.month] || 0) + 1), acc), {})).sort();
+          const avg = months.length ? dated.length / months.length : 0;
+          const topMonth = months.reduce((best, item) => item[1] > (best?.[1] || -1) ? item : best, null);
+          const topDay = Object.entries(dated.reduce((acc, event) => ((acc[event.weekday] = (acc[event.weekday] || 0) + 1), acc), {})).sort((a, b) => b[1] - a[1])[0];
+          elements.detailTitle.textContent = "Detalle temporal";
+          elements.detail.innerHTML = [
+            ["Incidentes", dated.length],
+            ["Variación respecto al promedio", topMonth && avg ? `${((topMonth[1] - avg) / avg * 100).toFixed(1)}%` : "N/D"],
+            ["Tipologías principales", categorySummary(dated).slice(0, 3).map((row) => row.label).join(", ") || "N/D"],
+            ["Día más frecuente", topDay ? `${topDay[0]} (${topDay[1]})` : "N/D"],
+            ["Franja horaria más frecuente", "N/D - sin campo hora real"],
+            ["Campo fecha", "date"],
+            ["Campo hora", "No disponible"]
+          ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+        }
       }
 
       function modulePlatformOptions() {
@@ -3406,7 +3764,10 @@
         elements.populationDensityMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "populationDensity");
         elements.platformIncidentsMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "incidentCount");
         elements.incidentRateMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "incidentRate");
-        elements.diagnosisMode.classList.toggle("is-active", mode === "diagnosis" && !["hotspots", "population", "populationDensity", "incidentCount", "incidentRate", "cameraCoverage", "populationCoverage", "boulevards", "institutionalDashboard"].includes(diagnosisMetric));
+        elements.giHotspotsMode.classList.toggle("is-active", isGiHotspotsMode());
+        elements.typologiesMode.classList.toggle("is-active", isTypologiesMode());
+        elements.temporalMode.classList.toggle("is-active", isTemporalMode());
+        elements.diagnosisMode.classList.toggle("is-active", mode === "diagnosis" && !["hotspots", "giHotspots", "incidentTypologies", "temporalAnalysis", "population", "populationDensity", "incidentCount", "incidentRate", "cameraCoverage", "populationCoverage", "boulevards", "institutionalDashboard"].includes(diagnosisMetric));
         elements.kdeAnalysis.classList.toggle("is-active", isKdeMode());
       }
 
@@ -3514,6 +3875,9 @@
       elements.populationDensityMode.addEventListener("click", () => activateDiagnosisMetric("populationDensity"));
       elements.platformIncidentsMode.addEventListener("click", () => activateDiagnosisMetric("incidentCount"));
       elements.incidentRateMode.addEventListener("click", () => activateDiagnosisMetric("incidentRate"));
+      elements.giHotspotsMode.addEventListener("click", () => activateDiagnosisMetric("giHotspots"));
+      elements.typologiesMode.addEventListener("click", () => activateDiagnosisMetric("incidentTypologies"));
+      elements.temporalMode.addEventListener("click", () => activateDiagnosisMetric("temporalAnalysis"));
       elements.policeAccessibilityMode.addEventListener("click", () => activateDiagnosisMetric("policeAccessibility"));
       elements.cameraCoverageMode.addEventListener("click", () => activateDiagnosisMetric("cameraCoverage"));
       elements.populationCoverageMode.addEventListener("click", () => activateDiagnosisMetric("populationCoverage"));
