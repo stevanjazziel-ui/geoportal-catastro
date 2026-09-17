@@ -282,7 +282,12 @@
     .summary-card span { display: block; color: var(--muted); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em; }
     .summary-card strong { display: block; margin-top: 4px; font-size: 1rem; }
     .territory-empty,
-    .territory-card { display: grid; gap: 10px; }
+    .territory-card {
+      display: grid;
+      gap: 10px;
+      min-height: 0;
+    }
+    .territory-card { align-content: start; }
     .territory-kpis {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -327,7 +332,8 @@
     }
     .interpretation-list { display: grid; gap: 8px; }
     .detail-mini-map {
-      min-height: 230px;
+      height: clamp(150px, 20vh, 210px);
+      min-height: 150px;
       border: 1px solid var(--line);
       border-radius: 12px;
       overflow: hidden;
@@ -792,10 +798,15 @@
       grid-template-columns: minmax(0, 2.05fr) minmax(300px, .78fr);
       gap: 12px;
       align-items: stretch;
+      height: clamp(540px, 62vh, 720px);
+      min-height: 0;
     }
     .map-panel {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
       overflow: hidden;
       padding: 0;
+      min-height: 0;
     }
     .panel-title {
       padding: 8px 12px;
@@ -806,8 +817,8 @@
     }
     .map-wrap {
       position: relative;
-      height: clamp(500px, 58vh, 640px);
-      min-height: 500px;
+      height: 100%;
+      min-height: 0;
       border: 1px solid var(--line);
       border-width: 0;
       border-radius: 0;
@@ -815,10 +826,13 @@
     }
     .detail-panel {
       display: grid;
-      align-content: start;
+      grid-template-rows: auto minmax(0, 1fr) auto auto;
+      align-content: stretch;
       gap: 10px;
-      padding: 0 0 12px;
-      overflow: visible;
+      height: 100%;
+      min-height: 0;
+      padding: 0;
+      overflow: hidden;
     }
     .detail-panel h2 {
       margin: 0;
@@ -833,6 +847,9 @@
     .detail-panel .mini-list {
       padding: 0 12px;
       gap: 8px;
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
     }
     .analysis-grid {
       display: grid;
@@ -842,10 +859,11 @@
     .analysis-grid > .chart-panel:only-child { grid-column: 1 / -1; }
     .analysis-workspace.layout-map-analytics .map-detail-grid {
       grid-template-columns: minmax(0, 1.7fr) minmax(340px, .9fr);
+      height: clamp(500px, 56vh, 650px);
     }
     .analysis-workspace.layout-map-analytics .map-wrap {
-      height: clamp(430px, 50vh, 560px);
-      min-height: 430px;
+      height: 100%;
+      min-height: 0;
     }
     .analysis-workspace.layout-analytics .map-detail-grid {
       display: none;
@@ -863,10 +881,11 @@
     }
     .analysis-workspace.layout-table .map-detail-grid {
       grid-template-columns: minmax(0, .9fr) minmax(340px, .8fr);
+      height: clamp(380px, 44vh, 480px);
     }
     .analysis-workspace.layout-table .map-wrap {
-      height: 360px;
-      min-height: 320px;
+      height: 100%;
+      min-height: 0;
     }
     .chart-panel,
     .support-panel {
@@ -995,7 +1014,10 @@
       .kpi-row .stats,
       .map-detail-grid,
       .analysis-grid { grid-template-columns: 1fr; }
+      .map-detail-grid { height: auto; }
       .map-wrap { height: 520px; min-height: 420px; }
+      .detail-panel { height: auto; overflow: visible; }
+      .detail-panel .mini-list { overflow: visible; }
       .analysis-workspace.layout-analytics .chart-panel .graphic-grid { grid-template-columns: 1fr; }
     }
   </style>
@@ -1330,6 +1352,12 @@
       const cameraCoverageLayer = L.layerGroup();
       const policeInfrastructureLayer = L.layerGroup().addTo(map);
       const boulevardLayer = L.layerGroup().addTo(map);
+      const invalidateMapLayout = () => {
+        requestAnimationFrame(() => {
+          map.invalidateSize();
+          if (detailMiniMap) detailMiniMap.invalidateSize();
+        });
+      };
       let platformLayer = null;
       let manzanaLayer = null;
       let platformGeojsonCache = null;
@@ -4567,7 +4595,7 @@
         if (Number(platform.policeInfrastructure || 0) > 0) interpretations.push(`Existen ${fmt(platform.policeInfrastructure)} dependencia(s) policial(es) registrada(s) en esta Plataforma.`);
         if (Number(platform.lowCoverageHotspots || 0) > 0) interpretations.push("Se identifican sectores donde coinciden concentraciones y menor cobertura relativa de los recursos analizados.");
         const interpretationHtml = interpretations.length
-          ? interpretations.map((text) => `<p>${text}</p>`).join("")
+          ? interpretations.slice(0, 3).map((text) => `<p>${text}</p>`).join("")
           : "<p>No disponible</p>";
         const concentrationButtons = Number(platform.hotspots || 0) > 0
           ? Array.from({ length: Math.min(Number(platform.hotspots || 0), 3) }, (_, index) => `<button type="button" disabled>Ver concentración ${index + 1} · geometría específica no disponible</button>`).join("")
@@ -4721,14 +4749,6 @@
                 <div class="accordion-body">${accordionContent[name]}</div>
               </details>
             `).join("")}
-            <details class="territory-accordion">
-              <summary>Información técnica</summary>
-              <div class="accordion-body">
-                ${technicalRows}
-                <h3>Calidad y trazabilidad</h3>
-                ${technicalMeta}
-              </div>
-            </details>
             <h3>¿Qué nos dicen los datos?</h3>
             <div class="interpretation-list">${interpretationHtml}</div>
           </div>`;
@@ -4738,9 +4758,11 @@
             elements.detail.querySelectorAll(".territory-accordion").forEach((other) => {
               if (other !== detail) other.open = false;
             });
+            invalidateMapLayout();
           });
         });
         renderDetailMiniMap(platform);
+        invalidateMapLayout();
       }
 
       function selectPlatform(platformName, pan) {
@@ -4771,6 +4793,7 @@
         renderLegend();
         renderMethodologyPanel();
         syncCoverageControls();
+        invalidateMapLayout();
         if (platformLayer) {
           let target = null;
           platformLayer.eachLayer((layer) => {
@@ -5010,13 +5033,14 @@
       elements.sidebarToggle.addEventListener("click", () => {
         elements.shell.classList.toggle("sidebar-collapsed");
         elements.sidebarToggle.setAttribute("aria-label", elements.shell.classList.contains("sidebar-collapsed") ? "Expandir menú" : "Contraer menú");
-        setTimeout(() => map.invalidateSize(), 120);
+        invalidateMapLayout();
       });
       elements.fullscreenAnalysis.addEventListener("click", () => {
         elements.shell.classList.toggle("analysis-fullscreen");
         elements.fullscreenAnalysis.textContent = elements.shell.classList.contains("analysis-fullscreen") ? "⛶ Salir" : "⛶ Pantalla completa";
-        setTimeout(() => map.invalidateSize(), 120);
+        invalidateMapLayout();
       });
+      window.addEventListener("resize", invalidateMapLayout);
       elements.methodologyButton.addEventListener("click", () => {
         renderMethodologyPanel();
         if (typeof elements.methodologyModal.showModal === "function") {
