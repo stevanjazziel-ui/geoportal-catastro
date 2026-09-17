@@ -26,6 +26,7 @@
     }
 
     * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
     html, body { height: 100%; margin: 0; }
     body {
       font-family: "Segoe UI", Tahoma, sans-serif;
@@ -4124,8 +4125,6 @@
           if (panel) {
             panel.innerHTML = `<h3>Calidad y trazabilidad de datos</h3>${technicalTrace}${methodRows}${(diagnosis.inventory || []).map((item) => `<div class="mini-row"><span>${esc(item.component)}</span><strong>${esc(item.records)} registros</strong></div>`).join("")}${notes}`;
           }
-          elements.overlayTitle.textContent = "Detalle territorial";
-          elements.overlayText.textContent = "Unidad principal: 18 Plataformas Territoriales reales. Selecciona una Plataforma para revisar indicadores compactos por bloque.";
           return;
         }
         elements.detailTitle.textContent = "Detalle territorial";
@@ -4332,8 +4331,6 @@
           });
         });
         setTimeout(() => renderDetailMiniMap(platform), 0);
-        elements.overlayTitle.textContent = `${platform.platformName} · fases integradas`;
-        elements.overlayText.textContent = `${fmt(platform.population)} habitantes, ${platform.areaKm2} km², déficit ${platform.videoDeficit}, cobertura institucional ${platform.institutionalCoverage}, ${fmt(platform.incidents)} incidentes y ${fmt(municipalCount)} cámaras municipales asignadas.`;
       }
 
       function selectPlatform(platformName, pan) {
