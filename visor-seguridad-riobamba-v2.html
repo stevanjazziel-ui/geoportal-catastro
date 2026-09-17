@@ -1098,7 +1098,7 @@
         <section class="analysis-grid">
           <section class="chart-panel">
             <h2>Gráficos y resultados</h2>
-            <div class="graphic-grid" id="graphicAnalysis"><p>Cambia a Diagnóstico para ver los gráficos por plataforma.</p></div>
+            <div class="graphic-grid" id="graphicAnalysis"><p>Este análisis aún no dispone de resultados calculados.</p></div>
           </section>
           <aside class="support-panel">
             <section class="panel">
@@ -2536,7 +2536,47 @@
 
       function renderGraphicAnalysis() {
         if (mode !== "diagnosis") {
-          elements.graphicAnalysis.innerHTML = "<p>Cambia a Diagnóstico para ver los gráficos por plataforma.</p>";
+          if (mode === "events") {
+            const items = filteredEvents().filter((event) => event.mappable);
+            const byType = categorySummary(items);
+            const byPlatform = filteredPlatforms().map((platform) => {
+              const value = items.filter((event) => eventPlatformName(event) === platform.platformName).length;
+              return { label: platform.platform, value, color: "#c86670" };
+            }).filter((row) => row.value > 0).sort((a, b) => b.value - a.value).slice(0, 8);
+            elements.graphicAnalysis.innerHTML = byType.length || byPlatform.length
+              ? `${metricBars("Incidentes por tipología", byType, Math.max(...byType.map((row) => row.value), 1), "#1d6fd8")}${metricBars("Incidentes por Plataforma", byPlatform, Math.max(...byPlatform.map((row) => row.value), 1), "#c86670")}`
+              : "<p>No existen datos suficientes para generar este gráfico.</p>";
+            return;
+          }
+          if (mode === "cameras") {
+            const visible = filteredCameras();
+            const byType = Object.entries(countBy(visible, "type")).map(([label, value]) => ({ label, value, color: label === "DOMO" ? "#1d4ed8" : "#2f6f5f" }));
+            const byStatus = [
+              { label: "Operativas / sin cambio", value: visible.filter((camera) => !camera.requiresChange).length, color: "#1d4ed8" },
+              { label: "Cambio previsto", value: visible.filter((camera) => camera.requiresChange).length, color: "#dc2626" }
+            ];
+            elements.graphicAnalysis.innerHTML = visible.length
+              ? `${metricBars("Cámaras por tipo", byType, Math.max(...byType.map((row) => row.value), 1), "#1d4ed8")}${metricBars("Estado de cámaras", byStatus, Math.max(...byStatus.map((row) => row.value), 1), "#dc2626")}`
+              : "<p>No existen datos suficientes para generar este gráfico.</p>";
+            return;
+          }
+          if (mode === "police") {
+            const visible = filteredPoliceInfrastructure().map((feature) => feature.properties || {});
+            const byType = Object.entries(countBy(visible, "type")).map(([label, value]) => ({ label, value, color: "#7c3aed" }));
+            elements.graphicAnalysis.innerHTML = visible.length
+              ? `${metricBars("Infraestructura policial por tipo", byType, Math.max(...byType.map((row) => row.value), 1), "#7c3aed")}`
+              : "<p>No existen datos suficientes para generar este gráfico.</p>";
+            return;
+          }
+          if (mode === "ecu") {
+            const parishes = filteredParishes();
+            const rows = parishes.map((parish) => ({ label: parish.parish, value: parish.security || 0, color: "#d9a441" })).sort((a, b) => b.value - a.value);
+            elements.graphicAnalysis.innerHTML = rows.length
+              ? `${metricBars("Registros ECU911 de seguridad por parroquia", rows, Math.max(...rows.map((row) => row.value), 1), "#d9a441")}`
+              : "<p>No existen datos suficientes para generar este gráfico.</p>";
+            return;
+          }
+          elements.graphicAnalysis.innerHTML = "<p>Este análisis aún no dispone de resultados calculados.</p>";
           return;
         }
         if (isCameraCoverageMode()) {
