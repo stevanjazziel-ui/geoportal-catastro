@@ -291,18 +291,28 @@
     }
     .overlay {
       position: absolute;
-      top: 16px;
-      right: 16px;
+      top: 14px;
+      right: 14px;
       z-index: 500;
-      width: min(420px, calc(100% - 32px));
-      padding: 14px;
+      width: min(320px, calc(100% - 28px));
+      padding: 10px 12px;
       background: rgba(255, 255, 255, 0.92);
       border: 1px solid var(--line);
-      border-radius: 16px;
+      border-radius: 12px;
       box-shadow: var(--shadow);
       backdrop-filter: blur(10px);
     }
-    .overlay strong { display: block; margin-bottom: 6px; }
+    .overlay strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.86rem;
+      line-height: 1.18;
+    }
+    .overlay p {
+      margin: 0;
+      font-size: 0.78rem;
+      line-height: 1.35;
+    }
 
     .event-marker {
       display: grid;
