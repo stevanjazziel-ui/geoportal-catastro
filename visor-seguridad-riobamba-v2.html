@@ -638,7 +638,7 @@
       box-shadow: none;
     }
     .filter-bar .filter-grid {
-      grid-template-columns: minmax(180px, 1.2fr) repeat(4, minmax(135px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
       gap: 8px;
       align-items: end;
     }
@@ -890,11 +890,11 @@
 
         <section class="filter-bar">
           <div class="filter-grid">
-            <input id="searchInput" type="search" placeholder="Buscar evento, ubicación o fuente" />
-            <select id="categorySelect" aria-label="Filtrar por categoría"></select>
-            <select id="precisionSelect" aria-label="Filtrar por precisión"></select>
-            <select id="sourceSelect" aria-label="Filtrar por fuente"></select>
-            <select id="diagnosisMetricSelect" aria-label="Indicador gráfico de diagnóstico">
+            <input id="searchInput" data-filter-control="search" type="search" placeholder="Buscar evento, ubicación o fuente" />
+            <select id="categorySelect" data-filter-control="category" aria-label="Filtrar por categoría"></select>
+            <select id="precisionSelect" data-filter-control="precision" aria-label="Filtrar por precisión"></select>
+            <select id="sourceSelect" data-filter-control="source" aria-label="Filtrar por fuente"></select>
+            <select id="diagnosisMetricSelect" data-filter-control="metric" aria-label="Indicador gráfico de diagnóstico">
               <option value="population">Población por manzana</option>
               <option value="populationDensity">Densidad poblacional por manzana</option>
               <option value="videoDeficit">Déficit de videovigilancia</option>
@@ -913,20 +913,20 @@
               <option value="typology">Tipología territorial</option>
               <option value="criticalZones">Zonas críticas preliminares</option>
             </select>
-            <div class="coverage-controls" id="cameraCoverageControls" hidden>
+            <div class="coverage-controls" id="cameraCoverageControls" data-filter-control="cameraCoverage" hidden>
               <span class="control-label">Escenario</span>
               <div class="segmented" role="group" aria-label="Escenario de cobertura">
                 <button type="button" data-coverage-radius="100">100 m</button>
                 <button type="button" data-coverage-radius="150">150 m</button>
                 <button type="button" data-coverage-radius="200">200 m</button>
               </div>
-              <span class="control-label">Cámaras</span>
-              <div class="segmented two" role="group" aria-label="Tipo de cámaras">
+              <span class="control-label" data-camera-universe-label>Cámaras</span>
+              <div class="segmented two" data-camera-universe-control role="group" aria-label="Tipo de cámaras">
                 <button type="button" data-camera-set="municipal">Municipales</button>
                 <button type="button" data-camera-set="external" disabled>Externas</button>
               </div>
             </div>
-            <div class="coverage-controls" id="giHotspotControls" hidden>
+            <div class="coverage-controls" id="giHotspotControls" data-filter-control="giHotspots" hidden>
               <span class="control-label">Nivel de significancia</span>
               <select id="giSignificanceSelect" aria-label="Nivel de significancia">
                 <option value="all">Todos</option>
@@ -1128,6 +1128,37 @@
       const isCameraCoverageMode = () => mode === "diagnosis" && ["cameraCoverage", "populationCoverage"].includes(diagnosisMetric);
       const isBoulevardsMode = () => mode === "diagnosis" && diagnosisMetric === "boulevards";
       const isInstitutionalMode = () => mode === "diagnosis" && diagnosisMetric === "institutionalDashboard";
+      const analysisKey = () => {
+        if (isKdeMode()) return "kde";
+        if (isGiHotspotsMode()) return "giHotspots";
+        if (diagnosisMetric === "cameraCoverage") return "cameraCoverage";
+        if (diagnosisMetric === "populationCoverage") return "populationCoverage";
+        if (isBoulevardsMode()) return "boulevards";
+        if (isInstitutionalMode()) return "institutionalCoverage";
+        if (isTemporalMode()) return "temporal";
+        if (isTypologiesMode()) return "typologies";
+        if (mode === "events") return incidentMenuView === "query" ? "incidentQuery" : "incidents";
+        if (mode === "cameras") return "cameras";
+        if (mode === "police") return "police";
+        if (["population", "populationDensity"].includes(diagnosisMetric)) return "demography";
+        return "diagnosis";
+      };
+      const analysisConfig = {
+        kde: { filters: ["search", "category", "source"] },
+        giHotspots: { filters: ["search", "category", "source", "giHotspots"] },
+        cameraCoverage: { filters: ["search", "cameraCoverage"] },
+        populationCoverage: { filters: ["search", "cameraCoverage"] },
+        boulevards: { filters: ["search"] },
+        institutionalCoverage: { filters: ["search"] },
+        temporal: { filters: ["search", "category", "source"] },
+        typologies: { filters: ["search", "category", "source"] },
+        incidents: { filters: ["search", "category", "precision", "source"] },
+        incidentQuery: { filters: ["search", "category", "precision", "source"] },
+        cameras: { filters: ["search", "category", "source"] },
+        police: { filters: ["search", "category", "source"] },
+        demography: { filters: ["search"] },
+        diagnosis: { filters: ["search", "metric"] }
+      };
       const markers = new Map();
       const parishMarkers = new Map();
       const cameraMarkers = new Map();
@@ -1158,8 +1189,11 @@
             ["Registros excluidos", kdeValidation.controlTable?.REGISTROS_EXCLUIDOS || "N/D"],
             ["Bandwidth", `${raster.bandwidth || 300} m`],
             ["Cell size", `${raster.cellSize || 20} m`],
+            ["Fragmentación", raster.fragmentation || "N/D"],
+            ["Suavizado", raster.smoothing || "N/D"],
             ["Periodo", kdeValidation.metadata?.PERIODO || "N/D"],
             ["CRS", "EPSG:32717 cálculo / EPSG:4326 visualización"],
+            ["Fuente", kdeValidation.metadata?.FUENTE || "N/D"],
           ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
           return;
         }
@@ -1597,11 +1631,19 @@
         return { rows, population, camerasCount, changeCount, covered, partial, uncovered, area, coveredArea, manzanas, coveredManzanas, coveredPct: coveragePercent(covered, population), partialPct: coveragePercent(partial, population), coveredAreaPct: coveragePercent(coveredArea, area) };
       };
       const syncCoverageControls = () => {
-        if (!elements.cameraCoverageControls) return;
-        elements.cameraCoverageControls.hidden = !isCameraCoverageMode();
-        if (elements.giHotspotControls) elements.giHotspotControls.hidden = !isGiHotspotsMode();
+        const activeFilters = new Set((analysisConfig[analysisKey()] || analysisConfig.diagnosis).filters);
+        document.querySelectorAll("[data-filter-control]").forEach((control) => {
+          control.hidden = !activeFilters.has(control.dataset.filterControl);
+        });
+        if (elements.cameraCoverageControls) elements.cameraCoverageControls.hidden = !activeFilters.has("cameraCoverage");
+        if (elements.giHotspotControls) elements.giHotspotControls.hidden = !activeFilters.has("giHotspots");
         if (elements.giSignificance) elements.giSignificance.value = giSignificanceLevel;
         if (elements.giType) elements.giType.value = giResultType;
+        if (!elements.cameraCoverageControls) return;
+        cameraCoverageSet = "municipal";
+        elements.cameraCoverageControls.querySelectorAll("[data-camera-universe-label], [data-camera-universe-control]").forEach((node) => {
+          node.hidden = true;
+        });
         elements.cameraCoverageControls.querySelectorAll("[data-coverage-radius]").forEach((button) => {
           button.classList.toggle("is-active", Number(button.dataset.coverageRadius) === cameraCoverageScenario);
         });
@@ -2092,10 +2134,7 @@
               ["Registros excluidos", kdeValidation.controlTable?.REGISTROS_EXCLUIDOS || 0],
               ["Concentraciones", raster.observableConcentrations || 0],
               ["Plataforma mayor concentración", top[0]],
-              ["Bandwidth", `${raster.bandwidth || 300} m`],
-              ["Cell size", `${raster.cellSize || 20} m`],
-              ["Fragmentación", raster.fragmentation || "N/D"],
-              ["Suavizado", raster.smoothing || "N/D"]
+              ["Bandwidth", `${raster.bandwidth || 300} m`]
             ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
             elements.graphicAnalysis.innerHTML = `
               <div class="status-grid">
