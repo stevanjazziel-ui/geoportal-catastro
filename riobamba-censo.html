@@ -886,7 +886,21 @@
     const ALL_PLATFORMS = "__ALL__";
     const OUTSIDE_PLATFORMS = "__OUTSIDE__";
     const ABC_PLATFORMS = "__ABC__";
+    const DEFG_PLATFORMS = "__DEFG__";
     const ABC_PLATFORM_NAMES = ["PLATAFORMA A", "PLATAFORMA B", "PLATAFORMA C"];
+    const DEFG_PLATFORM_NAMES = ["PLATAFORMA D", "PLATAFORMA E", "PLATAFORMA F", "PLATAFORMA G"];
+    const PLATFORM_GROUPS = {
+      [ABC_PLATFORMS]: {
+        label: "Plataformas A, B y C",
+        fileSlug: "riobamba_plataformas_a_b_c",
+        names: ABC_PLATFORM_NAMES
+      },
+      [DEFG_PLATFORMS]: {
+        label: "Plataformas D, E, F y G",
+        fileSlug: "riobamba_plataformas_d_e_f_g",
+        names: DEFG_PLATFORM_NAMES
+      }
+    };
     const PLATFORM_BORDER_COLORS = [
       "#2563eb", "#16a34a", "#f97316", "#9333ea", "#dc2626", "#0891b2",
       "#ca8a04", "#be185d", "#0f766e", "#4f46e5", "#65a30d", "#ea580c",
@@ -1012,6 +1026,7 @@
     let secondaryRenderToken = 0;
     let focusedCoverageFrameId = 0;
     let focusedCoverageToken = 0;
+    let barriosRenderFrameId = 0;
     let currentManzanaBreaks = [0, 0, 0, 0, 0];
     const exteriorBoundaryCache = new WeakMap();
     const featureBBoxCache = new WeakMap();
@@ -1429,7 +1444,7 @@
         scopedFeatures = equipamientosFeatures;
       } else if (currentPlatform === OUTSIDE_PLATFORMS) {
         scopedFeatures = equipamientosFeatures.filter((feature) => !feature.properties.platform_name);
-      } else if (isAbcPlatformSelection()) {
+      } else if (isPlatformGroupSelection()) {
         const selectedPlatformFeatures = getSelectedPlatformFeatures();
         if (selectedPlatformFeatures.length && typeof turf !== "undefined") {
           scopedFeatures = equipamientosFeatures.filter((feature) =>
@@ -1437,7 +1452,7 @@
           );
         } else {
           scopedFeatures = equipamientosFeatures.filter(
-            (feature) => isPlatformInAbcGroup(feature.properties.platform_name)
+            (feature) => isPlatformInSelectedGroup(feature.properties.platform_name)
           );
         }
       } else {
@@ -1469,9 +1484,9 @@
         scopedFeatures = barriosFeatures;
       } else if (currentPlatform === OUTSIDE_PLATFORMS) {
         scopedFeatures = [];
-      } else if (isAbcPlatformSelection()) {
+      } else if (isPlatformGroupSelection()) {
         scopedFeatures = barriosFeatures.filter(
-          (feature) => isPlatformInAbcGroup(feature?.properties?.platform_name)
+          (feature) => isPlatformInSelectedGroup(feature?.properties?.platform_name)
         );
       } else {
         const selected = displayPlatformName(currentPlatform);
@@ -1492,12 +1507,29 @@
       return normalizePlatformSelectionValue(value) === ABC_PLATFORMS;
     }
 
+    function isPlatformGroupSelection(value = currentPlatform) {
+      return Boolean(PLATFORM_GROUPS[normalizePlatformSelectionValue(value)]);
+    }
+
+    function getPlatformGroupConfig(value = currentPlatform) {
+      return PLATFORM_GROUPS[normalizePlatformSelectionValue(value)] || null;
+    }
+
+    function getPlatformGroupSet(value = currentPlatform) {
+      const groupConfig = getPlatformGroupConfig(value);
+      return new Set((groupConfig?.names || []).map((name) => displayPlatformName(name)));
+    }
+
+    function isPlatformInSelectedGroup(platformName, value = currentPlatform) {
+      return getPlatformGroupSet(value).has(displayPlatformName(platformName));
+    }
+
     function getAbcPlatformSet() {
       return new Set(ABC_PLATFORM_NAMES.map((name) => displayPlatformName(name)));
     }
 
     function isPlatformInAbcGroup(platformName) {
-      return getAbcPlatformSet().has(displayPlatformName(platformName));
+      return isPlatformInSelectedGroup(platformName, ABC_PLATFORMS);
     }
 
     function getPlatformSelectionLabel(value = currentPlatform) {
@@ -1508,8 +1540,9 @@
       if (normalized === OUTSIDE_PLATFORMS) {
         return "Fuera de plataformas";
       }
-      if (normalized === ABC_PLATFORMS) {
-        return "Plataformas A, B y C";
+      const groupConfig = getPlatformGroupConfig(normalized);
+      if (groupConfig) {
+        return groupConfig.label;
       }
       return displayPlatformName(normalized);
     }
@@ -1519,7 +1552,7 @@
       if (!normalized) {
         return ALL_PLATFORMS;
       }
-      if (normalized === ALL_PLATFORMS || normalized === OUTSIDE_PLATFORMS || normalized === ABC_PLATFORMS) {
+      if (normalized === ALL_PLATFORMS || normalized === OUTSIDE_PLATFORMS || PLATFORM_GROUPS[normalized]) {
         return normalized;
       }
       return normalized;
@@ -1762,8 +1795,8 @@
         return !normalizedPlatform;
       }
 
-      if (isAbcPlatformSelection()) {
-        return isPlatformInAbcGroup(normalizedPlatform);
+      if (isPlatformGroupSelection()) {
+        return isPlatformInSelectedGroup(normalizedPlatform);
       }
 
       return normalizedPlatform === displayPlatformName(currentPlatform);
@@ -1785,8 +1818,8 @@
         return [];
       }
 
-      if (isAbcPlatformSelection()) {
-        return platformFeatures.filter((feature) => isPlatformInAbcGroup(feature?.properties?.platform_name));
+      if (isPlatformGroupSelection()) {
+        return platformFeatures.filter((feature) => isPlatformInSelectedGroup(feature?.properties?.platform_name));
       }
 
       const selectedFeature = platformFeatureByName.get(normalizePlatformSelectionValue(currentPlatform));
@@ -1797,7 +1830,7 @@
       if (!hasFocusedPlatformSelection()) {
         return [];
       }
-      if (isAbcPlatformSelection()) {
+      if (isPlatformGroupSelection()) {
         return getVisiblePlatformFeatures();
       }
       const selectedFeature = getSelectedPlatformFeature();
@@ -1809,7 +1842,7 @@
         return null;
       }
 
-      if (isAbcPlatformSelection()) {
+      if (isPlatformGroupSelection()) {
         return null;
       }
 
@@ -1866,7 +1899,17 @@
       }
 
       const clippedFeatures = [];
-      for (const platformFeature of selectedPlatformFeatures) {
+      const selectedPlatformEntries = selectedPlatformFeatures.map((platformFeature) => ({
+        feature: platformFeature,
+        bbox: getFeatureBBox(platformFeature)
+      }));
+      const featureBBox = getFeatureBBox(feature);
+
+      for (const { feature: platformFeature, bbox: selectedBBox } of selectedPlatformEntries) {
+        if (featureBBox && selectedBBox && !doBboxesIntersect(featureBBox, selectedBBox)) {
+          continue;
+        }
+
         if (!featureIntersectsSelectedPlatform(feature, platformFeature)) {
           continue;
         }
@@ -1930,6 +1973,24 @@
       );
     }
 
+    function getCurrentViewportBBox(paddingRatio = 0.12) {
+      if (!map) {
+        return null;
+      }
+
+      const bounds = map.getBounds().pad(paddingRatio);
+      return [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()];
+    }
+
+    function filterFeaturesByViewport(features = [], paddingRatio = 0.12) {
+      const viewportBBox = getCurrentViewportBBox(paddingRatio);
+      if (!viewportBBox) {
+        return features;
+      }
+
+      return features.filter((feature) => doBboxesIntersect(getFeatureBBox(feature), viewportBBox));
+    }
+
     function resetPlatformDerivedCaches() {
       scopedIsochroneCache = new Map();
       scopedEquipamientoCache = new Map();
@@ -1952,7 +2013,9 @@
 
       currentFeaturesByPlatform.set(ALL_PLATFORMS, assignedFeatures);
       currentFeaturesByPlatform.set(OUTSIDE_PLATFORMS, []);
-      currentFeaturesByPlatform.set(ABC_PLATFORMS, []);
+      for (const groupKey of Object.keys(PLATFORM_GROUPS)) {
+        currentFeaturesByPlatform.set(groupKey, []);
+      }
       currentSummaryByPlatform.set(ALL_PLATFORMS, buildManzanaSummary(assignedFeatures, "Todas las plataformas"));
 
       if (platformSummary?.unassigned) {
@@ -1989,14 +2052,13 @@
         currentFeaturesByPlatform.get(platformName).push(feature);
       }
 
-      const abcFeatures = assignedFeatures.filter((feature) =>
-        isPlatformInAbcGroup(feature?.properties?.platform_name)
-      );
-      currentFeaturesByPlatform.set(ABC_PLATFORMS, abcFeatures);
-      currentSummaryByPlatform.set(
-        ABC_PLATFORMS,
-        buildManzanaSummary(abcFeatures, "Plataformas A, B y C")
-      );
+      for (const [groupKey, groupConfig] of Object.entries(PLATFORM_GROUPS)) {
+        const groupFeatures = assignedFeatures.filter((feature) =>
+          isPlatformInSelectedGroup(feature?.properties?.platform_name, groupKey)
+        );
+        currentFeaturesByPlatform.set(groupKey, groupFeatures);
+        currentSummaryByPlatform.set(groupKey, buildManzanaSummary(groupFeatures, groupConfig.label));
+      }
 
       resetPlatformDerivedCaches();
     }
@@ -2063,8 +2125,8 @@
             .find((value) => value !== undefined && value !== null && String(value).trim()) || `iso_${index}`;
         const originPlatform = getIsoFeatureOriginPlatform(feature);
         const isInternal = hasFocusedPlatformSelection() && (
-          isAbcPlatformSelection()
-            ? isPlatformInAbcGroup(originPlatform)
+          isPlatformGroupSelection()
+            ? isPlatformInSelectedGroup(originPlatform)
             : originPlatform === currentPlatformLabel
         );
 
@@ -2108,10 +2170,12 @@
         return filtered;
       }
 
-      if (isAbcPlatformSelection()) {
+      if (isPlatformGroupSelection()) {
         const selectedPlatformFeatures = getSelectedPlatformFeatures();
-        const scopedFeatures = validFeatures.flatMap((feature) =>
-          clipFeatureToSelectedPlatformFeatures(feature, selectedPlatformFeatures)
+        const scopedFeatures = validFeatures.filter((feature) =>
+          selectedPlatformFeatures.some((platformFeature) =>
+            featureIntersectsSelectedPlatform(feature, platformFeature)
+          )
         );
 
         if (scopedCacheKey) {
@@ -2136,6 +2200,25 @@
       }
 
       return scopedFeatures;
+    }
+
+    function getRenderablePlatformScopedIsocronasFeatures(features = [], cacheKey = "") {
+      const scopedFeatures = getPlatformScopedIsocronasFeatures(features, cacheKey);
+      if (!isPlatformGroupSelection()) {
+        return scopedFeatures;
+      }
+
+      const renderCacheKey = `render::${normalizePlatformSelectionValue(currentPlatform)}::${cacheKey}`;
+      if (scopedIsochroneCache.has(renderCacheKey)) {
+        return scopedIsochroneCache.get(renderCacheKey) || [];
+      }
+
+      const selectedPlatformFeatures = getSelectedPlatformFeatures();
+      const clippedFeatures = scopedFeatures.flatMap((feature) =>
+        clipFeatureToSelectedPlatformFeatures(feature, selectedPlatformFeatures)
+      );
+      scopedIsochroneCache.set(renderCacheKey, clippedFeatures);
+      return clippedFeatures;
     }
 
     function buildThematicIsocronasSummary(container, stats, features, cacheKey = "") {
@@ -2830,8 +2913,9 @@
         return "riobamba_todas_las_manzanas";
       }
 
-      if (isAbcPlatformSelection()) {
-        return "riobamba_plataformas_a_b_c";
+      const groupConfig = getPlatformGroupConfig();
+      if (groupConfig) {
+        return groupConfig.fileSlug;
       }
 
       if (currentPlatform === OUTSIDE_PLATFORMS) {
@@ -4132,7 +4216,7 @@
       const cards = [
         {
           key: "platform_total",
-          label: isAbcPlatformSelection() ? "Poblacion seleccion" : "Poblacion plataforma",
+          label: isPlatformGroupSelection() ? "Poblacion seleccion" : "Poblacion plataforma",
           value: `${formatNumber(totalPopulation)} hab`,
           meta: `${formatNumber(totalBlocks)} manzanas censales`,
           wide: true,
@@ -4269,8 +4353,8 @@
     }
 
     function platformStyle(feature) {
-      const isSelected = isAbcPlatformSelection()
-        ? isPlatformInAbcGroup(feature.properties.platform_name)
+      const isSelected = isPlatformGroupSelection()
+        ? isPlatformInSelectedGroup(feature.properties.platform_name)
         : currentPlatform !== ALL_PLATFORMS && feature.properties.platform_name === currentPlatform;
       return {
         color: "#111827",
@@ -4421,13 +4505,30 @@
       return selected;
     }
 
+    function scheduleBarriosRender() {
+      if (barriosRenderFrameId) {
+        window.cancelAnimationFrame(barriosRenderFrameId);
+      }
+
+      barriosRenderFrameId = window.requestAnimationFrame(() => {
+        barriosRenderFrameId = 0;
+        renderBarriosLayer();
+      });
+    }
+
     function renderBarriosLayer() {
       if (barriosLayer) {
         map.removeLayer(barriosLayer);
+        barriosLayer = null;
       }
 
       if (barriosLabelLayer) {
         map.removeLayer(barriosLabelLayer);
+        barriosLabelLayer = null;
+      }
+
+      if (!layerVisibility.barrios) {
+        return;
       }
 
       if (!map.getPane("barriosPane")) {
@@ -4440,8 +4541,11 @@
         map.getPane("barriosLabelsPane").style.zIndex = 466;
       }
 
-      const visibleFeatures = getPlatformScopedBarriosFeatures().filter(
-        (feature) => feature && feature.geometry && feature.properties
+      const visibleFeatures = filterFeaturesByViewport(
+        getPlatformScopedBarriosFeatures().filter(
+          (feature) => feature && feature.geometry && feature.properties
+        ),
+        currentPlatform === ALL_PLATFORMS ? 0.18 : 0.1
       );
 
       barriosLayer = L.geoJSON(
@@ -4503,8 +4607,8 @@
           .filter(Boolean)
       );
 
-      syncSingleLayer(barriosLayer, layerVisibility.barrios);
-      syncSingleLayer(barriosLabelLayer, layerVisibility.barrios);
+      syncSingleLayer(barriosLayer, true);
+      syncSingleLayer(barriosLabelLayer, true);
       if (barriosLabelLayer && typeof barriosLabelLayer.bringToFront === "function") {
         barriosLabelLayer.bringToFront();
       }
@@ -4826,7 +4930,9 @@
 
       const options = [
         `<option value="${ALL_PLATFORMS}">Todas las plataformas</option>`,
-        `<option value="${ABC_PLATFORMS}">Plataformas A, B y C</option>`
+        ...Object.entries(PLATFORM_GROUPS).map(
+          ([groupKey, groupConfig]) => `<option value="${groupKey}">${groupConfig.label}</option>`
+        )
       ];
 
       for (const feature of platformFeatures) {
@@ -4846,8 +4952,8 @@
         summaryTitle.textContent = "Resumen Riobamba";
       } else if (currentPlatform === OUTSIDE_PLATFORMS) {
         summaryTitle.textContent = "Resumen fuera de plataformas";
-      } else if (isAbcPlatformSelection()) {
-        summaryTitle.textContent = "Resumen plataformas A, B y C";
+      } else if (isPlatformGroupSelection()) {
+        summaryTitle.textContent = `Resumen ${getPlatformSelectionLabel(currentPlatform).toLowerCase()}`;
       } else {
         summaryTitle.textContent = `Resumen ${currentPlatform}`;
       }
@@ -6242,7 +6348,7 @@
         return;
       }
 
-      const features = getPlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || [], "educacion")
+      const features = getRenderablePlatformScopedIsocronasFeatures(window.educacionIsocronasFeatures || [], "educacion")
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
         .filter(Boolean)
@@ -6309,7 +6415,7 @@
         return;
       }
 
-      const features = getPlatformScopedIsocronasFeatures(window.recreacionIsocronasFeatures || [], "recreacion")
+      const features = getRenderablePlatformScopedIsocronasFeatures(window.recreacionIsocronasFeatures || [], "recreacion")
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
         .filter(Boolean)
@@ -6376,7 +6482,7 @@
         return;
       }
 
-      const features = getPlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || [], "bienestar")
+      const features = getRenderablePlatformScopedIsocronasFeatures(window.bienestarIsocronasFeatures || [], "bienestar")
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
         .filter(Boolean)
@@ -6443,7 +6549,7 @@
         return;
       }
 
-      const features = getPlatformScopedIsocronasFeatures(window.culturaIsocronasFeatures || [], "cultura")
+      const features = getRenderablePlatformScopedIsocronasFeatures(window.culturaIsocronasFeatures || [], "cultura")
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
         .filter(Boolean)
@@ -6510,7 +6616,7 @@
         return;
       }
 
-      const features = getPlatformScopedIsocronasFeatures(window.saludIsocronasFeatures || [], "salud")
+      const features = getRenderablePlatformScopedIsocronasFeatures(window.saludIsocronasFeatures || [], "salud")
         .filter((feature) => feature && feature.geometry && feature.properties)
         .map(featureToExteriorBoundary)
         .filter(Boolean)
@@ -7820,7 +7926,11 @@
 
     toggleBarrios.addEventListener("change", () => {
       layerVisibility.barrios = toggleBarrios.checked;
-      syncVisibleLayers();
+      if (layerVisibility.barrios) {
+        scheduleBarriosRender();
+      } else {
+        syncVisibleLayers();
+      }
     });
 
     toggleEquipamientos.addEventListener("change", () => {
@@ -7930,9 +8040,7 @@
       renderParadasBusIsocronasStartLayer();
     });
 
-    map.on("zoomend", () => {
-      renderBarriosLayer();
-    });
+    map.on("zoomend moveend", scheduleBarriosRender);
 
     initStableRiobambaCenso();
   </script>
