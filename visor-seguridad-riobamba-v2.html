@@ -1032,11 +1032,11 @@
         </details>
         <details class="nav-group">
           <summary>Brechas</summary>
-          <button type="button" disabled data-icon="D"><span>Déficit potencial de videovigilancia</span></button>
-          <button type="button" disabled data-icon="C"><span>Concentraciones con baja cobertura</span></button>
-          <button type="button" disabled data-icon="E"><span>Exposición + baja cobertura</span></button>
-          <button type="button" disabled data-icon="B"><span>Brechas territoriales</span></button>
-          <button type="button" disabled data-icon="Z"><span>Zonas candidatas de intervención</span></button>
+          <button class="mode-button" id="videoDeficitGapMode" type="button" data-icon="D"><span>Déficit potencial de videovigilancia</span></button>
+          <button class="mode-button" id="lowCoverageConcentrationsMode" type="button" data-icon="C"><span>Concentraciones con baja cobertura</span></button>
+          <button class="mode-button" id="exposureLowCoverageMode" type="button" data-icon="E"><span>Exposición + baja cobertura</span></button>
+          <button class="mode-button" id="territorialGapsMode" type="button" data-icon="B"><span>Brechas territoriales</span></button>
+          <button class="mode-button" id="candidateZonesMode" type="button" data-icon="Z"><span>Zonas candidatas de intervención</span></button>
         </details>
         <details class="nav-group">
           <summary>Detalle territorial</summary>
@@ -1250,6 +1250,11 @@
         populationCoverageMode: document.getElementById("populationCoverageMode"),
         boulevardsMode: document.getElementById("boulevardsMode"),
         institutionalCoverageMode: document.getElementById("institutionalCoverageMode"),
+        videoDeficitGapMode: document.getElementById("videoDeficitGapMode"),
+        lowCoverageConcentrationsMode: document.getElementById("lowCoverageConcentrationsMode"),
+        exposureLowCoverageMode: document.getElementById("exposureLowCoverageMode"),
+        territorialGapsMode: document.getElementById("territorialGapsMode"),
+        candidateZonesMode: document.getElementById("candidateZonesMode"),
         cameraCoverageControls: document.getElementById("cameraCoverageControls"),
         policeMode: document.getElementById("policeMode"),
         policeAccessibilityMode: document.getElementById("policeAccessibilityMode"),
@@ -1354,6 +1359,8 @@
       const isCameraCoverageMode = () => mode === "diagnosis" && ["cameraCoverage", "populationCoverage"].includes(diagnosisMetric);
       const isBoulevardsMode = () => mode === "diagnosis" && diagnosisMetric === "boulevards";
       const isInstitutionalMode = () => mode === "diagnosis" && diagnosisMetric === "institutionalDashboard";
+      const gapMetrics = ["videoDeficitGap", "lowCoverageConcentrations", "exposureLowCoverage", "territorialGaps", "candidateZones"];
+      const isGapMode = () => mode === "diagnosis" && gapMetrics.includes(diagnosisMetric);
       const analysisKey = () => {
         if (isKdeMode()) return "kde";
         if (isGiHotspotsMode()) return "giHotspots";
@@ -1361,6 +1368,7 @@
         if (diagnosisMetric === "populationCoverage") return "populationCoverage";
         if (isBoulevardsMode()) return "boulevards";
         if (isInstitutionalMode()) return "institutionalCoverage";
+        if (isGapMode()) return diagnosisMetric;
         if (isTemporalMode()) return "temporal";
         if (isTypologiesMode()) return "typologies";
         if (mode === "events") return incidentMenuView === "query" ? "incidentQuery" : "incidents";
@@ -1374,6 +1382,11 @@
         giHotspots: { filters: ["search", "category", "source", "giHotspots"] },
         cameraCoverage: { filters: ["search", "cameraCoverage"] },
         populationCoverage: { filters: ["search", "cameraCoverage"] },
+        videoDeficitGap: { filters: ["category", "kdePlatform", "cameraCoverage"] },
+        lowCoverageConcentrations: { filters: ["category", "kdePlatform", "giHotspots", "cameraCoverage"] },
+        exposureLowCoverage: { filters: ["kdePlatform", "cameraCoverage"] },
+        territorialGaps: { filters: ["kdePlatform"] },
+        candidateZones: { filters: ["kdePlatform", "cameraCoverage"] },
         boulevards: { filters: ["search"] },
         institutionalCoverage: { filters: ["search"] },
         temporal: { filters: ["search", "category", "source"] },
@@ -1390,6 +1403,11 @@
         giHotspots: { result: "Zonas críticas", context: ["events", "cameras", "police", "boulevards"] },
         cameraCoverage: { result: "Cobertura potencial", context: ["manzanas", "police", "boulevards", "externalCameras"] },
         populationCoverage: { result: "Cobertura poblacional", context: ["cameras", "manzanas", "police", "boulevards"] },
+        videoDeficitGap: { result: "Déficit potencial de videovigilancia", context: ["cameras", "events", "police", "boulevards"] },
+        lowCoverageConcentrations: { result: "Concentraciones con baja cobertura", context: ["cameras", "police", "events"] },
+        exposureLowCoverage: { result: "Exposición + baja cobertura", context: ["manzanas", "cameras", "police"] },
+        territorialGaps: { result: "Brechas territoriales", context: ["cameras", "police", "boulevards", "manzanas"] },
+        candidateZones: { result: "Zonas candidatas de intervención", context: ["cameras", "police", "boulevards"] },
         boulevards: { result: "Red / proximidad a Bulevares", context: ["cameras", "police", "events"] },
         institutionalCoverage: { result: "Cobertura institucional", context: ["cameras", "police", "boulevards", "manzanas"] },
         temporal: { result: "Evolución temporal", context: ["events", "cameras", "police"] },
@@ -1405,7 +1423,7 @@
         const key = analysisKey();
         if (["typologies", "temporal"].includes(key)) return "layout-analytics";
         if (key === "incidentQuery") return "layout-table";
-        if (["diagnosis", "populationCoverage", "institutionalCoverage"].includes(key)) return "layout-map-analytics";
+        if (["diagnosis", "populationCoverage", "institutionalCoverage", "videoDeficitGap", "lowCoverageConcentrations", "exposureLowCoverage", "territorialGaps", "candidateZones"].includes(key)) return "layout-map-analytics";
         return "layout-map-dominant";
       };
       const syncWorkspaceLayout = () => {
@@ -1473,6 +1491,25 @@
             ["Periodo", kdeValidation.metadata?.PERIODO || "N/D"],
             ["Fuente", kdeValidation.metadata?.FUENTE || "N/D"],
           ]) + crsHtml() + `<h3>Limitaciones</h3><p>KDE representa densidad/concentración espacial; no equivale por sí solo a significancia estadística ni a nivel de inseguridad.</p>`;
+          return;
+        }
+        if (isGapMode()) {
+          const labels = {
+            videoDeficitGap: ["Déficit potencial de videovigilancia", "Coincidencia entre baja cobertura municipal y presencia/concentración de incidentes."],
+            lowCoverageConcentrations: ["Concentraciones con baja cobertura", "Celdas hotspot Gi* ubicadas en plataformas con cobertura municipal insuficiente."],
+            exposureLowCoverage: ["Exposición + baja cobertura", "Población en plataformas/manzanas donde se combinan exposición territorial y baja cobertura."],
+            territorialGaps: ["Brechas territoriales", "Tipología descriptiva por Plataforma, sin ponderaciones ni ranking final."],
+            candidateZones: ["Zonas candidatas de intervención", "Celdas donde coinciden varias condiciones desfavorables; requieren validación técnica y de campo."],
+          }[diagnosisMetric] || ["Brechas", "Análisis de coincidencias territoriales."];
+          panel.innerHTML = `<h3>${esc(labels[0])}</h3>` + methodRowsHtml([
+            ["Objetivo", labels[1]],
+            ["Unidad principal", diagnosisMetric === "candidateZones" || diagnosisMetric === "lowCoverageConcentrations" ? "Celdas Gi* y Plataformas Territoriales" : "18 Plataformas Territoriales"],
+            ["Cámaras", "30 cámaras municipales; cámaras externas solo como contexto"],
+            ["Escenario de cobertura", `${cameraCoverageScenario} m`],
+            ["Insumos", "Incidentes A/B, Gi*, KDE validado, población/manzanas, cobertura municipal, policía y Bulevares"],
+            ["Reglas", "Clasificación categórica explícita por coincidencia de condiciones; sin AHP ni puntajes compuestos"],
+            ["Fecha de procesamiento", new Date().toISOString().slice(0, 10)],
+          ]) + crsHtml() + `<h3>Limitaciones</h3><p>Estos resultados identifican coincidencias territoriales para revisión. No son ranking final, predicción, prioridad definitiva ni recomendación automática de instalación de cámaras.</p>`;
           return;
         }
         if (diagnosisMetric === "population") {
@@ -1737,6 +1774,21 @@
         if (diagnosisMetric === "institutionalCoverage") return (diagnosisPalettes.institutionalCoverage.find(([key]) => key === platform.institutionalCoverage) || [null, "#d8eadf"])[1];
         if (diagnosisMetric === "typology") return (diagnosisPalettes.typology.find(([key]) => key === platform.territorialTypology) || [null, "#d8eadf"])[1];
         if (diagnosisMetric === "criticalZones") return (diagnosisPalettes.criticalZones.find(([key]) => key === platform.criticalZones) || [null, "#d8eadf"])[1];
+        if (isGapMode()) {
+          const value = gapLevelForPlatform(platform);
+          if (diagnosisMetric === "territorialGaps") {
+            return {
+              "Brechas múltiples": "#9c1f33",
+              "Conflictividad + videovigilancia": "#c86670",
+              "Exposición + accesibilidad": "#ff7c43",
+              "Brecha de videovigilancia": "#d9a441",
+              "Brecha de accesibilidad": "#8fb96a",
+              "Brecha de exposición": "#6fa29a",
+              "Sin brecha relevante": "#d8eadf",
+            }[value] || "#d8eadf";
+          }
+          return breachLevelColor(value);
+        }
         return "#d8eadf";
       };
       const platformVisualStyle = (feature) => {
@@ -1797,7 +1849,7 @@
       };
       const renderPlatformLabels = () => {
         platformLabelLayer.clearLayers();
-        if (!platformLayer || mode !== "diagnosis" || diagnosisMetric !== "hotspots") return;
+        if (!platformLayer || mode !== "diagnosis" || !(diagnosisMetric === "hotspots" || isGapMode())) return;
         platformLayer.eachLayer((layer) => {
           const name = layer.feature?.properties?.platform_name || "";
           const label = name.replace("PLATAFORMA ", "");
@@ -2276,6 +2328,141 @@
         cameraCoverageCache = { byPlatformName, cameraSet };
         return cameraCoverageCache;
       };
+      const platformFilterValue = () => elements.kdePlatform?.value && elements.kdePlatform.value !== "__ALL__" ? elements.kdePlatform.value : null;
+      const selectedGapPlatforms = () => {
+        const platform = platformFilterValue();
+        return filteredPlatforms().filter((row) => !platform || row.platform === platform || row.platformName === `PLATAFORMA ${platform}`);
+      };
+      const breachLevelColor = (level) => ({
+        "Muy alto": "#e11d48",
+        "Alto": "#ff7c43",
+        "Medio": "#ffd166",
+        "Bajo": "#a7d87a",
+        "Muy bajo": "#55a868",
+      }[level] || "#d8eadf");
+      const breachLevelRank = (level) => ({ "Muy alto": 5, "Alto": 4, "Medio": 3, "Bajo": 2, "Muy bajo": 1 }[level] || 0);
+      const gapCoverageRow = (platformName) => cameraCoverageRowAtScenario(platformName, cameraCoverageScenario);
+      const giHotCellsByPlatform = () => {
+        const category = elements.category?.value || "__ALL__";
+        const cells = getGiHotspotAnalysis().hotspotCells
+          .filter(giCellPassesFilter)
+          .map((cell) => {
+            const incidents = category === "__ALL__" ? cell.incidents : cell.incidents.filter((event) => event.category === category);
+            return { ...cell, incidents, incCount: incidents.length };
+          })
+          .filter((cell) => cell.incCount > 0);
+        return cells.reduce((acc, cell) => {
+          acc[cell.platform] = acc[cell.platform] || [];
+          acc[cell.platform].push(cell);
+          return acc;
+        }, {});
+      };
+      const gapPlatformRows = () => {
+        const cellsByPlatform = giHotCellsByPlatform();
+        return selectedGapPlatforms().map((platform) => {
+          const coverage = gapCoverageRow(platform.platformName);
+          const coveredPct = Number(coverage.coveredPct ?? platform.cameraCoveragePctByRadius?.[cameraCoverageScenario] ?? 0);
+          const uncoveredPct = Math.max(0, Number((100 - coveredPct).toFixed(1)));
+          const hotCells = cellsByPlatform[platform.platformName] || [];
+          const hotIncidents = hotCells.reduce((sum, cell) => sum + Number(cell.incCount || 0), 0);
+          const incidents = Number(platform.incidents || 0);
+          const exposed = Number(platform.populationExposed250 || 0);
+          const population = Number(platform.population || coverage.population || 0);
+          const cameras = municipalCamerasInPlatform(platform.platformName).length;
+          const policeDistance = Number(platform.avgPopulationDistancePoliceM || 0);
+          const boulevardKm = Number(platform.boulevardTotalLengthM || 0) / 1000;
+          const institutionalLow = String(platform.institutionalCoverage || "").toUpperCase() === "BAJA";
+          let deficitLevel = "Muy bajo";
+          if (uncoveredPct >= 90 && (hotIncidents > 0 || incidents >= 2)) deficitLevel = "Muy alto";
+          else if (uncoveredPct >= 70 && (hotIncidents > 0 || incidents > 0)) deficitLevel = "Alto";
+          else if (uncoveredPct >= 50 || hotIncidents > 0) deficitLevel = "Medio";
+          else if (uncoveredPct >= 25) deficitLevel = "Bajo";
+          let exposureLevel = "Muy bajo";
+          const exposedPct = population ? Number((exposed / population * 100).toFixed(1)) : 0;
+          if (exposedPct >= 45 && uncoveredPct >= 50) exposureLevel = "Muy alto";
+          else if (exposedPct >= 25 && uncoveredPct >= 50) exposureLevel = "Alto";
+          else if (exposedPct >= 10 || uncoveredPct >= 50) exposureLevel = "Medio";
+          else if (exposedPct > 0 || uncoveredPct >= 25) exposureLevel = "Bajo";
+          const gapFlags = [
+            uncoveredPct >= 50 ? "Videovigilancia" : null,
+            hotIncidents > 0 || Number(platform.hotspots || 0) > 0 ? "Conflictividad" : null,
+            exposedPct >= 10 ? "Exposición poblacional" : null,
+            policeDistance >= 1000 ? "Accesibilidad policial" : null,
+            institutionalLow ? "Cobertura institucional" : null,
+            boulevardKm <= 0.25 ? "Conectividad Bulevares" : null,
+          ].filter(Boolean);
+          const typology = gapFlags.length >= 3 ? "Brechas múltiples"
+            : gapFlags.includes("Videovigilancia") && gapFlags.includes("Conflictividad") ? "Conflictividad + videovigilancia"
+            : gapFlags.includes("Exposición poblacional") && gapFlags.includes("Accesibilidad policial") ? "Exposición + accesibilidad"
+            : gapFlags.includes("Videovigilancia") ? "Brecha de videovigilancia"
+            : gapFlags.includes("Accesibilidad policial") ? "Brecha de accesibilidad"
+            : gapFlags.includes("Exposición poblacional") ? "Brecha de exposición"
+            : "Sin brecha relevante";
+          return {
+            platform,
+            platformName: platform.platformName,
+            label: platform.platform,
+            population,
+            incidents,
+            cameras,
+            coverage,
+            coveredPct,
+            uncoveredPct,
+            uncoveredPopulation: coverage.uncoveredPopulation ?? Math.max(0, population - Number(coverage.coveredPopulation || 0)),
+            exposed,
+            exposedPct,
+            hotCells,
+            hotIncidents,
+            policeDistance,
+            boulevardKm,
+            deficitLevel,
+            exposureLevel,
+            typology,
+            gapFlags,
+            candidate: gapFlags.length >= 2 && (hotIncidents > 0 || exposedPct >= 10 || uncoveredPct >= 70),
+          };
+        });
+      };
+      const lowCoverageConcentrationCells = () => {
+        const rows = Object.fromEntries(gapPlatformRows().map((row) => [row.platformName, row]));
+        const category = elements.category?.value || "__ALL__";
+        return getGiHotspotAnalysis().hotspotCells
+          .filter(giCellPassesFilter)
+          .map((cell) => {
+            const incidents = category === "__ALL__" ? cell.incidents : cell.incidents.filter((event) => event.category === category);
+            return { ...cell, incidents, incCount: incidents.length };
+          })
+          .filter((cell) => cell.incCount > 0)
+          .filter((cell) => {
+            const row = rows[cell.platform];
+            return row && row.uncoveredPct >= 50;
+          })
+          .map((cell, index) => {
+            const row = rows[cell.platform];
+            const type = row.uncoveredPct >= 70 ? "Conflictividad + videovigilancia" : "Concentración con cobertura baja";
+            return { ...cell, zoneId: `ZC-${String(index + 1).padStart(2, "0")}`, row, type };
+          });
+      };
+      const candidateZones = () => {
+        const cells = lowCoverageConcentrationCells().filter((cell) => cell.row.candidate);
+        return cells.map((cell, index) => ({
+          ...cell,
+          zoneId: `ZI-${String(index + 1).padStart(2, "0")}`,
+          type: cell.row.gapFlags.length >= 3 ? "Múltiples brechas" : cell.type,
+          population: Math.round((cell.row.uncoveredPopulation || 0) / Math.max(cell.row.hotCells.length, 1)),
+        }));
+      };
+      const currentGapRows = () => gapPlatformRows();
+      const currentGapZones = () => diagnosisMetric === "candidateZones" ? candidateZones() : lowCoverageConcentrationCells();
+      const gapLevelForPlatform = (platform) => {
+        const row = gapPlatformRows().find((item) => item.platformName === platform?.platformName);
+        if (!row) return "Muy bajo";
+        if (diagnosisMetric === "exposureLowCoverage") return row.exposureLevel;
+        if (diagnosisMetric === "territorialGaps") return row.typology;
+        if (diagnosisMetric === "candidateZones") return row.candidate ? row.deficitLevel : "Muy bajo";
+        if (diagnosisMetric === "lowCoverageConcentrations") return row.hotIncidents > 0 && row.uncoveredPct >= 50 ? row.deficitLevel : "Muy bajo";
+        return row.deficitLevel;
+      };
       const manzanaPopulation = (feature) => Number(manzanaStats?.byMan?.[feature?.properties?.man]?.population_total || 0);
       const manzanaDensity = (feature) => {
         const area = geometryAreaKm2(feature?.geometry);
@@ -2296,6 +2483,21 @@
         }
         if (isCameraCoverageMode()) {
           return coverageManzanaStyle(feature, selected);
+        }
+        if (diagnosisMetric === "exposureLowCoverage") {
+          const cameraSet = getCameraCoverageAnalysis().cameraSet || [];
+          const fraction = manzanaCoverageFraction(feature, cameraSet);
+          const population = manzanaPopulation(feature);
+          const platformName = platformStats?.manToPlatform?.[feature?.properties?.man] || "";
+          const row = gapPlatformRows().find((item) => item.platformName === platformName);
+          const exposed = population > 0 && fraction < 0.5 && row && row.exposedPct > 0;
+          return {
+            color: selected ? "#111827" : "#7e8790",
+            weight: selected ? 1.35 : 0.35,
+            fillColor: exposed ? breachLevelColor(row.exposureLevel) : "#edf1ed",
+            fillOpacity: exposed ? 0.68 : 0.08,
+            opacity: exposed ? 0.65 : 0.25
+          };
         }
         return { color: "#7e8790", weight: 0.45, fillColor: "#f7f7f7", fillOpacity: 0.13, opacity: 0.45 };
       };
@@ -2451,7 +2653,7 @@
       let categoryFilterContext = "";
       const defaultCategoryOptions = [...new Set([...events.map((event) => event.category), ...cameras.map((camera) => camera.type)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es"));
       const syncKdeFilterOptions = () => {
-        const context = isKdeMode() ? "kde" : "default";
+        const context = (isKdeMode() || isGapMode()) ? "kde" : "default";
         if (categoryFilterContext !== context) {
           const previous = elements.category.value;
           const values = context === "kde"
@@ -2549,6 +2751,49 @@
               </div>
               ${graphRows.length ? metricBars("Incidentes KDE por Plataforma", graphRows, Math.max(...graphRows.map((item) => item.value), 1), "#9c1f33") : "<p>No existen datos suficientes para generar este gráfico.</p>"}
             `;
+            return;
+          }
+          if (isGapMode()) {
+            const rows = currentGapRows();
+            const zones = currentGapZones();
+            const population = rows.reduce((sum, row) => sum + Number(row.population || 0), 0);
+            const uncoveredPopulation = rows.reduce((sum, row) => sum + Number(row.uncoveredPopulation || 0), 0);
+            const elevated = rows.filter((row) => breachLevelRank(row.deficitLevel) >= 4);
+            const exposed = rows.reduce((sum, row) => sum + (diagnosisMetric === "exposureLowCoverage" ? Number(row.exposed || 0) : 0), 0);
+            const multiple = rows.filter((row) => row.typology === "Brechas múltiples").length;
+            const typeTop = Object.entries(rows.reduce((acc, row) => ((acc[row.typology] = (acc[row.typology] || 0) + 1), acc), {})).sort((a, b) => b[1] - a[1])[0]?.[0] || "N/D";
+            const kpis = diagnosisMetric === "videoDeficitGap" ? [
+              ["Cámaras municipales", municipalCameras.length],
+              [`Población sin cobertura ${cameraCoverageScenario} m`, fmt(uncoveredPopulation)],
+              ["Plataformas con déficit elevado", elevated.length],
+              ["Concentraciones en baja cobertura", zones.length],
+              ["Escenario", `${cameraCoverageScenario} m`],
+            ] : diagnosisMetric === "lowCoverageConcentrations" ? [
+              ["Concentraciones con baja cobertura", zones.length],
+              ["Incidentes asociados", zones.reduce((sum, zone) => sum + Number(zone.incCount || 0), 0)],
+              ["Plataformas afectadas", new Set(zones.map((zone) => zone.platform)).size],
+              ["Cobertura considerada baja", `&lt; 50%`],
+              ["Escenario", `${cameraCoverageScenario} m`],
+            ] : diagnosisMetric === "exposureLowCoverage" ? [
+              ["Población expuesta", fmt(exposed)],
+              ["% población analizada", population ? `${(exposed / population * 100).toFixed(1)}%` : "N/D"],
+              ["Manzanas en condición", (manzanaGeojsonCache?.features || []).filter((feature) => manzanaPopulation(feature) > 0 && manzanaCoverageFraction(feature, getCameraCoverageAnalysis().cameraSet || []) < 0.5).length],
+              ["Plataformas con exposición elevada", rows.filter((row) => breachLevelRank(row.exposureLevel) >= 4).length],
+              ["Escenario", `${cameraCoverageScenario} m`],
+            ] : diagnosisMetric === "territorialGaps" ? [
+              ["Plataformas analizadas", rows.length],
+              ["Brechas múltiples", multiple],
+              ["Población en plataformas con brechas", fmt(rows.filter((row) => row.typology !== "Sin brecha relevante").reduce((sum, row) => sum + row.population, 0))],
+              ["Tipología más frecuente", typeTop],
+              ["AHP", "No aplicado"],
+            ] : [
+              ["Zonas candidatas", zones.length],
+              ["Población asociada", fmt(zones.reduce((sum, zone) => sum + Number(zone.population || 0), 0))],
+              ["Incidentes asociados", zones.reduce((sum, zone) => sum + Number(zone.incCount || 0), 0)],
+              ["Plataformas involucradas", new Set(zones.map((zone) => zone.platform)).size],
+              ["Clasificación", "Tipo de coincidencia"],
+            ];
+            elements.summary.innerHTML = kpis.map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${value}</strong></div>`).join("");
             return;
           }
         if (diagnosisMetric === "population" || diagnosisMetric === "populationDensity" || diagnosisMetric === "populationExposure") {
@@ -2800,6 +3045,54 @@
             return;
           }
           elements.graphicAnalysis.innerHTML = "<p>Este análisis aún no dispone de resultados calculados.</p>";
+          return;
+        }
+        if (isGapMode()) {
+          const rows = currentGapRows();
+          const zones = currentGapZones();
+          const tableRows = rows.map((row) => `
+            <tr class="selectable-row" data-platform-row="${esc(row.platformName)}">
+              <td>${esc(row.label)}</td><td>${fmt(row.population)}</td><td>${fmt(row.incidents)}</td><td>${fmt(row.cameras)}</td>
+              <td>${row.coveredPct}%</td><td>${row.uncoveredPct}%</td><td>${fmt(row.uncoveredPopulation)}</td>
+              <td>${fmt(row.exposed)}</td><td>${fmt(row.hotIncidents)}</td><td>${esc(row.deficitLevel)}</td><td>${esc(row.typology)}</td>
+            </tr>`).join("");
+          const byDeficit = ["Muy alto", "Alto", "Medio", "Bajo", "Muy bajo"].map((level) => ({ label: level, value: rows.filter((row) => row.deficitLevel === level).length, color: breachLevelColor(level) }));
+          const byExposure = ["Muy alto", "Alto", "Medio", "Bajo", "Muy bajo"].map((level) => ({ label: level, value: rows.filter((row) => row.exposureLevel === level).length, color: breachLevelColor(level) }));
+          const byTypology = Object.entries(rows.reduce((acc, row) => ((acc[row.typology] = (acc[row.typology] || 0) + 1), acc), {})).map(([label, value]) => ({ label, value, color: label === "Brechas múltiples" ? "#9c1f33" : "#d9a441" }));
+          const topDeficit = [...rows].sort((a, b) => b.uncoveredPct - a.uncoveredPct).slice(0, 8).map((row) => ({ label: row.label, value: row.uncoveredPct, color: breachLevelColor(row.deficitLevel) }));
+          const topExposure = [...rows].sort((a, b) => b.exposed - a.exposed).slice(0, 8).map((row) => ({ label: row.label, value: row.exposed, color: breachLevelColor(row.exposureLevel) }));
+          const zoneRows = zones.map((zone) => `
+            <tr><td>${esc(zone.zoneId)}</td><td>${esc(zone.platform.replace("PLATAFORMA ", ""))}</td><td>${esc(zone.type)}</td><td>${fmt(zone.incCount)}</td><td>${zone.row.coveredPct}%</td><td>${fmt(zone.population || zone.row.uncoveredPopulation || 0)}</td></tr>
+          `).join("");
+          const insight = (() => {
+            const out = [];
+            const elevated = rows.filter((row) => breachLevelRank(row.deficitLevel) >= 4);
+            if (elevated.length) out.push(`${elevated.length} plataforma(s) combinan baja cobertura municipal con incidentes o concentraciones.`);
+            if (zones.length) out.push(`Se identifican ${zones.length} celda(s) de concentración asociadas a cobertura municipal baja.`);
+            const exp = rows.reduce((sum, row) => sum + Number(row.exposed || 0), 0);
+            if (exp) out.push(`${fmt(exp)} habitantes aparecen en plataformas con exposición y baja cobertura según los indicadores disponibles.`);
+            return out.slice(0, 3);
+          })();
+          const mainCharts = diagnosisMetric === "exposureLowCoverage"
+            ? `${metricBars("Población expuesta por Plataforma", topExposure, Math.max(...topExposure.map((row) => row.value), 1), "#c86670")}${metricBars("Nivel de exposición + baja cobertura", byExposure, Math.max(...byExposure.map((row) => row.value), 1), "#ff7c43")}`
+            : diagnosisMetric === "territorialGaps"
+              ? `${metricBars("Plataformas por tipología de brecha", byTypology, Math.max(...byTypology.map((row) => row.value), 1), "#d9a441")}${metricBars("Brechas frecuentes", byDeficit, Math.max(...byDeficit.map((row) => row.value), 1), "#c86670")}`
+              : diagnosisMetric === "candidateZones" || diagnosisMetric === "lowCoverageConcentrations"
+                ? `${metricBars("Zonas por Plataforma", Object.entries(zones.reduce((acc, zone) => ((acc[zone.platform.replace("PLATAFORMA ", "")] = (acc[zone.platform.replace("PLATAFORMA ", "")] || 0) + 1), acc), {})).map(([label, value]) => ({ label, value, color: "#dc2626" })), Math.max(zones.length, 1), "#dc2626")}${metricBars("Incidentes asociados por zona", zones.map((zone) => ({ label: zone.zoneId, value: zone.incCount, color: "#c86670" })), Math.max(...zones.map((zone) => zone.incCount), 1, 1), "#c86670")}`
+                : `${metricBars("Plataformas con mayor déficit potencial", topDeficit, 100, "#c86670")}${metricBars("Nivel de déficit en plataformas", byDeficit, Math.max(...byDeficit.map((row) => row.value), 1), "#ff7c43")}`;
+          elements.graphicAnalysis.innerHTML = `
+            ${mainCharts}
+            <div class="graphic-card">
+              <h3>${diagnosisMetric === "candidateZones" ? "Zonas candidatas" : "Zonas / concentraciones asociadas"}</h3>
+              <table class="mini-table"><thead><tr><th>ID</th><th>Plat.</th><th>Coincidencia</th><th>Inc.</th><th>% cub.</th><th>Pob. asoc.</th></tr></thead><tbody>${zoneRows || "<tr><td colspan='6'>Sin zonas bajo los filtros activos</td></tr>"}</tbody></table>
+            </div>
+            <div class="graphic-card">
+              <h3>Indicadores por Plataforma</h3>
+              <table class="mini-table"><thead><tr><th>Plat.</th><th>Pob.</th><th>Inc.</th><th>Cám.</th><th>% cub.</th><th>% sin cub.</th><th>Pob. sin cub.</th><th>Exp.</th><th>Inc. zonas</th><th>Nivel</th><th>Tipología</th></tr></thead><tbody>${tableRows}</tbody></table>
+            </div>
+            <div class="support-panel"><h3>¿Qué nos dicen los datos?</h3>${insight.length ? insight.map((text) => `<p>• ${esc(text)}</p>`).join("") : "<p>No disponible con los filtros activos.</p>"}</div>
+          `;
+          document.querySelectorAll("[data-platform-row]").forEach((row) => row.addEventListener("click", () => selectPlatform(row.dataset.platformRow, true)));
           return;
         }
         if (isCameraCoverageMode()) {
@@ -3430,6 +3723,27 @@
           elements.legend.innerHTML = rows.join("");
           return;
         }
+        if (isGapMode()) {
+          addHeader(layerConfig[analysisKey()]?.result || "Brechas");
+          if (diagnosisMetric === "territorialGaps") {
+            [
+              ["Brechas múltiples", "#9c1f33"],
+              ["Conflictividad + videovigilancia", "#c86670"],
+              ["Exposición + accesibilidad", "#ff7c43"],
+              ["Brecha de videovigilancia", "#d9a441"],
+              ["Brecha de accesibilidad", "#8fb96a"],
+              ["Brecha de exposición", "#6fa29a"],
+              ["Sin brecha relevante", "#d8eadf"],
+            ].forEach(([label, color]) => addSwatch(label, `background:${color};border-color:#263a33`));
+          } else {
+            ["Muy alto", "Alto", "Medio", "Bajo", "Muy bajo"].forEach((level) => addSwatch(level, `background:${breachLevelColor(level)};border-color:#263a33`));
+          }
+          if (diagnosisMetric === "candidateZones") addSwatch("Zona candidata derivada de coincidencias", "background:rgba(220,38,38,.28);border:2px dashed #b91c1c");
+          if (diagnosisMetric === "lowCoverageConcentrations") addSwatch("Concentración con baja cobertura", "background:rgba(225,29,72,.45);border-color:#fff");
+          addContext();
+          elements.legend.innerHTML = rows.join("");
+          return;
+        }
         if (isCameraCoverageMode()) {
           addHeader("Cobertura potencial");
           addSwatch(`Área de cobertura · escenario ${cameraCoverageScenario} m`, "background:rgba(217,164,65,.32);border-color:#d9a441");
@@ -3683,6 +3997,28 @@
 
       function renderHotspots(items) {
         hotspotLayer.clearLayers();
+        if (isGapMode()) {
+          const zones = currentGapZones();
+          const half = getGiHotspotAnalysis().cellSize / 2;
+          zones.forEach((zone) => {
+            const dLat = half / 110540;
+            const dLng = half / (111320 * Math.cos(zone.lat * Math.PI / 180));
+            const color = diagnosisMetric === "candidateZones" ? "#dc2626" : breachLevelColor(zone.row.deficitLevel);
+            L.polygon([[zone.lat - dLat, zone.lng - dLng], [zone.lat - dLat, zone.lng + dLng], [zone.lat + dLat, zone.lng + dLng], [zone.lat + dLat, zone.lng - dLng]], {
+              color: diagnosisMetric === "candidateZones" ? "#b91c1c" : "#ffffff",
+              weight: diagnosisMetric === "candidateZones" ? 1.6 : 0.8,
+              dashArray: diagnosisMetric === "candidateZones" ? "6 5" : null,
+              fillColor: color,
+              fillOpacity: diagnosisMetric === "candidateZones" ? 0.26 : 0.5,
+              opacity: 0.95,
+            }).bindTooltip(`${esc(zone.zoneId)} · ${esc(zone.type)}<br>${fmt(zone.incCount)} incidentes`, { sticky: true })
+              .bindPopup(`<strong>${esc(zone.zoneId)}</strong><br>${esc(zone.type)}<br>Plataforma: ${esc(zone.platform)}<br>Incidentes asociados: ${fmt(zone.incCount)}<br>Cobertura municipal: ${zone.row.coveredPct}%<br>Población no cubierta: ${fmt(zone.row.uncoveredPopulation || 0)}`)
+              .addTo(hotspotLayer);
+          });
+          bringLayerForward(hotspotLayer);
+          bringLayerForward(platformLayer);
+          return;
+        }
         if (isGiHotspotsMode()) {
           const analysis = getGiHotspotAnalysis();
           const half = analysis.cellSize / 2;
@@ -3858,14 +4194,14 @@
           return;
         }
         elements.toggleEvents.checked ? eventLayer.addTo(map) : map.removeLayer(eventLayer);
-        map.removeLayer(hotspotLayer);
+        isGapMode() ? hotspotLayer.addTo(map) : map.removeLayer(hotspotLayer);
         elements.toggleParishes.checked ? parishLayer.addTo(map) : map.removeLayer(parishLayer);
         elements.toggleCameras.checked ? cameraLayer.addTo(map) : map.removeLayer(cameraLayer);
         elements.togglePoliceInfrastructure.checked ? policeInfrastructureLayer.addTo(map) : map.removeLayer(policeInfrastructureLayer);
         elements.toggleBoulevards.checked ? boulevardLayer.addTo(map) : map.removeLayer(boulevardLayer);
         if (manzanaLayer) elements.toggleManzanas.checked ? manzanaLayer.addTo(map) : map.removeLayer(manzanaLayer);
         elements.togglePlatforms.checked && platformLayer ? platformLayer.addTo(map) : platformLayer && map.removeLayer(platformLayer);
-        isCameraCoverageMode() ? cameraCoverageLayer.addTo(map) : map.removeLayer(cameraCoverageLayer);
+        (isCameraCoverageMode() || isGapMode()) ? cameraCoverageLayer.addTo(map) : map.removeLayer(cameraCoverageLayer);
         bringVisibleContextToFront();
         renderLegend();
         map.invalidateSize();
@@ -3950,6 +4286,15 @@
         elements.toggleBoulevards.checked = true;
         elements.togglePlatforms.checked = true;
       }
+      function setGapContextLayers(metric) {
+        elements.toggleEvents.checked = metric === "videoDeficitGap" || metric === "lowCoverageConcentrations";
+        elements.toggleParishes.checked = false;
+        elements.toggleCameras.checked = true;
+        elements.togglePoliceInfrastructure.checked = metric !== "videoDeficitGap";
+        elements.toggleManzanas.checked = metric === "exposureLowCoverage";
+        elements.toggleBoulevards.checked = metric === "territorialGaps" || metric === "candidateZones";
+        elements.togglePlatforms.checked = true;
+      }
 
       function activateDiagnosisMetric(metric) {
         mode = "diagnosis";
@@ -3967,6 +4312,7 @@
         if (metric === "cameraCoverage" || metric === "populationCoverage") setCameraCoverageContextLayers();
         if (metric === "boulevards") setBoulevardContextLayers();
         if (metric === "institutionalDashboard") setInstitutionalContextLayers();
+        if (gapMetrics.includes(metric)) setGapContextLayers(metric);
         syncCoverageControls();
         syncModeButtons();
         update();
@@ -4008,6 +4354,8 @@
             renderBoulevardDetail();
           } else if (isInstitutionalMode()) {
             renderInstitutionalDetail();
+          } else if (isGapMode()) {
+            renderPlatformDetail(selectedPlatform);
           } else if (isGiHotspotsMode() || isTypologiesMode() || isTemporalMode()) {
             renderConflictModuleDetail();
           } else {
@@ -4046,6 +4394,21 @@
           } else if (isInstitutionalMode()) {
             elements.overlayTitle.textContent = "Cobertura institucional";
             elements.overlayText.textContent = "Integración territorial de infraestructura policial, videovigilancia y Bulevares Seguros.";
+          } else if (diagnosisMetric === "videoDeficitGap") {
+            elements.overlayTitle.textContent = "Déficit potencial de videovigilancia";
+            elements.overlayText.textContent = `${fmt(kdeValidation.controlTable?.REGISTROS_KDE || diagnosis.summary?.incidentSpatialQuality?.spatialValidAB || 0)} incidentes A/B válidos · ${municipalCameras.length} cámaras municipales · cobertura ${cameraCoverageScenario} m.`;
+          } else if (diagnosisMetric === "lowCoverageConcentrations") {
+            elements.overlayTitle.textContent = "Concentraciones con baja cobertura";
+            elements.overlayText.textContent = `Hotspots Gi* y cobertura municipal ${cameraCoverageScenario} m · ${currentGapZones().length} coincidencia(s) detectada(s).`;
+          } else if (diagnosisMetric === "exposureLowCoverage") {
+            elements.overlayTitle.textContent = "Exposición + baja cobertura";
+            elements.overlayText.textContent = `Población expuesta en sectores con cobertura municipal insuficiente · escenario ${cameraCoverageScenario} m.`;
+          } else if (diagnosisMetric === "territorialGaps") {
+            elements.overlayTitle.textContent = "Brechas territoriales";
+            elements.overlayText.textContent = "Síntesis descriptiva por Plataforma; sin AHP, sin ranking final ni ponderaciones subjetivas.";
+          } else if (diagnosisMetric === "candidateZones") {
+            elements.overlayTitle.textContent = "Zonas candidatas de intervención";
+            elements.overlayText.textContent = `${candidateZones().length} zona(s) derivadas de coincidencias territoriales; requieren validación técnica y de campo.`;
           } else if (isGiHotspotsMode()) {
             elements.overlayTitle.textContent = "Zonas críticas";
             elements.overlayText.textContent = "Hotspots estadísticos mediante Getis-Ord Gi*: concentraciones significativas de valores altos de incidentes.";
@@ -4066,6 +4429,8 @@
             elements.status.textContent = "Bulevares Seguros: red, recursos próximos e indicadores por Plataforma.";
           } else if (isInstitutionalMode()) {
             elements.status.textContent = "Cobertura institucional: infraestructura policial, cámaras, bulevares y cobertura poblacional integrada.";
+          } else if (isGapMode()) {
+            elements.status.textContent = `${layerConfig[analysisKey()]?.result}: ${currentGapRows().length} plataformas evaluadas, ${currentGapZones().length} zona(s)/celda(s) asociadas. Cámaras municipales usadas: ${municipalCameras.length}.`;
           } else if (isGiHotspotsMode()) {
             const analysis = getGiHotspotAnalysis();
             elements.status.textContent = `HOTSPOTS_GI: ${analysis.points.length} incidentes, celda ${analysis.cellSize} m, vecindad ${analysis.neighborDistance} m.`;
@@ -4568,6 +4933,15 @@
         if (typeof activeCoveragePct === "number") interpretations.push(`La cobertura potencial de cámaras municipales alcanza aproximadamente al ${activeCoveragePct}% de la población de la Plataforma en el escenario ${cameraCoverageScenario} m.`);
         if (Number(platform.policeInfrastructure || 0) > 0) interpretations.push(`Existen ${fmt(platform.policeInfrastructure)} dependencia(s) policial(es) registrada(s) en esta Plataforma.`);
         if (Number(platform.lowCoverageHotspots || 0) > 0) interpretations.push("Se identifican sectores donde coinciden concentraciones y menor cobertura relativa de los recursos analizados.");
+        if (isGapMode()) {
+          const gapRow = gapPlatformRows().find((row) => row.platformName === platform.platformName);
+          if (gapRow) {
+            interpretations.length = 0;
+            if (gapRow.uncoveredPct >= 50) interpretations.push(`La cobertura potencial municipal deja aproximadamente ${gapRow.uncoveredPct}% de la población de la Plataforma fuera del escenario ${cameraCoverageScenario} m.`);
+            if (gapRow.hotIncidents > 0) interpretations.push(`Se identifican ${fmt(gapRow.hotIncidents)} incidente(s) asociados a concentraciones con baja cobertura.`);
+            if (gapRow.gapFlags.length) interpretations.push(`La tipología descriptiva agrupa estas condiciones como: ${esc(gapRow.typology)}.`);
+          }
+        }
         const interpretationHtml = interpretations.length
           ? interpretations.slice(0, 3).map((text) => `<p>${text}</p>`).join("")
           : "<p>No disponible</p>";
@@ -4673,8 +5047,20 @@
             ? ["Videovigilancia municipal", "Demografía", "Conflictividad", "Accesibilidad policial", "Bulevares Seguros"]
             : isBoulevardsMode()
               ? ["Bulevares Seguros", "Demografía", "Conflictividad", "Videovigilancia municipal", "Accesibilidad policial"]
+              : isGapMode()
+                ? ["Brechas", diagnosisMetric === "exposureLowCoverage" ? "Demografía" : "Videovigilancia municipal", "Conflictividad", "Accesibilidad policial", "Bulevares Seguros"]
               : ["Demografía", "Conflictividad", "Videovigilancia municipal", "Accesibilidad policial", "Bulevares Seguros"];
+        const gapRow = gapPlatformRows().find((row) => row.platformName === platform.platformName);
         const accordionContent = {
+          "Brechas": rowHtml([
+            ["Nivel déficit videovigilancia", gapRow?.deficitLevel || "N/D"],
+            ["Cobertura municipal", gapRow ? `${gapRow.coveredPct}%` : "N/D"],
+            ["Población sin cobertura", gapRow ? fmt(gapRow.uncoveredPopulation) : "N/D"],
+            ["Población expuesta", gapRow ? fmt(gapRow.exposed) : "N/D"],
+            ["Incidentes en concentraciones", gapRow ? fmt(gapRow.hotIncidents) : "N/D"],
+            ["Tipología descriptiva", gapRow?.typology || "N/D"],
+            ["Condiciones coincidentes", gapRow?.gapFlags?.join(" · ") || "N/D"],
+          ]),
           "Demografía": rowHtml([
             ["Población", `${fmt(platform.population)} hab.`],
             ["Área", `${displayValue(platform.areaKm2)} km²`],
@@ -4800,7 +5186,12 @@
         elements.giHotspotsMode.classList.toggle("is-active", isGiHotspotsMode());
         elements.typologiesMode.classList.toggle("is-active", isTypologiesMode());
         elements.temporalMode.classList.toggle("is-active", isTemporalMode());
-        elements.diagnosisMode.classList.toggle("is-active", mode === "diagnosis" && !["hotspots", "giHotspots", "incidentTypologies", "temporalAnalysis", "population", "populationDensity", "populationExposure", "incidentCount", "incidentRate", "cameraCoverage", "populationCoverage", "boulevards", "institutionalDashboard"].includes(diagnosisMetric));
+        elements.videoDeficitGapMode.classList.toggle("is-active", diagnosisMetric === "videoDeficitGap");
+        elements.lowCoverageConcentrationsMode.classList.toggle("is-active", diagnosisMetric === "lowCoverageConcentrations");
+        elements.exposureLowCoverageMode.classList.toggle("is-active", diagnosisMetric === "exposureLowCoverage");
+        elements.territorialGapsMode.classList.toggle("is-active", diagnosisMetric === "territorialGaps");
+        elements.candidateZonesMode.classList.toggle("is-active", diagnosisMetric === "candidateZones");
+        elements.diagnosisMode.classList.toggle("is-active", mode === "diagnosis" && !["hotspots", "giHotspots", "incidentTypologies", "temporalAnalysis", "population", "populationDensity", "populationExposure", "incidentCount", "incidentRate", "cameraCoverage", "populationCoverage", "boulevards", "institutionalDashboard", ...gapMetrics].includes(diagnosisMetric));
         elements.kdeAnalysis.classList.toggle("is-active", isKdeMode());
       }
 
@@ -4917,6 +5308,11 @@
       elements.populationCoverageMode.addEventListener("click", () => activateDiagnosisMetric("populationCoverage"));
       elements.boulevardsMode.addEventListener("click", () => activateDiagnosisMetric("boulevards"));
       elements.institutionalCoverageMode.addEventListener("click", () => activateDiagnosisMetric("institutionalDashboard"));
+      elements.videoDeficitGapMode.addEventListener("click", () => activateDiagnosisMetric("videoDeficitGap"));
+      elements.lowCoverageConcentrationsMode.addEventListener("click", () => activateDiagnosisMetric("lowCoverageConcentrations"));
+      elements.exposureLowCoverageMode.addEventListener("click", () => activateDiagnosisMetric("exposureLowCoverage"));
+      elements.territorialGapsMode.addEventListener("click", () => activateDiagnosisMetric("territorialGaps"));
+      elements.candidateZonesMode.addEventListener("click", () => activateDiagnosisMetric("candidateZones"));
       elements.kdeAnalysis.addEventListener("click", () => activateDiagnosisMetric("hotspots"));
       elements.eventsMode.addEventListener("click", () => { mode = "events"; incidentMenuView = "incidents"; selectedParish = null; selectedPlatform = null; setIncidentContextLayers(); syncModeButtons(); update(); });
       elements.incidentQueryMode.addEventListener("click", () => { mode = "events"; incidentMenuView = "query"; selectedParish = null; selectedPlatform = null; setIncidentContextLayers(); syncModeButtons(); update(); });
