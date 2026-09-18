@@ -1032,9 +1032,9 @@
         </details>
         <details class="nav-group">
           <summary>Brechas</summary>
-          <button class="mode-button" id="videoDeficitGapMode" type="button" data-icon="D"><span>Déficit potencial de videovigilancia</span></button>
-          <button class="mode-button" id="lowCoverageConcentrationsMode" type="button" data-icon="C"><span>Concentraciones con baja cobertura</span></button>
-          <button class="mode-button" id="exposureLowCoverageMode" type="button" data-icon="E"><span>Exposición + baja cobertura</span></button>
+          <button class="mode-button" id="videoDeficitGapMode" type="button" data-icon="D"><span>Déficit de videovigilancia</span></button>
+          <button class="mode-button" id="lowCoverageConcentrationsMode" type="button" data-icon="C"><span>Concentraciones con baja cobertura institucional</span></button>
+          <button class="mode-button" id="exposureLowCoverageMode" type="button" data-icon="E"><span>Población expuesta con baja cobertura</span></button>
           <button class="mode-button" id="territorialGapsMode" type="button" data-icon="B"><span>Brechas territoriales</span></button>
           <button class="mode-button" id="candidateZonesMode" type="button" data-icon="Z"><span>Zonas candidatas de intervención</span></button>
         </details>
@@ -1403,11 +1403,11 @@
         giHotspots: { result: "Zonas críticas", context: ["events", "cameras", "police", "boulevards"] },
         cameraCoverage: { result: "Cobertura potencial", context: ["manzanas", "police", "boulevards", "externalCameras"] },
         populationCoverage: { result: "Cobertura poblacional", context: ["cameras", "manzanas", "police", "boulevards"] },
-        videoDeficitGap: { result: "Déficit potencial de videovigilancia", context: ["cameras", "events", "police", "boulevards"] },
-        lowCoverageConcentrations: { result: "Concentraciones con baja cobertura", context: ["cameras", "police", "events"] },
-        exposureLowCoverage: { result: "Exposición + baja cobertura", context: ["manzanas", "cameras", "police"] },
-        territorialGaps: { result: "Brechas territoriales", context: ["cameras", "police", "boulevards", "manzanas"] },
-        candidateZones: { result: "Zonas candidatas de intervención", context: ["cameras", "police", "boulevards"] },
+        videoDeficitGap: { result: "DÉFICIT DE VIDEOVIGILANCIA", context: ["cameras", "events", "police", "boulevards"] },
+        lowCoverageConcentrations: { result: "CONCENTRACIONES CON BAJA COBERTURA INSTITUCIONAL", context: ["cameras", "police", "events"] },
+        exposureLowCoverage: { result: "POBLACIÓN EXPUESTA CON BAJA COBERTURA", context: ["manzanas", "cameras", "police"] },
+        territorialGaps: { result: "BRECHAS TERRITORIALES", context: ["cameras", "police", "boulevards", "manzanas"] },
+        candidateZones: { result: "ZONAS CANDIDATAS DE INTERVENCIÓN", context: ["cameras", "police", "boulevards"] },
         boulevards: { result: "Red / proximidad a Bulevares", context: ["cameras", "police", "events"] },
         institutionalCoverage: { result: "Cobertura institucional", context: ["cameras", "police", "boulevards", "manzanas"] },
         temporal: { result: "Evolución temporal", context: ["events", "cameras", "police"] },
@@ -1495,18 +1495,18 @@
         }
         if (isGapMode()) {
           const labels = {
-            videoDeficitGap: ["Déficit potencial de videovigilancia", "Coincidencia entre baja cobertura municipal y presencia/concentración de incidentes."],
-            lowCoverageConcentrations: ["Concentraciones con baja cobertura", "Celdas hotspot Gi* ubicadas en plataformas con cobertura municipal insuficiente."],
-            exposureLowCoverage: ["Exposición + baja cobertura", "Población en plataformas/manzanas donde se combinan exposición territorial y baja cobertura."],
-            territorialGaps: ["Brechas territoriales", "Tipología descriptiva por Plataforma, sin ponderaciones ni ranking final."],
-            candidateZones: ["Zonas candidatas de intervención", "Celdas donde coinciden varias condiciones desfavorables; requieren validación técnica y de campo."],
+            videoDeficitGap: ["DÉFICIT DE VIDEOVIGILANCIA", "Déficit potencial de cobertura de videovigilancia municipal frente a la distribución territorial de incidentes y población."],
+            lowCoverageConcentrations: ["CONCENTRACIONES CON BAJA COBERTURA INSTITUCIONAL", "Concentraciones de incidentes localizadas en sectores con menor cobertura territorial de los servicios e infraestructura de seguridad analizados."],
+            exposureLowCoverage: ["POBLACIÓN EXPUESTA CON BAJA COBERTURA", "Distribución de población localizada en sectores con menor cobertura institucional."],
+            territorialGaps: ["BRECHAS TERRITORIALES", "Síntesis de las brechas identificadas en las 18 Plataformas Territoriales."],
+            candidateZones: ["ZONAS CANDIDATAS DE INTERVENCIÓN", "Sectores donde coinciden múltiples condiciones de brecha territorial."],
           }[diagnosisMetric] || ["Brechas", "Análisis de coincidencias territoriales."];
           panel.innerHTML = `<h3>${esc(labels[0])}</h3>` + methodRowsHtml([
             ["Objetivo", labels[1]],
             ["Unidad principal", diagnosisMetric === "candidateZones" || diagnosisMetric === "lowCoverageConcentrations" ? "Celdas Gi* y Plataformas Territoriales" : "18 Plataformas Territoriales"],
             ["Cámaras", "30 cámaras municipales; cámaras externas solo como contexto"],
             ["Escenario de cobertura", `${cameraCoverageScenario} m`],
-            ["Insumos", "Incidentes A/B, Gi*, KDE validado, población/manzanas, cobertura municipal, policía y Bulevares"],
+            ["Insumos", "Incidentes A/B, Gi*, KDE validado, población/manzanas, cámaras municipales, infraestructura policial y Bulevares"],
             ["Reglas", "Clasificación categórica explícita por coincidencia de condiciones; sin AHP ni puntajes compuestos"],
             ["Fecha de procesamiento", new Date().toISOString().slice(0, 10)],
           ]) + crsHtml() + `<h3>Limitaciones</h3><p>Estos resultados identifican coincidencias territoriales para revisión. No son ranking final, predicción, prioridad definitiva ni recomendación automática de instalación de cámaras.</p>`;
@@ -2795,10 +2795,10 @@
               ["Cámaras municipales", municipalCameras.length],
               [`Población sin cobertura ${cameraCoverageScenario} m`, fmt(uncoveredPopulation)],
               ["Plataformas con déficit elevado", elevated.length],
-              ["Concentraciones en baja cobertura", zones.length],
+              ["Concentraciones con baja cobertura institucional", zones.length],
               ["Escenario", `${cameraCoverageScenario} m`],
             ] : diagnosisMetric === "lowCoverageConcentrations" ? [
-              ["Concentraciones con baja cobertura", zones.length],
+              ["Concentraciones con baja cobertura institucional", zones.length],
               ["Incidentes asociados", zones.reduce((sum, zone) => sum + Number(zone.incCount || 0), 0)],
               ["Plataformas afectadas", new Set(zones.map((zone) => zone.platform)).size],
               ["Cobertura considerada baja", `&lt; 50%`],
@@ -3096,14 +3096,14 @@
           const insight = (() => {
             const out = [];
             const elevated = rows.filter((row) => breachLevelRank(row.deficitLevel) >= 4);
-            if (elevated.length) out.push(`${elevated.length} plataforma(s) combinan baja cobertura municipal con incidentes o concentraciones.`);
-            if (zones.length) out.push(`Se identifican ${zones.length} celda(s) de concentración asociadas a cobertura municipal baja.`);
+            if (elevated.length) out.push(`${elevated.length} plataforma(s) combinan déficit potencial de cobertura de videovigilancia municipal con incidentes o concentraciones.`);
+            if (zones.length) out.push(`Se identifican ${zones.length} celda(s) de concentración asociadas a baja cobertura institucional.`);
             const exp = rows.reduce((sum, row) => sum + Number(row.exposed || 0), 0);
-            if (exp) out.push(`${fmt(exp)} habitantes aparecen en plataformas con exposición y baja cobertura según los indicadores disponibles.`);
+            if (exp) out.push(`${fmt(exp)} habitantes aparecen en plataformas con población expuesta y baja cobertura institucional según los indicadores disponibles.`);
             return out.slice(0, 3);
           })();
           const mainCharts = diagnosisMetric === "exposureLowCoverage"
-            ? `${metricBars("Población expuesta por Plataforma", topExposure, Math.max(...topExposure.map((row) => row.value), 1), "#c86670")}${metricBars("Nivel de exposición + baja cobertura", byExposure, Math.max(...byExposure.map((row) => row.value), 1), "#ff7c43")}`
+            ? `${metricBars("Población expuesta por Plataforma", topExposure, Math.max(...topExposure.map((row) => row.value), 1), "#c86670")}${metricBars("Población expuesta con baja cobertura", byExposure, Math.max(...byExposure.map((row) => row.value), 1), "#ff7c43")}`
             : diagnosisMetric === "territorialGaps"
               ? `${metricBars("Plataformas por tipología de brecha", byTypology, Math.max(...byTypology.map((row) => row.value), 1), "#d9a441")}${metricBars("Brechas frecuentes", byDeficit, Math.max(...byDeficit.map((row) => row.value), 1), "#c86670")}`
               : diagnosisMetric === "candidateZones" || diagnosisMetric === "lowCoverageConcentrations"
@@ -3117,7 +3117,7 @@
             </div>
             <div class="graphic-card">
               <h3>Indicadores por Plataforma</h3>
-              <table class="mini-table"><thead><tr><th>Plat.</th><th>Pob.</th><th>Inc.</th><th>Cám.</th><th>% cub.</th><th>% sin cub.</th><th>Pob. sin cub.</th><th>Exp.</th><th>Inc. zonas</th><th>Nivel</th><th>Tipología</th></tr></thead><tbody>${tableRows}</tbody></table>
+              <table class="mini-table"><thead><tr><th>Plat.</th><th>Pob.</th><th>Inc.</th><th>Cám. mun.</th><th>% cub.</th><th>% sin cub.</th><th>Pob. sin cub.</th><th>Exp.</th><th>Inc. zonas</th><th>Nivel</th><th>Tipología</th></tr></thead><tbody>${tableRows}</tbody></table>
             </div>
             <div class="support-panel"><h3>¿Qué nos dicen los datos?</h3>${insight.length ? insight.map((text) => `<p>• ${esc(text)}</p>`).join("") : "<p>No disponible con los filtros activos.</p>"}</div>
           `;
@@ -3768,7 +3768,7 @@
             ["Muy alto", "Alto", "Medio", "Bajo", "Muy bajo"].forEach((level) => addSwatch(level, `background:${breachLevelColor(level)};border-color:#263a33`));
           }
           if (diagnosisMetric === "candidateZones") addSwatch("Zona candidata derivada de coincidencias", "background:rgba(220,38,38,.28);border:2px dashed #b91c1c");
-          if (diagnosisMetric === "lowCoverageConcentrations") addSwatch("Concentración con baja cobertura", "background:rgba(225,29,72,.45);border-color:#fff");
+          if (diagnosisMetric === "lowCoverageConcentrations") addSwatch("Concentración con baja cobertura institucional", "background:rgba(225,29,72,.45);border-color:#fff");
           addContext();
           elements.legend.innerHTML = rows.join("");
           return;
@@ -4424,20 +4424,20 @@
             elements.overlayTitle.textContent = "Cobertura institucional";
             elements.overlayText.textContent = "Integración territorial de infraestructura policial, videovigilancia y Bulevares Seguros.";
           } else if (diagnosisMetric === "videoDeficitGap") {
-            elements.overlayTitle.textContent = "Déficit potencial de videovigilancia";
-            elements.overlayText.textContent = `${fmt(kdeValidation.controlTable?.REGISTROS_KDE || diagnosis.summary?.incidentSpatialQuality?.spatialValidAB || 0)} incidentes A/B válidos · ${municipalCameras.length} cámaras municipales · cobertura ${cameraCoverageScenario} m.`;
+            elements.overlayTitle.textContent = "DÉFICIT DE VIDEOVIGILANCIA";
+            elements.overlayText.textContent = "Cobertura de las 30 cámaras municipales frente a la distribución territorial de incidentes y población.";
           } else if (diagnosisMetric === "lowCoverageConcentrations") {
-            elements.overlayTitle.textContent = "Concentraciones con baja cobertura";
-            elements.overlayText.textContent = `Hotspots Gi* y cobertura municipal ${cameraCoverageScenario} m · ${currentGapZones().length} coincidencia(s) detectada(s).`;
+            elements.overlayTitle.textContent = "CONCENTRACIONES CON BAJA COBERTURA INSTITUCIONAL";
+            elements.overlayText.textContent = "Concentraciones de incidentes localizadas en sectores con menor cobertura territorial de los servicios e infraestructura de seguridad analizados.";
           } else if (diagnosisMetric === "exposureLowCoverage") {
-            elements.overlayTitle.textContent = "Exposición + baja cobertura";
-            elements.overlayText.textContent = `Población expuesta en sectores con cobertura municipal insuficiente · escenario ${cameraCoverageScenario} m.`;
+            elements.overlayTitle.textContent = "POBLACIÓN EXPUESTA CON BAJA COBERTURA";
+            elements.overlayText.textContent = "Distribución de población localizada en sectores con menor cobertura institucional.";
           } else if (diagnosisMetric === "territorialGaps") {
-            elements.overlayTitle.textContent = "Brechas territoriales";
-            elements.overlayText.textContent = "Síntesis descriptiva por Plataforma; sin AHP, sin ranking final ni ponderaciones subjetivas.";
+            elements.overlayTitle.textContent = "BRECHAS TERRITORIALES";
+            elements.overlayText.textContent = "Síntesis de las brechas identificadas en las 18 Plataformas Territoriales.";
           } else if (diagnosisMetric === "candidateZones") {
-            elements.overlayTitle.textContent = "Zonas candidatas de intervención";
-            elements.overlayText.textContent = `${candidateZones().length} zona(s) derivadas de coincidencias territoriales; requieren validación técnica y de campo.`;
+            elements.overlayTitle.textContent = "ZONAS CANDIDATAS DE INTERVENCIÓN";
+            elements.overlayText.textContent = "Sectores donde coinciden múltiples condiciones de brecha territorial.";
           } else if (isGiHotspotsMode()) {
             elements.overlayTitle.textContent = "Zonas críticas";
             elements.overlayText.textContent = "Hotspots estadísticos mediante Getis-Ord Gi*: concentraciones significativas de valores altos de incidentes.";
@@ -4457,7 +4457,7 @@
           } else if (isBoulevardsMode()) {
             elements.status.textContent = "Bulevares Seguros: red, recursos próximos e indicadores por Plataforma.";
           } else if (isInstitutionalMode()) {
-            elements.status.textContent = "Cobertura institucional: infraestructura policial, cámaras, bulevares y cobertura poblacional integrada.";
+            elements.status.textContent = "Cobertura institucional: infraestructura policial, cámaras municipales, bulevares y cobertura poblacional integrada.";
           } else if (isGapMode()) {
             elements.status.textContent = `${layerConfig[analysisKey()]?.result}: ${currentGapRows().length} plataformas evaluadas, ${currentGapZones().length} zona(s)/celda(s) asociadas. Cámaras municipales usadas: ${municipalCameras.length}.`;
           } else if (isGiHotspotsMode()) {
@@ -4967,7 +4967,7 @@
           if (gapRow) {
             interpretations.length = 0;
             if (gapRow.uncoveredPct >= 50) interpretations.push(`La cobertura potencial municipal deja aproximadamente ${gapRow.uncoveredPct}% de la población de la Plataforma fuera del escenario ${cameraCoverageScenario} m.`);
-            if (gapRow.hotIncidents > 0) interpretations.push(`Se identifican ${fmt(gapRow.hotIncidents)} incidente(s) asociados a concentraciones con baja cobertura.`);
+            if (gapRow.hotIncidents > 0) interpretations.push(`Se identifican ${fmt(gapRow.hotIncidents)} incidente(s) asociados a concentraciones con baja cobertura institucional.`);
             if (gapRow.gapFlags.length) interpretations.push(`La tipología descriptiva agrupa estas condiciones como: ${esc(gapRow.typology)}.`);
           }
         }
@@ -5027,7 +5027,7 @@
           ["Hotspot cerca red bulevar", platform.hotspotNearBoulevard],
           ["Cámaras municipales cerca red bulevar", camerasNearBoulevard],
           ["Incidentes cerca policía", platform.incidentsNearPolice],
-          ["Hotspots baja cobertura", platform.lowCoverageHotspots],
+          ["Concentraciones baja cobertura inst.", platform.lowCoverageHotspots],
           ["Zona crítica", platform.criticalZones],
           ["Tipología territorial", platform.territorialTypology],
           ["Factores tipología", (platform.typologyFactors || []).join(" · ")],
