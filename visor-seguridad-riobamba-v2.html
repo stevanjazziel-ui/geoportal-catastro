@@ -1846,6 +1846,16 @@
             opacity: 0.9
           };
         }
+        if (isGapMode() && diagnosisMetric !== "territorialGaps") {
+          const isSelected = selectedPlatform && feature?.properties?.platform_name === selectedPlatform;
+          return {
+            color: isSelected ? "#111827" : "#263a33",
+            weight: isSelected ? 2.4 : 1.35,
+            fillColor: "#ffffff",
+            fillOpacity: isSelected ? 0.045 : 0.008,
+            opacity: isSelected ? 0.92 : 0.7
+          };
+        }
         return {
           color: mode === "diagnosis" ? "#263a33" : "#2f6f5f",
           weight: mode === "diagnosis" ? 2.4 : 2.2,
@@ -2355,6 +2365,12 @@
         "Bajo": "#a7d87a",
         "Muy bajo": "#55a868",
       }[level] || "#d8eadf");
+      const candidateZoneColor = (type = "") => {
+        if (type.includes("Múltiples")) return "#7c2d12";
+        if (type.includes("videovigilancia")) return "#dc2626";
+        if (type.includes("Exposición")) return "#9333ea";
+        return "#f97316";
+      };
       const breachLevelRank = (level) => ({ "Muy alto": 5, "Alto": 4, "Medio": 3, "Bajo": 2, "Muy bajo": 1 }[level] || 0);
       let gapRowsCacheKey = "";
       let gapRowsCache = null;
@@ -2700,6 +2716,20 @@
         const platform = platformStats?.manToPlatform?.[code] || "Fuera de plataformas";
         const areaKm2 = geometryAreaKm2(feature?.geometry);
         const density = areaKm2 > 0 ? Number(stats.population_total || 0) / areaKm2 : 0;
+        if (diagnosisMetric === "exposureLowCoverage") {
+          const row = gapRowForPlatform(platform);
+          const fraction = manzanaCoverageFraction(feature, getCameraCoverageAnalysis().cameraSet || []);
+          return `
+            <div class="popup-title"><strong>POBLACIÓN EXPUESTA CON BAJA COBERTURA</strong></div>
+            <div class="popup-row">Manzana / ID: <strong>${esc(code)}</strong></div>
+            <div class="popup-row">Plataforma: <strong>${esc(platform)}</strong></div>
+            <div class="popup-row">Población de la manzana: <strong>${fmt(stats.population_total)}</strong></div>
+            <div class="popup-row">Cobertura municipal estimada: <strong>${Math.round(fraction * 100)}%</strong></div>
+            <div class="popup-row">Nivel de exposición territorial: <strong>${esc(row?.exposureLevel || "No disponible")}</strong></div>
+            <div class="popup-row">% expuesto intramanzana: <strong>No disponible</strong></div>
+            <div class="popup-note">La manzana censal es la unidad poblacional mínima disponible; no se redistribuye población dentro de ella.</div>
+          `;
+        }
         if (diagnosisMetric === "videoDeficitGap") {
           const row = gapRowForPlatform(platform);
           const fraction = manzanaCoverageFraction(feature, getCameraCoverageAnalysis().cameraSet || []);
@@ -3810,6 +3840,15 @@
           if (diagnosisMetric === "videoDeficitGap") {
             ["Muy alto", "Alto", "Medio", "Bajo"].forEach((level) => addSwatch(level, `background:${breachLevelColor(level)};border-color:#263a33`));
             if (elements.toggleCameraCoverage?.checked) addSwatch(`Cobertura de cámaras municipales ${cameraCoverageScenario} m`, "background:rgba(217,164,65,.18);border-color:#d9a441");
+          } else if (diagnosisMetric === "lowCoverageConcentrations") {
+            const levels = [...new Set(currentGapZones().map((zone) => zone.row?.deficitLevel).filter(Boolean))];
+            (levels.length ? levels : ["Alto", "Medio"]).forEach((level) => addSwatch(`Concentración + cobertura ${level.toLowerCase()}`, `background:${breachLevelColor(level)};border-color:#fff`));
+          } else if (diagnosisMetric === "exposureLowCoverage") {
+            ["Muy alto", "Alto", "Medio", "Bajo"].forEach((level) => addSwatch(`Población expuesta · ${level}`, `background:${breachLevelColor(level)};border-color:#263a33`));
+            addSwatch("Plataforma Territorial", "background:transparent;border:2px solid #263a33");
+          } else if (diagnosisMetric === "candidateZones") {
+            const types = [...new Set(candidateZones().map((zone) => zone.type).filter(Boolean))];
+            (types.length ? types : ["Zona candidata derivada de coincidencias"]).forEach((type) => addSwatch(type, `background:${candidateZoneColor(type)};border:2px dashed #7f1d1d`));
           } else if (diagnosisMetric === "territorialGaps") {
             [
               ["Brechas múltiples", "#9c1f33"],
@@ -3823,8 +3862,6 @@
           } else {
             ["Muy alto", "Alto", "Medio", "Bajo", "Muy bajo"].forEach((level) => addSwatch(level, `background:${breachLevelColor(level)};border-color:#263a33`));
           }
-          if (diagnosisMetric === "candidateZones") addSwatch("Zona candidata derivada de coincidencias", "background:rgba(220,38,38,.28);border:2px dashed #b91c1c");
-          if (diagnosisMetric === "lowCoverageConcentrations") addSwatch("Concentración con baja cobertura institucional", "background:rgba(225,29,72,.45);border-color:#fff");
           addContext();
           elements.legend.innerHTML = rows.join("");
           return;
@@ -4083,13 +4120,13 @@
       function renderHotspots(items) {
         hotspotLayer.clearLayers();
         if (isGapMode()) {
-          if (diagnosisMetric === "videoDeficitGap") return;
+          if (!["lowCoverageConcentrations", "candidateZones"].includes(diagnosisMetric)) return;
           const zones = currentGapZones();
           const half = getGiHotspotAnalysis().cellSize / 2;
           zones.forEach((zone) => {
             const dLat = half / 110540;
             const dLng = half / (111320 * Math.cos(zone.lat * Math.PI / 180));
-            const color = diagnosisMetric === "candidateZones" ? "#dc2626" : breachLevelColor(zone.row.deficitLevel);
+            const color = diagnosisMetric === "candidateZones" ? candidateZoneColor(zone.type) : breachLevelColor(zone.row.deficitLevel);
             L.polygon([[zone.lat - dLat, zone.lng - dLng], [zone.lat - dLat, zone.lng + dLng], [zone.lat + dLat, zone.lng + dLng], [zone.lat + dLat, zone.lng - dLng]], {
               color: diagnosisMetric === "candidateZones" ? "#b91c1c" : "#ffffff",
               weight: diagnosisMetric === "candidateZones" ? 1.6 : 0.8,
@@ -4290,12 +4327,12 @@
           return;
         }
         elements.toggleEvents.checked ? eventLayer.addTo(map) : map.removeLayer(eventLayer);
-        (isGapMode() && diagnosisMetric !== "videoDeficitGap") ? hotspotLayer.addTo(map) : map.removeLayer(hotspotLayer);
+        (isGapMode() && ["lowCoverageConcentrations", "candidateZones"].includes(diagnosisMetric)) ? hotspotLayer.addTo(map) : map.removeLayer(hotspotLayer);
         elements.toggleParishes.checked ? parishLayer.addTo(map) : map.removeLayer(parishLayer);
         elements.toggleCameras.checked ? cameraLayer.addTo(map) : map.removeLayer(cameraLayer);
         elements.togglePoliceInfrastructure.checked ? policeInfrastructureLayer.addTo(map) : map.removeLayer(policeInfrastructureLayer);
         elements.toggleBoulevards.checked ? boulevardLayer.addTo(map) : map.removeLayer(boulevardLayer);
-        if (manzanaLayer) (elements.toggleManzanas.checked || diagnosisMetric === "videoDeficitGap") ? manzanaLayer.addTo(map) : map.removeLayer(manzanaLayer);
+        if (manzanaLayer) (elements.toggleManzanas.checked || diagnosisMetric === "videoDeficitGap" || diagnosisMetric === "exposureLowCoverage") ? manzanaLayer.addTo(map) : map.removeLayer(manzanaLayer);
         elements.togglePlatforms.checked && platformLayer ? platformLayer.addTo(map) : platformLayer && map.removeLayer(platformLayer);
         (isCameraCoverageMode() || (isGapMode() && elements.toggleCameraCoverage?.checked)) ? cameraCoverageLayer.addTo(map) : map.removeLayer(cameraCoverageLayer);
         bringVisibleContextToFront();
@@ -4399,14 +4436,14 @@
         elements.togglePlatforms.checked = true;
       }
       function setGapContextLayers(metric) {
-        elements.toggleEvents.checked = metric === "lowCoverageConcentrations";
+        elements.toggleEvents.checked = false;
         elements.toggleParishes.checked = false;
-        elements.toggleCameras.checked = true;
+        elements.toggleCameras.checked = false;
         elements.toggleCameraCoverage.checked = false;
         elements.toggleExternalCameras.checked = false;
-        elements.togglePoliceInfrastructure.checked = metric !== "videoDeficitGap";
-        elements.toggleManzanas.checked = metric === "exposureLowCoverage";
-        elements.toggleBoulevards.checked = metric === "territorialGaps" || metric === "candidateZones";
+        elements.togglePoliceInfrastructure.checked = false;
+        elements.toggleManzanas.checked = false;
+        elements.toggleBoulevards.checked = false;
         elements.togglePlatforms.checked = true;
       }
 
