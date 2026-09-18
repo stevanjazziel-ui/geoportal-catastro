@@ -1117,6 +1117,7 @@
               <select id="giTypeSelect" aria-label="Tipo de resultado Gi*">
                 <option value="hot">Hotspots</option>
                 <option value="both">Hotspots + Coldspots</option>
+                <option value="all">Hotspots + Coldspots + no significativas</option>
               </select>
             </div>
           </div>
@@ -1562,15 +1563,21 @@
         }
         if (isGiHotspotsMode()) {
           const analysis = getGiHotspotAnalysis();
+          const coldCount = analysis.coldspotCells.length;
           panel.innerHTML = `<h3>Zonas críticas</h3>` + methodRowsHtml([
             ["Método", "Getis-Ord Gi*"],
-            ["Unidad espacial", "Malla regular"],
+            ["Dataset de entrada", "Incidentes georreferenciados A/B usados en el análisis espacial"],
+            ["Unidad espacial", "Malla regular de celdas Gi*"],
             ["Tamaño de celda", `${analysis.cellSize} m`],
+            ["Variable Xi", "Conteo de incidentes por celda"],
             ["Vecindad", `Distancia fija ${analysis.neighborDistance} m`],
+            ["Pesos espaciales", "Binarios: 1 si la celda vecina está dentro de la distancia fija; 0 en caso contrario"],
             ["Incidentes", analysis.points.length],
-            ["Estadísticos", "Z-score, p-value y niveles de significancia"],
-            ["Niveles", "90 / 95 / 99 %"]
-          ]) + crsHtml() + `<h3>Limitaciones</h3><p>Los hotspots Gi* indican concentración estadística relativa bajo los parámetros definidos; requieren interpretación territorial y validación de campo.</p>`;
+            ["Z-score", "Calculado para cada celda a partir de la suma local ponderada"],
+            ["p-value", "Bilateral aproximado desde distribución normal estándar"],
+            ["Niveles", "90 / 95 / 99 %"],
+            ["Coldspots significativos", coldCount],
+          ]) + crsHtml() + `<h3>Interpretación</h3><p>El análisis Getis-Ord Gi* identifica agrupamientos espaciales estadísticamente significativos. Los hotspots representan agrupamientos significativos de valores altos y los coldspots agrupamientos significativos de valores bajos.</p><p>Las celdas sin significancia estadística no se consideran hotspots ni coldspots.</p>${coldCount ? "" : "<p>Durante el período analizado no se identificaron coldspots estadísticamente significativos.</p>"}<h3>Limitaciones</h3><p>Los hotspots Gi* indican concentración estadística relativa bajo los parámetros definidos; no equivalen por sí solos a peligrosidad ni a nivel de inseguridad.</p>`;
           return;
         }
         if (isTypologiesMode()) {
@@ -2123,9 +2130,9 @@
       const giClassRank = (label) => label.includes("99") ? 99 : label.includes("95") ? 95 : label.includes("90") ? 90 : 0;
       const giClassColor = (label) => label.startsWith("HOT") && label.includes("99") ? "#7f1d1d" : label.startsWith("HOT") && label.includes("95") ? "#dc2626" : label.startsWith("HOT") && label.includes("90") ? "#fca5a5" : label.startsWith("COLD") && label.includes("99") ? "#1e3a8a" : label.startsWith("COLD") && label.includes("95") ? "#2563eb" : label.startsWith("COLD") && label.includes("90") ? "#93c5fd" : "#f3f4f6";
       const giCellPassesFilter = (cell) => {
-        if (cell.giClass === "NO SIGNIFICATIVO") return giSignificanceLevel === "all";
+        if (cell.giClass === "NO SIGNIFICATIVO") return giResultType === "all";
         const isCold = cell.giClass.startsWith("COLD");
-        if (isCold && giResultType !== "both") return false;
+        if (isCold && !["both", "all"].includes(giResultType)) return false;
         const rank = giClassRank(cell.giClass);
         const minRank = giSignificanceLevel === "99" ? 99 : giSignificanceLevel === "95" ? 95 : giSignificanceLevel === "90" ? 90 : 0;
         return rank >= minRank;
@@ -3239,16 +3246,19 @@
             const analysis = getGiHotspotAnalysis();
             const totalHotInc = analysis.hotspotCells.reduce((sum, cell) => sum + cell.incCount, 0);
             const hot99 = analysis.hotspotCells.filter((cell) => cell.giClass === "HOTSPOT 99 %").length;
-            const hot9590 = analysis.hotspotCells.filter((cell) => ["HOTSPOT 95 %", "HOTSPOT 90 %"].includes(cell.giClass)).length;
+            const hot95 = analysis.hotspotCells.filter((cell) => cell.giClass === "HOTSPOT 95 %").length;
+            const hot90 = analysis.hotspotCells.filter((cell) => cell.giClass === "HOTSPOT 90 %").length;
+            const cold = analysis.coldspotCells.length;
             const hotArea = analysis.hotspotCells.reduce((sum, cell) => sum + cell.areaKm2, 0);
             const totalArea = analysis.cells.reduce((sum, cell) => sum + cell.areaKm2, 0) || 1;
             elements.summary.innerHTML = [
               ["Incidentes analizados", analysis.points.length],
-              ["Celdas hotspot", analysis.hotspotCells.length],
+              ["Celdas analizadas", analysis.cells.length],
+              ["Hotspots", `${analysis.hotspotCells.length} celdas`],
               ["Hotspot 99 %", `${hot99} celdas`],
-              ["Hotspot 95/90 %", `${hot9590} celdas`],
-              ["Incidentes en hotspots", `${fmt(totalHotInc)} / ${analysis.points.length ? (totalHotInc / analysis.points.length * 100).toFixed(1) : 0}%`],
-              ["Coldspots", analysis.coldspotCells.length],
+              ["Hotspot 95 %", `${hot95} celdas`],
+              ["Hotspot 90 %", `${hot90} celdas`],
+              ["Coldspots", `${cold} celdas`],
               ["Área en hotspots", `${hotArea.toFixed(2)} km² / ${(hotArea / totalArea * 100).toFixed(1)}%`]
             ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
             return;
@@ -3284,12 +3294,12 @@
         }
         if (isGiHotspotsMode()) {
           const analysis = getGiHotspotAnalysis();
-          const classOrder = ["HOTSPOT 99 %", "HOTSPOT 95 %", "HOTSPOT 90 %", "NO SIGNIFICATIVO", "COLDSPOT 90 %", "COLDSPOT 95 %", "COLDSPOT 99 %"];
+          const classOrder = ["HOTSPOT 99 %", "HOTSPOT 95 %", "HOTSPOT 90 %", "COLDSPOT 90 %", "COLDSPOT 95 %", "COLDSPOT 99 %"];
           const classCounts = analysis.cells.reduce((acc, cell) => {
             acc[cell.giClass] = (acc[cell.giClass] || 0) + 1;
             return acc;
           }, {});
-          const classRows = classOrder.map((label) => ({ label, value: classCounts[label] || 0, color: giClassColor(label) }));
+          const classRows = classOrder.map((label) => ({ label, value: classCounts[label] || 0, color: giClassColor(label) })).filter((row) => row.value > 0);
           const hotEvents = analysis.hotspotCells.flatMap((cell) => cell.incidents);
           const typeRows = categorySummary(hotEvents);
           const byPlatformRaw = analysis.hotspotCells.reduce((acc, cell) => {
@@ -3308,7 +3318,7 @@
             return `<tr><td>${esc(row.platform.replace("PLATAFORMA ", ""))}</td><td>${fmt(row.incidents)}</td><td>${fmt(row.cells)}</td><td>${row.area.toFixed(2)}</td><td>${esc(row.max)}</td><td>${esc(predominant)}</td></tr>`;
           }).join("");
           elements.graphicAnalysis.innerHTML = `
-            ${metricBars("Celdas por significancia", classRows, Math.max(...classRows.map((row) => row.value), 1), "#dc2626")}
+            ${classRows.length ? metricBars("Celdas significativas por nivel", classRows, Math.max(...classRows.map((row) => row.value), 1), "#dc2626") : "<p>No existen celdas estadísticamente significativas bajo los filtros activos.</p>"}
             ${metricBars("Incidentes en hotspots por Plataforma", byPlatform.map((row) => ({ label: row.platform.replace("PLATAFORMA ", ""), value: row.incidents, color: "#dc2626" })), Math.max(...byPlatform.map((row) => row.incidents), 1), "#dc2626")}
             ${metricBars("Tipologías en hotspots", typeRows, Math.max(...typeRows.map((row) => row.value), 1), "#1d6fd8")}
             <div class="graphic-card"><h3>Hotspots por Plataforma</h3><table class="mini-table"><thead><tr><th>Plataforma</th><th>Inc.</th><th>Celdas</th><th>Área km²</th><th>Nivel máx.</th><th>Tipología</th></tr></thead><tbody>${table || "<tr><td colspan='6'>Sin hotspots significativos</td></tr>"}</tbody></table></div>
@@ -3831,7 +3841,15 @@
         }
         if (isGiHotspotsMode()) {
           addHeader("Zonas críticas Getis-Ord Gi*");
-          ["HOTSPOT 99 %", "HOTSPOT 95 %", "HOTSPOT 90 %", "NO SIGNIFICATIVO", "COLDSPOT 90 %", "COLDSPOT 95 %", "COLDSPOT 99 %"].forEach((label) => addSwatch(label.replace("HOTSPOT", "Hotspot").replace("COLDSPOT", "Coldspot").replace("NO SIGNIFICATIVO", "No significativo"), `background:${giClassColor(label)};border-color:#fff`));
+          const analysis = getGiHotspotAnalysis();
+          const counts = analysis.cells.reduce((acc, cell) => ((acc[cell.giClass] = (acc[cell.giClass] || 0) + 1), acc), {});
+          ["HOTSPOT 99 %", "HOTSPOT 95 %", "HOTSPOT 90 %"].forEach((label) => {
+            if (counts[label]) addSwatch(label.replace("HOTSPOT", "Hotspot"), `background:${giClassColor(label)};border-color:#fff`);
+          });
+          const coldLabels = ["COLDSPOT 90 %", "COLDSPOT 95 %", "COLDSPOT 99 %"].filter((label) => counts[label]);
+          coldLabels.forEach((label) => addSwatch(label.replace("COLDSPOT", "Coldspot"), `background:${giClassColor(label)};border-color:#fff`));
+          if (!coldLabels.length) rows.push(`<div class="legend-row"><span>Coldspots significativos</span><strong>0</strong></div>`);
+          if (giResultType === "all" && counts["NO SIGNIFICATIVO"]) addSwatch("No significativo", `background:${giClassColor("NO SIGNIFICATIVO")};border-color:#7e8790`);
           addContext();
           elements.legend.innerHTML = rows.join("");
           return;
