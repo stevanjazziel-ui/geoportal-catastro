@@ -4,6 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Riobamba Censo 2022 por Manzana y Plataforma</title>
+  <script>
+    (() => {
+      const retiredFlushes = new Set(["7c5cdbc"]);
+      const flush = new URLSearchParams(window.location.search).get("flush") || "";
+      window.__RIOBAMBA_LINK_RETIRED__ = retiredFlushes.has(flush);
+    })();
+  </script>
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -41,6 +48,27 @@
       display: grid;
       grid-template-columns: 380px 1fr;
       height: 100dvh;
+    }
+
+    .retired-link {
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .retired-link-card {
+      width: min(560px, 100%);
+      padding: 28px;
+      border-radius: 22px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .retired-link-card h1 {
+      font-size: 1.65rem;
+      margin-bottom: 10px;
     }
 
     .sidebar {
@@ -8042,7 +8070,18 @@
 
     map.on("zoomend moveend", scheduleBarriosRender);
 
-    initStableRiobambaCenso();
+    if (window.__RIOBAMBA_LINK_RETIRED__) {
+      document.body.innerHTML = `
+        <main class="retired-link">
+          <section class="retired-link-card">
+            <h1>Enlace reemplazado</h1>
+            <p>Este visor fue actualizado y este enlace anterior ya no esta disponible. Usa el enlace nuevo entregado para abrir la version vigente.</p>
+          </section>
+        </main>
+      `;
+    } else {
+      initStableRiobambaCenso();
+    }
   </script>
 </body>
 </html>
