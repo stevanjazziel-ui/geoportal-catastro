@@ -3,15 +3,30 @@ window.PLATFORM_DIRECTIVES_DATA = {
     title: "Visor de Comités por Plataforma",
     description:
       "Seguimiento rapido para identificar el encargado de cada plataforma y si ya tiene comité elegido.",
-    updatedAt: "2026-09-14",
+    updatedAt: "2026-09-21",
     source: "Capturas compartidas por WhatsApp el 31 de agosto de 2026.",
     notes: [
-      "Actualizacion manual aplicada: las plataformas C, I, J, L y P se marcan con comité elegido.",
+      "Actualizacion manual aplicada: las plataformas A, C, D, I, J, L y P se marcan con comité elegido.",
+      "Actualizacion del 21 de septiembre de 2026: las plataformas A y D se confirman como plataformas con comité.",
+      "Plataforma A actualizada con integrantes visibles del acta de conformacion de representantes; campos manuscritos no legibles se dejan sin dato.",
       "La plataforma E no aparece en las capturas recibidas; se deja visible como pendiente de confirmacion."
     ]
   },
   platforms: [
-    { code: "A", label: "Plataforma A", manager: "Marco Miñaca", assignedAt: "2026-07-20", status: "pending" },
+    {
+      code: "A",
+      label: "Plataforma A",
+      manager: "Marco Miñaca",
+      assignedAt: "2026-07-20",
+      status: "selected",
+      committee: [
+        { role: "Presidencia", name: "Fausto Lara", id: "0602128514", organization: "El Tambo" },
+        { role: "Vicepresidencia", name: "Edgar Miranda", id: "0602089443", organization: null },
+        { role: "Secretaria", name: "Ximena Valverde", id: "0602807761", organization: "CEPLA" },
+        { role: "Vocal 1. Eje Plan", name: "Fausto Asitimbay", id: "0603612974", organization: null },
+        { role: "Vocal 2. Eje Gestion", name: "Marcelo Rosero", id: "0601289249", organization: "Urb. San Pedro de Riobamba" }
+      ]
+    },
     {
       code: "B",
       label: "Plataforma B",
@@ -26,7 +41,7 @@ window.PLATFORM_DIRECTIVES_DATA = {
       ]
     },
     { code: "C", label: "Plataforma C", manager: "Jessica Guamán", assignedAt: "2026-08-25", status: "selected" },
-    { code: "D", label: "Plataforma D", manager: "Juan Diego Remache", assignedAt: "2026-08-21", status: "pending" },
+    { code: "D", label: "Plataforma D", manager: "Juan Diego Remache", assignedAt: "2026-08-21", status: "selected" },
     { code: "E", label: "Plataforma E", manager: null, assignedAt: null, status: "unknown" },
     { code: "F", label: "Plataforma F", manager: "Danny Usca", assignedAt: "2026-08-12", status: "selected" },
     {
