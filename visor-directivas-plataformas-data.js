@@ -9,6 +9,7 @@ window.PLATFORM_DIRECTIVES_DATA = {
       "Actualizacion manual aplicada: las plataformas A, C, D, I, J, L y P se marcan con comité elegido.",
       "Actualizacion del 21 de septiembre de 2026: las plataformas A y D se confirman como plataformas con comité.",
       "Plataforma A actualizada con integrantes visibles del acta de conformacion de representantes; campos manuscritos no legibles se dejan sin dato.",
+      "Plataformas C y P actualizadas con integrantes visibles de los documentos recibidos. Plataforma F actualizada con Wilson Lara como presidente.",
       "La plataforma E no aparece en las capturas recibidas; se deja visible como pendiente de confirmacion."
     ]
   },
@@ -40,10 +41,34 @@ window.PLATFORM_DIRECTIVES_DATA = {
         { role: "Segundo vocal principal", name: "Betty Guaraca", phone: "0983078783" }
       ]
     },
-    { code: "C", label: "Plataforma C", manager: "Jessica Guamán", assignedAt: "2026-08-25", status: "selected" },
+    {
+      code: "C",
+      label: "Plataforma C",
+      manager: "Jessica Guamán",
+      assignedAt: "2026-08-25",
+      status: "selected",
+      committee: [
+        { role: "Presidencia", name: "Paulo Villa", id: "0603417445", organization: "Lolita Nueva Esperanza" },
+        { role: "Vicepresidencia", name: "José García", id: "0605639615", organization: "Nueva Ciudad" },
+        { role: "Secretaría", name: "Katty Moncho", id: "0605145333", organization: "Entrada La Lolita" },
+        { role: "Vocal 1. Eje Plan", name: "Mauro Rubio", id: "0502320989", organization: "Modesto Arrieta" },
+        { role: "Vocal 2. Eje Gestión", name: "Silvia Duchi", id: "0603625336", organization: "La Lolita" },
+        { role: "Vocal 3. Eje Gobernanza", name: "Nancy García", id: "1712148171", organization: "La Lolita" },
+        { role: "Vocal 4. Eje Resiliencia", name: "Francisco Jaramillo", id: "1104547334", organization: "Primero de Mayo" }
+      ]
+    },
     { code: "D", label: "Plataforma D", manager: "Juan Diego Remache", assignedAt: "2026-08-21", status: "selected" },
     { code: "E", label: "Plataforma E", manager: null, assignedAt: null, status: "unknown" },
-    { code: "F", label: "Plataforma F", manager: "Danny Usca", assignedAt: "2026-08-12", status: "selected" },
+    {
+      code: "F",
+      label: "Plataforma F",
+      manager: "Danny Usca",
+      assignedAt: "2026-08-12",
+      status: "selected",
+      committee: [
+        { role: "Presidencia", name: "Wilson Lara" }
+      ]
+    },
     {
       code: "G",
       label: "Plataforma G",
@@ -170,7 +195,20 @@ window.PLATFORM_DIRECTIVES_DATA = {
         { role: "Coordinadora", name: "Mercedes Jamín", phone: "0986958998" }
       ]
     },
-    { code: "P", label: "Plataforma P", manager: "Silvana Vásquez", assignedAt: "2026-08-12", status: "selected" },
+    {
+      code: "P",
+      label: "Plataforma P",
+      manager: "Silvana Vásquez",
+      assignedAt: "2026-08-12",
+      status: "selected",
+      committee: [
+        { role: "Coordinadora", name: "Jhoana Marcela Estrada Arguello", id: "0604129023", phone: "0979362703" },
+        { role: "Vicepresidente", name: "Diógenes Oswaldo Bonilla Espin", id: "0601737273", phone: "0984485386" },
+        { role: "Secretario", name: "Pedro León Gualán", id: "0601505589", phone: "0991699520" },
+        { role: "Vocal 1", name: "Yolanda María León Tenesaca", id: "1709511149", phone: "0988067960" },
+        { role: "Vocal 2", name: "Abel Fernando Vargas Reinoso", id: "0602937336", phone: "0999971318" }
+      ]
+    },
     {
       code: "Q",
       label: "Plataforma Q",
