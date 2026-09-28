@@ -1101,7 +1101,7 @@
               </div>
               <span class="control-label" data-camera-universe-label>Cámaras</span>
               <div class="segmented two" data-camera-universe-control role="group" aria-label="Tipo de cámaras">
-                <button type="button" data-camera-set="municipal">Municipales</button>
+                <button type="button" data-camera-set="municipal">Para cambio</button>
                 <button type="button" data-camera-set="external" disabled>Externas</button>
               </div>
             </div>
@@ -1150,7 +1150,7 @@
                   <div class="layer-toggles">
                     <label class="layer-toggle" data-layer-row="events"><span>Incidentes</span><input id="toggleEvents" type="checkbox" checked /></label>
                     <label class="layer-toggle" data-layer-row="parishes"><span>Burbujas ECU911</span><input id="toggleParishes" type="checkbox" /></label>
-                    <label class="layer-toggle" data-layer-row="cameras"><span>Cámaras municipales</span><input id="toggleCameras" type="checkbox" /></label>
+                    <label class="layer-toggle" data-layer-row="cameras"><span id="cameraLayerLabel">Cámaras para cambio</span><input id="toggleCameras" type="checkbox" /></label>
                     <label class="layer-toggle" data-layer-row="cameraCoverage"><span id="cameraCoverageLayerLabel">Cobertura de cámaras</span><input id="toggleCameraCoverage" type="checkbox" /></label>
                     <label class="layer-toggle" data-layer-row="police"><span>Infraestructura policial</span><input id="togglePoliceInfrastructure" type="checkbox" /></label>
                     <label class="layer-toggle" data-layer-row="manzanas"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" /></label>
@@ -1220,6 +1220,8 @@
         administracion: isMunicipalCamera(camera) ? "Municipal" : (camera.administracion || camera.institution || "Otra institución")
       }));
       const municipalCameras = cameras.filter(isMunicipalCamera);
+      const changeCameras = municipalCameras.filter((camera) => camera.requiresChange);
+      const operationalMunicipalCameras = municipalCameras.filter((camera) => !camera.requiresChange);
       const externalCameras = cameras.filter((camera) => !isMunicipalCamera(camera));
       const policeDataset = window.RIOBAMBA_POLICE_SIG_DATA || { summary: {}, district: { features: [] }, infrastructure: { features: [] } };
       const policeInfrastructure = policeDataset.infrastructure?.features || [];
@@ -1289,6 +1291,7 @@
         toggleExternalCameras: document.getElementById("toggleExternalCameras"),
         toggleAnalysisResult: document.getElementById("toggleAnalysisResult"),
         analysisResultLayerLabel: document.getElementById("analysisResultLayerLabel"),
+        cameraLayerLabel: document.getElementById("cameraLayerLabel"),
         cameraCoverageLayerLabel: document.getElementById("cameraCoverageLayerLabel"),
         layersButton: document.getElementById("layersButton"),
         layersPopover: document.getElementById("layersPopover"),
@@ -1450,7 +1453,8 @@
       const syncLayerControl = () => {
         const config = activeLayerConfig();
         if (elements.analysisResultLayerLabel) elements.analysisResultLayerLabel.textContent = config.result;
-        if (elements.cameraCoverageLayerLabel) elements.cameraCoverageLayerLabel.textContent = `Cobertura ${cameraCoverageScenario} m`;
+        if (elements.cameraLayerLabel) elements.cameraLayerLabel.textContent = mode === "cameras" ? "Cámaras municipales" : "Cámaras para cambio";
+        if (elements.cameraCoverageLayerLabel) elements.cameraCoverageLayerLabel.textContent = `Cobertura cámaras para cambio ${cameraCoverageScenario} m`;
         const visibleRows = new Set(["analysisResult", "platforms", ...(config.context || [])]);
         document.querySelectorAll("[data-layer-row]").forEach((row) => {
           row.hidden = !visibleRows.has(row.dataset.layerRow);
@@ -1510,9 +1514,9 @@
           panel.innerHTML = `<h3>${esc(labels[0])}</h3>` + methodRowsHtml([
             ["Objetivo", labels[1]],
             ["Unidad principal", diagnosisMetric === "candidateZones" || diagnosisMetric === "lowCoverageConcentrations" ? "Celdas Gi* y Plataformas Territoriales" : "18 Plataformas Territoriales"],
-            ["Cámaras", "30 cámaras municipales; cámaras externas solo como contexto"],
+            ["Cámaras", `${changeCameras.length} cámaras municipales para cambio; cámaras externas y municipales operativas solo como contexto`],
             ["Escenario de cobertura", `${cameraCoverageScenario} m`],
-            ["Insumos", "Incidentes A/B, Gi*, KDE validado, población/manzanas, cámaras municipales, infraestructura policial y Bulevares"],
+            ["Insumos", "Incidentes A/B, Gi*, KDE validado, población/manzanas, cámaras municipales para cambio, infraestructura policial y Bulevares"],
             ["Reglas", "Clasificación categórica explícita por coincidencia de condiciones; sin AHP ni puntajes compuestos"],
             ["Fecha de procesamiento", new Date().toISOString().slice(0, 10)],
           ]) + crsHtml() + `<h3>Limitaciones</h3><p>Estos resultados identifican coincidencias territoriales para revisión. No son ranking final, predicción, prioridad definitiva ni recomendación automática de instalación de cámaras.</p>`;
@@ -1554,7 +1558,7 @@
           panel.innerHTML = `<h3>Cobertura potencial de cámaras</h3>` + methodRowsHtml([
             ["Análisis", "Cobertura potencial de cámaras"],
             ["Escenario activo", `${cameraCoverageScenario} m`],
-            ["Universo analítico", "30 cámaras municipales"],
+            ["Universo analítico", `${changeCameras.length} cámaras municipales para cambio`],
             ["Fuente", "Informe municipal de cámaras + diagnóstico territorial"],
             ["Procesamiento", "Buffers métricos 100/150/200 m y cobertura disuelta para evitar doble conteo"],
             ["Población", "Manzanas censales evaluadas contra la cobertura disuelta"],
@@ -1610,16 +1614,16 @@
             ["Fuente", "Red de Bulevares y conexiones"],
             ["Unidad territorial", "Plataformas Territoriales"],
             ["Procesamiento", "Intersección espacial y proximidad a población, cámaras e infraestructura"],
-            ["Cámaras", "Cámaras municipales dentro de distancia de proximidad a red"],
+            ["Cámaras", "Cámaras municipales para cambio dentro de distancia de proximidad a red"],
             ["Limitación", "La cercanía a red vial no implica seguridad efectiva ni operación permanente"],
           ]) + crsHtml();
           return;
         }
         if (isInstitutionalMode()) {
           panel.innerHTML = `<h3>Cobertura institucional</h3>` + methodRowsHtml([
-            ["Fuentes integradas", "Infraestructura policial, cámaras municipales, Bulevares y población"],
+            ["Fuentes integradas", "Infraestructura policial, cámaras municipales para cambio, Bulevares y población"],
             ["Unidad territorial", "Plataformas Territoriales"],
-            ["Cámaras", "30 cámaras municipales"],
+            ["Cámaras", `${changeCameras.length} cámaras municipales para cambio`],
             ["Indicadores", "Presencia institucional, cobertura potencial y proximidad a red"],
             ["Regla de integración", "Clasificación territorial BAJA / MEDIA / ALTA a partir de indicadores disponibles"],
           ]) + crsHtml() + `<h3>Limitaciones</h3><p>La cobertura institucional es una lectura territorial sintética; no reemplaza evaluación operativa ni validación de campo.</p>`;
@@ -1999,8 +2003,9 @@
         return feature ? pointInsideFeature(feature, camera.lng, camera.lat) : true;
       };
       const municipalCamerasInPlatform = (platformName = selectedPlatform) => municipalCameras.filter((camera) => cameraInPlatform(camera, platformName));
+      const studyCamerasInPlatform = (platformName = selectedPlatform) => changeCameras.filter((camera) => cameraInPlatform(camera, platformName));
       const externalCamerasInPlatform = (platformName = selectedPlatform) => externalCameras.filter((camera) => cameraInPlatform(camera, platformName));
-      const coverageCameraSet = (platformName = selectedPlatform) => (cameraCoverageSet === "external" ? externalCameras : municipalCameras).filter((camera) => {
+      const coverageCameraSet = (platformName = selectedPlatform) => (cameraCoverageSet === "external" ? externalCameras : changeCameras).filter((camera) => {
         return cameraInPlatform(camera, platformName);
       });
       const cameraCoverageTotals = () => {
@@ -2009,8 +2014,8 @@
         const selectedNames = new Set(rows.map((platform) => platform.platformName));
         const selectedRows = Object.values(analysis.byPlatformName).filter((row) => selectedNames.has(row.platformName));
         const population = selectedRows.reduce((sum, row) => sum + row.population, 0);
-        const camerasCount = rows.reduce((sum, platform) => sum + municipalCamerasInPlatform(platform.platformName).length, 0);
-        const changeCount = rows.reduce((sum, platform) => sum + municipalCamerasInPlatform(platform.platformName).filter((camera) => camera.requiresChange).length, 0);
+        const camerasCount = rows.reduce((sum, platform) => sum + studyCamerasInPlatform(platform.platformName).length, 0);
+        const changeCount = rows.reduce((sum, platform) => sum + studyCamerasInPlatform(platform.platformName).length, 0);
         const covered = selectedRows.reduce((sum, row) => sum + row.coveredPopulation, 0);
         const partial = selectedRows.reduce((sum, row) => sum + row.partialPopulation, 0);
         const uncovered = selectedRows.reduce((sum, row) => sum + row.uncoveredPopulation, 0);
@@ -2228,7 +2233,7 @@
           return false;
         }));
       };
-      const municipalCamerasNearBoulevard = (platformName = selectedPlatform) => municipalCamerasInPlatform(platformName).filter((camera) => cameraNearBoulevardNetwork(camera)).length;
+      const municipalCamerasNearBoulevard = (platformName = selectedPlatform) => studyCamerasInPlatform(platformName).filter((camera) => cameraNearBoulevardNetwork(camera)).length;
       const ringBounds = (ring) => ring.reduce((acc, point) => ({
         minLng: Math.min(acc.minLng, Number(point[0])),
         minLat: Math.min(acc.minLat, Number(point[1])),
@@ -2312,7 +2317,7 @@
       const getCameraCoverageAnalysis = () => {
         const key = `${cameraCoverageScenario}-${cameraCoverageSet}-${manzanaGeojsonCache ? "ready" : "pending"}`;
         if (cameraCoverageCache && cameraCoverageCacheKey === key) return cameraCoverageCache;
-        const cameraSet = cameraCoverageSet === "external" ? externalCameras : municipalCameras;
+        const cameraSet = cameraCoverageSet === "external" ? externalCameras : changeCameras;
         const byPlatformName = {};
         filteredPlatforms().forEach((platform) => {
           byPlatformName[platform.platformName] = {
@@ -2421,7 +2426,7 @@
           const incidents = Number(platform.incidents || 0);
           const exposed = Number(platform.populationExposed250 || 0);
           const population = Number(platform.population || coverage.population || 0);
-          const cameras = municipalCamerasInPlatform(platform.platformName).length;
+          const cameras = studyCamerasInPlatform(platform.platformName).length;
           const policeDistance = Number(platform.avgPopulationDistancePoliceM || 0);
           const boulevardKm = Number(platform.boulevardTotalLengthM || 0) / 1000;
           const institutionalLow = String(platform.institutionalCoverage || "").toUpperCase() === "BAJA";
@@ -2684,13 +2689,18 @@
         <div class="popup-note">${esc(camera.reference || "Sin referencia adicional")}</div>
         <div class="popup-note">${esc(camera.method)}. Confianza: ${esc(camera.confidence)}.</div>
       `;
-      const cameraCompactPopup = (camera) => `
-        <div class="popup-title"><strong>${isMunicipalCamera(camera) ? "CÁMARA MUNICIPAL" : "CÁMARA EXTERNA (CONTEXTO)"} ${esc(String(camera.n || "").padStart(2, "0"))}</strong></div>
-        <div class="popup-row">Ubicación: <strong>${esc(camera.address || "No disponible")}</strong></div>
-        <div class="popup-row">Estado: <strong>${camera.requiresChange ? "Requiere cambio" : "Operativa / sin cambio reportado"}</strong></div>
-        <div class="popup-row">Escenario de cobertura: <strong>${cameraCoverageScenario} m</strong></div>
-        <div class="popup-row">Fuente: <strong>${isMunicipalCamera(camera) ? "Municipio" : esc(camera.administracion || camera.institution || "Contexto")}</strong></div>
-      `;
+      const cameraCompactPopup = (camera) => {
+        const title = !isMunicipalCamera(camera)
+          ? "CÁMARA EXTERNA (CONTEXTO)"
+          : camera.requiresChange ? "CÁMARA MUNICIPAL PARA CAMBIO" : "CÁMARA MUNICIPAL";
+        return `
+          <div class="popup-title"><strong>${title} ${esc(String(camera.n || "").padStart(2, "0"))}</strong></div>
+          <div class="popup-row">Ubicación: <strong>${esc(camera.address || "No disponible")}</strong></div>
+          <div class="popup-row">Estado: <strong>${camera.requiresChange ? "Requiere cambio" : "Operativa / sin cambio reportado"}</strong></div>
+          <div class="popup-row">Escenario de cobertura: <strong>${cameraCoverageScenario} m</strong></div>
+          <div class="popup-row">Fuente: <strong>${isMunicipalCamera(camera) ? "Municipio" : esc(camera.administracion || camera.institution || "Contexto")}</strong></div>
+        `;
+      };
       const policePopup = (props, kind = "Infraestructura policial") => `
         <div class="popup-title"><strong>${esc(props.name || props.code)}</strong></div>
         <div class="popup-row">Capa: <strong>${esc(kind)}</strong></div>
@@ -2882,7 +2892,7 @@
             const multiple = rows.filter((row) => row.typology === "Brechas múltiples").length;
             const typeTop = Object.entries(rows.reduce((acc, row) => ((acc[row.typology] = (acc[row.typology] || 0) + 1), acc), {})).sort((a, b) => b[1] - a[1])[0]?.[0] || "N/D";
             const kpis = diagnosisMetric === "videoDeficitGap" ? [
-              ["Cámaras municipales", municipalCameras.length],
+              ["Cámaras para cambio", changeCameras.length],
               [`Población sin cobertura ${cameraCoverageScenario} m`, fmt(uncoveredPopulation)],
               ["Plataformas con déficit elevado", elevated.length],
               ["Concentraciones con baja cobertura institucional", zones.length],
@@ -2974,7 +2984,6 @@
           if (isCameraCoverageMode()) {
             const totals = cameraCoverageTotals();
             const camerasVisible = coverageCameraSet(selectedPlatform).length;
-            const changeVisible = municipalCamerasInPlatform(selectedPlatform).filter((camera) => camera.requiresChange).length;
             const cameraRate = totals.population ? (camerasVisible / totals.population * 10000).toFixed(2) : "N/D";
             const rows = isPopulationCoverageMode()
               ? [
@@ -2985,10 +2994,10 @@
                 ["Manzanas con cobertura", fmt(totals.coveredManzanas || 0)]
               ]
               : [
-                ["Cámaras municipales analizadas", camerasVisible],
-                ["Municipales con cambio previsto", changeVisible],
+                ["Cámaras para cambio analizadas", camerasVisible],
+                ["Municipales operativas (contexto)", selectedPlatform ? municipalCamerasInPlatform(selectedPlatform).filter((camera) => !camera.requiresChange).length : operationalMunicipalCameras.length],
                 ["Población analizada", `${fmt(totals.population)} habitantes`],
-                ["Cámaras municipales / 10.000 hab.", cameraRate],
+                ["Cámaras para cambio / 10.000 hab.", cameraRate],
                 ["Población potencialmente cubierta", totals.coveredPct == null ? "No disponible" : `${totals.coveredPct}%`],
                 ["Área potencialmente cubierta", totals.coveredArea == null ? "No disponible" : `${totals.coveredArea.toFixed(2)} km² / ${totals.coveredAreaPct}%`]
               ];
@@ -3003,7 +3012,7 @@
               ["Longitud total de bulevares", `${(visible.reduce((sum, platform) => sum + Number(platform.boulevardTotalLengthM || 0), 0) / 1000).toFixed(2)} km`],
               ["Plataformas intersectadas", visible.filter((platform) => Number(platform.boulevardTotalLengthM || 0) > 0).length],
               ["Población cercana a red", `${fmt(nearPop)} (${population ? (nearPop / population * 100).toFixed(1) : 0}%)`],
-              ["Cámaras municipales cerca de red", selectedPlatform ? municipalCamerasNearBoulevard(selectedPlatform) : municipalCameras.filter((camera) => cameraNearBoulevardNetwork(camera)).length],
+              ["Cámaras para cambio cerca de red", selectedPlatform ? municipalCamerasNearBoulevard(selectedPlatform) : changeCameras.filter((camera) => cameraNearBoulevardNetwork(camera)).length],
               ["Infraestructura policial", visible.reduce((sum, platform) => sum + Number(platform.policeInfrastructure || 0), 0)],
               ["Incidentes cerca de red", visible.reduce((sum, platform) => sum + Number(platform.incidentsNearBoulevard || 0), 0)]
             ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
@@ -3019,8 +3028,8 @@
               ["Población", `${fmt(population)} hab.`],
               ["Infraestructura policial", visible.reduce((sum, platform) => sum + Number(platform.policeInfrastructure || 0), 0)],
               ["UPC", (policeAccessibility.table || []).reduce((sum, row) => sum + Number(row.NUM_UPC || 0), 0)],
-              ["Cámaras municipales", visible.reduce((sum, platform) => sum + municipalCamerasInPlatform(platform.platformName).length, 0)],
-              ["Plataformas con cámaras municipales", visible.filter((platform) => municipalCamerasInPlatform(platform.platformName).length > 0).length],
+              ["Cámaras para cambio", visible.reduce((sum, platform) => sum + studyCamerasInPlatform(platform.platformName).length, 0)],
+              ["Plataformas con cámaras para cambio", visible.filter((platform) => studyCamerasInPlatform(platform.platformName).length > 0).length],
               ["Población cubierta", `${fmt(covered)} / ${population ? (covered / population * 100).toFixed(1) : 0}%`],
               ["Bulevares", `${(visible.reduce((sum, platform) => sum + Number(platform.boulevardTotalLengthM || 0), 0) / 1000).toFixed(2)} km`],
               ["Distancia media a infraestructura", `${population ? Math.round(weightedDist / population) : 0} m`]
@@ -3038,13 +3047,13 @@
             ["Precisión A/B", `${fmt(diagnosis.summary?.incidentSpatialQuality?.spatialValidAB || 0)} usados`],
             ["Pob. expuesta 250 m", diagnosis.summary?.populationExposed250 || 0],
             ["Pob. cerca policía", diagnosis.summary?.populationNearPolice500 || 0],
-            ["Cámaras municipales", visible.reduce((sum, platform) => sum + municipalCamerasInPlatform(platform.platformName).length, 0)],
-            [`Pob. cubierta cámaras municipales ${cameraCoverageScenario} m`, municipalCoverageTotals.covered || 0],
+            ["Cámaras para cambio", visible.reduce((sum, platform) => sum + studyCamerasInPlatform(platform.platformName).length, 0)],
+            [`Pob. cubierta cámaras para cambio ${cameraCoverageScenario} m`, municipalCoverageTotals.covered || 0],
             ["Hotspots", visible.reduce((sum, platform) => sum + Number(platform.hotspots || 0), 0)],
             ["Déficit alto/crítico", visible.filter((platform) => ["ALTO", "CRITICO"].includes(platform.videoDeficit)).length],
             ["Prioridad territorial", diagnosis.summary?.territorialPriorityPlatforms || 0],
             ["Tipologías", typologies],
-            ["Cobertura cámaras municipales", `${(municipalCoverageTotals.coveredPct || 0).toFixed(1)}%`],
+            ["Cobertura cámaras para cambio", `${(municipalCoverageTotals.coveredPct || 0).toFixed(1)}%`],
             ["Manz. cruzan límite", diagnosis.summary?.manzanasSplitByPlatforms || 0],
             ["Boulevares+conex. km", ((visible.reduce((sum, platform) => sum + Number(platform.boulevardLengthM || 0) + Number(platform.connectionLengthM || 0), 0)) / 1000).toFixed(2)]
           ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
@@ -3466,8 +3475,8 @@
           const coveredPct = coveragePercent(covered, population);
           const uncoveredPct = coveredPct == null ? null : Number((100 - coveredPct).toFixed(1));
           const coveredArea = Number(analysisRow.coveredAreaKm2 || 0);
-          const municipalCount = municipalCamerasInPlatform(platform.platformName).length;
-          const municipalChange = municipalCamerasInPlatform(platform.platformName).filter((camera) => camera.requiresChange).length;
+          const municipalCount = studyCamerasInPlatform(platform.platformName).length;
+          const municipalChange = municipalCount;
           return {
             platform,
             population,
@@ -3620,7 +3629,7 @@
         const rows = filteredPlatforms().map((platform) => {
           const access = accessByPlatform[platform.platformName] || {};
           const population = Number(platform.population || 0);
-          const municipalCount = municipalCamerasInPlatform(platform.platformName).length;
+          const municipalCount = studyCamerasInPlatform(platform.platformName).length;
           const coverage200 = cameraCoverageRowAtScenario(platform.platformName, 200);
           return {
             platform,
@@ -3817,9 +3826,12 @@
           if (elements.togglePlatforms?.checked) addSwatch("Plataformas Territoriales", "background:transparent;border:2px solid #263a33");
           if (elements.toggleEvents?.checked) addSwatch("Incidente georreferenciado", "background:#111827;border-color:#fff;border-radius:50%");
           if (elements.toggleCameras?.checked) {
-            addSwatch("Cámara municipal operativa", "background:#1d4ed8;border-color:#fff;border-radius:50%");
-            const changeCount = municipalCameras.filter((camera) => camera.requiresChange).length;
-            if (changeCount) addSwatch("Cámara municipal que requiere cambio", "background:#dc2626;border-color:#fff;border-radius:50%");
+            if (mode === "cameras") {
+              addSwatch("Cámara municipal operativa", "background:#1d4ed8;border-color:#fff;border-radius:50%");
+              if (changeCameras.length) addSwatch("Cámara municipal que requiere cambio", "background:#dc2626;border-color:#fff;border-radius:50%");
+            } else {
+              addSwatch("Cámara municipal para cambio", "background:#dc2626;border-color:#fff;border-radius:50%");
+            }
             if (elements.toggleExternalCameras?.checked) addSwatch("Cámara externa (contexto)", "background:#64748b;border-color:#fff;border-radius:50%");
           }
           if (elements.togglePoliceInfrastructure?.checked) addSwatch("Infraestructura policial", "background:#7c3aed;border-color:#fff;border-radius:50%");
@@ -3858,7 +3870,7 @@
           addHeader(layerConfig[analysisKey()]?.result || "Brechas");
           if (diagnosisMetric === "videoDeficitGap") {
             ["Muy alto", "Alto", "Medio", "Bajo"].forEach((level) => addSwatch(level, `background:${breachLevelColor(level)};border-color:#263a33`));
-            if (elements.toggleCameraCoverage?.checked) addSwatch(`Cobertura de cámaras municipales ${cameraCoverageScenario} m`, "background:rgba(217,164,65,.18);border-color:#d9a441");
+            if (elements.toggleCameraCoverage?.checked) addSwatch(`Cobertura de cámaras para cambio ${cameraCoverageScenario} m`, "background:rgba(217,164,65,.18);border-color:#d9a441");
           } else if (diagnosisMetric === "lowCoverageConcentrations") {
             addSwatch("Concentración con baja cobertura institucional", "background:rgba(225,29,72,.58);border-color:#fff");
             addSwatch("Celda de análisis Gi*", "background:transparent;border:2px solid #ffffff");
@@ -4227,7 +4239,14 @@
       function renderCameraMarkers() {
         cameraLayer.clearLayers();
         cameraMarkers.clear();
-        const visibleCameras = filteredCameras().filter((camera) => isMunicipalCamera(camera) || elements.toggleExternalCameras?.checked);
+        const analyticCameraMode = isCameraCoverageMode() || isBoulevardsMode() || isInstitutionalMode() || isGapMode();
+        const visibleCameras = filteredCameras().filter((camera) => {
+          const external = !isMunicipalCamera(camera);
+          if (external) return Boolean(elements.toggleExternalCameras?.checked);
+          if (mode === "cameras") return true;
+          if (analyticCameraMode) return camera.requiresChange;
+          return true;
+        });
         visibleCameras.forEach((camera) => {
           const compact = isCameraCoverageMode() || isBoulevardsMode() || isInstitutionalMode() || isGapMode();
           const external = !isMunicipalCamera(camera);
@@ -4558,8 +4577,8 @@
             elements.overlayText.textContent = "Distribución de infraestructura policial y distancia espacial de la población hacia estos equipamientos. No representa tiempo de respuesta ni nivel de seguridad.";
           } else if (isCameraCoverageMode()) {
             const totals = cameraCoverageTotals();
-            elements.overlayTitle.textContent = "Cobertura potencial de cámaras municipales";
-            elements.overlayText.textContent = `Escenario ${cameraCoverageScenario} m · ${cameraCoverageSet === "external" ? "videovigilancia externa de contexto" : "cámaras municipales"} · ${totals.coveredPct == null ? "cobertura poblacional no disponible para este subconjunto" : `${totals.coveredPct}% de población potencialmente cubierta`}.`;
+            elements.overlayTitle.textContent = "Cobertura potencial de cámaras para cambio";
+            elements.overlayText.textContent = `Escenario ${cameraCoverageScenario} m · ${cameraCoverageSet === "external" ? "videovigilancia externa de contexto" : "cámaras municipales para cambio"} · ${totals.coveredPct == null ? "cobertura poblacional no disponible para este subconjunto" : `${totals.coveredPct}% de población potencialmente cubierta`}.`;
           } else if (isBoulevardsMode()) {
             elements.overlayTitle.textContent = "Bulevares Seguros";
             elements.overlayText.textContent = "Red de Bulevares y conexiones con cámaras, infraestructura policial y Plataformas Territoriales.";
@@ -4568,7 +4587,7 @@
             elements.overlayText.textContent = "Integración territorial de infraestructura policial, videovigilancia y Bulevares Seguros.";
           } else if (diagnosisMetric === "videoDeficitGap") {
             elements.overlayTitle.textContent = "DÉFICIT DE VIDEOVIGILANCIA";
-            elements.overlayText.textContent = "Cobertura de las 30 cámaras municipales frente a la distribución territorial de incidentes y población.";
+            elements.overlayText.textContent = "Cobertura de las cámaras municipales para cambio frente a la distribución territorial de incidentes y población.";
           } else if (diagnosisMetric === "lowCoverageConcentrations") {
             elements.overlayTitle.textContent = "CONCENTRACIONES CON BAJA COBERTURA INSTITUCIONAL";
             elements.overlayText.textContent = "Concentraciones de incidentes localizadas en sectores con menor cobertura territorial de los servicios e infraestructura de seguridad analizados.";
@@ -4596,13 +4615,13 @@
           }
           if (isCameraCoverageMode()) {
             const totals = cameraCoverageTotals();
-            elements.status.textContent = `Cobertura potencial de cámaras municipales: ${cameraCoverageScenario} m, ${fmt(Math.round(totals.covered || 0))} habitantes potencialmente cubiertos.`;
+            elements.status.textContent = `Cobertura potencial de cámaras para cambio: ${cameraCoverageScenario} m, ${fmt(Math.round(totals.covered || 0))} habitantes potencialmente cubiertos.`;
           } else if (isBoulevardsMode()) {
             elements.status.textContent = "Bulevares Seguros: red, recursos próximos e indicadores por Plataforma.";
           } else if (isInstitutionalMode()) {
-            elements.status.textContent = "Cobertura institucional: infraestructura policial, cámaras municipales, bulevares y cobertura poblacional integrada.";
+            elements.status.textContent = "Cobertura institucional: infraestructura policial, cámaras municipales para cambio, bulevares y cobertura poblacional integrada.";
           } else if (isGapMode()) {
-            elements.status.textContent = `${layerConfig[analysisKey()]?.result}: ${currentGapRows().length} plataformas evaluadas, ${currentGapZones().length} zona(s)/celda(s) asociadas. Cámaras municipales usadas: ${municipalCameras.length}.`;
+            elements.status.textContent = `${layerConfig[analysisKey()]?.result}: ${currentGapRows().length} plataformas evaluadas, ${currentGapZones().length} zona(s)/celda(s) asociadas. Cámaras para cambio usadas: ${changeCameras.length}.`;
           } else if (isGiHotspotsMode()) {
             const analysis = getGiHotspotAnalysis();
             elements.status.textContent = `HOTSPOTS_GI: ${analysis.points.length} incidentes, celda ${analysis.cellSize} m, vecindad ${analysis.neighborDistance} m.`;
@@ -4620,7 +4639,7 @@
           } else if (mode === "cameras") {
             renderCameraDetail(selectedCamera);
             const camerasWithEvents = cameras.filter((camera) => camera.events2025 != null).length;
-            elements.status.textContent = `${filteredCameras().length} de ${cameras.length} cámaras visibles; ${municipalCameras.length} municipales integran el análisis. V2: ${camerasWithEvents} cámaras con eventos 2025.`;
+            elements.status.textContent = `${filteredCameras().length} de ${cameras.length} cámaras visibles; ${municipalCameras.length} municipales en inventario; ${changeCameras.length} para cambio integran el análisis. V2: ${camerasWithEvents} cámaras con eventos 2025.`;
           } else {
             renderPoliceDetail(selectedPolice);
             elements.status.textContent = `${filteredPoliceInfrastructure().length} de ${policeInfrastructure.length} infraestructuras policiales visibles.`;
@@ -4830,7 +4849,7 @@
         const totals = cameraCoverageTotals();
         const population = platform ? Number(platform.population || 0) : totals.population;
         const camerasCount = coverageCameraSet(selectedPlatform).length;
-        const changeCount = municipalCamerasInPlatform(selectedPlatform).filter((camera) => camera.requiresChange).length;
+        const contextCameraCount = selectedPlatform ? municipalCamerasInPlatform(selectedPlatform).filter((camera) => !camera.requiresChange).length : operationalMunicipalCameras.length;
         const covered = platform ? coverageValue(platform, cameraCoveragePopulationKey()) : totals.covered;
         const coveredPct = coveragePercent(covered, population);
         const uncovered = covered == null ? null : Math.max(0, population - covered);
@@ -4844,9 +4863,9 @@
           <div class="detail-mini-map" id="coverageMiniMap"></div>
           ${[
             ["Población", `${fmt(population)} habitantes`],
-            ["Cámaras municipales", camerasCount],
-            ["Municipales con cambio previsto", changeCount],
-            ["Cámaras municipales / 10.000 hab.", population ? (camerasCount / population * 10000).toFixed(2) : "N/D"],
+            ["Cámaras para cambio", camerasCount],
+            ["Municipales operativas (contexto)", contextCameraCount],
+            ["Cámaras para cambio / 10.000 hab.", population ? (camerasCount / population * 10000).toFixed(2) : "N/D"],
             ["Población potencialmente cubierta", covered == null ? "No disponible" : fmt(covered)],
             ["% población potencialmente cubierta", coveredPct == null ? "No disponible" : `${coveredPct}%`],
             ["Población fuera del escenario", uncovered == null ? "No disponible" : fmt(uncovered)],
@@ -4978,7 +4997,7 @@
             ["Longitud de Bulevares", `${(rows.reduce((sum, row) => sum + Number(row.boulevardTotalLengthM || 0), 0) / 1000).toFixed(2)} km`],
             ["Densidad", platform ? `${(Number(platform.boulevardDensityMPerKm2 || 0) / 1000).toFixed(2)} km/km²` : "Seleccione una Plataforma"],
             ["Población cercana a red", `${fmt(near)} (${population ? (near / population * 100).toFixed(1) : 0}%)`],
-            ["Cámaras municipales cerca de red", platform ? municipalCamerasNearBoulevard(platform.platformName) : municipalCameras.filter((camera) => cameraNearBoulevardNetwork(camera)).length],
+            ["Cámaras para cambio cerca de red", platform ? municipalCamerasNearBoulevard(platform.platformName) : changeCameras.filter((camera) => cameraNearBoulevardNetwork(camera)).length],
             ["Infraestructura policial", rows.reduce((sum, row) => sum + Number(row.policeInfrastructure || 0), 0)],
             ["Incidentes cerca de red", rows.reduce((sum, row) => sum + Number(row.incidentsNearBoulevard || 0), 0)],
             ["Área Plataforma", platform ? `${platform.areaKm2} km²` : "Todas"]
@@ -5002,8 +5021,8 @@
             ["Población", `${fmt(population)} hab.`],
             ["Infraestructura policial", rows.reduce((sum, row) => sum + Number(row.policeInfrastructure || 0), 0)],
             ["UPC", platform ? Number(access.NUM_UPC || 0) : (policeAccessibility.table || []).reduce((sum, row) => sum + Number(row.NUM_UPC || 0), 0)],
-            ["Cámaras municipales", rows.reduce((sum, row) => sum + municipalCamerasInPlatform(row.platformName).length, 0)],
-            ["Plataformas con cámaras municipales", rows.filter((row) => municipalCamerasInPlatform(row.platformName).length > 0).length],
+            ["Cámaras para cambio", rows.reduce((sum, row) => sum + studyCamerasInPlatform(row.platformName).length, 0)],
+            ["Plataformas con cámaras para cambio", rows.filter((row) => studyCamerasInPlatform(row.platformName).length > 0).length],
             ["Población cubierta", `${fmt(covered)} (${population ? (covered / population * 100).toFixed(1) : 0}%)`],
             ["Longitud Bulevares", `${(rows.reduce((sum, row) => sum + Number(row.boulevardTotalLengthM || 0), 0) / 1000).toFixed(2)} km`],
             ["Distancia media a infraestructura", platform ? `${access.DIST_MEDIA ?? platform.avgPopulationDistancePoliceM ?? "N/D"} m` : "Seleccione una Plataforma"],
@@ -5050,7 +5069,7 @@
             ["Eventos no espaciales", diagnosis.summary?.incidentSpatialQuality?.byPrecisionGeo?.C ?? kdeValidation.controlTable?.REGISTROS_EXCLUIDOS ?? "N/D"],
             ["Etapa", diagnosis.phase || "Etapa 8"],
             ["Campos tabla maestra", (diagnosis.masterSchema || []).length || "N/D"],
-            ["Población cubierta cámaras municipales", currentCoverageTotals.covered || 0],
+            ["Población cubierta cámaras para cambio", currentCoverageTotals.covered || 0],
             ["Escenario cámaras", `${cameraCoverageScenario} m`],
           ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${displayValue(value)}</strong></div>`).join("");
           elements.detail.innerHTML = `
@@ -5060,7 +5079,7 @@
                 <div class="territory-kpi"><span>Plataformas</span><strong>${fmt(diagnosis.summary?.platforms || 18)}</strong></div>
                 <div class="territory-kpi"><span>Población total</span><strong>${fmt(diagnosis.summary?.populationWithPlatform || 0)}</strong></div>
                 <div class="territory-kpi"><span>Incidentes</span><strong>${fmt(totalIncidents)}</strong></div>
-                <div class="territory-kpi"><span>Cámaras municipales</span><strong>${fmt(municipalCameras.length)}</strong></div>
+                <div class="territory-kpi"><span>Cámaras para cambio</span><strong>${fmt(changeCameras.length)}</strong></div>
                 <div class="territory-kpi"><span>Infraestructura policial</span><strong>${fmt(policeInfrastructure.length || diagnosis.summary?.policeInfrastructureAssigned || 0)}</strong></div>
               </div>
               <select id="territoryPlatformSelect" aria-label="Seleccionar Plataforma">
@@ -5081,7 +5100,8 @@
         const valueOrNA = (value, suffix = "") => (value === null || value === undefined || value === "" || value === "N/D") ? "No disponible" : `${displayValue(value)}${suffix}`;
         const km = (meters) => typeof meters === "number" ? `${(meters / 1000).toFixed(2)} km` : valueOrNA(meters);
         const municipalCount = municipalCamerasInPlatform(platform.platformName).length;
-        const municipalChange = municipalCamerasInPlatform(platform.platformName).filter((camera) => camera.requiresChange).length;
+        const municipalChange = studyCamerasInPlatform(platform.platformName).length;
+        const municipalOperational = municipalCount - municipalChange;
         const activeCoverage = cameraCoverageRowAtScenario(platform.platformName, cameraCoverageScenario);
         const activeCoveragePct = activeCoverage.coveredPct;
         const camerasNearBoulevard = municipalCamerasNearBoulevard(platform.platformName);
@@ -5092,8 +5112,8 @@
           ["Eventos más frecuentes", frequentEvents],
           ["Concentraciones identificadas", valueOrNA(platform.hotspots, " sectores")],
           ["Infraestructura policial", valueOrNA(platform.policeInfrastructure, " dependencias")],
-          ["Cámaras municipales", valueOrNA(municipalCount, " cámaras")],
-          ["Municipales con cambio previsto", valueOrNA(municipalChange)],
+          ["Cámaras para cambio", valueOrNA(municipalChange, " cámaras")],
+          ["Municipales operativas (contexto)", valueOrNA(municipalOperational)],
           ["Cobertura potencial municipal", typeof activeCoveragePct === "number" ? `${activeCoveragePct}%` : "No disponible"],
           ["Sectores que requieren atención", valueOrNA(platform.lowCoverageHotspots || platform.territorialPriority)],
           ["Bulevares seguros", km(platform.boulevardTotalLengthM)],
@@ -5102,14 +5122,14 @@
         if (Number(platform.incidents || 0) > 0) interpretations.push(`Se registran ${fmt(platform.incidents)} eventos en esta Plataforma durante el periodo analizado.`);
         if ((platform.incidentTypes || []).length) interpretations.push(`Los tipos reportados con mayor frecuencia son: ${(platform.incidentTypes || []).slice(0, 3).map((item) => esc(item.type)).join(", ")}.`);
         if (Number(platform.hotspots || 0) > 0) interpretations.push(`Los datos muestran ${fmt(platform.hotspots)} concentración(es) preliminar(es) dentro de esta Plataforma.`);
-        if (typeof activeCoveragePct === "number") interpretations.push(`La cobertura potencial de cámaras municipales alcanza aproximadamente al ${activeCoveragePct}% de la población de la Plataforma en el escenario ${cameraCoverageScenario} m.`);
+        if (typeof activeCoveragePct === "number") interpretations.push(`La cobertura potencial de cámaras municipales para cambio alcanza aproximadamente al ${activeCoveragePct}% de la población de la Plataforma en el escenario ${cameraCoverageScenario} m.`);
         if (Number(platform.policeInfrastructure || 0) > 0) interpretations.push(`Existen ${fmt(platform.policeInfrastructure)} dependencia(s) policial(es) registrada(s) en esta Plataforma.`);
         if (Number(platform.lowCoverageHotspots || 0) > 0) interpretations.push("Se identifican sectores donde coinciden concentraciones y menor cobertura relativa de los recursos analizados.");
         if (isGapMode()) {
           const gapRow = gapRowForPlatform(platform.platformName);
           if (gapRow) {
             interpretations.length = 0;
-            if (gapRow.uncoveredPct >= 50) interpretations.push(`La cobertura potencial municipal deja aproximadamente ${gapRow.uncoveredPct}% de la población de la Plataforma fuera del escenario ${cameraCoverageScenario} m.`);
+            if (gapRow.uncoveredPct >= 50) interpretations.push(`La cobertura potencial de cámaras para cambio deja aproximadamente ${gapRow.uncoveredPct}% de la población de la Plataforma fuera del escenario ${cameraCoverageScenario} m.`);
             if (gapRow.hotIncidents > 0) interpretations.push(`Se identifican ${fmt(gapRow.hotIncidents)} incidente(s) asociados a concentraciones con baja cobertura institucional.`);
             if (gapRow.gapFlags.length) interpretations.push(`La tipología descriptiva agrupa estas condiciones como: ${esc(gapRow.typology)}.`);
           }
@@ -5152,13 +5172,13 @@
           ["Matriz institucional", platform.institutionalCoverageMatrix],
           ["Prioridad territorial", platform.territorialPriority],
           ["Cámaras municipales", municipalCount],
-          ["Municipales con cambio previsto", municipalChange],
-          ["Radio cobertura cámaras municipales", `${cameraCoverageScenario} m`],
-          ["Escenario cámaras municipales", `${cameraCoverageScenario} m`],
-          ["Pob. cubierta por cámaras municipales", activeCoverage.coveredPopulation],
-          ["Pob. no cubierta cámaras municipales", activeCoverage.uncoveredPopulation],
-          ["% pob. cubierta cámaras municipales", typeof activeCoverage.coveredPct === "number" ? `${activeCoverage.coveredPct}%` : activeCoverage.coveredPct],
-          ["% área cubierta cámaras municipales", typeof activeCoverage.coveredAreaPct === "number" ? `${activeCoverage.coveredAreaPct}%` : activeCoverage.coveredAreaPct],
+          ["Cámaras para cambio", municipalChange],
+          ["Radio cobertura cámaras para cambio", `${cameraCoverageScenario} m`],
+          ["Escenario cámaras para cambio", `${cameraCoverageScenario} m`],
+          ["Pob. cubierta por cámaras para cambio", activeCoverage.coveredPopulation],
+          ["Pob. no cubierta cámaras para cambio", activeCoverage.uncoveredPopulation],
+          ["% pob. cubierta cámaras para cambio", typeof activeCoverage.coveredPct === "number" ? `${activeCoverage.coveredPct}%` : activeCoverage.coveredPct],
+          ["% área cubierta cámaras para cambio", typeof activeCoverage.coveredAreaPct === "number" ? `${activeCoverage.coveredAreaPct}%` : activeCoverage.coveredAreaPct],
           ["Incidentes cubiertos por cámaras", platform.incidentsCoveredByCamera],
           ["Déficit video", `${platform.videoDeficit} (${platform.videoDeficitScore})`],
           ["Bulevares m", platform.boulevardLengthM],
@@ -5168,7 +5188,7 @@
           ["Pob. cerca red bulevar", platform.populationNearBoulevard],
           ["Incidentes cerca red bulevar", platform.incidentsNearBoulevard],
           ["Hotspot cerca red bulevar", platform.hotspotNearBoulevard],
-          ["Cámaras municipales cerca red bulevar", camerasNearBoulevard],
+          ["Cámaras para cambio cerca red bulevar", camerasNearBoulevard],
           ["Incidentes cerca policía", platform.incidentsNearPolice],
           ["Concentraciones baja cobertura inst.", platform.lowCoverageHotspots],
           ["Zona crítica", platform.criticalZones],
