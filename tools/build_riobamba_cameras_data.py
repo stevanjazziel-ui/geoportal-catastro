@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 OSM = Path(r"D:\codex\riobamba-censo-data\riobamba_osm_walk_network_5categorias_todas_plataformas.json")
-OUT = Path(r"D:\codex\riobamba-camaras-data.js")
+OUT = Path(__file__).resolve().parents[1] / "riobamba-camaras-data.js"
 
 
 def norm(value):
@@ -335,7 +335,8 @@ CAMERAS.extend([
 
 
 features = []
-for idx, row in enumerate(CAMERAS[:30], 1):
+study_rows = [row for row in CAMERAS if row[7] == "SI"]
+for idx, row in enumerate(study_rows, 1):
     camera_id, camera_type, address, reference, street_a, street_b, megaphone, change = row[:8]
     institution = row[8] if len(row) > 8 else "ECU 911 Riobamba"
     located = geocode_pair(street_a, street_b) if street_a and street_b else None
@@ -373,6 +374,9 @@ for idx, row in enumerate(CAMERAS[:30], 1):
             "distanceMeters": located["distanceMeters"],
             "confidence": located["confidence"],
             "institution": institution,
+            "ambitoEstudio": "MUNICIPAL",
+            "requiereCambio": change,
+            "sourcePackage": "BASE_MAESTRA_SEGURIDAD_RIOBAMBA_V2.zip",
         }
     )
 
@@ -381,7 +385,7 @@ OUT.write_text(
     + json.dumps(
         {
             "sourcePdf": r"C:\Users\PC\Downloads\INFORME ESTADO DE CÁMARAS CANTÓN RIOBAMBA.pdf",
-            "note": "Subconjunto de 30 cámaras usado en el visor: RIO-001 a RIO-030 del informe.",
+            "note": "Subconjunto analítico: cámaras con columna 'requiere cambio' = SI.",
             "cameras": features,
         },
         ensure_ascii=False,
@@ -390,5 +394,5 @@ OUT.write_text(
     + ";\n",
     encoding="utf-8",
 )
-print(f"Wrote {len(features)} cameras to {OUT}")
+print(f"Wrote {len(features)} replacement cameras to {OUT}")
 print(json.dumps(features, ensure_ascii=False, indent=2))
