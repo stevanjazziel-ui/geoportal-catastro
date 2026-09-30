@@ -4133,7 +4133,7 @@
       function renderMarkers(items) {
         eventLayer.clearLayers();
         markers.clear();
-        if (isKdeMode() || isGiHotspotsMode()) return;
+        if (mode === "police" || isKdeMode() || isGiHotspotsMode()) return;
         const grouped = new Map();
         items.forEach((event) => {
           if (!event.mappable || event.lat == null || event.lng == null) return;
@@ -4236,6 +4236,36 @@
         L.imageOverlay(canvas.toDataURL("image/png"), bounds, { opacity: 0.68, interactive: false }).addTo(hotspotLayer);
       };
 
+      const renderKdePointOverlay = (points) => {
+        if (!points.length) return;
+        const bounds = kdeBounds();
+        const [[south, west], [north, east]] = bounds;
+        const size = 900;
+        const canvas = document.createElement("canvas");
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext("2d");
+        const grouped = new Map();
+        points.forEach((point) => {
+          const key = `${Number(point.lat).toFixed(6)}:${Number(point.lng).toFixed(6)}`;
+          grouped.set(key, (grouped.get(key) || 0) + eventWeight(point));
+        });
+        grouped.forEach((weight, key) => {
+          const [lat, lng] = key.split(":").map(Number);
+          const x = ((lng - west) / (east - west)) * size;
+          const y = ((north - lat) / (north - south)) * size;
+          const radius = Math.min(4, 1.5 + Math.log2(Math.max(1, weight)) * 0.45);
+          ctx.beginPath();
+          ctx.arc(x, y, radius, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(17,24,39,0.9)";
+          ctx.fill();
+          ctx.lineWidth = 0.8;
+          ctx.strokeStyle = "rgba(255,255,255,0.95)";
+          ctx.stroke();
+        });
+        L.imageOverlay(canvas.toDataURL("image/png"), bounds, { opacity: 0.95, interactive: false }).addTo(hotspotLayer);
+      };
+
       function renderHotspots(items) {
         hotspotLayer.clearLayers();
         if (isGapMode()) {
@@ -4288,23 +4318,7 @@
         if (!isKdeMode()) return;
         const points = filteredKdePoints();
         renderFilteredKdeSurface(points);
-        const grouped = new Map();
-        points.forEach((event) => {
-          const key = `${Number(event.lat).toFixed(6)}:${Number(event.lng).toFixed(6)}`;
-          const current = grouped.get(key) || { ...event, weight: 0, rows: 0 };
-          current.weight += eventWeight(event);
-          current.rows += 1;
-          grouped.set(key, current);
-        });
-        grouped.forEach((event) => {
-          L.circleMarker([event.lat, event.lng], {
-            radius: 3.8,
-            color: "#ffffff",
-            weight: 0.8,
-            fillColor: "#111827",
-            fillOpacity: 0.95,
-          }).bindPopup(`<strong>${esc(event.subtype || event.event)}</strong><br>${fmt(event.weight)} emergencia(s) en ${fmt(event.rows)} registro(s)<br>${esc(event.parish || "N/D")}<br>Plataforma ${esc(event.platform || "N/D")}`).addTo(hotspotLayer);
-        });
+        renderKdePointOverlay(points);
         bringLayerForward(hotspotLayer);
         bringLayerForward(platformLayer);
         bringLayerForward(platformLabelLayer);
@@ -4520,6 +4534,18 @@
         elements.toggleExternalCameras.checked = false;
         elements.togglePoliceInfrastructure.checked = true;
         elements.toggleManzanas.checked = true;
+        elements.toggleBoulevards.checked = false;
+        elements.togglePlatforms.checked = true;
+      }
+
+      function setPoliceInventoryContextLayers() {
+        elements.toggleEvents.checked = false;
+        elements.toggleParishes.checked = false;
+        elements.toggleCameras.checked = false;
+        elements.toggleCameraCoverage.checked = false;
+        elements.toggleExternalCameras.checked = false;
+        elements.togglePoliceInfrastructure.checked = true;
+        elements.toggleManzanas.checked = false;
         elements.toggleBoulevards.checked = false;
         elements.togglePlatforms.checked = true;
       }
@@ -5609,7 +5635,7 @@
       elements.incidentQueryMode.addEventListener("click", () => { mode = "events"; incidentMenuView = "query"; selectedParish = null; selectedPlatform = null; setIncidentContextLayers(); syncModeButtons(); update(); });
       elements.ecuMode.addEventListener("click", () => { mode = "ecu"; selectedId = null; selectedCamera = null; selectedPlatform = null; syncModeButtons(); update(); });
       elements.camerasMode.addEventListener("click", () => { mode = "cameras"; selectedId = null; selectedParish = null; selectedPlatform = null; syncModeButtons(); update(); });
-      elements.policeMode.addEventListener("click", () => { mode = "police"; selectedId = null; selectedParish = null; selectedCamera = null; selectedPlatform = null; syncModeButtons(); update(); });
+      elements.policeMode.addEventListener("click", () => { mode = "police"; selectedId = null; selectedParish = null; selectedCamera = null; selectedPlatform = null; setPoliceInventoryContextLayers(); syncModeButtons(); update(); });
       elements.diagnosisMode.addEventListener("click", () => { mode = "diagnosis"; selectedId = null; selectedParish = null; selectedCamera = null; selectedPolice = null; syncModeButtons(); update(); });
       if (elements.cameraCoverageControls) {
         elements.cameraCoverageControls.querySelectorAll("[data-coverage-radius]").forEach((button) => {
