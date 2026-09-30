@@ -2041,6 +2041,21 @@
         const coveredManzanas = selectedRows.reduce((sum, row) => sum + row.coveredManzanas + row.partialManzanas, 0);
         return { rows, population, camerasCount, changeCount, covered, partial, uncovered, area, coveredArea, manzanas, coveredManzanas, coveredPct: coveragePercent(covered, population), partialPct: coveragePercent(partial, population), coveredAreaPct: coveragePercent(coveredArea, area) };
       };
+      const coverageTerritorialData = (totals) => {
+        const total = totals.area;
+        const covered = Math.min(total, Math.max(0, totals.coveredArea));
+        const coveredPct = coveragePercent(covered, total);
+        return { total, covered, uncovered: Math.max(0, total - covered), coveredPct, uncoveredPct: coveredPct == null ? null : Number((100 - coveredPct).toFixed(1)), unit: "km²" };
+      };
+      const coveragePopulationData = (totals) => {
+        const total = totals.population;
+        const covered = Math.min(total, Math.max(0, totals.covered));
+        const coveredPct = coveragePercent(covered, total);
+        return { total, covered, uncovered: Math.max(0, total - covered), coveredPct, uncoveredPct: coveredPct == null ? null : Number((100 - coveredPct).toFixed(1)), unit: "habitantes" };
+      };
+      const coverageChartData = (totals) => isPopulationCoverageMode() ? coveragePopulationData(totals) : coverageTerritorialData(totals);
+      const formatCoverageQuantity = (value) => value == null ? "No disponible" : isPopulationCoverageMode() ? fmt(value) : value.toFixed(2);
+      const formatCoveragePercent = (value) => value == null ? "No disponible" : `${value}%`;
       const syncCoverageControls = () => {
         syncWorkspaceLayout();
         syncLayerControl();
@@ -3094,8 +3109,8 @@
           }
           if (isCameraCoverageMode()) {
             const totals = cameraCoverageTotals();
+            const territory = coverageTerritorialData(totals);
             const camerasVisible = coverageCameraSet(selectedPlatform).length;
-            const cameraRate = totals.population ? (camerasVisible / totals.population * 10000).toFixed(2) : "N/D";
             const rows = isPopulationCoverageMode()
               ? [
                 ["Población analizada", `${fmt(totals.population)} hab.`],
@@ -3106,11 +3121,11 @@
               ]
               : [
                 ["Cámaras para cambio analizadas", camerasVisible],
-                ["Municipales operativas (contexto)", selectedPlatform ? municipalCamerasInPlatform(selectedPlatform).filter((camera) => !camera.requiresChange).length : operationalMunicipalCameras.length],
-                ["Población analizada", `${fmt(totals.population)} habitantes`],
-                ["Cámaras para cambio / 10.000 hab.", cameraRate],
-                ["Población potencialmente cubierta", totals.coveredPct == null ? "No disponible" : `${totals.coveredPct}%`],
-                ["Área potencialmente cubierta", totals.coveredArea == null ? "No disponible" : `${totals.coveredArea.toFixed(2)} km² / ${totals.coveredAreaPct}%`]
+                ["Área total analizada", `${territory.total.toFixed(2)} km²`],
+                ["Área potencialmente cubierta", `${territory.covered.toFixed(2)} km²`],
+                ["Área no cubierta", `${territory.uncovered.toFixed(2)} km²`],
+                ["Territorio potencialmente cubierto", formatCoveragePercent(territory.coveredPct)],
+                ["Territorio fuera de cobertura", formatCoveragePercent(territory.uncoveredPct)]
               ];
             elements.summary.innerHTML = rows.map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
             return;
@@ -3586,6 +3601,8 @@
           const coveredPct = coveragePercent(covered, population);
           const uncoveredPct = coveredPct == null ? null : Number((100 - coveredPct).toFixed(1));
           const coveredArea = Number(analysisRow.coveredAreaKm2 || 0);
+          const area = Number(analysisRow.areaKm2 || 0);
+          const territory = coverageTerritorialData({ area, coveredArea });
           const municipalCount = studyCamerasInPlatform(platform.platformName).length;
           const municipalChange = municipalCount;
           return {
@@ -3599,6 +3616,10 @@
             uncovered,
             uncoveredPct,
             coveredArea,
+            area,
+            uncoveredArea: territory.uncovered,
+            coveredAreaPct: territory.coveredPct,
+            uncoveredAreaPct: territory.uncoveredPct,
             partialPopulation: Math.round(analysisRow.partialPopulation || 0),
           };
         });
@@ -3606,9 +3627,10 @@
 
       function renderCameraCoverageGraphics() {
         const totals = cameraCoverageTotals();
-        const coveredPct = totals.coveredPct == null ? 0 : totals.coveredPct;
-        const partialPct = Math.min(100, coveredPct + Number(totals.partialPct || 0));
-        const donutStyle = `--covered:${coveredPct}%;--partial:${partialPct}%`;
+        const populationMode = isPopulationCoverageMode();
+        const data = coverageChartData(totals);
+        const coveredPct = data.coveredPct ?? 0;
+        const donutStyle = `--covered:${coveredPct}%;--partial:${coveredPct}%`;
         const scenarios = [100, 150, 200].map((radius) => {
           const oldScenario = cameraCoverageScenario;
           const oldKey = cameraCoverageCacheKey;
@@ -3616,38 +3638,37 @@
           cameraCoverageScenario = radius;
           cameraCoverageCacheKey = "";
           cameraCoverageCache = null;
-          const totals = cameraCoverageTotals();
+          const scenarioData = coverageChartData(cameraCoverageTotals());
           cameraCoverageScenario = oldScenario;
           cameraCoverageCacheKey = oldKey;
           cameraCoverageCache = oldCache;
-          return { radius, covered: totals.covered, uncovered: totals.uncovered, pct: totals.coveredPct };
+          return { radius, ...scenarioData };
         });
         const rows = cameraCoverageRows()
           .filter((row) => !selectedPlatform || row.platform.platformName === selectedPlatform)
-          .sort((a, b) => (b.coveredPct ?? -1) - (a.coveredPct ?? -1));
-        const tableRows = cameraCoverageRows().map((row) => `
+          .sort((a, b) => ((populationMode ? b.coveredPct : b.coveredAreaPct) ?? -1) - ((populationMode ? a.coveredPct : a.coveredAreaPct) ?? -1));
+        const tableRows = rows.map((row) => `
           <tr class="selectable-row" data-platform-row="${esc(row.platform.platformName)}">
             <td>${esc(row.platform.platform)}</td>
-            <td>${fmt(row.population)}</td>
+            <td>${formatCoverageQuantity(populationMode ? row.population : row.area)}</td>
             <td>${fmt(row.cameras)}</td>
             <td>${fmt(row.change)}</td>
-            <td>${row.rate == null ? "N/D" : row.rate}</td>
-            <td>${row.covered == null ? "No disponible" : fmt(row.covered)}</td>
-            <td>${row.coveredPct == null ? "No disponible" : `${row.coveredPct}%`}</td>
-            <td>${row.uncovered == null ? "No disponible" : fmt(row.uncovered)}</td>
-            <td>${row.uncoveredPct == null ? "No disponible" : `${row.uncoveredPct}%`}</td>
-            <td>${row.coveredArea == null ? "No disponible" : row.coveredArea.toFixed(2)}</td>
+            <td>${formatCoverageQuantity(populationMode ? row.covered : row.coveredArea)}</td>
+            <td>${formatCoveragePercent(populationMode ? row.coveredPct : row.coveredAreaPct)}</td>
+            <td>${formatCoverageQuantity(populationMode ? row.uncovered : row.uncoveredArea)}</td>
+            <td>${formatCoveragePercent(populationMode ? row.uncoveredPct : row.uncoveredAreaPct)}</td>
           </tr>`).join("");
         elements.graphicAnalysis.innerHTML = `
           <div class="graphic-card">
-            <h3>Población según cobertura</h3>
-            <div class="coverage-donut" style="${donutStyle}"><strong>${fmt(totals.population)}<br>hab.</strong></div>
-            <div class="mini-row"><span><span class="legend-swatch" style="background:#2f6f5f;border-color:#7e8790"></span>Potencialmente cubierta</span><strong>${totals.covered == null ? "No disponible" : `${fmt(totals.covered)} (${totals.coveredPct}%)`}</strong></div>
-            <div class="mini-row"><span><span class="legend-swatch" style="background:#d9a441;border-color:#7e8790"></span>Parcialmente cubierta</span><strong>${fmt(totals.partial || 0)} (${totals.partialPct || 0}%)</strong></div>
-            <div class="mini-row"><span><span class="legend-swatch" style="background:#e8ede8;border-color:#7e8790"></span>No cubierta</span><strong>${totals.uncovered == null ? "No disponible" : `${fmt(totals.uncovered)} (${(100 - totals.coveredPct).toFixed(1)}%)`}</strong></div>
+            <h3>${populationMode ? "Población según cobertura" : "Superficie según cobertura"}</h3>
+            <div class="coverage-donut" style="${donutStyle}"><strong>${populationMode ? `${fmt(data.total)}<br>hab.` : `${formatCoveragePercent(data.coveredPct)}<br>cubierto`}</strong></div>
+            <div class="mini-row"><span>${populationMode ? "Población total" : "Área total"}</span><strong>${formatCoverageQuantity(data.total)} ${data.unit}</strong></div>
+            <div class="mini-row"><span><span class="legend-swatch" style="background:#2f6f5f;border-color:#7e8790"></span>${populationMode ? "Población potencialmente cubierta" : "Área cubierta"}</span><strong>${formatCoverageQuantity(data.covered)} ${data.unit} (${formatCoveragePercent(data.coveredPct)})</strong></div>
+            <div class="mini-row"><span><span class="legend-swatch" style="background:#e8ede8;border-color:#7e8790"></span>${populationMode ? "Población fuera de cobertura" : "Área no cubierta"}</span><strong>${formatCoverageQuantity(data.uncovered)} ${data.unit} (${formatCoveragePercent(data.uncoveredPct)})</strong></div>
+            <div class="mini-row"><span>${populationMode ? "% población cubierta" : "% territorio cubierto"}</span><strong>${formatCoveragePercent(data.coveredPct)}</strong></div>
           </div>
-          ${metricBars("Población potencialmente cubierta por escenario", scenarios.map((item) => ({ label: `${item.radius} m`, value: item.covered == null ? 0 : item.covered, color: item.radius === cameraCoverageScenario ? "#2f6f5f" : "#8fb96a" })), Math.max(...scenarios.map((item) => Number(item.covered || 0)), 1), "#2f6f5f")}
-          ${metricBars("% cubierto por Plataforma", rows.slice(0, 8).map((row) => ({ label: row.platform.platform, value: row.coveredPct ?? 0, color: cameraCoverageColor(row.coveredPct) })), 100, "#2f6f5f")}
+          ${metricBars(populationMode ? "Población potencialmente cubierta por escenario (habitantes)" : "Superficie potencialmente cubierta por escenario (km²)", scenarios.map((item) => ({ label: `${item.radius} m · ${formatCoveragePercent(item.coveredPct)}`, value: item.covered, color: item.radius === cameraCoverageScenario ? "#2f6f5f" : "#8fb96a" })), Math.max(...scenarios.map((item) => item.covered), 1), "#2f6f5f")}
+          ${metricBars(populationMode ? "% población cubierta por Plataforma" : "% territorio cubierto por Plataforma", rows.slice(0, 8).map((row) => { const pct = populationMode ? row.coveredPct : row.coveredAreaPct; return { label: row.platform.platform, value: pct ?? 0, color: cameraCoverageColor(pct) }; }), 100, "#2f6f5f")}
           <div class="graphic-card">
             <div class="table-actions">
               <input id="coverageTableSearch" type="search" placeholder="Buscar plataforma" />
@@ -3655,7 +3676,7 @@
             </div>
             <h3>Indicadores por Plataforma</h3>
             <table class="mini-table" id="coverageTable">
-              <thead><tr><th>Plat.</th><th>Pobl.</th><th>Cám. mun.</th><th>Cambio</th><th>Cám mun/10k</th><th>Pob. cubierta</th><th>% cub.</th><th>Pob. no cub.</th><th>% no cub.</th><th>Área cub. km²</th></tr></thead>
+              <thead><tr><th>Plat.</th><th>${populationMode ? "Pobl. (hab.)" : "Área total (km²)"}</th><th>Cám. mun.</th><th>Cambio</th><th>${populationMode ? "Pob. cubierta" : "Área cubierta (km²)"}</th><th>% cub.</th><th>${populationMode ? "Pob. no cubierta" : "Área no cubierta (km²)"}</th><th>% no cub.</th></tr></thead>
               <tbody>${tableRows}</tbody>
             </table>
           </div>
@@ -3675,24 +3696,25 @@
       }
 
       function exportCameraCoverageCsv() {
-        const header = ["Plataforma", "Poblacion", "Camaras_municipales", "Municipales_con_cambio_previsto", "Camaras_municipales_10000_hab", "Poblacion_potencialmente_cubierta", "Pct_cubierta", "Poblacion_no_cubierta", "Pct_no_cubierta", "Area_cubierta_km2"];
-        const lines = cameraCoverageRows().map((row) => [
+        const populationMode = isPopulationCoverageMode();
+        const header = populationMode
+          ? ["Plataforma", "Poblacion_habitantes", "Camaras_municipales", "Camaras_para_cambio", "Poblacion_potencialmente_cubierta", "Pct_poblacion_cubierta", "Poblacion_no_cubierta", "Pct_poblacion_no_cubierta"]
+          : ["Plataforma", "Area_total_km2", "Camaras_municipales", "Camaras_para_cambio", "Area_potencialmente_cubierta_km2", "Pct_territorio_cubierto", "Area_no_cubierta_km2", "Pct_territorio_no_cubierto"];
+        const lines = cameraCoverageRows().filter((row) => !selectedPlatform || row.platform.platformName === selectedPlatform).map((row) => [
           row.platform.platform,
-          row.population,
+          populationMode ? row.population : row.area,
           row.cameras,
           row.change,
-          row.rate ?? "",
-          row.covered ?? "",
-          row.coveredPct ?? "",
-          row.uncovered ?? "",
-          row.uncoveredPct ?? "",
-          row.coveredArea == null ? "" : row.coveredArea.toFixed(2)
+          populationMode ? row.covered : row.coveredArea,
+          (populationMode ? row.coveredPct : row.coveredAreaPct) ?? "",
+          populationMode ? row.uncovered : row.uncoveredArea,
+          (populationMode ? row.uncoveredPct : row.uncoveredAreaPct) ?? ""
         ].join(","));
         const blob = new Blob([[header.join(","), ...lines].join("\n")], { type: "text/csv;charset=utf-8" });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = `cobertura-potencial-camaras-municipales-${cameraCoverageScenario}m.csv`;
+        link.download = `cobertura-${populationMode ? "poblacional" : "territorial"}-camaras-municipales-${cameraCoverageScenario}m.csv`;
         link.click();
         URL.revokeObjectURL(url);
       }
@@ -4774,8 +4796,9 @@
             elements.overlayText.textContent = "Distribución de infraestructura policial y distancia espacial de la población hacia estos equipamientos. No representa tiempo de respuesta ni nivel de seguridad.";
           } else if (isCameraCoverageMode()) {
             const totals = cameraCoverageTotals();
-            elements.overlayTitle.textContent = "Cobertura potencial de cámaras para cambio";
-            elements.overlayText.textContent = `Escenario ${cameraCoverageScenario} m · ${cameraCoverageSet === "external" ? "videovigilancia externa de contexto" : "cámaras municipales para cambio"} · ${totals.coveredPct == null ? "cobertura poblacional no disponible para este subconjunto" : `${totals.coveredPct}% de población potencialmente cubierta`}.`;
+            const data = coverageChartData(totals);
+            elements.overlayTitle.textContent = isPopulationCoverageMode() ? "Cobertura poblacional" : "Cobertura potencial de cámaras para cambio";
+            elements.overlayText.textContent = `Escenario ${cameraCoverageScenario} m · ${cameraCoverageSet === "external" ? "videovigilancia externa de contexto" : "cámaras municipales para cambio"} · ${formatCoveragePercent(data.coveredPct)} de ${isPopulationCoverageMode() ? "población" : "territorio"} potencialmente cubierto.`;
           } else if (isBoulevardsMode()) {
             elements.overlayTitle.textContent = "Bulevares Seguros";
             elements.overlayText.textContent = "Red de Bulevares y conexiones con cámaras, infraestructura policial y Plataformas Territoriales.";
@@ -5044,31 +5067,23 @@
       function renderCameraCoverageDetail() {
         const platform = selectedPlatform ? platformRecord(selectedPlatform) : null;
         const totals = cameraCoverageTotals();
-        const population = platform ? Number(platform.population || 0) : totals.population;
+        const data = coverageChartData(totals);
+        const populationMode = isPopulationCoverageMode();
         const camerasCount = coverageCameraSet(selectedPlatform).length;
         const contextCameraCount = selectedPlatform ? municipalCamerasInPlatform(selectedPlatform).filter((camera) => !camera.requiresChange).length : operationalMunicipalCameras.length;
-        const covered = platform ? coverageValue(platform, cameraCoveragePopulationKey()) : totals.covered;
-        const coveredPct = coveragePercent(covered, population);
-        const uncovered = covered == null ? null : Math.max(0, population - covered);
-        const area = platform ? Number(platform.areaKm2 || 0) : totals.area;
-        const areaPct = platform ? coverageValue(platform, cameraCoverageAreaKey()) : totals.coveredAreaPct;
-        const coveredArea = platform ? (areaPct == null ? null : area * areaPct / 100) : totals.coveredArea;
         const options = [`<option value="">Todas las Plataformas</option>`].concat(filteredPlatforms().map((item) => `<option value="${esc(item.platformName)}" ${item.platformName === selectedPlatform ? "selected" : ""}>${esc(item.platform)}</option>`)).join("");
         elements.detailTitle.textContent = "Detalle de Plataforma";
         elements.detail.innerHTML = `
           <select id="coveragePlatformSelect" aria-label="Seleccionar Plataforma">${options}</select>
           <div class="detail-mini-map" id="coverageMiniMap"></div>
           ${[
-            ["Población", `${fmt(population)} habitantes`],
+            [populationMode ? "Población" : "Área de Plataforma", `${formatCoverageQuantity(data.total)} ${data.unit}`],
             ["Cámaras para cambio", camerasCount],
             ["Municipales operativas (contexto)", contextCameraCount],
-            ["Cámaras para cambio / 10.000 hab.", population ? (camerasCount / population * 10000).toFixed(2) : "N/D"],
-            ["Población potencialmente cubierta", covered == null ? "No disponible" : fmt(covered)],
-            ["% población potencialmente cubierta", coveredPct == null ? "No disponible" : `${coveredPct}%`],
-            ["Población fuera del escenario", uncovered == null ? "No disponible" : fmt(uncovered)],
-            ["% población fuera del escenario", coveredPct == null ? "No disponible" : `${(100 - coveredPct).toFixed(1)}%`],
-            ["Área de Plataforma", `${area.toFixed(2)} km²`],
-            ["Área potencialmente cubierta", coveredArea == null ? "No disponible" : `${coveredArea.toFixed(2)} km²`]
+            [populationMode ? "Población potencialmente cubierta" : "Área potencialmente cubierta", `${formatCoverageQuantity(data.covered)} ${data.unit}`],
+            [populationMode ? "% población potencialmente cubierta" : "% territorio potencialmente cubierto", formatCoveragePercent(data.coveredPct)],
+            [populationMode ? "Población fuera del escenario" : "Área no cubierta", `${formatCoverageQuantity(data.uncovered)} ${data.unit}`],
+            [populationMode ? "% población fuera del escenario" : "% territorio fuera de cobertura", formatCoveragePercent(data.uncoveredPct)]
           ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")}
         `;
         const select = document.getElementById("coveragePlatformSelect");
