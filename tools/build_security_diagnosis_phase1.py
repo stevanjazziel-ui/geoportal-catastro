@@ -137,8 +137,23 @@ def precision_geo(event):
     return "C"
 
 
+def event_weight(event):
+    try:
+        return max(1, int(event.get("weight") or 1))
+    except (TypeError, ValueError):
+        return 1
+
+
+conflict_events = [event for event in security.get("events", []) if event.get("hotspotEligible") is True]
+
+
 event_quality = {
     "total": len(security.get("events", [])),
+    "totalEmergencies": sum(event_weight(event) for event in security.get("events", [])),
+    "conflictRows": len(conflict_events),
+    "conflictEmergencies": sum(event_weight(event) for event in conflict_events),
+    "institutionalRowsExcluded": sum(1 for event in security.get("events", []) if event.get("hotspotEligible") is not True),
+    "institutionalEmergenciesExcluded": sum(event_weight(event) for event in security.get("events", []) if event.get("hotspotEligible") is not True),
     "byPrecisionGeo": {"A": 0, "B": 0, "C": 0},
     "spatialValidAB": 0,
     "notUsedForSpatialAnalysis": 0,
@@ -146,10 +161,10 @@ event_quality = {
 for event in security.get("events", []):
     precision = precision_geo(event)
     event_quality["byPrecisionGeo"][precision] += 1
-    if precision in ("A", "B") and event.get("mappable") and event.get("lat") is not None and event.get("lng") is not None:
-        event_quality["spatialValidAB"] += 1
+    if event.get("hotspotEligible") is True and precision in ("A", "B") and event.get("mappable") and event.get("lat") is not None and event.get("lng") is not None:
+        event_quality["spatialValidAB"] += event_weight(event)
     else:
-        event_quality["notUsedForSpatialAnalysis"] += 1
+        event_quality["notUsedForSpatialAnalysis"] += event_weight(event)
 
 
 def empty_platform_metrics():
@@ -204,7 +219,7 @@ unassigned = {
     "cameras": 0,
 }
 
-for event in security.get("events", []):
+for event in conflict_events:
     precision = precision_geo(event)
     if precision not in ("A", "B"):
         continue
@@ -212,14 +227,15 @@ for event in security.get("events", []):
         continue
     platform_name = find_platform_for_point(event.get("lng"), event.get("lat"))
     if not platform_name:
-        unassigned["events"] += 1
+        unassigned["events"] += event_weight(event)
         continue
     bucket = metrics[platform_name]
-    bucket["incidents"] += 1
-    bucket[f"incidents{precision}"] += 1
-    bucket["eventPointsM"].append(transform(TO_METERS, Point(float(event.get("lng")), float(event.get("lat")))))
+    weight = event_weight(event)
+    bucket["incidents"] += weight
+    bucket[f"incidents{precision}"] += weight
+    bucket["eventPointsM"].append((transform(TO_METERS, Point(float(event.get("lng")), float(event.get("lat")))), weight))
     category = event.get("category") or "Sin categoria"
-    bucket["incidentTypes"][category] = bucket["incidentTypes"].get(category, 0) + 1
+    bucket["incidentTypes"][category] = bucket["incidentTypes"].get(category, 0) + weight
 
 for feature in police.get("infrastructure", {}).get("features", []):
     coords = (feature.get("geometry") or {}).get("coordinates") or []
@@ -272,7 +288,7 @@ network_buffer = network_union.buffer(BOULEVARD_RADIUS_M) if network_union and n
 
 all_camera_points = [point for bucket in metrics.values() for point in bucket["cameraPointsM"]]
 all_police_points = [point for bucket in metrics.values() for point in bucket["policePointsM"]]
-all_event_points = [point for bucket in metrics.values() for point in bucket["eventPointsM"]]
+all_event_points = [point for bucket in metrics.values() for point, _ in bucket["eventPointsM"]]
 camera_union = unary_union([point.buffer(CAMERA_RADIUS_M) for point in all_camera_points]) if all_camera_points else None
 camera_buffers = {
     radius: unary_union([point.buffer(radius) for point in all_camera_points]) if all_camera_points else None
@@ -341,17 +357,17 @@ for platform_name, bucket in metrics.items():
         if buffer_geom and not geom_m.is_empty and geom_m.area:
             bucket[f"cameraCoveredAreaPct{radius}"] = min(100, buffer_geom.intersection(geom_m).area / geom_m.area * 100)
     bucket["cameraCoveredPopulation"] = bucket[f"cameraCoveredPopulation{CAMERA_RADIUS_M}"]
-    for event_point in bucket["eventPointsM"]:
+    for event_point, weight in bucket["eventPointsM"]:
         if network_union and event_point.distance(network_union) <= BOULEVARD_RADIUS_M:
-            bucket["incidentsNearBoulevard"] += 1
+            bucket["incidentsNearBoulevard"] += weight
         if camera_union and camera_union.covers(event_point):
-            bucket["incidentsCoveredByCamera"] += 1
+            bucket["incidentsCoveredByCamera"] += weight
         if police_union and police_union.covers(event_point):
-            bucket["incidentsNearPolice"] += 1
+            bucket["incidentsNearPolice"] += weight
         if all_police_points:
             distance = min(event_point.distance(point) for point in all_police_points)
-            bucket["incidentPoliceDistanceSum"] += distance
-            bucket["incidentPoliceDistanceCount"] += 1
+            bucket["incidentPoliceDistanceSum"] += distance * weight
+            bucket["incidentPoliceDistanceCount"] += weight
             if bucket["nearestIncidentPoliceDistanceM"] is None or distance < bucket["nearestIncidentPoliceDistanceM"]:
                 bucket["nearestIncidentPoliceDistanceM"] = distance
     for camera_point in bucket["cameraPointsM"]:
@@ -553,7 +569,7 @@ for item in stats["platforms"]:
         "incidentsA": bucket["incidentsA"],
         "incidentsB": bucket["incidentsB"],
         "incidentsC": "N/D",
-        "precisionGeoUsed": "A/B",
+        "precisionGeoUsed": "A georreferenciada + incluir_hotspot=SI",
         "incidentRate1000": incident_rate,
         "incidentTypes": sorted(
             [{"type": key, "count": value} for key, value in bucket["incidentTypes"].items()],
@@ -561,7 +577,7 @@ for item in stats["platforms"]:
             reverse=True,
         ),
         "hotspots": hotspot_count,
-        "hotspotMethod": "Preliminar: plataforma con 2 o mas eventos georreferenciables asignados",
+        "hotspotMethod": "Indicador descriptivo; Gi* se calcula en el visor con celdas y pesos del campo Emergencias",
         "populationExposed100": int(round(bucket["populationExposed100"])),
         "populationExposed250": int(round(bucket["populationExposed250"])),
         "populationExposed500": int(round(bucket["populationExposed500"])),
@@ -614,7 +630,7 @@ for item in stats["platforms"]:
         "dataStatus": {
             "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
             "area": "DATO CALCULADO desde geometria real de plataformas",
-            "securityIndicators": "DATO CALCULADO desde registros A/B georreferenciables; registros C quedan para estadistica general y no para hotspots puntuales",
+            "securityIndicators": "DATO CALCULADO desde coordenadas originales con incluir_hotspot=SI y peso del campo Emergencias",
             "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada",
         },
     })
@@ -669,16 +685,16 @@ audit = [
     {
         "name": "Eventos de seguridad",
         "file": "visor-seguridad-riobamba-data.js",
-        "geometry": "Puntos para registros mapeables; agregados parroquiales se mantienen separados",
+        "geometry": "Puntos georreferenciados originales",
         "records": len(security.get("events", [])),
         "fields": sorted({key for event in security.get("events", []) for key in event.keys()}),
         "crs": "EPSG:4326 para coordenadas lat/lng",
-        "source": "Fuentes publicas ya cargadas en visor",
-        "date": "2024-2026 segun registros disponibles",
-        "spatialPrecision": "Campo precision existente; registros no mapeables no se convierten en puntos",
-        "duplicates": "N/D",
-        "emptyFields": "N/D",
-        "relationships": "Cruce espacial por punto dentro de plataforma",
+        "source": "Base de Datos Emergencias_SC_Riobamba (2).xlsx + clasificación de 139 subtipos",
+        "date": "1 enero - 31 agosto 2026",
+        "spatialPrecision": "Coordenadas originales; KDE/Gi* usan solo incluir_hotspot=SI",
+        "duplicates": "Se preservan filas distintas y se ponderan por el campo Emergencias",
+        "emptyFields": "Sin coordenadas vacías en la fuente recibida",
+        "relationships": "Cruce espacial incidente-plataforma; peso analítico = Emergencias",
         "variableClass": "DATO ORIGINAL + DATO CALCULADO",
     },
     {
@@ -705,7 +721,7 @@ audit = [
         "crs": "EPSG:4326 para coordenadas",
         "source": "Informe de camaras / georreferenciacion verificada previamente",
         "date": "2026 / eventos 2025 cuando existe dato",
-        "spatialPrecision": "Subconjunto municipal de 30 camaras; no se usan 103 ECU911 como municipales",
+        "spatialPrecision": "31 cámaras municipales con requiere cambio=SI; no se usan las 103 cámaras externas",
         "duplicates": "N/D",
         "emptyFields": "Eventos 2025 puede ser N/D",
         "relationships": "Cruce espacial por punto dentro de plataforma y escenarios de cobertura",
@@ -748,10 +764,10 @@ inventory = [
     {
         "component": "Eventos georreferenciables",
         "file": "visor-seguridad-riobamba-data.js",
-        "records": len(security.get("events", [])),
+        "records": len(conflict_events),
         "role": "Insumo para conflictividad territorial",
-        "dataType": "DATO ORIGINAL geocodificado/verificado previamente + conteo por plataforma calculado",
-        "status": "No se usan registros parroquiales como puntos; hotspots son conteo preliminar por plataforma",
+        "dataType": "DATO ORIGINAL georreferenciado + clasificación + peso Emergencias",
+        "status": "Solo incluir_hotspot=SI alimenta KDE, Gi* y brechas de conflictividad",
     },
     {
         "component": "Informacion general por parroquia",
@@ -775,7 +791,7 @@ inventory = [
         "records": len(cameras.get("cameras", [])),
         "role": "Insumo de cobertura",
         "dataType": "DATO ORIGINAL + georreferenciacion verificada + conteo por plataforma calculado",
-        "status": "Subconjunto municipal de 30 camaras",
+        "status": "31 cámaras municipales con requiere cambio=SI",
     },
     {
         "component": "Bulevares seguros y conexiones",
@@ -880,26 +896,26 @@ output = {
         },
         {
             "result": "Conflictividad territorial",
-            "source": "Eventos de seguridad cargados en visor",
-            "date": "2024-2026 segun registros disponibles",
-            "precision": "PRECISION_GEO A/B/C derivada del campo precision",
-            "method": "Cruce espacial de registros A y B mapeables dentro de plataformas",
-            "parameters": "INC_TOTAL, INC_A, INC_B, INC_TIPO y TASA_INC_1000 = INC_TOTAL / POBLACION * 1000",
-            "limitations": "Registros C no se convierten en puntos ni se usan para KDE/hotspots; el conteo depende de registros publicados y georreferenciables",
+            "source": "Base Emergencias Seguridad Ciudadana Riobamba 2026 + clasificación de 139 subtipos",
+            "date": "1 enero - 31 agosto 2026",
+            "precision": "Coordenadas originales del archivo fuente",
+            "method": "Filtrado incluir_hotspot=SI, ponderación por Emergencias y cruce espacial con Plataformas",
+            "parameters": "INC_TOTAL, INC_TIPO y TASA_INC_1000 = EMERGENCIAS / POBLACION * 1000",
+            "limitations": "Las acciones policiales incluir_hotspot=NO se conservan como actividad institucional y no participan en conflictividad",
         },
         {
             "result": "Exposicion poblacional a conflictividad",
-            "source": "Incidentes A/B georreferenciables + manzanas censales CPV 2022",
-            "date": "2024-2026 incidentes; Censo 2022 poblacion",
-            "precision": "Buffers euclidianos alrededor de puntos A/B; registros C excluidos",
+            "source": "Incidentes incluir_hotspot=SI + manzanas censales CPV 2022",
+            "date": "2026 incidentes; Censo 2022 población",
+            "precision": "Buffers euclidianos alrededor de coordenadas originales",
             "method": "Union de buffers 100/250/500 m intersectada con manzana y plataforma; poblacion estimada por fraccion de area expuesta",
             "parameters": "POB_EXP_100, POB_EXP_250, POB_EXP_500",
             "limitations": "Escenario de proximidad, no mide exposicion real individual ni desplazamientos cotidianos",
         },
         {
             "result": "Accesibilidad a infraestructura policial",
-            "source": "Infraestructura policial 06D01 + manzanas censales + incidentes A/B",
-            "date": "N/D infraestructura; Censo 2022; incidentes 2024-2026",
+            "source": "Infraestructura policial 06D01 + manzanas censales + incidentes incluir_hotspot=SI",
+            "date": "N/D infraestructura; Censo 2022; incidentes enero-agosto 2026",
             "precision": "Distancia euclidiana desde centroides representativos de manzana e incidentes georreferenciables",
             "method": "Distancia minima a infraestructura policial mas cercana y poblacion dentro de 500 m",
             "parameters": "DIST_INF_MEDIA, DIST_INC_INF_MEDIA, DIST_INC_INF_MIN, POB_CERCA_INF_500",
@@ -907,7 +923,7 @@ output = {
         },
         {
             "result": "Cobertura poblacional de videovigilancia",
-            "source": "30 camaras municipales + manzanas censales CPV 2022",
+            "source": "31 cámaras municipales con requiere cambio=SI + manzanas censales CPV 2022",
             "date": "2026 camaras; Censo 2022 poblacion",
             "precision": "Escenarios euclidianos de cobertura potencial",
             "method": "Union de buffers de camaras 100/150/200 m intersectada con manzana y plataforma; evita doble conteo por union espacial",
@@ -916,7 +932,7 @@ output = {
         },
         {
             "result": "Deficit de videovigilancia",
-            "source": "Conflictividad A/B + exposicion poblacional + cobertura potencial de camaras + presencia institucional",
+            "source": "Conflictividad incluir_hotspot=SI + exposición poblacional + cobertura potencial de cámaras + presencia institucional",
             "date": "Datos disponibles en visor",
             "precision": "Clasificacion exploratoria por plataforma",
             "method": "Reglas exploratorias sin ponderaciones definitivas; combina incidentes, densidad, cobertura poblacional de camaras, infraestructura y camaras",
@@ -959,7 +975,7 @@ output = {
 
 js_payload = (
     "window.RIOBAMBA_SECURITY_DIAGNOSIS = "
-    + json.dumps(output, ensure_ascii=False, indent=2)
+    + json.dumps(output, ensure_ascii=False, separators=(",", ":"))
     + ";\n"
 )
 output_path = ROOT / "riobamba-seguridad-diagnostico-data.js"

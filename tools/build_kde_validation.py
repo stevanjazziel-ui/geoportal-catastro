@@ -17,7 +17,7 @@ CELL_SIZE = 20
 BANDWIDTHS = [200, 300, 500]
 CRS_METRIC = "EPSG:32717"
 CRS_SOURCE = "EPSG:4326"
-PERIOD = "enero 2026 - agosto 2026"
+PERIOD = "1 enero 2026 - 31 agosto 2026"
 OUTPUT_DIR = ROOT / "data" / "kde-validacion"
 DATA_JS = ROOT / "riobamba-seguridad-kde-validacion-data.js"
 
@@ -68,6 +68,13 @@ def precision_group(value):
     return "N/D"
 
 
+def event_weight(event):
+    try:
+        return max(1, int(event.get("weight") or 1))
+    except (TypeError, ValueError):
+        return 1
+
+
 def feature_label(feature):
     name = (feature.get("properties") or {}).get("platform_name", "")
     return name.replace("PLATAFORMA ", "")
@@ -86,6 +93,8 @@ def platform_for_point(point_metric, platform_metric):
 
 
 def exclusion_reason(event, group, lon, lat, point_metric, study_union):
+    if event.get("hotspotEligible") is not True:
+        return "CLASIFICACION_NO: servicio o acción institucional excluido de KDE y Gi*."
     if group == "C":
         return "PRECISION_C: registro ciudad/distrito/parroquial; no se convierte a punto para KDE."
     if lon is None or lat is None:
@@ -101,7 +110,7 @@ def exclusion_reason(event, group, lon, lat, point_metric, study_union):
     if point_metric is None or not study_union.covers(point_metric):
         return "FUERA_AMBITO_PLATAFORMAS: georreferenciado, pero fuera de las 18 plataformas territoriales reales."
     if group not in ("A", "B"):
-        return "PRECISION_NO_ADMITIDA: solo se admiten registros A/B con coordenada verificable."
+        return "COORDENADA_NO_ADMITIDA: se requiere una coordenada original válida y verificable."
     return None
 
 
@@ -177,7 +186,7 @@ def render_kde_png(density, mask, path):
 
 def build_density(points_xy, xs, ys, bandwidth):
     density = np.zeros((len(ys), len(xs)), dtype=np.float32)
-    for x, y in points_xy:
+    for x, y, weight in points_xy:
         col_min = max(0, int(math.floor((x - bandwidth - xs[0]) / CELL_SIZE)))
         col_max = min(len(xs) - 1, int(math.ceil((x + bandwidth - xs[0]) / CELL_SIZE)))
         row_min = max(0, int(math.floor((ys[0] - (y + bandwidth)) / CELL_SIZE)))
@@ -187,7 +196,7 @@ def build_density(points_xy, xs, ys, bandwidth):
         xx, yy = np.meshgrid(sub_x, sub_y)
         dist = np.sqrt((xx - x) ** 2 + (yy - y) ** 2)
         contribution = np.where(dist <= bandwidth, np.exp(-0.5 * (dist / bandwidth) ** 2), 0)
-        density[row_min:row_max + 1, col_min:col_max + 1] += contribution.astype(np.float32)
+        density[row_min:row_max + 1, col_min:col_max + 1] += (contribution * weight).astype(np.float32)
     return density
 
 
@@ -234,10 +243,11 @@ def main():
             "id": event.get("id"),
             "date": event.get("date"),
             "category": event.get("category"),
-            "event": event.get("event"),
             "precision": event.get("precision"),
             "location": event.get("location"),
-            "source": event.get("source"),
+            "subtype": event.get("subtype") or event.get("event"),
+            "parish": event.get("parish"),
+            "weight": event_weight(event),
             "lat": lat,
             "lng": lon,
         }
@@ -251,10 +261,9 @@ def main():
             "platform": platform,
             "x": round(point_metric.x, 3),
             "y": round(point_metric.y, 3),
-            "coordinateUse": "Coordenada original del registro de incidente; no proviene de camaras, UPC ni centroides parroquiales.",
         })
 
-    points_xy = [(point["x"], point["y"]) for point in kde_points]
+    points_xy = [(point["x"], point["y"], point["weight"]) for point in kde_points]
     raster_bounds = [
         [round(to_geo_transformer.transform(minx, miny)[1], 8), round(to_geo_transformer.transform(minx, miny)[0], 8)],
         [round(to_geo_transformer.transform(maxx, maxy)[1], 8), round(to_geo_transformer.transform(maxx, maxy)[0], 8)],
@@ -288,9 +297,9 @@ def main():
 
     if points_xy:
         distance_matrix = []
-        for i, (x1, y1) in enumerate(points_xy):
+        for i, (x1, y1, _) in enumerate(points_xy):
             nearest = min(
-                (math.hypot(x1 - x2, y1 - y2) for j, (x2, y2) in enumerate(points_xy) if i != j),
+                (math.hypot(x1 - x2, y1 - y2) for j, (x2, y2, _) in enumerate(points_xy) if i != j),
                 default=0,
             )
             distance_matrix.append((nearest, x1, y1, kde_points[i]))
@@ -301,7 +310,7 @@ def main():
         for row, col in zip(valid_rows[::sample_step], valid_cols[::sample_step]):
             x = float(xs[col])
             y = float(ys[row])
-            min_dist = min(math.hypot(x - px, y - py) for px, py in points_xy)
+            min_dist = min(math.hypot(x - px, y - py) for px, py, _ in points_xy)
             candidates.append((min_dist, x, y))
         empty = max(candidates, key=lambda row: row[0])
     else:
@@ -341,29 +350,35 @@ def main():
 
     control_table = {
         "TOTAL_REGISTROS": len(security.get("events", [])),
+        "TOTAL_EMERGENCIAS": sum(event_weight(event) for event in security.get("events", [])),
         "PRECISION_A": precision_counts.get("A", 0),
         "PRECISION_B": precision_counts.get("B", 0),
         "PRECISION_C": precision_counts.get("C", 0),
         "REGISTROS_KDE": len(kde_points),
+        "EMERGENCIAS_KDE": sum(point["weight"] for point in kde_points),
         "REGISTROS_EXCLUIDOS": len(excluded),
+        "EMERGENCIAS_EXCLUIDAS": sum(item["weight"] for item in excluded),
     }
 
     metadata = {
         "CAPA": "DENSIDAD_INCIDENTES_KDE",
-        "FUENTE": "visor-seguridad-riobamba-data.js / registros de incidentes georreferenciados cargados en el visor",
+        "FUENTE": "Base de Datos Emergencias_SC_Riobamba (2).xlsx + Clasificacion_Incidentes_Riobamba_2026_Codex.json",
         "PERIODO": PERIOD,
         "N_REGISTROS": len(kde_points),
-        "PRECISION_ADMITIDA": "A y B con coordenada valida dentro de las 18 plataformas territoriales reales",
+        "N_EMERGENCIAS": sum(point["weight"] for point in kde_points),
+        "PRECISION_ADMITIDA": "Coordenada original válida, incluir_hotspot=SI y ubicación dentro de las 18 Plataformas",
         "CRS": f"{CRS_SOURCE} para visualizacion; {CRS_METRIC} para distancias y KDE",
         "CELL_SIZE": f"{CELL_SIZE} metros",
         "BANDWIDTH": "200, 300 y 500 metros",
-        "METODO": "KDE por grilla regular unica; kernel gaussiano truncado al bandwidth; suma de todos los incidentes dentro del radio; mascara visual al ambito de plataformas.",
+        "METODO": "KDE por grilla regular única; kernel gaussiano truncado al bandwidth; contribución ponderada por Emergencias; máscara visual al ámbito de Plataformas.",
         "FECHA_PROCESAMIENTO": datetime.now().isoformat(timespec="seconds"),
     }
 
     output = {
         "controlTable": control_table,
-        "excludedRecords": excluded,
+        "excludedRecords": excluded[:500],
+        "excludedRecordsTruncated": len(excluded) > 500,
+        "exclusionReasonCounts": dict(Counter(item["reason"] for item in excluded)),
         "kdeInputPoints": kde_points,
         "rasters": rasters,
         "validationZones": validation_zones,
@@ -392,6 +407,7 @@ def main():
             "cameraOrPoliceCoordinatesUsed": False,
             "parishRecordsConvertedToPoints": False,
             "coincidentPointsPreserved": True,
+            "weightsPreservedFromEmergencias": True,
             "crsDistanceCalculation": CRS_METRIC,
         },
         "metadata": metadata,
@@ -399,7 +415,7 @@ def main():
 
     DATA_JS.write_text(
         "window.RIOBAMBA_KDE_VALIDATION = "
-        + json.dumps(output, ensure_ascii=False, indent=2)
+        + json.dumps(output, ensure_ascii=False, separators=(",", ":"))
         + ";\n",
         encoding="utf-8",
     )

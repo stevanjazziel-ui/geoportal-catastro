@@ -1069,10 +1069,13 @@
           <div class="filter-grid">
             <input id="searchInput" data-filter-control="search" type="search" placeholder="Buscar evento, ubicación o fuente" />
             <select id="categorySelect" data-filter-control="category" aria-label="Filtrar por categoría"></select>
+            <select id="subtypeSelect" data-filter-control="subtype" aria-label="Filtrar por subtipo"></select>
+            <select id="parishSelect" data-filter-control="parish" aria-label="Filtrar por parroquia"></select>
             <select id="precisionSelect" data-filter-control="precision" aria-label="Filtrar por precisión"></select>
             <select id="sourceSelect" data-filter-control="source" aria-label="Filtrar por fuente"></select>
             <select id="kdePlatformSelect" data-filter-control="kdePlatform" aria-label="Filtrar KDE por Plataforma"></select>
             <select id="kdePeriodSelect" data-filter-control="kdePeriod" aria-label="Filtrar KDE por periodo"></select>
+            <input id="incidentDateInput" data-filter-control="incidentDate" type="date" aria-label="Filtrar por fecha exacta" />
             <select id="diagnosisMetricSelect" data-filter-control="metric" aria-label="Indicador gráfico de diagnóstico">
               <option value="population">Población por manzana</option>
               <option value="populationDensity">Densidad poblacional por manzana</option>
@@ -1197,16 +1200,19 @@
   </div>
 
   <script src="./vendor/leaflet/leaflet.js"></script>
-  <script src="./visor-seguridad-riobamba-data.js"></script>
-  <script src="./riobamba-camaras-data.js?v=municipio-30"></script>
+  <script src="./visor-seguridad-riobamba-data.js?v=incidentes-reales-2026"></script>
+  <script src="./riobamba-camaras-data.js?v=municipio-31"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
   <script src="./riobamba-accesibilidad-policial-data.js?v=1"></script>
-  <script src="./riobamba-seguridad-diagnostico-data.js?v=etapa8-tipologias"></script>
-  <script src="./riobamba-seguridad-kde-validacion-data.js?v=kde-real"></script>
+  <script src="./riobamba-seguridad-diagnostico-data.js?v=incidentes-reales-2026"></script>
+  <script src="./riobamba-seguridad-kde-validacion-data.js?v=incidentes-reales-2026"></script>
   <script>
     (() => {
       const dataset = window.RIOBAMBA_SECURITY_DATA || { events: window.RIOBAMBA_SECURITY_EVENTS || [], ecu911: { serviceCounts: [], parishes: [], topSubtypes: [], topByParish: {}, totalRows: 0, securityRows: 0 } };
       const events = dataset.events || [];
+      const eventWeight = (event) => Math.max(1, Number(event?.weight || 1));
+      const weightedCount = (items) => items.reduce((sum, item) => sum + eventWeight(item), 0);
+      const conflictEvents = events.filter((event) => event.hotspotEligible === true);
       const ecu911 = dataset.ecu911 || {};
       const cameraDataset = window.RIOBAMBA_CAMERAS_DATA || { cameras: [] };
       const rawCameras = cameraDataset.cameras || [];
@@ -1229,15 +1235,18 @@
       const diagnosis = window.RIOBAMBA_SECURITY_DIAGNOSIS || { summary: {}, inventory: [], platformMaster: [], byPlatformName: {} };
       const kdeValidation = window.RIOBAMBA_KDE_VALIDATION || { controlTable: {}, kdeInputPoints: [], rasters: {}, metadata: {} };
       const categoryPalette = ["#4f8f52", "#5f8eb9", "#2d9b94", "#b88432", "#c86670", "#9c3f52", "#8f5fb9", "#7e7f92", "#4f7890", "#7c8c47"];
-      const categoryColors = new Map([...new Set(events.map((event) => event.category))].map((category, index) => [category, categoryPalette[index % categoryPalette.length]]));
+      const categoryColors = new Map([...new Set(conflictEvents.map((event) => event.category))].map((category, index) => [category, categoryPalette[index % categoryPalette.length]]));
       const precisionRank = { "A - Intersección": "Alta", "A - Tramo de calle": "Alta", "B - Sector": "Media", "B - Sector/parroquia": "Media", "C - Ciudad": "Referencial", "C - Ciudad/distrito": "Referencial" };
       const elements = {
         search: document.getElementById("searchInput"),
         category: document.getElementById("categorySelect"),
+        subtype: document.getElementById("subtypeSelect"),
+        parish: document.getElementById("parishSelect"),
         precision: document.getElementById("precisionSelect"),
         source: document.getElementById("sourceSelect"),
         kdePlatform: document.getElementById("kdePlatformSelect"),
         kdePeriod: document.getElementById("kdePeriodSelect"),
+        incidentDate: document.getElementById("incidentDateInput"),
         workspace: document.querySelector(".analysis-workspace"),
         populationMode: document.getElementById("populationMode"),
         populationDensityMode: document.getElementById("populationDensityMode"),
@@ -1386,21 +1395,21 @@
         return "diagnosis";
       };
       const analysisConfig = {
-        kde: { filters: ["category", "kdePlatform", "kdePeriod"] },
-        giHotspots: { filters: ["search", "category", "source", "giHotspots"] },
+        kde: { filters: ["category", "subtype", "parish", "kdePlatform", "kdePeriod", "incidentDate"] },
+        giHotspots: { filters: ["category", "subtype", "parish", "kdePlatform", "kdePeriod", "incidentDate", "giHotspots"] },
         cameraCoverage: { filters: ["search", "cameraCoverage"] },
         populationCoverage: { filters: ["search", "cameraCoverage"] },
-        videoDeficitGap: { filters: ["category", "kdePlatform", "cameraCoverage"] },
-        lowCoverageConcentrations: { filters: ["category", "kdePlatform", "giHotspots", "cameraCoverage"] },
+        videoDeficitGap: { filters: ["category", "subtype", "parish", "kdePlatform", "kdePeriod", "incidentDate", "cameraCoverage"] },
+        lowCoverageConcentrations: { filters: ["category", "subtype", "parish", "kdePlatform", "kdePeriod", "incidentDate", "giHotspots", "cameraCoverage"] },
         exposureLowCoverage: { filters: ["kdePlatform", "cameraCoverage"] },
         territorialGaps: { filters: ["kdePlatform"] },
         candidateZones: { filters: ["kdePlatform", "cameraCoverage"] },
         boulevards: { filters: ["search"] },
         institutionalCoverage: { filters: ["search"] },
-        temporal: { filters: ["search", "category", "source"] },
-        typologies: { filters: ["search", "category", "source"] },
-        incidents: { filters: ["search", "category", "precision", "source"] },
-        incidentQuery: { filters: ["search", "category", "precision", "source"] },
+        temporal: { filters: ["category", "subtype", "parish", "kdePlatform", "kdePeriod", "incidentDate"] },
+        typologies: { filters: ["category", "subtype", "parish", "kdePlatform", "kdePeriod", "incidentDate"] },
+        incidents: { filters: ["search", "category", "subtype", "parish", "kdePlatform", "kdePeriod", "incidentDate"] },
+        incidentQuery: { filters: ["search", "category", "subtype", "parish", "precision", "source", "kdePlatform", "kdePeriod", "incidentDate"] },
         cameras: { filters: ["search", "category", "source"] },
         police: { filters: ["search", "category", "source"] },
         demography: { filters: ["search"] },
@@ -1516,7 +1525,7 @@
             ["Unidad principal", diagnosisMetric === "candidateZones" || diagnosisMetric === "lowCoverageConcentrations" ? "Celdas Gi* y Plataformas Territoriales" : "18 Plataformas Territoriales"],
             ["Cámaras", `${changeCameras.length} cámaras municipales para cambio; cámaras externas y municipales operativas solo como contexto`],
             ["Escenario de cobertura", `${cameraCoverageScenario} m`],
-            ["Insumos", "Incidentes A/B, Gi*, KDE validado, población/manzanas, cámaras municipales para cambio, infraestructura policial y Bulevares"],
+            ["Insumos", "Incidentes de conflictividad elegibles, Gi*, KDE validado, población/manzanas, cámaras municipales para cambio, infraestructura policial y Bulevares"],
             ["Reglas", "Clasificación categórica explícita por coincidencia de condiciones; sin AHP ni puntajes compuestos"],
             ["Fecha de procesamiento", new Date().toISOString().slice(0, 10)],
           ]) + crsHtml() + `<h3>Limitaciones</h3><p>Estos resultados identifican coincidencias territoriales para revisión. No son ranking final, predicción, prioridad definitiva ni recomendación automática de instalación de cámaras.</p>`;
@@ -1570,13 +1579,13 @@
           const coldCount = analysis.coldspotCells.length;
           panel.innerHTML = `<h3>Zonas críticas</h3>` + methodRowsHtml([
             ["Método", "Getis-Ord Gi*"],
-            ["Dataset de entrada", "Incidentes georreferenciados A/B usados en el análisis espacial"],
+            ["Dataset de entrada", "Incidentes georreferenciados clasificados para análisis de conflictividad"],
             ["Unidad espacial", "Malla regular de celdas Gi*"],
             ["Tamaño de celda", `${analysis.cellSize} m`],
             ["Variable Xi", "Conteo de incidentes por celda"],
             ["Vecindad", `Distancia fija ${analysis.neighborDistance} m`],
             ["Pesos espaciales", "Binarios: 1 si la celda vecina está dentro de la distancia fija; 0 en caso contrario"],
-            ["Incidentes", analysis.points.length],
+            ["Incidentes", weightedCount(analysis.points)],
             ["Z-score", "Calculado para cada celda a partir de la suma local ponderada"],
             ["p-value", "Bilateral aproximado desde distribución normal estándar"],
             ["Niveles", "90 / 95 / 99 %"],
@@ -1590,9 +1599,9 @@
             ["Fuente", "Base real de incidentes publicados"],
             ["Campo de tipología", "category"],
             ["Normalización aplicada", "Conserva texto original; solo se usa para agrupación exacta"],
-            ["Registros utilizados", geoIncidentEvents().length],
+            ["Emergencias utilizadas", weightedCount(geoIncidentEvents())],
             ["Categorías reales", rows.length],
-            ["Sin categoría", geoIncidentEvents().filter((event) => !event.category).length]
+            ["Sin categoría", weightedCount(geoIncidentEvents().filter((event) => !event.category))]
           ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
           return;
         }
@@ -1603,7 +1612,7 @@
             ["Campo fecha", "date"],
             ["Campo hora", "No disponible"],
             ["Registros válidos", dated.length],
-            ["Registros sin fecha", events.length - dated.length],
+            ["Emergencias sin fecha", weightedCount(conflictEvents) - weightedCount(dated)],
             ["Periodo disponible", dates.length ? `${formatDate(dates[0])} - ${formatDate(dates.at(-1))}` : "N/D"],
             ["Franjas horarias", "No calculadas por ausencia de hora real"]
           ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
@@ -1632,7 +1641,7 @@
         if (diagnosisMetric === "incidentCount" || diagnosisMetric === "incidentRate") {
           panel.innerHTML = [
             ["Análisis", diagnosisMetric === "incidentCount" ? "Incidentes por Plataforma" : "Tasa por 1.000 habitantes"],
-            ["Input", "Incidentes A/B + Plataformas + población"],
+            ["Input", "Incidentes elegibles + Plataformas + población"],
             ["Registros", `${fmt(diagnosis.summary?.incidentSpatialQuality?.spatialValidAB || 0)} eventos espaciales usados`],
             ["Método", diagnosisMetric === "incidentCount" ? "Spatial join incidente-plataforma" : "(INC_TOTAL / POBLACION) * 1000"],
             ["Resultado", diagnosisMetric === "incidentCount" ? "Número de eventos registrados" : "Tasa por 1.000 habitantes"],
@@ -2108,6 +2117,7 @@
         return Math.hypot(dx, dy);
       };
       const eventPlatformName = (event) => {
+        if (event?.platform) return String(event.platform).startsWith("PLATAFORMA ") ? event.platform : `PLATAFORMA ${event.platform}`;
         if (!platformGeojsonCache || !event?.mappable) return "No asignada";
         const feature = (platformGeojsonCache.features || []).find((item) => pointInsideFeature(item, event.lng, event.lat));
         return feature?.properties?.platform_name || "No asignada";
@@ -2145,10 +2155,19 @@
       const filteredGiCells = () => getGiHotspotAnalysis().cells.filter(giCellPassesFilter);
       let giHotspotCache = null;
       const getGiHotspotAnalysis = () => {
-        if (giHotspotCache && giHotspotCache.platformReady === Boolean(platformGeojsonCache)) return giHotspotCache;
+        const filterKey = JSON.stringify({
+          platformReady: Boolean(platformGeojsonCache),
+          category: elements.category.value,
+          subtype: elements.subtype?.value,
+          parish: elements.parish?.value,
+          platform: elements.kdePlatform?.value,
+          period: elements.kdePeriod?.value,
+          date: elements.incidentDate?.value
+        });
+        if (giHotspotCache?.filterKey === filterKey) return giHotspotCache;
         const cellSize = 250;
         const neighborDistance = 500;
-        const points = events.filter((event) => event.mappable && event.lat != null && event.lng != null && insidePlatformsOnly(event.lng, event.lat));
+        const points = geoIncidentEvents();
         const boundsSource = platformLayer ? platformLayer.getBounds() : L.latLngBounds(points.map((event) => [event.lat, event.lng]));
         const centerLat = boundsSource.getCenter().lat;
         const metersPerLng = 111320 * Math.cos(centerLat * Math.PI / 180);
@@ -2160,21 +2179,38 @@
         const cols = Math.max(1, Math.ceil(((maxLng - minLng) * metersPerLng) / cellSize));
         const rows = Math.max(1, Math.ceil(((maxLat - minLat) * metersPerLat) / cellSize));
         const cells = [];
+        const cellMap = new Map();
         for (let row = 0; row < rows; row += 1) {
           for (let col = 0; col < cols; col += 1) {
             const lng = minLng + ((col + 0.5) * cellSize / metersPerLng);
             const lat = minLat + ((row + 0.5) * cellSize / metersPerLat);
             if (!insidePlatformsOnly(lng, lat)) continue;
-            const incidents = points.filter((event) => Math.abs((event.lng - lng) * metersPerLng) <= cellSize / 2 && Math.abs((event.lat - lat) * metersPerLat) <= cellSize / 2);
             const platform = eventPlatformName({ mappable: true, lng, lat });
-            cells.push({ cellId: `GI-${row}-${col}`, row, col, lng, lat, incCount: incidents.length, incidents, platform });
+            const cell = { cellId: `GI-${row}-${col}`, row, col, lng, lat, incCount: 0, incidents: [], platform };
+            cells.push(cell);
+            cellMap.set(`${row}:${col}`, cell);
           }
         }
+        points.forEach((event) => {
+          const col = Math.floor(((Number(event.lng) - minLng) * metersPerLng) / cellSize);
+          const row = Math.floor(((Number(event.lat) - minLat) * metersPerLat) / cellSize);
+          const cell = cellMap.get(`${row}:${col}`);
+          if (!cell) return;
+          cell.incidents.push(event);
+          cell.incCount += eventWeight(event);
+        });
         const n = cells.length || 1;
         const mean = cells.reduce((sum, cell) => sum + cell.incCount, 0) / n;
         const s = Math.sqrt(Math.max(0, cells.reduce((sum, cell) => sum + cell.incCount * cell.incCount, 0) / n - mean * mean));
         cells.forEach((cell) => {
-          const neighbors = cells.filter((other) => pointDistanceMeters(cell.lng, cell.lat, other.lng, other.lat) <= neighborDistance);
+          const neighbors = [];
+          const cellRadius = Math.ceil(neighborDistance / cellSize);
+          for (let dr = -cellRadius; dr <= cellRadius; dr += 1) {
+            for (let dc = -cellRadius; dc <= cellRadius; dc += 1) {
+              const other = cellMap.get(`${cell.row + dr}:${cell.col + dc}`);
+              if (other && pointDistanceMeters(cell.lng, cell.lat, other.lng, other.lat) <= neighborDistance) neighbors.push(other);
+            }
+          }
           const sumW = neighbors.length;
           const sumWX = neighbors.reduce((sum, other) => sum + other.incCount, 0);
           const denominator = s * Math.sqrt(Math.max(0, (n * sumW - sumW * sumW) / Math.max(1, n - 1)));
@@ -2187,14 +2223,14 @@
         });
         const hotspotCells = cells.filter((cell) => cell.giClass.startsWith("HOTSPOT"));
         const coldspotCells = cells.filter((cell) => cell.giClass.startsWith("COLDSPOT"));
-        giHotspotCache = { platformReady: Boolean(platformGeojsonCache), layerName: "HOTSPOTS_GI", cellSize, neighborDistance, crs: "EPSG:32717 aproximado en cálculo métrico local", points, cells, hotspotCells, coldspotCells };
+        giHotspotCache = { filterKey, platformReady: Boolean(platformGeojsonCache), layerName: "HOTSPOTS_GI", cellSize, neighborDistance, crs: "EPSG:32717 aproximado en cálculo métrico local", points, cells, hotspotCells, coldspotCells };
         return giHotspotCache;
       };
       const categorySummary = (items) => Object.entries(items.reduce((acc, event) => {
         const key = event.category || "Sin categoría";
-        acc[key] = (acc[key] || 0) + 1;
+        acc[key] = (acc[key] || 0) + eventWeight(event);
         return acc;
-      }, {})).sort((a, b) => b[1] - a[1]).map(([label, value]) => ({ label, value, pct: items.length ? Number((value / items.length * 100).toFixed(1)) : 0, color: categoryColors.get(label) || "#7e7f92" }));
+      }, {})).sort((a, b) => b[1] - a[1]).map(([label, value]) => ({ label, value, pct: weightedCount(items) ? Number((value / weightedCount(items) * 100).toFixed(1)) : 0, color: categoryColors.get(label) || "#7e7f92" }));
       const temporalRecords = () => filteredEvents().filter(validDate).map((event) => {
         const date = new Date(`${event.date}T00:00:00`);
         return { ...event, year: date.getFullYear(), month: monthKey(event), weekday: weekdayName(date), hour: null, timeBand: "Hora no disponible" };
@@ -2404,7 +2440,7 @@
           .filter(giCellPassesFilter)
           .map((cell) => {
             const incidents = category === "__ALL__" ? cell.incidents : cell.incidents.filter((event) => event.category === category);
-            return { ...cell, incidents, incCount: incidents.length };
+            return { ...cell, incidents, incCount: weightedCount(incidents) };
           })
           .filter((cell) => cell.incCount > 0);
         return cells.reduce((acc, cell) => {
@@ -2499,7 +2535,7 @@
           .filter(giCellPassesFilter)
           .map((cell) => {
             const incidents = category === "__ALL__" ? cell.incidents : cell.incidents.filter((event) => event.category === category);
-            return { ...cell, incidents, incCount: incidents.length };
+            return { ...cell, incidents, incCount: weightedCount(incidents) };
           })
           .filter((cell) => cell.incCount > 0)
           .filter((cell) => {
@@ -2601,25 +2637,31 @@
       const kdeAllPoints = () => kdeValidation.kdeInputPoints || [];
       const kdeFilterMatches = (item) => {
         const categoryOk = elements.category.value === "__ALL__" || item.category === elements.category.value;
+        const subtypeOk = !elements.subtype || elements.subtype.value === "__ALL__" || (item.subtype || item.event) === elements.subtype.value;
+        const parishOk = !elements.parish || elements.parish.value === "__ALL__" || item.parish === elements.parish.value;
         const platformOk = !elements.kdePlatform || elements.kdePlatform.value === "__ALL__" || item.platform === elements.kdePlatform.value;
         const periodOk = !elements.kdePeriod || elements.kdePeriod.value === "__ALL__" || String(item.date || "").startsWith(elements.kdePeriod.value);
-        return categoryOk && platformOk && periodOk;
+        const dateOk = !elements.incidentDate || !elements.incidentDate.value || item.date === elements.incidentDate.value;
+        return categoryOk && subtypeOk && parishOk && platformOk && periodOk && dateOk;
       };
       const filteredKdePoints = () => kdeAllPoints().filter(kdeFilterMatches);
       const kdeCandidateEvents = () => {
-        const pointIds = new Set(kdeAllPoints().map((point) => point.id));
-        return events.filter((event) => {
-          const platform = String(event.platform || "").replace("PLATAFORMA ", "");
+        return conflictEvents.filter((event) => {
           return (elements.category.value === "__ALL__" || event.category === elements.category.value)
-            && (!elements.kdePlatform || elements.kdePlatform.value === "__ALL__" || platform === elements.kdePlatform.value)
+            && (!elements.subtype || elements.subtype.value === "__ALL__" || (event.subtype || event.event) === elements.subtype.value)
+            && (!elements.parish || elements.parish.value === "__ALL__" || event.parish === elements.parish.value)
+            && (!elements.kdePlatform || elements.kdePlatform.value === "__ALL__" || event.platform === elements.kdePlatform.value)
             && (!elements.kdePeriod || elements.kdePeriod.value === "__ALL__" || String(event.date || "").startsWith(elements.kdePeriod.value))
-            && (pointIds.has(event.id) || event.precision?.startsWith("C") || event.mappable === false || !insidePlatformsOnly(event.lng, event.lat));
+            && (!elements.incidentDate || !elements.incidentDate.value || event.date === elements.incidentDate.value);
         });
       };
       const kdeFilterLabel = () => {
-        const type = elements.category.value === "__ALL__" ? "Todos los tipos" : elements.category.value;
+        const category = elements.category.value === "__ALL__" ? "Todos los tipos" : elements.category.value;
+        const subtype = !elements.subtype || elements.subtype.value === "__ALL__" ? "" : elements.subtype.value;
+        const parish = !elements.parish || elements.parish.value === "__ALL__" ? "" : elements.parish.value;
+        const type = [category, subtype, parish].filter(Boolean).join(" · ");
         const platform = !elements.kdePlatform || elements.kdePlatform.value === "__ALL__" ? "Todo Riobamba" : `Plataforma ${elements.kdePlatform.value}`;
-        const period = !elements.kdePeriod || elements.kdePeriod.value === "__ALL__" ? (kdeValidation.metadata?.PERIODO || "Todo el periodo") : monthLabel(elements.kdePeriod.value);
+        const period = elements.incidentDate?.value ? formatDate(elements.incidentDate.value) : (!elements.kdePeriod || elements.kdePeriod.value === "__ALL__" ? (kdeValidation.metadata?.PERIODO || "Todo el periodo") : monthLabel(elements.kdePeriod.value));
         return { type, platform, period };
       };
       const estimateKdeConcentrations = (points) => {
@@ -2649,13 +2691,16 @@
       const kdeState = () => {
         const points = filteredKdePoints();
         const candidates = kdeCandidateEvents();
-        const counts = countBy(points, "platform");
+        const counts = countBy(points, "platform", true);
         const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0] || ["N/D", 0];
         const raster = kdeValidation.rasters?.["300"] || Object.values(kdeValidation.rasters || {})[0] || {};
         return {
           points,
           candidates,
-          excluded: Math.max(0, candidates.length - points.length),
+          pointRows: points.length,
+          pointEmergencies: weightedCount(points),
+          excludedRows: Math.max(0, candidates.length - points.length),
+          excludedEmergencies: Math.max(0, weightedCount(candidates) - weightedCount(points)),
           counts,
           top,
           concentrations: estimateKdeConcentrations(points),
@@ -2663,16 +2708,18 @@
           cellSize: raster.cellSize || 20
         };
       };
-      const markerClass = (event) => event.precision.startsWith("C") ? "precision-c" : "";
+      const markerClass = (event) => String(event.precision || "").startsWith("C") ? "precision-c" : "";
       const popupContent = (event) => `
-        <div class="popup-title"><strong>${esc(event.category)}</strong></div>
+        <div class="popup-title"><strong>${esc(event.subtype || event.event || event.category)}</strong></div>
+        <div class="popup-row">Categoría: <strong>${esc(event.category)}</strong></div>
         <div class="popup-row">Fecha: <strong>${formatDate(event.date)}</strong></div>
-        <div class="popup-row">Ubicación: <strong>${esc(event.location)}</strong></div>
+        <div class="popup-row">Parroquia: <strong>${esc(event.parish || "N/D")}</strong></div>
+        <div class="popup-row">Emergencias: <strong>${fmt(eventWeight(event))}</strong></div>
         <div class="popup-row">Precisión: <strong>${esc(event.precision)}</strong></div>
         <div class="popup-row">Fuente: <strong>${esc(event.source)}</strong></div>
         <div class="popup-note">${esc(event.observation)}</div>
         <div class="popup-note">${esc(event.geocode)}</div>
-        <div class="popup-note"><a href="${esc(event.sourceUrl)}" target="_blank" rel="noopener">Abrir fuente</a></div>
+        ${event.sourceUrl ? `<div class="popup-note"><a href="${esc(event.sourceUrl)}" target="_blank" rel="noopener">Abrir fuente</a></div>` : ""}
       `;
       const parishPopup = (parish) => {
         const top = (ecu911.topByParish?.[parish.parish] || []).slice(0, 4).map((item) => `<div class="popup-row">${esc(item.subtype)}: <strong>${item.n}</strong></div>`).join("");
@@ -2780,17 +2827,25 @@
         select.innerHTML = `<option value="__ALL__">${esc(label)}</option>${values.map((value) => `<option value="${esc(value)}">${esc(value)}</option>`).join("")}`;
       }
       let categoryFilterContext = "";
-      const defaultCategoryOptions = [...new Set([...events.map((event) => event.category), ...cameras.map((camera) => camera.type)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es"));
+      const defaultCategoryOptions = [...new Set([...conflictEvents.map((event) => event.category), ...cameras.map((camera) => camera.type)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es"));
       const syncKdeFilterOptions = () => {
-        const context = (isKdeMode() || isGapMode()) ? "kde" : "default";
+        const context = (isKdeMode() || isGiHotspotsMode() || isGapMode() || isTypologiesMode() || isTemporalMode() || mode === "events") ? "conflict" : "default";
         if (categoryFilterContext !== context) {
           const previous = elements.category.value;
-          const values = context === "kde"
-            ? [...new Set(kdeAllPoints().map((point) => point.category).filter(Boolean))].sort((a, b) => a.localeCompare(b, "es"))
+          const values = context === "conflict"
+            ? [...new Set(conflictEvents.map((event) => event.category).filter(Boolean))].sort((a, b) => a.localeCompare(b, "es"))
             : defaultCategoryOptions;
-          fillSelect(elements.category, context === "kde" ? "Todos los tipos" : "Todas las categorías/tipos", values);
+          fillSelect(elements.category, context === "conflict" ? "Todos los tipos" : "Todas las categorías/tipos", values);
           elements.category.value = values.includes(previous) ? previous : "__ALL__";
           categoryFilterContext = context;
+        }
+        if (elements.subtype && !elements.subtype.options.length) {
+          const values = [...new Set(conflictEvents.map((event) => event.subtype || event.event).filter(Boolean))].sort((a, b) => a.localeCompare(b, "es"));
+          fillSelect(elements.subtype, "Todos los subtipos", values);
+        }
+        if (elements.parish && !elements.parish.options.length) {
+          const values = [...new Set(conflictEvents.map((event) => event.parish).filter(Boolean))].sort((a, b) => a.localeCompare(b, "es"));
+          fillSelect(elements.parish, "Todas las parroquias", values);
         }
         if (!elements.kdePlatform || !elements.kdePeriod) return;
         if (!elements.kdePlatform.options.length) {
@@ -2809,14 +2864,20 @@
       };
 
       function filteredEvents() {
-        const query = clean(elements.search.value);
-        return events.filter((event) => {
-          const haystack = clean(`${event.date} ${event.category} ${event.event} ${event.precision} ${event.location} ${event.source} ${event.observation}`);
+        const activeFilters = new Set((analysisConfig[analysisKey()] || analysisConfig.incidents).filters);
+        const query = activeFilters.has("search") ? clean(elements.search.value) : "";
+        return conflictEvents.filter((event) => {
+          const haystack = clean(`${event.date} ${event.category} ${event.subtype || event.event} ${event.parish} ${event.precision} ${event.location} ${event.source} ${event.observation}`);
           return (!query || haystack.includes(query))
-            && (!event.mappable || insidePlatformsOnly(event.lng, event.lat))
-            && (elements.category.value === "__ALL__" || event.category === elements.category.value)
-            && (elements.precision.value === "__ALL__" || event.precision === elements.precision.value)
-            && (elements.source.value === "__ALL__" || event.source === elements.source.value);
+            && event.mappable && insidePlatformsOnly(event.lng, event.lat)
+            && (!activeFilters.has("category") || elements.category.value === "__ALL__" || event.category === elements.category.value)
+            && (!activeFilters.has("subtype") || !elements.subtype || elements.subtype.value === "__ALL__" || (event.subtype || event.event) === elements.subtype.value)
+            && (!activeFilters.has("parish") || !elements.parish || elements.parish.value === "__ALL__" || event.parish === elements.parish.value)
+            && (!activeFilters.has("kdePlatform") || !elements.kdePlatform || elements.kdePlatform.value === "__ALL__" || event.platform === elements.kdePlatform.value)
+            && (!activeFilters.has("kdePeriod") || !elements.kdePeriod || elements.kdePeriod.value === "__ALL__" || String(event.date || "").startsWith(elements.kdePeriod.value))
+            && (!activeFilters.has("incidentDate") || !elements.incidentDate || !elements.incidentDate.value || event.date === elements.incidentDate.value)
+            && (!activeFilters.has("precision") || elements.precision.value === "__ALL__" || event.precision === elements.precision.value)
+            && (!activeFilters.has("source") || elements.source.value === "__ALL__" || event.source === elements.source.value);
         });
       }
 
@@ -2865,8 +2926,8 @@
               .sort((a, b) => b[1] - a[1])
               .map(([label, value]) => ({ label, value, color: "#9c1f33" }));
             elements.summary.innerHTML = [
-              ["Registros analizados", state.points.length],
-              ["Registros excluidos", state.excluded],
+              ["Emergencias analizadas", state.pointEmergencies],
+              ["Registros excluidos", state.excludedRows],
               ["Concentraciones", state.concentrations],
               ["Plataforma mayor concentración", state.top[0]],
               ["Bandwidth", `${state.bandwidth} m`]
@@ -2959,7 +3020,7 @@
               ["Eventos registrados", totalIncidents],
               ["Población base", population],
               ["Tasa ciudad / 1.000", population ? ((totalIncidents / population) * 1000).toFixed(2) : "N/D"],
-              ["Eventos A/B usados", diagnosis.summary?.incidentSpatialQuality?.spatialValidAB || 0],
+              ["Emergencias elegibles usadas", diagnosis.summary?.incidentSpatialQuality?.spatialValidAB || 0],
               ["Fórmula", diagnosisMetric === "incidentCount" ? "Spatial join" : "(INC_TOTAL / POB) * 1000"]
             ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
             elements.graphicAnalysis.innerHTML = `${metricBars(diagnosisMetric === "incidentCount" ? "Eventos registrados por plataforma" : "Tasa por 1.000 habitantes", rows, Math.max(...rows.map((item) => Number(item.value || 0)), 1), diagnosisMetric === "incidentCount" ? "#c86670" : "#d9a441")}`;
@@ -3044,7 +3105,7 @@
             ["Plataformas", visible.length],
             ["Población", population],
             ["Incidentes", visible.reduce((sum, platform) => sum + Number(platform.incidents || 0), 0)],
-            ["Precisión A/B", `${fmt(diagnosis.summary?.incidentSpatialQuality?.spatialValidAB || 0)} usados`],
+            ["Emergencias elegibles", `${fmt(diagnosis.summary?.incidentSpatialQuality?.spatialValidAB || 0)} usadas`],
             ["Pob. expuesta 250 m", diagnosis.summary?.populationExposed250 || 0],
             ["Pob. cerca policía", diagnosis.summary?.populationNearPolice500 || 0],
             ["Cámaras para cambio", visible.reduce((sum, platform) => sum + studyCamerasInPlatform(platform.platformName).length, 0)],
@@ -3089,23 +3150,23 @@
           ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
           return;
         }
-        const high = items.filter((event) => event.precision.startsWith("A")).length;
-        const media = items.filter((event) => event.precision.startsWith("B")).length;
-        const mapped = items.filter((event) => event.mappable).length;
+        const high = weightedCount(items.filter((event) => String(event.precision || "").startsWith("A")));
+        const media = weightedCount(items.filter((event) => String(event.precision || "").startsWith("B")));
+        const mapped = weightedCount(items.filter((event) => event.mappable));
         const first = items.map((event) => event.date).sort()[0] || "-";
         const last = items.map((event) => event.date).sort().at(-1) || "-";
         elements.summary.innerHTML = [
-          ["Eventos", items.length],
+          ["Emergencias", weightedCount(items)],
           ["En mapa", mapped],
           ["Precisión alta", high],
           ["Periodo", first === "-" ? "-" : `${formatDate(first)} - ${formatDate(last)}`]
         ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
       }
 
-      function countBy(items, key) {
+      function countBy(items, key, weighted = false) {
         return items.reduce((acc, item) => {
           const value = item[key] || "N/D";
-          acc[value] = (acc[value] || 0) + 1;
+          acc[value] = (acc[value] || 0) + (weighted ? eventWeight(item) : 1);
           return acc;
         }, {});
       }
@@ -3136,7 +3197,7 @@
             const items = filteredEvents().filter((event) => event.mappable);
             const byType = categorySummary(items);
             const byPlatform = filteredPlatforms().map((platform) => {
-              const value = items.filter((event) => eventPlatformName(event) === platform.platformName).length;
+              const value = weightedCount(items.filter((event) => eventPlatformName(event) === platform.platformName));
               return { label: platform.platform, value, color: "#c86670" };
             }).filter((row) => row.value > 0).sort((a, b) => b.value - a.value).slice(0, 8);
             elements.graphicAnalysis.innerHTML = byType.length || byPlatform.length
@@ -3242,8 +3303,8 @@
             .map(([label, value]) => ({ label, value, color: "#9c1f33" }));
           elements.graphicAnalysis.innerHTML = `
             <div class="status-grid">
-              <div class="status-tile"><span>Registros analizados</span><strong>${fmt(state.points.length)}</strong></div>
-              <div class="status-tile"><span>Registros excluidos</span><strong>${fmt(state.excluded)}</strong></div>
+              <div class="status-tile"><span>Emergencias analizadas</span><strong>${fmt(state.pointEmergencies)}</strong></div>
+              <div class="status-tile"><span>Registros excluidos</span><strong>${fmt(state.excludedRows)}</strong></div>
               <div class="status-tile"><span>Concentraciones principales</span><strong>${fmt(state.concentrations)}</strong></div>
               <div class="status-tile"><span>Bandwidth</span><strong>${state.bandwidth} m</strong></div>
             </div>
@@ -3261,7 +3322,7 @@
             const hotArea = analysis.hotspotCells.reduce((sum, cell) => sum + cell.areaKm2, 0);
             const totalArea = analysis.cells.reduce((sum, cell) => sum + cell.areaKm2, 0) || 1;
             elements.summary.innerHTML = [
-              ["Incidentes analizados", analysis.points.length],
+              ["Incidentes analizados", weightedCount(analysis.points)],
               ["Celdas analizadas", analysis.cells.length],
               ["Hotspots", `${analysis.hotspotCells.length} celdas`],
               ["Hotspot 99 %", `${hot99} celdas`],
@@ -3276,7 +3337,7 @@
             const geo = geoIncidentEvents();
             const rows = categorySummary(geo);
             elements.summary.innerHTML = [
-              ["Total de incidentes", geo.length],
+              ["Total de incidentes", weightedCount(geo)],
               ["Tipología más frecuente", rows[0] ? `${rows[0].label} · ${rows[0].pct}%` : "N/D"],
               ["Segunda tipología", rows[1] ? `${rows[1].label} · ${rows[1].pct}%` : "N/D"],
               ["Tercera tipología", rows[2] ? `${rows[2].label} · ${rows[2].pct}%` : "N/D"],
@@ -3287,17 +3348,17 @@
           }
           if (isTemporalMode()) {
             const dated = temporalRecords();
-            const byMonth = Object.entries(dated.reduce((acc, event) => ((acc[event.month] = (acc[event.month] || 0) + 1), acc), {})).sort();
+            const byMonth = Object.entries(dated.reduce((acc, event) => ((acc[event.month] = (acc[event.month] || 0) + eventWeight(event)), acc), {})).sort();
             const counts = byMonth.map(([, value]) => value);
             const max = byMonth.reduce((best, item) => item[1] > (best?.[1] || -1) ? item : best, null);
             const min = byMonth.reduce((best, item) => item[1] < (best?.[1] ?? Infinity) ? item : best, null);
             elements.summary.innerHTML = [
-              ["Total de incidentes", dated.length],
+              ["Total de incidentes", weightedCount(dated)],
               ["Promedio mensual", counts.length ? (counts.reduce((a, b) => a + b, 0) / counts.length).toFixed(1) : "N/D"],
               ["Mes con más incidentes", max ? `${max[0]} / ${max[1]}` : "N/D"],
               ["Mes con menos incidentes", min ? `${min[0]} / ${min[1]}` : "N/D"],
               ["Variación interanual", "N/D"],
-              ["Registros sin fecha", events.length - dated.length]
+              ["Emergencias sin fecha", weightedCount(conflictEvents) - weightedCount(dated)]
             ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
           return;
         }
@@ -3342,7 +3403,7 @@
           const tableRows = platformNames.map((name) => {
             const items = geo.filter((event) => eventPlatformName(event) === name);
             const counts = Object.fromEntries(categorySummary(items).map((row) => [row.label, row.value]));
-            return `<tr><td>${esc(name.replace("PLATAFORMA ", ""))}</td>${categories.map((cat) => `<td>${fmt(counts[cat] || 0)}</td>`).join("")}<td>${fmt(items.length)}</td></tr>`;
+            return `<tr><td>${esc(name.replace("PLATAFORMA ", ""))}</td>${categories.map((cat) => `<td>${fmt(counts[cat] || 0)}</td>`).join("")}<td>${fmt(weightedCount(items))}</td></tr>`;
           }).join("");
           elements.graphicAnalysis.innerHTML = `
             ${metricBars("Distribución de incidentes por tipología", rows, Math.max(...rows.map((row) => row.value), 1), "#1d6fd8")}
@@ -3352,13 +3413,13 @@
         }
         if (isTemporalMode()) {
           const dated = temporalRecords();
-          const monthly = Object.entries(dated.reduce((acc, event) => ((acc[event.month] = (acc[event.month] || 0) + 1), acc), {})).sort().map(([label, value]) => ({ label, value, color: "#1d6fd8" }));
+          const monthly = Object.entries(dated.reduce((acc, event) => ((acc[event.month] = (acc[event.month] || 0) + eventWeight(event)), acc), {})).sort().map(([label, value]) => ({ label, value, color: "#1d6fd8" }));
           const byType = categorySummary(dated);
           const categories = byType.map((row) => row.label);
           const tableRows = monthly.map((month) => {
             const items = dated.filter((event) => event.month === month.label);
             const counts = Object.fromEntries(categorySummary(items).map((row) => [row.label, row.value]));
-            return `<tr><td>${esc(month.label)}</td>${categories.map((cat) => `<td>${fmt(counts[cat] || 0)}</td>`).join("")}<td>${fmt(items.length)}</td></tr>`;
+            return `<tr><td>${esc(month.label)}</td>${categories.map((cat) => `<td>${fmt(counts[cat] || 0)}</td>`).join("")}<td>${fmt(weightedCount(items))}</td></tr>`;
           }).join("");
           elements.graphicAnalysis.innerHTML = `
             ${metricBars("Evolución mensual de incidentes", monthly, Math.max(...monthly.map((row) => row.value), 1), "#1d6fd8")}
@@ -3680,13 +3741,13 @@
           .sort((a, b) => b[1] - a[1])
           .map(([label, value]) => ({ label, value, color: "#9c1f33" }));
         const typeRows = categorySummary(state.points);
-        const tableRows = rows.map((row) => `<tr><td>${esc(row.label)}</td><td>${fmt(row.value)}</td><td>${state.points.length ? (row.value / state.points.length * 100).toFixed(1) : 0}%</td></tr>`).join("");
+        const tableRows = rows.map((row) => `<tr><td>${esc(row.label)}</td><td>${fmt(row.value)}</td><td>${state.pointEmergencies ? (row.value / state.pointEmergencies * 100).toFixed(1) : 0}%</td></tr>`).join("");
         elements.graphicAnalysis.innerHTML = `
           <div class="status-grid">
             <div class="status-tile"><span>Tipo</span><strong>${esc(labels.type)}</strong></div>
             <div class="status-tile"><span>Ámbito</span><strong>${esc(labels.platform)}</strong></div>
             <div class="status-tile"><span>Periodo</span><strong>${esc(labels.period)}</strong></div>
-            <div class="status-tile"><span>Registros KDE</span><strong>${fmt(state.points.length)}</strong></div>
+            <div class="status-tile"><span>Emergencias KDE</span><strong>${fmt(state.pointEmergencies)}</strong></div>
           </div>
           ${rows.length ? metricBars("Incidentes KDE por Plataforma", rows, Math.max(...rows.map((item) => item.value), 1), "#9c1f33") : "<p>No existen datos suficientes para generar este gráfico.</p>"}
           ${typeRows.length ? metricBars("Tipologías usadas en KDE", typeRows, Math.max(...typeRows.map((item) => item.value), 1), "#1d6fd8") : ""}
@@ -3779,7 +3840,7 @@
               <div class="legend-row"><span class="legend-swatch" style="background:${giClassColor("COLDSPOT 99 %")};border-color:#fff"></span>Coldspot 99 %</div>
               <div class="legend-row"><span>Celda</span><strong>${analysis.cellSize} m</strong></div>
               <div class="legend-row"><span>Vecindad</span><strong>${analysis.neighborDistance} m</strong></div>
-              <div class="legend-row"><span>Incidentes analizados</span><strong>${fmt(analysis.points.length)}</strong></div>
+              <div class="legend-row"><span>Incidentes analizados</span><strong>${fmt(weightedCount(analysis.points))}</strong></div>
             `;
             return;
           }
@@ -3846,7 +3907,7 @@
         if (isKdeMode()) {
           const state = kdeState();
           addHeader("Densidad de incidentes");
-          rows.push(`<div class="legend-row"><span>Alta</span><span class="legend-gradient"></span></div><div class="legend-row"><span>Baja</span><strong>${fmt(state.points.length)} registros · ${state.bandwidth} m</strong></div>`);
+          rows.push(`<div class="legend-row"><span>Alta</span><span class="legend-gradient"></span></div><div class="legend-row"><span>Baja</span><strong>${fmt(state.pointEmergencies)} emergencias · ${state.bandwidth} m</strong></div>`);
           addContext();
           elements.legend.innerHTML = rows.join("");
           return;
@@ -3964,11 +4025,14 @@
         elements.detail.innerHTML = [
           ["Fecha", formatDate(event.date)],
           ["Categoría", event.category],
+          ["Subtipo", event.subtype || event.event],
+          ["Parroquia", event.parish || "No disponible"],
+          ["Emergencias", eventWeight(event)],
           ["Ubicación", event.location],
           ["Precisión", `${event.precision} (${precisionRank[event.precision] || "Sin clasificar"})`],
           ["Fuente", event.source]
         ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")
-          + `<p>${esc(event.observation)}</p><p>${esc(event.geocode)}</p><p>${esc(event.rule || "")}</p><p><a href="${esc(event.sourceUrl)}" target="_blank" rel="noopener">Abrir fuente original</a></p>`;
+          + `<p>${esc(event.observation)}</p><p>${esc(event.geocode)}</p><p>${esc(event.rule || "")}</p>${event.sourceUrl ? `<p><a href="${esc(event.sourceUrl)}" target="_blank" rel="noopener">Abrir fuente original</a></p>` : ""}`;
         elements.overlayTitle.textContent = `${event.category} - ${formatDate(event.date)}`;
         elements.overlayText.textContent = `${event.location}. ${event.geocode}`;
       }
@@ -4049,13 +4113,15 @@
           });
           return;
         }
-        elements.list.innerHTML = items.map((event) => `
+        const visibleItems = items.slice(0, 250);
+        const listNotice = items.length > visibleItems.length ? `<p>Mostrando ${fmt(visibleItems.length)} de ${fmt(items.length)} registros (${fmt(weightedCount(items))} emergencias). Usa los filtros para acotar la consulta.</p>` : "";
+        elements.list.innerHTML = listNotice + visibleItems.map((event) => `
           <button class="event-item ${event.id === selectedId ? "is-active" : ""}" type="button" data-id="${event.id}">
-            <h3>${esc(event.category)}</h3>
-            <small>${formatDate(event.date)} · ${esc(event.location)}</small>
+            <h3>${esc(event.subtype || event.event || event.category)}</h3>
+            <small>${formatDate(event.date)} · ${esc(event.parish || "N/D")}</small>
             <div class="pill-row">
-              <span class="pill">${esc(event.precision)}</span>
-              <span class="pill">${event.mappable ? "Con referencia en mapa" : "Sin punto"}</span>
+              <span class="pill">${esc(event.category)}</span>
+              <span class="pill">${fmt(eventWeight(event))} emergencia(s)</span>
             </div>
           </button>
         `).join("") || "<p>No hay eventos con los filtros actuales.</p>";
@@ -4068,22 +4134,29 @@
         eventLayer.clearLayers();
         markers.clear();
         if (isKdeMode() || isGiHotspotsMode()) return;
+        const grouped = new Map();
         items.forEach((event) => {
           if (!event.mappable || event.lat == null || event.lng == null) return;
           if (mode === "diagnosis" && diagnosisMetric === "hotspots" && !pointInsidePlatforms(event.lng, event.lat)) return;
+          const key = `${Number(event.lat).toFixed(6)}:${Number(event.lng).toFixed(6)}`;
+          if (!grouped.has(key)) grouped.set(key, []);
+          grouped.get(key).push(event);
+        });
+        grouped.forEach((group) => {
+          const event = group[0];
           const color = categoryColors.get(event.category) || "#7e7f92";
-          const marker = L.marker([event.lat, event.lng], {
-            icon: L.divIcon({
-              className: "",
-              html: `<span class="event-marker ${markerClass(event)}" style="background:${color}">${event.id.split("-").at(-1)}</span>`,
-              iconSize: [30, 30],
-              iconAnchor: [15, 15],
-              popupAnchor: [0, -14]
-            })
-          }).bindPopup(popupContent(event));
+          const total = weightedCount(group);
+          const marker = L.circleMarker([event.lat, event.lng], {
+            renderer: map.options.renderer,
+            radius: Math.min(8, 3.5 + Math.log2(Math.max(1, total))),
+            color: "#ffffff",
+            weight: 1,
+            fillColor: color,
+            fillOpacity: 0.88
+          }).bindPopup(`${popupContent(event)}${group.length > 1 ? `<div class="popup-note">${fmt(group.length)} registros y ${fmt(total)} emergencias coinciden en esta coordenada.</div>` : ""}`);
           marker.on("click", () => selectEvent(event.id, false));
           marker.addTo(eventLayer);
-          markers.set(event.id, marker);
+          group.forEach((item) => markers.set(item.id, marker));
         });
       }
 
@@ -4107,6 +4180,17 @@
         if (!points.length) return;
         const bounds = kdeBounds();
         const [[south, west], [north, east]] = bounds;
+        const hasActiveFilter = elements.category.value !== "__ALL__"
+          || elements.subtype?.value !== "__ALL__"
+          || elements.parish?.value !== "__ALL__"
+          || elements.kdePlatform?.value !== "__ALL__"
+          || elements.kdePeriod?.value !== "__ALL__"
+          || Boolean(elements.incidentDate?.value);
+        const raster = kdeValidation.rasters?.["300"];
+        if (!hasActiveFilter && raster?.url) {
+          L.imageOverlay(raster.url, bounds, { opacity: 0.68, interactive: false }).addTo(hotspotLayer);
+          return;
+        }
         const width = 220;
         const height = 220;
         const canvas = document.createElement("canvas");
@@ -4120,22 +4204,26 @@
         const bandwidth = 300;
         let maxDensity = 0;
         const density = new Float32Array(width * height);
-        for (let y = 0; y < height; y += 1) {
-          const lat = north - (y / (height - 1)) * (north - south);
-          for (let x = 0; x < width; x += 1) {
-            const lng = west + (x / (width - 1)) * (east - west);
-            let value = 0;
-            points.forEach((point) => {
-              const dx = (lng - point.lng) * metersLng;
-              const dy = (lat - point.lat) * metersLat;
+        const xMetersPerPixel = ((east - west) * metersLng) / Math.max(1, width - 1);
+        const yMetersPerPixel = ((north - south) * metersLat) / Math.max(1, height - 1);
+        const radiusX = Math.ceil(bandwidth / xMetersPerPixel);
+        const radiusY = Math.ceil(bandwidth / yMetersPerPixel);
+        points.forEach((point) => {
+          const centerX = Math.round(((Number(point.lng) - west) / (east - west)) * (width - 1));
+          const centerY = Math.round(((north - Number(point.lat)) / (north - south)) * (height - 1));
+          const weight = eventWeight(point);
+          for (let y = Math.max(0, centerY - radiusY); y <= Math.min(height - 1, centerY + radiusY); y += 1) {
+            const dy = (y - centerY) * yMetersPerPixel;
+            for (let x = Math.max(0, centerX - radiusX); x <= Math.min(width - 1, centerX + radiusX); x += 1) {
+              const dx = (x - centerX) * xMetersPerPixel;
               const d2 = dx * dx + dy * dy;
-              if (d2 <= bandwidth * bandwidth * 9) value += Math.exp(-0.5 * d2 / (bandwidth * bandwidth));
-            });
-            const index = y * width + x;
-            density[index] = value;
-            if (value > maxDensity) maxDensity = value;
+              if (d2 > bandwidth * bandwidth) continue;
+              const index = y * width + x;
+              density[index] += Math.exp(-0.5 * d2 / (bandwidth * bandwidth)) * weight;
+              if (density[index] > maxDensity) maxDensity = density[index];
+            }
           }
-        }
+        });
         for (let i = 0; i < density.length; i += 1) {
           const [r, g, b, a] = kdeColor(maxDensity ? density[i] / maxDensity : 0);
           const p = i * 4;
@@ -4200,14 +4288,22 @@
         if (!isKdeMode()) return;
         const points = filteredKdePoints();
         renderFilteredKdeSurface(points);
+        const grouped = new Map();
         points.forEach((event) => {
+          const key = `${Number(event.lat).toFixed(6)}:${Number(event.lng).toFixed(6)}`;
+          const current = grouped.get(key) || { ...event, weight: 0, rows: 0 };
+          current.weight += eventWeight(event);
+          current.rows += 1;
+          grouped.set(key, current);
+        });
+        grouped.forEach((event) => {
           L.circleMarker([event.lat, event.lng], {
             radius: 3.8,
             color: "#ffffff",
             weight: 0.8,
             fillColor: "#111827",
             fillOpacity: 0.95,
-          }).bindPopup(`<strong>${esc(event.id)}</strong><br>${esc(event.event)}<br>${esc(event.location)}<br>Plataforma ${esc(event.platform || "N/D")}`).addTo(hotspotLayer);
+          }).bindPopup(`<strong>${esc(event.subtype || event.event)}</strong><br>${fmt(event.weight)} emergencia(s) en ${fmt(event.rows)} registro(s)<br>${esc(event.parish || "N/D")}<br>Plataforma ${esc(event.platform || "N/D")}`).addTo(hotspotLayer);
         });
         bringLayerForward(hotspotLayer);
         bringLayerForward(platformLayer);
@@ -4537,7 +4633,7 @@
         if (isKdeMode()) renderKdeGraphicPanel();
         if (mode === "events") {
           renderDetail(events.find((event) => event.id === selectedId));
-          elements.status.textContent = `${items.length} de ${events.length} eventos publicados visibles; ${items.filter((event) => event.mappable).length} con referencia en mapa.`;
+          elements.status.textContent = `${fmt(weightedCount(items))} de ${fmt(weightedCount(conflictEvents))} emergencias de conflictividad visibles; ${fmt(items.length)} registros georreferenciados.`;
         } else if (mode === "diagnosis") {
           if (isCameraCoverageMode()) {
             renderCameraCoverageDetail();
@@ -4556,7 +4652,7 @@
             const state = kdeState();
             const labels = kdeFilterLabel();
             elements.overlayTitle.textContent = "Concentración de incidentes";
-            elements.overlayText.textContent = `${labels.type} · ${fmt(state.points.length)} incidentes analizados · ${labels.platform} · ${labels.period} · bandwidth ${state.bandwidth} m · superficie DENSIDAD_INCIDENTES_KDE.`;
+            elements.overlayText.textContent = `${labels.type} · ${fmt(state.pointEmergencies)} emergencias analizadas · ${labels.platform} · ${labels.period} · bandwidth ${state.bandwidth} m · superficie DENSIDAD_INCIDENTES_KDE.`;
           } else if (diagnosisMetric === "population") {
             elements.overlayTitle.textContent = "Población";
             elements.overlayText.textContent = "Distribución de la población en las Plataformas Territoriales y manzanas censales.";
@@ -4624,11 +4720,11 @@
             elements.status.textContent = `${layerConfig[analysisKey()]?.result}: ${currentGapRows().length} plataformas evaluadas, ${currentGapZones().length} zona(s)/celda(s) asociadas. Cámaras para cambio usadas: ${changeCameras.length}.`;
           } else if (isGiHotspotsMode()) {
             const analysis = getGiHotspotAnalysis();
-            elements.status.textContent = `HOTSPOTS_GI: ${analysis.points.length} incidentes, celda ${analysis.cellSize} m, vecindad ${analysis.neighborDistance} m.`;
+            elements.status.textContent = `HOTSPOTS_GI: ${fmt(weightedCount(analysis.points))} incidentes, celda ${analysis.cellSize} m, vecindad ${analysis.neighborDistance} m.`;
           } else if (isTypologiesMode()) {
             elements.status.textContent = `Tipologías: ${categorySummary(geoIncidentEvents()).length} categorías reales desde el campo category.`;
           } else if (isTemporalMode()) {
-            elements.status.textContent = `Temporal: ${temporalRecords().length} registros con fecha válida; hora no disponible en la base.`;
+            elements.status.textContent = `Temporal: ${fmt(weightedCount(temporalRecords()))} emergencias con fecha válida; hora no disponible en la base.`;
           } else {
             elements.status.textContent = `Fases integradas: ${diagnosis.summary?.platforms || 18} plataformas territoriales, ${fmt(diagnosis.summary?.populationWithPlatform)} habitantes asignados, ${fmt(diagnosis.summary?.hotspots || 0)} hotspots preliminares y ${fmt(diagnosis.summary?.videoDeficitHighOrCritical || 0)} plataformas con déficit alto/crítico.`;
           }
@@ -4916,7 +5012,7 @@
             const types = cells.flatMap((cell) => cell.incidents);
             elements.detailTitle.textContent = selectedPlatform;
             elements.detail.innerHTML = [
-              ["Incidentes georreferenciados", geoIncidentEvents().filter((event) => eventPlatformName(event) === selectedPlatform).length],
+              ["Incidentes georreferenciados", weightedCount(geoIncidentEvents().filter((event) => eventPlatformName(event) === selectedPlatform))],
               ["Celdas hotspot", cells.length],
               ["Hotspot 99 %", cells.filter((cell) => cell.giClass === "HOTSPOT 99 %").length],
               ["Hotspot 95 %", cells.filter((cell) => cell.giClass === "HOTSPOT 95 %").length],
@@ -4939,25 +5035,25 @@
           const rows = categorySummary(items);
           elements.detailTitle.textContent = platform ? "Detalle de Plataforma" : "Tipologías de incidentes";
           elements.detail.innerHTML = [
-            ["Incidentes", items.length],
+            ["Incidentes", weightedCount(items)],
             ["Tipología principal", rows[0] ? `${rows[0].label} (${rows[0].pct}%)` : "N/D"],
             ["Segunda", rows[1] ? `${rows[1].label} (${rows[1].pct}%)` : "N/D"],
             ["Tercera", rows[2] ? `${rows[2].label} (${rows[2].pct}%)` : "N/D"],
             ["Población", platform ? fmt(platform.population) : "Todas"],
-            ["Tasa total / 1.000 hab.", platform?.population ? ((items.length / platform.population) * 1000).toFixed(2) : "N/D"],
+            ["Tasa total / 1.000 hab.", platform?.population ? ((weightedCount(items) / platform.population) * 1000).toFixed(2) : "N/D"],
             ["Área", platform ? `${platform.areaKm2} km²` : "Todas"]
           ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
           return;
         }
         if (isTemporalMode()) {
           const dated = temporalRecords();
-          const months = Object.entries(dated.reduce((acc, event) => ((acc[event.month] = (acc[event.month] || 0) + 1), acc), {})).sort();
-          const avg = months.length ? dated.length / months.length : 0;
+          const months = Object.entries(dated.reduce((acc, event) => ((acc[event.month] = (acc[event.month] || 0) + eventWeight(event)), acc), {})).sort();
+          const avg = months.length ? weightedCount(dated) / months.length : 0;
           const topMonth = months.reduce((best, item) => item[1] > (best?.[1] || -1) ? item : best, null);
-          const topDay = Object.entries(dated.reduce((acc, event) => ((acc[event.weekday] = (acc[event.weekday] || 0) + 1), acc), {})).sort((a, b) => b[1] - a[1])[0];
+          const topDay = Object.entries(dated.reduce((acc, event) => ((acc[event.weekday] = (acc[event.weekday] || 0) + eventWeight(event)), acc), {})).sort((a, b) => b[1] - a[1])[0];
           elements.detailTitle.textContent = "Detalle temporal";
           elements.detail.innerHTML = [
-            ["Incidentes", dated.length],
+            ["Incidentes", weightedCount(dated)],
             ["Variación respecto al promedio", topMonth && avg ? `${((topMonth[1] - avg) / avg * 100).toFixed(1)}%` : "N/D"],
             ["Tipologías principales", categorySummary(dated).slice(0, 3).map((row) => row.label).join(", ") || "N/D"],
             ["Día más frecuente", topDay ? `${topDay[0]} (${topDay[1]})` : "N/D"],
@@ -5061,12 +5157,13 @@
           const currentCoverageTotals = cameraCoverageTotalsAtScenario(cameraCoverageScenario);
           const notes = (diagnosis.methodNotes || []).map((note) => `<p>${esc(note)}</p>`).join("");
           const methodRows = (diagnosis.methodControl || []).map((item) => `<div class="mini-row"><span>${esc(item.result)}</span><strong>${esc(item.method)}</strong></div><p>${esc(item.parameters)}. ${esc(item.limitations)}</p>`).join("");
-          const totalIncidents = kdeValidation.controlTable?.TOTAL_REGISTROS || events.length;
+          const totalIncidents = diagnosis.summary?.mappedIncidentsAssigned || kdeValidation.controlTable?.EMERGENCIAS_KDE || weightedCount(geoIncidentEvents());
           const technicalTrace = [
             ["Tabla", diagnosis.masterTableName || "ANALISIS_PLATAFORMAS"],
-            ["Eventos publicados", diagnosis.summary?.incidentSpatialQuality?.total || totalIncidents],
-            ["Eventos georreferenciados válidos", diagnosis.summary?.incidentSpatialQuality?.spatialValidAB || kdeValidation.controlTable?.REGISTROS_KDE || "N/D"],
-            ["Eventos no espaciales", diagnosis.summary?.incidentSpatialQuality?.byPrecisionGeo?.C ?? kdeValidation.controlTable?.REGISTROS_EXCLUIDOS ?? "N/D"],
+            ["Registros fuente", diagnosis.summary?.incidentSpatialQuality?.total || kdeValidation.controlTable?.TOTAL_REGISTROS || "N/D"],
+            ["Emergencias fuente", diagnosis.summary?.incidentSpatialQuality?.totalEmergencies || kdeValidation.controlTable?.TOTAL_EMERGENCIAS || "N/D"],
+            ["Emergencias de conflictividad en Plataformas", totalIncidents],
+            ["Registros excluidos del KDE", kdeValidation.controlTable?.REGISTROS_EXCLUIDOS ?? "N/D"],
             ["Etapa", diagnosis.phase || "Etapa 8"],
             ["Campos tabla maestra", (diagnosis.masterSchema || []).length || "N/D"],
             ["Población cubierta cámaras para cambio", currentCoverageTotals.covered || 0],
@@ -5200,7 +5297,7 @@
           ["Fuente población", "CPV 2022 / manzanas censales"],
           ["Fuente incidentes", "Registros georreferenciados disponibles"],
           ["Periodo", kdeValidation.metadata?.PERIODO || "enero 2026 - agosto 2026"],
-          ["Precisión espacial", platform.precisionGeoUsed || "A/B"],
+          ["Precisión espacial", platform.precisionGeoUsed || "Coordenadas originales"],
           ["Bandwidth KDE", `${kdeValidation.rasters?.["300"]?.bandwidth || 300} m`],
           ["Cell size", `${kdeValidation.rasters?.["300"]?.cellSize || 20} m`],
           ["CRS de análisis", "WGS 84 / UTM zona 17S · EPSG:32717"],
@@ -5473,8 +5570,10 @@
       }
 
       fillSelect(elements.category, "Todas las categorías/tipos", defaultCategoryOptions);
-      fillSelect(elements.precision, "Toda precisión/confianza", [...new Set([...events.map((event) => event.precision), ...cameras.map((camera) => camera.confidence)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
-      fillSelect(elements.source, "Todas las fuentes", [...new Set([...events.map((event) => event.source), ...cameras.map((camera) => camera.institution)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
+      fillSelect(elements.subtype, "Todos los subtipos", [...new Set(conflictEvents.map((event) => event.subtype || event.event).filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
+      fillSelect(elements.parish, "Todas las parroquias", [...new Set(conflictEvents.map((event) => event.parish).filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
+      fillSelect(elements.precision, "Toda precisión/confianza", [...new Set([...conflictEvents.map((event) => event.precision), ...cameras.map((camera) => camera.confidence)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
+      fillSelect(elements.source, "Todas las fuentes", [...new Set([...conflictEvents.map((event) => event.source), ...cameras.map((camera) => camera.institution)].filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
       setKdeDefaultContextLayers();
       syncCoverageControls();
       renderLegend();
@@ -5485,7 +5584,7 @@
       loadCensusLayers();
       loadBoulevardNetwork();
 
-      [elements.search, elements.category, elements.precision, elements.source, elements.kdePlatform, elements.kdePeriod].forEach((control) => control.addEventListener("input", update));
+      [elements.search, elements.category, elements.subtype, elements.parish, elements.precision, elements.source, elements.kdePlatform, elements.kdePeriod, elements.incidentDate].forEach((control) => control.addEventListener("input", update));
       elements.diagnosisMetric.addEventListener("change", () => activateDiagnosisMetric(elements.diagnosisMetric.value));
       elements.populationMode.addEventListener("click", () => activateDiagnosisMetric("population"));
       elements.populationDensityMode.addEventListener("click", () => activateDiagnosisMetric("populationDensity"));

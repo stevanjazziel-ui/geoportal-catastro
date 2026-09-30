@@ -1,0 +1,846 @@
+{
+  "proyecto": "Visor de Seguridad Ciudadana de Riobamba",
+  "periodo": "2026",
+  "criterio": "Separar incidentes de conflictividad de servicios/acciones policiales antes de KDE y Gi*.",
+  "campo_clasificacion": "Subtipo",
+  "uso_codex": {
+    "SI": "Usar en KDE/hotspot principal de conflictividad.",
+    "NO": "Conservar para visualización/actividad institucional, pero excluir del hotspot principal."
+  },
+  "clasificacion_subtipos": [
+    {
+      "subtipo": "Patrullaje policial en el sector solicitado",
+      "registros": 11692,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Libadores",
+      "registros": 4605,
+      "categoria": "Convivencia / orden público",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Resguardo a personas que traslada valores a nivel local",
+      "registros": 1398,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Escándalo en espacio privado",
+      "registros": 1092,
+      "categoria": "Convivencia / orden público",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Violencia contra la mujer o miembros del núcleo familiar psicológica",
+      "registros": 840,
+      "categoria": "Violencia interpersonal / familiar",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Escándalo en espacio público",
+      "registros": 837,
+      "categoria": "Convivencia / orden público",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Robo personas",
+      "registros": 810,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Hurto",
+      "registros": 702,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Registro de personas y/o vehículos con actitud sospechosa",
+      "registros": 421,
+      "categoria": "Alertas / actividad sospechosa",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Desaparecido",
+      "registros": 396,
+      "categoria": "Personas desaparecidas / vulnerables",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Ficha de datos",
+      "registros": 319,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Boleta de citación",
+      "registros": 316,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Violencia contra la mujer o miembros del núcleo familiar física",
+      "registros": 273,
+      "categoria": "Violencia interpersonal / familiar",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Agresión física",
+      "registros": 241,
+      "categoria": "Violencia interpersonal / familiar",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Robo a domicilio",
+      "registros": 225,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Fiestas en vivienda",
+      "registros": 223,
+      "categoria": "Convivencia / orden público",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Escándalo por inquilinato",
+      "registros": 179,
+      "categoria": "Convivencia / orden público",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Extraviado",
+      "registros": 133,
+      "categoria": "Personas desaparecidas / vulnerables",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Estafa",
+      "registros": 129,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Daño a propiedad privada",
+      "registros": 105,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Ficha de datos información",
+      "registros": 97,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Abuso de confianza",
+      "registros": 93,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Robo accesorios de vehículos o autopartes de vehículo",
+      "registros": 74,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Boleta de apremio",
+      "registros": 71,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Extorsión",
+      "registros": 66,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Robo a carros",
+      "registros": 65,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Ficha de datos operativo",
+      "registros": 63,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Presencia policial",
+      "registros": 57,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Robo",
+      "registros": 56,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Sonidos de alarma",
+      "registros": 54,
+      "categoria": "Alertas / actividad sospechosa",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Agresión verbal",
+      "registros": 53,
+      "categoria": "Violencia interpersonal / familiar",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Consumo de sustancias sujetas a fiscalización",
+      "registros": 51,
+      "categoria": "Drogas, armas y amenazas",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Orden de incautación/embargo",
+      "registros": 51,
+      "categoria": "Otros incidentes de seguridad",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Violencia intrafamiliar",
+      "registros": 51,
+      "categoria": "Violencia interpersonal / familiar",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Muerte indeterminada",
+      "registros": 43,
+      "categoria": "Muertes / eventos críticos",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Resguardo a personas que traslada valores a nivel provincial",
+      "registros": 43,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Robo a unidades económicas",
+      "registros": 40,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Agresiones a personas",
+      "registros": 38,
+      "categoria": "Violencia interpersonal / familiar",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Desaparición de persona",
+      "registros": 37,
+      "categoria": "Personas desaparecidas / vulnerables",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Tentativa de robo",
+      "registros": 37,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Robo de motos",
+      "registros": 36,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Muerte natural",
+      "registros": 34,
+      "categoria": "Muertes / eventos no delictivos",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Otra institución",
+      "registros": 29,
+      "categoria": "Asistencia / gestión institucional",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Boleta de auxilio",
+      "registros": 26,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Abuso sexual",
+      "registros": 24,
+      "categoria": "Violencia sexual",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Escándalo",
+      "registros": 24,
+      "categoria": "Convivencia / orden público",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Abigeato",
+      "registros": 21,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Bomberos",
+      "registros": 21,
+      "categoria": "Asistencia / gestión institucional",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Custodia policial en lugares de riesgo temporal",
+      "registros": 21,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Encargos domiciliarios",
+      "registros": 18,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Resguardo de valores de blindado",
+      "registros": 17,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Persona herida con arma blanca",
+      "registros": 16,
+      "categoria": "Violencia interpersonal / familiar",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Apoyo a instituciones articuladas",
+      "registros": 13,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Traslado de detenidos",
+      "registros": 13,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Boleta de captura",
+      "registros": 11,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Abandono de niños, niñas o adolescentes",
+      "registros": 10,
+      "categoria": "Personas desaparecidas / vulnerables",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Falsificación de moneda o documentos",
+      "registros": 10,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Organismos de tránsito",
+      "registros": 10,
+      "categoria": "Asistencia / gestión institucional",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Traslado de valores",
+      "registros": 10,
+      "categoria": "Otros incidentes de seguridad",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Comercialización de sustancias sujetas a fiscalización",
+      "registros": 9,
+      "categoria": "Drogas, armas y amenazas",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Fraude a persona",
+      "registros": 9,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Organismos de salud",
+      "registros": 9,
+      "categoria": "Asistencia / gestión institucional",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Recuperación de animales silvestres",
+      "registros": 9,
+      "categoria": "Ambiente / fauna",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Tenencia y porte de arma blanca o cortopunzante",
+      "registros": 9,
+      "categoria": "Drogas, armas y amenazas",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Boleta / orden de autoridad",
+      "registros": 8,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Muerte por accidente de tránsito",
+      "registros": 8,
+      "categoria": "Muertes / eventos no delictivos",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Persona herida con arma de fuego",
+      "registros": 8,
+      "categoria": "Violencia interpersonal / familiar",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Capturado por civiles",
+      "registros": 7,
+      "categoria": "Alertas / actividad sospechosa",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Delitos sexuales",
+      "registros": 7,
+      "categoria": "Violencia sexual",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Persona con dispositivo electrónico no contactada",
+      "registros": 7,
+      "categoria": "Otros incidentes de seguridad",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Activación botón de seguridad",
+      "registros": 6,
+      "categoria": "Otros incidentes de seguridad",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Boleta de comparecencia inmediata",
+      "registros": 6,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Tenencia ilícita de sustancias sujetas a fiscalización",
+      "registros": 6,
+      "categoria": "Drogas, armas y amenazas",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Violación",
+      "registros": 6,
+      "categoria": "Violencia sexual",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Violencia a niños, niñas y adolescentes",
+      "registros": 6,
+      "categoria": "Violencia interpersonal / familiar",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Abandono de persona",
+      "registros": 5,
+      "categoria": "Personas desaparecidas / vulnerables",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Actos inmorales en la vía pública",
+      "registros": 5,
+      "categoria": "Convivencia / orden público",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Daño a propiedad pública",
+      "registros": 5,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Daño a propiedad pública o privada",
+      "registros": 5,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Secuestro",
+      "registros": 5,
+      "categoria": "Personas desaparecidas / vulnerables",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Seguridad de autoridades",
+      "registros": 5,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Seguridad de cárceles",
+      "registros": 5,
+      "categoria": "Otros incidentes de seguridad",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Acoso sexual",
+      "registros": 4,
+      "categoria": "Violencia sexual",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Agentes municipales",
+      "registros": 4,
+      "categoria": "Asistencia / gestión institucional",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Falsificación y uso de documento falso",
+      "registros": 4,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Falta contra la integridad a servidores policiales",
+      "registros": 4,
+      "categoria": "Violencia interpersonal / familiar",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Persona herida con objeto contundente",
+      "registros": 4,
+      "categoria": "Violencia interpersonal / familiar",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Plantones",
+      "registros": 4,
+      "categoria": "Convivencia / orden público",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Rescate y retención de especies silvestres",
+      "registros": 4,
+      "categoria": "Ambiente / fauna",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Robo a unidades educativas",
+      "registros": 4,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Ruidos molestosos",
+      "registros": 4,
+      "categoria": "Convivencia / orden público",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Tenencia y porte de armas de fuego",
+      "registros": 4,
+      "categoria": "Drogas, armas y amenazas",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Vehículos de perifoneo",
+      "registros": 4,
+      "categoria": "Otros incidentes de seguridad",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Control de manifestaciones",
+      "registros": 3,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Control de marchas",
+      "registros": 3,
+      "categoria": "Servicios / acciones policiales",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Descarga del dispositivo electrónico",
+      "registros": 3,
+      "categoria": "Otros incidentes de seguridad",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Falta contra la integridad a servidores públicos",
+      "registros": 3,
+      "categoria": "Violencia interpersonal / familiar",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Osamentas",
+      "registros": 3,
+      "categoria": "Muertes / eventos críticos",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Persona armada",
+      "registros": 3,
+      "categoria": "Drogas, armas y amenazas",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Persona herida",
+      "registros": 3,
+      "categoria": "Violencia interpersonal / familiar",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Resguardo de víctimas y testigos",
+      "registros": 3,
+      "categoria": "Otros incidentes de seguridad",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Resguardo policial",
+      "registros": 3,
+      "categoria": "Otros incidentes de seguridad",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Suicidio",
+      "registros": 3,
+      "categoria": "Muertes / eventos críticos",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Aborto",
+      "registros": 2,
+      "categoria": "Otros incidentes de seguridad",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Constatar persona sin vida",
+      "registros": 2,
+      "categoria": "Muertes / eventos críticos",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Control de espectáculos religiosos",
+      "registros": 2,
+      "categoria": "Otros incidentes de seguridad",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Desalojos",
+      "registros": 2,
+      "categoria": "Otros incidentes de seguridad",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Disparos",
+      "registros": 2,
+      "categoria": "Drogas, armas y amenazas",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Eventos clandestinos",
+      "registros": 2,
+      "categoria": "Convivencia / orden público",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Fiestas clandestinas con consumo de alcohol, drogas con presencia de menores de edad",
+      "registros": 2,
+      "categoria": "Convivencia / orden público",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Tenencia y porte de explosivos",
+      "registros": 2,
+      "categoria": "Drogas, armas y amenazas",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Tentativa de secuestro",
+      "registros": 2,
+      "categoria": "Personas desaparecidas / vulnerables",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Tráfico de fauna",
+      "registros": 2,
+      "categoria": "Ambiente / fauna",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Venta u ofrecimiento de bebidas alcohólicas o cigarrillos menores de edad",
+      "registros": 2,
+      "categoria": "Convivencia / orden público",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Abandono de adultos",
+      "registros": 1,
+      "categoria": "Personas desaparecidas / vulnerables",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Abandono de adultos mayores",
+      "registros": 1,
+      "categoria": "Personas desaparecidas / vulnerables",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Agresión a la autoridad",
+      "registros": 1,
+      "categoria": "Otros incidentes de seguridad",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Apoyo al control de dispositivos electrónicos de carácter judicial",
+      "registros": 1,
+      "categoria": "Otros incidentes de seguridad",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Asesinato",
+      "registros": 1,
+      "categoria": "Muertes / eventos críticos",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "C.Plata Paciente Autoreferido",
+      "registros": 1,
+      "categoria": "Otros incidentes de seguridad",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "C.Plata Toma Instalaciones",
+      "registros": 1,
+      "categoria": "Otros incidentes de seguridad",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Contrabando",
+      "registros": 1,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Desaparición forzada",
+      "registros": 1,
+      "categoria": "Personas desaparecidas / vulnerables",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Maltrato o muerte de mascotas o animales de compañía",
+      "registros": 1,
+      "categoria": "Ambiente / fauna",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Moneda falsa",
+      "registros": 1,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Muerte accidental",
+      "registros": 1,
+      "categoria": "Muertes / eventos no delictivos",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Persona con dispositivo electrónico que abandona el rango territorial dispuesto",
+      "registros": 1,
+      "categoria": "Otros incidentes de seguridad",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Privación arbitraria de la libertad por civiles (Secuestro)",
+      "registros": 1,
+      "categoria": "Personas desaparecidas / vulnerables",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Receptación / cachinería",
+      "registros": 1,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Riña interior de CRS",
+      "registros": 1,
+      "categoria": "Violencia interpersonal / familiar",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Robo a entidades financieras",
+      "registros": 1,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Robo a instituciones públicas",
+      "registros": 1,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Robo de bienes patrimoniales",
+      "registros": 1,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Secuestro extorsivo",
+      "registros": 1,
+      "categoria": "Personas desaparecidas / vulnerables",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Seguridad en espectáculos públicos",
+      "registros": 1,
+      "categoria": "Otros incidentes de seguridad",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Suplantación de identidad",
+      "registros": 1,
+      "categoria": "Robo, hurto y delitos patrimoniales",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Trata de personas",
+      "registros": 1,
+      "categoria": "Personas desaparecidas / vulnerables",
+      "incluir_hotspot": "SI"
+    },
+    {
+      "subtipo": "Tráfico de flora",
+      "registros": 1,
+      "categoria": "Ambiente / fauna",
+      "incluir_hotspot": "NO"
+    },
+    {
+      "subtipo": "Violencia contra la mujer o miembros del núcleo familiar sexual",
+      "registros": 1,
+      "categoria": "Violencia interpersonal / familiar",
+      "incluir_hotspot": "SI"
+    }
+  ]
+}
