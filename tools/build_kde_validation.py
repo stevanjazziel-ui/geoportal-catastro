@@ -14,7 +14,8 @@ from shapely.ops import transform, unary_union
 
 ROOT = Path(__file__).resolve().parents[1]
 CELL_SIZE = 20
-BANDWIDTHS = [200, 300, 500]
+DEFAULT_BANDWIDTH = 700
+BANDWIDTHS = [200, 300, 500, DEFAULT_BANDWIDTH]
 CRS_METRIC = "EPSG:32717"
 CRS_SOURCE = "EPSG:4326"
 PERIOD = "1 enero 2026 - 31 agosto 2026"
@@ -69,6 +70,10 @@ def precision_group(value):
 
 
 def event_weight(event):
+    return 1
+
+
+def emergency_weight(event):
     try:
         return max(1, int(event.get("weight") or 1))
     except (TypeError, ValueError):
@@ -92,7 +97,7 @@ def platform_for_point(point_metric, platform_metric):
     return None
 
 
-def exclusion_reason(event, group, lon, lat, point_metric, study_union):
+def exclusion_reason(event, group, lon, lat, point_metric):
     if event.get("hotspotEligible") is not True:
         return "CLASIFICACION_NO: servicio o acción institucional excluido de KDE y Gi*."
     if group == "C":
@@ -107,8 +112,6 @@ def exclusion_reason(event, group, lon, lat, point_metric, study_union):
         return "LAT_LON_INTERCAMBIADAS: los valores parecen invertidos."
     if not (-79.2 <= lon <= -78.2 and -2.1 <= lat <= -1.2):
         return "FUERA_RIOBAMBA: coordenada fuera del rango geografico esperado para Riobamba."
-    if point_metric is None or not study_union.covers(point_metric):
-        return "FUERA_AMBITO_PLATAFORMAS: georreferenciado, pero fuera de las 18 plataformas territoriales reales."
     if group not in ("A", "B"):
         return "COORDENADA_NO_ADMITIDA: se requiere una coordenada original válida y verificable."
     return None
@@ -173,15 +176,19 @@ def interpolate_colors(norm):
 
 def render_kde_png(density, mask, path):
     max_value = float(density.max()) if density.size else 0
-    norm = density / max_value if max_value else np.zeros_like(density)
+    positive = density[(density > 0) & mask]
+    scale_value = float(np.percentile(positive, 98)) if positive.size else max_value
+    if not scale_value:
+        scale_value = max_value
+    norm = np.clip(density / scale_value, 0, 1) if scale_value else np.zeros_like(density)
     rgba = np.zeros((*density.shape, 4), dtype=np.uint8)
     rgba[..., :3] = interpolate_colors(norm)
-    visible = (norm >= 0.04) & mask
+    visible = (norm >= 0.015) & mask
     alpha = np.zeros_like(norm, dtype=np.uint8)
-    alpha[visible] = np.clip(((norm[visible] - 0.04) / 0.96) ** 0.8 * 220, 0, 220).astype(np.uint8)
+    alpha[visible] = np.clip(((norm[visible] - 0.015) / 0.985) ** 0.65 * 220, 0, 220).astype(np.uint8)
     rgba[..., 3] = alpha
     Image.fromarray(rgba, mode="RGBA").save(path)
-    return max_value, norm
+    return max_value, scale_value, norm
 
 
 def build_density(points_xy, xs, ys, bandwidth):
@@ -191,6 +198,8 @@ def build_density(points_xy, xs, ys, bandwidth):
         col_max = min(len(xs) - 1, int(math.ceil((x + bandwidth - xs[0]) / CELL_SIZE)))
         row_min = max(0, int(math.floor((ys[0] - (y + bandwidth)) / CELL_SIZE)))
         row_max = min(len(ys) - 1, int(math.ceil((ys[0] - (y - bandwidth)) / CELL_SIZE)))
+        if col_min > col_max or row_min > row_max:
+            continue
         sub_x = xs[col_min:col_max + 1]
         sub_y = ys[row_min:row_max + 1]
         xx, yy = np.meshgrid(sub_x, sub_y)
@@ -217,6 +226,11 @@ def main():
         platform_metric.append((feature, geom))
     study_union = unary_union([geom for _, geom in platform_metric])
     minx, miny, maxx, maxy = study_union.bounds
+    padding = DEFAULT_BANDWIDTH * 2
+    minx -= padding
+    miny -= padding
+    maxx += padding
+    maxy += padding
     minx = math.floor(minx / CELL_SIZE) * CELL_SIZE
     miny = math.floor(miny / CELL_SIZE) * CELL_SIZE
     maxx = math.ceil(maxx / CELL_SIZE) * CELL_SIZE
@@ -225,7 +239,7 @@ def main():
     xs = np.arange(minx + CELL_SIZE / 2, maxx, CELL_SIZE, dtype=np.float64)
     ys = np.arange(maxy - CELL_SIZE / 2, miny, -CELL_SIZE, dtype=np.float64)
     xx, yy = np.meshgrid(xs, ys)
-    study_mask = contains_xy(study_union, xx, yy)
+    study_mask = np.ones(xx.shape, dtype=bool)
 
     precision_counts = Counter(precision_group(event.get("precision")) for event in security.get("events", []))
     kde_points = []
@@ -238,7 +252,7 @@ def main():
         point_metric = None
         if isinstance(lat, (int, float)) and isinstance(lon, (int, float)):
             point_metric = Point(to_metric(lon, lat))
-        reason = exclusion_reason(event, group, lon, lat, point_metric, study_union)
+        reason = exclusion_reason(event, group, lon, lat, point_metric)
         base = {
             "id": event.get("id"),
             "date": event.get("date"),
@@ -248,6 +262,7 @@ def main():
             "subtype": event.get("subtype") or event.get("event"),
             "parish": event.get("parish"),
             "weight": event_weight(event),
+            "emergencyWeight": emergency_weight(event),
             "lat": lat,
             "lng": lon,
         }
@@ -268,6 +283,7 @@ def main():
         [round(to_geo_transformer.transform(minx, miny)[1], 8), round(to_geo_transformer.transform(minx, miny)[0], 8)],
         [round(to_geo_transformer.transform(maxx, maxy)[1], 8), round(to_geo_transformer.transform(maxx, maxy)[0], 8)],
     ]
+    metric_bounds = [[round(minx, 3), round(miny, 3)], [round(maxx, 3), round(maxy, 3)]]
 
     rasters = {}
     peak_locations = {}
@@ -275,7 +291,7 @@ def main():
         density = build_density(points_xy, xs, ys, bandwidth)
         density = np.where(study_mask, density, 0)
         filename = f"DENSIDAD_INCIDENTES_KDE_{bandwidth}m.png"
-        max_value, norm = render_kde_png(density, study_mask, OUTPUT_DIR / filename)
+        max_value, scale_value, norm = render_kde_png(density, study_mask, OUTPUT_DIR / filename)
         threshold = max_value * 0.35 if max_value else 0
         components = connected_components((density >= threshold) & study_mask) if max_value else 0
         max_index = np.unravel_index(int(np.argmax(density)), density.shape) if max_value else (0, 0)
@@ -288,7 +304,9 @@ def main():
             "cellSize": CELL_SIZE,
             "url": f"./data/kde-validacion/{filename}",
             "bounds": raster_bounds,
+            "metricBounds": metric_bounds,
             "maxValue": round(max_value, 6),
+            "scaleValue": round(scale_value, 6),
             "observableConcentrations": components,
             "fragmentation": qualitative_fragmentation(components),
             "smoothing": qualitative_smoothing(bandwidth),
@@ -350,14 +368,14 @@ def main():
 
     control_table = {
         "TOTAL_REGISTROS": len(security.get("events", [])),
-        "TOTAL_EMERGENCIAS": sum(event_weight(event) for event in security.get("events", [])),
+        "TOTAL_EMERGENCIAS": sum(emergency_weight(event) for event in security.get("events", [])),
         "PRECISION_A": precision_counts.get("A", 0),
         "PRECISION_B": precision_counts.get("B", 0),
         "PRECISION_C": precision_counts.get("C", 0),
         "REGISTROS_KDE": len(kde_points),
-        "EMERGENCIAS_KDE": sum(point["weight"] for point in kde_points),
+        "EMERGENCIAS_KDE": sum(point["emergencyWeight"] for point in kde_points),
         "REGISTROS_EXCLUIDOS": len(excluded),
-        "EMERGENCIAS_EXCLUIDAS": sum(item["weight"] for item in excluded),
+        "EMERGENCIAS_EXCLUIDAS": sum(item["emergencyWeight"] for item in excluded),
     }
 
     metadata = {
@@ -365,12 +383,12 @@ def main():
         "FUENTE": "Base de Datos Emergencias_SC_Riobamba (2).xlsx + Clasificacion_Incidentes_Riobamba_2026_Codex.json",
         "PERIODO": PERIOD,
         "N_REGISTROS": len(kde_points),
-        "N_EMERGENCIAS": sum(point["weight"] for point in kde_points),
-        "PRECISION_ADMITIDA": "Coordenada original válida, incluir_hotspot=SI y ubicación dentro de las 18 Plataformas",
+        "N_EMERGENCIAS": sum(point["emergencyWeight"] for point in kde_points),
+        "PRECISION_ADMITIDA": "Coordenada original válida e incluir_hotspot=SI; las Plataformas se usan como referencia, no como filtro de entrada KDE.",
         "CRS": f"{CRS_SOURCE} para visualizacion; {CRS_METRIC} para distancias y KDE",
         "CELL_SIZE": f"{CELL_SIZE} metros",
-        "BANDWIDTH": "200, 300 y 500 metros",
-        "METODO": "KDE por grilla regular única; kernel gaussiano truncado al bandwidth; contribución ponderada por Emergencias; máscara visual al ámbito de Plataformas.",
+        "BANDWIDTH": f"{DEFAULT_BANDWIDTH} metros en visor; 200, 300 y 500 metros como referencia comparativa",
+        "METODO": "KDE por grilla regular única en EPSG:32717; kernel gaussiano truncado al bandwidth; peso 1 por registro georreferenciado real; sin agregación por Plataforma.",
         "FECHA_PROCESAMIENTO": datetime.now().isoformat(timespec="seconds"),
     }
 
@@ -407,7 +425,8 @@ def main():
             "cameraOrPoliceCoordinatesUsed": False,
             "parishRecordsConvertedToPoints": False,
             "coincidentPointsPreserved": True,
-            "weightsPreservedFromEmergencias": True,
+            "weightsPreservedFromEmergencias": False,
+            "defaultBandwidth": DEFAULT_BANDWIDTH,
             "crsDistanceCalculation": CRS_METRIC,
         },
         "metadata": metadata,
