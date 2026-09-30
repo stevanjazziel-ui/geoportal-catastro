@@ -150,7 +150,7 @@ def main():
             {
                 "precision": "Peso",
                 "meaning": "Campo Emergencias",
-                "use": "Conteos y densidades ponderados por el número de emergencias de cada fila",
+                "use": "Valor original para consulta; los analisis espaciales y conteos de incidentes usan peso 1 por registro",
             },
         ],
     }

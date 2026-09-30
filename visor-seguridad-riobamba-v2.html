@@ -1200,17 +1200,20 @@
   </div>
 
   <script src="./vendor/leaflet/leaflet.js"></script>
-  <script src="./visor-seguridad-riobamba-data.js?v=incidentes-reales-2026"></script>
+  <script src="./visor-seguridad-riobamba-data.js?v=incidentes-unitarios-20260930"></script>
   <script src="./riobamba-camaras-data.js?v=municipio-31"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
   <script src="./riobamba-accesibilidad-policial-data.js?v=1"></script>
-  <script src="./riobamba-seguridad-diagnostico-data.js?v=incidentes-reales-2026"></script>
+  <script src="./riobamba-seguridad-diagnostico-data.js?v=incidentes-unitarios-20260930"></script>
   <script src="./riobamba-seguridad-kde-validacion-data.js?v=kde-673c519"></script>
+  <script src="./riobamba-incidentes-spatial-data.js?v=incidentes-unitarios-20260930"></script>
   <script>
     (() => {
       const dataset = window.RIOBAMBA_SECURITY_DATA || { events: window.RIOBAMBA_SECURITY_EVENTS || [], ecu911: { serviceCounts: [], parishes: [], topSubtypes: [], topByParish: {}, totalRows: 0, securityRows: 0 } };
       const events = dataset.events || [];
-      const eventWeight = (event) => Math.max(1, Number(event?.weight || 1));
+      const eventWeight = () => 1;
+      const emergencyWeight = (event) => Math.max(1, Number(event?.emergencyWeight ?? event?.weight ?? 1));
+      const emergencyCount = (items) => items.reduce((sum, item) => sum + emergencyWeight(item), 0);
       const weightedCount = (items) => items.reduce((sum, item) => sum + eventWeight(item), 0);
       const conflictEvents = events.filter((event) => event.hotspotEligible === true);
       const ecu911 = dataset.ecu911 || {};
@@ -1234,6 +1237,7 @@
       const policeAccessibility = window.RIOBAMBA_POLICE_ACCESSIBILITY || { summary: {}, table: [], byPlatformName: {}, byMan: {}, validations: {} };
       const diagnosis = window.RIOBAMBA_SECURITY_DIAGNOSIS || { summary: {}, inventory: [], platformMaster: [], byPlatformName: {} };
       const kdeValidation = window.RIOBAMBA_KDE_VALIDATION || { controlTable: {}, kdeInputPoints: [], rasters: {}, metadata: {} };
+      const incidentSpatial = window.RIOBAMBA_INCIDENT_SPATIAL || { byId: {}, giGrid: { cells: [] } };
       const categoryPalette = ["#4f8f52", "#5f8eb9", "#2d9b94", "#b88432", "#c86670", "#9c3f52", "#8f5fb9", "#7e7f92", "#4f7890", "#7c8c47"];
       const categoryColors = new Map([...new Set(conflictEvents.map((event) => event.category))].map((category, index) => [category, categoryPalette[index % categoryPalette.length]]));
       const precisionRank = { "A - Intersección": "Alta", "A - Tramo de calle": "Alta", "B - Sector": "Media", "B - Sector/parroquia": "Media", "C - Ciudad": "Referencial", "C - Ciudad/distrito": "Referencial" };
@@ -1507,7 +1511,7 @@
             ["Método", "Kernel Density Estimation"],
             ["Registros utilizados", kdeValidation.controlTable?.REGISTROS_KDE || "N/D"],
             ["Registros excluidos", kdeValidation.controlTable?.REGISTROS_EXCLUIDOS || "N/D"],
-            ["Bandwidth", `${raster.bandwidth || 300} m`],
+            ["Bandwidth", `${raster.bandwidth || 700} m`],
             ["Cell size", `${raster.cellSize || 20} m`],
             ["Peso KDE", "1 por registro"],
             ["Fragmentación", raster.fragmentation || "N/D"],
@@ -1591,7 +1595,7 @@
             ["Vecindad", `Distancia fija ${analysis.neighborDistance} m`],
             ["Pesos espaciales", "Binarios: 1 si la celda vecina está dentro de la distancia fija; 0 en caso contrario"],
             ["Incidentes", weightedCount(analysis.points)],
-            ["Z-score", "Calculado para cada celda a partir de la suma local ponderada"],
+            ["Z-score", "Calculado por celda; cada registro aporta una observacion"],
             ["p-value", "Bilateral aproximado desde distribución normal estándar"],
             ["Niveles", "90 / 95 / 99 %"],
             ["Coldspots significativos", coldCount],
@@ -1604,7 +1608,7 @@
             ["Fuente", "Base real de incidentes publicados"],
             ["Campo de tipología", "category"],
             ["Normalización aplicada", "Conserva texto original; solo se usa para agrupación exacta"],
-            ["Emergencias utilizadas", weightedCount(geoIncidentEvents())],
+            ["Registros utilizados", weightedCount(geoIncidentEvents())],
             ["Categorías reales", rows.length],
             ["Sin categoría", weightedCount(geoIncidentEvents().filter((event) => !event.category))]
           ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
@@ -1617,7 +1621,7 @@
             ["Campo fecha", "date"],
             ["Campo hora", "No disponible"],
             ["Registros válidos", dated.length],
-            ["Emergencias sin fecha", weightedCount(conflictEvents) - weightedCount(dated)],
+            ["Registros sin fecha", filteredEvents().filter((event) => !validDate(event)).length],
             ["Periodo disponible", dates.length ? `${formatDate(dates[0])} - ${formatDate(dates.at(-1))}` : "N/D"],
             ["Franjas horarias", "No calculadas por ausencia de hora real"]
           ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
@@ -1956,8 +1960,6 @@
       const renderPlatformMask = () => {
         platformMaskLayer.clearLayers();
         if (!platformGeojsonCache || mode !== "diagnosis" || diagnosisMetric !== "hotspots") return;
-        // El raster KDE ya viene con transparencia fuera del ámbito de plataformas.
-        // No agregamos máscara adicional para evitar cubrir la superficie y los límites.
         return;
       };
       const platformRecord = (name) => diagnosis.byPlatformName?.[name] || diagnosis.platformMaster?.find((item) => item.platformName === name || item.platform === name?.replace("PLATAFORMA ", ""));
@@ -2170,35 +2172,17 @@
           date: elements.incidentDate?.value
         });
         if (giHotspotCache?.filterKey === filterKey) return giHotspotCache;
-        const cellSize = 250;
-        const neighborDistance = 500;
+        const grid = incidentSpatial.giGrid;
+        const cellSize = grid.cellSize || 250;
+        const neighborDistance = grid.neighborDistance || 500;
         const points = geoIncidentEvents();
-        const boundsSource = platformLayer ? platformLayer.getBounds() : L.latLngBounds(points.map((event) => [event.lat, event.lng]));
-        const centerLat = boundsSource.getCenter().lat;
-        const metersPerLng = 111320 * Math.cos(centerLat * Math.PI / 180);
-        const metersPerLat = 110540;
-        const minLng = boundsSource.getWest();
-        const maxLng = boundsSource.getEast();
-        const minLat = boundsSource.getSouth();
-        const maxLat = boundsSource.getNorth();
-        const cols = Math.max(1, Math.ceil(((maxLng - minLng) * metersPerLng) / cellSize));
-        const rows = Math.max(1, Math.ceil(((maxLat - minLat) * metersPerLat) / cellSize));
-        const cells = [];
-        const cellMap = new Map();
-        for (let row = 0; row < rows; row += 1) {
-          for (let col = 0; col < cols; col += 1) {
-            const lng = minLng + ((col + 0.5) * cellSize / metersPerLng);
-            const lat = minLat + ((row + 0.5) * cellSize / metersPerLat);
-            if (!insidePlatformsOnly(lng, lat)) continue;
-            const platform = eventPlatformName({ mappable: true, lng, lat });
-            const cell = { cellId: `GI-${row}-${col}`, row, col, lng, lat, incCount: 0, incidents: [], platform };
-            cells.push(cell);
-            cellMap.set(`${row}:${col}`, cell);
-          }
-        }
+        const cells = (grid.cells || []).map((cell) => ({ ...cell, incCount: 0, incidents: [] }));
+        const cellMap = new Map(cells.map((cell) => [`${cell.row}:${cell.col}`, cell]));
         points.forEach((event) => {
-          const col = Math.floor(((Number(event.lng) - minLng) * metersPerLng) / cellSize);
-          const row = Math.floor(((Number(event.lat) - minLat) * metersPerLat) / cellSize);
+          const metric = incidentSpatial.byId[event.id];
+          if (!metric) return;
+          const col = Math.floor((metric[0] - grid.minX) / cellSize);
+          const row = Math.floor((metric[1] - grid.minY) / cellSize);
           const cell = cellMap.get(`${row}:${col}`);
           if (!cell) return;
           cell.incidents.push(event);
@@ -2213,7 +2197,7 @@
           for (let dr = -cellRadius; dr <= cellRadius; dr += 1) {
             for (let dc = -cellRadius; dc <= cellRadius; dc += 1) {
               const other = cellMap.get(`${cell.row + dr}:${cell.col + dc}`);
-              if (other && pointDistanceMeters(cell.lng, cell.lat, other.lng, other.lat) <= neighborDistance) neighbors.push(other);
+              if (other && Math.hypot(cell.x - other.x, cell.y - other.y) <= neighborDistance) neighbors.push(other);
             }
           }
           const sumW = neighbors.length;
@@ -2222,13 +2206,14 @@
           const z = denominator ? (sumWX - mean * sumW) / denominator : 0;
           cell.zScore = Number(z.toFixed(3));
           cell.pValue = Number((2 * (1 - giNormalCdf(Math.abs(z)))).toFixed(4));
-          cell.giStar = Number(sumWX.toFixed(3));
+          cell.giStar = cell.zScore;
+          cell.localIncidentSum = sumWX;
           cell.giClass = giClass(z);
           cell.areaKm2 = (cellSize * cellSize) / 1000000;
         });
         const hotspotCells = cells.filter((cell) => cell.giClass.startsWith("HOTSPOT"));
         const coldspotCells = cells.filter((cell) => cell.giClass.startsWith("COLDSPOT"));
-        giHotspotCache = { filterKey, platformReady: Boolean(platformGeojsonCache), layerName: "HOTSPOTS_GI", cellSize, neighborDistance, crs: "EPSG:32717 aproximado en cálculo métrico local", points, cells, hotspotCells, coldspotCells };
+        giHotspotCache = { filterKey, platformReady: Boolean(platformGeojsonCache), layerName: "HOTSPOTS_GI", cellSize, neighborDistance, crs: "EPSG:32717", points, cells, hotspotCells, coldspotCells };
         return giHotspotCache;
       };
       const categorySummary = (items) => Object.entries(items.reduce((acc, event) => {
@@ -2434,7 +2419,14 @@
         diagnosisMetric,
         cameraCoverageScenario,
         elements.category?.value || "__ALL__",
+        elements.subtype?.value || "__ALL__",
+        elements.parish?.value || "__ALL__",
         elements.kdePlatform?.value || "__ALL__",
+        elements.kdePeriod?.value || "__ALL__",
+        elements.incidentDate?.value || "",
+        giSignificanceLevel,
+        giResultType,
+        Boolean(platformGeojsonCache),
         elements.giHotspots?.value || "__ALL__",
         (elements.search?.value || "").trim().toLowerCase()
       ].join("|");
@@ -2458,13 +2450,14 @@
         const key = gapAnalysisCacheKey();
         if (gapRowsCacheKey === key && gapRowsCache) return gapRowsCache;
         const cellsByPlatform = giHotCellsByPlatform();
+        const incidentCounts = countBy(geoIncidentEvents().map((event) => ({ platform: eventPlatformName(event) })), "platform");
         const rows = selectedGapPlatforms().map((platform) => {
           const coverage = gapCoverageRow(platform.platformName);
           const coveredPct = Number(coverage.coveredPct ?? platform.cameraCoveragePctByRadius?.[cameraCoverageScenario] ?? 0);
           const uncoveredPct = Math.max(0, Number((100 - coveredPct).toFixed(1)));
           const hotCells = cellsByPlatform[platform.platformName] || [];
           const hotIncidents = hotCells.reduce((sum, cell) => sum + Number(cell.incCount || 0), 0);
-          const incidents = Number(platform.incidents || 0);
+          const incidents = incidentCounts[platform.platformName] || 0;
           const exposed = Number(platform.populationExposed250 || 0);
           const population = Number(platform.population || coverage.population || 0);
           const cameras = studyCamerasInPlatform(platform.platformName).length;
@@ -2484,7 +2477,7 @@
           else if (exposedPct > 0 || uncoveredPct >= 25) exposureLevel = "Bajo";
           const gapFlags = [
             uncoveredPct >= 50 ? "Videovigilancia" : null,
-            hotIncidents > 0 || Number(platform.hotspots || 0) > 0 ? "Conflictividad" : null,
+            hotIncidents > 0 ? "Conflictividad" : null,
             exposedPct >= 10 ? "Exposición poblacional" : null,
             policeDistance >= 1000 ? "Accesibilidad policial" : null,
             institutionalLow ? "Cobertura institucional" : null,
@@ -2668,7 +2661,7 @@
         || Boolean(elements.incidentDate?.value);
       const filteredKdePoints = () => kdeAllPoints().filter(kdeFilterMatches);
       const kdeCandidateEvents = () => {
-        return conflictEvents.filter((event) => {
+        return events.filter((event) => {
           return (elements.category.value === "__ALL__" || event.category === elements.category.value)
             && (!elements.subtype || elements.subtype.value === "__ALL__" || (event.subtype || event.event) === elements.subtype.value)
             && (!elements.parish || elements.parish.value === "__ALL__" || event.parish === elements.parish.value)
@@ -2686,35 +2679,38 @@
         const period = elements.incidentDate?.value ? formatDate(elements.incidentDate.value) : (!elements.kdePeriod || elements.kdePeriod.value === "__ALL__" ? (kdeValidation.metadata?.PERIODO || "Todo el periodo") : monthLabel(elements.kdePeriod.value));
         return { type, platform, period };
       };
-      const estimateKdeConcentrations = (points) => {
-        if (!points.length) return 0;
-        const cell = 300;
-        const cells = new Set(points.map((point) => `${Math.round(point.x / cell)}:${Math.round(point.y / cell)}`));
-        const visited = new Set();
+      const countKdeConcentrations = (density, width, height, maxDensity) => {
+        if (!maxDensity) return 0;
+        const threshold = maxDensity * 0.35;
+        const visited = new Uint8Array(density.length);
         let groups = 0;
-        cells.forEach((key) => {
-          if (visited.has(key)) return;
+        for (let index = 0; index < density.length; index += 1) {
+          if (visited[index] || density[index] < threshold) continue;
           groups += 1;
-          const stack = [key];
-          visited.add(key);
+          const stack = [index];
+          visited[index] = 1;
           while (stack.length) {
-            const [x, y] = stack.pop().split(":").map(Number);
-            [[1,0],[-1,0],[0,1],[0,-1]].forEach(([dx, dy]) => {
-              const next = `${x + dx}:${y + dy}`;
-              if (cells.has(next) && !visited.has(next)) {
-                visited.add(next);
+            const current = stack.pop();
+            const x = current % width;
+            const y = Math.floor(current / width);
+            for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+              const nx = x + dx, ny = y + dy;
+              if (nx < 0 || nx >= width || ny < 0 || ny >= height) continue;
+              const next = ny * width + nx;
+              if (!visited[next] && density[next] >= threshold) {
+                visited[next] = 1;
                 stack.push(next);
               }
-            });
+            }
           }
-        });
+        }
         return groups;
       };
       const kdeState = () => {
         const points = filteredKdePoints();
         const candidates = kdeCandidateEvents();
-        const counts = countBy(points, "platform", true);
-        const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0] || ["N/D", 0];
+        const counts = countBy(points.map((point) => ({ ...point, platform: point.platform || "Fuera de Plataformas" })), "platform", true);
+        const top = Object.entries(counts).filter(([name]) => name !== "Fuera de Plataformas").sort((a, b) => b[1] - a[1])[0] || ["N/D", 0];
         const raster = kdeDefaultRaster();
         return {
           points,
@@ -2725,8 +2721,8 @@
           excludedEmergencies: Math.max(0, candidates.length - points.length),
           counts,
           top,
-          concentrations: kdeHasActiveFilter() ? estimateKdeConcentrations(points) : (raster.observableConcentrations || estimateKdeConcentrations(points)),
-          bandwidth: raster.bandwidth || 300,
+          concentrations: kdeHasActiveFilter() ? getFilteredKdeSurface(points).concentrations : (raster.observableConcentrations ?? 0),
+          bandwidth: raster.bandwidth || 700,
           cellSize: raster.cellSize || 20
         };
       };
@@ -2768,7 +2764,7 @@
         <div class="popup-row">Categoría: <strong>${esc(event.category)}</strong></div>
         <div class="popup-row">Fecha: <strong>${formatDate(event.date)}</strong></div>
         <div class="popup-row">Parroquia: <strong>${esc(event.parish || "N/D")}</strong></div>
-        <div class="popup-row">Emergencias: <strong>${fmt(eventWeight(event))}</strong></div>
+        <div class="popup-row">Emergencias (campo original): <strong>${fmt(emergencyWeight(event))}</strong></div>
         <div class="popup-row">Precisión: <strong>${esc(event.precision)}</strong></div>
         <div class="popup-row">Fuente: <strong>${esc(event.source)}</strong></div>
         <div class="popup-note">${esc(event.observation)}</div>
@@ -2983,7 +2979,7 @@
               ["Registros analizados", state.pointRows],
               ["Registros excluidos", state.excludedRows],
               ["Concentraciones", state.concentrations],
-              ["Plataforma mayor concentración", state.top[0]],
+              ["Plataforma con más registros", state.top[0]],
               ["Bandwidth", `${state.bandwidth} m`]
             ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
             elements.graphicAnalysis.innerHTML = `
@@ -3074,7 +3070,7 @@
               ["Eventos registrados", totalIncidents],
               ["Población base", population],
               ["Tasa ciudad / 1.000", population ? ((totalIncidents / population) * 1000).toFixed(2) : "N/D"],
-              ["Emergencias elegibles usadas", diagnosis.summary?.incidentSpatialQuality?.spatialValidAB || 0],
+              ["Registros elegibles usados", diagnosis.summary?.incidentSpatialQuality?.spatialValidAB || 0],
               ["Fórmula", diagnosisMetric === "incidentCount" ? "Spatial join" : "(INC_TOTAL / POB) * 1000"]
             ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
             elements.graphicAnalysis.innerHTML = `${metricBars(diagnosisMetric === "incidentCount" ? "Eventos registrados por plataforma" : "Tasa por 1.000 habitantes", rows, Math.max(...rows.map((item) => Number(item.value || 0)), 1), diagnosisMetric === "incidentCount" ? "#c86670" : "#d9a441")}`;
@@ -3159,7 +3155,7 @@
             ["Plataformas", visible.length],
             ["Población", population],
             ["Incidentes", visible.reduce((sum, platform) => sum + Number(platform.incidents || 0), 0)],
-            ["Emergencias elegibles", `${fmt(diagnosis.summary?.incidentSpatialQuality?.spatialValidAB || 0)} usadas`],
+            ["Registros elegibles", `${fmt(diagnosis.summary?.incidentSpatialQuality?.spatialValidAB || 0)} usados`],
             ["Pob. expuesta 250 m", diagnosis.summary?.populationExposed250 || 0],
             ["Pob. cerca policía", diagnosis.summary?.populationNearPolice500 || 0],
             ["Cámaras para cambio", visible.reduce((sum, platform) => sum + studyCamerasInPlatform(platform.platformName).length, 0)],
@@ -3210,7 +3206,7 @@
         const first = items.map((event) => event.date).sort()[0] || "-";
         const last = items.map((event) => event.date).sort().at(-1) || "-";
         elements.summary.innerHTML = [
-          ["Emergencias", weightedCount(items)],
+          ["Emergencias (campo original)", emergencyCount(items)],
           ["En mapa", mapped],
           ["Precisión alta", high],
           ["Periodo", first === "-" ? "-" : `${formatDate(first)} - ${formatDate(last)}`]
@@ -3412,7 +3408,7 @@
               ["Mes con más incidentes", max ? `${max[0]} / ${max[1]}` : "N/D"],
               ["Mes con menos incidentes", min ? `${min[0]} / ${min[1]}` : "N/D"],
               ["Variación interanual", "N/D"],
-              ["Emergencias sin fecha", weightedCount(conflictEvents) - weightedCount(dated)]
+              ["Registros sin fecha", filteredEvents().filter((event) => !validDate(event)).length]
             ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
           return;
         }
@@ -3917,7 +3913,7 @@
               <div class="legend-row"><span class="legend-swatch" style="background:#111827;border-color:#fff"></span>Incidente georreferenciado</div>
               <div class="legend-row"><span class="legend-swatch" style="background:transparent;border:2px solid #263a33"></span>Plataformas Territoriales</div>
               <div class="legend-row"><span class="legend-swatch" style="background:linear-gradient(90deg, transparent, #ffe66d, #ff7c20, #9c1f33);border-color:#fff"></span>DENSIDAD_INCIDENTES_KDE</div>
-              <div class="legend-row"><span class="legend-swatch" style="background:#fff;border-color:#7e8790"></span>${fmt(kdeValidation.controlTable?.REGISTROS_KDE || 0)} registros · ${raster.bandwidth || 300} m · ${raster.cellSize || 20} m</div>
+              <div class="legend-row"><span class="legend-swatch" style="background:#fff;border-color:#7e8790"></span>${fmt(filteredKdePoints().length)} registros · ${raster.bandwidth || 700} m · ${raster.cellSize || 20} m</div>
             `;
             return;
           }
@@ -4081,7 +4077,7 @@
           ["Categoría", event.category],
           ["Subtipo", event.subtype || event.event],
           ["Parroquia", event.parish || "No disponible"],
-          ["Emergencias", eventWeight(event)],
+          ["Emergencias (campo original)", emergencyWeight(event)],
           ["Ubicación", event.location],
           ["Precisión", `${event.precision} (${precisionRank[event.precision] || "Sin clasificar"})`],
           ["Fuente", event.source]
@@ -4168,14 +4164,14 @@
           return;
         }
         const visibleItems = items.slice(0, 250);
-        const listNotice = items.length > visibleItems.length ? `<p>Mostrando ${fmt(visibleItems.length)} de ${fmt(items.length)} registros (${fmt(weightedCount(items))} emergencias). Usa los filtros para acotar la consulta.</p>` : "";
+        const listNotice = items.length > visibleItems.length ? `<p>Mostrando ${fmt(visibleItems.length)} de ${fmt(items.length)} registros (${fmt(emergencyCount(items))} emergencias en fuente). Usa los filtros para acotar la consulta.</p>` : "";
         elements.list.innerHTML = listNotice + visibleItems.map((event) => `
           <button class="event-item ${event.id === selectedId ? "is-active" : ""}" type="button" data-id="${event.id}">
             <h3>${esc(event.subtype || event.event || event.category)}</h3>
             <small>${formatDate(event.date)} · ${esc(event.parish || "N/D")}</small>
             <div class="pill-row">
               <span class="pill">${esc(event.category)}</span>
-              <span class="pill">${fmt(eventWeight(event))} emergencia(s)</span>
+              <span class="pill">${fmt(emergencyWeight(event))} emergencia(s) en fuente</span>
             </div>
           </button>
         `).join("") || "<p>No hay eventos con los filtros actuales.</p>";
@@ -4207,7 +4203,7 @@
             weight: 1,
             fillColor: color,
             fillOpacity: 0.88
-          }).bindPopup(`${popupContent(event)}${group.length > 1 ? `<div class="popup-note">${fmt(group.length)} registros y ${fmt(total)} emergencias coinciden en esta coordenada.</div>` : ""}`);
+          }).bindPopup(`${popupContent(event)}${group.length > 1 ? `<div class="popup-note">${fmt(group.length)} registros y ${fmt(emergencyCount(group))} emergencias en fuente coinciden en esta coordenada.</div>` : ""}`);
           marker.on("click", () => selectEvent(event.id, false));
           marker.addTo(eventLayer);
           group.forEach((item) => markers.set(item.id, marker));
@@ -4224,30 +4220,29 @@
         return [[-1.72, -78.72], [-1.61, -78.58]];
       };
       const kdeColor = (t) => {
-        if (t <= 0.015) return [255, 230, 109, 0];
-        if (t < 0.32) return [255, 230, 109, Math.round(48 + t * 120)];
-        if (t < 0.58) return [255, 190, 55, Math.round(72 + t * 140)];
-        if (t < 0.82) return [255, 124, 32, Math.round(96 + t * 150)];
-        return [156, 31, 51, 230];
+        const stops = [[0, 255, 230, 109], [0.35, 255, 190, 55], [0.58, 255, 124, 32], [0.78, 225, 29, 54], [1, 99, 25, 45]];
+        const right = stops.findIndex((stop, index) => index > 0 && t <= stop[0]);
+        const a = stops[Math.max(0, right - 1)], b = stops[right < 0 ? stops.length - 1 : right];
+        const fraction = (t - a[0]) / Math.max(1e-9, b[0] - a[0]);
+        const rgb = a.slice(1).map((value, index) => Math.round(value + (b[index + 1] - value) * fraction));
+        return [...rgb, t < 0.015 ? 0 : Math.floor(Math.pow((t - 0.015) / 0.985, 0.65) * 220)];
       };
       const percentile = (values, p) => {
         if (!values.length) return 0;
         const sorted = [...values].sort((a, b) => a - b);
-        const index = Math.min(sorted.length - 1, Math.max(0, Math.floor((sorted.length - 1) * p)));
-        return sorted[index];
+        const index = Math.max(0, (sorted.length - 1) * p);
+        const lower = Math.floor(index), upper = Math.min(sorted.length - 1, Math.ceil(index));
+        return sorted[lower] + (sorted[upper] - sorted[lower]) * (index - lower);
       };
-      const renderFilteredKdeSurface = (points) => {
-        if (!points.length) return;
-        const bounds = kdeBounds();
-        const hasActiveFilter = kdeHasActiveFilter();
+      let filteredKdeCache = null;
+      const getFilteredKdeSurface = (points) => {
         const raster = kdeDefaultRaster();
-        if (!hasActiveFilter && raster?.url) {
-          L.imageOverlay(raster.url, bounds, { opacity: 0.68, interactive: false }).addTo(hotspotLayer);
-          return;
-        }
-        const [[minX, minY], [maxX, maxY]] = raster.metricBounds || [[0, 0], [1, 1]];
-        const width = 260;
-        const height = 260;
+        const key = JSON.stringify([raster.bandwidth, elements.category.value, elements.subtype?.value, elements.parish?.value, elements.kdePlatform?.value, elements.kdePeriod?.value, elements.incidentDate?.value]);
+        if (filteredKdeCache?.key === key) return filteredKdeCache;
+        const [[minX, minY], [maxX, maxY]] = raster.metricBounds;
+        const cellSize = raster.cellSize || 20;
+        const width = Math.round((maxX - minX) / cellSize);
+        const height = Math.round((maxY - minY) / cellSize);
         const canvas = document.createElement("canvas");
         canvas.width = width;
         canvas.height = height;
@@ -4256,25 +4251,30 @@
         const bandwidth = raster.bandwidth || 700;
         let maxDensity = 0;
         const density = new Float32Array(width * height);
-        const xMetersPerPixel = (maxX - minX) / Math.max(1, width - 1);
-        const yMetersPerPixel = (maxY - minY) / Math.max(1, height - 1);
-        const radiusX = Math.ceil(bandwidth / xMetersPerPixel);
-        const radiusY = Math.ceil(bandwidth / yMetersPerPixel);
+        const radius = Math.ceil(bandwidth / cellSize);
+        const bandwidthSquared = bandwidth * bandwidth;
+        // Coincident records retain multiplicity; compute their kernel only once.
+        const grouped = new Map();
         points.forEach((point) => {
-          const xMetric = Number(point.x);
-          const yMetric = Number(point.y);
+          const key = `${point.x}:${point.y}`;
+          const entry = grouped.get(key);
+          if (entry) entry.count += 1;
+          else grouped.set(key, { x: Number(point.x), y: Number(point.y), count: 1 });
+        });
+        grouped.forEach((point) => {
+          const xMetric = point.x;
+          const yMetric = point.y;
           if (!Number.isFinite(xMetric) || !Number.isFinite(yMetric)) return;
-          const centerX = Math.round(((xMetric - minX) / (maxX - minX)) * (width - 1));
-          const centerY = Math.round(((maxY - yMetric) / (maxY - minY)) * (height - 1));
-          const weight = 1;
-          for (let y = Math.max(0, centerY - radiusY); y <= Math.min(height - 1, centerY + radiusY); y += 1) {
-            const dy = (y - centerY) * yMetersPerPixel;
-            for (let x = Math.max(0, centerX - radiusX); x <= Math.min(width - 1, centerX + radiusX); x += 1) {
-              const dx = (x - centerX) * xMetersPerPixel;
+          const centerX = Math.floor((xMetric - minX) / cellSize);
+          const centerY = Math.floor((maxY - yMetric) / cellSize);
+          for (let y = Math.max(0, centerY - radius - 1); y <= Math.min(height - 1, centerY + radius + 1); y += 1) {
+            const dy = maxY - (y + 0.5) * cellSize - yMetric;
+            for (let x = Math.max(0, centerX - radius - 1); x <= Math.min(width - 1, centerX + radius + 1); x += 1) {
+              const dx = minX + (x + 0.5) * cellSize - xMetric;
               const d2 = dx * dx + dy * dy;
-              if (d2 > bandwidth * bandwidth) continue;
+              if (d2 > bandwidthSquared) continue;
               const index = y * width + x;
-              density[index] += Math.exp(-0.5 * d2 / (bandwidth * bandwidth)) * weight;
+              density[index] += Math.exp(-0.5 * d2 / bandwidthSquared) * point.count;
               if (density[index] > maxDensity) maxDensity = density[index];
             }
           }
@@ -4290,7 +4290,14 @@
           image.data[p + 3] = a;
         }
         ctx.putImageData(image, 0, 0);
-        L.imageOverlay(canvas.toDataURL("image/png"), bounds, { opacity: 0.68, interactive: false }).addTo(hotspotLayer);
+        filteredKdeCache = { key, url: canvas.toDataURL("image/png"), density, width, height, maxDensity, concentrations: countKdeConcentrations(density, width, height, maxDensity) };
+        return filteredKdeCache;
+      };
+      const renderFilteredKdeSurface = (points) => {
+        if (!points.length) return;
+        const raster = kdeDefaultRaster();
+        const url = kdeHasActiveFilter() ? getFilteredKdeSurface(points).url : raster.url;
+        if (url) L.imageOverlay(url, kdeBounds(), { opacity: 0.68, interactive: false }).addTo(hotspotLayer);
       };
 
       const renderKdePointOverlay = (points) => {
@@ -4329,12 +4336,9 @@
         if (isGapMode()) {
           if (!["lowCoverageConcentrations", "candidateZones"].includes(diagnosisMetric)) return;
           const zones = currentGapZones();
-          const half = getGiHotspotAnalysis().cellSize / 2;
           zones.forEach((zone) => {
-            const dLat = half / 110540;
-            const dLng = half / (111320 * Math.cos(zone.lat * Math.PI / 180));
             const color = diagnosisMetric === "candidateZones" ? candidateZoneColor(zone.type) : "#e11d48";
-            L.polygon([[zone.lat - dLat, zone.lng - dLng], [zone.lat - dLat, zone.lng + dLng], [zone.lat + dLat, zone.lng + dLng], [zone.lat + dLat, zone.lng - dLng]], {
+            L.polygon(zone.geometry.coordinates[0].map(([lng, lat]) => [lat, lng]), {
               color: diagnosisMetric === "candidateZones" ? "#b91c1c" : "#ffffff",
               weight: diagnosisMetric === "candidateZones" ? 1.6 : 0.8,
               dashArray: diagnosisMetric === "candidateZones" ? "6 5" : null,
@@ -4353,12 +4357,9 @@
         }
         if (isGiHotspotsMode()) {
           const analysis = getGiHotspotAnalysis();
-          const half = analysis.cellSize / 2;
           filteredGiCells().forEach((cell) => {
-            const dLat = half / 110540;
-            const dLng = half / (111320 * Math.cos(cell.lat * Math.PI / 180));
             const color = giClassColor(cell.giClass);
-            const layer = L.polygon([[cell.lat - dLat, cell.lng - dLng], [cell.lat - dLat, cell.lng + dLng], [cell.lat + dLat, cell.lng + dLng], [cell.lat + dLat, cell.lng - dLng]], {
+            const layer = L.polygon(cell.geometry.coordinates[0].map(([lng, lat]) => [lat, lng]), {
               color: cell.cellId === selectedGiCell ? "#111827" : "#ffffff",
               weight: cell.cellId === selectedGiCell ? 1.4 : 0.45,
               fillColor: color,
@@ -4558,6 +4559,10 @@
       }
 
       function setKdeDefaultContextLayers() {
+        [elements.category, elements.subtype, elements.parish, elements.kdePlatform, elements.kdePeriod].forEach((control) => {
+          if (control) control.value = "__ALL__";
+        });
+        if (elements.incidentDate) elements.incidentDate.value = "";
         elements.toggleEvents.checked = false;
         elements.toggleParishes.checked = false;
         elements.toggleCameras.checked = false;
@@ -4729,7 +4734,7 @@
         }
         if (mode === "events") {
           renderDetail(events.find((event) => event.id === selectedId));
-          elements.status.textContent = `${fmt(weightedCount(items))} de ${fmt(weightedCount(conflictEvents))} emergencias de conflictividad visibles; ${fmt(items.length)} registros georreferenciados.`;
+          elements.status.textContent = `${fmt(items.length)} de ${fmt(conflictEvents.length)} registros de conflictividad visibles; peso analítico 1 por registro.`;
         } else if (mode === "diagnosis") {
           if (isCameraCoverageMode()) {
             renderCameraCoverageDetail();
@@ -4820,7 +4825,7 @@
           } else if (isTypologiesMode()) {
             elements.status.textContent = `Tipologías: ${categorySummary(geoIncidentEvents()).length} categorías reales desde el campo category.`;
           } else if (isTemporalMode()) {
-            elements.status.textContent = `Temporal: ${fmt(weightedCount(temporalRecords()))} emergencias con fecha válida; hora no disponible en la base.`;
+            elements.status.textContent = `Temporal: ${fmt(weightedCount(temporalRecords()))} registros con fecha válida; hora no disponible en la base.`;
           } else {
             elements.status.textContent = `Fases integradas: ${diagnosis.summary?.platforms || 18} plataformas territoriales, ${fmt(diagnosis.summary?.populationWithPlatform)} habitantes asignados, ${fmt(diagnosis.summary?.hotspots || 0)} hotspots preliminares y ${fmt(diagnosis.summary?.videoDeficitHighOrCritical || 0)} plataformas con déficit alto/crítico.`;
           }
@@ -5258,7 +5263,7 @@
             ["Tabla", diagnosis.masterTableName || "ANALISIS_PLATAFORMAS"],
             ["Registros fuente", diagnosis.summary?.incidentSpatialQuality?.total || kdeValidation.controlTable?.TOTAL_REGISTROS || "N/D"],
             ["Emergencias fuente", diagnosis.summary?.incidentSpatialQuality?.totalEmergencies || kdeValidation.controlTable?.TOTAL_EMERGENCIAS || "N/D"],
-            ["Emergencias de conflictividad en Plataformas", totalIncidents],
+            ["Registros de conflictividad en Plataformas", totalIncidents],
             ["Registros excluidos del KDE", kdeValidation.controlTable?.REGISTROS_EXCLUIDOS ?? "N/D"],
             ["Etapa", diagnosis.phase || "Etapa 8"],
             ["Campos tabla maestra", (diagnosis.masterSchema || []).length || "N/D"],
@@ -5303,7 +5308,7 @@
           ["Población", valueOrNA(platform.population, " habitantes")],
           ["Eventos registrados", valueOrNA(platform.incidents)],
           ["Eventos más frecuentes", frequentEvents],
-          ["Concentraciones identificadas", valueOrNA(platform.hotspots, " sectores")],
+          ["Celdas con agrupación de incidentes", valueOrNA(platform.giHotspots, " celdas")],
           ["Infraestructura policial", valueOrNA(platform.policeInfrastructure, " dependencias")],
           ["Cámaras para cambio", valueOrNA(municipalChange, " cámaras")],
           ["Municipales operativas (contexto)", valueOrNA(municipalOperational)],
@@ -5314,7 +5319,7 @@
         const interpretations = [];
         if (Number(platform.incidents || 0) > 0) interpretations.push(`Se registran ${fmt(platform.incidents)} eventos en esta Plataforma durante el periodo analizado.`);
         if ((platform.incidentTypes || []).length) interpretations.push(`Los tipos reportados con mayor frecuencia son: ${(platform.incidentTypes || []).slice(0, 3).map((item) => esc(item.type)).join(", ")}.`);
-        if (Number(platform.hotspots || 0) > 0) interpretations.push(`Los datos muestran ${fmt(platform.hotspots)} concentración(es) preliminar(es) dentro de esta Plataforma.`);
+        if (Number(platform.giHotspots || 0) > 0) interpretations.push(`Se identifican ${fmt(platform.giHotspots)} celdas con agrupación estadística de incidentes en esta Plataforma. La significancia es nominal y requiere validación técnica.`);
         if (typeof activeCoveragePct === "number") interpretations.push(`La cobertura potencial de cámaras municipales para cambio alcanza aproximadamente al ${activeCoveragePct}% de la población de la Plataforma en el escenario ${cameraCoverageScenario} m.`);
         if (Number(platform.policeInfrastructure || 0) > 0) interpretations.push(`Existen ${fmt(platform.policeInfrastructure)} dependencia(s) policial(es) registrada(s) en esta Plataforma.`);
         if (Number(platform.lowCoverageHotspots || 0) > 0) interpretations.push("Se identifican sectores donde coinciden concentraciones y menor cobertura relativa de los recursos analizados.");
@@ -5457,7 +5462,7 @@
             ["Tasa", `${displayValue(platform.incidentRate1000)} / 1.000 hab.`],
             ["Tipología predominante", (platform.incidentTypes || [])[0]?.type || "N/D"],
             ["Concentraciones KDE", platform.hotspots],
-            ["Hotspots significativos", platform.giHotspots || platform.hotspots || "N/D"],
+            ["Celdas hotspot Gi* (significancia nominal)", platform.giHotspots ?? "N/D"],
           ]) + `<div class="pill-row">${topTypes || '<span class="pill">Sin tipos de incidente asignados</span>'}</div>`,
           "Videovigilancia municipal": rowHtml([
             ["Cámaras municipales", municipalCount],

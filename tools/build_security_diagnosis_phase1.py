@@ -35,6 +35,7 @@ def read_js_object(path, variable):
 cameras = read_js_object(ROOT / "riobamba-camaras-data.js", "RIOBAMBA_CAMERAS_DATA")
 police = read_js_object(ROOT / "policia-06d01-data.js", "RIOBAMBA_POLICE_SIG_DATA")
 security = read_js_object(ROOT / "visor-seguridad-riobamba-data.js", "RIOBAMBA_SECURITY_DATA")
+incident_spatial = read_js_object(ROOT / "riobamba-incidentes-spatial-data.js", "RIOBAMBA_INCIDENT_SPATIAL")
 boulevards = load_json(ROOT / "data" / "premio-habitat" / "premio-habitat-boulevares.geojson")
 connections = load_json(ROOT / "data" / "premio-habitat" / "premio-habitat-conexiones.geojson")
 
@@ -138,6 +139,10 @@ def precision_geo(event):
 
 
 def event_weight(event):
+    return 1
+
+
+def emergency_weight(event):
     try:
         return max(1, int(event.get("weight") or 1))
     except (TypeError, ValueError):
@@ -149,11 +154,11 @@ conflict_events = [event for event in security.get("events", []) if event.get("h
 
 event_quality = {
     "total": len(security.get("events", [])),
-    "totalEmergencies": sum(event_weight(event) for event in security.get("events", [])),
+    "totalEmergencies": sum(emergency_weight(event) for event in security.get("events", [])),
     "conflictRows": len(conflict_events),
-    "conflictEmergencies": sum(event_weight(event) for event in conflict_events),
+    "conflictEmergencies": sum(emergency_weight(event) for event in conflict_events),
     "institutionalRowsExcluded": sum(1 for event in security.get("events", []) if event.get("hotspotEligible") is not True),
-    "institutionalEmergenciesExcluded": sum(event_weight(event) for event in security.get("events", []) if event.get("hotspotEligible") is not True),
+    "institutionalEmergenciesExcluded": sum(emergency_weight(event) for event in security.get("events", []) if event.get("hotspotEligible") is not True),
     "byPrecisionGeo": {"A": 0, "B": 0, "C": 0},
     "spatialValidAB": 0,
     "notUsedForSpatialAnalysis": 0,
@@ -494,13 +499,14 @@ for item in stats["platforms"]:
     if bucket["cameras"] == 0:
         deficit_score += 1
     video_deficit = classify_deficit(deficit_score)
-    hotspot_count = 1 if bucket["incidents"] >= 2 else 0
+    gi_summary = incident_spatial["giSummaryByPlatform"][item["platform_name"]]
+    hotspot_count = gi_summary["hotspots"]
     low_coverage_hotspots = hotspot_count if hotspot_count and video_deficit in ("ALTO", "CRITICO") else 0
     conflict_exposure = classify_conflict_exposure(bucket, bucket["populationExposed250"], population, incident_rate)
     combined_matrix = institutional_matrix(conflict_exposure, institutional_coverage)
     boulevard_total_length = bucket["boulevardLengthM"] + bucket["connectionLengthM"]
     boulevard_density = round(boulevard_total_length / area_km2, 2) if area_km2 else "N/D"
-    hotspot_near_boulevard = 1 if hotspot_count and bucket["incidentsNearBoulevard"] > 0 else 0
+    hotspot_near_boulevard = gi_summary["hotspotsNearBoulevard"]
     population_police_distance = (
         round(bucket["populationWeightedPoliceDistanceSum"] / bucket["populationWeightedPoliceDistancePopulation"], 2)
         if bucket["populationWeightedPoliceDistancePopulation"]
@@ -577,7 +583,8 @@ for item in stats["platforms"]:
             reverse=True,
         ),
         "hotspots": hotspot_count,
-        "hotspotMethod": "Indicador descriptivo; Gi* se calcula en el visor con celdas y pesos del campo Emergencias",
+        "hotspotMethod": "Celdas Gi* con z >= 1.65; grilla 250 m, vecindad 500 m, EPSG:32717, peso 1 por registro; significancia nominal sin correccion por pruebas multiples",
+        "giHotspots": hotspot_count,
         "populationExposed100": int(round(bucket["populationExposed100"])),
         "populationExposed250": int(round(bucket["populationExposed250"])),
         "populationExposed500": int(round(bucket["populationExposed500"])),
@@ -630,7 +637,7 @@ for item in stats["platforms"]:
         "dataStatus": {
             "population": "DATO CALCULADO por interseccion areal manzana-plataforma; si una manzana cruza limites se estima por fraccion de area",
             "area": "DATO CALCULADO desde geometria real de plataformas",
-            "securityIndicators": "DATO CALCULADO desde coordenadas originales con incluir_hotspot=SI y peso del campo Emergencias",
+            "securityIndicators": "DATO CALCULADO desde coordenadas originales con incluir_hotspot=SI y peso 1 por registro",
             "institutionalCoverage": "DATO CALCULADO por punto dentro de plataforma, radio tecnico y longitud intersectada",
         },
     })
@@ -692,9 +699,9 @@ audit = [
         "source": "Base de Datos Emergencias_SC_Riobamba (2).xlsx + clasificación de 139 subtipos",
         "date": "1 enero - 31 agosto 2026",
         "spatialPrecision": "Coordenadas originales; KDE/Gi* usan solo incluir_hotspot=SI",
-        "duplicates": "Se preservan filas distintas y se ponderan por el campo Emergencias",
+        "duplicates": "Se preservan filas distintas; cada registro aporta una observacion espacial",
         "emptyFields": "Sin coordenadas vacías en la fuente recibida",
-        "relationships": "Cruce espacial incidente-plataforma; peso analítico = Emergencias",
+        "relationships": "Cruce espacial incidente-plataforma; peso analitico = 1 por registro",
         "variableClass": "DATO ORIGINAL + DATO CALCULADO",
     },
     {
@@ -766,7 +773,7 @@ inventory = [
         "file": "visor-seguridad-riobamba-data.js",
         "records": len(conflict_events),
         "role": "Insumo para conflictividad territorial",
-        "dataType": "DATO ORIGINAL georreferenciado + clasificación + peso Emergencias",
+        "dataType": "DATO ORIGINAL georreferenciado + clasificacion + peso 1 por registro",
         "status": "Solo incluir_hotspot=SI alimenta KDE, Gi* y brechas de conflictividad",
     },
     {
@@ -899,8 +906,8 @@ output = {
             "source": "Base Emergencias Seguridad Ciudadana Riobamba 2026 + clasificación de 139 subtipos",
             "date": "1 enero - 31 agosto 2026",
             "precision": "Coordenadas originales del archivo fuente",
-            "method": "Filtrado incluir_hotspot=SI, ponderación por Emergencias y cruce espacial con Plataformas",
-            "parameters": "INC_TOTAL, INC_TIPO y TASA_INC_1000 = EMERGENCIAS / POBLACION * 1000",
+            "method": "Filtrado incluir_hotspot=SI, peso 1 por registro y cruce espacial con Plataformas",
+            "parameters": "INC_TOTAL, INC_TIPO y TASA_INC_1000 = REGISTROS DE INCIDENTES / POBLACION * 1000",
             "limitations": "Las acciones policiales incluir_hotspot=NO se conservan como actividad institucional y no participan en conflictividad",
         },
         {
