@@ -1322,6 +1322,7 @@
       const satelliteLayer = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", { attribution: "Tiles &copy; Esri", maxNativeZoom: 18, maxZoom: 20 });
       const eventLayer = L.layerGroup().addTo(map);
       const hotspotLayer = L.layerGroup().addTo(map);
+      const kdePointLayer = L.layerGroup();
       const platformLabelLayer = L.layerGroup().addTo(map);
       const platformMaskLayer = L.layerGroup().addTo(map);
       const parishLayer = L.layerGroup().addTo(map);
@@ -1462,6 +1463,8 @@
       const syncLayerControl = () => {
         const config = activeLayerConfig();
         if (elements.analysisResultLayerLabel) elements.analysisResultLayerLabel.textContent = config.result;
+        const eventLayerLabel = document.querySelector('[data-layer-row="events"] span');
+        if (eventLayerLabel) eventLayerLabel.textContent = isKdeMode() ? "Puntos de incidentes" : "Incidentes";
         if (elements.cameraLayerLabel) elements.cameraLayerLabel.textContent = mode === "cameras" ? "Cámaras municipales" : "Cámaras para cambio";
         if (elements.cameraCoverageLayerLabel) elements.cameraCoverageLayerLabel.textContent = `Cobertura cámaras para cambio ${cameraCoverageScenario} m`;
         const visibleRows = new Set(["analysisResult", "platforms", ...(config.context || [])]);
@@ -4263,11 +4266,12 @@
           ctx.strokeStyle = "rgba(255,255,255,0.95)";
           ctx.stroke();
         });
-        L.imageOverlay(canvas.toDataURL("image/png"), bounds, { opacity: 0.95, interactive: false }).addTo(hotspotLayer);
+        L.imageOverlay(canvas.toDataURL("image/png"), bounds, { opacity: 0.95, interactive: false }).addTo(kdePointLayer);
       };
 
       function renderHotspots(items) {
         hotspotLayer.clearLayers();
+        kdePointLayer.clearLayers();
         if (isGapMode()) {
           if (!["lowCoverageConcentrations", "candidateZones"].includes(diagnosisMetric)) return;
           const zones = currentGapZones();
@@ -4320,6 +4324,7 @@
         renderFilteredKdeSurface(points);
         renderKdePointOverlay(points);
         bringLayerForward(hotspotLayer);
+        bringLayerForward(kdePointLayer);
         bringLayerForward(platformLayer);
         bringLayerForward(platformLabelLayer);
       }
@@ -4453,6 +4458,7 @@
         bringLayerForward(platformLayer);
         bringLayerForward(boulevardLayer);
         bringLayerForward(parishLayer);
+        bringLayerForward(kdePointLayer);
         bringLayerForward(eventLayer);
         bringLayerForward(cameraCoverageLayer);
         bringLayerForward(cameraLayer);
@@ -4463,7 +4469,13 @@
       function syncMapLayerVisibility() {
         if (isKdeMode() || isGiHotspotsMode()) {
           if (!map.hasLayer(hotspotLayer)) hotspotLayer.addTo(map);
-          elements.toggleEvents.checked ? eventLayer.addTo(map) : map.removeLayer(eventLayer);
+          if (isKdeMode()) {
+            map.removeLayer(eventLayer);
+            elements.toggleEvents.checked ? kdePointLayer.addTo(map) : map.removeLayer(kdePointLayer);
+          } else {
+            map.removeLayer(kdePointLayer);
+            elements.toggleEvents.checked ? eventLayer.addTo(map) : map.removeLayer(eventLayer);
+          }
           elements.toggleParishes.checked ? parishLayer.addTo(map) : map.removeLayer(parishLayer);
           elements.toggleCameras.checked ? cameraLayer.addTo(map) : map.removeLayer(cameraLayer);
           elements.togglePoliceInfrastructure.checked ? policeInfrastructureLayer.addTo(map) : map.removeLayer(policeInfrastructureLayer);
@@ -4477,6 +4489,7 @@
           return;
         }
         elements.toggleEvents.checked ? eventLayer.addTo(map) : map.removeLayer(eventLayer);
+        map.removeLayer(kdePointLayer);
         (isGapMode() && ["lowCoverageConcentrations", "candidateZones"].includes(diagnosisMetric)) ? hotspotLayer.addTo(map) : map.removeLayer(hotspotLayer);
         elements.toggleParishes.checked ? parishLayer.addTo(map) : map.removeLayer(parishLayer);
         elements.toggleCameras.checked ? cameraLayer.addTo(map) : map.removeLayer(cameraLayer);
@@ -4491,7 +4504,7 @@
       }
 
       function setKdeDefaultContextLayers() {
-        elements.toggleEvents.checked = true;
+        elements.toggleEvents.checked = false;
         elements.toggleParishes.checked = false;
         elements.toggleCameras.checked = false;
         elements.toggleCameraCoverage.checked = false;
