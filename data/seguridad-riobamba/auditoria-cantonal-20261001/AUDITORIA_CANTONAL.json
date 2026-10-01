@@ -1,0 +1,1205 @@
+{
+  "generatedAt": "2026-10-01T11:12:50",
+  "stage": "AUDITORIA_PREVIA_SIN_CAMBIOS_EN_INTERFAZ",
+  "referencePopulation": {
+    "cantonal": 260882,
+    "urban": 177213,
+    "rural": 83669
+  },
+  "cantonSource": {
+    "file": "C:\\Users\\PC\\Downloads\\barrios y plataformas\\dar poder a la gente\\limite_canton_riobamba_wgs84.shp",
+    "crs": "EPSG:4326",
+    "fields": [
+      "CODPRO",
+      "PROVINCIA",
+      "CODCAN",
+      "CANTON"
+    ],
+    "records": 1,
+    "invalid": [],
+    "sha256": {
+      ".shp": "73d00cdfdd5e10a3beaa217b1b03f84631c8d29366eeeed1f0a75fbf0e931b21",
+      ".shx": "091d3bac861164ccf030a515758f184fd78527a126d59430c6ce2897355b6e38",
+      ".dbf": "aae3135aa755a5dca92ed240a0dabf2735d92ad82a7878c3013872b911f75b5b",
+      ".prj": "a02a27b1d1982c8516d83398e85a3c8b1aef1713c13ef4d84d7bde17430c07c4"
+    }
+  },
+  "parishSource": {
+    "file": "C:\\Users\\PC\\Downloads\\barrios y plataformas\\dar poder a la gente\\division_parroquial_riobamba_wgs84.shp",
+    "crs": "EPSG:4326",
+    "fields": [
+      "OBJECTID",
+      "CODPRO",
+      "PROVINCIA",
+      "CODCAN",
+      "CANTON",
+      "CODPAR",
+      "PARROQUIA",
+      "ESTADO",
+      "Shape_Leng",
+      "Shape_Area"
+    ],
+    "records": 16,
+    "invalid": [],
+    "sha256": {
+      ".shp": "5b30e8e221f562f8f473be4e33d223c6767b8bf05fa671f329ed18a69a236c73",
+      ".shx": "f4666588d659d01c8fdff48b50f65ba5b448a96adb4b9bdd5fa6235eb03a631e",
+      ".dbf": "b492560f3959d4b6212f3d280284c7be85707b333f13e979648cbe591b6ca04e",
+      ".prj": "a02a27b1d1982c8516d83398e85a3c8b1aef1713c13ef4d84d7bde17430c07c4"
+    }
+  },
+  "roads": {
+    "file": "C:\\Users\\PC\\Downloads\\barrios y plataformas\\vias\\vias_canton_riobamba_wgs84.shp",
+    "crs": "EPSG:4326",
+    "fields": [
+      "id",
+      "fcode",
+      "parroquia",
+      "nom_par",
+      "tipo_eje",
+      "nom_eje",
+      "cod_tip_ej",
+      "fuente",
+      "anio",
+      "valida",
+      "long_m",
+      "fuente_dat"
+    ],
+    "records": 10791,
+    "invalid": [],
+    "sha256": {
+      ".shp": "75702bc8f97167793b17560f822943951cb0a3f0c561cea03bce27807980b1a7",
+      ".shx": "cab6003595ed775a5517ecc923fcf9e1576bcf8f783cb6fc3e6f80f9a6336184",
+      ".dbf": "618d63d3eb0e4c900a14a9271141bbb2fd1a466a901e9999803b7801b64ef6af",
+      ".prj": "a02a27b1d1982c8516d83398e85a3c8b1aef1713c13ef4d84d7bde17430c07c4"
+    }
+  },
+  "geometry": {
+    "cantonAreaKm2": 998.7790465202169,
+    "parishUnionDifferenceM2": 0.01595402063331788,
+    "parishOverlapM2": 4.76837158203125e-06,
+    "urbanPlatformAreaKm2": 29.29311869178453,
+    "administrativeUrbanAreaKm2": 61.95489566097721,
+    "urbanOutsideCantonM2": 585.1200740299054,
+    "urbanRuralOverlapKm2": 0.09861424533668707,
+    "withinCantonUnclassifiedAreaKm2": 32.760976332991994
+  },
+  "assignmentRule": "Interseccion espacial en EPSG:32717; primero verificar canton, luego Plataformas urbanas, luego parroquias RURAL. Los huecos de ambito no se asignan por texto; cruces multiples quedan reportados. Es una propuesta operativa para revision.",
+  "urbanEventsAlsoInRuralParish": {
+    "SAN LUIS": 63,
+    "LICAN": 5
+  },
+  "eventsInMultiplePlatforms": [],
+  "totalRecords": 26716,
+  "assigned": {
+    "URBANO": 23732,
+    "RURAL": 2134,
+    "SIN_ASIGNAR": 850
+  },
+  "analyticAssigned": {
+    "RURAL": 867,
+    "URBANO": 9810,
+    "SIN_ASIGNAR": 365
+  },
+  "classesByScope": {
+    "URBANO": {
+      "5": 788,
+      "1": 2199,
+      "2": 1244,
+      "3": 6367,
+      "4": 13134
+    },
+    "RURAL": {
+      "5": 90,
+      "1": 219,
+      "2": 246,
+      "4": 1177,
+      "3": 402
+    },
+    "SIN_ASIGNAR": {
+      "1": 85,
+      "2": 73,
+      "4": 459,
+      "5": 26,
+      "3": 207
+    }
+  },
+  "classesTotal": {
+    "5": 904,
+    "1": 2503,
+    "2": 1563,
+    "3": 6976,
+    "4": 14770
+  },
+  "unassignedReasons": {
+    "DENTRO_CANTON_FUERA_PLATAFORMAS_Y_PARROQUIAS_RURALES": 820,
+    "FUERA_DEL_CANTON": 30
+  },
+  "byRuralParish": {
+    "CACHA": {
+      "1": 3,
+      "2": 2,
+      "4": 23,
+      "5": 3,
+      "3": 5
+    },
+    "CALPI": {
+      "1": 26,
+      "2": 18,
+      "4": 129,
+      "5": 9,
+      "3": 54
+    },
+    "CUBIJIES": {
+      "1": 10,
+      "2": 9,
+      "4": 42,
+      "5": 3,
+      "3": 21
+    },
+    "FLORES": {
+      "1": 2,
+      "5": 1,
+      "3": 2,
+      "4": 11,
+      "2": 1
+    },
+    "LICAN": {
+      "1": 63,
+      "2": 65,
+      "4": 263,
+      "5": 27,
+      "3": 101
+    },
+    "LICTO": {
+      "1": 13,
+      "2": 12,
+      "4": 74,
+      "3": 21,
+      "5": 2
+    },
+    "PUNGALA": {
+      "5": 5,
+      "4": 19,
+      "3": 5,
+      "1": 1,
+      "2": 3
+    },
+    "PUNIN": {
+      "1": 9,
+      "2": 3,
+      "4": 37,
+      "5": 4,
+      "3": 13
+    },
+    "QUIMIAG": {
+      "5": 6,
+      "1": 7,
+      "2": 7,
+      "4": 31,
+      "3": 11
+    },
+    "SAN JUAN": {
+      "1": 10,
+      "2": 19,
+      "4": 84,
+      "5": 4,
+      "3": 22
+    },
+    "SAN LUIS": {
+      "1": 75,
+      "2": 107,
+      "4": 464,
+      "5": 26,
+      "3": 147
+    }
+  },
+  "originalParishMismatch": {
+    "PUNIN -> SAN LUIS": 1,
+    "RIOBAMBA -> SAN LUIS": 55,
+    "RIOBAMBA -> CUBIJIES": 3,
+    "RIOBAMBA -> LICAN": 35,
+    "LICTO -> FLORES": 1,
+    "RIOBAMBA -> CACHA": 6,
+    "FLORES -> PUNIN": 1,
+    "FLORES -> LICTO": 2,
+    "CALPI -> LICAN": 1
+  },
+  "census": {
+    "source": "C:\\Users\\PC\\Downloads\\1.3 BDD_CPV_2022_MANLOC_CSV\\CPV_2022_Poblacion_Manloc.csv",
+    "method": "Conteo de personas (una fila por persona); filtro I01=06 e I02=01, verificado CANTON=0601. AUR conserva codigos originales, no se infiere significado sin diccionario.",
+    "sourceSize": 4552727407,
+    "allRowsScanned": 16938986,
+    "total": 260882,
+    "byParishCode": {
+      "060150": 188891,
+      "060151": 2362,
+      "060152": 6223,
+      "060153": 3264,
+      "060154": 2733,
+      "060155": 11726,
+      "060156": 6778,
+      "060157": 3925,
+      "060158": 4682,
+      "060159": 4479,
+      "060160": 6309,
+      "060161": 19510
+    },
+    "byAUR": {
+      "1": 177213,
+      "2": 83669
+    },
+    "byParishCodeAndAUR": {
+      "060150": {
+        "1": 177213,
+        "2": 11678
+      },
+      "060151": {
+        "2": 2362
+      },
+      "060152": {
+        "2": 6223
+      },
+      "060153": {
+        "2": 3264
+      },
+      "060154": {
+        "2": 2733
+      },
+      "060155": {
+        "2": 11726
+      },
+      "060156": {
+        "2": 6778
+      },
+      "060157": {
+        "2": 3925
+      },
+      "060158": {
+        "2": 4682
+      },
+      "060159": {
+        "2": 4479
+      },
+      "060160": {
+        "2": 6309
+      },
+      "060161": {
+        "2": 19510
+      }
+    }
+  },
+  "censusSpatialCrosswalk": {
+    "060150": {
+      "dominantGeometry": "LIZARZABURU",
+      "dominantAreaPct": 43.59323853088847,
+      "intersectionAreaByNameM2": {
+        "YARUQUIES": 725738.8823576785,
+        "LIZARZABURU": 12071928.718201054,
+        "VELASCO": 7886697.775014778,
+        "MALDONADO": 4073065.864877926,
+        "VELOZ": 2926571.8272807063,
+        "LICAN": 8201.331460076915
+      },
+      "censusPopulation": 188891
+    },
+    "060155": {
+      "dominantGeometry": "LICAN",
+      "dominantAreaPct": 100.0,
+      "intersectionAreaByNameM2": {
+        "LICAN": 2081378.5198568797
+      },
+      "censusPopulation": 11726
+    },
+    "060151": {
+      "dominantGeometry": "CACHA",
+      "dominantAreaPct": 100.0,
+      "intersectionAreaByNameM2": {
+        "CACHA": 284902.83979210624
+      },
+      "censusPopulation": 2362
+    },
+    "060152": {
+      "dominantGeometry": "CALPI",
+      "dominantAreaPct": 100.0,
+      "intersectionAreaByNameM2": {
+        "CALPI": 1257747.6018706777
+      },
+      "censusPopulation": 6223
+    },
+    "060154": {
+      "dominantGeometry": "FLORES",
+      "dominantAreaPct": 100.0,
+      "intersectionAreaByNameM2": {
+        "FLORES": 466867.4295615229
+      },
+      "censusPopulation": 2733
+    },
+    "060153": {
+      "dominantGeometry": "CUBIJIES",
+      "dominantAreaPct": 100.0,
+      "intersectionAreaByNameM2": {
+        "CUBIJIES": 485702.05097545555
+      },
+      "censusPopulation": 3264
+    },
+    "060157": {
+      "dominantGeometry": "PUNGALA",
+      "dominantAreaPct": 100.0,
+      "intersectionAreaByNameM2": {
+        "PUNGALA": 902200.1788444639
+      },
+      "censusPopulation": 3925
+    },
+    "060158": {
+      "dominantGeometry": "PUNIN",
+      "dominantAreaPct": 100.0,
+      "intersectionAreaByNameM2": {
+        "PUNIN": 816148.9183680387
+      },
+      "censusPopulation": 4682
+    },
+    "060159": {
+      "dominantGeometry": "QUIMIAG",
+      "dominantAreaPct": 100.0,
+      "intersectionAreaByNameM2": {
+        "QUIMIAG": 638511.4671684135
+      },
+      "censusPopulation": 4479
+    },
+    "060160": {
+      "dominantGeometry": "SAN JUAN",
+      "dominantAreaPct": 99.97739957111875,
+      "intersectionAreaByNameM2": {
+        "SAN JUAN": 1512243.550334402,
+        "CALPI": 341.8507878487469
+      },
+      "censusPopulation": 6309
+    },
+    "060156": {
+      "dominantGeometry": "LICTO",
+      "dominantAreaPct": 100.0,
+      "intersectionAreaByNameM2": {
+        "LICTO": 948127.48060187
+      },
+      "censusPopulation": 6778
+    },
+    "060161": {
+      "dominantGeometry": "SAN LUIS",
+      "dominantAreaPct": 100.0,
+      "intersectionAreaByNameM2": {
+        "SAN LUIS": 1829392.2581699532
+      },
+      "censusPopulation": 19510
+    }
+  },
+  "cameraAssignments": [
+    {
+      "id": "RIO-001-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA P"
+    },
+    {
+      "id": "RIO-010-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA K"
+    },
+    {
+      "id": "RIO-015-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA M"
+    },
+    {
+      "id": "RIO-019-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA Ñ"
+    },
+    {
+      "id": "RIO-021-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA K"
+    },
+    {
+      "id": "RIO-028-DOMO",
+      "scope": "SIN_ASIGNAR",
+      "unit": ""
+    },
+    {
+      "id": "RIO-035-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA M"
+    },
+    {
+      "id": "RIO-044-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA N"
+    },
+    {
+      "id": "RIO-045-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA I"
+    },
+    {
+      "id": "RIO-049-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA B"
+    },
+    {
+      "id": "RIO-050-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA M"
+    },
+    {
+      "id": "RIO-051-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA H"
+    },
+    {
+      "id": "RIO-052-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA I"
+    },
+    {
+      "id": "RIO-053-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA K"
+    },
+    {
+      "id": "RIO-054-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA K"
+    },
+    {
+      "id": "RIO-055-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA O"
+    },
+    {
+      "id": "RIO-057-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA I"
+    },
+    {
+      "id": "RIO-058-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA Ñ"
+    },
+    {
+      "id": "RIO-060-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA H"
+    },
+    {
+      "id": "RIO-061-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA Ñ"
+    },
+    {
+      "id": "RIO-062-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA Ñ"
+    },
+    {
+      "id": "RIO-063-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA I"
+    },
+    {
+      "id": "RIO-064-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA K"
+    },
+    {
+      "id": "RIO-066-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA B"
+    },
+    {
+      "id": "RIO-068-LA",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA I"
+    },
+    {
+      "id": "RIO-069-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA B"
+    },
+    {
+      "id": "RIO-070-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA F"
+    },
+    {
+      "id": "RIO-071-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA M"
+    },
+    {
+      "id": "RIO-075-DOMO",
+      "scope": "SIN_ASIGNAR",
+      "unit": ""
+    },
+    {
+      "id": "RIO-076-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA I"
+    },
+    {
+      "id": "RIO-078-DOMO",
+      "scope": "URBANO",
+      "unit": "PLATAFORMA Ñ"
+    }
+  ],
+  "policeAssignments": [
+    {
+      "properties": {
+        "code": "I0388",
+        "type": "UPC",
+        "name": "YARUQUIES 1",
+        "address": "CALLE GARC-A MORENO CALLE PADRE LOBATO  A 100,00M APROX. DE LA UPC EXISTENTE DEL SECTOR.",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "NUEVA",
+        "condition": "BUENA",
+        "personnel": 11,
+        "vehicles": 0,
+        "motorcycles": 5,
+        "observation": ""
+      },
+      "scope": "URBANO",
+      "unit": "PLATAFORMA N"
+    },
+    {
+      "properties": {
+        "code": "I0390",
+        "type": "UPC",
+        "name": "CEMENTO CHIMBORAZO",
+        "address": "15 DE NOVIEMBRE Y JOSE PERRALTA",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "MALA",
+        "personnel": 18,
+        "vehicles": 1,
+        "motorcycles": 5,
+        "observation": ""
+      },
+      "scope": "URBANO",
+      "unit": "PLATAFORMA H"
+    },
+    {
+      "properties": {
+        "code": "I0395",
+        "type": "UPC",
+        "name": "24 DE MAYO",
+        "address": "ARAUCANOS Y MANABI",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "BUENA",
+        "personnel": 19,
+        "vehicles": 0,
+        "motorcycles": 3,
+        "observation": ""
+      },
+      "scope": "URBANO",
+      "unit": "PLATAFORMA C"
+    },
+    {
+      "properties": {
+        "code": "I0397",
+        "type": "UPC",
+        "name": "LA ESPERANZA",
+        "address": "CALLE 9 Y CALLE O",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "MALA",
+        "personnel": 10,
+        "vehicles": 1,
+        "motorcycles": 1,
+        "observation": ""
+      },
+      "scope": "URBANO",
+      "unit": "PLATAFORMA M"
+    },
+    {
+      "properties": {
+        "code": "I0403",
+        "type": "UPC",
+        "name": "PLAZA DAVALOS",
+        "address": "LEON DE FEBRES CORDERO Y VICENTE ROCAFUERTE",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "REGULAR",
+        "personnel": 0,
+        "vehicles": 0,
+        "motorcycles": 2,
+        "observation": ""
+      },
+      "scope": "URBANO",
+      "unit": "PLATAFORMA K"
+    },
+    {
+      "properties": {
+        "code": "I0404",
+        "type": "UPC",
+        "name": "LA ESTACION 2",
+        "address": "CALLE LUIS ELISA BORJA Y CALLE EUGENIO ESPEJO REFERENCIA JUNTO A TERMINAL ORIENTAL.",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "NUEVA",
+        "condition": "BUENA",
+        "personnel": 25,
+        "vehicles": 2,
+        "motorcycles": 8,
+        "observation": ""
+      },
+      "scope": "URBANO",
+      "unit": "PLATAFORMA K"
+    },
+    {
+      "properties": {
+        "code": "I0407",
+        "type": "OTRAS DEPENDENCIAS",
+        "name": "POLICIA JUDICIAL CHIMBORAZO",
+        "address": "PRIMERA COSTITUYENTE ENTRE 5 DE JUNIO Y TARQUI",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "POR VERIFICAR",
+        "personnel": 0,
+        "vehicles": 0,
+        "motorcycles": 0,
+        "observation": "K"
+      },
+      "scope": "URBANO",
+      "unit": "PLATAFORMA K"
+    },
+    {
+      "properties": {
+        "code": "I0408",
+        "type": "OTRAS DEPENDENCIAS",
+        "name": "DEVIF CHIMBORAZO",
+        "address": "PRIMERA COSTITUYENTE ENTRE 5 DE JUNIO Y TARQUI",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "POR VERIFICAR",
+        "personnel": 0,
+        "vehicles": 0,
+        "motorcycles": 0,
+        "observation": "K"
+      },
+      "scope": "URBANO",
+      "unit": "PLATAFORMA K"
+    },
+    {
+      "properties": {
+        "code": "I0409",
+        "type": "UPC",
+        "name": "BASE DE LA ZONA 3",
+        "address": "PURUHA Y BUENOS AIRES",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "MALA",
+        "personnel": 19,
+        "vehicles": 1,
+        "motorcycles": 3,
+        "observation": ""
+      },
+      "scope": "URBANO",
+      "unit": "PLATAFORMA O"
+    },
+    {
+      "properties": {
+        "code": "I0410",
+        "type": "UPC",
+        "name": "PUCARA 1",
+        "address": "CALLE PAR-S Y ENTRE CALLE ROMA Y CALLE VARSOVIA",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "NUEVA",
+        "condition": "BUENA",
+        "personnel": 22,
+        "vehicles": 1,
+        "motorcycles": 3,
+        "observation": ""
+      },
+      "scope": "URBANO",
+      "unit": "PLATAFORMA P"
+    },
+    {
+      "properties": {
+        "code": "I0411",
+        "type": "OTRAS DEPENDENCIAS",
+        "name": "COMANDO DE LA SUBZONA CHIMBORAZO",
+        "address": "",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "BUENA",
+        "personnel": 0,
+        "vehicles": 0,
+        "motorcycles": 0,
+        "observation": "K"
+      },
+      "scope": "URBANO",
+      "unit": "PLATAFORMA Q"
+    },
+    {
+      "properties": {
+        "code": "I0413",
+        "type": "OTRAS DEPENDENCIAS",
+        "name": "MIGRACION CHIMBORAZO",
+        "address": "AV.LEOPOLDO FREIRE Y LA PAZ",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "POR VERIFICAR",
+        "personnel": 0,
+        "vehicles": 0,
+        "motorcycles": 0,
+        "observation": "K"
+      },
+      "scope": "URBANO",
+      "unit": "PLATAFORMA Q"
+    },
+    {
+      "properties": {
+        "code": "I0415",
+        "type": "UPC",
+        "name": "LA PAZ",
+        "address": "24 DE MAYO Y LOJA",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "BUENA",
+        "personnel": 19,
+        "vehicles": 0,
+        "motorcycles": 3,
+        "observation": ""
+      },
+      "scope": "URBANO",
+      "unit": "PLATAFORMA Ñ"
+    },
+    {
+      "properties": {
+        "code": "I0416",
+        "type": "UPC",
+        "name": "LA JOYA",
+        "address": "MORONA Y JOSE JOAQUIN DE OLMEDO",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "MALA",
+        "personnel": 0,
+        "vehicles": 1,
+        "motorcycles": 3,
+        "observation": ""
+      },
+      "scope": "URBANO",
+      "unit": "PLATAFORMA Ñ"
+    },
+    {
+      "properties": {
+        "code": "I0419",
+        "type": "UPC",
+        "name": "TERMINAL TERRESTRE 1",
+        "address": "AV. DANEIL LEON BORJA Y AV. LA PRENSA REFERENCIA DIAGONAL AL BANCO DE GUYAQUIL",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "NUEVA",
+        "condition": "BUENA",
+        "personnel": 17,
+        "vehicles": 2,
+        "motorcycles": 4,
+        "observation": ""
+      },
+      "scope": "URBANO",
+      "unit": "PLATAFORMA J"
+    },
+    {
+      "properties": {
+        "code": "I0421",
+        "type": "UPC",
+        "name": "LA CONDAMINE 1",
+        "address": "CALLE JUAN DE LAVALLE Y CALLE ONCE DE NOVIEMBRE REFERENCIA JUNTO AL CENTRO OCUPACIONAL BONILLA ABARCA",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "NUEVA",
+        "condition": "BUENA",
+        "personnel": 26,
+        "vehicles": 1,
+        "motorcycles": 3,
+        "observation": ""
+      },
+      "scope": "URBANO",
+      "unit": "PLATAFORMA J"
+    },
+    {
+      "properties": {
+        "code": "I0427",
+        "type": "UPC",
+        "name": "LA PRIMAVERA",
+        "address": "SAN ANDRES Y MULTITUD",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "MALA",
+        "personnel": 10,
+        "vehicles": 1,
+        "motorcycles": 1,
+        "observation": ""
+      },
+      "scope": "URBANO",
+      "unit": "PLATAFORMA J"
+    },
+    {
+      "properties": {
+        "code": "I0428",
+        "type": "UPC",
+        "name": "SAN JUAN",
+        "address": "AV. MOISES SILVA E INTERCECCION SIN NOMBRE",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "MALA",
+        "personnel": 8,
+        "vehicles": 0,
+        "motorcycles": 1,
+        "observation": ""
+      },
+      "scope": "RURAL",
+      "unit": "SAN JUAN"
+    },
+    {
+      "properties": {
+        "code": "I0429",
+        "type": "UPC",
+        "name": "CALPI",
+        "address": "GUAYAQUIL Y CALLE 3",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "MALA",
+        "personnel": 0,
+        "vehicles": 1,
+        "motorcycles": 1,
+        "observation": ""
+      },
+      "scope": "RURAL",
+      "unit": "CALPI"
+    },
+    {
+      "properties": {
+        "code": "I0431",
+        "type": "UPC",
+        "name": "CUBIJIES",
+        "address": "CALLE E Y ORIENTAL",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "MALA",
+        "personnel": 5,
+        "vehicles": 0,
+        "motorcycles": 0,
+        "observation": ""
+      },
+      "scope": "RURAL",
+      "unit": "CUBIJIES"
+    },
+    {
+      "properties": {
+        "code": "I0432",
+        "type": "UPC",
+        "name": "QUIMIAG",
+        "address": "CALLE N Y RODRIGO BARRENO COBO (CALLE 8)",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "MALA",
+        "personnel": 0,
+        "vehicles": 0,
+        "motorcycles": 1,
+        "observation": ""
+      },
+      "scope": "RURAL",
+      "unit": "QUIMIAG"
+    },
+    {
+      "properties": {
+        "code": "I0433",
+        "type": "UPC",
+        "name": "LICTO",
+        "address": "GONZALEZ SU-REZ Y SUCRE",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "MALA",
+        "personnel": 2,
+        "vehicles": 0,
+        "motorcycles": 0,
+        "observation": ""
+      },
+      "scope": "RURAL",
+      "unit": "LICTO"
+    },
+    {
+      "properties": {
+        "code": "I0434",
+        "type": "UPC",
+        "name": "PUNGALA",
+        "address": "ORIENTE Y PASAJE",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "MALA",
+        "personnel": 3,
+        "vehicles": 1,
+        "motorcycles": 1,
+        "observation": ""
+      },
+      "scope": "RURAL",
+      "unit": "PUNGALA"
+    },
+    {
+      "properties": {
+        "code": "I0435",
+        "type": "UPC",
+        "name": "PUNIN",
+        "address": "FIDEL BANDERAS Y CALLE",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "MALA",
+        "personnel": 3,
+        "vehicles": 0,
+        "motorcycles": 1,
+        "observation": ""
+      },
+      "scope": "RURAL",
+      "unit": "PUNIN"
+    },
+    {
+      "properties": {
+        "code": "I0436",
+        "type": "UPC",
+        "name": "SAN LUIS",
+        "address": "CALLE 1 Y CHIMBORAZO",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "MALA",
+        "personnel": 4,
+        "vehicles": 0,
+        "motorcycles": 1,
+        "observation": ""
+      },
+      "scope": "RURAL",
+      "unit": "SAN LUIS"
+    },
+    {
+      "properties": {
+        "code": "I0437",
+        "type": "UPC",
+        "name": "CHAMBO",
+        "address": "LUIS ALVAREZ (JUAN CLAVIJO) Y 16 DE DICIEMBRE (EUGENIO ESPEJO)",
+        "status": "EN FUNCIONAMIENTO",
+        "model": "ANTIGUA",
+        "condition": "MALA",
+        "personnel": 7,
+        "vehicles": 1,
+        "motorcycles": 0,
+        "observation": ""
+      },
+      "scope": "SIN_ASIGNAR",
+      "unit": ""
+    }
+  ],
+  "ruralPopulationAndEventsPreliminary": [
+    {
+      "PARROQUIA": "CACHA",
+      "CODIGO_CPV_PROPUESTO": "060151",
+      "POBLACION_CPV": 2362,
+      "CONCORDANCIA_GEOMETRICA_PCT": 100.0,
+      "INCIDENTES": 36,
+      "DELINCUENCIA": 3,
+      "VIOLENCIA": 2,
+      "CONVIVENCIA": 5,
+      "INSTITUCIONAL": 23,
+      "OTROS_REVISION": 3,
+      "DEPENDENCIAS_INVENTARIADAS": 0,
+      "GI_RURAL": "NO CALCULADO",
+      "TASAS_RURALES": "PENDIENTE CONCORDANCIA DE AMBITOS",
+      "CAMARAS_RURALES": "INVENTARIO NO DISPONIBLE"
+    },
+    {
+      "PARROQUIA": "CALPI",
+      "CODIGO_CPV_PROPUESTO": "060152",
+      "POBLACION_CPV": 6223,
+      "CONCORDANCIA_GEOMETRICA_PCT": 100.0,
+      "INCIDENTES": 236,
+      "DELINCUENCIA": 26,
+      "VIOLENCIA": 18,
+      "CONVIVENCIA": 54,
+      "INSTITUCIONAL": 129,
+      "OTROS_REVISION": 9,
+      "DEPENDENCIAS_INVENTARIADAS": 1,
+      "GI_RURAL": "NO CALCULADO",
+      "TASAS_RURALES": "PENDIENTE CONCORDANCIA DE AMBITOS",
+      "CAMARAS_RURALES": "INVENTARIO NO DISPONIBLE"
+    },
+    {
+      "PARROQUIA": "CUBIJIES",
+      "CODIGO_CPV_PROPUESTO": "060153",
+      "POBLACION_CPV": 3264,
+      "CONCORDANCIA_GEOMETRICA_PCT": 100.0,
+      "INCIDENTES": 85,
+      "DELINCUENCIA": 10,
+      "VIOLENCIA": 9,
+      "CONVIVENCIA": 21,
+      "INSTITUCIONAL": 42,
+      "OTROS_REVISION": 3,
+      "DEPENDENCIAS_INVENTARIADAS": 1,
+      "GI_RURAL": "NO CALCULADO",
+      "TASAS_RURALES": "PENDIENTE CONCORDANCIA DE AMBITOS",
+      "CAMARAS_RURALES": "INVENTARIO NO DISPONIBLE"
+    },
+    {
+      "PARROQUIA": "FLORES",
+      "CODIGO_CPV_PROPUESTO": "060154",
+      "POBLACION_CPV": 2733,
+      "CONCORDANCIA_GEOMETRICA_PCT": 100.0,
+      "INCIDENTES": 17,
+      "DELINCUENCIA": 2,
+      "VIOLENCIA": 1,
+      "CONVIVENCIA": 2,
+      "INSTITUCIONAL": 11,
+      "OTROS_REVISION": 1,
+      "DEPENDENCIAS_INVENTARIADAS": 0,
+      "GI_RURAL": "NO CALCULADO",
+      "TASAS_RURALES": "PENDIENTE CONCORDANCIA DE AMBITOS",
+      "CAMARAS_RURALES": "INVENTARIO NO DISPONIBLE"
+    },
+    {
+      "PARROQUIA": "LICAN",
+      "CODIGO_CPV_PROPUESTO": "060155",
+      "POBLACION_CPV": 11726,
+      "CONCORDANCIA_GEOMETRICA_PCT": 100.0,
+      "INCIDENTES": 519,
+      "DELINCUENCIA": 63,
+      "VIOLENCIA": 65,
+      "CONVIVENCIA": 101,
+      "INSTITUCIONAL": 263,
+      "OTROS_REVISION": 27,
+      "DEPENDENCIAS_INVENTARIADAS": 0,
+      "GI_RURAL": "NO CALCULADO",
+      "TASAS_RURALES": "PENDIENTE CONCORDANCIA DE AMBITOS",
+      "CAMARAS_RURALES": "INVENTARIO NO DISPONIBLE"
+    },
+    {
+      "PARROQUIA": "LICTO",
+      "CODIGO_CPV_PROPUESTO": "060156",
+      "POBLACION_CPV": 6778,
+      "CONCORDANCIA_GEOMETRICA_PCT": 100.0,
+      "INCIDENTES": 122,
+      "DELINCUENCIA": 13,
+      "VIOLENCIA": 12,
+      "CONVIVENCIA": 21,
+      "INSTITUCIONAL": 74,
+      "OTROS_REVISION": 2,
+      "DEPENDENCIAS_INVENTARIADAS": 1,
+      "GI_RURAL": "NO CALCULADO",
+      "TASAS_RURALES": "PENDIENTE CONCORDANCIA DE AMBITOS",
+      "CAMARAS_RURALES": "INVENTARIO NO DISPONIBLE"
+    },
+    {
+      "PARROQUIA": "PUNGALA",
+      "CODIGO_CPV_PROPUESTO": "060157",
+      "POBLACION_CPV": 3925,
+      "CONCORDANCIA_GEOMETRICA_PCT": 100.0,
+      "INCIDENTES": 33,
+      "DELINCUENCIA": 1,
+      "VIOLENCIA": 3,
+      "CONVIVENCIA": 5,
+      "INSTITUCIONAL": 19,
+      "OTROS_REVISION": 5,
+      "DEPENDENCIAS_INVENTARIADAS": 1,
+      "GI_RURAL": "NO CALCULADO",
+      "TASAS_RURALES": "PENDIENTE CONCORDANCIA DE AMBITOS",
+      "CAMARAS_RURALES": "INVENTARIO NO DISPONIBLE"
+    },
+    {
+      "PARROQUIA": "PUNIN",
+      "CODIGO_CPV_PROPUESTO": "060158",
+      "POBLACION_CPV": 4682,
+      "CONCORDANCIA_GEOMETRICA_PCT": 100.0,
+      "INCIDENTES": 66,
+      "DELINCUENCIA": 9,
+      "VIOLENCIA": 3,
+      "CONVIVENCIA": 13,
+      "INSTITUCIONAL": 37,
+      "OTROS_REVISION": 4,
+      "DEPENDENCIAS_INVENTARIADAS": 1,
+      "GI_RURAL": "NO CALCULADO",
+      "TASAS_RURALES": "PENDIENTE CONCORDANCIA DE AMBITOS",
+      "CAMARAS_RURALES": "INVENTARIO NO DISPONIBLE"
+    },
+    {
+      "PARROQUIA": "QUIMIAG",
+      "CODIGO_CPV_PROPUESTO": "060159",
+      "POBLACION_CPV": 4479,
+      "CONCORDANCIA_GEOMETRICA_PCT": 100.0,
+      "INCIDENTES": 62,
+      "DELINCUENCIA": 7,
+      "VIOLENCIA": 7,
+      "CONVIVENCIA": 11,
+      "INSTITUCIONAL": 31,
+      "OTROS_REVISION": 6,
+      "DEPENDENCIAS_INVENTARIADAS": 1,
+      "GI_RURAL": "NO CALCULADO",
+      "TASAS_RURALES": "PENDIENTE CONCORDANCIA DE AMBITOS",
+      "CAMARAS_RURALES": "INVENTARIO NO DISPONIBLE"
+    },
+    {
+      "PARROQUIA": "SAN JUAN",
+      "CODIGO_CPV_PROPUESTO": "060160",
+      "POBLACION_CPV": 6309,
+      "CONCORDANCIA_GEOMETRICA_PCT": 99.97739957111875,
+      "INCIDENTES": 139,
+      "DELINCUENCIA": 10,
+      "VIOLENCIA": 19,
+      "CONVIVENCIA": 22,
+      "INSTITUCIONAL": 84,
+      "OTROS_REVISION": 4,
+      "DEPENDENCIAS_INVENTARIADAS": 1,
+      "GI_RURAL": "NO CALCULADO",
+      "TASAS_RURALES": "PENDIENTE CONCORDANCIA DE AMBITOS",
+      "CAMARAS_RURALES": "INVENTARIO NO DISPONIBLE"
+    },
+    {
+      "PARROQUIA": "SAN LUIS",
+      "CODIGO_CPV_PROPUESTO": "060161",
+      "POBLACION_CPV": 19510,
+      "CONCORDANCIA_GEOMETRICA_PCT": 100.0,
+      "INCIDENTES": 819,
+      "DELINCUENCIA": 75,
+      "VIOLENCIA": 107,
+      "CONVIVENCIA": 147,
+      "INSTITUCIONAL": 464,
+      "OTROS_REVISION": 26,
+      "DEPENDENCIAS_INVENTARIADAS": 1,
+      "GI_RURAL": "NO CALCULADO",
+      "TASAS_RURALES": "PENDIENTE CONCORDANCIA DE AMBITOS",
+      "CAMARAS_RURALES": "INVENTARIO NO DISPONIBLE"
+    }
+  ],
+  "protectedProductionHashesBefore": {
+    "visor-seguridad-riobamba-v2.html": "8f2463de6abd7de666ae63324e68911efbd7490832ce3c19efb5b8018b7c0e1a",
+    "visor-seguridad-riobamba-data.js": "e84f1e092da171ba430db01bb4def4df9d3c2269a500285a26cb29950e8f9bac",
+    "riobamba-camaras-data.js": "cb46287cf85cdd458381617d3b779faf9cf3d869fe91dc7ee0fcb0f711f4c497",
+    "policia-06d01-data.js": "f6322f8ec8837e8c547bf5b9098fce369a6f8a3eab4c518f3b385ba4f615c410",
+    "riobamba-metodologia-data.js": "8a741965edd8fe04446cef028774013d3d0dc6618224fcc7dcc335bc96ae89fd",
+    "riobamba-incidentes-spatial-data.js": "f548ea151337872b7ef3acd7dd3d0586088c342f794be53f0ed4f3451748f477",
+    "riobamba-seguridad-diagnostico-data.js": "7a8c8e4125d44e4cd209a6cef8979f2e31d4ac62dec7b15f5f116c48372a923d",
+    "riobamba-accesibilidad-policial-data.js": "882fa013a099d1ac1804643e0e14ab4ef140aea1ed2444dbf9c627ba1c712d96",
+    "riobamba-seguridad-kde-validacion-data.js": "f179696f2d31b04da64ee9f9bcb98c6c9db98e9d84a30219fb30219917547fab",
+    "riobamba-censo-data\\riobamba_plataformas.geojson": "c5f6c2f18971961971d3a693755a3bb426ca47c615b738975ac7224a97423618",
+    "riobamba-censo-data\\riobamba_manzanas_stats.json": "ae5922498b5f81fa17724c1e7b7eb8864ab5f5947b19ff312b4b27939438faa2",
+    "data\\premio-habitat\\premio-habitat-boulevares.geojson": "2c8f4f728834797c9fc192e30df23afe7763df2234615a1e0d9aae13d056f1af",
+    "data\\premio-habitat\\premio-habitat-conexiones.geojson": "d4c81a10122931bbfa7553c485c09d895dae525d47f2e9ecfd2be4095d35ca14"
+  },
+  "protectedProductionHashesAfter": {
+    "visor-seguridad-riobamba-v2.html": "8f2463de6abd7de666ae63324e68911efbd7490832ce3c19efb5b8018b7c0e1a",
+    "visor-seguridad-riobamba-data.js": "e84f1e092da171ba430db01bb4def4df9d3c2269a500285a26cb29950e8f9bac",
+    "riobamba-camaras-data.js": "cb46287cf85cdd458381617d3b779faf9cf3d869fe91dc7ee0fcb0f711f4c497",
+    "policia-06d01-data.js": "f6322f8ec8837e8c547bf5b9098fce369a6f8a3eab4c518f3b385ba4f615c410",
+    "riobamba-metodologia-data.js": "8a741965edd8fe04446cef028774013d3d0dc6618224fcc7dcc335bc96ae89fd",
+    "riobamba-incidentes-spatial-data.js": "f548ea151337872b7ef3acd7dd3d0586088c342f794be53f0ed4f3451748f477",
+    "riobamba-seguridad-diagnostico-data.js": "7a8c8e4125d44e4cd209a6cef8979f2e31d4ac62dec7b15f5f116c48372a923d",
+    "riobamba-accesibilidad-policial-data.js": "882fa013a099d1ac1804643e0e14ab4ef140aea1ed2444dbf9c627ba1c712d96",
+    "riobamba-seguridad-kde-validacion-data.js": "f179696f2d31b04da64ee9f9bcb98c6c9db98e9d84a30219fb30219917547fab",
+    "riobamba-censo-data\\riobamba_plataformas.geojson": "c5f6c2f18971961971d3a693755a3bb426ca47c615b738975ac7224a97423618",
+    "riobamba-censo-data\\riobamba_manzanas_stats.json": "ae5922498b5f81fa17724c1e7b7eb8864ab5f5947b19ff312b4b27939438faa2",
+    "data\\premio-habitat\\premio-habitat-boulevares.geojson": "2c8f4f728834797c9fc192e30df23afe7763df2234615a1e0d9aae13d056f1af",
+    "data\\premio-habitat\\premio-habitat-conexiones.geojson": "d4c81a10122931bbfa7553c485c09d895dae525d47f2e9ecfd2be4095d35ca14"
+  }
+}

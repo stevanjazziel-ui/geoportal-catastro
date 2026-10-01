@@ -1,0 +1,56 @@
+{
+  "generatedAt": "2026-10-01T12:49:40",
+  "crs": "EPSG:32717",
+  "weight": 1,
+  "period": "2026-01-01 / 2026-08-31",
+  "source": "Base de Datos Emergencias_SC_Riobamba (2).xlsx; CPV 2022; shapefiles cantonales disponibles",
+  "geometryAudit": {
+    "cantonAreaKm2": 998.7790465202169,
+    "parishUnionDifferenceM2": 0.01595402063331788,
+    "parishOverlapM2": 4.76837158203125e-06,
+    "urbanPlatformAreaKm2": 29.29311869178453,
+    "administrativeUrbanAreaKm2": 61.95489566097721,
+    "urbanOutsideCantonM2": 585.1200740299054,
+    "urbanRuralOverlapKm2": 0.09861424533668707,
+    "withinCantonUnclassifiedAreaKm2": 32.760976332991994
+  },
+  "assignment": "Interseccion espacial en EPSG:32717; primero verificar canton, luego Plataformas urbanas, luego parroquias RURAL. Los huecos de ambito no se asignan por texto; cruces multiples quedan reportados. Es una propuesta operativa para revision.",
+  "ruralGridSelection": "Mayor soporte evaluado (1000 m) para reducir celdas vacias; menor vecindad evaluada sin aislados y con media >=8 vecinos. Seleccion independiente de hotspots. Resultados nominales exploratorios sin FDR; distribucion escasa limita aproximacion normal.",
+  "kdeParameters": {
+    "urban": {
+      "cell": 20,
+      "bandwidth": 700
+    },
+    "rural": {
+      "cell": 100,
+      "bandwidth": 1500
+    },
+    "cantonal": {
+      "cell": 100,
+      "bandwidth": 1500
+    },
+    "kernel": "Gaussiano truncado a bandwidth; peso 1; suma continua antes de mascara",
+    "ruralAssessment": {
+      "nearestNeighborMedian": 0.0,
+      "nearestNeighborP90": 254.45264458928003,
+      "candidates": [
+        1000,
+        1500,
+        2000
+      ],
+      "selection": "1500 m como escenario exploratorio fijo de escala rural, no optimizado para significancia; requiere validacion y sensibilidad antes de decisiones"
+    }
+  },
+  "limitations": [
+    "Limite urbano operativo: union de 18 Plataformas; no equivale al limite urbano legal/censal oficial no disponible.",
+    "83.669 habitantes rurales incluyen 11.678 de PARROQ 060150 fuera de las once parroquias rurales. Sus poblaciones suman 71.991. Tasas de referencia operativa, no denominadores espacialmente concordantes certificados.",
+    "850 registros SIN_ASIGNAR: 820 dentro del canton incluidos en analisis cantonal y 30 fuera excluidos.",
+    "Inventario rural de camaras no disponible; no se interpreta como cero.",
+    "Poblacion georreferenciada rural incompleta; cobertura y exposicion poblacional rural no disponibles.",
+    "Gi* rural nominal, sin correccion multiple; escasez y exceso de ceros requieren cautela. No implica peligrosidad.",
+    "Coordenadas de origen conservadas; clase A no equivale a certificacion independiente de exactitud. Las coincidencias entre observaciones distintas se mantienen."
+  ],
+  "methodReferences": [
+    "https://pro.arcgis.com/en/pro-app/3.4/tool-reference/spatial-statistics/h-how-hot-spot-analysis-getis-ord-gi-spatial-stati.htm"
+  ]
+}

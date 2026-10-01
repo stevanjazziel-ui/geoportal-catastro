@@ -1,0 +1,118 @@
+{
+  "date": "2026-10-01",
+  "checks": [
+    {
+      "view": "KDE_URBANO_DELINCUENCIA",
+      "summary": "REGISTROS ANALIZADOS\n2199\nREGISTROS EXCLUIDOS\n0\nCONCENTRACIONES\n12\nPLATAFORMA CON MÁS REGISTROS\nK\nBANDWIDTH\n700 m"
+    },
+    {
+      "view": "KDE_URBANO_VIOLENCIA",
+      "summary": "REGISTROS ANALIZADOS\n1244\nREGISTROS EXCLUIDOS\n0\nCONCENTRACIONES\n21\nPLATAFORMA CON MÁS REGISTROS\nJ\nBANDWIDTH\n700 m"
+    },
+    {
+      "view": "KDE_URBANO_CONVIVENCIA",
+      "summary": "REGISTROS ANALIZADOS\n6367\nREGISTROS EXCLUIDOS\n0\nCONCENTRACIONES\n2\nPLATAFORMA CON MÁS REGISTROS\nJ\nBANDWIDTH\n700 m"
+    },
+    {
+      "view": "KDE_RURAL",
+      "summary": "POBLACIÓN DE REFERENCIA\n83.669\nEVENTOS FILTRADOS\n219\nCATEGORÍA\nDelincuencia\nBANDWIDTH / CELDA\n1500 / 100 m\nCONCENTRACIONES RELATIVAS\n3"
+    },
+    {
+      "view": "GI_RURAL",
+      "summary": "POBLACIÓN DE REFERENCIA\n83.669\nEVENTOS FILTRADOS\n867\nCELDAS RURALES EN SELECCIÓN\n1132\nHOTSPOTS RURALES EN SELECCIÓN\n60\nCOLDSPOTS RURALES EN SELECCIÓN\n0"
+    },
+    {
+      "view": "GI_CANTONAL",
+      "summary": "POBLACIÓN DE REFERENCIA\n260.882\nEVENTOS FILTRADOS\n11.034\nCELDAS RURALES EN SELECCIÓN\n1132\nHOTSPOTS RURALES EN SELECCIÓN\n60\nCOLDSPOTS RURALES EN SELECCIÓN\n0"
+    },
+    {
+      "view": "GI_URBANO",
+      "summary": "REGISTROS ANALÍTICOS\n9.810\nCELDAS\n572\nHOTSPOTS NOMINALES\n127\nCOLDSPOTS NOMINALES\n77\nÁREA EN HOTSPOTS\n7.89 km²\nMÉTODO\nGi* · sin corrección múltiple"
+    },
+    {
+      "view": "GI_PARROQUIA_SAN_LUIS",
+      "summary": "POBLACIÓN DE REFERENCIA\n19.510\nEVENTOS FILTRADOS\n329\nCELDAS RURALES EN SELECCIÓN\n48\nHOTSPOTS RURALES EN SELECCIÓN\n30\nCOLDSPOTS RURALES EN SELECCIÓN\n0"
+    },
+    {
+      "view": "INCIDENCIA_RURAL",
+      "summary": "POBLACIÓN DE REFERENCIA\n83.669\nEVENTOS FILTRADOS\n867\nDELINCUENCIA / 100.000 HAB.\n261.75\nVIOLENCIA / 100.000 HAB.\n294.02\nCONVIVENCIA / 100.000 HAB.\n480.46"
+    },
+    {
+      "view": "COBERTURA_TERRITORIAL",
+      "summary": "CÁMARAS PARA CAMBIO ANALIZADAS\n31\nÁREA TOTAL ANALIZADA\n29.29 km²\nÁREA POTENCIALMENTE CUBIERTA\n1.90 km²\nÁREA NO CUBIERTA\n27.39 km²\nTERRITORIO POTENCIALMENTE CUBIERTO\n6.5%\nTERRITORIO FUERA DE COBERTURA\n93.5%"
+    },
+    {
+      "view": "COBERTURA_POBLACIONAL",
+      "summary": "POBLACIÓN ANALIZADA\n171.998 hab.\nPOBLACIÓN POTENCIALMENTE CUBIERTA\n14.581 hab. (8.5%)\nPOBLACIÓN FUERA DE COBERTURA\n157.417 hab. (91.5%)\nMANZANAS ANALIZADAS\n2.825\nMANZANAS CON COBERTURA\n376"
+    },
+    {
+      "view": "PROXIMIDAD_RURAL",
+      "summary": "POBLACIÓN DE REFERENCIA\n83.669\nEVENTOS FILTRADOS\n2.134\nDELINCUENCIA\n219\nVIOLENCIA\n246\nCONVIVENCIA\n402\nPROXIMIDAD MEDIA DE EVENTOS\n1783 m"
+    },
+    {
+      "view": "TIPOS_INSTITUCIONAL_RURAL",
+      "summary": "POBLACIÓN DE REFERENCIA\n83.669\nEVENTOS FILTRADOS\n1.177\nDELINCUENCIA\n0\nVIOLENCIA\n0\nCONVIVENCIA\n0"
+    },
+    {
+      "view": "TEMPORAL_CALPI",
+      "summary": "POBLACIÓN DE REFERENCIA\n6.223\nEVENTOS FILTRADOS\n236\nDELINCUENCIA\n26\nVIOLENCIA\n18\nCONVIVENCIA\n54"
+    },
+    {
+      "view": "KDE_RURAL_VIOLENCIA_FEBRERO",
+      "summary": "POBLACIÓN DE REFERENCIA\n83.669\nEVENTOS FILTRADOS\n27\nCATEGORÍA\nViolencia\nBANDWIDTH / CELDA\n1500 / 100 m\nCONCENTRACIONES RELATIVAS\n8"
+    },
+    {
+      "view": "URBANO_videoDeficitGapMode",
+      "summary": "PLATAFORMAS\n18\nREGISTROS ANALÍTICOS\n2.199\nPOBLACIÓN CENSAL\n171.998\nPOBLACIÓN FUERA DEL ESCENARIO\n157.417\nCELDAS GI* CON COBERTURA < 50%\n83\nESCENARIO · RADIO\n150 m"
+    },
+    {
+      "view": "URBANO_lowCoverageConcentrationsMode",
+      "summary": "PLATAFORMAS\n18\nREGISTROS ANALÍTICOS\n2.199\nPOBLACIÓN CENSAL\n171.998\nPOBLACIÓN FUERA DEL ESCENARIO\n157.417\nCELDAS GI* CON COBERTURA < 50%\n83\nESCENARIO · RADIO\n150 m"
+    },
+    {
+      "view": "URBANO_exposureLowCoverageMode",
+      "summary": "PLATAFORMAS\n18\nREGISTROS ANALÍTICOS\n9.810\nPOBLACIÓN CENSAL\n171.998\nPOBLACIÓN FUERA DEL ESCENARIO\n157.417\nCELDAS GI* CON COBERTURA < 50%\n83\nESCENARIO · RADIO\n150 m"
+    },
+    {
+      "view": "URBANO_territorialGapsMode",
+      "summary": "PLATAFORMAS\n18\nREGISTROS ANALÍTICOS\n9.810\nPOBLACIÓN CENSAL\n171.998\nPOBLACIÓN FUERA DEL ESCENARIO\n157.417\nCELDAS GI* CON COBERTURA < 50%\n83\nESCENARIO · RADIO\n150 m"
+    },
+    {
+      "view": "URBANO_candidateZonesMode",
+      "summary": "PLATAFORMAS\n18\nREGISTROS ANALÍTICOS\n9.810\nPOBLACIÓN CENSAL\n171.998\nPOBLACIÓN FUERA DEL ESCENARIO\n157.417\nCELDAS GI* CON COBERTURA < 50%\n83\nESCENARIO · RADIO\n150 m"
+    },
+    {
+      "view": "RURAL_videoDeficitGapMode",
+      "summary": "POBLACIÓN DE REFERENCIA\n83.669\nEVENTOS FILTRADOS\n867\nCÁMARAS RURALES\nNo disponible\nCOBERTURA RURAL\nNo disponible\nESCENARIO URBANO\n31 cámaras"
+    },
+    {
+      "view": "RURAL_lowCoverageConcentrationsMode",
+      "summary": "POBLACIÓN DE REFERENCIA\n83.669\nEVENTOS FILTRADOS\n867\nCÁMARAS RURALES\nNo disponible\nCOBERTURA RURAL\nNo disponible\nESCENARIO URBANO\n31 cámaras"
+    },
+    {
+      "view": "RURAL_exposureLowCoverageMode",
+      "summary": "POBLACIÓN DE REFERENCIA\n83.669\nEVENTOS FILTRADOS\n867\nCÁMARAS RURALES\nNo disponible\nCOBERTURA RURAL\nNo disponible\nESCENARIO URBANO\n31 cámaras"
+    },
+    {
+      "view": "RURAL_territorialGapsMode",
+      "summary": "POBLACIÓN DE REFERENCIA\n83.669\nEVENTOS FILTRADOS\n867\nCÁMARAS RURALES\nNo disponible\nCOBERTURA RURAL\nNo disponible\nESCENARIO URBANO\n31 cámaras"
+    },
+    {
+      "view": "RURAL_candidateZonesMode",
+      "summary": "POBLACIÓN DE REFERENCIA\n83.669\nEVENTOS FILTRADOS\n867\nCÁMARAS RURALES\nNo disponible\nCOBERTURA RURAL\nNo disponible\nESCENARIO URBANO\n31 cámaras"
+    },
+    {
+      "view": "Gi rural final",
+      "summary": "867 eventos; 1132 celdas; 60 hotspots nominales; filtro 99%:47; coldspots:0; cantonal muestra exclusión estadística de357 internos sin unidad."
+    },
+    {
+      "view": "Cobertura cantonal final",
+      "summary": "Radio100m:0.877km²/6354hab;200m:3.187km²/24464hab. Sólo escenario urbano,31cámaras. Rural No disponible."
+    },
+    {
+      "view": "Zoom final San Luis",
+      "summary": "75registrosDelincuencia; puntos originales y superficieKDE visible;1500m/100m."
+    }
+  ],
+  "consoleErrors": []
+}

@@ -1,0 +1,114 @@
+{
+  "scopes": {
+    "URBANO": 23732,
+    "RURAL": 2134,
+    "SIN_ASIGNAR": 850
+  },
+  "total": 26716,
+  "cantonalInside": 26686,
+  "cantonClasses": {
+    "1": 2501,
+    "2": 1562,
+    "3": 6971
+  },
+  "ruralGi": [
+    {
+      "class": "general",
+      "records": 867,
+      "hotspots": 60,
+      "coldspots": 0
+    },
+    {
+      "class": 1,
+      "records": 219,
+      "hotspots": 55,
+      "coldspots": 0
+    },
+    {
+      "class": 2,
+      "records": 246,
+      "hotspots": 53,
+      "coldspots": 0
+    },
+    {
+      "class": 3,
+      "records": 402,
+      "hotspots": 57,
+      "coldspots": 0
+    }
+  ],
+  "ruralGrid": {
+    "cellSize": 1000,
+    "distance": 2000,
+    "cells": 1132,
+    "occupied": 119,
+    "empty": 1013,
+    "meanIncidents": 0.7659010600706714,
+    "maximum": 133,
+    "distribution": {
+      "0": 1013,
+      "1": 60,
+      "2": 11,
+      "3": 12,
+      "4": 7,
+      "5": 2,
+      "6": 1,
+      "7": 1,
+      "10": 1,
+      "11": 4,
+      "12": 1,
+      "13": 1,
+      "14": 5,
+      "17": 1,
+      "18": 1,
+      "27": 2,
+      "28": 1,
+      "29": 1,
+      "32": 1,
+      "36": 1,
+      "41": 1,
+      "43": 1,
+      "53": 1,
+      "65": 1,
+      "133": 1
+    },
+    "meanNeighbors": 10.650176678445229,
+    "minNeighbors": 3,
+    "maxNeighbors": 12,
+    "isolated": 0,
+    "classes": {
+      "NO SIGNIFICATIVO": 1072,
+      "HOTSPOT 90%": 5,
+      "HOTSPOT 99%": 47,
+      "HOTSPOT 95%": 8
+    }
+  },
+  "kdeSensitivity": [
+    {
+      "bandwidth": 1000,
+      "cellSize": 100,
+      "records": 867,
+      "maxDensity": 153.54742431640625,
+      "concentrations": 3
+    },
+    {
+      "bandwidth": 1500,
+      "cellSize": 100,
+      "records": 867,
+      "maxDensity": 195.8299560546875,
+      "concentrations": 3
+    },
+    {
+      "bandwidth": 2000,
+      "cellSize": 100,
+      "records": 867,
+      "maxDensity": 250.43954467773438,
+      "concentrations": 2
+    }
+  ],
+  "originalDataHashesPreserved": true,
+  "all31CamerasPreserved": true,
+  "urbanBoundary": "Operative, not certified census/legal boundary",
+  "ruralInventory": "Not available",
+  "commitAndPush": false
+}

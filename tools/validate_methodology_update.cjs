@@ -49,7 +49,7 @@ for (const row of police.table) assert.equal(['POB_0_250','POB_250_500','POB_500
 const html = read('visor-seguridad-riobamba-v2.html');
 const extract = (start,end) => {const a=html.indexOf(start),b=html.indexOf(end,a);assert.ok(a>=0&&b>a);return html.slice(a,b);};
 const element = () => ({value:'__ALL__'});
-const ctx = {events:security.events,methodology,platforms:diagnosis.platformMaster,key:'incidence',selectedPlatform:null,
+const ctx = {cantonalController:null,events:security.events,methodology,platforms:diagnosis.platformMaster,key:'incidence',selectedPlatform:null,
   elements:{search:{value:''},category:element(),subtype:element(),parish:element(),kdePlatform:element(),kdePeriod:element(),incidentDate:{value:''},precision:element(),source:element(),summary:{},graphicAnalysis:{}},
   document:{querySelectorAll:()=>[]},fmt:String,esc:String,categoryPalette:['#111','#222','#333'],metricBars:(title,rows)=>JSON.stringify({title,rows}),clean:s=>String(s).toLowerCase()};
 vm.createContext(ctx);
