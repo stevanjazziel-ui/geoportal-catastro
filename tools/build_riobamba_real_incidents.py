@@ -2,6 +2,7 @@ import argparse
 import json
 from collections import Counter
 from datetime import datetime
+from math import isfinite
 from pathlib import Path
 
 import openpyxl
@@ -13,6 +14,7 @@ DEFAULT_WORKBOOK = Path(r"C:/Users/PC/Downloads/Base de Datos Emergencias_SC_Rio
 DEFAULT_CLASSIFICATION = ROOT / "data" / "seguridad-riobamba" / "clasificacion-incidentes-2026.json"
 PLATFORMS = ROOT / "riobamba-censo-data" / "riobamba_plataformas.geojson"
 OUTPUT = ROOT / "visor-seguridad-riobamba-data.js"
+ANALYTIC_REVIEW = ROOT / "data/seguridad-riobamba/revision-metodologica-20261001/AUDITORIA_Y_CLASIFICACION.json"
 
 
 def parse_args():
@@ -38,6 +40,8 @@ def main():
         item["subtipo"].strip(): item
         for item in classification_doc["clasificacion_subtipos"]
     }
+    review = json.loads(ANALYTIC_REVIEW.read_text(encoding="utf-8"))
+    analytic = {row["SUBTIPO"]: row for row in review["classification"]}
     platforms_doc = json.loads(PLATFORMS.read_text(encoding="utf-8"))
     platforms = [(feature, shape(feature["geometry"])) for feature in platforms_doc["features"]]
 
@@ -67,11 +71,14 @@ def main():
     for index, record in enumerate(records, start=2):
         subtype = str(record["Subtipo"]).strip()
         classified = classification[subtype]
-        category = classified["categoria"].strip()
-        hotspot_eligible = classified["incluir_hotspot"].strip().upper() == "SI"
+        decision = analytic[subtype]
+        category = decision["CLASIFICACION_NUEVA_PROPUESTA"]
+        class_id = int(decision["CLASE_PROPUESTA"])
+        hotspot_eligible = class_id in (1, 2, 3)
         weight = int(record["Emergencias"])
         lng = float(record["longitud"])
         lat = float(record["latitud"])
+        valid_coordinate = isfinite(lng) and isfinite(lat) and -79.2 <= lng <= -78.2 and -2.1 <= lat <= -1.2
         date_value = record["Fecha"]
         date = date_value.date() if isinstance(date_value, datetime) else datetime.fromisoformat(str(date_value)).date()
         date_text = date.isoformat()
@@ -81,6 +88,11 @@ def main():
             "id": f"SC-2026-{index - 1:05d}",
             "date": date_text,
             "category": category,
+            "analyticalClassId": class_id,
+            "originalCategory": classified["categoria"].strip(),
+            "originalHotspotEligible": classified["incluir_hotspot"].strip().upper() == "SI",
+            "classificationStatus": "PENDIENTE_REVISION" if class_id == 5 else "CLASIFICACION_ANALITICA_OPERATIVA",
+            "classificationReason": decision["MOTIVO"],
             "subtype": subtype,
             "parish": parish,
             "weight": weight,
@@ -90,7 +102,8 @@ def main():
             "source": "Base Emergencias Seguridad Ciudadana Riobamba 2026",
             "lat": lat,
             "lng": lng,
-            "mappable": True,
+            "mappable": valid_coordinate,
+            "coordinateAccuracy": "Coordenada original; precision de campo no verificada independientemente",
             "platform": platform,
         })
         dates.append(date)
@@ -109,14 +122,16 @@ def main():
     output = {
         "sourceWorkbook": args.workbook.name,
         "sourceClassification": args.classification.name,
+        "analyticalClassification": str(ANALYTIC_REVIEW.relative_to(ROOT)),
+        "analyticalClasses": {"1": "DELINCUENCIA", "2": "VIOLENCIA", "3": "CONVIVENCIA / INCIVILIDADES", "4": "ACTIVIDAD INSTITUCIONAL / POLICIAL", "5": "OTROS / REVISION"},
         "generatedAt": datetime.now().isoformat(timespec="seconds"),
         "period": {"from": min(dates).isoformat(), "to": max(dates).isoformat()},
         "summary": {
             "totalRows": len(events),
             "totalEmergencies": total_emergencies,
-            "validCoordinateRows": len(events),
+            "validCoordinateRows": sum(event["mappable"] for event in events),
             "missingCoordinateRows": 0,
-            "invalidCoordinateRows": 0,
+            "invalidCoordinateRows": sum(not event["mappable"] for event in events),
             "subtypes": len(source_subtypes),
             "hotspotRows": dict(hotspot_rows),
             "hotspotEmergencies": dict(hotspot_emergencies),
@@ -144,8 +159,8 @@ def main():
             },
             {
                 "precision": "Clasificación",
-                "meaning": "Subtipo relacionado con categoría e incluir_hotspot",
-                "use": "Solo incluir_hotspot=SI participa en KDE, Gi* y brechas de conflictividad",
+                "meaning": "Cinco clases analiticas trazables por subtipo; originales conservados",
+                "use": "Solo clases 1, 2 y 3 participan en KDE, Gi*, tasas y brechas; clase 5 pendiente de revision",
             },
             {
                 "precision": "Peso",

@@ -157,8 +157,9 @@ event_quality = {
     "totalEmergencies": sum(emergency_weight(event) for event in security.get("events", [])),
     "conflictRows": len(conflict_events),
     "conflictEmergencies": sum(emergency_weight(event) for event in conflict_events),
-    "institutionalRowsExcluded": sum(1 for event in security.get("events", []) if event.get("hotspotEligible") is not True),
-    "institutionalEmergenciesExcluded": sum(emergency_weight(event) for event in security.get("events", []) if event.get("hotspotEligible") is not True),
+    "institutionalRowsExcluded": sum(event.get("analyticalClassId") == 4 for event in security.get("events", [])),
+    "otherReviewRowsExcluded": sum(event.get("analyticalClassId") == 5 for event in security.get("events", [])),
+    "institutionalEmergenciesExcluded": sum(emergency_weight(event) for event in security.get("events", []) if event.get("analyticalClassId") == 4),
     "byPrecisionGeo": {"A": 0, "B": 0, "C": 0},
     "spatialValidAB": 0,
     "notUsedForSpatialAnalysis": 0,
@@ -291,12 +292,12 @@ network_lines_m = [
 network_union = unary_union(network_lines_m) if network_lines_m else None
 network_buffer = network_union.buffer(BOULEVARD_RADIUS_M) if network_union and not network_union.is_empty else None
 
-all_camera_points = [point for bucket in metrics.values() for point in bucket["cameraPointsM"]]
-all_police_points = [point for bucket in metrics.values() for point in bucket["policePointsM"]]
+all_camera_points = [transform(TO_METERS, Point(camera["lng"], camera["lat"])) for camera in cameras["cameras"]]
+all_police_points = [transform(TO_METERS, shape(feature["geometry"])) for feature in police["infrastructure"]["features"]]
 all_event_points = [point for bucket in metrics.values() for point, _ in bucket["eventPointsM"]]
-camera_union = unary_union([point.buffer(CAMERA_RADIUS_M) for point in all_camera_points]) if all_camera_points else None
+camera_union = unary_union([point.buffer(CAMERA_RADIUS_M, quad_segs=64) for point in all_camera_points]) if all_camera_points else None
 camera_buffers = {
-    radius: unary_union([point.buffer(radius) for point in all_camera_points]) if all_camera_points else None
+    radius: unary_union([point.buffer(radius, quad_segs=64) for point in all_camera_points]) if all_camera_points else None
     for radius in CAMERA_SCENARIO_RADII_M
 }
 police_union = unary_union([point.buffer(POLICE_RADIUS_M) for point in all_police_points]) if all_police_points else None
@@ -398,25 +399,6 @@ incident_rates = [
 median_incident_rate = median(incident_rates) if incident_rates else 0
 
 
-def classify_deficit(score):
-    if score >= 6:
-        return "CRITICO"
-    if score >= 4:
-        return "ALTO"
-    if score >= 2:
-        return "MEDIO"
-    return "BAJO"
-
-
-def classify_institutional_coverage(bucket):
-    score = int(bucket["cameras"] > 0) + int(bucket["policeInfrastructure"] > 0) + int((bucket["boulevardLengthM"] + bucket["connectionLengthM"]) > 0)
-    if score >= 3:
-        return "ALTA"
-    if score == 2:
-        return "MEDIA"
-    return "BAJA"
-
-
 def territorial_typology(bucket, density, incident_rate, deficit, coverage):
     high_conflict = bucket["incidents"] >= 2 or (bucket["incidents"] > 0 and incident_rate >= median_incident_rate)
     high_density = density >= median_density
@@ -481,29 +463,15 @@ for item in stats["platforms"]:
         str(radius): round(bucket[f"cameraCoveredPopulation{radius}"] / population * 100, 2) if population else "N/D"
         for radius in CAMERA_SCENARIO_RADII_M
     }
-    institutional_coverage = classify_institutional_coverage(bucket)
-    deficit_score = 0
+    institutional_coverage = "PRESENCIA DE RECURSOS; NO NIVEL DE SEGURIDAD"
+    deficit_score = None
     density = population / area_km2 if area_km2 else 0
-    if bucket["incidents"] >= 3:
-        deficit_score += 2
-    elif bucket["incidents"] > 0 and incident_rate != "N/D" and incident_rate >= median_incident_rate:
-        deficit_score += 1
-    if density >= median_density:
-        deficit_score += 1
-    if camera_covered_population_pct == "N/D" or camera_covered_population_pct < 25:
-        deficit_score += 2
-    elif camera_covered_population_pct < 50:
-        deficit_score += 1
-    if bucket["policeInfrastructure"] == 0:
-        deficit_score += 1
-    if bucket["cameras"] == 0:
-        deficit_score += 1
-    video_deficit = classify_deficit(deficit_score)
+    video_deficit = "NO CLASIFICADO"
     gi_summary = incident_spatial["giSummaryByPlatform"][item["platform_name"]]
     hotspot_count = gi_summary["hotspots"]
     low_coverage_hotspots = hotspot_count if hotspot_count and video_deficit in ("ALTO", "CRITICO") else 0
-    conflict_exposure = classify_conflict_exposure(bucket, bucket["populationExposed250"], population, incident_rate)
-    combined_matrix = institutional_matrix(conflict_exposure, institutional_coverage)
+    conflict_exposure = "NO CLASIFICADO"
+    combined_matrix = "VARIABLES SIN PONDERACION"
     boulevard_total_length = bucket["boulevardLengthM"] + bucket["connectionLengthM"]
     boulevard_density = round(boulevard_total_length / area_km2, 2) if area_km2 else "N/D"
     hotspot_near_boulevard = gi_summary["hotspotsNearBoulevard"]
@@ -517,11 +485,12 @@ for item in stats["platforms"]:
         if bucket["incidentPoliceDistanceCount"]
         else "N/D"
     )
-    critical_zone = "Priorizar evaluacion territorial" if video_deficit in ("ALTO", "CRITICO") else "Seguimiento ordinario"
+    critical_zone = "Variables descriptivas; no prioridad automatica"
     if bucket["incidents"] == 0 and bucket["cameras"] == 0 and bucket["policeInfrastructure"] == 0:
         critical_zone = "Validar demanda local con trabajo de campo"
-    typology = territorial_typology(bucket, density, incident_rate if incident_rate != "N/D" else 0, video_deficit, institutional_coverage)
-    factors = typology_factors(bucket, density, video_deficit, institutional_coverage, conflict_exposure, bucket["populationExposed250"], population)
+    typology = "VARIABLES SIN PONDERACION"
+    institutional_coverage = "PRESENCIA DE RECURSOS; NO NIVEL DE SEGURIDAD"
+    factors = [f"{bucket['incidents']} registros analiticos", f"{bucket['cameras']} camaras asignadas", f"{bucket['policeInfrastructure']} dependencias asignadas"]
     master_fields = {
         "ID_PLAT": int(item["platform_id"]),
         "PLATAFORMA": item["platform_name"].replace("PLATAFORMA ", ""),
@@ -823,7 +792,7 @@ output = {
         f"La cobertura potencial de camaras usa escenarios {', '.join(str(radius) for radius in CAMERA_SCENARIO_RADII_M)} m; el visor resume {CAMERA_RADIUS_M} m como escenario principal.",
         f"La poblacion cercana a boulevares/conexiones usa centroides de manzana dentro de {BOULEVARD_RADIUS_M} m.",
         f"La cercania institucional policial usa un radio tecnico inicial de {POLICE_RADIUS_M} m.",
-        "Hotspots y deficit de videovigilancia son indicadores preliminares; no constituyen un indice ponderado definitivo.",
+        "KDE representa concentracion y Gi* significancia nominal. Se invalida el puntaje anterior de deficit: no se calculan pesos, indice ni ranking final.",
         "No se inventan coordenadas ni indicadores faltantes.",
     ],
     "summary": {
@@ -942,8 +911,8 @@ output = {
             "source": "Conflictividad incluir_hotspot=SI + exposición poblacional + cobertura potencial de cámaras + presencia institucional",
             "date": "Datos disponibles en visor",
             "precision": "Clasificacion exploratoria por plataforma",
-            "method": "Reglas exploratorias sin ponderaciones definitivas; combina incidentes, densidad, cobertura poblacional de camaras, infraestructura y camaras",
-            "parameters": "DEFICIT_VIDEO = BAJO/MEDIO/ALTO/CRITICO; videoDeficitScore conserva trazabilidad inicial",
+            "method": "Variables descriptivas de problematica, exposicion y cobertura; puntaje anterior invalidado",
+            "parameters": "videoDeficitScore=null; no se asignan niveles sinteticos ni ranking",
             "limitations": "No es ranking final ni AHP; requiere validacion tecnica antes de decisiones de inversion",
         },
         {
@@ -960,8 +929,8 @@ output = {
             "source": "Infraestructura policial + camaras + red de boulevares/conexiones + conflictividad/exposicion",
             "date": "Datos disponibles en visor",
             "precision": "Clasificacion por plataforma territorial",
-            "method": "Matriz conceptual: conflictividad/exposicion ALTA/MEDIA/BAJA cruzada con cobertura institucional ALTA/MEDIA/BAJA",
-            "parameters": "institutionalCoverageMatrix y territorialPriority",
+            "method": "Lectura descriptiva de recursos, poblacion y problematica; sin niveles sinteticos ni ponderaciones",
+            "parameters": "institutionalCoverageMatrix=VARIABLES SIN PONDERACION; sin prioridad automatica",
             "limitations": "No es indice multicriterio final; no define automaticamente zonas inseguras",
         },
         {

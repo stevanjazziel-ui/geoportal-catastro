@@ -23,6 +23,9 @@ const cameras = load('riobamba-camaras-data.js', 'RIOBAMBA_CAMERAS_DATA').camera
 assert.equal(cameras.length, 31, 'Preserve the confirmed 31-camera inventory');
 assert.ok(cameras.some((camera) => camera.id === 'RIO-068-LA'), 'Preserve RIO-068-LA');
 const context = {
+  methodology: load('riobamba-metodologia-data.js', 'RIOBAMBA_METHODOLOGY'),
+  diagnosis,
+  conflictEvents: load('visor-seguridad-riobamba-data.js', 'RIOBAMBA_SECURITY_DATA').events.filter((e) => e.hotspotEligible),
   platforms: diagnosis.platformMaster,
   changeCameras: cameras.filter((camera) => camera.requiresChange),
   municipalCameras: cameras,
@@ -55,6 +58,7 @@ vm.runInContext(`
 ` +
   extract('      const pointInRing =', '      const platformMaskRings =') +
   extract('      const coveragePercent =', '      const syncCoverageControls =') +
+  extract('      const incidentCoverageHtml =', '      function renderGapMetrics()') +
   extract('      const ringAreaKm2 =', '      const eventPlatformName =') +
   extract('      const ringBounds =', '      const coverageManzanaStyle =') +
   extract('      const getCameraCoverageAnalysis =', '      const platformFilterValue =').replace('const getCameraCoverageAnalysis =', 'const computeCameraCoverageAnalysis =') +
@@ -95,7 +99,8 @@ for (const platform of [null, ...context.platforms.map((row) => row.platformName
       const graphic = context.elements.graphicAnalysis.innerHTML;
       const detail = context.elements.detail.innerHTML;
       assert.ok(graphic.includes(populationMode ? 'Población según cobertura' : 'Superficie según cobertura'));
-      assert.ok(!graphic.includes(populationMode ? 'km²' : 'Población'));
+      const firstCard = graphic.split('Incidentes dentro de cobertura potencial')[0];
+      assert.ok(!firstCard.includes(populationMode ? 'km²' : 'Población'));
       assert.ok(!graphic.includes('Parcialmente cubierta'));
       assert.ok(detail.includes(populationMode ? 'habitantes' : 'km²'));
       const percentages = graphic.match(/--covered:([\d.]+)%;--partial:([\d.]+)%/);

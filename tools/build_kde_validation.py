@@ -99,7 +99,7 @@ def platform_for_point(point_metric, platform_metric):
 
 def exclusion_reason(event, group, lon, lat, point_metric):
     if event.get("hotspotEligible") is not True:
-        return "CLASIFICACION_NO: servicio o acción institucional excluido de KDE y Gi*."
+        return "CLASE_4: actividad institucional excluida de KDE y Gi*." if event.get("analyticalClassId") == 4 else "CLASE_5: otros/revision; no se asigna a conflictividad sin validar el subtipo."
     if group == "C":
         return "PRECISION_C: registro ciudad/distrito/parroquial; no se convierte a punto para KDE."
     if lon is None or lat is None:

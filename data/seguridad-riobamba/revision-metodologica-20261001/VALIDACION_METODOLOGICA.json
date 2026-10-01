@@ -1,0 +1,92 @@
+{
+  "classTotals": {
+    "1": 2503,
+    "2": 1563,
+    "3": 6976,
+    "4": 14770,
+    "5": 904
+  },
+  "urbanScope": "Union de las 18 Plataformas; ambito operativo autorizado, no limite urbano legal",
+  "urbanCounts": {
+    "1": 2199,
+    "2": 1244,
+    "3": 6367
+  },
+  "urbanRates100000": {
+    "1": 1240.8796194410115,
+    "2": 701.9801030398447,
+    "3": 3592.8515402368903
+  },
+  "manualPlatformK": {
+    "population": 12255,
+    "delinquency": 372,
+    "formula": "372 / 12255 * 1000",
+    "rate": 30.354957160342718
+  },
+  "scenarios": [
+    {
+      "radius": 100,
+      "totalAreaKm2": 29.29311869178453,
+      "coveredAreaKm2": 0.8771813671447674,
+      "territoryPct": 2.9944963401618936,
+      "population": 171998,
+      "coveredPopulation": 6354,
+      "populationPct": 3.6942290026628215,
+      "incidentsCovered": {
+        "1": 138,
+        "2": 58,
+        "3": 361
+      }
+    },
+    {
+      "radius": 150,
+      "totalAreaKm2": 29.29311869178453,
+      "coveredAreaKm2": 1.9008811079047199,
+      "territoryPct": 6.489172859692252,
+      "population": 171998,
+      "coveredPopulation": 14581,
+      "populationPct": 8.47742415609484,
+      "incidentsCovered": {
+        "1": 221,
+        "2": 115,
+        "3": 636
+      }
+    },
+    {
+      "radius": 200,
+      "totalAreaKm2": 29.29311869178453,
+      "coveredAreaKm2": 3.1872491464052106,
+      "territoryPct": 10.880538804832337,
+      "population": 171998,
+      "coveredPopulation": 24464,
+      "populationPct": 14.223421202572123,
+      "incidentsCovered": {
+        "1": 391,
+        "2": 198,
+        "3": 1118
+      }
+    }
+  ],
+  "filters": [
+    {
+      "category": "__ALL__",
+      "records": 9810
+    },
+    {
+      "category": "DELINCUENCIA",
+      "records": 2199
+    },
+    {
+      "category": "VIOLENCIA",
+      "records": 1244
+    },
+    {
+      "category": "CONVIVENCIA / INCIVILIDADES",
+      "records": 6367
+    }
+  ],
+  "policePopulation": 171998,
+  "originalCameraAndCensusHashesPreserved": true,
+  "ambiguousSubtypesExcluded": 39,
+  "commitAndPush": false
+}

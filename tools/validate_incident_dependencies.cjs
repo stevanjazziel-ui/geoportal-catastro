@@ -17,9 +17,16 @@ const kde = load('riobamba-seguridad-kde-validacion-data.js', 'RIOBAMBA_KDE_VALI
 const spatial = load('riobamba-incidentes-spatial-data.js', 'RIOBAMBA_INCIDENT_SPATIAL');
 const oldSource = parse(execFileSync('git', ['show', '231fb76:visor-seguridad-riobamba-data.js'], { cwd: root, maxBuffer: 32e6 }).toString(), 'RIOBAMBA_SECURITY_DATA');
 const oldDiagnosis = parse(execFileSync('git', ['show', '231fb76:riobamba-seguridad-diagnostico-data.js'], { cwd: root, maxBuffer: 32e6 }).toString(), 'RIOBAMBA_SECURITY_DIAGNOSIS');
-assert.deepEqual(security.events, oldSource.events, 'Original observations changed');
+const originalKeys = ['id', 'date', 'subtype', 'parish', 'weight', 'lat', 'lng', 'platform', 'location', 'source'];
+assert.equal(security.events.length, oldSource.events.length);
+for (let i = 0; i < security.events.length; i++) {
+  for (const key of originalKeys) assert.deepEqual(security.events[i][key], oldSource.events[i][key], `Original field ${i}.${key}`);
+  assert.equal(security.events[i].originalCategory, oldSource.events[i].category);
+  assert.equal(security.events[i].originalHotspotEligible, oldSource.events[i].hotspotEligible);
+}
 const eligible = security.events.filter((event) => event.hotspotEligible);
-assert.equal(eligible.length, 12383);
+assert.equal(eligible.length, 11042);
+assert.ok(eligible.every((e) => [1, 2, 3].includes(e.analyticalClassId)));
 assert.equal(kde.kdeInputPoints.length, eligible.length);
 assert.deepEqual(kde.kdeInputPoints.map((point) => point.id).sort(), eligible.map((event) => event.id).sort());
 assert.equal(spatial.eligibleRows, eligible.length);
@@ -31,11 +38,11 @@ for (const platform of diagnosis.platformMaster) {
   assert.equal(platform.giHotspots, spatial.giSummaryByPlatform[platform.platformName].hotspots);
   assigned += expected.length;
   const old = oldDiagnosis.byPlatformName[platform.platformName];
-  for (const key of Object.keys(platform).filter((key) => /^(population$|area|density|cameras|cameraCovered|cameraCoverage|cameraUncovered|policeInfrastructure$|avgPopulationDistancePolice)/i.test(key))) {
+  for (const key of Object.keys(platform).filter((key) => /^(population$|area|density|cameras|policeInfrastructure$)/i.test(key))) {
     assert.deepEqual(platform[key], old[key], `Unrelated indicator changed: ${platform.platformName}.${key}`);
   }
 }
-assert.equal(assigned, 11017);
+assert.equal(assigned, 9810);
 assert.equal(diagnosis.summary.mappedIncidentsAssigned, assigned);
 assert.equal(diagnosis.summary.unassigned.events, eligible.length - assigned);
 const html = read('visor-seguridad-riobamba-v2.html');
@@ -64,7 +71,7 @@ context.giPoints = eligible.filter((event) => event.platform);
 vm.runInContext('const geoIncidentEvents = () => giPoints; const eventWeight = () => 1;\n' +
   extract('      const giNormalCdf =', '      const giClassRank =') +
   extract('      let giHotspotCache =', '      const categorySummary =') +
-  '\nthis.giAnalysis = getGiHotspotAnalysis();', context);
+  '\nthis.computeGi = getGiHotspotAnalysis; this.giAnalysis = getGiHotspotAnalysis();', context);
 const gi = context.giAnalysis;
 assert.equal(gi.cells.reduce((sum, cell) => sum + cell.incCount, 0), assigned);
 assert.equal(gi.hotspotCells.length, diagnosis.summary.hotspots);
@@ -75,7 +82,9 @@ for (const platform of diagnosis.platformMaster) {
 const types = [
   { name: 'Todos los tipos', points: context.points },
   { name: 'Robo a domicilios', points: context.points.filter((p) => /robo.*domicilio/i.test(p.subtype)) },
-  { name: 'Violencia interpersonal / familiar', points: context.points.filter((p) => p.category === 'Violencia interpersonal / familiar') },
+  { name: 'VIOLENCIA', points: context.points.filter((p) => p.category === 'VIOLENCIA') },
+  { name: 'DELINCUENCIA', points: context.points.filter((p) => p.category === 'DELINCUENCIA') },
+  { name: 'CONVIVENCIA / INCIVILIDADES', points: context.points.filter((p) => p.category === 'CONVIVENCIA / INCIVILIDADES') },
 ];
 const report = [];
 for (const type of types) {
@@ -84,7 +93,11 @@ for (const type of types) {
   assert.equal(surface.width, full.width);
   assert.equal(surface.height, full.height);
   assert.ok(type.points.length && surface.maxDensity > 0);
-  report.push({ type: type.name, records: type.points.length, concentrations: surface.concentrations, maxDensity: surface.maxDensity });
+  const selectedIds = new Set(type.points.map((p) => p.id));
+  context.giPoints = eligible.filter((e) => e.platform && selectedIds.has(e.id));
+  const byClassGi = context.computeGi();
+  assert.equal(byClassGi.cells.reduce((sum, cell) => sum + cell.incCount, 0), context.giPoints.length);
+  report.push({ type: type.name, records: type.points.length, concentrations: surface.concentrations, maxDensity: surface.maxDensity, giRecords:context.giPoints.length, giHotspots:byClassGi.hotspotCells.length, giColdspots:byClassGi.coldspotCells.length });
 }
 const point = context.points.find((p) => p.platform);
 context.elements.category.value = 'single-validation';
@@ -95,4 +108,4 @@ assert.ok(Math.abs(multiple.maxDensity - single.maxDensity * 3) < 1e-5);
 context.elements.category.value = 'empty-validation';
 assert.equal(context.compute([]).maxDensity, 0);
 assert.equal(context.compute([]).concentrations, 0);
-console.log(JSON.stringify({ source: security.events.length, eligible: eligible.length, assigned, outsidePlatforms: eligible.length - assigned, giCells: spatial.giGrid.cells.length, bandwidth: context.raster.bandwidth, cellSize: 20, unchangedPopulationAndCameraCoverage: true, filters: report }, null, 2));
+console.log(JSON.stringify({ source: security.events.length, eligible: eligible.length, assigned, outsidePlatforms: eligible.length - assigned, giCells: spatial.giGrid.cells.length, bandwidth: context.raster.bandwidth, cellSize: 20, unchangedOriginalObservationsAndPopulation: true, filters: report }, null, 2));

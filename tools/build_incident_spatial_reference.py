@@ -40,7 +40,7 @@ def main():
                 platform = max(platforms, key=lambda item: item[1].intersection(geom).area)[0]
             lng, lat = to_geo(x, y)
             cells.append({"cellId": f"GI-{row}-{col}", "row": row, "col": col, "x": x, "y": y,
-                          "lng": lng, "lat": lat, "platform": platform, "geometry": mapping(transform(to_geo, geom))})
+                          "lng": lng, "lat": lat, "platform": platform, "areaKm2": geom.intersection(study).area / 1e6, "geometry": mapping(transform(to_geo, geom.intersection(study)))})
     eligible = [event for event in security["events"] if event.get("hotspotEligible") is True]
     ids = {point["id"] for point in kde["kdeInputPoints"]}
     assert ids == {event["id"] for event in eligible}, "KDE and real incident source differ"
