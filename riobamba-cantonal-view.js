@@ -15,6 +15,18 @@ window.createRiobambaCantonalView = function (api) {
   const assignment = (id) => data.assignments[id];
   const featureName = (f) => f.properties.name;
   const selectedUnit = () => units.find((f) => featureName(f) === parish);
+  const setScope = (next) => {
+    scope = next;
+    parish = "__ALL__";
+    unitControl.value = parish;
+    lastFit = "";
+  };
+  const cameraMatchesScope = (camera) => {
+    if (scope === "CANTONAL") return true;
+    if (!camera.mappable || !Number.isFinite(camera.lng) || !Number.isFinite(camera.lat)) return false;
+    const urban = api.pointInsideFeature(data.urban, camera.lng, camera.lat);
+    return scope === "URBANO" ? urban : !urban && api.pointInsideFeature(selectedUnit() || data.canton, camera.lng, camera.lat);
+  };
   const matchesScope = (event, checkUnit = true) => {
     const a = assignment(event.id);
     return Boolean(a && (scope === "CANTONAL" ? a.insideCanton : a.scope === scope)
@@ -63,7 +75,11 @@ window.createRiobambaCantonalView = function (api) {
   });
 
   function syncControls() {
+    const inventory = api.current().key === "cameras";
+    const independent = ["kde", "giHotspots"].includes(api.current().key);
+    if (independent && scope === "CANTONAL") { scope = "URBANO"; parish = "__ALL__"; lastFit = ""; }
     scopeButtons.forEach((b) => {
+      b.hidden = independent && b.dataset.territorialScope === "CANTONAL";
       const active = b.dataset.territorialScope === scope;
       b.classList.toggle("is-active", active);
       b.setAttribute("aria-pressed", String(active));
@@ -79,21 +95,21 @@ window.createRiobambaCantonalView = function (api) {
     const gi = api.current().key === "giHotspots";
     territoryControls.hot.label.hidden = territoryControls.cold.label.hidden = !gi;
     el.toggleAnalysisResult.disabled = false;
-    el.toggleCameras.disabled = scope === "RURAL";
+    el.toggleCameras.disabled = scope === "RURAL" && !inventory;
     el.toggleBoulevards.disabled = scope === "RURAL";
     el.toggleCameraCoverage.disabled = scope === "RURAL";
-    if (el.cameraLayerLabel && scope === "RURAL") el.cameraLayerLabel.textContent = "Cámaras rurales · No disponible";
+    if (el.cameraLayerLabel && scope === "RURAL" && !inventory) el.cameraLayerLabel.textContent = "Cámaras rurales · No disponible";
     if (scope === "RURAL" && el.cameraCoverageControls) el.cameraCoverageControls.hidden = true;
     if (scope !== "URBANO") {
       document.querySelector('[data-layer-row="manzanas"]').hidden = true;
       document.querySelector('[data-layer-row="externalCameras"]').hidden = true;
       const incidentModules=["kde","giHotspots","incidence","incidents","incidentQuery","typologies","temporal"];
-      if(!incidentModules.includes(api.current().key)) {
+      if(!inventory && !incidentModules.includes(api.current().key)) {
         [el.search,el.category,el.subtype,el.precision,el.source,el.kdePeriod,el.incidentDate].forEach((control)=>control.hidden=true);
         el.category.value=el.subtype.value=el.kdePeriod.value="__ALL__";
         el.incidentDate.value="";
       }
-      if(scope==="RURAL" && ["cameras","cameraCoverage","populationCoverage","boulevards","institutionalCoverage","videoDeficitGap","lowCoverageConcentrations","exposureLowCoverage","territorialGaps","candidateZones"].includes(api.current().key)) {
+      if(scope==="RURAL" && ["cameraCoverage","populationCoverage","boulevards","institutionalCoverage","videoDeficitGap","lowCoverageConcentrations","exposureLowCoverage","territorialGaps","candidateZones"].includes(api.current().key)) {
         el.toggleAnalysisResult.disabled=true;
         el.analysisResultLayerLabel.textContent+=" · datos rurales no disponibles";
       }
@@ -118,13 +134,18 @@ window.createRiobambaCantonalView = function (api) {
             if (scope !== "RURAL") return;
             parish = featureName(f);
             unitControl.value = parish;
+            api.clearSelection();
             api.update();
           };
           layer.bindTooltip(esc(featureName(f)), {permanent: true, interactive: true, direction: "center", className: "rural-name"});
           layer.on("click", select);
-          layer.getTooltip().on("click", select);
+          layer.getTooltip().on("click", (event) => {
+            if (event.originalEvent) L.DomEvent.stopPropagation(event.originalEvent);
+            select();
+          });
         },
       }).addTo(boundaries);
+      rural.bringToBack();
       layers.push(rural);
     }
     const key = `${scope}:${parish}`;
@@ -174,7 +195,13 @@ window.createRiobambaCantonalView = function (api) {
     cells.filter(visibleGi).forEach((c) => L.geoJSON(c.geometry, {style: {
       color: "#ffffff", weight: .4, fillColor: api.giClassColor(c.giClass), fillOpacity: c.giClass === "NO SIGNIFICATIVO" ? .035 : .7,
     }}).bindTooltip(`${esc(c.giClass)} · ${fmt(c.incCount)} eventos`, {sticky:true})
-      .bindPopup(`${esc(label)} · ${esc(c.cellId)}<br>${esc(c.PARROQUIA || c.platform)}<br>COUNT: ${c.incCount}<br>GI_ZSCORE: ${c.zScore.toFixed(3)}<br>GI_PVALUE: ${c.pValue.toFixed(6)}<br>${esc(c.giClass)}<br>Significancia nominal exploratoria; sin FDR.`).addTo(analysis));
+      .bindPopup(`${esc(label)} · ${esc(c.cellId)}<br>${esc(c.PARROQUIA || c.platform)}<br>COUNT: ${c.incCount}<br>GI_ZSCORE: ${c.zScore.toFixed(3)}<br>GI_PVALUE: ${c.pValue.toFixed(6)}<br>${esc(c.giClass)}<br>Significancia nominal exploratoria; sin FDR.`)
+      .on("click", () => {
+        api.clearSelection();
+        clearDetailMiniMap();
+        el.detailTitle.textContent = "Detalle de hotspot";
+        el.detail.innerHTML = [["Celda", c.cellId], ["Incidentes", c.incCount], ["Unidad territorial", c.PARROQUIA || c.platform || "No disponible"], ["Z-score", c.zScore.toFixed(3)], ["p-value", c.pValue.toFixed(6)], ["Clasificación", c.giClass]].map(([name, value]) => `<div class="mini-row"><span>${esc(name)}</span><strong>${esc(value)}</strong></div>`).join("") + "<p>Significancia nominal exploratoria; sin FDR.</p>";
+      }).addTo(analysis));
   }
   function giSummary(cells) {
     const items = records(false, true, true).filter((e) => assignment(e.id)?.scope === "RURAL");
@@ -190,49 +217,19 @@ window.createRiobambaCantonalView = function (api) {
   }
 
   function kdeSurface(items) {
-    const grid = data.kdeGrids[scope], h = grid.bandwidth, size = grid.cellSize;
+    const grid = data.kdeGrids[scope], h = window.RiobambaConflictivity.parameters(scope, el.category.value).bandwidth;
     const key = `${scope}:${h}:${items.map((e) => e.id).join(",")}`;
     if (surfaceCache?.key === key) return surfaceCache;
-    const [west, south] = grid.metricBounds[0], north = grid.metricBounds[1][1];
-    const density = new Float32Array(grid.width*grid.height);
-    const grouped = new Map();
-    items.forEach((e) => {
-      const a = assignment(e.id), key = `${a.x}:${a.y}`;
-      if (!grouped.has(key)) grouped.set(key, {x:a.x,y:a.y,n:0});
-      grouped.get(key).n++;
-    });
-    const radius = Math.ceil(h/size);
-    grouped.forEach((p) => {
-      const cx = Math.floor((p.x-west)/size), cy = Math.floor((north-p.y)/size);
-      for(let y=Math.max(0,cy-radius-1);y<=Math.min(grid.height-1,cy+radius+1);y++) {
-        const dy=north-(y+.5)*size-p.y;
-        for(let x=Math.max(0,cx-radius-1);x<=Math.min(grid.width-1,cx+radius+1);x++) {
-          const dx=west+(x+.5)*size-p.x, d2=dx*dx+dy*dy;
-          if(d2<=h*h) density[y*grid.width+x]+=p.n*Math.exp(-.5*d2/(h*h));
-        }
-      }
-    });
-    const canvas=document.createElement("canvas"); canvas.width=grid.width; canvas.height=grid.height;
-    const ctx=canvas.getContext("2d"), image=ctx.createImageData(grid.width,grid.height);
-    const mask = new Set(grid.mask);
-    // Sum on the whole regular grid first. Apply the study mask only to the output.
-    const positive=grid.mask.map((i)=>density[i]).filter((v)=>v>0).sort((a,b)=>a-b);
-    const max=positive.reduce((a,b)=>Math.max(a,b),0), scale=positive[Math.floor((positive.length-1)*.98)]||1;
-    for(let i=0;i<density.length;i++) {
-      if (!mask.has(i)) density[i]=0;
-    }
-    for(let i=0;i<grid.warpIndex.length;i++) {
-      const source=grid.warpIndex[i];
-      if(source>=0 && mask.has(source)) image.data.set(api.kdeColor(Math.min(1,density[source]/scale)),i*4);
-    }
-    ctx.putImageData(image,0,0);
-    surfaceCache={key,url:canvas.toDataURL(),grid,density,maxDensity:max,concentrations:api.countKdeConcentrations(density,grid.width,grid.height,max)};
+    const points = items.map((event) => ({id:event.id, x:assignment(event.id).x, y:assignment(event.id).y}));
+    const surface = window.RiobambaConflictivity.calculate(points, grid, h);
+    surfaceCache={key,...surface,grid:{...grid,bandwidth:h},url:window.RiobambaConflictivity.renderRaster(surface),
+      concentrations:api.countKdeConcentrations(surface.density,grid.width,grid.height,surface.maxDensity)};
     return surfaceCache;
   }
   function renderLegend() {
     const key = api.current().key;
     let html = `<strong>${key === "kde" ? "CONCENTRACIÓN ESPACIAL" : scope}</strong>`;
-    if (key === "kde") html += palette.map((color,i) => `<div class="legend-row"><span class="legend-swatch" style="background:${color}"></span>${["Muy baja","Baja","Media","Alta","Muy alta"][i]}</div>`).join("") + "<p class='cantonal-note'>Concentración de eventos registrados; no implica por sí sola peligrosidad. Escala relativa al subconjunto, no comparable por color entre clases.</p>";
+    if (key === "kde") html = "<strong>CONCENTRACIÓN ESPACIAL DE EVENTOS</strong>" + window.RiobambaConflictivity.legend();
     if (key === "giHotspots") html += ["HOTSPOT 99 %","HOTSPOT 95 %","HOTSPOT 90 %","NO SIGNIFICATIVO","COLDSPOT 90 %","COLDSPOT 95 %","COLDSPOT 99 %"].map((label)=>`<div class="legend-row"><span class="legend-swatch" style="background:${api.giClassColor(label)}"></span>${label}</div>`).join("") + "<p class='cantonal-note'>Gi* nominal, sin FDR. Urbano: 250/500 m. Rural: 1000/2000 m. No son un único análisis.</p>";
     html += "<div class='legend-row'>Límite cantonal · gris</div><div class='legend-row'>Ámbito urbano operativo · verde discontinuo</div><div class='legend-row'>Parroquias rurales · gris fino</div>";
     el.legend.innerHTML=html;
@@ -240,7 +237,8 @@ window.createRiobambaCantonalView = function (api) {
   function renderMethodology() {
     document.getElementById("methodologyPanel").innerHTML = `<h3>${esc(scope)} · ${esc(api.current().key)}</h3>`
       + data.metadata.limitations.map((text)=>`<p>${esc(text)}</p>`).join("")
-      + `<h3>KDE</h3><p>EPSG:32717; peso 1; kernel gaussiano truncado. Urbano: 700 m / 20 m. Rural y cantonal: 1500 m / 100 m, escenario exploratorio fijo. No se modifica bandwidth por tipología. Se suma la superficie antes de aplicar la máscara. La imagen se reproyecta a WGS84 por vecino más próximo.</p><h3>Gi* rural</h3><p>${esc(data.metadata.ruralGridSelection)}</p>`
+      + (["kde", "giHotspots"].includes(api.current().key) ? window.RiobambaConflictivity.methodologyHtml(scope, el.category.value) : "")
+      + `<h3>Gi* rural</h3><p>${esc(data.metadata.ruralGridSelection)} Significancia nominal exploratoria, sin corrección FDR.</p>`
       + table("Evaluación de malla y vecindad", ["Celda m","Vecindad m","Celdas","Ocupadas","Vacías","Media","Máximo","Vecinos medios","Mínimo","Máximo","Aisladas"], data.gridAssessment.map((r)=>[r.cellSize,r.distance,r.cells,r.occupied,r.empty,r.meanIncidents.toFixed(3),r.maximum,r.meanNeighbors.toFixed(2),r.minNeighbors,r.maxNeighbors,r.isolated]));
   }
   function unitRows(items) {
@@ -263,8 +261,12 @@ window.createRiobambaCantonalView = function (api) {
       return [s,fmt(pop),local.length,total ? (local.length/total*100).toFixed(2)+"%":"No disponible",...c,...c.map((n)=>(n/pop*100000).toFixed(2))];
     })) + note();
   }
+  function clearDetailMiniMap() {
+    if (miniMap) { miniMap.remove(); miniMap = null; }
+  }
   function renderDetail(items) {
-    if (miniMap) { miniMap.remove(); miniMap=null; }
+    clearDetailMiniMap();
+    if (api.renderSelectedEntityDetail(items)) return;
     const unit=selectedUnit(), c=counts(items), pop=population(), scale=unit ? 1000 : 100000;
     el.detailTitle.textContent=unit ? featureName(unit) : `${scope} · detalle territorial`;
     el.detail.innerHTML=`<div id="cantonalDetailMap" class="cantonal-mini-map"></div>`
@@ -277,7 +279,7 @@ window.createRiobambaCantonalView = function (api) {
   }
   function clearAnalysis() {
     analysis.clearLayers();
-    if (miniMap) {miniMap.remove();miniMap=null;}
+    clearDetailMiniMap();
   }
   function allowsGi(c) {
     return (!c.giClass.startsWith("HOT") || territoryControls.hot.input.checked)
@@ -288,7 +290,8 @@ window.createRiobambaCantonalView = function (api) {
     if(["incidents","incidentQuery"].includes(key) && !el.toggleAnalysisResult.checked) return;
     if (!["incidents","incidentQuery","kde","typologies","temporal","giHotspots"].includes(key) || !el.toggleEvents.checked) return;
     items.forEach((e)=>L.circleMarker([e.lat,e.lng],{renderer:pointRenderer,radius:key==="kde"?2:3,color:"#ffffff",weight:.5,fillColor:key==="kde"?"#263238":["#2876aa","#a84d65","#38977e","#808994","#b7a24c"][e.analyticalClassId-1],fillOpacity:.8})
-      .bindPopup(`${esc(e.subtype)}<br>${esc(e.category)}<br>${esc(e.date)}<br>${esc(assignment(e.id).unit||"Sin asignar ámbito")}`).addTo(analysis));
+      .bindPopup(`${esc(e.subtype)}<br>${esc(e.category)}<br>${esc(e.date)}<br>${esc(assignment(e.id).unit||"Sin asignar ámbito")}`)
+      .on("click", () => { clearDetailMiniMap(); api.selectEvent(e.id, false); }).addTo(analysis));
   }
   function drawPolice() {
     if((api.current().mode==="police" || api.current().metric==="policeAccessibility") && !el.toggleAnalysisResult.checked) return;
@@ -298,7 +301,7 @@ window.createRiobambaCantonalView = function (api) {
       const a=data.policeAssignments.find((a)=>a.properties.code===name);
       return scope==="CANTONAL" ? a?.scope!=="SIN_ASIGNAR" : a?.scope==="RURAL" && (parish==="__ALL__" || a.unit===parish);
     });
-    L.geoJSON({type:"FeatureCollection",features:entries},{pointToLayer:(_,p)=>L.circleMarker(p,{radius:6,color:"#fff",fillColor:"#075985",fillOpacity:1,weight:1.5}),onEachFeature:(f,l)=>l.bindPopup(`${esc(f.properties.name||f.properties.code)}<br>${esc(f.properties.type)}<br>Inventario disponible, no exhaustivo.`)}).addTo(analysis);
+    L.geoJSON({type:"FeatureCollection",features:entries},{pointToLayer:(_,p)=>L.circleMarker(p,{radius:6,color:"#fff",fillColor:"#075985",fillOpacity:1,weight:1.5}),onEachFeature:(f,l)=>l.bindPopup(`${esc(f.properties.name||f.properties.code)}<br>${esc(f.properties.type)}<br>Inventario disponible, no exhaustivo.`).on("click", () => { clearDetailMiniMap(); api.selectPolice(f.properties.code, false); })}).addTo(analysis);
   }
   function render() {
     clearAnalysis();
@@ -313,7 +316,7 @@ window.createRiobambaCantonalView = function (api) {
     let graphic="";
     if(key==="kde") {
       const surface=kdeSurface(items);
-      if(el.toggleAnalysisResult.checked) L.imageOverlay(surface.url,surface.grid.bounds,{opacity:.72,interactive:false}).addTo(analysis);
+      if(el.toggleAnalysisResult.checked) L.imageOverlay(surface.url,surface.grid.bounds,{opacity:.45,interactive:false}).addTo(analysis);
       cards.splice(2,3,["Categoría",el.category.value === "__ALL__" ? "General analítico" : classNames[(events.find((e)=>e.category===el.category.value)?.analyticalClassId||1)-1]],["Bandwidth / celda",`${surface.grid.bandwidth} / ${surface.grid.cellSize} m`],["Concentraciones relativas",surface.concentrations]);
       graphic=bars("Eventos por unidad territorial",unitRows(items).map((r)=>[r[0],r[2]]));
       graphic+=`<p class="cantonal-note">KDE_${el.category.value==="__ALL__"?"GENERAL_ANALITICO":classNames[(events.find((e)=>e.category===el.category.value)?.analyticalClassId||1)-1]?.toUpperCase()||"ANALITICO"}. Peso 1; una cuadrícula continua en EPSG:32717. Concentraciones: componentes conectados ≥35% del máximo, descriptivos y no significativos estadísticamente.</p>`;
@@ -394,11 +397,11 @@ window.createRiobambaCantonalView = function (api) {
         api.coverageLayer().addTo(map);
       }
       if(el.toggleBoulevards.checked || key==="boulevards") api.boulevardLayer().addTo(map);
-      if(el.toggleCameras.checked || (key==="cameras" && el.toggleAnalysisResult.checked)) api.cameras.forEach((c)=>L.circleMarker([c.lat,c.lng],{radius:4,color:"white",fillColor:"#2563eb",weight:1,fillOpacity:1}).bindPopup(`${esc(c.id)}<br>${esc(c.address)}<br>Escenario urbano, requiere cambio.`).addTo(analysis));
+      if(el.toggleCameras.checked || (key==="cameras" && el.toggleAnalysisResult.checked)) api.cameras.forEach((c)=>L.circleMarker([c.lat,c.lng],{radius:4,color:"white",fillColor:"#2563eb",weight:1,fillOpacity:1}).bindPopup(`${esc(c.id)}<br>${esc(c.address)}<br>Escenario urbano, requiere cambio.`).on("click", () => { clearDetailMiniMap(); api.selectCamera(c.id, false); }).addTo(analysis));
     }
     renderBoundaries(); renderLegend(); renderMethodology();
     console.info("Validación territorial",{scope,parish,records:items.length,analytic:total,weight:1,crs:"EPSG:32717"});
   }
   el.toggleAnalysisResult.addEventListener("change", api.update);
-  return {scope:()=>scope,assignment,matchesScope,syncControls,render,renderBoundaries,clearAnalysis,renderLegend,renderMethodology,allowsGi};
+  return {scope:()=>scope,setScope,cameraMatchesScope,assignment,matchesScope,syncControls,render,renderBoundaries,clearAnalysis,renderLegend,renderMethodology,allowsGi};
 };

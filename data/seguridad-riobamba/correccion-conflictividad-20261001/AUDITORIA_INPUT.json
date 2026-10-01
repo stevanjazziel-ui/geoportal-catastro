@@ -1,0 +1,409 @@
+{
+  "date": "2026-10-01",
+  "status": "DETENIDO_EN_VALIDACION_DE_INPUT_NO_APLICAR_ANALISIS",
+  "source": "Base de Datos Emergencias_SC_Riobamba (2).xlsx",
+  "records": 26716,
+  "uniqueIds": 26716,
+  "currentCounts": {
+    "DELINCUENCIA": 2503,
+    "VIOLENCIA": 1563,
+    "CONVIVENCIA": 6976,
+    "ACTIVIDAD_INSTITUCIONAL": 14770,
+    "OTROS_REVISION": 904
+  },
+  "proposedCounts": {
+    "DELINCUENCIA": 2531,
+    "VIOLENCIA": 1594,
+    "CONVIVENCIA": 7027,
+    "ACTIVIDAD_INSTITUCIONAL": 14749,
+    "OTROS_REVISION": 815
+  },
+  "expectedCounts": {
+    "DELINCUENCIA": 2533,
+    "VIOLENCIA": 1590,
+    "CONVIVENCIA": 7027,
+    "ACTIVIDAD_INSTITUCIONAL": 14778,
+    "OTROS_REVISION": 788
+  },
+  "categoryComparison": [
+    {
+      "CATEGORIA": "DELINCUENCIA",
+      "ACTUAL": 2503,
+      "PROPUESTA": 2531,
+      "ESPERADO": 2533,
+      "DIFERENCIA": -2
+    },
+    {
+      "CATEGORIA": "VIOLENCIA",
+      "ACTUAL": 1563,
+      "PROPUESTA": 1594,
+      "ESPERADO": 1590,
+      "DIFERENCIA": 4
+    },
+    {
+      "CATEGORIA": "CONVIVENCIA",
+      "ACTUAL": 6976,
+      "PROPUESTA": 7027,
+      "ESPERADO": 7027,
+      "DIFERENCIA": 0
+    },
+    {
+      "CATEGORIA": "ACTIVIDAD_INSTITUCIONAL",
+      "ACTUAL": 14770,
+      "PROPUESTA": 14749,
+      "ESPERADO": 14778,
+      "DIFERENCIA": -29
+    },
+    {
+      "CATEGORIA": "OTROS_REVISION",
+      "ACTUAL": 904,
+      "PROPUESTA": 815,
+      "ESPERADO": 788,
+      "DIFERENCIA": 27
+    }
+  ],
+  "scopeCounts": {
+    "URBANO": 23732,
+    "RURAL": 2134,
+    "SIN_ASIGNAR": 850
+  },
+  "expectedScopes": {
+    "URBANO": 24271,
+    "RURAL": 2445,
+    "SIN_ASIGNAR": 0
+  },
+  "existingPublishedKdeInput": {
+    "records": 11042,
+    "classes": {
+      "1": 2503,
+      "2": 1563,
+      "3": 6976,
+      "4": 0,
+      "5": 0
+    },
+    "institutionalLeak": 0,
+    "reviewLeak": 0,
+    "weight": 1
+  },
+  "scopeCategoryComparison": [
+    {
+      "AMBITO": "URBANO",
+      "CATEGORIA": "DELINCUENCIA",
+      "PROPUESTA": 2227,
+      "ESPERADO": 2280
+    },
+    {
+      "AMBITO": "URBANO",
+      "CATEGORIA": "VIOLENCIA",
+      "PROPUESTA": 1270,
+      "ESPERADO": 1328
+    },
+    {
+      "AMBITO": "URBANO",
+      "CATEGORIA": "CONVIVENCIA",
+      "PROPUESTA": 6418,
+      "ESPERADO": 6530
+    },
+    {
+      "AMBITO": "RURAL",
+      "CATEGORIA": "DELINCUENCIA",
+      "PROPUESTA": 219,
+      "ESPERADO": 253
+    },
+    {
+      "AMBITO": "RURAL",
+      "CATEGORIA": "VIOLENCIA",
+      "PROPUESTA": 248,
+      "ESPERADO": 262
+    },
+    {
+      "AMBITO": "RURAL",
+      "CATEGORIA": "CONVIVENCIA",
+      "PROPUESTA": 402,
+      "ESPERADO": 497
+    }
+  ],
+  "changes": [
+    {
+      "SUBTIPO": "Bomberos",
+      "N_REGISTROS": 21,
+      "CLASE_ACTUAL": 4,
+      "CATEGORIA_ACTUAL": "ACTIVIDAD_INSTITUCIONAL",
+      "CATEGORIA_ANALITICA": "OTROS_REVISION",
+      "REGLA": "LISTA_EXPLICITA_SOLICITUD_NO_APLICADA",
+      "ESTADO": "PROPUESTA_OTROS_REVISION_REQUIERE_CONFIRMACION"
+    },
+    {
+      "SUBTIPO": "Comercialización de sustancias sujetas a fiscalización",
+      "N_REGISTROS": 9,
+      "CLASE_ACTUAL": 5,
+      "CATEGORIA_ACTUAL": "OTROS_REVISION",
+      "CATEGORIA_ANALITICA": "DELINCUENCIA",
+      "REGLA": "LISTA_EXPLICITA_SOLICITUD_NO_APLICADA",
+      "ESTADO": "PROPUESTA_NO_APLICADA"
+    },
+    {
+      "SUBTIPO": "Consumo de sustancias sujetas a fiscalización",
+      "N_REGISTROS": 51,
+      "CLASE_ACTUAL": 5,
+      "CATEGORIA_ACTUAL": "OTROS_REVISION",
+      "CATEGORIA_ANALITICA": "CONVIVENCIA",
+      "REGLA": "LISTA_EXPLICITA_SOLICITUD_NO_APLICADA",
+      "ESTADO": "PROPUESTA_NO_APLICADA"
+    },
+    {
+      "SUBTIPO": "Disparos",
+      "N_REGISTROS": 2,
+      "CLASE_ACTUAL": 5,
+      "CATEGORIA_ACTUAL": "OTROS_REVISION",
+      "CATEGORIA_ANALITICA": "VIOLENCIA",
+      "REGLA": "LISTA_EXPLICITA_SOLICITUD_NO_APLICADA",
+      "ESTADO": "PROPUESTA_NO_APLICADA"
+    },
+    {
+      "SUBTIPO": "Persona herida con arma blanca",
+      "N_REGISTROS": 16,
+      "CLASE_ACTUAL": 5,
+      "CATEGORIA_ACTUAL": "OTROS_REVISION",
+      "CATEGORIA_ANALITICA": "VIOLENCIA",
+      "REGLA": "LISTA_EXPLICITA_SOLICITUD_NO_APLICADA",
+      "ESTADO": "PROPUESTA_NO_APLICADA"
+    },
+    {
+      "SUBTIPO": "Persona herida con arma de fuego",
+      "N_REGISTROS": 8,
+      "CLASE_ACTUAL": 5,
+      "CATEGORIA_ACTUAL": "OTROS_REVISION",
+      "CATEGORIA_ANALITICA": "VIOLENCIA",
+      "REGLA": "LISTA_EXPLICITA_SOLICITUD_NO_APLICADA",
+      "ESTADO": "PROPUESTA_NO_APLICADA"
+    },
+    {
+      "SUBTIPO": "Persona herida con objeto contundente",
+      "N_REGISTROS": 4,
+      "CLASE_ACTUAL": 5,
+      "CATEGORIA_ACTUAL": "OTROS_REVISION",
+      "CATEGORIA_ANALITICA": "VIOLENCIA",
+      "REGLA": "LISTA_EXPLICITA_SOLICITUD_NO_APLICADA",
+      "ESTADO": "PROPUESTA_NO_APLICADA"
+    },
+    {
+      "SUBTIPO": "Tenencia ilícita de sustancias sujetas a fiscalización",
+      "N_REGISTROS": 6,
+      "CLASE_ACTUAL": 5,
+      "CATEGORIA_ACTUAL": "OTROS_REVISION",
+      "CATEGORIA_ANALITICA": "DELINCUENCIA",
+      "REGLA": "LISTA_EXPLICITA_SOLICITUD_NO_APLICADA",
+      "ESTADO": "PROPUESTA_NO_APLICADA"
+    },
+    {
+      "SUBTIPO": "Tenencia y porte de arma blanca o cortopunzante",
+      "N_REGISTROS": 9,
+      "CLASE_ACTUAL": 5,
+      "CATEGORIA_ACTUAL": "OTROS_REVISION",
+      "CATEGORIA_ANALITICA": "DELINCUENCIA",
+      "REGLA": "LISTA_EXPLICITA_SOLICITUD_NO_APLICADA",
+      "ESTADO": "PROPUESTA_NO_APLICADA"
+    },
+    {
+      "SUBTIPO": "Tenencia y porte de armas de fuego",
+      "N_REGISTROS": 4,
+      "CLASE_ACTUAL": 5,
+      "CATEGORIA_ACTUAL": "OTROS_REVISION",
+      "CATEGORIA_ANALITICA": "DELINCUENCIA",
+      "REGLA": "LISTA_EXPLICITA_SOLICITUD_NO_APLICADA",
+      "ESTADO": "PROPUESTA_NO_APLICADA"
+    },
+    {
+      "SUBTIPO": "Trata de personas",
+      "N_REGISTROS": 1,
+      "CLASE_ACTUAL": 5,
+      "CATEGORIA_ACTUAL": "OTROS_REVISION",
+      "CATEGORIA_ANALITICA": "VIOLENCIA",
+      "REGLA": "LISTA_EXPLICITA_SOLICITUD_NO_APLICADA",
+      "ESTADO": "PROPUESTA_NO_APLICADA"
+    }
+  ],
+  "dictionarySubtypes": 139,
+  "quality": [
+    {
+      "CATEGORIA": "DELINCUENCIA",
+      "AMBITO": "URBANO",
+      "N_EVENTOS": 2227,
+      "N_COORD_UNICAS": 1208,
+      "PORCENTAJE_REGISTROS_EN_XY_REPETIDA": 61.92186798383476,
+      "MAX_REPETICION_XY": 62,
+      "BANDWIDTH_RECOMENDADO": "NO_SELECCIONADO_VALIDACION_ENTRADA_PENDIENTE"
+    },
+    {
+      "CATEGORIA": "VIOLENCIA",
+      "AMBITO": "URBANO",
+      "N_EVENTOS": 1270,
+      "N_COORD_UNICAS": 875,
+      "PORCENTAJE_REGISTROS_EN_XY_REPETIDA": 48.031496062992126,
+      "MAX_REPETICION_XY": 34,
+      "BANDWIDTH_RECOMENDADO": "NO_SELECCIONADO_VALIDACION_ENTRADA_PENDIENTE"
+    },
+    {
+      "CATEGORIA": "CONVIVENCIA",
+      "AMBITO": "URBANO",
+      "N_EVENTOS": 6418,
+      "N_COORD_UNICAS": 2386,
+      "PORCENTAJE_REGISTROS_EN_XY_REPETIDA": 76.98660018697413,
+      "MAX_REPETICION_XY": 117,
+      "BANDWIDTH_RECOMENDADO": "NO_SELECCIONADO_VALIDACION_ENTRADA_PENDIENTE"
+    },
+    {
+      "CATEGORIA": "DELINCUENCIA",
+      "AMBITO": "RURAL",
+      "N_EVENTOS": 219,
+      "N_COORD_UNICAS": 131,
+      "PORCENTAJE_REGISTROS_EN_XY_REPETIDA": 51.598173515981735,
+      "MAX_REPETICION_XY": 25,
+      "BANDWIDTH_RECOMENDADO": "NO_SELECCIONADO_VALIDACION_ENTRADA_PENDIENTE"
+    },
+    {
+      "CATEGORIA": "VIOLENCIA",
+      "AMBITO": "RURAL",
+      "N_EVENTOS": 248,
+      "N_COORD_UNICAS": 147,
+      "PORCENTAJE_REGISTROS_EN_XY_REPETIDA": 50,
+      "MAX_REPETICION_XY": 21,
+      "BANDWIDTH_RECOMENDADO": "NO_SELECCIONADO_VALIDACION_ENTRADA_PENDIENTE"
+    },
+    {
+      "CATEGORIA": "CONVIVENCIA",
+      "AMBITO": "RURAL",
+      "N_EVENTOS": 402,
+      "N_COORD_UNICAS": 233,
+      "PORCENTAJE_REGISTROS_EN_XY_REPETIDA": 50.995024875621894,
+      "MAX_REPETICION_XY": 38,
+      "BANDWIDTH_RECOMENDADO": "NO_SELECCIONADO_VALIDACION_ENTRADA_PENDIENTE"
+    }
+  ],
+  "uniqueCoordinates": 6420,
+  "coordinateFlags": {
+    "NORMAL": 4267,
+    "REPETIDA": 6786,
+    "ALTA_REPETICION": 7144,
+    "MUY_ALTA_REPETICION": 8519
+  },
+  "maximumCoordinateRecurrence": 477,
+  "reconciliationHypothesis": {
+    "status": "NO_APLICADA_REQUIERE_CONFIRMACION",
+    "rules": [
+      {
+        "SUBTIPO": "Bomberos",
+        "N_REGISTROS": 21,
+        "CATEGORIA_ACTUAL": "ACTIVIDAD_INSTITUCIONAL",
+        "PROPUESTA_CONSERVADORA": "OTROS_REVISION",
+        "HIPOTESIS_QUE_RECONCILIA_CONTEOS": "ACTIVIDAD_INSTITUCIONAL",
+        "ESTADO": "REQUIERE_CONFIRMACION_NO_APLICADA"
+      },
+      {
+        "SUBTIPO": "Tenencia y porte de explosivos",
+        "N_REGISTROS": 2,
+        "CATEGORIA_ACTUAL": "OTROS_REVISION",
+        "PROPUESTA_CONSERVADORA": "OTROS_REVISION",
+        "HIPOTESIS_QUE_RECONCILIA_CONTEOS": "DELINCUENCIA",
+        "ESTADO": "REQUIERE_CONFIRMACION_NO_APLICADA"
+      },
+      {
+        "SUBTIPO": "Falta contra la integridad a servidores policiales",
+        "N_REGISTROS": 4,
+        "CATEGORIA_ACTUAL": "VIOLENCIA",
+        "PROPUESTA_CONSERVADORA": "VIOLENCIA",
+        "HIPOTESIS_QUE_RECONCILIA_CONTEOS": "ACTIVIDAD_INSTITUCIONAL",
+        "ESTADO": "REQUIERE_CONFIRMACION_NO_APLICADA"
+      },
+      {
+        "SUBTIPO": "Plantones",
+        "N_REGISTROS": 4,
+        "CATEGORIA_ACTUAL": "OTROS_REVISION",
+        "PROPUESTA_CONSERVADORA": "OTROS_REVISION",
+        "HIPOTESIS_QUE_RECONCILIA_CONTEOS": "ACTIVIDAD_INSTITUCIONAL",
+        "ESTADO": "REQUIERE_CONFIRMACION_NO_APLICADA"
+      }
+    ],
+    "totals": {
+      "DELINCUENCIA": 2533,
+      "VIOLENCIA": 1590,
+      "CONVIVENCIA": 7027,
+      "ACTIVIDAD_INSTITUCIONAL": 14778,
+      "OTROS_REVISION": 788
+    },
+    "bySourceParish": {
+      "URBANO": {
+        "DELINCUENCIA": 2280,
+        "VIOLENCIA": 1328,
+        "CONVIVENCIA": 6530,
+        "ACTIVIDAD_INSTITUCIONAL": 13442,
+        "OTROS_REVISION": 691
+      },
+      "RURAL": {
+        "DELINCUENCIA": 253,
+        "VIOLENCIA": 262,
+        "CONVIVENCIA": 497,
+        "ACTIVIDAD_INSTITUCIONAL": 1336,
+        "OTROS_REVISION": 97
+      }
+    },
+    "scopeCriterion": "PARROQUIA_ORIGEN = RIOBAMBA; no interseccion geometrica",
+    "scopeCrosswalk": [
+      {
+        "AMBITO_POR_TEXTO": "URBANO",
+        "AMBITO_GEOMETRICO": "URBANO",
+        "N_REGISTROS": 23375
+      },
+      {
+        "AMBITO_POR_TEXTO": "URBANO",
+        "AMBITO_GEOMETRICO": "RURAL",
+        "N_REGISTROS": 99
+      },
+      {
+        "AMBITO_POR_TEXTO": "URBANO",
+        "AMBITO_GEOMETRICO": "SIN_ASIGNAR",
+        "N_REGISTROS": 797
+      },
+      {
+        "AMBITO_POR_TEXTO": "RURAL",
+        "AMBITO_GEOMETRICO": "URBANO",
+        "N_REGISTROS": 357
+      },
+      {
+        "AMBITO_POR_TEXTO": "RURAL",
+        "AMBITO_GEOMETRICO": "RURAL",
+        "N_REGISTROS": 2035
+      },
+      {
+        "AMBITO_POR_TEXTO": "RURAL",
+        "AMBITO_GEOMETRICO": "SIN_ASIGNAR",
+        "N_REGISTROS": 53
+      }
+    ]
+  },
+  "repetitionDefinition": "RECURRENCIA_XY y FLAG_COORD: base completa, coordenadas originales exactas sin redondeo. Tabla por categoria/ambito: recurrencia dentro del subconjunto; porcentaje de registros, no porcentaje de ubicaciones.",
+  "unclassifiedScopes": 850,
+  "ambiguityNotes": [
+    "Bomberos: la solicitud lo enumera para revision en OTROS; se propone 5, sin aplicarlo. Si se conserva la clase institucional anterior, suma 21 a ACTIVIDAD_INSTITUCIONAL y resta 21 a OTROS_REVISION.",
+    "Tenencia y porte de explosivos: 2 registros permanecen OTROS; no se fuerza equivalencia con armas para completar el objetivo de Delincuencia.",
+    "Una hipotesis con Bomberos institucional, explosivos delictivo, faltas contra servidores policiales institucional y Plantones institucional reproduce exactamente los cinco conteos. Coincidir no valida semanticamente esas cuatro reglas; requieren confirmacion.",
+    "Los conteos objetivo Urbano/Rural se reproducen exactamente con PARROQUIA_ORIGEN = RIOBAMBA, NO con geometria. La geometria aprobada deja 850 SIN_ASIGNAR (820 internos y 30 externos); no se redistribuyen para alcanzar un objetivo.",
+    "El KDE publicado NO usa todos los registros: admite solo clases1/2/3 y peso1. Todos los registros a700m seria un contrafactual, no el mapa actual.",
+    "No se evaluan bandwidth ni se regeneran Gi*, KDE o tasas mientras no se resuelva este control de entrada."
+  ],
+  "originalHashes": {
+    "visor-seguridad-riobamba-data.js": "e84f1e092da171ba430db01bb4def4df9d3c2269a500285a26cb29950e8f9bac",
+    "visor-seguridad-riobamba-v2.html": "8758a321cc40528b6921ea64782adefeed61f15112f8ab44ed8a5fc168269610",
+    "riobamba-cantonal-data.js": "a8bf2da18c2c4980f927be6d29b61138db4245f2fae4c2c3270a6b17c0727ce8",
+    "riobamba-cantonal-view.js": "e2018872690f7ee005bba09b81ab79f285b2b654032a67e5e5db52713ac18152",
+    "riobamba-seguridad-kde-validacion-data.js": "f179696f2d31b04da64ee9f9bcb98c6c9db98e9d84a30219fb30219917547fab",
+    "riobamba-incidentes-spatial-data.js": "f548ea151337872b7ef3acd7dd3d0586088c342f794be53f0ed4f3451748f477",
+    "riobamba-metodologia-data.js": "8a741965edd8fe04446cef028774013d3d0dc6618224fcc7dcc335bc96ae89fd",
+    "riobamba-camaras-data.js": "cb46287cf85cdd458381617d3b779faf9cf3d869fe91dc7ee0fcb0f711f4c497",
+    "riobamba-censo-data/riobamba_plataformas.geojson": "c5f6c2f18971961971d3a693755a3bb426ca47c615b738975ac7224a97423618"
+  },
+  "productionUnchanged": true,
+  "interfaceUnchanged": true,
+  "published": false
+}

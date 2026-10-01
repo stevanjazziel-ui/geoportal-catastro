@@ -1,0 +1,100 @@
+{
+  "sourceImmutable": true,
+  "originalCoordinatesPreserved": true,
+  "weight": 1,
+  "totals": {
+    "DELINCUENCIA": 2533,
+    "VIOLENCIA": 1590,
+    "CONVIVENCIA": 7027,
+    "ACTIVIDAD_INSTITUCIONAL": 14778,
+    "OTROS_REVISION": 788
+  },
+  "cases": [
+    {
+      "scope": "URBANO",
+      "category": "DELINCUENCIA",
+      "records": 2229,
+      "bandwidth": 500,
+      "maxDensity": 376.749600607366,
+      "giLevels": {
+        "NO SIGNIFICATIVO": 433,
+        "COLDSPOT 90%": 37,
+        "HOTSPOT 99%": 70,
+        "HOTSPOT 90%": 11,
+        "HOTSPOT 95%": 17,
+        "COLDSPOT 95%": 4
+      }
+    },
+    {
+      "scope": "URBANO",
+      "category": "VIOLENCIA",
+      "records": 1268,
+      "bandwidth": 400,
+      "maxDensity": 164.131113545167,
+      "giLevels": {
+        "NO SIGNIFICATIVO": 380,
+        "COLDSPOT 90%": 51,
+        "HOTSPOT 99%": 72,
+        "HOTSPOT 95%": 27,
+        "HOTSPOT 90%": 7,
+        "COLDSPOT 95%": 35
+      }
+    },
+    {
+      "scope": "URBANO",
+      "category": "CONVIVENCIA",
+      "records": 6418,
+      "bandwidth": 300,
+      "maxDensity": 1712.0512571518948,
+      "giLevels": {
+        "NO SIGNIFICATIVO": 423,
+        "COLDSPOT 90%": 36,
+        "HOTSPOT 95%": 30,
+        "HOTSPOT 99%": 72,
+        "HOTSPOT 90%": 9,
+        "COLDSPOT 95%": 2
+      }
+    },
+    {
+      "scope": "RURAL",
+      "category": "DELINCUENCIA",
+      "records": 219,
+      "bandwidth": 1500,
+      "maxDensity": 9.526417079338984,
+      "giLevels": {
+        "NO SIGNIFICATIVO": 1077,
+        "HOTSPOT 99%": 46,
+        "HOTSPOT 90%": 4,
+        "HOTSPOT 95%": 5
+      }
+    },
+    {
+      "scope": "RURAL",
+      "category": "VIOLENCIA",
+      "records": 247,
+      "bandwidth": 1500,
+      "maxDensity": 11.051062774811768,
+      "giLevels": {
+        "NO SIGNIFICATIVO": 1080,
+        "HOTSPOT 95%": 4,
+        "HOTSPOT 99%": 43,
+        "HOTSPOT 90%": 5
+      }
+    },
+    {
+      "scope": "RURAL",
+      "category": "CONVIVENCIA",
+      "records": 402,
+      "bandwidth": 1500,
+      "maxDensity": 16.658257289605928,
+      "giLevels": {
+        "NO SIGNIFICATIVO": 1075,
+        "HOTSPOT 99%": 49,
+        "HOTSPOT 90%": 3,
+        "HOTSPOT 95%": 5
+      }
+    }
+  ],
+  "emptyAndCoincidentChecks": true,
+  "sharedColorReference": 3038.195341858464
+}

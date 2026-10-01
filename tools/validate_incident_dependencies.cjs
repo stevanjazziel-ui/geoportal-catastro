@@ -45,7 +45,8 @@ for (const platform of diagnosis.platformMaster) {
 assert.equal(assigned, 9810);
 assert.equal(diagnosis.summary.mappedIncidentsAssigned, assigned);
 assert.equal(diagnosis.summary.unassigned.events, eligible.length - assigned);
-const html = read('visor-seguridad-riobamba-v2.html');
+// Preserve checks for the immutable published baseline, then test the new derived pipeline.
+const html = execFileSync('git', ['show', '791fc8b:visor-seguridad-riobamba-v2.html'], { cwd: root, maxBuffer: 32e6 }).toString();
 for (const match of html.matchAll(/<script>([\s\S]*?)<\/script>/g)) new vm.Script(match[1]);
 const extract = (start, end) => html.slice(html.indexOf(start), html.indexOf(end, html.indexOf(start)));
 const element = () => ({ value: '__ALL__' });
@@ -109,3 +110,4 @@ context.elements.category.value = 'empty-validation';
 assert.equal(context.compute([]).maxDensity, 0);
 assert.equal(context.compute([]).concentrations, 0);
 console.log(JSON.stringify({ source: security.events.length, eligible: eligible.length, assigned, outsidePlatforms: eligible.length - assigned, giCells: spatial.giGrid.cells.length, bandwidth: context.raster.bandwidth, cellSize: 20, unchangedOriginalObservationsAndPopulation: true, filters: report }, null, 2));
+require('./validate_conflictivity_correction.cjs');

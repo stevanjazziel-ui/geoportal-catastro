@@ -1,0 +1,158 @@
+{
+  "kde": [
+    {
+      "scope": "URBANO",
+      "category": "DELINCUENCIA",
+      "heading": "Concentración de incidentes",
+      "kpi": "REGISTROS ANALIZADOS\n2229\nREGISTROS EXCLUIDOS\n0\nCONCENTRACIONES\n15\nPLATAFORMA CON MÁS REGISTROS\nK\nBANDWIDTH\n500 m",
+      "rasters": [
+        {
+          "height": 542,
+          "length": 177518,
+          "opacity": "0.68",
+          "width": 554
+        }
+      ],
+      "table": "Plataforma\tIncidentes\t%\nK\t384\t17.2%\nJ\t343\t15.4%\nO\t184\t8.3%\nQ\t155\t7.0%\nM\t137\t6.1%\nP\t134\t6.0%\nG\t131\t5.9%\nÑ\t129\t5.8%\nD\t128\t5.7%\nH\t125\t5.6%\nF\t111\t5.0%\nI\t73\t3.3%\nC\t61\t2.7%\nL\t44\t2.0%\nB\t43\t1.9%\nE\t23\t1.0%\nN\t19\t0.9%\nA\t5\t0.2%"
+    },
+    {
+      "scope": "URBANO",
+      "category": "VIOLENCIA",
+      "heading": "Concentración de incidentes",
+      "kpi": "REGISTROS ANALIZADOS\n1268\nREGISTROS EXCLUIDOS\n0\nCONCENTRACIONES\n59\nPLATAFORMA CON MÁS REGISTROS\nJ\nBANDWIDTH\n400 m",
+      "rasters": [
+        {
+          "height": 542,
+          "length": 179982,
+          "opacity": "0.68",
+          "width": 554
+        }
+      ],
+      "table": "Plataforma\tIncidentes\t%\nJ\t158\t12.5%\nK\t155\t12.2%\nO\t116\t9.1%\nP\t110\t8.7%\nM\t103\t8.1%\nD\t100\t7.9%\nQ\t90\t7.1%\nF\t87\t6.9%\nÑ\t81\t6.4%\nH\t61\t4.8%\nI\t51\t4.0%\nG\t41\t3.2%\nB\t35\t2.8%\nC\t35\t2.8%\nN\t21\t1.7%\nL\t14\t1.1%\nE\t7\t0.6%\nA\t3\t0.2%"
+    },
+    {
+      "scope": "URBANO",
+      "category": "CONVIVENCIA",
+      "heading": "Concentración de incidentes",
+      "kpi": "REGISTROS ANALIZADOS\n6418\nREGISTROS EXCLUIDOS\n0\nCONCENTRACIONES\n13\nPLATAFORMA CON MÁS REGISTROS\nJ\nBANDWIDTH\n300 m",
+      "rasters": [
+        {
+          "height": 542,
+          "length": 202418,
+          "opacity": "0.68",
+          "width": 554
+        }
+      ],
+      "table": "Plataforma\tIncidentes\t%\nJ\t957\t14.9%\nH\t828\t12.9%\nK\t657\t10.2%\nM\t557\t8.7%\nO\t534\t8.3%\nF\t527\t8.2%\nP\t384\t6.0%\nÑ\t375\t5.8%\nQ\t337\t5.3%\nI\t313\t4.9%\nD\t273\t4.3%\nG\t230\t3.6%\nB\t147\t2.3%\nC\t128\t2.0%\nL\t76\t1.2%\nN\t57\t0.9%\nE\t24\t0.4%\nA\t14\t0.2%"
+    },
+    {
+      "scope": "RURAL",
+      "category": "DELINCUENCIA",
+      "heading": "Concentración de incidentes",
+      "kpi": "POBLACIÓN DE REFERENCIA\n83.669\nEVENTOS FILTRADOS\n219\nCATEGORÍA\nDelincuencia\nBANDWIDTH / CELDA\n1500 / 100 m\nCONCENTRACIONES RELATIVAS\n3",
+      "rasters": [
+        {
+          "height": 539,
+          "length": 50466,
+          "opacity": "0.45",
+          "width": 558
+        }
+      ],
+      "table": "Parroquia\tPoblación\tEventos filtrados\tDel.\tViol.\tConv.\tDel./1000\tViol./1000\tConv./1000\tSubtipo predominante\t% selección rural\tEvolución mensual\tCeldas hotspot nominal\nCACHA\t2.362\t3\t3\t0\t0\t1.27\t0.00\t0.00\tRobo personas\t1.37%\t2026-02: 2 · 2026-05: 1\t0\nCALPI\t6.223\t26\t26\t0\t0\t4.18\t0.00\t0.00\tRobo a domicilio\t11.87%\t2026-01: 5 · 2026-02: 2 · 2026-03: 4 · 2026-04: 2 · 2026-05: 4 · 2026-06: 3 · 2026-07: 1 · 2026-08: 5\t12\nCUBIJIES\t3.264\t10\t10\t0\t0\t3.06\t0.00\t0.00\tRobo a domicilio\t4.57%\t2026-01: 3 · 2026-02: 2 · 2026-04: 1 · 2026-06: 1 · 2026-07: 2 · 2026-08: 1\t2\nFLORES\t2.733\t2\t2\t0\t0\t0.73\t0.00\t0.00\tAbigeato\t0.91%\t2026-06: 1 · 2026-08: 1\t0\nLICAN\t11.726\t63\t63\t0\t0\t5.37\t0.00\t0.00\tHurto\t28.77%\t2026-01: 16 · 2026-02: 7 · 2026-03: 8 · 2026-04: 9 · 2026-05: 4 · 2026-06: 9 · 2026-07: 8 · 2026-08: 2\t19\nLICTO\t6.778\t13\t13\t0\t0\t1.92\t0.00\t0.00\tDaño a propiedad privada\t5.94%\t2026-01: 2 · 2026-02: 2 · 2026-03: 1 · 2026-04: 1 · 2026-05: 1 · 2026-06: 2 · 2026-07: 4\t0\nPUNGALA\t3.925\t1\t1\t0\t0\t0.25\t0.00\t0.00\tEstafa\t0.46%\t2026-02: 1\t0\nPUNIN\t4.682\t9\t9\t0\t0\t1.92\t0.00\t0.00\tAbigeato\t4.11%\t2026-01: 3 · 2026-02: 1 · 2026-05: 2 · 2026-06: 1 · 2026-07: 1 · 2026-08: 1\t0\nQUIMIAG\t4.479\t7\t7\t0\t0\t1.56\t0.00\t0.00\tHurto\t3.20%\t2026-01: 3 · 2026-02: 1 · 2026-04: 2 · 2026-08: 1\t0\nSAN JUAN\t6.309\t10\t10\t0\t0\t1.59\t0.00\t0.00\tAbigeato\t4.57%\t2026-01: 2 · 2026-02: 1 · 2026-03: 1 · 2026-04: 1 · 2026-06: 3 · 2026-07: 2\t0\nSAN LUIS\t19.510\t75\t75\t0\t0\t3.84\t0.00\t0.00\tRobo personas\t34.25%\t2026-01: 11 · 2026-02: 12 · 2026-03: 10 · 2026-04: 8 · 2026-05: 7 · 2026-06: 8 · 2026-07: 9 · 2026-08: 10\t29"
+    },
+    {
+      "scope": "RURAL",
+      "category": "VIOLENCIA",
+      "heading": "Concentración de incidentes",
+      "kpi": "POBLACIÓN DE REFERENCIA\n83.669\nEVENTOS FILTRADOS\n247\nCATEGORÍA\nViolencia\nBANDWIDTH / CELDA\n1500 / 100 m\nCONCENTRACIONES RELATIVAS\n2",
+      "rasters": [
+        {
+          "height": 539,
+          "length": 51414,
+          "opacity": "0.45",
+          "width": 558
+        }
+      ],
+      "table": "Parroquia\tPoblación\tEventos filtrados\tDel.\tViol.\tConv.\tDel./1000\tViol./1000\tConv./1000\tSubtipo predominante\t% selección rural\tEvolución mensual\tCeldas hotspot nominal\nCACHA\t2.362\t2\t0\t2\t0\t0.00\t0.85\t0.00\tAgresión física\t0.81%\t2026-02: 1 · 2026-04: 1\t0\nCALPI\t6.223\t17\t0\t17\t0\t0.00\t2.73\t0.00\tViolencia contra la mujer o miembros del núcleo familiar psicológica\t6.88%\t2026-01: 3 · 2026-03: 3 · 2026-04: 1 · 2026-05: 2 · 2026-06: 2 · 2026-07: 3 · 2026-08: 3\t10\nCUBIJIES\t3.264\t10\t0\t10\t0\t0.00\t3.06\t0.00\tViolencia contra la mujer o miembros del núcleo familiar psicológica\t4.05%\t2026-01: 2 · 2026-02: 1 · 2026-03: 2 · 2026-04: 2 · 2026-05: 1 · 2026-06: 1 · 2026-07: 1\t0\nFLORES\t2.733\t1\t0\t1\t0\t0.00\t0.37\t0.00\tViolencia contra la mujer o miembros del núcleo familiar física\t0.40%\t2026-02: 1\t0\nLICAN\t11.726\t66\t0\t66\t0\t0.00\t5.63\t0.00\tViolencia contra la mujer o miembros del núcleo familiar psicológica\t26.72%\t2026-01: 8 · 2026-02: 10 · 2026-03: 10 · 2026-04: 8 · 2026-05: 5 · 2026-06: 5 · 2026-07: 12 · 2026-08: 8\t18\nLICTO\t6.778\t12\t0\t12\t0\t0.00\t1.77\t0.00\tViolencia contra la mujer o miembros del núcleo familiar psicológica\t4.86%\t2026-01: 3 · 2026-03: 2 · 2026-04: 1 · 2026-05: 2 · 2026-06: 2 · 2026-07: 2\t0\nPUNGALA\t3.925\t3\t0\t3\t0\t0.00\t0.76\t0.00\tViolencia contra la mujer o miembros del núcleo familiar psicológica\t1.21%\t2026-02: 1 · 2026-04: 1 · 2026-08: 1\t0\nPUNIN\t4.682\t3\t0\t3\t0\t0.00\t0.64\t0.00\tViolencia contra la mujer o miembros del núcleo familiar psicológica\t1.21%\t2026-06: 2 · 2026-08: 1\t0\nQUIMIAG\t4.479\t7\t0\t7\t0\t0.00\t1.56\t0.00\tViolencia contra la mujer o miembros del núcleo familiar psicológica\t2.83%\t2026-02: 1 · 2026-03: 2 · 2026-04: 2 · 2026-05: 1 · 2026-06: 1\t0\nSAN JUAN\t6.309\t19\t0\t19\t0\t0.00\t3.01\t0.00\tViolencia contra la mujer o miembros del núcleo familiar psicológica\t7.69%\t2026-01: 2 · 2026-02: 2 · 2026-03: 3 · 2026-04: 5 · 2026-05: 1 · 2026-06: 2 · 2026-07: 2 · 2026-08: 2\t0\nSAN LUIS\t19.510\t107\t0\t107\t0\t0.00\t5.48\t0.00\tViolencia contra la mujer o miembros del núcleo familiar psicológica\t43.32%\t2026-01: 12 · 2026-02: 10 · 2026-03: 25 · 2026-04: 15 · 2026-05: 8 · 2026-06: 10 · 2026-07: 12 · 2026-08: 15\t29"
+    },
+    {
+      "scope": "RURAL",
+      "category": "CONVIVENCIA",
+      "heading": "Concentración de incidentes",
+      "kpi": "POBLACIÓN DE REFERENCIA\n83.669\nEVENTOS FILTRADOS\n402\nCATEGORÍA\nConvivencia\nBANDWIDTH / CELDA\n1500 / 100 m\nCONCENTRACIONES RELATIVAS\n3",
+      "rasters": [
+        {
+          "height": 539,
+          "length": 58706,
+          "opacity": "0.45",
+          "width": 558
+        }
+      ],
+      "table": "Parroquia\tPoblación\tEventos filtrados\tDel.\tViol.\tConv.\tDel./1000\tViol./1000\tConv./1000\tSubtipo predominante\t% selección rural\tEvolución mensual\tCeldas hotspot nominal\nCACHA\t2.362\t5\t0\t0\t5\t0.00\t0.00\t2.12\tEscándalo en espacio público\t1.24%\t2026-01: 1 · 2026-02: 1 · 2026-05: 1 · 2026-07: 2\t0\nCALPI\t6.223\t54\t0\t0\t54\t0.00\t0.00\t8.68\tLibadores\t13.43%\t2026-01: 6 · 2026-02: 6 · 2026-03: 11 · 2026-04: 1 · 2026-05: 12 · 2026-06: 3 · 2026-07: 11 · 2026-08: 4\t16\nCUBIJIES\t3.264\t21\t0\t0\t21\t0.00\t0.00\t6.43\tEscándalo en espacio privado\t5.22%\t2026-01: 4 · 2026-02: 5 · 2026-04: 2 · 2026-05: 2 · 2026-06: 4 · 2026-07: 2 · 2026-08: 2\t3\nFLORES\t2.733\t2\t0\t0\t2\t0.00\t0.00\t0.73\tEscándalo en espacio privado\t0.50%\t2026-06: 1 · 2026-08: 1\t0\nLICAN\t11.726\t101\t0\t0\t101\t0.00\t0.00\t8.61\tLibadores\t25.12%\t2026-01: 13 · 2026-02: 8 · 2026-03: 10 · 2026-04: 12 · 2026-05: 20 · 2026-06: 13 · 2026-07: 8 · 2026-08: 17\t19\nLICTO\t6.778\t21\t0\t0\t21\t0.00\t0.00\t3.10\tEscándalo en espacio público\t5.22%\t2026-01: 4 · 2026-02: 5 · 2026-03: 3 · 2026-04: 2 · 2026-06: 4 · 2026-07: 1 · 2026-08: 2\t0\nPUNGALA\t3.925\t5\t0\t0\t5\t0.00\t0.00\t1.27\tEscándalo en espacio privado\t1.24%\t2026-01: 1 · 2026-03: 2 · 2026-07: 2\t0\nPUNIN\t4.682\t13\t0\t0\t13\t0.00\t0.00\t2.78\tLibadores\t3.23%\t2026-01: 2 · 2026-03: 1 · 2026-04: 2 · 2026-05: 4 · 2026-06: 3 · 2026-08: 1\t0\nQUIMIAG\t4.479\t11\t0\t0\t11\t0.00\t0.00\t2.46\tEscándalo en espacio privado\t2.74%\t2026-02: 1 · 2026-03: 1 · 2026-04: 4 · 2026-06: 5\t0\nSAN JUAN\t6.309\t22\t0\t0\t22\t0.00\t0.00\t3.49\tEscándalo en espacio privado\t5.47%\t2026-01: 2 · 2026-02: 4 · 2026-03: 1 · 2026-04: 2 · 2026-05: 1 · 2026-06: 10 · 2026-08: 2\t0\nSAN LUIS\t19.510\t147\t0\t0\t147\t0.00\t0.00\t7.53\tLibadores\t36.57%\t2026-01: 17 · 2026-02: 15 · 2026-03: 26 · 2026-04: 16 · 2026-05: 19 · 2026-06: 19 · 2026-07: 14 · 2026-08: 21\t27"
+    }
+  ],
+  "gi": [
+    {
+      "scope": "RURAL",
+      "category": "DELINCUENCIA",
+      "kpi": "POBLACIÓN DE REFERENCIA\n83.669\nEVENTOS FILTRADOS\n219\nCELDAS RURALES ANALIZADAS\n1132\nHOTSPOTS · FILTRO ACTIVO\n55\nCOLDSPOTS · FILTRO ACTIVO\n0",
+      "paths": 0,
+      "table": "Parroquia\tEventos\tCeldas\tH99\tH95\tH90\tNS\tC90\tC95\tC99\tÁrea hotspot km²\t% territorio\nCACHA\t3\t45\t0\t0\t0\t45\t0\t0\t0\t0.00\t0.00%\nCALPI\t26\t83\t12\t0\t0\t71\t0\t0\t0\t6.01\t11.58%\nCUBIJIES\t10\t23\t0\t0\t2\t21\t0\t0\t0\t0.95\t7.34%\nFLORES\t2\t65\t0\t0\t0\t65\t0\t0\t0\t0.00\t0.00%\nLICAN\t63\t35\t18\t1\t0\t16\t0\t0\t0\t13.38\t63.94%\nLICTO\t13\t89\t0\t0\t0\t89\t0\t0\t0\t0.00\t0.00%\nPUNGALA\t1\t331\t0\t0\t0\t331\t0\t0\t0\t0.00\t0.00%\nPUNIN\t9\t72\t0\t0\t0\t72\t0\t0\t0\t0.00\t0.00%\nQUIMIAG\t7\t176\t0\t0\t0\t176\t0\t0\t0\t0.00\t0.00%\nSAN JUAN\t10\t270\t0\t0\t0\t270\t0\t0\t0\t0.00\t0.00%\nSAN LUIS\t75\t48\t22\t4\t3\t19\t0\t0\t0\t20.01\t67.02%"
+    },
+    {
+      "scope": "RURAL",
+      "category": "VIOLENCIA",
+      "kpi": "POBLACIÓN DE REFERENCIA\n83.669\nEVENTOS FILTRADOS\n247\nCELDAS RURALES ANALIZADAS\n1132\nHOTSPOTS · FILTRO ACTIVO\n52\nCOLDSPOTS · FILTRO ACTIVO\n0",
+      "paths": 0,
+      "table": "Parroquia\tEventos\tCeldas\tH99\tH95\tH90\tNS\tC90\tC95\tC99\tÁrea hotspot km²\t% territorio\nCACHA\t2\t45\t0\t0\t0\t45\t0\t0\t0\t0.00\t0.00%\nCALPI\t17\t83\t3\t2\t5\t73\t0\t0\t0\t6.50\t12.53%\nCUBIJIES\t10\t23\t0\t0\t0\t23\t0\t0\t0\t0.00\t0.00%\nFLORES\t1\t65\t0\t0\t0\t65\t0\t0\t0\t0.00\t0.00%\nLICAN\t66\t35\t14\t2\t2\t17\t0\t0\t0\t11.93\t56.98%\nLICTO\t12\t89\t0\t0\t0\t89\t0\t0\t0\t0.00\t0.00%\nPUNGALA\t3\t331\t0\t0\t0\t331\t0\t0\t0\t0.00\t0.00%\nPUNIN\t3\t72\t0\t0\t0\t72\t0\t0\t0\t0.00\t0.00%\nQUIMIAG\t7\t176\t0\t0\t0\t176\t0\t0\t0\t0.00\t0.00%\nSAN JUAN\t19\t270\t0\t0\t0\t270\t0\t0\t0\t0.00\t0.00%\nSAN LUIS\t107\t48\t28\t1\t0\t19\t0\t0\t0\t20.24\t67.77%"
+    },
+    {
+      "scope": "RURAL",
+      "category": "CONVIVENCIA",
+      "kpi": "POBLACIÓN DE REFERENCIA\n83.669\nEVENTOS FILTRADOS\n402\nCELDAS RURALES ANALIZADAS\n1132\nHOTSPOTS · FILTRO ACTIVO\n57\nCOLDSPOTS · FILTRO ACTIVO\n0",
+      "paths": 0,
+      "table": "Parroquia\tEventos\tCeldas\tH99\tH95\tH90\tNS\tC90\tC95\tC99\tÁrea hotspot km²\t% territorio\nCACHA\t5\t45\t0\t0\t0\t45\t0\t0\t0\t0.00\t0.00%\nCALPI\t54\t83\t16\t0\t0\t67\t0\t0\t0\t8.99\t17.34%\nCUBIJIES\t21\t23\t0\t1\t2\t20\t0\t0\t0\t1.87\t14.47%\nFLORES\t2\t65\t0\t0\t0\t65\t0\t0\t0\t0.00\t0.00%\nLICAN\t101\t35\t19\t0\t0\t16\t0\t0\t0\t13.13\t62.76%\nLICTO\t21\t89\t0\t0\t0\t89\t0\t0\t0\t0.00\t0.00%\nPUNGALA\t5\t331\t0\t0\t0\t331\t0\t0\t0\t0.00\t0.00%\nPUNIN\t13\t72\t0\t0\t0\t72\t0\t0\t0\t0.00\t0.00%\nQUIMIAG\t11\t176\t0\t0\t0\t176\t0\t0\t0\t0.00\t0.00%\nSAN JUAN\t22\t270\t0\t0\t0\t270\t0\t0\t0\t0.00\t0.00%\nSAN LUIS\t147\t48\t21\t5\t1\t21\t0\t0\t0\t18.87\t63.18%"
+    },
+    {
+      "scope": "URBANO",
+      "category": "DELINCUENCIA",
+      "kpi": "REGISTROS ANALÍTICOS\n2.229\nCELDAS\n572\nHOTSPOTS NOMINALES\n98\nCOLDSPOTS NOMINALES\n41\nÁREA EN HOTSPOTS\n6.09 km²\nMÉTODO\nGi* · sin corrección múltiple",
+      "paths": 0,
+      "table": "Plataforma\tInc.\tCeldas\tÁrea km²\tNivel máx.\tTipología\nA\t0\t0\t0.00\tNO SIGNIFICATIVO\tN/D\nB\t0\t0\t0.00\tNO SIGNIFICATIVO\tN/D\nC\t0\t0\t0.00\tNO SIGNIFICATIVO\tN/D\nD\t0\t0\t0.00\tNO SIGNIFICATIVO\tN/D\nE\t1\t1\t0.06\tHOTSPOT 95 %\tDELINCUENCIA\nF\t3\t1\t0.06\tHOTSPOT 90 %\tDELINCUENCIA\nG\t110\t11\t0.69\tHOTSPOT 99 %\tDELINCUENCIA\nH\t21\t4\t0.25\tHOTSPOT 99 %\tDELINCUENCIA\nI\t45\t8\t0.47\tHOTSPOT 99 %\tDELINCUENCIA\nJ\t295\t20\t1.25\tHOTSPOT 99 %\tDELINCUENCIA\nK\t405\t24\t1.50\tHOTSPOT 99 %\tDELINCUENCIA\nL\t0\t0\t0.00\tNO SIGNIFICATIVO\tN/D\nM\t41\t5\t0.31\tHOTSPOT 99 %\tDELINCUENCIA\nN\t0\t0\t0.00\tNO SIGNIFICATIVO\tN/D\nO\t35\t6\t0.38\tHOTSPOT 99 %\tDELINCUENCIA\nP\t77\t6\t0.38\tHOTSPOT 99 %\tDELINCUENCIA\nQ\t42\t4\t0.25\tHOTSPOT 99 %\tDELINCUENCIA\nÑ\t53\t8\t0.50\tHOTSPOT 99 %\tDELINCUENCIA"
+    },
+    {
+      "scope": "URBANO",
+      "category": "VIOLENCIA",
+      "kpi": "REGISTROS ANALÍTICOS\n1.268\nCELDAS\n572\nHOTSPOTS NOMINALES\n106\nCOLDSPOTS NOMINALES\n86\nÁREA EN HOTSPOTS\n6.57 km²\nMÉTODO\nGi* · sin corrección múltiple",
+      "paths": 0,
+      "table": "Plataforma\tInc.\tCeldas\tÁrea km²\tNivel máx.\tTipología\nA\t0\t0\t0.00\tNO SIGNIFICATIVO\tN/D\nB\t0\t0\t0.00\tNO SIGNIFICATIVO\tN/D\nC\t0\t0\t0.00\tNO SIGNIFICATIVO\tN/D\nD\t28\t3\t0.18\tHOTSPOT 95 %\tVIOLENCIA\nE\t0\t0\t0.00\tNO SIGNIFICATIVO\tN/D\nF\t2\t1\t0.06\tHOTSPOT 95 %\tVIOLENCIA\nG\t0\t0\t0.00\tNO SIGNIFICATIVO\tN/D\nH\t18\t3\t0.19\tHOTSPOT 99 %\tVIOLENCIA\nI\t20\t6\t0.34\tHOTSPOT 99 %\tVIOLENCIA\nJ\t133\t23\t1.44\tHOTSPOT 99 %\tVIOLENCIA\nK\t158\t22\t1.37\tHOTSPOT 99 %\tVIOLENCIA\nL\t0\t0\t0.00\tNO SIGNIFICATIVO\tN/D\nM\t69\t12\t0.74\tHOTSPOT 99 %\tVIOLENCIA\nN\t0\t0\t0.00\tNO SIGNIFICATIVO\tN/D\nO\t58\t11\t0.69\tHOTSPOT 99 %\tVIOLENCIA\nP\t35\t9\t0.56\tHOTSPOT 99 %\tVIOLENCIA\nQ\t30\t5\t0.31\tHOTSPOT 95 %\tVIOLENCIA\nÑ\t63\t11\t0.69\tHOTSPOT 99 %\tVIOLENCIA"
+    },
+    {
+      "scope": "URBANO",
+      "category": "CONVIVENCIA",
+      "kpi": "REGISTROS ANALÍTICOS\n6.418\nCELDAS\n572\nHOTSPOTS NOMINALES\n111\nCOLDSPOTS NOMINALES\n38\nÁREA EN HOTSPOTS\n6.93 km²\nMÉTODO\nGi* · sin corrección múltiple",
+      "paths": 0,
+      "table": "Plataforma\tInc.\tCeldas\tÁrea km²\tNivel máx.\tTipología\nA\t0\t0\t0.00\tNO SIGNIFICATIVO\tN/D\nB\t0\t0\t0.00\tNO SIGNIFICATIVO\tN/D\nC\t0\t0\t0.00\tNO SIGNIFICATIVO\tN/D\nD\t0\t0\t0.00\tNO SIGNIFICATIVO\tN/D\nE\t13\t5\t0.31\tHOTSPOT 99 %\tCONVIVENCIA\nF\t460\t6\t0.38\tHOTSPOT 99 %\tCONVIVENCIA\nG\t91\t4\t0.25\tHOTSPOT 99 %\tCONVIVENCIA\nH\t542\t16\t0.99\tHOTSPOT 99 %\tCONVIVENCIA\nI\t134\t7\t0.44\tHOTSPOT 99 %\tCONVIVENCIA\nJ\t874\t22\t1.37\tHOTSPOT 99 %\tCONVIVENCIA\nK\t547\t18\t1.12\tHOTSPOT 99 %\tCONVIVENCIA\nL\t72\t2\t0.13\tHOTSPOT 95 %\tCONVIVENCIA\nM\t347\t11\t0.69\tHOTSPOT 99 %\tCONVIVENCIA\nN\t0\t0\t0.00\tNO SIGNIFICATIVO\tN/D\nO\t104\t6\t0.38\tHOTSPOT 99 %\tCONVIVENCIA\nP\t240\t6\t0.38\tHOTSPOT 99 %\tCONVIVENCIA\nQ\t65\t3\t0.19\tHOTSPOT 99 %\tCONVIVENCIA\nÑ\t93\t5\t0.31\tHOTSPOT 95 %\tCONVIVENCIA"
+    }
+  ],
+  "filters": {
+    "subtype": {
+      "description": "DELINCUENCIA · Robo a domicilio · 153 registros analizados · Todo Riobamba · 1 enero 2026 - 31 agosto 2026 · bandwidth 500 m · superficie DENSIDAD_INCIDENTES_KDE.",
+      "kpi": "REGISTROS ANALIZADOS\n153\nREGISTROS EXCLUIDOS\n0\nCONCENTRACIONES\n38\nPLATAFORMA CON MÁS REGISTROS\nO\nBANDWIDTH\n500 m",
+      "raster": 121494,
+      "table": "Plataforma\tIncidentes\t%\nO\t18\t11.8%\nD\t13\t8.5%\nC\t13\t8.5%\nP\t12\t7.8%\nB\t12\t7.8%\nQ\t11\t7.2%\nH\t11\t7.2%\nG\t10\t6.5%\nÑ\t9\t5.9%\nJ\t9\t5.9%\nI\t9\t5.9%\nM\t8\t5.2%\nF\t6\t3.9%\nK\t5\t3.3%\nL\t3\t2.0%\nN\t2\t1.3%\nA\t1\t0.7%\nE\t1\t0.7%"
+    },
+    "month": {
+      "description": "DELINCUENCIA · Robo a domicilio · 21 registros analizados · Todo Riobamba · Enero 2026 · bandwidth 500 m · superficie DENSIDAD_INCIDENTES_KDE.",
+      "kpi": "REGISTROS ANALIZADOS\n21\nREGISTROS EXCLUIDOS\n0\nCONCENTRACIONES\n19\nPLATAFORMA CON MÁS REGISTROS\nO\nBANDWIDTH\n500 m",
+      "raster": 53518,
+      "table": "Plataforma\tIncidentes\t%\nO\t3\t14.3%\nÑ\t3\t14.3%\nB\t2\t9.5%\nJ\t2\t9.5%\nH\t2\t9.5%\nC\t2\t9.5%\nQ\t1\t4.8%\nD\t1\t4.8%\nP\t1\t4.8%\nK\t1\t4.8%\nM\t1\t4.8%\nG\t1\t4.8%\nL\t1\t4.8%"
+    },
+    "platform": {
+      "description": "DELINCUENCIA · Robo a domicilio · 1 registros analizados · Plataforma K · Enero 2026 · bandwidth 500 m · superficie DENSIDAD_INCIDENTES_KDE.",
+      "kpi": "REGISTROS ANALIZADOS\n1\nREGISTROS EXCLUIDOS\n0\nCONCENTRACIONES\n1\nPLATAFORMA CON MÁS REGISTROS\nK\nBANDWIDTH\n500 m",
+      "raster": 13990,
+      "table": "Plataforma\tIncidentes\t%\nK\t1\t100.0%"
+    }
+  }
+}
