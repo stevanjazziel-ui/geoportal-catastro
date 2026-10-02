@@ -30,15 +30,20 @@ const context = {
   changeCameras: cameras.filter((camera) => camera.requiresChange),
   municipalCameras: cameras,
   externalCameras: [],
+  remainingCoverage: load('riobamba-camaras-restantes-cobertura-data.js', 'RIOBAMBA_REMAINING_CAMERA_COVERAGE'),
+  coverageGeometries: load('riobamba-camaras-cobertura-geometrias.js', 'RIOBAMBA_CAMERA_COVERAGE_GEOMETRIES'),
+  remainingCameras: load('riobamba-camaras-inventario-data.js', 'RIOBAMBA_CAMERA_INVENTORY').cameras.filter((camera) => !camera.studyCamera),
   operationalMunicipalCameras: [],
   cameraCoverageSet: 'municipal', cameraCoverageScenario: 150,
   cameraCoverageCache: null, cameraCoverageCacheKey: '',
-  selectedPlatform: null, populationMode: false,
+  selectedPlatform: null, populationMode: false, coverageMode: true,
   platformGeojsonCache: json('riobamba-censo-data/riobamba_plataformas.geojson'),
   manzanaGeojsonCache: json('riobamba-censo-data/riobamba_manzanas.geojson'),
   platformStats: json('riobamba-censo-data/riobamba_plataformas_stats.json'),
   manzanaStats: json('riobamba-censo-data/riobamba_manzanas_stats.json'),
   elements: { graphicAnalysis: {}, detail: {}, detailTitle: {} },
+  cameraCoverageLayer: {clearLayers() { context.mapShapes = []; }},
+  L: {geoJSON(geometry, options) { return {addTo() { context.mapShapes.push({geometry, options}); }}; }},
   document: { getElementById: () => null, querySelectorAll: () => [] },
   Blob: class { constructor(parts) { context.exportedCsv = parts.join(''); } },
   URL: { createObjectURL: () => 'blob:test', revokeObjectURL: () => {} },
@@ -54,6 +59,9 @@ vm.runInContext(`
   const filteredPlatforms = () => platforms;
   const platformRecord = (name) => platforms.find((row) => row.platformName === name);
   const isPopulationCoverageMode = () => populationMode;
+  const isCameraCoverageMode = () => coverageMode;
+  const isGapMode = () => false;
+  const isInventoryDeficitMode = () => false;
   const manzanaPopulation = (feature) => Number(manzanaStats.byMan[feature.properties.man]?.population_total || 0);
 ` +
   extract('      const pointInRing =', '      const platformMaskRings =') +
@@ -61,20 +69,24 @@ vm.runInContext(`
   extract('      const incidentCoverageHtml =', '      function renderGapMetrics()') +
   extract('      const ringAreaKm2 =', '      const eventPlatformName =') +
   extract('      const ringBounds =', '      const coverageManzanaStyle =') +
+  extract('      const coverageManzanaStyle =', '      const getCameraCoverageAnalysis =') +
   extract('      const getCameraCoverageAnalysis =', '      const platformFilterValue =').replace('const getCameraCoverageAnalysis =', 'const computeCameraCoverageAnalysis =') +
   `
     const scenarioAnalyses = new Map();
     const getCameraCoverageAnalysis = () => {
-      const key = cameraCoverageScenario;
+      const key = cameraCoverageScenario + '-' + (coverageMode ? cameraCoverageSet : 'municipal');
       if (!scenarioAnalyses.has(key)) scenarioAnalyses.set(key, computeCameraCoverageAnalysis());
       return scenarioAnalyses.get(key);
     };
   ` +
   extract('      function cameraCoverageRows()', '      function renderBoulevardGraphics()') +
   extract('      function renderCameraCoverageDetail()', '      function renderConflictModuleDetail()') +
-  '\nthis.api = { cameraCoverageTotals, coverageTerritorialData, coveragePopulationData, cameraCoverageRows, renderCameraCoverageGraphics, renderCameraCoverageDetail, exportCameraCoverageCsv };', context);
+  extract('      function renderCameraCoverageLayer()', '      function renderPoliceLayers()') +
+  '\nthis.api = { cameraCoverageTotals, coverageTerritorialData, coveragePopulationData, cameraCoverageRows, renderCameraCoverageGraphics, renderCameraCoverageDetail, exportCameraCoverageCsv, coverageManzanaStyle, renderCameraCoverageLayer };', context);
 
 const results = [];
+for (const cameraSet of ['municipal', 'remaining']) {
+context.cameraCoverageSet = cameraSet;
 for (const platform of [null, ...context.platforms.map((row) => row.platformName)]) {
   context.selectedPlatform = platform;
   let previousArea = -1;
@@ -84,6 +96,18 @@ for (const platform of [null, ...context.platforms.map((row) => row.platformName
     const totals = context.api.cameraCoverageTotals();
     const territory = context.api.coverageTerritorialData(totals);
     const population = context.api.coveragePopulationData(totals);
+    context.api.renderCameraCoverageLayer();
+    assert.equal(context.mapShapes.length, 1, 'Display a single dissolved coverage surface');
+    const displayed = context.mapShapes[0];
+    const expectedGeometry = (cameraSet === 'remaining' ? context.remainingCoverage : context.coverageGeometries).scenarios[radius].coverage;
+    assert.equal(displayed.geometry, expectedGeometry);
+    assert.equal(displayed.options.style.fillColor, '#e6b24f');
+    assert.equal(displayed.options.style.fillOpacity, .5);
+    for (const selected of [false, true]) {
+      for (const feature of context.manzanaGeojsonCache.features) {
+        assert.equal(context.api.coverageManzanaStyle(feature, selected).fillOpacity, 0, 'Do not paint the entire census block');
+      }
+    }
     for (const data of [territory, population]) {
       assert.ok(Math.abs(data.covered + data.uncovered - data.total) < 1e-8);
       assert.ok(Math.abs(data.coveredPct + data.uncoveredPct - 100) < 1e-8);
@@ -106,6 +130,7 @@ for (const platform of [null, ...context.platforms.map((row) => row.platformName
       const percentages = graphic.match(/--covered:([\d.]+)%;--partial:([\d.]+)%/);
       assert.equal(percentages[1], percentages[2], 'Donut must have only two non-overlapping parts');
       assert.equal(context.cameraCoverageScenario, radius, 'Scenario comparison changed selected radius');
+      assert.equal(context.cameraCoverageSet, cameraSet, 'Scenario comparison changed selected camera universe');
       const rowCount = (graphic.match(/data-platform-row=/g) || []).length;
       assert.equal(rowCount, platform ? 1 : context.platforms.length);
       context.api.exportCameraCoverageCsv();
@@ -114,10 +139,25 @@ for (const platform of [null, ...context.platforms.map((row) => row.platformName
       assert.ok(exportedRows[0].includes(populationMode ? 'Poblacion_habitantes' : 'Area_total_km2'));
       assert.ok(!exportedRows[0].includes(populationMode ? 'km2' : 'Poblacion'));
       assert.ok(context.exportedFilename.includes(populationMode ? 'poblacional' : 'territorial'));
+      assert.ok(context.exportedFilename.includes(cameraSet === 'remaining' ? 'restantes' : 'para-cambio'));
     }
-    results.push({ platform: platform || 'Todas', radius, territory, population });
+    results.push({ cameraSet, platform: platform || 'Todas', radius, territory, population });
   }
 }
+}
+for (const radius of [100, 150, 200]) {
+  const study = results.find((r) => r.cameraSet === 'municipal' && r.platform === 'Todas' && r.radius === radius);
+  const official = context.methodology.cameraScenarios[radius];
+  assert.equal(study.territory.covered, official.totalCoveredAreaKm2, 'Original replacement coverage must be preserved');
+  const remaining = results.find((r) => r.cameraSet === 'remaining' && r.platform === 'Todas' && r.radius === radius);
+  assert.equal(remaining.territory.covered, context.remainingCoverage.scenarios[radius].totalCoveredAreaKm2);
+  assert.notEqual(remaining.population.covered, study.population.covered);
+}
+context.selectedPlatform = null;
+context.cameraCoverageSet = 'remaining';
+context.coverageMode = false;
+const isolated = context.api.cameraCoverageTotals();
+assert.equal(isolated.coveredArea, context.methodology.cameraScenarios[context.cameraCoverageScenario].totalCoveredAreaKm2, 'Non-coverage modules must retain the replacement universe');
 const report = {
   validatedSelections: results.length,
   validatedModuleRenders: results.length * 2,

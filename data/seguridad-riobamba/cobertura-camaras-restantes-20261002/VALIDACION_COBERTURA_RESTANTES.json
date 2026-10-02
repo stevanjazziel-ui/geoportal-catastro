@@ -1,0 +1,66 @@
+{
+  "sourceHashes": {
+    "riobamba-camaras-data.js": "cb46287cf85cdd458381617d3b779faf9cf3d869fe91dc7ee0fcb0f711f4c497",
+    "riobamba-camaras-inventario-data.js": "f8de0fec96ef9df60d9f147a4b72abfca2de43b14062ea5e907cdfee3b302934",
+    "riobamba-metodologia-data.js": "8a741965edd8fe04446cef028774013d3d0dc6618224fcc7dcc335bc96ae89fd",
+    "riobamba-conflictividad-data.js": "56ce4c608b1c66235f671d745bca22fe9084913fea788edb1d7cfb471838f17c",
+    "riobamba-cantonal-data.js": "a8bf2da18c2c4980f927be6d29b61138db4245f2fae4c2c3270a6b17c0727ce8",
+    "visor-seguridad-riobamba-data.js": "e84f1e092da171ba430db01bb4def4df9d3c2269a500285a26cb29950e8f9bac",
+    "riobamba-seguridad-diagnostico-data.js": "7a8c8e4125d44e4cd209a6cef8979f2e31d4ac62dec7b15f5f116c48372a923d",
+    "riobamba-accesibilidad-policial-data.js": "882fa013a099d1ac1804643e0e14ab4ef140aea1ed2444dbf9c627ba1c712d96"
+  },
+  "protectedUnchanged": true,
+  "records": 72,
+  "located": 68,
+  "pending": [
+    {
+      "id": "RIO-016-DOMO",
+      "address": "Leopoldo Freire y Calle V",
+      "reason": "Sin cruce verificable; pendiente de ubicación. No se asigna un punto artificial."
+    },
+    {
+      "id": "RIO-017-FIJA",
+      "address": "Leopoldo Freire y Calle V",
+      "reason": "Sin cruce verificable; pendiente de ubicación. No se asigna un punto artificial."
+    },
+    {
+      "id": "RIO-085-DOMO",
+      "address": "José de Orozco y Baltazar Paredes",
+      "reason": "Sin cruce verificable; pendiente de ubicación. No se asigna un punto artificial."
+    },
+    {
+      "id": "RIO-103-DOMO",
+      "address": "Luis Urdaneta y Manuel Zambrano",
+      "reason": "Sin cruce verificable; pendiente de ubicación. No se asigna un punto artificial."
+    }
+  ],
+  "scenarios": [
+    {
+      "radius": 100,
+      "cameras": 68,
+      "dissolvedAreaKm2": 1.9319886164587003,
+      "urbanCoveredAreaKm2": 1.5451792245373732,
+      "urbanCoveredPopulation": 11383,
+      "ruralCoveredAreaKm2": 0.3868093919213263,
+      "populationScope": "Union de las 18 Plataformas; no poblacion cantonal/rural completa"
+    },
+    {
+      "radius": 150,
+      "cameras": 68,
+      "dissolvedAreaKm2": 4.107973274696783,
+      "urbanCoveredAreaKm2": 3.235132392936998,
+      "urbanCoveredPopulation": 25464,
+      "ruralCoveredAreaKm2": 0.8728408817597922,
+      "populationScope": "Union de las 18 Plataformas; no poblacion cantonal/rural completa"
+    },
+    {
+      "radius": 200,
+      "cameras": 68,
+      "dissolvedAreaKm2": 6.615516491311385,
+      "urbanCoveredAreaKm2": 5.095826030111391,
+      "urbanCoveredPopulation": 41039,
+      "ruralCoveredAreaKm2": 1.5196904611999944,
+      "populationScope": "Union de las 18 Plataformas; no poblacion cantonal/rural completa"
+    }
+  ]
+}

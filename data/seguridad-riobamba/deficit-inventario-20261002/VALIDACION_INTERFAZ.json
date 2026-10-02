@@ -1,0 +1,22 @@
+{
+  "module": "inventoryDeficitGap",
+  "original31CameraAnalysisPreserved": true,
+  "inventoryRecords": 103,
+  "locatedRecords": 99,
+  "pendingRecords": 4,
+  "locatedWithinUrbanPlatforms": 85,
+  "dashboardRegressionCases": 57,
+  "existingCoverageRegressionCases": 114,
+  "existingCoverageModuleRenders": 228,
+  "selectionRegressionCases": 16,
+  "browserScenarios": [
+    {"radiusMeters": 100, "populationOutside": 155217, "tableRows": 18, "mapMarkers": 99},
+    {"radiusMeters": 150, "populationOutside": 136102, "tableRows": 18, "mapMarkers": 99},
+    {"radiusMeters": 200, "populationOutside": 115594, "tableRows": 18, "mapMarkers": 99}
+  ],
+  "platformDetailChecked": {"platform": "I", "radiusMeters": 200, "population": 9075, "coveredPopulation": 6480, "populationOutside": 2595, "miniMapPresent": true},
+  "allPlatformsFilterRestores18Rows": true,
+  "metricDissolvedGeometryAndPopulationIntersectionsIndependentlyValidated": true,
+  "miniMapAnimationAfterDisposalCorrected": true,
+  "unrelatedLegacyTest": "validate_cantonal_analysis.cjs cannot complete: its older VM fixture does not provide window.RiobambaConflictivity. Current conflictivity regression and protected source hashes passed; no incident methodology was changed."
+}

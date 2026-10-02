@@ -47,6 +47,9 @@ window.createRiobambaCantonalView = function (api) {
       && (!query || `${e.subtype} ${e.location} ${e.source}`.toLocaleLowerCase().includes(query)));
   };
   const population = () => selectedUnit()?.properties.population ?? data.population[scope];
+  const remainingCoverageMode = () => ["cameraCoverage", "populationCoverage"].includes(api.current().key) && api.current().cameraSet === "remaining";
+  const remainingCoverageArea = (scenario) => scope === "CANTONAL" ? scenario.cantonal : parish === "__ALL__" ? scenario.rural : scenario.byParish[parish];
+  const remainingCoverageNote = () => `<p class="cantonal-note">${esc(api.remainingCoverage.metadata.limitations)} Ámbito rural operativo: cantón menos la unión de las 18 Plataformas.</p>`;
   const counts = (items) => [1, 2, 3].map((id) => items.filter((e) => e.analyticalClassId === id).length);
   const cardHtml = (cards) => cards.map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
   const table = (title, headers, rows) => `<div class="graphic-card"><h3>${esc(title)}</h3><div style="overflow-x:auto"><table class="mini-table"><thead><tr>${headers.map((h) => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${rows.map((r) => `<tr>${r.map((v) => `<td>${esc(v)}</td>`).join("")}</tr>`).join("")}</tbody></table></div></div>`;
@@ -76,6 +79,7 @@ window.createRiobambaCantonalView = function (api) {
 
   function syncControls() {
     const inventory = api.current().key === "cameras";
+    const remaining = remainingCoverageMode();
     const independent = ["kde", "giHotspots"].includes(api.current().key);
     if (independent && scope === "CANTONAL") { scope = "URBANO"; parish = "__ALL__"; lastFit = ""; }
     scopeButtons.forEach((b) => {
@@ -95,11 +99,11 @@ window.createRiobambaCantonalView = function (api) {
     const gi = api.current().key === "giHotspots";
     territoryControls.hot.label.hidden = territoryControls.cold.label.hidden = !gi;
     el.toggleAnalysisResult.disabled = false;
-    el.toggleCameras.disabled = scope === "RURAL" && !inventory;
+    el.toggleCameras.disabled = scope === "RURAL" && !inventory && !remaining;
     el.toggleBoulevards.disabled = scope === "RURAL";
-    el.toggleCameraCoverage.disabled = scope === "RURAL";
-    if (el.cameraLayerLabel && scope === "RURAL" && !inventory) el.cameraLayerLabel.textContent = "Cámaras rurales · No disponible";
-    if (scope === "RURAL" && el.cameraCoverageControls) el.cameraCoverageControls.hidden = true;
+    el.toggleCameraCoverage.disabled = scope === "RURAL" && !remaining;
+    if (el.cameraLayerLabel && scope === "RURAL" && !inventory && !remaining) el.cameraLayerLabel.textContent = "Cámaras rurales · No disponible";
+    if (scope === "RURAL" && el.cameraCoverageControls && !["cameraCoverage", "populationCoverage"].includes(api.current().key)) el.cameraCoverageControls.hidden = true;
     if (scope !== "URBANO") {
       document.querySelector('[data-layer-row="manzanas"]').hidden = true;
       document.querySelector('[data-layer-row="externalCameras"]').hidden = true;
@@ -109,7 +113,7 @@ window.createRiobambaCantonalView = function (api) {
         el.category.value=el.subtype.value=el.kdePeriod.value="__ALL__";
         el.incidentDate.value="";
       }
-      if(scope==="RURAL" && ["cameraCoverage","populationCoverage","boulevards","institutionalCoverage","videoDeficitGap","lowCoverageConcentrations","exposureLowCoverage","territorialGaps","candidateZones"].includes(api.current().key)) {
+      if(scope==="RURAL" && !remaining && ["cameraCoverage","populationCoverage","boulevards","institutionalCoverage","videoDeficitGap","lowCoverageConcentrations","exposureLowCoverage","territorialGaps","candidateZones"].includes(api.current().key)) {
         el.toggleAnalysisResult.disabled=true;
         el.analysisResultLayerLabel.textContent+=" · datos rurales no disponibles";
       }
@@ -227,6 +231,10 @@ window.createRiobambaCantonalView = function (api) {
     return surfaceCache;
   }
   function renderLegend() {
+    if (remainingCoverageMode()) {
+      el.legend.innerHTML = `<strong>CÁMARAS RESTANTES</strong><div class="legend-row"><span class="legend-swatch" style="background:#2563eb"></span>Ubicación aproximada</div><div class="legend-row"><span class="legend-swatch" style="background:rgba(217,164,65,.22);border-color:#d9a441"></span>Cobertura disuelta · radio ${api.current().scenario} m</div><p>Cuatro sin coordenadas no generan cobertura.</p>`;
+      return;
+    }
     const key = api.current().key;
     let html = `<strong>${key === "kde" ? "CONCENTRACIÓN ESPACIAL" : scope}</strong>`;
     if (key === "kde") html = "<strong>CONCENTRACIÓN ESPACIAL DE EVENTOS</strong>" + window.RiobambaConflictivity.legend();
@@ -235,6 +243,10 @@ window.createRiobambaCantonalView = function (api) {
     el.legend.innerHTML=html;
   }
   function renderMethodology() {
+    if (remainingCoverageMode()) {
+      document.getElementById("methodologyPanel").innerHTML = `<h3>Cobertura de cámaras restantes</h3><p>Universo: ${api.remainingCoverage.metadata.totalRecords}; ubicadas: ${api.remainingCoverage.metadata.locatedRecords}. Radios de 100/150/200 m calculados en EPSG:32717; unión disuelta e intersección con el ámbito seleccionado, sin cortar la geometría visual por Plataforma.</p>${remainingCoverageNote()}`;
+      return;
+    }
     document.getElementById("methodologyPanel").innerHTML = `<h3>${esc(scope)} · ${esc(api.current().key)}</h3>`
       + data.metadata.limitations.map((text)=>`<p>${esc(text)}</p>`).join("")
       + (["kde", "giHotspots"].includes(api.current().key) ? window.RiobambaConflictivity.methodologyHtml(scope, el.category.value) : "")
@@ -308,6 +320,19 @@ window.createRiobambaCantonalView = function (api) {
     api.layers().forEach((layer)=>map.removeLayer(layer));
     analysis.addTo(map);
     boundaries.addTo(map);
+    if (remainingCoverageMode()) { renderRemainingCoverage(); return; }
+    if (api.current().key === "inventoryDeficitGap") {
+      const scenario = window.RIOBAMBA_INVENTORY_CAMERA_COVERAGE.scenarios[api.current().scenario];
+      const row = scope === "CANTONAL" ? scenario.cantonal : parish === "__ALL__" ? scenario.rural : scenario.byParish[parish];
+      el.overlayTitle.textContent = "Déficit · inventario completo (103)";
+      el.overlayText.textContent = "El déficit poblacional se calcula en el ámbito operativo de las 18 Plataformas; selecciona Urbano.";
+      el.summary.innerHTML = [["Inventario completo", 103], ["Ubicadas en el ámbito", row?.cameras ?? "No disponible"], ["Sin coordenadas", 4], ["Cobertura poblacional rural", "No disponible"]].map(([label,value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+      el.graphicAnalysis.innerHTML = `<div class="graphic-card"><h3>Disponibilidad del análisis</h3><p>Las ubicaciones rurales del inventario se conservan, pero no hay población georreferenciada rural completa para calcular su déficit poblacional. El nuevo dashboard está calculado para Urbano; no reutiliza los resultados de las 31 cámaras.</p>${row ? `<p>Superficie potencialmente cubierta disponible en este ámbito: ${row.coveredAreaKm2.toFixed(3)} km² (radio ${api.current().scenario} m).</p>` : ""}</div>`;
+      el.detailTitle.textContent = "Déficit · ámbito operativo urbano";
+      el.detail.innerHTML = "<p>Selecciona Urbano para ver el mapa de déficit, la comparación de universos y el detalle por Plataforma.</p>";
+      el.status.textContent = "Déficit poblacional rural: No disponible. No se extrapolan resultados urbanos.";
+      return;
+    }
     const state=api.current(), key=state.key, items=records(), pop=population();
     const c=counts(items), total=c.reduce((a,b)=>a+b,0), scale=selectedUnit()?1000:100000;
     el.overlayTitle.textContent = ({kde:"Concentración de incidentes",giHotspots:"Zonas críticas",incidence:"Incidencia poblacional",typologies:"Tipos de incidentes",temporal:"Evolución temporal"})[key] || (el.analysisResultLayerLabel?.textContent || "Diagnóstico territorial");
@@ -401,6 +426,43 @@ window.createRiobambaCantonalView = function (api) {
     }
     renderBoundaries(); renderLegend(); renderMethodology();
     console.info("Validación territorial",{scope,parish,records:items.length,analytic:total,weight:1,crs:"EPSG:32717"});
+  }
+  function renderRemainingCoverage() {
+    const state = api.current(), scenario = api.cameraCoverage(), row = remainingCoverageArea(scenario);
+    const coveredPct = row.coveredAreaKm2 / row.areaKm2 * 100;
+    const headers = ["Ámbito", "Radio_m", "Área_total_km2", "Área_cubierta_km2", "Área_no_cubierta_km2", "Pct_territorio_cubierto", "Cámaras_ubicadas"];
+    const resultRows = [100, 150, 200].map((radius) => {
+      const item = remainingCoverageArea(api.remainingCoverage.scenarios[radius]);
+      return [scope === "RURAL" && parish !== "__ALL__" ? parish : scope, radius, item.areaKm2, item.coveredAreaKm2, item.areaKm2-item.coveredAreaKm2, item.coveredAreaKm2/item.areaKm2*100, item.cameras];
+    });
+    el.overlayTitle.textContent = state.key === "populationCoverage" ? "Cobertura poblacional · cámaras restantes" : "Cobertura potencial · cámaras restantes";
+    el.overlayText.textContent = `${scope} · ${parish === "__ALL__" ? "Todo el ámbito" : parish} · radio ${state.scenario} m · ${row.cameras} cámaras ubicadas en el ámbito · ${coveredPct.toFixed(2)}% de superficie potencialmente cubierta. Población ${scope === "RURAL" ? "rural" : "cantonal completa"}: no disponible.`;
+    el.summary.innerHTML = cardHtml([["Inventario restante", api.remainingCoverage.metadata.totalRecords], ["Ubicadas / pendientes", `${api.remainingCoverage.metadata.locatedRecords} / ${api.remainingCoverage.metadata.pendingRecords.length}`], ["Cámaras en el ámbito", row.cameras], ["Superficie cubierta", `${row.coveredAreaKm2.toFixed(3)} km²`], ["Territorio cubierto", `${coveredPct.toFixed(2)}%`], ["Población cubierta", "No disponible"]]);
+    el.graphicAnalysis.innerHTML = `<div class="graphic-card"><h3>Superficie según cobertura</h3><div class="coverage-donut" style="--covered:${coveredPct}%;--partial:${coveredPct}%"><strong>${coveredPct.toFixed(2)}%<br>cubierto</strong></div><div class="mini-row"><span>Área cubierta</span><strong>${row.coveredAreaKm2.toFixed(3)} km²</strong></div><div class="mini-row"><span>Área no cubierta</span><strong>${(row.areaKm2-row.coveredAreaKm2).toFixed(3)} km²</strong></div><p>No hay una estimación de población completa para este ámbito. Para cobertura poblacional, selecciona Urbano.</p></div>`
+      + table("Cobertura territorial por escenario", headers, resultRows.map((r) => r.map((v,i) => i>=2 && i<=5 ? Number(v).toFixed(3) : v)))
+      + table("Cámaras pendientes de ubicación · sin cobertura calculada", ["ID", "Dirección"], api.remainingCoverage.metadata.pendingRecords.map((c) => [c.id, c.address]))
+      + remainingCoverageNote() + `<div class="graphic-card"><button id="remainingCoverageCsv" type="button">Exportar CSV</button></div>`;
+    document.getElementById("remainingCoverageCsv").addEventListener("click", () => {
+      const csv = [headers, ...resultRows].map((r) => r.map((v) => `"${String(v).replaceAll('"','""')}"`).join(";")).join("\r\n");
+      const url = URL.createObjectURL(new Blob(["\uFEFF", csv], {type:"text/csv;charset=utf-8"}));
+      const link = document.createElement("a"); link.href=url; link.download=`cobertura-restantes-${scope.toLowerCase()}-${state.scenario}m.csv`; link.click(); URL.revokeObjectURL(url);
+    });
+    el.list.innerHTML = "";
+    el.status.textContent = `${api.remainingCoverage.metadata.locatedRecords} cámaras restantes con ubicación aproximada; 4 pendientes excluidas. Buffers métricos disueltos; 31 para cambio y otros análisis intactos.`;
+    clearDetailMiniMap();
+    if (!api.renderSelectedEntityDetail([])) {
+      el.detailTitle.textContent = parish === "__ALL__" ? `${scope} · detalle territorial` : parish;
+      el.detail.innerHTML = `<div id="cantonalDetailMap" class="cantonal-mini-map"></div>` + table("Indicadores", ["Variable", "Resultado"], [["Cámaras ubicadas", row.cameras], ["Área total", `${row.areaKm2.toFixed(3)} km²`], ["Área cubierta", `${row.coveredAreaKm2.toFixed(3)} km²`], ["Población cubierta", "No disponible"]]);
+      miniMap = L.map("cantonalDetailMap", {zoomControl:false, attributionControl:false, preferCanvas:true}).setView(L.geoJSON(selectedUnit() || data.canton).getBounds().getCenter(), 11);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {className:"osm-gray-tile"}).addTo(miniMap);
+      const target = L.geoJSON(selectedUnit() || data.canton, {style:{color:"#075985",weight:1.5,fillOpacity:0}}).addTo(miniMap);
+      L.geoJSON(scenario.coverage, {interactive:false,style:{color:"#d9a441",weight:1,fillOpacity:.22}}).addTo(miniMap);
+      api.coverageCameras().forEach((c) => L.circleMarker([c.lat,c.lng], {radius:3,color:"white",weight:1,fillColor:"#2563eb",fillOpacity:1,interactive:false}).addTo(miniMap));
+      miniMap.fitBounds(target.getBounds(), {padding:[10,10]});
+    }
+    if (el.toggleCameraCoverage.checked || el.toggleAnalysisResult.checked) { api.renderCoverageLayer(); api.coverageLayer().addTo(map); }
+    if (el.toggleCameras.checked) { api.renderCoverageMarkers(); api.coverageMarkerLayer().addTo(map); }
+    renderBoundaries(); renderLegend(); renderMethodology();
   }
   el.toggleAnalysisResult.addEventListener("change", api.update);
   return {scope:()=>scope,setScope,cameraMatchesScope,assignment,matchesScope,syncControls,render,renderBoundaries,clearAnalysis,renderLegend,renderMethodology,allowsGi};

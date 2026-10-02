@@ -20,6 +20,8 @@ const context = {
   events: [{id: 'event-1', category: 'DELINCUENCIA'}],
   cameras: [{id: 'camera-1'}], policeInfrastructure: [{properties: {code: 'police-1'}}],
   inventoryCameras: [{id: 'camera-1'}],
+  isCameraCoverageMode: () => false,
+  isInventoryDeficitMode: () => false,
   markers: new Map(), cameraMarkers: new Map(), policeMarkers: new Map(),
   cantonalController: {scope: () => 'URBANO', cameraMatchesScope: () => true}, platformLayer: null,
   filteredEvents: () => context.events,

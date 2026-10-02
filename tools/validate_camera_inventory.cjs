@@ -46,6 +46,8 @@ Object.assign(context, {
   elements: {search: {value: ''}, category: {value: '__ALL__'}, source: {value: '__ALL__'}, precision: {value: '__ALL__'}},
   clean: (value) => String(value).toLowerCase(),
   insidePlatformsOnly: () => true,
+  isCameraCoverageMode: () => false,
+  isInventoryDeficitMode: () => false,
   cantonalController: {cameraMatchesScope: () => true},
 });
 vm.runInContext(extract('      function filteredCameras()', '      function filteredPoliceInfrastructure()'), context);
