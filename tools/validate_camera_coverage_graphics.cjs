@@ -102,11 +102,12 @@ for (const platform of [null, ...context.platforms.map((row) => row.platformName
     const expectedGeometry = (cameraSet === 'remaining' ? context.remainingCoverage : context.coverageGeometries).scenarios[radius].coverage;
     assert.equal(displayed.geometry, expectedGeometry);
     assert.equal(displayed.options.style.fillColor, '#e6b24f');
-    assert.equal(displayed.options.style.fillOpacity, 0, 'Do not paint full buffer disks over streets');
+    assert.equal(displayed.options.style.fillOpacity, .5, 'Preserve the requested yellow radius fill');
     const clipped = context.mapShapes[1];
     assert.equal(clipped.geometry, context.coverageGeometries.censusClips[cameraSet][radius]);
     assert.equal(clipped.options.style.fillColor, '#e6b24f');
-    assert.equal(clipped.options.style.fillOpacity, .5);
+    assert.equal(clipped.options.style.fillOpacity, .16, 'Census intersections must have a subtler fill than the radius');
+    assert.equal(clipped.options.style.weight, 1.8, 'Emphasize clipped census outlines');
     for (const populationMode of [false, true]) {
       context.populationMode = populationMode;
       const official = cameraSet === 'remaining' ? context.remainingCoverage.scenarios[radius] : context.methodology.cameraScenarios[radius];
@@ -115,7 +116,10 @@ for (const platform of [null, ...context.platforms.map((row) => row.platformName
           const fraction = official.byMan[feature.properties.man] ?? 0;
           const style = context.api.coverageManzanaStyle(feature, selected);
           assert.equal(style.fillOpacity, 0, 'Neither coverage module may fill whole original census blocks');
-          if (fraction > 0) assert.equal(style.fillColor, '#e6b24f', 'Preserve the original golden census color');
+          if (fraction > 0) {
+            assert.equal(style.fillColor, '#e6b24f', 'Preserve the original golden census color');
+            assert.equal(style.weight, selected ? 2 : 1.5, 'Emphasize intersected census outlines without filling whole blocks');
+          }
         }
       }
     }
