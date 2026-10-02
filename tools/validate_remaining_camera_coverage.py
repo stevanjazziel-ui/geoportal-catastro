@@ -28,6 +28,10 @@ def main():
     points = [Point(PROJECT(camera["lng"], camera["lat"])) for camera in located]
     display = read_js("riobamba-camaras-cobertura-geometrias.js")
     assert digest(display["metadata"]["source"]) == display["metadata"]["sha256"]
+    assert digest(display["metadata"]["censusSource"]) == display["metadata"]["censusSha256"]
+    assert digest("riobamba-camaras-restantes-cobertura-data.js") == display["metadata"]["remainingCoverageSha256"]
+    blocks = {feature["properties"]["man"]: transform(PROJECT, shape(feature["geometry"]))
+              for feature in load(display["metadata"]["censusSource"])["features"]}
     study_points = [Point(PROJECT(camera["lng"], camera["lat"])) for camera in read_js("riobamba-camaras-data.js")["cameras"]]
     previous = None
     checked = []
@@ -40,6 +44,23 @@ def main():
         actual = transform(PROJECT, shape(scenario["coverage"]["geometry"]))
         assert actual.is_valid
         assert actual.symmetric_difference(expected).area < .02, "Exported geometry differs from metric buffers"
+        for universe, coverage in (("municipal", study_expected), ("remaining", expected)):
+            features = display["censusClips"][universe][str(radius)]["features"]
+            clips = {feature["properties"]["man"]: feature for feature in features}
+            assert len(clips) == len(features), "Duplicate census block geometry"
+            for code, block in blocks.items():
+                intersection = block.intersection(coverage)
+                if intersection.area <= .01:
+                    assert code not in clips, "Painted a block outside coverage"
+                    continue
+                feature = clips[code]
+                clipped = transform(PROJECT, shape(feature["geometry"]))
+                assert clipped.is_valid and clipped.symmetric_difference(intersection).area < .02
+                assert clipped.difference(block).area < .001
+                assert clipped.difference(coverage).area < .001, "Painted census area outside camera radius"
+                assert abs(feature["properties"]["covered_area_m2"] - intersection.area) < .02
+                if intersection.area < block.area - .02:
+                    assert clipped.area < block.area, "Filled an entire partially covered census block"
         assert all(actual.distance(point) < .001 for point in points)
         assert all(expected.distance(point) == 0 for point in points)
         assert expected.area < len(points) * 3.141593 * radius**2, "Dissolve did not eliminate overlaps"
@@ -60,7 +81,8 @@ def main():
                         "urban_area_km2": scenario["totalCoveredAreaKm2"],
                         "urban_covered_population": sum(row["coveredPopulation"] for row in scenario["byPlatformName"].values())})
     print(json.dumps({"protected_unchanged": True, "remaining": 72, "located": 68, "pending": 4,
-                      "metric_union_validated": True, "replacement_display_validated": [100, 150, 200], "scenarios": checked}))
+                      "metric_union_validated": True, "replacement_display_validated": [100, 150, 200],
+                      "clipped_census_blocks_validated": ["municipal", "remaining"], "scenarios": checked}))
 
 
 if __name__ == "__main__":

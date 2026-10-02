@@ -1236,7 +1236,7 @@
   <script src="./riobamba-camaras-data.js?v=municipio-31"></script>
   <script src="./riobamba-camaras-inventario-data.js?v=publicacion-completa-20261001"></script>
   <script src="./riobamba-camaras-restantes-cobertura-data.js?v=cobertura-restantes-20261002"></script>
-  <script src="./riobamba-camaras-cobertura-geometrias.js?v=relleno-cobertura-real-20261002"></script>
+  <script src="./riobamba-camaras-cobertura-geometrias.js?v=manzanas-recortadas-20261002"></script>
   <script src="./riobamba-camaras-inventario-cobertura-data.js?v=deficit-inventario-20261002"></script>
   <script src="./riobamba-deficit-inventario.js?v=deficit-inventario-20261002"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
@@ -2111,6 +2111,7 @@
       const coverageUniverseLabel = () => usingRemainingCoverage() ? "Cámaras restantes" : "Cámaras para cambio";
       const activeCoverageScenario = () => usingRemainingCoverage() ? remainingCoverage?.scenarios?.[cameraCoverageScenario] : methodology.cameraScenarios?.[cameraCoverageScenario];
       const activeCoverageGeometry = () => usingRemainingCoverage() ? activeCoverageScenario()?.coverage : coverageGeometries?.scenarios?.[cameraCoverageScenario]?.coverage;
+      const activeCoverageManzanas = () => coverageGeometries?.censusClips?.[usingRemainingCoverage() ? "remaining" : "municipal"]?.[cameraCoverageScenario];
       const selectedCoveragePlatforms = () => {
         const rows = filteredPlatforms();
         return selectedPlatform ? rows.filter((platform) => platform.platformName === selectedPlatform) : rows;
@@ -2447,7 +2448,7 @@
             color: selected ? "#111827" : "#263a33",
             weight: selected ? 1.35 : 0.85,
             fillColor: "#e6b24f",
-            fillOpacity: isPopulationCoverageMode() ? 0.5 : 0,
+            fillOpacity: 0,
             opacity: 0.78
           };
         }
@@ -2455,7 +2456,7 @@
           color: selected ? "#111827" : "#9aa3a1",
           weight: selected ? 1.1 : 0.2,
           fillColor: "#edf1ed",
-          fillOpacity: isPopulationCoverageMode() ? 0.04 : 0,
+          fillOpacity: 0,
           opacity: 0.24
         };
       };
@@ -4199,16 +4200,11 @@
         }
         if (isCameraCoverageMode()) {
           addHeader(isPopulationCoverageMode() ? "Cobertura poblacional" : "Cobertura potencial");
-          addSwatch(`Área de cobertura · escenario ${cameraCoverageScenario} m`, "background:rgba(217,164,65,.32);border-color:#d9a441");
+          addSwatch(`Límite de cobertura · radio ${cameraCoverageScenario} m`, "background:transparent;border-color:#d9a441");
+          addSwatch("Porción de manzana dentro de cobertura", "background:rgba(230,178,79,.5);border-color:#263a33");
           if (elements.toggleManzanas?.checked) {
-            if (isPopulationCoverageMode()) {
-              addSwatch("Manzana con intersección parcial o total", "background:rgba(230,178,79,.5);border-color:#263a33");
-              addSwatch("Manzana sin intersección", "background:rgba(237,241,237,.04);border-color:#7e8790");
-              rows.push('<div class="legend-row">El relleno identifica manzanas; no significa cobertura de toda su superficie.</div>');
-            } else {
-              addSwatch("Contorno censal · manzana con intersección", "background:transparent;border-color:#263a33");
-              addSwatch("Contorno censal · sin intersección", "background:transparent;border-color:#7e8790");
-            }
+            addSwatch("Contorno censal · manzana con intersección", "background:transparent;border-color:#263a33");
+            addSwatch("Contorno censal · sin intersección", "background:transparent;border-color:#7e8790");
           }
           addContext();
           elements.legend.innerHTML = rows.join("");
@@ -4596,7 +4592,12 @@
         if (isCameraCoverageMode() || isInventoryDeficitMode()) {
           const geometry = isInventoryDeficitMode() ? inventoryDeficit.scenario().coverage : activeCoverageGeometry();
           if (!geometry) throw new Error("No se cargó la geometría métrica de cobertura");
-          L.geoJSON(geometry, {interactive: false, style: {color: "#d9a441", weight: 1.3, fillColor: "#e6b24f", fillOpacity: .5, opacity: .7}}).addTo(cameraCoverageLayer);
+          L.geoJSON(geometry, {interactive: false, style: {color: "#d9a441", weight: 1.3, fillColor: "#e6b24f", fillOpacity: isInventoryDeficitMode() ? .5 : 0, opacity: .7}}).addTo(cameraCoverageLayer);
+          if (isCameraCoverageMode()) {
+            const clipped = activeCoverageManzanas();
+            if (!clipped) throw new Error("No se cargaron las manzanas recortadas por cobertura");
+            L.geoJSON(clipped, {interactive: false, style: {color: "#263a33", weight: .85, fillColor: "#e6b24f", fillOpacity: .5, opacity: .78}}).addTo(cameraCoverageLayer);
+          }
           return;
         }
         coverageCameraSet(null).forEach((camera) => {
@@ -5237,7 +5238,8 @@
         }).addTo(detailMiniMap);
         const selectedLayer = L.geoJSON(feature, { interactive: false, style: { color: "#111827", weight: 2.8, fillColor: "#2f6f5f", fillOpacity: 0.34 } }).addTo(detailMiniMap);
         if (isCameraCoverageMode() || isInventoryDeficitMode()) {
-          L.geoJSON(isInventoryDeficitMode() ? inventoryDeficit.scenario().coverage : activeCoverageGeometry(), {interactive: false, style: {color: "#d9a441", weight: 1, fillColor: "#e6b24f", fillOpacity: .5}}).addTo(detailMiniMap);
+          L.geoJSON(isInventoryDeficitMode() ? inventoryDeficit.scenario().coverage : activeCoverageGeometry(), {interactive: false, style: {color: "#d9a441", weight: 1, fillColor: "#e6b24f", fillOpacity: isInventoryDeficitMode() ? .5 : 0}}).addTo(detailMiniMap);
+          if (isCameraCoverageMode()) L.geoJSON(activeCoverageManzanas(), {interactive: false, style: {color: "#263a33", weight: .5, fillColor: "#e6b24f", fillOpacity: .5}}).addTo(detailMiniMap);
           (isInventoryDeficitMode() ? inventoryDeficit.cameras() : coverageCameraSet(null)).forEach((camera) => L.circleMarker([camera.lat, camera.lng], {radius: 3, color: "#fff", weight: 1, fillColor: camera.requiresChange ? "#ef4444" : "#2563eb", fillOpacity: 1, interactive: false}).addTo(detailMiniMap));
         }
         L.marker(selectedLayer.getBounds().getCenter(), {

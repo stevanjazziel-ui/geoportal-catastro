@@ -97,12 +97,16 @@ for (const platform of [null, ...context.platforms.map((row) => row.platformName
     const territory = context.api.coverageTerritorialData(totals);
     const population = context.api.coveragePopulationData(totals);
     context.api.renderCameraCoverageLayer();
-    assert.equal(context.mapShapes.length, 1, 'Display a single dissolved coverage surface');
+    assert.equal(context.mapShapes.length, 2, 'Display dissolved outlines and metric census intersections');
     const displayed = context.mapShapes[0];
     const expectedGeometry = (cameraSet === 'remaining' ? context.remainingCoverage : context.coverageGeometries).scenarios[radius].coverage;
     assert.equal(displayed.geometry, expectedGeometry);
     assert.equal(displayed.options.style.fillColor, '#e6b24f');
-    assert.equal(displayed.options.style.fillOpacity, .5);
+    assert.equal(displayed.options.style.fillOpacity, 0, 'Do not paint full buffer disks over streets');
+    const clipped = context.mapShapes[1];
+    assert.equal(clipped.geometry, context.coverageGeometries.censusClips[cameraSet][radius]);
+    assert.equal(clipped.options.style.fillColor, '#e6b24f');
+    assert.equal(clipped.options.style.fillOpacity, .5);
     for (const populationMode of [false, true]) {
       context.populationMode = populationMode;
       const official = cameraSet === 'remaining' ? context.remainingCoverage.scenarios[radius] : context.methodology.cameraScenarios[radius];
@@ -110,9 +114,8 @@ for (const platform of [null, ...context.platforms.map((row) => row.platformName
         for (const feature of context.manzanaGeojsonCache.features) {
           const fraction = official.byMan[feature.properties.man] ?? 0;
           const style = context.api.coverageManzanaStyle(feature, selected);
-          assert.equal(style.fillOpacity, populationMode ? (fraction > 0 ? .5 : .04) : 0,
-            'Only population coverage fills census blocks; territorial coverage keeps actual buffer geometry');
-          if (populationMode && fraction > 0) assert.equal(style.fillColor, '#e6b24f', 'Preserve the original golden census fill');
+          assert.equal(style.fillOpacity, 0, 'Neither coverage module may fill whole original census blocks');
+          if (fraction > 0) assert.equal(style.fillColor, '#e6b24f', 'Preserve the original golden census color');
         }
       }
     }
