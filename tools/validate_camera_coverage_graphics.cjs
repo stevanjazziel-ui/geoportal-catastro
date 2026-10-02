@@ -11,6 +11,8 @@ const load = (file, key) => {
   return context.window[key];
 };
 const html = read('visor-seguridad-riobamba-v2.html');
+assert.ok(!html.includes('data-camera-set'), 'Remove the camera group selector and its obsolete listeners');
+assert.ok(html.includes('let cameraCoverageSet = "inventory";'), 'Coverage opens with the complete inventory');
 const extract = (start, end) => {
   const offset = html.indexOf(start);
   assert.ok(offset >= 0, start);
@@ -30,7 +32,8 @@ const context = {
   changeCameras: cameras.filter((camera) => camera.requiresChange),
   municipalCameras: cameras,
   externalCameras: [],
-  remainingCoverage: load('riobamba-camaras-restantes-cobertura-data.js', 'RIOBAMBA_REMAINING_CAMERA_COVERAGE'),
+  inventoryCoverage: load('riobamba-camaras-inventario-cobertura-data.js', 'RIOBAMBA_INVENTORY_CAMERA_COVERAGE'),
+  inventoryCameras: load('riobamba-camaras-inventario-data.js', 'RIOBAMBA_CAMERA_INVENTORY').cameras,
   coverageGeometries: load('riobamba-camaras-cobertura-geometrias.js', 'RIOBAMBA_CAMERA_COVERAGE_GEOMETRIES'),
   remainingCameras: load('riobamba-camaras-inventario-data.js', 'RIOBAMBA_CAMERA_INVENTORY').cameras.filter((camera) => !camera.studyCamera),
   operationalMunicipalCameras: [],
@@ -65,6 +68,7 @@ vm.runInContext(`
   const manzanaPopulation = (feature) => Number(manzanaStats.byMan[feature.properties.man]?.population_total || 0);
 ` +
   extract('      const pointInRing =', '      const platformMaskRings =') +
+  extract('      const cameraCoverageRowAtScenario =', '      const coveragePercent =') +
   extract('      const coveragePercent =', '      const syncCoverageControls =') +
   extract('      const incidentCoverageHtml =', '      function renderGapMetrics()') +
   extract('      const ringAreaKm2 =', '      const eventPlatformName =') +
@@ -82,11 +86,14 @@ vm.runInContext(`
   extract('      function cameraCoverageRows()', '      function renderBoulevardGraphics()') +
   extract('      function renderCameraCoverageDetail()', '      function renderConflictModuleDetail()') +
   extract('      function renderCameraCoverageLayer()', '      function renderPoliceLayers()') +
-  '\nthis.api = { cameraCoverageTotals, coverageTerritorialData, coveragePopulationData, cameraCoverageRows, renderCameraCoverageGraphics, renderCameraCoverageDetail, exportCameraCoverageCsv, coverageManzanaStyle, renderCameraCoverageLayer };', context);
+  '\nthis.api = { cameraCoverageTotals, coverageTerritorialData, coveragePopulationData, cameraCoverageRows, renderCameraCoverageGraphics, renderCameraCoverageDetail, exportCameraCoverageCsv, coverageManzanaStyle, renderCameraCoverageLayer, coverageCameraSet, coveragePendingCameras, cameraCoverageRowAtScenario, cameraCoverageTotalsAtScenario };', context);
 
 const results = [];
-for (const cameraSet of ['municipal', 'remaining']) {
+for (const cameraSet of ['municipal', 'inventory']) {
 context.cameraCoverageSet = cameraSet;
+assert.equal(context.api.coverageCameraSet(null).length, cameraSet === 'inventory' ? 99 : 31);
+assert.equal(context.api.coverageCameraSet(null).filter((camera) => camera.requiresChange).length, 31);
+assert.equal(context.api.coveragePendingCameras().length, cameraSet === 'inventory' ? 4 : 0);
 for (const platform of [null, ...context.platforms.map((row) => row.platformName)]) {
   context.selectedPlatform = platform;
   let previousArea = -1;
@@ -96,10 +103,19 @@ for (const platform of [null, ...context.platforms.map((row) => row.platformName
     const totals = context.api.cameraCoverageTotals();
     const territory = context.api.coverageTerritorialData(totals);
     const population = context.api.coveragePopulationData(totals);
+    if (cameraSet === 'inventory') {
+      const baseline = context.methodology.cameraScenarios[radius];
+      assert.equal(context.api.cameraCoverageRowAtScenario('PLATAFORMA I', radius).coveredPopulation,
+        baseline.byPlatformName['PLATAFORMA I'].coveredPopulation, 'Institutional and gap helpers must retain the 31-camera baseline');
+      const baselineTotals = context.api.cameraCoverageTotalsAtScenario(radius);
+      const expectedArea = platform ? baseline.byPlatformName[platform].coveredAreaKm2 : baseline.totalCoveredAreaKm2;
+      assert.equal(baselineTotals.coveredArea, expectedArea, 'Do not leak complete inventory coverage into original gap results');
+      assert.equal(context.cameraCoverageSet, 'inventory', 'Baseline helpers must restore the combined dashboard universe');
+    }
     context.api.renderCameraCoverageLayer();
     assert.equal(context.mapShapes.length, 2, 'Display dissolved outlines and metric census intersections');
     const displayed = context.mapShapes[0];
-    const expectedGeometry = (cameraSet === 'remaining' ? context.remainingCoverage : context.coverageGeometries).scenarios[radius].coverage;
+    const expectedGeometry = (cameraSet === 'inventory' ? context.inventoryCoverage : context.coverageGeometries).scenarios[radius].coverage;
     assert.equal(displayed.geometry, expectedGeometry);
     assert.equal(displayed.options.style.fillColor, '#e6b24f');
     assert.equal(displayed.options.style.fillOpacity, .5, 'Preserve the requested yellow radius fill');
@@ -110,7 +126,7 @@ for (const platform of [null, ...context.platforms.map((row) => row.platformName
     assert.equal(clipped.options.style.weight, 1.8, 'Emphasize clipped census outlines');
     for (const populationMode of [false, true]) {
       context.populationMode = populationMode;
-      const official = cameraSet === 'remaining' ? context.remainingCoverage.scenarios[radius] : context.methodology.cameraScenarios[radius];
+      const official = cameraSet === 'inventory' ? context.inventoryCoverage.scenarios[radius] : context.methodology.cameraScenarios[radius];
       for (const selected of [false, true]) {
         for (const feature of context.manzanaGeojsonCache.features) {
           const fraction = official.byMan[feature.properties.man] ?? 0;
@@ -154,7 +170,7 @@ for (const platform of [null, ...context.platforms.map((row) => row.platformName
       assert.ok(exportedRows[0].includes(populationMode ? 'Poblacion_habitantes' : 'Area_total_km2'));
       assert.ok(!exportedRows[0].includes(populationMode ? 'km2' : 'Poblacion'));
       assert.ok(context.exportedFilename.includes(populationMode ? 'poblacional' : 'territorial'));
-      assert.ok(context.exportedFilename.includes(cameraSet === 'remaining' ? 'restantes' : 'para-cambio'));
+      assert.ok(context.exportedFilename.includes(cameraSet === 'inventory' ? 'inventario-completo' : 'para-cambio'));
     }
     results.push({ cameraSet, platform: platform || 'Todas', radius, territory, population });
   }
@@ -164,18 +180,19 @@ for (const radius of [100, 150, 200]) {
   const study = results.find((r) => r.cameraSet === 'municipal' && r.platform === 'Todas' && r.radius === radius);
   const official = context.methodology.cameraScenarios[radius];
   assert.equal(study.territory.covered, official.totalCoveredAreaKm2, 'Original replacement coverage must be preserved');
-  const remaining = results.find((r) => r.cameraSet === 'remaining' && r.platform === 'Todas' && r.radius === radius);
-  assert.equal(remaining.territory.covered, context.remainingCoverage.scenarios[radius].totalCoveredAreaKm2);
-  assert.notEqual(remaining.population.covered, study.population.covered);
+  const inventory = results.find((r) => r.cameraSet === 'inventory' && r.platform === 'Todas' && r.radius === radius);
+  assert.equal(inventory.territory.covered, context.inventoryCoverage.scenarios[radius].totalCoveredAreaKm2);
+  assert.notEqual(inventory.population.covered, study.population.covered);
 }
 context.selectedPlatform = null;
-context.cameraCoverageSet = 'remaining';
+context.cameraCoverageSet = 'inventory';
 context.coverageMode = false;
 const isolated = context.api.cameraCoverageTotals();
 assert.equal(isolated.coveredArea, context.methodology.cameraScenarios[context.cameraCoverageScenario].totalCoveredAreaKm2, 'Non-coverage modules must retain the replacement universe');
 const report = {
   validatedSelections: results.length,
   validatedModuleRenders: results.length * 2,
+  unifiedInventory: {records: context.inventoryCameras.length, located: 99, replacement: 31, remainingLocated: 68, pending: 4},
   cameraAudit: {
     totalRecords: cameras.length,
     uniqueRecords: new Set(cameras.map((camera) => camera.id)).size,

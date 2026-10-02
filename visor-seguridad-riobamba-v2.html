@@ -1134,11 +1134,7 @@
                 <button type="button" data-coverage-radius="150">150 m</button>
                 <button type="button" data-coverage-radius="200">200 m</button>
               </div>
-              <span class="control-label" data-camera-universe-label>Cámaras</span>
-              <div class="segmented two" data-camera-universe-control role="group" aria-label="Tipo de cámaras">
-                <button type="button" data-camera-set="municipal">Para cambio</button>
-                <button type="button" data-camera-set="remaining">Restantes</button>
-              </div>
+              <span class="control-label" id="coverageUniverseSummary" data-camera-universe-label></span>
             </div>
             <div class="coverage-controls" id="giHotspotControls" data-filter-control="giHotspots" hidden>
               <span class="control-label">Nivel de significancia</span>
@@ -1235,8 +1231,7 @@
   <script src="./visor-seguridad-riobamba-data.js?v=metodologia-20261001"></script>
   <script src="./riobamba-camaras-data.js?v=municipio-31"></script>
   <script src="./riobamba-camaras-inventario-data.js?v=publicacion-completa-20261001"></script>
-  <script src="./riobamba-camaras-restantes-cobertura-data.js?v=cobertura-restantes-20261002"></script>
-  <script src="./riobamba-camaras-cobertura-geometrias.js?v=manzanas-recortadas-20261002"></script>
+  <script src="./riobamba-camaras-cobertura-geometrias.js?v=cobertura-unificada-20261002"></script>
   <script src="./riobamba-camaras-inventario-cobertura-data.js?v=deficit-inventario-20261002"></script>
   <script src="./riobamba-deficit-inventario.js?v=deficit-inventario-20261002"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
@@ -1248,7 +1243,7 @@
   <script src="./riobamba-cantonal-data.js?v=20261001"></script>
   <script src="./riobamba-conflictividad-data.js?v=publicacion-completa-20261001"></script>
   <script src="./riobamba-conflictividad.js?v=publicacion-completa-20261001"></script>
-  <script src="./riobamba-cantonal-view.js?v=cobertura-restantes-20261002"></script>
+  <script src="./riobamba-cantonal-view.js?v=cobertura-unificada-20261002"></script>
   <script>
     (() => {
       const dataset = window.RiobambaConflictivity.applyDataset(window.RIOBAMBA_SECURITY_DATA);
@@ -1279,7 +1274,7 @@
       const externalCameras = cameras.filter((camera) => !isMunicipalCamera(camera));
       const studyCameraIds = new Set(changeCameras.map((camera) => camera.id));
       const remainingCameras = inventoryCameras.filter((camera) => !studyCameraIds.has(camera.id));
-      const remainingCoverage = window.RIOBAMBA_REMAINING_CAMERA_COVERAGE;
+      const inventoryCoverage = window.RIOBAMBA_INVENTORY_CAMERA_COVERAGE;
       const coverageGeometries = window.RIOBAMBA_CAMERA_COVERAGE_GEOMETRIES;
       const policeDataset = window.RIOBAMBA_POLICE_SIG_DATA || { summary: {}, district: { features: [] }, infrastructure: { features: [] } };
       const policeInfrastructure = policeDataset.infrastructure?.features || [];
@@ -1435,7 +1430,7 @@
       let diagnosisMetric = "hotspots";
       let incidentMenuView = "incidents";
       let cameraCoverageScenario = 150;
-      let cameraCoverageSet = "municipal";
+      let cameraCoverageSet = "inventory";
       let cameraCoverageCacheKey = "";
       let cameraCoverageCache = null;
       let lastKdeDiagnosticKey = "";
@@ -1669,7 +1664,7 @@
             ["Escenario activo", `${cameraCoverageScenario} m`],
             ["Universo analítico", `${coverageUniverseRecords().length} ${coverageUniverseLabel()}`],
             ["Ubicadas / pendientes", `${coverageCameraSet(null).length} / ${coveragePendingCameras().length}`],
-            ["Fuente", "Informe municipal de cámaras + diagnóstico territorial"],
+            ["Fuente", "Informe de cámaras del cantón + inventario georreferenciado"],
             ["Procesamiento", "Buffers métricos 100/150/200 m y cobertura disuelta para evitar doble conteo"],
             ["Población", "Manzanas censales evaluadas contra la cobertura disuelta"],
           ]) + crsHtml() + `<h3>Limitaciones</h3><p>Cobertura potencial no equivale a alcance visual real, operación efectiva ni nivel de seguridad. Posiciones aproximadas. Los registros sin coordenadas no generan buffers. Población estimada por proporción de área de manzana dentro de las 18 Plataformas; no se extrapola al ámbito rural.</p>`;
@@ -2063,7 +2058,7 @@
       const isBlockOneMetric = () => ["population", "populationDensity", "populationExposure", "incidentCount", "incidentRate"].includes(diagnosisMetric);
       const cameraCoveragePopulationKey = () => `cameraCoveredPopulation${cameraCoverageScenario}`;
       const cameraCoverageAreaKey = () => `cameraCoveredAreaPct${cameraCoverageScenario}`;
-      const cameraCoverageUsesAllCameras = () => false;
+      const cameraCoverageUsesAllCameras = () => usingInventoryCoverage();
       const coverageValue = (platform, key) => {
         const analysis = getCameraCoverageAnalysis();
         const row = analysis.byPlatformName[platform?.platformName];
@@ -2105,13 +2100,13 @@
         return totals;
       };
       const coveragePercent = (covered, population) => population > 0 && covered != null ? Number((covered / population * 100).toFixed(1)) : null;
-      const usingRemainingCoverage = () => isCameraCoverageMode() && cameraCoverageSet === "remaining";
-      const coverageUniverseRecords = () => usingRemainingCoverage() ? remainingCameras : changeCameras;
+      const usingInventoryCoverage = () => isCameraCoverageMode() && cameraCoverageSet === "inventory";
+      const coverageUniverseRecords = () => usingInventoryCoverage() ? inventoryCameras : changeCameras;
       const coveragePendingCameras = () => coverageUniverseRecords().filter((camera) => !Number.isFinite(camera.lat) || !Number.isFinite(camera.lng));
-      const coverageUniverseLabel = () => usingRemainingCoverage() ? "Cámaras restantes" : "Cámaras para cambio";
-      const activeCoverageScenario = () => usingRemainingCoverage() ? remainingCoverage?.scenarios?.[cameraCoverageScenario] : methodology.cameraScenarios?.[cameraCoverageScenario];
-      const activeCoverageGeometry = () => usingRemainingCoverage() ? activeCoverageScenario()?.coverage : coverageGeometries?.scenarios?.[cameraCoverageScenario]?.coverage;
-      const activeCoverageManzanas = () => coverageGeometries?.censusClips?.[usingRemainingCoverage() ? "remaining" : "municipal"]?.[cameraCoverageScenario];
+      const coverageUniverseLabel = () => usingInventoryCoverage() ? "Inventario completo" : "Cámaras para cambio";
+      const activeCoverageScenario = () => usingInventoryCoverage() ? inventoryCoverage?.scenarios?.[cameraCoverageScenario] : methodology.cameraScenarios?.[cameraCoverageScenario];
+      const activeCoverageGeometry = () => usingInventoryCoverage() ? activeCoverageScenario()?.coverage : coverageGeometries?.scenarios?.[cameraCoverageScenario]?.coverage;
+      const activeCoverageManzanas = () => coverageGeometries?.censusClips?.[usingInventoryCoverage() ? "inventory" : "municipal"]?.[cameraCoverageScenario];
       const selectedCoveragePlatforms = () => {
         const rows = filteredPlatforms();
         return selectedPlatform ? rows.filter((platform) => platform.platformName === selectedPlatform) : rows;
@@ -2174,18 +2169,15 @@
         if (elements.giSignificance) elements.giSignificance.value = giSignificanceLevel;
         if (elements.giType) elements.giType.value = giResultType;
         if (!elements.cameraCoverageControls) return;
-        if (!isCameraCoverageMode()) cameraCoverageSet = "municipal";
+        cameraCoverageSet = isCameraCoverageMode() ? "inventory" : "municipal";
         elements.cameraCoverageControls.querySelectorAll("[data-camera-universe-label], [data-camera-universe-control]").forEach((node) => {
           node.hidden = !isCameraCoverageMode();
         });
         elements.cameraCoverageControls.querySelectorAll("[data-coverage-radius]").forEach((button) => {
           button.classList.toggle("is-active", Number(button.dataset.coverageRadius) === cameraCoverageScenario);
         });
-        elements.cameraCoverageControls.querySelectorAll("[data-camera-set]").forEach((button) => {
-          button.classList.toggle("is-active", button.dataset.cameraSet === cameraCoverageSet);
-          button.disabled = false;
-          button.textContent = button.dataset.cameraSet === "remaining" ? `Restantes (${remainingCameras.length})` : `Para cambio (${changeCameras.length})`;
-        });
+        const universeSummary = document.getElementById("coverageUniverseSummary");
+        if (universeSummary) universeSummary.textContent = `Inventario completo: ${inventoryCameras.length} cámaras · ${changeCameras.length} para cambio y ${remainingCameras.length} restantes`;
       };
       const populationColor = (value) => {
         const n = Number(value || 0);
@@ -2461,11 +2453,11 @@
         };
       };
       const getCameraCoverageAnalysis = () => {
-        const key = `${cameraCoverageScenario}-${usingRemainingCoverage() ? "remaining" : "municipal"}-${manzanaGeojsonCache ? "ready" : "pending"}`;
+        const key = `${cameraCoverageScenario}-${usingInventoryCoverage() ? "inventory" : "municipal"}-${manzanaGeojsonCache ? "ready" : "pending"}`;
         if (cameraCoverageCache && cameraCoverageCacheKey === key) return cameraCoverageCache;
         const cameraSet = coverageCameraSet(null);
         const official = activeCoverageScenario();
-        if (usingRemainingCoverage() && !official) throw new Error("No se cargaron los resultados de cobertura de cámaras restantes");
+        if (usingInventoryCoverage() && !official) throw new Error("No se cargaron los resultados de cobertura del inventario completo");
         if (official) {
           cameraCoverageCacheKey = key;
           cameraCoverageCache = { byPlatformName: official.byPlatformName, cameraSet };
@@ -2902,7 +2894,7 @@
         <div class="popup-note">${esc(camera.method)}. Confianza: ${esc(camera.confidence)}.</div>
       `;
       const cameraCompactPopup = (camera) => {
-        const title = isCameraCoverageMode() ? coverageUniverseLabel().toUpperCase() : !isMunicipalCamera(camera)
+        const title = isCameraCoverageMode() ? (camera.requiresChange ? "CÁMARA PARA CAMBIO" : "CÁMARA SIN CAMBIO REPORTADO") : !isMunicipalCamera(camera)
           ? "CÁMARA EXTERNA (CONTEXTO)"
           : camera.requiresChange ? "CÁMARA MUNICIPAL PARA CAMBIO" : "CÁMARA MUNICIPAL";
         return `
@@ -3323,14 +3315,14 @@
                 ["Manzanas con cobertura", fmt(totals.coveredManzanas || 0)]
               ]
               : [
-                [`${coverageUniverseLabel()} ubicadas`, camerasVisible],
+                ["Cámaras ubicadas", camerasVisible],
                 ["Área total analizada", `${territory.total.toFixed(2)} km²`],
                 ["Área potencialmente cubierta", `${territory.covered.toFixed(2)} km²`],
                 ["Área no cubierta", `${territory.uncovered.toFixed(2)} km²`],
                 ["Territorio potencialmente cubierto", formatCoveragePercent(territory.coveredPct)],
                 ["Territorio fuera de cobertura", formatCoveragePercent(territory.uncoveredPct)]
               ];
-            if (usingRemainingCoverage() && isPopulationCoverageMode()) rows.push(["Sin ubicación · excluidas del cálculo", coveragePendingCameras().length]);
+            if (usingInventoryCoverage()) rows.push(["Sin ubicación · excluidas del cálculo", coveragePendingCameras().length]);
             elements.summary.innerHTML = rows.map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
             return;
           }
@@ -3875,7 +3867,7 @@
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = `cobertura-${populationMode ? "poblacional" : "territorial"}-camaras-${usingRemainingCoverage() ? "restantes" : "para-cambio"}-${cameraCoverageScenario}m.csv`;
+        link.download = `cobertura-${populationMode ? "poblacional" : "territorial"}-camaras-${usingInventoryCoverage() ? "inventario-completo" : "para-cambio"}-${cameraCoverageScenario}m.csv`;
         link.click();
         URL.revokeObjectURL(url);
       }
@@ -4124,7 +4116,7 @@
           if (elements.togglePlatforms?.checked) addSwatch("Plataformas Territoriales", "background:transparent;border:2px solid #263a33");
           if (elements.toggleEvents?.checked) addSwatch("Incidente georreferenciado", "background:#111827;border-color:#fff;border-radius:50%");
           if (mode === "cameras" ? elements.toggleAnalysisResult.checked : elements.toggleCameras?.checked) {
-            if (mode === "cameras") {
+            if (mode === "cameras" || isCameraCoverageMode()) {
               addSwatch("Sin cambio reportado", "background:#1d4ed8;border-color:#fff;border-radius:50%");
               addSwatch("Requiere cambio", "background:#dc2626;border-color:#fff;border-radius:50%");
             } else {
@@ -4968,7 +4960,7 @@
             const totals = cameraCoverageTotals();
             const data = coverageChartData(totals);
             elements.overlayTitle.textContent = isPopulationCoverageMode() ? "Cobertura poblacional" : "Cobertura potencial de cámaras";
-            elements.overlayText.textContent = `Radio ${cameraCoverageScenario} m · ${coverageUniverseLabel()} · ${formatCoveragePercent(data.coveredPct)} de ${isPopulationCoverageMode() ? "población" : "territorio"} potencialmente cubierto en ${selectedPlatform || "las 18 Plataformas"}. ${usingRemainingCoverage() ? `${coverageCameraSet(null).length} ubicaciones aproximadas; ${coveragePendingCameras().length} pendientes no generan cobertura.` : ""}`;
+            elements.overlayText.textContent = `Radio ${cameraCoverageScenario} m · ${coverageUniverseLabel()} · ${formatCoveragePercent(data.coveredPct)} de ${isPopulationCoverageMode() ? "población" : "territorio"} potencialmente cubierto en ${selectedPlatform || "las 18 Plataformas"}. ${usingInventoryCoverage() ? `${coverageCameraSet(null).length} ubicaciones aproximadas; ${coveragePendingCameras().length} pendientes no generan cobertura.` : ""}`;
           } else if (isBoulevardsMode()) {
             elements.overlayTitle.textContent = "Bulevares Seguros";
             elements.overlayText.textContent = "Red de Bulevares y conexiones con cámaras, infraestructura policial y Plataformas Territoriales.";
@@ -5276,14 +5268,16 @@
           <div class="detail-mini-map" id="coverageMiniMap"></div>
           ${[
             [populationMode ? "Población" : "Área de Plataforma", `${formatCoverageQuantity(data.total)} ${data.unit}`],
-            [coverageUniverseLabel(), camerasCount],
+            ["Cámaras ubicadas", camerasCount],
+            ["Para cambio", coverageCameraSet(selectedPlatform).filter((camera) => camera.requiresChange).length],
+            ["Sin cambio reportado", coverageCameraSet(selectedPlatform).filter((camera) => !camera.requiresChange).length],
             ["Pendientes de ubicación (universo)", coveragePendingCameras().length],
             [populationMode ? "Población potencialmente cubierta" : "Área potencialmente cubierta", `${formatCoverageQuantity(data.covered)} ${data.unit}`],
             [populationMode ? "% población potencialmente cubierta" : "% territorio potencialmente cubierto", formatCoveragePercent(data.coveredPct)],
             [populationMode ? "Población fuera del escenario" : "Área no cubierta", `${formatCoverageQuantity(data.uncovered)} ${data.unit}`],
             [populationMode ? "% población fuera del escenario" : "% territorio fuera de cobertura", formatCoveragePercent(data.uncoveredPct)]
           ].map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")}
-          ${usingRemainingCoverage() ? `<p>Posiciones aproximadas. Las ${remainingCameras.length} restantes no pertenecen necesariamente al Municipio ni tienen operación verificada.</p><p>Sin cobertura calculada: ${coveragePendingCameras().map((camera) => esc(camera.id)).join(", ")}.</p>` : ""}
+          ${usingInventoryCoverage() ? `<p>Posiciones aproximadas. El inventario completo incluye cámaras de distintas instituciones; no se afirma su operación efectiva.</p><p>Sin cobertura calculada: ${coveragePendingCameras().map((camera) => esc(camera.id)).join(", ")}.</p>` : ""}
         `;
         const select = document.getElementById("coveragePlatformSelect");
         if (select) select.addEventListener("change", () => {
@@ -5895,7 +5889,7 @@
         analysisLayer: () => hotspotLayer,
         boulevardLayer: () => boulevardLayer,
         cameraCoverage: activeCoverageScenario,
-        remainingCoverage,
+        inventoryCoverage,
         coverageCameras: () => coverageCameraSet(null),
         renderCoverageMarkers: renderCameraMarkers,
         coverageMarkerLayer: () => cameraLayer,
@@ -5968,15 +5962,6 @@
         elements.cameraCoverageControls.querySelectorAll("[data-coverage-radius]").forEach((button) => {
           button.addEventListener("click", () => {
             cameraCoverageScenario = Number(button.dataset.coverageRadius);
-            cameraCoverageCacheKey = "";
-            cameraCoverageCache = null;
-            update();
-          });
-        });
-        elements.cameraCoverageControls.querySelectorAll("[data-camera-set]").forEach((button) => {
-          button.addEventListener("click", () => {
-            cameraCoverageSet = button.dataset.cameraSet;
-            selectedCamera = null;
             cameraCoverageCacheKey = "";
             cameraCoverageCache = null;
             update();

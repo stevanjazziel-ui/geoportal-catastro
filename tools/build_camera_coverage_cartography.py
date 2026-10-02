@@ -28,8 +28,9 @@ def main():
     blocks = [(feature["properties"]["man"], transform(PROJECT, shape(feature["geometry"])))
               for feature in load(census_source)["features"]]
     remaining = read_js("riobamba-camaras-restantes-cobertura-data.js")
+    inventory = read_js("riobamba-camaras-inventario-cobertura-data.js")
     result["censusClips"] = {}
-    for universe, dataset in (("municipal", result), ("remaining", remaining)):
+    for universe, dataset in (("municipal", result), ("remaining", remaining), ("inventory", inventory)):
         clips = {}
         for radius in (100, 150, 200):
             coverage = transform(PROJECT, shape(dataset["scenarios"][str(radius)]["coverage"]["geometry"]))
@@ -50,7 +51,8 @@ def main():
         result["censusClips"][universe] = clips
     result["metadata"].update({"censusSource": census_source, "censusSha256": digest(census_source),
         "clipMethod": "Interseccion de cada manzana con la cobertura disuelta en EPSG:32717; sin recorte por Plataforma",
-        "remainingCoverageSha256": digest("riobamba-camaras-restantes-cobertura-data.js")})
+        "remainingCoverageSha256": digest("riobamba-camaras-restantes-cobertura-data.js"),
+        "inventoryCoverageSha256": digest("riobamba-camaras-inventario-cobertura-data.js")})
     (ROOT / "riobamba-camaras-cobertura-geometrias.js").write_text("window.RIOBAMBA_CAMERA_COVERAGE_GEOMETRIES = " + json.dumps(result, ensure_ascii=False, separators=(",", ":")) + ";\n", encoding="utf-8")
     assert digest(source) == checksum
     assert all(digest(file) == checksum for file, checksum in protected.items())

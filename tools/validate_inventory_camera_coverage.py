@@ -23,7 +23,9 @@ def main():
         for feature in load("riobamba-censo-data/riobamba_manzanas.geojson")["features"]]
     baseline = read_js("riobamba-conflictividad-data.js")["derivedMethodology"]["cameraScenarios"]
     remaining = read_js("riobamba-camaras-restantes-cobertura-data.js")["scenarios"]
-    display = read_js("riobamba-camaras-cobertura-geometrias.js")["scenarios"]
+    cartography = read_js("riobamba-camaras-cobertura-geometrias.js")
+    display = cartography["scenarios"]
+    assert digest("riobamba-camaras-inventario-cobertura-data.js") == cartography["metadata"]["inventoryCoverageSha256"]
     points = [Point(PROJECT(camera["lng"], camera["lat"])) for camera in located]
     results, previous = [], None
     for radius in (100, 150, 200):
@@ -40,9 +42,18 @@ def main():
         assert actual.symmetric_difference(unary_union([old_union, remaining_union])).area < .02
         assert actual.area < old_union.area + remaining_union.area, "Do not sum overlapping universes"
         populations = {name: 0. for name in platforms}
+        features = cartography["censusClips"]["inventory"][str(radius)]["features"]
+        clips = {feature["properties"]["man"]: feature for feature in features}
+        assert len(clips) == len(features)
         for code, block in blocks:
             pop = float(census.get(code, {}).get("population_total") or 0)
             covered = block.intersection(expected)
+            if covered.area > .01:
+                clipped = transform(PROJECT, shape(clips[code]["geometry"]))
+                assert clipped.is_valid and clipped.symmetric_difference(covered).area < .02
+                assert clipped.difference(block).area < .001 and clipped.difference(expected).area < .001
+            else:
+                assert code not in clips
             assert abs(scenario["byMan"][code] - covered.area / block.area) < 1e-9
             for name, platform in platforms.items():
                 if block.intersects(platform):
@@ -60,7 +71,8 @@ def main():
             "populationCovered": sum(row["coveredPopulation"] for row in scenario["byPlatformName"].values()),
             "populationOutside": sum(row["uncoveredPopulation"] for row in scenario["byPlatformName"].values())})
     print(json.dumps({"inventory": 103, "located": 99, "pending": 4, "baselineUnchanged": True,
-        "dissolvedUnionVerified": True, "populationIntersectionsVerified": True, "scenarios": results}))
+        "dissolvedUnionVerified": True, "populationIntersectionsVerified": True,
+        "clippedCensusVerified": True, "scenarios": results}))
 
 
 if __name__ == "__main__":
