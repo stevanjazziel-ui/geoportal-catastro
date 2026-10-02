@@ -103,9 +103,17 @@ for (const platform of [null, ...context.platforms.map((row) => row.platformName
     assert.equal(displayed.geometry, expectedGeometry);
     assert.equal(displayed.options.style.fillColor, '#e6b24f');
     assert.equal(displayed.options.style.fillOpacity, .5);
-    for (const selected of [false, true]) {
-      for (const feature of context.manzanaGeojsonCache.features) {
-        assert.equal(context.api.coverageManzanaStyle(feature, selected).fillOpacity, 0, 'Do not paint the entire census block');
+    for (const populationMode of [false, true]) {
+      context.populationMode = populationMode;
+      const official = cameraSet === 'remaining' ? context.remainingCoverage.scenarios[radius] : context.methodology.cameraScenarios[radius];
+      for (const selected of [false, true]) {
+        for (const feature of context.manzanaGeojsonCache.features) {
+          const fraction = official.byMan[feature.properties.man] ?? 0;
+          const style = context.api.coverageManzanaStyle(feature, selected);
+          assert.equal(style.fillOpacity, populationMode ? (fraction > 0 ? .5 : .04) : 0,
+            'Only population coverage fills census blocks; territorial coverage keeps actual buffer geometry');
+          if (populationMode && fraction > 0) assert.equal(style.fillColor, '#e6b24f', 'Preserve the original golden census fill');
+        }
       }
     }
     for (const data of [territory, population]) {

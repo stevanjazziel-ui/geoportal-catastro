@@ -2447,7 +2447,7 @@
             color: selected ? "#111827" : "#263a33",
             weight: selected ? 1.35 : 0.85,
             fillColor: "#e6b24f",
-            fillOpacity: 0,
+            fillOpacity: isPopulationCoverageMode() ? 0.5 : 0,
             opacity: 0.78
           };
         }
@@ -2455,7 +2455,7 @@
           color: selected ? "#111827" : "#9aa3a1",
           weight: selected ? 1.1 : 0.2,
           fillColor: "#edf1ed",
-          fillOpacity: 0,
+          fillOpacity: isPopulationCoverageMode() ? 0.04 : 0,
           opacity: 0.24
         };
       };
@@ -4198,11 +4198,17 @@
           return;
         }
         if (isCameraCoverageMode()) {
-          addHeader("Cobertura potencial");
+          addHeader(isPopulationCoverageMode() ? "Cobertura poblacional" : "Cobertura potencial");
           addSwatch(`Área de cobertura · escenario ${cameraCoverageScenario} m`, "background:rgba(217,164,65,.32);border-color:#d9a441");
           if (elements.toggleManzanas?.checked) {
-            addSwatch("Contorno censal · manzana con intersección", "background:transparent;border-color:#263a33");
-            addSwatch("Contorno censal · sin intersección", "background:transparent;border-color:#7e8790");
+            if (isPopulationCoverageMode()) {
+              addSwatch("Manzana con intersección parcial o total", "background:rgba(230,178,79,.5);border-color:#263a33");
+              addSwatch("Manzana sin intersección", "background:rgba(237,241,237,.04);border-color:#7e8790");
+              rows.push('<div class="legend-row">El relleno identifica manzanas; no significa cobertura de toda su superficie.</div>');
+            } else {
+              addSwatch("Contorno censal · manzana con intersección", "background:transparent;border-color:#263a33");
+              addSwatch("Contorno censal · sin intersección", "background:transparent;border-color:#7e8790");
+            }
           }
           addContext();
           elements.legend.innerHTML = rows.join("");
