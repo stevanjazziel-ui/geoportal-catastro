@@ -1,0 +1,291 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "PARROQUIA": "Cacha",
+        "CANDIDATOS_VIALES": 6,
+        "CAMARAS_PROPUESTAS": 2,
+        "SEPARACION_PAR_M": 212.11498781893232,
+        "COBERTURA_ACTUAL_CENTRO": false,
+        "COBERTURA_PROPUESTA_CENTRO": true,
+        "COB_ACTUAL_ENTORNO_200_PCT": 0.0,
+        "COB_FUTURA_ENTORNO_200_PCT": 97.1257665431817,
+        "COB_ACTUAL_PUGS_PCT": 0.0,
+        "COB_FUTURA_PUGS_PCT": 96.39544453549662,
+        "HOTSPOT_RURAL": "Sin Hot Spot en punto de cabecera",
+        "INCIDENTES_ENTORNO": 3,
+        "POBLACION_LOCAL": null,
+        "ID_PROPUESTAS": "MUN-001|MUN-002"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.70101790162649,
+          -1.7057409386246642
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "PARROQUIA": "Calpi",
+        "CANDIDATOS_VIALES": 61,
+        "CAMARAS_PROPUESTAS": 2,
+        "SEPARACION_PAR_M": 269.7706548115759,
+        "COBERTURA_ACTUAL_CENTRO": false,
+        "COBERTURA_PROPUESTA_CENTRO": true,
+        "COB_ACTUAL_ENTORNO_200_PCT": 0.0,
+        "COB_FUTURA_ENTORNO_200_PCT": 85.13124624089068,
+        "COB_ACTUAL_PUGS_PCT": 0.0,
+        "COB_FUTURA_PUGS_PCT": 51.70502121221586,
+        "HOTSPOT_RURAL": "DELINCUENCIA:99%|VIOLENCIA:90%|CONVIVENCIA:99%",
+        "INCIDENTES_ENTORNO": 20,
+        "POBLACION_LOCAL": null,
+        "ID_PROPUESTAS": "MUN-003|MUN-004"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.74311043528017,
+          -1.6463532090167419
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "PARROQUIA": "Flores",
+        "CANDIDATOS_VIALES": 13,
+        "CAMARAS_PROPUESTAS": 2,
+        "SEPARACION_PAR_M": 43.00451124811767,
+        "COBERTURA_ACTUAL_CENTRO": false,
+        "COBERTURA_PROPUESTA_CENTRO": true,
+        "COB_ACTUAL_ENTORNO_200_PCT": 0.0,
+        "COB_FUTURA_ENTORNO_200_PCT": 99.86618817758485,
+        "COB_ACTUAL_PUGS_PCT": 0.0,
+        "COB_FUTURA_PUGS_PCT": 99.45956430291204,
+        "HOTSPOT_RURAL": "Sin Hot Spot en punto de cabecera",
+        "INCIDENTES_ENTORNO": 2,
+        "POBLACION_LOCAL": null,
+        "ID_PROPUESTAS": "MUN-005|MUN-006"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64595774503145,
+          -1.8165091065212384
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "PARROQUIA": "Licto",
+        "CANDIDATOS_VIALES": 89,
+        "CAMARAS_PROPUESTAS": 2,
+        "SEPARACION_PAR_M": 311.7729805041806,
+        "COBERTURA_ACTUAL_CENTRO": false,
+        "COBERTURA_PROPUESTA_CENTRO": true,
+        "COB_ACTUAL_ENTORNO_200_PCT": 0.0,
+        "COB_FUTURA_ENTORNO_200_PCT": 91.07823776697177,
+        "COB_ACTUAL_PUGS_PCT": 0.0,
+        "COB_FUTURA_PUGS_PCT": 52.26731933729087,
+        "HOTSPOT_RURAL": "Sin Hot Spot en punto de cabecera",
+        "INCIDENTES_ENTORNO": 2,
+        "POBLACION_LOCAL": null,
+        "ID_PROPUESTAS": "MUN-007|MUN-008"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.60376577978863,
+          -1.8050630044924305
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "PARROQUIA": "Pungala",
+        "CANDIDATOS_VIALES": 45,
+        "CAMARAS_PROPUESTAS": 2,
+        "SEPARACION_PAR_M": 358.92810616648075,
+        "COBERTURA_ACTUAL_CENTRO": false,
+        "COBERTURA_PROPUESTA_CENTRO": true,
+        "COB_ACTUAL_ENTORNO_200_PCT": 0.0,
+        "COB_FUTURA_ENTORNO_200_PCT": 91.26977995848436,
+        "COB_ACTUAL_PUGS_PCT": 0.0,
+        "COB_FUTURA_PUGS_PCT": 74.1467421104985,
+        "HOTSPOT_RURAL": "Sin Hot Spot en punto de cabecera",
+        "INCIDENTES_ENTORNO": 3,
+        "POBLACION_LOCAL": null,
+        "ID_PROPUESTAS": "MUN-009|MUN-010"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.59307035134903,
+          -1.8166772013397703
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "PARROQUIA": "Punin",
+        "CANDIDATOS_VIALES": 52,
+        "CAMARAS_PROPUESTAS": 2,
+        "SEPARACION_PAR_M": 373.9246359093547,
+        "COBERTURA_ACTUAL_CENTRO": false,
+        "COBERTURA_PROPUESTA_CENTRO": true,
+        "COB_ACTUAL_ENTORNO_200_PCT": 0.0,
+        "COB_FUTURA_ENTORNO_200_PCT": 92.68470213186387,
+        "COB_ACTUAL_PUGS_PCT": 0.0,
+        "COB_FUTURA_PUGS_PCT": 68.4905326252879,
+        "HOTSPOT_RURAL": "Sin Hot Spot en punto de cabecera",
+        "INCIDENTES_ENTORNO": 8,
+        "POBLACION_LOCAL": null,
+        "ID_PROPUESTAS": "MUN-011|MUN-012"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65629146020878,
+          -1.765904168652781
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "PARROQUIA": "Quimiag",
+        "CANDIDATOS_VIALES": 33,
+        "CAMARAS_PROPUESTAS": 2,
+        "SEPARACION_PAR_M": 291.5536451634173,
+        "COBERTURA_ACTUAL_CENTRO": false,
+        "COBERTURA_PROPUESTA_CENTRO": true,
+        "COB_ACTUAL_ENTORNO_200_PCT": 0.0,
+        "COB_FUTURA_ENTORNO_200_PCT": 92.66828650173566,
+        "COB_ACTUAL_PUGS_PCT": 0.0,
+        "COB_FUTURA_PUGS_PCT": 66.00057880421927,
+        "HOTSPOT_RURAL": "Sin Hot Spot en punto de cabecera",
+        "INCIDENTES_ENTORNO": 0,
+        "POBLACION_LOCAL": null,
+        "ID_PROPUESTAS": "MUN-013|MUN-014"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.56893755797431,
+          -1.658092295536431
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "PARROQUIA": "San Juan",
+        "CANDIDATOS_VIALES": 50,
+        "CAMARAS_PROPUESTAS": 2,
+        "SEPARACION_PAR_M": 369.81324342535885,
+        "COBERTURA_ACTUAL_CENTRO": false,
+        "COBERTURA_PROPUESTA_CENTRO": true,
+        "COB_ACTUAL_ENTORNO_200_PCT": 0.0,
+        "COB_FUTURA_ENTORNO_200_PCT": 78.10353143127453,
+        "COB_ACTUAL_PUGS_PCT": 0.0,
+        "COB_FUTURA_PUGS_PCT": 46.37609669288165,
+        "HOTSPOT_RURAL": "Sin Hot Spot en punto de cabecera",
+        "INCIDENTES_ENTORNO": 21,
+        "POBLACION_LOCAL": null,
+        "ID_PROPUESTAS": "MUN-015|MUN-016"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.78201961345522,
+          -1.6341867592080435
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "PARROQUIA": "Cubijies",
+        "CANDIDATOS_VIALES": 61,
+        "CAMARAS_PROPUESTAS": 2,
+        "SEPARACION_PAR_M": 411.0464153636599,
+        "COBERTURA_ACTUAL_CENTRO": false,
+        "COBERTURA_PROPUESTA_CENTRO": true,
+        "COB_ACTUAL_ENTORNO_200_PCT": 0.0,
+        "COB_FUTURA_ENTORNO_200_PCT": 59.42611343644894,
+        "COB_ACTUAL_PUGS_PCT": 0.0,
+        "COB_FUTURA_PUGS_PCT": 43.2930640786534,
+        "HOTSPOT_RURAL": "Sin Hot Spot en punto de cabecera",
+        "INCIDENTES_ENTORNO": 3,
+        "POBLACION_LOCAL": null,
+        "ID_PROPUESTAS": "MUN-017|MUN-018"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.58678094624692,
+          -1.645545576537097
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "PARROQUIA": "San Luis",
+        "CANDIDATOS_VIALES": 41,
+        "CAMARAS_PROPUESTAS": 2,
+        "SEPARACION_PAR_M": 272.38382480042515,
+        "COBERTURA_ACTUAL_CENTRO": false,
+        "COBERTURA_PROPUESTA_CENTRO": true,
+        "COB_ACTUAL_ENTORNO_200_PCT": 0.0,
+        "COB_FUTURA_ENTORNO_200_PCT": 60.79161122560622,
+        "COB_ACTUAL_PUGS_PCT": 0.0,
+        "COB_FUTURA_PUGS_PCT": 39.8044296511828,
+        "HOTSPOT_RURAL": "DELINCUENCIA:99%|VIOLENCIA:99%|CONVIVENCIA:99%",
+        "INCIDENTES_ENTORNO": 27,
+        "POBLACION_LOCAL": null,
+        "ID_PROPUESTAS": "MUN-019|MUN-020"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64422062245183,
+          -1.709208404043377
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "PARROQUIA": "Lican",
+        "CANDIDATOS_VIALES": 167,
+        "CAMARAS_PROPUESTAS": 2,
+        "SEPARACION_PAR_M": 756.7746505253399,
+        "COBERTURA_ACTUAL_CENTRO": false,
+        "COBERTURA_PROPUESTA_CENTRO": true,
+        "COB_ACTUAL_ENTORNO_200_PCT": 0.0,
+        "COB_FUTURA_ENTORNO_200_PCT": 59.896965461336485,
+        "COB_ACTUAL_PUGS_PCT": 3.406098840444958,
+        "COB_FUTURA_PUGS_PCT": 27.6019484622929,
+        "HOTSPOT_RURAL": "DELINCUENCIA:99%|VIOLENCIA:99%|CONVIVENCIA:99%",
+        "INCIDENTES_ENTORNO": 95,
+        "POBLACION_LOCAL": null,
+        "ID_PROPUESTAS": "MUN-021|MUN-022"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.70668996065615,
+          -1.652740178474095
+        ]
+      }
+    }
+  ]
+}

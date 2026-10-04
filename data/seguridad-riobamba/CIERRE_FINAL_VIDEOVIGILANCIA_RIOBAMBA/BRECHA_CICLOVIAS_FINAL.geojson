@@ -1,0 +1,704 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0001",
+        "LONGITUD_M": 1.1641532182693481e-10,
+        "INICIO_X": 759052.161209319,
+        "INICIO_Y": 9816906.603257183,
+        "FIN_X": 759052.1612093191,
+        "FIN_Y": 9816906.603257183,
+        "CAMARA_MAS_CERCANA": "RIO-051-DOMO",
+        "DIST_CAMARA_M": 199.99680092129464,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.67164279993776,
+            -1.6551227272361853
+          ],
+          [
+            -78.67164279993776,
+            -1.6551227272361853
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0002",
+        "LONGITUD_M": 3.4924596548080444e-10,
+        "INICIO_X": 760107.9618585256,
+        "INICIO_Y": 9818050.228516629,
+        "FIN_X": 760107.9618585253,
+        "FIN_Y": 9818050.228516629,
+        "CAMARA_MAS_CERCANA": "RIO-075-DOMO",
+        "DIST_CAMARA_M": 199.99878751843627,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.66217064993374,
+            -1.644773515157981
+          ],
+          [
+            -78.66217064993374,
+            -1.644773515157981
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0003",
+        "LONGITUD_M": 294.35574773765495,
+        "INICIO_X": 762582.3048066471,
+        "INICIO_Y": 9814414.492395937,
+        "FIN_X": 762805.2151826543,
+        "FIN_Y": 9814270.246373363,
+        "CAMARA_MAS_CERCANA": "MUN-038",
+        "DIST_CAMARA_M": 199.99305107758943,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.63990504788978,
+            -1.677612459124487
+          ],
+          [
+            -78.63888844319155,
+            -1.6784839969900947
+          ],
+          [
+            -78.63895409386392,
+            -1.6785371513970189
+          ],
+          [
+            -78.63896145425552,
+            -1.678675780428814
+          ],
+          [
+            -78.63790110283571,
+            -1.6789139382354983
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0004",
+        "LONGITUD_M": 361.37106452540377,
+        "INICIO_X": 763126.6498131306,
+        "INICIO_Y": 9814192.883211192,
+        "FIN_X": 763476.6364651113,
+        "FIN_Y": 9814102.892157683,
+        "CAMARA_MAS_CERCANA": "POL-30",
+        "DIST_CAMARA_M": 199.98827316274097,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.63501285262886,
+            -1.679609747054745
+          ],
+          [
+            -78.63186798974459,
+            -1.6804193849690208
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0005",
+        "LONGITUD_M": 6.984919309616089e-10,
+        "INICIO_X": 761782.915029671,
+        "INICIO_Y": 9816423.714722147,
+        "FIN_X": 761782.9150296717,
+        "FIN_Y": 9816423.714722147,
+        "CAMARA_MAS_CERCANA": "MUN-034",
+        "DIST_CAMARA_M": 199.9936516227338,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.64710749695531,
+            -1.6594586837018732
+          ],
+          [
+            -78.6471074969553,
+            -1.659458683701873
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0006",
+        "LONGITUD_M": 399.99329625672516,
+        "INICIO_X": 758579.3460859755,
+        "INICIO_Y": 9817292.236666936,
+        "FIN_X": 758887.752180965,
+        "FIN_Y": 9817037.530860515,
+        "CAMARA_MAS_CERCANA": "RIO-103-DOMO",
+        "DIST_CAMARA_M": 371.75905745014416,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.6758941617153,
+            -1.6516417141785915
+          ],
+          [
+            -78.67338575914877,
+            -1.6537293128234698
+          ],
+          [
+            -78.67312106705404,
+            -1.6539409221878736
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0007",
+        "LONGITUD_M": 400.8205890104583,
+        "INICIO_X": 760548.6600721903,
+        "INICIO_Y": 9817055.777893394,
+        "FIN_X": 760366.2561708912,
+        "FIN_Y": 9817411.481292244,
+        "CAMARA_MAS_CERCANA": "RIO-076-DOMO",
+        "DIST_CAMARA_M": 306.1812874322156,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65820139611209,
+            -1.65375831048415
+          ],
+          [
+            -78.6584806031622,
+            -1.6532303298552682
+          ],
+          [
+            -78.65902844383187,
+            -1.6522849446788468
+          ],
+          [
+            -78.65913633632653,
+            -1.6520544766056344
+          ],
+          [
+            -78.65931975506867,
+            -1.6518020033287215
+          ],
+          [
+            -78.65948621758932,
+            -1.6514129279500225
+          ],
+          [
+            -78.65973648521039,
+            -1.6508019577496038
+          ],
+          [
+            -78.65984367939512,
+            -1.650544824375938
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0008",
+        "LONGITUD_M": 602.5472024915658,
+        "INICIO_X": 760331.884793373,
+        "INICIO_Y": 9817492.975655137,
+        "FIN_X": 760107.9618585256,
+        "FIN_Y": 9818050.228516629,
+        "CAMARA_MAS_CERCANA": "RIO-075-DOMO",
+        "DIST_CAMARA_M": 199.9987875186011,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.66015329562745,
+            -1.6498085100225492
+          ],
+          [
+            -78.66044812993763,
+            -1.6491130598199875
+          ],
+          [
+            -78.6607807307304,
+            -1.6484344934221902
+          ],
+          [
+            -78.66088177309905,
+            -1.6480730101647931
+          ],
+          [
+            -78.66128154697614,
+            -1.6469050672554348
+          ],
+          [
+            -78.66166544903359,
+            -1.6457536537717716
+          ],
+          [
+            -78.66196856643161,
+            -1.6450628329641166
+          ],
+          [
+            -78.66217064993374,
+            -1.644773515157981
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0009",
+        "LONGITUD_M": 601.6888770774742,
+        "INICIO_X": 760086.7041721438,
+        "INICIO_Y": 9818040.417876212,
+        "FIN_X": 760314.7630925018,
+        "FIN_Y": 9817486.565254884,
+        "CAMARA_MAS_CERCANA": "RIO-075-DOMO",
+        "DIST_CAMARA_M": 199.98876103574187,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.66236150221799,
+            -1.6448624251737873
+          ],
+          [
+            -78.66220175524178,
+            -1.6451694931748868
+          ],
+          [
+            -78.66201200158811,
+            -1.6454660444086628
+          ],
+          [
+            -78.66180158957837,
+            -1.6460179544376201
+          ],
+          [
+            -78.66167900821597,
+            -1.6463659987440822
+          ],
+          [
+            -78.6614836338476,
+            -1.647139078034238
+          ],
+          [
+            -78.66125529673523,
+            -1.6475621782583498
+          ],
+          [
+            -78.66109337990376,
+            -1.6481446492548082
+          ],
+          [
+            -78.66067881975259,
+            -1.6490150038533247
+          ],
+          [
+            -78.66030703047726,
+            -1.6498666398410593
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0010",
+        "LONGITUD_M": 400.4075826827996,
+        "INICIO_X": 760347.9594589435,
+        "INICIO_Y": 9817401.689772032,
+        "FIN_X": 760531.2125034764,
+        "FIN_Y": 9817047.14155929,
+        "CAMARA_MAS_CERCANA": "RIO-076-DOMO",
+        "DIST_CAMARA_M": 305.3333711054666,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.66000793349156,
+            -1.650633530907578
+          ],
+          [
+            -78.65990068184072,
+            -1.6509273957976436
+          ],
+          [
+            -78.65966986674985,
+            -1.651516821415868
+          ],
+          [
+            -78.65942447009976,
+            -1.6520227483307288
+          ],
+          [
+            -78.6586896727165,
+            -1.6531773200561035
+          ],
+          [
+            -78.65835803447415,
+            -1.653836565907322
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0011",
+        "LONGITUD_M": 4.656612873077393e-10,
+        "INICIO_X": 759052.1612093186,
+        "INICIO_Y": 9816906.603257183,
+        "FIN_X": 759052.161209319,
+        "FIN_Y": 9816906.603257183,
+        "CAMARA_MAS_CERCANA": "RIO-051-DOMO",
+        "DIST_CAMARA_M": 199.99680092138806,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.67164279993776,
+            -1.6551227272361853
+          ],
+          [
+            -78.67164279993776,
+            -1.6551227272361853
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0012",
+        "LONGITUD_M": 1.1641532182693481e-10,
+        "INICIO_X": 760598.8510674868,
+        "INICIO_Y": 9816961.193331646,
+        "FIN_X": 760598.8510674867,
+        "FIN_Y": 9816961.193331646,
+        "CAMARA_MAS_CERCANA": "RIO-076-DOMO",
+        "DIST_CAMARA_M": 199.98554583876015,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65774953185701,
+            -1.6546127842498706
+          ],
+          [
+            -78.65774953185701,
+            -1.6546127842498706
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0013",
+        "LONGITUD_M": 45.00785221286053,
+        "INICIO_X": 761950.0783879315,
+        "INICIO_Y": 9814969.440798307,
+        "FIN_X": 761983.7115333715,
+        "FIN_Y": 9814939.532299705,
+        "CAMARA_MAS_CERCANA": "RIO-005-DOMO",
+        "DIST_CAMARA_M": 199.98882248069935,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.645590276409,
+            -1.6726028642879007
+          ],
+          [
+            -78.64528783036668,
+            -1.672872858635096
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0014",
+        "LONGITUD_M": 9.264505752056694,
+        "INICIO_X": 763476.6364651113,
+        "INICIO_Y": 9814102.892157683,
+        "FIN_X": 763485.6091075517,
+        "FIN_Y": 9814100.585048135,
+        "CAMARA_MAS_CERCANA": "MUN-050",
+        "DIST_CAMARA_M": 199.9955887283917,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.63186798974459,
+            -1.6804193849690208
+          ],
+          [
+            -78.63178736463762,
+            -1.6804401416206387
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0015",
+        "LONGITUD_M": 126.34557930513319,
+        "INICIO_X": 761782.9150296717,
+        "INICIO_Y": 9816423.714722147,
+        "FIN_X": 761863.7082247445,
+        "FIN_Y": 9816520.844397215,
+        "CAMARA_MAS_CERCANA": "MUN-034",
+        "DIST_CAMARA_M": 199.9936516227489,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.6471074969553,
+            -1.659458683701873
+          ],
+          [
+            -78.64667287494372,
+            -1.6589400976182413
+          ],
+          [
+            -78.64638278124501,
+            -1.65857980560288
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0016",
+        "LONGITUD_M": 368.3300583290393,
+        "INICIO_X": 758294.2234596327,
+        "INICIO_Y": 9817525.402483737,
+        "FIN_X": 758579.3460859755,
+        "FIN_Y": 9817292.236666936,
+        "CAMARA_MAS_CERCANA": "RIO-070-DOMO",
+        "DIST_CAMARA_M": 199.98965673826328,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.67845787010505,
+            -1.649536963941947
+          ],
+          [
+            -78.67714285259844,
+            -1.6506024956690153
+          ],
+          [
+            -78.6758941617153,
+            -1.6516417141785915
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0017",
+        "LONGITUD_M": 210.17222918001087,
+        "INICIO_X": 758887.752180965,
+        "INICIO_Y": 9817037.530860515,
+        "FIN_X": 759052.1612093186,
+        "FIN_Y": 9816906.603257183,
+        "CAMARA_MAS_CERCANA": "RIO-051-DOMO",
+        "DIST_CAMARA_M": 199.99680092176166,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.67312106705404,
+            -1.6539409221878736
+          ],
+          [
+            -78.67164279993776,
+            -1.6551227272361853
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0018",
+        "LONGITUD_M": 107.07649289167308,
+        "INICIO_X": 760598.8510674867,
+        "INICIO_Y": 9816961.193331646,
+        "FIN_X": 760548.6600721903,
+        "FIN_Y": 9817055.777893394,
+        "CAMARA_MAS_CERCANA": "RIO-076-DOMO",
+        "DIST_CAMARA_M": 199.98554583879775,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65774953185701,
+            -1.6546127842498706
+          ],
+          [
+            -78.65820139611209,
+            -1.65375831048415
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0019",
+        "LONGITUD_M": 88.44655956643214,
+        "INICIO_X": 760366.2561708912,
+        "INICIO_Y": 9817411.481292244,
+        "FIN_X": 760331.884793373,
+        "FIN_Y": 9817492.975655137,
+        "CAMARA_MAS_CERCANA": "RIO-076-DOMO",
+        "DIST_CAMARA_M": 705.2310903395268,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65984367939512,
+            -1.650544824375938
+          ],
+          [
+            -78.65999368439316,
+            -1.6501849976917469
+          ],
+          [
+            -78.66015329562745,
+            -1.6498085100225492
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0020",
+        "LONGITUD_M": 91.17650568945726,
+        "INICIO_X": 760314.7630925018,
+        "INICIO_Y": 9817486.565254884,
+        "FIN_X": 760347.9594589435,
+        "FIN_Y": 9817401.689772032,
+        "CAMARA_MAS_CERCANA": "RIO-076-DOMO",
+        "DIST_CAMARA_M": 704.3665075739117,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.66030703047726,
+            -1.6498666398410593
+          ],
+          [
+            -78.66018991459318,
+            -1.6501349099025084
+          ],
+          [
+            -78.66000793349156,
+            -1.650633530907578
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "CICLOVIAS-0021",
+        "LONGITUD_M": 105.40864241332945,
+        "INICIO_X": 760531.2125034764,
+        "INICIO_Y": 9817047.14155929,
+        "FIN_X": 760579.3012235343,
+        "FIN_Y": 9816953.351089202,
+        "CAMARA_MAS_CERCANA": "RIO-076-DOMO",
+        "DIST_CAMARA_M": 199.9871879637992,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65835803447415,
+            -1.653836565907322
+          ],
+          [
+            -78.65801507881187,
+            -1.6545183077191574
+          ],
+          [
+            -78.65792506314543,
+            -1.6546838839287086
+          ]
+        ]
+      }
+    }
+  ]
+}

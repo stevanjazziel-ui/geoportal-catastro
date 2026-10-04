@@ -1,0 +1,5723 @@
+{
+  "layers": [
+    {
+      "zip": "C:\\Users\\PC\\Downloads\\Puntos Críticos Cunduana.zip",
+      "zipHash": "b79128d912e4fe6958e66f10621a1e4bac62843fb0988759e39d38755c469dad",
+      "path": "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\consolidacion-183-20261004\\insumos_originales\\1\\Puntos Críticos Cunduana.shp",
+      "name": "Puntos Críticos Cunduana",
+      "crsOriginal": "EPSG:32717",
+      "records": 10,
+      "types": [
+        "Point"
+      ],
+      "boundsMetric": [
+        754382.9021631798,
+        9817174.712179555,
+        756007.3570170932,
+        9818722.98418834
+      ],
+      "null": 0,
+      "invalid": 0,
+      "lengthMetric": 0.0,
+      "areaMetric": 0.0,
+      "fields": [
+        "Etiqueta",
+        "X",
+        "Y"
+      ],
+      "attributes": [
+        {
+          "Etiqueta": "Acumulación de Escombros",
+          "X": 755970.0,
+          "Y": 9817345.0
+        },
+        {
+          "Etiqueta": "Acumulación de Escombros",
+          "X": 756007.0,
+          "Y": 9817411.0
+        },
+        {
+          "Etiqueta": "Limpieza",
+          "X": 755368.0,
+          "Y": 9817424.0
+        },
+        {
+          "Etiqueta": "Acumulación de Escombros",
+          "X": 755440.0,
+          "Y": 9817429.0
+        },
+        {
+          "Etiqueta": "Acumulación de Escombros",
+          "X": 755492.0,
+          "Y": 9817363.0
+        },
+        {
+          "Etiqueta": "Limpieza",
+          "X": 755832.0,
+          "Y": 9817174.0
+        },
+        {
+          "Etiqueta": "Acumulación de Escombros",
+          "X": 755572.0,
+          "Y": 9817414.0
+        },
+        {
+          "Etiqueta": "Limpieza",
+          "X": 755220.0,
+          "Y": 9817482.0
+        },
+        {
+          "Etiqueta": "Limpieza",
+          "X": 754382.0,
+          "Y": 9818722.0
+        },
+        {
+          "Etiqueta": "Acumulación de Escombros",
+          "X": 754423.0,
+          "Y": 9818702.0
+        }
+      ]
+    },
+    {
+      "zip": "C:\\Users\\PC\\Downloads\\Puntos Críticos Cunduana.zip",
+      "zipHash": "b79128d912e4fe6958e66f10621a1e4bac62843fb0988759e39d38755c469dad",
+      "path": "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\consolidacion-183-20261004\\insumos_originales\\1\\Tramos para limpieza.shp",
+      "name": "Tramos para limpieza",
+      "crsOriginal": "EPSG:32717",
+      "records": 2,
+      "types": [
+        "LineString"
+      ],
+      "boundsMetric": [
+        754368.8130406972,
+        9817185.128291063,
+        756068.4971488814,
+        9818721.857058551
+      ],
+      "null": 0,
+      "invalid": 0,
+      "lengthMetric": 2687.9159554312046,
+      "areaMetric": 0.0,
+      "fields": [
+        "Id",
+        "Distancia"
+      ],
+      "attributes": [
+        {
+          "Id": 0,
+          "Distancia": 1670.00181427
+        },
+        {
+          "Id": 0,
+          "Distancia": 1017.91414116
+        }
+      ]
+    },
+    {
+      "zip": "C:\\Users\\PC\\Downloads\\Shapes, Quebrada Las Abras-20260505T140635Z-3-001.zip",
+      "zipHash": "74345cd9032ddb827e2477a0cf91d89d24f41b7aad3c3e12657dd5cee89fafcf",
+      "path": "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\consolidacion-183-20261004\\insumos_originales\\2\\Shapes, Quebrada Las Abras\\Shapes José MArti\\Ancho_del_cauce_de_la_Quebrada_-_3.shp",
+      "name": "Ancho_del_cauce_de_la_Quebrada_-_3",
+      "crsOriginal": "EPSG:32717",
+      "records": 1,
+      "types": [
+        "Polygon"
+      ],
+      "boundsMetric": [
+        757093.177507044,
+        9817624.115905762,
+        762802.2249212147,
+        9820907.394187978
+      ],
+      "null": 0,
+      "invalid": 0,
+      "lengthMetric": 17890.74379271699,
+      "areaMetric": 62730.05877240594,
+      "fields": [
+        "FID_",
+        "Entity",
+        "Layer",
+        "Color",
+        "Linetype",
+        "Elevation",
+        "LineWt",
+        "RefName",
+        "BUFF_DIST",
+        "ORIG_FID"
+      ],
+      "attributes": [
+        {
+          "FID_": 0,
+          "Entity": "LWPolyline",
+          "Layer": "EJE_HIDRAULICO_LAS_ABRAS_PUENTE_20_DICIEMBRE",
+          "Color": 5,
+          "Linetype": "Continuous",
+          "Elevation": 0.0,
+          "LineWt": 90,
+          "RefName": null,
+          "BUFF_DIST": 3.5,
+          "ORIG_FID": 0
+        }
+      ]
+    },
+    {
+      "zip": "C:\\Users\\PC\\Downloads\\Shapes, Quebrada Las Abras-20260505T140635Z-3-001.zip",
+      "zipHash": "74345cd9032ddb827e2477a0cf91d89d24f41b7aad3c3e12657dd5cee89fafcf",
+      "path": "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\consolidacion-183-20261004\\insumos_originales\\2\\Shapes, Quebrada Las Abras\\Shapes José MArti\\Eje_Quebrada_Las_Abras_MAATE.shp",
+      "name": "Eje_Quebrada_Las_Abras_MAATE",
+      "crsOriginal": "EPSG:32717",
+      "records": 2,
+      "types": [
+        "LineString"
+      ],
+      "boundsMetric": [
+        757096.6705222856,
+        9817627.608606502,
+        762798.7250266453,
+        9820903.901183855
+      ],
+      "null": 0,
+      "invalid": 0,
+      "lengthMetric": 8977.169640034419,
+      "areaMetric": 0.0,
+      "fields": [
+        "FID_",
+        "Entity",
+        "Layer",
+        "Color",
+        "Linetype",
+        "Elevation",
+        "LineWt",
+        "RefName"
+      ],
+      "attributes": [
+        {
+          "FID_": 0,
+          "Entity": "LWPolyline",
+          "Layer": "EJE_HIDRAULICO_LAS_ABRAS_PUENTE_20_DICIEMBRE",
+          "Color": 5,
+          "Linetype": "Continuous",
+          "Elevation": 0.0,
+          "LineWt": 90,
+          "RefName": "2"
+        },
+        {
+          "FID_": 0,
+          "Entity": "LWPolyline",
+          "Layer": "EJE_HIDRAULICO_LAS_ABRAS_PUENTE_20_DICIEMBRE",
+          "Color": 5,
+          "Linetype": "Continuous",
+          "Elevation": 0.0,
+          "LineWt": 90,
+          "RefName": "1"
+        }
+      ]
+    },
+    {
+      "zip": "C:\\Users\\PC\\Downloads\\Shapes, Quebrada Las Abras-20260505T140635Z-3-001.zip",
+      "zipHash": "74345cd9032ddb827e2477a0cf91d89d24f41b7aad3c3e12657dd5cee89fafcf",
+      "path": "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\consolidacion-183-20261004\\insumos_originales\\2\\Shapes, Quebrada Las Abras\\Shapes José MArti\\Franja_de_protección_-9.shp",
+      "name": "Franja_de_protección_-9",
+      "crsOriginal": "EPSG:32717",
+      "records": 1,
+      "types": [
+        "Polygon"
+      ],
+      "boundsMetric": [
+        758476.2056884775,
+        9817618.128112793,
+        762808.224384468,
+        9819253.2399292
+      ],
+      "null": 0,
+      "invalid": 0,
+      "lengthMetric": 12558.708283027072,
+      "areaMetric": 119634.25064086194,
+      "fields": [
+        "FID_",
+        "Entity",
+        "Layer",
+        "Color",
+        "Linetype",
+        "Elevation",
+        "LineWt",
+        "RefName",
+        "BUFF_DIST",
+        "ORIG_FID"
+      ],
+      "attributes": [
+        {
+          "FID_": 0,
+          "Entity": "LWPolyline",
+          "Layer": "EJE_HIDRAULICO_LAS_ABRAS_PUENTE_20_DICIEMBRE",
+          "Color": 5,
+          "Linetype": "Continuous",
+          "Elevation": 0.0,
+          "LineWt": 90,
+          "RefName": null,
+          "BUFF_DIST": 9.5,
+          "ORIG_FID": 0
+        }
+      ]
+    },
+    {
+      "zip": "C:\\Users\\PC\\Downloads\\Shapes, Quebrada Las Abras-20260505T140635Z-3-001.zip",
+      "zipHash": "74345cd9032ddb827e2477a0cf91d89d24f41b7aad3c3e12657dd5cee89fafcf",
+      "path": "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\consolidacion-183-20261004\\insumos_originales\\2\\Shapes, Quebrada Las Abras\\Shapes José MArti\\Franja_de_protección_S3.shp",
+      "name": "Franja_de_protección_S3",
+      "crsOriginal": "EPSG:32717",
+      "records": 2,
+      "types": [
+        "Polygon"
+      ],
+      "boundsMetric": [
+        757094.2617000006,
+        9819245.8651,
+        758487.9187000003,
+        9820907.4012
+      ],
+      "null": 0,
+      "invalid": 0,
+      "lengthMetric": 10515.6161659278,
+      "areaMetric": 28940.69420941712,
+      "fields": [
+        "distance"
+      ],
+      "attributes": [
+        {
+          "distance": 3.5
+        },
+        {
+          "distance": 7.5
+        }
+      ]
+    },
+    {
+      "zip": "C:\\Users\\PC\\Downloads\\Shapes, Quebrada Las Abras-20260505T140635Z-3-001.zip",
+      "zipHash": "74345cd9032ddb827e2477a0cf91d89d24f41b7aad3c3e12657dd5cee89fafcf",
+      "path": "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\consolidacion-183-20261004\\insumos_originales\\2\\Shapes, Quebrada Las Abras\\Shapes José MArti\\Puntos_para_replanteo_sección_4.shp",
+      "name": "Puntos_para_replanteo_sección_4",
+      "crsOriginal": "EPSG:32717",
+      "records": 629,
+      "types": [
+        "Point"
+      ],
+      "boundsMetric": [
+        758479.9835999999,
+        9817618.3889,
+        762807.8903999999,
+        9819237.1514
+      ],
+      "null": 0,
+      "invalid": 0,
+      "lengthMetric": 0.0,
+      "areaMetric": 0.0,
+      "fields": [
+        "OBJECTID",
+        "x",
+        "y",
+        "Punto",
+        "Etiqueta"
+      ],
+      "attributes": [
+        {
+          "OBJECTID": 627,
+          "x": 762807.8904,
+          "y": 9818696.4221,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 628,
+          "x": 762801.6346,
+          "y": 9818688.9157,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 629,
+          "x": 762792.4683,
+          "y": 9818685.0416,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 630,
+          "x": 762783.109,
+          "y": 9818681.5294,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 631,
+          "x": 762773.8218,
+          "y": 9818677.8479,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 632,
+          "x": 762763.9675,
+          "y": 9818676.1587,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 633,
+          "x": 762758.6458,
+          "y": 9818668.3552,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 634,
+          "x": 762756.1158,
+          "y": 9818658.6918,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 635,
+          "x": 762751.9493,
+          "y": 9818649.6471,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 636,
+          "x": 762747.2463,
+          "y": 9818640.822,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 637,
+          "x": 762742.5433,
+          "y": 9818631.997,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 638,
+          "x": 762737.8403,
+          "y": 9818623.1719,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 639,
+          "x": 762733.1373,
+          "y": 9818614.3468,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 640,
+          "x": 762725.7459,
+          "y": 9818608.1462,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 641,
+          "x": 762716.1067,
+          "y": 9818606.1644,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 642,
+          "x": 762706.503,
+          "y": 9818608.9427,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 643,
+          "x": 762696.8237,
+          "y": 9818611.4195,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 644,
+          "x": 762687.0305,
+          "y": 9818613.4424,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 645,
+          "x": 762677.1672,
+          "y": 9818614.9757,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 646,
+          "x": 762667.1946,
+          "y": 9818615.7108,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 647,
+          "x": 762657.2063,
+          "y": 9818615.9541,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 648,
+          "x": 762647.234,
+          "y": 9818615.6142,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 649,
+          "x": 762639.4417,
+          "y": 9818610.5625,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 650,
+          "x": 762630.3243,
+          "y": 9818606.814,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 651,
+          "x": 762620.3311,
+          "y": 9818606.6126,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 652,
+          "x": 762610.3664,
+          "y": 9818607.2203,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 653,
+          "x": 762600.8369,
+          "y": 9818609.8793,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 654,
+          "x": 762593.077,
+          "y": 9818616.1774,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 655,
+          "x": 762586.1062,
+          "y": 9818623.3473,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 656,
+          "x": 762581.8133,
+          "y": 9818632.2703,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 657,
+          "x": 762578.4133,
+          "y": 9818641.6745,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 658,
+          "x": 762575.0499,
+          "y": 9818651.0919,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 659,
+          "x": 762568.4776,
+          "y": 9818658.5685,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 660,
+          "x": 762561.6987,
+          "y": 9818665.9202,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 661,
+          "x": 762554.5022,
+          "y": 9818672.8621,
+          "Punto": 0,
+          "Etiqueta": null
+        }
+      ]
+    },
+    {
+      "zip": "C:\\Users\\PC\\Downloads\\Shapes, Quebrada Las Abras-20260505T140635Z-3-001.zip",
+      "zipHash": "74345cd9032ddb827e2477a0cf91d89d24f41b7aad3c3e12657dd5cee89fafcf",
+      "path": "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\consolidacion-183-20261004\\insumos_originales\\2\\Shapes, Quebrada Las Abras\\Shapes recortado\\Ancho_Cortado.shp",
+      "name": "Ancho_Cortado",
+      "crsOriginal": "EPSG:32717",
+      "records": 1,
+      "types": [
+        "Polygon"
+      ],
+      "boundsMetric": [
+        761424.40588379,
+        9817703.04272461,
+        762802.2249212153,
+        9818747.001216637
+      ],
+      "null": 0,
+      "invalid": 0,
+      "lengthMetric": 4309.45477104857,
+      "areaMetric": 15083.962120271199,
+      "fields": [
+        "FID_",
+        "Entity",
+        "Layer",
+        "Color",
+        "Linetype",
+        "Elevation",
+        "LineWt",
+        "RefName",
+        "BUFF_DIST",
+        "ORIG_FID"
+      ],
+      "attributes": [
+        {
+          "FID_": 0,
+          "Entity": "LWPolyline",
+          "Layer": "EJE_HIDRAULICO_LAS_ABRAS_PUENTE_20_DICIEMBRE",
+          "Color": 5,
+          "Linetype": "Continuous",
+          "Elevation": 0.0,
+          "LineWt": 90,
+          "RefName": null,
+          "BUFF_DIST": 3.5,
+          "ORIG_FID": 0
+        }
+      ]
+    },
+    {
+      "zip": "C:\\Users\\PC\\Downloads\\Shapes, Quebrada Las Abras-20260505T140635Z-3-001.zip",
+      "zipHash": "74345cd9032ddb827e2477a0cf91d89d24f41b7aad3c3e12657dd5cee89fafcf",
+      "path": "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\consolidacion-183-20261004\\insumos_originales\\2\\Shapes, Quebrada Las Abras\\Shapes recortado\\Eje_cortado.shp",
+      "name": "Eje_cortado",
+      "crsOriginal": "EPSG:32717",
+      "records": 1,
+      "types": [
+        "LineString"
+      ],
+      "boundsMetric": [
+        761425.8532905933,
+        9817706.229346918,
+        762798.7250266453,
+        9818743.503561677
+      ],
+      "null": 0,
+      "invalid": 0,
+      "lengthMetric": 2159.481143823621,
+      "areaMetric": 0.0,
+      "fields": [
+        "FID_",
+        "Entity",
+        "Layer",
+        "Color",
+        "Linetype",
+        "Elevation",
+        "LineWt",
+        "RefName"
+      ],
+      "attributes": [
+        {
+          "FID_": 0,
+          "Entity": "LWPolyline",
+          "Layer": "EJE_HIDRAULICO_LAS_ABRAS_PUENTE_20_DICIEMBRE",
+          "Color": 5,
+          "Linetype": "Continuous",
+          "Elevation": 0.0,
+          "LineWt": 90,
+          "RefName": "2"
+        }
+      ]
+    },
+    {
+      "zip": "C:\\Users\\PC\\Downloads\\Shapes, Quebrada Las Abras-20260505T140635Z-3-001.zip",
+      "zipHash": "74345cd9032ddb827e2477a0cf91d89d24f41b7aad3c3e12657dd5cee89fafcf",
+      "path": "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\consolidacion-183-20261004\\insumos_originales\\2\\Shapes, Quebrada Las Abras\\Shapes recortado\\Franja_Cortada_-9.shp",
+      "name": "Franja_Cortada_-9",
+      "crsOriginal": "EPSG:32717",
+      "records": 1,
+      "types": [
+        "Polygon"
+      ],
+      "boundsMetric": [
+        761421.9246826181,
+        9817697.57989502,
+        762808.224384468,
+        9818752.997310484
+      ],
+      "null": 0,
+      "invalid": 0,
+      "lengthMetric": 4302.641872088251,
+      "areaMetric": 40833.13168537501,
+      "fields": [
+        "FID_",
+        "Entity",
+        "Layer",
+        "Color",
+        "Linetype",
+        "Elevation",
+        "LineWt",
+        "RefName",
+        "BUFF_DIST",
+        "ORIG_FID"
+      ],
+      "attributes": [
+        {
+          "FID_": 0,
+          "Entity": "LWPolyline",
+          "Layer": "EJE_HIDRAULICO_LAS_ABRAS_PUENTE_20_DICIEMBRE",
+          "Color": 5,
+          "Linetype": "Continuous",
+          "Elevation": 0.0,
+          "LineWt": 90,
+          "RefName": null,
+          "BUFF_DIST": 9.5,
+          "ORIG_FID": 0
+        }
+      ]
+    },
+    {
+      "zip": "C:\\Users\\PC\\Downloads\\Shapes, Quebrada Las Abras-20260505T140635Z-3-001.zip",
+      "zipHash": "74345cd9032ddb827e2477a0cf91d89d24f41b7aad3c3e12657dd5cee89fafcf",
+      "path": "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\consolidacion-183-20261004\\insumos_originales\\2\\Shapes, Quebrada Las Abras\\Shapes recortado\\Puntos_replanteo_recortado.shp",
+      "name": "Puntos_replanteo_recortado",
+      "crsOriginal": "EPSG:32717",
+      "records": 215,
+      "types": [
+        "Point"
+      ],
+      "boundsMetric": [
+        761430.9137000004,
+        9817698.0939,
+        762807.8903999999,
+        9818732.7782
+      ],
+      "null": 0,
+      "invalid": 0,
+      "lengthMetric": 0.0,
+      "areaMetric": 0.0,
+      "fields": [
+        "OBJECTID",
+        "x",
+        "y",
+        "Punto",
+        "Etiqueta"
+      ],
+      "attributes": [
+        {
+          "OBJECTID": 627,
+          "x": 762807.8904,
+          "y": 9818696.4221,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 628,
+          "x": 762801.6346,
+          "y": 9818688.9157,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 629,
+          "x": 762792.4683,
+          "y": 9818685.0416,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 630,
+          "x": 762783.109,
+          "y": 9818681.5294,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 631,
+          "x": 762773.8218,
+          "y": 9818677.8479,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 632,
+          "x": 762763.9675,
+          "y": 9818676.1587,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 633,
+          "x": 762758.6458,
+          "y": 9818668.3552,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 634,
+          "x": 762756.1158,
+          "y": 9818658.6918,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 635,
+          "x": 762751.9493,
+          "y": 9818649.6471,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 636,
+          "x": 762747.2463,
+          "y": 9818640.822,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 637,
+          "x": 762742.5433,
+          "y": 9818631.997,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 638,
+          "x": 762737.8403,
+          "y": 9818623.1719,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 639,
+          "x": 762733.1373,
+          "y": 9818614.3468,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 640,
+          "x": 762725.7459,
+          "y": 9818608.1462,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 641,
+          "x": 762716.1067,
+          "y": 9818606.1644,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 642,
+          "x": 762706.503,
+          "y": 9818608.9427,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 643,
+          "x": 762696.8237,
+          "y": 9818611.4195,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 644,
+          "x": 762687.0305,
+          "y": 9818613.4424,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 645,
+          "x": 762677.1672,
+          "y": 9818614.9757,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 646,
+          "x": 762667.1946,
+          "y": 9818615.7108,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 647,
+          "x": 762657.2063,
+          "y": 9818615.9541,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 648,
+          "x": 762647.234,
+          "y": 9818615.6142,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 649,
+          "x": 762639.4417,
+          "y": 9818610.5625,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 650,
+          "x": 762630.3243,
+          "y": 9818606.814,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 651,
+          "x": 762620.3311,
+          "y": 9818606.6126,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 652,
+          "x": 762610.3664,
+          "y": 9818607.2203,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 653,
+          "x": 762600.8369,
+          "y": 9818609.8793,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 654,
+          "x": 762593.077,
+          "y": 9818616.1774,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 655,
+          "x": 762586.1062,
+          "y": 9818623.3473,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 656,
+          "x": 762581.8133,
+          "y": 9818632.2703,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 657,
+          "x": 762578.4133,
+          "y": 9818641.6745,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 658,
+          "x": 762575.0499,
+          "y": 9818651.0919,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 659,
+          "x": 762568.4776,
+          "y": 9818658.5685,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 660,
+          "x": 762561.6987,
+          "y": 9818665.9202,
+          "Punto": 0,
+          "Etiqueta": null
+        },
+        {
+          "OBJECTID": 661,
+          "x": 762554.5022,
+          "y": 9818672.8621,
+          "Punto": 0,
+          "Etiqueta": null
+        }
+      ]
+    },
+    {
+      "zip": "C:\\Users\\PC\\Downloads\\Shapes, Quebrada Las Abras-20260505T140635Z-3-001.zip",
+      "zipHash": "74345cd9032ddb827e2477a0cf91d89d24f41b7aad3c3e12657dd5cee89fafcf",
+      "path": "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\consolidacion-183-20261004\\insumos_originales\\2\\Shapes, Quebrada Las Abras\\Shapes Urbanización José Marti\\ancho_cauce.shp",
+      "name": "ancho_cauce",
+      "crsOriginal": "EPSG:32717",
+      "records": 1,
+      "types": [
+        "Polygon"
+      ],
+      "boundsMetric": [
+        757093.177507044,
+        9817624.115905762,
+        762802.2249212147,
+        9820907.394187978
+      ],
+      "null": 0,
+      "invalid": 0,
+      "lengthMetric": 17890.74379271699,
+      "areaMetric": 62730.05877240594,
+      "fields": [
+        "FID_",
+        "Entity",
+        "Layer",
+        "Color",
+        "Linetype",
+        "Elevation",
+        "LineWt",
+        "RefName",
+        "BUFF_DIST",
+        "ORIG_FID"
+      ],
+      "attributes": [
+        {
+          "FID_": 0,
+          "Entity": "LWPolyline",
+          "Layer": "EJE_HIDRAULICO_LAS_ABRAS_PUENTE_20_DICIEMBRE",
+          "Color": 5,
+          "Linetype": "Continuous",
+          "Elevation": 0.0,
+          "LineWt": 90,
+          "RefName": null,
+          "BUFF_DIST": 3.5,
+          "ORIG_FID": 0
+        }
+      ]
+    },
+    {
+      "zip": "C:\\Users\\PC\\Downloads\\Shapes, Quebrada Las Abras-20260505T140635Z-3-001.zip",
+      "zipHash": "74345cd9032ddb827e2477a0cf91d89d24f41b7aad3c3e12657dd5cee89fafcf",
+      "path": "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\consolidacion-183-20261004\\insumos_originales\\2\\Shapes, Quebrada Las Abras\\Shapes Urbanización José Marti\\Eje.shp",
+      "name": "Eje",
+      "crsOriginal": "EPSG:32717",
+      "records": 2,
+      "types": [
+        "LineString"
+      ],
+      "boundsMetric": [
+        757096.6705222856,
+        9817627.608606502,
+        762798.7250266453,
+        9820903.901183855
+      ],
+      "null": 0,
+      "invalid": 0,
+      "lengthMetric": 8977.169640034419,
+      "areaMetric": 0.0,
+      "fields": [
+        "FID_",
+        "Entity",
+        "Layer",
+        "Color",
+        "Linetype",
+        "Elevation",
+        "LineWt",
+        "RefName"
+      ],
+      "attributes": [
+        {
+          "FID_": 0,
+          "Entity": "LWPolyline",
+          "Layer": "EJE_HIDRAULICO_LAS_ABRAS_PUENTE_20_DICIEMBRE",
+          "Color": 5,
+          "Linetype": "Continuous",
+          "Elevation": 0.0,
+          "LineWt": 90,
+          "RefName": "2"
+        },
+        {
+          "FID_": 0,
+          "Entity": "LWPolyline",
+          "Layer": "EJE_HIDRAULICO_LAS_ABRAS_PUENTE_20_DICIEMBRE",
+          "Color": 5,
+          "Linetype": "Continuous",
+          "Elevation": 0.0,
+          "LineWt": 90,
+          "RefName": "1"
+        }
+      ]
+    },
+    {
+      "zip": "C:\\Users\\PC\\Downloads\\Shapes, Quebrada Las Abras-20260505T140635Z-3-001.zip",
+      "zipHash": "74345cd9032ddb827e2477a0cf91d89d24f41b7aad3c3e12657dd5cee89fafcf",
+      "path": "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\consolidacion-183-20261004\\insumos_originales\\2\\Shapes, Quebrada Las Abras\\Shapes Urbanización José Marti\\Franjas de protección s3.shp",
+      "name": "Franjas de protección s3",
+      "crsOriginal": "EPSG:32717",
+      "records": 2,
+      "types": [
+        "Polygon"
+      ],
+      "boundsMetric": [
+        757094.2617000006,
+        9819245.8651,
+        758487.9187000003,
+        9820907.4012
+      ],
+      "null": 0,
+      "invalid": 0,
+      "lengthMetric": 10515.6161659278,
+      "areaMetric": 28940.69420941712,
+      "fields": [
+        "distance"
+      ],
+      "attributes": [
+        {
+          "distance": 3.5
+        },
+        {
+          "distance": 7.5
+        }
+      ]
+    },
+    {
+      "zip": "C:\\Users\\PC\\Downloads\\Shapes, Quebrada Las Abras-20260505T140635Z-3-001.zip",
+      "zipHash": "74345cd9032ddb827e2477a0cf91d89d24f41b7aad3c3e12657dd5cee89fafcf",
+      "path": "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\consolidacion-183-20261004\\insumos_originales\\2\\Shapes, Quebrada Las Abras\\Shapes Urbanización José Marti\\Puntos_Franjas_de_protección_Jose_marti.shp",
+      "name": "Puntos_Franjas_de_protección_Jose_marti",
+      "crsOriginal": "EPSG:32717",
+      "records": 31,
+      "types": [
+        "Point"
+      ],
+      "boundsMetric": [
+        759050.9375999998,
+        9818630.5919,
+        759417.9571000002,
+        9818731.0782
+      ],
+      "null": 0,
+      "invalid": 0,
+      "lengthMetric": 0.0,
+      "areaMetric": 0.0,
+      "fields": [
+        "OBJECTID",
+        "x",
+        "y",
+        "Punto",
+        "Etiqueta"
+      ],
+      "attributes": [
+        {
+          "OBJECTID": 1101,
+          "x": 759417.9571,
+          "y": 9818731.0782,
+          "Punto": 31,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1102,
+          "x": 759408.3752,
+          "y": 9818729.797,
+          "Punto": 30,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1105,
+          "x": 759381.2916,
+          "y": 9818717.954,
+          "Punto": 29,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1106,
+          "x": 759372.787,
+          "y": 9818712.8097,
+          "Punto": 28,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1107,
+          "x": 759364.6144,
+          "y": 9818707.3285,
+          "Punto": 27,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1108,
+          "x": 759355.2706,
+          "y": 9818704.3546,
+          "Punto": 26,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1109,
+          "x": 759345.3339,
+          "y": 9818705.2267,
+          "Punto": 25,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1110,
+          "x": 759336.0014,
+          "y": 9818708.7074,
+          "Punto": 24,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1111,
+          "x": 759326.8882,
+          "y": 9818712.824,
+          "Punto": 23,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1112,
+          "x": 759318.4212,
+          "y": 9818718.049,
+          "Punto": 22,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1113,
+          "x": 759313.2301,
+          "y": 9818726.515,
+          "Punto": 21,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1114,
+          "x": 759304.9165,
+          "y": 9818730.0757,
+          "Punto": 20,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1116,
+          "x": 759285.6045,
+          "y": 9818726.9992,
+          "Punto": 19,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1119,
+          "x": 759259.2282,
+          "y": 9818715.2525,
+          "Punto": 18,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1121,
+          "x": 759241.5563,
+          "y": 9818706.3798,
+          "Punto": 17,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1124,
+          "x": 759212.5838,
+          "y": 9818704.9809,
+          "Punto": 16,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1127,
+          "x": 759184.5869,
+          "y": 9818698.4932,
+          "Punto": 15,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1128,
+          "x": 759175.1989,
+          "y": 9818701.2419,
+          "Punto": 14,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1131,
+          "x": 759155.7557,
+          "y": 9818723.667,
+          "Punto": 13,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1132,
+          "x": 759148.09,
+          "y": 9818719.0821,
+          "Punto": 12,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1135,
+          "x": 759128.0737,
+          "y": 9818696.8336,
+          "Punto": 11,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1138,
+          "x": 759104.9837,
+          "y": 9818678.2905,
+          "Punto": 10,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1139,
+          "x": 759100.382,
+          "y": 9818670.2548,
+          "Punto": 9,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1140,
+          "x": 759102.1153,
+          "y": 9818660.4552,
+          "Punto": 8,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1141,
+          "x": 759101.6417,
+          "y": 9818650.485,
+          "Punto": 7,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1142,
+          "x": 759097.1643,
+          "y": 9818641.6436,
+          "Punto": 6,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1143,
+          "x": 759089.3634,
+          "y": 9818635.7496,
+          "Punto": 5,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1144,
+          "x": 759079.8263,
+          "y": 9818632.8793,
+          "Punto": 4,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1145,
+          "x": 759069.9483,
+          "y": 9818631.8246,
+          "Punto": 3,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1146,
+          "x": 759060.1013,
+          "y": 9818630.5919,
+          "Punto": 2,
+          "Etiqueta": "Replanteo"
+        },
+        {
+          "OBJECTID": 1147,
+          "x": 759050.9376,
+          "y": 9818634.5061,
+          "Punto": 1,
+          "Etiqueta": "Replanteo"
+        }
+      ]
+    }
+  ],
+  "evidencePrison": [
+    {
+      "layer": "Bienestar_social",
+      "fid": 1,
+      "attributes": {
+        "NAME": "CENTRO DE REHABILITACION DE MENORES",
+        "PARROQUIA": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          762552.6983000003,
+          9813260.6128
+        ]
+      },
+      "distanceFreireM": 557.7400819243286
+    },
+    {
+      "layer": "Bienestar_social",
+      "fid": 18,
+      "attributes": {
+        "NAME": "CENTRO DE REHABILITACION SOCIAL",
+        "PARROQUIA": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          763520.1227000002,
+          9812893.0381
+        ]
+      },
+      "distanceFreireM": 891.805908611741
+    },
+    {
+      "layer": "MTD_asentamientos_humanos_p",
+      "fid": 4,
+      "attributes": {
+        "Codigo": "4.1.5",
+        "Proyecto": "Espacios públicos seguros",
+        "Componente": "4.1.5.4 Centro de Rehabilitación social"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          768323.4506000001,
+          9816690.6462
+        ]
+      },
+      "distanceFreireM": 5975.274352438955
+    },
+    {
+      "layer": "MTD_asentamientos_humanos_p",
+      "fid": 8,
+      "attributes": {
+        "Codigo": "4.2.1",
+        "Proyecto": "Habitarla",
+        "Componente": "4.2.1.9 Rehabilitación Parque 21 de Abril"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          761082.4696000004,
+          9815666.5012
+        ]
+      },
+      "distanceFreireM": 2057.425336610324
+    },
+    {
+      "layer": "MTD_asentamientos_humanos_p",
+      "fid": 9,
+      "attributes": {
+        "Codigo": "4.2.1",
+        "Proyecto": "Habitarla",
+        "Componente": "4.2.1.10 Rehabilitación del parque lineal Chibung"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          761308.3536,
+          9813243.6015
+        ]
+      },
+      "distanceFreireM": 1497.260773540563
+    },
+    {
+      "layer": "MTD_asentamientos_humanos_p",
+      "fid": 10,
+      "attributes": {
+        "Codigo": "4.2.1",
+        "Proyecto": "Habitarla",
+        "Componente": "4.2.1.12 Rehabilitación del Parque Libertad"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          761884.6831999999,
+          9814748.0801
+        ]
+      },
+      "distanceFreireM": 839.7718692911566
+    },
+    {
+      "layer": "MTD_asentamientos_humanos_p",
+      "fid": 11,
+      "attributes": {
+        "Codigo": "4.2.1",
+        "Proyecto": "Habitarla",
+        "Componente": "4.2.1.13 Rehabilitación de la Plaza la Estación"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          761052.8317999998,
+          9815269.8394
+        ]
+      },
+      "distanceFreireM": 1811.9527202100298
+    },
+    {
+      "layer": "MTD_asentamientos_humanos_p",
+      "fid": 12,
+      "attributes": {
+        "Codigo": "4.2.1",
+        "Proyecto": "Habitarla",
+        "Componente": "4.1.2.13 Rehabilitación del parque de la Madre"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          762715.4763000002,
+          9814786.1802
+        ]
+      },
+      "distanceFreireM": 661.5318278928153
+    },
+    {
+      "layer": "MTD_asentamientos_humanos_p",
+      "fid": 13,
+      "attributes": {
+        "Codigo": "4.2.1",
+        "Proyecto": "Habitarla",
+        "Componente": "4.1.2.14 Rehabilitación del parque Maldonado"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          761650.7911999999,
+          9814951.2805
+        ]
+      },
+      "distanceFreireM": 1149.2899791416287
+    },
+    {
+      "layer": "MTD_asentamientos_humanos_p",
+      "fid": 14,
+      "attributes": {
+        "Codigo": "4.2.1",
+        "Proyecto": "Habitarla",
+        "Componente": "4.2.1.8 Rehabilitación del Parque Guayaquil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          760477.1019000001,
+          9815642.1595
+        ]
+      },
+      "distanceFreireM": 2495.9139465757376
+    },
+    {
+      "layer": "MTD_asentamientos_humanos_p",
+      "fid": 15,
+      "attributes": {
+        "Codigo": "4.3.1",
+        "Proyecto": "Derecho urbanístico",
+        "Componente": "4.3.1.1 Rehabilitación del Mercado La Merced"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          761429.5991000002,
+          9814739.6134
+        ]
+      },
+      "distanceFreireM": 1205.121017604408
+    },
+    {
+      "layer": "MTD_asentamientos_humanos_p",
+      "fid": 16,
+      "attributes": {
+        "Codigo": "4.3.1",
+        "Proyecto": "Derecho urbanístico",
+        "Componente": "4.3.1.2 Rehabilitación del Mercado San Francisco"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          761786.2581000002,
+          9814760.7802
+        ]
+      },
+      "distanceFreireM": 921.3004151066211
+    },
+    {
+      "layer": "MTD_asentamientos_humanos_p",
+      "fid": 17,
+      "attributes": {
+        "Codigo": "4.3.1",
+        "Proyecto": "Derecho urbanístico",
+        "Componente": "4.3.1.3 Rehabilitación del Mercado Santa Rosa"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          761010.4983999999,
+          9814993.6139
+        ]
+      },
+      "distanceFreireM": 1694.7897332381172
+    },
+    {
+      "layer": "MTD_asentamientos_humanos_p",
+      "fid": 18,
+      "attributes": {
+        "Codigo": "4.3.1",
+        "Proyecto": "Derecho urbanístico",
+        "Componente": "4.3.1.4 Rehabilitación del Mercado Dávalos"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          761647.0870000003,
+          9815740.2694
+        ]
+      },
+      "distanceFreireM": 1786.2748616175477
+    },
+    {
+      "layer": "MTD_asentamientos_humanos_p",
+      "fid": 19,
+      "attributes": {
+        "Codigo": "4.3.1",
+        "Proyecto": "Derecho urbanístico",
+        "Componente": "4.3.1.5 Rehabilitación del Mercado EMMPA"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          763381.8195000002,
+          9813348.8728
+        ]
+      },
+      "distanceFreireM": 446.09445734026013
+    },
+    {
+      "layer": "MTD_asentamientos_humanos_p",
+      "fid": 20,
+      "attributes": {
+        "Codigo": "4.3.1",
+        "Proyecto": "Derecho urbanístico",
+        "Componente": "4.3.1.10 Rehabilitación Centro de Arte y Cultura"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          760600.1687000003,
+          9815649.8126
+        ]
+      },
+      "distanceFreireM": 2402.5548104687036
+    },
+    {
+      "layer": "MTD_asentamientos_humanos_p",
+      "fid": 21,
+      "attributes": {
+        "Codigo": "4.3.1",
+        "Proyecto": "Derecho urbanístico",
+        "Componente": "4.3.1.11 Rehabilitación del Colegio Riobamba"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          760063.4075999996,
+          9816391.7849
+        ]
+      },
+      "distanceFreireM": 3292.7415393452707
+    },
+    {
+      "layer": "Actividades_economicas",
+      "fid": 1013,
+      "attributes": {
+        "Id": null,
+        "ICUS": "1033",
+        "ACTV__ECON": "CENTRO DE REHABILITACIÓN",
+        "RAZON_SOCI": "002 CASA DE ACOGIDA CORAZON DE DIOS",
+        "USO_DE_SUE": "ES2",
+        "PROPIETARI": "YEDRA ARELLANO JAVIER EDUARDO",
+        "CLAVE_CATR": "060102001028026341000000000",
+        "INSPECTOR": "ARQ MARCO CACERES",
+        "DIGITALIZA": "GLADYS ZABALA ",
+        "FECHA": "21 DE NOVIEMBRE DEL 2019",
+        "OBSERVACIONES": null,
+        "ZONA": "ZA2",
+        "CLAS_USO": "SALUD"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          764594.1666000001,
+          9817495.6825
+        ]
+      },
+      "distanceFreireM": 3924.913671084311
+    }
+  ],
+  "newCrosses": [],
+  "namedRoads": [
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 987,
+      "name": "Av. Leopoldo Freire",
+      "attributes": {
+        "Join_Count": 6,
+        "TARGET_FID": 987,
+        "OBJECTID_1": 987,
+        "NOMBRE": "MALDONADO",
+        "DISTANCIA": 0.11091727073849532,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 110.917270738,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Local",
+        "OBJECTID_12": 987,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Leopoldo Freire",
+        "Shape_Length": 110.91727073849532
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              763058.1628,
+              9813655.8689
+            ],
+            [
+              763125.0722000003,
+              9813744.3323
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 996,
+      "name": "Av. Leopoldo Freire",
+      "attributes": {
+        "Join_Count": 1,
+        "TARGET_FID": 996,
+        "OBJECTID_1": 996,
+        "NOMBRE": "VELOZ",
+        "DISTANCIA": 0.07851874218851132,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 78.5187421885,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Arterial A",
+        "OBJECTID_12": 996,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Leopoldo Freire",
+        "Shape_Length": 78.51874218851133
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              762953.3125999998,
+              9813648.662
+            ],
+            [
+              763007.6880000001,
+              9813705.3057
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 1033,
+      "name": "Av. Leopoldo Freire",
+      "attributes": {
+        "Join_Count": 7,
+        "TARGET_FID": 1033,
+        "OBJECTID_1": 1033,
+        "NOMBRE": "MALDONADO",
+        "DISTANCIA": 0.06691428788646267,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 66.9142878865,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Arterial A",
+        "OBJECTID_12": 1033,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Leopoldo Freire",
+        "Shape_Length": 66.91428788646267
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              763055.3472999996,
+              9813726.106
+            ],
+            [
+              763057.017,
+              9813724.4809
+            ],
+            [
+              763054.5016999999,
+              9813659.9456
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 1044,
+      "name": "Av. Leopoldo Freire",
+      "attributes": {
+        "Join_Count": 2,
+        "TARGET_FID": 1044,
+        "OBJECTID_1": 1044,
+        "NOMBRE": "VELOZ",
+        "DISTANCIA": 0.00022936730418716533,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 0.229367304187,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Local",
+        "OBJECTID_12": 1044,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Leopoldo Freire",
+        "Shape_Length": 0.22936730418716533
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              762977.2355000004,
+              9813732.7464
+            ],
+            [
+              762977.0849000001,
+              9813732.5734
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 1045,
+      "name": "Av. Leopoldo Freire",
+      "attributes": {
+        "Join_Count": 1,
+        "TARGET_FID": 1045,
+        "OBJECTID_1": 1045,
+        "NOMBRE": "VELOZ",
+        "DISTANCIA": 0.040992137802729804,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 40.9921378027,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Local",
+        "OBJECTID_12": 1045,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Leopoldo Freire",
+        "Shape_Length": 40.99213780272981
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              762977.2355000004,
+              9813732.7464
+            ],
+            [
+              762979.6199000003,
+              9813730.5642
+            ],
+            [
+              763007.6880000001,
+              9813705.3057
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 1048,
+      "name": "Av. Leopoldo Freire",
+      "attributes": {
+        "Join_Count": 2,
+        "TARGET_FID": 1048,
+        "OBJECTID_1": 1048,
+        "NOMBRE": "VELOZ",
+        "DISTANCIA": 0.00259267022953343,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 2.59267022953,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Local",
+        "OBJECTID_12": 1048,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Leopoldo Freire",
+        "Shape_Length": 2.59267022953343
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              762975.3229,
+              9813734.4968
+            ],
+            [
+              762977.2355000004,
+              9813732.7464
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 1088,
+      "name": "Av. Leopoldo Freire",
+      "attributes": {
+        "Join_Count": 2,
+        "TARGET_FID": 1088,
+        "OBJECTID_1": 1088,
+        "NOMBRE": "MALDONADO",
+        "DISTANCIA": 0.0384015783585736,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 38.4015783586,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Local",
+        "OBJECTID_12": 1088,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Leopoldo Freire",
+        "Shape_Length": 38.4015783585736
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              762946.7999,
+              9813760.2013
+            ],
+            [
+              762952.0597000001,
+              9813755.7868
+            ],
+            [
+              762975.3229,
+              9813734.4968
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 1117,
+      "name": "Av. Leopoldo Freire",
+      "attributes": {
+        "Join_Count": 4,
+        "TARGET_FID": 1117,
+        "OBJECTID_1": 1117,
+        "NOMBRE": "MALDONADO",
+        "DISTANCIA": 0.060608428344635056,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 60.6084283446,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Local",
+        "OBJECTID_12": 1117,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Leopoldo Freire",
+        "Shape_Length": 60.60842834463506
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              763017.1157,
+              9813778.3851
+            ],
+            [
+              763008.2939999998,
+              9813768.444
+            ],
+            [
+              762977.2355000004,
+              9813732.7464
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 1128,
+      "name": "Av. Leopoldo Freire",
+      "attributes": {
+        "Join_Count": 1,
+        "TARGET_FID": 1128,
+        "OBJECTID_1": 1128,
+        "NOMBRE": "MALDONADO",
+        "DISTANCIA": 0.039619087852550326,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 39.6190878526,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Arterial A",
+        "OBJECTID_12": 1128,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Leopoldo Freire",
+        "Shape_Length": 39.61908785255033
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              762917.5417999998,
+              9813786.9015
+            ],
+            [
+              762919.4250999996,
+              9813785.2615
+            ],
+            [
+              762941.1339999996,
+              9813764.9566
+            ],
+            [
+              762946.7999,
+              9813760.2013
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 1158,
+      "name": "Av. Leopoldo Freire",
+      "attributes": {
+        "Join_Count": 4,
+        "TARGET_FID": 1158,
+        "OBJECTID_1": 1158,
+        "NOMBRE": "MALDONADO",
+        "DISTANCIA": 0.06063461866057581,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 60.6346186606,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Arterial A",
+        "OBJECTID_12": 1158,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Leopoldo Freire",
+        "Shape_Length": 60.63461866057581
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              762946.7999,
+              9813760.2013
+            ],
+            [
+              762968.4632000001,
+              9813784.2724
+            ],
+            [
+              762977.2495999997,
+              9813794.0369
+            ],
+            [
+              762987.6393999998,
+              9813805.0149
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 1196,
+      "name": "Av. Leopoldo Freire",
+      "attributes": {
+        "Join_Count": 4,
+        "TARGET_FID": 1196,
+        "OBJECTID_1": 1196,
+        "NOMBRE": "MALDONADO",
+        "DISTANCIA": 0.060695472267368704,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 60.6954722674,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Arterial A",
+        "OBJECTID_12": 1196,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Leopoldo Freire",
+        "Shape_Length": 60.69547226736871
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              762917.5417999998,
+              9813786.9015
+            ],
+            [
+              762957.7576000001,
+              9813832.3617
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 1236,
+      "name": "Av. Leopoldo Freire",
+      "attributes": {
+        "Join_Count": 3,
+        "TARGET_FID": 1236,
+        "OBJECTID_1": 1236,
+        "NOMBRE": "MALDONADO",
+        "DISTANCIA": 0.04779616871426877,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 47.7961687143,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Arterial A",
+        "OBJECTID_12": 1236,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Leopoldo Freire",
+        "Shape_Length": 47.79616871426877
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              762841.3371000001,
+              9813855.172
+            ],
+            [
+              762846.2588999998,
+              9813850.3425
+            ],
+            [
+              762873.9117999999,
+              9813825.8574
+            ],
+            [
+              762876.9008999998,
+              9813823.2515
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 1252,
+      "name": "Av. Leopoldo Freire",
+      "attributes": {
+        "Join_Count": 6,
+        "TARGET_FID": 1252,
+        "OBJECTID_1": 1252,
+        "NOMBRE": "MALDONADO",
+        "DISTANCIA": 0.06095005220612949,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 60.9500522061,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Arterial A",
+        "OBJECTID_12": 1252,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Leopoldo Freire",
+        "Shape_Length": 60.95005220612949
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              762918.3024000004,
+              9813867.9521
+            ],
+            [
+              762905.6394999996,
+              9813854.0008
+            ],
+            [
+              762902.6157,
+              9813850.5137
+            ],
+            [
+              762885.3168000001,
+              9813831.4108
+            ],
+            [
+              762876.9008999998,
+              9813823.2515
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 1300,
+      "name": "Av. Leopoldo Freire",
+      "attributes": {
+        "Join_Count": 5,
+        "TARGET_FID": 1300,
+        "OBJECTID_1": 1300,
+        "NOMBRE": "MALDONADO",
+        "DISTANCIA": 0.06084542254574986,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 60.8454225457,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Arterial A",
+        "OBJECTID_12": 1300,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Leopoldo Freire",
+        "Shape_Length": 60.845422545749855
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              762841.3371000001,
+              9813855.172
+            ],
+            [
+              762869.5758999996,
+              9813884.0432
+            ],
+            [
+              762883.9340000004,
+              9813898.6192
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 1435,
+      "name": "Av. Leopoldo Freire",
+      "attributes": {
+        "Join_Count": 4,
+        "TARGET_FID": 1435,
+        "OBJECTID_1": 1435,
+        "NOMBRE": "MALDONADO",
+        "DISTANCIA": 0.059673157575114925,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 59.6731575751,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Arterial A",
+        "OBJECTID_12": 1435,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Leopoldo Freire",
+        "Shape_Length": 59.67315757511493
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              762764.2198999999,
+              9813922.8881
+            ],
+            [
+              762799.8252999997,
+              9813962.0087
+            ],
+            [
+              762804.4236000003,
+              9813966.9849
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 1558,
+      "name": "Av. Leopoldo Freire",
+      "attributes": {
+        "Join_Count": 4,
+        "TARGET_FID": 1558,
+        "OBJECTID_1": 1560,
+        "NOMBRE": "MALDONADO",
+        "DISTANCIA": 0.0587811811250033,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 58.781181125,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Local",
+        "OBJECTID_12": 1558,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Leopoldo Freire",
+        "Shape_Length": 58.7811811250033
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              762655.9475999996,
+              9814017.911
+            ],
+            [
+              762697.5547000002,
+              9814059.433
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 1698,
+      "name": "Av. Leopoldo Freire",
+      "attributes": {
+        "Join_Count": 1,
+        "TARGET_FID": 1698,
+        "OBJECTID_1": 1700,
+        "NOMBRE": "MALDONADO",
+        "DISTANCIA": 0.22250091859452073,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 222.500918595,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Local",
+        "OBJECTID_12": 1698,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Leopoldo Freire",
+        "Shape_Length": 222.50091859452073
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              762488.7528999997,
+              9814164.7135
+            ],
+            [
+              762493.142,
+              9814160.8668
+            ],
+            [
+              762588.9983999999,
+              9814077.5197
+            ],
+            [
+              762655.9475999996,
+              9814017.911
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 3795,
+      "name": "Av. Carlos Zambrano",
+      "attributes": {
+        "Join_Count": 6,
+        "TARGET_FID": 3795,
+        "OBJECTID_1": 3801,
+        "NOMBRE": "LIZARZABURU",
+        "DISTANCIA": 0.10196359407875676,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 101.963594079,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Arterial A",
+        "OBJECTID_12": 3795,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Carlos Zambrano",
+        "Shape_Length": 101.96359407875676
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              760389.7397999996,
+              9815887.6685
+            ],
+            [
+              760466.4998000003,
+              9815820.5531
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 3874,
+      "name": "Av. Carlos Zambrano",
+      "attributes": {
+        "Join_Count": 13,
+        "TARGET_FID": 3874,
+        "OBJECTID_1": 3880,
+        "NOMBRE": "VELASCO",
+        "DISTANCIA": 0.07837328298628092,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 78.3732829863,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Bueno",
+        "TIPOLOGIA_": "Colectora",
+        "OBJECTID_12": 3874,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Carlos Zambrano",
+        "Shape_Length": 78.37328298628093
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              760587.7795000002,
+              9815928.7595
+            ],
+            [
+              760579.8749000002,
+              9815920.5781
+            ],
+            [
+              760539.1391000003,
+              9815876.0696
+            ],
+            [
+              760534.5478999997,
+              9815871.2433
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 3875,
+      "name": "Av. Carlos Zambrano",
+      "attributes": {
+        "Join_Count": 13,
+        "TARGET_FID": 3875,
+        "OBJECTID_1": 3881,
+        "NOMBRE": "VELASCO",
+        "DISTANCIA": 0.15069162825675977,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 150.691628257,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Colectora",
+        "OBJECTID_12": 3875,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Carlos Zambrano",
+        "Shape_Length": 150.69162825675977
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              760702.1323999995,
+              9815830.6199
+            ],
+            [
+              760587.7795000002,
+              9815928.7595
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 3878,
+      "name": "Av. Carlos Zambrano",
+      "attributes": {
+        "Join_Count": 6,
+        "TARGET_FID": 3878,
+        "OBJECTID_1": 3884,
+        "NOMBRE": "VELASCO",
+        "DISTANCIA": 0.1263114145670298,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 126.341530129,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Bueno",
+        "TIPOLOGIA_": "Arterial A",
+        "OBJECTID_12": 3878,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Carlos Zambrano",
+        "Shape_Length": 126.3114145670298
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              760466.4998000003,
+              9815820.5531
+            ],
+            [
+              760470.0562000005,
+              9815826.6451
+            ],
+            [
+              760472.9330000002,
+              9815833.086
+            ],
+            [
+              760475.0965,
+              9815839.8002
+            ],
+            [
+              760476.5212000003,
+              9815846.709
+            ],
+            [
+              760477.1906000003,
+              9815853.7313
+            ],
+            [
+              760476.8748000003,
+              9815857.1011
+            ],
+            [
+              760476.1890000002,
+              9815860.2216
+            ],
+            [
+              760475.0012999997,
+              9815863.1876
+            ],
+            [
+              760473.3437999999,
+              9815865.9189
+            ],
+            [
+              760429.0456999997,
+              9815930.2058
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 3918,
+      "name": "Av. Carlos Zambrano",
+      "attributes": {
+        "Join_Count": 3,
+        "TARGET_FID": 3918,
+        "OBJECTID_1": 3924,
+        "NOMBRE": "LIZARZABURU",
+        "DISTANCIA": 0.1097284501470872,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 109.728450147,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Colectora",
+        "OBJECTID_12": 3918,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Carlos Zambrano",
+        "Shape_Length": 109.7284501470872
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              760381.1925999997,
+              9815878.4186
+            ],
+            [
+              760464.0054000001,
+              9815806.4299
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 3981,
+      "name": "Av. Carlos Zambrano",
+      "attributes": {
+        "Join_Count": 17,
+        "TARGET_FID": 3981,
+        "OBJECTID_1": 3987,
+        "NOMBRE": "VELASCO",
+        "DISTANCIA": 0.08415330308552145,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 84.1533030855,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Colectora",
+        "OBJECTID_12": 3981,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Carlos Zambrano",
+        "Shape_Length": 84.15330308552144
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              760642.7264999999,
+              9815992.4957
+            ],
+            [
+              760637.3147,
+              9815985.9647
+            ],
+            [
+              760587.7795000002,
+              9815928.7595
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 4047,
+      "name": "Av. Carlos Zambrano",
+      "attributes": {
+        "Join_Count": 13,
+        "TARGET_FID": 4047,
+        "OBJECTID_1": 4053,
+        "NOMBRE": "VELASCO",
+        "DISTANCIA": 0.15377003219423813,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 153.770032194,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Colectora",
+        "OBJECTID_12": 4047,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Carlos Zambrano",
+        "Shape_Length": 153.77003219423813
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              760587.7795000002,
+              9815928.7595
+            ],
+            [
+              760476.1346000005,
+              9816026.4878
+            ],
+            [
+              760472.0476000002,
+              9816030.0082
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 4193,
+      "name": "Av. Carlos Zambrano",
+      "attributes": {
+        "Join_Count": 5,
+        "TARGET_FID": 4193,
+        "OBJECTID_1": 4199,
+        "NOMBRE": "VELASCO",
+        "DISTANCIA": 0.05208054794489398,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 52.0805479449,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Colectora",
+        "OBJECTID_12": 4193,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Carlos Zambrano",
+        "Shape_Length": 52.08054794489398
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              760809.4061000003,
+              9816107.9333
+            ],
+            [
+              760805.4429000001,
+              9816102.1524
+            ],
+            [
+              760780.5969000002,
+              9816072.0343
+            ],
+            [
+              760776.3504999997,
+              9816067.7563
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 4194,
+      "name": "Av. Carlos Zambrano",
+      "attributes": {
+        "Join_Count": 5,
+        "TARGET_FID": 4194,
+        "OBJECTID_1": 4200,
+        "NOMBRE": "VELASCO",
+        "DISTANCIA": 0.1012818170924145,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 101.281817092,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Colectora",
+        "OBJECTID_12": 4194,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Carlos Zambrano",
+        "Shape_Length": 101.2818170924145
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              760886.3739999998,
+              9816042.2248
+            ],
+            [
+              760813.9080999997,
+              9816102.7574
+            ],
+            [
+              760809.4061000003,
+              9816107.9333
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 4304,
+      "name": "Av. Carlos Zambrano",
+      "attributes": {
+        "Join_Count": 4,
+        "TARGET_FID": 4304,
+        "OBJECTID_1": 4310,
+        "NOMBRE": "VELASCO",
+        "DISTANCIA": 0.0851210508010162,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "1899-12-30 00:00:00+00:00",
+        "Shape_Leng": 85.121050801,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Colectora",
+        "OBJECTID_12": 4304,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Carlos Zambrano",
+        "Shape_Length": 85.1210508010162
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              760809.4061000003,
+              9816107.9333
+            ],
+            [
+              760803.1085999999,
+              9816115.1735
+            ],
+            [
+              760759.2510000002,
+              9816176.6599
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 9441,
+      "name": "Av. Carlos Zambrano",
+      "attributes": {
+        "Join_Count": 4,
+        "TARGET_FID": 9441,
+        "OBJECTID_1": 9447,
+        "NOMBRE": " ",
+        "DISTANCIA": 0.010042851715502149,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "NaT",
+        "Shape_Leng": 10.0428517155,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Colectora",
+        "OBJECTID_12": 9441,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Carlos Zambrano",
+        "Shape_Length": 10.042851715502149
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              760464.0054000001,
+              9815806.4299
+            ],
+            [
+              760472.1001000004,
+              9815800.4856
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "MUNICIPAL",
+      "field": "TXT",
+      "fid": 9442,
+      "name": "Av. Carlos Zambrano",
+      "attributes": {
+        "Join_Count": 6,
+        "TARGET_FID": 9442,
+        "OBJECTID_1": 9448,
+        "NOMBRE": " ",
+        "DISTANCIA": 0.01166742870333263,
+        "ACC": 0,
+        "RDT": 0,
+        "RST": 0,
+        "RTT": 0,
+        "WTC": 0,
+        "LOC": 0,
+        "LTN": 0,
+        "MED": 0,
+        "TUC": 0,
+        "RCD": "NaT",
+        "Shape_Leng": 11.6674287033,
+        "Capa_Rodad": "Asfalto",
+        "ESTADO": "Regular",
+        "TIPOLOGIA_": "Colectora",
+        "OBJECTID_12": 9442,
+        "ACC_1": 0.0,
+        "RDT_1": 0.0,
+        "RST_1": 0.0,
+        "RTT_1": 0.0,
+        "WTC_1": 0.0,
+        "LOC_1": 0.0,
+        "LTN_1": 0.0,
+        "MED_1": 0.0,
+        "TUC_1": 0.0,
+        "TXT": "Av. Carlos Zambrano",
+        "Shape_Length": 11.66742870333263
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              760466.4998000003,
+              9815820.5531
+            ],
+            [
+              760473.7587000001,
+              9815811.4187
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 576,
+      "name": "V",
+      "attributes": {
+        "id": 192476,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "V",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 163.53,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            761837.1714000005,
+            9813177.5154
+          ],
+          [
+            761843.3699,
+            9813177.905
+          ],
+          [
+            761947.7740999998,
+            9813295.593500001
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 582,
+      "name": "V",
+      "attributes": {
+        "id": 192473,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "V",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 101.32,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            761947.7740999998,
+            9813295.593500001
+          ],
+          [
+            762016.2688,
+            9813370.2478
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 584,
+      "name": "V",
+      "attributes": {
+        "id": 192477,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "V",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 97.92,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            762016.2688,
+            9813370.2478
+          ],
+          [
+            762081.0442582044,
+            9813443.675458118
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 586,
+      "name": "V",
+      "attributes": {
+        "id": 192480,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "ESCALINATA",
+        "nom_eje": "V",
+        "cod_tip_ej": "ESC.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 30.76,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            762111.6289406789,
+            9813440.378057532
+          ],
+          [
+            762081.0442582044,
+            9813443.675458118
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 588,
+      "name": "V",
+      "attributes": {
+        "id": 193366,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "V",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 10.48,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            762081.0442582044,
+            9813443.675458118
+          ],
+          [
+            762087.9773064605,
+            9813451.534568826
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1278,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 193477,
+        "fcode": "BB007",
+        "parroquia": "060161",
+        "nom_par": "SAN LUIS",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 66.15,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763828.1047000013,
+            9812603.265599998
+          ],
+          [
+            763831.3328991627,
+            9812599.124165194
+          ],
+          [
+            763863.554639112,
+            9812551.190240745
+          ],
+          [
+            763865.3064099369,
+            9812548.584259488
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1279,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 184002,
+        "fcode": "BB007",
+        "parroquia": "060161",
+        "nom_par": "SAN LUIS",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 49.2,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763799.2738222098,
+            9812643.137027944
+          ],
+          [
+            763818.8622357822,
+            9812616.047383346
+          ],
+          [
+            763818.8628514211,
+            9812616.046531955
+          ],
+          [
+            763826.5939999989,
+            9812605.3548
+          ],
+          [
+            763828.1047000013,
+            9812603.265599998
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1297,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 184004,
+        "fcode": "BB007",
+        "parroquia": "060161",
+        "nom_par": "SAN LUIS",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 90.93,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763746.7304839358,
+            9812717.326507924
+          ],
+          [
+            763757.1667000004,
+            9812702.9644
+          ],
+          [
+            763766.628375215,
+            9812690.195692113
+          ],
+          [
+            763776.054100001,
+            9812677.4755
+          ],
+          [
+            763790.6459655508,
+            9812655.664541833
+          ],
+          [
+            763795.9744999995,
+            9812647.6998
+          ],
+          [
+            763797.7420805413,
+            9812645.255338201
+          ],
+          [
+            763799.2738222098,
+            9812643.137027944
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1506,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 184003,
+        "fcode": "BB007",
+        "parroquia": "060161",
+        "nom_par": "SAN LUIS",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 39.59,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763724.049163514,
+            9812749.766338283
+          ],
+          [
+            763730.576100002,
+            9812740.866
+          ],
+          [
+            763744.7899000007,
+            9812719.9971
+          ],
+          [
+            763746.7304839358,
+            9812717.326507924
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1514,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 184005,
+        "fcode": "BB007",
+        "parroquia": "060161",
+        "nom_par": "SAN LUIS",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 43.93,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763698.0686239584,
+            9812785.1777217
+          ],
+          [
+            763706.0940999998,
+            9812773.7454
+          ],
+          [
+            763714.5687000004,
+            9812762.6942
+          ],
+          [
+            763722.4572767,
+            9812751.937085796
+          ],
+          [
+            763723.0193508471,
+            9812751.170623604
+          ],
+          [
+            763724.049163514,
+            9812749.766338283
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1531,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 184006,
+        "fcode": "BB007",
+        "parroquia": "060161",
+        "nom_par": "SAN LUIS",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 29.58,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763680.8752115282,
+            9812809.238714436
+          ],
+          [
+            763685.0580000004,
+            9812803.2629
+          ],
+          [
+            763689.1024999993,
+            9812797.95
+          ],
+          [
+            763698.0686239584,
+            9812785.1777217
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1535,
+      "name": "Y",
+      "attributes": {
+        "id": 183961,
+        "fcode": "BB007",
+        "parroquia": "060161",
+        "nom_par": "SAN LUIS",
+        "tipo_eje": "CALLE",
+        "nom_eje": "Y",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 67.45,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763529.1913999994,
+            9812788.952800002
+          ],
+          [
+            763572.5904000024,
+            9812840.5919
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1541,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 183987,
+        "fcode": "BB007",
+        "parroquia": "060161",
+        "nom_par": "SAN LUIS",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 107.04,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763618.7717571338,
+            9812896.384848207
+          ],
+          [
+            763625.3657000001,
+            9812885.8744
+          ],
+          [
+            763625.9779999997,
+            9812885.0268
+          ],
+          [
+            763648.8196000004,
+            9812854.2402
+          ],
+          [
+            763652.7553000008,
+            9812848.816225
+          ],
+          [
+            763664.5623999995,
+            9812832.5443
+          ],
+          [
+            763680.8752115282,
+            9812809.238714436
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1543,
+      "name": "V",
+      "attributes": {
+        "id": 183945,
+        "fcode": "BB007",
+        "parroquia": "060161",
+        "nom_par": "SAN LUIS",
+        "tipo_eje": "CALLE",
+        "nom_eje": "V",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 53.04,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763421.8762517392,
+            9812844.395123579
+          ],
+          [
+            763463.5000485091,
+            9812877.276907526
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1544,
+      "name": "Y",
+      "attributes": {
+        "id": 183962,
+        "fcode": "BB007",
+        "parroquia": "060161",
+        "nom_par": "SAN LUIS",
+        "tipo_eje": "CALLE",
+        "nom_eje": "Y",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 72.43,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763572.5904000024,
+            9812840.5919
+          ],
+          [
+            763572.9166000002,
+            9812840.98
+          ],
+          [
+            763618.7717571338,
+            9812896.384848207
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1556,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 183965,
+        "fcode": "BB007",
+        "parroquia": "060161",
+        "nom_par": "SAN LUIS",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 173.27,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763517.4916,
+            9813036.9485
+          ],
+          [
+            763526.1831867713,
+            9813024.7645
+          ],
+          [
+            763537.6282985304,
+            9813009.550901953
+          ],
+          [
+            763546.0554799233,
+            9812997.728295118
+          ],
+          [
+            763551.2543000004,
+            9812990.4348
+          ],
+          [
+            763565.6742000001,
+            9812970.8556
+          ],
+          [
+            763576.1914000001,
+            9812956.105
+          ],
+          [
+            763590.6112000002,
+            9812935.6659
+          ],
+          [
+            763600.3346000002,
+            9812922.3044
+          ],
+          [
+            763609.6612000004,
+            9812909.2075
+          ],
+          [
+            763616.3565999998,
+            9812900.2345
+          ],
+          [
+            763618.7717571338,
+            9812896.384848207
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1576,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 183964,
+        "fcode": "BB007",
+        "parroquia": "060161",
+        "nom_par": "SAN LUIS",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 17.64,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763507.2910124261,
+            9813051.345721424
+          ],
+          [
+            763510.0866867737,
+            9813047.4083
+          ],
+          [
+            763517.4916,
+            9813036.9485
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1578,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 184147,
+        "fcode": "BB007",
+        "parroquia": "060161",
+        "nom_par": "SAN LUIS",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 20.91,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763495.241747671,
+            9813068.43280725
+          ],
+          [
+            763496.7426468923,
+            9813066.284300955
+          ],
+          [
+            763498.8358666674,
+            9813063.287899999
+          ],
+          [
+            763500.5733000007,
+            9813060.8008
+          ],
+          [
+            763507.2910124261,
+            9813051.345721424
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1701,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 184009,
+        "fcode": "BB007",
+        "parroquia": "060161",
+        "nom_par": "SAN LUIS",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 44.53,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763469.2995000003,
+            9813104.6159
+          ],
+          [
+            763485.4390999998,
+            9813082.8671
+          ],
+          [
+            763490.1486999999,
+            9813075.7234
+          ],
+          [
+            763495.241747671,
+            9813068.43280725
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1708,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 192535,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 184.18,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763362.0437092062,
+            9813254.339699099
+          ],
+          [
+            763469.2995000003,
+            9813104.6159
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1734,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 192534,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 39.96,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763339.5914000005,
+            9813287.390100002
+          ],
+          [
+            763362.0437092062,
+            9813254.339699099
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1800,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 192556,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 205.84,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763218.0077000011,
+            9813453.4906
+          ],
+          [
+            763239.2314000011,
+            9813424.496
+          ],
+          [
+            763282.6448000015,
+            9813365.1873
+          ],
+          [
+            763339.5914000005,
+            9813287.390100002
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1808,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 192627,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 101.35,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763159.416600001,
+            9813536.182900002
+          ],
+          [
+            763218.0077000011,
+            9813453.4906
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1830,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 193332,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 44.52,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763132.8322579031,
+            9813571.885272512
+          ],
+          [
+            763135.2528000008,
+            9813568.8386
+          ],
+          [
+            763147.5215000007,
+            9813552.649
+          ],
+          [
+            763159.416600001,
+            9813536.182900002
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1831,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 192628,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 36.74,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763109.6200999997,
+            9813600.3545
+          ],
+          [
+            763122.6168000017,
+            9813584.743200002
+          ],
+          [
+            763132.8322579031,
+            9813571.885272512
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1842,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 192629,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 77.93,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763056.5454,
+            9813657.3853
+          ],
+          [
+            763074.7909000007,
+            9813638.8956
+          ],
+          [
+            763092.4875000003,
+            9813619.8799
+          ],
+          [
+            763109.6200999997,
+            9813600.3545
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1844,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 192789,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 68.43,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            763008.8808941108,
+            9813706.483619332
+          ],
+          [
+            763056.5454,
+            9813657.3853
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1848,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 192790,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 43.54,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            762977.2460875688,
+            9813736.402984222
+          ],
+          [
+            763008.8808941108,
+            9813706.483619332
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1871,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 192792,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 39.0,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            762947.8448083049,
+            9813762.019052526
+          ],
+          [
+            762976.656132777,
+            9813736.96094789
+          ],
+          [
+            762977.2460875688,
+            9813736.402984222
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1880,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 192791,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 40.68,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            762917.5100000004,
+            9813789.1295
+          ],
+          [
+            762947.8448083049,
+            9813762.019052526
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1882,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 192793,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 7.51,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            762911.9110000011,
+            9813794.131600002
+          ],
+          [
+            762917.5100000004,
+            9813789.1295
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1884,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 192803,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 46.41,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            762877.5511000014,
+            9813825.336
+          ],
+          [
+            762911.9110000011,
+            9813794.131600002
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 1887,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 192804,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 47.55,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            762840.9426000008,
+            9813855.680500003
+          ],
+          [
+            762877.5511000014,
+            9813825.336
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 2845,
+      "name": "CARLOS ZAMBRANO",
+      "attributes": {
+        "id": 189976,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "CARLOS ZAMBRANO",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 34.27,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            760352.4703999993,
+            9815512.3126
+          ],
+          [
+            760344.1704999995,
+            9815479.0632
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 2871,
+      "name": "CARLOS ZAMBRANO",
+      "attributes": {
+        "id": 189977,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "CARLOS ZAMBRANO",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 239.84,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            760438.767800001,
+            9815736.093100004
+          ],
+          [
+            760352.4703999993,
+            9815512.3126
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 2874,
+      "name": "CARLOS ZAMBRANO",
+      "attributes": {
+        "id": 189954,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "CARLOS ZAMBRANO",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 78.6,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            760472.4230000019,
+            9815806.5091
+          ],
+          [
+            760460.9382000013,
+            9815791.6382
+          ],
+          [
+            760438.767800001,
+            9815736.093100004
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 2877,
+      "name": "CARLOS ZAMBRANO",
+      "attributes": {
+        "id": 189978,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "CARLOS ZAMBRANO",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 32.71,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            760496.0236999999,
+            9815829.156200001
+          ],
+          [
+            760472.4230000019,
+            9815806.5091
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 2879,
+      "name": "CARLOS ZAMBRANO",
+      "attributes": {
+        "id": 189990,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "CARLOS ZAMBRANO",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 58.59,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            760536.0174999994,
+            9815871.9771
+          ],
+          [
+            760496.0236999999,
+            9815829.156200001
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 3032,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 192826,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 103.44,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            762763.7887000008,
+            9813924.586400002
+          ],
+          [
+            762840.9426000008,
+            9813855.680500003
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 3141,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 192827,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 96.91,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            762690.8520000002,
+            9813988.401700001
+          ],
+          [
+            762763.7887000008,
+            9813924.586400002
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 3145,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 192830,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 45.65,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            762656.9699000019,
+            9814018.988
+          ],
+          [
+            762690.8520000002,
+            9813988.401700001
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 3156,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 192829,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 223.9,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            762489.2988000005,
+            9814167.3723
+          ],
+          [
+            762656.9699000019,
+            9814018.988
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 3157,
+      "name": "LEOPOLDO FREIRE",
+      "attributes": {
+        "id": 192067,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "AVENIDA",
+        "nom_eje": "LEOPOLDO FREIRE",
+        "cod_tip_ej": "AV.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 79.45,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            762430.6083000007,
+            9814220.930100001
+          ],
+          [
+            762489.2988000005,
+            9814167.3723
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 4113,
+      "name": "CARLOS ZAMBRANO",
+      "attributes": {
+        "id": 189992,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "CARLOS ZAMBRANO",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 77.98,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            760588.2251000003,
+            9815929.906100001
+          ],
+          [
+            760536.0174999994,
+            9815871.9771
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 4137,
+      "name": "CARLOS ZAMBRANO",
+      "attributes": {
+        "id": 189996,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "CARLOS ZAMBRANO",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 83.22,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            760643.2933000004,
+            9815992.304900002
+          ],
+          [
+            760588.2251000003,
+            9815929.906100001
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 4140,
+      "name": "CARLOS ZAMBRANO",
+      "attributes": {
+        "id": 189720,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "CARLOS ZAMBRANO",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 93.94,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            760731.135587251,
+            9816017.691592379
+          ],
+          [
+            760679.9887999995,
+            9816011.8749
+          ],
+          [
+            760673.2885000005,
+            9816010.5044
+          ],
+          [
+            760666.7569000014,
+            9816008.476600002
+          ],
+          [
+            760661.4561000008,
+            9816006.2279
+          ],
+          [
+            760656.4094000007,
+            9816003.4555
+          ],
+          [
+            760651.6683,
+            9816000.1879
+          ],
+          [
+            760647.2813000007,
+            9815996.4583
+          ],
+          [
+            760643.2933000004,
+            9815992.304900002
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 4146,
+      "name": "CARLOS ZAMBRANO",
+      "attributes": {
+        "id": 189721,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "CARLOS ZAMBRANO",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 67.37,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            760776.8548999996,
+            9816067.1716
+          ],
+          [
+            760731.135587251,
+            9816017.691592379
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 4171,
+      "name": "CARLOS ZAMBRANO",
+      "attributes": {
+        "id": 189698,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "CARLOS ZAMBRANO",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 51.59,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            760810.2296000004,
+            9816106.506100003
+          ],
+          [
+            760776.8548999996,
+            9816067.1716
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 4175,
+      "name": "CARLOS ZAMBRANO",
+      "attributes": {
+        "id": 189710,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "CARLOS ZAMBRANO",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 63.71,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            760849.3257,
+            9816156.806500003
+          ],
+          [
+            760810.2296000004,
+            9816106.506100003
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 4619,
+      "name": "Y",
+      "attributes": {
+        "id": 188664,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "Y",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 43.34,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            761138.9896482136,
+            9816409.384420263
+          ],
+          [
+            761109.2954566801,
+            9816377.817994947
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 5678,
+      "name": "V",
+      "attributes": {
+        "id": 187973,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "V",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 65.97,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            757723.9743999991,
+            9816256.4332
+          ],
+          [
+            757740.8293968923,
+            9816320.21159434
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 6264,
+      "name": "V",
+      "attributes": {
+        "id": 184856,
+        "fcode": "BB007",
+        "parroquia": "060155",
+        "nom_par": "LICAN",
+        "tipo_eje": "CALLE",
+        "nom_eje": "V",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 123.84,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            755343.8131974622,
+            9817087.730168717
+          ],
+          [
+            755383.5293459678,
+            9817122.986021549
+          ],
+          [
+            755422.1898703709,
+            9817157.304801442
+          ],
+          [
+            755436.4274826242,
+            9817169.94346811
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 7564,
+      "name": "LUIS URDANETA",
+      "attributes": {
+        "id": 188435,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "LUIS URDANETA",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 87.51,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            759061.0457976698,
+            9816784.882927412
+          ],
+          [
+            759119.8865521806,
+            9816849.656627309
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 7610,
+      "name": "LUIS URDANETA",
+      "attributes": {
+        "id": 185391,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "LUIS URDANETA",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 138.16,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            758825.1357999996,
+            9816479.536300002
+          ],
+          [
+            758907.527700002,
+            9816590.4466
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 7627,
+      "name": "LUIS URDANETA",
+      "attributes": {
+        "id": 187302,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "LUIS URDANETA",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 87.58,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            758907.527700002,
+            9816590.4466
+          ],
+          [
+            758960.5130999996,
+            9816660.1775
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 7630,
+      "name": "MANUEL ZAMBRANO",
+      "attributes": {
+        "id": 185256,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "MANUEL ZAMBRANO",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 61.83,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            758972.2998000011,
+            9816675.5136
+          ],
+          [
+            759022.5843000022,
+            9816639.5273
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 7632,
+      "name": "LUIS URDANETA",
+      "attributes": {
+        "id": 187306,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "LUIS URDANETA",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 19.34,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            758960.5130999996,
+            9816660.1775
+          ],
+          [
+            758972.2998000011,
+            9816675.5136
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 7636,
+      "name": "LUIS URDANETA",
+      "attributes": {
+        "id": 187305,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "LUIS URDANETA",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 144.53,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            758972.2998000011,
+            9816675.5136
+          ],
+          [
+            758973.3980000004,
+            9816678.5366
+          ],
+          [
+            759055.6320999996,
+            9816784.8462
+          ],
+          [
+            759059.9313000011,
+            9816790.052500002
+          ],
+          [
+            759060.0328999994,
+            9816790.175500002
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 8820,
+      "name": "Y",
+      "attributes": {
+        "id": 184834,
+        "fcode": "BB007",
+        "parroquia": "060155",
+        "nom_par": "LICAN",
+        "tipo_eje": "CALLE",
+        "nom_eje": "Y",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 149.96,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            755836.1599430437,
+            9817665.895404728
+          ],
+          [
+            755829.9399822354,
+            9817764.8638514
+          ],
+          [
+            755880.73862642,
+            9817764.738527862
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 10161,
+      "name": "V",
+      "attributes": {
+        "id": 186117,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "V",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 48.89,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            757127.7155000006,
+            9819254.0273
+          ],
+          [
+            757175.5073999995,
+            9819264.3226
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 10175,
+      "name": "V",
+      "attributes": {
+        "id": 186119,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "V",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 51.91,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            757175.5073999995,
+            9819264.3226
+          ],
+          [
+            757226.2324999996,
+            9819275.3465
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 10176,
+      "name": "V",
+      "attributes": {
+        "id": 186122,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "V",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 37.77,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            757226.2324999996,
+            9819275.3465
+          ],
+          [
+            757250.7046999995,
+            9819280.5697
+          ],
+          [
+            757263.2861512231,
+            9819282.633848712
+          ]
+        ]
+      }
+    },
+    {
+      "source": "CENSAL",
+      "field": "nom_eje",
+      "fid": 10179,
+      "name": "V",
+      "attributes": {
+        "id": 186123,
+        "fcode": "BB007",
+        "parroquia": "060150",
+        "nom_par": "RIOBAMBA",
+        "tipo_eje": "CALLE",
+        "nom_eje": "V",
+        "cod_tip_ej": "CL.",
+        "fuente": "CPV2021",
+        "anio": "2020",
+        "valida": "fals",
+        "long_m": 74.43,
+        "fuente_dat": "0601_riobamba.gpkg:ejes_l"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            757263.2861512231,
+            9819282.633848712
+          ],
+          [
+            757336.1020509336,
+            9819298.034842728
+          ]
+        ]
+      }
+    }
+  ],
+  "originalSourcesUnmodified": true
+}

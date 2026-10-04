@@ -1,0 +1,133 @@
+{
+  "passed": true,
+  "layers": 77,
+  "groups": 14,
+  "layouts": 10,
+  "relativePaths": true,
+  "maps": [
+    {
+      "map": 1,
+      "title": "103 camaras existentes",
+      "png": "mapas\\MAPA_01.png",
+      "layers": [
+        "CAMARAS_EXISTENTES_103_FINAL",
+        "COBERTURA_A"
+      ]
+    },
+    {
+      "map": 2,
+      "title": "50 propuestas municipales",
+      "png": "mapas\\MAPA_02.png",
+      "layers": [
+        "PROPUESTA_MUNICIPAL_50_FINAL",
+        "CORREDORES",
+        "COBERTURA_MUNICIPAL_200M"
+      ]
+    },
+    {
+      "map": 3,
+      "title": "30 Policia y Hot Spots D/V",
+      "png": "mapas\\MAPA_03.png",
+      "layers": [
+        "PROPUESTA_POLICIA_30_FINAL",
+        "HOTSPOT_DELINCUENCIA",
+        "HOTSPOT_VIOLENCIA",
+        "COBERTURA_POLICIA_200M"
+      ]
+    },
+    {
+      "map": 4,
+      "title": "Sistema completo:183 equipos",
+      "png": "mapas\\MAPA_04.png",
+      "layers": [
+        "CAMARAS_EXISTENTES_103_FINAL",
+        "PROPUESTA_MUNICIPAL_50_FINAL",
+        "PROPUESTA_POLICIA_30_FINAL",
+        "COBERTURA_A",
+        "COBERTURA_MUNICIPAL_200M",
+        "COBERTURA_POLICIA_200M"
+      ]
+    },
+    {
+      "map": 5,
+      "title": "MACAJI: 98.46% cubierto (183)",
+      "png": "mapas\\MAPA_05.png",
+      "layers": [
+        "CAMARAS_EXISTENTES_103_FINAL",
+        "PROPUESTA_MUNICIPAL_50_FINAL",
+        "PROPUESTA_POLICIA_30_FINAL",
+        "CUBIERTO_MACAJI_FINAL",
+        "BRECHA_MACAJI_FINAL",
+        "COBERTURA_A",
+        "COBERTURA_MUNICIPAL_200M",
+        "COBERTURA_POLICIA_200M"
+      ]
+    },
+    {
+      "map": 6,
+      "title": "ANILLO: 88.56% cubierto (183)",
+      "png": "mapas\\MAPA_06.png",
+      "layers": [
+        "CAMARAS_EXISTENTES_103_FINAL",
+        "PROPUESTA_MUNICIPAL_50_FINAL",
+        "PROPUESTA_POLICIA_30_FINAL",
+        "CUBIERTO_ANILLO_FINAL",
+        "BRECHA_ANILLO_FINAL",
+        "COBERTURA_A",
+        "COBERTURA_MUNICIPAL_200M",
+        "COBERTURA_POLICIA_200M"
+      ]
+    },
+    {
+      "map": 7,
+      "title": "CICLOVIAS: 61.62% cubierto (183)",
+      "png": "mapas\\MAPA_07.png",
+      "layers": [
+        "CAMARAS_EXISTENTES_103_FINAL",
+        "PROPUESTA_MUNICIPAL_50_FINAL",
+        "PROPUESTA_POLICIA_30_FINAL",
+        "CUBIERTO_CICLOVIAS_FINAL",
+        "BRECHA_CICLOVIAS_FINAL",
+        "COBERTURA_A",
+        "COBERTURA_MUNICIPAL_200M",
+        "COBERTURA_POLICIA_200M"
+      ]
+    },
+    {
+      "map": 8,
+      "title": "LAS_ABRAS: 34.83% cubierto (183)",
+      "png": "mapas\\MAPA_08.png",
+      "layers": [
+        "CAMARAS_EXISTENTES_103_FINAL",
+        "PROPUESTA_MUNICIPAL_50_FINAL",
+        "PROPUESTA_POLICIA_30_FINAL",
+        "CUBIERTO_LAS_ABRAS_FINAL",
+        "BRECHA_LAS_ABRAS_FINAL",
+        "COBERTURA_A",
+        "COBERTURA_MUNICIPAL_200M",
+        "COBERTURA_POLICIA_200M",
+        "CUNDUANA_PUNTOS_CRITICOS",
+        "CUNDUANA_TRAMOS_LIMPIEZA",
+        "LAS_ABRAS_ACTUAL"
+      ]
+    },
+    {
+      "map": 9,
+      "title": "Hot Spots Delincuencia:estadistica congelada",
+      "png": "mapas\\MAPA_09.png",
+      "layers": [
+        "HOTSPOT_DELINCUENCIA",
+        "COBERTURA_C"
+      ]
+    },
+    {
+      "map": 10,
+      "title": "Hot Spots Violencia:estadistica congelada",
+      "png": "mapas\\MAPA_10.png",
+      "layers": [
+        "HOTSPOT_VIOLENCIA",
+        "COBERTURA_C"
+      ]
+    }
+  ]
+}

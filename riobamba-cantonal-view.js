@@ -238,7 +238,7 @@ window.createRiobambaCantonalView = function (api) {
     const key = api.current().key;
     let html = `<strong>${key === "kde" ? "CONCENTRACIÓN ESPACIAL" : scope}</strong>`;
     if (key === "kde") html = "<strong>CONCENTRACIÓN ESPACIAL DE EVENTOS</strong>" + window.RiobambaConflictivity.legend();
-    if (key === "giHotspots") html += ["HOTSPOT 99 %","HOTSPOT 95 %","HOTSPOT 90 %","NO SIGNIFICATIVO","COLDSPOT 90 %","COLDSPOT 95 %","COLDSPOT 99 %"].map((label)=>`<div class="legend-row"><span class="legend-swatch" style="background:${api.giClassColor(label)}"></span>${label}</div>`).join("") + "<p class='cantonal-note'>Gi* nominal, sin FDR. Urbano: 250/500 m. Rural: 1000/2000 m. No son un único análisis.</p>";
+    if (key === "giHotspots") html += ["HOTSPOT 99 %","HOTSPOT 95 %","HOTSPOT 90 %","NO SIGNIFICATIVO","COLDSPOT 90 %","COLDSPOT 95 %","COLDSPOT 99 %"].map((label)=>`<div class="legend-row"><span class="legend-swatch" style="background:${api.giClassColor(label)}"></span>${label}</div>`).join("") + "<p class='cantonal-note'>Gi* nominal, sin FDR. Urbano: malla 100 m / distancia 200 m. Rural sin cambios: 1000/2000 m. No son un único análisis.</p>";
     html += "<div class='legend-row'>Límite cantonal · gris</div><div class='legend-row'>Ámbito urbano operativo · verde discontinuo</div><div class='legend-row'>Parroquias rurales · gris fino</div>";
     el.legend.innerHTML=html;
   }
@@ -353,7 +353,7 @@ window.createRiobambaCantonalView = function (api) {
       let urbanGi = null;
       if(scope==="CANTONAL") {
         urbanGi=api.getUrbanGi();
-        drawGi(urbanGi.cells,"Gi* urbano · celda 250 m / vecindad 500 m");
+        drawGi(urbanGi.cells,"Gi* urbano · celda 100 m / vecindad 200 m");
       }
       cards.splice(2,3,["Celdas rurales analizadas",local.length],["Hotspots · filtro activo",hot.length],["Coldspots · filtro activo",cold.length]);
       graphic=giSummary(cells);

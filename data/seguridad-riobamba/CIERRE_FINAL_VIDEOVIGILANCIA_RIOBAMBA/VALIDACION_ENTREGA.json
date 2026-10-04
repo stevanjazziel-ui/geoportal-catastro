@@ -1,0 +1,121 @@
+{
+  "passed": true,
+  "conditions": {
+    "allMapsNonblank": true,
+    "layouts10": true,
+    "groups14": true,
+    "allProvidersRelative": true,
+    "gisQC": true,
+    "qgisQC": true
+  },
+  "maps": [
+    {
+      "map": 1,
+      "size": [
+        1695,
+        1312
+      ],
+      "mapPixelStd": 17.373498331197855,
+      "coloredPixels": 22032,
+      "passed": true
+    },
+    {
+      "map": 2,
+      "size": [
+        1695,
+        1312
+      ],
+      "mapPixelStd": 17.19777652792563,
+      "coloredPixels": 16608,
+      "passed": true
+    },
+    {
+      "map": 3,
+      "size": [
+        1695,
+        1312
+      ],
+      "mapPixelStd": 28.800086182209885,
+      "coloredPixels": 243283,
+      "passed": true
+    },
+    {
+      "map": 4,
+      "size": [
+        1695,
+        1312
+      ],
+      "mapPixelStd": 20.2021550536365,
+      "coloredPixels": 32795,
+      "passed": true
+    },
+    {
+      "map": 5,
+      "size": [
+        1695,
+        1312
+      ],
+      "mapPixelStd": 27.91585203197599,
+      "coloredPixels": 743369,
+      "passed": true
+    },
+    {
+      "map": 6,
+      "size": [
+        1695,
+        1312
+      ],
+      "mapPixelStd": 28.236887306780226,
+      "coloredPixels": 581488,
+      "passed": true
+    },
+    {
+      "map": 7,
+      "size": [
+        1695,
+        1312
+      ],
+      "mapPixelStd": 27.38071244739273,
+      "coloredPixels": 395737,
+      "passed": true
+    },
+    {
+      "map": 8,
+      "size": [
+        1695,
+        1312
+      ],
+      "mapPixelStd": 22.82989853635471,
+      "coloredPixels": 144779,
+      "passed": true
+    },
+    {
+      "map": 9,
+      "size": [
+        1695,
+        1312
+      ],
+      "mapPixelStd": 23.08857145452483,
+      "coloredPixels": 211091,
+      "passed": true
+    },
+    {
+      "map": 10,
+      "size": [
+        1695,
+        1312
+      ],
+      "mapPixelStd": 21.360740077674386,
+      "coloredPixels": 204053,
+      "passed": true
+    }
+  ],
+  "visuallyInspected": [
+    "MAPA_01",
+    "MAPA_05",
+    "MAPA_08",
+    "MAPA_09"
+  ],
+  "fontsRegistered": "Arial normal,bold,italic,bolditalic",
+  "warning": "Raster pixel tests check nonblank rendering; GIS audits verify source geometries and counts."
+}

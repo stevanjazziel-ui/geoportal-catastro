@@ -1,0 +1,169 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-016-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Leopoldo Freire y Calle V",
+        "LONGITUD": -78.63057801579541,
+        "LATITUD": -1.691323986457355,
+        "X": 763618.7717571338,
+        "Y": 9812896.384848207,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Geocodificacion censal con confianza MEDIA; no verificacion de campo",
+        "PRECISION_ORIGINAL": "Pendiente de ubicación",
+        "DIRECCION_DOCUMENTAL": "Leopoldo Freire y Calle V",
+        "DIRECCION_CARTOGRAFICA": "LEOPOLDO FREIRE x Y",
+        "METODO_GEO": "INTERSECCION_CENSAL_Y_REFERENCIA_TERRITORIAL_ACEPTADA",
+        "FUENTE_GEO": "C:\\Users\\PC\\Downloads\\barrios y plataformas\\vias\\vias_canton_riobamba_utm.shp:nom_eje; FID 1541/1544; GDB Bienestar_social FID18; red OSM local de Riobamba",
+        "CONFIANZA_GEO": "MEDIA",
+        "OBSERVACION_GEO": "Usuario acepta el nodo censal Freire x Y con confianza MEDIA despues de revisar la referencia municipal Centro de Rehabilitacion Social, a 98.71 m. Documento conserva Calle V; CSV original dice Calle Y. No se afirma equivalencia V/Y. La GDB rotula Freire a 943.98 m; en el sector la red municipal es sin nombre y la red OSM local rotula Leopoldo Freire. Candidato antes descartado, ahora aceptado expresamente con esta discrepancia. Dos equipos, mismo emplazamiento cartografico; instalacion fisica pendiente de campo.",
+        "ESTADO_GEO": "LOCALIZADA_CARTOGRAFICA_CON_LIMITACIONES",
+        "FID_EJE_A": 1541.0,
+        "FID_EJE_B": 1544.0,
+        "DIST_REFERENCIA_CARCEL_M": 98.70581136339226,
+        "DIST_FREIRE_MUNICIPAL_M": 943.9800992313757,
+        "DENTRO_CANTON": true,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null,
+        "ID": "RIO-016-DOMO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63057801579541,
+          -1.691323986457355
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-017-FIJA",
+        "TIPO": "FIJA",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Leopoldo Freire y Calle V",
+        "LONGITUD": -78.63057801579541,
+        "LATITUD": -1.691323986457355,
+        "X": 763618.7717571338,
+        "Y": 9812896.384848207,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Geocodificacion censal con confianza MEDIA; no verificacion de campo",
+        "PRECISION_ORIGINAL": "Pendiente de ubicación",
+        "DIRECCION_DOCUMENTAL": "Leopoldo Freire y Calle V",
+        "DIRECCION_CARTOGRAFICA": "LEOPOLDO FREIRE x Y",
+        "METODO_GEO": "INTERSECCION_CENSAL_Y_REFERENCIA_TERRITORIAL_ACEPTADA",
+        "FUENTE_GEO": "C:\\Users\\PC\\Downloads\\barrios y plataformas\\vias\\vias_canton_riobamba_utm.shp:nom_eje; FID 1541/1544; GDB Bienestar_social FID18; red OSM local de Riobamba",
+        "CONFIANZA_GEO": "MEDIA",
+        "OBSERVACION_GEO": "Usuario acepta el nodo censal Freire x Y con confianza MEDIA despues de revisar la referencia municipal Centro de Rehabilitacion Social, a 98.71 m. Documento conserva Calle V; CSV original dice Calle Y. No se afirma equivalencia V/Y. La GDB rotula Freire a 943.98 m; en el sector la red municipal es sin nombre y la red OSM local rotula Leopoldo Freire. Candidato antes descartado, ahora aceptado expresamente con esta discrepancia. Dos equipos, mismo emplazamiento cartografico; instalacion fisica pendiente de campo.",
+        "ESTADO_GEO": "LOCALIZADA_CARTOGRAFICA_CON_LIMITACIONES",
+        "FID_EJE_A": 1541.0,
+        "FID_EJE_B": 1544.0,
+        "DIST_REFERENCIA_CARCEL_M": 98.70581136339226,
+        "DIST_FREIRE_MUNICIPAL_M": 943.9800992313757,
+        "DENTRO_CANTON": true,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null,
+        "ID": "RIO-017-FIJA"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63057801579541,
+          -1.691323986457355
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-085-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "Donación La Georgina",
+        "DIRECCION": "José de Orozco y Baltazar Paredes",
+        "LONGITUD": -78.66069059895283,
+        "LATITUD": -1.6602939471666698,
+        "X": 760270.7023000008,
+        "Y": 9816333.1089,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Cruce vial corroborado cartograficamente; poste sin verificacion de campo",
+        "PRECISION_ORIGINAL": "Pendiente de ubicación",
+        "DIRECCION_DOCUMENTAL": "José de Orozco y Baltazar Paredes",
+        "DIRECCION_CARTOGRAFICA": "Jose de Orozco x Baltazar Paredes",
+        "METODO_GEO": "INTERSECCION_VIAL_CORROBORADA",
+        "FUENTE_GEO": "C:\\Users\\PC\\Downloads\\barrios y plataformas\\vias\\vias_canton_riobamba_utm.shp:nom_eje; D:\\codex\\riobamba_matrix_review_20260921\\cartografia_base\\RIOBAMBA_Cartografia Base.gdb:Vialidad_urbana:TXT",
+        "CONFIANZA_GEO": "CORROBORADA_CARTOGRAFICAMENTE",
+        "OBSERVACION_GEO": "Ubicacion aceptada sin desplazamiento; dos fuentes, diferencia 0.41 m. Poste no verificado en campo.",
+        "ESTADO_GEO": "CANDIDATO_VALIDADO",
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "DENTRO_CANTON": true,
+        "FUENTE_1": "C:\\Users\\PC\\Downloads\\barrios y plataformas\\vias\\vias_canton_riobamba_utm.shp:nom_eje",
+        "FUENTE_2": "D:\\codex\\riobamba_matrix_review_20260921\\cartografia_base\\RIOBAMBA_Cartografia Base.gdb:Vialidad_urbana:TXT",
+        "DIFERENCIA_M": 0.41,
+        "ID": "RIO-085-DOMO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66069059895283,
+          -1.6602939471666698
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-103-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Luis Urdaneta y Manuel Zambrano",
+        "LONGITUD": -78.67235775652408,
+        "LATITUD": -1.6572125613933992,
+        "X": 758972.2998000011,
+        "Y": 9816675.5136,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Geocodificacion censal con confianza MEDIA; no verificacion de campo",
+        "PRECISION_ORIGINAL": "Pendiente de ubicación",
+        "DIRECCION_DOCUMENTAL": "Luis Urdaneta y Manuel Zambrano",
+        "DIRECCION_CARTOGRAFICA": "LUIS URDANETA x MANUEL ZAMBRANO",
+        "METODO_GEO": "INTERSECCION_VIAL_CENSAL_EXACTA",
+        "FUENTE_GEO": "C:\\Users\\PC\\Downloads\\barrios y plataformas\\vias\\vias_canton_riobamba_utm.shp:nom_eje; FID 7632/7630",
+        "CONFIANZA_GEO": "MEDIA",
+        "OBSERVACION_GEO": "Cruce unico Luis Urdaneta x Manuel Zambrano en red censal; incorporacion cartografica solicitada para consolidacion. Fuente CPV2021, anio 2020, valida=fals. No se encontro corroboracion municipal suficiente ni se certifica posicion fisica del poste.",
+        "ESTADO_GEO": "LOCALIZADA_CARTOGRAFICA_CON_LIMITACIONES",
+        "FID_EJE_A": 7632.0,
+        "FID_EJE_B": 7630.0,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "DENTRO_CANTON": true,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null,
+        "ID": "RIO-103-DOMO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67235775652408,
+          -1.6572125613933992
+        ]
+      }
+    }
+  ]
+}

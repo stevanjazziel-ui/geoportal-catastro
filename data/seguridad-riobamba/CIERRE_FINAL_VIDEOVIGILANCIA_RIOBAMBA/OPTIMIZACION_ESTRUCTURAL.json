@@ -1,0 +1,99 @@
+{
+  "candidates": 1911,
+  "atoms": 2554,
+  "method": "MILP lexicografico de union lineal exacta",
+  "phases": [
+    {
+      "phase": 1,
+      "objective": "ANILLO_VIAL",
+      "status": 0,
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "seconds": 77.06200000003446,
+      "mipGap": 6.019312776173192e-07,
+      "nodes": 2746,
+      "modelCoveredM": 11492.51688029204,
+      "actualCoveredM": {
+        "BOULEVARD_MACAJI_BELLAVISTA": 9360.625224124029,
+        "ANILLO_VIAL": 11492.516880291689,
+        "CICLOVIAS": 6194.397145726715
+      },
+      "percent": {
+        "BOULEVARD_MACAJI_BELLAVISTA": 98.10229527715468,
+        "ANILLO_VIAL": 87.55136897745159,
+        "CICLOVIAS": 56.43558280900366
+      },
+      "selected": [
+        "EST-0134",
+        "EST-0141",
+        "EST-0203",
+        "EST-0356",
+        "EST-0442",
+        "EST-0608",
+        "EST-0665",
+        "EST-0691",
+        "EST-0766",
+        "EST-0868",
+        "EST-1076",
+        "EST-1089",
+        "EST-1234",
+        "EST-1350",
+        "EST-1411",
+        "EST-1457",
+        "EST-1540",
+        "EST-1670",
+        "EST-1700",
+        "EST-1799",
+        "EST-1815",
+        "EST-1844",
+        "EST-1856",
+        "EST-1871"
+      ]
+    },
+    {
+      "phase": 2,
+      "objective": "CICLOVIAS",
+      "status": 0,
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "seconds": 89.04700000002049,
+      "mipGap": 0.0,
+      "nodes": 1153,
+      "modelCoveredM": 6194.3971457267735,
+      "actualCoveredM": {
+        "BOULEVARD_MACAJI_BELLAVISTA": 9360.625219715765,
+        "ANILLO_VIAL": 11492.51688009964,
+        "CICLOVIAS": 6194.397145726715
+      },
+      "percent": {
+        "BOULEVARD_MACAJI_BELLAVISTA": 98.10229523095468,
+        "ANILLO_VIAL": 87.55136897598854,
+        "CICLOVIAS": 56.43558280900366
+      },
+      "selected": [
+        "EST-0134",
+        "EST-0141",
+        "EST-0199",
+        "EST-0356",
+        "EST-0442",
+        "EST-0608",
+        "EST-0665",
+        "EST-0691",
+        "EST-0768",
+        "EST-0868",
+        "EST-1076",
+        "EST-1088",
+        "EST-1234",
+        "EST-1350",
+        "EST-1411",
+        "EST-1457",
+        "EST-1540",
+        "EST-1670",
+        "EST-1700",
+        "EST-1799",
+        "EST-1815",
+        "EST-1844",
+        "EST-1856",
+        "EST-1871"
+      ]
+    }
+  ]
+}

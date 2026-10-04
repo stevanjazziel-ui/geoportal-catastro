@@ -1,0 +1,1980 @@
+{
+  "passed": true,
+  "nChecks": 492,
+  "failed": [],
+  "checks": [
+    {
+      "check": "103 existentes,50 municipales,30 policiales,183 total",
+      "passed": true
+    },
+    {
+      "check": "ID_CAMARA IDs unicos;0 nulos;0 invalidos;EPSG32717",
+      "passed": true
+    },
+    {
+      "check": "ID_CAMARA XY finitos no cero y sincronizados",
+      "passed": true
+    },
+    {
+      "check": "ID_PROPUESTA IDs unicos;0 nulos;0 invalidos;EPSG32717",
+      "passed": true
+    },
+    {
+      "check": "ID_PROPUESTA XY finitos no cero y sincronizados",
+      "passed": true
+    },
+    {
+      "check": "ID_POLICIA IDs unicos;0 nulos;0 invalidos;EPSG32717",
+      "passed": true
+    },
+    {
+      "check": "ID_POLICIA XY finitos no cero y sincronizados",
+      "passed": true
+    },
+    {
+      "check": "103 geometrias existentes aceptadas intactas",
+      "passed": true
+    },
+    {
+      "check": "103 atributos existentes intactos",
+      "passed": true
+    },
+    {
+      "check": "Inventario administrativo original no sobrescrito",
+      "passed": true
+    },
+    {
+      "check": "Tres pares documentales;103 equipos en100 emplazamientos",
+      "passed": true
+    },
+    {
+      "check": "RIO085 diferencia0.41m y016017 misma geometria",
+      "passed": true
+    },
+    {
+      "check": "Auditoria cuatro recuperadas y campos requeridos",
+      "passed": true
+    },
+    {
+      "check": "22 rurales+4Abras+24estructurales",
+      "passed": true
+    },
+    {
+      "check": "Dos rurales por11parroquias",
+      "passed": true
+    },
+    {
+      "check": "22 rurales y4Abras aceptadas congeladas",
+      "passed": true
+    },
+    {
+      "check": "24estructurales pertenecen a nodos/cruces reales, sin interpolacion",
+      "passed": true
+    },
+    {
+      "check": "Sin nuevos emplazamientos duplicados municipales/policiales",
+      "passed": true
+    },
+    {
+      "check": "Cobertura A union200m real no suma de superficies",
+      "passed": true
+    },
+    {
+      "check": "Cobertura B union200m real no suma de superficies",
+      "passed": true
+    },
+    {
+      "check": "Cobertura C union200m real no suma de superficies",
+      "passed": true
+    },
+    {
+      "check": "Buffers sitios representan183 equipos;radio200m",
+      "passed": true
+    },
+    {
+      "check": "Puntos fuera del canton:soloRIO075original;propuestas todas dentro",
+      "passed": true
+    },
+    {
+      "check": "GI_URBANO_DELINCUENCIA Gi/geometria/z/p/nivel/parametros congelados",
+      "passed": true
+    },
+    {
+      "check": "GI_URBANO_VIOLENCIA Gi/geometria/z/p/nivel/parametros congelados",
+      "passed": true
+    },
+    {
+      "check": "GI_URBANO_CONVIVENCIA Gi/geometria/z/p/nivel/parametros congelados",
+      "passed": true
+    },
+    {
+      "check": "GI_RURAL_DELINCUENCIA Gi/geometria/z/p/nivel/parametros congelados",
+      "passed": true
+    },
+    {
+      "check": "GI_RURAL_VIOLENCIA Gi/geometria/z/p/nivel/parametros congelados",
+      "passed": true
+    },
+    {
+      "check": "GI_RURAL_CONVIVENCIA Gi/geometria/z/p/nivel/parametros congelados",
+      "passed": true
+    },
+    {
+      "check": "Incidentes sin movimientos, categorias sin cambios, Cunduana separado",
+      "passed": true
+    },
+    {
+      "check": "MUN-001 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-001 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-002 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-002 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-003 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-003 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-004 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-004 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-005 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-005 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-006 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-006 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-007 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-007 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-008 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-008 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-009 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-009 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-010 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-010 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-011 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-011 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-012 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-012 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-013 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-013 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-014 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-014 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-015 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-015 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-016 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-016 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-017 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-017 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-018 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-018 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-019 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-019 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-020 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-020 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-021 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-021 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-022 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-022 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-023 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-023 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-024 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-024 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-025 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-025 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-026 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-026 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-027 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-027 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-028 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-028 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-029 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-029 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-030 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-030 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-031 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-031 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-032 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-032 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-033 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-033 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-034 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-034 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-035 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-035 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-036 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-036 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-037 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-037 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-038 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-038 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-039 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-039 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-040 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-040 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-041 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-041 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-042 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-042 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-043 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-043 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-044 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-044 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-045 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-045 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-046 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-046 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-047 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-047 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-048 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-048 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-049 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-049 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "MUN-050 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "MUN-050 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-01 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-01 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-02 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-02 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-03 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-03 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-04 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-04 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-05 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-05 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-06 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-06 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-07 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-07 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-08 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-08 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-09 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-09 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-10 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-10 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-11 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-11 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-12 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-12 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-13 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-13 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-14 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-14 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-15 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-15 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-16 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-16 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-17 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-17 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-18 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-18 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-19 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-19 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-20 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-20 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-21 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-21 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-22 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-22 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-23 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-23 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-24 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-24 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-25 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-25 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-26 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-26 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-27 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-27 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-28 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-28 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-29 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-29 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "POL-30 eventos200m recalculados en coordenada final",
+      "passed": true
+    },
+    {
+      "check": "POL-30 aportes exclusivos finales sincronizados",
+      "passed": true
+    },
+    {
+      "check": "Eventos A BASE_COMPLETA DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos A BASE_COMPLETA VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos A BASE_COMPLETA CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos A CANTONAL DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos A CANTONAL VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos A CANTONAL CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos A URBANO DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos A URBANO VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos A URBANO CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos A RESTO_CANTON DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos A RESTO_CANTON VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos A RESTO_CANTON CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos A EXTERNO_CANTON DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos A EXTERNO_CANTON VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos A EXTERNO_CANTON CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B BASE_COMPLETA DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B BASE_COMPLETA VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B BASE_COMPLETA CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B CANTONAL DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B CANTONAL VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B CANTONAL CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B URBANO DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B URBANO VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B URBANO CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B RESTO_CANTON DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B RESTO_CANTON VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B RESTO_CANTON CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B EXTERNO_CANTON DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B EXTERNO_CANTON VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B EXTERNO_CANTON CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C BASE_COMPLETA DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C BASE_COMPLETA VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C BASE_COMPLETA CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C CANTONAL DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C CANTONAL VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C CANTONAL CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C URBANO DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C URBANO VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C URBANO CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C RESTO_CANTON DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C RESTO_CANTON VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C RESTO_CANTON CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C EXTERNO_CANTON DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C EXTERNO_CANTON VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C EXTERNO_CANTON CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B_ANTERIOR BASE_COMPLETA DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B_ANTERIOR BASE_COMPLETA VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B_ANTERIOR BASE_COMPLETA CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B_ANTERIOR CANTONAL DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B_ANTERIOR CANTONAL VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B_ANTERIOR CANTONAL CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B_ANTERIOR URBANO DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B_ANTERIOR URBANO VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B_ANTERIOR URBANO CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B_ANTERIOR RESTO_CANTON DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B_ANTERIOR RESTO_CANTON VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B_ANTERIOR RESTO_CANTON CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B_ANTERIOR EXTERNO_CANTON DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B_ANTERIOR EXTERNO_CANTON VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos B_ANTERIOR EXTERNO_CANTON CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C_ANTERIOR BASE_COMPLETA DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C_ANTERIOR BASE_COMPLETA VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C_ANTERIOR BASE_COMPLETA CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C_ANTERIOR CANTONAL DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C_ANTERIOR CANTONAL VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C_ANTERIOR CANTONAL CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C_ANTERIOR URBANO DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C_ANTERIOR URBANO VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C_ANTERIOR URBANO CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C_ANTERIOR RESTO_CANTON DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C_ANTERIOR RESTO_CANTON VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C_ANTERIOR RESTO_CANTON CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C_ANTERIOR EXTERNO_CANTON DELINCUENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C_ANTERIOR EXTERNO_CANTON VIOLENCIA",
+      "passed": true
+    },
+    {
+      "check": "Eventos C_ANTERIOR EXTERNO_CANTON CONVIVENCIA",
+      "passed": true
+    },
+    {
+      "check": "Hotspots A URBANO DELINCUENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots A URBANO DELINCUENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots A URBANO DELINCUENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots A URBANO VIOLENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots A URBANO VIOLENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots A URBANO VIOLENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots A URBANO CONVIVENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots A URBANO CONVIVENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots A URBANO CONVIVENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots A RURAL DELINCUENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots A RURAL DELINCUENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots A RURAL DELINCUENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots A RURAL VIOLENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots A RURAL VIOLENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots A RURAL VIOLENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots A RURAL CONVIVENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots A RURAL CONVIVENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots A RURAL CONVIVENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B URBANO DELINCUENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B URBANO DELINCUENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B URBANO DELINCUENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B URBANO VIOLENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B URBANO VIOLENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B URBANO VIOLENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B URBANO CONVIVENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B URBANO CONVIVENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B URBANO CONVIVENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B RURAL DELINCUENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B RURAL DELINCUENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B RURAL DELINCUENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B RURAL VIOLENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B RURAL VIOLENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B RURAL VIOLENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B RURAL CONVIVENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B RURAL CONVIVENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B RURAL CONVIVENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C URBANO DELINCUENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C URBANO DELINCUENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C URBANO DELINCUENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C URBANO VIOLENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C URBANO VIOLENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C URBANO VIOLENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C URBANO CONVIVENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C URBANO CONVIVENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C URBANO CONVIVENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C RURAL DELINCUENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C RURAL DELINCUENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C RURAL DELINCUENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C RURAL VIOLENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C RURAL VIOLENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C RURAL VIOLENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C RURAL CONVIVENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C RURAL CONVIVENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C RURAL CONVIVENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B_ANTERIOR URBANO DELINCUENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B_ANTERIOR URBANO DELINCUENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B_ANTERIOR URBANO DELINCUENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B_ANTERIOR URBANO VIOLENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B_ANTERIOR URBANO VIOLENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B_ANTERIOR URBANO VIOLENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B_ANTERIOR URBANO CONVIVENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B_ANTERIOR URBANO CONVIVENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B_ANTERIOR URBANO CONVIVENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B_ANTERIOR RURAL DELINCUENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B_ANTERIOR RURAL DELINCUENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B_ANTERIOR RURAL DELINCUENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B_ANTERIOR RURAL VIOLENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B_ANTERIOR RURAL VIOLENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B_ANTERIOR RURAL VIOLENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B_ANTERIOR RURAL CONVIVENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B_ANTERIOR RURAL CONVIVENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots B_ANTERIOR RURAL CONVIVENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C_ANTERIOR URBANO DELINCUENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C_ANTERIOR URBANO DELINCUENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C_ANTERIOR URBANO DELINCUENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C_ANTERIOR URBANO VIOLENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C_ANTERIOR URBANO VIOLENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C_ANTERIOR URBANO VIOLENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C_ANTERIOR URBANO CONVIVENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C_ANTERIOR URBANO CONVIVENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C_ANTERIOR URBANO CONVIVENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C_ANTERIOR RURAL DELINCUENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C_ANTERIOR RURAL DELINCUENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C_ANTERIOR RURAL DELINCUENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C_ANTERIOR RURAL VIOLENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C_ANTERIOR RURAL VIOLENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C_ANTERIOR RURAL VIOLENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C_ANTERIOR RURAL CONVIVENCIA 99",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C_ANTERIOR RURAL CONVIVENCIA 95",
+      "passed": true
+    },
+    {
+      "check": "Hotspots C_ANTERIOR RURAL CONVIVENCIA 90",
+      "passed": true
+    },
+    {
+      "check": "Corredor A ANILLO_VIAL",
+      "passed": true
+    },
+    {
+      "check": "Corredor A CICLOVIAS",
+      "passed": true
+    },
+    {
+      "check": "Corredor A BOULEVARD_MACAJI_BELLAVISTA",
+      "passed": true
+    },
+    {
+      "check": "Corredor A QUEBRADA_LAS_ABRAS",
+      "passed": true
+    },
+    {
+      "check": "Corredor B ANILLO_VIAL",
+      "passed": true
+    },
+    {
+      "check": "Corredor B CICLOVIAS",
+      "passed": true
+    },
+    {
+      "check": "Corredor B BOULEVARD_MACAJI_BELLAVISTA",
+      "passed": true
+    },
+    {
+      "check": "Corredor B QUEBRADA_LAS_ABRAS",
+      "passed": true
+    },
+    {
+      "check": "Corredor C ANILLO_VIAL",
+      "passed": true
+    },
+    {
+      "check": "Corredor C CICLOVIAS",
+      "passed": true
+    },
+    {
+      "check": "Corredor C BOULEVARD_MACAJI_BELLAVISTA",
+      "passed": true
+    },
+    {
+      "check": "Corredor C QUEBRADA_LAS_ABRAS",
+      "passed": true
+    },
+    {
+      "check": "Corredor B_ANTERIOR ANILLO_VIAL",
+      "passed": true
+    },
+    {
+      "check": "Corredor B_ANTERIOR CICLOVIAS",
+      "passed": true
+    },
+    {
+      "check": "Corredor B_ANTERIOR BOULEVARD_MACAJI_BELLAVISTA",
+      "passed": true
+    },
+    {
+      "check": "Corredor B_ANTERIOR QUEBRADA_LAS_ABRAS",
+      "passed": true
+    },
+    {
+      "check": "Corredor C_ANTERIOR ANILLO_VIAL",
+      "passed": true
+    },
+    {
+      "check": "Corredor C_ANTERIOR CICLOVIAS",
+      "passed": true
+    },
+    {
+      "check": "Corredor C_ANTERIOR BOULEVARD_MACAJI_BELLAVISTA",
+      "passed": true
+    },
+    {
+      "check": "Corredor C_ANTERIOR QUEBRADA_LAS_ABRAS",
+      "passed": true
+    },
+    {
+      "check": "Macaji>=98% SIN utilizar Policia",
+      "passed": true
+    },
+    {
+      "check": "MACAJI longitud cubierta+remanente=original",
+      "passed": true
+    },
+    {
+      "check": "MACAJI extremos/longitud/distancia nearest verificadas",
+      "passed": true
+    },
+    {
+      "check": "ANILLO longitud cubierta+remanente=original",
+      "passed": true
+    },
+    {
+      "check": "ANILLO extremos/longitud/distancia nearest verificadas",
+      "passed": true
+    },
+    {
+      "check": "CICLOVIAS longitud cubierta+remanente=original",
+      "passed": true
+    },
+    {
+      "check": "CICLOVIAS extremos/longitud/distancia nearest verificadas",
+      "passed": true
+    },
+    {
+      "check": "LAS_ABRAS longitud cubierta+remanente=original",
+      "passed": true
+    },
+    {
+      "check": "LAS_ABRAS extremos/longitud/distancia nearest verificadas",
+      "passed": true
+    },
+    {
+      "check": "POLICIA_CAMBIOS solo incluye cambios reales",
+      "passed": true
+    },
+    {
+      "check": "Reemplazos dominan D/V y solape;no criterio corredores",
+      "passed": true
+    },
+    {
+      "check": "Poblacion areal A",
+      "passed": true
+    },
+    {
+      "check": "Poblacion areal B",
+      "passed": true
+    },
+    {
+      "check": "Poblacion areal C",
+      "passed": true
+    },
+    {
+      "check": "Poblacion areal B_ANTERIOR",
+      "passed": true
+    },
+    {
+      "check": "Poblacion areal C_ANTERIOR",
+      "passed": true
+    },
+    {
+      "check": "MAATE completo conservado;analisis solo cantonal",
+      "passed": true
+    },
+    {
+      "check": "CAMARAS_EXISTENTES_103_FINAL conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "PROPUESTA_MUNICIPAL_50_FINAL conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "PROPUESTA_POLICIA_30_FINAL conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "AUDITORIA_GEOREFERENCIACION_CAMARAS conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "CAMARAS_RECUPERADAS conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "MUNICIPALES_ANTERIOR conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "POLICIA_ANTERIOR conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "CANDIDATOS_ESTRUCTURALES conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "INVENTARIO_ORIGINAL_103 conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "PLATAFORMAS_TERRITORIALES conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "LIMITE_CANTONAL conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "CABECERAS_RURALES conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "AMBITOS_CABECERAS_PUGS conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "UPC_INFRAESTRUCTURA conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "CUNDUANA_PUNTOS_CRITICOS conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "CUNDUANA_TRAMOS_LIMPIEZA conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "LAS_ABRAS_ACTUAL conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "EJE_QUEBRADA_LAS_ABRAS_MAATE conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "LAS_ABRAS_MAATE_REFERENCIA_CANTON conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "ABRAS_DIFERENCIAS conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "ABRAS_DIFERENCIAS_COMPLETAS conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_03 conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_04 conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_05 conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_06 conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_07 conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_08 conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_09 conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_10 conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_11 conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_12 conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_13 conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_14 conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_15 conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "GI_URBANO_DELINCUENCIA conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "GI_URBANO_VIOLENCIA conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "GI_URBANO_CONVIVENCIA conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "GI_RURAL_DELINCUENCIA conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "GI_RURAL_VIOLENCIA conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "GI_RURAL_CONVIVENCIA conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "HOTSPOT_DELINCUENCIA conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "HOTSPOT_VIOLENCIA conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "HOTSPOT_CONVIVENCIA conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "INCIDENTES_CLASIFICADOS conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "MANZANAS_COBERTURA conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "CORREDORES conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "BUFFERS_SITIOS_200M conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "COBERTURA_A conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "COBERTURA_B conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "COBERTURA_C conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "COBERTURA_B_ANTERIOR conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "COBERTURA_C_ANTERIOR conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "BRECHA_MACAJI_FINAL conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "CUBIERTO_MACAJI_FINAL conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "BRECHA_ANILLO_FINAL conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "CUBIERTO_ANILLO_FINAL conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "BRECHA_CICLOVIAS_FINAL conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "CUBIERTO_CICLOVIAS_FINAL conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "BRECHA_LAS_ABRAS_FINAL conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "CUBIERTO_LAS_ABRAS_FINAL conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "POLICIA_CAMBIOS_FINAL conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "CAMBIOS_MUNICIPALES conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "POLICIA_COMPARACION_ALTERNATIVAS conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "POLICIA_BENEFICIO_FINAL conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "POLICIA_DECISIONES conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "LAS_ABRAS_CONTROL conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "COBERTURA_TERRITORIAL conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "COBERTURA_POBLACIONAL conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "INCIDENTES_CUBIERTOS conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "HOTSPOTS_ATENDIDOS conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "CORREDORES_CUBIERTOS conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "SEGMENTOS_SIN_COBERTURA conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "INDICADORES_103_153_183 conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "RED_VIAL_CONTEXTO conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "LAS_ABRAS_ALTERNATIVAS_FINAL conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "COBERTURA_MUNICIPAL_200M conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "COBERTURA_POLICIA_200M conteos/CRS/nulos/validas",
+      "passed": true
+    },
+    {
+      "check": "CUNDUANA_PUNTOS_CRITICOS originales intactos",
+      "passed": true
+    },
+    {
+      "check": "CUNDUANA_TRAMOS_LIMPIEZA originales intactos",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_03 originales intactos",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_04 originales intactos",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_05 originales intactos",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_06 originales intactos",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_07 originales intactos",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_08 originales intactos",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_09 originales intactos",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_10 originales intactos",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_11 originales intactos",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_12 originales intactos",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_13 originales intactos",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_14 originales intactos",
+      "passed": true
+    },
+    {
+      "check": "MAATE_INSUMO_15 originales intactos",
+      "passed": true
+    },
+    {
+      "check": "LAS_ABRAS_ACTUAL originales intactos",
+      "passed": true
+    },
+    {
+      "check": "EJE_QUEBRADA_LAS_ABRAS_MAATE originales intactos",
+      "passed": true
+    },
+    {
+      "check": "ABRAS_DIFERENCIAS originales intactos",
+      "passed": true
+    },
+    {
+      "check": "ABRAS_DIFERENCIAS_COMPLETAS originales intactos",
+      "passed": true
+    },
+    {
+      "check": "Cambios UI autorizados limitados al visor V2",
+      "passed": true
+    },
+    {
+      "check": "Fuentes GIS intactas y cambio UI documentado con SHA256",
+      "passed": true
+    },
+    {
+      "check": "Abras37nodos auditados;cuatro mantenidas sin mejoras claras",
+      "passed": true
+    },
+    {
+      "check": "Atributos derivados de puntos reconstruidos, no heredados de posiciones viejas",
+      "passed": true
+    }
+  ],
+  "existingOutsideCanton": [
+    "RIO-075-DOMO"
+  ],
+  "commit": false,
+  "push": false
+}

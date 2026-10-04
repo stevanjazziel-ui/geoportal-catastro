@@ -1,0 +1,155 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "Etiqueta": "Acumulación de Escombros",
+        "X": 755970.0,
+        "Y": 9817345.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.69933038900429,
+          -1.6511833489999104
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Etiqueta": "Acumulación de Escombros",
+        "X": 756007.0,
+        "Y": 9817411.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.69899980000432,
+          -1.6505924999999424
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Etiqueta": "Limpieza",
+        "X": 755368.0,
+        "Y": 9817424.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.7047413056972,
+          -1.6504776627857596
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Etiqueta": "Acumulación de Escombros",
+        "X": 755440.0,
+        "Y": 9817429.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.70408840845215,
+          -1.6504314966126312
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Etiqueta": "Acumulación de Escombros",
+        "X": 755492.0,
+        "Y": 9817363.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.70362661800426,
+          -1.65102817999995
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Etiqueta": "Limpieza",
+        "X": 755832.0,
+        "Y": 9817174.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.70057124600432,
+          -1.6527330209999427
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Etiqueta": "Acumulación de Escombros",
+        "X": 755572.0,
+        "Y": 9817414.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.70291013300428,
+          -1.6505703829999328
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Etiqueta": "Limpieza",
+        "X": 755220.0,
+        "Y": 9817482.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.70606505665882,
+          -1.6499570124003027
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Etiqueta": "Limpieza",
+        "X": 754382.0,
+        "Y": 9818722.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.7136061079598,
+          -1.6387517908947213
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Etiqueta": "Acumulación de Escombros",
+        "X": 754423.0,
+        "Y": 9818702.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.71324139171658,
+          -1.638934778307932
+        ]
+      }
+    }
+  ]
+}

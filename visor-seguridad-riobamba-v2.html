@@ -1051,6 +1051,7 @@
           <button class="mode-button" id="populationCoverageMode" type="button" data-icon="H"><span>Cobertura poblacional</span></button>
           <button class="mode-button" id="boulevardsMode" type="button" data-icon="B"><span>Bulevares Seguros</span></button>
           <button class="mode-button" id="institutionalCoverageMode" type="button" data-icon="I"><span>Cobertura institucional</span></button>
+          <button class="mode-button" id="cameraProposalMode" type="button" data-icon="C"><span>Evaluación de cámaras propuestas</span></button>
         </details>
         <details class="nav-group" open>
           <summary>Brechas</summary>
@@ -1120,6 +1121,7 @@
               <option value="temporalAnalysis">Evolución temporal</option>
               <option value="populationExposure">Exposición poblacional a hotspots</option>
               <option value="cameraCoverage">Cobertura potencial de cámaras</option>
+              <option value="cameraProposal">Evaluación de cámaras propuestas</option>
               <option value="boulevardPopulation">Población cercana a boulevares/conexiones</option>
               <option value="incidentProximity">Incidentes cerca de cámaras, policía y red</option>
               <option value="policeAccessibility">Proximidad a infraestructura policial</option>
@@ -1135,6 +1137,11 @@
                 <button type="button" data-coverage-radius="200">200 m</button>
               </div>
               <span class="control-label" id="coverageUniverseSummary" data-camera-universe-label></span>
+            </div>
+            <div class="coverage-controls" id="cameraProposalControls" data-filter-control="cameraProposal" hidden>
+              <label>Escenario<select id="proposalScenario" aria-label="Escenario de cámaras propuestas"><option value="actual">103 existentes</option><option value="municipal">103 + 50 municipales</option><option value="future" selected>103 + 50 municipales + 30 Policía</option></select></label>
+              <label>Radio de evaluación<select id="proposalRadius" aria-label="Radio de evaluación de propuesta"><option value="200" selected>200 m</option></select></label>
+              <label>Vista territorial<select id="proposalExtent" aria-label="Vista territorial de propuesta"><option value="all">Cantón y propuesta completa</option><option value="ring">Anillo vial</option><option value="urban" selected>18 Plataformas</option><option value="rural">Propuestas rurales</option><option value="abras">Las Abras · dentro del cantón</option></select></label>
             </div>
             <div class="coverage-controls" id="giHotspotControls" data-filter-control="giHotspots" hidden>
               <span class="control-label">Nivel de significancia</span>
@@ -1174,6 +1181,7 @@
                 <div class="map-layer-popover" id="layersPopover" hidden>
                   <h3>Capas del análisis</h3>
                   <div class="layer-toggles">
+                    <div id="proposalLayerControls" hidden></div>
                     <label class="layer-toggle" data-layer-row="analysisResult"><span id="analysisResultLayerLabel">Resultado del análisis</span><input id="toggleAnalysisResult" type="checkbox" checked disabled /></label>
                     <label class="layer-toggle" data-layer-row="platforms"><span>Plataformas territoriales</span><input id="togglePlatforms" type="checkbox" checked /></label>
                   </div>
@@ -1234,11 +1242,14 @@
   <script src="./riobamba-camaras-cobertura-geometrias.js?v=cobertura-unificada-20261002"></script>
   <script src="./riobamba-camaras-inventario-cobertura-data.js?v=deficit-inventario-20261002"></script>
   <script src="./riobamba-deficit-inventario.js?v=deficit-inventario-20261002"></script>
+  <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=cierre-183-20261004" />
+  <script src="./riobamba-camaras-propuesta.js?v=cierre-183-20261004"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
   <script src="./riobamba-accesibilidad-policial-data.js?v=metodologia-20261001"></script>
   <script src="./riobamba-seguridad-diagnostico-data.js?v=metodologia-20261001"></script>
   <script src="./riobamba-seguridad-kde-validacion-data.js?v=metodologia-20261001"></script>
   <script src="./riobamba-incidentes-spatial-data.js?v=metodologia-20261001"></script>
+  <script src="./riobamba-hotspot-urbano-200m-data.js?v=urbano-200m-20261002"></script>
   <script src="./riobamba-metodologia-data.js?v=metodologia-20261001"></script>
   <script src="./riobamba-cantonal-data.js?v=20261001"></script>
   <script src="./riobamba-conflictividad-data.js?v=publicacion-completa-20261001"></script>
@@ -1317,6 +1328,7 @@
         populationCoverageMode: document.getElementById("populationCoverageMode"),
         boulevardsMode: document.getElementById("boulevardsMode"),
         institutionalCoverageMode: document.getElementById("institutionalCoverageMode"),
+        cameraProposalMode: document.getElementById("cameraProposalMode"),
         videoDeficitGapMode: document.getElementById("videoDeficitGapMode"),
         inventoryDeficitGapMode: document.getElementById("inventoryDeficitGapMode"),
         lowCoverageConcentrationsMode: document.getElementById("lowCoverageConcentrationsMode"),
@@ -1446,12 +1458,14 @@
       const isBoulevardsMode = () => mode === "diagnosis" && diagnosisMetric === "boulevards";
       const isInstitutionalMode = () => mode === "diagnosis" && diagnosisMetric === "institutionalDashboard";
       const isInventoryDeficitMode = () => mode === "diagnosis" && diagnosisMetric === "inventoryDeficitGap";
+      const isCameraProposalMode = () => mode === "diagnosis" && diagnosisMetric === "cameraProposal";
       const gapMetrics = ["videoDeficitGap", "inventoryDeficitGap", "lowCoverageConcentrations", "exposureLowCoverage", "territorialGaps", "candidateZones"];
       const isGapMode = () => mode === "diagnosis" && gapMetrics.includes(diagnosisMetric);
       const analysisKey = () => {
         if (mode === "cameras") return "cameras";
         if (isKdeMode()) return "kde";
         if (isGiHotspotsMode()) return "giHotspots";
+        if (isCameraProposalMode()) return "cameraProposal";
         if (diagnosisMetric === "cameraCoverage") return "cameraCoverage";
         if (diagnosisMetric === "populationCoverage") return "populationCoverage";
         if (isBoulevardsMode()) return "boulevards";
@@ -1466,6 +1480,7 @@
         return "diagnosis";
       };
       const analysisConfig = {
+        cameraProposal: { filters: ["cameraProposal"] },
         incidence: { filters: ["category", "subtype", "parish", "kdePlatform", "kdePeriod", "incidentDate"] },
         kde: { filters: ["category", "subtype", "parish", "kdePlatform", "kdePeriod", "incidentDate"] },
         giHotspots: { filters: ["category", "subtype", "parish", "kdePlatform", "kdePeriod", "incidentDate", "giHotspots"] },
@@ -1489,6 +1504,7 @@
         diagnosis: { filters: ["search", "metric"] }
       };
       const layerConfig = {
+        cameraProposal: { result: "Impacto de la propuesta", context: [] },
         incidence: { result: "Incidencia poblacional", context: ["events", "cameras", "police", "boulevards"] },
         kde: { result: "Densidad de incidentes (KDE)", context: ["events", "cameras", "police", "boulevards"] },
         giHotspots: { result: "Zonas críticas", context: ["events", "cameras", "police", "boulevards"] },
@@ -1515,7 +1531,7 @@
         const key = analysisKey();
         if (["typologies", "temporal"].includes(key)) return "layout-analytics";
         if (key === "incidentQuery") return "layout-table";
-        if (["diagnosis", "populationCoverage", "institutionalCoverage", "videoDeficitGap", "inventoryDeficitGap", "lowCoverageConcentrations", "exposureLowCoverage", "territorialGaps", "candidateZones"].includes(key)) return "layout-map-analytics";
+        if (["diagnosis", "cameraProposal", "populationCoverage", "institutionalCoverage", "videoDeficitGap", "inventoryDeficitGap", "lowCoverageConcentrations", "exposureLowCoverage", "territorialGaps", "candidateZones"].includes(key)) return "layout-map-analytics";
         return "layout-map-dominant";
       };
       const syncWorkspaceLayout = () => {
@@ -1543,8 +1559,9 @@
         if (elements.cameraCoverageLayerLabel) elements.cameraCoverageLayerLabel.textContent = `Cobertura cámaras para cambio ${cameraCoverageScenario} m`;
         const visibleRows = new Set(["analysisResult", "platforms", ...(config.context || [])]);
         document.querySelectorAll("[data-layer-row]").forEach((row) => {
-          row.hidden = !visibleRows.has(row.dataset.layerRow);
+          row.hidden = isCameraProposalMode() || !visibleRows.has(row.dataset.layerRow);
         });
+        document.getElementById("proposalLayerControls").hidden = !isCameraProposalMode();
       };
       const markers = new Map();
       const parishMarkers = new Map();
@@ -1573,6 +1590,7 @@
         <div class="mini-row"><span>CRS de visualización</span><strong>WGS 84 · EPSG:4326</strong></div>
       `;
       const renderMethodologyPanel = () => {
+        if (isCameraProposalMode()) { cameraProposal.renderMethodology(); return; }
         if (cantonalController && cantonalController.scope() !== "URBANO" && mode !== "cameras") { cantonalController.renderMethodology(); return; }
         const panel = document.getElementById("methodologyPanel");
         if (!panel) return;
@@ -2281,10 +2299,11 @@
           date: elements.incidentDate?.value
         });
         if (giHotspotCache?.filterKey === filterKey) return giHotspotCache;
-        const grid = incidentSpatial.giGrid;
+        const grid = window.RIOBAMBA_URBAN_GI_200?.grid || incidentSpatial.giGrid;
         const cellSize = grid.cellSize || 250;
         const neighborDistance = grid.neighborDistance || 500;
-        const points = geoIncidentEvents().filter((event) => event.platform && [1, 2, 3].includes(event.analyticalClassId));
+        const analyticalCategory = ["DELINCUENCIA", "VIOLENCIA", "CONVIVENCIA"].includes(elements.category.value) ? elements.category.value : "DELINCUENCIA";
+        const points = geoIncidentEvents().filter((event) => event.category === analyticalCategory && window.RIOBAMBA_CANTONAL_DATA.assignments[event.id]?.scope === "URBANO");
         const cells = (grid.cells || []).map((cell) => ({ ...cell, incCount: 0, incidents: [] }));
         const cellMap = new Map(cells.map((cell) => [`${cell.row}:${cell.col}`, cell]));
         points.forEach((event) => {
@@ -2314,16 +2333,19 @@
           const sumWX = neighbors.reduce((sum, other) => sum + other.incCount, 0);
           const denominator = s * Math.sqrt(Math.max(0, (n * sumW - sumW * sumW) / Math.max(1, n - 1)));
           const z = denominator ? (sumWX - mean * sumW) / denominator : 0;
-          cell.zScore = Number(z.toFixed(3));
-          cell.pValue = Number((2 * (1 - giNormalCdf(Math.abs(z)))).toFixed(4));
+          const official = window.RIOBAMBA_URBAN_GI_200?.byClass[analyticalCategory];
+          const fullPeriod = points.length === official?.records;
+          const officialResult = fullPeriod ? official.results[cells.indexOf(cell)] : null;
+          cell.zScore = officialResult ? officialResult.GI_ZSCORE : z;
+          cell.pValue = officialResult ? officialResult.GI_PVALUE : 2 * (1 - giNormalCdf(Math.abs(z)));
           cell.giStar = cell.zScore;
           cell.localIncidentSum = sumWX;
-          cell.giClass = giClass(z);
+          cell.giClass = officialResult ? officialResult.GI_CLASS.replace(/(\d+)%/, "$1 %") : giClass(z);
           cell.areaKm2 = cell.areaKm2 ?? (cellSize * cellSize) / 1000000;
         });
         const hotspotCells = cells.filter((cell) => cell.giClass.startsWith("HOTSPOT"));
         const coldspotCells = cells.filter((cell) => cell.giClass.startsWith("COLDSPOT"));
-        giHotspotCache = { filterKey, platformReady: Boolean(platformGeojsonCache), layerName: "HOTSPOTS_GI", cellSize, neighborDistance, crs: "EPSG:32717", points, cells, hotspotCells, coldspotCells };
+        giHotspotCache = { filterKey, platformReady: Boolean(platformGeojsonCache), layerName: `HOTSPOT_URBANO_${analyticalCategory}`, analyticalCategory, cellSize, neighborDistance, crs: "EPSG:32717", points, cells, hotspotCells, coldspotCells };
         return giHotspotCache;
       };
       const categorySummary = (items) => Object.entries(items.reduce((acc, event) => {
@@ -4675,6 +4697,7 @@
       }
 
       function syncMapLayerVisibility() {
+        if (isCameraProposalMode()) { cameraProposal.clearLegacyLayers(); return; }
         if (cantonalController && cantonalController.scope() !== "URBANO" && mode !== "cameras") { cantonalController.render(); return; }
         if (isKdeMode() || isGiHotspotsMode()) {
           if (!map.hasLayer(hotspotLayer)) hotspotLayer.addTo(map);
@@ -4841,6 +4864,11 @@
       }
 
       function activateDiagnosisMetric(metric) {
+        if (metric === "cameraProposal" && !isCameraProposalMode()) {
+          clearSelection();
+          cantonalController?.setScope("URBANO");
+          cameraProposal.reset();
+        }
         if (metric === "hotspots" && !isKdeMode()) {
           elements.category.value = events.find((event) => event.analyticalClassId === 1)?.category || "__ALL__";
           elements.subtype.value = "__ALL__";
@@ -4874,8 +4902,24 @@
       }
 
       function update() {
+        const urbanGiActive = mode === "diagnosis" && diagnosisMetric === "giHotspots" && (!cantonalController || cantonalController.scope() === "URBANO");
+        Array.from(elements.category.options).forEach((option) => { option.disabled = urbanGiActive && !["DELINCUENCIA", "VIOLENCIA", "CONVIVENCIA"].includes(option.value); });
+        if (urbanGiActive && !["DELINCUENCIA", "VIOLENCIA", "CONVIVENCIA"].includes(elements.category.value)) {
+          elements.category.value = "DELINCUENCIA";
+          elements.subtype.value = "__ALL__";
+          giHotspotCache = null;
+        }
         syncKdeFilterOptions();
         syncCoverageControls();
+        document.getElementById("territorialScope").hidden = isCameraProposalMode();
+        if (isCameraProposalMode()) {
+          cantonalController?.clearAnalysis();
+          clearDetailMiniMap();
+          renderTopbar();
+          cameraProposal.render();
+          return;
+        }
+        cameraProposal.leave();
         if (cantonalController) {
           cantonalController.syncControls();
           if (cantonalController.scope() !== "URBANO" && mode !== "cameras") {
@@ -4987,7 +5031,7 @@
             elements.overlayText.textContent = "Sectores donde coinciden múltiples condiciones de brecha territorial.";
           } else if (isGiHotspotsMode()) {
             elements.overlayTitle.textContent = "Zonas críticas";
-            elements.overlayText.textContent = "Hotspots estadísticos mediante Getis-Ord Gi*: concentraciones significativas de valores altos de incidentes.";
+            elements.overlayText.textContent = `Getis-Ord Gi* urbano · ${getGiHotspotAnalysis().analyticalCategory} · malla 100 m · distancia estadística 200 m; no es el radio de cámaras.`;
           } else if (isTypologiesMode()) {
             elements.overlayTitle.textContent = "Tipos de incidentes";
             elements.overlayText.textContent = "Distribución territorial según tipología real de la base de incidentes.";
@@ -5748,6 +5792,7 @@
       }
 
       function syncModeButtons() {
+        elements.cameraProposalMode.classList.toggle("is-active", isCameraProposalMode());
         elements.eventsMode.classList.toggle("is-active", mode === "events" && incidentMenuView === "incidents");
         elements.incidentQueryMode.classList.toggle("is-active", mode === "events" && incidentMenuView === "query");
         elements.ecuMode.classList.toggle("is-active", mode === "ecu");
@@ -5772,7 +5817,7 @@
         elements.exposureLowCoverageMode.classList.toggle("is-active", diagnosisMetric === "exposureLowCoverage");
         elements.territorialGapsMode.classList.toggle("is-active", diagnosisMetric === "territorialGaps");
         elements.candidateZonesMode.classList.toggle("is-active", diagnosisMetric === "candidateZones");
-        elements.diagnosisMode.classList.toggle("is-active", mode === "diagnosis" && !["hotspots", "giHotspots", "incidentTypologies", "temporalAnalysis", "population", "populationDensity", "populationExposure", "incidentCount", "incidentRate", "cameraCoverage", "populationCoverage", "boulevards", "institutionalDashboard", ...gapMetrics].includes(diagnosisMetric));
+        elements.diagnosisMode.classList.toggle("is-active", mode === "diagnosis" && !["cameraProposal", "hotspots", "giHotspots", "incidentTypologies", "temporalAnalysis", "population", "populationDensity", "populationExposure", "incidentCount", "incidentRate", "cameraCoverage", "populationCoverage", "boulevards", "institutionalDashboard", ...gapMetrics].includes(diagnosisMetric));
         elements.kdeAnalysis.classList.toggle("is-active", isKdeMode());
       }
 
@@ -5812,7 +5857,7 @@
           syncMapLayerVisibility();
           map.invalidateSize();
           // Preserve an entity/territorial selection made while the layers were loading.
-          if (cantonalController?.scope() === "URBANO" && !selectedId && !selectedCamera && !selectedPolice) {
+          if (!isCameraProposalMode() && cantonalController?.scope() === "URBANO" && !selectedId && !selectedCamera && !selectedPolice) {
             if (selectedPlatform) {
               platformLayer.eachLayer((layer) => {
                 if (layer.feature?.properties?.platform_name === selectedPlatform) map.fitBounds(layer.getBounds().pad(0.18), { maxZoom: 15 });
@@ -5874,6 +5919,10 @@
         events: geoIncidentEvents, eventPlatform: eventPlatformName, platforms: selectedGapPlatforms,
         selected: () => selectedPlatform, selectPlatform, miniMap: renderTerritoryMiniMap,
       });
+      const cameraProposal = window.createRiobambaCameraProposal({
+        map, elements, inventory: inventoryCameras, esc, metricBars, active: isCameraProposalMode,
+        layers: () => [eventLayer, hotspotLayer, kdePointLayer, platformLabelLayer, platformMaskLayer, parishLayer, cameraLayer, cameraCoverageLayer, policeInfrastructureLayer, boulevardLayer, platformLayer, manzanaLayer].filter(Boolean),
+      });
       fillSelect(elements.category, "Todas las categorías/tipos", defaultCategoryOptions);
       fillSelect(elements.subtype, "Todos los subtipos", [...new Set(conflictEvents.map((event) => event.subtype || event.event).filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
       fillSelect(elements.parish, "Todas las parroquias", [...new Set(conflictEvents.map((event) => event.parish).filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
@@ -5928,6 +5977,7 @@
       elements.populationCoverageMode.addEventListener("click", () => activateDiagnosisMetric("populationCoverage"));
       elements.boulevardsMode.addEventListener("click", () => activateDiagnosisMetric("boulevards"));
       elements.institutionalCoverageMode.addEventListener("click", () => activateDiagnosisMetric("institutionalDashboard"));
+      elements.cameraProposalMode.addEventListener("click", () => activateDiagnosisMetric("cameraProposal"));
       elements.videoDeficitGapMode.addEventListener("click", () => activateDiagnosisMetric("videoDeficitGap"));
       elements.inventoryDeficitGapMode.addEventListener("click", () => activateDiagnosisMetric("inventoryDeficitGap"));
       elements.lowCoverageConcentrationsMode.addEventListener("click", () => activateDiagnosisMetric("lowCoverageConcentrations"));
@@ -6021,7 +6071,8 @@
       });
       elements.legendButton.addEventListener("click", (event) => {
         event.stopPropagation();
-        renderLegend();
+        if (isCameraProposalMode()) cameraProposal.renderLegend();
+        else renderLegend();
         const open = elements.legendPopover.hidden;
         closeMapPopovers(open ? "legend" : null);
         elements.legendPopover.hidden = !open;
@@ -6067,6 +6118,7 @@
       elements.methodologyModal.addEventListener("click", (event) => {
         if (event.target === elements.methodologyModal) elements.methodologyModal.close();
       });
+      if (new URLSearchParams(location.search).get("analysis") === "cameraProposal") activateDiagnosisMetric("cameraProposal");
     })();
   </script>
 </body>

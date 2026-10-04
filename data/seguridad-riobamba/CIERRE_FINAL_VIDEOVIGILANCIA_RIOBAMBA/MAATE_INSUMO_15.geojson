@@ -1,0 +1,532 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1101,
+        "x": 759417.9571,
+        "y": 9818731.0782,
+        "Punto": 31,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66837603754203,
+          -1.6386261387931496
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1102,
+        "x": 759408.3752,
+        "y": 9818729.797,
+        "Punto": 30,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66846209745302,
+          -1.6386378213059143
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1105,
+        "x": 759381.2916,
+        "y": 9818717.954,
+        "Punto": 29,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66870526307174,
+          -1.6387451635213415
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1106,
+        "x": 759372.787,
+        "y": 9818712.8097,
+        "Punto": 28,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66878160531947,
+          -1.6387917559623324
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1107,
+        "x": 759364.6144,
+        "y": 9818707.3285,
+        "Punto": 27,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66885496172378,
+          -1.6388413903868495
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1108,
+        "x": 759355.2706,
+        "y": 9818704.3546,
+        "Punto": 26,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66893886514094,
+          -1.638868371894445
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1109,
+        "x": 759345.3339,
+        "y": 9818705.2267,
+        "Punto": 25,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66902813475384,
+          -1.6388605929440392
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1110,
+        "x": 759336.0014,
+        "y": 9818708.7074,
+        "Punto": 24,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.669112004175,
+          -1.6388292266600024
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1111,
+        "x": 759326.8882,
+        "y": 9818712.824,
+        "Punto": 23,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66919391029457,
+          -1.6387921097132727
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1112,
+        "x": 759318.4212,
+        "y": 9818718.049,
+        "Punto": 22,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66927002324623,
+          -1.638744966351006
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1113,
+        "x": 759313.2301,
+        "y": 9818726.515,
+        "Punto": 21,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66931674295914,
+          -1.638668490830404
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1114,
+        "x": 759304.9165,
+        "y": 9818730.0757,
+        "Punto": 20,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66939146052744,
+          -1.6386363906201646
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1116,
+        "x": 759285.6045,
+        "y": 9818726.9992,
+        "Punto": 19,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66956490638641,
+          -1.6386644044458465
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1119,
+        "x": 759259.2282,
+        "y": 9818715.2525,
+        "Punto": 18,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66980171964703,
+          -1.6387708686510571
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1121,
+        "x": 759241.5563,
+        "y": 9818706.3798,
+        "Punto": 17,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66996037209974,
+          -1.638851261174208
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1124,
+        "x": 759212.5838,
+        "y": 9818704.9809,
+        "Punto": 16,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6702206150736,
+          -1.638864211586059
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1127,
+        "x": 759184.5869,
+        "y": 9818698.4932,
+        "Punto": 15,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6704720411761,
+          -1.6389231529955282
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1128,
+        "x": 759175.1989,
+        "y": 9818701.2419,
+        "Punto": 14,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67055640156723,
+          -1.6388984042754149
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1131,
+        "x": 759155.7557,
+        "y": 9818723.667,
+        "Punto": 13,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67073129264891,
+          -1.6386958922664625
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1132,
+        "x": 759148.09,
+        "y": 9818719.0821,
+        "Punto": 12,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6708001051255,
+          -1.638737419057103
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1135,
+        "x": 759128.0737,
+        "y": 9818696.8336,
+        "Punto": 11,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67097967753206,
+          -1.638938749631811
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1138,
+        "x": 759104.9837,
+        "y": 9818678.2905,
+        "Punto": 10,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67118689951008,
+          -1.6391066167975996
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1139,
+        "x": 759100.382,
+        "y": 9818670.2548,
+        "Punto": 9,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67122815227253,
+          -1.6391793056417556
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1140,
+        "x": 759102.1153,
+        "y": 9818660.4552,
+        "Punto": 8,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67121247975744,
+          -1.6392678730250467
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1141,
+        "x": 759101.6417,
+        "y": 9818650.485,
+        "Punto": 7,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67121662987546,
+          -1.6393580057922217
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1142,
+        "x": 759097.1643,
+        "y": 9818641.6436,
+        "Punto": 6,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6712567576335,
+          -1.639437976637406
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1143,
+        "x": 759089.3634,
+        "y": 9818635.7496,
+        "Punto": 5,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67132677096048,
+          -1.6394913387780148
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1144,
+        "x": 759079.8263,
+        "y": 9818632.8793,
+        "Punto": 4,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67141241205668,
+          -1.6395173857858398
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1145,
+        "x": 759069.9483,
+        "y": 9818631.8246,
+        "Punto": 3,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6715011344155,
+          -1.6395270238649078
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1146,
+        "x": 759060.1013,
+        "y": 9818630.5919,
+        "Punto": 2,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67158957644963,
+          -1.639538270685266
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1147,
+        "x": 759050.9376,
+        "y": 9818634.5061,
+        "Punto": 1,
+        "Etiqueta": "Replanteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67167193423883,
+          -1.639502983782814
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+.proposal-camera-icon { background: transparent; border: 0; }
+.proposal-camera-icon span { display: block; width: 12px; height: 12px; margin: 4px; box-sizing: border-box; border: 2px solid white; border-radius: 50%; box-shadow: 0 0 0 1px #38515d; }
+.proposal-camera-existing span { background: #246db5; }
+.proposal-camera-change span { background: #8b46b5; border-radius: 0; }
+.proposal-camera-municipal span { background: #18815b; }
+.proposal-camera-police span { background: #e8bd16; }
+#cameraProposalControls { display: flex; grid-column: 1 / -1; gap: 12px; align-items: end; flex-wrap: wrap; }
+#cameraProposalControls label { display: grid; gap: 4px; flex: 1 1 160px; font-size: 12px; }
+#cameraProposalControls select { width: 100%; min-width: 0; }
+#proposalLayerControls { display: grid; gap: 6px; }
+#proposalLayerControls[hidden], #cameraProposalControls[hidden], #territorialScope[hidden] { display: none; }
+#proposalLayerControls label { display: flex; gap: 8px; align-items: center; justify-content: space-between; font-size: 12px; }
+#proposalLayerControls select { min-width: 0; width: 100%; font-size: 12px; }
+.proposal-table-wrap { overflow: auto; max-height: 340px; }
+.proposal-report { grid-column: 1 / -1; min-width: 0; }
+.proposal-active #summaryCards { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.proposal-active .card { border-radius: 6px; }
+.proposal-active .card span { letter-spacing: 0; }
+.proposal-report h3 { margin: 14px 0 8px; font-size: 14px; }
+.proposal-report details { margin-top: 12px; }
+.proposal-report summary { cursor: pointer; font-weight: 600; }
+.proposal-report a, .proposal-links a { color: #12629c; }
+.proposal-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; font-size: 12px; }
+.proposal-detail-map { height: 180px; width: 100%; margin-top: 10px; }
+.proposal-detail .mini-row { gap: 10px; align-items: start; }
+.proposal-detail .mini-row strong { max-width: 65%; min-width: 0; white-space: normal; overflow-wrap: anywhere; text-align: right; }
+.proposal-detail button { font-size: 12px; }
+.proposal-report .mini-table button { border: 0; background: transparent; color: #12629c; cursor: pointer; padding: 2px; }
+.proposal-key { display: inline-block; width: 10px; height: 10px; margin-right: 6px; }
+.proposal-key.existing { border-radius: 50%; background: #246db5; }
+.proposal-key.municipal { background: #18815b; border-radius: 50%; }
+.proposal-key.police { background: #e8bd16; border-radius: 50%; }
+.proposal-key.change { background: #8b46b5; border-radius: 0; }
+.proposal-report p { font-size: 12px; }
+.proposal-warning { border-left: 3px solid #b49235; padding: 8px; background: #fff8df; font-size: 12px; }
+@media (max-width: 700px) {
+  #cameraProposalControls { gap: 8px; }
+  #cameraProposalControls label { flex-basis: 100%; }
+  .proposal-detail-map { height: 160px; }
+  .proposal-active #summaryCards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .analysis-workspace.proposal-active .map-detail-grid { grid-template-columns: minmax(0, 1fr); height: auto; }
+  .analysis-workspace.proposal-active .map-panel { height: 420px; }
+  .analysis-workspace.proposal-active .detail-panel { height: auto; max-height: 520px; }
+  .analysis-workspace.proposal-active .graphic-grid { grid-template-columns: minmax(0, 1fr); }
+}

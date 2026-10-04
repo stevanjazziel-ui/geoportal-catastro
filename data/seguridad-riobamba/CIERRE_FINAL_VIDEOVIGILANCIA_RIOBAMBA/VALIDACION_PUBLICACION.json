@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "inventoried": 103,
+  "requiresChange": 31,
+  "municipal": 50,
+  "police": 30,
+  "total": 183,
+  "radiusM": 200,
+  "crsMetric": "EPSG:32717",
+  "coverageDifferenceM2": 0.0,
+  "coordinatesModified": false,
+  "statisticsModified": false,
+  "giModified": false
+}

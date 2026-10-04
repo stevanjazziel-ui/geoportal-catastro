@@ -1,0 +1,9 @@
+﻿ID,DECISION,PERDIDA_VERIFICADA,DV_BASELINE,DV_ACTUAL,DV_PROPUESTO,MOTIVO
+POL-08,MANTENER,False,12,12,12,"Mantener: no se verifican conjuntamente perdida de utilidad por nueva cobertura municipal y alternativa dominante en eventos D/V y redundancia. Sin cortes de distancia, solape o numero de eventos."
+POL-20,MANTENER,False,10,10,10,"Mantener: no se verifican conjuntamente perdida de utilidad por nueva cobertura municipal y alternativa dominante en eventos D/V y redundancia. Sin cortes de distancia, solape o numero de eventos."
+POL-21,MANTENER,False,9,9,9,"Mantener: no se verifican conjuntamente perdida de utilidad por nueva cobertura municipal y alternativa dominante en eventos D/V y redundancia. Sin cortes de distancia, solape o numero de eventos."
+POL-22,MANTENER,False,2,2,2,"Mantener: no se verifican conjuntamente perdida de utilidad por nueva cobertura municipal y alternativa dominante en eventos D/V y redundancia. Sin cortes de distancia, solape o numero de eventos."
+POL-30,MANTENER,False,4,12,12,"Mantener: no se verifican conjuntamente perdida de utilidad por nueva cobertura municipal y alternativa dominante en eventos D/V y redundancia. Sin cortes de distancia, solape o numero de eventos."
+POL-06,REEMPLAZAR,True,6,4,8,Perdida comprobada con nuevas municipales: 6 a 4 D/V. Alternativa significativa D/V: 4 a 8 exclusivos; solape 91.24% a 78.12%; sin disminuir D ni V individualmente.
+POL-07,MANTENER,True,17,4,4,"Mantener: no se verifican conjuntamente perdida de utilidad por nueva cobertura municipal y alternativa dominante en eventos D/V y redundancia. Sin cortes de distancia, solape o numero de eventos."
+POL-15,MANTENER,True,6,2,2,"Mantener: no se verifican conjuntamente perdida de utilidad por nueva cobertura municipal y alternativa dominante en eventos D/V y redundancia. Sin cortes de distancia, solape o numero de eventos."

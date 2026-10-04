@@ -1,0 +1,763 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0001",
+        "LONGITUD_M": 4.807603267173781,
+        "INICIO_X": 762643.9468662352,
+        "INICIO_Y": 9815800.413849492,
+        "FIN_X": 762647.5880602854,
+        "FIN_Y": 9815797.274621073,
+        "CAMARA_MAS_CERCANA": "MUN-044",
+        "DIST_CAMARA_M": 199.98774033249128,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.63936629273269,
+            -1.665083740180096
+          ],
+          [
+            -78.63933355069952,
+            -1.6651120778306723
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0002",
+        "LONGITUD_M": 35.51526486317549,
+        "INICIO_X": 763528.9912505641,
+        "INICIO_Y": 9814727.146665089,
+        "FIN_X": 763556.4848458025,
+        "FIN_Y": 9814704.684933117,
+        "CAMARA_MAS_CERCANA": "MUN-046",
+        "DIST_CAMARA_M": 199.98710752997528,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.63140448468133,
+            -1.6747758909921302
+          ],
+          [
+            -78.63120943099995,
+            -1.6749312539999457
+          ],
+          [
+            -78.63115727046504,
+            -1.6749786322955842
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0003",
+        "LONGITUD_M": 67.34049506920516,
+        "INICIO_X": 763281.5672242461,
+        "INICIO_Y": 9813031.954376638,
+        "FIN_X": 763214.4035022156,
+        "FIN_Y": 9813027.078238906,
+        "CAMARA_MAS_CERCANA": "MUN-036",
+        "DIST_CAMARA_M": 199.991478744263,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.63360857850034,
+            -1.6901022303730544
+          ],
+          [
+            -78.63370183999996,
+            -1.6901091589999744
+          ],
+          [
+            -78.63421185119377,
+            -1.6901470479682261
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0004",
+        "LONGITUD_M": 0.48554767517613756,
+        "INICIO_X": 761598.8870782165,
+        "INICIO_Y": 9813533.924327437,
+        "FIN_X": 761598.4022784438,
+        "FIN_Y": 9813533.951266725,
+        "CAMARA_MAS_CERCANA": "MUN-045",
+        "DIST_CAMARA_M": 199.98580833817968,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.64872948582486,
+            -1.6855831195696525
+          ],
+          [
+            -78.6487338410694,
+            -1.685582881343177
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0005",
+        "LONGITUD_M": 24.9047591649683,
+        "INICIO_X": 761209.4847833038,
+        "INICIO_Y": 9813627.332588691,
+        "FIN_X": 761189.274354015,
+        "FIN_Y": 9813641.877569295,
+        "CAMARA_MAS_CERCANA": "MUN-049",
+        "DIST_CAMARA_M": 199.98515768801872,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65222849944072,
+            -1.6847429955399125
+          ],
+          [
+            -78.65225170799994,
+            -1.6847274839999475
+          ],
+          [
+            -78.65237045399994,
+            -1.6846422959999279
+          ],
+          [
+            -78.65241020742371,
+            -1.6846117350760381
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0006",
+        "LONGITUD_M": 65.13074896826,
+        "INICIO_X": 760925.324471023,
+        "INICIO_Y": 9813942.122740565,
+        "FIN_X": 760883.9360321859,
+        "FIN_Y": 9813992.412019659,
+        "CAMARA_MAS_CERCANA": "MUN-040",
+        "DIST_CAMARA_M": 199.9956694800514,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65478451880743,
+            -1.6819005110665024
+          ],
+          [
+            -78.65509954599997,
+            -1.6815162659999596
+          ],
+          [
+            -78.65515685464314,
+            -1.681446365339236
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0007",
+        "LONGITUD_M": 50.60799490852355,
+        "INICIO_X": 760753.907312101,
+        "INICIO_Y": 9814150.807183238,
+        "FIN_X": 760722.0465121312,
+        "FIN_Y": 9814190.127067404,
+        "CAMARA_MAS_CERCANA": "MUN-040",
+        "DIST_CAMARA_M": 199.99508658594638,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65632661301736,
+            -1.6800159457150086
+          ],
+          [
+            -78.65650141199995,
+            -1.6797988879999297
+          ],
+          [
+            -78.65661324282401,
+            -1.6796608545215903
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0008",
+        "LONGITUD_M": 257.2214509777066,
+        "INICIO_X": 760861.2020848054,
+        "INICIO_Y": 9816742.106944626,
+        "FIN_X": 761043.2291521295,
+        "FIN_Y": 9816568.912817866,
+        "CAMARA_MAS_CERCANA": "MUN-048",
+        "DIST_CAMARA_M": 199.98586835208022,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.6553905303902,
+            -1.6565904380440117
+          ],
+          [
+            -78.65530762499998,
+            -1.656627623999956
+          ],
+          [
+            -78.65516904599997,
+            -1.6566970369999592
+          ],
+          [
+            -78.65503352799999,
+            -1.6567723209999414
+          ],
+          [
+            -78.65490131599995,
+            -1.6568533399999423
+          ],
+          [
+            -78.65477264999998,
+            -1.656939945999961
+          ],
+          [
+            -78.65464776199997,
+            -1.6570319839999499
+          ],
+          [
+            -78.65452687999993,
+            -1.6571292849999362
+          ],
+          [
+            -78.65441022099998,
+            -1.6572316759999848
+          ],
+          [
+            -78.65429799699996,
+            -1.6573389679999821
+          ],
+          [
+            -78.65419041199993,
+            -1.657450968999969
+          ],
+          [
+            -78.65402375499997,
+            -1.6576740289999603
+          ],
+          [
+            -78.65389410599994,
+            -1.6578702599999289
+          ],
+          [
+            -78.65381394199996,
+            -1.6580266439999607
+          ],
+          [
+            -78.65375355620502,
+            -1.658154095706653
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0009",
+        "LONGITUD_M": 92.39581304848053,
+        "INICIO_X": 761223.3254996443,
+        "INICIO_Y": 9816214.55304296,
+        "FIN_X": 761293.3660787717,
+        "FIN_Y": 9816154.29388038,
+        "CAMARA_MAS_CERCANA": "RIO-040-DOMO",
+        "DIST_CAMARA_M": 199.98509540025145,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65213198953762,
+            -1.6613554324431674
+          ],
+          [
+            -78.65183843999995,
+            -1.6616067719999648
+          ],
+          [
+            -78.65150217819692,
+            -1.6618993976692251
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0010",
+        "LONGITUD_M": 240.67611354105924,
+        "INICIO_X": 762791.8408574571,
+        "INICIO_Y": 9815434.354847735,
+        "FIN_X": 762881.963953432,
+        "FIN_Y": 9815215.133343577,
+        "CAMARA_MAS_CERCANA": "RIO-055-DOMO",
+        "DIST_CAMARA_M": 199.98507434435655,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.63803384068311,
+            -1.6683911281660884
+          ],
+          [
+            -78.63788879399993,
+            -1.6691060869999246
+          ],
+          [
+            -78.63783492099998,
+            -1.6692738679999435
+          ],
+          [
+            -78.63777464499998,
+            -1.669439430999948
+          ],
+          [
+            -78.63770805799999,
+            -1.6696025249999578
+          ],
+          [
+            -78.63763525799999,
+            -1.669762907999943
+          ],
+          [
+            -78.63755635399997,
+            -1.6699203419999464
+          ],
+          [
+            -78.63749135699999,
+            -1.670026759999935
+          ],
+          [
+            -78.63742103699997,
+            -1.6701296949999567
+          ],
+          [
+            -78.63734557599997,
+            -1.6702288749999714
+          ],
+          [
+            -78.63726517299995,
+            -1.670324039999962
+          ],
+          [
+            -78.63722191212273,
+            -1.6703718009140955
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0011",
+        "LONGITUD_M": 53.85173645803185,
+        "INICIO_X": 763168.3381760593,
+        "INICIO_Y": 9815002.614000162,
+        "FIN_X": 763211.2929688513,
+        "FIN_Y": 9814970.13788004,
+        "CAMARA_MAS_CERCANA": "MUN-030",
+        "DIST_CAMARA_M": 199.98831362647954,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.63464715866428,
+            -1.6722897491617672
+          ],
+          [
+            -78.63450436799997,
+            -1.6723956939999367
+          ],
+          [
+            -78.6342609509636,
+            -1.6725828480807199
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0012",
+        "LONGITUD_M": 55.698785437684556,
+        "INICIO_X": 763694.5045310032,
+        "INICIO_Y": 9814341.769482201,
+        "FIN_X": 763693.0165376241,
+        "FIN_Y": 9814286.090576187,
+        "CAMARA_MAS_CERCANA": "MUN-050",
+        "DIST_CAMARA_M": 199.98573815860306,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.62991351596398,
+            -1.6782576773594822
+          ],
+          [
+            -78.6299262759974,
+            -1.678761000036209
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0013",
+        "LONGITUD_M": 220.95345311824153,
+        "INICIO_X": 763675.8571691476,
+        "INICIO_Y": 9813886.481502885,
+        "FIN_X": 763666.9530165541,
+        "FIN_Y": 9813665.70769402,
+        "CAMARA_MAS_CERCANA": "MUN-050",
+        "DIST_CAMARA_M": 199.9937238790136,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.63007605886307,
+            -1.6823734324088653
+          ],
+          [
+            -78.63012673699996,
+            -1.6836478809999509
+          ],
+          [
+            -78.63015363252589,
+            -1.6843692029965005
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0014",
+        "LONGITUD_M": 4.609384774214409,
+        "INICIO_X": 763586.2141730583,
+        "INICIO_Y": 9813274.583165307,
+        "FIN_X": 763584.6999226399,
+        "FIN_Y": 9813270.22960657,
+        "CAMARA_MAS_CERCANA": "MUN-039",
+        "DIST_CAMARA_M": 199.98507891947884,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.63087462169185,
+            -1.687905641259719
+          ],
+          [
+            -78.63088817637195,
+            -1.6879450117162142
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0015",
+        "LONGITUD_M": 17.875979526259435,
+        "INICIO_X": 762831.9416466319,
+        "INICIO_Y": 9813120.6831845,
+        "FIN_X": 762816.9243170364,
+        "FIN_Y": 9813130.380114729,
+        "CAMARA_MAS_CERCANA": "MUN-031",
+        "DIST_CAMARA_M": 199.9852902048225,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.63764850187309,
+            -1.6893051164160737
+          ],
+          [
+            -78.63778350752791,
+            -1.6892176261543668
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0016",
+        "LONGITUD_M": 34.51568793764364,
+        "INICIO_X": 762485.3046867376,
+        "INICIO_Y": 9813353.316639023,
+        "FIN_X": 762456.7177118364,
+        "FIN_Y": 9813372.658340039,
+        "CAMARA_MAS_CERCANA": "MUN-043",
+        "DIST_CAMARA_M": 199.98639753309305,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.64076485977985,
+            -1.6872060312070374
+          ],
+          [
+            -78.64083381699999,
+            -1.6871598179999363
+          ],
+          [
+            -78.64102186582119,
+            -1.6870315050375486
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0017",
+        "LONGITUD_M": 82.09478635435362,
+        "INICIO_X": 762080.1860602851,
+        "INICIO_Y": 9813506.667549372,
+        "FIN_X": 761998.2415169363,
+        "FIN_Y": 9813511.631999183,
+        "CAMARA_MAS_CERCANA": "MUN-043",
+        "DIST_CAMARA_M": 199.9849601071249,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.64440569161228,
+            -1.6858242486451285
+          ],
+          [
+            -78.6451418506902,
+            -1.685780268585356
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0018",
+        "LONGITUD_M": 25.795178697720022,
+        "INICIO_X": 760722.0465121312,
+        "INICIO_Y": 9814190.127067404,
+        "FIN_X": 760705.77084098,
+        "FIN_Y": 9814210.139407912,
+        "CAMARA_MAS_CERCANA": "RIO-058-DOMO",
+        "DIST_CAMARA_M": 199.98780267936135,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65661324282401,
+            -1.6796608545215903
+          ],
+          [
+            -78.65675966304985,
+            -1.679480127049174
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0019",
+        "LONGITUD_M": 2.2919110033594814,
+        "INICIO_X": 760092.013271071,
+        "INICIO_Y": 9814940.152702088,
+        "FIN_X": 760090.8043185594,
+        "FIN_Y": 9814942.099825574,
+        "CAMARA_MAS_CERCANA": "RIO-024-DOMO",
+        "DIST_CAMARA_M": 199.98727828224816,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.66228089861595,
+            -1.6728877042783505
+          ],
+          [
+            -78.66229177950731,
+            -1.6728701159759078
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0020",
+        "LONGITUD_M": 86.18937458508222,
+        "INICIO_X": 759806.9504703134,
+        "INICIO_Y": 9815221.079834895,
+        "FIN_X": 759741.7024765913,
+        "FIN_Y": 9815277.393663185,
+        "CAMARA_MAS_CERCANA": "RIO-024-DOMO",
+        "DIST_CAMARA_M": 199.98551103957732,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.66484462812079,
+            -1.6703512843063002
+          ],
+          [
+            -78.66541591799995,
+            -1.6698567729999412
+          ],
+          [
+            -78.66543135374526,
+            -1.6698429265160841
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0021",
+        "LONGITUD_M": 65.15856059739316,
+        "INICIO_X": 759451.3235819668,
+        "INICIO_Y": 9815551.962363925,
+        "FIN_X": 759432.3006641739,
+        "FIN_Y": 9815614.02533035,
+        "CAMARA_MAS_CERCANA": "MUN-047",
+        "DIST_CAMARA_M": 199.98505827249602,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.66804276254003,
+            -1.667364026243417
+          ],
+          [
+            -78.66807568299998,
+            -1.6672873659999323
+          ],
+          [
+            -78.66811273999997,
+            -1.66719381299992
+          ],
+          [
+            -78.66814577499997,
+            -1.6670987469999567
+          ],
+          [
+            -78.66817472799994,
+            -1.6670023429999823
+          ],
+          [
+            -78.66819954499994,
+            -1.6669047769999614
+          ],
+          [
+            -78.66820034799997,
+            -1.6668992499999717
+          ],
+          [
+            -78.66821430650106,
+            -1.6668031997050974
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "ANILLO-0022",
+        "LONGITUD_M": 13.5058820573239,
+        "INICIO_X": 759394.0554655503,
+        "INICIO_Y": 9815877.73224102,
+        "FIN_X": 759397.2699853746,
+        "FIN_Y": 9815882.451374218,
+        "CAMARA_MAS_CERCANA": "MUN-027",
+        "DIST_CAMARA_M": 199.99186548910208,
+        "METODO_DIST": "Distancia minima entre segmento completo y punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.66856066774605,
+            -1.664419778479676
+          ],
+          [
+            -78.66857113999998,
+            -1.6643477149999688
+          ],
+          [
+            -78.66853184177185,
+            -1.664377084580172
+          ]
+        ]
+      }
+    }
+  ]
+}
