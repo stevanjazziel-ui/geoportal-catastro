@@ -3,7 +3,7 @@
   "use strict";
   const data = root.RIOBAMBA_CONFLICTIVITY_CORRECTION;
   const classes = ["DELINCUENCIA", "VIOLENCIA", "CONVIVENCIA", "ACTIVIDAD_INSTITUCIONAL", "OTROS_REVISION"];
-  const colors = [[241,248,233], [197,225,165], [128,203,196], [38,166,154], [0,105,92]];
+  const colors = [[255,255,178], [254,204,92], [253,141,60], [240,59,32], [189,0,38]];
   function applyDataset(source) {
     return {...source, events: source.events.map((event) => {
       const category = data.dictionary[event.subtype];

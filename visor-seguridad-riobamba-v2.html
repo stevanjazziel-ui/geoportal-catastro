@@ -4433,7 +4433,7 @@
         return [[-1.72, -78.72], [-1.61, -78.58]];
       };
       const kdeColor = (t) => {
-        const stops = [[0, 241, 248, 233], [0.25, 197, 225, 165], [0.5, 128, 203, 196], [0.75, 38, 166, 154], [1, 0, 105, 92]];
+        const stops = [[0, 255, 255, 178], [0.25, 254, 204, 92], [0.5, 253, 141, 60], [0.75, 240, 59, 32], [1, 189, 0, 38]];
         const right = stops.findIndex((stop, index) => index > 0 && t <= stop[0]);
         const a = stops[Math.max(0, right - 1)], b = stops[right < 0 ? stops.length - 1 : right];
         const fraction = (t - a[0]) / Math.max(1e-9, b[0] - a[0]);
@@ -5266,13 +5266,17 @@
           tap: false
         }).setView(L.geoJSON(feature).getBounds().getCenter(), 14);
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 20, className: "osm-gray-tile" }).addTo(detailMiniMap);
+        const kdeMode = isKdeMode();
+        if (kdeMode && elements.toggleAnalysisResult.checked && filteredKdeCache?.url) {
+          L.imageOverlay(filteredKdeCache.url, kdeBounds(), { opacity: 0.68, interactive: false }).addTo(detailMiniMap);
+        }
         L.geoJSON(platformGeojsonCache, {
           interactive: false,
           style: (item) => item.properties?.platform_name === platform.platformName
-            ? { color: "#111827", weight: 2.4, fillColor: "#2f6f5f", fillOpacity: 0.28 }
-            : { color: "#7e8790", weight: 0.7, fillColor: "#e8ede8", fillOpacity: 0.16 }
+            ? { color: "#111827", weight: 2.4, fillColor: "#2f6f5f", fillOpacity: 0.28, fill: !kdeMode }
+            : { color: "#7e8790", weight: 0.7, fillColor: "#e8ede8", fillOpacity: 0.16, fill: !kdeMode }
         }).addTo(detailMiniMap);
-        const selectedLayer = L.geoJSON(feature, { interactive: false, style: { color: "#111827", weight: 2.8, fillColor: "#2f6f5f", fillOpacity: 0.34 } }).addTo(detailMiniMap);
+        const selectedLayer = L.geoJSON(feature, { interactive: false, style: { color: "#111827", weight: 2.8, fillColor: "#2f6f5f", fillOpacity: 0.34, fill: !kdeMode } }).addTo(detailMiniMap);
         if (isCameraCoverageMode() || isInventoryDeficitMode()) {
           L.geoJSON(isInventoryDeficitMode() ? inventoryDeficit.scenario().coverage : activeCoverageGeometry(), {interactive: false, style: {color: "#d9a441", weight: 1, fillColor: "#e6b24f", fillOpacity: .5}}).addTo(detailMiniMap);
           if (isCameraCoverageMode()) L.geoJSON(activeCoverageManzanas(), {interactive: false, style: {color: "#263a33", weight: 1, fillColor: "#e6b24f", fillOpacity: .16}}).addTo(detailMiniMap);
