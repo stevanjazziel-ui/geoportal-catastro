@@ -1021,22 +1021,22 @@
           <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="Contraer menú">☰</button>
           <div class="sidebar-title">Módulos</div>
         </div>
-        <details class="nav-group" open>
+        <details class="nav-group" hidden inert>
           <summary>Inicio</summary>
-          <button class="mode-button" id="diagnosisMode" type="button" data-icon="⌂"><span>Diagnóstico Territorial</span></button>
+          <button class="mode-button" id="diagnosisMode" type="button" data-icon="⌂" disabled><span>Diagnóstico Territorial</span></button>
         </details>
-        <details class="nav-group" open>
+        <details class="nav-group" hidden inert>
           <summary>Demografía</summary>
-          <button class="mode-button" id="populationMode" type="button" data-icon="P"><span>Población</span></button>
-          <button class="mode-button" id="populationDensityMode" type="button" data-icon="D"><span>Densidad poblacional</span></button>
-          <button class="mode-button" id="populationExposureMode" type="button" data-icon="E"><span>Exposición poblacional</span></button>
+          <button class="mode-button" id="populationMode" type="button" data-icon="P" disabled><span>Población</span></button>
+          <button class="mode-button" id="populationDensityMode" type="button" data-icon="D" disabled><span>Densidad poblacional</span></button>
+          <button class="mode-button" id="populationExposureMode" type="button" data-icon="E" disabled><span>Exposición poblacional</span></button>
         </details>
         <details class="nav-group" open>
           <summary>Conflictividad</summary>
           <button class="mode-button" id="eventsMode" type="button" data-icon="I"><span>Incidentes</span></button>
           <button class="mode-button app-hidden" id="platformIncidentsMode" type="button" data-icon="P"><span>Incidentes por Plataforma</span></button>
           <button class="mode-button" id="incidentRateMode" type="button" data-icon="T"><span>Incidencia poblacional</span></button>
-          <button class="mode-button is-active" id="kdeAnalysisButton" type="button" data-icon="K"><span>Concentración de incidentes</span></button>
+          <button class="mode-button" id="kdeAnalysisButton" type="button" data-icon="K"><span>Concentración de incidentes</span></button>
           <button class="mode-button" id="giHotspotsMode" type="button" data-icon="Z"><span>Zonas críticas</span></button>
           <button class="mode-button" id="typologiesMode" type="button" data-icon="T"><span>Tipos de incidentes</span></button>
           <button class="mode-button" id="temporalMode" type="button" data-icon="E"><span>Evolución temporal</span></button>
@@ -1051,7 +1051,7 @@
           <button class="mode-button" id="populationCoverageMode" type="button" data-icon="H"><span>Cobertura poblacional</span></button>
           <button class="mode-button" id="boulevardsMode" type="button" data-icon="B"><span>Bulevares Seguros</span></button>
           <button class="mode-button" id="institutionalCoverageMode" type="button" data-icon="I"><span>Cobertura institucional</span></button>
-          <button class="mode-button" id="cameraProposalMode" type="button" data-icon="C"><span>Evaluación de cámaras propuestas</span></button>
+          <button class="mode-button is-active" id="cameraProposalMode" type="button" data-icon="C"><span>Evaluación de cámaras propuestas</span></button>
         </details>
         <details class="nav-group" open>
           <summary>Brechas</summary>
@@ -1079,8 +1079,8 @@
       <main class="analysis-workspace">
         <section class="workspace-head">
           <div class="workspace-title">
-            <h1 id="overlayTitle">Concentración de incidentes</h1>
-            <p><span id="overlayText">Superficie continua calculada desde incidentes georreferenciados válidos.</span><span id="analysisPeriod"></span></p>
+            <h1 id="overlayTitle">Evaluación de cámaras propuestas</h1>
+            <p><span id="overlayText">Cargando evaluación del sistema de videovigilancia.</span><span id="analysisPeriod"></span></p>
           </div>
           <div class="workspace-actions">
             <button class="header-action mobile-nav-toggle" id="mobileNavToggle" type="button" aria-label="Abrir módulos">☰</button>
@@ -1115,13 +1115,13 @@
               <option value="videoDeficit">Déficit de videovigilancia</option>
               <option value="incidentCount">Incidentes absolutos</option>
               <option value="incidentRate">Incidencia poblacional</option>
-              <option value="hotspots" selected>Concentración de incidentes</option>
+              <option value="hotspots">Concentración de incidentes</option>
               <option value="giHotspots">Zonas críticas</option>
               <option value="incidentTypologies">Tipos de incidentes</option>
               <option value="temporalAnalysis">Evolución temporal</option>
               <option value="populationExposure">Exposición poblacional a hotspots</option>
               <option value="cameraCoverage">Cobertura potencial de cámaras</option>
-              <option value="cameraProposal">Evaluación de cámaras propuestas</option>
+              <option value="cameraProposal" selected>Evaluación de cámaras propuestas</option>
               <option value="boulevardPopulation">Población cercana a boulevares/conexiones</option>
               <option value="incidentProximity">Incidentes cerca de cámaras, policía y red</option>
               <option value="policeAccessibility">Proximidad a infraestructura policial</option>
@@ -1241,9 +1241,9 @@
   <script src="./riobamba-camaras-inventario-data.js?v=publicacion-completa-20261001"></script>
   <script src="./riobamba-camaras-cobertura-geometrias.js?v=cobertura-unificada-20261002"></script>
   <script src="./riobamba-camaras-inventario-cobertura-data.js?v=deficit-inventario-20261002"></script>
-  <script src="./riobamba-deficit-inventario.js?v=deficit-inventario-20261002"></script>
+  <script src="./riobamba-deficit-inventario.js?v=brechas-20261004"></script>
   <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=cierre-183-20261004" />
-  <script src="./riobamba-camaras-propuesta.js?v=cierre-183-20261004"></script>
+  <script src="./riobamba-camaras-propuesta.js?v=brechas-20261004"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
   <script src="./riobamba-accesibilidad-policial-data.js?v=metodologia-20261001"></script>
   <script src="./riobamba-seguridad-diagnostico-data.js?v=metodologia-20261001"></script>
@@ -1253,13 +1253,16 @@
   <script src="./riobamba-metodologia-data.js?v=metodologia-20261001"></script>
   <script src="./riobamba-cantonal-data.js?v=20261001"></script>
   <script src="./riobamba-conflictividad-data.js?v=publicacion-completa-20261001"></script>
+  <script src="./riobamba-brechas-actualizadas-data.js?v=brechas-20261004"></script>
   <script src="./riobamba-conflictividad.js?v=kde-ylorrd-20261004"></script>
   <script src="./riobamba-cantonal-view.js?v=cobertura-unificada-20261002"></script>
   <script>
     (() => {
       const dataset = window.RiobambaConflictivity.applyDataset(window.RIOBAMBA_SECURITY_DATA);
       const events = dataset.events || [];
-      const methodology = window.RIOBAMBA_CONFLICTIVITY_CORRECTION.derivedMethodology;
+      const updatedGaps = window.RIOBAMBA_UPDATED_GAPS;
+      const methodology = {...window.RIOBAMBA_CONFLICTIVITY_CORRECTION.derivedMethodology,
+        cameraScenarios: updatedGaps.replacementScenarios};
       const eventWeight = () => 1;
       const emergencyWeight = (event) => Math.max(1, Number(event?.emergencyWeight ?? event?.weight ?? 1));
       const emergencyCount = (items) => items.reduce((sum, item) => sum + emergencyWeight(item), 0);
@@ -1268,7 +1271,12 @@
       const ecu911 = dataset.ecu911 || {};
       const cameraDataset = window.RIOBAMBA_CAMERAS_DATA || { cameras: [] };
       const rawCameras = cameraDataset.cameras || [];
-      const cameraInventoryDataset = window.RIOBAMBA_CAMERA_INVENTORY || { cameras: [], metadata: {} };
+      const cameraInventoryDataset = {...window.RIOBAMBA_CAMERA_INVENTORY,
+        cameras: updatedGaps.inventoryCameraOverlay,
+        metadata: {...window.RIOBAMBA_CAMERA_INVENTORY.metadata,
+          locatedRecords: updatedGaps.metadata.located, pendingRecords: 0,
+          analysisUniverse: "103 equipos existentes; geometrías del cierre aceptado en 100 emplazamientos. Las 31 para cambio son un subconjunto.",
+          note: "Georreferenciación aceptada con métodos y confianza documentados. No se sobrescribió el inventario original ni se certifica un levantamiento de campo."}};
       const inventoryCameras = cameraInventoryDataset.cameras || [];
       const municipalCameraIdPattern = /^RIO-\d{3}-(DOMO|FIJA)$/;
       const isMunicipalCamera = (camera) => camera?.ambitoEstudio === "MUNICIPAL"
@@ -1285,8 +1293,10 @@
       const externalCameras = cameras.filter((camera) => !isMunicipalCamera(camera));
       const studyCameraIds = new Set(changeCameras.map((camera) => camera.id));
       const remainingCameras = inventoryCameras.filter((camera) => !studyCameraIds.has(camera.id));
-      const inventoryCoverage = window.RIOBAMBA_INVENTORY_CAMERA_COVERAGE;
-      const coverageGeometries = window.RIOBAMBA_CAMERA_COVERAGE_GEOMETRIES;
+      const inventoryCoverage = updatedGaps.inventoryCoverage;
+      const coverageGeometries = {...window.RIOBAMBA_CAMERA_COVERAGE_GEOMETRIES,
+        scenarios: updatedGaps.replacementScenarios,
+        censusClips: {...window.RIOBAMBA_CAMERA_COVERAGE_GEOMETRIES.censusClips, ...updatedGaps.censusClips}};
       const policeDataset = window.RIOBAMBA_POLICE_SIG_DATA || { summary: {}, district: { features: [] }, infrastructure: { features: [] } };
       const policeInfrastructure = policeDataset.infrastructure?.features || [];
       const policeAccessibility = window.RIOBAMBA_POLICE_ACCESSIBILITY || { summary: {}, table: [], byPlatformName: {}, byMan: {}, validations: {} };
@@ -1439,7 +1449,7 @@
       let giSignificanceLevel = "all";
       let giResultType = "hot";
       let mode = "diagnosis";
-      let diagnosisMetric = "hotspots";
+      let diagnosisMetric = "cameraProposal";
       let incidentMenuView = "incidents";
       let cameraCoverageScenario = 150;
       let cameraCoverageSet = "inventory";
@@ -1490,7 +1500,7 @@
         inventoryDeficitGap: { filters: ["category", "subtype", "kdePlatform", "kdePeriod", "incidentDate", "cameraCoverage"] },
         lowCoverageConcentrations: { filters: ["category", "subtype", "parish", "kdePlatform", "kdePeriod", "incidentDate", "giHotspots", "cameraCoverage"] },
         exposureLowCoverage: { filters: ["kdePlatform", "cameraCoverage"] },
-        territorialGaps: { filters: ["kdePlatform"] },
+        territorialGaps: { filters: ["kdePlatform", "cameraCoverage"] },
         candidateZones: { filters: ["kdePlatform", "cameraCoverage"] },
         boulevards: { filters: ["search"] },
         institutionalCoverage: { filters: ["search"] },
@@ -1555,7 +1565,7 @@
         if (elements.analysisResultLayerLabel) elements.analysisResultLayerLabel.textContent = config.result;
         const eventLayerLabel = document.querySelector('[data-layer-row="events"] span');
         if (eventLayerLabel) eventLayerLabel.textContent = isKdeMode() ? "Puntos de incidentes" : "Incidentes";
-        if (elements.cameraLayerLabel) elements.cameraLayerLabel.textContent = mode === "cameras" ? "Inventario de videovigilancia" : isInventoryDeficitMode() ? "Inventario completo · 99 ubicadas" : isCameraCoverageMode() ? coverageUniverseLabel() : "Cámaras para cambio";
+        if (elements.cameraLayerLabel) elements.cameraLayerLabel.textContent = mode === "cameras" ? "Inventario de videovigilancia" : isInventoryDeficitMode() ? "Inventario completo · 103 ubicadas" : isCameraCoverageMode() ? coverageUniverseLabel() : "Cámaras para cambio";
         if (elements.cameraCoverageLayerLabel) elements.cameraCoverageLayerLabel.textContent = `Cobertura cámaras para cambio ${cameraCoverageScenario} m`;
         const visibleRows = new Set(["analysisResult", "platforms", ...(config.context || [])]);
         document.querySelectorAll("[data-layer-row]").forEach((row) => {
@@ -1630,18 +1640,19 @@
             videoDeficitGap: ["DÉFICIT DE VIDEOVIGILANCIA", "Déficit potencial de cobertura de videovigilancia municipal frente a la distribución territorial de incidentes y población."],
             lowCoverageConcentrations: ["CONCENTRACIONES CON BAJA COBERTURA INSTITUCIONAL", "Intersección operativa entre celdas de concentración Gi* y condición de baja cobertura institucional. La celda Gi* es la unidad espacial disponible."],
             exposureLowCoverage: ["POBLACIÓN EXPUESTA CON BAJA COBERTURA", "Distribución de población localizada en sectores con menor cobertura institucional."],
-            territorialGaps: ["BRECHAS TERRITORIALES", "Síntesis de las brechas identificadas en las 18 Plataformas Territoriales."],
+            territorialGaps: ["BRECHAS TERRITORIALES", "Clasificación operativa provisional por manzana; comparación de 103, 153 y 183 cámaras."],
             candidateZones: ["ZONAS CANDIDATAS DE INTERVENCIÓN", "Subconjunto de celdas de análisis donde coinciden múltiples brechas territoriales disponibles; no constituye ranking ni priorización final."],
           }[diagnosisMetric] || ["Brechas", "Análisis de coincidencias territoriales."];
           panel.innerHTML = `<h3>${esc(labels[0])}</h3>` + methodRowsHtml([
             ["Objetivo", labels[1]],
-            ["Unidad principal", diagnosisMetric === "candidateZones" || diagnosisMetric === "lowCoverageConcentrations" ? "Celdas Gi* y Plataformas Territoriales" : "18 Plataformas Territoriales"],
-            ["Cámaras", `${changeCameras.length} cámaras del universo acordado para cambio; posiciones originales conservadas`],
+            ["Unidad principal", diagnosisMetric === "territorialGaps" ? "Manzana censal original" : diagnosisMetric === "candidateZones" || diagnosisMetric === "lowCoverageConcentrations" ? "Celdas Gi* y Plataformas Territoriales" : "18 Plataformas Territoriales"],
+            ["Cámaras", diagnosisMetric === "territorialGaps" ? "103 existentes; comparación con 153 y 183. Geometrías finales aceptadas, originales conservados" : `${changeCameras.length} cámaras del universo acordado para cambio; posiciones originales conservadas`],
             ["Escenario de cobertura", `${cameraCoverageScenario} m`],
             ["Insumos", "Incidentes de conflictividad elegibles, Gi*, KDE validado, población/manzanas, cámaras municipales para cambio, infraestructura policial y Bulevares"],
             ["Reglas", "Variables sin ponderación. B2: celda Gi* hotspot nominal con incidentes y menos del 50 % de superficie cubierta localmente. B5: además, población estimada fuera de cobertura. Umbral exploratorio; sin AHP, índice ni ranking final."],
-            ["Fecha de procesamiento", methodology.generatedAt || "No disponible"],
-          ]) + crsHtml() + `<h3>Limitaciones</h3><p>Estos resultados identifican coincidencias territoriales para revisión. No son ranking final, predicción, prioridad definitiva ni recomendación automática de instalación de cámaras.</p>`;
+            ["Umbrales por manzana", `Cobertura: <${updatedGaps.metadata.method.coverageLow}%, ${updatedGaps.metadata.method.coverageLow}-${updatedGaps.metadata.method.coverageHigh}%, >${updatedGaps.metadata.method.coverageHigh}%. Población P33=${updatedGaps.metadata.method.populationP33}, P66=${updatedGaps.metadata.method.populationP66}. Problemática D/V Gi*; Convivencia complementaria. Sin suma ponderada`],
+            ["Fecha de procesamiento", updatedGaps.metadata.generatedAt],
+          ]) + crsHtml() + `<h3>Limitaciones</h3><p>${esc(updatedGaps.metadata.limitations)}</p><p>${esc(updatedGaps.metadata.eventAssignment)}</p><a href="data/seguridad-riobamba/brechas-actualizadas-20261004/METODOLOGIA_BRECHAS.md" target="_blank" rel="noopener">Metodología y parámetros del recálculo</a>`;
           return;
         }
         if (diagnosisMetric === "population") {
@@ -1984,7 +1995,7 @@
             opacity: 0.9
           };
         }
-        if (isGapMode() && diagnosisMetric !== "territorialGaps") {
+        if (isGapMode()) {
           const isSelected = selectedPlatform && feature?.properties?.platform_name === selectedPlatform;
           return {
             color: isSelected ? "#111827" : "#263a33",
@@ -2571,7 +2582,34 @@
         elements.giHotspots?.value || "__ALL__",
         (elements.search?.value || "").trim().toLowerCase()
       ].join("|");
-      const gapCoverageRow = (platformName) => cameraCoverageRowAtScenario(platformName, cameraCoverageScenario);
+      const LEVELS_GAP = ["ALTA", "MEDIA", "BAJA", "SIN EVIDENCIA"];
+      const operationalGapColor = (level) => ({ALTA: "#D98C95", MEDIA: "#D9B65D", BAJA: "#A8C9A5"}[level] || "#eef1ee");
+      const currentOperationalGapRows = (scenario = "A") => {
+        const selected = selectedPlatform || (platformFilterValue() ? `PLATAFORMA ${platformFilterValue()}` : null);
+        return Object.values(updatedGaps.scenarios[cameraCoverageScenario][scenario].byMan)
+          .filter((row) => row.urban && (!selected || row.platformName === selected));
+      };
+      function renderOperationalGapGraphics() {
+        const blocks = currentOperationalGapRows();
+        const counts = LEVELS_GAP.map((label) => ({label, value: blocks.filter((row) => row.level === label).length, color: operationalGapColor(label)}));
+        let platformRows = selectedGapPlatforms().map((platform) => {
+          const local = blocks.filter((row) => row.platformName === platform.platformName);
+          return `<tr data-platform-row="${esc(platform.platformName)}"><td>${esc(platform.platform)}</td>${LEVELS_GAP.map((level) => `<td>${fmt(local.filter((row) => row.level === level).length)}</td>`).join("")}</tr>`;
+        }).join("");
+        const withoutPlatform = blocks.filter((row) => !row.platformName);
+        if (withoutPlatform.length) platformRows += `<tr><td>Sin asignación a Plataforma</td>${LEVELS_GAP.map((level) => `<td>${fmt(withoutPlatform.filter((row) => row.level === level).length)}</td>`).join("")}</tr>`;
+        elements.summary.innerHTML = [["Manzanas urbanas", blocks.length], ...counts.map((row) => [row.label, row.value]), ["Radio potencial", `${cameraCoverageScenario} m`]]
+          .map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+        const comparison = LEVELS_GAP.map((level) => `<tr><td>${esc(level)}</td>${["A", "B", "C"].map((key) => `<td>${fmt(currentOperationalGapRows(key).filter((row) => row.level === level).length)}</td>`).join("")}</tr>`).join("");
+        elements.graphicAnalysis.innerHTML = `${metricBars("Brechas por manzana · 103 existentes", counts, Math.max(...counts.map((row) => row.value), 1), "#D98C95")}
+          <div class="graphic-card"><h3>Indicadores por Plataforma</h3><table class="mini-table"><thead><tr><th>Plataforma</th><th>Alta</th><th>Media</th><th>Baja</th><th>Sin evidencia</th></tr></thead><tbody>${platformRows}</tbody></table></div>
+          <div class="graphic-card"><h3>Comparación de escenarios · ${cameraCoverageScenario} m</h3><table class="mini-table"><thead><tr><th>Brecha</th><th>103 existentes</th><th>103 + 50</th><th>103 + 50 + 30</th></tr></thead><tbody>${comparison}</tbody></table></div>
+          <div class="support-panel"><h3>Brechas de cobertura y prioridad territorial</h3><p>Resultado provisional por reglas operativas, sin ponderaciones ni AHP. La asociación de incidentes permanece por intersección estricta: los puntos en calles no se asignan por cercanía. No representa peligrosidad.</p><a href="data/seguridad-riobamba/BRECHAS_ACTUALIZADAS_20261004.zip" download>Descargar brechas GIS y validación</a></div>`;
+        elements.graphicAnalysis.querySelectorAll("[data-platform-row]").forEach((row) => row.addEventListener("click", () => selectPlatform(row.dataset.platformRow, true)));
+      }
+      const gapCoverageRow = (platformName) => diagnosisMetric === "territorialGaps"
+        ? inventoryCoverage.scenarios[cameraCoverageScenario].byPlatformName[platformName]
+        : cameraCoverageRowAtScenario(platformName, cameraCoverageScenario);
       const giHotCellsByPlatform = () => {
         const category = elements.category?.value || "__ALL__";
         const cells = getGiHotspotAnalysis().hotspotCells
@@ -2599,9 +2637,9 @@
           const hotCells = cellsByPlatform[platform.platformName] || [];
           const hotIncidents = hotCells.reduce((sum, cell) => sum + Number(cell.incCount || 0), 0);
           const incidents = incidentCounts[platform.platformName] || 0;
-          const exposed = Number(platform.populationExposed250 || 0);
+          const exposed = Number(coverage.exposedUncoveredPopulation250 ?? platform.populationExposed250 ?? 0);
           const population = Number(platform.population || coverage.population || 0);
-          const cameras = studyCamerasInPlatform(platform.platformName).length;
+          const cameras = diagnosisMetric === "territorialGaps" ? coverage.cameras : studyCamerasInPlatform(platform.platformName).length;
           const policeDistance = Number(platform.avgPopulationDistancePoliceM || 0);
           const boulevardKm = Number(platform.boulevardTotalLengthM || 0) / 1000;
           const institutionalLow = String(platform.institutionalCoverage || "").toUpperCase() === "BAJA";
@@ -2704,6 +2742,13 @@
       };
       const manzanaVisualStyle = (feature) => {
         if (isInventoryDeficitMode()) return {color: "#7e8790", weight: .3, opacity: .5, fillOpacity: 0};
+        if (diagnosisMetric === "territorialGaps") {
+          const row = updatedGaps.scenarios[cameraCoverageScenario].A.byMan[feature.properties.man];
+          const selected = selectedPlatform || (platformFilterValue() ? `PLATAFORMA ${platformFilterValue()}` : null);
+          const inScope = row?.urban && (!selected || row.platformName === selected);
+          return {color: "#52625b", weight: .5, opacity: .65,
+            fillColor: operationalGapColor(row?.level), fillOpacity: inScope ? .6 : .03};
+        }
         const platform = platformStats?.manToPlatform?.[feature?.properties?.man] || "";
         const selected = selectedPlatform && platform === selectedPlatform;
         if (diagnosisMetric === "population") {
@@ -2960,6 +3005,10 @@
         const platform = platformStats?.manToPlatform?.[code] || "Fuera de plataformas";
         const areaKm2 = geometryAreaKm2(feature?.geometry);
         const density = areaKm2 > 0 ? Number(stats.population_total || 0) / areaKm2 : 0;
+        if (diagnosisMetric === "territorialGaps") {
+          const row = updatedGaps.scenarios[cameraCoverageScenario].A.byMan[code];
+          return `<strong>Manzana ${esc(code)}</strong><br>Brecha: ${esc(row?.level || "SIN EVIDENCIA")}<br>Cobertura: ${row?.coveragePct?.toFixed(1) ?? "No disponible"}%<br>Población: ${row?.population == null ? "No disponible" : fmt(row.population)}<br>Problemática: ${esc(row?.problem || "No disponible")}<br>Regla: ${esc(row?.rule || "No disponible")}<br>Intersección estricta; clasificación provisional.`;
+        }
         if (isInventoryDeficitMode()) {
           const fraction = inventoryDeficit.scenario().byMan[code];
           return `<strong>Manzana ${esc(code)}</strong><br>Inventario completo · radio ${cameraCoverageScenario} m<br>Población censal: ${fmt(stats.population_total)}<br>Superficie de manzana intersectada: ${fraction == null ? "No disponible" : `${(fraction * 100).toFixed(1)}%`}<br>Cobertura potencial; no implica cobertura total de la manzana.`;
@@ -3129,6 +3178,7 @@
       };
       function renderGapMetrics() {
         if (isInventoryDeficitMode()) { inventoryDeficit.renderMetrics(); return; }
+        if (diagnosisMetric === "territorialGaps") { renderOperationalGapGraphics(); return; }
         const rows = currentGapRows();
         const zones = currentGapZones();
         const cards = [["Plataformas", rows.length], ["Registros analíticos", rows.reduce((s, r) => s + r.incidents, 0)], ["Población censal", rows.reduce((s, r) => s + r.population, 0)], ["Población fuera del escenario", rows.reduce((s, r) => s + r.uncoveredPopulation, 0)], ["Celdas Gi* con cobertura < 50%", zones.length], ["Escenario · radio", `${cameraCoverageScenario} m`]];
@@ -3254,10 +3304,7 @@
               ["Escenario", `${cameraCoverageScenario} m`],
             ] : diagnosisMetric === "territorialGaps" ? [
               ["Plataformas analizadas", rows.length],
-              ["Brechas múltiples", multiple],
-              ["Población en plataformas con brechas", fmt(rows.filter((row) => row.typology !== "Sin brecha relevante").reduce((sum, row) => sum + row.population, 0))],
-              ["Tipología más frecuente", typeTop],
-              ["AHP", "No aplicado"],
+            ...LEVELS_GAP.map((level) => [`Manzanas · ${level.toLowerCase()}`, currentOperationalGapRows().filter((row) => row.level === level).length]),
             ] : [
               ["Zonas candidatas", zones.length],
               ["Población asociada", fmt(zones.reduce((sum, zone) => sum + Number(zone.population || 0), 0))],
@@ -3524,6 +3571,10 @@
           return;
         }
         if (isGapMode()) {
+          if (diagnosisMetric === "territorialGaps") {
+            renderOperationalGapGraphics();
+            return;
+          }
           const rows = currentGapRows();
           const zones = currentGapZones();
           const tableRows = rows.map((row) => `
@@ -4201,10 +4252,7 @@
             const types = [...new Set(candidateZones().map((zone) => zone.type).filter(Boolean))];
             (types.length ? types : ["Zona candidata derivada de coincidencias"]).forEach((type) => addSwatch(type, `background:${candidateZoneColor(type)};border:2px dashed #7f1d1d`));
           } else if (diagnosisMetric === "territorialGaps") {
-            [
-              ["Significancia + población fuera del escenario", "#c86670"],
-              ["Variables descriptivas; sin índice", "#d8eadf"],
-            ].forEach(([label, color]) => addSwatch(label, `background:${color};border-color:#263a33`));
+            LEVELS_GAP.forEach((level) => addSwatch(level, `background:${operationalGapColor(level)};border-color:#52625b`));
           } else {
             ["0% sin cobertura", "25% sin cobertura", "50% sin cobertura", "75% sin cobertura", "100% sin cobertura"].forEach((level) => addSwatch(level, `background:${breachLevelColor(level)};border-color:#263a33`));
           }
@@ -4854,7 +4902,7 @@
         elements.toggleCameraCoverage.checked = false;
         elements.toggleExternalCameras.checked = false;
         elements.togglePoliceInfrastructure.checked = false;
-        elements.toggleManzanas.checked = false;
+        elements.toggleManzanas.checked = metric === "territorialGaps";
         elements.toggleBoulevards.checked = false;
         elements.togglePlatforms.checked = true;
         if (metric === "inventoryDeficitGap") {
@@ -5013,7 +5061,7 @@
             elements.overlayText.textContent = "Integración territorial de infraestructura policial, videovigilancia y Bulevares Seguros.";
           } else if (isInventoryDeficitMode()) {
             elements.overlayTitle.textContent = "Déficit · inventario completo (103)";
-            elements.overlayText.textContent = `99 ubicaciones aproximadas · 4 sin coordenadas · radio ${cameraCoverageScenario} m · ${selectedPlatform || "unión de las 18 Plataformas"}. Escenario separado de las 31 para cambio.`;
+            elements.overlayText.textContent = `${inventoryCoverage.metadata.locatedRecords} equipos localizados · ${inventoryCoverage.metadata.uniqueSites} emplazamientos · radio ${cameraCoverageScenario} m · ${selectedPlatform || "unión de las 18 Plataformas"}. Escenario separado de las 31 para cambio.`;
           } else if (diagnosisMetric === "videoDeficitGap") {
             elements.overlayTitle.textContent = "DÉFICIT DE VIDEOVIGILANCIA";
             elements.overlayText.textContent = "Cobertura de las cámaras municipales para cambio frente a la distribución territorial de incidentes y población.";
@@ -5025,7 +5073,7 @@
             elements.overlayText.textContent = "Distribución de población localizada en sectores con menor cobertura institucional.";
           } else if (diagnosisMetric === "territorialGaps") {
             elements.overlayTitle.textContent = "BRECHAS TERRITORIALES";
-            elements.overlayText.textContent = "Síntesis de las brechas identificadas en las 18 Plataformas Territoriales.";
+            elements.overlayText.textContent = `Brechas de cobertura y prioridad territorial por manzana · 103 existentes · radio ${cameraCoverageScenario} m · intersección estricta · provisional.`;
           } else if (diagnosisMetric === "candidateZones") {
             elements.overlayTitle.textContent = "ZONAS CANDIDATAS DE INTERVENCIÓN";
             elements.overlayText.textContent = "Sectores donde coinciden múltiples condiciones de brecha territorial.";
@@ -5050,7 +5098,9 @@
           } else if (isInstitutionalMode()) {
             elements.status.textContent = "Cobertura institucional: infraestructura policial, cámaras municipales para cambio, bulevares y cobertura poblacional integrada.";
           } else if (isInventoryDeficitMode()) {
-            elements.status.textContent = `Inventario completo: 103 registros, 99 ubicados y 4 pendientes. ${fmt(inventoryDeficit.totals().uncoveredPopulation)} habitantes estimados fuera del escenario ${cameraCoverageScenario} m. Las 31 y sus brechas originales no se modifican.`;
+            elements.status.textContent = `Inventario completo: 103 equipos ubicados en 100 emplazamientos. ${fmt(inventoryDeficit.totals().uncoveredPopulation)} habitantes estimados fuera del escenario ${cameraCoverageScenario} m. Cobertura recalculada con las geometrías aceptadas.`;
+          } else if (diagnosisMetric === "territorialGaps") {
+            elements.status.textContent = `Brechas operativas provisionales: ${fmt(currentOperationalGapRows().length)} manzanas urbanas, 103 cámaras existentes, radio ${cameraCoverageScenario} m. Comparación con 153 y 183; intersección estricta, sin AHP.`;
           } else if (isGapMode()) {
             elements.status.textContent = `${layerConfig[analysisKey()]?.result}: ${currentGapRows().length} plataformas evaluadas, ${currentGapZones().length} zona(s)/celda(s) asociadas. Cámaras para cambio usadas: ${changeCameras.length}.`;
           } else if (isGiHotspotsMode()) {
@@ -5267,16 +5317,22 @@
         }).setView(L.geoJSON(feature).getBounds().getCenter(), 14);
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 20, className: "osm-gray-tile" }).addTo(detailMiniMap);
         const kdeMode = isKdeMode();
+        const gapBlockMode = diagnosisMetric === "territorialGaps";
         if (kdeMode && elements.toggleAnalysisResult.checked && filteredKdeCache?.url) {
           L.imageOverlay(filteredKdeCache.url, kdeBounds(), { opacity: 0.68, interactive: false }).addTo(detailMiniMap);
         }
         L.geoJSON(platformGeojsonCache, {
           interactive: false,
           style: (item) => item.properties?.platform_name === platform.platformName
-            ? { color: "#111827", weight: 2.4, fillColor: "#2f6f5f", fillOpacity: 0.28, fill: !kdeMode }
-            : { color: "#7e8790", weight: 0.7, fillColor: "#e8ede8", fillOpacity: 0.16, fill: !kdeMode }
+            ? { color: "#111827", weight: 2.4, fillColor: "#2f6f5f", fillOpacity: 0.28, fill: !kdeMode && !gapBlockMode }
+            : { color: "#7e8790", weight: 0.7, fillColor: "#e8ede8", fillOpacity: 0.16, fill: !kdeMode && !gapBlockMode }
         }).addTo(detailMiniMap);
-        const selectedLayer = L.geoJSON(feature, { interactive: false, style: { color: "#111827", weight: 2.8, fillColor: "#2f6f5f", fillOpacity: 0.34, fill: !kdeMode } }).addTo(detailMiniMap);
+        if (gapBlockMode && manzanaGeojsonCache) {
+          const rows = updatedGaps.scenarios[cameraCoverageScenario].A.byMan;
+          L.geoJSON({type: "FeatureCollection", features: manzanaGeojsonCache.features.filter(item => rows[item.properties.man]?.platformName === platform.platformName)},
+            {interactive: false, style: manzanaVisualStyle}).addTo(detailMiniMap);
+        }
+        const selectedLayer = L.geoJSON(feature, { interactive: false, style: { color: "#111827", weight: 2.8, fillColor: "#2f6f5f", fillOpacity: 0.34, fill: !kdeMode && !gapBlockMode } }).addTo(detailMiniMap);
         if (isCameraCoverageMode() || isInventoryDeficitMode()) {
           L.geoJSON(isInventoryDeficitMode() ? inventoryDeficit.scenario().coverage : activeCoverageGeometry(), {interactive: false, style: {color: "#d9a441", weight: 1, fillColor: "#e6b24f", fillOpacity: .5}}).addTo(detailMiniMap);
           if (isCameraCoverageMode()) L.geoJSON(activeCoverageManzanas(), {interactive: false, style: {color: "#263a33", weight: 1, fillColor: "#e6b24f", fillOpacity: .16}}).addTo(detailMiniMap);
@@ -5506,8 +5562,19 @@
       }
 
       function renderPlatformDetail(platformName) {
-        const platform = platformRecord(platformName);
+        const filteredGapPlatform = diagnosisMetric === "territorialGaps" && platformFilterValue() ? `PLATAFORMA ${platformFilterValue()}` : null;
+        const platform = platformRecord(platformName || filteredGapPlatform);
         if (isInventoryDeficitMode()) { inventoryDeficit.renderDetail(platform); return; }
+        if (diagnosisMetric === "territorialGaps") {
+          const rows = currentOperationalGapRows();
+          const coverage = platform ? gapCoverageRow(platform.platformName) : null;
+          elements.detailTitle.textContent = platform?.platformName || "Brechas por manzana";
+          const indicators = [["Manzanas urbanas", rows.length], ...LEVELS_GAP.map(level => [level, rows.filter(row => row.level === level).length]), ["Radio potencial", `${cameraCoverageScenario} m`]];
+          if (coverage) indicators.push(["Población analizada", coverage.population], ["Cámaras existentes en Plataforma", coverage.cameras], ["Área potencialmente cubierta", `${coverage.coveredAreaKm2.toFixed(3)} km²`]);
+          elements.detail.innerHTML = `${platform ? '<div id="gapBlockMiniMap" class="coverage-mini-map"></div>' : '<p>Selecciona una Plataforma para ver su mini mapa.</p>'}${indicators.map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${typeof value === "number" ? fmt(value) : esc(value)}</strong></div>`).join("")}<p>Clasificación provisional, no peligrosidad. ${esc(updatedGaps.metadata.eventAssignment)}</p>`;
+          if (platform) renderTerritoryMiniMap("gapBlockMiniMap", platform);
+          return;
+        }
         if (!platform) {
           elements.detailTitle.textContent = "Detalle territorial";
           const currentCoverageTotals = cameraCoverageTotalsAtScenario(cameraCoverageScenario);
@@ -5918,7 +5985,7 @@
       }
 
       const inventoryDeficit = window.createRiobambaInventoryDeficit({
-        coverage: window.RIOBAMBA_INVENTORY_CAMERA_COVERAGE, baseline: methodology, inventory: inventoryCameras,
+        coverage: inventoryCoverage, baseline: methodology, inventory: inventoryCameras,
         elements, esc, fmt, metricBars, radius: () => cameraCoverageScenario,
         events: geoIncidentEvents, eventPlatform: eventPlatformName, platforms: selectedGapPlatforms,
         selected: () => selectedPlatform, selectPlatform, miniMap: renderTerritoryMiniMap,
@@ -5953,7 +6020,7 @@
       });
       syncKdeFilterOptions();
       elements.category.value = events.find((event) => event.analyticalClassId === 1)?.category || "__ALL__";
-      setKdeDefaultContextLayers();
+      setGapContextLayers("cameraProposal");
       syncCoverageControls();
       renderLegend();
       renderTopbar();
@@ -6122,7 +6189,7 @@
       elements.methodologyModal.addEventListener("click", (event) => {
         if (event.target === elements.methodologyModal) elements.methodologyModal.close();
       });
-      if (new URLSearchParams(location.search).get("analysis") === "cameraProposal") activateDiagnosisMetric("cameraProposal");
+      activateDiagnosisMetric("cameraProposal");
     })();
   </script>
 </body>

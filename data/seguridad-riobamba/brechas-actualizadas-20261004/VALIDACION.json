@@ -1,0 +1,121 @@
+{
+  "passed": true,
+  "sourceGeometriesUnchanged": true,
+  "giUnchanged": true,
+  "strictIntersectionPreserved": true,
+  "populationAndProblematicLevelsFrozen": true,
+  "counts": [
+    {
+      "radius": 100,
+      "scenario": "REEMPLAZO_31",
+      "cameras": 31,
+      "ALTA": 604,
+      "MEDIA": 161,
+      "BAJA": 1769,
+      "SIN EVIDENCIA": 291
+    },
+    {
+      "radius": 100,
+      "scenario": "A",
+      "cameras": 103,
+      "ALTA": 523,
+      "MEDIA": 164,
+      "BAJA": 1847,
+      "SIN EVIDENCIA": 291
+    },
+    {
+      "radius": 100,
+      "scenario": "B",
+      "cameras": 153,
+      "ALTA": 496,
+      "MEDIA": 170,
+      "BAJA": 1868,
+      "SIN EVIDENCIA": 291
+    },
+    {
+      "radius": 100,
+      "scenario": "C",
+      "cameras": 183,
+      "ALTA": 432,
+      "MEDIA": 181,
+      "BAJA": 1921,
+      "SIN EVIDENCIA": 291
+    },
+    {
+      "radius": 150,
+      "scenario": "REEMPLAZO_31",
+      "cameras": 31,
+      "ALTA": 563,
+      "MEDIA": 165,
+      "BAJA": 1806,
+      "SIN EVIDENCIA": 291
+    },
+    {
+      "radius": 150,
+      "scenario": "A",
+      "cameras": 103,
+      "ALTA": 387,
+      "MEDIA": 182,
+      "BAJA": 1965,
+      "SIN EVIDENCIA": 291
+    },
+    {
+      "radius": 150,
+      "scenario": "B",
+      "cameras": 153,
+      "ALTA": 332,
+      "MEDIA": 178,
+      "BAJA": 2024,
+      "SIN EVIDENCIA": 291
+    },
+    {
+      "radius": 150,
+      "scenario": "C",
+      "cameras": 183,
+      "ALTA": 221,
+      "MEDIA": 166,
+      "BAJA": 2147,
+      "SIN EVIDENCIA": 291
+    },
+    {
+      "radius": 200,
+      "scenario": "REEMPLAZO_31",
+      "cameras": 31,
+      "ALTA": 515,
+      "MEDIA": 169,
+      "BAJA": 1850,
+      "SIN EVIDENCIA": 291
+    },
+    {
+      "radius": 200,
+      "scenario": "A",
+      "cameras": 103,
+      "ALTA": 271,
+      "MEDIA": 184,
+      "BAJA": 2079,
+      "SIN EVIDENCIA": 291
+    },
+    {
+      "radius": 200,
+      "scenario": "B",
+      "cameras": 153,
+      "ALTA": 200,
+      "MEDIA": 165,
+      "BAJA": 2169,
+      "SIN EVIDENCIA": 291
+    },
+    {
+      "radius": 200,
+      "scenario": "C",
+      "cameras": 183,
+      "ALTA": 102,
+      "MEDIA": 122,
+      "BAJA": 2310,
+      "SIN EVIDENCIA": 291
+    }
+  ],
+  "populationP33": 43.0,
+  "populationP66": 76.0,
+  "incidenceP33": 0.0,
+  "incidenceP66": 0.0
+}

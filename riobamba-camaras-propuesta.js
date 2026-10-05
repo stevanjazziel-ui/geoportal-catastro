@@ -27,7 +27,7 @@ window.createRiobambaCameraProposal = function (api) {
   const fc = features => ({ type: "FeatureCollection", features });
   const rowHtml = rows => rows.map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value ?? "No disponible")}</strong></div>`).join("");
   const table = (title, headings, rows, note = "") => `<section class="proposal-report"><h3>${esc(title)}</h3><div class="proposal-table-wrap"><table class="mini-table"><thead><tr>${headings.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${rows.map(r => `<tr>${r.map(v => `<td>${v}</td>`).join("")}</tr>`).join("")}</tbody></table></div>${note ? `<p>${esc(note)}</p>` : ""}</section>`;
-  const links = () => `<div class="proposal-links"><a href="${root}../CIERRE_FINAL_VIDEOVIGILANCIA_RIOBAMBA.zip" download>Paquete GIS ZIP</a><a href="${root}CIERRE_FINAL_VIDEOVIGILANCIA_RIOBAMBA.gpkg" download>GeoPackage</a><a href="${root}CIERRE_FINAL_VIDEOVIGILANCIA_RIOBAMBA.qgz" download>QGIS</a><a href="${root}index.html" target="_blank" rel="noopener">Mapas finales</a><a href="${root}INFORME_FINAL.md" target="_blank" rel="noopener">Informe y metodología</a><a href="${root}RESULTADOS.json" download>Resultados</a><a href="${root}VALIDACION.json" download>Validación GIS</a></div>`;
+  const links = () => `<div class="proposal-links"><a href="${root}../CIERRE_FINAL_VIDEOVIGILANCIA_RIOBAMBA.zip" download>Paquete GIS ZIP</a><a href="${root}../BRECHAS_ACTUALIZADAS_20261004.zip" download>Brechas recalculadas ZIP</a><a href="${root}CIERRE_FINAL_VIDEOVIGILANCIA_RIOBAMBA.gpkg" download>GeoPackage</a><a href="${root}CIERRE_FINAL_VIDEOVIGILANCIA_RIOBAMBA.qgz" download>QGIS</a><a href="${root}index.html" target="_blank" rel="noopener">Mapas finales</a><a href="${root}INFORME_FINAL.md" target="_blank" rel="noopener">Informe y metodología</a><a href="${root}RESULTADOS.json" download>Resultados</a><a href="${root}VALIDACION.json" download>Validación GIS</a></div>`;
   const metric = (kind, code = scenario()) => data.results[kind].find(r => r.ESCENARIO === code);
 
   controls.innerHTML = Object.entries(labels).map(([key, label]) => `<label>${esc(label)}<input type="checkbox" data-proposal-layer="${key}" ${toggles[key] ? "checked" : ""}></label>`).join("") +
@@ -194,6 +194,10 @@ window.createRiobambaCameraProposal = function (api) {
       ["Población urbana cubierta · %", ...codes.map(k => pct(metric("population", k).PCT_CUBIERTO))],
       ...["DELINCUENCIA", "VIOLENCIA", "CONVIVENCIA"].map(category => [esc(category) + " · cubierto cantonal", ...codes.map(k => pct(r.incidents.find(x => x.ESCENARIO === k && x.AMBITO === "CANTONAL" && x.CATEGORIA === category).PCT_CUBIERTO))])
     ], "Las coberturas se calculan sobre la unión disuelta: no se suman áreas superpuestas. Población: estimación areal CPV2022 en las 18 Plataformas; no población rural completa.");
+    const gaps = window.RIOBAMBA_UPDATED_GAPS;
+    if (gaps) html += table("Brechas por manzana · clasificación provisional · 200 m", ["Nivel", "103 existentes", "103 + 50", "103 + 50 + 30"],
+      ["ALTA", "MEDIA", "BAJA", "SIN EVIDENCIA"].map(level => [esc(level), ...codes.map(k => number(gaps.scenarios["200"][k].gapCounts[level]))]),
+      `${gaps.metadata.eventAssignment} Reglas operativas sin ponderaciones; población y problemática constantes entre escenarios. No representa peligrosidad. Descarga GIS disponible en Brechas recalculadas ZIP.`);
     html += table("Cobertura de corredores", ["Corredor", "Longitud km", "103 · %", "153 · %", "183 · %", "Sin cobertura 183 · m"], Object.entries(names).map(([key, label]) => {
       const values = codes.map(k => r.corridors.find(x => x.ESCENARIO === k && x.CORREDOR === key));
       return [`<button type="button" data-proposal-corridor="${key}">${esc(label)}</button>`, number(values[0].TOTAL_M / 1000, 2), ...values.map(v => pct(v.PCT_CUBIERTO)), number(values[2].NO_CUBIERTO_M)];
