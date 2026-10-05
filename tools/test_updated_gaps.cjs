@@ -50,6 +50,9 @@ for (const script of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)) new 
 assert.ok(html.includes('let diagnosisMetric = "cameraProposal"'));
 assert.ok(html.includes('activateDiagnosisMetric("cameraProposal");'));
 assert.ok(html.includes('id="cameraProposalMode"'));
+const sidebar = html.match(/<nav\b[\s\S]*?<\/nav>/)[0];
+assert.ok(!/<summary>(Detalle territorial|Descargas)<\/summary>/.test(sidebar));
+assert.ok(sidebar.includes('id="cameraProposalMode"'));
 assert.ok(!html.includes('99 ubicaciones aproximadas · 4 sin coordenadas'));
 console.log('PASS: 12 scenarios, all block rules, coverage totals, source hashes, JS syntax and proposal startup.');
 console.log(JSON.stringify(data.scenarios[200].A.gapCounts));
