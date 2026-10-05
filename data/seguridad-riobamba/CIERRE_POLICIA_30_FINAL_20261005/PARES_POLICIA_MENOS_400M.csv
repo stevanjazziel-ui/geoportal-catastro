@@ -1,0 +1,13 @@
+﻿ID_A,ID_B,DISTANCIA_M,BANDA,ALGUNA_REUBICADA,AREA_SOLAPE_MUTUO_M2,SOLAPE_MUTUO_BUFFER_PCT,DV_A_EXCLUSIVOS,DV_B_EXCLUSIVOS,JUSTIFICACION
+POL-02,POL-13,156.04112890527193,100-200 m,False,64859.19792257749,51.61849205077575,18,9,"Ambas necesarias por aportes independientes: POL-02 suma 13 D/5 V y POL-13 4 D/5 V contra el resto del escenario183. Entornos Gi* D/V 99%/99% y 99%/99%; nodos viales distintos de grados 4/3. Solapes globales 59.64%/61.40%, no extremos. No se inventa un equipamiento critico ni se impone distancia minima."
+POL-03,POL-09,341.392669368055,300-400 m,False,8267.386630789717,6.579637811610325,27,16,Distancia descriptiva; no se impone una separacion minima.
+POL-05,POL-30,392.9618384167819,300-400 m,False,349.63095886416687,0.27825541247639746,30,11,Distancia descriptiva; no se impone una separacion minima.
+POL-06,POL-24,237.0145459728731,200-300 m,True,36734.750553718164,29.235520792406625,14,7,Distancia descriptiva; no se impone una separacion minima.
+POL-08,POL-21,301.20947415279204,300-400 m,False,17807.555818740242,14.172225496384302,12,9,Distancia descriptiva; no se impone una separacion minima.
+POL-08,POL-22,252.26294233992456,200-300 m,False,31910.272412774906,25.39593759458955,12,2,Distancia descriptiva; no se impone una separacion minima.
+POL-10,POL-27,285.85660770135775,200-300 m,False,21977.745290120838,17.491090036393615,8,13,Distancia descriptiva; no se impone una separacion minima.
+POL-11,POL-26,339.0083783591915,300-400 m,False,8768.886443344392,6.978758752308974,7,14,Distancia descriptiva; no se impone una separacion minima.
+POL-16,POL-30,334.2915776231746,300-400 m,True,9787.620904030304,7.789523275230434,19,11,Distancia descriptiva; no se impone una separacion minima.
+POL-21,POL-22,362.3668315959111,300-400 m,False,4287.725445425787,3.412406087488423,9,2,Distancia descriptiva; no se impone una separacion minima.
+POL-23,POL-29,391.5320768705042,300-400 m,False,461.5153910393172,0.3672991542712396,22,9,Distancia descriptiva; no se impone una separacion minima.
+POL-24,POL-30,231.38910526611997,200-300 m,False,38558.747772939445,30.687157398727294,7,11,Distancia descriptiva; no se impone una separacion minima.

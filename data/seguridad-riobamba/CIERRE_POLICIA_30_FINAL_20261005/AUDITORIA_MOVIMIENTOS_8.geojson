@@ -1,0 +1,157 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_POLICIA": "POL-06"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.64277213044086,
+            -1.6712379067375926
+          ],
+          [
+            -78.63476597804261,
+            -1.6840023587888355
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_POLICIA": "POL-07"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.660198721826,
+            -1.6730890692462181
+          ],
+          [
+            -78.68868346750148,
+            -1.6529230847214813
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_POLICIA": "POL-14"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65874379131347,
+            -1.6711855884143312
+          ],
+          [
+            -78.66432678696832,
+            -1.6471004063045505
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_POLICIA": "POL-15"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65274495309261,
+            -1.6752365591404088
+          ],
+          [
+            -78.68696661284048,
+            -1.6476625810011576
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_POLICIA": "POL-16"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.66601423184423,
+            -1.6636695330142353
+          ],
+          [
+            -78.63793887001364,
+            -1.677502256507688
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_POLICIA": "POL-17"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.64396014145306,
+            -1.665768540764211
+          ],
+          [
+            -78.68322718663647,
+            -1.6461345748533085
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_POLICIA": "POL-18"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.6412728914617,
+            -1.6640363610645164
+          ],
+          [
+            -78.67736197024485,
+            -1.6607552511784998
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_POLICIA": "POL-19"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.64652603052895,
+            -1.6688627135930643
+          ],
+          [
+            -78.63972379067857,
+            -1.6587434188681829
+          ]
+        ]
+      }
+    }
+  ]
+}

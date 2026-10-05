@@ -1,0 +1,40 @@
+{
+  "fecha": "2026-10-05",
+  "servidor_local": "http://127.0.0.1:8767",
+  "visor": {
+    "analysis": "cameraProposal",
+    "fuente_activa": "CIERRE_POLICIA_30_FINAL_20261005",
+    "equipos_escenario": 183,
+    "delincuencia_cubierta_pct_visible": 70.4,
+    "violencia_cubierta_pct_visible": 62.2,
+    "convivencia_cubierta_pct_visible": 71.2,
+    "clic_POL_07": {
+      "decision": "REUBICAR",
+      "dv_exclusivos": 21,
+      "solape_pct": 0,
+      "gi_violencia_entorno": 99,
+      "ficha_actualizada": true
+    },
+    "brechas_C_anteriores": "No disponible: invalidadas tras reubicaciones",
+    "errores_consola_observados": 0
+  },
+  "mapas_finales": {
+    "marcadores_policiales": 30,
+    "alternar_mapa_control": true,
+    "controles_hotspot_ocultos_en_control": true,
+    "clic_POL_02": {
+      "dv_exclusivos": 18,
+      "solape_pct_visible": 59.64,
+      "distancia_policial_m_visible": 156.0,
+      "ficha_actualizada": true
+    },
+    "errores_consola_observados": 0
+  },
+  "capturas": [
+    "MAPA_FINAL_POLICIA_NACIONAL.png",
+    "CONTROL_FINAL_SOLAPES.png",
+    "CONTROL_POL_02_POL_13.png"
+  ],
+  "commit": false,
+  "push": false
+}

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Redundancia de cámaras policiales</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+*{box-sizing:border-box}body{margin:0;color:#173447;background:#f4f7f9;font:14px Arial,sans-serif;letter-spacing:0}header{padding:16px 20px;border-bottom:1px solid #ccd8df;background:#fff}h1{font-size:22px;margin:0 0 6px}p{margin:5px 0;line-height:1.4}button,select{min-height:34px;border:1px solid #bdccd5;background:white;color:#173447;padding:6px 10px;border-radius:4px;font:inherit;cursor:pointer}button[aria-pressed=true]{background:#164b72;color:white}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:10px 20px;background:#fff;border-bottom:1px solid #ccd8df}.toolbar label{display:flex;gap:6px;align-items:center}.status{margin-left:auto;font-size:12px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:12px;padding:12px 20px}#map{height:510px;border:1px solid #ccd8df;border-radius:4px}.detail{background:#fff;border:1px solid #ccd8df;border-radius:4px;padding:14px;max-height:510px;overflow:auto}h2{font-size:17px;margin:0 0 10px}h3{font-size:14px;margin:14px 0 8px}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px}.metric{border-bottom:1px solid #dce4e9;padding:5px 0}.metric span{display:block;color:#5c7180;font-size:12px}.metric strong{display:block;font-size:17px;margin-top:3px}.note{font-size:12px;color:#516775}.badge{display:inline-block;padding:3px 6px;border-radius:3px;font-weight:bold}.legend{background:#fff;padding:10px;line-height:1.7;box-shadow:0 1px 5px #0003;border-radius:4px}.swatch{display:inline-block;width:12px;height:12px;margin-right:7px;border:1px solid #546875;vertical-align:middle}.table-wrap{margin:0 20px 16px;background:#fff;border:1px solid #ccd8df;overflow:auto;border-radius:4px}.table-head{padding:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}.table-head h2{margin:0}table{width:100%;border-collapse:collapse;white-space:nowrap;font-size:12px}th,td{padding:8px;border-bottom:1px solid #e1e8ed;text-align:left}th{background:#eaf1f6}tbody tr{cursor:pointer}tbody tr:hover,tbody tr.selected{background:#e6f2fc}td.num{text-align:right}.mini-table{white-space:normal}.mini-table td{padding:6px 3px}.links{padding:0 20px 16px;display:flex;gap:16px;flex-wrap:wrap}a{color:#145c94}footer{padding:12px 20px;font-size:12px;color:#516775}.decision{border-left:3px solid #cc9526;padding:8px;background:#fff9e8;margin-top:10px}.leaflet-tooltip{font:12px Arial}.alt-button{width:100%;text-align:left;margin:3px 0;font-size:12px}#summary{background:#fff;padding:12px 20px;font-size:13px}.proof{padding:0 20px 14px}.proof table{background:white}.proof h2{margin:12px 0 8px}@media(max-width:850px){.layout{grid-template-columns:1fr;padding:10px}#map{height:430px}.detail{max-height:none}.table-wrap{margin:0 10px 12px}.toolbar{padding:10px}.status{margin-left:0}header{padding:12px}.proof{padding:0 10px 14px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}h1{font-size:19px}.links{padding:0 10px 12px}}
+.osm-gray-tile{filter:grayscale(1)}
+</style></head>
+<body>
+<header><h1>Redundancia de cámaras policiales</h1><p>103 existentes + 50 municipales finales + 30 policiales · Radio 200 m · Distancias en EPSG:32717</p><p class="note">Auditoría independiente. Los puntos oficiales permanecen intactos; las reubicaciones son recomendaciones.</p></header>
+<div class="toolbar">
+<button id="official" aria-pressed="true">Actual oficial</button><button id="trial" aria-pressed="false">Prueba recomendada</button>
+<label>Cámara <select id="camera" aria-label="Cámara policial"></select></label>
+<label><input id="showBuffers" type="checkbox" checked>Radios 200 m</label>
+<label><input id="showHot" type="checkbox">Hot Spots D/V</label>
+<button id="extent" title="Ver las 30 cámaras">Ver todas</button><span class="status">Sin commit ni push</span>
+</div>
+<div id="summary"></div>
+<div class="layout"><div id="map"></div><aside class="detail" id="detail"></aside></div>
+<div class="table-wrap"><div class="table-head"><h2>Las 30 cámaras</h2><label><input id="onlyReview" type="checkbox">Solo solape &gt;70 %</label><span class="note">Orden: mayor clase de redundancia, menor aporte D/V</span></div><table><thead><tr><th>ID</th><th>Plataforma</th><th>Solape</th><th>Exclusiva m²</th><th>Dist. existente</th><th>Dist. municipal</th><th>Dist. policial</th><th>D</th><th>V</th><th>D+V</th><th>Hot Spot D/V*</th><th>Redundancia</th><th>Decisión</th></tr></thead><tbody id="rows"></tbody></table></div>
+<section class="proof"><h2>Cobertura de incidentes · Comparación conjunta</h2><div style="overflow:auto"><table><thead><tr><th>Escenario</th><th>Delincuencia</th><th>Violencia</th><th>Convivencia</th></tr></thead><tbody id="scenarioRows"></tbody></table></div></section>
+<section class="proof"><h2>Hot Spots urbanos · Oficial frente a prueba</h2><p class="note">La cobertura de eventos puede mejorar sin mejorar todas las superficies. Los niveles estadísticos permanecen intactos.</p><div style="overflow:auto"><table><thead><tr><th>Categoría</th><th>Celdas completas</th><th>Celdas parciales</th><th>Celdas sin cobertura</th><th>Área cubierta (km²)</th></tr></thead><tbody id="hotRows"></tbody></table></div><p id="tradeoff" class="note"></p></section>
+<div class="links"><a href="AUDITORIA_30_POLICIA.csv">Tabla completa CSV</a><a href="ALTERNATIVAS_ITERATIVAS.csv">Alternativas comparadas</a><a href="DECISIONES.csv">Recomendaciones</a><a href="PLATAFORMA_J_5_CERCANAS.csv">Plataforma J</a><a href="REDUNDANCIA_POLICIA_30.gpkg">GeoPackage</a><a href="README.md">Metodología e informe</a><a href="REVISION_REDUNDANCIA_POLICIA_30.zip">Paquete ZIP</a></div>
+<footer>*Nivel máximo significativo dentro del radio. Gi* del sitio aparece por separado en la ficha. Aportes individuales: contra las otras 29, no son sumables. Población: estimación areal urbana, no cobertura rural completa; asterisco junto a la población = estimación parcial por datos censales faltantes.</footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script id="audit-data" type="application/json">__AUDIT_DATA__</script>
+<script>
+'use strict';
+const DATA=JSON.parse(document.getElementById('audit-data').textContent),R=DATA.resultados,C=DATA.capas;
+const colors={'BAJA':'#2d9462','MEDIA':'#e7be35','ALTA':'#e17b28','MUY ALTA':'#bf3545'};
+const fmt=(v,d=1)=>v==null?'No disponible':Number(v).toLocaleString('es-EC',{minimumFractionDigits:d,maximumFractionDigits:d});
+const esc=v=>String(v??'No disponible').replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
+let mode='ACTUAL', selected=R.actual[0].ID_POL,altLayer;
+const map=L.map('map',{preferCanvas:true});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap',className:'osm-gray-tile'}).addTo(map);
+L.geoJSON(C.CANTON,{style:{color:'#637d86',weight:1,fill:false}}).addTo(map);
+L.geoJSON(C.PLATAFORMAS,{style:{color:'#304e58',weight:1.4,fill:false},onEachFeature:(f,l)=>l.bindTooltip(f.properties.platform_name)}).addTo(map);
+const existing=L.geoJSON(C.EXISTENTES,{pointToLayer:(f,ll)=>L.circleMarker(ll,{radius:4,color:'#fff',weight:1,fillColor:f.properties.REQUIERE_CAMBIO?'#8735ba':'#2773c1',fillOpacity:1}),onEachFeature:(f,l)=>l.bindTooltip(f.properties.ID_CAMARA)}).addTo(map);
+const municipal=L.geoJSON(C.MUNICIPALES,{pointToLayer:(f,ll)=>L.circleMarker(ll,{radius:4,color:'#fff',weight:1,fillColor:'#19865a',fillOpacity:1}),onEachFeature:(f,l)=>l.bindTooltip(f.properties.ID_PROPUESTA)}).addTo(map);
+const hotspots=L.geoJSON(C.HOTSPOTS_DV,{style:f=>({color:f.properties.CATEGORIA==='DELINCUENCIA'?'#b93638':'#9657b4',weight:.4,fillColor:f.properties.NIVEL===99?'#a31c2f':f.properties.NIVEL===95?'#ef8231':'#f4cc70',fillOpacity:.25}),onEachFeature:(f,l)=>l.bindTooltip(f.properties.CATEGORIA+' '+f.properties.NIVEL+'% · '+f.properties.CELL_ID)});
+const buffers=L.layerGroup().addTo(map),points=L.layerGroup().addTo(map),focus=L.layerGroup().addTo(map);
+const policeRenderer=L.svg({pane:'markerPane'});
+const ranges={'BAJA':'&lt;50 %','MEDIA':'50–70 %','ALTA':'&gt;70–85 %','MUY ALTA':'&gt;85 %'};
+const legend=L.control({position:'bottomleft'});legend.onAdd=()=>{const div=L.DomUtil.create('div','legend');div.innerHTML='<b>Redundancia</b><br>'+Object.entries(colors).map(([k,v])=>'<span class="swatch" style="background:'+v+'"></span>'+k+' ('+ranges[k]+')<br>').join('')+'<span class="swatch" style="background:#30a675"></span>Área exclusiva<br><span class="swatch" style="background:#cc6680"></span>Área superpuesta';L.DomEvent.disableClickPropagation(div);return div};legend.addTo(map);
+L.control.layers({}, {'Existentes (azul / cambio morado)':existing,'Municipales (verde)':municipal},{collapsed:true}).addTo(map);
+const getRows=()=>mode==='ACTUAL'?R.actual:R.prueba;
+const feature=(layer,id)=>C[layer+'_'+mode].features.find(f=>f.properties.ID_POL===id);
+function metric(label,value){return '<div class="metric"><span>'+label+'</span><strong>'+value+'</strong></div>'}
+function select(id,zoom=true){selected=id;document.getElementById('camera').value=id;focus.clearLayers();if(altLayer){map.removeLayer(altLayer);altLayer=null}const r=getRows().find(r=>r.ID_POL===id);
+ const own=feature('BUFFER',id);L.geoJSON(own,{interactive:false,style:{color:'#173447',weight:2,dashArray:'5 3',fill:false}}).addTo(focus);
+ L.geoJSON(feature('SUPERPUESTA',id),{interactive:false,style:{color:'#ac3959',weight:.5,fillColor:'#cc6680',fillOpacity:.45}}).addTo(focus);
+ L.geoJSON(feature('EXCLUSIVA',id),{interactive:false,style:{color:'#19704b',weight:1,fillColor:'#30a675',fillOpacity:.65}}).addTo(focus);
+ const fp=feature('POLICIA',id),ll=[fp.geometry.coordinates[1],fp.geometry.coordinates[0]];
+ L.circleMarker(ll,{renderer:policeRenderer,interactive:false,radius:9,color:'#122f47',weight:2,fillColor:colors[r.REDUNDANCIA],fillOpacity:1}).bindTooltip(id,{permanent:true,direction:'top'}).addTo(focus);
+ if(zoom)map.fitBounds(L.geoJSON(own).getBounds().pad(.7),{maxZoom:16,animate:false});
+ let html='<h2>'+esc(id)+' · '+esc(r.PLATAFORMA.replace('PLATAFORMA ',''))+'</h2><span class="badge" style="background:'+colors[r.REDUNDANCIA]+';color:#fff">'+r.REDUNDANCIA+'</span><div class="metrics">'+
+ metric('Solape',fmt(r.SOLAPE_PREVIO_PCT,2)+' %')+metric('Aporte exclusivo',fmt(r.APORTE_EXCLUSIVO_PCT,2)+' %')+
+ metric('Área del radio',fmt(r.AREA_BUFFER_M2,0)+' m²')+metric('Área exclusiva',fmt(r.AREA_EXCLUSIVA_M2,0)+' m²')+
+ metric('D nuevos',fmt(r.EVENTOS_D_NUEVOS,0))+metric('V nuevos',fmt(r.EVENTOS_V_NUEVOS,0))+
+ metric('D+V nuevos',fmt(r.EVENTOS_DV_NUEVOS,0))+metric('Población adicional estimada',fmt(r.POBLACION_ADICIONAL_ESTIMADA,1)+(r.POBLACION_ADICIONAL_PARCIAL?'*':''))+'</div>'+
+ '<h3>Distancias a cámaras</h3><p>Existente: '+fmt(r.DIST_EXISTENTE_M)+' m<br>Municipal: '+fmt(r.DIST_MUNICIPAL_M)+' m<br>Policial: '+fmt(r.DIST_POLICIA_M)+' m</p>'+
+ '<h3>Gi* del sitio</h3><p>D: '+esc(r.GI_D_CLASE_SITIO)+'<br>V: '+esc(r.GI_V_CLASE_SITIO)+'</p><p class="note">z D/V: '+fmt(r.GI_D_ZSCORE_SITIO,3)+' / '+fmt(r.GI_V_ZSCORE_SITIO,3)+'<br>p D/V: '+fmt(r.GI_D_PVALUE_SITIO,5)+' / '+fmt(r.GI_V_PVALUE_SITIO,5)+'</p>'+
+ '<h3>Hot Spots con aporte adicional</h3><p>D: '+r.HOTSPOTS_D_CON_APORTE+' · V: '+r.HOTSPOTS_V_CON_APORTE+'<br>Primera atención D/V: '+r.HOTSPOTS_D_PRIMERA_ATENCION+'/'+r.HOTSPOTS_V_PRIMERA_ATENCION+'<br>Completados D/V: '+r.HOTSPOTS_D_COMPLETADOS+'/'+r.HOTSPOTS_V_COMPLETADOS+'</p>'+
+ '<h3>Contexto operativo</h3><p>UPC: '+esc(r.NOMBRE_UPC)+' ('+fmt(r.DIST_UPC_M)+' m)<br>Nodo: '+esc(r.INTERSECCION_O_NODO)+'<br>Grado vial: '+r.GRADO_NODO+'</p>'+
+ '<div class="decision"><strong>'+r.DECISION+'</strong><p>'+esc(r.JUSTIFICACION)+'</p></div>';
+ const nearest=R.plataformaJ_cercanas.filter(n=>n.ID_POL_J===id);if(nearest.length){html+='<h3>Plataforma J · 5 más cercanas (actual)</h3><table class="mini-table">'+nearest.map(n=>'<tr><td>'+esc(n.ID_CERCANA)+'</td><td>'+esc(n.GRUPO)+'</td><td>'+fmt(n.DISTANCIA_M)+' m</td></tr>').join('')+'</table>'}
+ const opts=R.alternativas.filter(a=>a.ID_POL_REVISADA===id&&a.TIPO_OPCION==='ALTERNATIVA');if(opts.length){html+='<h3>Alternativas · iteración '+opts[0].ITERACION+'</h3><p class="note">Ganancias en el contexto de esa iteración, no de la prueba final.</p>'+opts.map(o=>'<button class="alt-button" data-candidate="'+o.ID_CANDIDATO+'">'+o.ORDEN+'. '+o.ID_CANDIDATO+'<br>'+o.EVENTOS_DV_NUEVOS+' D/V · '+fmt(o.SOLAPE_PREVIO_PCT,1)+' % solape'+(o.SELECCIONADA_PRUEBA?' · recomendada':'')+'</button>').join('')}
+ document.getElementById('detail').innerHTML=html;document.querySelectorAll('[data-candidate]').forEach(b=>b.onclick=()=>showAlternative(b.dataset.candidate,id));
+ document.querySelectorAll('#rows tr').forEach(t=>t.classList.toggle('selected',t.dataset.id===id));
+}
+function showAlternative(id,slot){if(altLayer)map.removeLayer(altLayer);const f=C.ALTERNATIVAS.features.find(f=>f.properties.ID_CANDIDATO===id&&f.properties.ID_POL_REVISADA===slot);const ll=[f.geometry.coordinates[1],f.geometry.coordinates[0]];altLayer=L.layerGroup([L.circle(ll,{radius:200,color:'#663fa0',weight:2,dashArray:'6 4',fillOpacity:.08}),L.circleMarker(ll,{radius:7,color:'#fff',weight:2,fillColor:'#663fa0',fillOpacity:1}).bindTooltip(id,{permanent:true,direction:'top'})]).addTo(map);map.panTo(ll,{animate:false})}
+function render(){const rows=getRows();points.clearLayers();buffers.clearLayers();for(const f of C['BUFFER_'+mode].features){L.geoJSON(f,{interactive:false,style:{color:colors[f.properties.REDUNDANCIA],weight:.8,fillOpacity:.10}}).addTo(buffers)}for(const f of C['POLICIA_'+mode].features){L.geoJSON(f,{pointToLayer:(f,ll)=>L.circleMarker(ll,{renderer:policeRenderer,radius:6,color:'#fff',weight:1.5,fillColor:colors[f.properties.REDUNDANCIA],fillOpacity:1}),onEachFeature:(f,l)=>{l.bindTooltip(f.properties.ID_POL);l.on('click',()=>select(f.properties.ID_POL));l.on('add',()=>{const el=l.getElement();el.setAttribute('role','button');el.setAttribute('aria-label',f.properties.ID_POL);el.setAttribute('tabindex','0');el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(f.properties.ID_POL)}})})}}).addTo(points)}
+ document.getElementById('camera').innerHTML=rows.map(r=>'<option value="'+r.ID_POL+'">'+r.ID_POL+' · '+esc(r.PLATAFORMA.replace('PLATAFORMA ',''))+'</option>').join('');
+ const shown=rows.filter(r=>!document.getElementById('onlyReview').checked||r.SOLAPE_PREVIO_PCT>70);document.getElementById('rows').innerHTML=shown.map(r=>'<tr data-id="'+r.ID_POL+'"><td>'+r.ID_POL+'</td><td>'+esc(r.PLATAFORMA.replace('PLATAFORMA ',''))+'</td><td class="num">'+fmt(r.SOLAPE_PREVIO_PCT,2)+' %</td><td class="num">'+fmt(r.AREA_EXCLUSIVA_M2,0)+'</td>'+['DIST_EXISTENTE_M','DIST_MUNICIPAL_M','DIST_POLICIA_M'].map(k=>'<td class="num">'+fmt(r[k])+' m</td>').join('')+'<td>'+r.EVENTOS_D_NUEVOS+'</td><td>'+r.EVENTOS_V_NUEVOS+'</td><td>'+r.EVENTOS_DV_NUEVOS+'</td><td>'+r.NIVEL_DEL+'/'+r.NIVEL_VIOL+' %</td><td>'+r.REDUNDANCIA+'</td><td>'+r.DECISION+'</td></tr>').join('');
+ document.querySelectorAll('#rows tr').forEach(t=>t.onclick=()=>select(t.dataset.id));
+ const counts=Object.keys(colors).map(k=>k+': '+rows.filter(r=>r.REDUNDANCIA===k).length).join(' · ');document.getElementById('summary').textContent=counts+' · '+R.decisiones.filter(d=>d.DECISION==='REUBICAR').length+' reubicaciones recomendadas (no aplicadas al visor)';
+ if(!document.getElementById('showBuffers').checked)map.removeLayer(buffers);else buffers.addTo(map);select(selected,false)}
+document.getElementById('official').onclick=()=>setMode('ACTUAL');document.getElementById('trial').onclick=()=>setMode('PRUEBA');
+function setMode(value){mode=value;document.getElementById('official').setAttribute('aria-pressed',value==='ACTUAL');document.getElementById('trial').setAttribute('aria-pressed',value==='PRUEBA');render();select(selected)}
+document.getElementById('camera').onchange=e=>select(e.target.value);document.getElementById('showBuffers').onchange=e=>e.target.checked?buffers.addTo(map):map.removeLayer(buffers);
+document.getElementById('showHot').onchange=e=>{if(e.target.checked){hotspots.addTo(map);hotspots.bringToBack()}else map.removeLayer(hotspots)};
+document.getElementById('onlyReview').onchange=render;document.getElementById('extent').onclick=()=>map.fitBounds(L.geoJSON(C['POLICIA_'+mode]).getBounds().pad(.12));
+document.getElementById('scenarioRows').innerHTML=Object.entries(R.escenarios).map(([key,value])=>'<tr><td>'+esc(key)+'</td>'+['DELINCUENCIA','VIOLENCIA','CONVIVENCIA'].map(cat=>'<td>'+fmt(value.incidentes[cat].cubiertos,0)+' / '+fmt(value.incidentes[cat].total,0)+' ('+fmt(value.incidentes[cat].porcentaje,2)+' %)</td>').join('')+'</tr>').join('');
+const oldHot=R.escenarios['103+50+30_OFICIAL'].hotspots,newHot=R.escenarios['103+50+30_PRUEBA'].hotspots;
+document.getElementById('hotRows').innerHTML=['DELINCUENCIA','VIOLENCIA','CONVIVENCIA'].map(cat=>{const a=oldHot['URBANO_'+cat],b=newHot['URBANO_'+cat];return '<tr><td>'+cat+'</td>'+['CUBIERTO','PARCIALMENTE CUBIERTO','SIN COBERTURA'].map(k=>'<td>'+fmt(a[k]??0,0)+' → '+fmt(b[k]??0,0)+'</td>').join('')+'<td>'+fmt(a.area_cubierta_m2/1e6,3)+' → '+fmt(b.area_cubierta_m2/1e6,3)+'</td></tr>'}).join('');
+document.getElementById('tradeoff').textContent='Contrapartida: la superficie cubierta de Hot Spots de Delincuencia baja '+fmt((oldHot.URBANO_DELINCUENCIA.area_cubierta_m2-newHot.URBANO_DELINCUENCIA.area_cubierta_m2)/1e6,3)+' km²; las celdas completas pasan de '+oldHot.URBANO_DELINCUENCIA.CUBIERTO+' a '+newHot.URBANO_DELINCUENCIA.CUBIERTO+'. Revisar estos cambios antes de aplicar reubicaciones.';
+render();map.fitBounds(L.geoJSON(C.POLICIA_ACTUAL).getBounds().pad(.12));
+</script></body></html>

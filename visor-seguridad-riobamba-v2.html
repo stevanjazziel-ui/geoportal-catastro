@@ -1234,7 +1234,8 @@
   <script src="./riobamba-camaras-inventario-cobertura-data.js?v=deficit-inventario-20261002"></script>
   <script src="./riobamba-deficit-inventario.js?v=brechas-20261004"></script>
   <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=inventario-subconjunto-20261005" />
-  <script src="./riobamba-camaras-propuesta.js?v=inventario-subconjunto-20261005"></script>
+  <link rel="stylesheet" href="./riobamba-mobile.css?v=20261005" />
+  <script src="./riobamba-camaras-propuesta.js?v=cierre-policia-final-20261005"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
   <script src="./riobamba-accesibilidad-policial-data.js?v=metodologia-20261001"></script>
   <script src="./riobamba-seguridad-diagnostico-data.js?v=metodologia-20261001"></script>
@@ -1246,7 +1247,7 @@
   <script src="./riobamba-conflictividad-data.js?v=publicacion-completa-20261001"></script>
   <script src="./riobamba-brechas-actualizadas-data.js?v=brechas-20261004"></script>
   <script src="./riobamba-conflictividad.js?v=kde-visual-p30-20261005"></script>
-  <script src="./riobamba-cantonal-view.js?v=gi-simbologia-20261005"></script>
+  <script src="./riobamba-cantonal-view.js?v=interaccion-modulos-20261005"></script>
   <script>
     (() => {
       const dataset = window.RiobambaConflictivity.applyDataset(window.RIOBAMBA_SECURITY_DATA);
@@ -1467,8 +1468,8 @@
         if (isKdeMode()) return "kde";
         if (isGiHotspotsMode()) return "giHotspots";
         if (isCameraProposalMode()) return "cameraProposal";
-        if (diagnosisMetric === "cameraCoverage") return "cameraCoverage";
-        if (diagnosisMetric === "populationCoverage") return "populationCoverage";
+        if (mode === "diagnosis" && diagnosisMetric === "cameraCoverage") return "cameraCoverage";
+        if (mode === "diagnosis" && diagnosisMetric === "populationCoverage") return "populationCoverage";
         if (isBoulevardsMode()) return "boulevards";
         if (isInstitutionalMode()) return "institutionalCoverage";
         if (isGapMode()) return diagnosisMetric;
@@ -4958,7 +4959,14 @@
         update();
       }
 
+      let renderedModule = null;
       function update() {
+        const moduleKey = `${mode}:${mode === "diagnosis" ? diagnosisMetric : mode === "events" ? incidentMenuView : ""}`;
+        if (renderedModule !== null && renderedModule !== moduleKey) {
+          clearSelection();
+        }
+        renderedModule = moduleKey;
+        map.closePopup();
         const urbanGiActive = mode === "diagnosis" && diagnosisMetric === "giHotspots" && (!cantonalController || cantonalController.scope() === "URBANO");
         Array.from(elements.category.options).forEach((option) => { option.disabled = urbanGiActive && !["DELINCUENCIA", "VIOLENCIA", "CONVIVENCIA"].includes(option.value); });
         if (urbanGiActive && !["DELINCUENCIA", "VIOLENCIA", "CONVIVENCIA"].includes(elements.category.value)) {
@@ -4987,13 +4995,13 @@
           cantonalController.clearAnalysis();
         }
         clearDetailMiniMap();
-        map.closePopup();
         const items = filteredEvents();
         if (selectedId && !items.some((event) => event.id === selectedId)) selectedId = null;
         if (selectedParish && !filteredParishes().some((parish) => parish.parish === selectedParish)) selectedParish = null;
         if (selectedCamera && !filteredCameras().some((camera) => camera.id === selectedCamera)) selectedCamera = null;
         if (selectedPolice && !filteredPoliceInfrastructure().some((feature) => feature.properties?.code === selectedPolice)) selectedPolice = null;
         if (selectedPlatform && !filteredPlatforms().some((platform) => platform.platformName === selectedPlatform)) selectedPlatform = null;
+        if (selectedGiCell && (!isGiHotspotsMode() || !filteredGiCells().some((cell) => cell.cellId === selectedGiCell))) selectedGiCell = null;
         renderSummary(items);
         renderList(items);
         renderHotspots(items);
@@ -5891,7 +5899,7 @@
         elements.giHotspotsMode.classList.toggle("is-active", isGiHotspotsMode());
         elements.typologiesMode.classList.toggle("is-active", isTypologiesMode());
         elements.temporalMode.classList.toggle("is-active", isTemporalMode());
-        elements.videoDeficitGapMode.classList.toggle("is-active", diagnosisMetric === "videoDeficitGap");
+        elements.videoDeficitGapMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "videoDeficitGap");
         elements.inventoryDeficitGapMode.classList.toggle("is-active", isInventoryDeficitMode());
         elements.lowCoverageConcentrationsMode.classList.toggle("is-active", diagnosisMetric === "lowCoverageConcentrations");
         elements.exposureLowCoverageMode.classList.toggle("is-active", diagnosisMetric === "exposureLowCoverage");

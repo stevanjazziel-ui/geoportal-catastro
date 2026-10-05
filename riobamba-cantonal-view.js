@@ -56,7 +56,7 @@ window.createRiobambaCantonalView = function (api) {
   const bars = (title, entries, color = "#26A69A") => api.metricBars(title, entries.map(([label, value]) => ({label, value, color})), Math.max(1, ...entries.map((e) => e[1])), color);
   const note = () => `<p class="cantonal-note">${esc(data.metadata.limitations[0])} ${esc(data.metadata.limitations[1])}</p>`;
   unitControl.innerHTML = `<option value="__ALL__">Todas las Parroquias</option>${units.map((f) => `<option value="${esc(featureName(f))}">${esc(featureName(f))}</option>`).join("")}`;
-  unitControl.addEventListener("change", () => { parish = unitControl.value; api.update(); });
+  unitControl.addEventListener("change", () => { parish = unitControl.value; api.clearSelection(); lastFit = ""; api.update(); });
   scopeButtons.forEach((button) => button.addEventListener("click", () => {
     scope = button.dataset.territorialScope;
     parish = "__ALL__";
@@ -291,6 +291,7 @@ window.createRiobambaCantonalView = function (api) {
   }
   function clearAnalysis() {
     analysis.clearLayers();
+    if (map.hasLayer(pointRenderer)) map.removeLayer(pointRenderer);
     clearDetailMiniMap();
   }
   function allowsGi(c) {
