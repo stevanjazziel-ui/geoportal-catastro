@@ -136,8 +136,10 @@ window.createRiobambaCameraProposal = function (api) {
   }
   function renderLegend() {
     if (!data) return;
-    el.legend.innerHTML = `<div><span class="proposal-key existing"></span>Existentes · 103</div><div><span class="proposal-key change"></span>Requieren cambio · 31 de las 103</div><div><span class="proposal-key municipal"></span>Municipio · 50 propuestas</div><div><span class="proposal-key police"></span>Policía · 30 propuestas</div>` +
-      Object.keys(groups).filter(groupEnabled).map(k => `<div><span class="proposal-key" style="background:${colors[k]};opacity:.5"></span>Radio ${esc(groups[k])} · 200 m</div>`).join("") +
+    const existingCount = data.existing.features.length;
+    const changeCount = data.existing.features.filter(change).length;
+    el.legend.innerHTML = `<div>Cámaras existentes · ${existingCount} en total</div><div><span class="proposal-key existing"></span>Sin cambio requerido · ${existingCount - changeCount}</div><div><span class="proposal-key change"></span>Requieren cambio · ${changeCount} de las ${existingCount}</div><div><span class="proposal-key municipal"></span>Municipio · 50 propuestas</div><div><span class="proposal-key police"></span>Policía · 30 propuestas</div>` +
+      Object.keys(groups).filter(groupEnabled).map(k => `<div><span class="proposal-key" style="background:${colors[k]};opacity:.5"></span>Radio ${k === "existing" ? "sin cambio requerido" : esc(groups[k])} · 200 m</div>`).join("") +
       `<div><span class="proposal-key" style="background:${colors.change};opacity:.5"></span>Radio para cambio · 200 m</div>` +
       (toggles.hotspots ? `<div>Gi*: ${esc(hotspotScope)} / ${esc(hotspotCategory)} · 90/95/99 %</div>` : "") +
       Object.entries(corridorColors).map(([k, color]) => `<div><span class="proposal-key" style="background:${color}"></span>${esc(names[k])}</div>`).join("") + `<div>Radios geométricos potenciales, no campo visual efectivo.</div>`;
@@ -235,7 +237,10 @@ window.createRiobambaCameraProposal = function (api) {
     const area = metric("territorial"), population = metric("population");
     const total = Object.keys(groups).filter(groupEnabled).reduce((n, k) => n + data[k].features.length, 0);
     el.overlayText.textContent = `${total} equipos en el escenario · radio 200 m · cobertura potencial · originales conservados`;
-    el.summary.innerHTML = [["Existentes", 103, "existing"], ["Para cambio · incluidas", 31, "change"], ["Municipales propuestas", scenario() === "A" ? 0 : 50, "municipal"], ["Policía propuesta", scenario() === "C" ? 30 : 0, "police"], ["Área urbana cubierta", `${number(area.AREA_CUBIERTA_URBANA_KM2, 2)} km²`], ["Población urbana cubierta", `${number(population.POBLACION_CUBIERTA)} · ${pct(population.PCT_CUBIERTO)}`]].map(([label, value, symbol]) => `<div class="card"><span>${symbol ? `<i class="proposal-key ${symbol}" aria-hidden="true"></i>` : ""}${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+    const existingCount = data.existing.features.length;
+    const changeCount = data.existing.features.filter(change).length;
+    el.summary.innerHTML = [["Cámaras existentes", existingCount, "existing change"], ["Requieren cambio", `${changeCount} de las ${existingCount}`, "change"], ["Sin cambio requerido", existingCount - changeCount, "existing"], ["Municipales propuestas", scenario() === "A" ? 0 : 50, "municipal"], ["Policía propuesta", scenario() === "C" ? 30 : 0, "police"], ["Área urbana cubierta", `${number(area.AREA_CUBIERTA_URBANA_KM2, 2)} km²`], ["Población urbana cubierta", `${number(population.POBLACION_CUBIERTA)} · ${pct(population.PCT_CUBIERTO)}`]].map(([label, value, symbols]) => `<div class="card"><span>${symbols ? symbols.split(" ").map(symbol => `<i class="proposal-key ${symbol}" aria-hidden="true"></i>`).join("") : ""}${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")
+      + `<p class="proposal-inventory-note">Las ${changeCount} cámaras para cambio están incluidas en las ${existingCount} existentes; no son cámaras adicionales. ${existingCount - changeCount} + ${changeCount} = ${existingCount}.</p>`;
     syncToggles(); draw(); detail(); graphics(); renderLegend();
     map.invalidateSize(); if (fitNeeded) fit();
     el.status.textContent = "103 existentes (31 para cambio) + 50 Municipio + 30 Policía. Radio potencial 200 m. Gi* y geometrías originales conservados.";
