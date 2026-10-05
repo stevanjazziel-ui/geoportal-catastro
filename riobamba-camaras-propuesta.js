@@ -55,7 +55,7 @@ window.createRiobambaCameraProposal = function (api) {
     if (data) return;
     if (!loading) loading = (async () => {
       const files = { results: "RESULTADOS.json", existing: "CAMARAS_EXISTENTES_103_FINAL.geojson", municipal: "PROPUESTA_MUNICIPAL_50_FINAL.geojson", police: "PROPUESTA_POLICIA_30_FINAL.geojson",
-        existingRadius: "COBERTURA_A.geojson", municipalRadius: "COBERTURA_MUNICIPAL_200M.geojson", policeRadius: "COBERTURA_POLICIA_200M.geojson", platforms: "PLATAFORMAS_TERRITORIALES.geojson", corridors: "CORREDORES.geojson",
+        existingRadius: "RADIOS_EXISTENTES_SIMBOLOGIA_200M.geojson", municipalRadius: "COBERTURA_MUNICIPAL_200M.geojson", policeRadius: "COBERTURA_POLICIA_200M.geojson", platforms: "PLATAFORMAS_TERRITORIALES.geojson", corridors: "CORREDORES.geojson",
         DELINCUENCIA: "HOTSPOT_DELINCUENCIA.geojson", VIOLENCIA: "HOTSPOT_VIOLENCIA.geojson", CONVIVENCIA: "HOTSPOT_CONVIVENCIA.geojson" };
       const entries = await Promise.all(Object.entries(files).map(async ([key, name]) => {
         const response = await fetch(root + name + "?v=cierre-183-20261004");
@@ -87,6 +87,7 @@ window.createRiobambaCameraProposal = function (api) {
     return L.divIcon({ className: `proposal-camera-icon proposal-camera-${symbol}`, html: "<span></span>", iconSize: [20, 20], iconAnchor: [10, 10] });
   }
   const coverageStyle = key => ({ color: colors[key], weight: 1, opacity: .65, fillColor: colors[key], fillOpacity: .18 });
+  const radiusStyle = key => feature => coverageStyle(key === "existing" && change(feature) ? "change" : key);
   function selectEntity(value, bounds) {
     selected = value; detail();
     if (bounds?.isValid()) map.fitBounds(bounds, { padding: [30, 30], maxZoom: 17, animate: false });
@@ -104,7 +105,7 @@ window.createRiobambaCameraProposal = function (api) {
           layer.bindTooltip(`${esc(cameraId(f))} · ${esc(groups[group])}${change(f) ? " · Requiere cambio" : ""}`).on("click", select);
           layer.on("add", () => { const node = layer.getElement(); L.DomEvent.off(node, "keydown", keyboard); L.DomEvent.on(node, "keydown", keyboard); });
         } }));
-      replaceLayer(group + "Radius", L.geoJSON(data[group + "Radius"], { pane: pane("coverage", 410), interactive: false, style: coverageStyle(group) }));
+      replaceLayer(group + "Radius", L.geoJSON(data[group + "Radius"], { pane: pane("coverage", 410), interactive: false, style: radiusStyle(group) }));
     }
     replaceLayer("platforms", L.geoJSON(data.platforms, { pane: pane("platforms", 440), style: { color: "#385a52", weight: 1.6, fill: false },
       onEachFeature: (f, layer) => layer.bindTooltip(esc(f.properties.platform_name)).on("click", () => selectEntity({ kind: "platform", feature: f })) }));
@@ -137,6 +138,7 @@ window.createRiobambaCameraProposal = function (api) {
     if (!data) return;
     el.legend.innerHTML = `<div><span class="proposal-key existing"></span>Existentes · 103</div><div><span class="proposal-key change"></span>Requieren cambio · 31 de las 103</div><div><span class="proposal-key municipal"></span>Municipio · 50 propuestas</div><div><span class="proposal-key police"></span>Policía · 30 propuestas</div>` +
       Object.keys(groups).filter(groupEnabled).map(k => `<div><span class="proposal-key" style="background:${colors[k]};opacity:.5"></span>Radio ${esc(groups[k])} · 200 m</div>`).join("") +
+      `<div><span class="proposal-key" style="background:${colors.change};opacity:.5"></span>Radio para cambio · 200 m</div>` +
       (toggles.hotspots ? `<div>Gi*: ${esc(hotspotScope)} / ${esc(hotspotCategory)} · 90/95/99 %</div>` : "") +
       Object.entries(corridorColors).map(([k, color]) => `<div><span class="proposal-key" style="background:${color}"></span>${esc(names[k])}</div>`).join("") + `<div>Radios geométricos potenciales, no campo visual efectivo.</div>`;
   }
@@ -145,7 +147,7 @@ window.createRiobambaCameraProposal = function (api) {
     miniMap = L.map(node, { zoomControl: false, scrollWheelZoom: false, preferCanvas: true, zoomAnimation: false });
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap", className: "osm-gray-tile", maxZoom: 20 }).addTo(miniMap);
     for (const key of Object.keys(groups).filter(groupEnabled)) {
-      L.geoJSON(data[key + "Radius"], { interactive: false, style: coverageStyle(key) }).addTo(miniMap);
+      L.geoJSON(data[key + "Radius"], { interactive: false, style: radiusStyle(key) }).addTo(miniMap);
       L.geoJSON(data[key], { pointToLayer: (f, pos) => L.marker(pos, { icon: icon(key, f), title: cameraId(f) }) }).addTo(miniMap);
     }
     L.geoJSON(data.platforms, { interactive: false, style: { color: "#385a52", weight: 1, fill: false } }).addTo(miniMap);
@@ -233,7 +235,7 @@ window.createRiobambaCameraProposal = function (api) {
     const area = metric("territorial"), population = metric("population");
     const total = Object.keys(groups).filter(groupEnabled).reduce((n, k) => n + data[k].features.length, 0);
     el.overlayText.textContent = `${total} equipos en el escenario · radio 200 m · cobertura potencial · originales conservados`;
-    el.summary.innerHTML = [["Existentes", 103], ["Para cambio · incluidas", 31], ["Municipales propuestas", scenario() === "A" ? 0 : 50], ["Policía propuesta", scenario() === "C" ? 30 : 0], ["Área urbana cubierta", `${number(area.AREA_CUBIERTA_URBANA_KM2, 2)} km²`], ["Población urbana cubierta", `${number(population.POBLACION_CUBIERTA)} · ${pct(population.PCT_CUBIERTO)}`]].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+    el.summary.innerHTML = [["Existentes", 103, "existing"], ["Para cambio · incluidas", 31, "change"], ["Municipales propuestas", scenario() === "A" ? 0 : 50, "municipal"], ["Policía propuesta", scenario() === "C" ? 30 : 0, "police"], ["Área urbana cubierta", `${number(area.AREA_CUBIERTA_URBANA_KM2, 2)} km²`], ["Población urbana cubierta", `${number(population.POBLACION_CUBIERTA)} · ${pct(population.PCT_CUBIERTO)}`]].map(([label, value, symbol]) => `<div class="card"><span>${symbol ? `<i class="proposal-key ${symbol}" aria-hidden="true"></i>` : ""}${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
     syncToggles(); draw(); detail(); graphics(); renderLegend();
     map.invalidateSize(); if (fitNeeded) fit();
     el.status.textContent = "103 existentes (31 para cambio) + 50 Municipio + 30 Policía. Radio potencial 200 m. Gi* y geometrías originales conservados.";

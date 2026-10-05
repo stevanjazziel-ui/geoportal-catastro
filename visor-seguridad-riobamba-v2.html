@@ -1233,8 +1233,8 @@
   <script src="./riobamba-camaras-cobertura-geometrias.js?v=cobertura-unificada-20261002"></script>
   <script src="./riobamba-camaras-inventario-cobertura-data.js?v=deficit-inventario-20261002"></script>
   <script src="./riobamba-deficit-inventario.js?v=brechas-20261004"></script>
-  <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=cierre-183-20261004" />
-  <script src="./riobamba-camaras-propuesta.js?v=brechas-20261004"></script>
+  <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=simbolos-20261005" />
+  <script src="./riobamba-camaras-propuesta.js?v=simbolos-20261005"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
   <script src="./riobamba-accesibilidad-policial-data.js?v=metodologia-20261001"></script>
   <script src="./riobamba-seguridad-diagnostico-data.js?v=metodologia-20261001"></script>
@@ -1245,7 +1245,7 @@
   <script src="./riobamba-cantonal-data.js?v=20261001"></script>
   <script src="./riobamba-conflictividad-data.js?v=publicacion-completa-20261001"></script>
   <script src="./riobamba-brechas-actualizadas-data.js?v=brechas-20261004"></script>
-  <script src="./riobamba-conflictividad.js?v=kde-ylorrd-20261004"></script>
+  <script src="./riobamba-conflictividad.js?v=kde-urbano-200-20261005"></script>
   <script src="./riobamba-cantonal-view.js?v=cobertura-unificada-20261002"></script>
   <script>
     (() => {
@@ -1619,7 +1619,7 @@
             ["Suavizado", raster.smoothing || "N/D"],
             ["Periodo", kdeValidation.metadata?.PERIODO || "N/D"],
             ["Fuente", kdeValidation.metadata?.FUENTE || "N/D"],
-          ]) + window.RiobambaConflictivity.methodologyHtml("URBANO", elements.category.value) + crsHtml() + `<h3>Limitaciones</h3><p>KDE representa densidad/concentración espacial; no equivale por sí solo a significancia estadística ni a nivel de inseguridad.</p>`;
+          ]) + window.RiobambaConflictivity.methodologyHtml("URBANO", elements.category.value, getFilteredKdeSurface(filteredKdePoints())) + crsHtml() + `<h3>Limitaciones</h3><p>KDE representa densidad/concentración espacial; no equivale por sí solo a significancia estadística ni a nivel de inseguridad.</p>`;
           return;
         }
         if (isInventoryDeficitMode()) {
@@ -1951,9 +1951,9 @@
         if (isKdeMode() || isTypologiesMode() || isTemporalMode()) {
           return {
             color: "#263a33",
-            weight: 2.4,
+            weight: isKdeMode() ? (feature?.properties?.platform_name === selectedPlatform ? 1.3 : 0.8) : 2.4,
             fillColor: "#ffffff",
-            fillOpacity: 0.02,
+            fillOpacity: isKdeMode() ? 0 : 0.02,
             opacity: 0.95
           };
         }
@@ -2800,7 +2800,7 @@
       const kdeAllPoints = () => conflictEvents.map((event) => ({...event, ...window.RIOBAMBA_CANTONAL_DATA.assignments[event.id]}));
       const kdeDefaultRaster = () => {
         return {...window.RIOBAMBA_CONFLICTIVITY_CORRECTION.urbanGrid,
-          ...window.RiobambaConflictivity.parameters("URBANO", ["DELINCUENCIA", "VIOLENCIA", "CONVIVENCIA"].includes(elements.category.value) ? elements.category.value : "DELINCUENCIA")};
+          ...window.RiobambaConflictivity.parameters("URBANO", ["DELINCUENCIA", "VIOLENCIA", "CONVIVENCIA"].includes(elements.category.value) ? elements.category.value : "__ALL__")};
       };
       const kdeAnalyticCount = (items) => items.length;
       const rangeFor = (items, key) => {
@@ -2823,7 +2823,11 @@
         || elements.kdePlatform?.value !== "__ALL__"
         || elements.kdePeriod?.value !== "__ALL__"
         || Boolean(elements.incidentDate?.value);
-      const filteredKdePoints = () => kdeAllPoints().filter((point) => kdeFilterMatches(point) && (!cantonalController || cantonalController.assignment(point.id)?.scope === "URBANO"));
+      const filteredKdePoints = () => kdeAllPoints().filter((point) => kdeFilterMatches(point)
+        && [point.x, point.y, point.lat, point.lng].every(Number.isFinite)
+        && Math.abs(point.lat) <= 90 && Math.abs(point.lng) <= 180
+        && !(point.lat === 0 && point.lng === 0)
+        && window.RIOBAMBA_CANTONAL_DATA.assignments[point.id]?.scope === "URBANO");
       const kdeCandidateEvents = () => {
         return events.filter((event) => {
           if (cantonalController && cantonalController.assignment(event.id)?.scope !== "URBANO") return false;
@@ -2912,6 +2916,10 @@
           rango_latitud_kde: rangeFor(points, "lat"),
           rango_longitud_kde: rangeFor(points, "lng"),
           bandwidth_actual_m: raster.bandwidth || 700,
+          celda_m: raster.cellSize,
+          crs_calculo: "EPSG:32717",
+          registros_excluidos_urbanos: kdeCandidateEvents().length - points.length,
+          ...getFilteredKdeSurface(points).visual,
           peso_actual: "1 por registro",
           filtros_activos: JSON.stringify(activeFilters),
           fuente_simulada_antigua: "NO"
@@ -3054,7 +3062,7 @@
       const usesAnalyticIncidents = () => isKdeMode() || isGiHotspotsMode() || isGapMode() || (mode === "diagnosis" && ["incidentRate", "incidentCount"].includes(diagnosisMetric));
       const incidentInput = () => usesAnalyticIncidents() ? conflictEvents : events;
       const syncKdeFilterOptions = () => {
-        const context = mode === "cameras" ? "camera-inventory" : (isKdeMode() || isGiHotspotsMode()) ? "separate-conflict" : usesAnalyticIncidents() ? "conflict" : (isTypologiesMode() || isTemporalMode() || mode === "events") ? "records" : "default";
+        const context = mode === "cameras" ? "camera-inventory" : isKdeMode() && (!cantonalController || cantonalController.scope() === "URBANO") ? "kde-conflict" : (isKdeMode() || isGiHotspotsMode()) ? "separate-conflict" : usesAnalyticIncidents() ? "conflict" : (isTypologiesMode() || isTemporalMode() || mode === "events") ? "records" : "default";
         if (categoryFilterContext !== context) {
           const leavingInventory = categoryFilterContext === "camera-inventory" && context !== "camera-inventory";
           if (leavingInventory) {
@@ -3062,10 +3070,10 @@
             elements.search.value = cameraInventoryPreviousFilters?.search || "";
           }
           const previous = leavingInventory ? cameraInventoryPreviousFilters?.category : elements.category.value;
-          const values = context === "camera-inventory" ? [...new Set(inventoryCameras.map((camera) => camera.type).filter(Boolean))].sort() : context === "separate-conflict" ? ["DELINCUENCIA", "VIOLENCIA", "CONVIVENCIA"] : context !== "default"
+          const values = context === "camera-inventory" ? [...new Set(inventoryCameras.map((camera) => camera.type).filter(Boolean))].sort() : ["separate-conflict", "kde-conflict"].includes(context) ? ["DELINCUENCIA", "VIOLENCIA", "CONVIVENCIA"] : context !== "default"
             ? [...new Set(incidentInput().map((event) => event.category).filter(Boolean))].sort((a, b) => a.localeCompare(b, "es"))
             : defaultCategoryOptions;
-          fillSelect(elements.category, context === "conflict" ? "Todos los eventos analíticos" : "Todas las categorías/tipos", values);
+          fillSelect(elements.category, ["conflict", "kde-conflict"].includes(context) ? "Todos los eventos analíticos" : "Todas las categorías/tipos", values);
           if (context === "separate-conflict") elements.category.options[0].remove();
           elements.category.value = values.includes(previous) ? previous : context === "separate-conflict" ? "DELINCUENCIA" : "__ALL__";
           if (context === "camera-inventory" || categoryFilterContext === "camera-inventory") {
@@ -4200,7 +4208,7 @@
         if (isKdeMode()) {
           const state = kdeState();
           addHeader("CONCENTRACIÓN ESPACIAL DE EVENTOS");
-          rows.push(window.RiobambaConflictivity.legend());
+          rows.push(window.RiobambaConflictivity.legend(getFilteredKdeSurface(filteredKdePoints())));
           rows.push(`<p>${fmt(state.pointRows)} registros · ${state.bandwidth} m. Cero: transparente.</p>`);
           addContext();
           elements.legend.innerHTML = rows.join("");
@@ -4491,7 +4499,8 @@
         const raster = kdeDefaultRaster();
         const key = JSON.stringify([raster.bandwidth, elements.category.value, elements.subtype?.value, elements.parish?.value, elements.kdePlatform?.value, elements.kdePeriod?.value, elements.incidentDate?.value]);
         if (filteredKdeCache?.key === key) return filteredKdeCache;
-        const surface = window.RiobambaConflictivity.calculate(points, raster, raster.bandwidth);
+        const surface = {...window.RiobambaConflictivity.calculate(points, raster, raster.bandwidth), scope: "URBANO"};
+        surface.visual = window.RiobambaConflictivity.visualStatistics(surface);
         filteredKdeCache = {key, ...surface, url: window.RiobambaConflictivity.renderRaster(surface),
           concentrations: countKdeConcentrations(surface.density, surface.width, surface.height, surface.maxDensity)};
         return filteredKdeCache;
@@ -4779,7 +4788,7 @@
           if (control) control.value = "__ALL__";
         });
         if (elements.incidentDate) elements.incidentDate.value = "";
-        elements.category.value = events.find((event) => event.analyticalClassId === 1)?.category || "__ALL__";
+        elements.category.value = !cantonalController || cantonalController.scope() === "URBANO" ? "__ALL__" : "DELINCUENCIA";
         elements.toggleEvents.checked = false;
         elements.toggleParishes.checked = false;
         elements.toggleCameras.checked = false;
@@ -4909,7 +4918,7 @@
           cameraProposal.reset();
         }
         if (metric === "hotspots" && !isKdeMode()) {
-          elements.category.value = events.find((event) => event.analyticalClassId === 1)?.category || "__ALL__";
+          elements.category.value = "__ALL__";
           elements.subtype.value = "__ALL__";
         }
         mode = "diagnosis";
@@ -5315,7 +5324,7 @@
         L.geoJSON(platformGeojsonCache, {
           interactive: false,
           style: (item) => item.properties?.platform_name === platform.platformName
-            ? { color: "#111827", weight: 2.4, fillColor: "#2f6f5f", fillOpacity: 0.28, fill: !kdeMode && !gapBlockMode }
+            ? { color: "#111827", weight: kdeMode ? 1.2 : 2.4, fillColor: "#2f6f5f", fillOpacity: 0.28, fill: !kdeMode && !gapBlockMode }
             : { color: "#7e8790", weight: 0.7, fillColor: "#e8ede8", fillOpacity: 0.16, fill: !kdeMode && !gapBlockMode }
         }).addTo(detailMiniMap);
         if (gapBlockMode && manzanaGeojsonCache) {
@@ -5323,7 +5332,7 @@
           L.geoJSON({type: "FeatureCollection", features: manzanaGeojsonCache.features.filter(item => rows[item.properties.man]?.platformName === platform.platformName)},
             {interactive: false, style: manzanaVisualStyle}).addTo(detailMiniMap);
         }
-        const selectedLayer = L.geoJSON(feature, { interactive: false, style: { color: "#111827", weight: 2.8, fillColor: "#2f6f5f", fillOpacity: 0.34, fill: !kdeMode && !gapBlockMode } }).addTo(detailMiniMap);
+        const selectedLayer = L.geoJSON(feature, { interactive: false, style: { color: "#111827", weight: kdeMode ? 1.2 : 2.8, fillColor: "#2f6f5f", fillOpacity: 0.34, fill: !kdeMode && !gapBlockMode } }).addTo(detailMiniMap);
         if (isCameraCoverageMode() || isInventoryDeficitMode()) {
           L.geoJSON(isInventoryDeficitMode() ? inventoryDeficit.scenario().coverage : activeCoverageGeometry(), {interactive: false, style: {color: "#d9a441", weight: 1, fillColor: "#e6b24f", fillOpacity: .5}}).addTo(detailMiniMap);
           if (isCameraCoverageMode()) L.geoJSON(activeCoverageManzanas(), {interactive: false, style: {color: "#263a33", weight: 1, fillColor: "#e6b24f", fillOpacity: .16}}).addTo(detailMiniMap);

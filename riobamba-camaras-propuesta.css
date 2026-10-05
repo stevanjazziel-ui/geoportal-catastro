@@ -31,6 +31,8 @@
 .proposal-key.municipal { background: #18815b; border-radius: 50%; }
 .proposal-key.police { background: #e8bd16; border-radius: 50%; }
 .proposal-key.change { background: #8b46b5; border-radius: 0; }
+.proposal-active .card > span { display: flex; align-items: center; gap: 6px; }
+.proposal-active .card .proposal-key { width: 12px; height: 12px; flex: 0 0 12px; margin: 0; border: 1px solid #fff; box-shadow: 0 0 0 1px #38515d; }
 .proposal-report p { font-size: 12px; }
 .proposal-warning { border-left: 3px solid #b49235; padding: 8px; background: #fff8df; font-size: 12px; }
 @media (max-width: 700px) {
