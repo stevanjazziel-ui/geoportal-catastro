@@ -86,25 +86,42 @@
     };
     const minDensity = surface.grid.mask.length ? surface.grid.mask.reduce((n, i) => Math.min(n, surface.density[i]), Infinity) : 0;
     return {minDensity, maxDensity: surface.maxDensity, positiveCells: positive.length,
-      p25: percentile(.25), p50: percentile(.50), p75: percentile(.75), p90: percentile(.90), p95: percentile(.95)};
+      p25: percentile(.25), p30: percentile(.30), p50: percentile(.50), p75: percentile(.75), p90: percentile(.90), p95: percentile(.95)};
   }
-  function urbanColor(value, stats) {
-    if (!(value > stats.p25)) return [255,255,178,0];
-    const stops = [stats.p25, stats.p50, stats.p75, stats.p90, stats.p95, stats.maxDensity];
-    const alpha = [0, 95, 145, 185, 210, 235];
+  const urbanTransparentPercentile = 30;
+  function urbanColor(value, stats, thresholdPercentile = urbanTransparentPercentile) {
+    const threshold = thresholdPercentile === 30 ? stats.p30 : stats.p25;
+    if (!(value > threshold)) return [255,255,178,0];
+    const stops = [threshold, stats.p50, stats.p75, stats.p90, stats.p95, stats.maxDensity];
+    const alpha = [0, 65, 115, 165, 200, 215];
     let i = 0;
     while (i < 4 && value > stops[i + 1]) i++;
     const fraction = stops[i + 1] > stops[i] ? Math.min(1, (value - stops[i]) / (stops[i + 1] - stops[i])) : 1;
     return [...urbanColors[i].map((c, channel) => Math.round(c + (urbanColors[i + 1][channel] - c) * fraction)),
       Math.round(alpha[i] + (alpha[i + 1] - alpha[i]) * fraction)];
   }
+  function concentrationLevel(value, stats) {
+    if (!(value > stats.p30)) return "Sin concentracion visible / muy baja";
+    return value <= stats.p50 ? "Muy baja" : value <= stats.p75 ? "Baja" : value <= stats.p90 ? "Media" : value <= stats.p95 ? "Alta" : "Muy alta";
+  }
+  function sampleDensity(surface, lat, lng) {
+    const {grid} = surface, [[south, west], [north, east]] = grid.bounds;
+    const x = Math.floor((lng - west) / (east - west) * grid.width);
+    const y = Math.floor((north - lat) / (north - south) * grid.height);
+    if (x < 0 || y < 0 || x >= grid.width || y >= grid.height) return null;
+    const index = grid.warpIndex[y * grid.width + x];
+    return index >= 0 ? surface.density[index] : null;
+  }
   const number = (value) => Number(value).toLocaleString("es-EC", {maximumFractionDigits: 2});
   function urbanLegend(surface) {
     const s = surface.visual || visualStatistics(surface);
-    const limits = [0, s.p25, s.p50, s.p75, s.p90, s.maxDensity];
+    const limits = [s.p30, s.p50, s.p75, s.p90, s.p95, s.maxDensity];
     const labels = ["Muy baja", "Baja", "Media", "Alta", "Muy alta"];
-    return labels.map((label, i) => `<div class="legend-row"><span class="legend-swatch" style="background:${i === 0 ? 'transparent' : `rgb(${urbanColors[i].join(',')})`}"></span>${label}: ${number(limits[i])} - ${number(limits[i + 1])} eventos/km&#178;</div>`).join("")
-      + `<p>P25 positivo = ${number(s.p25)}: transparente. Transici&#243;n continua; P95 = ${number(s.p95)}. Escala propia del subconjunto, no comparable directamente por color entre categor&#237;as. Densidad descriptiva, no significancia estad&#237;stica.</p>`;
+    return labels.map((label, i) => {
+      const rgba = urbanColor((limits[i] + limits[i + 1]) / 2, s);
+      return `<div class="legend-row"><span class="legend-swatch" style="background:rgba(${rgba.slice(0,3).join(',')},${rgba[3]/255})"></span>${label}: ${number(limits[i])} - ${number(limits[i + 1])} eventos/km&#178;</div>`;
+    }).reverse().join("")
+      + `<p>0 - P30 positivo (${number(s.p30)}): transparente. Transici&#243;n continua y opacidad variable. Escala propia del subconjunto, no comparable directamente por color entre categor&#237;as. Densidad descriptiva, no significancia estad&#237;stica.</p>`;
   }
   const legend = (surface) => surface?.scope === "URBANO" ? urbanLegend(surface) : colors.map((rgb, i) => {
     const limits = [0, .125, .375, .625, .875, 1];
@@ -116,9 +133,9 @@
     if (scope === "URBANO") {
       const stats = surface && (surface.visual || visualStatistics(surface));
       return `<h3>KDE urbano - ${["TODOS", "__ALL__"].includes(category) ? "Todos los eventos anal&#237;ticos" : category}</h3><p>EPSG:32717; celda 20 m; bandwidth urbano fijo 200 m; peso 1 por registro. Kernel gaussiano truncado a 200 m, normalizado a volumen 1. Suma de contribuciones en una malla urbana com&#250;n, seguida de m&#225;scara del &#225;mbito operativo de 18 Plataformas. Sin promedios ni normalizaci&#243;n por Plataforma. Coordenadas y eventos coincidentes conservados.</p>
-        <p>Solo DELINCUENCIA, VIOLENCIA y CONVIVENCIA con coordenadas v&#225;lidas y asignaci&#243;n espacial urbana. Los percentiles se calculan sobre las celdas positivas del subconjunto filtrado. Valores hasta P25 transparentes solo en la imagen: no se eliminan del raster num&#233;rico. Interpolaci&#243;n suave YlOrRd entre P25/P50/P75/P90/P95/m&#225;ximo. El KDE rural conserva sus par&#225;metros.</p>
-        ${stats ? `<table class="mini-table"><tbody>${[...["minDensity", "maxDensity"].map(k => [k === "minDensity" ? "Densidad m&#237;nima" : "Densidad m&#225;xima", stats[k]]), ...["p25", "p50", "p75", "p90", "p95"].map(k => [k.toUpperCase(), stats[k]])].map(([label, value]) => `<tr><th>${label}</th><td>${number(value)} eventos/km&#178;</td></tr>`).join("")}</tbody></table>` : ""}
-        <p>Las concentraciones son componentes descriptivos con umbral 35 % del m&#225;ximo; no pruebas Gi*. La repetici&#243;n de coordenadas no acredita error ni peligrosidad. Menor bandwidth reduce suavizado; 200 m es una configuraci&#243;n solicitada, no un &#243;ptimo estad&#237;stico demostrado.</p><a href="./data/seguridad-riobamba/kde-urbano-200m-20261005/index.html" target="_blank" rel="noopener">Comparaci&#243;n anterior / KDE 200 m y control num&#233;rico</a>`;
+        <p>Solo DELINCUENCIA, VIOLENCIA y CONVIVENCIA con coordenadas v&#225;lidas y asignaci&#243;n espacial urbana. Los percentiles se calculan sobre las celdas positivas del subconjunto filtrado. Valores hasta P30 transparentes solo en la imagen: no se eliminan del raster num&#233;rico. Interpolaci&#243;n suave YlOrRd entre P30/P50/P75/P90/P95/m&#225;ximo; opacidad de 0 a 84 %. Sin suavizado adicional. El KDE rural conserva sus par&#225;metros.</p>
+        ${stats ? `<table class="mini-table"><tbody>${[...["minDensity", "maxDensity"].map(k => [k === "minDensity" ? "Densidad m&#237;nima" : "Densidad m&#225;xima", stats[k]]), ...["p25", "p30", "p50", "p75", "p90", "p95"].map(k => [k.toUpperCase(), stats[k]])].map(([label, value]) => `<tr><th>${label}</th><td>${number(value)} eventos/km&#178;</td></tr>`).join("")}</tbody></table>` : ""}
+        <p>Las concentraciones son componentes descriptivos con umbral 35 % del m&#225;ximo; no pruebas Gi*. La repetici&#243;n de coordenadas no acredita error ni peligrosidad. Menor bandwidth reduce suavizado; 200 m es una configuraci&#243;n solicitada, no un &#243;ptimo estad&#237;stico demostrado.</p><a href="./data/seguridad-riobamba/kde-visual-abc-20261005/index.html" target="_blank" rel="noopener">Comparaci&#243;n visual A/B/C y control num&#233;rico</a>`;
     }
     const rows = data.evaluations.filter((e) => e.scope === scope && e.category === category);
     const parameter = parameters(scope, category);
@@ -130,5 +147,5 @@
       <p>Los componentes de esta comparaci&#243;n utilizan el mismo umbral dentro de cada clase. No son hotspots estad&#237;sticos. Escala cartogr&#225;fica logar&#237;tmica fija, compartida incluso al filtrar.</p>
       <a href="./data/seguridad-riobamba/correccion-conflictividad-20261001/comparacion.html" target="_blank" rel="noopener">Comparaci&#243;n completa, controles y resultados</a>`;
   }
-  root.RiobambaConflictivity = {applyDataset, parameters, calculate, renderRaster, color, legend, methodologyHtml, classes, visualStatistics, urbanColor, urbanColors};
+  root.RiobambaConflictivity = {applyDataset, parameters, calculate, renderRaster, color, legend, methodologyHtml, classes, visualStatistics, urbanColor, urbanColors, concentrationLevel, sampleDensity, urbanTransparentPercentile};
 })(window);

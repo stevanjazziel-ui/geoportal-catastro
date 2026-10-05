@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KDE: comparacion A/B/C</title>
+<link rel="stylesheet" href="../../../vendor/leaflet/leaflet.css">
+<style>
+body{margin:0;font:14px Arial;color:#183547;background:#f5f8fa}main{max-width:1650px;margin:auto;padding:16px}h1{font-size:22px;margin:0 0 12px}h2{font-size:15px;margin:0;padding:10px;background:#134862;color:white}.controls{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:10px 0}select,button{padding:7px;border:1px solid #bacbd4;background:white;border-radius:4px;color:#183547}.maps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px}.map{height:450px}.result,.legend{background:white;padding:10px;font-size:12px}.legend-row{display:flex;gap:8px;padding:3px}.legend-swatch{width:15px;height:12px;border:1px solid #bec6cb;flex-shrink:0}table{border-collapse:collapse;width:100%;font-size:12px;background:white}th,td{text-align:right;padding:8px;border-bottom:1px solid #dbe5ea}th:first-child,td:first-child{text-align:left}.table-wrap{overflow:auto}a{color:#096296}.leaflet-tile{filter:grayscale(1)}section{margin-top:14px}p{line-height:1.5;margin:8px 0}@media(max-width:760px){.maps{grid-template-columns:1fr}.map{height:360px}main{padding:10px}}
+</style></head><body><main>
+<h1>Concentracion de incidentes · comparacion A/B/C</h1>
+<div class="controls"><label>Categoria <select id="category"><option>TODOS</option><option>DELINCUENCIA</option><option>VIOLENCIA</option><option>CONVIVENCIA</option></select></label><label><input id="points" type="checkbox"> Incidentes</label><button id="extent">Area urbana completa</button><button id="zoom">Centro urbano</button></div>
+<strong id="summary"></strong>
+<div class="maps">
+<div><h2>A. KDE actual · 200 m</h2><div id="mapA" class="map"></div><div class="result">Representacion publicada ddfdccd.</div></div>
+<div><h2>B. KDE nuevo · 0–P25 transparente</h2><div id="mapB" class="map"></div><div id="resultB" class="result"></div></div>
+<div><h2>C. KDE nuevo · 0–P30 transparente</h2><div id="mapC" class="map"></div><div id="resultC" class="result"></div></div>
+</div>
+<section><h2>Concentracion de incidentes · opcion seleccionada C</h2><div id="legend" class="legend"></div></section>
+<section><h2>Control numerico · eventos/km²</h2><div class="table-wrap"><table><thead><tr><th>Categoria</th><th>Utilizados</th><th>Excluidos</th><th>Min.</th><th>Max.</th><th>P25</th><th>P30</th><th>P50</th><th>P75</th><th>P90</th><th>P95</th></tr></thead><tbody id="control"></tbody></table></div>
+<p>CRS EPSG:32717 · celda 20 m · bandwidth 200 m · peso 1 por registro. Misma densidad numerica en A/B/C; solo cambian color y transparencia. La conservacion de maximos locales ≥P50 es un control visual descriptivo, no una prueba Gi*.</p>
+<a href="CONTROL_KDE.csv">Control CSV</a> · <a href="CONTROL_KDE.json">Control JSON</a> · <a href="METODOLOGIA_VISUAL.md">Metodologia visual</a> · <a href="VALIDACION.json">Validacion</a> · <a href="../../../visor-seguridad-riobamba-v2.html">Visor</a></section>
+<script src="../../../vendor/leaflet/leaflet.js"></script><script>
+/* REVIEW_DATA */
+const maps=['mapA','mapB','mapC'].map(id=>{const m=L.map(id,{preferCanvas:true});L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:20}).addTo(m);return m;});
+let syncing=false, rasters=[];
+maps.forEach((m,i)=>{m.on('moveend',()=>{if(syncing)return;syncing=true;maps.forEach((other,j)=>{if(i!==j)other.setView(m.getCenter(),m.getZoom(),{animate:false});});syncing=false;});L.geoJSON(data.platforms,{style:{color:'#263a33',weight:i===0?.8:.6,opacity:i===0?.95:.55,fill:false}}).addTo(m);});
+const pointLayers=maps.map(()=>L.layerGroup()),category=document.getElementById('category'),points=document.getElementById('points');
+const fmt=n=>Number(n).toLocaleString('es-EC',{maximumFractionDigits:2});
+document.getElementById('control').innerHTML=Object.values(data.results).map(r=>`<tr>${[r.category,r.used,r.excluded,r.minDensity,r.maxDensity,r.p25,r.p30,r.p50,r.p75,r.p90,r.p95].map(v=>`<td>${typeof v==='number'?fmt(v):v}</td>`).join('')}</tr>`).join('');
+function update(){const c=category.value,r=data.results[c];rasters.forEach((l,i)=>maps[i].removeLayer(l));rasters=['A','B','C'].map((v,i)=>L.imageOverlay(`${c}_${v}.png`,data.bounds,{opacity:1,interactive:false}).addTo(maps[i]));pointLayers.forEach((layer,i)=>{layer.clearLayers();data.points.filter(p=>c==='TODOS'||p[2]===c).forEach(p=>L.circleMarker([p[0],p[1]],{radius:1.5,weight:.4,color:'white',fillColor:'#202b35',fillOpacity:.7,interactive:false}).addTo(layer));if(points.checked)layer.addTo(maps[i]);});document.getElementById('summary').textContent=`${c} · ${fmt(r.used)} incidentes · ${fmt(r.excluded)} excluidos · bandwidth 200 m · celda 20 m · EPSG:32717`;document.getElementById('resultB').textContent=`Maximos locales conservados: ${r.retainedB}/${r.secondaryPeaks}.`;document.getElementById('resultC').textContent=`Seleccionada: ${fmt(r.veilReductionPct)} % menos opacidad baja respecto de B; maximos conservados: ${r.retainedC}/${r.secondaryPeaks}.`;document.getElementById('legend').innerHTML=r.legend;}
+category.addEventListener('change',update);points.addEventListener('change',()=>pointLayers.forEach((l,i)=>points.checked?l.addTo(maps[i]):maps[i].removeLayer(l)));
+document.getElementById('extent').addEventListener('click',()=>maps[0].fitBounds(L.geoJSON(data.platforms).getBounds(),{animate:false}));
+document.getElementById('zoom').addEventListener('click',()=>maps[0].setView([-1.6695,-78.652],14,{animate:false}));
+update();maps[0].fitBounds(L.geoJSON(data.platforms).getBounds(),{animate:false});
+</script></main></body></html>
