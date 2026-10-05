@@ -1246,7 +1246,7 @@
   <script src="./riobamba-conflictividad-data.js?v=publicacion-completa-20261001"></script>
   <script src="./riobamba-brechas-actualizadas-data.js?v=brechas-20261004"></script>
   <script src="./riobamba-conflictividad.js?v=kde-urbano-200-20261005"></script>
-  <script src="./riobamba-cantonal-view.js?v=cobertura-unificada-20261002"></script>
+  <script src="./riobamba-cantonal-view.js?v=gi-simbologia-20261005"></script>
   <script>
     (() => {
       const dataset = window.RiobambaConflictivity.applyDataset(window.RIOBAMBA_SECURITY_DATA);
@@ -2279,7 +2279,7 @@
         return level ? `${z > 0 ? "HOTSPOT" : "COLDSPOT"} ${level} %` : "NO SIGNIFICATIVO";
       };
       const giClassRank = (label) => label.includes("99") ? 99 : label.includes("95") ? 95 : label.includes("90") ? 90 : 0;
-      const giClassColor = (label) => label.startsWith("HOT") && label.includes("99") ? "#7f1d1d" : label.startsWith("HOT") && label.includes("95") ? "#dc2626" : label.startsWith("HOT") && label.includes("90") ? "#fca5a5" : label.startsWith("COLD") && label.includes("99") ? "#1e3a8a" : label.startsWith("COLD") && label.includes("95") ? "#2563eb" : label.startsWith("COLD") && label.includes("90") ? "#93c5fd" : "#f3f4f6";
+      const giClassColor = (label) => label.startsWith("HOT") && label.includes("99") ? "#BD0026" : label.startsWith("HOT") && label.includes("95") ? "#FD8D3C" : label.startsWith("HOT") && label.includes("90") ? "#FED976" : label.startsWith("COLD") && label.includes("99") ? "#1e3a8a" : label.startsWith("COLD") && label.includes("95") ? "#2563eb" : label.startsWith("COLD") && label.includes("90") ? "#93c5fd" : "transparent";
       const giCellPassesFilter = (cell) => {
         if (cell.giClass === "NO SIGNIFICATIVO") return giResultType === "all";
         const isCold = cell.giClass.startsWith("COLD");
@@ -4218,13 +4218,13 @@
           addHeader("Zonas críticas Getis-Ord Gi*");
           const analysis = getGiHotspotAnalysis();
           const counts = analysis.cells.reduce((acc, cell) => ((acc[cell.giClass] = (acc[cell.giClass] || 0) + 1), acc), {});
-          ["HOTSPOT 99 %", "HOTSPOT 95 %", "HOTSPOT 90 %"].forEach((label) => {
-            if (counts[label]) addSwatch(label.replace("HOTSPOT", "Hotspot"), `background:${giClassColor(label)};border-color:#fff`);
+          ["HOTSPOT 90 %", "HOTSPOT 95 %", "HOTSPOT 99 %"].forEach((label) => {
+            addSwatch(label.replace("HOTSPOT", "Hot Spot"), `background:${giClassColor(label)};border-color:#fff`);
           });
           const coldLabels = ["COLDSPOT 90 %", "COLDSPOT 95 %", "COLDSPOT 99 %"].filter((label) => counts[label]);
           coldLabels.forEach((label) => addSwatch(label.replace("COLDSPOT", "Coldspot"), `background:${giClassColor(label)};border-color:#fff`));
           if (!coldLabels.length) rows.push(`<div class="legend-row"><span>Coldspots significativos</span><strong>0</strong></div>`);
-          if (giResultType === "all" && counts["NO SIGNIFICATIVO"]) addSwatch("No significativo", `background:${giClassColor("NO SIGNIFICATIVO")};border-color:#7e8790`);
+          addSwatch("No significativo · transparente", `background:${giClassColor("NO SIGNIFICATIVO")};border-color:#7e8790`);
           addContext();
           elements.legend.innerHTML = rows.join("");
           return;
@@ -4571,8 +4571,8 @@
               color: cell.cellId === selectedGiCell ? "#111827" : "#ffffff",
               weight: cell.cellId === selectedGiCell ? 1.4 : 0.45,
               fillColor: color,
-              fillOpacity: cell.giClass === "NO SIGNIFICATIVO" ? 0.08 : 0.7,
-              opacity: 0.8,
+              fillOpacity: cell.giClass === "NO SIGNIFICATIVO" ? 0 : 0.7,
+              opacity: cell.giClass === "NO SIGNIFICATIVO" ? 0 : 0.8,
             }}).bindTooltip(`${esc(cell.giClass)}<br>${fmt(cell.incCount)} incidentes`, { sticky: true })
               .bindPopup(`<strong>CELDA: ${esc(cell.cellId)}</strong><br>Incidentes: ${fmt(cell.incCount)}<br>Getis-Ord Gi*: ${cell.giStar}<br>Z-score: ${cell.zScore}<br>p-value: ${cell.pValue}<br>Clasificación: ${esc(cell.giClass)}<br>Plataforma: ${esc(cell.platform)}<br>Tipología predominante: ${esc(categorySummary(cell.incidents)[0]?.label || "N/D")}`);
             layer.giCellId = cell.cellId;

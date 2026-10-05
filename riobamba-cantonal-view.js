@@ -197,7 +197,7 @@ window.createRiobambaCantonalView = function (api) {
   function drawGi(cells, label) {
     if (!el.toggleAnalysisResult.checked) return;
     cells.filter(visibleGi).forEach((c) => L.geoJSON(c.geometry, {style: {
-      color: "#ffffff", weight: .4, fillColor: api.giClassColor(c.giClass), fillOpacity: c.giClass === "NO SIGNIFICATIVO" ? .035 : .7,
+      color: "#ffffff", weight: .4, fillColor: api.giClassColor(c.giClass), fillOpacity: c.giClass === "NO SIGNIFICATIVO" ? 0 : .7, opacity: c.giClass === "NO SIGNIFICATIVO" ? 0 : 1,
     }}).bindTooltip(`${esc(c.giClass)} · ${fmt(c.incCount)} eventos`, {sticky:true})
       .bindPopup(`${esc(label)} · ${esc(c.cellId)}<br>${esc(c.PARROQUIA || c.platform)}<br>COUNT: ${c.incCount}<br>GI_ZSCORE: ${c.zScore.toFixed(3)}<br>GI_PVALUE: ${c.pValue.toFixed(6)}<br>${esc(c.giClass)}<br>Significancia nominal exploratoria; sin FDR.`)
       .on("click", () => {
@@ -238,7 +238,7 @@ window.createRiobambaCantonalView = function (api) {
     const key = api.current().key;
     let html = `<strong>${key === "kde" ? "CONCENTRACIÓN ESPACIAL" : scope}</strong>`;
     if (key === "kde") html = "<strong>CONCENTRACIÓN ESPACIAL DE EVENTOS</strong>" + window.RiobambaConflictivity.legend();
-    if (key === "giHotspots") html += ["HOTSPOT 99 %","HOTSPOT 95 %","HOTSPOT 90 %","NO SIGNIFICATIVO","COLDSPOT 90 %","COLDSPOT 95 %","COLDSPOT 99 %"].map((label)=>`<div class="legend-row"><span class="legend-swatch" style="background:${api.giClassColor(label)}"></span>${label}</div>`).join("") + "<p class='cantonal-note'>Gi* nominal, sin FDR. Urbano: malla 100 m / distancia 200 m. Rural sin cambios: 1000/2000 m. No son un único análisis.</p>";
+    if (key === "giHotspots") html += ["HOTSPOT 90 %","HOTSPOT 95 %","HOTSPOT 99 %","NO SIGNIFICATIVO","COLDSPOT 90 %","COLDSPOT 95 %","COLDSPOT 99 %"].map((label)=>`<div class="legend-row"><span class="legend-swatch" style="background:${api.giClassColor(label)}"></span>${label.replace("HOTSPOT", "Hot Spot").replace("NO SIGNIFICATIVO", "No significativo · transparente")}</div>`).join("") + "<p class='cantonal-note'>Gi* nominal, sin FDR. Urbano: malla 100 m / distancia 200 m. Rural sin cambios: 1000/2000 m. No son un único análisis.</p>";
     html += "<div class='legend-row'>Límite cantonal · gris</div><div class='legend-row'>Ámbito urbano operativo · verde discontinuo</div><div class='legend-row'>Parroquias rurales · gris fino</div>";
     el.legend.innerHTML=html;
   }
