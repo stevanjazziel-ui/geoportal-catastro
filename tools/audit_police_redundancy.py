@@ -58,9 +58,9 @@ def write_csv(name, rows):
 
 
 class Audit:
-    def __init__(self):
+    def __init__(self, package=PACKAGE, candidate_package=CANDIDATES):
         def layer(name):
-            return records(read_layer(PACKAGE, name))
+            return records(read_layer(package, name))
         self.existing = layer('CAMARAS_EXISTENTES_103_FINAL')
         self.municipal = layer('PROPUESTA_MUNICIPAL_50_FINAL')
         self.official = layer('PROPUESTA_POLICIA_30_FINAL')
@@ -75,8 +75,8 @@ class Audit:
         self.gi_trees = {key: STRtree([g for g, _ in rows]) for key, rows in self.statistics.items()}
         hot = [(g, p) for rows in self.statistics.values() for g, p in rows
                if p['GI_CLASS'].startswith('HOTSPOT')]
-        self.base = read_layer(PACKAGE, 'COBERTURA_B').geometry.iloc[0]
-        self.cover_a = read_layer(PACKAGE, 'COBERTURA_A').geometry.iloc[0]
+        self.base = read_layer(package, 'COBERTURA_B').geometry.iloc[0]
+        self.cover_a = read_layer(package, 'COBERTURA_A').geometry.iloc[0]
         self.urban = unary_union([g for g, _ in self.platforms])
         corridors = layer('CORREDORES')
         axes = {key: unary_union([g for g, p in corridors if p['CORREDOR'] == key])
@@ -88,7 +88,7 @@ class Audit:
         self.event_points = np.array([g for g, _ in self.events], dtype=object)
         self.original_props = {p['ID_POLICIA']: p for _, p in self.official}
         self.candidates = {}
-        raw = records(read_layer(CANDIDATES, 'CANDIDATOS_POLICIA'))
+        raw = records(read_layer(candidate_package, 'CANDIDATOS_POLICIA'))
         for g, p in raw:
             c = self.context.candidate({'point': g, 'id': p['ID_CANDIDATO'],
                                         'degree': p['GRADO_NODO'], 'props': dict(p)})

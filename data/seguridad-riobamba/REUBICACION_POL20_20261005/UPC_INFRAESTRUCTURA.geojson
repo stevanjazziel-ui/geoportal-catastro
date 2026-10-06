@@ -1,0 +1,421 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0388",
+        "TIPO": "UPC",
+        "NOMBRE": "YARUQUIES 1",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6770025,
+          -1.6895670000000012
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0390",
+        "TIPO": "UPC",
+        "NOMBRE": "CEMENTO CHIMBORAZO",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6671713,
+          -1.6546348000000073
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0395",
+        "TIPO": "UPC",
+        "NOMBRE": "24 DE MAYO",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6840781,
+          -1.6462657000000034
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0397",
+        "TIPO": "UPC",
+        "NOMBRE": "LA ESPERANZA",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6400089,
+          -1.6606046999999997
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0403",
+        "TIPO": "UPC",
+        "NOMBRE": "PLAZA DAVALOS",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64854590000002,
+          -1.665478199999994
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0404",
+        "TIPO": "UPC",
+        "NOMBRE": "LA ESTACION 2",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6439028,
+          -1.6665399000000019
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0407",
+        "TIPO": "OTRAS DEPENDENCIAS",
+        "NOMBRE": "POLICIA JUDICIAL CHIMBORAZO",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6479884,
+          -1.6734774999999917
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0408",
+        "TIPO": "OTRAS DEPENDENCIAS",
+        "NOMBRE": "DEVIF CHIMBORAZO",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6479794,
+          -1.673477500000005
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0409",
+        "TIPO": "UPC",
+        "NOMBRE": "BASE DE LA ZONA 3",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6382857,
+          -1.6743877999999988
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0410",
+        "TIPO": "UPC",
+        "NOMBRE": "PUCARA 1",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6405283,
+          -1.6845509999999995
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0411",
+        "TIPO": "OTRAS DEPENDENCIAS",
+        "NOMBRE": "COMANDO DE LA SUBZONA CHIMBORAZO",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6394911,
+          -1.680499999999998
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0413",
+        "TIPO": "OTRAS DEPENDENCIAS",
+        "NOMBRE": "MIGRACION CHIMBORAZO",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6394911,
+          -1.680499999999998
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0415",
+        "TIPO": "UPC",
+        "NOMBRE": "LA PAZ",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6492441,
+          -1.6825818999999942
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0416",
+        "TIPO": "UPC",
+        "NOMBRE": "LA JOYA",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6463391,
+          -1.6779773000000076
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0419",
+        "TIPO": "UPC",
+        "NOMBRE": "TERMINAL TERRESTRE 1",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6628059,
+          -1.6619968999999961
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0421",
+        "TIPO": "UPC",
+        "NOMBRE": "LA CONDAMINE 1",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6584741,
+          -1.673703200000002
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0427",
+        "TIPO": "UPC",
+        "NOMBRE": "LA PRIMAVERA",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6621773,
+          -1.676983900000006
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0428",
+        "TIPO": "UPC",
+        "NOMBRE": "SAN JUAN",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.7816323,
+          -1.6345524999999965
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0429",
+        "TIPO": "UPC",
+        "NOMBRE": "CALPI",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.7403916,
+          -1.6483558000000027
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0431",
+        "TIPO": "UPC",
+        "NOMBRE": "CUBIJIES",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.5870202,
+          -1.6457701999999936
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0432",
+        "TIPO": "UPC",
+        "NOMBRE": "QUIMIAG",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.5671808,
+          -1.6583915999999999
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0433",
+        "TIPO": "UPC",
+        "NOMBRE": "LICTO",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6038079,
+          -1.804077499999992
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0434",
+        "TIPO": "UPC",
+        "NOMBRE": "PUNGALA",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.59376660000001,
+          -1.8161857000000061
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0435",
+        "TIPO": "UPC",
+        "NOMBRE": "PUNIN",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65582190000002,
+          -1.7616051999999989
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0436",
+        "TIPO": "UPC",
+        "NOMBRE": "SAN LUIS",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6467973,
+          -1.707708899999992
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_INFRA": "I0437",
+        "TIPO": "UPC",
+        "NOMBRE": "CHAMBO",
+        "ESTADO": "EN FUNCIONAMIENTO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.593655,
+          -1.7358722000000075
+        ]
+      }
+    }
+  ]
+}
