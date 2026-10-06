@@ -61,8 +61,9 @@ def main(slot=SLOT, source=SOURCE, destination=OUT, comparison_dir=None,
     shutil.copy2(PACKAGE, OUT / PACKAGE.name)
     for name in ('RADIOS_EXISTENTES_SIMBOLOGIA_200M.geojson', 'COBERTURA_MUNICIPAL_200M.geojson'):
         shutil.copy2(SOURCE / name, OUT / name)
-    for p in SOURCE.glob('*POL20*'):
-        if p.suffix in ('.csv', '.geojson'):
+    for p in SOURCE.iterdir():
+        if p.name.startswith(('AUDITORIA_REVISION_POL', 'MOVIMIENTO_POL',
+                              'EVENTOS_GANADOS_PERDIDOS_POL')) and p.suffix in ('.csv', '.geojson'):
             shutil.copy2(p, OUT / p.name)
     output.OUT = OUT
     output.FINAL_PACKAGE = OUT / PACKAGE.name
@@ -72,7 +73,13 @@ def main(slot=SLOT, source=SOURCE, destination=OUT, comparison_dir=None,
         catalog[name] = output.export(name, rows, visual)
 
     def table(name, rows):
-        output.table(name, rows)
+        if rows:
+            output.table(name, rows)
+        else:
+            # Empty audit results retain their schema, never rows from the prior scenario.
+            frame = pyogrio.read_dataframe(PACKAGE, layer=name).iloc[:0]
+            frame.to_csv(OUT / (name + '.csv'), index=False, encoding='utf-8-sig')
+            pyogrio.write_dataframe(frame, output.FINAL_PACKAGE, layer=name)
 
     police, metrics, exclusive_rows, overlap_rows = [], [], [], []
     for id, c in sorted(active.items()):
@@ -263,6 +270,9 @@ def main(slot=SLOT, source=SOURCE, destination=OUT, comparison_dir=None,
         'Nodo vial auditado y expresamente aprobado; sin umbral arbitrario de distancia o solape.',
         f'Conserva {retained} eventos D/V exclusivos anteriores; pierde {lost_dv} y gana {gained_dv} distintos. No confundir mantener conteos con conservar todos los eventos.',
         'Gi* urbano/rural, metodologias, celdas, ejes y geometria censal NO recalculados ni modificados.',
+        f"Gi* en el punto D/V: {chosen['GI_D_CLASE_SITIO']}/{chosen['GI_V_CLASE_SITIO']}; "
+        f"nivel maximo Hot Spot intersectado por el radio D/V: {chosen['NIVEL_DEL']}%/{chosen['NIVEL_VIOL']}%. "
+        'El nivel del entorno no clasifica estadisticamente el nodo vial.',
         'Ningun nucleo D/V99 anteriormente atendido queda totalmente sin cobertura; puede variar su cobertura parcial.',
         'Radio200m enEPSG:32717; cobertura disuelta sin doble conteo. No se optimizo ningun corredor.',
         'Recalculados: coberturaC, incidentes, Hot Spots atendidos, superficie, estimacion de poblacion, corredores,',
