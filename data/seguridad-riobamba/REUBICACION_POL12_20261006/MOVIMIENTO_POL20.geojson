@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_POLICIA": "POL-20",
+        "CANDIDATO_ANTERIOR": "CAND-POL-01220",
+        "CANDIDATO_FINAL": "CAND-POL-01017",
+        "X_ANTERIOR": 760420.4501,
+        "Y_ANTERIOR": 9816184.3041,
+        "X_FINAL": 759775.5663000001,
+        "Y_FINAL": 9817223.8349,
+        "DESPLAZAMIENTO_M": 1223.3149225161408,
+        "PLATAFORMA_ANTERIOR": "PLATAFORMA I",
+        "PLATAFORMA_FINAL": "PLATAFORMA G",
+        "DV_ANTERIOR": 10,
+        "DV_FINAL": 12,
+        "SOLAPE_ANTERIOR": 69.50023850515322,
+        "SOLAPE_FINAL": 22.613446324336934,
+        "JUSTIFICACION": "POL-20 trasladada al candidato vial mas cercano con mejora clara de eventos D/V y solape: CAND-POL-01017. Desplazamiento 1223.31 m; solape 69.50% a 22.61%. Redistribucion desde Plataforma I a G: los10 eventos D/V exclusivos anteriores quedan fuera; se cubren12 distintos. Ningun nucleo D/V99 antes atendido queda totalmente sin cobertura. Revision puntual POL-20: aporte actual 9 D/3 V y solape 22.61%. Propuesta no instalada, pendiente verificacion de campo."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65934383832672,
+            -1.6616374860247993
+          ],
+          [
+            -78.66514781952712,
+            -1.6522473652520315
+          ]
+        ]
+      }
+    }
+  ]
+}

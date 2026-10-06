@@ -12,7 +12,10 @@ from build_police_camera_proposal import CLASSES, read_layer, sha, coverage_clas
 from relocate_pol20 import PACKAGE, OUT, SLOT
 
 
-def main():
+def main(source_package=PACKAGE, destination=OUT, slot=SLOT,
+         candidate='CAND-POL-01017', platform='PLATAFORMA G',
+         exclusive_dv=12, overlap=22.613446324336934):
+    PACKAGE, OUT, SLOT = Path(source_package), Path(destination), slot
     result = json.loads((OUT / 'RESULTADOS.json').read_text(encoding='utf-8'))
     previous_result = json.loads((PACKAGE.parent / 'RESULTADOS.json').read_text(encoding='utf-8'))
     final = OUT / PACKAGE.name
@@ -22,10 +25,10 @@ def main():
     assert len({g.wkb for g in after.geometry}) == 30
     changed = [id for id in before.index if not before.loc[id].geometry.equals_exact(after.loc[id].geometry, 0)]
     assert changed == [SLOT]
-    assert after.loc[SLOT].ID_CANDIDATO == 'CAND-POL-01017'
-    assert after.loc[SLOT].PLATAFORMA == 'PLATAFORMA G'
-    assert after.loc[SLOT].DV_NUEVOS == 12
-    assert abs(after.loc[SLOT].SOLAPE_PCT - 22.613446324336934) < 1e-6
+    assert after.loc[SLOT].ID_CANDIDATO == candidate
+    assert after.loc[SLOT].PLATAFORMA == platform
+    assert after.loc[SLOT].DV_NUEVOS == exclusive_dv
+    assert abs(after.loc[SLOT].SOLAPE_PCT - overlap) < 1e-6
     frozen = ['CAMARAS_EXISTENTES_103_FINAL', 'PROPUESTA_MUNICIPAL_50_FINAL', 'COBERTURA_A', 'COBERTURA_B',
               'PLATAFORMAS_TERRITORIALES', 'CORREDORES', 'RED_VIAL_CONTEXTO', 'LIMITE_CANTONAL']
     frozen += ['GI_' + scope + '_' + cat for scope in ('URBANO', 'RURAL') for cat in CLASSES]
@@ -68,7 +71,7 @@ def main():
     with zipfile.ZipFile(OUT / 'CIERRE_POLICIA_30_FINAL.zip') as archive:
         assert archive.testzip() is None
         assert PACKAGE.name in archive.namelist()
-    print('PASS: soloPOL20 reubicada,29fijas,103/50/Gi intactos,183equipos,200m,solapes/eventos recalculados,99 no abandonados,ZIP valido.')
+    print('PASS: solo ' + SLOT + ' reubicada,29fijas,103/50/Gi intactos,183equipos,200m,solapes/eventos recalculados,99 no abandonados,ZIP valido.')
 
 
 if __name__ == '__main__':

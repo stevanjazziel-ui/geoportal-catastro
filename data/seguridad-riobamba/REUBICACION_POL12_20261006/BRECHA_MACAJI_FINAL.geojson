@@ -1,0 +1,157 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "MACAJI-0001",
+        "CORREDOR": "BOULEVARD_MACAJI_BELLAVISTA",
+        "LONGITUD_M": 34.22921124154809,
+        "CAMARA_MAS_CERCANA": "RIO-033-DOMO",
+        "DIST_CAMARA_M": 199.9854927669918,
+        "METODO_DIST": "Distancia minima del segmento al punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.64199147442508,
+            -1.664649554071447
+          ],
+          [
+            -78.6419970936395,
+            -1.664654284149432
+          ],
+          [
+            -78.64223310767633,
+            -1.6648408928831897
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "MACAJI-0002",
+        "CORREDOR": "BOULEVARD_MACAJI_BELLAVISTA",
+        "LONGITUD_M": 31.13157567851332,
+        "CAMARA_MAS_CERCANA": "MUN-035",
+        "DIST_CAMARA_M": 199.98521791315179,
+        "METODO_DIST": "Distancia minima del segmento al punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65321928991685,
+            -1.6781415228646799
+          ],
+          [
+            -78.65335299063716,
+            -1.678291238884081
+          ],
+          [
+            -78.65340621454583,
+            -1.6783508384173267
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "MACAJI-0003",
+        "CORREDOR": "BOULEVARD_MACAJI_BELLAVISTA",
+        "LONGITUD_M": 25.580433542154005,
+        "CAMARA_MAS_CERCANA": "MUN-038",
+        "DIST_CAMARA_M": 199.98902150361013,
+        "METODO_DIST": "Distancia minima del segmento al punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.63999555564611,
+            -1.6763188248979732
+          ],
+          [
+            -78.63984659370549,
+            -1.6761427588554134
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "MACAJI-0004",
+        "CORREDOR": "BOULEVARD_MACAJI_BELLAVISTA",
+        "LONGITUD_M": 0.11388316042209248,
+        "CAMARA_MAS_CERCANA": "RIO-061-DOMO",
+        "DIST_CAMARA_M": 199.98745635089057,
+        "METODO_DIST": "Distancia minima del segmento al punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65092686469346,
+            -1.6753560844312623
+          ],
+          [
+            -78.6509275173385,
+            -1.6753568771791894
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "MACAJI-0005",
+        "CORREDOR": "BOULEVARD_MACAJI_BELLAVISTA",
+        "LONGITUD_M": 19.524783302991516,
+        "CAMARA_MAS_CERCANA": "MUN-038",
+        "DIST_CAMARA_M": 199.98665877323901,
+        "METODO_DIST": "Distancia minima del segmento al punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.64336873762184,
+            -1.677511216712223
+          ],
+          [
+            -78.64350074465143,
+            -1.6773950086690501
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "MACAJI-0006",
+        "CORREDOR": "BOULEVARD_MACAJI_BELLAVISTA",
+        "LONGITUD_M": 70.49338030915658,
+        "CAMARA_MAS_CERCANA": "RIO-011-DOMO",
+        "DIST_CAMARA_M": 199.98555980605173,
+        "METODO_DIST": "Distancia minima del segmento al punto de camara"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65663343053232,
+            -1.6659325211159013
+          ],
+          [
+            -78.65710987393577,
+            -1.665512764334647
+          ]
+        ]
+      }
+    }
+  ]
+}

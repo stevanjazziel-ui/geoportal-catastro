@@ -1,0 +1,4125 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-001-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "9 de Octubre y Madrid",
+        "LONGITUD": -78.6392299,
+        "LATITUD": -1.688145299999996,
+        "X": 762656.0532192701,
+        "Y": 9813249.20233353,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "9 de Octubre y Madrid",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6392299,
+          -1.688145299999996
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-002-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Eloy Alfaro y Leopoldo Freire",
+        "LONGITUD": -78.6412183,
+        "LATITUD": -1.6793959,
+        "X": 762435.8723329536,
+        "Y": 9814217.375239316,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Eloy Alfaro y Leopoldo Freire",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6412183,
+          -1.6793959
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-003-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Orozco y Loja",
+        "LONGITUD": -78.6433677,
+        "LATITUD": -1.6755921000000018,
+        "X": 762197.103356025,
+        "Y": 9814638.459449029,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Orozco y Loja",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6433677,
+          -1.6755921000000018
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-004-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Veloz y Pedro Alvarado",
+        "LONGITUD": -78.6454987,
+        "LATITUD": -1.6746682000000064,
+        "X": 761959.998510503,
+        "Y": 9814740.951099852,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Veloz y Pedro Alvarado",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6454987,
+          -1.6746682000000064
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-005-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Junín y 5 de Junio",
+        "LONGITUD": -78.6463505,
+        "LATITUD": -1.6709649000000049,
+        "X": 761865.6658408721,
+        "Y": 9815150.741793936,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Junín y 5 de Junio",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6463505,
+          -1.6709649000000049
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-006-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Antonio José de Sucre y Febres Cordero",
+        "LONGITUD": -78.6493711,
+        "LATITUD": -1.6652494999999965,
+        "X": 761530.1614470817,
+        "Y": 9815783.408057675,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Antonio José de Sucre y Febres Cordero",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6493711,
+          -1.6652494999999965
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-007-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Primera Constituyente y 5 de Junio",
+        "LONGITUD": -78.6482477,
+        "LATITUD": -1.673278099999991,
+        "X": 761654.1585604714,
+        "Y": 9814895.097919293,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Primera Constituyente y 5 de Junio",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6482477,
+          -1.673278099999991
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-008-FIJA",
+        "TIPO": "FIJA",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Primera Constituyente y 5 de Junio",
+        "LONGITUD": -78.6482477,
+        "LATITUD": -1.673278099999991,
+        "X": 761654.1585604714,
+        "Y": 9814895.097919293,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Primera Constituyente y 5 de Junio",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6482477,
+          -1.673278099999991
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-009-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Guayaquil y Cristóbal Colón",
+        "LONGITUD": -78.6503284,
+        "LATITUD": -1.6734790999999973,
+        "X": 761422.5042703482,
+        "Y": 9814873.140052114,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Guayaquil y Cristóbal Colón",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6503284,
+          -1.6734790999999973
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-010-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Av. Daniel León Borja y Miguel Ángel León",
+        "LONGITUD": -78.6554478,
+        "LATITUD": -1.6681117999999993,
+        "X": 760853.3128621157,
+        "Y": 9815467.57474271,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. Daniel León Borja y Miguel Ángel León",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6554478,
+          -1.6681117999999993
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-011-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Av. Daniel León Borja y Carlos Zambrano",
+        "LONGITUD": -78.6588346,
+        "LATITUD": -1.6650069999999912,
+        "X": 760476.6971057958,
+        "Y": 9815811.488513537,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. Daniel León Borja y Carlos Zambrano",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6588346,
+          -1.6650069999999912
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-012-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Av. La Prensa y 9 de Julio",
+        "LONGITUD": -78.6676,
+        "LATITUD": -1.6538000000000048,
+        "X": 759502.3833512468,
+        "Y": 9817052.39841992,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. La Prensa y 9 de Julio",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6676,
+          -1.6538000000000048
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-013-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Av. 9 de Octubre y Carabobo",
+        "LONGITUD": -78.6590999,
+        "LATITUD": -1.6766643000000028,
+        "X": 760445.6263630869,
+        "Y": 9814521.949116861,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. 9 de Octubre y Carabobo",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6590999,
+          -1.6766643000000028
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-014-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Pedro Vicente Maldonado y Av. 11 de Noviembre",
+        "LONGITUD": -78.6751166,
+        "LATITUD": -1.6619772999999962,
+        "X": 758664.5630021482,
+        "Y": 9816148.787143875,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Pedro Vicente Maldonado y Av. 11 de Noviembre",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6751166,
+          -1.6619772999999962
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-015-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Av. Antonio José de Sucre y Víctor Emilio Estrada",
+        "LONGITUD": -78.6447431,
+        "LATITUD": -1.6541683999999959,
+        "X": 762046.8228275932,
+        "Y": 9817008.638471425,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. Antonio José de Sucre y Víctor Emilio Estrada",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6447431,
+          -1.6541683999999959
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-016-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Leopoldo Freire y Calle V",
+        "LONGITUD": -78.63057801579541,
+        "LATITUD": -1.691323986457355,
+        "X": 763618.7717571338,
+        "Y": 9812896.384848207,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Geocodificacion censal con confianza MEDIA; no verificacion de campo",
+        "PRECISION_ORIGINAL": "Pendiente de ubicación",
+        "DIRECCION_DOCUMENTAL": "Leopoldo Freire y Calle V",
+        "DIRECCION_CARTOGRAFICA": "LEOPOLDO FREIRE x Y",
+        "METODO_GEO": "INTERSECCION_CENSAL_Y_REFERENCIA_TERRITORIAL_ACEPTADA",
+        "FUENTE_GEO": "C:\\Users\\PC\\Downloads\\barrios y plataformas\\vias\\vias_canton_riobamba_utm.shp:nom_eje; FID 1541/1544; GDB Bienestar_social FID18; red OSM local de Riobamba",
+        "CONFIANZA_GEO": "MEDIA",
+        "OBSERVACION_GEO": "Usuario acepta el nodo censal Freire x Y con confianza MEDIA despues de revisar la referencia municipal Centro de Rehabilitacion Social, a 98.71 m. Documento conserva Calle V; CSV original dice Calle Y. No se afirma equivalencia V/Y. La GDB rotula Freire a 943.98 m; en el sector la red municipal es sin nombre y la red OSM local rotula Leopoldo Freire. Candidato antes descartado, ahora aceptado expresamente con esta discrepancia. Dos equipos, mismo emplazamiento cartografico; instalacion fisica pendiente de campo.",
+        "ESTADO_GEO": "LOCALIZADA_CARTOGRAFICA_CON_LIMITACIONES",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": 1541.0,
+        "FID_EJE_B": 1544.0,
+        "DIST_REFERENCIA_CARCEL_M": 98.70581136339226,
+        "DIST_FREIRE_MUNICIPAL_M": 943.9800992313757,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63057801579541,
+          -1.691323986457355
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-017-FIJA",
+        "TIPO": "FIJA",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Leopoldo Freire y Calle V",
+        "LONGITUD": -78.63057801579541,
+        "LATITUD": -1.691323986457355,
+        "X": 763618.7717571338,
+        "Y": 9812896.384848207,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Geocodificacion censal con confianza MEDIA; no verificacion de campo",
+        "PRECISION_ORIGINAL": "Pendiente de ubicación",
+        "DIRECCION_DOCUMENTAL": "Leopoldo Freire y Calle V",
+        "DIRECCION_CARTOGRAFICA": "LEOPOLDO FREIRE x Y",
+        "METODO_GEO": "INTERSECCION_CENSAL_Y_REFERENCIA_TERRITORIAL_ACEPTADA",
+        "FUENTE_GEO": "C:\\Users\\PC\\Downloads\\barrios y plataformas\\vias\\vias_canton_riobamba_utm.shp:nom_eje; FID 1541/1544; GDB Bienestar_social FID18; red OSM local de Riobamba",
+        "CONFIANZA_GEO": "MEDIA",
+        "OBSERVACION_GEO": "Usuario acepta el nodo censal Freire x Y con confianza MEDIA despues de revisar la referencia municipal Centro de Rehabilitacion Social, a 98.71 m. Documento conserva Calle V; CSV original dice Calle Y. No se afirma equivalencia V/Y. La GDB rotula Freire a 943.98 m; en el sector la red municipal es sin nombre y la red OSM local rotula Leopoldo Freire. Candidato antes descartado, ahora aceptado expresamente con esta discrepancia. Dos equipos, mismo emplazamiento cartografico; instalacion fisica pendiente de campo.",
+        "ESTADO_GEO": "LOCALIZADA_CARTOGRAFICA_CON_LIMITACIONES",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": 1541.0,
+        "FID_EJE_B": 1544.0,
+        "DIST_REFERENCIA_CARCEL_M": 98.70581136339226,
+        "DIST_FREIRE_MUNICIPAL_M": 943.9800992313757,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63057801579541,
+          -1.691323986457355
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-018-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Colombia y Carabobo",
+        "LONGITUD": -78.655617,
+        "LATITUD": -1.6727592999999932,
+        "X": 760833.8636428429,
+        "Y": 9814953.471935354,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Colombia y Carabobo",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.655617,
+          -1.6727592999999932
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-019-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "10 de Agosto y Morona",
+        "LONGITUD": -78.6459199,
+        "LATITUD": -1.676320299999996,
+        "X": 761912.8899217033,
+        "Y": 9814558.244167427,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "10 de Agosto y Morona",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6459199,
+          -1.676320299999996
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-020-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Daniel León Borja y La Prensa",
+        "LONGITUD": -78.6628173,
+        "LATITUD": -1.6617683999999961,
+        "X": 760033.7613197386,
+        "Y": 9816170.279908916,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Daniel León Borja y La Prensa",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6628173,
+          -1.6617683999999961
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-021-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "José de Orozco y Cristóbal Colón",
+        "LONGITUD": -78.6484097,
+        "LATITUD": -1.6711707000000067,
+        "X": 761636.4037680945,
+        "Y": 9815128.24987322,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "José de Orozco y Cristóbal Colón",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6484097,
+          -1.6711707000000067
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-022-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Argentinos y Juan Lavalle",
+        "LONGITUD": -78.6524676,
+        "LATITUD": -1.6665447999999976,
+        "X": 761185.2811592426,
+        "Y": 9815640.527345859,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Argentinos y Juan Lavalle",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6524676,
+          -1.6665447999999976
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-023-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Unidad Nacional y Duchicela",
+        "LONGITUD": -78.6619135,
+        "LATITUD": -1.6674792000000005,
+        "X": 760133.6244592819,
+        "Y": 9815538.411880845,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Unidad Nacional y Duchicela",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6619135,
+          -1.6674792000000005
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-024-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Av. 9 de Octubre y Duchicela",
+        "LONGITUD": -78.6634434,
+        "LATITUD": -1.6714825999999954,
+        "X": 759962.7876273614,
+        "Y": 9815095.744344674,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. 9 de Octubre y Duchicela",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6634434,
+          -1.6714825999999954
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-025-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Canónigo Ramos y Teófilo Sáenz",
+        "LONGITUD": -78.6686315,
+        "LATITUD": -1.657405899999996,
+        "X": 759387.0859403042,
+        "Y": 9816653.637890194,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Canónigo Ramos y Teófilo Sáenz",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6686315,
+          -1.657405899999996
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-026-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "11 de Noviembre y Lizarzaburu",
+        "LONGITUD": -78.6675829,
+        "LATITUD": -1.6524312000000005,
+        "X": 759504.4648748672,
+        "Y": 9817203.817056961,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "11 de Noviembre y Lizarzaburu",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6675829,
+          -1.6524312000000005
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-027-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Alfonso Chávez y Circunvalación",
+        "LONGITUD": -78.6768,
+        "LATITUD": -1.6847999999999952,
+        "X": 758474.1749956862,
+        "Y": 9813624.30646858,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Alfonso Chávez y Circunvalación",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6768,
+          -1.6847999999999952
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-028-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Panamericana Sur y Bypass",
+        "LONGITUD": -78.6579,
+        "LATITUD": -1.6943999999999946,
+        "X": 760576.8401318066,
+        "Y": 9812559.797368415,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Panamericana Sur y Bypass",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6579,
+          -1.6943999999999946
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-029-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Av. Atahualpa y San Andrés",
+        "LONGITUD": -78.6606369,
+        "LATITUD": -1.6782741000000045,
+        "X": 760274.3131066,
+        "Y": 9814344.071743675,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. Atahualpa y San Andrés",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6606369,
+          -1.6782741000000045
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-030-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Avenida Circunvalación",
+        "LONGITUD": -78.6684,
+        "LATITUD": -1.681599999999998,
+        "X": 759409.6818999262,
+        "Y": 9813977.182822663,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Avenida Circunvalación",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6684,
+          -1.681599999999998
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-031-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Av. Circunvalación y Juan Félix Proaño",
+        "LONGITUD": -78.6662,
+        "LATITUD": -1.6752000000000016,
+        "X": 759655.4311857853,
+        "Y": 9814684.878637426,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. Circunvalación y Juan Félix Proaño",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6662,
+          -1.6752000000000016
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-032-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Ricardo Descalzi y Agustín Cueva",
+        "LONGITUD": -78.6665464,
+        "LATITUD": -1.6485160999999944,
+        "X": 759620.3581709906,
+        "Y": 9817636.782241989,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Ricardo Descalzi y Agustín Cueva",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6665464,
+          -1.6485160999999944
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-033-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Av. Cordobés y Espejo",
+        "LONGITUD": -78.6433913,
+        "LATITUD": -1.6662228000000072,
+        "X": 762195.7199290388,
+        "Y": 9815674.941617142,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. Cordobés y Espejo",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6433913,
+          -1.6662228000000072
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-034-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Olmedo y Pichincha",
+        "LONGITUD": -78.6530628,
+        "LATITUD": -1.6720979999999932,
+        "X": 761118.2887956786,
+        "Y": 9815026.287756965,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Olmedo y Pichincha",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6530628,
+          -1.6720979999999932
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-035-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Plácido Camacho y Lizardo García",
+        "LONGITUD": -78.64117830000002,
+        "LATITUD": -1.6613904000000042,
+        "X": 762442.7169794209,
+        "Y": 9816209.231849175,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Plácido Camacho y Lizardo García",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64117830000002,
+          -1.6613904000000042
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-036-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "10 de Agosto y España",
+        "LONGITUD": -78.6509694,
+        "LATITUD": -1.671888599999992,
+        "X": 761351.3576400455,
+        "Y": 9815049.173685692,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "10 de Agosto y España",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6509694,
+          -1.671888599999992
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-037-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Primera Constituyente y Carabobo",
+        "LONGITUD": -78.6527806,
+        "LATITUD": -1.6693043999999926,
+        "X": 761150.0731201706,
+        "Y": 9815335.29015152,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Primera Constituyente y Carabobo",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6527806,
+          -1.6693043999999926
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-038-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "José Veloz y Diego de Ibarra",
+        "LONGITUD": -78.6549171,
+        "LATITUD": -1.6664664999999959,
+        "X": 760912.6082147883,
+        "Y": 9815649.514151668,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "José Veloz y Diego de Ibarra",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6549171,
+          -1.6664664999999959
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-039-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Eplicachima y Rey Cacha",
+        "LONGITUD": -78.6634234,
+        "LATITUD": -1.6641740000000065,
+        "X": 759965.9742245042,
+        "Y": 9815904.244058022,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Eplicachima y Rey Cacha",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6634234,
+          -1.6641740000000065
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-040-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Av. de los Héroes y Comandante Jiménez",
+        "LONGITUD": -78.6501535,
+        "LATITUD": -1.6630936,
+        "X": 761443.3470273481,
+        "Y": 9816022.007246716,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. de los Héroes y Comandante Jiménez",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6501535,
+          -1.6630936
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-041-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Av. José Lizarzaburu y Monseñor Leónidas Proaño",
+        "LONGITUD": -78.6737118,
+        "LATITUD": -1.645076399999993,
+        "X": 758823.1378285004,
+        "Y": 9818018.224423923,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. José Lizarzaburu y Monseñor Leónidas Proaño",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6737118,
+          -1.645076399999993
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-042-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Avenida Canónigo Ramos y Canal de Riego",
+        "LONGITUD": -78.6656,
+        "LATITUD": -1.6558000000000068,
+        "X": 759724.7662822009,
+        "Y": 9816830.89010779,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Avenida Canónigo Ramos y Canal de Riego",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6656,
+          -1.6558000000000068
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-043-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Avenida Antonio Lizarzaburu y Agustín Torres",
+        "LONGITUD": -78.6639236,
+        "LATITUD": -1.6571418999999923,
+        "X": 759911.2109717819,
+        "Y": 9816682.22469568,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Avenida Antonio Lizarzaburu y Agustín Torres",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6639236,
+          -1.6571418999999923
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-044-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Cristóbal Colón y Padre Lobato",
+        "LONGITUD": -78.676355,
+        "LATITUD": -1.6891252999999968,
+        "X": 758523.1404483018,
+        "Y": 9813145.772213116,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Cristóbal Colón y Padre Lobato",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.676355,
+          -1.6891252999999968
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-045-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Calle Puná y Sangay",
+        "LONGITUD": -78.657373,
+        "LATITUD": -1.6624553000000024,
+        "X": 760639.7402434571,
+        "Y": 9816093.574176164,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Calle Puná y Sangay",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.657373,
+          -1.6624553000000024
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-046-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Av. Leopoldo Freire y Bucarest",
+        "LONGITUD": -78.6341416,
+        "LATITUD": -1.6862515999999919,
+        "X": 763222.7485519395,
+        "Y": 9813458.005667772,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. Leopoldo Freire y Bucarest",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6341416,
+          -1.6862515999999919
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-047-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Monseñor Proaño y Manuel Benjamín Carrión",
+        "LONGITUD": -78.6665928,
+        "LATITUD": -1.6439919000000034,
+        "X": 759615.7787194628,
+        "Y": 9818137.269570343,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Monseñor Proaño y Manuel Benjamín Carrión",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6665928,
+          -1.6439919000000034
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-048-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Londres y Juan Félix Proaño",
+        "LONGITUD": -78.6431903,
+        "LATITUD": -1.6837152999999938,
+        "X": 762215.7678426617,
+        "Y": 9813739.806317566,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Londres y Juan Félix Proaño",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6431903,
+          -1.6837152999999938
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-049-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Teniente Hugo Ortiz y Panamericana",
+        "LONGITUD": -78.6810774,
+        "LATITUD": -1.6358227,
+        "X": 758004.3761933675,
+        "Y": 9819042.842029743,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Teniente Hugo Ortiz y Panamericana",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6810774,
+          -1.6358227
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-050-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Jaime Roldós y José María Velasco Ibarra",
+        "LONGITUD": -78.6440718,
+        "LATITUD": -1.6580964000000051,
+        "X": 762121.0375732926,
+        "Y": 9816574.014916088,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Jaime Roldós y José María Velasco Ibarra",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6440718,
+          -1.6580964000000051
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-051-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Parque Ricpamba",
+        "LONGITUD": -78.6702,
+        "LATITUD": -1.6561999999999966,
+        "X": 759212.6354528787,
+        "Y": 9816787.243559074,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Parque Ricpamba",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6702,
+          -1.6561999999999966
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-052-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Puruhá y Buenos Aires",
+        "LONGITUD": -78.6495213,
+        "LATITUD": -1.664716600000005,
+        "X": 761513.511127458,
+        "Y": 9815842.379813194,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Puruhá y Buenos Aires",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6495213,
+          -1.664716600000005
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-053-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Orozco y Miguel Ángel León",
+        "LONGITUD": -78.6539232,
+        "LATITUD": -1.6663499000000073,
+        "X": 761023.2664737264,
+        "Y": 9815662.28113194,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Orozco y Miguel Ángel León",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6539232,
+          -1.6663499000000073
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-054-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Rocafuerte y Chile",
+        "LONGITUD": -78.6545612,
+        "LATITUD": -1.672728500000005,
+        "X": 760951.4010051787,
+        "Y": 9814956.738663523,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Rocafuerte y Chile",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6545612,
+          -1.672728500000005
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-055-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Edelberto Bonilla y Araujo Chiriboga",
+        "LONGITUD": -78.6383234,
+        "LATITUD": -1.6666070000000004,
+        "X": 762759.843072938,
+        "Y": 9815631.763489254,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Edelberto Bonilla y Araujo Chiriboga",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6383234,
+          -1.6666070000000004
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-056-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Leopoldo Freire y Quito",
+        "LONGITUD": -78.6375752,
+        "LATITUD": -1.682692700000007,
+        "X": 762840.9896786844,
+        "Y": 9813852.175132245,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Leopoldo Freire y Quito",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6375752,
+          -1.682692700000007
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-057-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "La Opinión y Patria Libre",
+        "LONGITUD": -78.6567,
+        "LATITUD": -1.661700000000002,
+        "X": 760714.7591022644,
+        "Y": 9816177.039516756,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "La Opinión y Patria Libre",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6567,
+          -1.661700000000002
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-058-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "MINEDUC",
+        "DIRECCION": "Av. 9 de Octubre y Pichincha",
+        "LONGITUD": -78.6578568,
+        "LATITUD": -1.6780485999999952,
+        "X": 760583.8262256872,
+        "Y": 9814368.646921998,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. 9 de Octubre y Pichincha",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6578568,
+          -1.6780485999999952
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-059-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "MINEDUC",
+        "DIRECCION": "La Paz y México",
+        "LONGITUD": -78.6604,
+        "LATITUD": -1.6648000000000032,
+        "X": 760302.4614212686,
+        "Y": 9815834.594553174,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "La Paz y México",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6604,
+          -1.6648000000000032
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-060-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "MINEDUC",
+        "DIRECCION": "Pedro Bernan y Cuba",
+        "LONGITUD": -78.6669,
+        "LATITUD": -1.661399999999995,
+        "X": 759579.3176420667,
+        "Y": 9816211.570938718,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Pedro Bernan y Cuba",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6669,
+          -1.661399999999995
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-061-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "MINEDUC",
+        "DIRECCION": "Av. Antonio José de Sucre y Javier Esponosa",
+        "LONGITUD": -78.6491421,
+        "LATITUD": -1.6755622000000017,
+        "X": 761554.2890285414,
+        "Y": 9814642.539729705,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. Antonio José de Sucre y Javier Esponosa",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6491421,
+          -1.6755622000000017
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-062-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "MINEDUC",
+        "DIRECCION": "Gaspar de Villarroel y Bernardo Darquea",
+        "LONGITUD": -78.6450853,
+        "LATITUD": -1.6800192000000056,
+        "X": 762005.3065479054,
+        "Y": 9814148.942000723,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Gaspar de Villarroel y Bernardo Darquea",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6450853,
+          -1.6800192000000056
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-063-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "MINEDUC",
+        "DIRECCION": "Av. Barón de Carondelet y Juan de Velasco",
+        "LONGITUD": -78.6596,
+        "LATITUD": -1.6572000000000011,
+        "X": 760392.5147098734,
+        "Y": 9816675.229109049,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. Barón de Carondelet y Juan de Velasco",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6596,
+          -1.6572000000000011
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-064-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Av. Unidad Nacional y La Valle",
+        "LONGITUD": -78.6548457,
+        "LATITUD": -1.6695267999999985,
+        "X": 760920.1530274841,
+        "Y": 9815310.961735355,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. Unidad Nacional y La Valle",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6548457,
+          -1.6695267999999985
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-065-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Eduardo Quigman y Aracely Gilbert",
+        "LONGITUD": -78.6688,
+        "LATITUD": -1.674199999999992,
+        "X": 759366.1297111107,
+        "Y": 9814795.846290369,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Eduardo Quigman y Aracely Gilbert",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6688,
+          -1.674199999999992
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-066-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Panamericana Norte y Río Coca",
+        "LONGITUD": -78.6783881,
+        "LATITUD": -1.6391813999999951,
+        "X": 758303.3230608662,
+        "Y": 9818670.948911503,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Panamericana Norte y Río Coca",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6783881,
+          -1.6391813999999951
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-067-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU911",
+        "DIRECCION": "Monseñor Leonidas Proaño y Machupichus",
+        "LONGITUD": -78.6926925,
+        "LATITUD": -1.651932799999994,
+        "X": 756709.3107380704,
+        "Y": 9817262.216029553,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Monseñor Leonidas Proaño y Machupichus",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6926925,
+          -1.651932799999994
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-068-LA",
+        "TIPO": "LA",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "ECU911",
+        "DIRECCION": "Centro Operativo Local Riobamba",
+        "LONGITUD": -78.6546,
+        "LATITUD": -1.663600000000002,
+        "X": 760948.2857815584,
+        "Y": 9815966.576154204,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Centro Operativo Local Riobamba",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6546,
+          -1.663600000000002
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-069-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Río Tomebamba y Río Paute",
+        "LONGITUD": -78.6763531,
+        "LATITUD": -1.6357937,
+        "X": 758530.2971692955,
+        "Y": 9819045.441494865,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Río Tomebamba y Río Paute",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6763531,
+          -1.6357937
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-070-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Pedro Donoso y Av. Canónigo Ramos",
+        "LONGITUD": -78.6797671,
+        "LATITUD": -1.648298999999994,
+        "X": 758148.6384259502,
+        "Y": 9817662.518714614,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Pedro Donoso y Av. Canónigo Ramos",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6797671,
+          -1.648298999999994
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-071-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Vicente Ramón Roca y Baquerizo Moreno",
+        "LONGITUD": -78.64271820000002,
+        "LATITUD": -1.6620474999999924,
+        "X": 762271.203545227,
+        "Y": 9816136.744785253,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Vicente Ramón Roca y Baquerizo Moreno",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64271820000002,
+          -1.6620474999999924
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-072-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "10 de Agosto y Carabobo",
+        "LONGITUD": -78.6532791,
+        "LATITUD": -1.6698559000000004,
+        "X": 761094.5063039344,
+        "Y": 9815274.347144594,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "10 de Agosto y Carabobo",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6532791,
+          -1.6698559000000004
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-073-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "GADP Licto",
+        "DIRECCION": "Mercado Central Parroquia Licto",
+        "LONGITUD": -78.5994,
+        "LATITUD": -1.7793999999999934,
+        "X": 767077.2542671558,
+        "Y": 9803148.389518699,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Mercado Central Parroquia Licto",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.5994,
+          -1.7793999999999934
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-074-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Ingreso a Licán y Panamericana E35",
+        "LONGITUD": -78.7058,
+        "LATITUD": -1.6308999999999942,
+        "X": 755252.8640842466,
+        "Y": 9819590.555944161,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Ingreso a Licán y Panamericana E35",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.7058,
+          -1.6308999999999942
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-075-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Av. de la República y Monseñor Leonidas Proaño",
+        "LONGITUD": -78.6630202,
+        "LATITUD": -1.643180499999993,
+        "X": 760013.5941355809,
+        "Y": 9818226.564128106,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. de la República y Monseñor Leonidas Proaño",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": false,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6630202,
+          -1.643180499999993
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-076-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Av. de los Héroes y Gonzalo Dávalos",
+        "LONGITUD": -78.6571673,
+        "LATITUD": -1.6563229999999944,
+        "X": 760663.4428858969,
+        "Y": 9816771.926019257,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. de los Héroes y Gonzalo Dávalos",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6571673,
+          -1.6563229999999944
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-077-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Villarroel y Juan Montalvo",
+        "LONGITUD": -78.6552449,
+        "LATITUD": -1.6711200999999962,
+        "X": 760875.5030208575,
+        "Y": 9815134.757415086,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Villarroel y Juan Montalvo",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6552449,
+          -1.6711200999999962
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-078-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": true,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Olmedo y Juan de Velasco",
+        "LONGITUD": -78.6485675,
+        "LATITUD": -1.6759909000000042,
+        "X": 761618.1976344701,
+        "Y": 9814595.03816428,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Olmedo y Juan de Velasco",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6485675,
+          -1.6759909000000042
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-079-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "GADM Riobamba",
+        "DIRECCION": "Roma y Amsterdam",
+        "LONGITUD": -78.6411146,
+        "LATITUD": -1.6832621999999993,
+        "X": 762446.8994998795,
+        "Y": 9813789.651044011,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Roma y Amsterdam",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6411146,
+          -1.6832621999999993
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-080-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Ingreso a Calpi y Panamericana E35",
+        "LONGITUD": -78.7501,
+        "LATITUD": -1.646700000000002,
+        "X": 750319.5062369383,
+        "Y": 9817848.381248076,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Ingreso a Calpi y Panamericana E35",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.7501,
+          -1.646700000000002
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-081-FIJA",
+        "TIPO": "FIJA",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Av. Unidad Nacional y Diego de Ibarra",
+        "LONGITUD": -78.6567596,
+        "LATITUD": -1.6686608000000043,
+        "X": 760707.2086636315,
+        "Y": 9815407.01619308,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. Unidad Nacional y Diego de Ibarra",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6567596,
+          -1.6686608000000043
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-082-FIJA",
+        "TIPO": "FIJA",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Colombia y Francia",
+        "LONGITUD": -78.6576474,
+        "LATITUD": -1.670983599999992,
+        "X": 760608.071055961,
+        "Y": 9815150.176777449,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Colombia y Francia",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6576474,
+          -1.670983599999992
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-083-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "Barrio Galápagos",
+        "DIRECCION": "Vicente Ramón Roca y Jaime Roldós Aguilera",
+        "LONGITUD": -78.6434064,
+        "LATITUD": -1.6577798000000035,
+        "X": 762195.1537873525,
+        "Y": 9816608.950598022,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Vicente Ramón Roca y Jaime Roldós Aguilera",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6434064,
+          -1.6577798000000035
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-084-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "GDP San Luis",
+        "DIRECCION": "Av. Juan Félix Proaño y salida a Macas",
+        "LONGITUD": -78.6272,
+        "LATITUD": -1.7444999999999964,
+        "X": 763987.513569097,
+        "Y": 9807013.256291484,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. Juan Félix Proaño y salida a Macas",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6272,
+          -1.7444999999999964
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-085-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "Donación La Georgina",
+        "DIRECCION": "José de Orozco y Baltazar Paredes",
+        "LONGITUD": -78.66069059895283,
+        "LATITUD": -1.6602939471666698,
+        "X": 760270.7023000008,
+        "Y": 9816333.1089,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Cruce vial corroborado cartograficamente; poste sin verificacion de campo",
+        "PRECISION_ORIGINAL": "Pendiente de ubicación",
+        "DIRECCION_DOCUMENTAL": "José de Orozco y Baltazar Paredes",
+        "DIRECCION_CARTOGRAFICA": "Jose de Orozco x Baltazar Paredes",
+        "METODO_GEO": "INTERSECCION_VIAL_CORROBORADA",
+        "FUENTE_GEO": "C:\\Users\\PC\\Downloads\\barrios y plataformas\\vias\\vias_canton_riobamba_utm.shp:nom_eje; D:\\codex\\riobamba_matrix_review_20260921\\cartografia_base\\RIOBAMBA_Cartografia Base.gdb:Vialidad_urbana:TXT",
+        "CONFIANZA_GEO": "CORROBORADA_CARTOGRAFICAMENTE",
+        "OBSERVACION_GEO": "Ubicacion aceptada sin desplazamiento; dos fuentes, diferencia 0.41 m. Poste no verificado en campo.",
+        "ESTADO_GEO": "CANDIDATO_VALIDADO",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": "C:\\Users\\PC\\Downloads\\barrios y plataformas\\vias\\vias_canton_riobamba_utm.shp:nom_eje",
+        "FUENTE_2": "D:\\codex\\riobamba_matrix_review_20260921\\cartografia_base\\RIOBAMBA_Cartografia Base.gdb:Vialidad_urbana:TXT",
+        "DIFERENCIA_M": 0.41
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66069059895283,
+          -1.6602939471666698
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-086-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "Donación La Georgina",
+        "DIRECCION": "Av. La Prensa y Argentinos",
+        "LONGITUD": -78.661017,
+        "LATITUD": -1.6588025000000055,
+        "X": 760234.561921676,
+        "Y": 9816498.141170919,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. La Prensa y Argentinos",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.661017,
+          -1.6588025000000055
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-087-FIJA",
+        "TIPO": "FIJA",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "Donación La Georgina",
+        "DIRECCION": "Santos Leopoldo Cabezas y SN",
+        "LONGITUD": -78.6512,
+        "LATITUD": -1.6684999999999983,
+        "X": 761326.1349586939,
+        "Y": 9815424.06624149,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Santos Leopoldo Cabezas y SN",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6512,
+          -1.6684999999999983
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-088-FIJA",
+        "TIPO": "FIJA",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "Donación La Georgina",
+        "DIRECCION": "Santos Leopoldo Cabezas y SN",
+        "LONGITUD": -78.651,
+        "LATITUD": -1.6686999999999947,
+        "X": 761348.3729523044,
+        "Y": 9815401.914767547,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Santos Leopoldo Cabezas y SN",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.651,
+          -1.6686999999999947
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-089-FIJA",
+        "TIPO": "FIJA",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "Barrio Galápagos",
+        "DIRECCION": "Jaime Roldós Aguilera y Diego Novoa",
+        "LONGITUD": -78.6436844,
+        "LATITUD": -1.6581032999999932,
+        "X": 762164.1632994453,
+        "Y": 9816573.200258818,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Jaime Roldós Aguilera y Diego Novoa",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6436844,
+          -1.6581032999999932
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-090-FIJA",
+        "TIPO": "FIJA",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "Barrio Galápagos",
+        "DIRECCION": "José María Urvina y Calle SN",
+        "LONGITUD": -78.64970000000001,
+        "LATITUD": -1.666199999999996,
+        "X": 761493.4220544547,
+        "Y": 9815678.303132206,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "José María Urvina y Calle SN",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64970000000001,
+          -1.666199999999996
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-091-FIJA",
+        "TIPO": "FIJA",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "Barrio Galápagos",
+        "DIRECCION": "José María Urvina y Calle SN",
+        "LONGITUD": -78.6499,
+        "LATITUD": -1.6662999999999977,
+        "X": 761471.1443850717,
+        "Y": 9815667.267252162,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "José María Urvina y Calle SN",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6499,
+          -1.6662999999999977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-092-FIJA",
+        "TIPO": "FIJA",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "Barrio Galápagos",
+        "DIRECCION": "José María Urvina y Antonio José de Sucre",
+        "LONGITUD": -78.6454981,
+        "LATITUD": -1.6570063000000061,
+        "X": 761962.4007227287,
+        "Y": 9816694.796018938,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "José María Urvina y Antonio José de Sucre",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6454981,
+          -1.6570063000000061
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-093-FIJA",
+        "TIPO": "FIJA",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "Barrio Galápagos",
+        "DIRECCION": "Diego Novoa y Antonio José de Sucre",
+        "LONGITUD": -78.645331,
+        "LATITUD": -1.6562947000000072,
+        "X": 761981.0964130037,
+        "Y": 9816773.494546082,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Diego Novoa y Antonio José de Sucre",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.645331,
+          -1.6562947000000072
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-094-FIJA",
+        "TIPO": "FIJA",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "GADP San Juan",
+        "DIRECCION": "Vía a Riobamba y Gabriel Moncayo",
+        "LONGITUD": -78.7832,
+        "LATITUD": -1.6261999999999974,
+        "X": 746637.5095996872,
+        "Y": 9820120.10066377,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Vía a Riobamba y Gabriel Moncayo",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.7832,
+          -1.6261999999999974
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-095-FIJA",
+        "TIPO": "FIJA",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "GADP San Juan",
+        "DIRECCION": "Vía a Riobamba Pan. 492 la Y y Chaupi salida al Chimborazo",
+        "LONGITUD": -78.805,
+        "LATITUD": -1.5980000000000036,
+        "X": 744214.2419403478,
+        "Y": 9823242.025889643,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Vía a Riobamba Pan. 492 la Y y Chaupi salida al Chimborazo",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.805,
+          -1.5980000000000036
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-096-FIJA",
+        "TIPO": "FIJA",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "GADP San Juan",
+        "DIRECCION": "Vía a Riobamba Pan. 492 la Y y Chaupi salida al Chimborazo",
+        "LONGITUD": -78.80540000000002,
+        "LATITUD": -1.5983999999999927,
+        "X": 744169.6690269224,
+        "Y": 9823197.828493487,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Vía a Riobamba Pan. 492 la Y y Chaupi salida al Chimborazo",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.80540000000002,
+          -1.5983999999999927
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-097-FIJA",
+        "TIPO": "FIJA",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "GADP San Juan",
+        "DIRECCION": "Vía al Chimborazo la Y ingreso La Delicia",
+        "LONGITUD": -78.798,
+        "LATITUD": -1.605000000000005,
+        "X": 744992.610217964,
+        "Y": 9822466.900591377,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Vía al Chimborazo la Y ingreso La Delicia",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.798,
+          -1.605000000000005
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-098-FIJA",
+        "TIPO": "FIJA",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "GADP San Juan",
+        "DIRECCION": "Vía a Riobamba Pan. 492 Shobolpamba",
+        "LONGITUD": -78.79,
+        "LATITUD": -1.6119999999999934,
+        "X": 745882.2876280188,
+        "Y": 9821691.644444242,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Vía a Riobamba Pan. 492 Shobolpamba",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.79,
+          -1.6119999999999934
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-099-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Av. Gonzalo Dávalos y Los Nogales",
+        "LONGITUD": -78.6563212,
+        "LATITUD": -1.6606351000000048,
+        "X": 760757.0676660568,
+        "Y": 9816294.792951517,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. Gonzalo Dávalos y Los Nogales",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6563212,
+          -1.6606351000000048
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-100-FIJA",
+        "TIPO": "FIJA",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Av. Gonzalo Dávalos y Los Nogales",
+        "LONGITUD": -78.6563212,
+        "LATITUD": -1.6606351000000048,
+        "X": 760757.0676660568,
+        "Y": 9816294.792951517,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. Gonzalo Dávalos y Los Nogales",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6563212,
+          -1.6606351000000048
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-101-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Pallatanga y San Andrez",
+        "LONGITUD": -78.6639469,
+        "LATITUD": -1.6749412999999969,
+        "X": 759906.2817825694,
+        "Y": 9814713.197933964,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Pallatanga y San Andrez",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6639469,
+          -1.6749412999999969
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-102-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Av. 11 de Noviembre y Milton Reyes",
+        "LONGITUD": -78.6724431,
+        "LATITUD": -1.6584337000000033,
+        "X": 758962.6404258678,
+        "Y": 9816540.439114848,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Ubicación aproximada; requiere verificación de campo",
+        "PRECISION_ORIGINAL": "Ubicación aproximada; requiere verificación de campo",
+        "DIRECCION_DOCUMENTAL": "Av. 11 de Noviembre y Milton Reyes",
+        "DIRECCION_CARTOGRAFICA": null,
+        "METODO_GEO": "COORDENADA_ORIGINAL_INVENTARIO",
+        "FUENTE_GEO": "Inventario original del proyecto",
+        "CONFIANZA_GEO": "APROXIMADA_ORIGINAL",
+        "OBSERVACION_GEO": "Ubicación aproximada; requiere verificación de campo",
+        "ESTADO_GEO": "LOCALIZADA_ORIGINAL",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": null,
+        "FID_EJE_B": null,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6724431,
+          -1.6584337000000033
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-103-DOMO",
+        "TIPO": "DOMO",
+        "ESTADO": "No disponible",
+        "REQUIERE_CAMBIO": false,
+        "INSTITUCION": "ECU 911 Riobamba",
+        "DIRECCION": "Luis Urdaneta y Manuel Zambrano",
+        "LONGITUD": -78.67235775652408,
+        "LATITUD": -1.6572125613933992,
+        "X": 758972.2998000011,
+        "Y": 9816675.5136,
+        "GEOMETRIA_VALIDA": true,
+        "PRECISION": "Geocodificacion censal con confianza MEDIA; no verificacion de campo",
+        "PRECISION_ORIGINAL": "Pendiente de ubicación",
+        "DIRECCION_DOCUMENTAL": "Luis Urdaneta y Manuel Zambrano",
+        "DIRECCION_CARTOGRAFICA": "LUIS URDANETA x MANUEL ZAMBRANO",
+        "METODO_GEO": "INTERSECCION_VIAL_CENSAL_EXACTA",
+        "FUENTE_GEO": "C:\\Users\\PC\\Downloads\\barrios y plataformas\\vias\\vias_canton_riobamba_utm.shp:nom_eje; FID 7632/7630",
+        "CONFIANZA_GEO": "MEDIA",
+        "OBSERVACION_GEO": "Cruce unico Luis Urdaneta x Manuel Zambrano en red censal; incorporacion cartografica solicitada para consolidacion. Fuente CPV2021, anio 2020, valida=fals. No se encontro corroboracion municipal suficiente ni se certifica posicion fisica del poste.",
+        "ESTADO_GEO": "LOCALIZADA_CARTOGRAFICA_CON_LIMITACIONES",
+        "DENTRO_CANTON": true,
+        "FID_EJE_A": 7632.0,
+        "FID_EJE_B": 7630.0,
+        "DIST_REFERENCIA_CARCEL_M": null,
+        "DIST_FREIRE_MUNICIPAL_M": null,
+        "FUENTE_1": null,
+        "FUENTE_2": null,
+        "DIFERENCIA_M": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67235775652408,
+          -1.6572125613933992
+        ]
+      }
+    }
+  ]
+}

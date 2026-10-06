@@ -2,7 +2,7 @@
 window.createRiobambaCameraProposal = function (api) {
   "use strict";
   const { map, elements: el, esc } = api;
-  const root = "./data/seguridad-riobamba/REUBICACION_POL20_20261005/";
+  const root = "./data/seguridad-riobamba/REUBICACION_POL12_20261006/";
   const controls = document.getElementById("proposalLayerControls");
   const scenarioControl = document.getElementById("proposalScenario");
   const radiusControl = document.getElementById("proposalRadius");
@@ -63,7 +63,7 @@ window.createRiobambaCameraProposal = function (api) {
         existingRadius: "RADIOS_EXISTENTES_SIMBOLOGIA_200M.geojson", municipalRadius: "COBERTURA_MUNICIPAL_200M.geojson", policeRadius: "COBERTURA_POLICIA_200M.geojson", platforms: "PLATAFORMAS_TERRITORIALES.geojson", corridors: "CORREDORES.geojson",
         DELINCUENCIA: "HOTSPOT_DELINCUENCIA.geojson", VIOLENCIA: "HOTSPOT_VIOLENCIA.geojson", CONVIVENCIA: "HOTSPOT_CONVIVENCIA.geojson" };
       const entries = await Promise.all(Object.entries(files).map(async ([key, name]) => {
-        const response = await fetch(root + name + "?v=reubicacion-pol20-20261005");
+        const response = await fetch(root + name + "?v=reubicacion-pol12-20261006");
         if (!response.ok) throw new Error(`${name}: HTTP ${response.status}`);
         return [key, await response.json()];
       }));

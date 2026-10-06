@@ -26,12 +26,19 @@ PACKAGE = SOURCE / 'ESCENARIO_FINAL_183.gpkg'
 SLOT = 'POL-20'
 
 
-def main():
-    comparison = json.loads((ROOT / 'data/seguridad-riobamba/comparacion-pol20-20261005/RESULTADOS.json').read_text(encoding='utf-8'))
-    selection = comparison['nearestPreferable'][0]
-    # This is the nearest verified improvement, not an arbitrary shift of a point.
+def main(slot=SLOT, source=SOURCE, destination=OUT, comparison_dir=None,
+         selection_label=None, expected_candidate='CAND-POL-01017'):
+    SOURCE, OUT, SLOT = Path(source), Path(destination), slot
+    PACKAGE = SOURCE / 'ESCENARIO_FINAL_183.gpkg'
+    suffix = SLOT.replace('-', '')
+    comparison_dir = comparison_dir or ROOT / 'data/seguridad-riobamba/comparacion-pol20-20261005'
+    comparison = json.loads((Path(comparison_dir) / 'RESULTADOS.json').read_text(encoding='utf-8'))
+    selection = (next(r for r in comparison['complementary'] if r['OPCION'] == selection_label)
+                 if selection_label else comparison['nearestPreferable'][0])
+    # Only the explicitly approved, previously audited road node is incorporated.
     candidate_id = selection['ID_CANDIDATO']
-    assert candidate_id == 'CAND-POL-01017' and selection['PREFERIBLE']
+    assert candidate_id == expected_candidate and selection['MENOR_SOLAPE_SIN_REDUCIR_DV']
+    distance_field = 'DIST_DESDE_' + suffix + '_M'
     protected = {str(p): sha(p) for p in SOURCE.iterdir() if p.is_file()}
     protected[str(CANDIDATES)] = sha(CANDIDATES)
     audit = Audit(package=PACKAGE)
@@ -44,12 +51,19 @@ def main():
     assert all(active[id]['point'].equals_exact(old_points[id], 0) for id in active if id != SLOT)
     for c in active.values():
         c['origins'] = set(c['props']['INTERSECCION_O_NODO'].split('|'))
-    print('REUBICACION', candidate_id, selection['DIST_DESDE_POL20_M'], flush=True)
+    current_props = audit.original_props[SLOT]
+    retained = selection['DV_ACTUALES_CONSERVADOS']
+    lost_dv = current_props['DV_NUEVOS'] - retained
+    gained_dv = selection['EVENTOS_DV_NUEVOS'] - retained
+    print('REUBICACION', SLOT, candidate_id, selection[distance_field], flush=True)
 
     OUT.mkdir(parents=True, exist_ok=True)
     shutil.copy2(PACKAGE, OUT / PACKAGE.name)
     for name in ('RADIOS_EXISTENTES_SIMBOLOGIA_200M.geojson', 'COBERTURA_MUNICIPAL_200M.geojson'):
         shutil.copy2(SOURCE / name, OUT / name)
+    for p in SOURCE.glob('*POL20*'):
+        if p.suffix in ('.csv', '.geojson'):
+            shutil.copy2(p, OUT / p.name)
     output.OUT = OUT
     output.FINAL_PACKAGE = OUT / PACKAGE.name
     catalog = {r['name']: r for r in prior['catalog']}
@@ -67,19 +81,20 @@ def main():
         description = audit.context.description(c)
         previous = audit.original_props[id]
         lon, lat = UNPROJECT(c['point'].x, c['point'].y)
-        reason = (f"POL-20 trasladada al candidato vial mas cercano con mejora clara de eventos D/V y solape: {candidate_id}. "
-                  f"Desplazamiento {selection['DIST_DESDE_POL20_M']:.2f} m; solape 69.50% a {detail['SOLAPE_PREVIO_PCT']:.2f}%. "
-                  "Redistribucion desde Plataforma I a G: los10 eventos D/V exclusivos anteriores quedan fuera; "
-                  "se cubren12 distintos. Ningun nucleo D/V99 antes atendido queda totalmente sin cobertura."
+        reason = (f"{SLOT} desplazada al nodo vial aprobado {candidate_id}. "
+                  f"Desplazamiento {selection[distance_field]:.2f} m; solape {current_props['SOLAPE_PCT']:.2f}% a {detail['SOLAPE_PREVIO_PCT']:.2f}%. "
+                  f"Conserva {retained}/{current_props['DV_NUEVOS']} eventos D/V exclusivos anteriores; "
+                  f"{lost_dv} dejan de estar cubiertos y {gained_dv} distintos ganan cobertura. "
+                  "Ningun nucleo D/V99 antes atendido queda totalmente sin cobertura."
                   if id == SLOT else previous['JUSTIFICACION'].split(' Configuracion final del estudio;')[0])
-        reason += (f" Revision puntual POL-20: aporte actual {detail['EVENTOS_D_NUEVOS']} D/{detail['EVENTOS_V_NUEVOS']} V "
+        reason += (f" Revision puntual {SLOT}: aporte actual {detail['EVENTOS_D_NUEVOS']} D/{detail['EVENTOS_V_NUEVOS']} V "
                    f"y solape {detail['SOLAPE_PREVIO_PCT']:.2f}%. Propuesta no instalada, pendiente verificacion de campo.")
         props = {**previous, **description, **detail,
             'ID_POL': id, 'ID_POLICIA': id, 'X': c['point'].x, 'Y': c['point'].y,
             'LONGITUD': lon, 'LATITUD': lat,
             'DECISION_FINAL': 'REUBICAR' if id == SLOT else previous['DECISION_FINAL'],
             'DECISION': 'REUBICAR' if id == SLOT else previous['DECISION'],
-            'DECISION_REVISION_POL20': 'REUBICAR' if id == SLOT else 'COORDENADAS_CONSERVADAS',
+            'DECISION_REVISION_' + suffix: 'REUBICAR' if id == SLOT else 'COORDENADAS_CONSERVADAS',
             'JUSTIFICACION': reason, 'SOLAPE_PCT': detail['SOLAPE_PREVIO_PCT'],
             'COBERTURA_PREVIA': detail['SOLAPE_PREVIO_PCT'],
             'D_NUEVOS': detail['EVENTOS_D_NUEVOS'], 'V_NUEVOS': detail['EVENTOS_V_NUEVOS'],
@@ -93,7 +108,7 @@ def main():
         overlap_rows.append((overlap, {'ID_POLICIA': id, 'AREA_M2': overlap.area}))
     by_id = {p['ID_POLICIA']: p for p in metrics}
     chosen = by_id[SLOT]
-    assert (chosen['D_NUEVOS'], chosen['V_NUEVOS']) == (9, 3)
+    assert (chosen['D_NUEVOS'], chosen['V_NUEVOS']) == (selection['EVENTOS_D_NUEVOS'], selection['EVENTOS_V_NUEVOS'])
     assert abs(chosen['SOLAPE_PCT'] - selection['SOLAPE_PREVIO_PCT']) < 1e-7
     police_mask = unary_union([c['disk'] for c in active.values()])
     final_mask = unary_union([audit.base, police_mask])
@@ -190,8 +205,8 @@ def main():
             row.update(DECISION='REUBICAR', CANDIDATO_FINAL=candidate_id, X_FINAL=p['X'], Y_FINAL=p['Y'],
                        DESPLAZAMIENTO_M=revision['DESPLAZAMIENTO_M'], JUSTIFICACION=chosen['JUSTIFICACION'])
     table('AUDITORIA_REUBICACIONES_POLICIA', prior_audits)
-    table('AUDITORIA_REVISION_POL20', [revision])
-    add('MOVIMIENTO_POL20', [(LineString([original['point'], active[SLOT]['point']]), revision)])
+    table('AUDITORIA_REVISION_' + suffix, [revision])
+    add('MOVIMIENTO_' + suffix, [(LineString([original['point'], active[SLOT]['point']]), revision)])
     table('POLICIA_BENEFICIO_FINAL', metrics)
     table('MATRIZ_DISTANCIAS_POLICIA_30', matrix)
     table('PARES_POLICIA_MENOS_400M', pairs)
@@ -208,11 +223,12 @@ def main():
         comparison_rows.append({'INDICADOR': cat + ' cubiertos', 'ANTERIOR': before, 'FINAL': after, 'DIFERENCIA': after-before})
         delta_events.append({'CATEGORIA': cat, 'PERDIDOS': int((old_covered & ~new_covered & valid).sum()),
                              'GANADOS': int((~old_covered & new_covered & valid).sum())})
-    comparison_rows += [{'INDICADOR': 'Solape POL-20 %', 'ANTERIOR': old_selected['SOLAPE_PCT'], 'FINAL': chosen['SOLAPE_PCT']},
-        {'INDICADOR': 'Area exclusiva POL-20 m2', 'ANTERIOR': old_selected['AREA_EXCLUSIVA_M2'], 'FINAL': chosen['AREA_EXCLUSIVA_M2']}]
+    comparison_rows += [{'INDICADOR': f'Solape {SLOT} %', 'ANTERIOR': old_selected['SOLAPE_PCT'], 'FINAL': chosen['SOLAPE_PCT']},
+        {'INDICADOR': f'Area exclusiva {SLOT} m2', 'ANTERIOR': old_selected['AREA_EXCLUSIVA_M2'], 'FINAL': chosen['AREA_EXCLUSIVA_M2']}]
     table('COMPARACION_ANTERIOR_FINAL', comparison_rows)
-    table('EVENTOS_GANADOS_PERDIDOS_POL20', delta_events)
-    acceptance = {'estado': 'REVISION_POL20_VALIDADA', 'reubicadas': sum(p['DECISION_FINAL'] == 'REUBICAR' for p in metrics),
+    table('EVENTOS_GANADOS_PERDIDOS_' + suffix, delta_events)
+    status = 'REVISION_' + suffix + '_VALIDADA'
+    acceptance = {'estado': status, 'reubicadas': sum(p['DECISION_FINAL'] == 'REUBICAR' for p in metrics),
         'mantenidas': sum(p['DECISION_FINAL'] != 'REUBICAR' for p in metrics), 'revision_reubicadas': 1,
         'revision_conservadas': 29, 'existentes': 103, 'municipales': 50, 'policiales': 30, 'total_equipos': 183,
         'para_cambio_incluidas': 31, 'crs': 'EPSG:32717', 'radio_m': 200,
@@ -229,24 +245,23 @@ def main():
         'brechas_manzanas_c_reutilizadas': False, 'revision': revision, 'eventos_ganados_perdidos': delta_events,
         'commit': False, 'push': False}
     prior.update(generatedAt=datetime.now(ZoneInfo('America/Guayaquil')).isoformat(timespec='seconds'),
-        status='REVISION_POL20_VALIDADA', sourceHashes=protected, catalog=list(catalog.values()),
+        status=status, sourceHashes=protected, catalog=list(catalog.values()),
         policeMetrics=metrics, policeClosure=acceptance, policeComparison=comparison_rows,
         policeChanges=[r for r in prior_audits if r['DECISION'] == 'REUBICAR'],
         giRecalculated=False, commit=False, push=False, gapScenarioCValidated=False)
     prior['summary'] = [{'INDICADOR': cat + ' cubiertos cantonales', **{str(n): next(r['CUBIERTOS'] for r in prior['incidents']
         if r['ESCENARIO'] == s and r['AMBITO'] == 'CANTONAL' and r['CATEGORIA'] == cat) for s, n in zip('ABC', (103, 153, 183))}}
         for cat in CLASSES]
-    prior['warnings'].append('Revision POL-20: redistribucion desde I a G; 10 eventos D/V dejan de estar cubiertos y 12 distintos ganan cobertura. No es una mejora en toda celda o categoria.')
+    prior['warnings'].append(f'Revision {SLOT}: conserva {retained} eventos D/V anteriores, pierde {lost_dv} y gana {gained_dv} distintos. No es una mejora en toda celda o categoria.')
     output.save_json('RESULTADOS.json', prior)
     output.save_json('VALIDACION.json', acceptance)
-    lines = ['# Reubicacion puntual de POL-20', '',
+    lines = ['# Reubicacion puntual de ' + SLOT, '',
         'Una camara reubicada; otras29 coordenadas,103 existentes y50 municipales conservadas. Total183.',
         'Los campos commit/push=false describen la auditoria de calculo, anterior a la publicacion autorizada.',
         f"Candidato {candidate_id}; nodo vial en {chosen['PLATAFORMA']}; desplazamiento {revision['DESPLAZAMIENTO_M']:.2f} m.",
-        f"Solape {revision['SOLAPE_ANTERIOR']:.2f}% a {revision['SOLAPE_FINAL']:.2f}%; D/V exclusivos10 a12 (9D+3V).",
-        'Es el candidato mas cercano que mejora D/V y solape en la comparacion exhaustiva previa, no un umbral arbitrario.',
-        'El ajuste29m conservaba10 eventos pero dejaba68.94% de solape; no resolvia la redundancia solicitada.',
-        'Redistribucion territorial: se pierden7D+3V concretos enI y se ganan9D+3V distintos enG. No ocultar esta diferencia.',
+        f"Solape {revision['SOLAPE_ANTERIOR']:.2f}% a {revision['SOLAPE_FINAL']:.2f}%; D/V exclusivos {revision['DV_ANTERIOR']} a {revision['DV_FINAL']} ({chosen['D_NUEVOS']}D+{chosen['V_NUEVOS']}V).",
+        'Nodo vial auditado y expresamente aprobado; sin umbral arbitrario de distancia o solape.',
+        f'Conserva {retained} eventos D/V exclusivos anteriores; pierde {lost_dv} y gana {gained_dv} distintos. No confundir mantener conteos con conservar todos los eventos.',
         'Gi* urbano/rural, metodologias, celdas, ejes y geometria censal NO recalculados ni modificados.',
         'Ningun nucleo D/V99 anteriormente atendido queda totalmente sin cobertura; puede variar su cobertura parcial.',
         'Radio200m enEPSG:32717; cobertura disuelta sin doble conteo. No se optimizo ningun corredor.',
@@ -265,12 +280,13 @@ def main():
         'cambio_eventos': delta_events, '29_fijas': True, 'gi_intacto': True}, ensure_ascii=False), flush=True)
 
 
-def refresh_view():
+def refresh_view(slot=SLOT, destination=OUT):
     """Refresh the map/template without repeating spatial calculations."""
+    OUT = Path(destination)
     output.OUT = OUT
     output.FINAL_PACKAGE = OUT / PACKAGE.name
     result = json.loads((OUT / 'RESULTADOS.json').read_text(encoding='utf-8'))
-    result['status'] = result['policeClosure']['estado'] = 'REVISION_POL20_VALIDADA'
+    result['status'] = result['policeClosure']['estado'] = 'REVISION_' + slot.replace('-', '') + '_VALIDADA'
     pairs = pyogrio.read_dataframe(output.FINAL_PACKAGE, layer='PARES_POLICIA_MENOS_400M').to_dict('records')
     transitions = pyogrio.read_dataframe(output.FINAL_PACKAGE, layer='CELDAS_COMPLETAS_A_PARCIALES').to_dict('records')
     result['policeClosure'].update(pares_menor200=[r for r in pairs if r['DISTANCIA_M'] < 200],
