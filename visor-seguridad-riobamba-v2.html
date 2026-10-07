@@ -1050,6 +1050,7 @@
           <button class="mode-button" id="cameraCoverageMode" type="button" data-icon="C"><span>Cobertura potencial de cámaras</span></button>
           <button class="mode-button" id="populationCoverageMode" type="button" data-icon="H"><span>Cobertura poblacional</span></button>
           <button class="mode-button" id="boulevardsMode" type="button" data-icon="B"><span>Bulevares Seguros</span></button>
+          <button class="mode-button" id="corridorCoverageMode" type="button" data-icon="R"><span>Cobertura de corredores</span></button>
           <button class="mode-button" id="institutionalCoverageMode" type="button" data-icon="I"><span>Cobertura institucional</span></button>
           <button class="mode-button is-active" id="cameraProposalMode" type="button" data-icon="C"><span>Evaluación de cámaras propuestas</span></button>
         </details>
@@ -1112,6 +1113,7 @@
               <option value="temporalAnalysis">Evolución temporal</option>
               <option value="populationExposure">Exposición poblacional a hotspots</option>
               <option value="cameraCoverage">Cobertura potencial de cámaras</option>
+              <option value="corridorCoverage">Cobertura de corredores</option>
               <option value="cameraProposal" selected>Evaluación de cámaras propuestas</option>
               <option value="boulevardPopulation">Población cercana a boulevares/conexiones</option>
               <option value="incidentProximity">Incidentes cerca de cámaras, policía y red</option>
@@ -1133,6 +1135,12 @@
               <label>Escenario<select id="proposalScenario" aria-label="Escenario de cámaras propuestas"><option value="actual">103 existentes</option><option value="municipal">103 + 50 municipales</option><option value="future" selected>103 + 50 municipales + 30 Policía</option></select></label>
               <label>Radio de evaluación<select id="proposalRadius" aria-label="Radio de evaluación de propuesta"><option value="200" selected>200 m</option></select></label>
               <label>Vista territorial<select id="proposalExtent" aria-label="Vista territorial de propuesta"><option value="all">Cantón y propuesta completa</option><option value="ring">Anillo vial</option><option value="urban" selected>18 Plataformas</option><option value="rural">Propuestas rurales</option><option value="abras">Las Abras · dentro del cantón</option></select></label>
+            </div>
+            <div class="coverage-controls" id="corridorCoverageControls" data-filter-control="corridorCoverage" hidden>
+              <label>Corredor<select id="corridorSelect" aria-label="Corredor de cobertura"><option value="BOULEVARD_MACAJI_BELLAVISTA">Macají–Bellavista</option><option value="ANILLO_VIAL">Anillo Vial</option><option value="CICLOVIAS">Ciclovías</option></select></label>
+              <label>Escenario<select id="corridorScenario" aria-label="Escenario de cámaras"><option value="A">Existentes · 103</option><option value="B" selected>Existentes + municipales · 153</option><option value="C">Sistema completo · 183</option></select></label>
+              <button class="corridor-action" id="corridorCompareButton" type="button">Ver los 3</button>
+              <span class="control-label">Radio fijo de análisis: 200 m</span>
             </div>
             <div class="coverage-controls" id="giHotspotControls" data-filter-control="giHotspots" hidden>
               <span class="control-label">Nivel de significancia</span>
@@ -1186,6 +1194,8 @@
                     <label class="layer-toggle" data-layer-row="manzanas"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" /></label>
                     <label class="layer-toggle" data-layer-row="boulevards"><span>Red de bulevares</span><input id="toggleBoulevards" type="checkbox" /></label>
                     <label class="layer-toggle" data-layer-row="externalCameras" hidden><span>Cámaras externas (contexto)</span><input id="toggleExternalCameras" type="checkbox" /></label>
+                    <label class="layer-toggle" data-layer-row="corridorBuffers" hidden><span>Radios de influencia · 200 m</span><input id="toggleCorridorBuffers" type="checkbox" checked /></label>
+                    <label class="layer-toggle" data-layer-row="corridorPolice" hidden><span>Policía propuesta</span><input id="toggleCorridorPolice" type="checkbox" /></label>
                   </div>
                   <h3>Mapa base</h3>
                   <div class="base-layer-options">
@@ -1234,8 +1244,10 @@
   <script src="./riobamba-camaras-inventario-cobertura-data.js?v=deficit-inventario-20261002"></script>
   <script src="./riobamba-deficit-inventario.js?v=brechas-20261004"></script>
   <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=inventario-subconjunto-20261005" />
+  <link rel="stylesheet" href="./riobamba-cobertura-corredores.css?v=corredores-20261007" />
   <link rel="stylesheet" href="./riobamba-mobile.css?v=20261005" />
   <script src="./riobamba-camaras-propuesta.js?v=reubicacion-pol24-20261006"></script>
+  <script src="./riobamba-cobertura-corredores.js?v=corredores-20261007"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
   <script src="./riobamba-accesibilidad-policial-data.js?v=metodologia-20261001"></script>
   <script src="./riobamba-seguridad-diagnostico-data.js?v=metodologia-20261001"></script>
@@ -1329,6 +1341,7 @@
         cameraCoverageMode: document.getElementById("cameraCoverageMode"),
         populationCoverageMode: document.getElementById("populationCoverageMode"),
         boulevardsMode: document.getElementById("boulevardsMode"),
+        corridorCoverageMode: document.getElementById("corridorCoverageMode"),
         institutionalCoverageMode: document.getElementById("institutionalCoverageMode"),
         cameraProposalMode: document.getElementById("cameraProposalMode"),
         videoDeficitGapMode: document.getElementById("videoDeficitGapMode"),
@@ -1338,6 +1351,10 @@
         territorialGapsMode: document.getElementById("territorialGapsMode"),
         candidateZonesMode: document.getElementById("candidateZonesMode"),
         cameraCoverageControls: document.getElementById("cameraCoverageControls"),
+        corridorCoverageControls: document.getElementById("corridorCoverageControls"),
+        corridorSelect: document.getElementById("corridorSelect"),
+        corridorScenario: document.getElementById("corridorScenario"),
+        corridorCompareButton: document.getElementById("corridorCompareButton"),
         policeMode: document.getElementById("policeMode"),
         policeAccessibilityMode: document.getElementById("policeAccessibilityMode"),
         diagnosisMode: document.getElementById("diagnosisMode"),
@@ -1366,6 +1383,11 @@
         toggleManzanas: document.getElementById("toggleManzanas"),
         toggleBoulevards: document.getElementById("toggleBoulevards"),
         toggleExternalCameras: document.getElementById("toggleExternalCameras"),
+        toggleCorridorBuffers: document.getElementById("toggleCorridorBuffers"),
+        toggleCorridorPolice: document.getElementById("toggleCorridorPolice"),
+        corridorBuffersLayerRow: document.querySelector('[data-layer-row="corridorBuffers"]'),
+        corridorPoliceLayerRow: document.querySelector('[data-layer-row="corridorPolice"]'),
+        corridorLayerRow: document.querySelector('[data-layer-row="corridorBuffers"]'),
         toggleAnalysisResult: document.getElementById("toggleAnalysisResult"),
         analysisResultLayerLabel: document.getElementById("analysisResultLayerLabel"),
         cameraLayerLabel: document.getElementById("cameraLayerLabel"),
@@ -1458,6 +1480,7 @@
       const isPopulationCoverageMode = () => mode === "diagnosis" && diagnosisMetric === "populationCoverage";
       const isCameraCoverageMode = () => mode === "diagnosis" && ["cameraCoverage", "populationCoverage"].includes(diagnosisMetric);
       const isBoulevardsMode = () => mode === "diagnosis" && diagnosisMetric === "boulevards";
+      const isCorridorCoverageMode = () => mode === "diagnosis" && diagnosisMetric === "corridorCoverage";
       const isInstitutionalMode = () => mode === "diagnosis" && diagnosisMetric === "institutionalDashboard";
       const isInventoryDeficitMode = () => mode === "diagnosis" && diagnosisMetric === "inventoryDeficitGap";
       const isCameraProposalMode = () => mode === "diagnosis" && diagnosisMetric === "cameraProposal";
@@ -1468,6 +1491,7 @@
         if (isKdeMode()) return "kde";
         if (isGiHotspotsMode()) return "giHotspots";
         if (isCameraProposalMode()) return "cameraProposal";
+        if (isCorridorCoverageMode()) return "corridorCoverage";
         if (mode === "diagnosis" && diagnosisMetric === "cameraCoverage") return "cameraCoverage";
         if (mode === "diagnosis" && diagnosisMetric === "populationCoverage") return "populationCoverage";
         if (isBoulevardsMode()) return "boulevards";
@@ -1483,6 +1507,7 @@
       };
       const analysisConfig = {
         cameraProposal: { filters: ["cameraProposal"] },
+        corridorCoverage: { filters: ["corridorCoverage"] },
         incidence: { filters: ["category", "subtype", "parish", "kdePlatform", "kdePeriod", "incidentDate"] },
         kde: { filters: ["category", "subtype", "parish", "kdePlatform", "kdePeriod", "incidentDate"] },
         giHotspots: { filters: ["category", "subtype", "parish", "kdePlatform", "kdePeriod", "incidentDate", "giHotspots"] },
@@ -1507,6 +1532,7 @@
       };
       const layerConfig = {
         cameraProposal: { result: "Impacto de la propuesta", context: [] },
+        corridorCoverage: { result: "Cobertura de corredores", context: ["corridorBuffers", "corridorPolice"] },
         incidence: { result: "Incidencia poblacional", context: ["events", "cameras", "police", "boulevards"] },
         kde: { result: "Densidad de incidentes (KDE)", context: ["events", "cameras", "police", "boulevards"] },
         giHotspots: { result: "Zonas críticas", context: ["events", "cameras", "police", "boulevards"] },
@@ -1533,7 +1559,7 @@
         const key = analysisKey();
         if (["typologies", "temporal"].includes(key)) return "layout-analytics";
         if (key === "incidentQuery") return "layout-table";
-        if (["diagnosis", "cameraProposal", "populationCoverage", "institutionalCoverage", "videoDeficitGap", "inventoryDeficitGap", "lowCoverageConcentrations", "exposureLowCoverage", "territorialGaps", "candidateZones"].includes(key)) return "layout-map-analytics";
+        if (["diagnosis", "cameraProposal", "corridorCoverage", "populationCoverage", "institutionalCoverage", "videoDeficitGap", "inventoryDeficitGap", "lowCoverageConcentrations", "exposureLowCoverage", "territorialGaps", "candidateZones"].includes(key)) return "layout-map-analytics";
         return "layout-map-dominant";
       };
       const syncWorkspaceLayout = () => {
@@ -1593,6 +1619,11 @@
       `;
       const renderMethodologyPanel = () => {
         if (isCameraProposalMode()) { cameraProposal.renderMethodology(); return; }
+        if (isCorridorCoverageMode()) {
+          const panel = document.getElementById("methodologyPanel");
+          if (panel) panel.innerHTML = `<h3>Cobertura de corredores</h3>${methodRowsHtml([["Unidad", "Eje lineal completo"], ["Radio", "200 m de influencia, calculado como radio"], ["CRS métrico", "WGS 84 / UTM zona 17S · EPSG:32717"], ["Cobertura", "Intersección del eje con la unión disuelta de buffers"], ["Escenarios", "103 existentes; 103 + 50 municipales; sistema completo con Policía"], ["Cámaras contribuyentes", "Solo cámaras cuyo buffer individual intersecta el corredor"]])}${crsHtml()}<p>Las longitudes cubiertas y sin cobertura provienen del recálculo métrico del paquete final. Los porcentajes no se obtienen sumando aportes individuales.</p>`;
+          return;
+        }
         if (cantonalController && cantonalController.scope() !== "URBANO" && mode !== "cameras") { cantonalController.renderMethodology(); return; }
         const panel = document.getElementById("methodologyPanel");
         if (!panel) return;
@@ -4927,6 +4958,11 @@
           cantonalController?.setScope("URBANO");
           cameraProposal.reset();
         }
+        if (metric === "corridorCoverage" && !isCorridorCoverageMode()) {
+          clearSelection();
+          cantonalController?.setScope("CANTONAL");
+          corridorCoverage.reset();
+        }
         if (metric === "hotspots" && !isKdeMode()) {
           elements.category.value = "__ALL__";
           elements.subtype.value = "__ALL__";
@@ -4953,6 +4989,11 @@
         if (metric === "cameraCoverage" || metric === "populationCoverage") setCameraCoverageContextLayers();
         if (metric === "boulevards") setBoulevardContextLayers();
         if (metric === "institutionalDashboard") setInstitutionalContextLayers();
+        if (metric === "corridorCoverage") {
+          elements.search.value = "";
+          [elements.category, elements.subtype, elements.parish, elements.kdePeriod].forEach((control) => { control.value = "__ALL__"; });
+          elements.incidentDate.value = "";
+        }
         if (gapMetrics.includes(metric)) setGapContextLayers(metric);
         syncCoverageControls();
         syncModeButtons();
@@ -4976,8 +5017,9 @@
         }
         syncKdeFilterOptions();
         syncCoverageControls();
-        document.getElementById("territorialScope").hidden = isCameraProposalMode();
+        document.getElementById("territorialScope").hidden = isCameraProposalMode() || isCorridorCoverageMode();
         if (isCameraProposalMode()) {
+          corridorCoverage.leave();
           cantonalController?.clearAnalysis();
           clearDetailMiniMap();
           renderTopbar();
@@ -4985,6 +5027,14 @@
           return;
         }
         cameraProposal.leave();
+        if (isCorridorCoverageMode()) {
+          cantonalController?.clearAnalysis();
+          clearDetailMiniMap();
+          renderTopbar();
+          corridorCoverage.render();
+          return;
+        }
+        corridorCoverage.leave();
         if (cantonalController) {
           cantonalController.syncControls();
           if (cantonalController.scope() !== "URBANO" && mode !== "cameras") {
@@ -5888,6 +5938,7 @@
         elements.cameraCoverageMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "cameraCoverage");
         elements.populationCoverageMode.classList.toggle("is-active", isPopulationCoverageMode());
         elements.boulevardsMode.classList.toggle("is-active", isBoulevardsMode());
+        elements.corridorCoverageMode.classList.toggle("is-active", isCorridorCoverageMode());
         elements.institutionalCoverageMode.classList.toggle("is-active", isInstitutionalMode());
         elements.policeMode.classList.toggle("is-active", mode === "police");
         elements.policeAccessibilityMode.classList.toggle("is-active", mode === "diagnosis" && diagnosisMetric === "policeAccessibility");
@@ -5905,7 +5956,7 @@
         elements.exposureLowCoverageMode.classList.toggle("is-active", diagnosisMetric === "exposureLowCoverage");
         elements.territorialGapsMode.classList.toggle("is-active", diagnosisMetric === "territorialGaps");
         elements.candidateZonesMode.classList.toggle("is-active", diagnosisMetric === "candidateZones");
-        elements.diagnosisMode.classList.toggle("is-active", mode === "diagnosis" && !["cameraProposal", "hotspots", "giHotspots", "incidentTypologies", "temporalAnalysis", "population", "populationDensity", "populationExposure", "incidentCount", "incidentRate", "cameraCoverage", "populationCoverage", "boulevards", "institutionalDashboard", ...gapMetrics].includes(diagnosisMetric));
+        elements.diagnosisMode.classList.toggle("is-active", mode === "diagnosis" && !["cameraProposal", "corridorCoverage", "hotspots", "giHotspots", "incidentTypologies", "temporalAnalysis", "population", "populationDensity", "populationExposure", "incidentCount", "incidentRate", "cameraCoverage", "populationCoverage", "boulevards", "institutionalDashboard", ...gapMetrics].includes(diagnosisMetric));
         elements.kdeAnalysis.classList.toggle("is-active", isKdeMode());
       }
 
@@ -6014,6 +6065,10 @@
         map, elements, inventory: inventoryCameras, esc, metricBars, active: isCameraProposalMode,
         layers: () => [eventLayer, hotspotLayer, kdePointLayer, platformLabelLayer, platformMaskLayer, parishLayer, cameraLayer, cameraCoverageLayer, policeInfrastructureLayer, boulevardLayer, platformLayer, manzanaLayer].filter(Boolean),
       });
+      const corridorCoverage = window.createRiobambaCorridorCoverage({
+        map, elements, esc, fmt, active: isCorridorCoverageMode,
+        layers: () => [eventLayer, hotspotLayer, kdePointLayer, platformLabelLayer, platformMaskLayer, parishLayer, cameraLayer, cameraCoverageLayer, policeInfrastructureLayer, boulevardLayer, platformLayer, manzanaLayer].filter(Boolean),
+      });
       fillSelect(elements.category, "Todas las categorías/tipos", defaultCategoryOptions);
       fillSelect(elements.subtype, "Todos los subtipos", [...new Set(conflictEvents.map((event) => event.subtype || event.event).filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
       fillSelect(elements.parish, "Todas las parroquias", [...new Set(conflictEvents.map((event) => event.parish).filter(Boolean))].sort((a, b) => a.localeCompare(b, "es")));
@@ -6067,6 +6122,7 @@
       elements.cameraCoverageMode.addEventListener("click", () => activateDiagnosisMetric("cameraCoverage"));
       elements.populationCoverageMode.addEventListener("click", () => activateDiagnosisMetric("populationCoverage"));
       elements.boulevardsMode.addEventListener("click", () => activateDiagnosisMetric("boulevards"));
+      elements.corridorCoverageMode.addEventListener("click", () => activateDiagnosisMetric("corridorCoverage"));
       elements.institutionalCoverageMode.addEventListener("click", () => activateDiagnosisMetric("institutionalDashboard"));
       elements.cameraProposalMode.addEventListener("click", () => activateDiagnosisMetric("cameraProposal"));
       elements.videoDeficitGapMode.addEventListener("click", () => activateDiagnosisMetric("videoDeficitGap"));
@@ -6163,6 +6219,7 @@
       elements.legendButton.addEventListener("click", (event) => {
         event.stopPropagation();
         if (isCameraProposalMode()) cameraProposal.renderLegend();
+        else if (isCorridorCoverageMode()) corridorCoverage.renderLegend();
         else renderLegend();
         const open = elements.legendPopover.hidden;
         closeMapPopovers(open ? "legend" : null);

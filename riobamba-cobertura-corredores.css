@@ -1,0 +1,46 @@
+#corridorCoverageControls { display: flex; grid-column: 1 / -1; gap: 10px; align-items: end; flex-wrap: wrap; }
+#corridorCoverageControls[hidden], #corridorCoverageMode[hidden] { display: none; }
+#corridorCoverageControls label { display: grid; gap: 4px; min-width: 190px; flex: 1 1 210px; font-size: 12px; }
+#corridorCoverageControls select { width: 100%; }
+.corridor-action { min-height: 38px; padding: 8px 14px; border: 1px solid #b8cddd; border-radius: 6px; background: #fff; color: #062d60; font-weight: 700; cursor: pointer; }
+.corridor-action.is-active { background: #dcefe6; border-color: #18815b; }
+.corridor-active .card { border-radius: 6px; }
+.corridor-active .map-detail-grid { grid-template-columns: minmax(0, 2fr) minmax(270px, .72fr); }
+.corridor-active .map-panel { min-height: 520px; }
+.corridor-active .graphic-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.corridor-active .card span { letter-spacing: 0; }
+.corridor-detail h3 { margin: 0 0 10px; color: #062d60; }
+.corridor-detail p { margin: 12px 0 0; font-size: 12px; line-height: 1.45; color: #52666b; }
+.corridor-camera-icon { background: transparent; border: 0; }
+.corridor-camera-dot { display: block; width: 14px; height: 14px; margin: 2px; border: 2px solid #fff; background: var(--camera-color); box-shadow: 0 0 0 1px #38515d, 0 1px 4px rgb(0 0 0 / 28%); }
+.corridor-camera-dot.circle { border-radius: 50%; }
+.corridor-camera-dot.square { border-radius: 2px; }
+.corridor-key { display: inline-block; width: 14px; height: 6px; margin-right: 7px; vertical-align: middle; border-radius: 2px; }
+.corridor-key.covered { background: #18815b; }
+.corridor-key.uncovered { background: #d64545; }
+.corridor-key.existing { width: 10px; height: 10px; border-radius: 50%; background: #246db5; }
+.corridor-key.change { width: 10px; height: 10px; border-radius: 2px; background: #8b46b5; }
+.corridor-key.municipal, .corridor-key.police, .corridor-key.scenario-a, .corridor-key.scenario-b, .corridor-key.scenario-c { width: 10px; height: 10px; border-radius: 50%; }
+.corridor-key.municipal { background: #18815b; }
+.corridor-key.police { background: #e8bd16; }
+.corridor-key.scenario-a { background: #246db5; }
+.corridor-key.scenario-b { background: #18815b; }
+.corridor-key.scenario-c { background: #8b46b5; }
+.corridor-bar-row { display: grid; grid-template-columns: minmax(130px, 1.2fr) minmax(120px, 2fr) 62px; gap: 10px; align-items: center; margin: 12px 0; font-size: 12px; }
+.corridor-bar-row > div { height: 12px; overflow: hidden; background: #edf1ed; border-radius: 3px; }
+.corridor-bar-row i { display: block; height: 100%; min-width: 2px; }
+.corridor-bar-row strong { text-align: right; color: #062d60; }
+.corridor-graphic-card { min-width: 0; }
+.corridor-graphic-card h3 { margin-bottom: 12px; }
+.corridor-graphic-card .table-scroll { overflow: auto; }
+.corridor-graphic-card .mini-table { min-width: 520px; }
+.corridor-graphic-card button { border: 0; padding: 0; background: transparent; color: #12629c; cursor: pointer; font: inherit; text-align: left; }
+@media (max-width: 1100px) { .corridor-active .graphic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px) {
+  #corridorCoverageControls label { flex-basis: 100%; }
+  .corridor-active .map-detail-grid { grid-template-columns: minmax(0, 1fr); height: auto; }
+  .corridor-active .map-panel { height: 420px; min-height: 420px; }
+  .corridor-active .detail-panel { height: auto; max-height: 520px; }
+  .corridor-active .graphic-grid { grid-template-columns: minmax(0, 1fr); }
+  .corridor-bar-row { grid-template-columns: minmax(100px, 1fr) minmax(85px, 1.5fr) 52px; gap: 6px; }
+}
