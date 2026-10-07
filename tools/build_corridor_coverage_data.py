@@ -142,19 +142,26 @@ def main():
             covered = axis.intersection(union_buffer)
             uncovered = axis.difference(union_buffer)
             camera_values = []
+            reference_values = []
             for camera in cameras:
                 local = camera["point"].buffer(RADIUS_M, quad_segs=64).intersection(axis)
-                if local.length <= 0.01:
-                    continue
                 props = camera["props"]
-                camera_values.append({
-                    "id": props.get("ID_CAMARA") or props.get("ID_PROPUESTA") or props.get("ID"),
+                camera_id = props.get("ID_CAMARA") or props.get("ID_PROPUESTA") or props.get("ID")
+                camera_value = {
+                    "id": camera_id,
                     "group": camera["group"],
                     "origin": GROUP_NAMES[camera["group"]],
                     "type": props.get("TIPO") or props.get("SUBTIPO") or "Cámara",
                     "requiresChange": bool(props.get("REQUIERE_CAMBIO")) if camera["group"] == "existing" else False,
                     "lengthM": round(float(local.length), 3),
-                })
+                    "status": "CONTRIBUYE" if local.length > 0.01 else "REFERENCIA_SIN_INTERSECCION",
+                    "lng": float(TO_VISUAL(camera["point"].x, camera["point"].y)[0]),
+                    "lat": float(TO_VISUAL(camera["point"].x, camera["point"].y)[1]),
+                }
+                if local.length > 0.01:
+                    camera_values.append(camera_value)
+                if props.get("CORREDOR") == corridor_key:
+                    reference_values.append(camera_value)
             scenario_out["corridors"][corridor_key] = {
                 "name": CORRIDOR_NAMES[corridor_key],
                 "totalM": round(float(axis.length), 3),
@@ -164,6 +171,7 @@ def main():
                 "covered": feature_collection(line_features(covered, corridor_key, "CUBIERTO", f"{corridor_key}-CUB", cameras)),
                 "uncovered": feature_collection(line_features(uncovered, corridor_key, "SIN_COBERTURA", f"{corridor_key}-SIN", cameras)),
                 "cameras": camera_values,
+                "referenceCameras": reference_values,
             }
         for camera in cameras:
             props = camera["props"]
@@ -171,7 +179,10 @@ def main():
             for corridor_key, axis in corridors.items():
                 length = camera["point"].buffer(RADIUS_M, quad_segs=64).intersection(axis).length
                 if length > 0.01:
-                    camera_corridors.append({"key": corridor_key, "name": CORRIDOR_NAMES[corridor_key], "lengthM": round(float(length), 3)})
+                    camera_corridors.append({"key": corridor_key, "name": CORRIDOR_NAMES[corridor_key], "lengthM": round(float(length), 3), "status": "CONTRIBUYE"})
+            assigned_corridor = camera["props"].get("CORREDOR")
+            if assigned_corridor in CORRIDOR_ORDER and not any(item["key"] == assigned_corridor for item in camera_corridors):
+                camera_corridors.append({"key": assigned_corridor, "name": CORRIDOR_NAMES[assigned_corridor], "lengthM": 0, "status": "REFERENCIA_SIN_INTERSECCION"})
             if not camera_corridors:
                 continue
             scenario_out["cameras"].append({

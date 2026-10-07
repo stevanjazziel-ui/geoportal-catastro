@@ -79,7 +79,8 @@
     }
 
     function cameraPopup(camera, corridor) {
-      return `<strong>${esc(camera.id)}</strong><br>Origen: ${esc(camera.origin)}<br>Tipo: ${esc(camera.type)}<br>Radio: 200 m<br>Corredor: ${esc(corridorLabels[selectedCorridor])}<br>Longitud cubierta por esta cámara: ${meters(corridor?.lengthM)}<br>Corredores atendidos: ${camera.corridors.map((item) => esc(item.name)).join(", ")}`;
+      const referenceOnly = corridor?.status === "REFERENCIA_SIN_INTERSECCION";
+      return `<strong>${esc(camera.id)}</strong><br>Origen: ${esc(camera.origin)}<br>Tipo: ${esc(camera.type)}<br>Radio: 200 m<br>Corredor: ${esc(corridorLabels[selectedCorridor])}<br>Estado: ${referenceOnly ? "Referencia sin intersección con el tramo cantonal" : "Contribuye a la cobertura"}<br>Longitud cubierta por esta cámara: ${meters(corridor?.lengthM)}<br>Corredores atendidos: ${camera.corridors.map((item) => esc(item.name)).join(", ")}`;
     }
 
     function drawSegments() {
@@ -139,6 +140,7 @@
         const rows = [
           ["ID", camera.id], ["Origen", camera.origin], ["Tipo", camera.type], ["Radio", "200 m"],
           ["Corredor seleccionado", corridorLabels[selectedCorridor]], ["Longitud cubierta por esta cámara", meters(selected.corridor?.lengthM)],
+          ["Estado", selected.corridor?.status === "REFERENCIA_SIN_INTERSECCION" ? "Referencia sin intersección con el tramo cantonal" : "Contribuye a la cobertura"],
           ["Corredores atendidos", camera.corridors.map((item) => item.name).join(", ")],
         ];
         el.detailTitle.textContent = "Detalle de cámara";
@@ -153,7 +155,7 @@
       }
       const current = corridorData();
       el.detailTitle.textContent = "Detalle de corredor";
-      el.detail.innerHTML = `<section class="corridor-detail"><h3>${esc(corridorLabels[selectedCorridor])}</h3>${rowHtml([["Escenario", scenarioLabels[scenario]], ["Radio", "200 m"], ["Longitud total", km(current.totalM)], ["Longitud cubierta", km(current.coveredM)], ["Longitud sin cobertura", meters(current.uncoveredM)], ["Cobertura", pct(current.coveredPct)], ["Cámaras que contribuyen", String((current.cameras || []).length)]])}<p>Selecciona una cámara o un tramo del mapa para revisar el aporte individual y los vacíos restantes.</p></section>`;
+      el.detail.innerHTML = `<section class="corridor-detail"><h3>${esc(corridorLabels[selectedCorridor])}</h3>${rowHtml([["Escenario", scenarioLabels[scenario]], ["Radio", "200 m"], ["Longitud total", km(current.totalM)], ["Longitud cubierta", km(current.coveredM)], ["Longitud sin cobertura", meters(current.uncoveredM)], ["Cobertura", pct(current.coveredPct)], ["Cámaras que contribuyen", String((current.cameras || []).length)], ["Cámaras de referencia", String((current.referenceCameras || []).length)]])}<p>Las cámaras de referencia se muestran por su asociación operativa al corredor; solo cuentan como cobertura cuando su buffer intersecta el eje cantonal.</p></section>`;
     }
 
     function renderGraphics() {
@@ -185,7 +187,7 @@
 
     async function load() {
       if (loadedPromise) return loadedPromise;
-      loadedPromise = fetch("./data/seguridad-riobamba/REUBICACION_POL24_20261007_B/CORRIDOR_COVERAGE_200M.json?v=lasabras-20261007")
+      loadedPromise = fetch("./data/seguridad-riobamba/REUBICACION_POL24_20261007_B/CORRIDOR_COVERAGE_200M.json?v=lasabras-camaras-20261007")
         .then((response) => { if (!response.ok) throw new Error("No se pudo cargar la cobertura de corredores"); return response.json(); })
         .then((value) => { data = value; return value; });
       return loadedPromise;
