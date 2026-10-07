@@ -2,7 +2,7 @@
 window.createRiobambaCameraProposal = function (api) {
   "use strict";
   const { map, elements: el, esc } = api;
-  const root = "./data/seguridad-riobamba/REUBICACION_POL24_20261006/";
+  const root = "./data/seguridad-riobamba/REUBICACION_POL24_20261007_B/";
   const controls = document.getElementById("proposalLayerControls");
   const scenarioControl = document.getElementById("proposalScenario");
   const radiusControl = document.getElementById("proposalRadius");
@@ -30,7 +30,7 @@ window.createRiobambaCameraProposal = function (api) {
   const fc = features => ({ type: "FeatureCollection", features });
   const rowHtml = rows => rows.map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value ?? "No disponible")}</strong></div>`).join("");
   const table = (title, headings, rows, note = "") => `<section class="proposal-report"><h3>${esc(title)}</h3><div class="proposal-table-wrap"><table class="mini-table"><thead><tr>${headings.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${rows.map(r => `<tr>${r.map(v => `<td>${v}</td>`).join("")}</tr>`).join("")}</tbody></table></div>${note ? `<p>${esc(note)}</p>` : ""}</section>`;
-  const links = () => `<div class="proposal-links"><a href="${root}CIERRE_POLICIA_30_FINAL.zip" download>Paquete GIS final ZIP</a><a href="${root}ESCENARIO_FINAL_183.gpkg" download>GeoPackage final</a><a href="${root}index.html" target="_blank" rel="noopener">Mapa final Policía</a><a href="${root}index.html#control" target="_blank" rel="noopener">Control final de solapes</a><a href="${root}INFORME_FINAL.md" target="_blank" rel="noopener">Informe y metodología</a><a href="${root}RESULTADOS.json" download>Resultados</a><a href="${root}VALIDACION.json" download>Validación GIS</a></div>`;
+  const links = () => `<div class="proposal-links"><a href="${root}CIERRE_POLICIA_30_FINAL_B.zip" download>Paquete GIS final ZIP</a><a href="${root}ESCENARIO_FINAL_183.gpkg" download>GeoPackage final</a><a href="${root}index.html" target="_blank" rel="noopener">Mapa final Policía</a><a href="${root}index.html#control" target="_blank" rel="noopener">Control final de solapes</a><a href="${root}INFORME_FINAL.md" target="_blank" rel="noopener">Informe y metodología</a><a href="${root}RESULTADOS.json" download>Resultados</a><a href="${root}VALIDACION.json" download>Validación GIS</a></div>`;
   const metric = (kind, code = scenario()) => data.results[kind].find(r => r.ESCENARIO === code);
 
   controls.innerHTML = Object.entries(labels).map(([key, label]) => `<label>${esc(label)}<input type="checkbox" data-proposal-layer="${key}" ${toggles[key] ? "checked" : ""}></label>`).join("") +
@@ -63,7 +63,7 @@ window.createRiobambaCameraProposal = function (api) {
         existingRadius: "RADIOS_EXISTENTES_SIMBOLOGIA_200M.geojson", municipalRadius: "COBERTURA_MUNICIPAL_200M.geojson", policeRadius: "COBERTURA_POLICIA_200M.geojson", platforms: "PLATAFORMAS_TERRITORIALES.geojson", corridors: "CORREDORES.geojson",
         DELINCUENCIA: "HOTSPOT_DELINCUENCIA.geojson", VIOLENCIA: "HOTSPOT_VIOLENCIA.geojson", CONVIVENCIA: "HOTSPOT_CONVIVENCIA.geojson" };
       const entries = await Promise.all(Object.entries(files).map(async ([key, name]) => {
-        const response = await fetch(root + name + "?v=reubicacion-pol24-20261006");
+        const response = await fetch(root + name + "?v=reubicacion-pol24-20261007-b");
         if (!response.ok) throw new Error(`${name}: HTTP ${response.status}`);
         return [key, await response.json()];
       }));

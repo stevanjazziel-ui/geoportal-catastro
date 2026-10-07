@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_POLICIA": "POL-24",
+        "CANDIDATO_ANTERIOR": "CAND-POL-02704",
+        "CANDIDATO_FINAL": "CAND-POL-02764",
+        "X_ANTERIOR": 763060.8750999998,
+        "Y_ANTERIOR": 9813925.0619,
+        "X_FINAL": 763216.6558999997,
+        "Y_FINAL": 9813955.9123,
+        "DESPLAZAMIENTO_M": 158.80618636815765,
+        "PLATAFORMA_ANTERIOR": "PLATAFORMA Q",
+        "PLATAFORMA_FINAL": "PLATAFORMA Q",
+        "DV_ANTERIOR": 7,
+        "DV_FINAL": 12,
+        "SOLAPE_ANTERIOR": 75.82884062279119,
+        "SOLAPE_FINAL": 34.545082609555045,
+        "JUSTIFICACION": "POL-24 desplazada al nodo vial aprobado CAND-POL-02764. Desplazamiento 158.81 m; solape 75.83% a 34.55%. Conserva 7/7 eventos D/V exclusivos anteriores; 0 dejan de estar cubiertos y 5 distintos ganan cobertura. Ningun nucleo D/V99 antes atendido queda totalmente sin cobertura. Revision puntual POL-24: aporte actual 5 D/7 V y solape 34.55%. Propuesta no instalada, pendiente verificacion de campo."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.63560078506988,
+            -1.6820314324789567
+          ],
+          [
+            -78.63420176004402,
+            -1.6817508539480268
+          ]
+        ]
+      }
+    }
+  ]
+}

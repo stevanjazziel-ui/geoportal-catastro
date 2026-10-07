@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "activeScenario": "ESCENARIO_B",
+  "sourcePackagePreserved": true,
+  "counts": {
+    "existing": 103,
+    "municipal": 50,
+    "police": 30,
+    "municipalRuralFrozen": 22,
+    "lasAbrasFrozen": 4,
+    "urbanStructural": 24
+  },
+  "hardChecks": {
+    "macajiPct": 100.0,
+    "macajiUncoveredM": 0.0,
+    "anilloPct": 80.0385091905646,
+    "cicloviasPct": 64.594830864447,
+    "policeBuffersExcluded": true
+  },
+  "commit": false,
+  "push": false
+}
