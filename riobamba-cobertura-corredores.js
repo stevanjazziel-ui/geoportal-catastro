@@ -185,7 +185,7 @@
 
     async function load() {
       if (loadedPromise) return loadedPromise;
-      loadedPromise = fetch("./data/seguridad-riobamba/REUBICACION_POL24_20261007_B/CORRIDOR_COVERAGE_200M.json?v=20261007")
+      loadedPromise = fetch("./data/seguridad-riobamba/REUBICACION_POL24_20261007_B/CORRIDOR_COVERAGE_200M.json?v=lasabras-20261007")
         .then((response) => { if (!response.ok) throw new Error("No se pudo cargar la cobertura de corredores"); return response.json(); })
         .then((value) => { data = value; return value; });
       return loadedPromise;
