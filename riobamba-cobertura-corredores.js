@@ -5,7 +5,7 @@
   window.createRiobambaCorridorCoverage = function createRiobambaCorridorCoverage(api) {
     const el = api.elements;
     const colors = { A: "#246db5", B: "#18815b", C: "#8b46b5" };
-    const cameraColors = { existing: "#246db5", municipal: "#18815b", police: "#e8bd16" };
+    const cameraColors = { existing: "#246db5", change: "#8b46b5", municipal: "#18815b", police: "#e8bd16" };
     const corridorLabels = {
       BOULEVARD_MACAJI_BELLAVISTA: "Macají–Bellavista",
       ANILLO_VIAL: "Anillo Vial",
@@ -56,8 +56,9 @@
     }
 
     function icon(camera) {
-      const color = cameraColors[camera.group] || "#246db5";
-      const shape = camera.group === "existing" && camera.requiresChange ? "square" : "circle";
+      const requiresChange = camera.group === "existing" && camera.requiresChange;
+      const color = cameraColors[requiresChange ? "change" : camera.group] || "#246db5";
+      const shape = requiresChange ? "square" : "circle";
       return L.divIcon({
         className: "corridor-camera-icon",
         html: `<span class="corridor-camera-dot ${shape}" style="--camera-color:${color}"></span>`,
@@ -107,7 +108,7 @@
       const cameras = visibleScenarioCameras().filter((camera) => camera.corridors.some((corridor) => corridor.key === selectedCorridor));
       cameras.forEach((camera) => {
         const corridor = camera.corridors.find((item) => item.key === selectedCorridor);
-        const color = cameraColors[camera.group] || "#246db5";
+        const color = cameraColors[camera.group === "existing" && camera.requiresChange ? "change" : camera.group] || "#246db5";
         if (el.toggleCorridorBuffers?.checked) L.circle([camera.lat, camera.lng], { radius: 200, color, weight: 1.5, opacity: 0.75, fillColor: color, fillOpacity: 0.13, interactive: false }).addTo(bufferLayer);
         L.marker([camera.lat, camera.lng], { icon: icon(camera), title: camera.id }).addTo(cameraLayer)
           .bindPopup(cameraPopup(camera, corridor))
