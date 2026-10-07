@@ -21,7 +21,7 @@
     let active = false;
     let renderVersion = 0;
     let selectedCorridor = "BOULEVARD_MACAJI_BELLAVISTA";
-    let scenario = "B";
+    let scenario = "C";
     let compare = false;
     let selected = null;
     let corridorLayer = null;
@@ -176,7 +176,7 @@
     }
 
     function renderLegend() {
-      el.legend.innerHTML = `<div><span class="corridor-key covered"></span>Tramo cubierto · buffer 200 m</div><div><span class="corridor-key uncovered"></span>Tramo sin cobertura</div><div><span class="corridor-key existing"></span>Cámara existente</div><div><span class="corridor-key change"></span>Existente para cambio</div><div><span class="corridor-key municipal"></span>Municipal propuesta</div><div><span class="corridor-key police"></span>Policía propuesta · oculta por defecto</div>${compare ? `<div><span class="corridor-key scenario-a"></span>103 existentes · comparación</div><div><span class="corridor-key scenario-b"></span>153 equipos · comparación</div><div><span class="corridor-key scenario-c"></span>183 equipos · comparación</div>` : ""}<div>Radio de influencia: 200 m (radio, no diámetro).</div>`;
+      el.legend.innerHTML = `<div><span class="corridor-key covered"></span>Tramo cubierto · buffer 200 m</div><div><span class="corridor-key uncovered"></span>Tramo sin cobertura</div><div><span class="corridor-key existing"></span>Cámara existente</div><div><span class="corridor-key change"></span>Existente para cambio</div><div><span class="corridor-key municipal"></span>Municipal propuesta</div><div><span class="corridor-key police"></span>Policía propuesta</div>${compare ? `<div><span class="corridor-key scenario-a"></span>103 existentes · comparación</div><div><span class="corridor-key scenario-b"></span>153 equipos · comparación</div><div><span class="corridor-key scenario-c"></span>183 equipos · comparación</div>` : ""}<div>Radio de influencia: 200 m (radio, no diámetro).</div>`;
     }
 
     function syncControls() {
