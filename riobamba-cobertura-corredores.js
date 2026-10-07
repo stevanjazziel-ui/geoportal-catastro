@@ -124,14 +124,16 @@
       const current = corridorData();
       if (!current) return;
       const meets = selectedCorridor === "BOULEVARD_MACAJI_BELLAVISTA" ? current.coveredPct >= 99.999 : null;
-      el.summary.innerHTML = [
+      const summaryRows = [
         ["Cobertura del corredor", pct(current.coveredPct)],
         ["Longitud total", km(current.totalM)],
         ["Longitud cubierta", km(current.coveredM)],
         ["Sin cobertura", meters(current.uncoveredM)],
         ["Cámaras contribuyentes", String((current.cameras || []).length)],
         [selectedCorridor === "BOULEVARD_MACAJI_BELLAVISTA" ? "Objetivo Macají" : "Estado del corredor", selectedCorridor === "BOULEVARD_MACAJI_BELLAVISTA" ? (meets ? "Cumple" : "No cumple") : "Referencia"],
-      ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+      ];
+      if ((current.referenceCameras || []).length) summaryRows.splice(5, 0, ["Cámaras asociadas", String(current.referenceCameras.length)]);
+      el.summary.innerHTML = summaryRows.map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
     }
 
     function renderDetail() {
@@ -187,7 +189,7 @@
 
     async function load() {
       if (loadedPromise) return loadedPromise;
-      loadedPromise = fetch("./data/seguridad-riobamba/REUBICACION_POL24_20261007_B/CORRIDOR_COVERAGE_200M.json?v=lasabras-camaras-20261007")
+      loadedPromise = fetch("./data/seguridad-riobamba/REUBICACION_POL24_20261007_B/CORRIDOR_COVERAGE_200M.json?v=lasabras-camaras-v2-20261007")
         .then((response) => { if (!response.ok) throw new Error("No se pudo cargar la cobertura de corredores"); return response.json(); })
         .then((value) => { data = value; return value; });
       return loadedPromise;
