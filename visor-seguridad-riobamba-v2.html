@@ -1137,7 +1137,7 @@
               <label>Vista territorial<select id="proposalExtent" aria-label="Vista territorial de propuesta"><option value="all">Cantón y propuesta completa</option><option value="ring">Anillo vial</option><option value="urban" selected>18 Plataformas</option><option value="rural">Propuestas rurales</option><option value="abras">Las Abras · dentro del cantón</option></select></label>
             </div>
             <div class="coverage-controls" id="corridorCoverageControls" data-filter-control="corridorCoverage" hidden>
-              <label>Corredor<select id="corridorSelect" aria-label="Corredor de cobertura"><option value="BOULEVARD_MACAJI_BELLAVISTA">Macají–Bellavista</option><option value="ANILLO_VIAL">Anillo Vial</option><option value="CICLOVIAS">Ciclovías</option></select></label>
+              <label>Corredor<select id="corridorSelect" aria-label="Corredor de cobertura"><option value="BOULEVARD_MACAJI_BELLAVISTA">Macají–Bellavista</option><option value="ANILLO_VIAL">Anillo Vial</option><option value="CICLOVIAS">Ciclovías</option><option value="QUEBRADA_LAS_ABRAS">Quebrada Las Abras</option></select></label>
               <label>Escenario<select id="corridorScenario" aria-label="Escenario de cámaras"><option value="A">Existentes · 103</option><option value="B" selected>Existentes + municipales · 153</option><option value="C">Sistema completo · 183</option></select></label>
               <button class="corridor-action" id="corridorCompareButton" type="button">Ver los 3</button>
               <span class="control-label">Radio fijo de análisis: 200 m</span>
@@ -1621,7 +1621,7 @@
         if (isCameraProposalMode()) { cameraProposal.renderMethodology(); return; }
         if (isCorridorCoverageMode()) {
           const panel = document.getElementById("methodologyPanel");
-          if (panel) panel.innerHTML = `<h3>Cobertura de corredores</h3>${methodRowsHtml([["Unidad", "Eje lineal completo"], ["Radio", "200 m de influencia, calculado como radio"], ["CRS métrico", "WGS 84 / UTM zona 17S · EPSG:32717"], ["Cobertura", "Intersección del eje con la unión disuelta de buffers"], ["Escenarios", "103 existentes; 103 + 50 municipales; sistema completo con Policía"], ["Cámaras contribuyentes", "Solo cámaras cuyo buffer individual intersecta el corredor"]])}${crsHtml()}<p>Las longitudes cubiertas y sin cobertura provienen del recálculo métrico del paquete final. Los porcentajes no se obtienen sumando aportes individuales.</p>`;
+          if (panel) panel.innerHTML = `<h3>Cobertura de corredores</h3>${methodRowsHtml([["Unidad", "Ejes lineales completos"], ["Corredores", "Macají–Bellavista, Anillo Vial, Ciclovías y tramo cantonal de Quebrada Las Abras"], ["Radio", "200 m de influencia, calculado como radio"], ["CRS métrico", "WGS 84 / UTM zona 17S · EPSG:32717"], ["Cobertura", "Intersección del eje con la unión disuelta de buffers"], ["Escenarios", "103 existentes; 103 + 50 municipales; sistema completo con Policía"], ["Cámaras contribuyentes", "Solo cámaras cuyo buffer individual intersecta el corredor"]])}${crsHtml()}<p>Las longitudes cubiertas y sin cobertura provienen del recálculo métrico del paquete final. Los porcentajes no se obtienen sumando aportes individuales.</p>`;
           return;
         }
         if (cantonalController && cantonalController.scope() !== "URBANO" && mode !== "cameras") { cantonalController.renderMethodology(); return; }

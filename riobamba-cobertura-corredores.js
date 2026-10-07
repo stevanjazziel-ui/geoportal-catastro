@@ -10,6 +10,7 @@
       BOULEVARD_MACAJI_BELLAVISTA: "Macají–Bellavista",
       ANILLO_VIAL: "Anillo Vial",
       CICLOVIAS: "Ciclovías",
+      QUEBRADA_LAS_ABRAS: "Quebrada Las Abras",
     };
     const scenarioLabels = {
       A: "Existentes · 103",
@@ -165,7 +166,7 @@
         return `<div class="corridor-bar-row"><span>${esc(corridorLabels[key])}</span><div><i style="width:${Math.max(0, Math.min(100, current.coveredPct))}%;background:#18815b"></i></div><strong>${pct(current.coveredPct)}</strong></div>`;
       }).join("");
       const comparison = Object.keys(corridorLabels).map((key) => `<tr><td>${esc(corridorLabels[key])}</td>${["A", "B", "C"].map((code) => `<td>${pct(corridorData(key, code).coveredPct)}</td>`).join("")}</tr>`).join("");
-      el.graphicAnalysis.innerHTML = `<section class="graphic-card corridor-graphic-card"><h3>Cobertura de corredores · ${esc(scenarioLabels[scenario])}</h3>${bars}</section><section class="graphic-card corridor-graphic-card"><h3>Indicadores de los tres corredores</h3><div class="table-scroll"><table class="mini-table"><thead><tr><th>Corredor</th><th>Total</th><th>Cubierto</th><th>Sin cobertura</th><th>% cubierto</th><th>Cámaras</th></tr></thead><tbody>${rows}</tbody></table></div></section><section class="graphic-card corridor-graphic-card"><h3>Comparación de escenarios · radio 200 m</h3><div class="table-scroll"><table class="mini-table"><thead><tr><th>Corredor</th><th>103</th><th>153</th><th>183</th></tr></thead><tbody>${comparison}</tbody></table></div></section>`;
+      el.graphicAnalysis.innerHTML = `<section class="graphic-card corridor-graphic-card"><h3>Cobertura de corredores · ${esc(scenarioLabels[scenario])}</h3>${bars}</section><section class="graphic-card corridor-graphic-card"><h3>Indicadores de corredores</h3><div class="table-scroll"><table class="mini-table"><thead><tr><th>Corredor</th><th>Total</th><th>Cubierto</th><th>Sin cobertura</th><th>% cubierto</th><th>Cámaras</th></tr></thead><tbody>${rows}</tbody></table></div></section><section class="graphic-card corridor-graphic-card"><h3>Comparación de escenarios · radio 200 m</h3><div class="table-scroll"><table class="mini-table"><thead><tr><th>Corredor</th><th>103</th><th>153</th><th>183</th></tr></thead><tbody>${comparison}</tbody></table></div></section>`;
       el.graphicAnalysis.querySelectorAll("[data-corridor-row]").forEach((node) => node.addEventListener("click", () => { selectedCorridor = node.dataset.corridorRow; selected = null; fitNeeded = true; syncControls(); render(); }));
     }
 

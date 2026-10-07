@@ -21,11 +21,13 @@ CORRIDOR_ORDER = [
     "BOULEVARD_MACAJI_BELLAVISTA",
     "ANILLO_VIAL",
     "CICLOVIAS",
+    "QUEBRADA_LAS_ABRAS",
 ]
 CORRIDOR_NAMES = {
     "BOULEVARD_MACAJI_BELLAVISTA": "Macají–Bellavista",
     "ANILLO_VIAL": "Anillo Vial",
     "CICLOVIAS": "Ciclovías",
+    "QUEBRADA_LAS_ABRAS": "Quebrada Las Abras",
 }
 GROUP_NAMES = {"existing": "103 existentes", "municipal": "50 municipales", "police": "30 Policía"}
 
@@ -95,6 +97,10 @@ def main():
         for _, row in corridors.iterrows()
         if row.CORREDOR in CORRIDOR_ORDER
     }
+    abras_path = PACKAGE / "BRECHA_LAS_ABRAS_FINAL.geojson"
+    if abras_path.exists():
+        abras = gpd.read_file(abras_path).to_crs(METRIC_CRS)
+        corridors["QUEBRADA_LAS_ABRAS"] = unary_union(abras.geometry)
     all_cameras = (
         camera_rows("CAMARAS_EXISTENTES_103_FINAL.geojson", "existing")
         + camera_rows("PROPUESTA_MUNICIPAL_50_FINAL.geojson", "municipal")
