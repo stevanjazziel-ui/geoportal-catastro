@@ -1255,7 +1255,7 @@
   <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=layers-layout-kde-default-20261014" />
   <link rel="stylesheet" href="./riobamba-cobertura-corredores.css?v=corredores-lasabras-20261007" />
   <link rel="stylesheet" href="./riobamba-mobile.css?v=20261005" />
-  <script src="./riobamba-camaras-propuesta.js?v=layers-layout-kde-default-20261014"></script>
+  <script src="./riobamba-camaras-propuesta.js?v=urban-kde-reference-20261014"></script>
   <script src="./riobamba-cobertura-corredores.js?v=police-visible-default-20261007"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
   <script src="./riobamba-accesibilidad-policial-data.js?v=metodologia-20261001"></script>
@@ -1418,7 +1418,7 @@
 
       const map = L.map("map", { zoomSnap: 0.5, preferCanvas: true }).setView([-1.6636, -78.6546], 13);
       const lightLayer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap", maxZoom: 20, className: "osm-gray-tile" }).addTo(map);
-      const satelliteLayer = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", { attribution: "Tiles &copy; Esri", maxNativeZoom: 18, maxZoom: 20 });
+      const satelliteLayer = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", { attribution: "Tiles &copy; Esri", maxNativeZoom: 18, maxZoom: 20, opacity: 0.75 });
       const eventLayer = L.layerGroup().addTo(map);
       const hotspotLayer = L.layerGroup().addTo(map);
       const kdePointLayer = L.layerGroup();
@@ -6074,15 +6074,26 @@
         map, elements, inventory: inventoryCameras, esc, metricBars, active: isCameraProposalMode,
         kdeOverlay: () => {
           const data = window.RIOBAMBA_CANTONAL_DATA;
-          const grid = data.kdeGrids.CANTONAL;
+          const grid = {
+            ...window.RIOBAMBA_CONFLICTIVITY_CORRECTION.urbanGrid,
+            ...window.RiobambaConflictivity.parameters("URBANO", "__ALL__"),
+          };
           const points = conflictEvents.flatMap((event) => {
             const assignment = data.assignments[event.id];
-            return assignment?.insideCanton && Number.isFinite(assignment.x) && Number.isFinite(assignment.y)
+            return assignment?.scope === "URBANO" && Number.isFinite(assignment.x) && Number.isFinite(assignment.y)
               ? [{id: event.id, x: assignment.x, y: assignment.y}] : [];
           });
-          const bandwidth = grid.bandwidth || data.metadata.kdeParameters.cantonal.bandwidth;
-          const surface = window.RiobambaConflictivity.calculate(points, grid, bandwidth);
-          return {url: window.RiobambaConflictivity.renderRaster(surface), bounds: grid.bounds, records: points.length, bandwidth};
+          const surface = {
+            ...window.RiobambaConflictivity.calculate(points, grid, grid.bandwidth),
+            scope: "URBANO",
+          };
+          surface.visual = window.RiobambaConflictivity.visualStatistics(surface);
+          return {
+            url: window.RiobambaConflictivity.renderRaster(surface),
+            bounds: grid.bounds,
+            records: points.length,
+            bandwidth: grid.bandwidth,
+          };
         },
         layers: () => [eventLayer, hotspotLayer, kdePointLayer, platformLabelLayer, platformMaskLayer, parishLayer, cameraLayer, cameraCoverageLayer, policeInfrastructureLayer, boulevardLayer, platformLayer, manzanaLayer].filter(Boolean),
       });

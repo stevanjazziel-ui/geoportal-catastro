@@ -145,7 +145,7 @@ window.createRiobambaCameraProposal = function (api) {
     panes.forEach(id => { const layerPane = map.getPane(id); if (layerPane) layerPane.style.display = ""; });
     if (toggles.kde && !layers.kde) {
       kdeMetadata = api.kdeOverlay();
-      layers.kde = L.imageOverlay(kdeMetadata.url, kdeMetadata.bounds, { pane: pane("kde", 405), opacity: .72, interactive: false });
+      layers.kde = L.imageOverlay(kdeMetadata.url, kdeMetadata.bounds, { pane: pane("kde", 405), opacity: 1, interactive: false });
     }
     Object.entries(layers).forEach(([key, layer]) => {
       const enabled = toggles[key] && (!/^(existing|municipal|police)/.test(key) || groupEnabled(key.replace("Radius", ""))) && (key !== "voids" || scenario() === "C");
@@ -169,7 +169,7 @@ window.createRiobambaCameraProposal = function (api) {
       Object.keys(groups).filter(groupEnabled).map(k => `<div><span class="proposal-key" style="background:${colors[k]};opacity:.5"></span>Radio ${k === "existing" ? "sin cambio requerido" : esc(groups[k])} · 200 m</div>`).join("") +
       `<div><span class="proposal-key" style="background:${colors.change};opacity:.5"></span>Radio para cambio · 200 m</div>` +
       (toggles.hotspots ? `<div>Gi*: ${esc(hotspotScope)} / ${esc(hotspotCategory)} · 90/95/99 %</div>` : "") +
-      (toggles.kde ? `<div class="proposal-kde-legend"><span aria-hidden="true"></span>Concentración KDE cantonal · ${number(kdeMetadata?.records)} registros · radio ${number(kdeMetadata?.bandwidth)} m</div>` : "") +
+      (toggles.kde ? `<div class="proposal-kde-legend"><span aria-hidden="true"></span>Concentración de incidentes · KDE urbano · ${number(kdeMetadata?.records)} registros · radio ${number(kdeMetadata?.bandwidth)} m</div>` : "") +
       Object.entries(corridorColors).map(([k, color]) => `<div><span class="proposal-key" style="background:${color}"></span>${esc(names[k])}</div>`).join("") + `<div>Radios geométricos potenciales, no campo visual efectivo.</div>`;
   }
   function mini(feature) {
