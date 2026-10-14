@@ -11,14 +11,15 @@ window.createRiobambaCameraProposal = function (api) {
   const groups = { existing: "Existentes", municipal: "Municipio · propuesta", police: "Policía · propuesta" };
   const names = { BOULEVARD_MACAJI_BELLAVISTA: "Macají–Bellavista", CICLOVIAS: "Ciclovías", ANILLO_VIAL: "Anillo vial", QUEBRADA_LAS_ABRAS: "Las Abras" };
   const corridorColors = { BOULEVARD_MACAJI_BELLAVISTA: "#297d55", CICLOVIAS: "#246db5", ANILLO_VIAL: "#a564ad", QUEBRADA_LAS_ABRAS: "#16a1b2" };
-  const defaults = { existing: true, municipal: true, police: true, existingRadius: true, municipalRadius: true, policeRadius: true, platforms: true, hotspots: false, corridors: true, voids: false };
+  const defaults = { existing: true, municipal: true, police: true, existingRadius: true, municipalRadius: true, policeRadius: true, platforms: true, hotspots: false, kde: true, corridors: true, voids: false };
   const toggles = { ...defaults };
-  const labels = { existing: "Existentes · 103 (31 para cambio)", municipal: "Municipio · 50 propuestas", police: "Policía · 30 propuestas", existingRadius: "Radio existentes · 200 m", municipalRadius: "Radio Municipio · 200 m", policeRadius: "Radio Policía · 200 m", platforms: "18 Plataformas", hotspots: "Hot Spots · Gi*", corridors: "Corredores", voids: "Tramos sin cobertura · escenario 183" };
+  const labels = { existing: "Existentes · 103 (31 para cambio)", municipal: "Municipio · 50 propuestas", police: "Policía · 30 propuestas", existingRadius: "Radio existentes · 200 m", municipalRadius: "Radio Municipio · 200 m", policeRadius: "Radio Policía · 200 m", platforms: "18 Plataformas", hotspots: "Hot Spots · Gi*", kde: "Concentración de incidentes · KDE", corridors: "Corredores", voids: "Tramos sin cobertura · escenario 183" };
   const layers = {};
   const renderers = new Map();
   const panes = new Set();
   let renderVersion = 0;
   let data, loading, active = false, fitNeeded = true, drawKey = "", selected = null, miniMap = null;
+  let kdeMetadata = null;
   let hotspotScope = "URBANO", hotspotCategory = "DELINCUENCIA";
   const number = (v, digits = 0) => v == null || !Number.isFinite(Number(v)) ? "No disponible" : Number(v).toLocaleString("es-EC", { maximumFractionDigits: digits });
   const pct = v => v == null ? "No disponible" : `${number(v, 1)} %`;
@@ -33,14 +34,21 @@ window.createRiobambaCameraProposal = function (api) {
   const links = () => `<div class="proposal-links"><a href="${root}CIERRE_POLICIA_30_FINAL_B.zip" download>Paquete GIS final ZIP</a><a href="${root}ESCENARIO_FINAL_183.gpkg" download>GeoPackage final</a><a href="${root}index.html" target="_blank" rel="noopener">Mapa final Policía</a><a href="${root}index.html#control" target="_blank" rel="noopener">Control final de solapes</a><a href="${root}INFORME_FINAL.md" target="_blank" rel="noopener">Informe y metodología</a><a href="${root}RESULTADOS.json" download>Resultados</a><a href="${root}VALIDACION.json" download>Validación GIS</a></div>`;
   const metric = (kind, code = scenario()) => data.results[kind].find(r => r.ESCENARIO === code);
 
-  controls.innerHTML = Object.entries(labels).map(([key, label]) => `<label>${esc(label)}<input type="checkbox" data-proposal-layer="${key}" ${toggles[key] ? "checked" : ""}></label>`).join("") +
+  const cameraLayerKeys = ["existing", "municipal", "police", "existingRadius", "municipalRadius", "policeRadius", "platforms"];
+  const analysisLayerKeys = ["hotspots", "kde", "corridors", "voids"];
+  const layerRow = key => `<label class="proposal-layer-row"><span>${esc(labels[key])}</span><input type="checkbox" data-proposal-layer="${key}" ${toggles[key] ? "checked" : ""}></label>`;
+  controls.innerHTML = `<section class="proposal-layer-group"><h4>Cámaras y radios</h4>${cameraLayerKeys.map(layerRow).join("")}</section>` +
+    `<section class="proposal-layer-group"><h4>Análisis territorial</h4>${analysisLayerKeys.map(layerRow).join("")}` +
+    `<div class="proposal-hotspot-settings" data-proposal-hotspot-settings>` +
     `<label for="proposalHotspotScope">Ámbito Gi*</label><select id="proposalHotspotScope" aria-label="Ámbito de Hot Spots"><option value="URBANO">Urbano</option><option value="RURAL">Rural · exploratorio</option></select>` +
-    `<label for="proposalHotspotCategory">Categoría Gi*</label><select id="proposalHotspotCategory" aria-label="Categoría de Hot Spots"><option>DELINCUENCIA</option><option>VIOLENCIA</option><option>CONVIVENCIA</option></select>`;
+    `<label for="proposalHotspotCategory">Categoría Gi*</label><select id="proposalHotspotCategory" aria-label="Categoría de Hot Spots"><option>DELINCUENCIA</option><option>VIOLENCIA</option><option>CONVIVENCIA</option></select>` +
+    `</div></section>`;
   function syncToggles() {
     controls.querySelectorAll("[data-proposal-layer]").forEach(n => {
       n.checked = toggles[n.dataset.proposalLayer];
       n.disabled = !groupEnabled(n.dataset.proposalLayer.replace("Radius", "")) && /^(municipal|police)/.test(n.dataset.proposalLayer);
     });
+    controls.querySelector("[data-proposal-hotspot-settings]").hidden = !toggles.hotspots;
   }
   function clearLegacyLayers() { api.layers().forEach(layer => { if (map.hasLayer(layer)) map.removeLayer(layer); }); }
   function removeMini() { miniMap?.remove(); miniMap = null; }
@@ -134,6 +142,11 @@ window.createRiobambaCameraProposal = function (api) {
   }
   function syncLayers() {
     clearLegacyLayers(); if (!active) return;
+    panes.forEach(id => { const layerPane = map.getPane(id); if (layerPane) layerPane.style.display = ""; });
+    if (toggles.kde && !layers.kde) {
+      kdeMetadata = api.kdeOverlay();
+      layers.kde = L.imageOverlay(kdeMetadata.url, kdeMetadata.bounds, { pane: pane("kde", 405), opacity: .72, interactive: false });
+    }
     Object.entries(layers).forEach(([key, layer]) => {
       const enabled = toggles[key] && (!/^(existing|municipal|police)/.test(key) || groupEnabled(key.replace("Radius", ""))) && (key !== "voids" || scenario() === "C");
       enabled ? layer.addTo(map) : map.removeLayer(layer);
@@ -156,6 +169,7 @@ window.createRiobambaCameraProposal = function (api) {
       Object.keys(groups).filter(groupEnabled).map(k => `<div><span class="proposal-key" style="background:${colors[k]};opacity:.5"></span>Radio ${k === "existing" ? "sin cambio requerido" : esc(groups[k])} · 200 m</div>`).join("") +
       `<div><span class="proposal-key" style="background:${colors.change};opacity:.5"></span>Radio para cambio · 200 m</div>` +
       (toggles.hotspots ? `<div>Gi*: ${esc(hotspotScope)} / ${esc(hotspotCategory)} · 90/95/99 %</div>` : "") +
+      (toggles.kde ? `<div class="proposal-kde-legend"><span aria-hidden="true"></span>Concentración KDE cantonal · ${number(kdeMetadata?.records)} registros · radio ${number(kdeMetadata?.bandwidth)} m</div>` : "") +
       Object.entries(corridorColors).map(([k, color]) => `<div><span class="proposal-key" style="background:${color}"></span>${esc(names[k])}</div>`).join("") + `<div>Radios geométricos potenciales, no campo visual efectivo.</div>`;
   }
   function mini(feature) {
@@ -267,7 +281,7 @@ window.createRiobambaCameraProposal = function (api) {
   }
   scenarioControl.addEventListener("change", () => { selected = null; render(); });
   extentControl.addEventListener("change", () => { fitNeeded = true; render(); });
-  controls.querySelectorAll("[data-proposal-layer]").forEach(n => n.addEventListener("change", () => { toggles[n.dataset.proposalLayer] = n.checked; syncLayers(); renderLegend(); }));
+  controls.querySelectorAll("[data-proposal-layer]").forEach(n => n.addEventListener("change", () => { toggles[n.dataset.proposalLayer] = n.checked; syncToggles(); syncLayers(); renderLegend(); }));
   document.getElementById("proposalHotspotScope").addEventListener("change", e => { hotspotScope = e.target.value; if (selected?.kind === "hotspot") selected = null; render(); });
   document.getElementById("proposalHotspotCategory").addEventListener("change", e => { hotspotCategory = e.target.value; if (selected?.kind === "hotspot") selected = null; render(); });
   window.addEventListener("resize", () => { if (api.active()) requestAnimationFrame(() => miniMap?.invalidateSize()); });

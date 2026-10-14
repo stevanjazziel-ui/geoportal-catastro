@@ -143,7 +143,7 @@
     }
     .map-layer-popover {
       width: 100%;
-      max-height: min(520px, calc(100dvh - 190px));
+      max-height: min(560px, calc(100dvh - 150px));
       overflow: auto;
       padding: 12px;
       border: 1px solid var(--line);
@@ -152,6 +152,8 @@
       box-shadow: 0 24px 60px rgba(6, 40, 68, .22);
       backdrop-filter: blur(10px);
       pointer-events: auto;
+      overscroll-behavior: contain;
+      scrollbar-gutter: stable;
     }
     .map-layer-popover h3 {
       margin: 10px 0 8px;
@@ -1178,14 +1180,17 @@
                   <button class="map-layer-button" id="legendButton" type="button" aria-expanded="false">Leyenda</button>
                 </div>
                 <div class="map-layer-popover" id="layersPopover" hidden>
-                  <h3>Capas del análisis</h3>
-                  <div class="layer-toggles">
+                  <section id="analysisLayersSection">
+                    <h3>Capas del análisis</h3>
+                    <div class="layer-toggles">
                     <div id="proposalLayerControls" hidden></div>
                     <label class="layer-toggle" data-layer-row="analysisResult"><span id="analysisResultLayerLabel">Resultado del análisis</span><input id="toggleAnalysisResult" type="checkbox" checked disabled /></label>
                     <label class="layer-toggle" data-layer-row="platforms"><span>Plataformas territoriales</span><input id="togglePlatforms" type="checkbox" checked /></label>
-                  </div>
-                  <h3>Capas de contexto</h3>
-                  <div class="layer-toggles">
+                    </div>
+                  </section>
+                  <section id="contextLayersSection">
+                    <h3>Capas de contexto</h3>
+                    <div class="layer-toggles">
                     <label class="layer-toggle" data-layer-row="events"><span>Incidentes</span><input id="toggleEvents" type="checkbox" checked /></label>
                     <label class="layer-toggle" data-layer-row="parishes"><span>Burbujas ECU911</span><input id="toggleParishes" type="checkbox" /></label>
                     <label class="layer-toggle" data-layer-row="cameras"><span id="cameraLayerLabel">Cámaras para cambio</span><input id="toggleCameras" type="checkbox" /></label>
@@ -1196,12 +1201,16 @@
                     <label class="layer-toggle" data-layer-row="externalCameras" hidden><span>Cámaras externas (contexto)</span><input id="toggleExternalCameras" type="checkbox" /></label>
                     <label class="layer-toggle" data-layer-row="corridorBuffers" hidden><span>Radios de influencia · 200 m</span><input id="toggleCorridorBuffers" type="checkbox" checked /></label>
                     <label class="layer-toggle" data-layer-row="corridorPolice" hidden><span>Policía propuesta</span><input id="toggleCorridorPolice" type="checkbox" checked /></label>
-                  </div>
-                  <h3>Mapa base</h3>
+                    <div id="territorialLayerControls"></div>
+                    </div>
+                  </section>
+                  <section id="baseLayerSection">
+                    <h3>Mapa base</h3>
                   <div class="base-layer-options">
                     <label class="base-layer-option"><input id="baseCartographic" name="baseLayer" type="radio" value="cartographic" checked />Cartográfico</label>
                     <label class="base-layer-option"><input id="baseSatellite" name="baseLayer" type="radio" value="satellite" />Satelital</label>
                   </div>
+                  </section>
                 </div>
                 <div class="map-layer-popover" id="legendPopover" hidden>
                   <h3>Leyenda</h3>
@@ -1243,10 +1252,10 @@
   <script src="./riobamba-camaras-cobertura-geometrias.js?v=cobertura-unificada-20261002"></script>
   <script src="./riobamba-camaras-inventario-cobertura-data.js?v=deficit-inventario-20261002"></script>
   <script src="./riobamba-deficit-inventario.js?v=brechas-20261004"></script>
-  <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=inventario-subconjunto-20261005" />
+  <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=layers-layout-kde-default-20261014" />
   <link rel="stylesheet" href="./riobamba-cobertura-corredores.css?v=corredores-lasabras-20261007" />
   <link rel="stylesheet" href="./riobamba-mobile.css?v=20261005" />
-  <script src="./riobamba-camaras-propuesta.js?v=reubicacion-pol24-20261006"></script>
+  <script src="./riobamba-camaras-propuesta.js?v=layers-layout-kde-default-20261014"></script>
   <script src="./riobamba-cobertura-corredores.js?v=police-visible-default-20261007"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
   <script src="./riobamba-accesibilidad-policial-data.js?v=metodologia-20261001"></script>
@@ -6063,6 +6072,18 @@
       });
       const cameraProposal = window.createRiobambaCameraProposal({
         map, elements, inventory: inventoryCameras, esc, metricBars, active: isCameraProposalMode,
+        kdeOverlay: () => {
+          const data = window.RIOBAMBA_CANTONAL_DATA;
+          const grid = data.kdeGrids.CANTONAL;
+          const points = conflictEvents.flatMap((event) => {
+            const assignment = data.assignments[event.id];
+            return assignment?.insideCanton && Number.isFinite(assignment.x) && Number.isFinite(assignment.y)
+              ? [{id: event.id, x: assignment.x, y: assignment.y}] : [];
+          });
+          const bandwidth = grid.bandwidth || data.metadata.kdeParameters.cantonal.bandwidth;
+          const surface = window.RiobambaConflictivity.calculate(points, grid, bandwidth);
+          return {url: window.RiobambaConflictivity.renderRaster(surface), bounds: grid.bounds, records: points.length, bandwidth};
+        },
         layers: () => [eventLayer, hotspotLayer, kdePointLayer, platformLabelLayer, platformMaskLayer, parishLayer, cameraLayer, cameraCoverageLayer, policeInfrastructureLayer, boulevardLayer, platformLayer, manzanaLayer].filter(Boolean),
       });
       const corridorCoverage = window.createRiobambaCorridorCoverage({

@@ -67,7 +67,7 @@ window.createRiobambaCantonalView = function (api) {
     api.update();
   }));
   const territoryControls = {};
-  const layerHost = document.getElementById("layersPopover");
+  const layerHost = document.getElementById("territorialLayerControls") || document.getElementById("layersPopover");
   ["canton", "urban", "rural", "hot", "cold"].forEach((key, index) => {
     const label = document.createElement("label");
     label.className = "layer-toggle";

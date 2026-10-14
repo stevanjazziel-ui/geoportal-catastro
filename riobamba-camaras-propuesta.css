@@ -7,10 +7,24 @@
 #cameraProposalControls { display: flex; grid-column: 1 / -1; gap: 12px; align-items: end; flex-wrap: wrap; }
 #cameraProposalControls label { display: grid; gap: 4px; flex: 1 1 160px; font-size: 12px; }
 #cameraProposalControls select { width: 100%; min-width: 0; }
-#proposalLayerControls { display: grid; gap: 6px; }
+#proposalLayerControls { display: grid; gap: 10px; }
 #proposalLayerControls[hidden], #cameraProposalControls[hidden], #territorialScope[hidden] { display: none; }
-#proposalLayerControls label { display: flex; gap: 8px; align-items: center; justify-content: space-between; font-size: 12px; }
+#proposalLayerControls .proposal-layer-group { display: grid; gap: 4px; min-width: 0; }
+#proposalLayerControls h4 { margin: 2px 0 3px; color: #526778; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+#proposalLayerControls .proposal-layer-row { display: flex; gap: 9px; align-items: center; justify-content: space-between; min-width: 0; padding: 5px 7px; border: 1px solid #e1e9ed; border-radius: 6px; background: #fff; font-size: 12px; line-height: 1.25; cursor: pointer; }
+#proposalLayerControls .proposal-layer-row span { min-width: 0; overflow-wrap: anywhere; }
+#proposalLayerControls input[type="checkbox"] { width: 16px; height: 16px; flex: 0 0 16px; margin: 0; accent-color: #1268b3; }
+#proposalLayerControls .proposal-hotspot-settings { display: grid; gap: 4px; padding: 5px 7px 2px; }
+#proposalLayerControls .proposal-hotspot-settings[hidden] { display: none; }
+#proposalLayerControls .proposal-hotspot-settings label { color: #526778; font-size: 11px; }
 #proposalLayerControls select { min-width: 0; width: 100%; font-size: 12px; }
+.proposal-active #contextLayersSection { display: none; }
+.analysis-workspace.proposal-active .analysis-grid { display: none; }
+.proposal-active #analysisLayersSection [data-layer-row="analysisResult"],
+.proposal-active #analysisLayersSection [data-layer-row="platforms"] { display: none; }
+.proposal-active #layersPopover h3 { margin-top: 4px; }
+.proposal-kde-legend { display: flex; align-items: center; gap: 7px; }
+.proposal-kde-legend span { width: 30px; height: 10px; flex: 0 0 30px; border-radius: 2px; background: linear-gradient(90deg, #ffffb2, #fed976, #feb24c, #fd8d3c, #f03b20, #bd0026); }
 .proposal-table-wrap { overflow: auto; max-height: 340px; }
 .proposal-report { grid-column: 1 / -1; min-width: 0; }
 .proposal-active #summaryCards { grid-template-columns: repeat(7, minmax(0, 1fr)); }
