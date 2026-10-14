@@ -1252,9 +1252,9 @@
   <script src="./riobamba-camaras-cobertura-geometrias.js?v=cobertura-unificada-20261002"></script>
   <script src="./riobamba-camaras-inventario-cobertura-data.js?v=deficit-inventario-20261002"></script>
   <script src="./riobamba-deficit-inventario.js?v=brechas-20261004"></script>
-  <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=layers-layout-kde-default-20261014" />
+  <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=layers-popover-fit-20261014" />
   <link rel="stylesheet" href="./riobamba-cobertura-corredores.css?v=corredores-lasabras-20261007" />
-  <link rel="stylesheet" href="./riobamba-mobile.css?v=20261005" />
+  <link rel="stylesheet" href="./riobamba-mobile.css?v=layers-popover-fit-20261014" />
   <script src="./riobamba-camaras-propuesta.js?v=urban-kde-reference-20261014"></script>
   <script src="./riobamba-cobertura-corredores.js?v=police-visible-default-20261007"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
@@ -6241,13 +6241,36 @@
           elements.legendButton.setAttribute("aria-expanded", "false");
         }
       };
+      const fitLayersPopover = () => {
+        if (elements.layersPopover.hidden || !elements.layersPopover.classList.contains("viewport-fitted")) return;
+        const buttonRect = elements.layersButton.getBoundingClientRect();
+        const margin = 12;
+        const gap = 8;
+        const width = Math.max(0, Math.min(360, window.innerWidth - margin * 2));
+        let top = buttonRect.bottom + gap;
+        let height = window.innerHeight - top - margin;
+        if (height < 220 && buttonRect.top > height) {
+          height = buttonRect.top - gap - margin;
+          top = Math.max(margin, buttonRect.top - gap - height);
+        }
+        height = Math.max(160, Math.min(height, window.innerHeight - margin * 2));
+        const left = Math.max(margin, Math.min(buttonRect.right - width, window.innerWidth - width - margin));
+        elements.layersPopover.style.setProperty("--layers-popover-top", `${top}px`);
+        elements.layersPopover.style.setProperty("--layers-popover-left", `${left}px`);
+        elements.layersPopover.style.setProperty("--layers-popover-width", `${width}px`);
+        elements.layersPopover.style.setProperty("--layers-popover-height", `${height}px`);
+      };
       elements.layersButton.addEventListener("click", (event) => {
         event.stopPropagation();
         const open = elements.layersPopover.hidden;
         closeMapPopovers(open ? "layers" : null);
         elements.layersPopover.hidden = !open;
         elements.layersButton.setAttribute("aria-expanded", String(open));
+        elements.layersPopover.classList.toggle("viewport-fitted", open && isCameraProposalMode());
+        if (open) fitLayersPopover();
       });
+      window.addEventListener("resize", fitLayersPopover);
+      window.addEventListener("scroll", fitLayersPopover, true);
       elements.legendButton.addEventListener("click", (event) => {
         event.stopPropagation();
         if (isCameraProposalMode()) cameraProposal.renderLegend();
