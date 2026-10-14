@@ -11,9 +11,15 @@ window.createRiobambaCameraProposal = function (api) {
   const groups = { existing: "Existentes", municipal: "Municipio · propuesta", police: "Policía · propuesta" };
   const names = { BOULEVARD_MACAJI_BELLAVISTA: "Macají–Bellavista", CICLOVIAS: "Ciclovías", ANILLO_VIAL: "Anillo vial", QUEBRADA_LAS_ABRAS: "Las Abras" };
   const corridorColors = { BOULEVARD_MACAJI_BELLAVISTA: "#297d55", CICLOVIAS: "#246db5", ANILLO_VIAL: "#a564ad", QUEBRADA_LAS_ABRAS: "#16a1b2" };
-  const defaults = { existing: true, municipal: true, police: true, existingRadius: true, municipalRadius: true, policeRadius: true, platforms: true, hotspots: false, kde: true, corridors: true, voids: false };
+  const corridorToggles = {
+    corridorMacaji: "BOULEVARD_MACAJI_BELLAVISTA",
+    corridorRing: "ANILLO_VIAL",
+    corridorCiclovias: "CICLOVIAS",
+    corridorAbras: "QUEBRADA_LAS_ABRAS",
+  };
+  const defaults = { existing: true, municipal: true, police: true, existingRadius: true, municipalRadius: true, policeRadius: true, platforms: true, hotspots: false, kde: true, corridorMacaji: true, corridorRing: false, corridorCiclovias: false, corridorAbras: false, voids: false };
   const toggles = { ...defaults };
-  const labels = { existing: "Existentes · 103 (31 para cambio)", municipal: "Municipio · 50 propuestas", police: "Policía · 30 propuestas", existingRadius: "Radio existentes · 200 m", municipalRadius: "Radio Municipio · 200 m", policeRadius: "Radio Policía · 200 m", platforms: "18 Plataformas", hotspots: "Hot Spots · Gi*", kde: "Concentración de incidentes · KDE", corridors: "Corredores", voids: "Tramos sin cobertura · escenario 183" };
+  const labels = { existing: "Existentes · 103 (31 para cambio)", municipal: "Municipio · 50 propuestas", police: "Policía · 30 propuestas", existingRadius: "Radio existentes · 200 m", municipalRadius: "Radio Municipio · 200 m", policeRadius: "Radio Policía · 200 m", platforms: "18 Plataformas", hotspots: "Hot Spots · Gi*", kde: "Concentración de incidentes · KDE", corridorMacaji: "Macají–Bellavista", corridorRing: "Anillo Vial", corridorCiclovias: "Ciclovías", corridorAbras: "Quebrada Las Abras · tramo cantonal", voids: "Tramos sin cobertura · escenario 183" };
   const layers = {};
   const renderers = new Map();
   const panes = new Set();
@@ -35,7 +41,7 @@ window.createRiobambaCameraProposal = function (api) {
   const metric = (kind, code = scenario()) => data.results[kind].find(r => r.ESCENARIO === code);
 
   const cameraLayerKeys = ["existing", "municipal", "police", "existingRadius", "municipalRadius", "policeRadius", "platforms"];
-  const analysisLayerKeys = ["hotspots", "kde", "corridors", "voids"];
+  const analysisLayerKeys = ["hotspots", "kde", ...Object.keys(corridorToggles), "voids"];
   const layerRow = key => `<label class="proposal-layer-row"><span>${esc(labels[key])}</span><input type="checkbox" data-proposal-layer="${key}" ${toggles[key] ? "checked" : ""}></label>`;
   controls.innerHTML = `<section class="proposal-layer-group"><h4>Cámaras y radios</h4>${cameraLayerKeys.map(layerRow).join("")}</section>` +
     `<section class="proposal-layer-group"><h4>Análisis territorial</h4>${analysisLayerKeys.map(layerRow).join("")}` +
@@ -131,8 +137,11 @@ window.createRiobambaCameraProposal = function (api) {
     }
     replaceLayer("platforms", L.geoJSON(data.platforms, { pane: pane("platforms", 440), renderer: renderer("platforms", 440), style: { color: "#385a52", weight: 1.6, fill: false },
       onEachFeature: (f, layer) => layer.bindTooltip(esc(f.properties.platform_name)).on("click", () => selectEntity({ kind: "platform", feature: f })) }));
-    replaceLayer("corridors", L.geoJSON(data.corridors, { pane: pane("lines", 430), renderer: renderer("lines", 430), style: f => ({ color: corridorColors[f.properties.CORREDOR], weight: 2.5, opacity: .85 }),
-      onEachFeature: (f, layer) => layer.bindTooltip(esc(names[f.properties.CORREDOR])).on("click", () => selectEntity({ kind: "corridor", feature: f })) }));
+    for (const [toggle, corridor] of Object.entries(corridorToggles)) {
+      const features = data.corridors.features.filter(f => f.properties.CORREDOR === corridor);
+      replaceLayer(toggle, L.geoJSON(fc(features), { pane: pane(`lines-${corridor}`, 430), renderer: renderer(`lines-${corridor}`, 430), style: f => ({ color: corridorColors[f.properties.CORREDOR], weight: 2.5, opacity: .85 }),
+        onEachFeature: (f, layer) => layer.bindTooltip(esc(names[f.properties.CORREDOR])).on("click", () => selectEntity({ kind: "corridor", feature: f })) }));
+    }
     replaceLayer("hotspots", L.geoJSON(fc(data[hotspotCategory].features.filter(f => f.properties.AMBITO === hotspotScope)), { pane: pane("hotspots", 420), renderer: renderer("hotspots", 420),
       style: f => ({ color: "#b14242", weight: .6, fillColor: f.properties.NIVEL === 99 ? "#c74f5b" : f.properties.NIVEL === 95 ? "#e69383" : "#f1c5a0", fillOpacity: .25 }),
       onEachFeature: (f, layer) => layer.bindTooltip(`${esc(f.properties.AMBITO)} · ${esc(f.properties.CATEGORIA)} · ${esc(f.properties.GI_CLASS)}`).on("click", () => selectEntity({ kind: "hotspot", feature: f })) }));
@@ -170,7 +179,7 @@ window.createRiobambaCameraProposal = function (api) {
       `<div><span class="proposal-key" style="background:${colors.change};opacity:.5"></span>Radio para cambio · 200 m</div>` +
       (toggles.hotspots ? `<div>Gi*: ${esc(hotspotScope)} / ${esc(hotspotCategory)} · 90/95/99 %</div>` : "") +
       (toggles.kde ? `<div class="proposal-kde-legend"><span aria-hidden="true"></span>Concentración de incidentes · KDE urbano · ${number(kdeMetadata?.records)} registros · radio ${number(kdeMetadata?.bandwidth)} m</div>` : "") +
-      Object.entries(corridorColors).map(([k, color]) => `<div><span class="proposal-key" style="background:${color}"></span>${esc(names[k])}</div>`).join("") + `<div>Radios geométricos potenciales, no campo visual efectivo.</div>`;
+      Object.entries(corridorToggles).filter(([toggle]) => toggles[toggle]).map(([, corridor]) => `<div><span class="proposal-key" style="background:${corridorColors[corridor]}"></span>${esc(names[corridor])}</div>`).join("") + `<div>Radios geométricos potenciales, no campo visual efectivo.</div>`;
   }
   function mini(feature) {
     const node = document.getElementById("proposalDetailMap"); if (!node) return;
@@ -246,6 +255,8 @@ window.createRiobambaCameraProposal = function (api) {
       toggles[group] = true; syncToggles(); syncLayers(); selectEntity({ kind: "camera", group, feature: f }); map.setView(point(f), 16, { animate: false });
     }));
     el.graphicAnalysis.querySelectorAll("[data-proposal-corridor]").forEach(n => n.addEventListener("click", () => {
+      const toggle = Object.entries(corridorToggles).find(([, corridor]) => corridor === n.dataset.proposalCorridor)?.[0];
+      if (toggle) { toggles[toggle] = true; syncToggles(); syncLayers(); renderLegend(); }
       const f = data.corridors.features.find(f => f.properties.CORREDOR === n.dataset.proposalCorridor);
       selectEntity({ kind: "corridor", feature: f }, L.geoJSON(f).getBounds());
     }));
