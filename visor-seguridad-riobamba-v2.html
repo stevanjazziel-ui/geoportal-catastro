@@ -1049,9 +1049,6 @@
           <button class="mode-button" id="incidentRateMode" type="button" data-icon="T"><span>Incidencia poblacional</span></button>
           <button class="mode-button" id="kdeAnalysisButton" type="button" data-icon="K"><span>Concentración de incidentes</span></button>
           <button class="mode-button" id="giHotspotsMode" type="button" data-icon="Z"><span>Zonas críticas</span></button>
-          <button class="mode-button" id="typologiesMode" type="button" data-icon="T"><span>Tipos de incidentes</span></button>
-          <button class="mode-button" id="temporalMode" type="button" data-icon="E"><span>Evolución temporal</span></button>
-          <button class="mode-button" id="incidentQueryMode" type="button" data-icon="C"><span>Consulta de incidentes</span></button>
         </details>
         <details class="nav-group" open>
           <summary>Cobertura territorial</summary>
@@ -1059,13 +1056,16 @@
           <button class="mode-button" id="policeAccessibilityMode" type="button" data-icon="A"><span>Proximidad a infraestructura policial</span></button>
           <button class="mode-button" id="camerasMode" type="button" data-icon="V"><span>Videovigilancia</span></button>
           <button class="mode-button" id="cameraCoverageMode" type="button" data-icon="C"><span>Cobertura potencial de cámaras</span></button>
-          <button class="mode-button" id="populationCoverageMode" type="button" data-icon="H"><span>Cobertura poblacional</span></button>
-          <button class="mode-button" id="boulevardsMode" type="button" data-icon="B"><span>Bulevares Seguros</span></button>
-          <button class="mode-button" id="corridorCoverageMode" type="button" data-icon="R"><span>Cobertura de corredores</span></button>
-          <button class="mode-button" id="institutionalCoverageMode" type="button" data-icon="I"><span>Cobertura institucional</span></button>
           <button class="mode-button is-active" id="cameraProposalMode" type="button" data-icon="C"><span>Evaluación de cámaras propuestas</span></button>
         </details>
         <div hidden inert aria-hidden="true">
+          <button id="typologiesMode" type="button"></button>
+          <button id="temporalMode" type="button"></button>
+          <button id="incidentQueryMode" type="button"></button>
+          <button id="populationCoverageMode" type="button"></button>
+          <button id="boulevardsMode" type="button"></button>
+          <button id="corridorCoverageMode" type="button"></button>
+          <button id="institutionalCoverageMode" type="button"></button>
           <button id="videoDeficitGapMode" type="button"></button>
           <button id="inventoryDeficitGapMode" type="button"></button>
           <button id="lowCoverageConcentrationsMode" type="button"></button>
