@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "applied": false,
+  "commit": false,
+  "push": false,
+  "sourceFilesUnchanged": true,
+  "scenarios": [
+    {
+      "id": "A_CRUCES_PRINCIPALES_CERCANOS",
+      "points": 24,
+      "distinctVerifiedNodes": 24,
+      "hardGoalsMet": false
+    },
+    {
+      "id": "C_PRIORIDAD_PRINCIPALES",
+      "points": 24,
+      "distinctVerifiedNodes": 24,
+      "hardGoalsMet": true
+    },
+    {
+      "id": "D_PRIORIDAD_CICLOVIAS",
+      "points": 24,
+      "distinctVerifiedNodes": 24,
+      "hardGoalsMet": true
+    }
+  ]
+}

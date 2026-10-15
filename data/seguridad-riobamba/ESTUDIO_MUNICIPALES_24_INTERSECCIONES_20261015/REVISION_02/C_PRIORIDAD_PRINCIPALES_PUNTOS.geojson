@@ -1,0 +1,989 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-027",
+        "X_ANTES": 759422.844406875,
+        "Y_ANTES": 9815679.227550793,
+        "X_ESTUDIO": 759494.8099999996,
+        "Y_ESTUDIO": 9815818.0644,
+        "LONGITUD_ESTUDIO": -78.66765495352581,
+        "LATITUD_ESTUDIO": -1.664958080086999,
+        "DESPLAZAMIENTO_M": 156.38004121857225,
+        "AZIMUT_GRADOS": 27.399806785752844,
+        "ID_CANDIDATO": "NODO-02578",
+        "GRADO_NODO": 3,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 2578,
+        "CRUCE_O_NODO": "Nodo en Villa Orellana (otra via sin nombre confirmado)",
+        "VIAS": "Villa Orellana",
+        "TIPOLOGIAS": "Arterial A | Local",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-033",
+        "DIST_RED_A_OTRA_24_M": 399.14271799168864,
+        "CONEXION_TEORICA_HASTA_400M": true,
+        "SOLAPE_MUNICIPAL_PCT": 3.7686811693982625,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "LIZARZABURU",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": true,
+        "ID_TRAMOS_TARGET_FID": "3703|3740|3743"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66765495352581,
+          -1.664958080086999
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-028",
+        "X_ANTES": 760877.5970548207,
+        "Y_ANTES": 9814000.114256302,
+        "X_ESTUDIO": 760877.5911999997,
+        "Y_ESTUDIO": 9814093.0772,
+        "LONGITUD_ESTUDIO": -78.65521493656188,
+        "LATITUD_ESTUDIO": -1.6805364603348745,
+        "DESPLAZAMIENTO_M": 92.96294388171701,
+        "AZIMUT_GRADOS": 359.9963915026454,
+        "ID_CANDIDATO": "NODO-03584",
+        "GRADO_NODO": 3,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 3584,
+        "CRUCE_O_NODO": "Av. 9 de Octubre x Calle Dècima",
+        "VIAS": "Av. 9 de Octubre | Calle Dècima",
+        "TIPOLOGIAS": "Arterial A | Local",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-040",
+        "DIST_RED_A_OTRA_24_M": 382.16942383200217,
+        "CONEXION_TEORICA_HASTA_400M": true,
+        "SOLAPE_MUNICIPAL_PCT": 1.1209670133014173,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "LIZARZABURU",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": false,
+        "ID_TRAMOS_TARGET_FID": "1606|1607|1670"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65521493656188,
+          -1.6805364603348745
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-029",
+        "X_ANTES": 760497.0587999998,
+        "Y_ANTES": 9815522.7103,
+        "X_ESTUDIO": 760358.5011,
+        "Y_ESTUDIO": 9815510.5594,
+        "LONGITUD_ESTUDIO": -78.65989313836039,
+        "LATITUD_ESTUDIO": -1.6677285601700242,
+        "DESPLAZAMIENTO_M": 139.08946976695967,
+        "AZIMUT_GRADOS": 264.98823394981565,
+        "ID_CANDIDATO": "NODO-03258",
+        "GRADO_NODO": 3,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 3258,
+        "CRUCE_O_NODO": "Nodo en Av. Unidad Nacional (otra via sin nombre confirmado)",
+        "VIAS": "Av. Unidad Nacional",
+        "TIPOLOGIAS": "Colectora | Local",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-041",
+        "DIST_RED_A_OTRA_24_M": 390.88611090238777,
+        "CONEXION_TEORICA_HASTA_400M": true,
+        "SOLAPE_MUNICIPAL_PCT": 52.81467307821403,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "LIZARZABURU",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": true,
+        "ID_TRAMOS_TARGET_FID": "3382|3449|3599"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65989313836039,
+          -1.6677285601700242
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-030",
+        "X_ANTES": 762944.2171999998,
+        "Y_ANTES": 9814999.2859,
+        "X_ESTUDIO": 763021.3256999999,
+        "Y_ESTUDIO": 9815104.3338,
+        "LONGITUD_ESTUDIO": -78.63596884929552,
+        "LATITUD_ESTUDIO": -1.6713718561015132,
+        "DESPLAZAMIENTO_M": 130.31032985303122,
+        "AZIMUT_GRADOS": 36.27985342261803,
+        "ID_CANDIDATO": "NODO-05619",
+        "GRADO_NODO": 4,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 5619,
+        "CRUCE_O_NODO": "Av. Edelberto Bonilla Oleas x Mendoza",
+        "VIAS": "Av. Edelberto Bonilla Oleas | Mendoza",
+        "TIPOLOGIAS": "Arterial A | Local",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-042",
+        "DIST_RED_A_OTRA_24_M": 396.40808866940245,
+        "CONEXION_TEORICA_HASTA_400M": true,
+        "SOLAPE_MUNICIPAL_PCT": 0.11375301446012216,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "MALDONADO",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": false,
+        "ID_TRAMOS_TARGET_FID": "2912|2913|3003|3022"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63596884929552,
+          -1.6713718561015132
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-031",
+        "X_ANTES": 763066.8891552695,
+        "Y_ANTES": 9813066.945091253,
+        "X_ESTUDIO": 763052.2171999998,
+        "Y_ESTUDIO": 9813021.3921,
+        "LONGITUD_ESTUDIO": -78.63566869602849,
+        "LATITUD_ESTUDIO": -1.6902002336563837,
+        "DESPLAZAMIENTO_M": 47.85751020973629,
+        "AZIMUT_GRADOS": 197.85299394811236,
+        "ID_CANDIDATO": "NODO-05660",
+        "GRADO_NODO": 3,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 5660,
+        "CRUCE_O_NODO": "Nodo en Av. 9 de Octubre (otra via sin nombre confirmado)",
+        "VIAS": "Av. 9 de Octubre",
+        "TIPOLOGIAS": "Arterial A | Local",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-036",
+        "DIST_RED_A_OTRA_24_M": 830.3940320761589,
+        "CONEXION_TEORICA_HASTA_400M": false,
+        "SOLAPE_MUNICIPAL_PCT": 0.0,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "VELOZ",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": true,
+        "ID_TRAMOS_TARGET_FID": "273|9485|9487"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63566869602849,
+          -1.6902002336563837
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-032",
+        "X_ANTES": 761173.3910203539,
+        "Y_ANTES": 9816343.855156278,
+        "X_ESTUDIO": 761958.3876999998,
+        "Y_ESTUDIO": 9815513.0869,
+        "LONGITUD_ESTUDIO": -78.6455214868743,
+        "LATITUD_ESTUDIO": -1.667688459503218,
+        "DESPLAZAMIENTO_M": 1142.9766763567632,
+        "AZIMUT_GRADOS": 136.62264753615148,
+        "ID_CANDIDATO": "NODO-04393",
+        "GRADO_NODO": 4,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 4393,
+        "CRUCE_O_NODO": "Cristobal Colon x España",
+        "VIAS": "Cristobal Colon | España",
+        "TIPOLOGIAS": "Colectora | Local",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-044",
+        "DIST_RED_A_OTRA_24_M": 873.5376446835428,
+        "CONEXION_TEORICA_HASTA_400M": false,
+        "SOLAPE_MUNICIPAL_PCT": 19.142770634397447,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "MALDONADO | VELASCO",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": false,
+        "ID_TRAMOS_TARGET_FID": "3384|3432|3501|9580"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6455214868743,
+          -1.667688459503218
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-033",
+        "X_ANTES": 759803.8327616926,
+        "Y_ANTES": 9815727.40476826,
+        "X_ESTUDIO": 759835.6032999996,
+        "Y_ESTUDIO": 9815702.7773,
+        "LONGITUD_ESTUDIO": -78.66459237638482,
+        "LATITUD_ESTUDIO": -1.6659965895580515,
+        "DESPLAZAMIENTO_M": 40.19800115945924,
+        "AZIMUT_GRADOS": 127.78165654365392,
+        "ID_CANDIDATO": "NODO-02833",
+        "GRADO_NODO": 3,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 2833,
+        "CRUCE_O_NODO": "Nodo en Av. Unidad Nacional (otra via sin nombre confirmado)",
+        "VIAS": "Av. Unidad Nacional",
+        "TIPOLOGIAS": "Arterial A",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-027",
+        "DIST_RED_A_OTRA_24_M": 399.14271799168876,
+        "CONEXION_TEORICA_HASTA_400M": true,
+        "SOLAPE_MUNICIPAL_PCT": 39.94841525009636,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "LIZARZABURU",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": true,
+        "ID_TRAMOS_TARGET_FID": "3568|3587|3635"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66459237638482,
+          -1.6659965895580515
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-034",
+        "X_ANTES": 761712.0864191926,
+        "Y_ANTES": 9816339.578831082,
+        "X_ESTUDIO": 761778.1412000004,
+        "Y_ESTUDIO": 9816223.232,
+        "LONGITUD_ESTUDIO": -78.6471482355699,
+        "LATITUD_ESTUDIO": -1.6612710104103778,
+        "DESPLAZAMIENTO_M": 133.79020580842248,
+        "AZIMUT_GRADOS": 150.41467784393876,
+        "ID_CANDIDATO": "NODO-04242",
+        "GRADO_NODO": 4,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 4242,
+        "CRUCE_O_NODO": "Av. Edelberto Bonilla Oleas x Jose Maria Velasco Ibarra",
+        "VIAS": "Av. Edelberto Bonilla Oleas | Jose Maria Velasco Ibarra",
+        "TIPOLOGIAS": "Arterial A | Colectora | Local",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-044",
+        "DIST_RED_A_OTRA_24_M": 722.2958447712713,
+        "CONEXION_TEORICA_HASTA_400M": false,
+        "SOLAPE_MUNICIPAL_PCT": 0.42867127649630565,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "VELASCO",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": false,
+        "ID_TRAMOS_TARGET_FID": "4385|4386|4505|4517"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6471482355699,
+          -1.6612710104103778
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-035",
+        "X_ANTES": 761228.3652000012,
+        "Y_ANTES": 9814511.9031,
+        "X_ESTUDIO": 761277.4946999997,
+        "Y_ESTUDIO": 9814570.0878,
+        "LONGITUD_ESTUDIO": -78.65162775081215,
+        "LATITUD_ESTUDIO": -1.6762201374485381,
+        "DESPLAZAMIENTO_M": 76.15226250150667,
+        "AZIMUT_GRADOS": 40.176792749582546,
+        "ID_CANDIDATO": "NODO-03865",
+        "GRADO_NODO": 4,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 3865,
+        "CRUCE_O_NODO": "Colombia x Esmeraldas",
+        "VIAS": "Colombia | Esmeraldas",
+        "TIPOLOGIAS": "Colectora",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-040",
+        "DIST_RED_A_OTRA_24_M": 240.30474790724492,
+        "CONEXION_TEORICA_HASTA_400M": true,
+        "SOLAPE_MUNICIPAL_PCT": 50.583205193166876,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "LIZARZABURU",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": false,
+        "ID_TRAMOS_TARGET_FID": "2161|2162|2235|2238"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65162775081215,
+          -1.6762201374485381
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-036",
+        "X_ANTES": 763431.9260654057,
+        "Y_ANTES": 9813156.787373181,
+        "X_ESTUDIO": 763466.0132999998,
+        "Y_ESTUDIO": 9813109.2605,
+        "LONGITUD_ESTUDIO": -78.63195256308522,
+        "LATITUD_ESTUDIO": -1.6894013921660243,
+        "DESPLAZAMIENTO_M": 58.48712026248433,
+        "AZIMUT_GRADOS": 144.3511440349729,
+        "ID_CANDIDATO": "NODO-06090",
+        "GRADO_NODO": 3,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 6090,
+        "CRUCE_O_NODO": "Nodo en Av. 9 de Octubre (otra via sin nombre confirmado)",
+        "VIAS": "Av. 9 de Octubre",
+        "TIPOLOGIAS": "Arterial A | Local",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-039",
+        "DIST_RED_A_OTRA_24_M": 544.745006334608,
+        "CONEXION_TEORICA_HASTA_400M": false,
+        "SOLAPE_MUNICIPAL_PCT": 23.018602062292803,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "VELOZ",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": true,
+        "ID_TRAMOS_TARGET_FID": "478|496|9514"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63195256308522,
+          -1.6894013921660243
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-037",
+        "X_ANTES": 762690.2215186553,
+        "Y_ANTES": 9814695.4502438,
+        "X_ESTUDIO": 762618.5919000003,
+        "Y_ESTUDIO": 9814507.345,
+        "LONGITUD_ESTUDIO": -78.63958009097469,
+        "LATITUD_ESTUDIO": -1.6767727214718295,
+        "DESPLAZAMIENTO_M": 201.28185465607802,
+        "AZIMUT_GRADOS": 200.846605049633,
+        "ID_CANDIDATO": "NODO-05122",
+        "GRADO_NODO": 4,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 5122,
+        "CRUCE_O_NODO": "Nodo en Junin (otra via sin nombre confirmado)",
+        "VIAS": "Junin",
+        "TIPOLOGIAS": "Colectora | Local",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-042",
+        "DIST_RED_A_OTRA_24_M": 386.4628813554033,
+        "CONEXION_TEORICA_HASTA_400M": true,
+        "SOLAPE_MUNICIPAL_PCT": 22.164425827545877,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "MALDONADO",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": true,
+        "ID_TRAMOS_TARGET_FID": "2076|2077|2136|2141"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63958009097469,
+          -1.6767727214718295
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-038",
+        "X_ANTES": 762379.9046096522,
+        "Y_ANTES": 9814457.934989858,
+        "X_ESTUDIO": 762283.9436999997,
+        "Y_ESTUDIO": 9814463.6037,
+        "LONGITUD_ESTUDIO": -78.64258572944874,
+        "LATITUD_ESTUDIO": -1.677171768555091,
+        "DESPLAZAMIENTO_M": 96.12819802751984,
+        "AZIMUT_GRADOS": 273.3807115175558,
+        "ID_CANDIDATO": "NODO-04751",
+        "GRADO_NODO": 4,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 4751,
+        "CRUCE_O_NODO": "Bernardo Darquea x Josè Veloz x Primera Constituyente x Puruha",
+        "VIAS": "Bernardo Darquea | Josè Veloz | Primera Constituyente | Puruha",
+        "TIPOLOGIAS": "Arterial A | Local",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-037",
+        "DIST_RED_A_OTRA_24_M": 480.61352188731155,
+        "CONEXION_TEORICA_HASTA_400M": false,
+        "SOLAPE_MUNICIPAL_PCT": 63.84162700446253,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "MALDONADO",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": false,
+        "ID_TRAMOS_TARGET_FID": "2030|2031|2101|2107"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64258572944874,
+          -1.677171768555091
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-039",
+        "X_ANTES": 763648.7455856436,
+        "Y_ANTES": 9813607.205723375,
+        "X_ESTUDIO": 763660.5768999998,
+        "Y_ESTUDIO": 9813604.8283,
+        "LONGITUD_ESTUDIO": -78.63021024297491,
+        "LATITUD_ESTUDIO": -1.6849195890819921,
+        "DESPLAZAMIENTO_M": 12.06781427197274,
+        "AZIMUT_GRADOS": 101.36189152806645,
+        "ID_CANDIDATO": "NODO-06191",
+        "GRADO_NODO": 3,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 6191,
+        "CRUCE_O_NODO": "Nodo en Santa Martha (otra via sin nombre confirmado)",
+        "VIAS": "Santa Martha",
+        "TIPOLOGIAS": "Arterial A",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-050",
+        "DIST_RED_A_OTRA_24_M": 467.32467890724195,
+        "CONEXION_TEORICA_HASTA_400M": false,
+        "SOLAPE_MUNICIPAL_PCT": 0.0,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "MALDONADO",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": true,
+        "ID_TRAMOS_TARGET_FID": "875|923"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63021024297491,
+          -1.6849195890819921
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-040",
+        "X_ANTES": 760983.168315429,
+        "Y_ANTES": 9814217.918167843,
+        "X_ESTUDIO": 761122.8871999998,
+        "Y_ESTUDIO": 9814386.1276,
+        "LONGITUD_ESTUDIO": -78.65301460348063,
+        "LATITUD_ESTUDIO": -1.6778847393111003,
+        "DESPLAZAMIENTO_M": 218.66819561197045,
+        "AZIMUT_GRADOS": 39.71385458769146,
+        "ID_CANDIDATO": "NODO-03738",
+        "GRADO_NODO": 4,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 3738,
+        "CRUCE_O_NODO": "Nodo en Baron de Carondelet (otra via sin nombre confirmado)",
+        "VIAS": "Baron de Carondelet",
+        "TIPOLOGIAS": "Colectora | Local",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-035",
+        "DIST_RED_A_OTRA_24_M": 240.30474790724492,
+        "CONEXION_TEORICA_HASTA_400M": true,
+        "SOLAPE_MUNICIPAL_PCT": 29.516848426837814,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "LIZARZABURU",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": true,
+        "ID_TRAMOS_TARGET_FID": "1939|1940|1999|2002"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65301460348063,
+          -1.6778847393111003
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-041",
+        "X_ANTES": 760612.0216938151,
+        "Y_ANTES": 9815564.957464473,
+        "X_ESTUDIO": 760669.8483999996,
+        "Y_ESTUDIO": 9815627.9333,
+        "LONGITUD_ESTUDIO": -78.65709756896702,
+        "LATITUD_ESTUDIO": -1.6666641950501402,
+        "DESPLAZAMIENTO_M": 85.49785850173706,
+        "AZIMUT_GRADOS": 42.559282278240175,
+        "ID_CANDIDATO": "NODO-03460",
+        "GRADO_NODO": 3,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 3460,
+        "CRUCE_O_NODO": "Nodo en Av. Daniel Leon Borja (otra via sin nombre confirmado)",
+        "VIAS": "Av. Daniel Leon Borja",
+        "TIPOLOGIAS": "Arterial A | Local",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-029",
+        "DIST_RED_A_OTRA_24_M": 390.8861109023878,
+        "CONEXION_TEORICA_HASTA_400M": true,
+        "SOLAPE_MUNICIPAL_PCT": 80.30393807496479,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "LIZARZABURU",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": true,
+        "ID_TRAMOS_TARGET_FID": "3504|3582|9429"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65709756896702,
+          -1.6666641950501402
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-042",
+        "X_ANTES": 762079.8249000004,
+        "Y_ANTES": 9815405.2812,
+        "X_ESTUDIO": 762775.0987,
+        "Y_ESTUDIO": 9814794.0415,
+        "LONGITUD_ESTUDIO": -78.63817731379086,
+        "LATITUD_ESTUDIO": -1.6741794218918495,
+        "DESPLAZAMIENTO_M": 925.7535459400718,
+        "AZIMUT_GRADOS": 131.3198419893326,
+        "ID_CANDIDATO": "NODO-05287",
+        "GRADO_NODO": 4,
+        "VIA_PRINCIPAL": false,
+        "INDICE_RED": 5287,
+        "CRUCE_O_NODO": "Av. Juan Bernardo de León x Puruha",
+        "VIAS": "Av. Juan Bernardo de León | Puruha",
+        "TIPOLOGIAS": "Local",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-037",
+        "DIST_RED_A_OTRA_24_M": 386.46288135540317,
+        "CONEXION_TEORICA_HASTA_400M": true,
+        "SOLAPE_MUNICIPAL_PCT": 9.276491688127425,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "MALDONADO",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": false,
+        "ID_TRAMOS_TARGET_FID": "2456|2457|2545|2562"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63817731379086,
+          -1.6741794218918495
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-043",
+        "X_ANTES": 762265.6914087548,
+        "Y_ANTES": 9813434.529143322,
+        "X_ESTUDIO": 762252.1914999997,
+        "Y_ESTUDIO": 9813492.9746,
+        "LONGITUD_ESTUDIO": -78.64286042474299,
+        "LATITUD_ESTUDIO": -1.6859461441666037,
+        "DESPLAZAMIENTO_M": 59.984322474299184,
+        "AZIMUT_GRADOS": 346.9937532548637,
+        "ID_CANDIDATO": "NODO-04705",
+        "GRADO_NODO": 3,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 4705,
+        "CRUCE_O_NODO": "Av. 9 de Octubre x La Valetta x Paris",
+        "VIAS": "Av. 9 de Octubre | La Valetta | Paris",
+        "TIPOLOGIAS": "Arterial A | Local",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-045",
+        "DIST_RED_A_OTRA_24_M": 608.9174374549601,
+        "CONEXION_TEORICA_HASTA_400M": false,
+        "SOLAPE_MUNICIPAL_PCT": 27.15954091942016,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "VELOZ",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": false,
+        "ID_TRAMOS_TARGET_FID": "9532|9534|9536"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64286042474299,
+          -1.6859461441666037
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-044",
+        "X_ANTES": 762476.3599377642,
+        "Y_ANTES": 9815892.34205592,
+        "X_ESTUDIO": 762431.8369000005,
+        "Y_ESTUDIO": 9815916.5345,
+        "LONGITUD_ESTUDIO": -78.6412728914617,
+        "LATITUD_ESTUDIO": -1.6640363610645164,
+        "DESPLAZAMIENTO_M": 50.671246700788544,
+        "AZIMUT_GRADOS": 298.51829117536175,
+        "ID_CANDIDATO": "NODO-04910",
+        "GRADO_NODO": 3,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 4910,
+        "CRUCE_O_NODO": "Cruce sin nombres viales confirmados",
+        "VIAS": "",
+        "TIPOLOGIAS": "Arterial A | Colectora | Local",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-034",
+        "DIST_RED_A_OTRA_24_M": 722.2958447712712,
+        "CONEXION_TEORICA_HASTA_400M": false,
+        "SOLAPE_MUNICIPAL_PCT": 34.277885792756244,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "MALDONADO | VELASCO",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": true,
+        "ID_TRAMOS_TARGET_FID": "3853|3862|3866"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6412728914617,
+          -1.6640363610645164
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-045",
+        "X_ANTES": 761630.4689454996,
+        "Y_ANTES": 9813532.105266022,
+        "X_ESTUDIO": 761650.9675000003,
+        "Y_ESTUDIO": 9813531.1575,
+        "LONGITUD_ESTUDIO": -78.64826161789131,
+        "LATITUD_ESTUDIO": -1.6856075618144946,
+        "DESPLAZAMIENTO_M": 20.520453139388902,
+        "AZIMUT_GRADOS": 92.64722798918694,
+        "ID_CANDIDATO": "NODO-04129",
+        "GRADO_NODO": 3,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 4129,
+        "CRUCE_O_NODO": "Nodo en Albania (otra via sin nombre confirmado)",
+        "VIAS": "Albania",
+        "TIPOLOGIAS": "Arterial A | Local",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-049",
+        "DIST_RED_A_OTRA_24_M": 483.5042969559978,
+        "CONEXION_TEORICA_HASTA_400M": false,
+        "SOLAPE_MUNICIPAL_PCT": 0.0,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "VELOZ",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": true,
+        "ID_TRAMOS_TARGET_FID": "788|789|792"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64826161789131,
+          -1.6856075618144946
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-046",
+        "X_ANTES": 763600.9212396499,
+        "Y_ANTES": 9814562.183149459,
+        "X_ESTUDIO": 763549.4846999999,
+        "Y_ESTUDIO": 9814602.3435,
+        "LONGITUD_ESTUDIO": -78.63121903968161,
+        "LATITUD_ESTUDIO": -1.675903819396104,
+        "DESPLAZAMIENTO_M": 65.25773032147511,
+        "AZIMUT_GRADOS": 307.98181871952056,
+        "ID_CANDIDATO": "NODO-06130",
+        "GRADO_NODO": 3,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 6130,
+        "CRUCE_O_NODO": "Av. Edelberto Bonilla Oleas x Av. Simon Bolivar x Bolivar Bonilla",
+        "VIAS": "Av. Edelberto Bonilla Oleas | Av. Simon Bolivar | Bolivar Bonilla",
+        "TIPOLOGIAS": "Arterial A | Local",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-050",
+        "DIST_RED_A_OTRA_24_M": 646.2563385435515,
+        "CONEXION_TEORICA_HASTA_400M": false,
+        "SOLAPE_MUNICIPAL_PCT": 0.0,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "MALDONADO",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": false,
+        "ID_TRAMOS_TARGET_FID": "2204|2257|2276"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63121903968161,
+          -1.675903819396104
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-047",
+        "X_ANTES": 759652.4839029934,
+        "Y_ANTES": 9815355.353481136,
+        "X_ESTUDIO": 759589.9181000004,
+        "Y_ESTUDIO": 9815407.5404,
+        "LONGITUD_ESTUDIO": -78.66679622527269,
+        "LATITUD_ESTUDIO": -1.66866807049638,
+        "DESPLAZAMIENTO_M": 81.47364116499212,
+        "AZIMUT_GRADOS": 309.83190794227323,
+        "ID_CANDIDATO": "NODO-02657",
+        "GRADO_NODO": 3,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 2657,
+        "CRUCE_O_NODO": "Cruce sin nombres viales confirmados",
+        "VIAS": "",
+        "TIPOLOGIAS": "Arterial A",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-027",
+        "DIST_RED_A_OTRA_24_M": 558.9010027566244,
+        "CONEXION_TEORICA_HASTA_400M": false,
+        "SOLAPE_MUNICIPAL_PCT": 0.9447248940182554,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "LIZARZABURU",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": true,
+        "ID_TRAMOS_TARGET_FID": "3277|3321|3421"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66679622527269,
+          -1.66866807049638
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-048",
+        "X_ANTES": 760410.0652632809,
+        "Y_ANTES": 9817307.126803048,
+        "X_ESTUDIO": 761113.4786999999,
+        "Y_ESTUDIO": 9816381.6714,
+        "LONGITUD_ESTUDIO": -78.65312051602012,
+        "LATITUD_ESTUDIO": -1.6598459298363621,
+        "DESPLAZAMIENTO_M": 1162.4363062071645,
+        "AZIMUT_GRADOS": 142.76252381515337,
+        "ID_CANDIDATO": "NODO-03729",
+        "GRADO_NODO": 3,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 3729,
+        "CRUCE_O_NODO": "Cruce sin nombres viales confirmados",
+        "VIAS": "",
+        "TIPOLOGIAS": "Arterial A | Arterial P",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-034",
+        "DIST_RED_A_OTRA_24_M": 964.7352514687144,
+        "CONEXION_TEORICA_HASTA_400M": false,
+        "SOLAPE_MUNICIPAL_PCT": 2.826153124941092,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "VELASCO",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": true,
+        "ID_TRAMOS_TARGET_FID": "4740|5199|9469"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65312051602012,
+          -1.6598459298363621
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-049",
+        "X_ANTES": 761250.5227494146,
+        "Y_ANTES": 9813651.55992903,
+        "X_ESTUDIO": 761276.7188999997,
+        "Y_ESTUDIO": 9813683.2075,
+        "LONGITUD_ESTUDIO": -78.65162513988993,
+        "LATITUD_ESTUDIO": -1.684237176790073,
+        "DESPLAZAMIENTO_M": 41.08292898217021,
+        "AZIMUT_GRADOS": 39.6161219812459,
+        "ID_CANDIDATO": "NODO-03863",
+        "GRADO_NODO": 4,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 3863,
+        "CRUCE_O_NODO": "2 de Agosto x Almagro x Av. 9 de Octubre",
+        "VIAS": "2 de Agosto | Almagro | Av. 9 de Octubre",
+        "TIPOLOGIAS": "Arterial A | Local",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-045",
+        "DIST_RED_A_OTRA_24_M": 483.5042969559978,
+        "CONEXION_TEORICA_HASTA_400M": false,
+        "SOLAPE_MUNICIPAL_PCT": 0.0,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "VELOZ",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": false,
+        "ID_TRAMOS_TARGET_FID": "960|961|1050|1066"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65162513988993,
+          -1.684237176790073
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ESCENARIO": "C_PRIORIDAD_PRINCIPALES",
+        "ID_PROPUESTA": "MUN-050",
+        "X_ANTES": 763644.9237440862,
+        "Y_ANTES": 9814056.821828486,
+        "X_ESTUDIO": 763684.1446000002,
+        "Y_ESTUDIO": 9814065.9808,
+        "LONGITUD_ESTUDIO": -78.63000357238839,
+        "LATITUD_ESTUDIO": -1.6807507674366122,
+        "DESPLAZAMIENTO_M": 40.27607599805914,
+        "AZIMUT_GRADOS": 76.85567271680418,
+        "ID_CANDIDATO": "NODO-06209",
+        "GRADO_NODO": 3,
+        "VIA_PRINCIPAL": true,
+        "INDICE_RED": 6209,
+        "CRUCE_O_NODO": "Av. 9 de Octubre x Av. Celso augusto Rodriguez x Cartagena",
+        "VIAS": "Av. 9 de Octubre | Av. Celso augusto Rodriguez | Cartagena",
+        "TIPOLOGIAS": "Arterial A | Arterial B",
+        "FUENTE": "Cartografia municipal / Vialidad_urbana",
+        "CRS": "EPSG:32717",
+        "CAMARA_PROPUESTA_MAS_CERCANA_POR_RED": "MUN-039",
+        "DIST_RED_A_OTRA_24_M": 467.324678907242,
+        "CONEXION_TEORICA_HASTA_400M": false,
+        "SOLAPE_MUNICIPAL_PCT": 0.0,
+        "ESTADO": "ALTERNATIVA_NO_APLICADA",
+        "VISIBILIDAD_CERTIFICADA": false,
+        "PARROQUIA_RED": "MALDONADO",
+        "CAMPO_NOMBRE_VIAL": "TXT",
+        "NOMBRES_CRUCE_PENDIENTES": false,
+        "ID_TRAMOS_TARGET_FID": "1569|1666|1732"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63000357238839,
+          -1.6807507674366122
+        ]
+      }
+    }
+  ]
+}

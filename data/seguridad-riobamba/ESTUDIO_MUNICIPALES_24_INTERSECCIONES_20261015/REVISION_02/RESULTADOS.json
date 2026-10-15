@@ -1,0 +1,740 @@
+{
+  "generatedAt": "2026-10-15T11:59:42-05:00",
+  "status": "ESTUDIO_NO_APLICADO",
+  "applied": false,
+  "commit": false,
+  "push": false,
+  "metricCrs": "EPSG:32717",
+  "radiusM": 200,
+  "geometricToleranceM": 0.001,
+  "scope": "24 municipales estructurales urbanas; 103 existentes, 22 rurales, 4 Las Abras y 30 policiales fijas",
+  "sourceHashes": {
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\AREAS_EXCLUSIVAS_POLICIA_FINAL.geojson": "8c07b9df5c52a38a348761fd231d226be26e8362d92f473b21d1020fb9e30b98",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\AREAS_SOLAPADAS_POLICIA_FINAL.geojson": "4f818bca572582813cb9812411b8f55eb8cb0a0bc3b69d98ac978c2dbfa71a28",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\BRECHA_ANILLO_FINAL.geojson": "493240c7a1f3a6b39edca2cfb3dbe9fb44296453c23ca373adf648fcf496ec8e",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\BRECHA_CICLOVIAS_FINAL.geojson": "d022809282eb90db7fa539c9ba38d6376720b5c5294e11f55ab7aaeb5fd01eab",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\BRECHA_LAS_ABRAS_FINAL.geojson": "2b63fa44cf7c2f57380f51003425b0f1f9993f0b6d07e7a4618010441842e5a9",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\BRECHA_MACAJI_FINAL.geojson": "ed778c73ea51338d6576fb5992b189f2b94d9f3d5e199f46c1af520d6b0b3e6c",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\CAMARAS_EXISTENTES_103_FINAL.geojson": "c6efc6bb59d15b4c471d6af91610a6e3b71c4ff7ccc0dab4f8c320f981d0eed7",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\COBERTURA_C.geojson": "2e9cca9285be99ab5776013498a324263ece411ca38ab015e55d969206b79b3c",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\COBERTURA_MUNICIPAL_200M.geojson": "47e42e260c8f3a954a650b0f224ae951189f35f2ce7fd600888c6cc17aa0d825",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\COBERTURA_POLICIA_200M.geojson": "c5b9b39f85c81a03f9bd32e9dd77c3e61a7ab96e362eb14ba8016d3d582cb266",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\CORREDORES.geojson": "f78316e0bd56e98f3092b6e0338783af5c36516fce4f15135b993233e882f6c9",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\CORREDORES_CUBIERTOS_FINAL.csv": "ca1827e64966e910d2d82b2e5f9c4a3f5bc70b880ed76b7d39fd2ef6fdf86267",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\CORRIDOR_COVERAGE_200M.json": "ff807f76f9c31ae3d08b51b48fd5b5843b760f80ee847394af57dbd9b1d2128f",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\ENTREGA_POLICIA_KDE.zip": "f910b4c1abd069e3cf837e12d91a85f25d5c90085f88ba4fa557349a42a1f087",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\ESCENARIO_FINAL_183.gpkg": "fa371bbbb1c1a791c28b0976894a47081c46e1393569395f4f150ea514932520",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\HOTSPOTS_ATENDIDOS_FINAL.csv": "fc0ce374263d73c92e24fc4cb51fb09b9be866a8850c09bd62ca3191e838633a",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\HOTSPOT_CONVIVENCIA.geojson": "e9eab8a45650e719cc8ce871260ebe27e3c72707502cdfecc8930f2df803c4ce",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\HOTSPOT_DELINCUENCIA.geojson": "12649df0d344f587aed996c2de1d5b9f6c4651d532ade381f290a554d11b1e77",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\HOTSPOT_VIOLENCIA.geojson": "9e621c566cc64c7967cce157bec1eec9ee92978f64770cc3287fa3b2ce1b50f2",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\INCIDENTES_CUBIERTOS_FINAL.csv": "0860fb0ee865b6a6bf892c34694aed8231dba231dc8724eb14c1b9ac031607c6",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\INFORME_FINAL.md": "5978acb91c1fb67af8a3784be7ccec59f615871c3fb21a8bf638049c009dfca9",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\MOVIMIENTOS_POLICIA_30.csv": "01db33316fd4eedb944f5795c339fd0428484210f5c7a81cf0a357bab467b2ab",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\PLATAFORMAS_TERRITORIALES.geojson": "885d0e9082f81247f45576666d2f4446e7a3126a6bdee96578095371471c646c",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\POLICIA_BENEFICIO_FINAL.csv": "b47387e00ee5aa4a28c3dc93a8a63b536100aee12c830fcd2f0c07ac26e07248",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\PROPUESTA_MUNICIPAL_50_FINAL.geojson": "6b97ee8138dfa2a3e4879aa8c5b216763a396862f0b7bca79ef5b38f2de0a438",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\PROPUESTA_POLICIA_30_FINAL.geojson": "7858da1cb45830e7ece9c343fbf44332d68dca8839f9e703e87bb3cd1a272216",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\RADIOS_EXISTENTES_SIMBOLOGIA_200M.geojson": "15eec46315ae6460b9a034e541bffe1ede4ec23097ac07ea20e410086ebcc9ed",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\RESULTADOS.json": "306197058df611b10634a7eab5570a79661bd871eafa017783c8a34a911e6d0d",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\VALIDACION.json": "32d771282ce1f89b9fc3e62cb4ca5c1213dbc0cdcedfe7155a1ff9c7faf18436",
+    "D:\\codex\\security-real-incidents\\visor-seguridad-riobamba-v2.html": "b6057b97819e5e68ae241f2236f7e90e51b3a09bb19a75ee1debfd5c6aae5a01",
+    "D:\\codex\\security-real-incidents\\riobamba-camaras-propuesta.js": "e5b42bae1d7d07a36bfc2c58a87883ce08b4899cba1c86b2be75b079b8d1398a",
+    "D:\\codex\\security-real-incidents\\riobamba-conflictividad-data.js": "56ce4c608b1c66235f671d745bca22fe9084913fea788edb1d7cfb471838f17c"
+  },
+  "roadSource": "D:\\codex\\riobamba_matrix_review_20260921\\cartografia_base\\RIOBAMBA_Cartografia Base.gdb",
+  "roadLayer": "Vialidad_urbana",
+  "roadContentSha256": "ae51d3693a8989191f45b798fd0f94b33c8491c370960ba07e62ffeee9698357",
+  "sourceRoads": 9628,
+  "allCandidateIntersections": 5090,
+  "principalCandidateIntersections": 2260,
+  "currentVerifiedIntersections": 3,
+  "audit": [
+    {
+      "ID_PROPUESTA": "MUN-027",
+      "X_ACTUAL": 759422.844406875,
+      "Y_ACTUAL": 9815679.227550793,
+      "ORIGEN_ACTUAL": "REFERENCIACION_LINEAL_EJE_VIAL_REAL_20M",
+      "GRADO_REGISTRADO": 0,
+      "DIST_RED_VIAL_M": 2.5836483807611375,
+      "VIA_ACTUAL_PROXIMA": "Av Pedro V. Maldonado",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Local",
+      "DIST_NODO_RED_M": 89.78962710740478,
+      "GRADO_NODO_CERCANO": 1,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 116.40027134822098,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-02550",
+      "PARROQUIA_RED_ACTUAL": "LIZARZABURU"
+    },
+    {
+      "ID_PROPUESTA": "MUN-028",
+      "X_ACTUAL": 760877.5970548207,
+      "Y_ACTUAL": 9814000.114256302,
+      "ORIGEN_ACTUAL": "REFERENCIACION_LINEAL_EJE_VIAL_REAL_20M",
+      "GRADO_REGISTRADO": 0,
+      "DIST_RED_VIAL_M": 0.7274381061884165,
+      "VIA_ACTUAL_PROXIMA": "nan",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Arterial A",
+      "DIST_NODO_RED_M": 20.628432875310686,
+      "GRADO_NODO_CERCANO": 1,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 60.98917645721403,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-03563",
+      "PARROQUIA_RED_ACTUAL": "LIZARZABURU"
+    },
+    {
+      "ID_PROPUESTA": "MUN-029",
+      "X_ACTUAL": 760497.0587999998,
+      "Y_ACTUAL": 9815522.7103,
+      "ORIGEN_ACTUAL": "NODO_VIAL_URBANO",
+      "GRADO_REGISTRADO": 3,
+      "DIST_RED_VIAL_M": 0.0,
+      "VIA_ACTUAL_PROXIMA": "Primeras Olimpiadas",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Local",
+      "DIST_NODO_RED_M": 0.0,
+      "GRADO_NODO_CERCANO": 3,
+      "EN_INTERSECCION_VERIFICADA": true,
+      "DIST_INTERSECCION_PRINCIPAL_M": 93.1018288881018,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-03374",
+      "PARROQUIA_RED_ACTUAL": "LIZARZABURU"
+    },
+    {
+      "ID_PROPUESTA": "MUN-030",
+      "X_ACTUAL": 762944.2171999998,
+      "Y_ACTUAL": 9814999.2859,
+      "ORIGEN_ACTUAL": "NODO_VIAL_URBANO",
+      "GRADO_REGISTRADO": 3,
+      "DIST_RED_VIAL_M": 0.0,
+      "VIA_ACTUAL_PROXIMA": "Puruha",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Local",
+      "DIST_NODO_RED_M": 0.0,
+      "GRADO_NODO_CERCANO": 3,
+      "EN_INTERSECCION_VERIFICADA": true,
+      "DIST_INTERSECCION_PRINCIPAL_M": 48.50413036183144,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-05478",
+      "PARROQUIA_RED_ACTUAL": "MALDONADO"
+    },
+    {
+      "ID_PROPUESTA": "MUN-031",
+      "X_ACTUAL": 763066.8891552695,
+      "Y_ACTUAL": 9813066.945091253,
+      "ORIGEN_ACTUAL": "REFERENCIACION_LINEAL_EJE_VIAL_REAL_20M",
+      "GRADO_REGISTRADO": 0,
+      "DIST_RED_VIAL_M": 6.415482154263763,
+      "VIA_ACTUAL_PROXIMA": "Roma",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Local",
+      "DIST_NODO_RED_M": 6.415482154263763,
+      "GRADO_NODO_CERCANO": 1,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 47.85751020973629,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-05660",
+      "PARROQUIA_RED_ACTUAL": "VELOZ"
+    },
+    {
+      "ID_PROPUESTA": "MUN-032",
+      "X_ACTUAL": 761173.3910203539,
+      "Y_ACTUAL": 9816343.855156278,
+      "ORIGEN_ACTUAL": "REFERENCIACION_LINEAL_EJE_VIAL_REAL_20M",
+      "GRADO_REGISTRADO": 0,
+      "DIST_RED_VIAL_M": 20.32133061282698,
+      "VIA_ACTUAL_PROXIMA": "calle sin nombre",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Local",
+      "DIST_NODO_RED_M": 32.886362113086506,
+      "GRADO_NODO_CERCANO": 1,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 70.84881381774903,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-03729",
+      "PARROQUIA_RED_ACTUAL": "VELASCO"
+    },
+    {
+      "ID_PROPUESTA": "MUN-033",
+      "X_ACTUAL": 759803.8327616926,
+      "Y_ACTUAL": 9815727.40476826,
+      "ORIGEN_ACTUAL": "REFERENCIACION_LINEAL_EJE_VIAL_REAL_20M",
+      "GRADO_REGISTRADO": 0,
+      "DIST_RED_VIAL_M": 6.8111726881426025,
+      "VIA_ACTUAL_PROXIMA": "calle sin nombre",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Arterial A",
+      "DIST_NODO_RED_M": 40.19800115945924,
+      "GRADO_NODO_CERCANO": 3,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 40.19800115945924,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-02833",
+      "PARROQUIA_RED_ACTUAL": "LIZARZABURU"
+    },
+    {
+      "ID_PROPUESTA": "MUN-034",
+      "X_ACTUAL": 761712.0864191926,
+      "Y_ACTUAL": 9816339.578831082,
+      "ORIGEN_ACTUAL": "REFERENCIACION_LINEAL_EJE_VIAL_REAL_20M",
+      "GRADO_REGISTRADO": 0,
+      "DIST_RED_VIAL_M": 2.069383534742624,
+      "VIA_ACTUAL_PROXIMA": "Av. Antonio Jose de Sucre",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Local",
+      "DIST_NODO_RED_M": 40.64043893041606,
+      "GRADO_NODO_CERCANO": 3,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 68.05932963988774,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-04148",
+      "PARROQUIA_RED_ACTUAL": "VELASCO"
+    },
+    {
+      "ID_PROPUESTA": "MUN-035",
+      "X_ACTUAL": 761228.3652000012,
+      "Y_ACTUAL": 9814511.9031,
+      "ORIGEN_ACTUAL": "NODO_RED_VIAL_CANTONAL_ORIGINAL",
+      "GRADO_REGISTRADO": 4,
+      "DIST_RED_VIAL_M": 0.5785201451055844,
+      "VIA_ACTUAL_PROXIMA": "Esmeraldas",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Local",
+      "DIST_NODO_RED_M": 0.9405021006873991,
+      "GRADO_NODO_CERCANO": 4,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 0.9405021006873991,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-03829",
+      "PARROQUIA_RED_ACTUAL": "LIZARZABURU"
+    },
+    {
+      "ID_PROPUESTA": "MUN-036",
+      "X_ACTUAL": 763431.9260654057,
+      "Y_ACTUAL": 9813156.787373181,
+      "ORIGEN_ACTUAL": "REFERENCIACION_LINEAL_EJE_VIAL_REAL_20M",
+      "GRADO_REGISTRADO": 0,
+      "DIST_RED_VIAL_M": 0.02179070475729524,
+      "VIA_ACTUAL_PROXIMA": "calle sin nombre",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Arterial A",
+      "DIST_NODO_RED_M": 54.79162552864925,
+      "GRADO_NODO_CERCANO": 1,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 58.48712026248433,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-06090",
+      "PARROQUIA_RED_ACTUAL": "VELOZ"
+    },
+    {
+      "ID_PROPUESTA": "MUN-037",
+      "X_ACTUAL": 762690.2215186553,
+      "Y_ACTUAL": 9814695.4502438,
+      "ORIGEN_ACTUAL": "REFERENCIACION_LINEAL_EJE_VIAL_REAL_20M",
+      "GRADO_REGISTRADO": 0,
+      "DIST_RED_VIAL_M": 0.7157330441428541,
+      "VIA_ACTUAL_PROXIMA": "Av. Juan Bernardo de León",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Local",
+      "DIST_NODO_RED_M": 41.2807243541332,
+      "GRADO_NODO_CERCANO": 4,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 41.2807243541332,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-05173",
+      "PARROQUIA_RED_ACTUAL": "MALDONADO"
+    },
+    {
+      "ID_PROPUESTA": "MUN-038",
+      "X_ACTUAL": 762379.9046096522,
+      "Y_ACTUAL": 9814457.934989858,
+      "ORIGEN_ACTUAL": "REFERENCIACION_LINEAL_EJE_VIAL_REAL_20M",
+      "GRADO_REGISTRADO": 0,
+      "DIST_RED_VIAL_M": 1.4220365380065918,
+      "VIA_ACTUAL_PROXIMA": "Josè de Orozco",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Local",
+      "DIST_NODO_RED_M": 1.4220365380065918,
+      "GRADO_NODO_CERCANO": 1,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 96.12819802751984,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-04751",
+      "PARROQUIA_RED_ACTUAL": "MALDONADO"
+    },
+    {
+      "ID_PROPUESTA": "MUN-039",
+      "X_ACTUAL": 763648.7455856436,
+      "Y_ACTUAL": 9813607.205723375,
+      "ORIGEN_ACTUAL": "REFERENCIACION_LINEAL_EJE_VIAL_REAL_20M",
+      "GRADO_REGISTRADO": 0,
+      "DIST_RED_VIAL_M": 0.6989847592268483,
+      "VIA_ACTUAL_PROXIMA": "Santa Martha",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Arterial A",
+      "DIST_NODO_RED_M": 12.06781427197274,
+      "GRADO_NODO_CERCANO": 3,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 12.06781427197274,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-06191",
+      "PARROQUIA_RED_ACTUAL": "MALDONADO"
+    },
+    {
+      "ID_PROPUESTA": "MUN-040",
+      "X_ACTUAL": 760983.168315429,
+      "Y_ACTUAL": 9814217.918167843,
+      "ORIGEN_ACTUAL": "REFERENCIACION_LINEAL_EJE_VIAL_REAL_20M",
+      "GRADO_REGISTRADO": 0,
+      "DIST_RED_VIAL_M": 0.15774566776504936,
+      "VIA_ACTUAL_PROXIMA": "12 de Octubre",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Local",
+      "DIST_NODO_RED_M": 38.211093894645494,
+      "GRADO_NODO_CERCANO": 3,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 163.49860719416762,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-03584",
+      "PARROQUIA_RED_ACTUAL": "LIZARZABURU"
+    },
+    {
+      "ID_PROPUESTA": "MUN-041",
+      "X_ACTUAL": 760612.0216938151,
+      "Y_ACTUAL": 9815564.957464473,
+      "ORIGEN_ACTUAL": "REFERENCIACION_LINEAL_EJE_VIAL_REAL_20M",
+      "GRADO_REGISTRADO": 0,
+      "DIST_RED_VIAL_M": 1.090463626616032,
+      "VIA_ACTUAL_PROXIMA": "Av. Daniel Leon Borja",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Arterial A",
+      "DIST_NODO_RED_M": 21.421653966751677,
+      "GRADO_NODO_CERCANO": 4,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 21.421653966751677,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-03413",
+      "PARROQUIA_RED_ACTUAL": "LIZARZABURU"
+    },
+    {
+      "ID_PROPUESTA": "MUN-042",
+      "X_ACTUAL": 762079.8249000004,
+      "Y_ACTUAL": 9815405.2812,
+      "ORIGEN_ACTUAL": "NODO_VIAL_URBANO",
+      "GRADO_REGISTRADO": 3,
+      "DIST_RED_VIAL_M": 0.0,
+      "VIA_ACTUAL_PROXIMA": "León Febres Cordero",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Local",
+      "DIST_NODO_RED_M": 0.0,
+      "GRADO_NODO_CERCANO": 3,
+      "EN_INTERSECCION_VERIFICADA": true,
+      "DIST_INTERSECCION_PRINCIPAL_M": 0.0,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-04514",
+      "PARROQUIA_RED_ACTUAL": "MALDONADO"
+    },
+    {
+      "ID_PROPUESTA": "MUN-043",
+      "X_ACTUAL": 762265.6914087548,
+      "Y_ACTUAL": 9813434.529143322,
+      "ORIGEN_ACTUAL": "NODO_RED_VIAL_CANTONAL_ORIGINAL",
+      "GRADO_REGISTRADO": 3,
+      "DIST_RED_VIAL_M": 0.6390727181252995,
+      "VIA_ACTUAL_PROXIMA": "Alemania",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Local",
+      "DIST_NODO_RED_M": 2.2069714544497967,
+      "GRADO_NODO_CERCANO": 3,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 59.984322474299184,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-04705",
+      "PARROQUIA_RED_ACTUAL": "VELOZ"
+    },
+    {
+      "ID_PROPUESTA": "MUN-044",
+      "X_ACTUAL": 762476.3599377642,
+      "Y_ACTUAL": 9815892.34205592,
+      "ORIGEN_ACTUAL": "REFERENCIACION_LINEAL_EJE_VIAL_REAL_20M",
+      "GRADO_REGISTRADO": 0,
+      "DIST_RED_VIAL_M": 10.913211974064707,
+      "VIA_ACTUAL_PROXIMA": "Av. Edelberto Bonilla Oleas",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Local",
+      "DIST_NODO_RED_M": 10.913211974064707,
+      "GRADO_NODO_CERCANO": 1,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 50.671246700788544,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-04910",
+      "PARROQUIA_RED_ACTUAL": "MALDONADO"
+    },
+    {
+      "ID_PROPUESTA": "MUN-045",
+      "X_ACTUAL": 761630.4689454996,
+      "Y_ACTUAL": 9813532.105266022,
+      "ORIGEN_ACTUAL": "REFERENCIACION_LINEAL_EJE_VIAL_REAL_20M",
+      "GRADO_REGISTRADO": 0,
+      "DIST_RED_VIAL_M": 0.37051310258226455,
+      "VIA_ACTUAL_PROXIMA": "nan",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Arterial A",
+      "DIST_NODO_RED_M": 20.520453139388902,
+      "GRADO_NODO_CERCANO": 3,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 20.520453139388902,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-04129",
+      "PARROQUIA_RED_ACTUAL": "VELOZ"
+    },
+    {
+      "ID_PROPUESTA": "MUN-046",
+      "X_ACTUAL": 763600.9212396499,
+      "Y_ACTUAL": 9814562.183149459,
+      "ORIGEN_ACTUAL": "REFERENCIACION_LINEAL_EJE_VIAL_REAL_20M",
+      "GRADO_REGISTRADO": 0,
+      "DIST_RED_VIAL_M": 1.4419463923697329,
+      "VIA_ACTUAL_PROXIMA": "Av. 9 de Octubre",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Arterial A",
+      "DIST_NODO_RED_M": 59.042020470199176,
+      "GRADO_NODO_CERCANO": 4,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 59.042020470199176,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-06176",
+      "PARROQUIA_RED_ACTUAL": "MALDONADO"
+    },
+    {
+      "ID_PROPUESTA": "MUN-047",
+      "X_ACTUAL": 759652.4839029934,
+      "Y_ACTUAL": 9815355.353481136,
+      "ORIGEN_ACTUAL": "REFERENCIACION_LINEAL_EJE_VIAL_REAL_20M",
+      "GRADO_REGISTRADO": 0,
+      "DIST_RED_VIAL_M": 1.4600611462304705,
+      "VIA_ACTUAL_PROXIMA": "nan",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Arterial A",
+      "DIST_NODO_RED_M": 31.5339963720936,
+      "GRADO_NODO_CERCANO": 3,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 31.5339963720936,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-02716",
+      "PARROQUIA_RED_ACTUAL": "LIZARZABURU"
+    },
+    {
+      "ID_PROPUESTA": "MUN-048",
+      "X_ACTUAL": 760410.0652632809,
+      "Y_ACTUAL": 9817307.126803048,
+      "ORIGEN_ACTUAL": "REFERENCIACION_LINEAL_EJE_VIAL_REAL_20M",
+      "GRADO_REGISTRADO": 0,
+      "DIST_RED_VIAL_M": 3.7026382608159665,
+      "VIA_ACTUAL_PROXIMA": "calle sin nombre",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Arterial P",
+      "DIST_NODO_RED_M": 64.48205618584846,
+      "GRADO_NODO_CERCANO": 3,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 64.48205618584846,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-03277",
+      "PARROQUIA_RED_ACTUAL": "VELASCO"
+    },
+    {
+      "ID_PROPUESTA": "MUN-049",
+      "X_ACTUAL": 761250.5227494146,
+      "Y_ACTUAL": 9813651.55992903,
+      "ORIGEN_ACTUAL": "REFERENCIACION_LINEAL_EJE_VIAL_REAL_20M",
+      "GRADO_REGISTRADO": 0,
+      "DIST_RED_VIAL_M": 0.6026401020719186,
+      "VIA_ACTUAL_PROXIMA": "Av. 9 de Octubre",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Arterial A",
+      "DIST_NODO_RED_M": 41.08292898217021,
+      "GRADO_NODO_CERCANO": 4,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 41.08292898217021,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-03863",
+      "PARROQUIA_RED_ACTUAL": "VELOZ"
+    },
+    {
+      "ID_PROPUESTA": "MUN-050",
+      "X_ACTUAL": 763644.9237440862,
+      "Y_ACTUAL": 9814056.821828486,
+      "ORIGEN_ACTUAL": "REFERENCIACION_LINEAL_EJE_VIAL_REAL_20M",
+      "GRADO_REGISTRADO": 0,
+      "DIST_RED_VIAL_M": 0.5989262532848803,
+      "VIA_ACTUAL_PROXIMA": "Av. 9 de Octubre",
+      "TIPO_VIA_ACTUAL_PROXIMA": "Arterial A",
+      "DIST_NODO_RED_M": 39.47571732969014,
+      "GRADO_NODO_CERCANO": 4,
+      "EN_INTERSECCION_VERIFICADA": false,
+      "DIST_INTERSECCION_PRINCIPAL_M": 39.47571732969014,
+      "ID_INTERSECCION_PRINCIPAL": "NODO-06208",
+      "PARROQUIA_RED_ACTUAL": "MALDONADO"
+    }
+  ],
+  "baselineMunicipal": {
+    "BOULEVARD_MACAJI_BELLAVISTA": {
+      "totalM": 9541.69848695055,
+      "coveredM": 9541.69848695055,
+      "uncoveredM": 0.0,
+      "pct": 100.0
+    },
+    "ANILLO_VIAL": {
+      "totalM": 13126.59872086241,
+      "coveredM": 10506.333923605995,
+      "uncoveredM": 2620.264797256775,
+      "pct": 80.0385091905646
+    },
+    "CICLOVIAS": {
+      "totalM": 10976.048863871163,
+      "coveredM": 7089.9601992166345,
+      "uncoveredM": 3886.088664655126,
+      "pct": 64.594830864447
+    }
+  },
+  "baselineSystem183": {
+    "BOULEVARD_MACAJI_BELLAVISTA": {
+      "totalM": 9541.69848695055,
+      "coveredM": 9541.69848695055,
+      "uncoveredM": 0.0,
+      "pct": 100.0
+    },
+    "ANILLO_VIAL": {
+      "totalM": 13126.59872086241,
+      "coveredM": 10852.341299677606,
+      "uncoveredM": 2274.257421185164,
+      "pct": 82.67443479040557
+    },
+    "CICLOVIAS": {
+      "totalM": 10976.048863871163,
+      "coveredM": 7699.5016935138565,
+      "uncoveredM": 3276.5471703577705,
+      "pct": 70.14820896850769
+    }
+  },
+  "scenarios": [
+    {
+      "scenario": "A_CRUCES_PRINCIPALES_CERCANOS",
+      "description": "24 intersecciones principales distintas de menor desplazamiento conjunto; sin forzar conservacion de cobertura. Diagnostico, no propuesta aprobada.",
+      "corridorsMunicipal": {
+        "BOULEVARD_MACAJI_BELLAVISTA": {
+          "totalM": 9541.69848695055,
+          "coveredM": 9090.969661065541,
+          "uncoveredM": 450.72882588528904,
+          "pct": 95.27622019809748
+        },
+        "ANILLO_VIAL": {
+          "totalM": 13126.59872086241,
+          "coveredM": 9893.10143199933,
+          "uncoveredM": 3233.4972888636094,
+          "pct": 75.36683068002979
+        },
+        "CICLOVIAS": {
+          "totalM": 10976.048863871163,
+          "coveredM": 6878.758861634027,
+          "uncoveredM": 4097.290002237675,
+          "pct": 62.67062899360986
+        }
+      },
+      "corridorsSystem183": {
+        "BOULEVARD_MACAJI_BELLAVISTA": {
+          "totalM": 9541.69848695055,
+          "coveredM": 9090.969661065541,
+          "uncoveredM": 450.72882588528904,
+          "pct": 95.27622019809748
+        },
+        "ANILLO_VIAL": {
+          "totalM": 13126.59872086241,
+          "coveredM": 10239.108808070941,
+          "uncoveredM": 2887.489912791998,
+          "pct": 78.00275627987078
+        },
+        "CICLOVIAS": {
+          "totalM": 10976.048863871163,
+          "coveredM": 7488.300355931249,
+          "uncoveredM": 3487.74850794032,
+          "pct": 68.22400709767054
+        }
+      },
+      "policeUsedForMunicipalTargets": false,
+      "municipalTotal": 50,
+      "urbanStructural": 24,
+      "principalIntersections": 24,
+      "movedOver1m": 22,
+      "totalDisplacementM": 1306.5764237143956,
+      "medianDisplacementM": 49.58768853130999,
+      "maxDisplacementM": 163.49860719416762,
+      "meanOverlapPct": 23.48717562051225,
+      "maxOverlapPct": 90.13278448564863,
+      "camerasWithAnother24Within400mByRoad": 6,
+      "uniqueNearestRoadLinksWithin400m": 3,
+      "solver": {
+        "assignmentOptimalInCatalog": true
+      },
+      "hardGoalsMet": false,
+      "cycleBaselinePreserved": false
+    },
+    {
+      "scenario": "C_PRIORIDAD_PRINCIPALES",
+      "description": "Seleccion conjunta en nodos reales; Macaji100 y Anillo>=80. Prioridad vias principales y despues Ciclovias; distancia minimizada manteniendo los objetivos anteriores.",
+      "corridorsMunicipal": {
+        "BOULEVARD_MACAJI_BELLAVISTA": {
+          "totalM": 9541.69848695055,
+          "coveredM": 9541.69848695055,
+          "uncoveredM": 0.0,
+          "pct": 100.0
+        },
+        "ANILLO_VIAL": {
+          "totalM": 13126.59872086241,
+          "coveredM": 10504.154730635693,
+          "uncoveredM": 2622.4439902273916,
+          "pct": 80.0219078377188
+        },
+        "CICLOVIAS": {
+          "totalM": 10976.048863871163,
+          "coveredM": 6335.885303115622,
+          "uncoveredM": 4640.16356075608,
+          "pct": 57.72464555957714
+        }
+      },
+      "corridorsSystem183": {
+        "BOULEVARD_MACAJI_BELLAVISTA": {
+          "totalM": 9541.69848695055,
+          "coveredM": 9541.69848695055,
+          "uncoveredM": 0.0,
+          "pct": 100.0
+        },
+        "ANILLO_VIAL": {
+          "totalM": 13126.59872086241,
+          "coveredM": 10850.162106707305,
+          "uncoveredM": 2276.4366141557803,
+          "pct": 82.6578334375598
+        },
+        "CICLOVIAS": {
+          "totalM": 10976.048863871163,
+          "coveredM": 6917.323657203673,
+          "uncoveredM": 4058.7252066678966,
+          "pct": 63.02198307418968
+        }
+      },
+      "policeUsedForMunicipalTargets": false,
+      "municipalTotal": 50,
+      "urbanStructural": 24,
+      "principalIntersections": 23,
+      "movedOver1m": 24,
+      "totalDisplacementM": 5079.30473301634,
+      "medianDisplacementM": 83.4857498333646,
+      "maxDisplacementM": 1162.4363062071645,
+      "meanOverlapPct": 19.21880726853741,
+      "maxOverlapPct": 80.30393807496479,
+      "camerasWithAnother24Within400mByRoad": 10,
+      "uniqueNearestRoadLinksWithin400m": 6,
+      "solver": {
+        "status": 0,
+        "primaryObjectivesOptimalInCatalog": true,
+        "displacementOptimalGivenPrimaryObjectives": true,
+        "catalogCount": 1092
+      },
+      "hardGoalsMet": true,
+      "cycleBaselinePreserved": false
+    },
+    {
+      "scenario": "D_PRIORIDAD_CICLOVIAS",
+      "description": "Seleccion conjunta en nodos reales; Macaji100 y Anillo>=80. Prioridad Ciclovias y despues vias principales; distancia minimizada manteniendo los objetivos anteriores.",
+      "corridorsMunicipal": {
+        "BOULEVARD_MACAJI_BELLAVISTA": {
+          "totalM": 9541.69848695055,
+          "coveredM": 9541.69848695055,
+          "uncoveredM": 0.0,
+          "pct": 100.0
+        },
+        "ANILLO_VIAL": {
+          "totalM": 13126.59872086241,
+          "coveredM": 10501.30901083995,
+          "uncoveredM": 2625.28971002333,
+          "pct": 80.00022880374925
+        },
+        "CICLOVIAS": {
+          "totalM": 10976.048863871163,
+          "coveredM": 6440.956359284067,
+          "uncoveredM": 4535.092504587635,
+          "pct": 58.681921328586306
+        }
+      },
+      "corridorsSystem183": {
+        "BOULEVARD_MACAJI_BELLAVISTA": {
+          "totalM": 9541.69848695055,
+          "coveredM": 9541.69848695055,
+          "uncoveredM": 0.0,
+          "pct": 100.0
+        },
+        "ANILLO_VIAL": {
+          "totalM": 13126.59872086241,
+          "coveredM": 10847.316386911561,
+          "uncoveredM": 2279.2823339517186,
+          "pct": 82.63615440359024
+        },
+        "CICLOVIAS": {
+          "totalM": 10976.048863871163,
+          "coveredM": 6917.323657203673,
+          "uncoveredM": 4058.7252066678966,
+          "pct": 63.02198307418968
+        }
+      },
+      "policeUsedForMunicipalTargets": false,
+      "municipalTotal": 50,
+      "urbanStructural": 24,
+      "principalIntersections": 20,
+      "movedOver1m": 24,
+      "totalDisplacementM": 5076.090654509776,
+      "medianDisplacementM": 83.4857498333646,
+      "maxDisplacementM": 1162.4363062071645,
+      "meanOverlapPct": 18.67725223507601,
+      "maxOverlapPct": 80.30393807496479,
+      "camerasWithAnother24Within400mByRoad": 11,
+      "uniqueNearestRoadLinksWithin400m": 6,
+      "solver": {
+        "status": 0,
+        "primaryObjectivesOptimalInCatalog": true,
+        "displacementOptimalGivenPrimaryObjectives": true,
+        "catalogCount": 1092
+      },
+      "hardGoalsMet": true,
+      "cycleBaselinePreserved": false
+    }
+  ],
+  "solver": [
+    {
+      "label": "B_PRINCIPALES_CON_COBERTURA",
+      "phase": "PRIORIDAD_VIAS_PRINCIPALES",
+      "catalogCount": 610,
+      "status": 2,
+      "message": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)",
+      "objective": null,
+      "gap": null
+    },
+    {
+      "label": "C_PRIORIDAD_PRINCIPALES",
+      "phase": "PRIORIDAD_VIAS_PRINCIPALES",
+      "catalogCount": 1092,
+      "status": 0,
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "objective": -23.0,
+      "gap": 0.0
+    },
+    {
+      "label": "C_PRIORIDAD_PRINCIPALES",
+      "phase": "MAX_CICLOVIAS",
+      "catalogCount": 1092,
+      "status": 0,
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "objective": -914.7894301139987,
+      "gap": 0.0
+    },
+    {
+      "label": "C_PRIORIDAD_PRINCIPALES",
+      "phase": "MIN_DESPLAZAMIENTO_CON_OBJETIVOS_FIJOS",
+      "status": 0,
+      "objective": 5079.30473301634,
+      "gap": 0.0
+    },
+    {
+      "label": "D_PRIORIDAD_CICLOVIAS",
+      "phase": "MAX_CICLOVIAS",
+      "catalogCount": 1092,
+      "status": 0,
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "objective": -1019.8604862824432,
+      "gap": 0.0
+    },
+    {
+      "label": "D_PRIORIDAD_CICLOVIAS",
+      "phase": "PRIORIDAD_VIAS_PRINCIPALES",
+      "catalogCount": 1092,
+      "status": 0,
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "objective": -19.999999999999982,
+      "gap": 0.0
+    },
+    {
+      "label": "D_PRIORIDAD_CICLOVIAS",
+      "phase": "MIN_DESPLAZAMIENTO_CON_OBJETIVOS_FIJOS",
+      "status": 0,
+      "objective": 5076.090654509761,
+      "gap": 0.0
+    }
+  ],
+  "limitations": [
+    "Cruces topologicos de ejes GIS en 2D: validar pasos a desnivel, poste y esquina operativa en campo.",
+    "Los 400m por red ilustran dos alcances de200m; no son certificacion de visibilidad ni condicion dura para todos los puntos.",
+    "Continuidad parcial por cantidad limitada de camaras. No se agrandan radios ni se cuentan otras30policiales para cumplir metas municipales.",
+    "No se cambia KDE ni Gi*. KDE y eventos son contexto, no sustituyen los objetivos territoriales municipales.",
+    "La factibilidad y optimalidad son relativas al catalogo GIS, no al conjunto de todas las esquinas fisicas existentes.",
+    "Desplazamiento calculado entre coordenadas propuestas, no obra ejecutada. No hay autorizacion de implantacion."
+  ],
+  "roadNameField": "TXT",
+  "parishNameField": "NOMBRE"
+}
