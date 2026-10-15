@@ -2,7 +2,7 @@
 window.createRiobambaCameraProposal = function (api) {
   "use strict";
   const { map, elements: el, esc } = api;
-  const root = "./data/seguridad-riobamba/REUBICACION_POL24_20261007_B/";
+  const root = "./data/seguridad-riobamba/POLICIA_KDE_INTERSECCIONES_20261015/";
   const controls = document.getElementById("proposalLayerControls");
   const scenarioControl = document.getElementById("proposalScenario");
   const radiusControl = document.getElementById("proposalRadius");
@@ -39,7 +39,7 @@ window.createRiobambaCameraProposal = function (api) {
   const symbolFeatures = (group, symbol, suffix = "") => fc(data[group + suffix].features.filter(feature => group !== "existing" || change(feature) === (symbol === "change")));
   const rowHtml = rows => rows.map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value ?? "No disponible")}</strong></div>`).join("");
   const table = (title, headings, rows, note = "") => `<section class="proposal-report"><h3>${esc(title)}</h3><div class="proposal-table-wrap"><table class="mini-table"><thead><tr>${headings.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${rows.map(r => `<tr>${r.map(v => `<td>${v}</td>`).join("")}</tr>`).join("")}</tbody></table></div>${note ? `<p>${esc(note)}</p>` : ""}</section>`;
-  const links = () => `<div class="proposal-links"><a href="${root}CIERRE_POLICIA_30_FINAL_B.zip" download>Paquete GIS final ZIP</a><a href="${root}ESCENARIO_FINAL_183.gpkg" download>GeoPackage final</a><a href="${root}index.html" target="_blank" rel="noopener">Mapa final Policía</a><a href="${root}index.html#control" target="_blank" rel="noopener">Control final de solapes</a><a href="${root}INFORME_FINAL.md" target="_blank" rel="noopener">Informe y metodología</a><a href="${root}RESULTADOS.json" download>Resultados</a><a href="${root}VALIDACION.json" download>Validación GIS</a></div>`;
+  const links = () => `<div class="proposal-links"><a href="${root}ENTREGA_POLICIA_KDE.zip" download>Paquete GIS final ZIP</a><a href="${root}ESCENARIO_FINAL_183.gpkg" download>GeoPackage final</a><a href="${root}MOVIMIENTOS_POLICIA_30.csv" download>Movimientos de Policía</a><a href="${root}POLICIA_BENEFICIO_FINAL.csv" download>Beneficio y solapes finales</a><a href="${root}INFORME_FINAL.md" target="_blank" rel="noopener">Informe y metodología</a><a href="${root}RESULTADOS.json" download>Resultados</a><a href="${root}VALIDACION.json" download>Validación GIS</a></div>`;
   const metric = (kind, code = scenario()) => data.results[kind].find(r => r.ESCENARIO === code);
 
   const cameraLayerKeys = ["existing", "change", "municipal", "police", "existingRadius", "changeRadius", "municipalRadius", "policeRadius", "platforms"];
@@ -82,7 +82,7 @@ window.createRiobambaCameraProposal = function (api) {
         existingRadius: "RADIOS_EXISTENTES_SIMBOLOGIA_200M.geojson", municipalRadius: "COBERTURA_MUNICIPAL_200M.geojson", policeRadius: "COBERTURA_POLICIA_200M.geojson", platforms: "PLATAFORMAS_TERRITORIALES.geojson", corridors: "CORREDORES.geojson",
         DELINCUENCIA: "HOTSPOT_DELINCUENCIA.geojson", VIOLENCIA: "HOTSPOT_VIOLENCIA.geojson", CONVIVENCIA: "HOTSPOT_CONVIVENCIA.geojson" };
       const entries = await Promise.all(Object.entries(files).map(async ([key, name]) => {
-        const response = await fetch(root + name + "?v=reubicacion-pol24-20261007-b");
+        const response = await fetch(root + name + "?v=policia-kde-intersecciones-20261015");
         if (!response.ok) throw new Error(`${name}: HTTP ${response.status}`);
         return [key, await response.json()];
       }));
@@ -276,7 +276,7 @@ window.createRiobambaCameraProposal = function (api) {
   }
   function renderMethodology() {
     const panel = document.getElementById("methodologyPanel"); if (!panel) return;
-    panel.innerHTML = `<h3>Cierre final de videovigilancia</h3>${rowHtml([["Inventario existente", "103 equipos / 103 geometrías"], ["Requieren cambio", "31 del inventario existente"], ["Municipio / Policía", "50 / 30 propuestas, no instaladas"], ["CRS métrico / visual", "EPSG:32717 / EPSG:4326"], ["Radio potencial", "200 m (no diámetro)"], ["Cobertura", "Buffers métricos; unión disuelta; intersección con puntos, líneas y polígonos"], ["Población", "Estimación areal CPV2022 dentro de 18 Plataformas; rural completa no disponible"], ["Hot Spots", "Gi* congelado por ámbito y categoría; no se recalculó para cobertura"], ["Cámaras coincidentes", "Equipos conservados; cobertura disuelta sin doble conteo"]])}<p>Las propuestas municipales atienden cabeceras, Las Abras y red estructural. Policía se selecciona por Hot Spots de Delincuencia y Violencia; los corredores son beneficios secundarios. Las posiciones requieren validación operativa de campo.</p><p>La nueva priorización del Anillo reduce Ciclovías. Las discrepancias de georreferenciación de las cámaras recuperadas permanecen documentadas; no se certifica un levantamiento de campo.</p>${links()}`;
+    panel.innerHTML = `<h3>Evaluación de videovigilancia</h3>${rowHtml([["Inventario existente", "103 equipos / 103 geometrías conservadas"], ["Requieren cambio", "31 incluidas en las 103 existentes"], ["Municipio / Policía", "50 / 30 propuestas, no instaladas"], ["CRS métrico / visual", "EPSG:32717 / EPSG:4326"], ["Radio potencial", "200 m (no diámetro)"], ["Cobertura", "Buffers métricos; unión disuelta; intersección con puntos, líneas y polígonos"], ["Población", "Estimación areal CPV2022 dentro de 18 Plataformas; rural completa no disponible"], ["Policía · criterio principal", "KDE urbano de Delincuencia + Violencia; aporte marginal"], ["Policía · emplazamiento", "30 nodos reales de grado ≥3 en vías Expresa, Arterial o Colectora"], ["Hot Spots", "Gi* de referencia, conservado por ámbito y categoría; sin recálculo"], ["Cámaras coincidentes", "Equipos conservados; cobertura disuelta sin doble conteo"]])}<p>Las 50 propuestas municipales permanecen fijas. Las 30 policiales utilizan KDE como criterio principal y Gi* como referencia; los corredores se reportan como beneficios secundarios. Solo se reubican propuestas policiales.</p><p>La continuidad de observación por ejes es un objetivo parcial por la cantidad limitada de cámaras. Los radios no certifican visibilidad: se requiere validar poste, altura, orientación y obstáculos en campo. Las discrepancias de georreferenciación del inventario se mantienen documentadas.</p>${links()}`;
   }
   async function render() {
     if (!api.active()) return;
@@ -301,7 +301,7 @@ window.createRiobambaCameraProposal = function (api) {
       + `<p class="proposal-inventory-note">Las ${changeCount} cámaras para cambio están incluidas en las ${existingCount} existentes; no son cámaras adicionales. ${existingCount - changeCount} + ${changeCount} = ${existingCount}.</p>`;
     syncToggles(); draw(); detail(); graphics(); renderLegend();
     map.invalidateSize(); if (fitNeeded) fit();
-    el.status.textContent = "103 existentes (31 para cambio) + 50 Municipio + 30 Policía. Radio potencial 200 m. Gi* y geometrías originales conservados.";
+    el.status.textContent = "103 existentes (31 para cambio) + 50 Municipio + 30 Policía en intersecciones principales. KDE D+V como criterio policial; radio potencial 200 m. Gi* sin recálculo.";
   }
   scenarioControl.addEventListener("change", () => { selected = null; render(); });
   extentControl.addEventListener("change", () => { fitNeeded = true; render(); });

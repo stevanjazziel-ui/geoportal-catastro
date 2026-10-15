@@ -190,7 +190,7 @@
 
     async function load() {
       if (loadedPromise) return loadedPromise;
-      loadedPromise = fetch("./data/seguridad-riobamba/REUBICACION_POL24_20261007_B/CORRIDOR_COVERAGE_200M.json?v=lasabras-camaras-v2-20261007")
+      loadedPromise = fetch("./data/seguridad-riobamba/POLICIA_KDE_INTERSECCIONES_20261015/CORRIDOR_COVERAGE_200M.json?v=policia-kde-intersecciones-20261015")
         .then((response) => { if (!response.ok) throw new Error("No se pudo cargar la cobertura de corredores"); return response.json(); })
         .then((value) => { data = value; return value; });
       return loadedPromise;

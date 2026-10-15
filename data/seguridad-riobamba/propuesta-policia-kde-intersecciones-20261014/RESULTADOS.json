@@ -1,0 +1,318 @@
+{
+  "status": "ALTERNATIVA_PARA_REVISION",
+  "crs": "EPSG:32717",
+  "radius_m": 200.0,
+  "urban_incidents_D": 2229,
+  "urban_incidents_V": 1268,
+  "major_road_types": [
+    "Arterial A",
+    "Arterial B",
+    "Arterial P",
+    "Colectora",
+    "Expresa"
+  ],
+  "major_road_features": 2617,
+  "candidate_major_intersections": 1991,
+  "selected": 30,
+  "base_existing": 103,
+  "base_municipal_fixed": 50,
+  "police_proposals": 30,
+  "kde_grid": {
+    "width": 554,
+    "height": 542,
+    "cell_m": 20,
+    "masked_cells": 73238,
+    "bandwidth_m": 200.0
+  },
+  "kde_density_max_events_km2": {
+    "DELINCUENCIA": 770.7560007555621,
+    "VIOLENCIA": 441.58145776793674
+  },
+  "selection_method": "Greedy lexicographic ranking by incremental integrated D+V urban KDE over 20m cells within 200m buffers; equal event weights; each selected buffer intersects existing+municipal+previous proposal coverage. No weighted index.",
+  "reference_method": "Existing Gi* cells retained for post-selection interpretation; Gi* not recalculated or used as the primary rank.",
+  "limitations": [
+    "Buffer overlap is geometric continuity, not camera field of view. No height, azimuth, lens, building or visibility model was available.",
+    "Greedy solution is an alternative, not proof of a global optimum.",
+    "Municipal 50 and existing 103 geometries were held fixed."
+  ],
+  "source_sha256": {
+    "data\\seguridad-riobamba\\REUBICACION_POL24_20261007_B\\ESCENARIO_FINAL_183.gpkg": "a1ac4ae055928a1f8d016d68389273555fda96dfe8ccc5225324199fb4ca8e57",
+    "riobamba-conflictividad-data.js": "56ce4c608b1c66235f671d745bca22fe9084913fea788edb1d7cfb471838f17c"
+  },
+  "selection_trace": [
+    {
+      "ORDEN_KDE": 1,
+      "MASA_KDE_DV_NUEVA": 30.23571856062268,
+      "MASA_KDE_D_NUEVA": 19.66526405623945,
+      "MASA_KDE_V_NUEVA": 10.570454504383227,
+      "FRACCION_SOLAPE_PREVIO": 0.34402997765063786,
+      "GRADO_NODO": 4
+    },
+    {
+      "ORDEN_KDE": 2,
+      "MASA_KDE_DV_NUEVA": 26.65573324096669,
+      "MASA_KDE_D_NUEVA": 11.957635633340278,
+      "MASA_KDE_V_NUEVA": 14.698097607626412,
+      "FRACCION_SOLAPE_PREVIO": 0.07381662836634353,
+      "GRADO_NODO": 3
+    },
+    {
+      "ORDEN_KDE": 3,
+      "MASA_KDE_DV_NUEVA": 26.156625093915636,
+      "MASA_KDE_D_NUEVA": 16.314162381933965,
+      "MASA_KDE_V_NUEVA": 9.84246271198167,
+      "FRACCION_SOLAPE_PREVIO": 0.1511297528946078,
+      "GRADO_NODO": 3
+    },
+    {
+      "ORDEN_KDE": 4,
+      "MASA_KDE_DV_NUEVA": 24.923874380377438,
+      "MASA_KDE_D_NUEVA": 14.44108131648045,
+      "MASA_KDE_V_NUEVA": 10.482793063896988,
+      "FRACCION_SOLAPE_PREVIO": 0.23155328661272426,
+      "GRADO_NODO": 4
+    },
+    {
+      "ORDEN_KDE": 5,
+      "MASA_KDE_DV_NUEVA": 22.794590328364897,
+      "MASA_KDE_D_NUEVA": 11.772332073088462,
+      "MASA_KDE_V_NUEVA": 11.022258255276434,
+      "FRACCION_SOLAPE_PREVIO": 0.04839355953877566,
+      "GRADO_NODO": 3
+    },
+    {
+      "ORDEN_KDE": 6,
+      "MASA_KDE_DV_NUEVA": 22.61529817555462,
+      "MASA_KDE_D_NUEVA": 8.50000716220547,
+      "MASA_KDE_V_NUEVA": 14.115291013349148,
+      "FRACCION_SOLAPE_PREVIO": 0.6583557477551073,
+      "GRADO_NODO": 3
+    },
+    {
+      "ORDEN_KDE": 7,
+      "MASA_KDE_DV_NUEVA": 22.188147346348064,
+      "MASA_KDE_D_NUEVA": 12.427072046965337,
+      "MASA_KDE_V_NUEVA": 9.761075299382727,
+      "FRACCION_SOLAPE_PREVIO": 0.020271020346621167,
+      "GRADO_NODO": 3
+    },
+    {
+      "ORDEN_KDE": 8,
+      "MASA_KDE_DV_NUEVA": 21.88707998800517,
+      "MASA_KDE_D_NUEVA": 14.76810413700768,
+      "MASA_KDE_V_NUEVA": 7.11897585099749,
+      "FRACCION_SOLAPE_PREVIO": 0.0023590943265307247,
+      "GRADO_NODO": 4
+    },
+    {
+      "ORDEN_KDE": 9,
+      "MASA_KDE_DV_NUEVA": 20.433519008505108,
+      "MASA_KDE_D_NUEVA": 17.630715061847898,
+      "MASA_KDE_V_NUEVA": 2.802803946657209,
+      "FRACCION_SOLAPE_PREVIO": 0.09280667121733377,
+      "GRADO_NODO": 3
+    },
+    {
+      "ORDEN_KDE": 10,
+      "MASA_KDE_DV_NUEVA": 27.19507341323822,
+      "MASA_KDE_D_NUEVA": 20.13116358010372,
+      "MASA_KDE_V_NUEVA": 7.063909833134499,
+      "FRACCION_SOLAPE_PREVIO": 0.0004137204385268637,
+      "GRADO_NODO": 3
+    },
+    {
+      "ORDEN_KDE": 11,
+      "MASA_KDE_DV_NUEVA": 20.103997312433783,
+      "MASA_KDE_D_NUEVA": 10.19879776693294,
+      "MASA_KDE_V_NUEVA": 9.905199545500844,
+      "FRACCION_SOLAPE_PREVIO": 0.05882077821014133,
+      "GRADO_NODO": 4
+    },
+    {
+      "ORDEN_KDE": 12,
+      "MASA_KDE_DV_NUEVA": 19.280560679053146,
+      "MASA_KDE_D_NUEVA": 13.237396212693088,
+      "MASA_KDE_V_NUEVA": 6.043164466360055,
+      "FRACCION_SOLAPE_PREVIO": 0.04201494394028192,
+      "GRADO_NODO": 4
+    },
+    {
+      "ORDEN_KDE": 13,
+      "MASA_KDE_DV_NUEVA": 19.25315069663126,
+      "MASA_KDE_D_NUEVA": 11.469810561808863,
+      "MASA_KDE_V_NUEVA": 7.783340134822397,
+      "FRACCION_SOLAPE_PREVIO": 0.002971858842772475,
+      "GRADO_NODO": 4
+    },
+    {
+      "ORDEN_KDE": 14,
+      "MASA_KDE_DV_NUEVA": 19.003214195601878,
+      "MASA_KDE_D_NUEVA": 14.767902044172569,
+      "MASA_KDE_V_NUEVA": 4.23531215142931,
+      "FRACCION_SOLAPE_PREVIO": 0.21389481351271325,
+      "GRADO_NODO": 3
+    },
+    {
+      "ORDEN_KDE": 15,
+      "MASA_KDE_DV_NUEVA": 18.872103984223344,
+      "MASA_KDE_D_NUEVA": 11.110872427046264,
+      "MASA_KDE_V_NUEVA": 7.76123155717708,
+      "FRACCION_SOLAPE_PREVIO": 0.03429926015192524,
+      "GRADO_NODO": 3
+    },
+    {
+      "ORDEN_KDE": 16,
+      "MASA_KDE_DV_NUEVA": 17.910660168022545,
+      "MASA_KDE_D_NUEVA": 10.652498075929058,
+      "MASA_KDE_V_NUEVA": 7.258162092093489,
+      "FRACCION_SOLAPE_PREVIO": 0.06472897871647613,
+      "GRADO_NODO": 4
+    },
+    {
+      "ORDEN_KDE": 17,
+      "MASA_KDE_DV_NUEVA": 17.522606201848482,
+      "MASA_KDE_D_NUEVA": 10.072980330963697,
+      "MASA_KDE_V_NUEVA": 7.449625870884787,
+      "FRACCION_SOLAPE_PREVIO": 0.0032066344587139612,
+      "GRADO_NODO": 4
+    },
+    {
+      "ORDEN_KDE": 18,
+      "MASA_KDE_DV_NUEVA": 17.39097917670677,
+      "MASA_KDE_D_NUEVA": 9.705548122853036,
+      "MASA_KDE_V_NUEVA": 7.685431053853734,
+      "FRACCION_SOLAPE_PREVIO": 0.32089048764178507,
+      "GRADO_NODO": 4
+    },
+    {
+      "ORDEN_KDE": 19,
+      "MASA_KDE_DV_NUEVA": 17.32016724269351,
+      "MASA_KDE_D_NUEVA": 9.667263414034071,
+      "MASA_KDE_V_NUEVA": 7.652903828659439,
+      "FRACCION_SOLAPE_PREVIO": 0.24935199669641395,
+      "GRADO_NODO": 3
+    },
+    {
+      "ORDEN_KDE": 20,
+      "MASA_KDE_DV_NUEVA": 17.3170948752232,
+      "MASA_KDE_D_NUEVA": 11.675569520051216,
+      "MASA_KDE_V_NUEVA": 5.641525355171986,
+      "FRACCION_SOLAPE_PREVIO": 0.10656081150486804,
+      "GRADO_NODO": 3
+    },
+    {
+      "ORDEN_KDE": 21,
+      "MASA_KDE_DV_NUEVA": 16.96221247615565,
+      "MASA_KDE_D_NUEVA": 12.027668326226577,
+      "MASA_KDE_V_NUEVA": 4.934544149929074,
+      "FRACCION_SOLAPE_PREVIO": 0.026429318745025843,
+      "GRADO_NODO": 3
+    },
+    {
+      "ORDEN_KDE": 22,
+      "MASA_KDE_DV_NUEVA": 16.53855576672295,
+      "MASA_KDE_D_NUEVA": 10.082979311816384,
+      "MASA_KDE_V_NUEVA": 6.4555764549065655,
+      "FRACCION_SOLAPE_PREVIO": 0.23959224403467108,
+      "GRADO_NODO": 3
+    },
+    {
+      "ORDEN_KDE": 23,
+      "MASA_KDE_DV_NUEVA": 16.235220767962378,
+      "MASA_KDE_D_NUEVA": 10.47190582721145,
+      "MASA_KDE_V_NUEVA": 5.763314940750928,
+      "FRACCION_SOLAPE_PREVIO": 0.018504883443642723,
+      "GRADO_NODO": 3
+    },
+    {
+      "ORDEN_KDE": 24,
+      "MASA_KDE_DV_NUEVA": 14.701609834680923,
+      "MASA_KDE_D_NUEVA": 8.956859563164572,
+      "MASA_KDE_V_NUEVA": 5.7447502715163505,
+      "FRACCION_SOLAPE_PREVIO": 0.30219654724789,
+      "GRADO_NODO": 4
+    },
+    {
+      "ORDEN_KDE": 25,
+      "MASA_KDE_DV_NUEVA": 14.58527935563712,
+      "MASA_KDE_D_NUEVA": 9.383010402573666,
+      "MASA_KDE_V_NUEVA": 5.202268953063453,
+      "FRACCION_SOLAPE_PREVIO": 0.17119877804550804,
+      "GRADO_NODO": 4
+    },
+    {
+      "ORDEN_KDE": 26,
+      "MASA_KDE_DV_NUEVA": 13.175973263763531,
+      "MASA_KDE_D_NUEVA": 7.896412814466449,
+      "MASA_KDE_V_NUEVA": 5.279560449297081,
+      "FRACCION_SOLAPE_PREVIO": 0.11277368197960115,
+      "GRADO_NODO": 4
+    },
+    {
+      "ORDEN_KDE": 27,
+      "MASA_KDE_DV_NUEVA": 13.038790492419986,
+      "MASA_KDE_D_NUEVA": 4.669459703212281,
+      "MASA_KDE_V_NUEVA": 8.369330789207705,
+      "FRACCION_SOLAPE_PREVIO": 0.004099261790957139,
+      "GRADO_NODO": 3
+    },
+    {
+      "ORDEN_KDE": 28,
+      "MASA_KDE_DV_NUEVA": 12.929266279383626,
+      "MASA_KDE_D_NUEVA": 9.39971976586528,
+      "MASA_KDE_V_NUEVA": 3.5295465135183464,
+      "FRACCION_SOLAPE_PREVIO": 0.25689176273383946,
+      "GRADO_NODO": 3
+    },
+    {
+      "ORDEN_KDE": 29,
+      "MASA_KDE_DV_NUEVA": 12.886608460478682,
+      "MASA_KDE_D_NUEVA": 7.972889559257562,
+      "MASA_KDE_V_NUEVA": 4.913718901221119,
+      "FRACCION_SOLAPE_PREVIO": 0.006845314617738277,
+      "GRADO_NODO": 3
+    },
+    {
+      "ORDEN_KDE": 30,
+      "MASA_KDE_DV_NUEVA": 12.573289332494662,
+      "MASA_KDE_D_NUEVA": 6.3395843730789885,
+      "MASA_KDE_V_NUEVA": 6.2337049594156735,
+      "FRACCION_SOLAPE_PREVIO": 0.34792328261720373,
+      "GRADO_NODO": 3
+    }
+  ],
+  "total_incremental_kde_dv": 572.6870000980359,
+  "comparison_before_after": {
+    "kde_share_D_before": 0.7255023844764694,
+    "kde_share_D_after": 0.7558602071360998,
+    "kde_share_V_before": 0.6630395519922374,
+    "kde_share_V_after": 0.6893378172882317,
+    "events_D_before": 1687,
+    "events_D_after": 1689,
+    "events_V_before": 889,
+    "events_V_after": 900,
+    "hotspot_D_area_share_before": 0.9209745968573457,
+    "hotspot_D_area_share_after": 0.9361608969563688,
+    "hotspot_V_area_share_before": 0.8620959178665227,
+    "hotspot_V_area_share_after": 0.8408149095782192
+  },
+  "moves_summary": {
+    "changed_over_1m": 29,
+    "distance_mean_m": 467.22720709467734,
+    "distance_max_m": 2304.7987912708622,
+    "mean_existing_overlap_pct": 14.021083660264592,
+    "max_existing_overlap_pct": 65.83557477551074
+  },
+  "gi_reference_site_counts": {
+    "DELINCUENCIA": {
+      "before": 26,
+      "after": 21
+    },
+    "VIOLENCIA": {
+      "before": 27,
+      "after": 21
+    }
+  },
+  "mean_preexisting_overlap_pct": 14.02108366026459,
+  "max_preexisting_overlap_pct": 65.83557477551074
+}
