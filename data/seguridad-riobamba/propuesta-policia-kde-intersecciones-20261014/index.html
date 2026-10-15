@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Comparación cartográfica de ubicaciones actuales y alternativas para cámaras policiales de Riobamba, con KDE urbano y cámaras municipales como contexto.">
+  <title>Comparación de ubicaciones | Seguridad Ciudadana Riobamba</title>
+  <style>
+    :root { color-scheme: light; font-family: Arial, sans-serif; color: #123a53; background: #edf3f3; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 24px; }
+    main { max-width: 1440px; margin: 0 auto; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+    h1 { margin: 0; font-size: 23px; }
+    nav { display: flex; gap: 8px; flex-wrap: wrap; }
+    a { color: #075ca8; }
+    nav a { padding: 9px 12px; border: 1px solid #aac4d2; border-radius: 5px; background: #fff; text-decoration: none; font-size: 14px; }
+    img { display: block; width: 100%; height: auto; border: 1px solid #cad9dd; background: white; }
+    p { margin: 12px 0 0; color: #47616d; font-size: 14px; line-height: 1.5; }
+    @media (max-width: 700px) { body { padding: 12px; } header { align-items: flex-start; flex-direction: column; } h1 { font-size: 19px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Propuesta policial · comparación de ubicaciones</h1>
+      <nav aria-label="Descargas">
+        <a href="MAPA_COMPARATIVO_MOVIMIENTOS_POLICIA.png" download>PNG</a>
+        <a href="MAPA_COMPARATIVO_MOVIMIENTOS_POLICIA.svg" download>SVG</a>
+      </nav>
+    </header>
+    <img src="MAPA_COMPARATIVO_MOVIMIENTOS_POLICIA.png" alt="Mapa comparativo de 30 ubicaciones policiales antes y después, con KDE urbano D+V, cámaras existentes y propuestas municipales">
+    <p>Alternativa para revisión; no instalada ni aprobada. El KDE urbano D+V y los radios de 200 m son referencias espaciales; no certifican línea de vista. La continuidad visual por ejes es un objetivo parcial por disponibilidad limitada de cámaras y requiere validar orientación y obstáculos en campo.</p>
+  </main>
+</body>
+</html>

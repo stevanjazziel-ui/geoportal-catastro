@@ -1065,15 +1065,14 @@
           <button class="mode-button" id="institutionalCoverageMode" type="button" data-icon="I"><span>Cobertura institucional</span></button>
           <button class="mode-button is-active" id="cameraProposalMode" type="button" data-icon="C"><span>Evaluación de cámaras propuestas</span></button>
         </details>
-        <details class="nav-group" open>
-          <summary>Brechas</summary>
-          <button class="mode-button" id="videoDeficitGapMode" type="button" data-icon="D"><span>Déficit de videovigilancia</span></button>
-          <button class="mode-button" id="inventoryDeficitGapMode" type="button" data-icon="D" aria-label="Déficit · inventario completo (103)" title="Déficit · inventario completo (103)"><span>Déficit · inventario completo (103)</span></button>
-          <button class="mode-button" id="lowCoverageConcentrationsMode" type="button" data-icon="C"><span>Concentraciones con baja cobertura institucional</span></button>
-          <button class="mode-button" id="exposureLowCoverageMode" type="button" data-icon="E"><span>Población expuesta con baja cobertura</span></button>
-          <button class="mode-button" id="territorialGapsMode" type="button" data-icon="B"><span>Brechas territoriales</span></button>
-          <button class="mode-button" id="candidateZonesMode" type="button" data-icon="Z"><span>Zonas candidatas de intervención</span></button>
-        </details>
+        <div hidden inert aria-hidden="true">
+          <button id="videoDeficitGapMode" type="button"></button>
+          <button id="inventoryDeficitGapMode" type="button"></button>
+          <button id="lowCoverageConcentrationsMode" type="button"></button>
+          <button id="exposureLowCoverageMode" type="button"></button>
+          <button id="territorialGapsMode" type="button"></button>
+          <button id="candidateZonesMode" type="button"></button>
+        </div>
         <div class="app-hidden">
           <button class="mode-button" id="ecuMode" type="button">ECU911</button>
         </div>
