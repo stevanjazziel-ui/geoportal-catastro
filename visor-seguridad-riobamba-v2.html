@@ -1291,7 +1291,7 @@
   <script src="./riobamba-deficit-inventario.js?v=brechas-20261004"></script>
   <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=layers-sidebar-20261015" />
   <link rel="stylesheet" href="./riobamba-cobertura-corredores.css?v=corredores-lasabras-20261007" />
-  <link rel="stylesheet" href="./riobamba-mobile.css?v=layers-sidebar-20261015" />
+  <link rel="stylesheet" href="./riobamba-mobile.css?v=layers-sidebar-medium-20261015" />
   <script src="./riobamba-camaras-propuesta.js?v=split-camera-layers-20261015"></script>
   <script src="./riobamba-cobertura-corredores.js?v=police-visible-default-20261007"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
@@ -6281,6 +6281,7 @@
         elements.layersPopover.hidden = !open;
         elements.layersButton.setAttribute("aria-expanded", String(open));
         layersSidebar.classList.toggle("layers-open", open);
+        invalidateMapLayout();
         if (open) {
           if (isCameraProposalMode()) cameraProposal.renderLegend();
           else if (isCorridorCoverageMode()) corridorCoverage.renderLegend();

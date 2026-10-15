@@ -44,6 +44,26 @@
   .methodology-body { padding: 12px; }
 }
 
+@media (min-width: 521px) and (max-width: 1100px) {
+  .analysis-workspace .map-detail-grid:has(> .detail-panel.layers-open) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(232px, 32vw, 320px);
+    grid-template-rows: minmax(0, 1fr);
+    height: clamp(420px, 70dvh, 640px);
+  }
+  .analysis-workspace .map-detail-grid:has(> .detail-panel.layers-open) > .map-panel {
+    display: grid;
+    height: 100%;
+    margin-bottom: 0;
+  }
+  .analysis-workspace .map-detail-grid:has(> .detail-panel.layers-open) .map-wrap {
+    height: 100%;
+    min-height: 0;
+  }
+  .analysis-workspace .map-detail-grid:has(> .detail-panel.layers-open) > .detail-panel { height: 100%; }
+  .analysis-workspace .detail-panel.layers-open .map-layer-popover { height: 100%; max-height: 100%; }
+}
+
 @media (max-width: 700px) {
   .workspace-head { gap: 8px; }
   .workspace-title h1 { font-size: 1.08rem; line-height: 1.2; }
