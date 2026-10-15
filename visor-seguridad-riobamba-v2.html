@@ -143,17 +143,41 @@
     }
     .map-layer-popover {
       width: 100%;
-      max-height: min(560px, calc(100dvh - 150px));
+      height: 100%;
+      max-height: 100%;
       overflow: auto;
-      padding: 12px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: rgba(255,255,255,.97);
-      box-shadow: 0 24px 60px rgba(6, 40, 68, .22);
-      backdrop-filter: blur(10px);
+      min-width: 0;
+      padding: 0;
+      background: #fff;
       pointer-events: auto;
       overscroll-behavior: contain;
       scrollbar-gutter: stable;
+    }
+    .map-layer-popover > section { padding: 0 12px 12px; }
+    .map-layer-popover > .layer-symbology { margin: 0 12px 12px; }
+    .layers-panel-head {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 6px 10px;
+      background: #064d7a;
+      color: #fff;
+    }
+    .detail-panel .layers-panel-head h2 { padding: 0; background: none; border-radius: 0; }
+    .layers-panel-close {
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      border: 1px solid rgba(255,255,255,.4);
+      border-radius: 4px;
+      background: transparent;
+      color: inherit;
+      font-size: 22px;
+      cursor: pointer;
     }
     .map-layer-popover h3 {
       margin: 10px 0 8px;
@@ -828,6 +852,8 @@
       padding: 0;
       overflow: hidden;
     }
+    .detail-panel.layers-open { display: block; }
+    .detail-panel.layers-open > :not(#layersPopover) { display: none; }
     .detail-panel h2 {
       margin: 0;
       padding: 8px 12px;
@@ -1184,9 +1210,17 @@
               <div id="map"></div>
               <div class="map-layer-control" id="mapLayerControl">
                 <div class="map-floating-buttons">
-                  <button class="map-layer-button" id="layersButton" type="button" aria-expanded="false">Capas</button>
+                  <button class="map-layer-button" id="layersButton" type="button" aria-expanded="false" aria-controls="layersPopover">Capas</button>
                 </div>
-                <div class="map-layer-popover" id="layersPopover" hidden>
+              </div>
+            </div>
+          </section>
+          <aside class="detail-panel">
+                <div class="map-layer-popover" id="layersPopover" role="region" aria-label="Capas del mapa" hidden>
+                  <div class="layers-panel-head">
+                    <h2>Capas</h2>
+                    <button class="layers-panel-close" id="closeLayersButton" type="button" aria-label="Cerrar capas" title="Cerrar capas">&times;</button>
+                  </div>
                   <section id="analysisLayersSection">
                     <h3>Capas del análisis</h3>
                     <div class="layer-toggles">
@@ -1223,10 +1257,6 @@
                     <div class="legend" id="legend"></div>
                   </details>
                 </div>
-              </div>
-            </div>
-          </section>
-          <aside class="detail-panel">
             <h2 id="detailTitle">Detalles territoriales</h2>
             <div class="mini-list" id="detailList"><p>Selecciona una plataforma o incidente.</p></div>
             <h2 class="app-hidden" id="listTitle">Eventos</h2>
@@ -1259,10 +1289,10 @@
   <script src="./riobamba-camaras-cobertura-geometrias.js?v=cobertura-unificada-20261002"></script>
   <script src="./riobamba-camaras-inventario-cobertura-data.js?v=deficit-inventario-20261002"></script>
   <script src="./riobamba-deficit-inventario.js?v=brechas-20261004"></script>
-  <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=layers-popover-fit-20261014" />
+  <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=layers-sidebar-20261015" />
   <link rel="stylesheet" href="./riobamba-cobertura-corredores.css?v=corredores-lasabras-20261007" />
-  <link rel="stylesheet" href="./riobamba-mobile.css?v=layers-popover-fit-20261014" />
-  <script src="./riobamba-camaras-propuesta.js?v=separate-proposal-corridors-20261014"></script>
+  <link rel="stylesheet" href="./riobamba-mobile.css?v=layers-sidebar-20261015" />
+  <script src="./riobamba-camaras-propuesta.js?v=split-camera-layers-20261015"></script>
   <script src="./riobamba-cobertura-corredores.js?v=police-visible-default-20261007"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
   <script src="./riobamba-accesibilidad-policial-data.js?v=metodologia-20261001"></script>
@@ -6236,47 +6266,39 @@
         syncMapLayerVisibility();
       });
       elements.toggleBoulevards.addEventListener("change", syncMapLayerVisibility);
-      const closeMapPopovers = () => {
+      const layersSidebar = elements.layersPopover.closest(".detail-panel");
+      const closeLayersButton = document.getElementById("closeLayersButton");
+      const closeLayersPanel = () => {
         elements.layersPopover.hidden = true;
         elements.layersButton.setAttribute("aria-expanded", "false");
-      };
-      const fitLayersPopover = () => {
-        if (elements.layersPopover.hidden || !elements.layersPopover.classList.contains("viewport-fitted")) return;
-        const buttonRect = elements.layersButton.getBoundingClientRect();
-        const margin = 12;
-        const gap = 8;
-        const width = Math.max(0, Math.min(360, window.innerWidth - margin * 2));
-        let top = buttonRect.bottom + gap;
-        let height = window.innerHeight - top - margin;
-        if (height < 220 && buttonRect.top > height) {
-          height = buttonRect.top - gap - margin;
-          top = Math.max(margin, buttonRect.top - gap - height);
-        }
-        height = Math.max(160, Math.min(height, window.innerHeight - margin * 2));
-        const left = Math.max(margin, Math.min(buttonRect.right - width, window.innerWidth - width - margin));
-        elements.layersPopover.style.setProperty("--layers-popover-top", `${top}px`);
-        elements.layersPopover.style.setProperty("--layers-popover-left", `${left}px`);
-        elements.layersPopover.style.setProperty("--layers-popover-width", `${width}px`);
-        elements.layersPopover.style.setProperty("--layers-popover-height", `${height}px`);
+        layersSidebar.classList.remove("layers-open");
+        invalidateMapLayout();
+        requestAnimationFrame(() => cameraProposal.invalidateMiniMap());
       };
       elements.layersButton.addEventListener("click", (event) => {
         event.stopPropagation();
         const open = elements.layersPopover.hidden;
-        closeMapPopovers();
         elements.layersPopover.hidden = !open;
         elements.layersButton.setAttribute("aria-expanded", String(open));
-        elements.layersPopover.classList.toggle("viewport-fitted", open && isCameraProposalMode());
+        layersSidebar.classList.toggle("layers-open", open);
         if (open) {
           if (isCameraProposalMode()) cameraProposal.renderLegend();
           else if (isCorridorCoverageMode()) corridorCoverage.renderLegend();
           else renderLegend();
-          fitLayersPopover();
+          closeLayersButton.focus({ preventScroll: true });
+          if (window.matchMedia("(max-width: 1100px)").matches) elements.layersPopover.scrollIntoView({ block: "nearest", behavior: "smooth" });
         }
       });
-      window.addEventListener("resize", fitLayersPopover);
-      window.addEventListener("scroll", fitLayersPopover, true);
-      elements.mapLayerControl.addEventListener("click", (event) => event.stopPropagation());
-      document.addEventListener("click", () => closeMapPopovers());
+      closeLayersButton.addEventListener("click", () => {
+        closeLayersPanel();
+        elements.layersButton.focus({ preventScroll: true });
+      });
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && !elements.layersPopover.hidden) {
+          closeLayersPanel();
+          elements.layersButton.focus({ preventScroll: true });
+        }
+      });
       [elements.baseCartographic, elements.baseSatellite].forEach((control) => control.addEventListener("change", () => {
         if (elements.baseSatellite.checked) {
           lightLayer.remove();
