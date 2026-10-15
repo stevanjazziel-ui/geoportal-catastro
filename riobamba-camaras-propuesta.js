@@ -224,7 +224,7 @@ window.createRiobambaCameraProposal = function (api) {
       rows = [["Grupo", groups[selected.group]], ["Estado", v.ESTADO || v.ESTADO_VALIDACION], ["Dirección / nodo", v.DIRECCION || v.INTERSECCION_O_NODO], ["Radio potencial", "200 m"], ["X / Y · EPSG:32717", `${number(v.X, 2)} / ${number(v.Y, 2)}`]];
       if (selected.group === "existing") rows.push(["Requiere cambio", change(f) ? "Sí" : "No"], ["Método geográfico", v.METODO_GEO], ["Confianza", v.CONFIANZA_GEO], ["Observación", v.OBSERVACION_GEO]);
       else rows.push(["Parroquia", v.PARROQUIA], ["Grupo territorial", v.GRUPO || v.AMBITO_HOTSPOT], ["Gi* Delincuencia / Violencia", `${number(v.NIVEL_DEL)} % / ${number(v.NIVEL_VIOL)} %`], ["D / V / C a 200 m", `${number(v.DELINCUENCIA_200M)} / ${number(v.VIOLENCIA_200M)} / ${number(v.CONVIVENCIA_200M)}`], ["Población asociada estimada", number(v.POBLACION_ASOCIADA)], ["UPC cercana", v.NOMBRE_UPC], ["Distancia a UPC", `${number(v.DIST_UPC_M)} m`], ["Justificación", v.JUSTIFICACION]);
-      if (selected.group === "police") rows.push(["Eventos D+V exclusivos", number(v.EVENTOS_DV_NUEVOS)], ["Solape con cobertura previa", pct(v.SOLAPE_PREVIO_PCT)], ["Decisión final", v.DECISION_FINAL]);
+      if (selected.group === "police") rows.push(["Eventos D+V exclusivos", number(v.EVENTOS_DV_NUEVOS)], ["Solape con cobertura previa", pct(v.SOLAPE_PREVIO_PCT)], ["Fuente del cruce", v.FUENTE_CRUCE], ["Alcance visual", v.ALCANCE_VISUAL], ["Decisión final", v.DECISION_FINAL]);
     } else if (selected?.kind === "hotspot") {
       title = v.CELL_ID; rows = [["Ámbito / categoría", `${v.AMBITO} / ${v.CATEGORIA}`], ["Clase", v.GI_CLASS], ["Registros", number(v.COUNT)], ["Gi* / z-score", number(v.GI_ZSCORE, 4)], ["p-value", number(v.GI_PVALUE, 6)], ["Distancia estadística", `${number(v.DISTANCE_M)} m`], ["Cobertura del escenario", pct(v[`COB_${scenario()}_PCT`])], ["Atención geométrica", v[`ESTADO_${scenario()}`]]];
     } else if (selected?.kind === "corridor") {
@@ -236,7 +236,7 @@ window.createRiobambaCameraProposal = function (api) {
       title = v.platform_name; rows = [["Fuente", "Plataformas Territoriales reales"], ["Escenario", scenarioControl.selectedOptions[0].text], ["Radio potencial", "200 m"]];
     }
     el.detailTitle.textContent = selected ? "Detalle de evaluación" : "Impacto de la propuesta";
-    el.detail.innerHTML = `<section class="proposal-detail"><h3>${esc(title)}</h3>${rowHtml(rows)}<div id="proposalDetailMap" class="proposal-detail-map"></div><p>La cobertura representa proximidad geométrica, no visibilidad ni tiempo de respuesta.</p>${links()}</section>`;
+    el.detail.innerHTML = `<section class="proposal-detail"><h3>${esc(title)}</h3>${rowHtml(rows)}<div id="proposalDetailMap" class="proposal-detail-map"></div><p>La cobertura representa proximidad geométrica, no visibilidad ni tiempo de respuesta. La visión se orienta por las vías; no se presupone alcance a través de manzanas o detrás de esquinas.</p>${links()}</section>`;
     mini(f);
   }
   function graphics() {

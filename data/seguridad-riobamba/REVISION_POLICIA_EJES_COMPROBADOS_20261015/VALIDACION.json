@@ -1,0 +1,422 @@
+{
+  "passed": true,
+  "proposals": 30,
+  "uniquePositions": 30,
+  "crs": "EPSG:32717",
+  "originalsAndPublicSelectionUnchanged": true,
+  "sharedSourceVerticesVerified": true,
+  "bridgeTunnelAndUnconnectedCrossingsRejected": true,
+  "checks": [
+    {
+      "id": "POL-01",
+      "sourceVertexVerified": true,
+      "arms": 3,
+      "osmIds": [
+        "315388981",
+        "331266883",
+        "559566081"
+      ],
+      "principalNames": [
+        "Avenida Pedro Vicente Maldonado",
+        "Panamericana Sur",
+        "Avenida Monseñor Leonidas Proaño"
+      ],
+      "displacementM": 44.459542571468496
+    },
+    {
+      "id": "POL-02",
+      "sourceVertexVerified": true,
+      "arms": 4,
+      "osmIds": [
+        "327777488",
+        "327777497",
+        "551998053"
+      ],
+      "principalNames": [
+        "Avenida Edelberto Bonilla Oleas"
+      ],
+      "displacementM": 618.2508216662517
+    },
+    {
+      "id": "POL-03",
+      "sourceVertexVerified": true,
+      "arms": 4,
+      "osmIds": [
+        "252184536",
+        "431581547",
+        "554222027",
+        "554222028"
+      ],
+      "principalNames": [
+        "Carabobo"
+      ],
+      "displacementM": 1.9907536441329978
+    },
+    {
+      "id": "POL-04",
+      "sourceVertexVerified": true,
+      "arms": 3,
+      "osmIds": [
+        "114496465",
+        "174488724",
+        "174488725"
+      ],
+      "principalNames": [
+        "Olmedo",
+        "Avenida Eloy Alfaro"
+      ],
+      "displacementM": 65.08947982752878
+    },
+    {
+      "id": "POL-05",
+      "sourceVertexVerified": true,
+      "arms": 3,
+      "osmIds": [
+        "110354898",
+        "552185277"
+      ],
+      "principalNames": [
+        "Avenida Leopoldo Freire"
+      ],
+      "displacementM": 488.1420276290005
+    },
+    {
+      "id": "POL-06",
+      "sourceVertexVerified": true,
+      "arms": 5,
+      "osmIds": [
+        "110154614",
+        "268771829",
+        "552185277",
+        "897738561"
+      ],
+      "principalNames": [
+        "Avenida Leopoldo Freire"
+      ],
+      "displacementM": 906.3987428802448
+    },
+    {
+      "id": "POL-07",
+      "sourceVertexVerified": true,
+      "arms": 3,
+      "osmIds": [
+        "108714182",
+        "331266883"
+      ],
+      "principalNames": [
+        "Avenida Monseñor Leonidas Proaño"
+      ],
+      "displacementM": 1042.7301686798714
+    },
+    {
+      "id": "POL-08",
+      "sourceVertexVerified": true,
+      "arms": 3,
+      "osmIds": [
+        "109349867",
+        "331266884"
+      ],
+      "principalNames": [
+        "Avenida Monseñor Leonidas Proaño"
+      ],
+      "displacementM": 43.94469758578259
+    },
+    {
+      "id": "POL-09",
+      "sourceVertexVerified": true,
+      "arms": 4,
+      "osmIds": [
+        "108393796",
+        "308714388",
+        "308714389",
+        "896996937"
+      ],
+      "principalNames": [
+        "General Pedro Duchi",
+        "Avenida Atahualpa",
+        "Padre Lobato"
+      ],
+      "displacementM": 2439.9965453073146
+    },
+    {
+      "id": "POL-10",
+      "sourceVertexVerified": true,
+      "arms": 4,
+      "osmIds": [
+        "1365450972",
+        "325474135",
+        "325474145"
+      ],
+      "principalNames": [
+        "Avenida Edelberto Bonilla Oleas"
+      ],
+      "displacementM": 231.0012318468494
+    },
+    {
+      "id": "POL-11",
+      "sourceVertexVerified": true,
+      "arms": 3,
+      "osmIds": [
+        "109011771",
+        "128223746"
+      ],
+      "principalNames": [
+        "Avenida Canónigo Ramos"
+      ],
+      "displacementM": 3595.092510380647
+    },
+    {
+      "id": "POL-12",
+      "sourceVertexVerified": true,
+      "arms": 3,
+      "osmIds": [
+        "108060962",
+        "1115928421"
+      ],
+      "principalNames": [
+        "Avenida 9 de Octubre"
+      ],
+      "displacementM": 4.964701015123913
+    },
+    {
+      "id": "POL-13",
+      "sourceVertexVerified": true,
+      "arms": 3,
+      "osmIds": [
+        "536198109",
+        "851998775"
+      ],
+      "principalNames": [
+        "Avenida Alfonso Chavez"
+      ],
+      "displacementM": 407.32145289610463
+    },
+    {
+      "id": "POL-14",
+      "sourceVertexVerified": true,
+      "arms": 4,
+      "osmIds": [
+        "552478713",
+        "552478715",
+        "894865779"
+      ],
+      "principalNames": [
+        "Avenida 11 de Noviembre"
+      ],
+      "displacementM": 8.358516672665596
+    },
+    {
+      "id": "POL-15",
+      "sourceVertexVerified": true,
+      "arms": 3,
+      "osmIds": [
+        "331266882",
+        "331266883"
+      ],
+      "principalNames": [
+        "Avenida Monseñor Leonidas Proaño"
+      ],
+      "displacementM": 231.53809899234952
+    },
+    {
+      "id": "POL-16",
+      "sourceVertexVerified": true,
+      "arms": 3,
+      "osmIds": [
+        "306570697",
+        "893281893"
+      ],
+      "principalNames": [
+        "Avenida 9 de Octubre"
+      ],
+      "displacementM": 563.5592607065095
+    },
+    {
+      "id": "POL-17",
+      "sourceVertexVerified": true,
+      "arms": 3,
+      "osmIds": [
+        "109349866",
+        "331266884"
+      ],
+      "principalNames": [
+        "Avenida Monseñor Leonidas Proaño"
+      ],
+      "displacementM": 8.100947859425224
+    },
+    {
+      "id": "POL-18",
+      "sourceVertexVerified": true,
+      "arms": 4,
+      "osmIds": [
+        "108004425",
+        "108967832",
+        "36005401"
+      ],
+      "principalNames": [
+        "Avenida Pedro Vicente Maldonado"
+      ],
+      "displacementM": 16.432934605971877
+    },
+    {
+      "id": "POL-19",
+      "sourceVertexVerified": true,
+      "arms": 4,
+      "osmIds": [
+        "109349856",
+        "331266884"
+      ],
+      "principalNames": [
+        "Avenida Monseñor Leonidas Proaño"
+      ],
+      "displacementM": 5401.8076384564965
+    },
+    {
+      "id": "POL-20",
+      "sourceVertexVerified": true,
+      "arms": 3,
+      "osmIds": [
+        "108059612",
+        "552261352"
+      ],
+      "principalNames": [
+        "Avenida Pedro Vicente Maldonado"
+      ],
+      "displacementM": 1769.6093691235387
+    },
+    {
+      "id": "POL-21",
+      "sourceVertexVerified": true,
+      "arms": 3,
+      "osmIds": [
+        "109349850",
+        "331283428"
+      ],
+      "principalNames": [
+        "Panamericana Sur"
+      ],
+      "displacementM": 20.13328546771262
+    },
+    {
+      "id": "POL-22",
+      "sourceVertexVerified": true,
+      "arms": 3,
+      "osmIds": [
+        "107918466",
+        "315388981"
+      ],
+      "principalNames": [
+        "Avenida Pedro Vicente Maldonado"
+      ],
+      "displacementM": 292.8513900977351
+    },
+    {
+      "id": "POL-23",
+      "sourceVertexVerified": true,
+      "arms": 3,
+      "osmIds": [
+        "275363754",
+        "552261346"
+      ],
+      "principalNames": [
+        "Avenida Saint Amand Montrond"
+      ],
+      "displacementM": 74.12771761371012
+    },
+    {
+      "id": "POL-24",
+      "sourceVertexVerified": true,
+      "arms": 4,
+      "osmIds": [
+        "110620617",
+        "325474113"
+      ],
+      "principalNames": [
+        "Avenida Celso Augusto Rodriguez"
+      ],
+      "displacementM": 320.2527290895321
+    },
+    {
+      "id": "POL-25",
+      "sourceVertexVerified": true,
+      "arms": 4,
+      "osmIds": [
+        "107913423",
+        "108987331"
+      ],
+      "principalNames": [
+        "Avenida Jose A. Lizarzaburu"
+      ],
+      "displacementM": 3219.643740053599
+    },
+    {
+      "id": "POL-26",
+      "sourceVertexVerified": true,
+      "arms": 4,
+      "osmIds": [
+        "128211879",
+        "51529135"
+      ],
+      "principalNames": [
+        "José Veloz"
+      ],
+      "displacementM": 1430.8722145098072
+    },
+    {
+      "id": "POL-27",
+      "sourceVertexVerified": true,
+      "arms": 3,
+      "osmIds": [
+        "108987344",
+        "128223746"
+      ],
+      "principalNames": [
+        "Avenida Canónigo Ramos"
+      ],
+      "displacementM": 3985.3789668083264
+    },
+    {
+      "id": "POL-28",
+      "sourceVertexVerified": true,
+      "arms": 4,
+      "osmIds": [
+        "108539429",
+        "552261324"
+      ],
+      "principalNames": [
+        "Avenida Milton Reyes"
+      ],
+      "displacementM": 2681.693903694332
+    },
+    {
+      "id": "POL-29",
+      "sourceVertexVerified": true,
+      "arms": 3,
+      "osmIds": [
+        "107918455",
+        "298911867",
+        "315388981"
+      ],
+      "principalNames": [
+        "Avenida Pedro Vicente Maldonado"
+      ],
+      "displacementM": 4.870300296635147
+    },
+    {
+      "id": "POL-30",
+      "sourceVertexVerified": true,
+      "arms": 3,
+      "osmIds": [
+        "110354898",
+        "325474113"
+      ],
+      "principalNames": [
+        "Avenida Celso Augusto Rodriguez"
+      ],
+      "displacementM": 51.98266108799633
+    }
+  ],
+  "requiresReviewOfLongMovesAndCoverageLoss": true,
+  "applied": false,
+  "published": false
+}

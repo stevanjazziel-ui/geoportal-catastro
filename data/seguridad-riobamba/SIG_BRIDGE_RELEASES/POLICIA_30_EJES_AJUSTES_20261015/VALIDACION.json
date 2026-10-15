@@ -1,0 +1,629 @@
+{
+  "status": "PASS_WITH_APPROVED_EXCEPTION",
+  "plan": {
+    "scenarios": [
+      "C"
+    ],
+    "jobs": [
+      "block_coverage",
+      "buffers",
+      "camera_attributes",
+      "corridor_coverage",
+      "exclusive_coverage",
+      "hotspot_coverage",
+      "incident_coverage",
+      "population",
+      "territorial"
+    ],
+    "pendingAdapters": [],
+    "recalculateKde": false,
+    "recalculateGi": false,
+    "optimizeCameras": false
+  },
+  "nodeAudit": [
+    {
+      "id": "POL-01",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida Monseñor Leonidas Proaño",
+        "Avenida Pedro Vicente Maldonado",
+        "Panamericana Sur"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "315388981",
+        "331266883",
+        "559566081"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-02",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida Edelberto Bonilla Oleas",
+        "Gabriel García Moreno"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "327777488",
+        "327777497",
+        "551998053"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-03",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Baron de Carondelet",
+        "Barón de Carondelet",
+        "Carabobo"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "252184536",
+        "431581547",
+        "554222027",
+        "554222028"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-04",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida Eloy Alfaro",
+        "Olmedo"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "114496465",
+        "174488724",
+        "174488725"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-05",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": false,
+      "urban": true,
+      "roads": [
+        "Roma",
+        "Viena"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "1365348453",
+        "309664303",
+        "498125273"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": true
+    },
+    {
+      "id": "POL-06",
+      "nodeDistanceM": 0,
+      "degree": 5,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida Leopoldo Freire",
+        "Bolívar Bonilla",
+        "Ottawa"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "110154614",
+        "268771829",
+        "552185277",
+        "897738561"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-07",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida Monseñor Leonidas Proaño",
+        "Fernando de Santillán"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "108714182",
+        "331266883"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-08",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida Monseñor Leonidas Proaño",
+        "El Oro"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "109349867",
+        "331266884"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-09",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida Atahualpa",
+        "General Pedro Duchi",
+        "Padre Lobato"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "108393796",
+        "308714388",
+        "308714389",
+        "896996937"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-10",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida Edelberto Bonilla Oleas",
+        "Córdova",
+        "Loja"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "1365450972",
+        "325474135",
+        "325474145"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-11",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida Canónigo Ramos",
+        "Jose Maria Roura O."
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "109011771",
+        "128223746"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-12",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida 9 de Octubre",
+        "Bolivia"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "108060962",
+        "1115928421"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-13",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida Alfonso Chavez",
+        "Otto Arosemena Gomez"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "536198109",
+        "851998775"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-14",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida 11 de Noviembre",
+        "Joaquin Gallegos",
+        "Joaquin Gallegos L."
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "552478713",
+        "552478715",
+        "894865779"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-15",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Antonio Morga",
+        "Avenida Monseñor Leonidas Proaño"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "331266882",
+        "331266883"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-16",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida 9 de Octubre",
+        "Melchor Guzmán"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "306570697",
+        "893281893"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-17",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida Canónigo Ramos",
+        "Avenida Monseñor Leonidas Proaño"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "331266884",
+        "897040851"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-18",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida Pedro Vicente Maldonado",
+        "José de Peralta"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "108004425",
+        "108967832",
+        "36005401"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-19",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Atabasco",
+        "Avenida Monseñor Leonidas Proaño"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "109349856",
+        "331266884"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-20",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Antonio Elizalde",
+        "Avenida Pedro Vicente Maldonado"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "108059612",
+        "552261352"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-21",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Bolivar",
+        "Panamericana Sur"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "109349850",
+        "331283428"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-22",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida Pedro Vicente Maldonado",
+        "Vasco de Contreras"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "107918466",
+        "315388981"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-23",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida Saint Amand Montrond",
+        "Juan de Dios Morales"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "275363754",
+        "552261346"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-24",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida Celso Augusto Rodriguez",
+        "Brasilia"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "110620617",
+        "325474113"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-25",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida Jose A. Lizarzaburu",
+        "Joaquín Pinto"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "107913423",
+        "108987331"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-26",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "José Veloz",
+        "Los Sauces"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "128211879",
+        "51529135"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-27",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida Canónigo Ramos",
+        "Camilo Egas"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "108987344",
+        "128223746"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-28",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida Milton Reyes",
+        "Virgilio Corral"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "108539429",
+        "552261324"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-29",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida Pedro Vicente Maldonado",
+        "Feliciano Checa"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "107918455",
+        "298911867",
+        "315388981"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    },
+    {
+      "id": "POL-30",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "urban": true,
+      "roads": [
+        "Avenida Celso Augusto Rodriguez",
+        "Washington"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "110354898",
+        "325474113"
+      ],
+      "passed": true,
+      "explicitRequestedLocalJunction": false
+    }
+  ],
+  "publishBlocks": [],
+  "sourcePreserved": true,
+  "existingCount": 103,
+  "municipalCount": 50,
+  "policeCount": 30,
+  "giRecalculated": false,
+  "kdeRecalculated": false,
+  "optimized": false,
+  "revision": "POLICIA_30_EJES_AJUSTES_20261015",
+  "approvedException": {
+    "constraint": "ANILLO_VIAL escenario B >= 80%",
+    "observedPct": 78.2885253665575,
+    "reason": "Nuevo inventario final; usuario autoriza publicar resultados reales sin mover camaras",
+    "authorization": "Publicar los resultados reales, sin mover camaras",
+    "warnings": [
+      "Restriccion municipal ANILLO_VIAL: 78.28853% < 80%"
+    ]
+  },
+  "authorization": "Las 30 del estudio, con los ajustes",
+  "confirmedReplacement": 30,
+  "sourceHashes": {
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\INVENTARIO_103_30_20261015\\ESCENARIO_FINAL_183.gpkg": "2d1d51fc98c5bc40082a7647e467efcb8005823177be18d2555bd2bb5339ce45",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\REVISION_POLICIA_EJES_COMPROBADOS_20261015\\REVISION_POLICIA_30.gpkg": "ba78e096541e4ac466ff9d057786294ae2e11173ea49d6887623d4eadf7d2d3d",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\REVISION_POLICIA_EJES_COMPROBADOS_20261015\\POL05_ROMA_VIENA\\RESULTADOS.json": "f2da3fd33ff578b0e33543093994ee209cfb658158a2af4add2cd6a58989dbfe",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\REVISION_POLICIA_EJES_COMPROBADOS_20261015\\POL17_NODO_PROANO_CANONIGO\\RESULTADOS.json": "1a6cfe278efff974f745ec41fe089f20024742af15af1611a5e33780e6ccbf5d",
+    "D:\\codex\\security-real-incidents\\riobamba-hotspot-urbano-200m-data.js": "dadb447ed2abbd69efb1d6d33f4011f071ed8fce99ac31608cf8c9d50ab7bd63",
+    "D:\\codex\\security-real-incidents\\riobamba-conflictividad-data.js": "56ce4c608b1c66235f671d745bca22fe9084913fea788edb1d7cfb471838f17c",
+    "D:\\codex\\security-real-incidents\\riobamba-seguridad-kde-validacion-data.js": "f179696f2d31b04da64ee9f9bcb98c6c9db98e9d84a30219fb30219917547fab",
+    "D:\\codex\\security-real-incidents\\riobamba-incidentes-spatial-data.js": "f548ea151337872b7ef3acd7dd3d0586088c342f794be53f0ed4f3451748f477",
+    "D:\\codex\\security-real-incidents\\riobamba-cantonal-data.js": "a8bf2da18c2c4980f927be6d29b61138db4245f2fae4c2c3270a6b17c0727ce8",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.cpg": "b4ab9cdac743cec22db404c182bd39e52ffc38b49df6c874eec57524395a95e6",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.dbf": "75e164d35f1c58340de6187e57c5479ce460070bd3f135a9d4460d8e66704ced",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.prj": "d5c5de3bec971779a1f128faf9da32ac90902653587b053fabf52994c1c37dec",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.shp": "53f803ed3394cac9c6b733c81940b468d772e0e0b4deef306c4d7c5f4661ae72",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.shx": "42c3eea1dfa3aa96fbe5a97c4a16a08269f0ee843a90c8042a1585a7c3141a9a"
+  },
+  "sourceGeometryPreserved": true,
+  "radiiM": [
+    100,
+    150,
+    200
+  ],
+  "originalsUnmodified": true,
+  "approvedLocalJunction": "POL-05 Roma x Viena; no se presenta como principal OSM"
+}

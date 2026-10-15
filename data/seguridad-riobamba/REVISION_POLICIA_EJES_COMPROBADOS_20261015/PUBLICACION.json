@@ -1,0 +1,8 @@
+{
+  "releaseId": "POLICIA_30_EJES_AJUSTES_20261015",
+  "applied": true,
+  "approvedScope": "Las 30 del estudio, con los ajustes",
+  "finalAdjustments": {"POL-05": "Roma x Viena", "POL-17": "Proano x Canonigo Ramos"},
+  "note": "Los resultados originales de esta carpeta son snapshots del estudio previo. La version aprobada, con las coordenadas y coberturas finales, se consulta en el visor principal.",
+  "viewer": "../../../visor-seguridad-riobamba-v2.html?analysis=cameraProposal&flush=policia-ejes-ajustes-20261015"
+}

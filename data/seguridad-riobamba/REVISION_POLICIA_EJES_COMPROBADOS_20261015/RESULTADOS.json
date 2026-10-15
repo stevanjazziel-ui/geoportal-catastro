@@ -1,0 +1,282 @@
+{
+  "status": "PARA_REVISION_NO_APLICADA",
+  "count": 30,
+  "existingFixed": 103,
+  "municipalFixed": 50,
+  "candidateCount": 939,
+  "principalHighways": [
+    "primary",
+    "secondary",
+    "tertiary",
+    "trunk"
+  ],
+  "sourceHashes": {
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\INVENTARIO_103_30_20261015\\ESCENARIO_FINAL_183.gpkg": "2d1d51fc98c5bc40082a7647e467efcb8005823177be18d2555bd2bb5339ce45",
+    "D:\\codex\\security-real-incidents\\sig-bridge-active.json": "11f18f0235f17f973f4d3e02e162a5c465ef214d2f9caca876cb0a4967fe813f",
+    "D:\\codex\\security-real-incidents\\riobamba-conflictividad-data.js": "56ce4c608b1c66235f671d745bca22fe9084913fea788edb1d7cfb471838f17c",
+    "D:\\codex\\security-real-incidents\\riobamba-hotspot-urbano-200m-data.js": "dadb447ed2abbd69efb1d6d33f4011f071ed8fce99ac31608cf8c9d50ab7bd63",
+    "D:\\codex\\security-real-incidents\\visor-seguridad-riobamba-v2.html": "46e4d7174371d7248d962c0afae1828fb07082bca8e2d5a44ed7e0e8d385d85b",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.cpg": "b4ab9cdac743cec22db404c182bd39e52ffc38b49df6c874eec57524395a95e6",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.dbf": "75e164d35f1c58340de6187e57c5479ce460070bd3f135a9d4460d8e66704ced",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.prj": "d5c5de3bec971779a1f128faf9da32ac90902653587b053fabf52994c1c37dec",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.shp": "53f803ed3394cac9c6b733c81940b468d772e0e0b4deef306c4d7c5f4661ae72",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.shx": "42c3eea1dfa3aa96fbe5a97c4a16a08269f0ee843a90c8042a1585a7c3141a9a"
+  },
+  "sourcesUnchanged": true,
+  "published": false,
+  "applied": false,
+  "giRecalculated": false,
+  "kdeMethodUnchanged": true,
+  "selectionTrace": [
+    {
+      "order": 1,
+      "candidate": "OSM-CRUCE-00499",
+      "gainKdeDV": 29.82936778766213,
+      "overlapPct": 34.93906283770658
+    },
+    {
+      "order": 2,
+      "candidate": "OSM-CRUCE-00059",
+      "gainKdeDV": 27.342700853270024,
+      "overlapPct": 2.9577230513735793
+    },
+    {
+      "order": 3,
+      "candidate": "OSM-CRUCE-00053",
+      "gainKdeDV": 26.8418277849091,
+      "overlapPct": 6.23424487223965
+    },
+    {
+      "order": 4,
+      "candidate": "OSM-CRUCE-00043",
+      "gainKdeDV": 22.582501917178043,
+      "overlapPct": 6.511615823723302
+    },
+    {
+      "order": 5,
+      "candidate": "OSM-CRUCE-00784",
+      "gainKdeDV": 20.470182400617585,
+      "overlapPct": 68.87828610377976
+    },
+    {
+      "order": 6,
+      "candidate": "OSM-CRUCE-00096",
+      "gainKdeDV": 20.32668735561133,
+      "overlapPct": 9.406547320097346
+    },
+    {
+      "order": 7,
+      "candidate": "OSM-CRUCE-00858",
+      "gainKdeDV": 19.473233256941416,
+      "overlapPct": 12.6000366356924
+    },
+    {
+      "order": 8,
+      "candidate": "OSM-CRUCE-00740",
+      "gainKdeDV": 19.462912579667883,
+      "overlapPct": 14.23137783040109
+    },
+    {
+      "order": 9,
+      "candidate": "OSM-CRUCE-00832",
+      "gainKdeDV": 19.322200536535423,
+      "overlapPct": 53.91094892097325
+    },
+    {
+      "order": 10,
+      "candidate": "OSM-CRUCE-00360",
+      "gainKdeDV": 19.233163617806934,
+      "overlapPct": 23.358560128991172
+    },
+    {
+      "order": 11,
+      "candidate": "OSM-CRUCE-00030",
+      "gainKdeDV": 18.002705926217942,
+      "overlapPct": 1.7311885625509635
+    },
+    {
+      "order": 12,
+      "candidate": "OSM-CRUCE-00882",
+      "gainKdeDV": 17.80899734406519,
+      "overlapPct": 39.183739161298284
+    },
+    {
+      "order": 13,
+      "candidate": "OSM-CRUCE-00427",
+      "gainKdeDV": 16.22962544428025,
+      "overlapPct": 17.067363704897684
+    },
+    {
+      "order": 14,
+      "candidate": "OSM-CRUCE-00113",
+      "gainKdeDV": 16.062611105548523,
+      "overlapPct": 4.304350637997074
+    },
+    {
+      "order": 15,
+      "candidate": "OSM-CRUCE-00013",
+      "gainKdeDV": 15.96340609954115,
+      "overlapPct": 1.266273503950478
+    },
+    {
+      "order": 16,
+      "candidate": "OSM-CRUCE-00003",
+      "gainKdeDV": 22.551209332690572,
+      "overlapPct": 1.5483341565742237
+    },
+    {
+      "order": 17,
+      "candidate": "OSM-CRUCE-00222",
+      "gainKdeDV": 15.101780469944401,
+      "overlapPct": 11.506072844516087
+    },
+    {
+      "order": 18,
+      "candidate": "OSM-CRUCE-00045",
+      "gainKdeDV": 14.9203244088328,
+      "overlapPct": 2.084609356179436
+    },
+    {
+      "order": 19,
+      "candidate": "OSM-CRUCE-00855",
+      "gainKdeDV": 13.951516351689714,
+      "overlapPct": 20.997141713262877
+    },
+    {
+      "order": 20,
+      "candidate": "OSM-CRUCE-00465",
+      "gainKdeDV": 13.498152278889696,
+      "overlapPct": 46.33750981981252
+    },
+    {
+      "order": 21,
+      "candidate": "OSM-CRUCE-00857",
+      "gainKdeDV": 13.438039716822116,
+      "overlapPct": 14.873864514704675
+    },
+    {
+      "order": 22,
+      "candidate": "OSM-CRUCE-00120",
+      "gainKdeDV": 13.03114045022696,
+      "overlapPct": 7.690652785005852
+    },
+    {
+      "order": 23,
+      "candidate": "OSM-CRUCE-00171",
+      "gainKdeDV": 12.981077822680565,
+      "overlapPct": 1.3940588700913354
+    },
+    {
+      "order": 24,
+      "candidate": "OSM-CRUCE-00127",
+      "gainKdeDV": 11.888092683848496,
+      "overlapPct": 5.081878458709382
+    },
+    {
+      "order": 25,
+      "candidate": "OSM-CRUCE-00900",
+      "gainKdeDV": 11.455795866747625,
+      "overlapPct": 1.8008813109232649
+    },
+    {
+      "order": 26,
+      "candidate": "OSM-CRUCE-00703",
+      "gainKdeDV": 11.244943990501694,
+      "overlapPct": 22.284691272972744
+    },
+    {
+      "order": 27,
+      "candidate": "OSM-CRUCE-00163",
+      "gainKdeDV": 11.189088583951694,
+      "overlapPct": 14.257668136685625
+    },
+    {
+      "order": 28,
+      "candidate": "OSM-CRUCE-00318",
+      "gainKdeDV": 11.142609277519146,
+      "overlapPct": 54.06012941594436
+    },
+    {
+      "order": 29,
+      "candidate": "OSM-CRUCE-00221",
+      "gainKdeDV": 10.788784551949226,
+      "overlapPct": 16.490868354197158
+    },
+    {
+      "order": 30,
+      "candidate": "OSM-CRUCE-00187",
+      "gainKdeDV": 10.541329174208967,
+      "overlapPct": 24.744865175179164
+    }
+  ],
+  "comparison": {
+    "kdeBefore": {
+      "DELINCUENCIA": 0.7594729145222667,
+      "VIOLENCIA": 0.6931510191189424
+    },
+    "kdeAfter": {
+      "DELINCUENCIA": 0.7508753526885359,
+      "VIOLENCIA": 0.6788379447441648
+    },
+    "eventsBefore": {
+      "DELINCUENCIA": 1719,
+      "VIOLENCIA": 912
+    },
+    "eventsAfter": {
+      "DELINCUENCIA": 1697,
+      "VIOLENCIA": 888
+    },
+    "hotspotBefore": {
+      "DELINCUENCIA": 0.9387229071541787,
+      "VIOLENCIA": 0.8392769443189708
+    },
+    "hotspotAfter": {
+      "DELINCUENCIA": 0.9378085192258401,
+      "VIOLENCIA": 0.8095787444292081
+    }
+  },
+  "corridorsSecondaryOnly": [
+    {
+      "corridor": "ANILLO_VIAL",
+      "beforePct": 80.92445096639847,
+      "afterPct": 87.68962211684949
+    },
+    {
+      "corridor": "CICLOVIAS",
+      "beforePct": 71.16353265155037,
+      "afterPct": 81.5402037505424
+    },
+    {
+      "corridor": "BOULEVARD_MACAJI_BELLAVISTA",
+      "beforePct": 100.0,
+      "afterPct": 100.0
+    },
+    {
+      "corridor": "QUEBRADA_LAS_ABRAS",
+      "beforePct": 35.17889580346721,
+      "afterPct": 35.17889580346721
+    }
+  ],
+  "displacements": {
+    "meanM": 999.0198783688888,
+    "maxM": 5401.8076384564965,
+    "totalM": 29970.596351066662
+  },
+  "kdeImage": "KDE_URBANO_DELINCUENCIA_VIOLENCIA_200M.png",
+  "kdeBounds": [
+    [
+      -1.7085636057559122,
+      -78.71031721352388
+    ],
+    [
+      -1.6104553764104972,
+      -78.61090131165491
+    ]
+  ],
+  "limitations": [
+    "OSM es una referencia de contraste, no certificacion municipal ni de postes en campo.",
+    "Jerarquia OSM documentada por tramo; no se equipara automaticamente a la clasificacion municipal.",
+    "Los enlaces de buffers representan proximidad geometrica, no linea de vista verificada.",
+    "Seleccion greedy KDE, sin garantia de optimo global. IDs asignados minimizando desplazamiento total despues de seleccionar ubicaciones."
+  ]
+}

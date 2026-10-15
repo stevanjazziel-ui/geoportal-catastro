@@ -1,0 +1,63 @@
+{
+  "status": "AJUSTE_PUNTUAL_PARA_REVISION_NO_APLICADO",
+  "applied": false,
+  "published": false,
+  "id": "POL-17",
+  "cruce": "Avenida Monseñor Leonidas Proaño x Avenida Canónigo Ramos",
+  "crs_calculo": "EPSG:32717",
+  "radio_m": 200,
+  "candidate": "OSM-CRUCE-00054",
+  "osm_ids": [
+    "331266884",
+    "897040851"
+  ],
+  "brazos": 3,
+  "x": 757931.129184532,
+  "y": 9817864.170728238,
+  "x_previo_estudio": 757861.6029448663,
+  "y_previo_estudio": 9817849.218052702,
+  "desplazamiento_desde_estudio_m": 71.11596520995965,
+  "desplazamiento_desde_publicado_m": 71.24625248842764,
+  "comparison": {
+    "alternativa_anterior": {
+      "distancia_recta_pol19_m": 341.8033216350207,
+      "longitud_mismo_eje_proano_m": 341.8078892469354,
+      "hueco_solo_pol17_pol19_m": 0.0,
+      "hueco_union_183_m": 0.0,
+      "eventos_urbanos_cubiertos_sistema": {
+        "DELINCUENCIA": 1697,
+        "VIOLENCIA": 888
+      }
+    },
+    "nodo_confirmado": {
+      "distancia_recta_pol19_m": 412.91816311428397,
+      "longitud_mismo_eje_proano_m": 412.92385445689507,
+      "hueco_solo_pol17_pol19_m": 12.947563808750283,
+      "hueco_union_183_m": 12.947563808750283,
+      "eventos_urbanos_cubiertos_sistema": {
+        "DELINCUENCIA": 1697,
+        "VIOLENCIA": 888
+      }
+    }
+  },
+  "otras_camaras_movidas": 0,
+  "coordenadas_fuente_originales": true,
+  "linea_de_vista_verificada": false,
+  "limitations": [
+    "Mismo eje vial no equivale a visibilidad real: verificar postes, altura, orientacion y obstaculos en campo.",
+    "La separacion cercana a 400 m es una referencia geometrica, no una regla automatica de seleccion.",
+    "El apoyo de otros radios no prueba una cadena visual ni alineacion de sus emplazamientos.",
+    "Este ajuste no aplica ni aprueba los restantes movimientos del estudio general."
+  ],
+  "sourceHashes": {
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\INVENTARIO_103_30_20261015\\ESCENARIO_FINAL_183.gpkg": "2d1d51fc98c5bc40082a7647e467efcb8005823177be18d2555bd2bb5339ce45",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\REVISION_POLICIA_EJES_COMPROBADOS_20261015\\REVISION_POLICIA_30.gpkg": "ba78e096541e4ac466ff9d057786294ae2e11173ea49d6887623d4eadf7d2d3d",
+    "D:\\codex\\security-real-incidents\\sig-bridge-active.json": "11f18f0235f17f973f4d3e02e162a5c465ef214d2f9caca876cb0a4967fe813f",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.cpg": "b4ab9cdac743cec22db404c182bd39e52ffc38b49df6c874eec57524395a95e6",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.dbf": "75e164d35f1c58340de6187e57c5479ce460070bd3f135a9d4460d8e66704ced",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.prj": "d5c5de3bec971779a1f128faf9da32ac90902653587b053fabf52994c1c37dec",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.shp": "53f803ed3394cac9c6b733c81940b468d772e0e0b4deef306c4d7c5f4661ae72",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.shx": "42c3eea1dfa3aa96fbe5a97c4a16a08269f0ee843a90c8042a1585a7c3141a9a"
+  },
+  "sourcesUnchanged": true
+}

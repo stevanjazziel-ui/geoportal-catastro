@@ -119,7 +119,7 @@ def recalculate(store, revision_id):
             raise
 
 
-def calculate(store, run, output, manual, receipt, existing_override=None):
+def calculate(store, run, output, manual, receipt, existing_override=None, node_validator=None):
     config = store.config
     radius = config["radiusM"]
     require(radius == 200 and config["bufferQuadrantSegments"] == 64, "Cambiar el metodo requiere un adaptador aprobado")
@@ -179,7 +179,7 @@ def calculate(store, run, output, manual, receipt, existing_override=None):
         if "B" in plan["scenarios"]:
             masks["B"] = unary_union([masks["A"], *[g.buffer(radius, quad_segs=64) for g, _ in municipal]])
         masks["C"] = unary_union([masks["B"], *[g.buffer(radius, quad_segs=64) for g, _ in police]])
-    node_audit, publish_blocks = audit_nodes(store, receipt["changes"], municipal, police, urban)
+    node_audit, publish_blocks = (node_validator or audit_nodes)(store, receipt["changes"], municipal, police, urban)
     publish_blocks += ["Adaptador pendiente: " + p for p in plan["pendingAdapters"]]
     events, blocks = data["INCIDENTES_CLASIFICADOS"], data["MANZANAS_COBERTURA"]
     statistics = {(scope, cat): data["GI_"+scope+"_"+cat] for scope in ("URBANO", "RURAL") for cat in CLASSES}

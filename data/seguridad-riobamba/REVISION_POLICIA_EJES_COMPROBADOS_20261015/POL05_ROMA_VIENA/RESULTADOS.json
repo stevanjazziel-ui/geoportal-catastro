@@ -1,0 +1,63 @@
+{
+  "status": "AJUSTE_SOLICITADO_PARA_REVISION_NO_APLICADO",
+  "applied": false,
+  "published": false,
+  "crs_calculo": "EPSG:32717",
+  "camera": {
+    "ID_POLICIA": "POL-05",
+    "CRUCE": "Roma x Viena",
+    "X": 762694.3407970711,
+    "Y": 9813573.45465371,
+    "ESTADO": "AJUSTE_SOLICITADO_PARA_REVISION_NO_APLICADO",
+    "RADIO_POTENCIAL_M": 200,
+    "GRADO_NODO": 4,
+    "OSM_IDS": "1365348453 | 309664303 | 498125273",
+    "JERARQUIA_OSM_ROMA": "residential",
+    "JERARQUIA_OSM_VIENA": "residential",
+    "VISIBILIDAD_CERTIFICADA": false
+  },
+  "comparison": {
+    "publicado": {
+      "desplazamiento_m": 52.12627162845996,
+      "eventos_en_buffers_antes": {
+        "DELINCUENCIA": 1719,
+        "VIOLENCIA": 912
+      },
+      "eventos_en_buffers_despues": {
+        "DELINCUENCIA": 1719,
+        "VIOLENCIA": 912
+      },
+      "solape_con_otras_182_pct": 28.209249047154227
+    },
+    "estudio_general": {
+      "desplazamiento_m": 449.5902346324424,
+      "eventos_en_buffers_antes": {
+        "DELINCUENCIA": 1697,
+        "VIOLENCIA": 888
+      },
+      "eventos_en_buffers_despues": {
+        "DELINCUENCIA": 1678,
+        "VIOLENCIA": 892
+      },
+      "solape_con_otras_182_pct": 29.835354711852236
+    }
+  },
+  "otherCamerasMoved": 0,
+  "sourcesUnchanged": true,
+  "sourceHashes": {
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\INVENTARIO_103_30_20261015\\ESCENARIO_FINAL_183.gpkg": "2d1d51fc98c5bc40082a7647e467efcb8005823177be18d2555bd2bb5339ce45",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\REVISION_POLICIA_EJES_COMPROBADOS_20261015\\REVISION_POLICIA_30.gpkg": "ba78e096541e4ac466ff9d057786294ae2e11173ea49d6887623d4eadf7d2d3d",
+    "D:\\codex\\security-real-incidents\\sig-bridge-active.json": "11f18f0235f17f973f4d3e02e162a5c465ef214d2f9caca876cb0a4967fe813f",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.cpg": "b4ab9cdac743cec22db404c182bd39e52ffc38b49df6c874eec57524395a95e6",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.dbf": "75e164d35f1c58340de6187e57c5479ce460070bd3f135a9d4460d8e66704ced",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.prj": "d5c5de3bec971779a1f128faf9da32ac90902653587b053fabf52994c1c37dec",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.shp": "53f803ed3394cac9c6b733c81940b468d772e0e0b4deef306c4d7c5f4661ae72",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.shx": "42c3eea1dfa3aa96fbe5a97c4a16a08269f0ee843a90c8042a1585a7c3141a9a"
+  },
+  "limitations": [
+    "Los conteos comparan buffers potenciales circulares, no visibilidad real por calles.",
+    "Los tramos de Roma/Viena se muestran hasta 200 m por su propia red, sin girar hacia calles distintas. No certifican linea de vista.",
+    "OSM clasifica ambas vias como residenciales. La capa municipal rotula tramos cercanos de Viena como Arterial B y Local; no se homologa automaticamente la jerarquia.",
+    "Solo se estudia POL-05; no se aplican el estudio general ni los ajustes de otros IDs."
+  ]
+}

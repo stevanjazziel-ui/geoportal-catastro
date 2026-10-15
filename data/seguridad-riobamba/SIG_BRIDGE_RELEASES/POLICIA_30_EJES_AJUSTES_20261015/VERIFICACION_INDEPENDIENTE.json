@@ -1,0 +1,76 @@
+{
+  "passed": true,
+  "counts": {
+    "existing": 103,
+    "replacement": 30,
+    "municipal": 50,
+    "police": 30
+  },
+  "all30MatchApprovedTargets": true,
+  "fixed153Unmoved": true,
+  "scenariosAandBUnchanged": true,
+  "censusCoverageCheckedAtAllRadii": true,
+  "radii": [
+    {
+      "radiusM": 100,
+      "passed": true
+    },
+    {
+      "radiusM": 150,
+      "passed": true
+    },
+    {
+      "radiusM": 200,
+      "passed": true
+    }
+  ],
+  "gi": [
+    {
+      "layer": "GI_URBANO_DELINCUENCIA",
+      "cells": 3197,
+      "geometryAndStatisticsUnchanged": true
+    },
+    {
+      "layer": "GI_URBANO_VIOLENCIA",
+      "cells": 3197,
+      "geometryAndStatisticsUnchanged": true
+    },
+    {
+      "layer": "GI_URBANO_CONVIVENCIA",
+      "cells": 3197,
+      "geometryAndStatisticsUnchanged": true
+    },
+    {
+      "layer": "GI_RURAL_DELINCUENCIA",
+      "cells": 1132,
+      "geometryAndStatisticsUnchanged": true
+    },
+    {
+      "layer": "GI_RURAL_VIOLENCIA",
+      "cells": 1132,
+      "geometryAndStatisticsUnchanged": true
+    },
+    {
+      "layer": "GI_RURAL_CONVIVENCIA",
+      "cells": 1132,
+      "geometryAndStatisticsUnchanged": true
+    }
+  ],
+  "POL17_POL19": {
+    "sameAxisRouteM": 412.92385445689507,
+    "potentialUncoveredM": 12.947563808750283,
+    "lineOfSightCertified": false
+  },
+  "packageSha256": "ef36bc1f8c6ef6d804fec6640c09f678339e1a7dc49d1d58a5144561ad641a06",
+  "localJunctionExplicitlyRequested": "POL-05 Roma/Viena",
+  "originalSourcesUnmodified": true,
+  "approvedException": {
+    "constraint": "ANILLO_VIAL escenario B >= 80%",
+    "observedPct": 78.2885253665575,
+    "reason": "Nuevo inventario final; usuario autoriza publicar resultados reales sin mover camaras",
+    "authorization": "Publicar los resultados reales, sin mover camaras",
+    "warnings": [
+      "Restriccion municipal ANILLO_VIAL: 78.28853% < 80%"
+    ]
+  }
+}

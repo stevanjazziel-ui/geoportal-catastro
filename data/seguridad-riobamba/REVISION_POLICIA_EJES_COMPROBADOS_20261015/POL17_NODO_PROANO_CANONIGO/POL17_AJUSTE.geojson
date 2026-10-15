@@ -1,0 +1,1 @@
+{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"id":"POL-17","cruce":"Avenida Monseñor Leonidas Proaño x Avenida Canónigo Ramos","candidate":"OSM-CRUCE-00054","x":757931.129184532,"y":9817864.170728238,"radio_m":200,"status":"AJUSTE_PUNTUAL_PARA_REVISION_NO_APLICADO"},"geometry":{"type":"Point","coordinates":[-78.6817231,-1.6464783999999988]}}]}

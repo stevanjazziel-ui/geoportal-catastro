@@ -1,0 +1,131 @@
+{
+  "passed": true,
+  "historyRecords": 300,
+  "versionsPerId": 10,
+  "sourceHashesUnchanged": true,
+  "routeSegmentsVerifiedAgainstOriginalVertices": true,
+  "checks": [
+    {
+      "id": "ENLACE-001",
+      "segmentsOnOriginalRoads": true,
+      "maxVertexRoundTripErrorM": 1.3969838619232178e-09,
+      "uncoveredRouteM": 0.0
+    },
+    {
+      "id": "ENLACE-002",
+      "segmentsOnOriginalRoads": true,
+      "maxVertexRoundTripErrorM": 1.3969838619232178e-09,
+      "uncoveredRouteM": 0.0
+    },
+    {
+      "id": "ENLACE-003",
+      "segmentsOnOriginalRoads": true,
+      "maxVertexRoundTripErrorM": 1.3969838619232178e-09,
+      "uncoveredRouteM": 0.0
+    },
+    {
+      "id": "ENLACE-004",
+      "segmentsOnOriginalRoads": true,
+      "maxVertexRoundTripErrorM": 1.3969838619232178e-09,
+      "uncoveredRouteM": 0.0
+    },
+    {
+      "id": "ENLACE-005",
+      "segmentsOnOriginalRoads": true,
+      "maxVertexRoundTripErrorM": 1.1641532182693481e-10,
+      "uncoveredRouteM": 0.0
+    },
+    {
+      "id": "ENLACE-006",
+      "segmentsOnOriginalRoads": true,
+      "maxVertexRoundTripErrorM": 0.0,
+      "uncoveredRouteM": 0.0
+    },
+    {
+      "id": "ENLACE-007",
+      "segmentsOnOriginalRoads": true,
+      "maxVertexRoundTripErrorM": 1.5133991837501526e-09,
+      "uncoveredRouteM": 0.0
+    },
+    {
+      "id": "ENLACE-008",
+      "segmentsOnOriginalRoads": true,
+      "maxVertexRoundTripErrorM": 1.3969838619232178e-09,
+      "uncoveredRouteM": 0.0
+    },
+    {
+      "id": "ENLACE-009",
+      "segmentsOnOriginalRoads": true,
+      "maxVertexRoundTripErrorM": 1.3969838619232178e-09,
+      "uncoveredRouteM": 0.0
+    },
+    {
+      "id": "ENLACE-010",
+      "segmentsOnOriginalRoads": true,
+      "maxVertexRoundTripErrorM": 1.3969838619232178e-09,
+      "uncoveredRouteM": 0.0
+    },
+    {
+      "id": "ENLACE-011",
+      "segmentsOnOriginalRoads": true,
+      "maxVertexRoundTripErrorM": 1.3969838619232178e-09,
+      "uncoveredRouteM": 0.0
+    },
+    {
+      "id": "ENLACE-012",
+      "segmentsOnOriginalRoads": true,
+      "maxVertexRoundTripErrorM": 1.3969838619232178e-09,
+      "uncoveredRouteM": 0.0
+    },
+    {
+      "id": "ENLACE-013",
+      "segmentsOnOriginalRoads": true,
+      "maxVertexRoundTripErrorM": 0.0,
+      "uncoveredRouteM": 0.0
+    },
+    {
+      "id": "ENLACE-014",
+      "segmentsOnOriginalRoads": true,
+      "maxVertexRoundTripErrorM": 0.0,
+      "uncoveredRouteM": 0.0
+    },
+    {
+      "id": "ENLACE-015",
+      "segmentsOnOriginalRoads": true,
+      "maxVertexRoundTripErrorM": 1.1641532182693481e-10,
+      "uncoveredRouteM": 0.0
+    },
+    {
+      "id": "ENLACE-016",
+      "segmentsOnOriginalRoads": true,
+      "maxVertexRoundTripErrorM": 1.3969838619232178e-09,
+      "uncoveredRouteM": 0.0
+    },
+    {
+      "id": "ENLACE-017",
+      "segmentsOnOriginalRoads": true,
+      "maxVertexRoundTripErrorM": 1.3969838619232178e-09,
+      "uncoveredRouteM": 0.0
+    },
+    {
+      "id": "ENLACE-018",
+      "segmentsOnOriginalRoads": true,
+      "maxVertexRoundTripErrorM": 1.5133991837501526e-09,
+      "uncoveredRouteM": 0.0
+    },
+    {
+      "id": "ENLACE-019",
+      "segmentsOnOriginalRoads": true,
+      "maxVertexRoundTripErrorM": 1.3969838619232178e-09,
+      "uncoveredRouteM": 0.0
+    },
+    {
+      "id": "ENLACE-020",
+      "segmentsOnOriginalRoads": true,
+      "maxVertexRoundTripErrorM": 1.5133991837501526e-09,
+      "uncoveredRouteM": 0.0
+    }
+  ],
+  "published": false,
+  "applied": false
+}

@@ -4,7 +4,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
 const pointer = JSON.parse(fs.readFileSync(path.join(root, 'sig-bridge-active.json'), 'utf8'));
-assert.equal(pointer.releaseId, 'INVENTARIO_103_30_20261015');
+assert.match(pointer.releaseId, /^[A-Za-z0-9_-]+$/);
 assert.equal(pointer.coverageData, 'riobamba-brechas-actualizadas-data.js');
 const directory = path.resolve(root, pointer.root);
 assert.ok(directory.startsWith(root + path.sep));

@@ -1,0 +1,263 @@
+{
+  "revision": "POLICIA_30_EJES_AJUSTES_20261015",
+  "changes": [
+    {
+      "layer": "police",
+      "id": "POL-01",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 44.459542571468496,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-02",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 618.2508216662517,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-03",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 1.9907536441329978,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-04",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 65.08947982752878,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-05",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 52.12627162845996,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-06",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 906.3987428802448,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-07",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 1042.7301686798714,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-08",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 43.94469758578259,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-09",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 2439.9965453073146,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-10",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 231.0012318468494,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-11",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 3595.092510380647,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-12",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 4.964701015123913,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-13",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 407.32145289610463,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-14",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 8.358516672665596,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-15",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 231.53809899234952,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-16",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 563.5592607065095,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-17",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 71.24625248842764,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-18",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 16.432934605971877,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-19",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 5401.8076384564965,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-20",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 1769.6093691235387,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-21",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 20.13328546771262,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-22",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 292.8513900977351,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-23",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 74.12771761371012,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-24",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 320.2527290895321,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-25",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 3219.643740053599,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-26",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 1430.8722145098072,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-27",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 3985.3789668083264,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-28",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 2681.693903694332,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-29",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 4.870300296635147,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    },
+    {
+      "layer": "police",
+      "id": "POL-30",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 51.98266108799633,
+      "note": "Estudio de 30 aprobado, con ajustes Roma/Viena y Proano/Canonigo Ramos"
+    }
+  ],
+  "baseHashes": {
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\INVENTARIO_103_30_20261015\\ESCENARIO_FINAL_183.gpkg": "2d1d51fc98c5bc40082a7647e467efcb8005823177be18d2555bd2bb5339ce45",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\REVISION_POLICIA_EJES_COMPROBADOS_20261015\\REVISION_POLICIA_30.gpkg": "ba78e096541e4ac466ff9d057786294ae2e11173ea49d6887623d4eadf7d2d3d",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\REVISION_POLICIA_EJES_COMPROBADOS_20261015\\POL05_ROMA_VIENA\\RESULTADOS.json": "f2da3fd33ff578b0e33543093994ee209cfb658158a2af4add2cd6a58989dbfe",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\REVISION_POLICIA_EJES_COMPROBADOS_20261015\\POL17_NODO_PROANO_CANONIGO\\RESULTADOS.json": "1a6cfe278efff974f745ec41fe089f20024742af15af1611a5e33780e6ccbf5d",
+    "D:\\codex\\security-real-incidents\\riobamba-hotspot-urbano-200m-data.js": "dadb447ed2abbd69efb1d6d33f4011f071ed8fce99ac31608cf8c9d50ab7bd63",
+    "D:\\codex\\security-real-incidents\\riobamba-conflictividad-data.js": "56ce4c608b1c66235f671d745bca22fe9084913fea788edb1d7cfb471838f17c",
+    "D:\\codex\\security-real-incidents\\riobamba-seguridad-kde-validacion-data.js": "f179696f2d31b04da64ee9f9bcb98c6c9db98e9d84a30219fb30219917547fab",
+    "D:\\codex\\security-real-incidents\\riobamba-incidentes-spatial-data.js": "f548ea151337872b7ef3acd7dd3d0586088c342f794be53f0ed4f3451748f477",
+    "D:\\codex\\security-real-incidents\\riobamba-cantonal-data.js": "a8bf2da18c2c4980f927be6d29b61138db4245f2fae4c2c3270a6b17c0727ce8",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.cpg": "b4ab9cdac743cec22db404c182bd39e52ffc38b49df6c874eec57524395a95e6",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.dbf": "75e164d35f1c58340de6187e57c5479ce460070bd3f135a9d4460d8e66704ced",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.prj": "d5c5de3bec971779a1f128faf9da32ac90902653587b053fabf52994c1c37dec",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.shp": "53f803ed3394cac9c6b733c81940b468d772e0e0b4deef306c4d7c5f4661ae72",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.shx": "42c3eea1dfa3aa96fbe5a97c4a16a08269f0ee843a90c8042a1585a7c3141a9a"
+  },
+  "createdAt": "2026-10-15T17:59:56-05:00",
+  "authorization": "Las 30 del estudio, con los ajustes"
+}
