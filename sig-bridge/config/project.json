@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "name": "SIG Bridge Riobamba",
+  "basePackage": "data/seguridad-riobamba/POLICIA_KDE_INTERSECCIONES_20261015/ESCENARIO_FINAL_183.gpkg",
+  "baseWebRoot": "data/seguridad-riobamba/POLICIA_KDE_INTERSECCIONES_20261015",
+  "runtimeRoot": "sig-bridge/workspace",
+  "metricCrs": "EPSG:32717",
+  "visualCrs": "EPSG:4326",
+  "radiusM": 200,
+  "bufferQuadrantSegments": 64,
+  "roadSource": "../riobamba_matrix_review_20260921/cartografia_base/RIOBAMBA_Cartografia Base.gdb",
+  "corridorToleranceM": 0.001,
+  "publishConstraints": {"BOULEVARD_MACAJI_BELLAVISTA": 100, "ANILLO_VIAL": 80},
+  "layers": {
+    "municipal": {"source": "PROPUESTA_MUNICIPAL_50_FINAL", "id": "ID_PROPUESTA", "geometry": "Point", "count": 50, "editable": [], "geometryEditable": true, "groupField": "GRUPO", "editableGroups": ["RED_ESTRUCTURAL"]},
+    "police": {"source": "PROPUESTA_POLICIA_30_FINAL", "id": "ID_POLICIA", "geometry": "Point", "count": 30, "editable": [], "geometryEditable": true},
+    "corridors": {"source": "CORREDORES", "id": "CORREDOR", "geometry": "Line", "count": 4, "editable": [], "geometryEditable": true},
+    "blocks": {"source": "MANZANAS_COBERTURA", "id": "ID_MANZANA", "geometry": "Polygon", "count": 3757, "editable": ["POBLACION"], "geometryEditable": true}
+  },
+  "publication": {
+    "remote": "origin",
+    "branch": "main",
+    "publicUrl": "https://stevanjazziel-ui.github.io/geoportal-catastro/visor-seguridad-riobamba-v2.html",
+    "repository": "stevanjazziel-ui/geoportal-catastro"
+  }
+}

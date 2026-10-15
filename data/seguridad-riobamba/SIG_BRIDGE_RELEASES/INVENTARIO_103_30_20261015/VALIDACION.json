@@ -1,0 +1,88 @@
+{
+  "status": "PASS_WITH_APPROVED_EXCEPTION",
+  "plan": {
+    "scenarios": [
+      "A",
+      "B",
+      "C"
+    ],
+    "jobs": [
+      "block_coverage",
+      "buffers",
+      "camera_attributes",
+      "corridor_coverage",
+      "exclusive_coverage",
+      "hotspot_coverage",
+      "incident_coverage",
+      "population",
+      "territorial"
+    ],
+    "pendingAdapters": [],
+    "recalculateKde": false,
+    "recalculateGi": false,
+    "optimizeCameras": false,
+    "inventoryUpdated": true
+  },
+  "nodeAudit": [],
+  "publishBlocks": [],
+  "sourcePreserved": true,
+  "existingCount": 103,
+  "municipalCount": 50,
+  "policeCount": 30,
+  "giRecalculated": false,
+  "kdeRecalculated": false,
+  "optimized": false,
+  "revision": "INVENTARIO_103_30_20261015",
+  "confirmedReplacement": 30,
+  "withoutReplacement": 73,
+  "proposalsUnmoved": true,
+  "originalsUnmodified": true,
+  "exactReceivedGeometry": true,
+  "radiiM": [
+    100,
+    150,
+    200
+  ],
+  "coverageDependenciesUpdated": true,
+  "sourceHashes": {
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\POLICIA_KDE_INTERSECCIONES_20261015\\ESCENARIO_FINAL_183.gpkg": "fa371bbbb1c1a791c28b0976894a47081c46e1393569395f4f150ea514932520",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\INVENTARIO_103_FINAL_20261015\\INVENTARIO_FINAL_103.gpkg": "29c2730e89049c4402d9ab5f428a050f3d6c322f9e125c09410562349869ad1f",
+    "D:\\codex\\security-real-incidents\\riobamba-hotspot-urbano-200m-data.js": "dadb447ed2abbd69efb1d6d33f4011f071ed8fce99ac31608cf8c9d50ab7bd63",
+    "D:\\codex\\security-real-incidents\\riobamba-conflictividad-data.js": "56ce4c608b1c66235f671d745bca22fe9084913fea788edb1d7cfb471838f17c",
+    "D:\\codex\\security-real-incidents\\riobamba-seguridad-kde-validacion-data.js": "f179696f2d31b04da64ee9f9bcb98c6c9db98e9d84a30219fb30219917547fab",
+    "D:\\codex\\security-real-incidents\\riobamba-incidentes-spatial-data.js": "f548ea151337872b7ef3acd7dd3d0586088c342f794be53f0ed4f3451748f477",
+    "D:\\codex\\security-real-incidents\\riobamba-cantonal-data.js": "a8bf2da18c2c4980f927be6d29b61138db4245f2fae4c2c3270a6b17c0727ce8",
+    "D:\\codex\\security-real-incidents\\visor-seguridad-riobamba-data.js": "e84f1e092da171ba430db01bb4def4df9d3c2269a500285a26cb29950e8f9bac"
+  },
+  "inventory": {
+    "total": 103,
+    "replacement": 30,
+    "withoutReplacement": 73,
+    "uniqueSites": 103,
+    "source": "INVENTARIO_103_FINAL_20261015",
+    "sourceSha256": "29c2730e89049c4402d9ab5f428a050f3d6c322f9e125c09410562349869ad1f",
+    "estimatedCorners": [
+      "RIO-008-FIJA",
+      "RIO-016-DOMO",
+      "RIO-017-FIJA",
+      "RIO-087-FIJA",
+      "RIO-088-FIJA",
+      "RIO-090-FIJA",
+      "RIO-091-FIJA",
+      "RIO-095-FIJA",
+      "RIO-096-FIJA",
+      "RIO-099-DOMO",
+      "RIO-100-FIJA"
+    ],
+    "notice": "11 esquinas estimadas no verificadas; cobertura potencial, no visibilidad real certificada"
+  },
+  "approvedException": {
+    "constraint": "ANILLO_VIAL escenario B >= 80%",
+    "observedPct": 78.2885253665575,
+    "reason": "Nuevo inventario final; usuario autoriza publicar resultados reales sin mover camaras",
+    "authorization": "Publicar los resultados reales, sin mover camaras",
+    "warnings": [
+      "Restriccion municipal ANILLO_VIAL: 78.28853% < 80%"
+    ]
+  }
+}

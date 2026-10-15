@@ -1,0 +1,88 @@
+{
+  "passed": true,
+  "counts": {
+    "existing": 103,
+    "replacement": 30,
+    "withoutReplacement": 73,
+    "municipal": 50,
+    "police": 30
+  },
+  "sourceGeometryPreserved": true,
+  "proposalsUnmoved": {
+    "PROPUESTA_MUNICIPAL_50_FINAL": true,
+    "PROPUESTA_POLICIA_30_FINAL": true
+  },
+  "gi": [
+    {
+      "layer": "GI_URBANO_DELINCUENCIA",
+      "cells": 3197,
+      "geometryAndStatisticsUnchanged": true
+    },
+    {
+      "layer": "GI_URBANO_VIOLENCIA",
+      "cells": 3197,
+      "geometryAndStatisticsUnchanged": true
+    },
+    {
+      "layer": "GI_URBANO_CONVIVENCIA",
+      "cells": 3197,
+      "geometryAndStatisticsUnchanged": true
+    },
+    {
+      "layer": "GI_RURAL_DELINCUENCIA",
+      "cells": 1132,
+      "geometryAndStatisticsUnchanged": true
+    },
+    {
+      "layer": "GI_RURAL_VIOLENCIA",
+      "cells": 1132,
+      "geometryAndStatisticsUnchanged": true
+    },
+    {
+      "layer": "GI_RURAL_CONVIVENCIA",
+      "cells": 1132,
+      "geometryAndStatisticsUnchanged": true
+    }
+  ],
+  "radii": [
+    {
+      "radiusM": 100,
+      "scenarioAreasM2": {
+        "A": 2935946.816092842,
+        "B": 4466151.69221498,
+        "C": 5408534.867494319
+      },
+      "passed": true
+    },
+    {
+      "radiusM": 150,
+      "scenarioAreasM2": {
+        "A": 6070124.860654615,
+        "B": 9408555.84910182,
+        "C": 11467391.42672883
+      },
+      "passed": true
+    },
+    {
+      "radiusM": 200,
+      "scenarioAreasM2": {
+        "A": 9668215.73533069,
+        "B": 15192036.319348082,
+        "C": 18315055.433402743
+      },
+      "passed": true
+    }
+  ],
+  "buffersAreRadiusNotDiameter": true,
+  "censusClipsAndPointCoverageValidated": true,
+  "approvedException": {
+    "constraint": "ANILLO_VIAL escenario B >= 80%",
+    "observedPct": 78.2885253665575,
+    "reason": "Nuevo inventario final; usuario autoriza publicar resultados reales sin mover camaras",
+    "authorization": "Publicar los resultados reales, sin mover camaras",
+    "warnings": [
+      "Restriccion municipal ANILLO_VIAL: 78.28853% < 80%"
+    ]
+  },
+  "packageSha256": "2d1d51fc98c5bc40082a7647e467efcb8005823177be18d2555bd2bb5339ce45"
+}

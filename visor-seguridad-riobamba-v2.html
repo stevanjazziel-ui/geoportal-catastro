@@ -1288,12 +1288,13 @@
   <script src="./riobamba-camaras-inventario-data.js?v=publicacion-completa-20261001"></script>
   <script src="./riobamba-camaras-cobertura-geometrias.js?v=cobertura-unificada-20261002"></script>
   <script src="./riobamba-camaras-inventario-cobertura-data.js?v=deficit-inventario-20261002"></script>
-  <script src="./riobamba-deficit-inventario.js?v=brechas-20261004"></script>
+  <script src="./riobamba-deficit-inventario.js?v=inventario-103-30-20261015"></script>
   <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=layers-sidebar-20261015" />
   <link rel="stylesheet" href="./riobamba-cobertura-corredores.css?v=corredores-lasabras-20261007" />
   <link rel="stylesheet" href="./riobamba-mobile.css?v=layers-sidebar-medium-20261015" />
-  <script src="./riobamba-camaras-propuesta.js?v=policia-kde-intersecciones-20261015"></script>
-  <script src="./riobamba-cobertura-corredores.js?v=policia-kde-intersecciones-20261015"></script>
+  <script src="./sig-bridge-release.js?v=inventario-103-30-20261015"></script>
+  <script src="./riobamba-camaras-propuesta.js?v=inventario-103-30-20261015"></script>
+  <script src="./riobamba-cobertura-corredores.js?v=inventario-103-30-20261015"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
   <script src="./riobamba-accesibilidad-policial-data.js?v=metodologia-20261001"></script>
   <script src="./riobamba-seguridad-diagnostico-data.js?v=metodologia-20261001"></script>
@@ -1307,10 +1308,11 @@
   <script src="./riobamba-conflictividad.js?v=kde-visual-p30-20261005"></script>
   <script src="./riobamba-cantonal-view.js?v=interaccion-modulos-20261005"></script>
   <script>
-    (() => {
+    (async () => {
+      await window.RIOBAMBA_SIG_RELEASE_READY;
       const dataset = window.RiobambaConflictivity.applyDataset(window.RIOBAMBA_SECURITY_DATA);
       const events = dataset.events || [];
-      const updatedGaps = window.RIOBAMBA_UPDATED_GAPS;
+      const updatedGaps = window.RIOBAMBA_SIG_RELEASE_GAPS || window.RIOBAMBA_UPDATED_GAPS;
       const methodology = {...window.RIOBAMBA_CONFLICTIVITY_CORRECTION.derivedMethodology,
         cameraScenarios: updatedGaps.replacementScenarios};
       const eventWeight = () => 1;
@@ -1320,13 +1322,17 @@
       const conflictEvents = events.filter((event) => [1, 2, 3].includes(event.analyticalClassId) && event.hotspotEligible === true);
       const ecu911 = dataset.ecu911 || {};
       const cameraDataset = window.RIOBAMBA_CAMERAS_DATA || { cameras: [] };
-      const rawCameras = cameraDataset.cameras || [];
+      const rawCameras = window.RIOBAMBA_SIG_RELEASE_GAPS ? updatedGaps.inventoryCameraOverlay : (cameraDataset.cameras || []);
       const cameraInventoryDataset = {...window.RIOBAMBA_CAMERA_INVENTORY,
         cameras: updatedGaps.inventoryCameraOverlay,
         metadata: {...window.RIOBAMBA_CAMERA_INVENTORY.metadata,
+          member: updatedGaps.metadata.sourceInventory?.member || window.RIOBAMBA_CAMERA_INVENTORY.metadata.member,
+          source: updatedGaps.metadata.sourceInventory?.package || window.RIOBAMBA_CAMERA_INVENTORY.metadata.source,
+          sourceSha256: updatedGaps.metadata.sourceInventory?.sha256 || window.RIOBAMBA_CAMERA_INVENTORY.metadata.sourceSha256,
+          replacementRecords: updatedGaps.inventoryCameraOverlay.filter(camera => camera.requiresChange).length,
           locatedRecords: updatedGaps.metadata.located, pendingRecords: 0,
-          analysisUniverse: "103 equipos existentes; geometrías del cierre aceptado en 100 emplazamientos. Las 31 para cambio son un subconjunto.",
-          note: "Georreferenciación aceptada con métodos y confianza documentados. No se sobrescribió el inventario original ni se certifica un levantamiento de campo."}};
+          analysisUniverse: `${updatedGaps.metadata.inventoried} equipos existentes en ${updatedGaps.metadata.uniqueSites} emplazamientos. Las ${updatedGaps.metadata.replacementCount ?? 31} para cambio son un subconjunto.`,
+          note: "Geometrías recibidas y procedencia conservadas. Existen esquinas estimadas no verificadas; no se certifican postes reales ni un levantamiento de campo."}};
       const inventoryCameras = cameraInventoryDataset.cameras || [];
       const municipalCameraIdPattern = /^RIO-\d{3}-(DOMO|FIJA)$/;
       const isMunicipalCamera = (camera) => camera?.ambitoEstudio === "MUNICIPAL"
@@ -4310,7 +4316,7 @@
           if (isInventoryDeficitMode()) {
             addSwatch("Territorio fuera de cobertura potencial", "background:rgba(200,102,112,.22);border-color:#c86670");
             addSwatch(`Cobertura disuelta · radio ${cameraCoverageScenario} m`, "background:rgba(217,164,65,.32);border-color:#d9a441");
-            addSwatch("Cámara para cambio (31)", "background:#ef4444;border-color:#fff");
+            addSwatch(`Cámara para cambio (${changeCameras.length})`, "background:#8b46b5;border-color:#fff");
             addSwatch("Otra cámara inventariada · operatividad no verificada", "background:#2563eb;border-color:#fff");
             elements.legend.innerHTML = rows.join("");
             return;
@@ -5172,7 +5178,7 @@
             elements.overlayText.textContent = "Integración territorial de infraestructura policial, videovigilancia y Bulevares Seguros.";
           } else if (isInventoryDeficitMode()) {
             elements.overlayTitle.textContent = "Déficit · inventario completo (103)";
-            elements.overlayText.textContent = `${inventoryCoverage.metadata.locatedRecords} equipos localizados · ${inventoryCoverage.metadata.uniqueSites} emplazamientos · radio ${cameraCoverageScenario} m · ${selectedPlatform || "unión de las 18 Plataformas"}. Escenario separado de las 31 para cambio.`;
+            elements.overlayText.textContent = `${inventoryCoverage.metadata.locatedRecords} equipos localizados · ${inventoryCoverage.metadata.uniqueSites} emplazamientos · radio ${cameraCoverageScenario} m · ${selectedPlatform || "unión de las 18 Plataformas"}. Las ${changeCameras.length} para cambio están incluidas en el inventario.`;
           } else if (diagnosisMetric === "videoDeficitGap") {
             elements.overlayTitle.textContent = "DÉFICIT DE VIDEOVIGILANCIA";
             elements.overlayText.textContent = "Cobertura de las cámaras municipales para cambio frente a la distribución territorial de incidentes y población.";

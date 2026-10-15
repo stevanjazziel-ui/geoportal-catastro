@@ -50,7 +50,11 @@ def clean(value):
     return value
 
 
-def main():
+def main(final=None, out=None, js_output=None, expected_replacements=31):
+    global FINAL, OUT
+    FINAL = Path(final) if final is not None else FINAL
+    OUT = Path(out) if out is not None else OUT
+    js_output = Path(js_output) if js_output is not None else ROOT / 'riobamba-brechas-actualizadas-data.js'
     protected = [FINAL, FIXED_INPUT if FIXED_INPUT.exists() else PREVIOUS] + [ROOT / name for name in
         ('visor-seguridad-riobamba-data.js', 'riobamba-camaras-inventario-data.js',
          'riobamba-camaras-data.js', 'riobamba-hotspot-urbano-200m-data.js',
@@ -64,8 +68,10 @@ def main():
     assert all(f.crs.to_epsg() == 32717 and f.geometry.is_valid.all()
                and f.geometry.notna().all() for f in (existing, municipal, police))
     replacements = existing.loc[existing.REQUIERE_CAMBIO == 1]
-    assert len(replacements) == 31 and existing.geometry.to_wkb().nunique() == 100
-    frames = {'REEMPLAZO_31': list(replacements.geometry), 'A': list(existing.geometry),
+    assert len(replacements) == expected_replacements
+    unique_sites = int(existing.geometry.to_wkb().nunique())
+    replacement_key = 'REEMPLAZO_' + str(expected_replacements)
+    frames = {replacement_key: list(replacements.geometry), 'A': list(existing.geometry),
               'B': list(existing.geometry) + list(municipal.geometry),
               'C': list(existing.geometry) + list(municipal.geometry) + list(police.geometry)}
     original = load('riobamba-censo-data/riobamba_manzanas.geojson')['features']
@@ -183,7 +189,7 @@ def main():
                     export.loc[index, f'COB_{key}_{radius}'] = fraction * 100
                     export.loc[index, f'BRECHA_{key}_{radius}'] = level
                     export.loc[index, f'REGLA_{key}_{radius}'] = rule
-                if key in ('A', 'REEMPLAZO_31') and covered.area > .01:
+                if key in ('A', replacement_key) and covered.area > .01:
                     clip_features.append(feature(covered, {'man': code, 'block_area_m2': row.geometry.area, 'covered_area_m2': covered.area}))
                 for name, part in block_parts[index]:
                     local_area = part.intersection(mask).area
@@ -210,7 +216,7 @@ def main():
                 'gapCounts': {level: gap_counts[level] for level in LEVELS}, 'cameraRecords': len(points)}
             scenarios[str(radius)][key] = result
             comparisons.append({'radius': radius, 'scenario': key, 'cameras': len(points), **result['gapCounts']})
-            if key in ('A', 'REEMPLAZO_31'):
+            if key in ('A', replacement_key):
                 uncovered = np.zeros(len(cells))
                 for i, part, factor in cell_parts:
                     uncovered[i] += part.difference(mask).area * factor
@@ -248,10 +254,15 @@ def main():
         row = final_by_id.loc[camera['id']]
         lng, lat = UNPROJECT(row.geometry.x, row.geometry.y)
         camera_overlay.append({**camera, 'lng': lng, 'lat': lat, 'mappable': True,
-            'method': row.METODO_GEO, 'confidence': row.CONFIANZA_GEO, 'geoObservation': row.OBSERVACION_GEO,
+            'requiresChange': bool(row.REQUIERE_CAMBIO),
+            'address': row.get('DIR_ORIG', camera.get('address')),
+            'method': row.get('METODO_GEO', row.get('VALIDACION')),
+            'confidence': row.get('CONFIANZA_GEO', row.get('CONF_ESQ')),
+            'geoObservation': row.get('OBSERVACION_GEO', row.get('AVISO_GEO')),
             'coordinateSource': 'CAMARAS_EXISTENTES_103_FINAL; originales conservados'})
     metadata = {'generatedAt': datetime.now(ZoneInfo('America/Guayaquil')).isoformat(timespec='seconds'),
-        'crs': 'EPSG:32717', 'inventoried': 103, 'located': 103, 'uniqueSites': 100,
+        'crs': 'EPSG:32717', 'inventoried': 103, 'located': 103, 'uniqueSites': unique_sites,
+        'replacementCount': expected_replacements,
         'municipalProposals': 50, 'policeProposals': 30, 'radii': [100, 150, 200],
         'method': method, 'sourceHashes': hashes, 'urbanHotspotCellM': 100, 'urbanHotspotDistanceM': 200,
         'blockIncidentScopeAudit': {'previousUrbanBlockCount': previous_urban_assignments, 'urbanStrictlyAssigned': strictly_assigned,
@@ -261,7 +272,7 @@ def main():
     result = {'metadata': metadata, 'scenarios': scenarios, 'replacementScenarios': replacement_scenarios,
         'inventoryCoverage': {'metadata': {'generatedAt': metadata['generatedAt'], 'totalRecords': 103,
             'locatedRecords': 103, 'pendingRecords': [], 'locatedIds': list(existing.ID_CAMARA),
-            'cameraIds': list(existing.ID_CAMARA), 'crs': 'EPSG:32717', 'uniqueSites': 100}, 'scenarios': inventory_scenarios},
+            'cameraIds': list(existing.ID_CAMARA), 'crs': 'EPSG:32717', 'uniqueSites': unique_sites}, 'scenarios': inventory_scenarios},
         'inventoryCameraOverlay': camera_overlay, 'censusClips': clips}
     result = clean(result)
     package = OUT / 'BRECHAS_ACTUALIZADAS.gpkg'
@@ -270,7 +281,7 @@ def main():
     with (OUT / 'COMPARACION_ESCENARIOS.csv').open('w', newline='', encoding='utf-8-sig') as stream:
         writer = csv.DictWriter(stream, list(comparisons[0])); writer.writeheader(); writer.writerows(comparisons)
     (OUT / 'RESULTADOS.json').write_text(json.dumps(result, ensure_ascii=False, allow_nan=False, separators=(',', ':')), encoding='utf-8')
-    (ROOT / 'riobamba-brechas-actualizadas-data.js').write_text('window.RIOBAMBA_UPDATED_GAPS = ' + json.dumps(result, ensure_ascii=False, allow_nan=False, separators=(',', ':')) + ';\n', encoding='utf-8')
+    js_output.write_text('window.RIOBAMBA_UPDATED_GAPS = ' + json.dumps(result, ensure_ascii=False, allow_nan=False, separators=(',', ':')) + ';\n', encoding='utf-8')
     assert all(sha(Path(path)) == value for path, value in hashes.items())
     validation = {'passed': True, 'sourceGeometriesUnchanged': True, 'giUnchanged': True,
         'strictIntersectionPreserved': True, 'populationAndProblematicLevelsFrozen': True,
@@ -279,8 +290,8 @@ def main():
     (OUT / 'VALIDACION.json').write_text(json.dumps(validation, indent=2, ensure_ascii=False), encoding='utf-8')
     documentation = '\n'.join(['# Brechas de cobertura y prioridad territorial', '',
         'Recalculo con camaras del cierre final, sin reoptimizar 50 municipales ni 30 policiales.',
-        'Escenarios A=103, B=153, C=183; REEMPLAZO_31 conserva el objeto de estudio original.',
-        '103 equipos existentes en 100 emplazamientos; los equipos coincidentes se conservan y la union evita doble conteo.',
+        f'Escenarios A=103, B=153, C=183; {replacement_key}: subconjunto confirmado para cambio.',
+        f'103 equipos existentes en {unique_sites} emplazamientos; la union evita doble conteo.',
         'EPSG:32717; radios 100/150/200 m, buffer quad_segs=64 y union disuelta antes de intersectar.',
         'COB = porcentaje de area completa de la manzana: baja <33%, parcial 33-66%, buena >66%.',
         f'P33 poblacion={method["populationP33"]}; P66={method["populationP66"]}; incidencia P33={method["incidenceP33"]}; P66={method["incidenceP66"]}. Valores y problematicas congelados entre escenarios/radios.',
@@ -296,9 +307,11 @@ def main():
         'INSUMOS_FIJOS_BRECHAS.json: atributos y percentiles congelados para reproducir con geometrias censales originales. Ejecutar tools/recalculate_current_gaps.py con GeoPandas, Pyogrio, Shapely2 y PyProj.',
         'RESULTADOS.json: fuentes SHA256, coberturas, estadisticas, reglas, clips visuales y datos del visor. VALIDACION.json y COMPARACION_ESCENARIOS.csv: controles y conteos.', ''])
     (OUT / 'METODOLOGIA_BRECHAS.md').write_text(documentation, encoding='utf-8')
-    with zipfile.ZipFile(BASE / 'BRECHAS_ACTUALIZADAS_20261004.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
+    archive_path = BASE / 'BRECHAS_ACTUALIZADAS_20261004.zip' if out is None else OUT / 'BRECHAS_ACTUALIZADAS.zip'
+    with zipfile.ZipFile(archive_path, 'w', zipfile.ZIP_DEFLATED) as archive:
         for path in OUT.iterdir():
-            if path.is_file(): archive.write(path, OUT.name + '/' + path.name)
+            if path.is_file() and path != archive_path:
+                archive.write(path, OUT.name + '/' + path.name)
     print(json.dumps({'passed': True, 'counts': comparisons, 'sourceHashesUnchanged': True}), flush=True)
 
 

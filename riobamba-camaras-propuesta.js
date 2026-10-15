@@ -2,7 +2,7 @@
 window.createRiobambaCameraProposal = function (api) {
   "use strict";
   const { map, elements: el, esc } = api;
-  const root = "./data/seguridad-riobamba/POLICIA_KDE_INTERSECCIONES_20261015/";
+  const root = window.RIOBAMBA_SIG_RELEASE_ROOT || "./data/seguridad-riobamba/POLICIA_KDE_INTERSECCIONES_20261015/";
   const controls = document.getElementById("proposalLayerControls");
   const scenarioControl = document.getElementById("proposalScenario");
   const radiusControl = document.getElementById("proposalRadius");
@@ -19,7 +19,7 @@ window.createRiobambaCameraProposal = function (api) {
   };
   const defaults = { existing: true, change: true, municipal: true, police: true, existingRadius: true, changeRadius: true, municipalRadius: true, policeRadius: true, platforms: true, hotspots: false, kde: true, corridorMacaji: true, corridorRing: false, corridorCiclovias: false, corridorAbras: false, voids: false };
   const toggles = { ...defaults };
-  const labels = { existing: "Sin cambio requerido · 72", change: "Requieren cambio · 31", municipal: "Municipio · 50 propuestas", police: "Policía · 30 propuestas", existingRadius: "Radio sin cambio · 200 m", changeRadius: "Radio para cambio · 200 m", municipalRadius: "Radio Municipio · 200 m", policeRadius: "Radio Policía · 200 m", platforms: "18 Plataformas", hotspots: "Hot Spots · Gi*", kde: "Concentración de incidentes · KDE", corridorMacaji: "Macají–Bellavista", corridorRing: "Anillo Vial", corridorCiclovias: "Ciclovías", corridorAbras: "Quebrada Las Abras · tramo cantonal", voids: "Tramos sin cobertura · escenario 183" };
+  const labels = { existing: "Sin cambio requerido", change: "Requieren cambio", municipal: "Municipio · 50 propuestas", police: "Policía · 30 propuestas", existingRadius: "Radio sin cambio · 200 m", changeRadius: "Radio para cambio · 200 m", municipalRadius: "Radio Municipio · 200 m", policeRadius: "Radio Policía · 200 m", platforms: "18 Plataformas", hotspots: "Hot Spots · Gi*", kde: "Concentración de incidentes · KDE", corridorMacaji: "Macají–Bellavista", corridorRing: "Anillo Vial", corridorCiclovias: "Ciclovías", corridorAbras: "Quebrada Las Abras · tramo cantonal", voids: "Tramos sin cobertura · escenario 183" };
   const layers = {};
   const renderers = new Map();
   const panes = new Set();
@@ -57,6 +57,10 @@ window.createRiobambaCameraProposal = function (api) {
   function syncToggles() {
     controls.querySelectorAll("[data-proposal-layer]").forEach(n => {
       n.checked = toggles[n.dataset.proposalLayer];
+      if (data && ["existing", "change"].includes(n.dataset.proposalLayer)) {
+        const key = n.dataset.proposalLayer;
+        n.previousElementSibling.innerHTML = `<i class="proposal-key ${key}" aria-hidden="true"></i>${esc(labels[key])} · ${symbolFeatures("existing", key).features.length}`;
+      }
       n.disabled = !groupEnabled(n.dataset.proposalLayer.replace("Radius", "")) && /^(municipal|police)/.test(n.dataset.proposalLayer);
     });
     controls.querySelector("[data-proposal-hotspot-settings]").hidden = !toggles.hotspots;
@@ -90,7 +94,7 @@ window.createRiobambaCameraProposal = function (api) {
       for (const [key, expected] of [["existing", 103], ["municipal", 50], ["police", 30]]) {
         if (next[key].features.length !== expected || next[key].features.some(f => !f.geometry || f.geometry.type !== "Point" || !f.geometry.coordinates.every(Number.isFinite))) throw new Error(`Inventario ${key} inconsistente`);
       }
-      if (next.existing.features.filter(change).length !== 31) throw new Error("Conteo de cámaras para cambio inconsistente");
+      if (next.existing.features.filter(change).length !== next.results.counts.changeIncluded) throw new Error("Conteo de cámaras para cambio inconsistente");
       const changeIds = new Set(next.existing.features.filter(change).map(cameraId));
       next.existingRadius.features.forEach(feature => {
         feature.properties.REQUIERE_CAMBIO = changeIds.has(feature.properties.ID_CAMARA || feature.properties.ID);
@@ -101,7 +105,7 @@ window.createRiobambaCameraProposal = function (api) {
         return response.json();
       }));
       next.voids = fc(voids.flatMap(r => r.features)); data = next;
-      console.info("[Cierre videovigilancia]", { existentes: 103, paraCambio: 31, municipales: 50, policia: 30, radioM: 200, crs: "EPSG:32717", fuente: root });
+      console.info("[Cierre videovigilancia]", { existentes: 103, paraCambio: changeIds.size, municipales: 50, policia: 30, radioM: 200, crs: "EPSG:32717", fuente: root });
     })().catch(error => { loading = null; throw error; });
     return loading;
   }
@@ -276,7 +280,8 @@ window.createRiobambaCameraProposal = function (api) {
   }
   function renderMethodology() {
     const panel = document.getElementById("methodologyPanel"); if (!panel) return;
-    panel.innerHTML = `<h3>Evaluación de videovigilancia</h3>${rowHtml([["Inventario existente", "103 equipos / 103 geometrías conservadas"], ["Requieren cambio", "31 incluidas en las 103 existentes"], ["Municipio / Policía", "50 / 30 propuestas, no instaladas"], ["CRS métrico / visual", "EPSG:32717 / EPSG:4326"], ["Radio potencial", "200 m (no diámetro)"], ["Cobertura", "Buffers métricos; unión disuelta; intersección con puntos, líneas y polígonos"], ["Población", "Estimación areal CPV2022 dentro de 18 Plataformas; rural completa no disponible"], ["Policía · criterio principal", "KDE urbano de Delincuencia + Violencia; aporte marginal"], ["Policía · emplazamiento", "30 nodos reales de grado ≥3 en vías Expresa, Arterial o Colectora"], ["Hot Spots", "Gi* de referencia, conservado por ámbito y categoría; sin recálculo"], ["Cámaras coincidentes", "Equipos conservados; cobertura disuelta sin doble conteo"]])}<p>Las 50 propuestas municipales permanecen fijas. Las 30 policiales utilizan KDE como criterio principal y Gi* como referencia; los corredores se reportan como beneficios secundarios. Solo se reubican propuestas policiales.</p><p>La continuidad de observación por ejes es un objetivo parcial por la cantidad limitada de cámaras. Los radios no certifican visibilidad: se requiere validar poste, altura, orientación y obstáculos en campo. Las discrepancias de georreferenciación del inventario se mantienen documentadas.</p>${links()}`;
+    const replacementCount = data?.results.counts.changeIncluded ?? api.inventory.filter(c => c.requiresChange).length;
+    panel.innerHTML = `<h3>Evaluación de videovigilancia</h3>${rowHtml([["Inventario existente", "103 equipos / geometrías recibidas conservadas"], ["Requieren cambio", `${replacementCount} incluidas en las 103 existentes`], ["Municipio / Policía", "50 / 30 propuestas, no instaladas"], ["CRS métrico / visual", "EPSG:32717 / EPSG:4326"], ["Radio potencial", "200 m (no diámetro)"], ["Cobertura", "Buffers métricos; unión disuelta; intersección con puntos, líneas y polígonos"], ["Población", "Estimación areal CPV2022 dentro de 18 Plataformas; rural completa no disponible"], ["Policía · criterio principal", "KDE urbano de Delincuencia + Violencia; aporte marginal"], ["Policía · emplazamiento", "30 nodos reales de grado ≥3 en vías Expresa, Arterial o Colectora"], ["Hot Spots", "Gi* de referencia, conservado por ámbito y categoría; sin recálculo"], ["Cámaras coincidentes", "Equipos conservados; cobertura disuelta sin doble conteo"]])}<p>Las 50 propuestas municipales y las 30 policiales permanecen fijas en este recálculo. KDE y Gi* no se recalculan.</p><p>La continuidad de observación por ejes es un objetivo parcial por la cantidad limitada de cámaras. Los radios no certifican visibilidad: se requiere validar poste, altura, orientación y obstáculos en campo. El inventario recibido incluye 11 esquinas estimadas no verificadas; su condición se conserva documentada.</p>${links()}`;
   }
   async function render() {
     if (!api.active()) return;
@@ -301,7 +306,7 @@ window.createRiobambaCameraProposal = function (api) {
       + `<p class="proposal-inventory-note">Las ${changeCount} cámaras para cambio están incluidas en las ${existingCount} existentes; no son cámaras adicionales. ${existingCount - changeCount} + ${changeCount} = ${existingCount}.</p>`;
     syncToggles(); draw(); detail(); graphics(); renderLegend();
     map.invalidateSize(); if (fitNeeded) fit();
-    el.status.textContent = "103 existentes (31 para cambio) + 50 Municipio + 30 Policía en intersecciones principales. KDE D+V como criterio policial; radio potencial 200 m. Gi* sin recálculo.";
+    el.status.textContent = `103 existentes (${changeCount} para cambio) + 50 Municipio + 30 Policía. Radio potencial 200 m; ubicaciones estimadas documentadas. Propuestas, KDE y Gi* sin cambios.`;
   }
   scenarioControl.addEventListener("change", () => { selected = null; render(); });
   extentControl.addEventListener("change", () => { fitNeeded = true; render(); });
