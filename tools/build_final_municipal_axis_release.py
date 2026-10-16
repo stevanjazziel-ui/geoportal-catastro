@@ -61,6 +61,8 @@ def main():
                 'OSM_IDS':'|'.join(node['osmIds']),'EJE_PRINCIPAL':'|'.join(node['principal']),
                 'JERARQUIA_OSM_PRINCIPAL':bool(node['principal']),'EXCEPCION_LOCAL_MACAJI':local,
                 'BRIDGE_NODO_VALIDADO':True,'METODO_FINAL':'NODOS_EJES_MACAJI100_ANILLO_SIN_MINIMO',
+                'ESTADO':'PROPUESTA_APROBADA_NO_INSTALADA',
+                'ESTADO_VALIDACION':'EXCEPCION_LOCAL_MACAJI_APROBADA' if local else 'CRUCE_PRINCIPAL_COMPROBADO',
                 'CRITERIO_UBICACION':'Cruces principales y enlaces potenciales por mismo eje. Macaji100; sin minimo Anillo.',
                 'OBSERVACION_MANUAL':'Junin x Puruha: excepcion local aprobada para mantener Macaji100.' if local else 'Cruce principal comprobado; alcance hacia las vias, no a traves de manzanas.',
                 'COBERTURA_VISUAL_CERTIFICADA':False})
@@ -86,6 +88,11 @@ def main():
     police_rows=records(police);save_layer(package,'PROPUESTA_POLICIA_30_FINAL',police_rows,OUT)
     existing=gpd.read_file(package,layer='CAMARAS_EXISTENTES_103_FINAL')
     municipal=gpd.read_file(package,layer='PROPUESTA_MUNICIPAL_50_FINAL')
+    for i,row in municipal.loc[municipal.GRUPO.eq('RED_ESTRUCTURAL')].iterrows():
+        municipal.at[i,'ESTADO']='PROPUESTA_APROBADA_NO_INSTALADA'
+        municipal.at[i,'DECISION_FINAL']='NODOS_EJES_APROBADOS'
+        municipal.at[i,'JUSTIFICACION']='Ubicacion aprobada en '+row.INTERSECCION_O_NODO+'. '+str(row.OBSERVACION_MANUAL or '')+' Enlaces potenciales por misma via; no certifica vision real.'
+    save_layer(package,'PROPUESTA_MUNICIPAL_50_FINAL',records(municipal),OUT)
     fixed_m=municipal.loc[~municipal.GRUPO.eq('RED_ESTRUCTURAL')]
     old_m=gpd.read_file(store.base,layer='PROPUESTA_MUNICIPAL_50_FINAL').set_index('ID_PROPUESTA')
     require(all(r.geometry.equals(old_m.loc[r.ID_PROPUESTA].geometry) for r in fixed_m.itertuples()),'26 municipales alteradas')
