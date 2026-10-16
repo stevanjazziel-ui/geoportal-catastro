@@ -77,16 +77,16 @@ def main():
             color=colors['police'] if 'POLICIA' in name else colors['municipal'] if 'MUNICIPAL' in name else colors['change'] if 'PARA_CAMBIO' in name else colors['existing']
             layer.setRenderer(QgsSingleSymbolRenderer(symbol(color)))
             if name=='CAMARAS_EXISTENTES_103_FINAL':
-                layer.setRenderer(QgsCategorizedSymbolRenderer('REQUIERE_CAMBIO',[
-                    QgsRendererCategory(0,symbol(colors['existing']),'Sin cambio requerido (73)'),
-                    QgsRendererCategory(1,symbol(colors['change']),'Para cambio, incluidas en las103 (30)')]))
+                layer.setRenderer(QgsCategorizedSymbolRenderer('CASE WHEN "REQUIERE_CAMBIO" THEN \'CAMBIO\' ELSE \'SIN_CAMBIO\' END',[
+                    QgsRendererCategory('SIN_CAMBIO',symbol(colors['existing']),'Sin cambio requerido (73)'),
+                    QgsRendererCategory('CAMBIO',symbol(colors['change']),'Para cambio, incluidas en las103 (30)')]))
         elif name.startswith('RADIOS_'):
             group='Radios potenciales';default=name in ['RADIOS_EXISTENTES_200M','RADIOS_MUNICIPALES_200M','RADIOS_POLICIA_200M']
             color=colors['police'] if 'POLICIA' in name else colors['municipal'] if 'MUNICIPAL' in name else colors['existing']
             def fill(c):
                 s=QgsFillSymbol.createSimple({'color':c,'outline_color':c,'outline_width':'0.2'});s.setOpacity(.20);return s
-            if name=='RADIOS_EXISTENTES_200M':
-                layer.setRenderer(QgsCategorizedSymbolRenderer('REQUIERE_CAMBIO',[QgsRendererCategory(0,fill(colors['existing']),'Radio sin cambio'),QgsRendererCategory(1,fill(colors['change']),'Radio para cambio')]))
+            if name.startswith('RADIOS_EXISTENTES_'):
+                layer.setRenderer(QgsCategorizedSymbolRenderer('CASE WHEN "REQUIERE_CAMBIO" THEN \'CAMBIO\' ELSE \'SIN_CAMBIO\' END',[QgsRendererCategory('SIN_CAMBIO',fill(colors['existing']),'Radio sin cambio'),QgsRendererCategory('CAMBIO',fill(colors['change']),'Radio para cambio')]))
             else:layer.setRenderer(QgsSingleSymbolRenderer(fill(color)))
         elif name in ['BOULEVARD_MACAJI_BELLAVISTA','ANILLO_VIAL','CICLOVIAS','QUEBRADA_LAS_ABRAS']:
             group='Corredores';default=True
@@ -109,8 +109,13 @@ def main():
         elif name in ['PLATAFORMAS_TERRITORIALES','LIMITE_CANTONAL','PARROQUIAS_CANTONALES']:
             default=name in ['PLATAFORMAS_TERRITORIALES','LIMITE_CANTONAL']
             layer.setRenderer(QgsSingleSymbolRenderer(QgsFillSymbol.createSimple({'color':'transparent','outline_color':'#263c38','outline_width':'0.4'})))
+        elif name=='RED_VIAL_OSM_NODOS':
+            default=True
+            layer.setRenderer(QgsSingleSymbolRenderer(QgsLineSymbol.createSimple({'line_color':'#bac5c6','line_width':'0.15'})))
         project.addMapLayer(layer,False);node=groups[group].addLayer(layer);node.setItemVisibilityChecked(default)
-        layer.saveDefaultStyle()
+        if layer.isSpatial():
+            message=layer.saveStyleToDatabase(('visor_'+name)[:30],'Simbologia del visor; copia GIS aprobada',True,'')
+            assert not message,(name,message)
     for spec in metadata['rasters']:
         name=spec['name'];layer=QgsRasterLayer('GPKG:'+str(PACKAGE)+':'+name,name,'gdal')
         assert layer.isValid(),name
@@ -122,7 +127,7 @@ def main():
         ramp.setColorRampItemList(items);shader.setRasterShaderFunction(ramp)
         layer.setRenderer(QgsSingleBandPseudoColorRenderer(layer.dataProvider(),1,shader))
         project.addMapLayer(layer,False);node=groups['Concentracion KDE'].addLayer(layer);node.setItemVisibilityChecked(name=='KDE_URBANO_TODOS')
-        layer.saveDefaultStyle();layers[name]=layer
+        layer.saveNamedStyle(str(OUT/(name+'.qml')));layers[name]=layer
     # The project retains an optional online reference, not an offline tile download.
     osm=QgsRasterLayer('type=xyz&url=https://tile.openstreetmap.org/{z}/{x}/{y}.png&zmax=19&zmin=0','OpenStreetMap (requiere Internet)','wms')
     project.addMapLayer(osm,False);root.addLayer(osm).setItemVisibilityChecked(False)
@@ -140,6 +145,7 @@ def main():
         settings.setLayers(visible);job=QgsMapRendererParallelJob(settings);job.start();job.waitForFinished()
         assert job.renderedImage().save(str(OUT/('MAPA_'+scope+'.png')))
     for spec in metadata['rasters']:(OUT/(spec['name']+'.npz')).unlink(missing_ok=True)
+    (OUT/'VISOR_RIOBAMBA_COMPLETO.qml').unlink(missing_ok=True)
     document=['# Visor de Riobamba: entrega QGIS completa','',
         'Abrir VISOR_RIOBAMBA.qgz para conservar grupos, simbologia y mapas. El GeoPackage puede abrirse por separado.',
         'CRS metrico: EPSG:32717. Radios100/150/200m; no diametros. Todos los campos se conservan.',
