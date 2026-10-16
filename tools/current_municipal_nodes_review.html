@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Municipales: actualización de 24 nodos urbanos</title>
+<link rel="stylesheet" href="../../../vendor/leaflet/leaflet.css">
+<style>
+*{box-sizing:border-box}body{margin:0;color:#173d50;background:#f6f8f9;font:14px Arial,sans-serif;letter-spacing:0}header{padding:16px 20px;background:#fff;border-bottom:1px solid #cbd9de}h1{font-size:22px;margin:0 0 7px}header p{margin:5px 0;line-height:1.4}.status{color:#765210}.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:12px 20px;background:#edf3f5}label{display:flex;align-items:center;gap:6px}button,select{min-height:35px;border:1px solid #a9bec7;background:white;color:#173d50;border-radius:4px;padding:6px 10px;font:inherit;max-width:100%}button{cursor:pointer}.case{padding:10px 20px;background:#fff7d8;line-height:1.5}.maps{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#c8d6dc}.pane{min-width:0;background:#fff}.pane h2{margin:0;padding:10px 16px;background:#e9f0f2;font-size:14px}.map{height:480px;min-height:340px}section{background:#fff;padding:14px 20px;border-bottom:1px solid #d3dfe3}h2{font-size:18px;margin:0 0 12px}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:10px;text-align:left;border-bottom:1px solid #d5e0e4;vertical-align:top}th{background:#edf3f5}td{line-height:1.4}.selected{background:#fff2b5}.legend{display:flex;flex-wrap:wrap;gap:18px}.key{display:inline-block;width:11px;height:11px;border:1px solid #304b56;border-radius:50%;margin-right:5px;vertical-align:middle}a{color:#0765a4}.notice{line-height:1.5;color:#536670}.downloads{display:flex;flex-wrap:wrap;gap:18px;padding-top:10px}.camera-label{font-weight:bold;background:#f4fff8;color:#173d50;border:1px solid #18815b} @media(max-width:800px){.maps{grid-template-columns:1fr}.map{height:390px}.toolbar{gap:10px}h1{font-size:20px}}
+</style>
+<header><h1>Municipales: 24 nodos urbanos</h1><p class="status">ESTUDIO ACTUALIZADO · NO APLICADO · NO PUBLICADO</p><p>50 municipales: 24 estructurales en revisión; 22 rurales y 4 Las Abras fijas. Las 103 existentes y las 30 policiales actuales permanecen fijas.</p></header>
+<div class="toolbar"><label>Alternativa <select id="scenario" aria-label="Alternativa municipal"></select></label><label>Cámara <select id="camera" aria-label="Cámara municipal"></select></label><button id="overview">Vista general</button><label><input id="fixed" type="checkbox" checked>Otros equipos fijos</label><label><input id="radii" type="checkbox" checked>Radios potenciales 200 m</label><label><input id="kde" type="checkbox">KDE de referencia</label></div>
+<div id="case" class="case">Cargando estudio...</div>
+<main class="maps"><div class="pane"><h2>Municipales publicadas actualmente</h2><div id="before" class="map"></div></div><div class="pane"><h2>Alternativa en cruces comprobados</h2><div id="after" class="map"></div></div></main>
+<section class="legend"><span><i class="key" style="background:#18815b"></i>Municipales</span><span><i class="key" style="background:#246db5"></i>Existentes sin cambio</span><span><i class="key" style="background:#8b46b5"></i>Existentes para cambio</span><span><i class="key" style="background:#e8bd16"></i>Policía fija</span><span>Macají: turquesa · Anillo: rojo oscuro · Ciclovías: azul</span></section>
+<section><h2>Comparación municipal · 103 existentes + 50 municipales</h2><div class="table-wrap" id="comparison"></div><p id="catalog" class="notice"></p><p class="notice">Las 30 policiales no se utilizan para cumplir las metas municipales. Radios de 200 m: proximidad geométrica, no campo visual. La visión se orienta por las vías; no se supone visión a través de manzanas ni detrás de esquinas.</p></section>
+<section><h2>Movimientos por ID</h2><div class="table-wrap" id="movements"></div><p class="notice">Los cruces utilizan vértices originales compartidos de la red OSM local. Las diferencias métricas respecto al eje GIS del Anillo se informan sin proyectar artificialmente puntos ni modificar corredores. Los nombres y jerarquías OSM no equivalen automáticamente a certificación municipal. Postes, orientación y obstáculos pendientes de campo.</p><div class="downloads"><a href="RESULTADOS.json">Resultados y fuentes</a><a href="ESTUDIO_24_NODOS.gpkg" download>GeoPackage del estudio</a><a href="VALIDACION.json">Validación</a><a href="INFORME.md">Informe</a><a href="ESTUDIO_24_NODOS.zip" download>Paquete ZIP</a></div></section>
+<section><h2>Auditoría de continuidad por vías</h2><p>La alternativa C tiene 24 nodos comprobados, pero solo 23 están en vías principales. La continuidad por calles no está resuelta en todos los tramos.</p><p><a href="AUDITORIA_TRAMOS_VIALES/index.html">Ver tramos por eje, enlaces y huecos</a></p></section>
+<script src="../../../vendor/leaflet/leaflet.js"></script>
+<script>
+(async()=>{
+const load=async name=>{const r=await fetch(name);if(!r.ok)throw Error(name+': '+r.status);return r.json();};
+const [report,before,frozen,existing,police,corridors,kdeReference]=await Promise.all(['RESULTADOS.json','ACTUALES_24.geojson','MUNICIPALES_26_FIJAS.geojson','EXISTENTES_103_FIJAS.geojson','POLICIA_30_FIJA.geojson','CORREDORES.geojson','../REVISION_POLICIA_EJES_COMPROBADOS_20261015/RESULTADOS.json'].map(load));
+const names={A_CRUCES_PROXIMOS:'A · Cruces próximos',C_PRIORIDAD_EJES:'C · Prioridad ejes principales',D_PRIORIDAD_CICLOVIAS:'D · Prioridad ciclovías'};
+for(const s of report.scenarios)if(s.solver&&!s.solver.allPhasesOptimalInCatalog)names[s.name]+=' · preliminar';
+const keys=['BOULEVARD_MACAJI_BELLAVISTA','ANILLO_VIAL','CICLOVIAS'];
+const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=(n,d=2)=>Number(n).toLocaleString('es-EC',{maximumFractionDigits:d});
+const ll=f=>[f.geometry.coordinates[1],f.geometry.coordinates[0]];
+const select=document.getElementById('scenario'),camera=document.getElementById('camera');
+select.innerHTML=report.scenarios.map(s=>`<option value="${s.name}">${esc(names[s.name]||s.name)}</option>`).join('');
+select.value=report.scenarios.some(s=>s.name==='C_PRIORIDAD_EJES')?'C_PRIORIDAD_EJES':report.scenarios[0].name;
+camera.innerHTML=before.features.map(f=>`<option>${f.properties.ID_PROPUESTA}</option>`).join('');camera.value='MUN-046';
+const datasets={};for(const s of report.scenarios)datasets[s.name]=await load(s.name+'_24.geojson');
+const center=ll(before.features.find(f=>f.properties.ID_PROPUESTA===camera.value));
+const maps=['before','after'].map(id=>L.map(id,{preferCanvas:true}).setView(center,15));
+const panes=[];const colors={ANILLO_VIAL:'#963a45',BOULEVARD_MACAJI_BELLAVISTA:'#087f8c',CICLOVIAS:'#3178ad',QUEBRADA_LAS_ABRAS:'#698e9b'};
+for(const map of maps){
+ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:20,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+ const kde=L.imageOverlay('../REVISION_POLICIA_EJES_COMPROBADOS_20261015/'+kdeReference.kdeImage,kdeReference.kdeBounds,{opacity:.55});
+ L.geoJSON(corridors,{style:f=>({color:colors[f.properties.CORREDOR]||'#526d77',weight:3,opacity:.7}),onEachFeature:(f,l)=>l.bindTooltip(f.properties.CORREDOR)}).addTo(map);
+ const fixed=L.featureGroup().addTo(map);
+ for(const [data,color,id] of [[existing,null,'ID_CAMARA'],[frozen,'#18815b','ID_PROPUESTA'],[police,'#e8bd16','ID_POLICIA']]) for(const f of data.features){L.circleMarker(ll(f),{radius:4,color:'#fff',weight:1,fillColor:color||(f.properties.REQUIERE_CAMBIO?'#8b46b5':'#246db5'),fillOpacity:.95}).bindTooltip(f.properties[id]).addTo(fixed);}
+ panes.push({kde,fixed,radii:L.featureGroup().addTo(map),markers:L.featureGroup().addTo(map),highlight:L.featureGroup().addTo(map)});
+}
+function render(){
+ const after=datasets[select.value];
+ maps.forEach((map,i)=>{panes[i].radii.clearLayers();panes[i].markers.clearLayers();for(const f of (i===0?before:after).features){L.circle(ll(f),{radius:200,color:'#18815b',weight:1,fillColor:'#18815b',fillOpacity:.1,interactive:false}).addTo(panes[i].radii);L.circleMarker(ll(f),{radius:6,color:'#fff',weight:2,fillColor:'#18815b',fillOpacity:1}).bindTooltip(f.properties.ID_PROPUESTA).on('click',()=>{camera.value=f.properties.ID_PROPUESTA;focus();}).addTo(panes[i].markers);}});
+ const scenario=report.scenarios.find(s=>s.name===select.value);
+ document.getElementById('movements').innerHTML='<table><thead><tr><th>ID</th><th>Cruce</th><th>Desplazamiento</th><th>Principal OSM</th><th>Distancia al eje GIS del Anillo</th></tr></thead><tbody>'+scenario.movements.map(r=>`<tr data-row="${esc(r.ID_PROPUESTA)}"><td><button data-camera="${esc(r.ID_PROPUESTA)}">${esc(r.ID_PROPUESTA)}</button></td><td>${esc(r.CRUCE)}</td><td>${fmt(r.DESPLAZAMIENTO_M)} m</td><td>${r.VIA_PRINCIPAL?'Sí':'No'}</td><td>${fmt(r.DISTANCIA_GEOMETRIA_ANILLO_M)} m</td></tr>`).join('')+'</tbody></table>';
+ document.querySelectorAll('[data-camera]').forEach(button=>button.onclick=()=>{camera.value=button.dataset.camera;focus();});focus();
+}
+function focus(){
+ const old=before.features.find(f=>f.properties.ID_PROPUESTA===camera.value),next=datasets[select.value].features.find(f=>f.properties.ID_PROPUESTA===camera.value),p=next.properties;
+ const bounds=L.latLngBounds([ll(old),ll(next)]).pad(.6);
+ maps.forEach((map,i)=>{map.fitBounds(bounds,{maxZoom:17,padding:[40,40],animate:false});panes[i].highlight.clearLayers();L.polyline([ll(old),ll(next)],{color:'#8b5c78',weight:2,dashArray:'5 5',interactive:false}).addTo(panes[i].highlight);L.circleMarker(ll(i===0?old:next),{radius:8,color:'#173d50',weight:2,fillColor:'#18815b',fillOpacity:1}).bindTooltip(camera.value,{permanent:true,direction:'top',className:'camera-label'}).addTo(panes[i].highlight);});
+ document.getElementById('case').textContent=`${camera.value} · ${p.CRUCE} · desplazamiento ${fmt(p.DESPLAZAMIENTO_M)} m · ${p.GRADO_NODO} brazos · ${p.VIA_PRINCIPAL?'eje principal OSM':'calle local OSM'}${p.EJE_EXIGIDO?' · eje exigido: '+p.EJE_EXIGIDO:''} · NO APLICADO`;
+ document.querySelectorAll('[data-row]').forEach(row=>row.classList.toggle('selected',row.dataset.row===camera.value));
+}
+select.onchange=render;camera.onchange=focus;
+document.getElementById('overview').onclick=()=>maps.forEach(map=>map.fitBounds(L.geoJSON(before).getBounds(),{padding:[25,25],animate:false}));
+for(const [id,key] of [['kde','kde'],['fixed','fixed'],['radii','radii']])document.getElementById(id).onchange=e=>maps.forEach((map,i)=>e.target.checked?panes[i][key].addTo(map):map.removeLayer(panes[i][key]));
+const rows=[{label:'Publicada',coverage:report.baselineMunicipal,principal:'—',moves:0,total:0,max:0,goals:false},...report.scenarios.map(s=>({label:names[s.name]||s.name,coverage:s.municipal,principal:s.principalCount,moves:s.movedCount,total:s.totalDisplacementM,max:s.maxDisplacementM,goals:s.hardGoalsMet}))];
+document.getElementById('comparison').innerHTML='<table><thead><tr><th>Escenario</th><th>Macají %</th><th>Macají sin cubrir</th><th>Anillo %</th><th>Ciclovías %</th><th>Principales</th><th>Movidas</th><th>Total movido</th><th>Máximo</th><th>Macají100 / Anillo80</th></tr></thead><tbody>'+rows.map(r=>`<tr><td>${esc(r.label)}</td><td>${fmt(r.coverage[keys[0]].pct)} %</td><td>${fmt(r.coverage[keys[0]].uncoveredM,3)} m</td><td>${fmt(r.coverage[keys[1]].pct)} %</td><td>${fmt(r.coverage[keys[2]].pct)} %</td><td>${r.principal}</td><td>${r.moves}</td><td>${fmt(r.total)} m</td><td>${fmt(r.max)} m</td><td>${r.goals?'Sí':'No'}</td></tr>`).join('')+'</tbody></table>';
+document.getElementById('catalog').textContent=`${report.candidateCount} cruces comprobables, ${report.principalCandidateCount} principales. Incluso usando todos los principales del catálogo quedarían ${fmt(report.principalOnlyMacajiUncoverableM)} m de Macají sin cubrir. Alcanzar 100 % requiere estudiar cruces locales adicionales, sin ampliar radios.`;
+if(report.scenarios.some(s=>s.solver&&!s.solver.allPhasesOptimalInCatalog))document.getElementById('catalog').textContent+=' La variante preliminar es factible, pero agotó el tiempo de refinamiento de prioridades; no se afirma optimalidad completa.';
+render();
+})().catch(error=>{document.getElementById('case').textContent='No se pudo cargar: '+error.message;console.error(error);});
+</script></html>

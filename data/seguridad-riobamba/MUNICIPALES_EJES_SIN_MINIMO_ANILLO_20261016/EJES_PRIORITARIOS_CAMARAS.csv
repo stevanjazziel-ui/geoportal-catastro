@@ -1,0 +1,25 @@
+﻿ID_PROPUESTA,NODO_COMPROBADO,VIA_PRINCIPAL,CRUCE,EJES_PRINCIPALES,BRAZOS_VIALES,TRAMOS_MISMO_EJE_M,TRAMOS_RECTILINEOS_M,BRAZOS_CON_CURVA,APROBADA_UBICACION,VISIBILIDAD_CERTIFICADA,ENLACE_POTENCIAL_MISMO_EJE,ENLACE_AXIAL_CONSERVADOR
+MUN-027,True,True,Avenida Pedro Vicente Maldonado x Villa Orellana,Avenida Pedro Vicente Maldonado,3,396.025387798413,104.96300594466135,3,False,False,True,False
+MUN-028,True,True,Avenida 9 de Octubre x Eugenio Espejo,Avenida 9 de Octubre | Eugenio Espejo,3,599.9999999989262,86.73546336773026,3,False,False,True,False
+MUN-029,True,True,Avenida Unidad Nacional x Primeras Olimpiadas,Avenida Unidad Nacional,3,599.9999999992485,169.351440177597,3,False,False,True,False
+MUN-030,True,True,Avenida Edelberto Bonilla Oleas x Puruhá,Avenida Edelberto Bonilla Oleas,4,606.5420342590375,196.79484443454194,3,False,False,True,False
+MUN-031,True,True,Avenida 9 de Octubre x Bucarest,Avenida 9 de Octubre,4,614.5630848506086,101.18428192559361,3,False,False,True,False
+MUN-032,True,True,Avenida 21 de Abril x Avenida Edelberto Bonilla Oleas x Vicente Rocafuerte,Avenida Edelberto Bonilla Oleas,5,1000.0000000002226,401.58318700156366,5,False,False,True,True
+MUN-033,True,True,Avenida Unidad Nacional x Eplicachima,Avenida Unidad Nacional,3,524.5002751493312,127.15267392673591,3,False,False,True,False
+MUN-034,True,True,Antonio Borrero x Avenida Antonio José de Sucre,Avenida Antonio José de Sucre,3,600.0000000000277,201.75469705842445,3,False,False,True,True
+MUN-035,True,True,Colombia x Eugenio Espejo,Eugenio Espejo,4,800.0000000012521,324.4807236801571,4,False,False,True,False
+MUN-036,True,True,Avenida Eloy Alfaro x Avenida Leopoldo Freire x Primera Constituyente,Avenida Eloy Alfaro | Avenida Leopoldo Freire | Primera Constituyente,4,738.4977657828263,224.2484226495619,4,False,False,True,True
+MUN-037,True,False,Junín x Puruhá,,3,600.0000000009381,168.5599982084219,3,False,False,False,False
+MUN-038,True,True,Cuba x Primera Constituyente,Primera Constituyente,3,550.383431800055,205.3246800582704,3,False,False,True,True
+MUN-039,True,True,Avenida 9 de Octubre x Bogota,Avenida 9 de Octubre,4,799.9999999999993,438.9983434032282,3,False,False,True,False
+MUN-040,True,True,11 de Noviembre x Eugenio Espejo,Eugenio Espejo,3,600.0000000010268,213.49612443590541,3,False,False,True,False
+MUN-041,True,True,Avenida Daniel León Borja x Brasil,Avenida Daniel León Borja,4,800.0000000014097,295.6534609415714,4,False,False,True,False
+MUN-042,True,True,5 de Junio x Nueva York,5 de Junio,3,599.9999999999491,241.01903502669543,3,False,False,True,False
+MUN-043,True,True,Avenida 9 de Octubre x París,Avenida 9 de Octubre,3,600.0000000001232,131.9017926095843,3,False,False,True,False
+MUN-044,True,True,Avenida Edelberto Bonilla Oleas x Cristóbal Colón,Avenida Edelberto Bonilla Oleas,3,466.0369756755638,119.03456728474667,3,False,False,True,False
+MUN-045,True,True,Avenida 9 de Octubre x Lituania,Avenida 9 de Octubre,3,466.9071766284544,182.68003448312297,2,False,False,True,False
+MUN-046,True,True,Avenida Edelberto Bonilla Oleas x Hanói,Avenida Edelberto Bonilla Oleas,3,555.7179973190092,226.8442771360982,3,False,False,True,False
+MUN-047,True,True,Avenida 9 de Octubre x Avenida Pedro Vicente Maldonado,Avenida 9 de Octubre | Avenida Pedro Vicente Maldonado,3,600.0000000003288,106.5875602530493,3,False,False,True,False
+MUN-048,True,True,Avenida Antonio José de Sucre x Avenida Edelberto Bonilla Olea x Avenida Edelberto Bonilla Oleas,Avenida Antonio José de Sucre | Avenida Edelberto Bonilla Olea | Avenida Edelberto Bonilla Oleas,4,636.3108867516928,141.92445955875885,4,False,False,True,True
+MUN-049,True,True,Avenida 9 de Octubre x Marcella,Avenida 9 de Octubre,3,495.63969332238173,192.95595012942525,3,False,False,True,False
+MUN-050,True,True,Avenida 9 de Octubre x Avenida Celso Augusto Rodriguez,Avenida 9 de Octubre | Avenida Celso Augusto Rodriguez,4,242.20416173916541,38.72962854949643,2,False,False,True,False

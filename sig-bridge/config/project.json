@@ -10,7 +10,7 @@
   "bufferQuadrantSegments": 64,
   "roadSource": "../riobamba_matrix_review_20260921/cartografia_base/RIOBAMBA_Cartografia Base.gdb",
   "corridorToleranceM": 0.001,
-  "publishConstraints": {"BOULEVARD_MACAJI_BELLAVISTA": 100, "ANILLO_VIAL": 80},
+  "publishConstraints": {"BOULEVARD_MACAJI_BELLAVISTA": 100},
   "layers": {
     "municipal": {"source": "PROPUESTA_MUNICIPAL_50_FINAL", "id": "ID_PROPUESTA", "geometry": "Point", "count": 50, "editable": [], "geometryEditable": true, "groupField": "GRUPO", "editableGroups": ["RED_ESTRUCTURAL"]},
     "police": {"source": "PROPUESTA_POLICIA_30_FINAL", "id": "ID_POLICIA", "geometry": "Point", "count": 30, "editable": [], "geometryEditable": true},

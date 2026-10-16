@@ -1,0 +1,209 @@
+{
+  "revision": "MUNICIPALES_NODOS_PRIORITARIOS_20261016",
+  "changes": [
+    {
+      "layer": "municipal",
+      "id": "MUN-027",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 169.84315983344007,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-028",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 59.06687147747236,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-029",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 55.419287425876966,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-030",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 120.84931697184302,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-031",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 197.12977944051008,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-032",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 815.4706193131199,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-033",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 37.93396556173496,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-034",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 40.21462709405621,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-035",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 74.47938598783271,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-036",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 1464.00098935752,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-037",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 188.93837892258017,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-038",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 148.16531745920804,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-039",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 140.77436459963246,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-040",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 134.92391992280665,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-041",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 84.9095224684578,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-042",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 2.4275658152264112,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-043",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 72.51222543646445,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-044",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 179.0899372728473,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-045",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 33.02869569597792,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-046",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 459.5240372008004,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-047",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 596.6769417936088,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-048",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 1616.0222197200694,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-049",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 49.17635074608597,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-050",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 35.665008749701485,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    }
+  ],
+  "baseHashes": {
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\POLICIA_30_EJES_AJUSTES_20261015\\ESCENARIO_FINAL_183.gpkg": "ef36bc1f8c6ef6d804fec6640c09f678339e1a7dc49d1d58a5144561ad641a06",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\MUNICIPALES_EJES_SIN_MINIMO_ANILLO_20261016\\RESULTADOS.json": "781fee8dba9ccc2c2807f090a285bf0353246bc6dae4ec11c29f3beedbafec7e",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\MUNICIPALES_EJES_SIN_MINIMO_ANILLO_20261016\\ESTUDIO_24_NODOS.gpkg": "60e388235d802b499bbbf25b07b67e311521ddb0983050e9d14806e5e10b0d5f",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.cpg": "b4ab9cdac743cec22db404c182bd39e52ffc38b49df6c874eec57524395a95e6",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.dbf": "75e164d35f1c58340de6187e57c5479ce460070bd3f135a9d4460d8e66704ced",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.prj": "d5c5de3bec971779a1f128faf9da32ac90902653587b053fabf52994c1c37dec",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.shp": "53f803ed3394cac9c6b733c81940b468d772e0e0b4deef306c4d7c5f4661ae72",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.shx": "42c3eea1dfa3aa96fbe5a97c4a16a08269f0ee843a90c8042a1585a7c3141a9a"
+  },
+  "createdAt": "2026-10-16T00:12:42-05:00",
+  "authorization": "Si, publicar esa solucion y sus coberturas reales. Macaji100; Anillo68,41; Ciclovias59,25; MUN-037 Junin x Puruha."
+}

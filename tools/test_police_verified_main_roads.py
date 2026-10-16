@@ -26,6 +26,13 @@ class RoadJunctionTests(unittest.TestCase):
         roads=self.frame([[(-1,0),(0,0),(1,0)],[(0,0),(0,1)]],kinds=['residential','residential'])
         self.assertEqual(candidates_from_shared_vertices(roads,box(-5,-5,5,5)),[])
 
+    def test_explicit_local_catalog_does_not_relabel_local_as_principal(self):
+        roads=self.frame([[(-1,0),(0,0),(1,0)],[(0,0),(0,1)]],kinds=['residential','residential'])
+        nodes=candidates_from_shared_vertices(roads,box(-5,-5,5,5),require_principal=False)
+        self.assertEqual(len(nodes),1)
+        self.assertEqual(nodes[0]['principal'],[])
+        self.assertEqual(nodes[0]['highways'],[])
+
     def test_unnamed_crossing_rejected(self):
         roads=self.frame([[(-1,0),(0,0),(1,0)],[(0,0),(0,1)]],names=['Avenida Principal',None])
         self.assertEqual(candidates_from_shared_vertices(roads,box(-5,-5,5,5)),[])

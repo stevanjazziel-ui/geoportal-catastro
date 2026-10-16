@@ -41,7 +41,7 @@ def separated(value):
     return str(value).strip().lower() not in ('', 'nan', 'none', 'no', '0', 'false')
 
 
-def candidates_from_shared_vertices(roads, urban):
+def candidates_from_shared_vertices(roads, urban, require_principal=True):
     """No union/noding: a geometric crossing without a shared source vertex is not a junction."""
     nodes = defaultdict(lambda: {'arms': set(), 'ways': {}, 'gradeSeparated': False})
     for row in roads.itertuples():
@@ -61,7 +61,7 @@ def candidates_from_shared_vertices(roads, urban):
         ways = list(node['ways'].values())
         main = [w for w in ways if w['highway'] in PRINCIPAL and w['name']]
         names = {normalized(w['name']): w['name'] for w in ways if w['name']}
-        if node['gradeSeparated'] or len(node['arms']) < 3 or len(names) < 2 or not main:
+        if node['gradeSeparated'] or len(node['arms']) < 3 or len(names) < 2 or (require_principal and not main):
             continue
         point = Point(xy)
         if not urban.covers(point):
