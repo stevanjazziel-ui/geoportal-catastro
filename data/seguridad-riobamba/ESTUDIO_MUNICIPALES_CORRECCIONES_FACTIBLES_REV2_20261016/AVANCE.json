@@ -1,0 +1,1919 @@
+{
+  "applied": false,
+  "published": false,
+  "baseRelease": "MUN039_SANTA_MARTA_20261016",
+  "sourceHashes": {
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\MUN039_SANTA_MARTA_20261016\\ESCENARIO_FINAL_183.gpkg": "214ae21b8f245c533bbb416d5079ed468c9852540414b0d41cfe267b63597eeb",
+    "D:\\codex\\security-real-incidents\\sig-bridge-active.json": "007bd7d512249df3033e04a9813acaf819ca5f14e11a7fed3ac523f18f4c85f9"
+  },
+  "crs": "EPSG:32717",
+  "minimumSameAxisM": 400.0,
+  "retained": [
+    "MUN-028",
+    "MUN-035",
+    "MUN-039",
+    "MUN-040",
+    "MUN-046"
+  ],
+  "editableCount": 19,
+  "fixedCount": 164,
+  "candidateCount": 436,
+  "candidatePairConflicts": 1131,
+  "strict400mMacajiUncoverableInCatalogM": 74.91074665560014,
+  "legacyPositionsRetainOriginalIdOnly": true,
+  "fixedCamerasWithoutExactRoadMembership": [
+    "RIO-012-DOMO",
+    "RIO-027-DOMO",
+    "RIO-028-DOMO",
+    "RIO-030-DOMO",
+    "RIO-031-DOMO",
+    "RIO-051-DOMO",
+    "RIO-059-DOMO",
+    "RIO-060-DOMO",
+    "RIO-061-DOMO",
+    "RIO-065-DOMO",
+    "RIO-068-LA",
+    "RIO-073-DOMO",
+    "RIO-074-DOMO",
+    "RIO-080-DOMO",
+    "RIO-084-DOMO",
+    "RIO-087-FIJA",
+    "RIO-088-FIJA",
+    "RIO-090-FIJA",
+    "RIO-091-FIJA",
+    "RIO-094-FIJA",
+    "RIO-095-FIJA",
+    "RIO-096-FIJA",
+    "RIO-097-FIJA",
+    "RIO-098-FIJA",
+    "MUN-001",
+    "MUN-002",
+    "MUN-003",
+    "MUN-004",
+    "MUN-005",
+    "MUN-006",
+    "MUN-007",
+    "MUN-008",
+    "MUN-009",
+    "MUN-010",
+    "MUN-011",
+    "MUN-012",
+    "MUN-013",
+    "MUN-014",
+    "MUN-015",
+    "MUN-016",
+    "MUN-017",
+    "MUN-018",
+    "MUN-019",
+    "MUN-020",
+    "MUN-021",
+    "MUN-022",
+    "MUN-023",
+    "MUN-024",
+    "MUN-025",
+    "MUN-026"
+  ],
+  "fixedRoadAssociations": [
+    {
+      "ID_CAMARA": "RIO-001-DOMO",
+      "VIA": "Avenida 9 de Octubre",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-001-DOMO",
+      "VIA": "Madrid",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-002-DOMO",
+      "VIA": "Avenida Leopoldo Freire",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-002-DOMO",
+      "VIA": "Avenida Eloy Alfaro",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-003-DOMO",
+      "VIA": "José de Orozco",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-003-DOMO",
+      "VIA": "Loja",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-004-DOMO",
+      "VIA": "José Veloz",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-004-DOMO",
+      "VIA": "Alvarado",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-005-DOMO",
+      "VIA": "5 de Junio",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-005-DOMO",
+      "VIA": "Junín",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-006-DOMO",
+      "VIA": "Carabobo",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-006-DOMO",
+      "VIA": "León Febres Cordero",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-006-DOMO",
+      "VIA": "Avenida Antonio José de Sucre",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-007-DOMO",
+      "VIA": "5 de Junio",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 8.565619745721095,
+      "X_REFERENCIA": 761661.1254805517,
+      "Y_REFERENCIA": 9814903.48675262,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-007-DOMO",
+      "VIA": "Primera Constituyente",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 10.687111184927973,
+      "X_REFERENCIA": 761647.5040214261,
+      "Y_REFERENCIA": 9814900.914899727,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-008-FIJA",
+      "VIA": "5 de Junio",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 11.265402012273146,
+      "X_REFERENCIA": 761654.8257215893,
+      "Y_REFERENCIA": 9814895.901420098,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-008-FIJA",
+      "VIA": "Primera Constituyente",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 0.7578245569744053,
+      "X_REFERENCIA": 761645.6596596721,
+      "Y_REFERENCIA": 9814902.527484326,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-009-DOMO",
+      "VIA": "Guayaquil",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-009-DOMO",
+      "VIA": "Cristóbal Colón",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-010-DOMO",
+      "VIA": "Avenida Daniel León Borja",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-010-DOMO",
+      "VIA": "Avenida Miguel Angel León",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-011-DOMO",
+      "VIA": "Avenida Daniel León Borja",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-011-DOMO",
+      "VIA": "Avenida Carlos Zambrano",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-012-DOMO",
+      "VIA": "La Prensa",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 1325.2122489604494
+    },
+    {
+      "ID_CAMARA": "RIO-012-DOMO",
+      "VIA": "Avenida La Prensa",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 905.2899679819595
+    },
+    {
+      "ID_CAMARA": "RIO-012-DOMO",
+      "VIA": "9 de Julio",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 19750.717358169994
+    },
+    {
+      "ID_CAMARA": "RIO-013-DOMO",
+      "VIA": "Avenida Atahualpa",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-013-DOMO",
+      "VIA": "Avenida 9 de Octubre",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-013-DOMO",
+      "VIA": "Carabobo",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-014-DOMO",
+      "VIA": "Diego de Rodriguez",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-014-DOMO",
+      "VIA": "Avenida Pedro Vicente Maldonado",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-014-DOMO",
+      "VIA": "Avenida 11 de Noviembre",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-015-DOMO",
+      "VIA": "Victor Emilio Estrada",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-015-DOMO",
+      "VIA": "Avenida Antonio José de Sucre",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-016-DOMO",
+      "VIA": "Avenida Leopoldo Freire",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 1.8384715853345812,
+      "X_REFERENCIA": 763616.5136208328,
+      "Y_REFERENCIA": 9812909.34367397,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-016-DOMO",
+      "VIA": "Leopoldo Freire",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 1755.86053977602
+    },
+    {
+      "ID_CAMARA": "RIO-016-DOMO",
+      "VIA": "Via a Chambo",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 370.4273648007836
+    },
+    {
+      "ID_CAMARA": "RIO-017-FIJA",
+      "VIA": "Avenida Leopoldo Freire",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 1.8620812128245843,
+      "X_REFERENCIA": 763629.5042119272,
+      "Y_REFERENCIA": 9812891.190180592,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-017-FIJA",
+      "VIA": "Leopoldo Freire",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 1733.3699254571845
+    },
+    {
+      "ID_CAMARA": "RIO-017-FIJA",
+      "VIA": "Via a Chambo",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 348.10243810063145
+    },
+    {
+      "ID_CAMARA": "RIO-018-DOMO",
+      "VIA": "Carabobo",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 5.266981036211218,
+      "X_REFERENCIA": 760832.7036187632,
+      "Y_REFERENCIA": 9814952.0704656,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-018-DOMO",
+      "VIA": "Colombia",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 2.1220871726888824,
+      "X_REFERENCIA": 760830.0919896831,
+      "Y_REFERENCIA": 9814956.982240332,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-019-DOMO",
+      "VIA": "10 de Agosto",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 82.78791806279634,
+      "X_REFERENCIA": 761850.3809566859,
+      "Y_REFERENCIA": 9814612.525551617,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-019-DOMO",
+      "VIA": "Morona",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 82.7863440592264,
+      "X_REFERENCIA": 761975.8496204872,
+      "Y_REFERENCIA": 9814504.488655228,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-020-DOMO",
+      "VIA": "La Prensa",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 628.412463831528
+    },
+    {
+      "ID_CAMARA": "RIO-020-DOMO",
+      "VIA": "Avenida La Prensa",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 7.297255414898967,
+      "X_REFERENCIA": 760026.5573885565,
+      "Y_REFERENCIA": 9816169.082637904,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-020-DOMO",
+      "VIA": "Avenida Daniel León Borja",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 7.297255415089737,
+      "X_REFERENCIA": 760040.9541191701,
+      "Y_REFERENCIA": 9816171.47719298,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-021-DOMO",
+      "VIA": "José de Orozco",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-021-DOMO",
+      "VIA": "Cristóbal Colón",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-022-DOMO",
+      "VIA": "Argentinos",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-022-DOMO",
+      "VIA": "Juan de Lavalle",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-023-DOMO",
+      "VIA": "Duchicela",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-023-DOMO",
+      "VIA": "Avenida Unidad Nacional",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-024-DOMO",
+      "VIA": "Avenida 9 de Octubre",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-024-DOMO",
+      "VIA": "Duchicela",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-025-DOMO",
+      "VIA": "Avenida Canónigo Ramos",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 6.834774217795938,
+      "X_REFERENCIA": 759347.3090422826,
+      "Y_REFERENCIA": 9816663.254576357,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-025-DOMO",
+      "VIA": "Teófilo Sáenz",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 38.82015966619847,
+      "X_REFERENCIA": 759387.0859403042,
+      "Y_REFERENCIA": 9816653.637890194,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-026-DOMO",
+      "VIA": "Avenida Jose A. Lizarzaburu",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-026-DOMO",
+      "VIA": "Avenida 11 de Noviembre",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-027-DOMO",
+      "VIA": "Avenida Alfonso Chavez",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 4589.617909793473
+    },
+    {
+      "ID_CAMARA": "RIO-028-DOMO",
+      "VIA": "Panamericana Sur",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 5732.027152269162
+    },
+    {
+      "ID_CAMARA": "RIO-028-DOMO",
+      "VIA": "Panamericana",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 2209.207566136387
+    },
+    {
+      "ID_CAMARA": "RIO-029-DOMO",
+      "VIA": "Avenida Atahualpa",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-029-DOMO",
+      "VIA": "San Andres",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-031-DOMO",
+      "VIA": "Felix Proaño",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 10072.359390154286
+    },
+    {
+      "ID_CAMARA": "RIO-031-DOMO",
+      "VIA": "Avenida Juan Felix Proaño",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 2646.2668863624713
+    },
+    {
+      "ID_CAMARA": "RIO-031-DOMO",
+      "VIA": "Avenida Juan Felix Proaño",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 2646.2668863624713
+    },
+    {
+      "ID_CAMARA": "RIO-031-DOMO",
+      "VIA": "Proaño",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 15630.336134413583
+    },
+    {
+      "ID_CAMARA": "RIO-032-DOMO",
+      "VIA": "Ricardo Descalzi",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-032-DOMO",
+      "VIA": "Agustin Cueva Tamariz",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-033-DOMO",
+      "VIA": "Eugenio Espejo",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-033-DOMO",
+      "VIA": "Avenida Luis Cordovez",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-034-DOMO",
+      "VIA": "Pichincha",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-034-DOMO",
+      "VIA": "José Joaquín de Olmedo",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-035-DOMO",
+      "VIA": "Lizardo Garcia",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 2.4803944265361166,
+      "X_REFERENCIA": 762399.8139704824,
+      "Y_REFERENCIA": 9816222.908229595,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-036-DOMO",
+      "VIA": "10 de Agosto",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-036-DOMO",
+      "VIA": "España",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-037-DOMO",
+      "VIA": "Carabobo",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-037-DOMO",
+      "VIA": "Primera Constituyente",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-038-DOMO",
+      "VIA": "José Veloz",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-038-DOMO",
+      "VIA": "Diego de Ibarra",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-039-DOMO",
+      "VIA": "Eplicachima",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-039-DOMO",
+      "VIA": "Rey Cacha",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-040-DOMO",
+      "VIA": "Jimenez",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 8.500367948811018,
+      "X_REFERENCIA": 761443.3470273481,
+      "Y_REFERENCIA": 9816022.007246716,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-041-DOMO",
+      "VIA": "Panamericana Sur",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-041-DOMO",
+      "VIA": "Avenida Jose A. Lizarzaburu",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-041-DOMO",
+      "VIA": "Avenida Monseñor Leonidas Proaño",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-042-DOMO",
+      "VIA": "Calle C",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-043-DOMO",
+      "VIA": "Agustín Torres Solís",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-043-DOMO",
+      "VIA": "Avenida Jose A. Lizarzaburu",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-043-DOMO",
+      "VIA": "Adyacente a Canal de Riego",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-044-DOMO",
+      "VIA": "Padre Lobato",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 7.997128197887295,
+      "X_REFERENCIA": 758538.872464459,
+      "Y_REFERENCIA": 9813161.366871374,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-044-DOMO",
+      "VIA": "Avenida Cristóbal Colón",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 10.174227950073947,
+      "X_REFERENCIA": 758537.034151131,
+      "Y_REFERENCIA": 9813148.622523304,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-044-DOMO",
+      "VIA": "Colon",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 15141.899112741929
+    },
+    {
+      "ID_CAMARA": "RIO-044-DOMO",
+      "VIA": "Cristóbal Colón",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 2445.383116616483
+    },
+    {
+      "ID_CAMARA": "RIO-045-DOMO",
+      "VIA": "Sangay",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 143.57616483036006,
+      "X_REFERENCIA": 759952.5906706821,
+      "Y_REFERENCIA": 9813781.614683237,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-046-DOMO",
+      "VIA": "Avenida Leopoldo Freire",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 2.5034484663865264,
+      "X_REFERENCIA": 763219.8364710397,
+      "Y_REFERENCIA": 9813462.098409863,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-046-DOMO",
+      "VIA": "Bucarest",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 5.160901330124317,
+      "X_REFERENCIA": 763221.0296128107,
+      "Y_REFERENCIA": 9813456.624236286,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-046-DOMO",
+      "VIA": "Leopoldo Freire",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 2435.551549743026
+    },
+    {
+      "ID_CAMARA": "RIO-047-DOMO",
+      "VIA": "Manuel Benjamin Carrion",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 5.841283352616614,
+      "X_REFERENCIA": 759606.7549754794,
+      "Y_REFERENCIA": 9818149.923430556,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-047-DOMO",
+      "VIA": "Proaño",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 18842.727940326036
+    },
+    {
+      "ID_CAMARA": "RIO-048-DOMO",
+      "VIA": "Felix Proaño",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 9241.591995393612
+    },
+    {
+      "ID_CAMARA": "RIO-048-DOMO",
+      "VIA": "Avenida Juan Felix Proaño",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 3.4514087338816153,
+      "X_REFERENCIA": 762217.526640517,
+      "Y_REFERENCIA": 9813757.758157646,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-048-DOMO",
+      "VIA": "Londres",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 17.34736294405882,
+      "X_REFERENCIA": 762221.257928364,
+      "Y_REFERENCIA": 9813742.296721602,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-048-DOMO",
+      "VIA": "Proaño",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 13842.597652464447
+    },
+    {
+      "ID_CAMARA": "RIO-049-DOMO",
+      "VIA": "Teniente Hugo Ortiz",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 0.6618629693624167,
+      "X_REFERENCIA": 758001.6673681119,
+      "Y_REFERENCIA": 9819040.549582168,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-049-DOMO",
+      "VIA": "Panamericana",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 9067.370286563972
+    },
+    {
+      "ID_CAMARA": "RIO-050-DOMO",
+      "VIA": "Ibarra",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 3406.8676077161817
+    },
+    {
+      "ID_CAMARA": "RIO-050-DOMO",
+      "VIA": "Ibarra",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 3406.8676077161817
+    },
+    {
+      "ID_CAMARA": "RIO-050-DOMO",
+      "VIA": "José María Velasco Ibarra",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 3.239572953206796,
+      "X_REFERENCIA": 758098.177834523,
+      "Y_REFERENCIA": 9816699.876917478,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-050-DOMO",
+      "VIA": "Velasco",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 20142.568403372785
+    },
+    {
+      "ID_CAMARA": "RIO-052-DOMO",
+      "VIA": "Puruha",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 7.807276174070807,
+      "X_REFERENCIA": 762772.4427937353,
+      "Y_REFERENCIA": 9814789.304066423,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-053-DOMO",
+      "VIA": "Avenida Miguel Angel León",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 92.08572450838814,
+      "X_REFERENCIA": 761072.7859026461,
+      "Y_REFERENCIA": 9815739.825125016,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-054-DOMO",
+      "VIA": "Rocafuerte",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 10056.098143215097
+    },
+    {
+      "ID_CAMARA": "RIO-054-DOMO",
+      "VIA": "Chile",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 10.694702122342402,
+      "X_REFERENCIA": 760957.9218966935,
+      "Y_REFERENCIA": 9814950.953297488,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-055-DOMO",
+      "VIA": "Araujo Chiriboga",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 10.458939113491674,
+      "X_REFERENCIA": 762759.843072938,
+      "Y_REFERENCIA": 9815631.763489254,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-055-DOMO",
+      "VIA": "Avenida Araujo Chiriboga",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 6.995588180728746,
+      "X_REFERENCIA": 762767.56718846,
+      "Y_REFERENCIA": 9815630.87512402,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-056-DOMO",
+      "VIA": "Quito",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 8.437388689462493,
+      "X_REFERENCIA": 762845.3268145648,
+      "Y_REFERENCIA": 9813858.019584915,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-056-DOMO",
+      "VIA": "Avenida Leopoldo Freire",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 3.128420703416546,
+      "X_REFERENCIA": 762840.5972519207,
+      "Y_REFERENCIA": 9813865.414317835,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-056-DOMO",
+      "VIA": "Leopoldo Freire",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 2986.494375470184
+    },
+    {
+      "ID_CAMARA": "RIO-057-DOMO",
+      "VIA": "Patria Libre",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 73.98729826223544,
+      "X_REFERENCIA": 762779.0687682685,
+      "Y_REFERENCIA": 9815984.868382407,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-057-DOMO",
+      "VIA": "La Opinión",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 11.752180657660741,
+      "X_REFERENCIA": 762833.5375552843,
+      "Y_REFERENCIA": 9815936.194387348,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-058-DOMO",
+      "VIA": "Pichincha",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-058-DOMO",
+      "VIA": "Avenida 9 de Octubre",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-059-DOMO",
+      "VIA": "Mexico",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 1247.6422719593725
+    },
+    {
+      "ID_CAMARA": "RIO-059-DOMO",
+      "VIA": "La Paz",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 2841.934434107815
+    },
+    {
+      "ID_CAMARA": "RIO-059-DOMO",
+      "VIA": "La Paz",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 2841.934434107815
+    },
+    {
+      "ID_CAMARA": "RIO-060-DOMO",
+      "VIA": "Cuba",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 3266.197160814137
+    },
+    {
+      "ID_CAMARA": "RIO-060-DOMO",
+      "VIA": "Cuba",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 3266.197160814137
+    },
+    {
+      "ID_CAMARA": "RIO-061-DOMO",
+      "VIA": "Sucre",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 3968.5756856470075
+    },
+    {
+      "ID_CAMARA": "RIO-061-DOMO",
+      "VIA": "Avenida Antonio José de Sucre",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 1021.3599411189256
+    },
+    {
+      "ID_CAMARA": "RIO-062-DOMO",
+      "VIA": "Gaspar de Villarroel",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-062-DOMO",
+      "VIA": "Bernardo Darquea",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-063-DOMO",
+      "VIA": "Calle A",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-064-DOMO",
+      "VIA": "Avenida Unidad Nacional",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 17.491600968597414,
+      "X_REFERENCIA": 760922.7166432693,
+      "Y_REFERENCIA": 9815308.723329075,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-066-DOMO",
+      "VIA": "Río Coca",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 0.42817033068426835,
+      "X_REFERENCIA": 758294.2244691477,
+      "Y_REFERENCIA": 9818663.349744698,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-066-DOMO",
+      "VIA": "Panamericana",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 8599.092174048015
+    },
+    {
+      "ID_CAMARA": "RIO-067-DOMO",
+      "VIA": "Calle I",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-067-DOMO",
+      "VIA": "Chibchas",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-069-DOMO",
+      "VIA": "Rio Paute",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 126.42170608575529,
+      "X_REFERENCIA": 758554.5159349688,
+      "Y_REFERENCIA": 9818993.155352013,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-069-DOMO",
+      "VIA": "Río Tomebamba",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 5.47213660982021,
+      "X_REFERENCIA": 758505.3909445372,
+      "Y_REFERENCIA": 9819103.679333804,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-070-DOMO",
+      "VIA": "Avenida Canónigo Ramos",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 5.38683766277167,
+      "X_REFERENCIA": 758148.9818639762,
+      "Y_REFERENCIA": 9817662.236495866,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-071-DOMO",
+      "VIA": "Vicente Ramón Roca",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 5.698251503357948,
+      "X_REFERENCIA": 762307.788444774,
+      "Y_REFERENCIA": 9816481.329700667,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-072-DOMO",
+      "VIA": "Avenida Daniel León Borja",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-072-DOMO",
+      "VIA": "10 de Agosto",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-072-DOMO",
+      "VIA": "Carabobo",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-073-DOMO",
+      "VIA": "Licto",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 13677.24115525931
+    },
+    {
+      "ID_CAMARA": "RIO-074-DOMO",
+      "VIA": "Panamericana",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 11018.900370069263
+    },
+    {
+      "ID_CAMARA": "RIO-075-DOMO",
+      "VIA": "Avenida Monseñor Leonidas Proaño",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 20.74962207640339,
+      "X_REFERENCIA": 759981.3077166881,
+      "Y_REFERENCIA": 9818204.28617068,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-075-DOMO",
+      "VIA": "Proaño",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 18780.752802395804
+    },
+    {
+      "ID_CAMARA": "RIO-076-DOMO",
+      "VIA": "Gonzalo Dávalos",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 22.409648127527436,
+      "X_REFERENCIA": 760663.4428858969,
+      "Y_REFERENCIA": 9816771.926019257,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-077-DOMO",
+      "VIA": "Juan Montalvo",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 7.327743783225292,
+      "X_REFERENCIA": 760877.5550150835,
+      "Y_REFERENCIA": 9815137.301282082,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-078-DOMO",
+      "VIA": "Olmedo",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 591.9439558172664
+    },
+    {
+      "ID_CAMARA": "RIO-078-DOMO",
+      "VIA": "Juan de Velasco",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 6.5975654106990325,
+      "X_REFERENCIA": 761621.5193798053,
+      "Y_REFERENCIA": 9814599.035974216,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-078-DOMO",
+      "VIA": "Velasco",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 16762.89771449363
+    },
+    {
+      "ID_CAMARA": "RIO-079-DOMO",
+      "VIA": "Roma",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 12.001136666293451,
+      "X_REFERENCIA": 762449.1570397277,
+      "Y_REFERENCIA": 9813787.601466887,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-079-DOMO",
+      "VIA": "Amsterdam",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 3.9736364977924974,
+      "X_REFERENCIA": 762438.3648002136,
+      "Y_REFERENCIA": 9813781.607807819,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-080-DOMO",
+      "VIA": "Calpi",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 10285.063757655484
+    },
+    {
+      "ID_CAMARA": "RIO-080-DOMO",
+      "VIA": "Panamericana",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 13640.914545669953
+    },
+    {
+      "ID_CAMARA": "RIO-081-FIJA",
+      "VIA": "Avenida Unidad Nacional",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-081-FIJA",
+      "VIA": "Diego de Ibarra",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-082-FIJA",
+      "VIA": "Francia",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-082-FIJA",
+      "VIA": "Colombia",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-083-DOMO",
+      "VIA": "Vicente Ramón Roca",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-083-DOMO",
+      "VIA": "Jaime Roldos Aguilera",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-084-DOMO",
+      "VIA": "Macas",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 8066.594671009387
+    },
+    {
+      "ID_CAMARA": "RIO-084-DOMO",
+      "VIA": "Felix Proaño",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 3873.8729201845736
+    },
+    {
+      "ID_CAMARA": "RIO-084-DOMO",
+      "VIA": "Avenida Juan Felix Proaño",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 4390.514152478555
+    },
+    {
+      "ID_CAMARA": "RIO-084-DOMO",
+      "VIA": "Proaño",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 6879.858224876055
+    },
+    {
+      "ID_CAMARA": "RIO-085-DOMO",
+      "VIA": "Baltazar",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-085-DOMO",
+      "VIA": "José de Orozco",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-086-DOMO",
+      "VIA": "Avenida La Prensa",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-086-DOMO",
+      "VIA": "Argentinos",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-087-FIJA",
+      "VIA": "Santos Leopoldo Cabezas",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 1592.64540393442
+    },
+    {
+      "ID_CAMARA": "RIO-088-FIJA",
+      "VIA": "Santos Leopoldo Cabezas",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 1615.1845826552035
+    },
+    {
+      "ID_CAMARA": "RIO-089-FIJA",
+      "VIA": "Jaime Roldos Aguilera",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-089-FIJA",
+      "VIA": "Diego Noboa",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-092-FIJA",
+      "VIA": "Avenida Antonio José de Sucre",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-092-FIJA",
+      "VIA": "José María Urbina",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-093-FIJA",
+      "VIA": "Avenida Antonio José de Sucre",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-093-FIJA",
+      "VIA": "Diego Noboa",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-094-FIJA",
+      "VIA": "Riobamba",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 14300.533803077944
+    },
+    {
+      "ID_CAMARA": "RIO-094-FIJA",
+      "VIA": "Gabriel Moncayo",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 477.944226553777
+    },
+    {
+      "ID_CAMARA": "RIO-094-FIJA",
+      "VIA": "Gabriel Moncayo",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 477.944226553777
+    },
+    {
+      "ID_CAMARA": "RIO-095-FIJA",
+      "VIA": "Riobamba",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 17859.058471221026
+    },
+    {
+      "ID_CAMARA": "RIO-095-FIJA",
+      "VIA": "Chimborazo",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 18632.49471799161
+    },
+    {
+      "ID_CAMARA": "RIO-096-FIJA",
+      "VIA": "Riobamba",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 17837.348385852016
+    },
+    {
+      "ID_CAMARA": "RIO-096-FIJA",
+      "VIA": "Chimborazo",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 18611.713579870848
+    },
+    {
+      "ID_CAMARA": "RIO-097-FIJA",
+      "VIA": "Chimborazo",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 17604.43206700521
+    },
+    {
+      "ID_CAMARA": "RIO-098-FIJA",
+      "VIA": "Riobamba",
+      "METODO": "DIRECCION_FUERA_RADIO200_NO_ASOCIADA",
+      "DIST_PUNTO_EJE_M": 15641.303171872056
+    },
+    {
+      "ID_CAMARA": "RIO-099-DOMO",
+      "VIA": "Los Nogales",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 11.313708498984761,
+      "X_REFERENCIA": 760757.0676660568,
+      "Y_REFERENCIA": 9816294.792951517,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-099-DOMO",
+      "VIA": "Gonzalo Dávalos",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 5.51526705140729,
+      "X_REFERENCIA": 760754.373910899,
+      "Y_REFERENCIA": 9816304.296925029,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-100-FIJA",
+      "VIA": "Los Nogales",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 10.64141513224123,
+      "X_REFERENCIA": 760755.4349728567,
+      "Y_REFERENCIA": 9816291.315222818,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-100-FIJA",
+      "VIA": "Gonzalo Dávalos",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 2.082172752990434,
+      "X_REFERENCIA": 760763.3495313531,
+      "Y_REFERENCIA": 9816285.616747234,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "RIO-101-DOMO",
+      "VIA": "San Andres",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-101-DOMO",
+      "VIA": "Pallatanga",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-102-DOMO",
+      "VIA": "Avenida Milton Reyes",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-102-DOMO",
+      "VIA": "Avenida 11 de Noviembre",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "RIO-103-DOMO",
+      "VIA": "Luis Urdaneta",
+      "METODO": "REFERENCIA_LINEAL_POR_DIRECCION_DOCUMENTADA",
+      "DIST_PUNTO_EJE_M": 0.41812005290615584,
+      "X_REFERENCIA": 759061.3004688692,
+      "Y_REFERENCIA": 9816792.70923749,
+      "GEOMETRIA_INVENTARIO_MODIFICADA": false
+    },
+    {
+      "ID_CAMARA": "POL-01",
+      "VIA": "Avenida Pedro Vicente Maldonado",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-01",
+      "VIA": "Panamericana Sur",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-01",
+      "VIA": "Avenida Monseñor Leonidas Proaño",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-02",
+      "VIA": "Gabriel García Moreno",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-02",
+      "VIA": "Avenida Edelberto Bonilla Oleas",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-03",
+      "VIA": "Baron de Carondelet",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-03",
+      "VIA": "Carabobo",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-04",
+      "VIA": "Olmedo",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-04",
+      "VIA": "Avenida Eloy Alfaro",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-05",
+      "VIA": "Roma",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-05",
+      "VIA": "Viena",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-06",
+      "VIA": "Avenida Leopoldo Freire",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-06",
+      "VIA": "Ottawa",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-06",
+      "VIA": "Bolívar Bonilla",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-07",
+      "VIA": "Avenida Monseñor Leonidas Proaño",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-07",
+      "VIA": "Fernando de Santillán",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-08",
+      "VIA": "Avenida Monseñor Leonidas Proaño",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-08",
+      "VIA": "El Oro",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-09",
+      "VIA": "Padre Lobato",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-09",
+      "VIA": "Avenida Atahualpa",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-09",
+      "VIA": "General Pedro Duchi",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-10",
+      "VIA": "Loja",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-10",
+      "VIA": "Avenida Edelberto Bonilla Oleas",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-10",
+      "VIA": "Córdova",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-11",
+      "VIA": "Avenida Canónigo Ramos",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-11",
+      "VIA": "Jose Maria Roura O.",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-12",
+      "VIA": "Avenida 9 de Octubre",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-12",
+      "VIA": "Bolivia",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-13",
+      "VIA": "Avenida Alfonso Chavez",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-13",
+      "VIA": "Otto Arosemena Gomez",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-14",
+      "VIA": "Avenida 11 de Noviembre",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-14",
+      "VIA": "Joaquin Gallegos",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-14",
+      "VIA": "Joaquin Gallegos L.",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-15",
+      "VIA": "Antonio Morga",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-15",
+      "VIA": "Avenida Monseñor Leonidas Proaño",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-16",
+      "VIA": "Avenida 9 de Octubre",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-16",
+      "VIA": "Melchor Guzmán",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-17",
+      "VIA": "Avenida Canónigo Ramos",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-17",
+      "VIA": "Avenida Monseñor Leonidas Proaño",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-18",
+      "VIA": "José de Peralta",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-18",
+      "VIA": "Avenida Pedro Vicente Maldonado",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-19",
+      "VIA": "Avenida Monseñor Leonidas Proaño",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-19",
+      "VIA": "Atabasco",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-20",
+      "VIA": "Avenida Pedro Vicente Maldonado",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-20",
+      "VIA": "Antonio Elizalde",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-21",
+      "VIA": "Panamericana Sur",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-21",
+      "VIA": "Bolivar",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-22",
+      "VIA": "Vasco de Contreras",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-22",
+      "VIA": "Avenida Pedro Vicente Maldonado",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-23",
+      "VIA": "Juan de Dios Morales",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-23",
+      "VIA": "Avenida Saint Amand Montrond",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-24",
+      "VIA": "Brasilia",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-24",
+      "VIA": "Avenida Celso Augusto Rodriguez",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-25",
+      "VIA": "Avenida Jose A. Lizarzaburu",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-25",
+      "VIA": "Joaquín Pinto",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-26",
+      "VIA": "José Veloz",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-26",
+      "VIA": "Los Sauces",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-27",
+      "VIA": "Avenida Canónigo Ramos",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-27",
+      "VIA": "Camilo Egas",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-28",
+      "VIA": "Avenida Milton Reyes",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-28",
+      "VIA": "Virgilio Corral",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-29",
+      "VIA": "Avenida Pedro Vicente Maldonado",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-29",
+      "VIA": "Feliciano Checa",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-30",
+      "VIA": "Washington",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "POL-30",
+      "VIA": "Avenida Celso Augusto Rodriguez",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "MUN-028",
+      "VIA": "Avenida 9 de Octubre",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "MUN-028",
+      "VIA": "Eugenio Espejo",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "MUN-035",
+      "VIA": "Eugenio Espejo",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "MUN-035",
+      "VIA": "Colombia",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "MUN-039",
+      "VIA": "Avenida 9 de Octubre",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "MUN-039",
+      "VIA": "Santa Marta",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "MUN-040",
+      "VIA": "11 de Noviembre",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "MUN-040",
+      "VIA": "Eugenio Espejo",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "MUN-046",
+      "VIA": "Hanói",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    },
+    {
+      "ID_CAMARA": "MUN-046",
+      "VIA": "Avenida Edelberto Bonilla Oleas",
+      "METODO": "VERTICE_ORIGINAL_EXACTO",
+      "DIST_PUNTO_EJE_M": 0.0
+    }
+  ],
+  "uncoverableEvenUsingAllCandidatesM": {
+    "ANILLO_VIAL": 710.4319493887367,
+    "CICLOVIAS": 1353.9359300075384
+  },
+  "conservativeUnresolvedRule": "No candidato a menos de400m rectos de una fija sin asociacion vial exacta. No se inventa asociacion.",
+  "limitations": [
+    "Las camaras retenidas pueden conservar separaciones menores a400m entre si: son excepciones explicitas.",
+    "Se usa la misma via nominal y sus aristas originales; no se conectan calzadas ni nombres distintos.",
+    "Los buffers son potenciales. No se certifica vision entre manzanas, al girar o frente a obstaculos.",
+    "Las excepciones locales nuevas son alternativas para conservar Macaji100 y no se aplican silenciosamente."
+  ],
+  "solver": [
+    {
+      "phase": "MAX_POSICIONES_COMPATIBLES_400M",
+      "status": 0,
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "objective": 17.0,
+      "mipGap": 0.0
+    },
+    {
+      "phase": "MAX_CRUCES_PRINCIPALES",
+      "status": 0,
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "objective": 17.0,
+      "mipGap": 0.0
+    },
+    {
+      "phase": "MAX_ANILLO",
+      "status": 0,
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "objective": 4948.9983044693,
+      "mipGap": 0.0
+    },
+    {
+      "phase": "MAX_CICLOVIAS",
+      "status": 0,
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "objective": 864.2067846055261,
+      "mipGap": 0.0
+    }
+  ]
+}

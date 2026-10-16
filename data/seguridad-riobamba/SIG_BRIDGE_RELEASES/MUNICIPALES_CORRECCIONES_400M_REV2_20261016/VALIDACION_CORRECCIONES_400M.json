@@ -1,0 +1,79 @@
+{
+  "passed": true,
+  "changedVsPriorPublic": [
+    "MUN-030",
+    "MUN-031",
+    "MUN-032",
+    "MUN-033",
+    "MUN-034",
+    "MUN-036",
+    "MUN-037",
+    "MUN-038",
+    "MUN-039",
+    "MUN-042",
+    "MUN-043",
+    "MUN-044",
+    "MUN-045",
+    "MUN-047",
+    "MUN-048",
+    "MUN-049",
+    "MUN-050"
+  ],
+  "changedVsMUN039Release": [
+    "MUN-030",
+    "MUN-031",
+    "MUN-032",
+    "MUN-033",
+    "MUN-034",
+    "MUN-036",
+    "MUN-037",
+    "MUN-038",
+    "MUN-042",
+    "MUN-043",
+    "MUN-044",
+    "MUN-045",
+    "MUN-047",
+    "MUN-048",
+    "MUN-049",
+    "MUN-050"
+  ],
+  "relocatedSameAxis400mChecked": [
+    "MUN-030",
+    "MUN-031",
+    "MUN-032",
+    "MUN-033",
+    "MUN-034",
+    "MUN-036",
+    "MUN-037",
+    "MUN-038",
+    "MUN-042",
+    "MUN-043",
+    "MUN-044",
+    "MUN-045",
+    "MUN-047",
+    "MUN-048",
+    "MUN-049",
+    "MUN-050"
+  ],
+  "explicitlyRetained": [
+    "MUN-028",
+    "MUN-035",
+    "MUN-039",
+    "MUN-040",
+    "MUN-046"
+  ],
+  "pendingSpacing": [
+    "MUN-029",
+    "MUN-041"
+  ],
+  "localJunctionExceptions": {
+    "MUN-030": "Asunción x Bagdad",
+    "MUN-037": "Asunción x Junín"
+  },
+  "global400mCompliance": false,
+  "giAndKdeUnchanged": true,
+  "strict400mMacajiUncoverableInReviewedCatalogM": 74.91074665560014,
+  "fixedOtherCameras": 166,
+  "authorization": "Arreglar los casos señalados y publicar. Conservar MUN-028,035,040,046; MUN-039 en 9 de Octubre x Santa Marta. Mantener Macaji100. Las incompatibilidades se documentan, no se declara cumplimiento global inexistente.",
+  "crs": "EPSG:32717"
+}

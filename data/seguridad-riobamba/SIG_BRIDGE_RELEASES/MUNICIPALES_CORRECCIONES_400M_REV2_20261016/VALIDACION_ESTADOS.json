@@ -1,0 +1,14 @@
+{
+  "release": "MUNICIPALES_CORRECCIONES_400M_REV2_20261016",
+  "municipalValidationStates": {
+    "CRUCE_400M_REFERENCIA_VIAL": 17,
+    "UBICACION_CONSERVADA_POR_USUARIO": 5,
+    "PENDIENTE_SEPARACION_400M": 2
+  },
+  "sourcePackageSha256": "0e005bf53894ca27051884f85da1f9818d932003646935c7b5a74757ca650c98",
+  "global400mCompliance": false,
+  "pendingSpacing": [
+    "MUN-029",
+    "MUN-041"
+  ]
+}

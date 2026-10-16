@@ -7,7 +7,8 @@ from study_current_municipal_nodes import PACKAGE as PREVIOUS
 
 def main():
     validation=json.loads((OUT/'VALIDACION.json').read_text(encoding='utf-8'))
-    validation['approvedException']={'authorization':AUTHORIZATION,'scope':'LOCAL_JUNCTION_MACAJI','camera':'MUN-037','ringFloorRemoved':True}
+    validation.setdefault('approvedException',{'scope':'LOCAL_JUNCTION_MACAJI','camera':'MUN-037','ringFloorRemoved':True})
+    validation['approvedException']['authorization']=AUTHORIZATION
     results=json.loads((OUT/'RESULTADOS.json').read_text(encoding='utf-8'))
     results['bridge']=validation
     for name,data in [('RESULTADOS.json',results),('VALIDACION.json',validation)]:

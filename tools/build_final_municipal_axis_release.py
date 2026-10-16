@@ -22,13 +22,16 @@ OUT=ROOT/'data/seguridad-riobamba/SIG_BRIDGE_RELEASES'/RELEASE_ID
 AUTHORIZATION='Si, publicar esa solucion y sus coberturas reales. Macaji100; Anillo68,41; Ciclovias59,25; MUN-037 Junin x Puruha.'
 
 
-def main():
+def main(approved_local=None):
     require(not OUT.exists(),'No se sobrescribe una entrega')
     store=Store();base=store.web
     target=gpd.read_file(REVIEW/'ESTUDIO_24_NODOS.gpkg',layer='EJES_PRIORITARIOS').to_crs(32717)
     plan=read_json(REVIEW/'RESULTADOS.json')
     require(len(target)==24 and target.ID_PROPUESTA.is_unique,'Se requieren24ID urbanos')
-    require(len(plan['localExceptions'])==1 and plan['localExceptions'][0]['CRUCE']=='Junín x Puruhá','La excepcion aprobada cambio')
+    if approved_local is None:
+        approved_local={'MUN-037':'Junín x Puruhá'}
+    require({r['ID_PROPUESTA']:r['CRUCE'] for r in plan['localExceptions']}==approved_local,
+        'Las excepciones locales deben coincidir con el plan autorizado')
     hashes={str(p):digest(p) for p in [store.base,REVIEW/'RESULTADOS.json',REVIEW/'ESTUDIO_24_NODOS.gpkg']}
     hashes.update({str(p):digest(p) for p in ROADS.parent.glob(ROADS.stem+'.*') if p.is_file()})
     roads=gpd.read_file(ROADS).to_crs(32717)
@@ -51,10 +54,10 @@ def main():
             if props['GRUPO']!='RED_ESTRUCTURAL':continue
             key=props['ID_PROPUESTA'];node=nodes.get((point.x,point.y))
             require(node is not None,'No es un nodo vial original: '+key)
-            local=key=='MUN-037' and not node['principal']
+            local=key in approved_local and not node['principal']
             require(bool(node['principal']) or local,'Excepcion local no autorizada: '+key)
             cruce=' x '.join(node['roads'])
-            require(not local or cruce=='Junín x Puruhá','Cruce local distinto al aprobado')
+            require(not local or cruce==approved_local[key],'Cruce local distinto al aprobado')
             props.update({'ID_CANDIDATO':next(r['ID_CANDIDATO'] for r in plan['scenario']['movements'] if r['ID_PROPUESTA']==key),
                 'INTERSECCION_O_NODO':cruce,'GRADO_NODO':node['degree'],'DISTANCIA_NODO_M':0,
                 'TIPO_VIA_PRINCIPAL':'|'.join(node['highways']),'FUENTE_CRUCE':ROADS.name,
@@ -64,7 +67,7 @@ def main():
                 'ESTADO':'PROPUESTA_APROBADA_NO_INSTALADA',
                 'ESTADO_VALIDACION':'EXCEPCION_LOCAL_MACAJI_APROBADA' if local else 'CRUCE_PRINCIPAL_COMPROBADO',
                 'CRITERIO_UBICACION':'Cruces principales y enlaces potenciales por mismo eje. Macaji100; sin minimo Anillo.',
-                'OBSERVACION_MANUAL':'Junin x Puruha: excepcion local aprobada para mantener Macaji100.' if local else 'Cruce principal comprobado; alcance hacia las vias, no a traves de manzanas.',
+                'OBSERVACION_MANUAL':cruce+': excepcion local documentada para mantener Macaji100.' if local else 'Cruce principal comprobado; alcance hacia las vias, no a traves de manzanas.',
                 'COBERTURA_VISUAL_CERTIFICADA':False})
             checks.append({'id':key,'nodeDistanceM':0,'degree':node['degree'],'principalRoad':bool(node['principal']),
                 'roads':node['roads'],'source':ROADS.name,'osmIds':node['osmIds'],'passed':True,'approvedLocalException':local})
@@ -104,11 +107,11 @@ def main():
     pd.DataFrame(results['policeMetrics']).to_csv(OUT/'POLICIA_BENEFICIO_FINAL.csv',index=False,encoding='utf-8-sig')
     pyogrio.write_dataframe(pd.DataFrame(results['policeMetrics']),package,layer='POLICIA_BENEFICIO_FINAL')
     validation.update({'status':'PASS_APPROVED_LOCAL_EXCEPTION','authorization':AUTHORIZATION,'fixed159Unchanged':True,
-        'principalUrbanNodes':23,'localException':'MUN-037 Junin x Puruha','ringMinimumPct':None,'macajiMinimumPct':100,
+        'principalUrbanNodes':24-len(approved_local),'localException':approved_local,'ringMinimumPct':None,'macajiMinimumPct':100,
         'approvedException':{'authorization':AUTHORIZATION,'scope':'LOCAL_JUNCTION_MACAJI','camera':'MUN-037','ringFloorRemoved':True}})
     results.update({'status':'MUNICIPALES_NODOS_EJES_APROBADOS','sourcePackage':RELEASE_ID,'authorization':AUTHORIZATION,
         'bridge':validation,'counts':{'existing':103,'changeIncluded':30,'municipal':50,'police':30},
-        'municipalAxisReview':{'principalNodes':23,'localExceptions':plan['localExceptions'],'linkCount':plan['selectionLinkCount'],
+        'municipalAxisReview':{'principalNodes':24-len(approved_local),'localExceptions':plan['localExceptions'],'linkCount':plan['selectionLinkCount'],
             'ringMinimumPct':None,'macajiMinimumPct':100,'visibilityCertified':False}})
     write_json(OUT/'RESULTADOS.json',results);write_json(OUT/'VALIDACION.json',validation)
     corridor=read_json(OUT/'CORRIDOR_COVERAGE_200M.json');corridor['metadata']['sourcePackage']=RELEASE_ID
@@ -123,7 +126,7 @@ def main():
     (OUT/'riobamba-brechas-actualizadas-data.js').write_text('window.RIOBAMBA_UPDATED_GAPS = '+text+';\n',encoding='utf-8')
     write_json(OUT/'APROBACION_Y_FUENTES.json',receipt)
     pd.DataFrame(plan['scenario']['movements']).to_csv(OUT/'MOVIMIENTOS_MUNICIPALES_24.csv',index=False,encoding='utf-8-sig')
-    (OUT/'INFORME_FINAL.md').write_text('# Municipales: nodos y ejes aprobados\n\n23 cruces principales y MUN-037 Junin x Puruha como excepcion local aprobada. Macaji100; Anillo sin minimo.\n\n'
+    (OUT/'INFORME_FINAL.md').write_text('# Municipales: nodos y ejes aprobados\n\n'+str(24-len(approved_local))+' cruces principales. Excepciones locales: '+str(approved_local)+'. Macaji100; Anillo sin minimo.\n\n'
         '159 camaras fijas:103existentes (30para cambio incluidas),26municipales y30policiales. Solo cambian24municipales urbanas.\n\n'
         'Los enlaces potenciales siguen una misma via hasta200m por extremo, no se presupone vision al girar ni a traves de manzanas. No se certifica continuidad optica ni cobertura completa de todos los corredores.\n',encoding='utf-8')
     require(all(digest(Path(p))==h for p,h in hashes.items()),'Cambio de fuente durante calculo')

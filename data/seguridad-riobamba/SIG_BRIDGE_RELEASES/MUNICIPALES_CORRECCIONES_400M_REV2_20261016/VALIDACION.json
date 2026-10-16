@@ -1,0 +1,558 @@
+{
+  "status": "PASS_APPROVED_LOCAL_EXCEPTION",
+  "plan": {
+    "scenarios": [
+      "B",
+      "C"
+    ],
+    "jobs": [
+      "block_coverage",
+      "buffers",
+      "camera_attributes",
+      "corridor_coverage",
+      "exclusive_coverage",
+      "hotspot_coverage",
+      "incident_coverage",
+      "population",
+      "territorial"
+    ],
+    "pendingAdapters": [],
+    "recalculateKde": false,
+    "recalculateGi": false,
+    "optimizeCameras": false
+  },
+  "nodeAudit": [
+    {
+      "id": "MUN-027",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "roads": [
+        "Avenida Pedro Vicente Maldonado",
+        "Villa Orellana"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "108401625",
+        "275363785",
+        "527548908",
+        "553408404"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-028",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "Avenida 9 de Octubre",
+        "Eugenio Espejo"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "309664301",
+        "325343988"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-029",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "Avenida Unidad Nacional",
+        "Primeras Olimpiadas"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "107913437",
+        "108179773"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-030",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": false,
+      "roads": [
+        "AsunciÃ³n",
+        "Bagdad"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "110154638",
+        "553415036"
+      ],
+      "passed": true,
+      "approvedLocalException": true
+    },
+    {
+      "id": "MUN-031",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "roads": [
+        "Avenida 9 de Octubre",
+        "Avenida Leopoldo Freire"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "559551369",
+        "559551370",
+        "894377954",
+        "895444812"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-032",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "roads": [
+        "Eugenio Espejo",
+        "Venezuela"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "330095810",
+        "553670490",
+        "553670491"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-033",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "Avenida Unidad Nacional",
+        "Jacinto Gonzales"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "107913439",
+        "552261328",
+        "552508082"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-034",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "roads": [
+        "Avenida Edelberto Bonilla Oleas",
+        "JosÃ© MarÃ­a Velasco Ibarra"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "111235201",
+        "111260790",
+        "551980086"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-035",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "roads": [
+        "Colombia",
+        "Eugenio Espejo"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "108178441",
+        "559919666"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-036",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "Avenida Edelberto Bonilla Oleas",
+        "Kabul"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "151183271",
+        "325474135"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-037",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": false,
+      "roads": [
+        "AsunciÃ³n",
+        "JunÃ­n"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "114496431",
+        "189738897"
+      ],
+      "passed": true,
+      "approvedLocalException": true
+    },
+    {
+      "id": "MUN-038",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "roads": [
+        "JoaquÃ­n Chiriboga",
+        "Primera Constituyente"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "106857516",
+        "536116081"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-039",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "Avenida 9 de Octubre",
+        "Santa Marta"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "110154641",
+        "325474120"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-040",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "11 de Noviembre",
+        "Eugenio Espejo"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "114496429",
+        "535057079"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-041",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "roads": [
+        "Avenida Daniel LeÃ³n Borja",
+        "Brasil"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "108179771",
+        "128349182"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-042",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "5 de Junio",
+        "MÃ©xico"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "114496467",
+        "536124152"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-043",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "roads": [
+        "Avenida 9 de Octubre",
+        "Avenida Juan Felix ProaÃ±o"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "306570693",
+        "322154979",
+        "986321114"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-044",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "Avenida Edelberto Bonilla Oleas",
+        "Redondel de la Vasija"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "299358920",
+        "551980085"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-045",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "24 de Mayo",
+        "Avenida 9 de Octubre"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "306570690",
+        "306570693"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-046",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "Avenida Edelberto Bonilla Oleas",
+        "HanÃ³i"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "110154633",
+        "325474135"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-047",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "Avenida 9 de Octubre",
+        "Ruperto AlarcÃ³n"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "151412117",
+        "306562886"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-048",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "Avenida 9 de Octubre",
+        "Puela"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "108371037",
+        "306570691"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-049",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "Avenida 9 de Octubre",
+        "Morona"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "255866681",
+        "306570693"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-050",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "roads": [
+        "Antonio SantillÃ¡n",
+        "Avenida Edelberto Bonilla Oleas"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "325474135",
+        "344169306",
+        "754406505"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    }
+  ],
+  "publishBlocks": [],
+  "sourcePreserved": true,
+  "existingCount": 103,
+  "municipalCount": 50,
+  "policeCount": 30,
+  "giRecalculated": false,
+  "kdeRecalculated": false,
+  "optimized": false,
+  "revision": "MUNICIPALES_CORRECCIONES_400M_REV2_20261016",
+  "authorization": "Arreglar los casos seÃ±alados y publicar. Conservar MUN-028,035,040,046; MUN-039 en 9 de Octubre x Santa Marta. Mantener Macaji100. Las incompatibilidades se documentan, no se declara cumplimiento global inexistente.",
+  "fixed159Unchanged": true,
+  "principalUrbanNodes": 22,
+  "localException": {
+    "MUN-030": "AsunciÃ³n x Bagdad",
+    "MUN-037": "AsunciÃ³n x JunÃ­n"
+  },
+  "ringMinimumPct": null,
+  "macajiMinimumPct": 100,
+  "approvedException": {
+    "authorization": "Arreglar los casos señalados y publicar. Conservar MUN-028,035,040,046; MUN-039 en 9 de Octubre x Santa Marta. Mantener Macaji100. Las incompatibilidades se documentan, no se declara cumplimiento global inexistente.",
+    "localJunctions": {
+      "MUN-030": "Asunción x Bagdad",
+      "MUN-037": "Asunción x Junín"
+    },
+    "retainedByUser": [
+      "MUN-028",
+      "MUN-035",
+      "MUN-039",
+      "MUN-040",
+      "MUN-046"
+    ],
+    "unresolvedSpacing": [
+      "MUN-029",
+      "MUN-041"
+    ]
+  },
+  "spacingReview": {
+    "passed": true,
+    "changedVsPriorPublic": [
+      "MUN-030",
+      "MUN-031",
+      "MUN-032",
+      "MUN-033",
+      "MUN-034",
+      "MUN-036",
+      "MUN-037",
+      "MUN-038",
+      "MUN-039",
+      "MUN-042",
+      "MUN-043",
+      "MUN-044",
+      "MUN-045",
+      "MUN-047",
+      "MUN-048",
+      "MUN-049",
+      "MUN-050"
+    ],
+    "changedVsMUN039Release": [
+      "MUN-030",
+      "MUN-031",
+      "MUN-032",
+      "MUN-033",
+      "MUN-034",
+      "MUN-036",
+      "MUN-037",
+      "MUN-038",
+      "MUN-042",
+      "MUN-043",
+      "MUN-044",
+      "MUN-045",
+      "MUN-047",
+      "MUN-048",
+      "MUN-049",
+      "MUN-050"
+    ],
+    "relocatedSameAxis400mChecked": [
+      "MUN-030",
+      "MUN-031",
+      "MUN-032",
+      "MUN-033",
+      "MUN-034",
+      "MUN-036",
+      "MUN-037",
+      "MUN-038",
+      "MUN-042",
+      "MUN-043",
+      "MUN-044",
+      "MUN-045",
+      "MUN-047",
+      "MUN-048",
+      "MUN-049",
+      "MUN-050"
+    ],
+    "explicitlyRetained": [
+      "MUN-028",
+      "MUN-035",
+      "MUN-039",
+      "MUN-040",
+      "MUN-046"
+    ],
+    "pendingSpacing": [
+      "MUN-029",
+      "MUN-041"
+    ],
+    "localJunctionExceptions": {
+      "MUN-030": "Asunción x Bagdad",
+      "MUN-037": "Asunción x Junín"
+    },
+    "global400mCompliance": false,
+    "giAndKdeUnchanged": true,
+    "strict400mMacajiUncoverableInReviewedCatalogM": 74.91074665560014,
+    "fixedOtherCameras": 166,
+    "authorization": "Arreglar los casos señalados y publicar. Conservar MUN-028,035,040,046; MUN-039 en 9 de Octubre x Santa Marta. Mantener Macaji100. Las incompatibilidades se documentan, no se declara cumplimiento global inexistente.",
+    "crs": "EPSG:32717"
+  }
+}

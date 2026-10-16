@@ -12,7 +12,7 @@ from build_final_municipal_axis_release import OUT,REVIEW
 from study_current_municipal_nodes import PACKAGE as PREVIOUS
 
 
-def main():
+def main(expected_local=None):
     package=OUT/'ESCENARIO_FINAL_183.gpkg'
     read=lambda name:gpd.read_file(package,layer=name).to_crs(32717)
     old=lambda name:gpd.read_file(PREVIOUS,layer=name).to_crs(32717)
@@ -30,7 +30,8 @@ def main():
     assert len({p.wkb for p in list(municipal.geometry)+list(police.geometry)})==80
     validation=json.loads((OUT/'VALIDACION.json').read_text(encoding='utf-8'))
     assert not validation['publishBlocks'] and len(validation['nodeAudit'])==24
-    assert [r['id'] for r in validation['nodeAudit'] if not r['principalRoad']]==['MUN-037']
+    expected_local=['MUN-037'] if expected_local is None else sorted(expected_local)
+    assert sorted(r['id'] for r in validation['nodeAudit'] if not r['principalRoad'])==expected_local
     for scope in ('URBANO','RURAL'):
         for category in ('DELINCUENCIA','VIOLENCIA','CONVIVENCIA'):
             name='GI_'+scope+'_'+category
@@ -58,7 +59,7 @@ def main():
     assert macaji['NO_CUBIERTO_M']<=.001
     report={'passed':True,'counts':[103,50,30],'replacementIncluded':30,'fixed159Unchanged':True,
         'urban24MatchApproved':True,'sixGiGeometryAndStatisticsUnchanged':True,'censusRadiiChecked':checks,
-        'macajiUncoveredM':macaji['NO_CUBIERTO_M'],'ringFloor':None,'localException':'MUN-037 Junin x Puruha'}
+        'macajiUncoveredM':macaji['NO_CUBIERTO_M'],'ringFloor':None,'localExceptions':expected_local}
     (OUT/'VALIDACION_INDEPENDIENTE.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
     print(json.dumps(report),flush=True)
 

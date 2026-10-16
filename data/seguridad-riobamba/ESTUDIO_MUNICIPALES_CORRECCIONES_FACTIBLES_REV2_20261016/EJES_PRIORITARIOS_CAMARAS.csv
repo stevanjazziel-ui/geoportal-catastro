@@ -1,0 +1,25 @@
+﻿ID_PROPUESTA,NODO_COMPROBADO,VIA_PRINCIPAL,CRUCE,EJES_PRINCIPALES,BRAZOS_VIALES,TRAMOS_MISMO_EJE_M,TRAMOS_RECTILINEOS_M,BRAZOS_CON_CURVA,APROBADA_UBICACION,VISIBILIDAD_CERTIFICADA,ENLACE_POTENCIAL_MISMO_EJE,ENLACE_AXIAL_CONSERVADOR
+MUN-027,True,True,Avenida Pedro Vicente Maldonado x Villa Orellana,Avenida Pedro Vicente Maldonado,3,396.025387798413,104.96300594466135,3,False,False,False,False
+MUN-028,True,True,Avenida 9 de Octubre x Eugenio Espejo,Avenida 9 de Octubre | Eugenio Espejo,3,599.9999999989262,86.73546336773026,3,False,False,True,False
+MUN-029,True,True,Avenida Unidad Nacional x Primeras Olimpiadas,Avenida Unidad Nacional,3,599.9999999992485,169.351440177597,3,False,False,True,False
+MUN-030,True,False,Asunción x Bagdad,,4,651.6140804985125,183.47081730082397,4,False,False,False,False
+MUN-031,True,True,Avenida 9 de Octubre x Avenida Leopoldo Freire,Avenida 9 de Octubre | Avenida Leopoldo Freire,4,800.0000000004097,51.836384554348044,4,False,False,False,False
+MUN-032,True,True,Eugenio Espejo x Venezuela,Eugenio Espejo,4,800.0000000015121,284.9565902741864,4,False,False,False,False
+MUN-033,True,True,Avenida Unidad Nacional x Jacinto Gonzales,Avenida Unidad Nacional,3,600.0000000001842,112.6902392829381,3,False,False,False,False
+MUN-034,True,True,Avenida Edelberto Bonilla Oleas x José María Velasco Ibarra,Avenida Edelberto Bonilla Oleas,4,542.8414816409056,170.06017620857793,3,False,False,False,False
+MUN-035,True,True,Colombia x Eugenio Espejo,Eugenio Espejo,4,800.0000000012521,324.4807236801571,4,False,False,True,False
+MUN-036,True,True,Avenida Edelberto Bonilla Oleas x Kabul,Avenida Edelberto Bonilla Oleas,3,530.9077172372612,235.9598746137905,2,False,False,False,False
+MUN-037,True,False,Asunción x Junín,,4,634.5890597151057,287.9840281514404,4,False,False,False,False
+MUN-038,True,True,Joaquín Chiriboga x Primera Constituyente,Primera Constituyente,4,800.0000000009579,346.45505301158994,4,False,False,False,False
+MUN-039,True,True,Avenida 9 de Octubre x Santa Marta,Avenida 9 de Octubre,3,599.9999999995775,124.3792446876584,3,False,False,False,False
+MUN-040,True,True,11 de Noviembre x Eugenio Espejo,Eugenio Espejo,3,600.0000000010268,213.49612443590541,3,False,False,True,False
+MUN-041,True,True,Avenida Daniel León Borja x Brasil,Avenida Daniel León Borja,4,800.0000000014097,295.6534609415714,4,False,False,True,False
+MUN-042,True,True,5 de Junio x México,5 de Junio,3,599.9999999995687,278.2221987880376,3,False,False,False,False
+MUN-043,True,True,Avenida 9 de Octubre x Avenida Juan Felix Proaño,Avenida 9 de Octubre | Avenida Juan Felix Proaño,4,800.000000000259,126.40716081424489,4,False,False,False,False
+MUN-044,True,True,Avenida Edelberto Bonilla Oleas x Redondel de la Vasija,Avenida Edelberto Bonilla Oleas | Redondel de la Vasija,3,348.0324068036281,112.94165954423211,3,False,False,False,False
+MUN-045,True,True,24 de Mayo x Avenida 9 de Octubre,Avenida 9 de Octubre,3,600.0000000003115,156.22085616397808,3,False,False,False,False
+MUN-046,True,True,Avenida Edelberto Bonilla Oleas x Hanói,Avenida Edelberto Bonilla Oleas,3,555.7179973190092,226.8442771360982,3,False,False,False,False
+MUN-047,True,True,Avenida 9 de Octubre x Ruperto Alarcón,Avenida 9 de Octubre,3,472.90192305423955,204.6286236904665,3,False,False,False,False
+MUN-048,True,True,Avenida 9 de Octubre x Puela,Avenida 9 de Octubre,3,480.8581121462073,203.32562605958617,2,False,False,False,False
+MUN-049,True,True,Avenida 9 de Octubre x Morona,Avenida 9 de Octubre,3,600.0000000006736,239.70448462802113,3,False,False,False,False
+MUN-050,True,True,Antonio Santillán x Avenida Edelberto Bonilla Oleas,Avenida Edelberto Bonilla Oleas,4,564.0884650645556,189.09046099390676,4,False,False,False,False

@@ -1,0 +1,209 @@
+{
+  "revision": "MUNICIPALES_CORRECCIONES_400M_REV2_20261016",
+  "changes": [
+    {
+      "layer": "municipal",
+      "id": "MUN-027",
+      "geometryChanged": false,
+      "fields": [],
+      "distanceM": 0.0,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-028",
+      "geometryChanged": false,
+      "fields": [],
+      "distanceM": 0.0,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-029",
+      "geometryChanged": false,
+      "fields": [],
+      "distanceM": 0.0,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-030",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 153.89862814833708,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-031",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 589.5552332556877,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-032",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 800.1515906129547,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-033",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 75.5798463988273,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-034",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 155.9978352333987,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-035",
+      "geometryChanged": false,
+      "fields": [],
+      "distanceM": 0.0,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-036",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 1260.8071620310272,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-037",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 129.22154927202166,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-038",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 174.57559651860527,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-039",
+      "geometryChanged": false,
+      "fields": [],
+      "distanceM": 0.0,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-040",
+      "geometryChanged": false,
+      "fields": [],
+      "distanceM": 0.0,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-041",
+      "geometryChanged": false,
+      "fields": [],
+      "distanceM": 0.0,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-042",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 72.30325465350461,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-043",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 157.89878372384698,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-044",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 151.74072297727992,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-045",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 131.98776685066656,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-046",
+      "geometryChanged": false,
+      "fields": [],
+      "distanceM": 0.0,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-047",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 523.1734453562614,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-048",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 2105.7625872133945,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-049",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 12.833023591971909,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-050",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 154.17989122056062,
+      "note": "Nodos/ejes aprobados; Macaji100; Anillo sin minimo"
+    }
+  ],
+  "baseHashes": {
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\MUN039_SANTA_MARTA_20261016\\ESCENARIO_FINAL_183.gpkg": "214ae21b8f245c533bbb416d5079ed468c9852540414b0d41cfe267b63597eeb",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\ESTUDIO_MUNICIPALES_CORRECCIONES_FACTIBLES_REV2_20261016\\RESULTADOS.json": "ec32e5c6cb17389b366c2928f8defda5e3315800f1c11125ed2a05d8536f2b1f",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\ESTUDIO_MUNICIPALES_CORRECCIONES_FACTIBLES_REV2_20261016\\ESTUDIO_24_NODOS.gpkg": "d1e96356e647f12bf1487c1d4c0eadb4bc8e70d41124352ae2e911908896814b",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.cpg": "b4ab9cdac743cec22db404c182bd39e52ffc38b49df6c874eec57524395a95e6",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.dbf": "75e164d35f1c58340de6187e57c5479ce460070bd3f135a9d4460d8e66704ced",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.prj": "d5c5de3bec971779a1f128faf9da32ac90902653587b053fabf52994c1c37dec",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.shp": "53f803ed3394cac9c6b733c81940b468d772e0e0b4deef306c4d7c5f4661ae72",
+    "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.shx": "42c3eea1dfa3aa96fbe5a97c4a16a08269f0ee843a90c8042a1585a7c3141a9a"
+  },
+  "createdAt": "2026-10-16T08:22:06-05:00",
+  "authorization": "Arreglar los casos señalados y publicar. Conservar MUN-028,035,040,046; MUN-039 en 9 de Octubre x Santa Marta. Mantener Macaji100. Las incompatibilidades se documentan, no se declara cumplimiento global inexistente."
+}

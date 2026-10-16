@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "changedIds": [
+    "MUN-039"
+  ],
+  "fixed182Unchanged": true,
+  "explicitlyRetained": [
+    "MUN-028",
+    "MUN-035",
+    "MUN-040",
+    "MUN-046"
+  ],
+  "intersection": [
+    "Avenida 9 de Octubre",
+    "Santa Marta"
+  ],
+  "osmIds": [
+    "110154641",
+    "325474120"
+  ],
+  "movementM": 143.5914750815496,
+  "nearestOtherCamera": "MUN-050",
+  "nearestStraightDistanceM": 440.17869002936925,
+  "crs": "EPSG:32717",
+  "global400mRevisionApplied": false,
+  "note": "Solo se aplica MUN-039. Los otros casos de proximidad siguen pendientes de revision."
+}
