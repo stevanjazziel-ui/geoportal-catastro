@@ -1,1 +1,6 @@
-{"schemaVersion":1,"root":"./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/MUNICIPALES_CORRECCIONES_400M_REV2_20261016/","releaseId":"MUNICIPALES_CORRECCIONES_400M_REV2_20261016","coverageData":"riobamba-brechas-actualizadas-data.js"}
+{
+  "schemaVersion": 1,
+  "root": "./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/ECU911_74_INTACTAS_29_REVISADAS_20261017/",
+  "releaseId": "ECU911_74_INTACTAS_29_REVISADAS_20261017",
+  "coverageData": "riobamba-brechas-actualizadas-data.js"
+}

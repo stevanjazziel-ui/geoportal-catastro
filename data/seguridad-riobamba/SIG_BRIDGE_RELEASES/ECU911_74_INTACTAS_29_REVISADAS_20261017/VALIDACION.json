@@ -1,0 +1,502 @@
+{
+  "status": "PASS_WITH_EXPLICIT_PROVISIONAL_POSITIONS",
+  "plan": {
+    "scenarios": [
+      "A",
+      "B",
+      "C"
+    ],
+    "jobs": [
+      "block_coverage",
+      "buffers",
+      "camera_attributes",
+      "corridor_coverage",
+      "exclusive_coverage",
+      "hotspot_coverage",
+      "incident_coverage",
+      "population",
+      "territorial"
+    ],
+    "pendingAdapters": [],
+    "recalculateKde": false,
+    "recalculateGi": false,
+    "optimizeCameras": false,
+    "inventoryUpdated": true
+  },
+  "nodeAudit": [
+    {
+      "id": "MUN-027",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "roads": [
+        "Avenida Pedro Vicente Maldonado",
+        "Villa Orellana"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "108401625",
+        "275363785",
+        "527548908",
+        "553408404"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-028",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "Avenida 9 de Octubre",
+        "Eugenio Espejo"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "309664301",
+        "325343988"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-029",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "Avenida Unidad Nacional",
+        "Primeras Olimpiadas"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "107913437",
+        "108179773"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-030",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": false,
+      "roads": [
+        "AsunciÃ³n",
+        "Bagdad"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "110154638",
+        "553415036"
+      ],
+      "passed": true,
+      "approvedLocalException": true
+    },
+    {
+      "id": "MUN-031",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "roads": [
+        "Avenida 9 de Octubre",
+        "Avenida Leopoldo Freire"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "559551369",
+        "559551370",
+        "894377954",
+        "895444812"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-032",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "roads": [
+        "Eugenio Espejo",
+        "Venezuela"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "330095810",
+        "553670490",
+        "553670491"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-033",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "Avenida Unidad Nacional",
+        "Jacinto Gonzales"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "107913439",
+        "552261328",
+        "552508082"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-034",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "roads": [
+        "Avenida Edelberto Bonilla Oleas",
+        "JosÃ© MarÃ­a Velasco Ibarra"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "111235201",
+        "111260790",
+        "551980086"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-035",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "roads": [
+        "Colombia",
+        "Eugenio Espejo"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "108178441",
+        "559919666"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-036",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "Avenida Edelberto Bonilla Oleas",
+        "Kabul"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "151183271",
+        "325474135"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-037",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": false,
+      "roads": [
+        "AsunciÃ³n",
+        "JunÃ­n"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "114496431",
+        "189738897"
+      ],
+      "passed": true,
+      "approvedLocalException": true
+    },
+    {
+      "id": "MUN-038",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "roads": [
+        "JoaquÃ­n Chiriboga",
+        "Primera Constituyente"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "106857516",
+        "536116081"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-039",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "Avenida 9 de Octubre",
+        "Santa Marta"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "110154641",
+        "325474120"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-040",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "11 de Noviembre",
+        "Eugenio Espejo"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "114496429",
+        "535057079"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-041",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "roads": [
+        "Avenida Daniel LeÃ³n Borja",
+        "Brasil"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "108179771",
+        "128349182"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-042",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "5 de Junio",
+        "MÃ©xico"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "114496467",
+        "536124152"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-043",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "roads": [
+        "Avenida 9 de Octubre",
+        "Avenida Juan Felix ProaÃ±o"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "306570693",
+        "322154979",
+        "986321114"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-044",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "Avenida Edelberto Bonilla Oleas",
+        "Redondel de la Vasija"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "299358920",
+        "551980085"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-045",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "24 de Mayo",
+        "Avenida 9 de Octubre"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "306570690",
+        "306570693"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-046",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "Avenida Edelberto Bonilla Oleas",
+        "HanÃ³i"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "110154633",
+        "325474135"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-047",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "Avenida 9 de Octubre",
+        "Ruperto AlarcÃ³n"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "151412117",
+        "306562886"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-048",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "Avenida 9 de Octubre",
+        "Puela"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "108371037",
+        "306570691"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-049",
+      "nodeDistanceM": 0,
+      "degree": 3,
+      "principalRoad": true,
+      "roads": [
+        "Avenida 9 de Octubre",
+        "Morona"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "255866681",
+        "306570693"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    },
+    {
+      "id": "MUN-050",
+      "nodeDistanceM": 0,
+      "degree": 4,
+      "principalRoad": true,
+      "roads": [
+        "Antonio SantillÃ¡n",
+        "Avenida Edelberto Bonilla Oleas"
+      ],
+      "source": "osm_vias_dentro_canton_riobamba_utm.shp",
+      "osmIds": [
+        "325474135",
+        "344169306",
+        "754406505"
+      ],
+      "passed": true,
+      "approvedLocalException": false
+    }
+  ],
+  "publishBlocks": [],
+  "sourcePreserved": true,
+  "existingCount": 103,
+  "municipalCount": 50,
+  "policeCount": 30,
+  "giRecalculated": false,
+  "kdeRecalculated": false,
+  "optimized": false,
+  "revision": "ECU911_74_INTACTAS_29_REVISADAS_20261017",
+  "authorization": "Usuario: mueve y publica todo. RIO-084 en empalme Juan Felix Proano / Via Riobamba-Macas; revision previa de 103, con 74 documentadas inmodificables.",
+  "inventoryGeolocation": {
+    "documentedUnchanged": 74,
+    "reviewedApprovedIntersections": 10,
+    "pendingValidation": 19,
+    "pendingIds": [
+      "RIO-067-DOMO",
+      "RIO-068-LA",
+      "RIO-073-DOMO",
+      "RIO-074-DOMO",
+      "RIO-080-DOMO",
+      "RIO-086-DOMO",
+      "RIO-087-FIJA",
+      "RIO-088-FIJA",
+      "RIO-090-FIJA",
+      "RIO-091-FIJA",
+      "RIO-092-FIJA",
+      "RIO-093-FIJA",
+      "RIO-094-FIJA",
+      "RIO-095-FIJA",
+      "RIO-096-FIJA",
+      "RIO-097-FIJA",
+      "RIO-098-FIJA",
+      "RIO-102-DOMO",
+      "RIO-103-DOMO"
+    ],
+    "coverageIncludesProvisionalPositions": true,
+    "warning": "Cobertura potencial estimada con 103 posiciones, incluidas 19 provisionales pendientes. No certifica ubicacion fisica ni vision efectiva."
+  },
+  "original74GeometriesUnchanged": true,
+  "proposals80Unmoved": true,
+  "movedComparedToIncomingZip": [
+    "RIO-084-DOMO",
+    "RIO-085-DOMO",
+    "RIO-099-DOMO",
+    "RIO-100-FIJA"
+  ],
+  "sourceHashes": {
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\MUNICIPALES_CORRECCIONES_400M_REV2_20261016\\ESCENARIO_FINAL_183.gpkg": "0e005bf53894ca27051884f85da1f9818d932003646935c7b5a74757ca650c98",
+    "D:\\codex\\entregas\\REVISION_ECU911_29_20261017\\ORIGINALES\\CAMARAS_103_PARA_CODEX.gpkg": "e74da67c9df63f8b366912140d222f2e53642e610f51a4ea110af327edf71c99",
+    "D:\\codex\\entregas\\REVISION_ECU911_29_20261017\\ECU911_103_REVISION_NO_PUBLICADA.gpkg": "d472b00671b2613267f1d100e57f1c320673f8ddb1d53f5defbc851c17f0d8dc",
+    "D:\\codex\\entregas\\RIO084_CANDIDATO_SALIDA_MACAS_20261017\\RIO084_SALIDA_MACAS_CANDIDATO.gpkg": "017396530c377b03c0a8ad9711854e82d901968095936ba932957b553f739fe4",
+    "D:\\codex\\security-real-incidents\\riobamba-hotspot-urbano-200m-data.js": "dadb447ed2abbd69efb1d6d33f4011f071ed8fce99ac31608cf8c9d50ab7bd63",
+    "D:\\codex\\security-real-incidents\\riobamba-conflictividad-data.js": "56ce4c608b1c66235f671d745bca22fe9084913fea788edb1d7cfb471838f17c",
+    "D:\\codex\\security-real-incidents\\riobamba-seguridad-kde-validacion-data.js": "f179696f2d31b04da64ee9f9bcb98c6c9db98e9d84a30219fb30219917547fab",
+    "D:\\codex\\security-real-incidents\\riobamba-cantonal-data.js": "a8bf2da18c2c4980f927be6d29b61138db4245f2fae4c2c3270a6b17c0727ce8",
+    "D:\\codex\\security-real-incidents\\visor-seguridad-riobamba-data.js": "e84f1e092da171ba430db01bb4def4df9d3c2269a500285a26cb29950e8f9bac"
+  }
+}

@@ -86,7 +86,7 @@ window.createRiobambaCameraProposal = function (api) {
         existingRadius: "RADIOS_EXISTENTES_SIMBOLOGIA_200M.geojson", municipalRadius: "COBERTURA_MUNICIPAL_200M.geojson", policeRadius: "COBERTURA_POLICIA_200M.geojson", platforms: "PLATAFORMAS_TERRITORIALES.geojson", corridors: "CORREDORES.geojson",
         DELINCUENCIA: "HOTSPOT_DELINCUENCIA.geojson", VIOLENCIA: "HOTSPOT_VIOLENCIA.geojson", CONVIVENCIA: "HOTSPOT_CONVIVENCIA.geojson" };
       const entries = await Promise.all(Object.entries(files).map(async ([key, name]) => {
-        const response = await fetch(root + name + "?v=municipales-400m-rev2-20261016", { cache: "no-store" });
+        const response = await fetch(root + name + "?v=ecu911-revision-20261017", { cache: "no-store" });
         if (!response.ok) throw new Error(`${name}: HTTP ${response.status}`);
         return [key, await response.json()];
       }));
@@ -219,10 +219,12 @@ window.createRiobambaCameraProposal = function (api) {
     const a = metric("territorial"), p = metric("population"), f = selected?.feature, v = f?.properties;
     let title = "Escenario " + ({ A: "103 existentes", B: "153 equipos", C: "183 equipos" })[scenario()];
     let rows = [["Radio", "200 m"], ["Área urbana cubierta", `${number(a.AREA_CUBIERTA_URBANA_KM2, 2)} km²`], ["Territorio urbano cubierto", pct(a.PCT_URBANO)], ["Población urbana cubierta estimada", number(p.POBLACION_CUBIERTA)], ["% población urbana cubierta", pct(p.PCT_CUBIERTO)], ["Población rural cubierta", "No disponible"]];
+    const quality = data.results.inventoryGeolocation;
+    if (quality) rows.push(["Coordenadas documentadas intactas", quality.documentedUnchanged], ["Cruces revisados / aprobados", quality.reviewedApprovedIntersections], ["Ubicaciones provisionales pendientes", quality.pendingValidation]);
     if (selected?.kind === "camera") {
       title = cameraId(f);
       rows = [["Grupo", groups[selected.group]], ["Estado", v.ESTADO || v.ESTADO_VALIDACION], ["Dirección / nodo", v.DIRECCION || v.INTERSECCION_O_NODO], ["Radio potencial", "200 m"], ["X / Y · EPSG:32717", `${number(v.X, 2)} / ${number(v.Y, 2)}`]];
-      if (selected.group === "existing") rows.push(["Requiere cambio", change(f) ? "Sí" : "No"], ["Método geográfico", v.METODO_GEO], ["Confianza", v.CONFIANZA_GEO], ["Observación", v.OBSERVACION_GEO]);
+      if (selected.group === "existing") rows.push(["Requiere cambio", change(f) ? "Sí" : "No"], ["Estado geográfico", v.ESTADO_GEO], ["Método geográfico", v.METODO_GEO], ["Confianza", v.CONFIANZA_GEO], ["Observación", v.OBSERVACION_GEO]);
       else rows.push(["Parroquia", v.PARROQUIA], ["Grupo territorial", v.GRUPO || v.AMBITO_HOTSPOT], ["Gi* Delincuencia / Violencia", `${number(v.NIVEL_DEL)} % / ${number(v.NIVEL_VIOL)} %`], ["D / V / C a 200 m", `${number(v.DELINCUENCIA_200M)} / ${number(v.VIOLENCIA_200M)} / ${number(v.CONVIVENCIA_200M)}`], ["Población asociada estimada", number(v.POBLACION_ASOCIADA)], ["UPC cercana", v.NOMBRE_UPC], ["Distancia a UPC", `${number(v.DIST_UPC_M)} m`], ["Justificación", v.JUSTIFICACION]);
       if (selected.group === "police") rows.push(["Eventos D+V exclusivos", number(v.EVENTOS_DV_NUEVOS)], ["Solape con cobertura previa", pct(v.SOLAPE_PREVIO_PCT)], ["Fuente del cruce", v.FUENTE_CRUCE], ["Alcance visual", v.ALCANCE_VISUAL], ["Decisión final", v.DECISION_FINAL]);
     } else if (selected?.kind === "hotspot") {
@@ -281,7 +283,9 @@ window.createRiobambaCameraProposal = function (api) {
   function renderMethodology() {
     const panel = document.getElementById("methodologyPanel"); if (!panel) return;
     const replacementCount = data?.results.counts.changeIncluded ?? api.inventory.filter(c => c.requiresChange).length;
-    panel.innerHTML = `<h3>Evaluación de videovigilancia</h3>${rowHtml([["Inventario existente", "103 equipos / geometrías recibidas conservadas"], ["Requieren cambio", `${replacementCount} incluidas en las 103 existentes`], ["Municipio / Policía", "50 / 30 propuestas, no instaladas"], ["CRS métrico / visual", "EPSG:32717 / EPSG:4326"], ["Radio potencial", "200 m (no diámetro)"], ["Cobertura", "Buffers métricos; unión disuelta; intersección con puntos, líneas y polígonos"], ["Población", "Estimación areal CPV2022 dentro de 18 Plataformas; rural completa no disponible"], ["Policía · criterio principal", "KDE urbano de Delincuencia + Violencia; aporte marginal"], ["Policía · emplazamiento", "30 nodos reales de grado ≥3 en vías Expresa, Arterial o Colectora"], ["Hot Spots", "Gi* de referencia, conservado por ámbito y categoría; sin recálculo"], ["Cámaras coincidentes", "Equipos conservados; cobertura disuelta sin doble conteo"]])}<p>Las 50 propuestas municipales y las 30 policiales permanecen fijas en este recálculo. KDE y Gi* no se recalculan.</p><p>La continuidad de observación por ejes es un objetivo parcial por la cantidad limitada de cámaras. Los radios no certifican visibilidad: se requiere validar poste, altura, orientación y obstáculos en campo. El inventario recibido incluye 11 esquinas estimadas no verificadas; su condición se conserva documentada.</p>${links()}`;
+    const quality = data?.results.inventoryGeolocation;
+    const geolocation = quality ? `${quality.documentedUnchanged} documentadas intactas; ${quality.reviewedApprovedIntersections} cruces revisados/aprobados; ${quality.pendingValidation} pendientes` : "103 equipos / procedencia conservada";
+    panel.innerHTML = `<h3>Evaluación de videovigilancia</h3>${rowHtml([["Inventario existente", geolocation], ["Requieren cambio", `${replacementCount} incluidas en las 103 existentes`], ["Municipio / Policía", "50 / 30 propuestas, no instaladas"], ["CRS métrico / visual", "EPSG:32717 / EPSG:4326"], ["Radio potencial", "200 m (no diámetro)"], ["Cobertura", "Buffers métricos; unión disuelta; intersección con puntos, líneas y polígonos"], ["Población", "Estimación areal CPV2022 dentro de 18 Plataformas; rural completa no disponible"], ["Policía · criterio principal", "KDE urbano de Delincuencia + Violencia; aporte marginal"], ["Policía · emplazamiento", "30 nodos reales de grado ≥3 en vías Expresa, Arterial o Colectora"], ["Hot Spots", "Gi* de referencia, conservado por ámbito y categoría; sin recálculo"], ["Cámaras coincidentes", "Equipos conservados; cobertura disuelta sin doble conteo"]])}<p>Las 50 propuestas municipales y las 30 policiales permanecen fijas en este recálculo. KDE y Gi* no se recalculan.</p><p>La continuidad de observación por ejes es un objetivo parcial por la cantidad limitada de cámaras. Los radios no certifican visibilidad: se requiere validar poste, altura, orientación y obstáculos en campo. ${quality ? esc(quality.warning) : "Las ubicaciones estimadas conservan sus limitaciones documentadas."}</p>${links()}`;
   }
   async function render() {
     if (!api.active()) return;
@@ -299,14 +303,15 @@ window.createRiobambaCameraProposal = function (api) {
     if (!api.active() || version !== renderVersion) return;
     const area = metric("territorial"), population = metric("population");
     const total = Object.keys(groups).filter(groupEnabled).reduce((n, k) => n + data[k].features.length, 0);
-    el.overlayText.textContent = `${total} equipos en el escenario · radio 200 m · cobertura potencial · originales conservados`;
+    const quality = data.results.inventoryGeolocation;
+    el.overlayText.textContent = `${total} equipos en el escenario · radio 200 m · cobertura potencial${quality ? ` · ${quality.documentedUnchanged} documentadas intactas · ${quality.pendingValidation} provisionales pendientes` : " · originales conservados"}`;
     const existingCount = data.existing.features.length;
     const changeCount = data.existing.features.filter(change).length;
     el.summary.innerHTML = [["Cámaras existentes", existingCount, "existing change"], ["Requieren cambio", `${changeCount} de las ${existingCount}`, "change"], ["Sin cambio requerido", existingCount - changeCount, "existing"], ["Municipales propuestas", scenario() === "A" ? 0 : 50, "municipal"], ["Policía propuesta", scenario() === "C" ? 30 : 0, "police"], ["Área urbana cubierta", `${number(area.AREA_CUBIERTA_URBANA_KM2, 2)} km²`], ["Población urbana cubierta", `${number(population.POBLACION_CUBIERTA)} · ${pct(population.PCT_CUBIERTO)}`]].map(([label, value, symbols]) => `<div class="card"><span>${symbols ? symbols.split(" ").map(symbol => `<i class="proposal-key ${symbol}" aria-hidden="true"></i>`).join("") : ""}${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")
-      + `<p class="proposal-inventory-note">Las ${changeCount} cámaras para cambio están incluidas en las ${existingCount} existentes; no son cámaras adicionales. ${existingCount - changeCount} + ${changeCount} = ${existingCount}.</p>`;
+      + `<p class="proposal-inventory-note">Las ${changeCount} cámaras para cambio están incluidas en las ${existingCount} existentes; no son cámaras adicionales. ${existingCount - changeCount} + ${changeCount} = ${existingCount}.${quality ? ` ${esc(quality.warning)}` : ""}</p>`;
     syncToggles(); draw(); detail(); graphics(); renderLegend();
     map.invalidateSize(); if (fitNeeded) fit();
-    el.status.textContent = `103 existentes (${changeCount} para cambio) + 50 Municipio + 30 Policía. Radio potencial 200 m; ubicaciones estimadas documentadas. Propuestas, KDE y Gi* sin cambios.`;
+    el.status.textContent = `103 existentes (${changeCount} para cambio) + 50 Municipio + 30 Policía. Radio potencial 200 m; ${quality ? `${quality.pendingValidation} posiciones provisionales pendientes incluidas` : "ubicaciones estimadas documentadas"}. Propuestas, KDE y Gi* sin cambios.`;
   }
   scenarioControl.addEventListener("change", () => { selected = null; render(); });
   extentControl.addEventListener("change", () => { fitNeeded = true; render(); });

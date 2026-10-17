@@ -1,0 +1,19 @@
+{
+  "revision": "ECU911_74_INTACTAS_29_REVISADAS_20261017",
+  "changes": [],
+  "baseHashes": {
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\MUNICIPALES_CORRECCIONES_400M_REV2_20261016\\ESCENARIO_FINAL_183.gpkg": "0e005bf53894ca27051884f85da1f9818d932003646935c7b5a74757ca650c98",
+    "D:\\codex\\entregas\\REVISION_ECU911_29_20261017\\ORIGINALES\\CAMARAS_103_PARA_CODEX.gpkg": "e74da67c9df63f8b366912140d222f2e53642e610f51a4ea110af327edf71c99",
+    "D:\\codex\\entregas\\REVISION_ECU911_29_20261017\\ECU911_103_REVISION_NO_PUBLICADA.gpkg": "d472b00671b2613267f1d100e57f1c320673f8ddb1d53f5defbc851c17f0d8dc",
+    "D:\\codex\\entregas\\RIO084_CANDIDATO_SALIDA_MACAS_20261017\\RIO084_SALIDA_MACAS_CANDIDATO.gpkg": "017396530c377b03c0a8ad9711854e82d901968095936ba932957b553f739fe4",
+    "D:\\codex\\security-real-incidents\\riobamba-hotspot-urbano-200m-data.js": "dadb447ed2abbd69efb1d6d33f4011f071ed8fce99ac31608cf8c9d50ab7bd63",
+    "D:\\codex\\security-real-incidents\\riobamba-conflictividad-data.js": "56ce4c608b1c66235f671d745bca22fe9084913fea788edb1d7cfb471838f17c",
+    "D:\\codex\\security-real-incidents\\riobamba-seguridad-kde-validacion-data.js": "f179696f2d31b04da64ee9f9bcb98c6c9db98e9d84a30219fb30219917547fab",
+    "D:\\codex\\security-real-incidents\\riobamba-cantonal-data.js": "a8bf2da18c2c4980f927be6d29b61138db4245f2fae4c2c3270a6b17c0727ce8",
+    "D:\\codex\\security-real-incidents\\visor-seguridad-riobamba-data.js": "e84f1e092da171ba430db01bb4def4df9d3c2269a500285a26cb29950e8f9bac"
+  },
+  "createdAt": "2026-10-17T13:21:29-05:00",
+  "authorization": "Usuario: mueve y publica todo. RIO-084 en empalme Juan Felix Proano / Via Riobamba-Macas; revision previa de 103, con 74 documentadas inmodificables.",
+  "priorRelease": "MUNICIPALES_CORRECCIONES_400M_REV2_20261016",
+  "fixed74Source": "D:\\codex\\entregas\\REVISION_ECU911_29_20261017\\ORIGINALES\\CAMARAS_103_PARA_CODEX.gpkg"
+}

@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "original74WkbIdentical": true,
+  "all19PendingUnmoved": true,
+  "uniqueIds": 103,
+  "replacementCount": 30,
+  "proposals80Unmoved": true,
+  "giGeometryStatisticsUnchanged": true,
+  "kdeSourceHashesUnchanged": true,
+  "radiiValidatedM": [
+    100,
+    150,
+    200
+  ],
+  "sourcePackageSha256": "c9b55a6ee817b1e1215a646bb7ceec6a5428f98dd1295cf41ac96fcf63722753",
+  "rio084WkbMatchesApprovedNode": true
+}
