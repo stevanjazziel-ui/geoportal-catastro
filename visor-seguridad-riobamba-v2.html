@@ -1293,7 +1293,7 @@
   <link rel="stylesheet" href="./riobamba-cobertura-corredores.css?v=corredores-lasabras-20261007" />
   <link rel="stylesheet" href="./riobamba-mobile.css?v=layers-sidebar-medium-20261015" />
   <script src="./sig-bridge-release.js?v=municipales-400m-rev2-20261016"></script>
-  <script src="./riobamba-camaras-propuesta.js?v=ecu911-revision-20261017"></script>
+  <script src="./riobamba-camaras-propuesta.js?v=kde-combinado-200m-20261017"></script>
   <script src="./riobamba-cobertura-corredores.js?v=inventario-103-30-20261015"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
   <script src="./riobamba-accesibilidad-policial-data.js?v=metodologia-20261001"></script>
@@ -1306,6 +1306,8 @@
   <script src="./riobamba-conflictividad-data.js?v=publicacion-completa-20261001"></script>
   <script src="./riobamba-brechas-actualizadas-data.js?v=brechas-20261004"></script>
   <script src="./riobamba-conflictividad.js?v=kde-visual-p30-20261005"></script>
+  <script src="./riobamba-kde-combinado-data.js?v=combinado-200m-20261017"></script>
+  <script src="./riobamba-kde-combinado.js?v=combinado-200m-20261017"></script>
   <script src="./riobamba-cantonal-view.js?v=interaccion-modulos-20261005"></script>
   <script>
     (async () => {
@@ -1555,11 +1557,12 @@
         if (["population", "populationDensity", "populationExposure"].includes(diagnosisMetric)) return "demography";
         return "diagnosis";
       };
+      const isCombinedKde = () => isKdeMode() && (!cantonalController || cantonalController.scope() === "URBANO") && Boolean(window.RiobambaCombinedKde);
       const analysisConfig = {
         cameraProposal: { filters: ["cameraProposal"] },
         corridorCoverage: { filters: ["corridorCoverage"] },
         incidence: { filters: ["category", "subtype", "parish", "kdePlatform", "kdePeriod", "incidentDate"] },
-        kde: { filters: ["category", "subtype", "parish", "kdePlatform", "kdePeriod", "incidentDate"] },
+        kde: { get filters() { return isCombinedKde() ? [] : ["category", "subtype", "parish", "kdePlatform", "kdePeriod", "incidentDate"]; } },
         giHotspots: { filters: ["category", "subtype", "parish", "kdePlatform", "kdePeriod", "incidentDate", "giHotspots"] },
         cameraCoverage: { filters: ["search", "cameraCoverage"] },
         populationCoverage: { filters: ["search", "cameraCoverage"] },
@@ -1584,7 +1587,7 @@
         cameraProposal: { result: "Impacto de la propuesta", context: [] },
         corridorCoverage: { result: "Cobertura de corredores", context: ["corridorBuffers", "corridorPolice"] },
         incidence: { result: "Incidencia poblacional", context: ["events", "cameras", "police", "boulevards"] },
-        kde: { result: "Densidad de incidentes (KDE)", context: ["events", "cameras", "police", "boulevards"] },
+        kde: { result: "Densidad de incidentes (KDE)", get context() { return isCombinedKde() ? ["cameras", "police", "boulevards"] : ["events", "cameras", "police", "boulevards"]; } },
         giHotspots: { result: "Zonas críticas", context: ["events", "cameras", "police", "boulevards"] },
         cameraCoverage: { result: "Cobertura potencial", context: ["cameraCoverage", "manzanas", "police", "boulevards", "externalCameras"] },
         populationCoverage: { result: "Cobertura poblacional", context: ["cameras", "manzanas", "police", "boulevards"] },
@@ -1659,7 +1662,7 @@
       const renderTopbar = () => {
         if (mode === "cameras") { setText("analysisPeriod", ""); return; }
         const dated = events.map((event) => event.date).filter(Boolean).sort();
-        setText("analysisPeriod", dated.length ? ` · Periodo: ${formatDate(dated[0])} - ${formatDate(dated.at(-1))}` : " · Periodo: N/D");
+        setText("analysisPeriod", isCombinedKde() ? "" : dated.length ? ` · Periodo base de incidentes: ${formatDate(dated[0])} - ${formatDate(dated.at(-1))}` : " · Periodo: N/D");
       };
       const methodRowsHtml = (rows) => rows.map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
       const crsHtml = () => `
@@ -1689,6 +1692,7 @@
           return;
         }
         if (isKdeMode()) {
+          if (isCombinedKde()) { panel.innerHTML = window.RiobambaCombinedKde.methodologyHtml() + crsHtml(); return; }
           const raster = kdeDefaultRaster();
           panel.innerHTML = `<h3>Concentración de incidentes</h3>` + methodRowsHtml([
             ["Método", "Kernel Density Estimation"],
@@ -2905,7 +2909,7 @@
         || elements.kdePlatform?.value !== "__ALL__"
         || elements.kdePeriod?.value !== "__ALL__"
         || Boolean(elements.incidentDate?.value);
-      const filteredKdePoints = () => kdeAllPoints().filter((point) => kdeFilterMatches(point)
+      const filteredKdePoints = () => isCombinedKde() ? [] : kdeAllPoints().filter((point) => kdeFilterMatches(point)
         && [point.x, point.y, point.lat, point.lng].every(Number.isFinite)
         && Math.abs(point.lat) <= 90 && Math.abs(point.lng) <= 180
         && !(point.lat === 0 && point.lng === 0)
@@ -2922,6 +2926,7 @@
         });
       };
       const kdeFilterLabel = () => {
+        if (isCombinedKde()) return {type: "Combinado ECU911 + CMI provisional", platform: "Ambito urbano", period: window.RiobambaCombinedKde.data.period};
         const category = elements.category.value === "__ALL__" ? "Todos los eventos analíticos" : elements.category.value;
         const subtype = !elements.subtype || elements.subtype.value === "__ALL__" ? "" : elements.subtype.value;
         const parish = !elements.parish || elements.parish.value === "__ALL__" ? "" : elements.parish.value;
@@ -2958,6 +2963,12 @@
         return groups;
       };
       const kdeState = () => {
+        if (isCombinedKde()) {
+          const surface = getFilteredKdeSurface([]);
+          return {points: [], candidates: [], pointRows: surface.records, pointEmergencies: surface.records,
+            excludedRows: 0, excludedEmergencies: 0, counts: {}, top: ["No calculado", 0],
+            concentrations: surface.concentrations, bandwidth: surface.bandwidth, cellSize: surface.grid.cellSize};
+        }
         const points = filteredKdePoints();
         const candidates = kdeCandidateEvents();
         const counts = countBy(points.map((point) => ({ ...point, platform: point.platform || "Fuera de Plataformas" })), "platform", true);
@@ -2978,6 +2989,7 @@
         };
       };
       const logKdeDiagnostics = () => {
+        if (isCombinedKde()) return;
         if (!isKdeMode()) return;
         const points = filteredKdePoints();
         const validCoords = events.filter((event) => Number.isFinite(Number(event.lat)) && Number.isFinite(Number(event.lng)) && Number(event.lat) !== 0 && Number(event.lng) !== 0);
@@ -3340,9 +3352,9 @@
               .map(([label, value]) => ({ label, value, color: "#9c1f33" }));
             elements.summary.innerHTML = [
               ["Registros analizados", state.pointRows],
-              ["Registros excluidos", state.excludedRows],
+              [isCombinedKde() ? "ECU911 enero-agosto" : "Registros excluidos", isCombinedKde() ? 9915 : state.excludedRows],
               ["Concentraciones", state.concentrations],
-              ["Plataforma con más registros", state.top[0]],
+              [isCombinedKde() ? "CMI enero-9 octubre" : "Plataforma con más registros", isCombinedKde() ? 816 : state.top[0]],
               ["Bandwidth", `${state.bandwidth} m`]
             ].map(([label, value]) => `<div class="card"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
             elements.graphicAnalysis.innerHTML = `
@@ -4116,6 +4128,7 @@
       }
 
       function renderKdeGraphicPanel() {
+        if (isCombinedKde()) { elements.graphicAnalysis.innerHTML = window.RiobambaCombinedKde.methodologyHtml(); return; }
         const state = kdeState();
         const labels = kdeFilterLabel();
         const rows = Object.entries(state.counts)
@@ -4290,7 +4303,7 @@
         if (isKdeMode()) {
           const state = kdeState();
           addHeader("CONCENTRACIÓN DE INCIDENTES");
-          rows.push(window.RiobambaConflictivity.legend(getFilteredKdeSurface(filteredKdePoints())));
+          rows.push(isCombinedKde() ? window.RiobambaCombinedKde.legend() : window.RiobambaConflictivity.legend(getFilteredKdeSurface(filteredKdePoints())));
           rows.push(`<p>${fmt(state.pointRows)} registros · ${state.bandwidth} m. Cero: transparente.</p>`);
           addContext();
           elements.legend.innerHTML = rows.join("");
@@ -4578,6 +4591,12 @@
       };
       let filteredKdeCache = null;
       const getFilteredKdeSurface = (points) => {
+        if (isCombinedKde()) {
+          if (filteredKdeCache?.combined) return filteredKdeCache;
+          const surface = window.RiobambaCombinedKde.surface();
+          filteredKdeCache = {...surface, key: "combinado-200m-20261017", concentrations: countKdeConcentrations(surface.density, surface.width, surface.height, surface.maxDensity)};
+          return filteredKdeCache;
+        }
         const raster = kdeDefaultRaster();
         const key = JSON.stringify([raster.bandwidth, elements.category.value, elements.subtype?.value, elements.parish?.value, elements.kdePlatform?.value, elements.kdePeriod?.value, elements.incidentDate?.value]);
         if (filteredKdeCache?.key === key) return filteredKdeCache;
@@ -4588,7 +4607,7 @@
         return filteredKdeCache;
       };
       const renderFilteredKdeSurface = (points) => {
-        if (!points.length) return;
+        if (!points.length && !isCombinedKde()) return;
         const raster = kdeDefaultRaster();
         const url = getFilteredKdeSurface(points).url;
         if (url) L.imageOverlay(url, kdeBounds(), { opacity: 1, interactive: false }).addTo(hotspotLayer);
@@ -4598,8 +4617,8 @@
         const surface = getFilteredKdeSurface(filteredKdePoints());
         const value = window.RiobambaConflictivity.sampleDensity(surface, latlng.lat, latlng.lng);
         if (value == null) return;
-        const level = window.RiobambaConflictivity.concentrationLevel(value, surface.visual);
-        L.popup().setLatLng(latlng).setContent(`<strong>Concentración: ${esc(level)}</strong><br>Densidad KDE: ${Number(value).toLocaleString("es-EC", {maximumFractionDigits: 2})} eventos/km²<br>Bandwidth: 200 m<br>Categoría: ${esc(elements.category.value === "__ALL__" ? "Todos" : elements.category.value)}`).openOn(map);
+        const level = surface.combined ? window.RiobambaCombinedKde.level(value) : window.RiobambaConflictivity.concentrationLevel(value, surface.visual);
+        L.popup().setLatLng(latlng).setContent(`<strong>Concentración: ${esc(level)}</strong><br>Densidad KDE: ${Number(value).toLocaleString("es-EC", {maximumFractionDigits: 2})} ${surface.combined ? "registros" : "eventos"}/km²<br>Bandwidth: 200 m<br>${surface.combined ? esc(window.RiobambaCombinedKde.data.period) + "<br>Provisional: posible doble conteo entre fuentes." : "Categoría: " + esc(elements.category.value === "__ALL__" ? "Todos" : elements.category.value)}`).openOn(map);
       }
       map.on("click", (event) => showKdeDensity(event.latlng));
 
@@ -5145,7 +5164,7 @@
             const state = kdeState();
             const labels = kdeFilterLabel();
             elements.overlayTitle.textContent = "Concentración de incidentes";
-            elements.overlayText.textContent = `${labels.type} · ${fmt(state.pointRows)} registros analizados · ${labels.platform} · ${labels.period} · bandwidth ${state.bandwidth} m · superficie DENSIDAD_INCIDENTES_KDE.`;
+            elements.overlayText.textContent = `${labels.type} · ${fmt(state.pointRows)} registros analizados · ${labels.platform} · ${labels.period} · bandwidth ${state.bandwidth} m.${isCombinedKde() ? " Provisional: posible doble conteo; no hechos unicos." : ""}`;
           } else if (diagnosisMetric === "population") {
             elements.overlayTitle.textContent = "Población";
             elements.overlayText.textContent = "Distribución de la población en las Plataformas Territoriales y manzanas censales.";
@@ -5679,6 +5698,11 @@
       }
 
       function renderPlatformDetail(platformName) {
+        if (isCombinedKde()) {
+          elements.detailTitle.textContent = "KDE combinado provisional";
+          elements.detail.innerHTML = methodRowsHtml([["Registros, no hechos unicos", "10.731"], ["ECU911 enero-agosto", "9.915"], ["CMI enero-9 octubre", "816"], ["Radio KDE / celda", "200 / 20 m"]]) + `<p>Posible doble conteo entre fuentes. Sin desglose combinado por Plataforma; los indicadores previos de cobertura y Gi* no se recalculan con esta capa.</p>`;
+          return;
+        }
         const filteredGapPlatform = diagnosisMetric === "territorialGaps" && platformFilterValue() ? `PLATAFORMA ${platformFilterValue()}` : null;
         const platform = platformRecord(platformName || filteredGapPlatform);
         if (isInventoryDeficitMode()) { inventoryDeficit.renderDetail(platform); return; }
@@ -6114,6 +6138,7 @@
       const cameraProposal = window.createRiobambaCameraProposal({
         map, elements, inventory: inventoryCameras, esc, metricBars, active: isCameraProposalMode,
         kdeOverlay: () => {
+          if (window.RiobambaCombinedKde) return window.RiobambaCombinedKde.overlay();
           const data = window.RIOBAMBA_CANTONAL_DATA;
           const grid = {
             ...window.RIOBAMBA_CONFLICTIVITY_CORRECTION.urbanGrid,

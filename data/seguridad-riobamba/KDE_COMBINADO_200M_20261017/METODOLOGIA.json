@@ -1,0 +1,64 @@
+{
+  "release": "kde-combinado-200m-20261017",
+  "records": 10731,
+  "ecu911": 9915,
+  "cmi": 816,
+  "bandwidth": 200,
+  "cellSize": 20,
+  "crs": "EPSG:32717",
+  "units": "registros/km2",
+  "period": "ECU911: enero-agosto 2026; CMI: enero-9 octubre 2026",
+  "warning": "Provisional: posible doble conteo entre fuentes. No representa hechos unicos ni significancia Gi*.",
+  "statisticalScope": "URBANO: union operativa de 18 Plataformas",
+  "unresolvedPairs": 130,
+  "deduplicated": false,
+  "pointCoordinatesChanged": false,
+  "giChanged": false,
+  "colorStops": [
+    134.87224351592778,
+    257.50798435454624,
+    488.66105797296007,
+    842.1579061444726,
+    1134.1043221233172,
+    3747.7258002239373
+  ],
+  "colors": [
+    "#ffffb2",
+    "#fed976",
+    "#feb24c",
+    "#f03b20",
+    "#bd0026",
+    "#bd0026"
+  ],
+  "alphas": [
+    0,
+    65,
+    140,
+    205,
+    215,
+    215
+  ],
+  "visual": {
+    "p25": 103.53910860510867,
+    "p30": 131.59339634071796,
+    "p50": 259.6626826829163,
+    "p75": 486.31187479603614,
+    "p90": 862.5591293912893,
+    "p95": 1199.5169697059277,
+    "minDensity": 0,
+    "maxDensity": 3747.7258002239373,
+    "positiveCells": 69441
+  },
+  "densitySha256": "166262fc878f2fe42c716bfa9f5754e3e9efce33eed0233f7c9237a0424720d8",
+  "pngSha256": "3d20e27ad3cffa470c875a4f187d29e603b404f8ed4f394687756d7d8f7148b8",
+  "bounds": [
+    [
+      -1.7085636057559122,
+      -78.71042997301251
+    ],
+    [
+      -1.6104553764104972,
+      -78.61078366159094
+    ]
+  ]
+}

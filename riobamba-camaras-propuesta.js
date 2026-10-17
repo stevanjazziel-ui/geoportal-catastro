@@ -193,7 +193,7 @@ window.createRiobambaCameraProposal = function (api) {
       Object.keys(groups).filter(groupEnabled).map(k => `<div><span class="proposal-key" style="background:${colors[k]};opacity:.5"></span>Radio ${k === "existing" ? "sin cambio requerido" : esc(groups[k])} · 200 m</div>`).join("") +
       `<div><span class="proposal-key" style="background:${colors.change};opacity:.5"></span>Radio para cambio · 200 m</div>` +
       (toggles.hotspots ? `<div>Gi*: ${esc(hotspotScope)} / ${esc(hotspotCategory)} · 90/95/99 %</div>` : "") +
-      (toggles.kde ? `<div class="proposal-kde-legend"><span aria-hidden="true"></span>Concentración de incidentes · KDE urbano · ${number(kdeMetadata?.records)} registros · radio ${number(kdeMetadata?.bandwidth)} m</div>` : "") +
+      (toggles.kde ? `<div class="proposal-kde-legend"><span aria-hidden="true" style="background:linear-gradient(90deg,#ffffb2,#fed976,#feb24c,#f03b20,#bd0026)"></span>Concentración de incidentes · KDE combinado provisional · ${number(kdeMetadata?.records)} registros · radio ${number(kdeMetadata?.bandwidth)} m</div><div>${esc(kdeMetadata?.period || "")}</div><div>${esc(kdeMetadata?.warning || "")}</div><div>La capa KDE no recalcula los indicadores de cobertura de incidentes.</div>` : "") +
       Object.entries(corridorToggles).filter(([toggle]) => toggles[toggle]).map(([, corridor]) => `<div><span class="proposal-key" style="background:${corridorColors[corridor]}"></span>${esc(names[corridor])}</div>`).join("") + `<div>Radios geométricos potenciales, no campo visual efectivo.</div>`;
   }
   function mini(feature) {
