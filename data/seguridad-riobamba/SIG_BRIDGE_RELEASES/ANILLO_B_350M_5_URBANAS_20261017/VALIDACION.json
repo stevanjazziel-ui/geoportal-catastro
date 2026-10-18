@@ -1,0 +1,108 @@
+{
+  "status": "PASS",
+  "plan": {
+    "scenarios": [
+      "B",
+      "C"
+    ],
+    "jobs": [
+      "block_coverage",
+      "buffers",
+      "camera_attributes",
+      "corridor_coverage",
+      "exclusive_coverage",
+      "hotspot_coverage",
+      "incident_coverage",
+      "population",
+      "territorial"
+    ],
+    "pendingAdapters": [],
+    "recalculateKde": false,
+    "recalculateGi": false,
+    "optimizeCameras": false
+  },
+  "nodeAudit": [
+    {
+      "id": "MUN-028",
+      "roads": [
+        "5 de Junio",
+        "Avenida 9 de Octubre"
+      ],
+      "degree": 3,
+      "passed": true,
+      "cartographicNodeValidated": true,
+      "fieldVerified": false,
+      "principalRoad": true,
+      "axisReferenceDistanceM": 5.151159798931972,
+      "minimumSpacingM": 376.6684996757082
+    },
+    {
+      "id": "MUN-036",
+      "roads": [
+        "Avenida Edelberto Bonilla Oleas"
+      ],
+      "degree": 3,
+      "passed": true,
+      "cartographicNodeValidated": true,
+      "fieldVerified": false,
+      "principalRoad": true,
+      "axisReferenceDistanceM": 5.782867777061243,
+      "minimumSpacingM": 388.46254395285854
+    },
+    {
+      "id": "MUN-044",
+      "roads": [
+        "Avenida Constitución",
+        "Avenida Heroes de Tapi"
+      ],
+      "degree": 3,
+      "passed": true,
+      "cartographicNodeValidated": true,
+      "fieldVerified": false,
+      "principalRoad": true,
+      "axisReferenceDistanceM": 4.952587254788311,
+      "minimumSpacingM": 356.18746090547825
+    },
+    {
+      "id": "MUN-046",
+      "roads": [
+        "Avenida Heroes de Tapi"
+      ],
+      "degree": 3,
+      "passed": true,
+      "cartographicNodeValidated": true,
+      "fieldVerified": false,
+      "principalRoad": true,
+      "axisReferenceDistanceM": 3.9074858312700966,
+      "minimumSpacingM": 358.93403754913527
+    },
+    {
+      "id": "MUN-050",
+      "roads": [
+        "Avenida Edelberto Bonilla Oleas",
+        "Jerusalén"
+      ],
+      "degree": 3,
+      "passed": true,
+      "cartographicNodeValidated": true,
+      "fieldVerified": false,
+      "principalRoad": true,
+      "axisReferenceDistanceM": 5.829140167537875,
+      "minimumSpacingM": 430.4139998223009
+    }
+  ],
+  "publishBlocks": [],
+  "sourcePreserved": true,
+  "existingCount": 103,
+  "municipalCount": 50,
+  "policeCount": 30,
+  "giRecalculated": false,
+  "kdeRecalculated": false,
+  "optimized": false,
+  "revision": "ANILLO_B_350M_5_URBANAS_20261017",
+  "authorization": "Usuario: ok publica, despues de seleccionar B y verificar su aplicacion local. Publicar exactamente las5urbanas aprobadas con excepcion350m.",
+  "applied": true,
+  "published": true,
+  "exception350mApproved": true,
+  "physicalVisionVerified": false
+}

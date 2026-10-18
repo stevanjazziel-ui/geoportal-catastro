@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "approvedBExactly": true,
+  "urbanMoved": 5,
+  "nearestNewDestinationsM": {
+    "MUN-028": 376.66849967570823,
+    "MUN-036": 388.46254395285854,
+    "MUN-044": 356.18746090547825,
+    "MUN-046": 358.93403754913527,
+    "MUN-050": 430.4139998223009
+  },
+  "existing103Fixed": true,
+  "police30Fixed": true,
+  "rural22Fixed": true,
+  "abras4Fixed": true,
+  "boyacaPairFixed": true,
+  "buffers200mChecked": true,
+  "giKdeUnchanged": true,
+  "physicalVisionVerified": false,
+  "authorization": "Usuario: ok publica, despues de seleccionar B y verificar su aplicacion local. Publicar exactamente las5urbanas aprobadas con excepcion350m.",
+  "approvedForPublication": true
+}

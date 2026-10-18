@@ -1,0 +1,72 @@
+{
+  "revision": "ANILLO_B_350M_5_URBANAS_20261017",
+  "createdAt": "2026-10-17T21:58:48-05:00",
+  "authorization": "Usuario: ok publica, despues de seleccionar B y verificar su aplicacion local. Publicar exactamente las5urbanas aprobadas con excepcion350m.",
+  "changes": [
+    {
+      "layer": "municipal",
+      "id": "MUN-028",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 80.15158126951358,
+      "note": "Usuario acepta excepcion350m (ok), luego elige b al preguntar Aplicamos A o B. Aplicacion local; NO autoriza nuevo push."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-036",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 361.6287101260954,
+      "note": "Usuario acepta excepcion350m (ok), luego elige b al preguntar Aplicamos A o B. Aplicacion local; NO autoriza nuevo push."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-044",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 1946.0115777864612,
+      "note": "Usuario acepta excepcion350m (ok), luego elige b al preguntar Aplicamos A o B. Aplicacion local; NO autoriza nuevo push."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-046",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 2570.3146807154817,
+      "note": "Usuario acepta excepcion350m (ok), luego elige b al preguntar Aplicamos A o B. Aplicacion local; NO autoriza nuevo push."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-050",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 147.57710603061477,
+      "note": "Usuario acepta excepcion350m (ok), luego elige b al preguntar Aplicamos A o B. Aplicacion local; NO autoriza nuevo push."
+    }
+  ],
+  "baseHashes": {
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\REUNION_MUNICIPALES_BOYACA_20261017\\ESCENARIO_FINAL_183.gpkg": "8be1f5478ede3ebd571adeef0c32c01b9d890e04952e6939dd6247b753b3f768",
+    "D:\\codex\\entregas\\MEJORAR_ANILLO_24_URBANAS_20261017\\CONJUNTA_350M_EXCEPCION_NO_APROBADA_SIN_PERDIDA_DV_CMI\\REVISION_24_URBANAS.gpkg": "5b10152ed26aadb28ea189652bc804a7583f910a66603ce2d895b81b6560b48c",
+    "D:\\codex\\security-real-incidents\\sig-bridge-active.json": "73f545eeeb4f9eb9c88dbad776c24757613e6e5e0fc1b762bdd304bca1feb53a",
+    "D:\\codex\\security-real-incidents\\riobamba-kde-combinado-data.js": "3c45b3b26f0aa83f5a0f1d51b3a0d5ce2a3aac5a966511256410a3881a6c1756",
+    "D:\\codex\\security-real-incidents\\riobamba-hotspot-urbano-200m-data.js": "dadb447ed2abbd69efb1d6d33f4011f071ed8fce99ac31608cf8c9d50ab7bd63",
+    "D:\\codex\\security-real-incidents\\riobamba-conflictividad-data.js": "56ce4c608b1c66235f671d745bca22fe9084913fea788edb1d7cfb471838f17c"
+  },
+  "priorRelease": "REUNION_MUNICIPALES_BOYACA_20261017",
+  "applied": true,
+  "published": true,
+  "exception350mApproved": true,
+  "study": "D:\\codex\\entregas\\MEJORAR_ANILLO_24_URBANAS_20261017\\CONJUNTA_350M_EXCEPCION_NO_APROBADA_SIN_PERDIDA_DV_CMI",
+  "unchangedGroups": [
+    "103 existentes",
+    "30 policiales",
+    "22 rurales",
+    "4 Las Abras",
+    "Boyaca027/047"
+  ],
+  "publicationAuthorization": "Usuario: ok publica, despues de seleccionar B y verificar su aplicacion local. Publicar exactamente las5urbanas aprobadas con excepcion350m.",
+  "approvedForPublication": true,
+  "localDeliveryPreserved": true,
+  "publicRelease": "ANILLO_B_350M_5_URBANAS_20261017",
+  "localApplicationAuthorization": "Usuario acepta excepcion350m (ok), luego elige b al preguntar Aplicamos A o B. Aplicacion local; NO autoriza nuevo push."
+}
