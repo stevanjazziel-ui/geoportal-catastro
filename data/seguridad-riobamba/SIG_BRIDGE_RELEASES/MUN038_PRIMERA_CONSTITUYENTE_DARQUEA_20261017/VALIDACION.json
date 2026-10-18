@@ -1,0 +1,50 @@
+{
+  "status": "PASS",
+  "plan": {
+    "scenarios": [
+      "B",
+      "C"
+    ],
+    "jobs": [
+      "block_coverage",
+      "buffers",
+      "camera_attributes",
+      "corridor_coverage",
+      "exclusive_coverage",
+      "hotspot_coverage",
+      "incident_coverage",
+      "population",
+      "territorial"
+    ],
+    "pendingAdapters": [],
+    "recalculateKde": false,
+    "recalculateGi": false,
+    "optimizeCameras": false
+  },
+  "nodeAudit": [
+    {
+      "id": "MUN-038",
+      "passed": true,
+      "cartographicNodeValidated": true,
+      "principalRoad": true,
+      "fieldVerified": false,
+      "minimumSpacingM": 245.7152316464428,
+      "spacingExceptionApproved": true,
+      "roads": [
+        "Bernardo Darquea",
+        "Primera Constituyente"
+      ]
+    }
+  ],
+  "publishBlocks": [],
+  "sourcePreserved": true,
+  "existingCount": 103,
+  "municipalCount": 50,
+  "policeCount": 30,
+  "giRecalculated": false,
+  "kdeRecalculated": false,
+  "optimized": false,
+  "revision": "MUN038_PRIMERA_CONSTITUYENTE_DARQUEA_20261017",
+  "published": true,
+  "publicRelease": "MUN038_PRIMERA_CONSTITUYENTE_DARQUEA_20261017"
+}

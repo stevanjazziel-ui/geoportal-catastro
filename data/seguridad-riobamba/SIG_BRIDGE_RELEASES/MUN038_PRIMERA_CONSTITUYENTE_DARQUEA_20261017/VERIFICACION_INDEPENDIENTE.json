@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "changedMunicipal": [
+    "MUN-038"
+  ],
+  "otherMunicipal49Fixed": true,
+  "existing103Fixed": true,
+  "police30Fixed": true,
+  "mun028PendingAndFixed": true,
+  "minimumSpacingM": 245.7152316464428,
+  "spacingExceptionApproved": true,
+  "movementM": 82.9348660704961,
+  "corridorCoverageUnchanged": true,
+  "giKdeUnchanged": true,
+  "published": true,
+  "baseHashes": {
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\MUN021_ACCESO_LICAN_HURONES_20261017\\ESCENARIO_FINAL_183.gpkg": "093e08328c97b38df7519027aa794555b01bce416f79d7b56ae868ce0cfd8142",
+    "D:\\codex\\security-real-incidents\\sig-bridge-active.json": "1290de5c0ef896641fadee0e8288e2961348415117a26e8f1ff35cc46e74698a",
+    "D:\\codex\\security-real-incidents\\riobamba-kde-combinado-data.js": "3c45b3b26f0aa83f5a0f1d51b3a0d5ce2a3aac5a966511256410a3881a6c1756",
+    "D:\\codex\\security-real-incidents\\riobamba-hotspot-urbano-200m-data.js": "dadb447ed2abbd69efb1d6d33f4011f071ed8fce99ac31608cf8c9d50ab7bd63"
+  },
+  "publicRelease": "MUN038_PRIMERA_CONSTITUYENTE_DARQUEA_20261017"
+}

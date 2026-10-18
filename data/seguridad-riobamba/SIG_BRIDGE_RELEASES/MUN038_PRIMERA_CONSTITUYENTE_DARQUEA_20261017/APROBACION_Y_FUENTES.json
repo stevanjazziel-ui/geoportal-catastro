@@ -1,0 +1,32 @@
+{
+  "revision": "MUN038_PRIMERA_CONSTITUYENTE_DARQUEA_20261017",
+  "createdAt": "2026-10-17T23:48:34-05:00",
+  "authorization": "Usuario solicita mover MUN-038 a Primera Constituyente x Bernardo Darquea y responde sii a la excepcion especifica: RIO-003-DOMO a245.72m. MUN-028 no autorizada, permanece fija.",
+  "applied": true,
+  "published": true,
+  "priorRelease": "MUN021_ACCESO_LICAN_HURONES_20261017",
+  "baseHashes": {
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\MUN021_ACCESO_LICAN_HURONES_20261017\\ESCENARIO_FINAL_183.gpkg": "093e08328c97b38df7519027aa794555b01bce416f79d7b56ae868ce0cfd8142",
+    "D:\\codex\\security-real-incidents\\sig-bridge-active.json": "1290de5c0ef896641fadee0e8288e2961348415117a26e8f1ff35cc46e74698a",
+    "D:\\codex\\security-real-incidents\\riobamba-kde-combinado-data.js": "3c45b3b26f0aa83f5a0f1d51b3a0d5ce2a3aac5a966511256410a3881a6c1756",
+    "D:\\codex\\security-real-incidents\\riobamba-hotspot-urbano-200m-data.js": "dadb447ed2abbd69efb1d6d33f4011f071ed8fce99ac31608cf8c9d50ab7bd63"
+  },
+  "spacingException": {
+    "id": "MUN-038",
+    "existing": "RIO-003-DOMO",
+    "distanceM": 245.7152316464428,
+    "previousMinimumM": 350,
+    "userApproved": true
+  },
+  "changes": [
+    {
+      "layer": "municipal",
+      "id": "MUN-038",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 82.9348660704961,
+      "note": "Usuario solicita mover MUN-038 a Primera Constituyente x Bernardo Darquea y responde sii a la excepcion especifica: RIO-003-DOMO a245.72m. MUN-028 no autorizada, permanece fija."
+    }
+  ],
+  "publicRelease": "MUN038_PRIMERA_CONSTITUYENTE_DARQUEA_20261017"
+}
