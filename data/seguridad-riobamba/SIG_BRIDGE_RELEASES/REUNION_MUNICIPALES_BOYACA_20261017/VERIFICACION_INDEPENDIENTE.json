@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "geometryMatchesApprovedReview": true,
+  "sourceHashes": {
+    "D:\\codex\\entregas\\BOYACA_DOS_CAMARAS_1_A_7_REVISION_20261017\\BOYACA_DOS_CAMARAS_REVISION.gpkg": "185ee627eb7264ada7d61e1a2fd4821df9cf05c532a51b86ba1e846d82a34655",
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\ECU911_74_INTACTAS_29_REVISADAS_20261017\\ESCENARIO_FINAL_183.gpkg": "c9b55a6ee817b1e1215a646bb7ceec6a5428f98dd1295cf41ac96fcf63722753",
+    "D:\\codex\\security-real-incidents\\riobamba-kde-combinado-data.js": "3c45b3b26f0aa83f5a0f1d51b3a0d5ce2a3aac5a966511256410a3881a6c1756",
+    "D:\\codex\\security-real-incidents\\riobamba-hotspot-urbano-200m-data.js": "dadb447ed2abbd69efb1d6d33f4011f071ed8fce99ac31608cf8c9d50ab7bd63",
+    "D:\\codex\\security-real-incidents\\riobamba-conflictividad-data.js": "56ce4c608b1c66235f671d745bca22fe9084913fea788edb1d7cfb471838f17c"
+  },
+  "existing103Intact": true,
+  "meeting30": true,
+  "municipalComposition": [
+    22,
+    4,
+    24
+  ],
+  "uniqueCameraIds": 183,
+  "giKdeUnchanged": true
+}

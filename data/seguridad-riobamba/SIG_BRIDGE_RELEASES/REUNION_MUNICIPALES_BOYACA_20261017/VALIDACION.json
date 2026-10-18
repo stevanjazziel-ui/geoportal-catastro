@@ -1,0 +1,845 @@
+{
+  "status": "PASS",
+  "plan": {
+    "scenarios": [
+      "B",
+      "C"
+    ],
+    "jobs": [
+      "block_coverage",
+      "buffers",
+      "camera_attributes",
+      "corridor_coverage",
+      "exclusive_coverage",
+      "hotspot_coverage",
+      "incident_coverage",
+      "population",
+      "territorial"
+    ],
+    "pendingAdapters": [],
+    "recalculateKde": false,
+    "recalculateGi": false,
+    "optimizeCameras": false
+  },
+  "nodeAudit": [
+    {
+      "id": "MUN-001",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-002",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-003",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-004",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-005",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-006",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-007",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-008",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-009",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-010",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-011",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-012",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-013",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-014",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-015",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-016",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-017",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-018",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-019",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-020",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-021",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-022",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-023",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-024",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-025",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-026",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-027",
+      "roads": [
+        "Boyaca x Humberto Merino"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-028",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-029",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-030",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-031",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-032",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-033",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-034",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-035",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-036",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-037",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-038",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-039",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-040",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-041",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-042",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-043",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-044",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-045",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-046",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-047",
+      "roads": [
+        "Boyaca x Augusto Alzamora"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-048",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-049",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "MUN-050",
+      "roads": [
+        "Referencia de estudio"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-01",
+      "roads": [
+        "AV. MONSEÑOR LEONIDAS PROAÑO Y CALLE GUARANIES"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-02",
+      "roads": [
+        "CALLE RAFAEL FERRER A LA ALTURA DE LAS CANCHAS SINTETICAS 15 DE NOVIEMBRE"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-03",
+      "roads": [
+        "CALLE SERGIO QUIROLA Y CALLE CAMILO EGAS"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-04",
+      "roads": [
+        "AV. 09 DE OCTUBRE Y AV. PEDRO VICENTE MALDONADO"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-05",
+      "roads": [
+        "AV. 11 DE NOVIEMBRE Y AV. CANÓNIGO RAMOS"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-06",
+      "roads": [
+        "SECTOR DE LOS ARUPOS DEL NORTE"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-07",
+      "roads": [
+        "AV PEDRO VICENTE MALDONADO Y CALLE LOPEZ"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-08",
+      "roads": [
+        "AV. MILTON REYES Y AV. 11 DE NOVIEMBRE"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-09",
+      "roads": [
+        "PANAMERICANA SUR E35 EN EL DESVIO AL CANTÓN GUANO"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-10",
+      "roads": [
+        "INGRESO A CUNDUANA"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-11",
+      "roads": [
+        "PANAMERICANA SUR E35 INGRESO A LA AV. REPUBLICA 2"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-12",
+      "roads": [
+        "VIA RIOBAMBA- CHIMBORAZO EN LA Y QUE VA A CHIMBORAZO Y A GUARANDA"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-14",
+      "roads": [
+        "AV. DANIEL LEON BORJA Y CALLE DUCHICELA"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-15",
+      "roads": [
+        "CALLE CHILE Y CALLE BRASIL"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-16",
+      "roads": [
+        "AV UNIDAD NACIONAL Y AV LA PRENSA"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-17",
+      "roads": [
+        "CALLE GARCIA MORENO Y AV 9 DE OCTUBRE"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-18",
+      "roads": [
+        "CALLE ISABEL DE GODIN Y CALLE FRANCIA"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-19",
+      "roads": [
+        "AV. ANTONIO JOSE DE SUCRE A LA ALTURA CASCARITAS DON PANCHO REDONDEL"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-20",
+      "roads": [
+        "CALLE CAPITAN EDMUNDO CHIRIBOGA Y CALLE BEGONIAS"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-21",
+      "roads": [
+        "AV. EDELBERTO BONILLA OLEAS Y AV. CELSO AUGUSTO RODRIGUEZ"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-22",
+      "roads": [
+        "CALLE GUATEMALA Y CALLE CORDOVA"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-23",
+      "roads": [
+        "AV. ALFONSO BURBANO Y CALLE SAN ANDRES"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-24",
+      "roads": [
+        "AV LAS AMERICAS RUTA A SAN VICENTE"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-25",
+      "roads": [
+        "CALLE PURUHA Y CALLE CHILE"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-26",
+      "roads": [
+        "AV 9 DE OCTUBRE Y CALLE 24 DE MAYO"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-27",
+      "roads": [
+        "Av. Leopoldo Freire, frente al Banco del Pacifico, sector Comando de Policia / Santa Maria. Referencia del usuario."
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-28",
+      "roads": [
+        "VIA A CHAMBO INGRESO A LICTO EN LA Y"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-29",
+      "roads": [
+        "CALLE LEONIDAS PLAZA Y CALLE DIEGO RIVERA"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-30",
+      "roads": [
+        "AV. ALFONSO CHAVEZ Y CALLE LEONIDAS PLAZA"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    },
+    {
+      "id": "PN-31",
+      "roads": [
+        "CALLE JOSE DE OROZCO Y CALLE LOS ALAMOS"
+      ],
+      "passed": false,
+      "acceptedForPlanning": true,
+      "fieldVerified": false,
+      "basis": "Ubicacion de estudio/reunion aprobada; no certifica interseccion principal, poste o linea de vision."
+    }
+  ],
+  "publishBlocks": [],
+  "sourcePreserved": true,
+  "existingCount": 103,
+  "municipalCount": 50,
+  "policeCount": 30,
+  "giRecalculated": false,
+  "kdeRecalculated": false,
+  "optimized": false,
+  "revision": "REUNION_MUNICIPALES_BOYACA_20261017",
+  "authorization": "Usuario: continua y publica los cambios para ver como quedo, tras mostrar separacion350.82m y Anillo70.78%.",
+  "approvedExceptions": [
+    "Boyaca350.82m entre propuestas; distancias a existentes344.13m y234.48m",
+    "MUN037 cruce local para Macaji100%",
+    "Anillo municipal70.78% sin minimo80%",
+    "PN27 frenteBancoPacifico"
+  ],
+  "existing103Intact": true,
+  "historicalNodeCertificatesNotReused": true,
+  "physicalVisionVerified": false
+}

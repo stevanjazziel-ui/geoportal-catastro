@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "root": "./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/ECU911_74_INTACTAS_29_REVISADAS_20261017/",
-  "releaseId": "ECU911_74_INTACTAS_29_REVISADAS_20261017",
+  "root": "./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/REUNION_MUNICIPALES_BOYACA_20261017/",
+  "releaseId": "REUNION_MUNICIPALES_BOYACA_20261017",
   "coverageData": "riobamba-brechas-actualizadas-data.js"
 }
