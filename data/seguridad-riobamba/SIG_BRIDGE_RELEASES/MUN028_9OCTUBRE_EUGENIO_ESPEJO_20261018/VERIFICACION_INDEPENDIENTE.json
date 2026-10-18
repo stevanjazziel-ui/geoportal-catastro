@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "changedMunicipal": [
+    "MUN-028"
+  ],
+  "otherMunicipal49Fixed": true,
+  "existing103Fixed": true,
+  "police30Fixed": true,
+  "mun021And038Preserved": true,
+  "mun041PendingAndFixed": true,
+  "minimumSpacingM": 336.576631563523,
+  "spacingExceptionApproved": true,
+  "movementM": 79.69877284983066,
+  "giKdeUnchanged": true,
+  "published": true,
+  "baseHashes": {
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\MUN038_PRIMERA_CONSTITUYENTE_DARQUEA_20261017\\ESCENARIO_FINAL_183.gpkg": "f0d2022755169f6654a9b8644ab29fb18c0e116745bf57ab0fc7aa806fdc7ab1",
+    "D:\\codex\\security-real-incidents\\sig-bridge-active.json": "f3c64f6284a780841192ebbb6557c66c969415e9a34624994eb7bfb464b899d2",
+    "D:\\codex\\security-real-incidents\\riobamba-kde-combinado-data.js": "3c45b3b26f0aa83f5a0f1d51b3a0d5ce2a3aac5a966511256410a3881a6c1756",
+    "D:\\codex\\security-real-incidents\\riobamba-hotspot-urbano-200m-data.js": "dadb447ed2abbd69efb1d6d33f4011f071ed8fce99ac31608cf8c9d50ab7bd63"
+  },
+  "publicRelease": "MUN028_9OCTUBRE_EUGENIO_ESPEJO_20261018"
+}
