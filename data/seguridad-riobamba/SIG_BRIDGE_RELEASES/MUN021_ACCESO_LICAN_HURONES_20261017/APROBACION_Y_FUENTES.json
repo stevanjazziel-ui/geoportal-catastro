@@ -1,0 +1,25 @@
+{
+  "revision": "MUN021_ACCESO_LICAN_HURONES_20261017",
+  "createdAt": "2026-10-17T22:44:06-05:00",
+  "authorization": "Usuario identifica MUN-021 junto a RIO-028 y solicita: esta muy pegada a la28 mueve. Destino revisado: Maldonado x Hurones; solo cambia MUN-021.",
+  "applied": true,
+  "published": true,
+  "priorRelease": "ANILLO_B_350M_5_URBANAS_20261017",
+  "baseHashes": {
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\ANILLO_B_350M_5_URBANAS_20261017\\ESCENARIO_FINAL_183.gpkg": "676ea2c29ab9a4983bd50484917f84eeaa7cc5ca8a3da75fb494a5ac3750cdae",
+    "D:\\codex\\security-real-incidents\\sig-bridge-active.json": "f88bc656761d09ab0a72f5571d7ec0c090f719ead118b46c4728b470edf9340b",
+    "D:\\codex\\security-real-incidents\\riobamba-kde-combinado-data.js": "3c45b3b26f0aa83f5a0f1d51b3a0d5ce2a3aac5a966511256410a3881a6c1756",
+    "D:\\codex\\security-real-incidents\\riobamba-hotspot-urbano-200m-data.js": "dadb447ed2abbd69efb1d6d33f4011f071ed8fce99ac31608cf8c9d50ab7bd63"
+  },
+  "changes": [
+    {
+      "layer": "municipal",
+      "id": "MUN-021",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 673.2695857006688,
+      "note": "Usuario identifica MUN-021 junto a RIO-028 y solicita: esta muy pegada a la28 mueve. Destino revisado: Maldonado x Hurones; solo cambia MUN-021."
+    }
+  ],
+  "publicRelease": "MUN021_ACCESO_LICAN_HURONES_20261017"
+}

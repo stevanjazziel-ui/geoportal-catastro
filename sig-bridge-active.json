@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "root": "./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/ANILLO_B_350M_5_URBANAS_20261017/",
-  "releaseId": "ANILLO_B_350M_5_URBANAS_20261017",
+  "root": "./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/MUN021_ACCESO_LICAN_HURONES_20261017/",
+  "releaseId": "MUN021_ACCESO_LICAN_HURONES_20261017",
   "coverageData": "riobamba-brechas-actualizadas-data.js"
 }
