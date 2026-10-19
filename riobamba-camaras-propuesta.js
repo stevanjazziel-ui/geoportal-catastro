@@ -11,12 +11,15 @@ window.createRiobambaCameraProposal = function (api) {
   const groups = { existing: "Existentes", municipal: "Municipio · propuesta", police: "Policía · propuesta" };
   const names = { BOULEVARD_MACAJI_BELLAVISTA: "Macají–Bellavista", CICLOVIAS: "Ciclovías", ANILLO_VIAL: "Anillo vial", QUEBRADA_LAS_ABRAS: "Las Abras" };
   const corridorToggles = { corridorRing: "ANILLO_VIAL", corridorMacaji: "BOULEVARD_MACAJI_BELLAVISTA", corridorAbras: "QUEBRADA_LAS_ABRAS", corridorCiclovias: "CICLOVIAS" };
+  const corridorFeatures = corridor => corridor === "BOULEVARD_MACAJI_BELLAVISTA"
+    ? data.macajiCorridor.features
+    : data.corridors.features.filter(f => f.properties.CORREDOR === corridor);
   const corridorColors = { ANILLO_VIAL: "#a564ad", BOULEVARD_MACAJI_BELLAVISTA: "#297d55", QUEBRADA_LAS_ABRAS: "#16a1b2", CICLOVIAS: "#246db5" };
   const urbanAxesStyle = { color: "#d62828", weight: 3, opacity: 1 };
   const platformStyle = { color: "#385a52", weight: 1.6, opacity: .6, fill: false };
   const defaults = { existing: true, change: true, municipal: true, police: true, existingRadius: true, changeRadius: true, municipalRadius: true, policeRadius: true, platforms: true, kde: true, corridorRing: false, corridorMacaji: false, corridorAbras: false, corridorCiclovias: false, urbanAxes: true, voids: false };
   const toggles = { ...defaults };
-  const labels = { existing: "Sin cambio requerido", change: "Requieren cambio", municipal: "Municipio · 50 propuestas", police: "Policía · 30 propuestas", existingRadius: "Radio sin cambio · 200 m", changeRadius: "Radio para cambio · 200 m", municipalRadius: "Radio Municipio · 200 m", policeRadius: "Radio Policía · 200 m", platforms: "18 Plataformas", kde: "Concentración de incidentes · KDE", corridorRing: "Anillo Vial", corridorMacaji: "Bulevares · Macají–Bellavista", corridorAbras: "Quebrada Las Abras", corridorCiclovias: "Ciclovías", urbanAxes: "Ejes Urbanos prioritarios", voids: "Tramos sin cobertura · escenario 183" };
+  const labels = { existing: "Sin cambio requerido", change: "Requieren cambio", municipal: "Municipio · 50 propuestas", police: "Policía · 30 propuestas", existingRadius: "Radio sin cambio · 200 m", changeRadius: "Radio para cambio · 200 m", municipalRadius: "Radio Municipio · 200 m", policeRadius: "Radio Policía · 200 m", platforms: "18 Plataformas", kde: "Concentración de incidentes · KDE", corridorRing: "Anillo Vial", corridorMacaji: "Tramo Bulevar Macají–Bellavista", corridorAbras: "Quebrada Las Abras", corridorCiclovias: "Ciclovías", urbanAxes: "Ejes Urbanos prioritarios", voids: "Tramos sin cobertura · escenario 183" };
   const layers = {};
   const renderers = new Map();
   const panes = new Set();
@@ -75,9 +78,9 @@ window.createRiobambaCameraProposal = function (api) {
     if (data) return;
     if (!loading) loading = (async () => {
       const files = { results: "RESULTADOS.json", existing: "CAMARAS_EXISTENTES_103_FINAL.geojson", municipal: "PROPUESTA_MUNICIPAL_50_FINAL.geojson", police: "PROPUESTA_POLICIA_30_FINAL.geojson",
-        existingRadius: "RADIOS_EXISTENTES_SIMBOLOGIA_200M.geojson", municipalRadius: "COBERTURA_MUNICIPAL_200M.geojson", policeRadius: "COBERTURA_POLICIA_200M.geojson", platforms: "PLATAFORMAS_TERRITORIALES.geojson", corridors: "CORREDORES.geojson" };
+        existingRadius: "RADIOS_EXISTENTES_SIMBOLOGIA_200M.geojson", municipalRadius: "COBERTURA_MUNICIPAL_200M.geojson", policeRadius: "COBERTURA_POLICIA_200M.geojson", platforms: "PLATAFORMAS_TERRITORIALES.geojson", corridors: "CORREDORES.geojson", macajiCorridor: "CAPA_TRAMO_BOULEVARD_MACAJI_BELLAVISTA/TRAMO_BOULEVARD_MACAJI_BELLAVISTA.geojson" };
       const entries = await Promise.all(Object.entries(files).map(async ([key, name]) => {
-        const response = await fetch(root + name + "?v=ecu911-revision-20261017", { cache: "no-store" });
+        const response = await fetch(root + name + "?v=tramo-macaji-independiente-20261018", { cache: "no-store" });
         if (!response.ok) throw new Error(`${name}: HTTP ${response.status}`);
         return [key, await response.json()];
       }));
@@ -171,7 +174,7 @@ window.createRiobambaCameraProposal = function (api) {
     replaceLayer("urbanAxes", L.geoJSON(data.corridors, { pane: pane("urban-axes", 430), renderer: renderer("urban-axes", 430), style: urbanAxesStyle,
       onEachFeature: (f, layer) => layer.bindTooltip(esc(names[f.properties.CORREDOR] || labels.urbanAxes)).on("click", () => selectEntity({ kind: "corridor", feature: f })) }));
     for (const [toggle, corridor] of Object.entries(corridorToggles)) {
-      replaceLayer(toggle, L.geoJSON(fc(data.corridors.features.filter(f => f.properties.CORREDOR === corridor)), {
+      replaceLayer(toggle, L.geoJSON(fc(corridorFeatures(corridor)), {
         pane: pane("individual-corridors", 431), renderer: renderer("individual-corridors", 431), style: { color: corridorColors[corridor], weight: 2.5, opacity: .85 },
         onEachFeature: (f, layer) => layer.bindTooltip(esc(names[corridor])).on("click", () => selectEntity({ kind: "corridor", feature: f })) }));
     }
@@ -229,7 +232,7 @@ window.createRiobambaCameraProposal = function (api) {
     if (toggles.platforms) L.geoJSON(data.platforms, { interactive: false, style: { ...platformStyle, weight: 1 } }).addTo(miniMap);
     if (toggles.urbanAxes) L.geoJSON(data.corridors, { interactive: false, style: urbanAxesStyle }).addTo(miniMap);
     for (const [toggle, corridor] of Object.entries(corridorToggles)) {
-      if (toggles[toggle]) L.geoJSON(fc(data.corridors.features.filter(f => f.properties.CORREDOR === corridor)), { interactive: false, style: { color: corridorColors[corridor], weight: 2.5, opacity: .85 } }).addTo(miniMap);
+      if (toggles[toggle]) L.geoJSON(fc(corridorFeatures(corridor)), { interactive: false, style: { color: corridorColors[corridor], weight: 2.5, opacity: .85 } }).addTo(miniMap);
     }
     if (feature?.geometry.type === "Point") miniMap.setView(point(feature), 16);
     else {
