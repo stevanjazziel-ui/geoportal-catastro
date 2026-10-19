@@ -1,0 +1,107 @@
+{
+  "revision": "MUN045_CRUCE_PRENSA_9OCTUBRE_20261019",
+  "createdAt": "2026-10-19T15:42:01-05:00",
+  "priorRelease": "MUN045_PRENSA_9OCTUBRE_20261019",
+  "authorization": "Correccion del lugar marcado por el usuario, dentro de la publicacion solicitada.",
+  "baseHashes": {
+    "D:\\codex\\upc-police-publish\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\MUN045_PRENSA_9OCTUBRE_20261019\\ESCENARIO_FINAL_183.gpkg": "ac4f655a07aa720eaba49193dea6cbb09b46838e9dca44e65b502ad4db648e54",
+    "D:\\codex\\entregas\\RIOBAMBA_CONSOLIDADO_PRIORIDAD_REUNION_20261017\\RIOBAMBA_CONSOLIDADO.gpkg": "6b7cc372208e48bef118bec62b05d84da6cda25ecb0d347747b478450ca0b6d7"
+  },
+  "changes": [
+    {
+      "layer": "municipal",
+      "id": "MUN-045",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 1171.2615061118124,
+      "note": "Correccion del destino de MUN-045 segun la captura del usuario: La Prensa x Avenida 9 de Octubre (cruce junto al ferrocarril). Nodo comun de ambas lineas OSM; se conserva la posicion publicada anterior en el historial. La anterior posicion sobre otro tramo de 9 de Octubre no correspondia al cruce solicitado."
+    }
+  ],
+  "crossingEvidence": {
+    "source": "PNPRI_RED_VIAL_REFERENCIA",
+    "roads": [
+      "La Prensa",
+      "Avenida 9 de Octubre"
+    ],
+    "sourceRows": [
+      853,
+      849
+    ],
+    "centerlineGapM": 0.0,
+    "metricCoordinates": [
+      759455.8147674632,
+      9815559.659321252
+    ],
+    "fieldVerified": false,
+    "screenshot": "codex-clipboard-d12412d3-e86e-495c-ade5-b0b09b0acc89.png"
+  },
+  "applied": true,
+  "published": true,
+  "previousUtm": [
+    760201.5599,
+    9814656.4884
+  ],
+  "correctedUtm": [
+    759455.8147674632,
+    9815559.659321252
+  ],
+  "validation": {
+    "status": "REVIEW_REQUIRED",
+    "plan": {
+      "scenarios": [
+        "B",
+        "C"
+      ],
+      "jobs": [
+        "block_coverage",
+        "buffers",
+        "camera_attributes",
+        "corridor_coverage",
+        "exclusive_coverage",
+        "hotspot_coverage",
+        "incident_coverage",
+        "population",
+        "territorial"
+      ],
+      "pendingAdapters": [],
+      "recalculateKde": false,
+      "recalculateGi": false,
+      "optimizeCameras": false
+    },
+    "nodeAudit": [
+      {
+        "id": "MUN-045",
+        "passed": true,
+        "cartographicNodeValidated": true,
+        "source": "PNPRI_RED_VIAL_REFERENCIA",
+        "roads": [
+          "La Prensa",
+          "Avenida 9 de Octubre"
+        ],
+        "sourceRows": [
+          853,
+          849
+        ],
+        "centerlineGapM": 0.0,
+        "metricCoordinates": [
+          759455.8147674632,
+          9815559.659321252
+        ],
+        "fieldVerified": false,
+        "screenshot": "codex-clipboard-d12412d3-e86e-495c-ade5-b0b09b0acc89.png"
+      }
+    ],
+    "publishBlocks": [
+      "Restriccion municipal BOULEVARD_MACAJI_BELLAVISTA: 97.74208% < 100%"
+    ],
+    "sourcePreserved": true,
+    "existingCount": 103,
+    "municipalCount": 50,
+    "policeCount": 30,
+    "giRecalculated": false,
+    "kdeRecalculated": false,
+    "optimized": false,
+    "revision": "MUN045_CRUCE_PRENSA_9OCTUBRE_20261019"
+  },
+  "macajiMunicipalPct": 97.74207666073576
+}

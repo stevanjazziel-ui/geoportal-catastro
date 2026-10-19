@@ -1,0 +1,58 @@
+{
+  "status": "REVIEW_REQUIRED",
+  "plan": {
+    "scenarios": [
+      "B",
+      "C"
+    ],
+    "jobs": [
+      "block_coverage",
+      "buffers",
+      "camera_attributes",
+      "corridor_coverage",
+      "exclusive_coverage",
+      "hotspot_coverage",
+      "incident_coverage",
+      "population",
+      "territorial"
+    ],
+    "pendingAdapters": [],
+    "recalculateKde": false,
+    "recalculateGi": false,
+    "optimizeCameras": false
+  },
+  "nodeAudit": [
+    {
+      "id": "MUN-045",
+      "passed": true,
+      "cartographicNodeValidated": true,
+      "source": "PNPRI_RED_VIAL_REFERENCIA",
+      "roads": [
+        "La Prensa",
+        "Avenida 9 de Octubre"
+      ],
+      "sourceRows": [
+        853,
+        849
+      ],
+      "centerlineGapM": 0.0,
+      "metricCoordinates": [
+        759455.8147674632,
+        9815559.659321252
+      ],
+      "fieldVerified": false,
+      "screenshot": "codex-clipboard-d12412d3-e86e-495c-ade5-b0b09b0acc89.png"
+    }
+  ],
+  "publishBlocks": [
+    "Restriccion municipal BOULEVARD_MACAJI_BELLAVISTA: 97.74208% < 100%"
+  ],
+  "sourcePreserved": true,
+  "existingCount": 103,
+  "municipalCount": 50,
+  "policeCount": 30,
+  "giRecalculated": false,
+  "kdeRecalculated": false,
+  "optimized": false,
+  "revision": "MUN045_CRUCE_PRENSA_9OCTUBRE_20261019"
+}

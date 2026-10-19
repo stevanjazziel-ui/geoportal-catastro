@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "changedMunicipal": [
+    "MUN-045"
+  ],
+  "otherMunicipal49Fixed": true,
+  "existing103Fixed": true,
+  "police30Fixed": true,
+  "upc18Fixed": true,
+  "crossingEvidence": {
+    "source": "PNPRI_RED_VIAL_REFERENCIA",
+    "roads": [
+      "La Prensa",
+      "Avenida 9 de Octubre"
+    ],
+    "sourceRows": [
+      853,
+      849
+    ],
+    "centerlineGapM": 0.0,
+    "metricCoordinates": [
+      759455.8147674632,
+      9815559.659321252
+    ],
+    "fieldVerified": false,
+    "screenshot": "codex-clipboard-d12412d3-e86e-495c-ade5-b0b09b0acc89.png"
+  },
+  "macajiMunicipalPct": 97.74207666073576
+}

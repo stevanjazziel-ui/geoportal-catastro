@@ -100,6 +100,18 @@ def dv_coincidences(statistics):
     return rows
 
 
+def infrastructure_is_upc(properties):
+    if str(properties.get('TIPO', '')).strip().upper() == 'UPC':
+        return True
+    if (str(properties.get('ID_INFRA', '')).startswith('POL-UP-') and
+            str(properties.get('FUENTE', '')).startswith('UPC.xls')):
+        return True
+    original = properties.get('ATTR_JSON') or {}
+    if isinstance(original, str):
+        original = json.loads(original)
+    return isinstance(original, dict) and str(original.get('MODELO', '')).strip().upper() == 'UPC'
+
+
 class Context:
     def __init__(self, events, hot, dv, baseline, existing, municipal, infrastructure, blocks, urban, axes):
         self.events, self.hot, self.dv = events, hot, dv
@@ -187,7 +199,7 @@ class Context:
             selected = [p for p in hot_props if p['CATEGORIA'] == category and p['AMBITO'] == c['scope']]
             fields['HOTSPOT_' + label] = '|'.join(p['CELL_ID'] for p in sorted(selected, key=lambda p:p['CELL_ID'])) or None
             fields['NIVEL_' + label] = max([p['NIVEL'] for p in selected] or [0])
-        upcs = [(g, p) for g, p in self.infrastructure if p['TIPO'] == 'UPC']
+        upcs = [(g, p) for g, p in self.infrastructure if infrastructure_is_upc(p)]
         nearest, near_props = min(upcs, key=lambda row:c['point'].distance(row[0]))
         infra, infra_props = min(self.infrastructure, key=lambda row:c['point'].distance(row[0]))
         pop, valid, missing = self.population(c['disk'])
