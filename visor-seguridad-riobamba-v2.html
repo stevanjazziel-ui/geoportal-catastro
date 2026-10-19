@@ -1356,7 +1356,7 @@
         scenarios: updatedGaps.replacementScenarios,
         censusClips: {...window.RIOBAMBA_CAMERA_COVERAGE_GEOMETRIES.censusClips, ...updatedGaps.censusClips}};
       const policeDataset = window.RIOBAMBA_POLICE_SIG_DATA || { summary: {}, district: { features: [] }, infrastructure: { features: [] } };
-      const upcResponse = await fetch("./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/MUN027_047_CANONIGO_DUCHICELA_20261018/UPC_INFRAESTRUCTURA.geojson?v=20261019", { cache: "no-store" });
+      const upcResponse = await fetch("./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/MUN045_PRENSA_9OCTUBRE_20261019/UPC_INFRAESTRUCTURA.geojson?v=mun045-prensa-20261019", { cache: "no-store" });
       if (!upcResponse.ok) throw new Error(`No se pudo cargar la capa UPC publicada (${upcResponse.status})`);
       const upcGeojson = await upcResponse.json();
       const upcFeatures = (upcGeojson.features || []).filter((feature) => feature.properties?.COD_DISTRI === "06D01");

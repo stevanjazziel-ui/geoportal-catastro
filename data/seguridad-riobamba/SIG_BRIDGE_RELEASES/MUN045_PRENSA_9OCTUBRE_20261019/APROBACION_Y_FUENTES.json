@@ -1,0 +1,44 @@
+{
+  "revision": "REV_20261019_143634_1cabc05b",
+  "run": "20261019_143830_507f7a7b",
+  "createdAt": "2026-10-19",
+  "authorization": "El usuario valida expresamente la reubicacion de MUN-045 a Av. La Prensa x Av. 9 de Octubre y autoriza publicar los cambios pendientes.",
+  "applied": true,
+  "published": true,
+  "priorRelease": "MUN027_047_CANONIGO_DUCHICELA_20261018",
+  "scope": {
+    "municipalProposals": 50,
+    "policeProposals": 30,
+    "existingCameras": 103,
+    "upcInfrastructure": 18,
+    "recalculatedScenarios": ["B", "C"],
+    "kdeRecalculated": false,
+    "giRecalculated": false
+  },
+  "manualChanges": [
+    {
+      "layer": "municipal",
+      "id": "MUN-045",
+      "previousWgs84": [-78.6454819, -1.6858217],
+      "approvedWgs84": [-78.66129379881059, -1.6754507497428004],
+      "approvedUtm17s": [760201.5599, 9814656.4884],
+      "displacementM": 2101.09,
+      "target": "Av. La Prensa x Av. 9 de Octubre",
+      "validationNote": "Aprobacion manual del usuario. La auditoria de red solo etiqueta 9 de Octubre, situa el punto a 35.00 m de un nodo de grado 3 y no valida automaticamente el cruce principal; confirmar en campo."
+    }
+  ],
+  "validation": {
+    "status": "REVIEW_REQUIRED_MANUAL_APPROVAL",
+    "automatedWarningsPreserved": [
+      "Cruce principal no validado automaticamente para MUN-045.",
+      "Cobertura Bulevar Macaji-Bellavista recalculada: 97.74208%; objetivo configurado: 100%."
+    ],
+    "sourcePreserved": true,
+    "protectedExistingCameraGeometries": 74
+  },
+  "provenance": {
+    "bridgeRevision": "REV_20261019_143634_1cabc05b",
+    "bridgeRun": "20261019_143830_507f7a7b",
+    "historicApproval": "APROBACION_ANTERIOR_MUN027_047.json"
+  }
+}

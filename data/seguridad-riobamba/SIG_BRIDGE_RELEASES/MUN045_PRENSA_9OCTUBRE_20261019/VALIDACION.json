@@ -1,0 +1,52 @@
+{
+  "status": "REVIEW_REQUIRED",
+  "plan": {
+    "scenarios": [
+      "B",
+      "C"
+    ],
+    "jobs": [
+      "block_coverage",
+      "buffers",
+      "camera_attributes",
+      "corridor_coverage",
+      "exclusive_coverage",
+      "hotspot_coverage",
+      "incident_coverage",
+      "population",
+      "territorial"
+    ],
+    "pendingAdapters": [],
+    "recalculateKde": false,
+    "recalculateGi": false,
+    "optimizeCameras": false
+  },
+  "nodeAudit": [
+    {
+      "id": "MUN-045",
+      "nodeDistanceM": 35.000169282448894,
+      "degree": 3,
+      "principalRoad": false,
+      "urban": true,
+      "roads": [
+        "9 de Octubre"
+      ],
+      "targetFids": [
+        2365
+      ],
+      "passed": false
+    }
+  ],
+  "publishBlocks": [
+    "Cruce principal no validado: MUN-045",
+    "Restriccion municipal BOULEVARD_MACAJI_BELLAVISTA: 97.74208% < 100%"
+  ],
+  "sourcePreserved": true,
+  "existingCount": 103,
+  "municipalCount": 50,
+  "policeCount": 30,
+  "giRecalculated": false,
+  "kdeRecalculated": false,
+  "optimized": false,
+  "revision": "REV_20261019_143634_1cabc05b"
+}

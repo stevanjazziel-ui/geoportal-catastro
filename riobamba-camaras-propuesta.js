@@ -2,7 +2,7 @@
 window.createRiobambaCameraProposal = function (api) {
   "use strict";
   const { map, elements: el, esc } = api;
-  const root = window.RIOBAMBA_SIG_RELEASE_ROOT || "./data/seguridad-riobamba/POLICIA_KDE_INTERSECCIONES_20261015/";
+  const root = window.RIOBAMBA_SIG_RELEASE_ROOT || "./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/MUN045_PRENSA_9OCTUBRE_20261019/";
   const controls = document.getElementById("proposalLayerControls");
   const scenarioControl = document.getElementById("proposalScenario");
   const radiusControl = document.getElementById("proposalRadius");
@@ -79,7 +79,7 @@ window.createRiobambaCameraProposal = function (api) {
       const files = { results: "RESULTADOS.json", existing: "CAMARAS_EXISTENTES_103_FINAL.geojson", municipal: "PROPUESTA_MUNICIPAL_50_FINAL.geojson", police: "PROPUESTA_POLICIA_30_FINAL.geojson",
         existingRadius: "RADIOS_EXISTENTES_SIMBOLOGIA_200M.geojson", municipalRadius: "COBERTURA_MUNICIPAL_200M.geojson", policeRadius: "COBERTURA_POLICIA_200M.geojson", platforms: "PLATAFORMAS_TERRITORIALES.geojson", corridors: "CORREDORES.geojson", macajiCorridor: "CAPA_TRAMO_BOULEVARD_MACAJI_BELLAVISTA/TRAMO_BOULEVARD_MACAJI_BELLAVISTA.geojson" };
       const entries = await Promise.all(Object.entries(files).map(async ([key, name]) => {
-        const response = await fetch(root + name + "?v=tramo-macaji-independiente-20261018", { cache: "no-store" });
+        const response = await fetch(root + name + "?v=mun045-prensa-20261019", { cache: "no-store" });
         if (!response.ok) throw new Error(`${name}: HTTP ${response.status}`);
         return [key, await response.json()];
       }));
