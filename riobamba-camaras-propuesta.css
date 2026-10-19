@@ -45,6 +45,7 @@
 .proposal-key.police { background: #e8bd16; border-radius: 50%; }
 .proposal-key.change { background: #8b46b5; border-radius: 50%; }
 .proposal-key.urban-axes { height: 3px; background: #d62828; vertical-align: middle; }
+.proposal-key.corridor-line { height: 3px; vertical-align: middle; }
 .leaflet-tooltip.proposal-platform-label { padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; color: #183f35; font: 700 10px/1.15 Arial, sans-serif; text-align: center; white-space: nowrap; pointer-events: none; text-shadow: -1px -1px 1px #fff, 1px -1px 1px #fff, -1px 1px 1px #fff, 1px 1px 1px #fff; }
 .leaflet-tooltip.proposal-platform-label::before { display: none; }
 .proposal-active .card > span { display: flex; align-items: center; gap: 6px; }
