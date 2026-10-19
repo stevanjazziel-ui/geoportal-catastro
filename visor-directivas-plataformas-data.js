@@ -6,7 +6,7 @@ window.PLATFORM_DIRECTIVES_DATA = {
     updatedAt: "2026-10-19",
     source: "Capturas compartidas por WhatsApp el 31 de agosto de 2026.",
     notes: [
-      "Plataforma B revisada el 19 de octubre de 2026 segun el acta del 27 de agosto: nombres y cargos corregidos. Apellidos de Betty Paola pendientes de confirmacion.",
+      "Plataforma B revisada el 19 de octubre de 2026 segun el acta del 27 de agosto: nombres y cargos corregidos. Nombre confirmado por el usuario: Betty Paola Huanca.",
       "Actualizacion manual aplicada: las plataformas A, C, D, I, J, L y P se marcan con comité elegido.",
       "Actualizacion del 21 de septiembre de 2026: las plataformas A y D se confirman como plataformas con comité.",
       "Plataforma A actualizada con integrantes visibles del acta de conformacion de representantes; campos manuscritos no legibles se dejan sin dato.",
@@ -39,7 +39,7 @@ window.PLATFORM_DIRECTIVES_DATA = {
         { role: "Presidencia", name: "Roberto Nicolás Taipe", phone: "0984572317" },
         { role: "Secretaría", name: "Hernán Marcelo Garcés Castañeda", phone: "0984965116" },
         { role: "Vocal 1. Eje Plan", name: "Héctor Galo Paña Soldado", phone: "0995229403" },
-        { role: "Vocal 2. Eje Gestión", name: "Betty Paola (apellidos por confirmar)", phone: "0983078783" }
+        { role: "Vocal 2. Eje Gestión", name: "Betty Paola Huanca", phone: "0983078783" }
       ]
     },
     {
