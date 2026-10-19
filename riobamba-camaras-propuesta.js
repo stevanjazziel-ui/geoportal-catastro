@@ -11,15 +11,14 @@ window.createRiobambaCameraProposal = function (api) {
   const groups = { existing: "Existentes", municipal: "Municipio · propuesta", police: "Policía · propuesta" };
   const names = { BOULEVARD_MACAJI_BELLAVISTA: "Macají–Bellavista", CICLOVIAS: "Ciclovías", ANILLO_VIAL: "Anillo vial", QUEBRADA_LAS_ABRAS: "Las Abras" };
   const corridorToggles = { corridorRing: "ANILLO_VIAL", corridorMacaji: "BOULEVARD_MACAJI_BELLAVISTA", corridorAbras: "QUEBRADA_LAS_ABRAS", corridorCiclovias: "CICLOVIAS" };
-  const corridorFeatures = corridor => corridor === "BOULEVARD_MACAJI_BELLAVISTA"
-    ? data.macajiCorridor.features
-    : data.corridors.features.filter(f => f.properties.CORREDOR === corridor);
+  const corridorFeatures = corridor => data.corridors.features.filter(f => f.properties.CORREDOR === corridor);
   const corridorColors = { ANILLO_VIAL: "#a564ad", BOULEVARD_MACAJI_BELLAVISTA: "#297d55", QUEBRADA_LAS_ABRAS: "#16a1b2", CICLOVIAS: "#246db5" };
   const urbanAxesStyle = { color: "#d62828", weight: 3, opacity: 1 };
   const platformStyle = { color: "#385a52", weight: 1.6, opacity: .6, fill: false };
-  const defaults = { existing: true, change: true, municipal: true, police: true, existingRadius: true, changeRadius: true, municipalRadius: true, policeRadius: true, platforms: true, kde: true, corridorRing: false, corridorMacaji: false, corridorAbras: false, corridorCiclovias: false, urbanAxes: true, voids: false };
+  const defaults = { existing: true, change: true, municipal: true, police: true, existingRadius: true, changeRadius: true, municipalRadius: true, policeRadius: true, platforms: true, kde: true, corridorRing: false, corridorMacaji: false, corridorAbras: false, corridorCiclovias: false, macajiSegment: false, urbanAxes: true, voids: false };
   const toggles = { ...defaults };
-  const labels = { existing: "Sin cambio requerido", change: "Requieren cambio", municipal: "Municipio · 50 propuestas", police: "Policía · 30 propuestas", existingRadius: "Radio sin cambio · 200 m", changeRadius: "Radio para cambio · 200 m", municipalRadius: "Radio Municipio · 200 m", policeRadius: "Radio Policía · 200 m", platforms: "18 Plataformas", kde: "Concentración de incidentes · KDE", corridorRing: "Anillo Vial", corridorMacaji: "Tramo Bulevar Macají–Bellavista", corridorAbras: "Quebrada Las Abras", corridorCiclovias: "Ciclovías", urbanAxes: "Ejes Urbanos prioritarios", voids: "Tramos sin cobertura · escenario 183" };
+  const labels = { existing: "Sin cambio requerido", change: "Requieren cambio", municipal: "Municipio · 50 propuestas", police: "Policía · 30 propuestas", existingRadius: "Radio sin cambio · 200 m", changeRadius: "Radio para cambio · 200 m", municipalRadius: "Radio Municipio · 200 m", policeRadius: "Radio Policía · 200 m", platforms: "18 Plataformas", kde: "Concentración de incidentes · KDE", corridorRing: "Anillo Vial", corridorMacaji: "Bulevares · Macají–Bellavista", corridorAbras: "Quebrada Las Abras", corridorCiclovias: "Ciclovías", macajiSegment: "Tramo Bulevar Macají–Bellavista", urbanAxes: "Ejes Urbanos prioritarios", voids: "Tramos sin cobertura · escenario 183" };
+  const macajiSegmentStyle = { color: "#d62828", weight: 5, opacity: 1 };
   const layers = {};
   const renderers = new Map();
   const panes = new Set();
@@ -43,10 +42,10 @@ window.createRiobambaCameraProposal = function (api) {
   const metric = (kind, code = scenario()) => data.results[kind].find(r => r.ESCENARIO === code);
 
   const cameraLayerKeys = ["existing", "change", "municipal", "police", "existingRadius", "changeRadius", "municipalRadius", "policeRadius", "platforms"];
-  const analysisLayerKeys = ["kde", ...Object.keys(corridorToggles), "urbanAxes", "voids"];
+  const analysisLayerKeys = ["kde", ...Object.keys(corridorToggles), "macajiSegment", "urbanAxes", "voids"];
   const layerRow = key => {
     const symbol = key.replace("Radius", "");
-    return `<label class="proposal-layer-row"><span>${key === "urbanAxes" ? '<i class="proposal-key urban-axes" aria-hidden="true"></i>' : corridorToggles[key] ? `<i class="proposal-key corridor-line" style="background:${corridorColors[corridorToggles[key]]}" aria-hidden="true"></i>` : colors[symbol] ? `<i class="proposal-key ${symbol}" aria-hidden="true"></i>` : ""}${esc(labels[key])}</span><input type="checkbox" data-proposal-layer="${key}" ${toggles[key] ? "checked" : ""}></label>`;
+    return `<label class="proposal-layer-row"><span>${key === "urbanAxes" ? '<i class="proposal-key urban-axes" aria-hidden="true"></i>' : key === "macajiSegment" ? `<i class="proposal-key corridor-line" style="background:${macajiSegmentStyle.color}" aria-hidden="true"></i>` : corridorToggles[key] ? `<i class="proposal-key corridor-line" style="background:${corridorColors[corridorToggles[key]]}" aria-hidden="true"></i>` : colors[symbol] ? `<i class="proposal-key ${symbol}" aria-hidden="true"></i>` : ""}${esc(labels[key])}</span><input type="checkbox" data-proposal-layer="${key}" ${toggles[key] ? "checked" : ""}></label>`;
   };
   controls.innerHTML = `<section class="proposal-layer-group"><h4>Cámaras y radios</h4>${cameraLayerKeys.map(layerRow).join("")}</section>` +
     `<section class="proposal-layer-group"><h4>Análisis territorial</h4>${analysisLayerKeys.map(layerRow).join("")}</section>`;
@@ -178,6 +177,8 @@ window.createRiobambaCameraProposal = function (api) {
         pane: pane("individual-corridors", 431), renderer: renderer("individual-corridors", 431), style: { color: corridorColors[corridor], weight: 2.5, opacity: .85 },
         onEachFeature: (f, layer) => layer.bindTooltip(esc(names[corridor])).on("click", () => selectEntity({ kind: "corridor", feature: f })) }));
     }
+    replaceLayer("macajiSegment", L.geoJSON(data.macajiCorridor, { pane: pane("individual-corridors", 432), renderer: renderer("individual-corridors", 432), style: macajiSegmentStyle,
+      onEachFeature: (f, layer) => layer.bindTooltip(esc(labels.macajiSegment)).on("click", () => selectEntity({ kind: "corridor", feature: f })) }));
     replaceLayer("voids", L.geoJSON(data.voids, { pane: pane("voids", 435), renderer: renderer("voids", 435), style: { color: "#c24c58", weight: 4, dashArray: "6 5", opacity: .9 },
       onEachFeature: (f, layer) => layer.bindTooltip(`${esc(f.properties.ID)} · ${number(f.properties.LONGITUD_M, 1)} m`).on("click", () => selectEntity({ kind: "void", feature: f })) }));
     syncLayers();
@@ -213,7 +214,8 @@ window.createRiobambaCameraProposal = function (api) {
       `<div><span class="proposal-key" style="background:${colors.change};opacity:.5"></span>Radio para cambio · 200 m</div>` +
       (toggles.kde ? `<div class="proposal-kde-legend"><span aria-hidden="true" style="background:linear-gradient(90deg,#ffffb2,#fed976,#feb24c,#f03b20,#bd0026)"></span>Concentración de incidentes · KDE combinado provisional · ${number(kdeMetadata?.records)} registros · radio ${number(kdeMetadata?.bandwidth)} m</div><div>${esc(kdeMetadata?.period || "")}</div><div>${esc(kdeMetadata?.warning || "")}</div><div>La capa KDE no recalcula los indicadores de cobertura de incidentes.</div>` : "") +
       (toggles.urbanAxes ? `<div><span class="proposal-key urban-axes"></span>${esc(labels.urbanAxes)}</div>` : "") +
-      Object.entries(corridorToggles).filter(([toggle]) => toggles[toggle]).map(([toggle, corridor]) => `<div><span class="proposal-key corridor-line" style="background:${corridorColors[corridor]}"></span>${esc(labels[toggle])}</div>`).join("") + `<div>Radios geométricos potenciales, no campo visual efectivo.</div>`;
+      Object.entries(corridorToggles).filter(([toggle]) => toggles[toggle]).map(([toggle, corridor]) => `<div><span class="proposal-key corridor-line" style="background:${corridorColors[corridor]}"></span>${esc(labels[toggle])}</div>`).join("") +
+      (toggles.macajiSegment ? `<div><span class="proposal-key corridor-line" style="background:${macajiSegmentStyle.color}"></span>${esc(labels.macajiSegment)}</div>` : "") + `<div>Radios geométricos potenciales, no campo visual efectivo.</div>`;
   }
   function selectedCorridorStyle(corridor) {
     const toggle = Object.keys(corridorToggles).find(key => corridorToggles[key] === corridor);
@@ -234,6 +236,7 @@ window.createRiobambaCameraProposal = function (api) {
     for (const [toggle, corridor] of Object.entries(corridorToggles)) {
       if (toggles[toggle]) L.geoJSON(fc(corridorFeatures(corridor)), { interactive: false, style: { color: corridorColors[corridor], weight: 2.5, opacity: .85 } }).addTo(miniMap);
     }
+    if (toggles.macajiSegment) L.geoJSON(data.macajiCorridor, { interactive: false, style: macajiSegmentStyle }).addTo(miniMap);
     if (feature?.geometry.type === "Point") miniMap.setView(point(feature), 16);
     else {
       const focus = L.geoJSON(feature || data.platforms, { style: selected?.kind === "corridor" ? selectedCorridorStyle(feature.properties.CORREDOR) : selected?.kind === "platform" || !feature ? { ...platformStyle, weight: 2, opacity: toggles.platforms ? platformStyle.opacity : 0 } : { color: "#385a52", weight: 2, fillOpacity: .08 } }).addTo(miniMap);
@@ -342,7 +345,7 @@ window.createRiobambaCameraProposal = function (api) {
   extentControl.addEventListener("change", () => { fitNeeded = true; render(); });
   controls.querySelectorAll("[data-proposal-layer]").forEach(n => n.addEventListener("change", () => {
     toggles[n.dataset.proposalLayer] = n.checked; syncToggles(); syncLayers(); renderLegend();
-    if (cameraLayerKeys.includes(n.dataset.proposalLayer) || n.dataset.proposalLayer === "urbanAxes" || corridorToggles[n.dataset.proposalLayer]) { removeMini(); mini(selected?.feature); }
+    if (cameraLayerKeys.includes(n.dataset.proposalLayer) || n.dataset.proposalLayer === "urbanAxes" || n.dataset.proposalLayer === "macajiSegment" || corridorToggles[n.dataset.proposalLayer]) { removeMini(); mini(selected?.feature); }
   }));
   window.addEventListener("resize", () => { if (api.active()) requestAnimationFrame(() => miniMap?.invalidateSize()); });
   map.on("zoomend moveend resize", schedulePlatformLabels);
