@@ -42,6 +42,28 @@
         radial-gradient(circle at top left, rgba(95, 142, 185, 0.12), transparent 26%),
         radial-gradient(circle at 88% 12%, rgba(79, 143, 82, 0.1), transparent 18%),
         linear-gradient(180deg, #eff4ea, #dde6d7);
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    input, select, textarea { -webkit-user-select: auto; user-select: auto; }
+    #downloadPanel { display: none !important; }
+
+    .security-watermark {
+      position: fixed;
+      z-index: 10000;
+      top: 50%;
+      left: -5%;
+      width: 110%;
+      pointer-events: none;
+      color: rgba(38, 52, 39, 0.12);
+      font-size: clamp(1.15rem, 2.8vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-align: center;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.35);
+      white-space: nowrap;
+      transform: rotate(-24deg);
     }
 
     .layout {
@@ -675,6 +697,7 @@
   </style>
 </head>
 <body>
+  <div class="security-watermark" aria-hidden="true">USO INSTITUCIONAL · NO REPRODUCIR</div>
   <div class="layout">
     <aside class="sidebar">
       <section class="panel">
@@ -737,7 +760,7 @@
         </p>
       </section>
 
-      <section class="panel">
+      <section class="panel" id="downloadPanel" aria-hidden="true">
         <h2>Descarga</h2>
         <select id="downloadFormatSelect" style="margin-bottom:10px;">
           <option value="shp">Shape (ZIP)</option>
@@ -885,6 +908,30 @@
   ></script>
   <script src="https://unpkg.com/@turf/turf@6.5.0/turf.min.js"></script>
   <script>
+    (() => {
+      const isEditable = (target) => target instanceof Element && Boolean(
+        target.closest('input, select, textarea, [contenteditable="true"]')
+      );
+      document.getElementById("downloadPanel")?.setAttribute("inert", "");
+      document.addEventListener("contextmenu", (event) => event.preventDefault(), true);
+      document.addEventListener("copy", (event) => event.preventDefault(), true);
+      document.addEventListener("cut", (event) => event.preventDefault(), true);
+      document.addEventListener("dragstart", (event) => event.preventDefault(), true);
+      document.addEventListener("selectstart", (event) => {
+        if (!isEditable(event.target)) event.preventDefault();
+      }, true);
+      document.addEventListener("keydown", (event) => {
+        const key = event.key.toLowerCase();
+        const command = event.ctrlKey || event.metaKey;
+        const blockedCommand = command && ["a", "c", "p", "s", "u", "x"].includes(key);
+        const blockedDevtools = event.key === "F12" || (command && event.shiftKey && ["c", "i", "j", "k"].includes(key));
+        if (blockedCommand || blockedDevtools || event.code === "PrintScreen") {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+        }
+      }, true);
+    })();
+
     const metricLabels = {
       population_total: "Poblacion total",
       male: "Hombres",
