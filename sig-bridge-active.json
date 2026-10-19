@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "root": "./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/MUN027_047_CANONIGO_DUCHICELA_20261018/",
-  "releaseId": "MUN027_047_CANONIGO_DUCHICELA_20261018",
+  "root": "./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/MUN045_PRENSA_9OCTUBRE_20261019/",
+  "releaseId": "MUN045_PRENSA_9OCTUBRE_20261019",
   "coverageData": "riobamba-brechas-actualizadas-data.js"
 }
