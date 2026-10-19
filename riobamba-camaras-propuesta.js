@@ -11,6 +11,7 @@ window.createRiobambaCameraProposal = function (api) {
   const groups = { existing: "Existentes", municipal: "Municipio · propuesta", police: "Policía · propuesta" };
   const names = { BOULEVARD_MACAJI_BELLAVISTA: "Macají–Bellavista", CICLOVIAS: "Ciclovías", ANILLO_VIAL: "Anillo vial", QUEBRADA_LAS_ABRAS: "Las Abras" };
   const urbanAxesStyle = { color: "#d62828", weight: 3, opacity: 1 };
+  const platformStyle = { color: "#385a52", weight: 1.6, opacity: .6, fill: false };
   const defaults = { existing: true, change: true, municipal: true, police: true, existingRadius: true, changeRadius: true, municipalRadius: true, policeRadius: true, platforms: true, kde: true, urbanAxes: true, voids: false };
   const toggles = { ...defaults };
   const labels = { existing: "Sin cambio requerido", change: "Requieren cambio", municipal: "Municipio · 50 propuestas", police: "Policía · 30 propuestas", existingRadius: "Radio sin cambio · 200 m", changeRadius: "Radio para cambio · 200 m", municipalRadius: "Radio Municipio · 200 m", policeRadius: "Radio Policía · 200 m", platforms: "18 Plataformas", kde: "Concentración de incidentes · KDE", urbanAxes: "Ejes Urbanos prioritarios", voids: "Tramos sin cobertura · escenario 183" };
@@ -20,6 +21,7 @@ window.createRiobambaCameraProposal = function (api) {
   let renderVersion = 0;
   let data, loading, active = false, fitNeeded = true, drawKey = "", selected = null, miniMap = null;
   let kdeMetadata = null;
+  let platformLabelFrame = null;
   const number = (v, digits = 0) => v == null || !Number.isFinite(Number(v)) ? "No disponible" : Number(v).toLocaleString("es-EC", { maximumFractionDigits: digits });
   const pct = v => v == null ? "No disponible" : `${number(v, 1)} %`;
   const scenario = () => ({ actual: "A", municipal: "B", future: "C" })[scenarioControl.value] || "C";
@@ -121,6 +123,31 @@ window.createRiobambaCameraProposal = function (api) {
     if (bounds?.isValid()) map.fitBounds(bounds, { padding: [30, 30], maxZoom: 17, animate: false });
   }
   function replaceLayer(key, layer) { if (layers[key]) map.removeLayer(layers[key]); layers[key] = layer; }
+  function layoutPlatformLabels() {
+    if (!active || !toggles.platforms || !layers.platforms) return;
+    const placed = [], bounds = map.getContainer().getBoundingClientRect();
+    layers.platforms.eachLayer(layer => {
+      const tooltip = layer.getTooltip();
+      if (!tooltip?.getElement() || !map.getBounds().contains(layer.getCenter())) return;
+      let bestDirection = "center", bestScore = Infinity;
+      // Keep every name visible; try nearby label positions without moving its polygon.
+      for (const direction of ["center", "left", "right", "top", "bottom"]) {
+        L.setOptions(tooltip, { direction }); tooltip.update();
+        const rect = tooltip.getElement().getBoundingClientRect();
+        const overflow = Math.max(0, bounds.left - rect.left) + Math.max(0, rect.right - bounds.right) + Math.max(0, bounds.top - rect.top) + Math.max(0, rect.bottom - bounds.bottom);
+        const overlap = placed.reduce((sum, other) => sum + Math.max(0, Math.min(rect.right, other.right + 2) - Math.max(rect.left, other.left - 2)) * Math.max(0, Math.min(rect.bottom, other.bottom + 2) - Math.max(rect.top, other.top - 2)), 0);
+        const score = overflow * 1000 + overlap;
+        if (score < bestScore) { bestScore = score; bestDirection = direction; }
+        if (score === 0) break;
+      }
+      L.setOptions(tooltip, { direction: bestDirection }); tooltip.update();
+      placed.push(tooltip.getElement().getBoundingClientRect());
+    });
+  }
+  function schedulePlatformLabels() {
+    if (platformLabelFrame !== null) return;
+    platformLabelFrame = requestAnimationFrame(() => { platformLabelFrame = null; layoutPlatformLabels(); });
+  }
   function draw() {
     const key = "camera-proposal";
     if (drawKey === key) { syncLayers(); return; }
@@ -137,8 +164,8 @@ window.createRiobambaCameraProposal = function (api) {
         replaceLayer(symbol + "Radius", L.geoJSON(symbolFeatures(group, symbol, "Radius"), { pane: pane("coverage", 410), renderer: renderer("coverage", 410), interactive: false, style: radiusStyle(group) }));
       }
     }
-    replaceLayer("platforms", L.geoJSON(data.platforms, { pane: pane("platforms", 440), renderer: renderer("platforms", 440), style: { color: "#385a52", weight: 1.6, fill: false },
-      onEachFeature: (f, layer) => layer.bindTooltip(esc(f.properties.platform_name)).on("click", () => selectEntity({ kind: "platform", feature: f })) }));
+    replaceLayer("platforms", L.geoJSON(data.platforms, { pane: pane("platforms", 440), renderer: renderer("platforms", 440), style: platformStyle,
+      onEachFeature: (f, layer) => layer.bindTooltip(esc(f.properties.platform_name.replace("PLATAFORMA ", "Plataforma ")), { permanent: true, direction: "center", className: "proposal-platform-label", opacity: 1, interactive: false }).on("click", () => selectEntity({ kind: "platform", feature: f })) }));
     replaceLayer("urbanAxes", L.geoJSON(data.corridors, { pane: pane("urban-axes", 430), renderer: renderer("urban-axes", 430), style: urbanAxesStyle,
       onEachFeature: (f, layer) => layer.bindTooltip(esc(names[f.properties.CORREDOR] || labels.urbanAxes)).on("click", () => selectEntity({ kind: "corridor", feature: f })) }));
     replaceLayer("voids", L.geoJSON(data.voids, { pane: pane("voids", 435), renderer: renderer("voids", 435), style: { color: "#c24c58", weight: 4, dashArray: "6 5", opacity: .9 },
@@ -156,6 +183,7 @@ window.createRiobambaCameraProposal = function (api) {
       const enabled = toggles[key] && (!/^(existing|change|municipal|police)/.test(key) || groupEnabled(key.replace("Radius", ""))) && (key !== "voids" || scenario() === "C");
       enabled ? layer.addTo(map) : map.removeLayer(layer);
     });
+    schedulePlatformLabels();
   }
   function fit() {
     const view = extentControl.value;
@@ -186,11 +214,11 @@ window.createRiobambaCameraProposal = function (api) {
         if (toggles[symbol]) L.geoJSON(symbolFeatures(key, symbol), { pointToLayer: (f, pos) => L.marker(pos, { icon: icon(key, f), title: cameraId(f) }) }).addTo(miniMap);
       }
     }
-    L.geoJSON(data.platforms, { interactive: false, style: { color: "#385a52", weight: 1, fill: false } }).addTo(miniMap);
+    if (toggles.platforms) L.geoJSON(data.platforms, { interactive: false, style: { ...platformStyle, weight: 1 } }).addTo(miniMap);
     if (toggles.urbanAxes) L.geoJSON(data.corridors, { interactive: false, style: urbanAxesStyle }).addTo(miniMap);
     if (feature?.geometry.type === "Point") miniMap.setView(point(feature), 16);
     else {
-      const focus = L.geoJSON(feature || data.platforms, { style: selected?.kind === "corridor" ? { ...urbanAxesStyle, opacity: toggles.urbanAxes ? 1 : 0 } : { color: "#385a52", weight: 2, fillOpacity: .08 } }).addTo(miniMap);
+      const focus = L.geoJSON(feature || data.platforms, { style: selected?.kind === "corridor" ? { ...urbanAxesStyle, opacity: toggles.urbanAxes ? 1 : 0 } : selected?.kind === "platform" || !feature ? { ...platformStyle, weight: 2, opacity: toggles.platforms ? platformStyle.opacity : 0 } : { color: "#385a52", weight: 2, fillOpacity: .08 } }).addTo(miniMap);
       miniMap.fitBounds(focus.getBounds(), { padding: [12, 12], maxZoom: 16, animate: false });
     }
     requestAnimationFrame(() => miniMap?.invalidateSize());
@@ -298,5 +326,6 @@ window.createRiobambaCameraProposal = function (api) {
     if (cameraLayerKeys.includes(n.dataset.proposalLayer) || n.dataset.proposalLayer === "urbanAxes") { removeMini(); mini(selected?.feature); }
   }));
   window.addEventListener("resize", () => { if (api.active()) requestAnimationFrame(() => miniMap?.invalidateSize()); });
+  map.on("zoomend moveend resize", schedulePlatformLabels);
   return { render, leave, reset, clearLegacyLayers, renderLegend, renderMethodology, invalidateMiniMap: () => miniMap?.invalidateSize() };
 };
