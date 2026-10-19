@@ -178,7 +178,7 @@ window.createRiobambaCameraProposal = function (api) {
         onEachFeature: (f, layer) => layer.bindTooltip(esc(names[corridor])).on("click", () => selectEntity({ kind: "corridor", feature: f })) }));
     }
     replaceLayer("macajiSegment", L.geoJSON(data.macajiCorridor, { pane: pane("individual-corridors", 432), renderer: renderer("individual-corridors", 432), style: macajiSegmentStyle,
-      onEachFeature: (f, layer) => layer.bindTooltip(esc(labels.macajiSegment)).on("click", () => selectEntity({ kind: "corridor", feature: f })) }));
+      onEachFeature: (f, layer) => layer.bindTooltip(esc(labels.macajiSegment)).on("click", () => selectEntity({ kind: "macajiSegment", feature: f })) }));
     replaceLayer("voids", L.geoJSON(data.voids, { pane: pane("voids", 435), renderer: renderer("voids", 435), style: { color: "#c24c58", weight: 4, dashArray: "6 5", opacity: .9 },
       onEachFeature: (f, layer) => layer.bindTooltip(`${esc(f.properties.ID)} · ${number(f.properties.LONGITUD_M, 1)} m`).on("click", () => selectEntity({ kind: "void", feature: f })) }));
     syncLayers();
@@ -239,7 +239,7 @@ window.createRiobambaCameraProposal = function (api) {
     if (toggles.macajiSegment) L.geoJSON(data.macajiCorridor, { interactive: false, style: macajiSegmentStyle }).addTo(miniMap);
     if (feature?.geometry.type === "Point") miniMap.setView(point(feature), 16);
     else {
-      const focus = L.geoJSON(feature || data.platforms, { style: selected?.kind === "corridor" ? selectedCorridorStyle(feature.properties.CORREDOR) : selected?.kind === "platform" || !feature ? { ...platformStyle, weight: 2, opacity: toggles.platforms ? platformStyle.opacity : 0 } : { color: "#385a52", weight: 2, fillOpacity: .08 } }).addTo(miniMap);
+      const focus = L.geoJSON(feature || data.platforms, { style: selected?.kind === "macajiSegment" ? macajiSegmentStyle : selected?.kind === "corridor" ? selectedCorridorStyle(feature.properties.CORREDOR) : selected?.kind === "platform" || !feature ? { ...platformStyle, weight: 2, opacity: toggles.platforms ? platformStyle.opacity : 0 } : { color: "#385a52", weight: 2, fillOpacity: .08 } }).addTo(miniMap);
       miniMap.fitBounds(focus.getBounds(), { padding: [12, 12], maxZoom: 16, animate: false });
     }
     requestAnimationFrame(() => miniMap?.invalidateSize());
@@ -257,6 +257,9 @@ window.createRiobambaCameraProposal = function (api) {
       if (selected.group === "existing") rows.push(["Requiere cambio", change(f) ? "Sí" : "No"], ["Estado geográfico", v.ESTADO_GEO], ["Método geográfico", v.METODO_GEO], ["Confianza", v.CONFIANZA_GEO], ["Observación", v.OBSERVACION_GEO]);
       else rows.push(["Parroquia", v.PARROQUIA], ["Grupo territorial", v.GRUPO || v.AMBITO_HOTSPOT], ["Gi* Delincuencia / Violencia", `${number(v.NIVEL_DEL)} % / ${number(v.NIVEL_VIOL)} %`], ["D / V / C a 200 m", `${number(v.DELINCUENCIA_200M)} / ${number(v.VIOLENCIA_200M)} / ${number(v.CONVIVENCIA_200M)}`], ["Población asociada estimada", number(v.POBLACION_ASOCIADA)], ["UPC cercana", v.NOMBRE_UPC], ["Distancia a UPC", `${number(v.DIST_UPC_M)} m`], ["Justificación", v.JUSTIFICACION]);
       if (selected.group === "police") rows.push(["Eventos D+V exclusivos", number(v.EVENTOS_DV_NUEVOS)], ["Solape con cobertura previa", pct(v.SOLAPE_PREVIO_PCT)], ["Fuente del cruce", v.FUENTE_CRUCE], ["Alcance visual", v.ALCANCE_VISUAL], ["Decisión final", v.DECISION_FINAL]);
+    } else if (selected?.kind === "macajiSegment") {
+      title = labels.macajiSegment;
+      rows = [["Longitud del tramo", `${number(v.LONGITUD_M / 1000, 2)} km`], ["Fuente", v.FUENTE]];
     } else if (selected?.kind === "corridor") {
       title = names[v.CORREDOR]; const r = data.results.corridors.find(r => r.ESCENARIO === scenario() && r.CORREDOR === v.CORREDOR);
       rows = [["Longitud total", `${number(r.TOTAL_M / 1000, 2)} km`], ["Cubierta", `${number(r.CUBIERTO_M / 1000, 2)} km`], ["Sin cobertura", `${number(r.NO_CUBIERTO_M)} m`], ["% cubierto", pct(r.PCT_CUBIERTO)]];
