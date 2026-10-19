@@ -15,9 +15,6 @@
 #proposalLayerControls .proposal-layer-row span { display: flex; align-items: center; gap: 6px; min-width: 0; overflow-wrap: anywhere; }
 #proposalLayerControls .proposal-layer-row .proposal-key { flex: 0 0 10px; margin: 0; }
 #proposalLayerControls input[type="checkbox"] { width: 16px; height: 16px; flex: 0 0 16px; margin: 0; accent-color: #1268b3; }
-#proposalLayerControls .proposal-hotspot-settings { display: grid; gap: 4px; padding: 5px 7px 2px; }
-#proposalLayerControls .proposal-hotspot-settings[hidden] { display: none; }
-#proposalLayerControls .proposal-hotspot-settings label { color: #526778; font-size: 11px; }
 #proposalLayerControls select { min-width: 0; width: 100%; font-size: 12px; }
 .proposal-active #contextLayersSection { display: none; }
 .analysis-workspace.proposal-active .analysis-grid { display: none; }
