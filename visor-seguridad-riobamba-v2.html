@@ -1356,7 +1356,30 @@
         scenarios: updatedGaps.replacementScenarios,
         censusClips: {...window.RIOBAMBA_CAMERA_COVERAGE_GEOMETRIES.censusClips, ...updatedGaps.censusClips}};
       const policeDataset = window.RIOBAMBA_POLICE_SIG_DATA || { summary: {}, district: { features: [] }, infrastructure: { features: [] } };
-      const policeInfrastructure = policeDataset.infrastructure?.features || [];
+      const upcResponse = await fetch("./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/MUN027_047_CANONIGO_DUCHICELA_20261018/UPC_INFRAESTRUCTURA.geojson?v=20261019", { cache: "no-store" });
+      if (!upcResponse.ok) throw new Error(`No se pudo cargar la capa UPC publicada (${upcResponse.status})`);
+      const upcGeojson = await upcResponse.json();
+      const upcFeatures = (upcGeojson.features || []).filter((feature) => feature.properties?.COD_DISTRI === "06D01");
+      if (upcFeatures.length !== 18) throw new Error(`La capa UPC de Riobamba debe tener 18 registros; tiene ${upcFeatures.length}`);
+      const otherPoliceInfrastructure = (policeDataset.infrastructure?.features || []).filter((feature) => feature.properties?.type !== "UPC");
+      const policeInfrastructure = [...otherPoliceInfrastructure, ...upcFeatures.map((feature) => {
+        const source = feature.properties || {};
+        return {...feature, properties: {...source,
+          code: source.ID_INFRA,
+          type: source.TIPO || "UPC",
+          name: source.NOMBRE || source.ID_INFRA,
+          address: source.DIRECCION || "",
+          status: source.ESTADO || "Sin estado",
+          condition: source.ATTR_JSON?.ESTADO_INF || "No informada",
+          model: source.ATTR_JSON?.MODELO || "",
+          personnel: Number(source.ATTR_JSON?.PERSONAL || 0),
+          vehicles: Number(source.ATTR_JSON?.VEHICULOS || 0),
+          motorcycles: Number(source.ATTR_JSON?.MOTOS || 0),
+          source: source.FUENTE || "UPC.xls - Policía"
+        }};
+      })];
+      policeDataset.infrastructure = {...policeDataset.infrastructure, features: policeInfrastructure};
+      policeDataset.summary = {...policeDataset.summary, infrastructure: policeInfrastructure.length};
       const policeAccessibility = window.RIOBAMBA_POLICE_ACCESSIBILITY || { summary: {}, table: [], byPlatformName: {}, byMan: {}, validations: {} };
       const diagnosis = window.RIOBAMBA_CONFLICTIVITY_CORRECTION.derivedDiagnosis;
       const kdeValidation = {...window.RIOBAMBA_KDE_VALIDATION,
@@ -3071,6 +3094,7 @@
         <div class="popup-row">Tipo: <strong>${esc(props.type || "Infraestructura")}</strong></div>
         <div class="popup-row">Estado: <strong>${esc(props.status || "-")}</strong></div>
         <div class="popup-row">Condición: <strong>${esc(props.condition || "-")}</strong></div>
+        ${props.source ? `<div class="popup-row">Fuente: <strong>${esc(props.source)}</strong></div>` : ""}
         <div class="popup-note">${esc(props.address || props.category || "")}</div>
       `;
       const corridorPopup = (props, kind) => `
@@ -3309,7 +3333,7 @@
           const props = feature.properties || {};
           const coords = (feature.geometry || {}).coordinates || [];
           const haystack = clean(`${props.code} ${props.type} ${props.name} ${props.address} ${props.status} ${props.condition}`);
-          return (!query || haystack.includes(query)) && insidePlatformsOnly(coords[0], coords[1]);
+          return (!query || haystack.includes(query)) && (mode === "police" || insidePlatformsOnly(coords[0], coords[1]));
         });
       }
 
