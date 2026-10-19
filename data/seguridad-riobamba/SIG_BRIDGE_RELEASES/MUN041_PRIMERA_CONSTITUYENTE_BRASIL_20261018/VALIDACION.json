@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "plan": {
+    "scenarios": [
+      "B",
+      "C"
+    ],
+    "jobs": [
+      "block_coverage",
+      "buffers",
+      "camera_attributes",
+      "corridor_coverage",
+      "exclusive_coverage",
+      "hotspot_coverage",
+      "incident_coverage",
+      "population",
+      "territorial"
+    ],
+    "pendingAdapters": [],
+    "recalculateKde": false,
+    "recalculateGi": false,
+    "optimizeCameras": false
+  },
+  "nodeAudit": [
+    {
+      "id": "MUN-041",
+      "passed": true,
+      "cartographicNodeValidated": true,
+      "fieldVerified": false,
+      "minimumSpacingM": 186.50144807162113,
+      "spacingExceptionExplicitDestination": true,
+      "roads": [
+        "Primera Constituyente",
+        "Brasil"
+      ]
+    }
+  ],
+  "publishBlocks": [],
+  "sourcePreserved": true,
+  "existingCount": 103,
+  "municipalCount": 50,
+  "policeCount": 30,
+  "giRecalculated": false,
+  "kdeRecalculated": false,
+  "optimized": false,
+  "revision": "MUN041_PRIMERA_CONSTITUYENTE_BRASIL_20261018",
+  "published": true,
+  "publicRelease": "MUN041_PRIMERA_CONSTITUYENTE_BRASIL_20261018"
+}

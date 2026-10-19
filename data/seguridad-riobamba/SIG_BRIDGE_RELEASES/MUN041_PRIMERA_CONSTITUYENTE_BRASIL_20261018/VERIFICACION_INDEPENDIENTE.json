@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "release": "MUN041_PRIMERA_CONSTITUYENTE_BRASIL_20261018",
+  "published": true,
+  "changedMunicipal": [
+    "MUN-041"
+  ],
+  "otherMunicipal49Fixed": true,
+  "existing103Fixed": true,
+  "police30Fixed": true,
+  "movementM": 96.02145235692815,
+  "nearestM": 186.50144807162113,
+  "targetUTM32717": [
+    760732.7715657315,
+    9815699.697173316
+  ],
+  "baseHashes": {
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\MUN028_9OCTUBRE_EUGENIO_ESPEJO_20261018\\ESCENARIO_FINAL_183.gpkg": "f7549c3f1af09620c8286227d1d1d29384fad6f2ecb61e4f3079cc5164f430ff",
+    "D:\\codex\\security-real-incidents\\sig-bridge-active.json": "84663b3677fe4a14ed10e7c88dd2303cb41f62612b933e795a9f660741d22b28",
+    "D:\\codex\\security-real-incidents\\riobamba-kde-combinado-data.js": "3c45b3b26f0aa83f5a0f1d51b3a0d5ce2a3aac5a966511256410a3881a6c1756",
+    "D:\\codex\\security-real-incidents\\riobamba-hotspot-urbano-200m-data.js": "dadb447ed2abbd69efb1d6d33f4011f071ed8fce99ac31608cf8c9d50ab7bd63"
+  }
+}
