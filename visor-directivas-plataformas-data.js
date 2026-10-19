@@ -3,9 +3,10 @@ window.PLATFORM_DIRECTIVES_DATA = {
     title: "Visor de Comités por Plataforma",
     description:
       "Seguimiento rapido para identificar el encargado de cada plataforma y si ya tiene comité elegido.",
-    updatedAt: "2026-09-21",
+    updatedAt: "2026-10-19",
     source: "Capturas compartidas por WhatsApp el 31 de agosto de 2026.",
     notes: [
+      "Plataforma B revisada el 19 de octubre de 2026 segun el acta del 27 de agosto: nombres y cargos corregidos. Apellidos de Betty Paola pendientes de confirmacion.",
       "Actualizacion manual aplicada: las plataformas A, C, D, I, J, L y P se marcan con comité elegido.",
       "Actualizacion del 21 de septiembre de 2026: las plataformas A y D se confirman como plataformas con comité.",
       "Plataforma A actualizada con integrantes visibles del acta de conformacion de representantes; campos manuscritos no legibles se dejan sin dato.",
@@ -35,10 +36,10 @@ window.PLATFORM_DIRECTIVES_DATA = {
       assignedAt: "2026-08-11",
       status: "selected",
       committee: [
-        { role: "Coordinador", name: "Nicolás Taipe", phone: "0984572317" },
-        { role: "Secretario", name: "Dr. Hernán Garcés", phone: "0984965116" },
-        { role: "Primer vocal principal", name: "Galo Paña", phone: "0995229403" },
-        { role: "Segundo vocal principal", name: "Betty Guaraca", phone: "0983078783" }
+        { role: "Presidencia", name: "Roberto Nicolás Taipe", phone: "0984572317" },
+        { role: "Secretaría", name: "Hernán Marcelo Garcés Castañeda", phone: "0984965116" },
+        { role: "Vocal 1. Eje Plan", name: "Héctor Galo Paña Soldado", phone: "0995229403" },
+        { role: "Vocal 2. Eje Gestión", name: "Betty Paola (apellidos por confirmar)", phone: "0983078783" }
       ]
     },
     {
