@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "root": "./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/MUN035_040_GUAYAQUIL_ESMERALDAS_20261018/",
-  "releaseId": "MUN035_040_GUAYAQUIL_ESMERALDAS_20261018",
+  "root": "./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/MUN027_047_CANONIGO_DUCHICELA_20261018/",
+  "releaseId": "MUN027_047_CANONIGO_DUCHICELA_20261018",
   "coverageData": "riobamba-brechas-actualizadas-data.js"
 }

@@ -1,0 +1,122 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "MACAJI-0001",
+        "CORREDOR": "BOULEVARD_MACAJI_BELLAVISTA",
+        "LONGITUD_M": 14.397454822420684
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65084435532985,
+            -1.675255862836118
+          ],
+          [
+            -78.65092686469346,
+            -1.6753560844312623
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "MACAJI-0002",
+        "CORREDOR": "BOULEVARD_MACAJI_BELLAVISTA",
+        "LONGITUD_M": 60.84277827259717
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65322754152804,
+            -1.6781507628925445
+          ],
+          [
+            -78.65335299063716,
+            -1.678291238884081
+          ],
+          [
+            -78.65350421153917,
+            -1.678460574346321
+          ],
+          [
+            -78.65358847289093,
+            -1.678563642635479
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "MACAJI-0003",
+        "CORREDOR": "BOULEVARD_MACAJI_BELLAVISTA",
+        "LONGITUD_M": 113.45547581179194
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65373263940417,
+            -1.6787399867806652
+          ],
+          [
+            -78.65396711312927,
+            -1.6790267945039565
+          ],
+          [
+            -78.65437877806555,
+            -1.6795331236282973
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "MACAJI-0004",
+        "CORREDOR": "BOULEVARD_MACAJI_BELLAVISTA",
+        "LONGITUD_M": 1.487401109951269
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65092686469346,
+            -1.6753560844312623
+          ],
+          [
+            -78.65093538873647,
+            -1.675366438325091
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "MACAJI-0005",
+        "CORREDOR": "BOULEVARD_MACAJI_BELLAVISTA",
+        "LONGITUD_M": 25.261127082317778
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.65358847289093,
+            -1.678563642635479
+          ],
+          [
+            -78.65373263940417,
+            -1.6787399867806652
+          ]
+        ]
+      }
+    }
+  ]
+}

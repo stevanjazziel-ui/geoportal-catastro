@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "release": "MUN027_047_CANONIGO_DUCHICELA_20261018",
+  "published": true,
+  "changedMunicipal": [
+    "MUN-027",
+    "MUN-047"
+  ],
+  "otherMunicipal48Fixed": true,
+  "existing103Fixed": true,
+  "police30Fixed": true,
+  "movementsM": {
+    "MUN-027": 2589.5730939850673,
+    "MUN-047": 263.5627087678098
+  },
+  "nearestCameraM": {
+    "MUN-027": 525.8726193388177,
+    "MUN-047": 214.79288299126478
+  },
+  "pairSeparationM": 2517.3891541260687,
+  "crossingEvidence": {
+    "MUN-027": {
+      "gapM": 5.481568454011984,
+      "roads": [
+        "Avenida Canónigo Ramos",
+        "Agustín Guerrero"
+      ]
+    },
+    "MUN-047": {
+      "gapM": 0.0,
+      "roads": [
+        "Duchicela",
+        "Boyaca"
+      ]
+    }
+  },
+  "macajiMunicipalPct": 97.74207666073576,
+  "macajiUncoveredM": 215.44423709907883,
+  "publicRelease": "MUN027_047_CANONIGO_DUCHICELA_20261018"
+}

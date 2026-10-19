@@ -1,0 +1,98 @@
+{
+  "revision": "MUN027_047_CANONIGO_DUCHICELA_20261018",
+  "createdAt": "2026-10-18T21:37:19-05:00",
+  "authorization": "Usuario solicita mover MUN-027 a Canónigo Ramos x Agustín Guerrero y MUN-047 a Duchicela x Boyacá, y publicar. Se conservan las excepciones aprobadas de Macají y separaciones menores a 400m.",
+  "applied": true,
+  "published": true,
+  "priorRelease": "MUN035_040_GUAYAQUIL_ESMERALDAS_20261018",
+  "baseHashes": {
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\MUN035_040_GUAYAQUIL_ESMERALDAS_20261018\\ESCENARIO_FINAL_183.gpkg": "6d82299d40bba4c5a6178c827e3953e1d9abbcbb8855d4572eb91c70d8d2706c",
+    "D:\\codex\\security-real-incidents\\riobamba-kde-combinado-data.js": "3c45b3b26f0aa83f5a0f1d51b3a0d5ce2a3aac5a966511256410a3881a6c1756",
+    "D:\\codex\\security-real-incidents\\riobamba-hotspot-urbano-200m-data.js": "dadb447ed2abbd69efb1d6d33f4011f071ed8fce99ac31608cf8c9d50ab7bd63",
+    "D:\\codex\\security-real-incidents\\sig-bridge-active.json": "ea06e0a5663672b71283c3fab3e86e34c4b2d901a816e252607f68c89c007b08"
+  },
+  "changes": [
+    {
+      "layer": "municipal",
+      "id": "MUN-027",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 2589.5730939850673,
+      "note": "Usuario solicita mover MUN-027 a Canónigo Ramos x Agustín Guerrero y MUN-047 a Duchicela x Boyacá, y publicar. Se conservan las excepciones aprobadas de Macají y separaciones menores a 400m."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-047",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 263.5627087678098,
+      "note": "Usuario solicita mover MUN-027 a Canónigo Ramos x Agustín Guerrero y MUN-047 a Duchicela x Boyacá, y publicar. Se conservan las excepciones aprobadas de Macají y separaciones menores a 400m."
+    }
+  ],
+  "nearestCameraM": {
+    "MUN-027": 525.8726193388177,
+    "MUN-047": 214.79288299126478
+  },
+  "pairSeparationM": 2517.3891541260687,
+  "crossingEvidence": {
+    "MUN-027": {
+      "gapM": 5.481568454011984,
+      "roads": [
+        "Avenida Canónigo Ramos",
+        "Agustín Guerrero"
+      ]
+    },
+    "MUN-047": {
+      "gapM": 0.0,
+      "roads": [
+        "Duchicela",
+        "Boyaca"
+      ]
+    }
+  },
+  "approvedExceptions": [
+    {
+      "id": "MUN-038",
+      "existing": "RIO-003-DOMO",
+      "distanceM": 245.7152316464428,
+      "previousMinimumM": 350,
+      "userApproved": true
+    },
+    {
+      "id": "MUN-028",
+      "camera": "PN-17",
+      "distanceM": 336.576631563523,
+      "previousMinimumM": 350,
+      "userApproved": true
+    },
+    {
+      "id": "MUN-041",
+      "camera": "RIO-038-DOMO",
+      "distanceM": 186.50144807162113,
+      "explicitUserDestination": true
+    },
+    {
+      "id": "MUN-035",
+      "camera": "existing camera",
+      "distanceM": 114.63286715769392,
+      "explicitUserDestination": true
+    },
+    {
+      "id": "MUN-040",
+      "camera": "existing camera",
+      "distanceM": 301.91309639598666,
+      "explicitUserDestination": true
+    },
+    {
+      "id": "MUN-027",
+      "nearestCameraM": 525.8726193388177,
+      "explicitUserDestination": true
+    },
+    {
+      "id": "MUN-047",
+      "nearestCameraM": 214.79288299126478,
+      "explicitUserDestination": true
+    }
+  ],
+  "publicRelease": "MUN027_047_CANONIGO_DUCHICELA_20261018"
+}

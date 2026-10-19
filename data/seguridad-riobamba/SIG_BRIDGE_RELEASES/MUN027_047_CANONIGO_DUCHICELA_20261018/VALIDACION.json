@@ -1,0 +1,73 @@
+{
+  "status": "READY_WITH_USER_APPROVED_EXCEPTION",
+  "plan": {
+    "scenarios": [
+      "B",
+      "C"
+    ],
+    "jobs": [
+      "block_coverage",
+      "buffers",
+      "camera_attributes",
+      "corridor_coverage",
+      "exclusive_coverage",
+      "hotspot_coverage",
+      "incident_coverage",
+      "population",
+      "territorial"
+    ],
+    "pendingAdapters": [],
+    "recalculateKde": false,
+    "recalculateGi": false,
+    "optimizeCameras": false
+  },
+  "nodeAudit": [
+    {
+      "id": "MUN-027",
+      "passed": true,
+      "cartographicNodeValidated": true,
+      "fieldVerified": false,
+      "nearestCameraM": 525.8726193388177,
+      "nodeCenterlineGapM": 5.481568454011984,
+      "roads": [
+        "Avenida Canónigo Ramos",
+        "Agustín Guerrero"
+      ]
+    },
+    {
+      "id": "MUN-047",
+      "passed": true,
+      "cartographicNodeValidated": true,
+      "fieldVerified": false,
+      "nearestCameraM": 214.79288299126478,
+      "nodeCenterlineGapM": 0.0,
+      "roads": [
+        "Duchicela",
+        "Boyaca"
+      ]
+    }
+  ],
+  "publishBlocks": [],
+  "sourcePreserved": true,
+  "existingCount": 103,
+  "municipalCount": 50,
+  "policeCount": 30,
+  "giRecalculated": false,
+  "kdeRecalculated": false,
+  "optimized": false,
+  "revision": "MUN027_047_CANONIGO_DUCHICELA_20261018",
+  "waivedBlocks": [
+    "Restriccion municipal BOULEVARD_MACAJI_BELLAVISTA: 97.74208% < 100%"
+  ],
+  "approvedWaivers": [
+    {
+      "criterion": "Macaji municipal coverage minimum 100%",
+      "userApproved": true,
+      "approvedOutcomePct": 97.74207666073576,
+      "uncoveredM": 215.44423709907883,
+      "note": "Usuario selecciona mantener los dos cruces solicitados aceptando la reduccion de Macaji."
+    }
+  ],
+  "published": true,
+  "publicRelease": "MUN027_047_CANONIGO_DUCHICELA_20261018"
+}
