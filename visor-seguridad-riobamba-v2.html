@@ -1361,8 +1361,7 @@
       const upcGeojson = await upcResponse.json();
       const upcFeatures = (upcGeojson.features || []).filter((feature) => feature.properties?.COD_DISTRI === "06D01");
       if (upcFeatures.length !== 18) throw new Error(`La capa UPC de Riobamba debe tener 18 registros; tiene ${upcFeatures.length}`);
-      const otherPoliceInfrastructure = (policeDataset.infrastructure?.features || []).filter((feature) => feature.properties?.type !== "UPC");
-      const policeInfrastructure = [...otherPoliceInfrastructure, ...upcFeatures.map((feature) => {
+      const policeInfrastructure = upcFeatures.map((feature) => {
         const source = feature.properties || {};
         return {...feature, properties: {...source,
           code: source.ID_INFRA,
@@ -1377,7 +1376,7 @@
           motorcycles: Number(source.ATTR_JSON?.MOTOS || 0),
           source: source.FUENTE || "UPC.xls - Policía"
         }};
-      })];
+      });
       policeDataset.infrastructure = {...policeDataset.infrastructure, features: policeInfrastructure};
       policeDataset.summary = {...policeDataset.summary, infrastructure: policeInfrastructure.length};
       const policeAccessibility = window.RIOBAMBA_POLICE_ACCESSIBILITY || { summary: {}, table: [], byPlatformName: {}, byMan: {}, validations: {} };
