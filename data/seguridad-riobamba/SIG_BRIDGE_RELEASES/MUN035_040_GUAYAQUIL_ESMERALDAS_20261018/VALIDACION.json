@@ -1,0 +1,73 @@
+{
+  "status": "READY_WITH_USER_APPROVED_EXCEPTION",
+  "plan": {
+    "scenarios": [
+      "B",
+      "C"
+    ],
+    "jobs": [
+      "block_coverage",
+      "buffers",
+      "camera_attributes",
+      "corridor_coverage",
+      "exclusive_coverage",
+      "hotspot_coverage",
+      "incident_coverage",
+      "population",
+      "territorial"
+    ],
+    "pendingAdapters": [],
+    "recalculateKde": false,
+    "recalculateGi": false,
+    "optimizeCameras": false
+  },
+  "nodeAudit": [
+    {
+      "id": "MUN-035",
+      "passed": true,
+      "cartographicNodeValidated": true,
+      "fieldVerified": false,
+      "nearestCameraM": 114.63286715769392,
+      "exceptionDestinationExplicit": true,
+      "roads": [
+        "Gabriel García Moreno",
+        "Guayaquil"
+      ]
+    },
+    {
+      "id": "MUN-040",
+      "passed": true,
+      "cartographicNodeValidated": true,
+      "fieldVerified": false,
+      "nearestCameraM": 301.91309639598666,
+      "exceptionDestinationExplicit": true,
+      "roads": [
+        "Esmeraldas",
+        "Eugenio Espejo"
+      ]
+    }
+  ],
+  "publishBlocks": [],
+  "sourcePreserved": true,
+  "existingCount": 103,
+  "municipalCount": 50,
+  "policeCount": 30,
+  "giRecalculated": false,
+  "kdeRecalculated": false,
+  "optimized": false,
+  "revision": "MUN035_040_GUAYAQUIL_ESMERALDAS_20261018",
+  "waivedBlocks": [
+    "Restriccion municipal BOULEVARD_MACAJI_BELLAVISTA: 97.74208% < 100%"
+  ],
+  "approvedWaivers": [
+    {
+      "criterion": "Macaji municipal coverage minimum 100%",
+      "userApproved": true,
+      "approvedOutcomePct": 97.74207666073576,
+      "uncoveredM": 215.44423709907883,
+      "note": "Usuario selecciona mantener los dos cruces solicitados aceptando la reduccion de Macaji."
+    }
+  ],
+  "published": true,
+  "publicRelease": "MUN035_040_GUAYAQUIL_ESMERALDAS_20261018"
+}

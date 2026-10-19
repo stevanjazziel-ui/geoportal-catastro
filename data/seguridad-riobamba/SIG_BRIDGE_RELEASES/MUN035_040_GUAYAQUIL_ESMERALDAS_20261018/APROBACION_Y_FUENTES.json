@@ -1,0 +1,34 @@
+{
+  "revision": "MUN041_PRIMERA_CONSTITUYENTE_BRASIL_20261018",
+  "createdAt": "2026-10-18T21:10:21-05:00",
+  "authorization": "Usuario solicita MUN-035 Guayaquil x Gabriel Garcia Moreno y MUN-040 Esmeraldas x Eugenio Espejo; acepta mantener ambos destinos con reduccion de cobertura Macaji y separaciones menores a 400m.",
+  "applied": true,
+  "published": true,
+  "priorRelease": "MUN028_9OCTUBRE_EUGENIO_ESPEJO_20261018",
+  "baseHashes": {
+    "D:\\codex\\security-real-incidents\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\MUN028_9OCTUBRE_EUGENIO_ESPEJO_20261018\\ESCENARIO_FINAL_183.gpkg": "f7549c3f1af09620c8286227d1d1d29384fad6f2ecb61e4f3079cc5164f430ff",
+    "D:\\codex\\security-real-incidents\\sig-bridge-active.json": "84663b3677fe4a14ed10e7c88dd2303cb41f62612b933e795a9f660741d22b28",
+    "D:\\codex\\security-real-incidents\\riobamba-kde-combinado-data.js": "3c45b3b26f0aa83f5a0f1d51b3a0d5ce2a3aac5a966511256410a3881a6c1756",
+    "D:\\codex\\security-real-incidents\\riobamba-hotspot-urbano-200m-data.js": "dadb447ed2abbd69efb1d6d33f4011f071ed8fce99ac31608cf8c9d50ab7bd63"
+  },
+  "changes": [
+    {
+      "layer": "municipal",
+      "id": "MUN-041",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 96.02145235692815,
+      "note": "Usuario solicita expresamente mover MUN-041 a Primera Constituyente y Brasil. Destino especifico; separacion a RIO-038-DOMO de 186.50 m, inferior al criterio general. Sin autorizacion nueva de publicacion."
+    }
+  ],
+  "approvedWaivers": [
+    {
+      "criterion": "Macaji municipal coverage minimum 100%",
+      "userApproved": true,
+      "approvedOutcomePct": 97.74207666073576,
+      "uncoveredM": 215.44423709907883,
+      "note": "Usuario selecciona mantener los dos cruces solicitados aceptando la reduccion de Macaji."
+    }
+  ],
+  "publicRelease": "MUN035_040_GUAYAQUIL_ESMERALDAS_20261018"
+}

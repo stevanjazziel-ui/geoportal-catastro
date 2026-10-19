@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "status": "READY_WITH_USER_APPROVED_EXCEPTION",
+  "release": "MUN035_040_GUAYAQUIL_ESMERALDAS_20261018",
+  "published": true,
+  "changedMunicipal": [
+    "MUN-035",
+    "MUN-040"
+  ],
+  "otherMunicipal48Fixed": true,
+  "existing103Fixed": true,
+  "police30Fixed": true,
+  "macajiMinimumPreserved": false,
+  "macajiMunicipalPct": 97.74207666073576,
+  "macajiUncoveredM": 215.44423709907883,
+  "approvedWaiver": {
+    "criterion": "Macaji municipal coverage minimum 100%",
+    "userApproved": true,
+    "approvedOutcomePct": 97.74207666073576,
+    "uncoveredM": 215.44423709907883,
+    "note": "Usuario selecciona mantener los dos cruces solicitados aceptando la reduccion de Macaji."
+  },
+  "nodeAudit": [
+    {
+      "id": "MUN-035",
+      "passed": true,
+      "cartographicNodeValidated": true,
+      "fieldVerified": false,
+      "nearestCameraM": 114.63286715769392,
+      "exceptionDestinationExplicit": true,
+      "roads": [
+        "Gabriel García Moreno",
+        "Guayaquil"
+      ]
+    },
+    {
+      "id": "MUN-040",
+      "passed": true,
+      "cartographicNodeValidated": true,
+      "fieldVerified": false,
+      "nearestCameraM": 301.91309639598666,
+      "exceptionDestinationExplicit": true,
+      "roads": [
+        "Esmeraldas",
+        "Eugenio Espejo"
+      ]
+    }
+  ],
+  "publicRelease": "MUN035_040_GUAYAQUIL_ESMERALDAS_20261018"
+}
