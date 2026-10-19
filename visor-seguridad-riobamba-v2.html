@@ -1461,7 +1461,7 @@
 
       const map = L.map("map", { zoomSnap: 0.5, preferCanvas: true }).setView([-1.6636, -78.6546], 13);
       const lightLayer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap", maxZoom: 20, className: "osm-gray-tile" }).addTo(map);
-      const satelliteLayer = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", { attribution: "Tiles &copy; Esri", maxNativeZoom: 18, maxZoom: 20, opacity: 0.75 });
+      const satelliteLayer = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", { attribution: "Tiles &copy; Esri", maxNativeZoom: 18, maxZoom: 20, opacity: 0.55 });
       const eventLayer = L.layerGroup().addTo(map);
       const hotspotLayer = L.layerGroup().addTo(map);
       const kdePointLayer = L.layerGroup();
