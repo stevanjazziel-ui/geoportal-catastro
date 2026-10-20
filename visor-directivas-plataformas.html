@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+<!-- Uso institucional. No reproducir codigo, datos o contenido sin autorizacion. -->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,6 +27,7 @@
     .map-wrap { position:relative; height:100%; } #map { width:100%; height:100%; background:#f3f1ea; } .overlay { position:absolute; top:16px; right:16px; z-index:500; width:min(380px,calc(100% - 32px)); padding:14px; background:rgba(248,250,244,.92); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); backdrop-filter:blur(10px); } .overlay strong { display:block; margin-bottom:6px; }
     .map-gray img { filter:grayscale(1) contrast(.82) brightness(1.08); } .leaflet-popup-content-wrapper,.leaflet-popup-tip { background:rgba(248,250,244,.98); color:var(--text); border:1px solid var(--line); } .leaflet-popup-content { margin:14px 16px; max-height:330px; overflow:auto; } .popup-title { margin-bottom:8px; font-size:1rem; } .popup-row { margin:5px 0; color:var(--muted); } .popup-row strong { color:var(--text); } .committee-title { margin:13px 0 6px; font-size:.88rem; font-weight:800; color:var(--text); } .committee-member { margin:7px 0; padding-top:7px; border-top:1px solid var(--line); color:var(--muted); font-size:.84rem; } .committee-member strong { display:block; color:var(--text); } .committee-member a { font-weight:700; text-decoration:none; }
     .platform-label-icon { background:transparent; border:0; pointer-events:none; } .platform-label { transform:translate(-50%,-50%); padding:3px 7px; border-radius:10px; background:rgba(248,250,244,.9); border:1px solid rgba(70,91,65,.28); color:#243226; font-size:11px; font-weight:800; pointer-events:none; }
+    .institutional-notice { position:fixed; left:50%; bottom:24px; z-index:10000; width:max-content; max-width:calc(100vw - 32px); transform:translateX(-50%); padding:14px 18px; border:1px solid var(--line); border-radius:12px; background:var(--panel); color:var(--text); box-shadow:var(--shadow); font-size:.94rem; line-height:1.4; pointer-events:none; }
     @media (max-width:920px) { .layout { grid-template-columns:1fr; height:auto; min-height:100dvh; } .sidebar { max-height:52dvh; border-right:none; border-bottom:1px solid var(--line); } .map-wrap { min-height:58dvh; } }
   </style>
 </head>
@@ -44,6 +46,28 @@
     </aside>
     <main class="map-wrap"><div id="map"></div><div class="overlay"><strong id="overlayTitle">Comités por plataforma territorial</strong><p id="overlayText">Los poligonos se colorean segun el comité elegido. Haz clic sobre una plataforma para ver su encargado.</p></div></main>
   </div>
+  <div id="institutionalNotice" class="institutional-notice" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+  <script>
+    (() => {
+      const notice = document.getElementById("institutionalNotice");
+      let hideTimer;
+      function showNotice(event) {
+        event.preventDefault();
+        window.clearTimeout(hideTimer);
+        notice.textContent = "Uso institucional. La reproducción de este contenido requiere autorización.";
+        notice.hidden = false;
+        hideTimer = window.setTimeout(() => { notice.hidden = true; notice.textContent = ""; }, 4200);
+      }
+      ["copy", "cut", "contextmenu"].forEach((type) => document.addEventListener(type, showNotice, true));
+      document.addEventListener("keydown", (event) => {
+        const key = event.key.toLowerCase();
+        const command = event.ctrlKey || event.metaKey;
+        const clipboardShortcut = (command && (key === "c" || key === "x")) || (event.ctrlKey && key === "insert") || (event.shiftKey && key === "delete");
+        const inspectionShortcut = key === "f12" || (command && key === "u") || (command && event.shiftKey && ["i", "j", "c", "k"].includes(key)) || (event.metaKey && event.altKey && ["i", "j", "c", "u"].includes(key));
+        if (clipboardShortcut || inspectionShortcut) showNotice(event);
+      }, true);
+    })();
+  </script>
   <script src="./vendor/leaflet/leaflet.js"></script>
   <script src="./visor-directivas-plataformas-data.js"></script>
   <script>
