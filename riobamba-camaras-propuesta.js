@@ -4,7 +4,6 @@ window.createRiobambaCameraProposal = function (api) {
   const { map, elements: el, esc } = api;
   const root = window.RIOBAMBA_SIG_RELEASE_ROOT || "./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/MUN045_CRUCE_PRENSA_9OCTUBRE_20261019/";
   const controls = document.getElementById("proposalLayerControls");
-  const platformCountsControl = document.getElementById("proposalPlatformCounts");
   const scenarioControl = document.getElementById("proposalScenario");
   const radiusControl = document.getElementById("proposalRadius");
   const extentControl = document.getElementById("proposalExtent");
@@ -88,7 +87,6 @@ window.createRiobambaCameraProposal = function (api) {
     renderVersion++;
     if (!active) return;
     active = false; el.workspace.classList.remove("proposal-active");
-    platformCountsControl.hidden = true;
     Object.values(layers).forEach(layer => map.removeLayer(layer));
     panes.forEach(id => { map.getPane(id).style.display = "none"; });
     selected = null; removeMini(); drawKey = "";
@@ -312,23 +310,6 @@ window.createRiobambaCameraProposal = function (api) {
     el.detail.innerHTML = `<section class="proposal-detail"><h3>${esc(title)}</h3>${rowHtml(rows)}<div id="proposalDetailMap" class="proposal-detail-map"></div><p>La cobertura representa proximidad geométrica, no visibilidad ni tiempo de respuesta. La visión se orienta por las vías; no se presupone alcance a través de manzanas o detrás de esquinas.</p>${links()}</section>`;
     mini(f);
   }
-  function renderPlatformCounts() {
-    const platformRows = data.platformCounts.rows.map(({ feature, counts, changeCount }) => [
-      `<button type="button" data-proposal-platform="${esc(feature.properties.platform_name)}">${esc(feature.properties.platform_name.replace(/^PLATAFORMA\s+/i, ""))}</button>`,
-      ...platformCountValues(counts, changeCount).map(value => number(value))
-    ]);
-    platformRows.push(["Fuera de las plataformas", ...platformCountValues(data.platformCounts.outside, data.platformCounts.outsideChanges).map(value => number(value))]);
-    const totals = Object.fromEntries(Object.keys(groups).map(group => [group, data[group].features.length]));
-    platformRows.push(["Total", ...platformCountValues(totals, data.existing.features.filter(change).length).map(value => number(value))]);
-    platformCountsControl.innerHTML = table("Cámaras por plataforma · escenario seleccionado", ["Plataforma", "Actuales", "Intervenciones", "Total"], platformRows,
-      "Conteo por ubicación del punto. Intervenciones: cámaras para cambio y propuestas municipales y policiales del escenario. Fuera de las plataformas incluye las ubicaciones rurales y otras externas.");
-    platformCountsControl.hidden = false;
-    platformCountsControl.querySelectorAll("[data-proposal-platform]").forEach(node => node.addEventListener("click", () => {
-      const feature = data.platforms.features.find(feature => feature.properties.platform_name === node.dataset.proposalPlatform);
-      toggles.platforms = true; syncToggles(); syncLayers();
-      selectEntity({ kind: "platform", feature }, L.geoJSON(feature).getBounds());
-    }));
-  }
   function graphics() {
     const codes = ["A", "B", "C"], r = data.results;
     let html = api.metricBars("Incidentes potencialmente cubiertos · escenario seleccionado", ["DELINCUENCIA", "VIOLENCIA", "CONVIVENCIA"].map(category => {
@@ -397,7 +378,7 @@ window.createRiobambaCameraProposal = function (api) {
     const changeCount = data.existing.features.filter(change).length;
     el.summary.innerHTML = [["Cámaras actuales", existingCount - changeCount, "existing"], ["Intervenciones · total agrupado", interventionCount(), "interventions"], ["Para cambio", changeCount, "change"], ["Municipales propuestas", groupEnabled("municipal") ? 50 : 0, "municipal"], ["Policía propuesta", groupEnabled("police") ? 30 : 0, "police"], ["Área urbana cubierta", `${number(area.AREA_CUBIERTA_URBANA_KM2, 2)} km²`], ["Población urbana cubierta", `${number(population.POBLACION_CUBIERTA)} · ${pct(population.PCT_CUBIERTO)}`]].map(([label, value, symbol]) => `<div class="card"><span>${symbol ? `<i class="proposal-key ${symbol}" aria-hidden="true"></i>` : ""}${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")
       + `<p class="proposal-inventory-note">Intervenciones: ${changeCount} para cambio + ${groupEnabled("municipal") ? 50 : 0} municipales + ${groupEnabled("police") ? 30 : 0} Policía. Las ${changeCount} para cambio pertenecen al inventario de ${existingCount}; no son cámaras adicionales.${quality ? ` ${esc(quality.warning)}` : ""}</p>`;
-    syncToggles(); draw(); detail(); graphics(); renderPlatformCounts(); renderLegend();
+    syncToggles(); draw(); detail(); graphics(); renderLegend();
     map.invalidateSize(); if (fitNeeded) fit();
     el.status.textContent = `103 existentes (${changeCount} para cambio) + 50 Municipio + 30 Policía. Radio potencial 200 m; ${quality ? `${quality.pendingValidation} posiciones provisionales pendientes incluidas` : "ubicaciones estimadas documentadas"}. Propuestas, KDE y Gi* sin cambios.`;
   }
