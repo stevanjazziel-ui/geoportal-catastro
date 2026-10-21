@@ -1,0 +1,30 @@
+{
+  "estado": "PROPUESTA_PARA_REVISION",
+  "municipales_total": 50,
+  "municipales_en_bulevar": 9,
+  "municipales_compensacion": 2,
+  "municipales_con_geometria_revisada": 11,
+  "movimientos": [
+    {
+      "ID_PROPUESTA": "MUN-021",
+      "REEMPLAZA_A": "MUN-040",
+      "ORIGEN": "Panamericana Sur / Av. Pedro Vicente Maldonado x Hurones",
+      "GRUPO_ORIGEN": "CABECERA_RURAL",
+      "PARROQUIA_ORIGEN": "Lican",
+      "DESTINO": "Esmeraldas x Eugenio Espejo",
+      "DESPLAZAMIENTO_M": 5848.312765536701,
+      "EXCEPCION_RURAL": true
+    },
+    {
+      "ID_PROPUESTA": "MUN-043",
+      "REEMPLAZA_A": "MUN-041",
+      "ORIGEN": "Avenida Milton Reyes",
+      "GRUPO_ORIGEN": "RED_ESTRUCTURAL",
+      "PARROQUIA_ORIGEN": "NULL",
+      "DESTINO": "Primera Constituyente x Brasil",
+      "DESPLAZAMIENTO_M": 1603.6618815615736,
+      "EXCEPCION_RURAL": false
+    }
+  ],
+  "nota": "MUN-021 procede de la entrada de Lican. Se conserva el origen en la capa base; este escenario retira esa ubicacion rural por la seleccion expresa del usuario."
+}

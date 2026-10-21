@@ -1,0 +1,274 @@
+{
+  "estado": "AUDITORIA_PRELIMINAR_DIRECCIONAL",
+  "metodo": "Alcance 200 m sobre calles OSM; acceso lateral maximo 25 m descontado del alcance; continuacion con mismo nombre y desviacion maxima 30 grados de la direccion inicial. Sin giros a otras calles ni discos de cobertura.",
+  "alcance": "Estimacion sobre ejes de calle; no prueba vision optica, funcionamiento ni orientacion real de las camaras. No se atribuye cobertura de predios o incidentes fuera de la via.",
+  "crs": "EPSG:32717",
+  "before_camera_count": 183,
+  "after_camera_count": 183,
+  "source": "D:\\codex\\osm_vias_riobamba\\osm_vias_dentro_canton_riobamba_utm.shp",
+  "road_segments": 21715,
+  "camaras_reubicadas": 11,
+  "red_vial_antes_m": 113879.94456975945,
+  "red_vial_despues_m": 112643.96104592699,
+  "red_vial_perdida_m": 3455.638788603964,
+  "red_vial_ganada_m": 2219.6552647715266,
+  "detalle": [
+    {
+      "CAMARA": "MUN-021",
+      "DESPLAZAMIENTO_M": 5848.312765536701,
+      "CALLES_ANTES": "Hurones / Panamericana Sur / Panamericana Sur/Avenida Pedro Vicente Maldonado",
+      "CALLES_DESPUES": "Esmeraldas / Eugenio Espejo",
+      "ALCANCE_ANTES_M": 978.2807606946373,
+      "ALCANCE_DESPUES_M": 799.9920273336443,
+      "EXCLUSIVO_ANTES_M": 978.2807606946373,
+      "PERDIDA_SI_SOLO_MUEVE_ESTA_M": 978.2807606946373,
+      "PERDIDA_CON_TODOS_MOVIMIENTOS_M": 978.2807606946373,
+      "CALLES_CON_PERDIDA": {
+        "Panamericana Sur/Avenida Pedro Vicente Maldonado": 399.99899670666406,
+        "Panamericana Sur": 378.1688652750895,
+        "Hurones": 200.11289871288375
+      },
+      "RESPALDO_DESPUES": [],
+      "SIN_CRUCE_CARTOGRAFICO_ANTES": false,
+      "SIN_CRUCE_CARTOGRAFICO_DESPUES": false
+    },
+    {
+      "CAMARA": "MUN-029",
+      "DESPLAZAMIENTO_M": 62.776409536783824,
+      "CALLES_ANTES": "Chile / Avenida Unidad Nacional / Sin nombre",
+      "CALLES_DESPUES": "Avenida Unidad Nacional / Sin nombre",
+      "ALCANCE_ANTES_M": 720.4066294126025,
+      "ALCANCE_DESPUES_M": 832.370351237121,
+      "EXCLUSIVO_ANTES_M": 330.6595781687394,
+      "PERDIDA_SI_SOLO_MUEVE_ESTA_M": 115.55330059993634,
+      "PERDIDA_CON_TODOS_MOVIMIENTOS_M": 115.55330059993634,
+      "CALLES_CON_PERDIDA": {
+        "Sin nombre": 115.55330059993635
+      },
+      "RESPALDO_DESPUES": [
+        {
+          "ID": "PN-15",
+          "M_CALLE_COMPARTIDA": 204.85190839977997
+        },
+        {
+          "ID": "RIO-023-DOMO",
+          "M_CALLE_COMPARTIDA": 150.71572473520848
+        },
+        {
+          "ID": "RIO-081-FIJA",
+          "M_CALLE_COMPARTIDA": 34.17941810887464
+        }
+      ],
+      "SIN_CRUCE_CARTOGRAFICO_ANTES": false,
+      "SIN_CRUCE_CARTOGRAFICO_DESPUES": false
+    },
+    {
+      "CAMARA": "MUN-030",
+      "DESPLAZAMIENTO_M": 5.2494735727327955,
+      "CALLES_ANTES": "Puruhá / Avenida Edelberto Bonilla Oleas / Mendoza",
+      "CALLES_DESPUES": "Puruhá / Avenida Edelberto Bonilla Oleas / Mendoza",
+      "ALCANCE_ANTES_M": 1013.6003856339338,
+      "ALCANCE_DESPUES_M": 1019.9137256295625,
+      "EXCLUSIVO_ANTES_M": 1013.6003856339338,
+      "PERDIDA_SI_SOLO_MUEVE_ESTA_M": 9.316131450121418,
+      "PERDIDA_CON_TODOS_MOVIMIENTOS_M": 9.316131450121418,
+      "CALLES_CON_PERDIDA": {
+        "Avenida Edelberto Bonilla Oleas": 9.316131450121418
+      },
+      "RESPALDO_DESPUES": [],
+      "SIN_CRUCE_CARTOGRAFICO_ANTES": false,
+      "SIN_CRUCE_CARTOGRAFICO_DESPUES": false
+    },
+    {
+      "CAMARA": "MUN-033",
+      "DESPLAZAMIENTO_M": 104.39089247158854,
+      "CALLES_ANTES": "Avenida Unidad Nacional / Sin nombre",
+      "CALLES_DESPUES": "",
+      "ALCANCE_ANTES_M": 437.4345986439657,
+      "ALCANCE_DESPUES_M": 0,
+      "EXCLUSIVO_ANTES_M": 112.5613369278898,
+      "PERDIDA_SI_SOLO_MUEVE_ESTA_M": 112.5613369278898,
+      "PERDIDA_CON_TODOS_MOVIMIENTOS_M": 112.5613369278898,
+      "CALLES_CON_PERDIDA": {
+        "Avenida Unidad Nacional": 75.12321057701206,
+        "Sin nombre": 37.43812635087775
+      },
+      "RESPALDO_DESPUES": [
+        {
+          "ID": "RIO-023-DOMO",
+          "M_CALLE_COMPARTIDA": 206.81469414109347
+        },
+        {
+          "ID": "PN-16",
+          "M_CALLE_COMPARTIDA": 118.05856757498248
+        }
+      ],
+      "SIN_CRUCE_CARTOGRAFICO_ANTES": false,
+      "SIN_CRUCE_CARTOGRAFICO_DESPUES": true
+    },
+    {
+      "CAMARA": "MUN-035",
+      "DESPLAZAMIENTO_M": 79.7124269370536,
+      "CALLES_ANTES": "Gabriel García Moreno / Guayaquil",
+      "CALLES_DESPUES": "Pichincha / Guayaquil",
+      "ALCANCE_ANTES_M": 799.992815123866,
+      "ALCANCE_DESPUES_M": 772.1466631879042,
+      "EXCLUSIVO_ANTES_M": 654.0602668336085,
+      "PERDIDA_SI_SOLO_MUEVE_ESTA_M": 399.9937369182163,
+      "PERDIDA_CON_TODOS_MOVIMIENTOS_M": 399.9937369182163,
+      "CALLES_CON_PERDIDA": {
+        "Gabriel García Moreno": 399.9937369182163
+      },
+      "RESPALDO_DESPUES": [
+        {
+          "ID": "RIO-009-DOMO",
+          "M_CALLE_COMPARTIDA": 145.9325482902575
+        }
+      ],
+      "SIN_CRUCE_CARTOGRAFICO_ANTES": false,
+      "SIN_CRUCE_CARTOGRAFICO_DESPUES": false
+    },
+    {
+      "CAMARA": "MUN-037",
+      "DESPLAZAMIENTO_M": 8.932946168989604,
+      "CALLES_ANTES": "Puruhá / Junín",
+      "CALLES_DESPUES": "Puruhá / Junín",
+      "ALCANCE_ANTES_M": 490.70174053388405,
+      "ALCANCE_DESPUES_M": 478.19934295361725,
+      "EXCLUSIVO_ANTES_M": 413.2038021320951,
+      "PERDIDA_SI_SOLO_MUEVE_ESTA_M": 5.609976238968088,
+      "PERDIDA_CON_TODOS_MOVIMIENTOS_M": 5.609976238968088,
+      "CALLES_CON_PERDIDA": {
+        "Junín": 5.609976238968088
+      },
+      "RESPALDO_DESPUES": [
+        {
+          "ID": "RIO-052-DOMO",
+          "M_CALLE_COMPARTIDA": 77.49793840178893
+        }
+      ],
+      "SIN_CRUCE_CARTOGRAFICO_ANTES": false,
+      "SIN_CRUCE_CARTOGRAFICO_DESPUES": false
+    },
+    {
+      "CAMARA": "MUN-038",
+      "DESPLAZAMIENTO_M": 185.75341243733664,
+      "CALLES_ANTES": "Primera Constituyente / Bernardo Darquea",
+      "CALLES_DESPUES": "Primera Constituyente / Puruhá",
+      "ALCANCE_ANTES_M": 799.9893338502509,
+      "ALCANCE_DESPUES_M": 647.6164238094684,
+      "EXCLUSIVO_ANTES_M": 598.1246325262555,
+      "PERDIDA_SI_SOLO_MUEVE_ESTA_M": 531.9836168548075,
+      "PERDIDA_CON_TODOS_MOVIMIENTOS_M": 331.5820851693631,
+      "CALLES_CON_PERDIDA": {
+        "Bernardo Darquea": 331.5820851693631
+      },
+      "RESPALDO_DESPUES": [
+        {
+          "ID": "MUN-042",
+          "M_CALLE_COMPARTIDA": 275.44005079364933
+        },
+        {
+          "ID": "RIO-002-DOMO",
+          "M_CALLE_COMPARTIDA": 133.4561417901059
+        },
+        {
+          "ID": "RIO-062-DOMO",
+          "M_CALLE_COMPARTIDA": 68.4085595338895
+        }
+      ],
+      "SIN_CRUCE_CARTOGRAFICO_ANTES": false,
+      "SIN_CRUCE_CARTOGRAFICO_DESPUES": false
+    },
+    {
+      "CAMARA": "MUN-040",
+      "DESPLAZAMIENTO_M": 686.8914032127608,
+      "CALLES_ANTES": "Esmeraldas / Eugenio Espejo",
+      "CALLES_DESPUES": "Primera Constituyente / Alvarado / Sin nombre",
+      "ALCANCE_ANTES_M": 799.9920273336443,
+      "ALCANCE_DESPUES_M": 876.4749647881238,
+      "EXCLUSIVO_ANTES_M": 799.9920273336443,
+      "PERDIDA_SI_SOLO_MUEVE_ESTA_M": 799.9920273336443,
+      "PERDIDA_CON_TODOS_MOVIMIENTOS_M": 0,
+      "CALLES_CON_PERDIDA": {},
+      "RESPALDO_DESPUES": [
+        {
+          "ID": "MUN-021",
+          "M_CALLE_COMPARTIDA": 799.9920273336443
+        }
+      ],
+      "SIN_CRUCE_CARTOGRAFICO_ANTES": false,
+      "SIN_CRUCE_CARTOGRAFICO_DESPUES": false
+    },
+    {
+      "CAMARA": "MUN-041",
+      "DESPLAZAMIENTO_M": 1140.0320519397435,
+      "CALLES_ANTES": "Primera Constituyente / Brasil",
+      "CALLES_DESPUES": "Primera Constituyente / Eugenio Espejo / Sin nombre",
+      "ALCANCE_ANTES_M": 799.993507339931,
+      "ALCANCE_DESPUES_M": 839.6860910655716,
+      "EXCLUSIVO_ANTES_M": 755.1356701118331,
+      "PERDIDA_SI_SOLO_MUEVE_ESTA_M": 755.1356701118331,
+      "PERDIDA_CON_TODOS_MOVIMIENTOS_M": 0,
+      "CALLES_CON_PERDIDA": {},
+      "RESPALDO_DESPUES": [
+        {
+          "ID": "MUN-043",
+          "M_CALLE_COMPARTIDA": 799.993507339931
+        },
+        {
+          "ID": "RIO-068-LA",
+          "M_CALLE_COMPARTIDA": 44.85783722809799
+        }
+      ],
+      "SIN_CRUCE_CARTOGRAFICO_ANTES": false,
+      "SIN_CRUCE_CARTOGRAFICO_DESPUES": false
+    },
+    {
+      "CAMARA": "MUN-042",
+      "DESPLAZAMIENTO_M": 987.8994852262572,
+      "CALLES_ANTES": "Nueva York / Eugenio Espejo",
+      "CALLES_DESPUES": "Primera Constituyente",
+      "ALCANCE_ANTES_M": 683.2707244429893,
+      "ALCANCE_DESPUES_M": 394.3488607192413,
+      "EXCLUSIVO_ANTES_M": 574.2107152787738,
+      "PERDIDA_SI_SOLO_MUEVE_ESTA_M": 574.2107152787738,
+      "PERDIDA_CON_TODOS_MOVIMIENTOS_M": 574.2107152787738,
+      "CALLES_CON_PERDIDA": {
+        "Eugenio Espejo": 290.09345561990966,
+        "Nueva York": 284.11725965886416
+      },
+      "RESPALDO_DESPUES": [
+        {
+          "ID": "RIO-033-DOMO",
+          "M_CALLE_COMPARTIDA": 109.06000916421544
+        }
+      ],
+      "SIN_CRUCE_CARTOGRAFICO_ANTES": false,
+      "SIN_CRUCE_CARTOGRAFICO_DESPUES": false
+    },
+    {
+      "CAMARA": "MUN-043",
+      "DESPLAZAMIENTO_M": 1603.6618815615736,
+      "CALLES_ANTES": "Avenida Milton Reyes / Sin nombre",
+      "CALLES_DESPUES": "Primera Constituyente / Brasil",
+      "ALCANCE_ANTES_M": 975.0957313296332,
+      "ALCANCE_DESPUES_M": 799.993507339931,
+      "EXCLUSIVO_ANTES_M": 928.5307453260592,
+      "PERDIDA_SI_SOLO_MUEVE_ESTA_M": 928.5307453260592,
+      "PERDIDA_CON_TODOS_MOVIMIENTOS_M": 928.5307453260592,
+      "CALLES_CON_PERDIDA": {
+        "Avenida Milton Reyes": 731.9744474699459,
+        "Sin nombre": 196.55629785611336
+      },
+      "RESPALDO_DESPUES": [
+        {
+          "ID": "RIO-102-DOMO",
+          "M_CALLE_COMPARTIDA": 46.56498600357395
+        }
+      ],
+      "SIN_CRUCE_CARTOGRAFICO_ANTES": false,
+      "SIN_CRUCE_CARTOGRAFICO_DESPUES": false
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "changedMunicipal": [
+    "MUN-021",
+    "MUN-029",
+    "MUN-030",
+    "MUN-033",
+    "MUN-035",
+    "MUN-037",
+    "MUN-038",
+    "MUN-040",
+    "MUN-041",
+    "MUN-042",
+    "MUN-043"
+  ],
+  "municipalCount": 50,
+  "existing103Fixed": true,
+  "police30Fixed": true,
+  "upc18Fixed": true,
+  "fixedMunicipal": [
+    "MUN-028",
+    "MUN-047"
+  ],
+  "groupComposition": {
+    "CABECERA_RURAL": 21,
+    "RED_ESTRUCTURAL": 25,
+    "LAS_ABRAS": 4
+  },
+  "approvedPositionsExact": true,
+  "evaluationStatus": "REVIEW_REQUIRED",
+  "remainingReviewItems": [
+    "Restriccion municipal BOULEVARD_MACAJI_BELLAVISTA: 95.11902% < 100%"
+  ]
+}

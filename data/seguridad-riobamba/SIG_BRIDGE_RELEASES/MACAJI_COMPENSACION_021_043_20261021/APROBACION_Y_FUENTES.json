@@ -1,0 +1,148 @@
+{
+  "revision": "MACAJI_COMPENSACION_021_043_20261021",
+  "createdAt": "2026-10-21T14:09:25-05:00",
+  "priorRelease": "MUN045_CRUCE_PRENSA_9OCTUBRE_20261019",
+  "authorization": "Usuario confirma los movimientos de MUN-021/MUN-043 y solicita: publica para ver los resultados. MUN-028 y MUN-047 fijas.",
+  "baseHashes": {
+    "D:\\codex\\publish-macaji-compensacion-20261021\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\MUN045_CRUCE_PRENSA_9OCTUBRE_20261019\\ESCENARIO_FINAL_183.gpkg": "bacf835b7e6c956e25d29a75a6d86d1c19eab28ec47f1706cd856ce14c2670d1",
+    "D:\\codex\\entregas\\MACAJI_COMPENSACION_MUN021_043_20261021\\MACAJI_BELLAVISTA_ESPEJO_PRIMERA.gpkg": "1c824991799ab0e31380bcab25852935eaa77308a4ace57962719c34c9c4f135",
+    "D:\\codex\\publish-macaji-compensacion-20261021\\riobamba-kde-combinado-data.js": "3c45b3b26f0aa83f5a0f1d51b3a0d5ce2a3aac5a966511256410a3881a6c1756"
+  },
+  "approvedPackageSha256": "1c824991799ab0e31380bcab25852935eaa77308a4ace57962719c34c9c4f135",
+  "changes": [
+    {
+      "layer": "municipal",
+      "id": "MUN-021",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 5848.312765536701,
+      "note": "Posicion revisada en propuesta Macaji-Bellavista; Usuario confirma los movimientos de MUN-021/MUN-043 y solicita: publica para ver los resultados. MUN-028 y MUN-047 fijas."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-029",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 62.776409536783824,
+      "note": "Posicion revisada en propuesta Macaji-Bellavista; Usuario confirma los movimientos de MUN-021/MUN-043 y solicita: publica para ver los resultados. MUN-028 y MUN-047 fijas."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-030",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 5.2494735727327955,
+      "note": "Posicion revisada en propuesta Macaji-Bellavista; Usuario confirma los movimientos de MUN-021/MUN-043 y solicita: publica para ver los resultados. MUN-028 y MUN-047 fijas."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-033",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 104.39089247158854,
+      "note": "Posicion revisada en propuesta Macaji-Bellavista; Usuario confirma los movimientos de MUN-021/MUN-043 y solicita: publica para ver los resultados. MUN-028 y MUN-047 fijas."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-035",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 79.7124269370536,
+      "note": "Posicion revisada en propuesta Macaji-Bellavista; Usuario confirma los movimientos de MUN-021/MUN-043 y solicita: publica para ver los resultados. MUN-028 y MUN-047 fijas."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-037",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 8.932946168989604,
+      "note": "Posicion revisada en propuesta Macaji-Bellavista; Usuario confirma los movimientos de MUN-021/MUN-043 y solicita: publica para ver los resultados. MUN-028 y MUN-047 fijas."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-038",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 185.75341243733664,
+      "note": "Posicion revisada en propuesta Macaji-Bellavista; Usuario confirma los movimientos de MUN-021/MUN-043 y solicita: publica para ver los resultados. MUN-028 y MUN-047 fijas."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-040",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 686.8914032127608,
+      "note": "Posicion revisada en propuesta Macaji-Bellavista; Usuario confirma los movimientos de MUN-021/MUN-043 y solicita: publica para ver los resultados. MUN-028 y MUN-047 fijas."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-041",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 1140.0320519397435,
+      "note": "Posicion revisada en propuesta Macaji-Bellavista; Usuario confirma los movimientos de MUN-021/MUN-043 y solicita: publica para ver los resultados. MUN-028 y MUN-047 fijas."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-042",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 987.8994852262572,
+      "note": "Posicion revisada en propuesta Macaji-Bellavista; Usuario confirma los movimientos de MUN-021/MUN-043 y solicita: publica para ver los resultados. MUN-028 y MUN-047 fijas."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-043",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 1603.6618815615736,
+      "note": "Posicion revisada en propuesta Macaji-Bellavista; Usuario confirma los movimientos de MUN-021/MUN-043 y solicita: publica para ver los resultados. MUN-028 y MUN-047 fijas."
+    }
+  ],
+  "protectedMunicipal": [
+    "MUN-028",
+    "MUN-047"
+  ],
+  "ruralException": {
+    "id": "MUN-021",
+    "priorParish": "Lican",
+    "priorFunction": "ENTRADA",
+    "newGroup": "RED_ESTRUCTURAL"
+  },
+  "applied": true,
+  "publicationRequested": true,
+  "verification": {
+    "passed": true,
+    "changedMunicipal": [
+      "MUN-021",
+      "MUN-029",
+      "MUN-030",
+      "MUN-033",
+      "MUN-035",
+      "MUN-037",
+      "MUN-038",
+      "MUN-040",
+      "MUN-041",
+      "MUN-042",
+      "MUN-043"
+    ],
+    "municipalCount": 50,
+    "existing103Fixed": true,
+    "police30Fixed": true,
+    "upc18Fixed": true,
+    "fixedMunicipal": [
+      "MUN-028",
+      "MUN-047"
+    ],
+    "groupComposition": {
+      "CABECERA_RURAL": 21,
+      "RED_ESTRUCTURAL": 25,
+      "LAS_ABRAS": 4
+    },
+    "approvedPositionsExact": true,
+    "evaluationStatus": "REVIEW_REQUIRED",
+    "remainingReviewItems": [
+      "Restriccion municipal BOULEVARD_MACAJI_BELLAVISTA: 95.11902% < 100%"
+    ]
+  }
+}
