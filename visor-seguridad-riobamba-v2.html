@@ -1289,11 +1289,11 @@
   <script src="./riobamba-camaras-cobertura-geometrias.js?v=cobertura-unificada-20261002"></script>
   <script src="./riobamba-camaras-inventario-cobertura-data.js?v=deficit-inventario-20261002"></script>
   <script src="./riobamba-deficit-inventario.js?v=inventario-103-30-20261015"></script>
-  <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=corredores-y-ejes-adicionales-20261018" />
+  <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=letras-plataformas-20261021" />
   <link rel="stylesheet" href="./riobamba-cobertura-corredores.css?v=corredores-lasabras-20261007" />
   <link rel="stylesheet" href="./riobamba-mobile.css?v=layers-sidebar-medium-20261015" />
   <script src="./sig-bridge-release.js?v=mun045-cruce-tren-20261019"></script>
-  <script src="./riobamba-camaras-propuesta.js?v=mun045-cruce-tren-20261019"></script>
+  <script src="./riobamba-camaras-propuesta.js?v=letras-plataformas-20261021"></script>
   <script src="./riobamba-cobertura-corredores.js?v=inventario-103-30-20261015"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
   <script src="./riobamba-accesibilidad-policial-data.js?v=metodologia-20261001"></script>
@@ -2122,7 +2122,7 @@
       };
       const renderPlatformLabels = () => {
         platformLabelLayer.clearLayers();
-        if (!platformLayer || mode !== "diagnosis" || !(diagnosisMetric === "hotspots" || isGapMode())) return;
+        if (!platformLayer || !elements.togglePlatforms.checked || isCameraProposalMode()) return;
         platformLayer.eachLayer((layer) => {
           const name = layer.feature?.properties?.platform_name || "";
           const label = name.replace("PLATAFORMA ", "");
@@ -4880,6 +4880,8 @@
       function syncMapLayerVisibility() {
         if (isCameraProposalMode()) { cameraProposal.clearLegacyLayers(); return; }
         if (cantonalController && cantonalController.scope() !== "URBANO" && mode !== "cameras") { cantonalController.render(); return; }
+        if (!map.hasLayer(platformLabelLayer)) platformLabelLayer.addTo(map);
+        renderPlatformLabels();
         if (isKdeMode() || isGiHotspotsMode()) {
           if (!map.hasLayer(hotspotLayer)) hotspotLayer.addTo(map);
           if (isKdeMode()) {

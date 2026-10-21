@@ -169,7 +169,7 @@ window.createRiobambaCameraProposal = function (api) {
       }
     }
     replaceLayer("platforms", L.geoJSON(data.platforms, { pane: pane("platforms", 440), renderer: renderer("platforms", 440), style: platformStyle,
-      onEachFeature: (f, layer) => layer.bindTooltip(esc(f.properties.platform_name.replace("PLATAFORMA ", "Plataforma ")), { permanent: true, direction: "center", className: "proposal-platform-label", opacity: 1, interactive: false }).on("click", () => selectEntity({ kind: "platform", feature: f })) }));
+      onEachFeature: (f, layer) => layer.bindTooltip(esc(f.properties.platform_name.replace(/^PLATAFORMA\s+/i, "")), { permanent: true, direction: "center", className: "proposal-platform-label", opacity: 1, interactive: false }).on("click", () => selectEntity({ kind: "platform", feature: f })) }));
     replaceLayer("urbanAxes", L.geoJSON(data.corridors, { pane: pane("urban-axes", 430), renderer: renderer("urban-axes", 430), style: urbanAxesStyle,
       onEachFeature: (f, layer) => layer.bindTooltip(esc(names[f.properties.CORREDOR] || labels.urbanAxes)).on("click", () => selectEntity({ kind: "corridor", feature: f })) }));
     for (const [toggle, corridor] of Object.entries(corridorToggles)) {
