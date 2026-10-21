@@ -50,6 +50,8 @@
 .proposal-key.corridor-line { height: 3px; vertical-align: middle; }
 .leaflet-tooltip.proposal-platform-label { padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; color: #183f35; font: 700 18px/1.15 Arial, sans-serif; text-align: center; white-space: nowrap; pointer-events: none; text-shadow: -2px -2px 1px #fff, 2px -2px 1px #fff, -2px 2px 1px #fff, 2px 2px 1px #fff; }
 .leaflet-tooltip.proposal-platform-label::before { display: none; }
+.proposal-platform-letter { display: block; }
+.proposal-platform-total { display: block; font: 700 11px/1.25 Arial, sans-serif; }
 .proposal-active .card > span { display: flex; align-items: center; gap: 6px; }
 .proposal-active .card .proposal-key { width: 12px; height: 12px; flex: 0 0 12px; margin: 0; border: 1px solid #fff; box-shadow: 0 0 0 1px #38515d; }
 .proposal-report p { font-size: 12px; }

@@ -117,6 +117,12 @@ window.createRiobambaCameraProposal = function (api) {
     const values = [counts.existing - changes, changes + (groupEnabled("municipal") ? counts.municipal : 0) + (groupEnabled("police") ? counts.police : 0)];
     return [...values, values.reduce((total, value) => total + value, 0)];
   }
+  function platformLabel(feature) {
+    const entry = data.platformCounts.rows.find(row => row.feature === feature);
+    const total = platformCountValues(entry.counts, entry.changeCount)[2];
+    const letter = feature.properties.platform_name.replace(/^PLATAFORMA\s+/i, "");
+    return `<span class="proposal-platform-letter">${esc(letter)}</span><span class="proposal-platform-total">${number(total)} ${total === 1 ? "cámara" : "cámaras"}</span>`;
+  }
   async function load() {
     if (data) return;
     if (!loading) loading = (async () => {
@@ -211,7 +217,7 @@ window.createRiobambaCameraProposal = function (api) {
         replaceLayer(symbol + "Radius", L.geoJSON(displayFeatures(symbol, "Radius"), { pane: pane("coverage", 410), renderer: renderer("coverage", 410), interactive: false, style: coverageStyle(symbol) }));
     }
     replaceLayer("platforms", L.geoJSON(data.platforms, { pane: pane("platforms", 440), renderer: renderer("platforms", 440), style: platformStyle,
-      onEachFeature: (f, layer) => layer.bindTooltip(esc(f.properties.platform_name.replace(/^PLATAFORMA\s+/i, "")), { permanent: true, direction: "center", className: "proposal-platform-label", opacity: 1, interactive: false }).on("click", () => selectEntity({ kind: "platform", feature: f })) }));
+      onEachFeature: (f, layer) => layer.bindTooltip(platformLabel(f), { permanent: true, direction: "center", className: "proposal-platform-label", opacity: 1, interactive: false }).on("click", () => selectEntity({ kind: "platform", feature: f })) }));
     replaceLayer("urbanAxes", L.geoJSON(data.corridors, { pane: pane("urban-axes", 430), renderer: renderer("urban-axes", 430), style: urbanAxesStyle,
       onEachFeature: (f, layer) => layer.bindTooltip(esc(names[f.properties.CORREDOR] || labels.urbanAxes)).on("click", () => selectEntity({ kind: "corridor", feature: f })) }));
     for (const [toggle, corridor] of Object.entries(corridorToggles)) {
@@ -376,8 +382,10 @@ window.createRiobambaCameraProposal = function (api) {
     el.overlayText.textContent = `${total} equipos en el escenario · radio 200 m · cobertura potencial${quality ? ` · ${quality.documentedUnchanged} documentadas intactas · ${quality.pendingValidation} provisionales pendientes` : " · originales conservados"}`;
     const existingCount = data.existing.features.length;
     const changeCount = data.existing.features.filter(change).length;
-    el.summary.innerHTML = [["Cámaras actuales", existingCount - changeCount, "existing"], ["Intervenciones · total agrupado", interventionCount(), "interventions"], ["Para cambio", changeCount, "change"], ["Municipales propuestas", groupEnabled("municipal") ? 50 : 0, "municipal"], ["Policía propuesta", groupEnabled("police") ? 30 : 0, "police"], ["Área urbana cubierta", `${number(area.AREA_CUBIERTA_URBANA_KM2, 2)} km²`], ["Población urbana cubierta", `${number(population.POBLACION_CUBIERTA)} · ${pct(population.PCT_CUBIERTO)}`]].map(([label, value, symbol]) => `<div class="card"><span>${symbol ? `<i class="proposal-key ${symbol}" aria-hidden="true"></i>` : ""}${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")
-      + `<p class="proposal-inventory-note">Intervenciones: ${changeCount} para cambio + ${groupEnabled("municipal") ? 50 : 0} municipales + ${groupEnabled("police") ? 30 : 0} Policía. Las ${changeCount} para cambio pertenecen al inventario de ${existingCount}; no son cámaras adicionales.${quality ? ` ${esc(quality.warning)}` : ""}</p>`;
+    const coveredPopulationPct = population.POBLACION_ANALIZADA > 0 && Number.isFinite(population.POBLACION_CUBIERTA) ? 100 * population.POBLACION_CUBIERTA / population.POBLACION_ANALIZADA : null;
+    el.summary.innerHTML = [["Cámaras actuales", existingCount - changeCount, "existing"], ["Intervenciones · total agrupado", interventionCount(), "interventions"], ["Para cambio", changeCount, "change"], ["Municipales propuestas", groupEnabled("municipal") ? 50 : 0, "municipal"], ["Policía propuesta", groupEnabled("police") ? 30 : 0, "police"], ["Área urbana cubierta · potencial", `${number(area.AREA_CUBIERTA_URBANA_KM2, 2)} km²`], ["Población urbana analizada · total", number(population.POBLACION_ANALIZADA)], ["Población cubierta · estimada", number(population.POBLACION_CUBIERTA)], ["Población cubierta · porcentaje", `${number(coveredPopulationPct, 2)} %`]].map(([label, value, symbol]) => `<div class="card"><span>${symbol ? `<i class="proposal-key ${symbol}" aria-hidden="true"></i>` : ""}${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")
+      + `<p class="proposal-inventory-note">Intervenciones: ${changeCount} para cambio + ${groupEnabled("municipal") ? 50 : 0} municipales + ${groupEnabled("police") ? 30 : 0} Policía. Las ${changeCount} para cambio pertenecen al inventario de ${existingCount}; no son cámaras adicionales.${quality ? ` ${esc(quality.warning)}` : ""}</p>`
+      + `<p class="proposal-inventory-note">Ámbito: unión de 18 plataformas (${number(area.AREA_TOTAL_URBANA_KM2, 2)} km²), no límite urbano legal. Población: estimación areal CPV2022; ${number(population.MANZANAS_SIN_POBLACION)} manzanas sin dato. Porcentaje calculado sobre la población analizada.</p>`;
     syncToggles(); draw(); detail(); graphics(); renderLegend();
     map.invalidateSize(); if (fitNeeded) fit();
     el.status.textContent = `103 existentes (${changeCount} para cambio) + 50 Municipio + 30 Policía. Radio potencial 200 m; ${quality ? `${quality.pendingValidation} posiciones provisionales pendientes incluidas` : "ubicaciones estimadas documentadas"}. Propuestas, KDE y Gi* sin cambios.`;

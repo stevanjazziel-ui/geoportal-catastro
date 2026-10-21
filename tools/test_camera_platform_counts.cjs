@@ -32,7 +32,14 @@ const source = {
 context.data = source;
 vm.runInContext(script.slice(script.indexOf("function displayFeatures("), script.indexOf("const rowHtml =")), context);
 const result = context.countPlatformCameras(source);
+source.platformCounts = result;
+context.esc = value => String(value);
+context.number = value => Number(value).toLocaleString("es-EC");
 assert.equal(result.rows.length, 18);
+for (const row of result.rows) {
+  const total = Object.values(row.counts).reduce((sum, value) => sum + value, 0);
+  assert.ok(context.platformLabel(row.feature).includes(`${total} ${total === 1 ? "cámara" : "cámaras"}`));
+}
 for (const [group, expected] of Object.entries({ existing: 103, municipal: 50, police: 30 })) {
   assert.equal(result.rows.reduce((sum, row) => sum + row.counts[group], result.outside[group]), expected);
 }
@@ -92,4 +99,14 @@ context.setLayerToggle("interventionsRadius", true);
 assert.equal(vm.runInContext("individualKeys.some(key => layerVisible(key + 'Radius'))", context), false);
 context.setLayerToggle("municipalRadius", true);
 assert.equal(vm.runInContext("layerVisible('interventionsRadius')", context), false);
-console.log("PASS: original layers preserved; optional 110 aggregate; 5 unique colors; no duplicate markers or radii; platform counts and scenarios intact.");
+const results = JSON.parse(fs.readFileSync(path.join(dataRoot, "RESULTADOS.json"), "utf8"));
+const percentageExpression = script.slice(script.indexOf("const coveredPopulationPct ="), script.indexOf("el.summary.innerHTML ="));
+for (const population of results.population) {
+  const calculated = vm.runInNewContext(percentageExpression + "; coveredPopulationPct;", { population });
+  assert.ok(Math.abs(calculated - population.PCT_CUBIERTO) < 1e-9);
+  assert.ok(population.POBLACION_CUBIERTA <= population.POBLACION_ANALIZADA);
+}
+for (const area of results.territorial) {
+  assert.ok(Math.abs(100 * area.AREA_CUBIERTA_URBANA_KM2 / area.AREA_TOTAL_URBANA_KM2 - area.PCT_URBANO) < 1e-9);
+}
+console.log("PASS: platform label totals; population and area denominators; original layers, unique colors, no duplicates, and scenarios intact.");
