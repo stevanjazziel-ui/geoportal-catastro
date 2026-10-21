@@ -116,6 +116,7 @@ assert.ok(context.populationComparisonHtml().includes("Población adicional cubi
 const percentageExpression = script.slice(script.indexOf("const coveredPopulationPct ="), script.indexOf("const populationOpen ="));
 assert.ok(script.includes('<details id="proposalPopulationPanel"'));
 assert.ok(script.includes('<summary>Población y cobertura</summary>'));
+assert.ok(!script.includes('<p class="proposal-inventory-note">Intervenciones:'));
 assert.ok(script.includes('populationOpen ? "open" : ""'));
 for (const population of results.population) {
   const calculated = vm.runInNewContext(percentageExpression + "; coveredPopulationPct;", { population });
