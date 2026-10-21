@@ -1,0 +1,63 @@
+{
+  "status": "REVIEW_REQUIRED",
+  "plan": {
+    "scenarios": [
+      "B",
+      "C"
+    ],
+    "jobs": [
+      "block_coverage",
+      "buffers",
+      "camera_attributes",
+      "corridor_coverage",
+      "exclusive_coverage",
+      "hotspot_coverage",
+      "incident_coverage",
+      "population",
+      "territorial"
+    ],
+    "pendingAdapters": [],
+    "recalculateKde": false,
+    "recalculateGi": false,
+    "optimizeCameras": false
+  },
+  "nodeAudit": [
+    {
+      "id": "MUN-033",
+      "passed": true,
+      "cartographicNodeValidated": true,
+      "roads": [
+        "Jacinto Gonzales",
+        "Avenida Unidad Nacional"
+      ],
+      "source": "PNPRI_RED_VIAL_REFERENCIA",
+      "sourceRows": [
+        [
+          860,
+          859
+        ],
+        [
+          860,
+          865
+        ]
+      ],
+      "centerlineGapM": 0,
+      "metricCoordinates": [
+        759904.2970080491,
+        9815674.56311877
+      ],
+      "fieldVerified": false
+    }
+  ],
+  "publishBlocks": [
+    "Restriccion municipal BOULEVARD_MACAJI_BELLAVISTA: 95.11902% < 100%"
+  ],
+  "sourcePreserved": true,
+  "existingCount": 103,
+  "municipalCount": 50,
+  "policeCount": 30,
+  "giRecalculated": false,
+  "kdeRecalculated": false,
+  "optimized": false,
+  "revision": "MUN033_JACINTO_UNIDAD_NACIONAL_20261021"
+}

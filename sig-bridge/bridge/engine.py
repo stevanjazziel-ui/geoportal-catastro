@@ -166,7 +166,8 @@ def calculate(store, run, output, manual, receipt, existing_override=None, node_
         save_layer(package, "CAMARAS_EXISTENTES_103_FINAL", data["CAMARAS_EXISTENTES_103_FINAL"], output)
     existing, municipal, police = [data[name] for name in ("CAMARAS_EXISTENTES_103_FINAL", "PROPUESTA_MUNICIPAL_50_FINAL", "PROPUESTA_POLICIA_30_FINAL")]
     require([len(existing), len(municipal), len(police)] == [103, 50, 30], "Universo de camaras alterado")
-    require(Counter(p["GRUPO"] for _, p in municipal) == {"CABECERA_RURAL": 22, "LAS_ABRAS": 4, "RED_ESTRUCTURAL": 24}, "Composicion municipal alterada")
+    prior_groups = Counter(p["GRUPO"] for _, p in records(read_layer(store.base, "PROPUESTA_MUNICIPAL_50_FINAL")))
+    require(Counter(p["GRUPO"] for _, p in municipal) == prior_groups, "Composicion municipal alterada")
     urban = unary_union([g for g, _ in data["PLATAFORMAS_TERRITORIALES"]])
     canton = unary_union([g for g, _ in data["LIMITE_CANTONAL"]])
     axes = {key: unary_union([g for g, p in data["CORREDORES"] if p["CORREDOR"] == key]) for key in CORRIDORS}

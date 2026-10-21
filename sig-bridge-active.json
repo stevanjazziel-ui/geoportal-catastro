@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "root": "./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/MACAJI_COMPENSACION_021_043_20261021/",
-  "releaseId": "MACAJI_COMPENSACION_021_043_20261021",
+  "root": "./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/MUN033_JACINTO_UNIDAD_NACIONAL_20261021/",
+  "releaseId": "MUN033_JACINTO_UNIDAD_NACIONAL_20261021",
   "coverageData": "riobamba-brechas-actualizadas-data.js"
 }

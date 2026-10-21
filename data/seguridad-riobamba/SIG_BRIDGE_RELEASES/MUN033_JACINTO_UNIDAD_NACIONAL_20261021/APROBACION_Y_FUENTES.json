@@ -1,0 +1,54 @@
+{
+  "revision": "MUN033_JACINTO_UNIDAD_NACIONAL_20261021",
+  "createdAt": "2026-10-21T14:50:46-05:00",
+  "priorRelease": "MACAJI_COMPENSACION_021_043_20261021",
+  "authorization": "Usuario solicita mover MUN-033 a Jacinto Gonzales y Avenida Unidad Nacional.",
+  "baseHashes": {
+    "D:\\codex\\publish-macaji-compensacion-20261021\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\MACAJI_COMPENSACION_021_043_20261021\\ESCENARIO_FINAL_183.gpkg": "c5b42135fd4ceaaf2c8e6da5170fc7ef5aa4bcfbe1be39fa817bbcc7d7093e18",
+    "D:\\codex\\entregas\\RIOBAMBA_CONSOLIDADO_PRIORIDAD_REUNION_20261017\\RIOBAMBA_CONSOLIDADO.gpkg": "6b7cc372208e48bef118bec62b05d84da6cda25ecb0d347747b478450ca0b6d7",
+    "D:\\codex\\publish-macaji-compensacion-20261021\\riobamba-kde-combinado-data.js": "3c45b3b26f0aa83f5a0f1d51b3a0d5ce2a3aac5a966511256410a3881a6c1756"
+  },
+  "crossingEvidence": {
+    "roads": [
+      "Jacinto Gonzales",
+      "Avenida Unidad Nacional"
+    ],
+    "source": "PNPRI_RED_VIAL_REFERENCIA",
+    "sourceRows": [
+      [
+        860,
+        859
+      ],
+      [
+        860,
+        865
+      ]
+    ],
+    "centerlineGapM": 0,
+    "metricCoordinates": [
+      759904.2970080491,
+      9815674.56311877
+    ],
+    "fieldVerified": false
+  },
+  "previousUtm": [
+    759882.5549318577,
+    9815646.608941657
+  ],
+  "correctedUtm": [
+    759904.2970080491,
+    9815674.56311877
+  ],
+  "changes": [
+    {
+      "layer": "municipal",
+      "id": "MUN-033",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 35.41403528531491,
+      "note": "Jacinto Gonzales x Avenida Unidad Nacional"
+    }
+  ],
+  "applied": true,
+  "published": false
+}
