@@ -14,7 +14,10 @@ context.groups = { existing: "Existentes", municipal: "Municipio", police: "Poli
 context.api = { pointInsideFeature: context.contains };
 context.change = feature => feature.properties?.REQUIERE_CAMBIO === true;
 context.displayGroup = (group, feature) => group === "existing" && !context.change(feature) ? "existing" : "interventions";
+context.originSymbol = (group, feature) => group === "existing" ? (context.change(feature) ? "change" : "existing") : group;
 context.fc = features => ({ type: "FeatureCollection", features });
+vm.runInContext(script.slice(script.indexOf("const colors ="), script.indexOf("const groups =")), context);
+vm.runInContext(script.slice(script.indexOf("const defaults ="), script.indexOf("const labels =")), context);
 context.groupEnabled = () => true;
 vm.runInContext(counting, context);
 const release = JSON.parse(fs.readFileSync(path.join(root, "sig-bridge-active.json"), "utf8"));
@@ -52,7 +55,7 @@ for (const [scenario, enabled, expected] of [
   ["B", ["existing", "municipal"], [73, 80, 153]],
   ["C", ["existing", "municipal", "police"], [73, 110, 183]]
 ]) {
-  context.groupEnabled = group => enabled.includes(group);
+  context.groupEnabled = group => group === "change" || enabled.includes(group);
   assert.deepEqual(Array.from(context.platformCountValues(totals, 30)), expected, scenario);
   const current = context.displayFeatures("existing").features;
   const interventions = context.displayFeatures("interventions").features;
@@ -70,4 +73,23 @@ const synthetic = { platforms: { features: [polygon([[[0, 0], [2, 0], [2, 2], [0
 const sample = context.countPlatformCameras(synthetic);
 assert.equal(sample.rows[0].counts.existing, 1);
 assert.equal(sample.outside.existing, 1);
-console.log("PASS: 18 platforms; two layers 73/110; provenance, unique IDs, immutable sources; scenarios 103/153/183.");
+assert.equal(vm.runInContext("new Set(Object.values(colors)).size", context), 5);
+const visible = () => Array.from(vm.runInContext("cameraKeys.filter(layerVisible).flatMap(key => displayFeatures(key).features)", context));
+const uniqueCount = rows => new Set(rows.map(f => f.properties.ID_CAMARA || f.properties.ID_PROPUESTA || f.properties.ID_POLICIA)).size;
+assert.equal(visible().length, 183);
+assert.equal(uniqueCount(visible()), 183);
+context.setLayerToggle("interventions", true);
+assert.equal(vm.runInContext("individualKeys.some(key => toggles[key])", context), false);
+assert.equal(visible().length, 183);
+assert.equal(uniqueCount(visible()), 183);
+context.setLayerToggle("police", true);
+assert.equal(vm.runInContext("toggles.interventions", context), false);
+assert.equal(visible().length, 103);
+context.setLayerToggle("municipal", true);
+context.setLayerToggle("change", true);
+assert.equal(visible().length, 183);
+context.setLayerToggle("interventionsRadius", true);
+assert.equal(vm.runInContext("individualKeys.some(key => layerVisible(key + 'Radius'))", context), false);
+context.setLayerToggle("municipalRadius", true);
+assert.equal(vm.runInContext("layerVisible('interventionsRadius')", context), false);
+console.log("PASS: original layers preserved; optional 110 aggregate; 5 unique colors; no duplicate markers or radii; platform counts and scenarios intact.");
