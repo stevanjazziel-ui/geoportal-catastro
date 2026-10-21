@@ -123,6 +123,16 @@ window.createRiobambaCameraProposal = function (api) {
     const letter = feature.properties.platform_name.replace(/^PLATAFORMA\s+/i, "");
     return `<span class="proposal-platform-letter">${esc(letter)}</span><span class="proposal-platform-total">${number(total)} ${total === 1 ? "cámara" : "cámaras"}</span>`;
   }
+  function populationComparisonHtml() {
+    const comparison = data.results.populationComparison;
+    if (!comparison) return "";
+    const rows = comparison.scenarios.map(row => [
+      `${row.cameraCount} cámaras · ${row.cameraCount === 73 ? "actuales sin cambio" : "escenario completo"}`,
+      row.coveredPopulation, `${number(row.coveredPct, 2)} % de la población analizada`
+    ]);
+    rows.push(["Población adicional cubierta", comparison.additionalPopulation, `+${number(comparison.percentagePointGain, 2)} puntos porcentuales`]);
+    return `<section class="proposal-population-comparison" aria-label="Comparación de cobertura poblacional"><h2>Cobertura poblacional · 73 frente a 183 cámaras</h2><dl>${rows.map(([label, value, note]) => `<div><dt>${esc(label)}</dt><dd><strong>${esc(number(value))}</strong><small>${esc(note)}</small></dd></div>`).join("")}</dl><p>Mismo ámbito: 18 plataformas · ${number(comparison.analyzedPopulation)} habitantes analizados · radio ${comparison.radiusM} m · sin duplicar solapes. Estimación areal, no visibilidad real.</p></section>`;
+  }
   async function load() {
     if (data) return;
     if (!loading) loading = (async () => {
@@ -385,7 +395,8 @@ window.createRiobambaCameraProposal = function (api) {
     const coveredPopulationPct = population.POBLACION_ANALIZADA > 0 && Number.isFinite(population.POBLACION_CUBIERTA) ? 100 * population.POBLACION_CUBIERTA / population.POBLACION_ANALIZADA : null;
     el.summary.innerHTML = [["Cámaras actuales", existingCount - changeCount, "existing"], ["Intervenciones · total agrupado", interventionCount(), "interventions"], ["Para cambio", changeCount, "change"], ["Municipales propuestas", groupEnabled("municipal") ? 50 : 0, "municipal"], ["Policía propuesta", groupEnabled("police") ? 30 : 0, "police"], ["Área urbana cubierta · potencial", `${number(area.AREA_CUBIERTA_URBANA_KM2, 2)} km²`], ["Población urbana analizada · total", number(population.POBLACION_ANALIZADA)], ["Población cubierta · estimada", number(population.POBLACION_CUBIERTA)], ["Población cubierta · porcentaje", `${number(coveredPopulationPct, 2)} %`]].map(([label, value, symbol]) => `<div class="card"><span>${symbol ? `<i class="proposal-key ${symbol}" aria-hidden="true"></i>` : ""}${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")
       + `<p class="proposal-inventory-note">Intervenciones: ${changeCount} para cambio + ${groupEnabled("municipal") ? 50 : 0} municipales + ${groupEnabled("police") ? 30 : 0} Policía. Las ${changeCount} para cambio pertenecen al inventario de ${existingCount}; no son cámaras adicionales.${quality ? ` ${esc(quality.warning)}` : ""}</p>`
-      + `<p class="proposal-inventory-note">Ámbito: unión de 18 plataformas (${number(area.AREA_TOTAL_URBANA_KM2, 2)} km²), no límite urbano legal. Población: estimación areal CPV2022; ${number(population.MANZANAS_SIN_POBLACION)} manzanas sin dato. Porcentaje calculado sobre la población analizada.</p>`;
+      + `<p class="proposal-inventory-note">Ámbito: unión de 18 plataformas (${number(area.AREA_TOTAL_URBANA_KM2, 2)} km²), no límite urbano legal. Población: estimación areal CPV2022; ${number(population.MANZANAS_SIN_POBLACION)} manzanas sin dato. Porcentaje calculado sobre la población analizada.</p>`
+      + populationComparisonHtml();
     syncToggles(); draw(); detail(); graphics(); renderLegend();
     map.invalidateSize(); if (fitNeeded) fit();
     el.status.textContent = `103 existentes (${changeCount} para cambio) + 50 Municipio + 30 Policía. Radio potencial 200 m; ${quality ? `${quality.pendingValidation} posiciones provisionales pendientes incluidas` : "ubicaciones estimadas documentadas"}. Propuestas, KDE y Gi* sin cambios.`;

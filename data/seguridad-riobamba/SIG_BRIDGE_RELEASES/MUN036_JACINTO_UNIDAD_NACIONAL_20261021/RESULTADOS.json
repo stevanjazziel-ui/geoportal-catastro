@@ -4165,5 +4165,27 @@
   },
   "pendingUnapplied": [],
   "publicRelease": "MUN036_JACINTO_UNIDAD_NACIONAL_20261021",
-  "gapScenarioCValidated": true
+  "gapScenarioCValidated": true,
+  "populationComparison": {
+    "radiusM": 200,
+    "crs": "EPSG:32717",
+    "scope": "18 plataformas",
+    "method": "CPV2022, distribucion uniforme por area de manzana; buffers disueltos",
+    "analyzedPopulation": 171998.29812102328,
+    "blocksWithoutPopulation": 291,
+    "scenarios": [
+      {
+        "cameraCount": 73,
+        "coveredPopulation": 44687.883811114225,
+        "coveredPct": 25.98158487572386
+      },
+      {
+        "cameraCount": 183,
+        "coveredPopulation": 87565.31082825859,
+        "coveredPct": 50.910568177043785
+      }
+    ],
+    "additionalPopulation": 42877.427017144364,
+    "percentagePointGain": 24.928983301319924
+  }
 }

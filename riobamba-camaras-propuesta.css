@@ -28,6 +28,14 @@
 .proposal-report { grid-column: 1 / -1; min-width: 0; }
 .proposal-active #summaryCards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .proposal-inventory-note { grid-column: 1 / -1; margin: 0; font-size: 12px; line-height: 1.4; color: #38515d; }
+.proposal-population-comparison { grid-column: 1 / -1; min-width: 0; padding: 12px 0; border-top: 1px solid #cbd8dd; }
+.proposal-population-comparison h2 { margin: 0 0 12px; font-size: 15px; }
+.proposal-population-comparison dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 0; }
+.proposal-population-comparison dt { font-size: 12px; line-height: 1.4; }
+.proposal-population-comparison dd { margin: 4px 0 0; }
+.proposal-population-comparison strong { display: block; font-size: 23px; color: #173f53; }
+.proposal-population-comparison small { display: block; margin-top: 4px; font-size: 12px; line-height: 1.4; }
+.proposal-population-comparison p { margin: 12px 0 0; font-size: 12px; line-height: 1.4; color: #38515d; }
 .proposal-active .card { border-radius: 6px; }
 .proposal-active .card span { letter-spacing: 0; }
 .proposal-report h3 { margin: 14px 0 8px; font-size: 14px; }
@@ -60,6 +68,7 @@
   .proposal-active #summaryCards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 @media (max-width: 700px) {
+  .proposal-population-comparison dl { grid-template-columns: minmax(0, 1fr); gap: 12px; }
   #cameraProposalControls { gap: 8px; }
   #cameraProposalControls label { flex-basis: 100%; }
   .proposal-detail-map { height: 160px; }

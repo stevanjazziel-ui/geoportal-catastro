@@ -100,6 +100,19 @@ assert.equal(vm.runInContext("individualKeys.some(key => layerVisible(key + 'Rad
 context.setLayerToggle("municipalRadius", true);
 assert.equal(vm.runInContext("layerVisible('interventionsRadius')", context), false);
 const results = JSON.parse(fs.readFileSync(path.join(dataRoot, "RESULTADOS.json"), "utf8"));
+source.results = results;
+const comparison = results.populationComparison;
+assert.deepEqual(comparison.scenarios.map(row => row.cameraCount), [73, 183]);
+const fullPopulation = results.population.find(row => row.ESCENARIO === "C");
+assert.ok(Math.abs(comparison.analyzedPopulation - fullPopulation.POBLACION_ANALIZADA) < .1);
+assert.ok(Math.abs(comparison.scenarios[1].coveredPopulation - fullPopulation.POBLACION_CUBIERTA) < .1);
+assert.ok(Math.abs(comparison.additionalPopulation - (comparison.scenarios[1].coveredPopulation - comparison.scenarios[0].coveredPopulation)) < 1e-9);
+for (const row of comparison.scenarios) {
+  assert.ok(Math.abs(row.coveredPct - 100 * row.coveredPopulation / comparison.analyzedPopulation) < 1e-9);
+}
+assert.ok(context.populationComparisonHtml().includes("73 cámaras"));
+assert.ok(context.populationComparisonHtml().includes("183 cámaras"));
+assert.ok(context.populationComparisonHtml().includes("Población adicional cubierta"));
 const percentageExpression = script.slice(script.indexOf("const coveredPopulationPct ="), script.indexOf("el.summary.innerHTML ="));
 for (const population of results.population) {
   const calculated = vm.runInNewContext(percentageExpression + "; coveredPopulationPct;", { population });
