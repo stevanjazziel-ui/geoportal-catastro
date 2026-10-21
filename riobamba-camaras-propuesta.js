@@ -73,6 +73,24 @@ window.createRiobambaCameraProposal = function (api) {
     scenarioControl.value = "future"; radiusControl.value = "200"; extentControl.value = "urban";
     Object.assign(toggles, defaults); selected = null; fitNeeded = true; syncToggles();
   }
+  function countPlatformCameras(source) {
+    const empty = () => ({ existing: 0, municipal: 0, police: 0 });
+    const rows = source.platforms.features.map(feature => ({ feature, counts: empty() }))
+      .sort((a, b) => a.feature.properties.platform_name.localeCompare(b.feature.properties.platform_name, "es"));
+    const outside = empty();
+    for (const group of Object.keys(groups)) {
+      for (const feature of source[group].features) {
+        const [lng, lat] = feature.geometry.coordinates;
+        const match = rows.find(row => api.pointInsideFeature(row.feature, lng, lat));
+        (match ? match.counts : outside)[group]++;
+      }
+    }
+    return { rows, outside };
+  }
+  function platformCountValues(counts) {
+    const values = Object.keys(groups).map(group => groupEnabled(group) ? counts[group] : 0);
+    return [...values, values.reduce((total, value) => total + value, 0)];
+  }
   async function load() {
     if (data) return;
     if (!loading) loading = (async () => {
@@ -97,7 +115,8 @@ window.createRiobambaCameraProposal = function (api) {
         if (!response.ok) throw new Error(`Brecha ${name}: HTTP ${response.status}`);
         return response.json();
       }));
-      next.voids = fc(voids.flatMap(r => r.features)); data = next;
+      next.voids = fc(voids.flatMap(r => r.features));
+      next.platformCounts = countPlatformCameras(next); data = next;
       console.info("[Cierre videovigilancia]", { existentes: 103, paraCambio: changeIds.size, municipales: 50, policia: 30, radioM: 200, crs: "EPSG:32717", fuente: root });
     })().catch(error => { loading = null; throw error; });
     return loading;
@@ -267,6 +286,8 @@ window.createRiobambaCameraProposal = function (api) {
       title = v.ID; rows = [["Longitud sin cobertura · 183", `${number(v.LONGITUD_M, 1)} m`], ["Cámara más próxima", v.CAMARA_MAS_CERCANA], ["Distancia al segmento", `${number(v.DIST_CAMARA_M, 1)} m`]];
     } else if (selected?.kind === "platform") {
       title = v.platform_name; rows = [["Fuente", "Plataformas Territoriales reales"], ["Escenario", scenarioControl.selectedOptions[0].text], ["Radio potencial", "200 m"]];
+      const counts = data.platformCounts.rows.find(row => row.feature === f).counts;
+      rows.push(...["Existentes", "Municipales propuestas", "Policía propuesta", "Total de cámaras"].map((label, index) => [label, number(platformCountValues(counts)[index])]));
     }
     el.detailTitle.textContent = selected ? "Detalle de evaluación" : "Impacto de la propuesta";
     el.detail.innerHTML = `<section class="proposal-detail"><h3>${esc(title)}</h3>${rowHtml(rows)}<div id="proposalDetailMap" class="proposal-detail-map"></div><p>La cobertura representa proximidad geométrica, no visibilidad ni tiempo de respuesta. La visión se orienta por las vías; no se presupone alcance a través de manzanas o detrás de esquinas.</p>${links()}</section>`;
@@ -274,7 +295,16 @@ window.createRiobambaCameraProposal = function (api) {
   }
   function graphics() {
     const codes = ["A", "B", "C"], r = data.results;
-    let html = api.metricBars("Incidentes potencialmente cubiertos · escenario seleccionado", ["DELINCUENCIA", "VIOLENCIA", "CONVIVENCIA"].map(category => {
+    const platformRows = data.platformCounts.rows.map(({ feature, counts }) => [
+      `<button type="button" data-proposal-platform="${esc(feature.properties.platform_name)}">${esc(feature.properties.platform_name.replace(/^PLATAFORMA\s+/i, ""))}</button>`,
+      ...platformCountValues(counts).map(value => number(value))
+    ]);
+    platformRows.push(["Fuera de las plataformas", ...platformCountValues(data.platformCounts.outside).map(value => number(value))]);
+    const totals = Object.fromEntries(Object.keys(groups).map(group => [group, data[group].features.length]));
+    platformRows.push(["Total", ...platformCountValues(totals).map(value => number(value))]);
+    let html = table("Cámaras por plataforma · escenario seleccionado", ["Plataforma", "Existentes", "Municipio", "Policía", "Total"], platformRows,
+      "Conteo por ubicación del punto, no por radio de cobertura. Las cámaras para cambio ya están incluidas en las existentes. Fuera de las plataformas incluye las ubicaciones rurales y otras externas.");
+    html += api.metricBars("Incidentes potencialmente cubiertos · escenario seleccionado", ["DELINCUENCIA", "VIOLENCIA", "CONVIVENCIA"].map(category => {
       const v = r.incidents.find(x => x.ESCENARIO === scenario() && x.AMBITO === "CANTONAL" && x.CATEGORIA === category);
       return { label: category, value: Number(v.PCT_CUBIERTO.toFixed(1)), color: "#246db5" };
     }), 100, "#246db5");
@@ -299,6 +329,11 @@ window.createRiobambaCameraProposal = function (api) {
       const p = f.properties; return [`<button type="button" data-proposal-camera="${esc(cameraId(f))}" data-group="${key}">${esc(cameraId(f))}</button>`, esc(groups[key]), esc(p.ESTADO || p.ESTADO_VALIDACION || "No disponible"), key === "existing" ? (change(f) ? "Sí" : "No") : "No aplica", number(p.X, 2), number(p.Y, 2)];
     }))) + `</details>${links()}</section>`;
     el.graphicAnalysis.innerHTML = html;
+    el.graphicAnalysis.querySelectorAll("[data-proposal-platform]").forEach(node => node.addEventListener("click", () => {
+      const feature = data.platforms.features.find(feature => feature.properties.platform_name === node.dataset.proposalPlatform);
+      toggles.platforms = true; syncToggles(); syncLayers();
+      selectEntity({ kind: "platform", feature }, L.geoJSON(feature).getBounds());
+    }));
     el.graphicAnalysis.querySelectorAll("[data-proposal-camera]").forEach(n => n.addEventListener("click", () => {
       const group = n.dataset.group, f = data[group].features.find(f => cameraId(f) === n.dataset.proposalCamera);
       if (!groupEnabled(group)) { scenarioControl.value = group === "police" ? "future" : "municipal"; render(); }
