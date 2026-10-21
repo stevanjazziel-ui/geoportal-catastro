@@ -5,7 +5,7 @@
 .proposal-camera-change span { background: #7047b8; border-radius: 50%; }
 .proposal-camera-municipal span { background: #16876c; }
 .proposal-camera-police span { background: #d6ae00; }
-#cameraProposalControls { display: none; }
+.proposal-active .filter-bar, #cameraProposalControls { display: none; }
 #cameraProposalControls label { display: grid; gap: 4px; flex: 1 1 160px; font-size: 12px; }
 #cameraProposalControls select { width: 100%; min-width: 0; }
 #proposalLayerControls { display: grid; gap: 10px; }
