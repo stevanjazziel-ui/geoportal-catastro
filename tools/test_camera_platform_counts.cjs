@@ -12,6 +12,9 @@ const context = vm.createContext({});
 vm.runInContext(spatial + "; this.contains = pointInsideFeature;", context);
 context.groups = { existing: "Existentes", municipal: "Municipio", police: "Policia" };
 context.api = { pointInsideFeature: context.contains };
+context.change = feature => feature.properties?.REQUIERE_CAMBIO === true;
+context.displayGroup = (group, feature) => group === "existing" && !context.change(feature) ? "existing" : "interventions";
+context.fc = features => ({ type: "FeatureCollection", features });
 context.groupEnabled = () => true;
 vm.runInContext(counting, context);
 const release = JSON.parse(fs.readFileSync(path.join(root, "sig-bridge-active.json"), "utf8"));
@@ -23,6 +26,8 @@ const source = {
   municipal: read("PROPUESTA_MUNICIPAL_50_FINAL"),
   police: read("PROPUESTA_POLICIA_30_FINAL")
 };
+context.data = source;
+vm.runInContext(script.slice(script.indexOf("function displayFeatures("), script.indexOf("const rowHtml =")), context);
 const result = context.countPlatformCameras(source);
 assert.equal(result.rows.length, 18);
 for (const [group, expected] of Object.entries({ existing: 103, municipal: 50, police: 30 })) {
@@ -41,13 +46,22 @@ if (release.releaseId === "MUN036_JACINTO_UNIDAD_NACIONAL_20261021") {
   assert.deepEqual(Object.values(result.outside), [12, 21, 10]);
 }
 const totals = { existing: 103, municipal: 50, police: 30 };
+assert.equal(result.rows.reduce((sum, row) => sum + row.changeCount, result.outsideChanges), 30);
 for (const [scenario, enabled, expected] of [
-  ["A", ["existing"], [103, 0, 0, 103]],
-  ["B", ["existing", "municipal"], [103, 50, 0, 153]],
-  ["C", ["existing", "municipal", "police"], [103, 50, 30, 183]]
+  ["A", ["existing"], [73, 30, 103]],
+  ["B", ["existing", "municipal"], [73, 80, 153]],
+  ["C", ["existing", "municipal", "police"], [73, 110, 183]]
 ]) {
   context.groupEnabled = group => enabled.includes(group);
-  assert.deepEqual(Array.from(context.platformCountValues(totals)), expected, scenario);
+  assert.deepEqual(Array.from(context.platformCountValues(totals, 30)), expected, scenario);
+  const current = context.displayFeatures("existing").features;
+  const interventions = context.displayFeatures("interventions").features;
+  assert.equal(current.length, expected[0]);
+  assert.equal(interventions.length, expected[1]);
+  assert.equal(new Set([...current, ...interventions].map(f => f.properties.ID_CAMARA || f.properties.ID_PROPUESTA || f.properties.ID_POLICIA)).size, expected[2]);
+  assert.ok(current.every(f => !context.change(f)));
+  assert.equal(interventions.filter(f => f.properties.GRUPO_ORIGEN_VISOR === "existing").length, 30);
+  assert.ok(source.existing.features.every(f => !("GRUPO_ORIGEN_VISOR" in f.properties)));
 }
 const polygon = coordinates => ({ properties: { platform_name: "PLATAFORMA TEST" }, geometry: { type: "Polygon", coordinates } });
 const synthetic = { platforms: { features: [polygon([[[0, 0], [2, 0], [2, 2], [0, 2], [0, 0]]])] },
@@ -56,4 +70,4 @@ const synthetic = { platforms: { features: [polygon([[[0, 0], [2, 0], [2, 2], [0
 const sample = context.countPlatformCameras(synthetic);
 assert.equal(sample.rows[0].counts.existing, 1);
 assert.equal(sample.outside.existing, 1);
-console.log("PASS: 18 platforms, independent spatial counts, outside cameras, scenarios 103/153/183.");
+console.log("PASS: 18 platforms; two layers 73/110; provenance, unique IDs, immutable sources; scenarios 103/153/183.");
