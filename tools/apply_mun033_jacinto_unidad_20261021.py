@@ -16,6 +16,7 @@ from bridge.engine import calculate, verify_derived
 import recalculate_current_gaps as gaps_adapter
 
 RELEASE = 'MUN033_JACINTO_UNIDAD_NACIONAL_20261021'
+CAMERA = 'MUN-033'
 OUT = ROOT / 'data/seguridad-riobamba/SIG_BRIDGE_RELEASES' / RELEASE
 ROADS = ROOT.parent / 'entregas/RIOBAMBA_CONSOLIDADO_PRIORIDAD_REUNION_20261017/RIOBAMBA_CONSOLIDADO.gpkg'
 ADDRESS = 'Jacinto Gonzales x Avenida Unidad Nacional'
@@ -55,7 +56,7 @@ def main():
     roads = read(ROADS, 'PNPRI_RED_VIAL_REFERENCIA')
     target, evidence = locate(roads)
     before = read(store.base, 'PROPUESTA_MUNICIPAL_50_FINAL').set_index('ID_PROPUESTA')
-    old = before.loc['MUN-033'].geometry
+    old = before.loc[CAMERA].geometry
     protected = {str(p): digest(p) for p in (store.base, ROADS, ROOT / 'riobamba-kde-combinado-data.js')}
     manual = {}
     for key, spec in store.config['layers'].items():
@@ -63,7 +64,7 @@ def main():
         if 'OBSERVACION_MANUAL' not in frame:
             frame['OBSERVACION_MANUAL'] = ''
         if key == 'municipal':
-            index = frame.index[frame.ID_PROPUESTA.eq('MUN-033')][0]
+            index = frame.index[frame.ID_PROPUESTA.eq(CAMERA)][0]
             frame.at[index, 'geometry'] = target
             frame.at[index, 'OBSERVACION_MANUAL'] = 'Destino expreso del usuario: ' + ADDRESS
         manual[key] = frame
@@ -71,23 +72,23 @@ def main():
         authorization=AUTHORIZATION,
         baseHashes=protected, crossingEvidence=evidence,
         previousUtm=[old.x, old.y], correctedUtm=[target.x, target.y],
-        changes=[dict(layer='municipal', id='MUN-033', geometryChanged=True, fields=[],
+        changes=[dict(layer='municipal', id=CAMERA, geometryChanged=True, fields=[],
             distanceM=old.distance(target), note=ADDRESS)])
 
     def validate(_store, _changes, municipal, _police, _urban):
         checked = []
         for point, props in municipal:
-            if props.get('ID_PROPUESTA') == 'MUN-033':
+            if props.get('ID_PROPUESTA') == CAMERA:
                 require(point.wkb == target.wkb, 'Destino incorrecto')
                 props.update(DIRECCION=ADDRESS, INTERSECCION_O_NODO=ADDRESS,
                     BRIDGE_NODO_VALIDADO=NODE_VALIDATED, ESTADO_REVISION='DESTINO_EXPRESO_USUARIO',
                     FUENTE_CRUCE=SOURCE_NOTE)
-                checked.append(dict(id='MUN-033', passed=True, cartographicNodeValidated=NODE_VALIDATED, **evidence))
-        require(len(checked) == 1, 'MUN-033 debe existir una sola vez')
+                checked.append(dict(id=CAMERA, passed=True, cartographicNodeValidated=NODE_VALIDATED, **evidence))
+        require(len(checked) == 1, CAMERA + ' debe existir una sola vez')
         return checked, []
 
     OUT.mkdir(parents=True)
-    print('Recalculando MUN-033 y coberturas B/C...', flush=True)
+    print('Recalculando ' + CAMERA + ' y coberturas B/C...', flush=True)
     validation = calculate(store, OUT, OUT, manual, receipt, node_validator=validate)
     prior_validation = read_json(store.web / 'VALIDACION.json')
     require(validation['publishBlocks'] == prior_validation['publishBlocks'],
@@ -114,13 +115,13 @@ def main():
     pyogrio.write_dataframe(read(package, 'ESCENARIO_FINAL_183').to_crs(4326), OUT / 'ESCENARIO_FINAL_183.geojson', driver='GeoJSON')
     after = read(package, 'PROPUESTA_MUNICIPAL_50_FINAL').set_index('ID_PROPUESTA')
     changed = [key for key in before.index if before.loc[key].geometry.wkb != after.loc[key].geometry.wkb]
-    require(changed == ['MUN-033'] and len(after) == 50, 'Cambio municipal inesperado')
+    require(changed == [CAMERA] and len(after) == 50, 'Cambio municipal inesperado')
     for layer, count in [('CAMARAS_EXISTENTES_103_FINAL', 103), ('PROPUESTA_POLICIA_30_FINAL', 30), ('UPC_INFRAESTRUCTURA', 18)]:
         original, final = read(store.base, layer), read(package, layer)
         require(len(final) == count and original.geometry.to_wkb().tolist() == final.geometry.to_wkb().tolist(), 'Cambio protegido: ' + layer)
     require(all(digest(Path(p)) == value for p, value in protected.items()), 'Se alteraron fuentes')
     results = read_json(OUT / 'RESULTADOS.json')
-    results.update(status='MUN033_CRUCE_SOLICITADO_APLICADO', sourcePackage=RELEASE,
+    results.update(status=CAMERA.replace('-', '') + '_DESTINO_SOLICITADO_APLICADO', sourcePackage=RELEASE,
         publicRelease=RELEASE, applied=True, published=False, authorization=receipt['authorization'])
     write_json(OUT / 'RESULTADOS.json', results)
     corridors = read_json(OUT / 'CORRIDOR_COVERAGE_200M.json')
@@ -132,7 +133,7 @@ def main():
         remainingReviewItems=validation['publishBlocks'])
     write_json(OUT / 'VERIFICACION_INDEPENDIENTE.json', proof)
     write_json(OUT / 'APROBACION_Y_FUENTES.json', {**receipt, 'applied': True, 'published': False})
-    (OUT / 'INFORME_FINAL.md').write_text('# MUN-033\n\n' + ADDRESS + '\n\nSolo se mueve MUN-033. Coberturas recalculadas a 200 m. Se conservan las otras 49 municipales, 103 existentes, 30 policiales y 18 UPC.\n', encoding='utf-8')
+    (OUT / 'INFORME_FINAL.md').write_text('# ' + CAMERA + '\n\n' + ADDRESS + '\n\nSolo se mueve ' + CAMERA + '. Coberturas recalculadas a 200 m. Se conservan las otras 49 municipales, 103 existentes, 30 policiales y 18 UPC.\n', encoding='utf-8')
     verify_derived(store, package, results)
     with sqlite3.connect(package) as db:
         require(db.execute('pragma integrity_check').fetchone()[0] == 'ok', 'GeoPackage invalido')
