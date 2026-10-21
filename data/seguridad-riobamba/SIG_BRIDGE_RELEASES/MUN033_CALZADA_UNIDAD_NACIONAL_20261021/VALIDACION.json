@@ -1,0 +1,75 @@
+{
+  "status": "REVIEW_REQUIRED",
+  "plan": {
+    "scenarios": [
+      "B",
+      "C"
+    ],
+    "jobs": [
+      "block_coverage",
+      "buffers",
+      "camera_attributes",
+      "corridor_coverage",
+      "exclusive_coverage",
+      "hotspot_coverage",
+      "incident_coverage",
+      "population",
+      "territorial"
+    ],
+    "pendingAdapters": [],
+    "recalculateKde": false,
+    "recalculateGi": false,
+    "optimizeCameras": false
+  },
+  "nodeAudit": [
+    {
+      "id": "MUN-033",
+      "passed": true,
+      "cartographicNodeValidated": false,
+      "roads": [
+        "Avenida Unidad Nacional - calzada sur, frente a urbanizacion Sibambe (punto marcado por el usuario)"
+      ],
+      "source": "PNPRI_RED_VIAL_REFERENCIA",
+      "sourceRow": 858,
+      "screenshot": "codex-clipboard-c94bb1b9-adf1-4bc4-b99d-5f18ab7fff3f.png",
+      "screenshotPixels": {
+        "formerMUN033": [
+          488,
+          160
+        ],
+        "CalicuchimaSouthCrossing": [
+          863,
+          361
+        ],
+        "redCircle": [
+          450,
+          255
+        ]
+      },
+      "imageEstimateUtm": [
+        759868.989309191,
+        9815614.225296054
+      ],
+      "roadAdjustmentM": 1.5539828361574723,
+      "metricCoordinates": [
+        759869.4158420708,
+        9815615.71959601
+      ],
+      "approximateFromScreenshot": true,
+      "onRequestedCarriageway": true,
+      "fieldVerified": false,
+      "protectedCamera": "MUN-036"
+    }
+  ],
+  "publishBlocks": [
+    "Restriccion municipal BOULEVARD_MACAJI_BELLAVISTA: 95.11902% < 100%"
+  ],
+  "sourcePreserved": true,
+  "existingCount": 103,
+  "municipalCount": 50,
+  "policeCount": 30,
+  "giRecalculated": false,
+  "kdeRecalculated": false,
+  "optimized": false,
+  "revision": "MUN033_CALZADA_UNIDAD_NACIONAL_20261021"
+}

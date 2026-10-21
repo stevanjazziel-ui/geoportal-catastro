@@ -19,17 +19,17 @@ RELEASE = 'MUN033_JACINTO_UNIDAD_NACIONAL_20261021'
 OUT = ROOT / 'data/seguridad-riobamba/SIG_BRIDGE_RELEASES' / RELEASE
 ROADS = ROOT.parent / 'entregas/RIOBAMBA_CONSOLIDADO_PRIORIDAD_REUNION_20261017/RIOBAMBA_CONSOLIDADO.gpkg'
 ADDRESS = 'Jacinto Gonzales x Avenida Unidad Nacional'
+BASELINE = 'MACAJI_COMPENSACION_021_043_20261021'
+AUTHORIZATION = 'Usuario solicita mover MUN-033 a Jacinto Gonzales y Avenida Unidad Nacional.'
+NODE_VALIDATED = True
+SOURCE_NOTE = 'Nodo compartido de ambas vias en PNPRI_RED_VIAL_REFERENCIA; no verificacion de poste.'
 
 
 def read(path, layer):
     return pyogrio.read_dataframe(path, layer=layer).to_crs(32717)
 
 
-def main():
-    store = Store(ROOT)
-    require(store.web.name == 'MACAJI_COMPENSACION_021_043_20261021', 'La base activa cambio')
-    require(not OUT.exists(), 'No sobrescribir una revision')
-    roads = read(ROADS, 'PNPRI_RED_VIAL_REFERENCIA')
+def locate(roads):
     a = roads[roads['name'].eq('Jacinto Gonzales')]
     b = roads[roads['name'].eq('Avenida Unidad Nacional')]
     nodes = {}
@@ -42,12 +42,21 @@ def main():
                 evidence_rows.append([int(i), int(j)])
     require(len(nodes) == 1, 'El cruce debe tener un unico nodo comprobado')
     target = next(iter(nodes.values()))
-    before = read(store.base, 'PROPUESTA_MUNICIPAL_50_FINAL').set_index('ID_PROPUESTA')
-    old = before.loc['MUN-033'].geometry
-    protected = {str(p): digest(p) for p in (store.base, ROADS, ROOT / 'riobamba-kde-combinado-data.js')}
     evidence = dict(roads=['Jacinto Gonzales', 'Avenida Unidad Nacional'],
         source='PNPRI_RED_VIAL_REFERENCIA', sourceRows=evidence_rows, centerlineGapM=0,
         metricCoordinates=[target.x, target.y], fieldVerified=False)
+    return target, evidence
+
+
+def main():
+    store = Store(ROOT)
+    require(store.web.name == BASELINE, 'La base activa cambio')
+    require(not OUT.exists(), 'No sobrescribir una revision')
+    roads = read(ROADS, 'PNPRI_RED_VIAL_REFERENCIA')
+    target, evidence = locate(roads)
+    before = read(store.base, 'PROPUESTA_MUNICIPAL_50_FINAL').set_index('ID_PROPUESTA')
+    old = before.loc['MUN-033'].geometry
+    protected = {str(p): digest(p) for p in (store.base, ROADS, ROOT / 'riobamba-kde-combinado-data.js')}
     manual = {}
     for key, spec in store.config['layers'].items():
         frame = read(store.base, spec['source'])
@@ -59,7 +68,7 @@ def main():
             frame.at[index, 'OBSERVACION_MANUAL'] = 'Destino expreso del usuario: ' + ADDRESS
         manual[key] = frame
     receipt = dict(revision=RELEASE, createdAt=now(), priorRelease=store.web.name,
-        authorization='Usuario solicita mover MUN-033 a Jacinto Gonzales y Avenida Unidad Nacional.',
+        authorization=AUTHORIZATION,
         baseHashes=protected, crossingEvidence=evidence,
         previousUtm=[old.x, old.y], correctedUtm=[target.x, target.y],
         changes=[dict(layer='municipal', id='MUN-033', geometryChanged=True, fields=[],
@@ -71,9 +80,9 @@ def main():
             if props.get('ID_PROPUESTA') == 'MUN-033':
                 require(point.wkb == target.wkb, 'Destino incorrecto')
                 props.update(DIRECCION=ADDRESS, INTERSECCION_O_NODO=ADDRESS,
-                    BRIDGE_NODO_VALIDADO=True, ESTADO_REVISION='DESTINO_EXPRESO_USUARIO',
-                    FUENTE_CRUCE='Nodo compartido de ambas vias en PNPRI_RED_VIAL_REFERENCIA; no verificacion de poste.')
-                checked.append(dict(id='MUN-033', passed=True, cartographicNodeValidated=True, **evidence))
+                    BRIDGE_NODO_VALIDADO=NODE_VALIDATED, ESTADO_REVISION='DESTINO_EXPRESO_USUARIO',
+                    FUENTE_CRUCE=SOURCE_NOTE)
+                checked.append(dict(id='MUN-033', passed=True, cartographicNodeValidated=NODE_VALIDATED, **evidence))
         require(len(checked) == 1, 'MUN-033 debe existir una sola vez')
         return checked, []
 

@@ -1,0 +1,66 @@
+{
+  "revision": "MUN033_CALZADA_UNIDAD_NACIONAL_20261021",
+  "createdAt": "2026-10-21T15:06:18-05:00",
+  "priorRelease": "MUN033_JACINTO_UNIDAD_NACIONAL_20261021",
+  "authorization": "Usuario aclara: Mover MUN-033 al circulo. MUN-036 permanece fija.",
+  "baseHashes": {
+    "D:\\codex\\publish-macaji-compensacion-20261021\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\MUN033_JACINTO_UNIDAD_NACIONAL_20261021\\ESCENARIO_FINAL_183.gpkg": "275607a895c531bf61b2add64acaa0fd6ce209b37ccaddbda9d3159bde0a2bfc",
+    "D:\\codex\\entregas\\RIOBAMBA_CONSOLIDADO_PRIORIDAD_REUNION_20261017\\RIOBAMBA_CONSOLIDADO.gpkg": "6b7cc372208e48bef118bec62b05d84da6cda25ecb0d347747b478450ca0b6d7",
+    "D:\\codex\\publish-macaji-compensacion-20261021\\riobamba-kde-combinado-data.js": "3c45b3b26f0aa83f5a0f1d51b3a0d5ce2a3aac5a966511256410a3881a6c1756"
+  },
+  "crossingEvidence": {
+    "roads": [
+      "Avenida Unidad Nacional - calzada sur, frente a urbanizacion Sibambe (punto marcado por el usuario)"
+    ],
+    "source": "PNPRI_RED_VIAL_REFERENCIA",
+    "sourceRow": 858,
+    "screenshot": "codex-clipboard-c94bb1b9-adf1-4bc4-b99d-5f18ab7fff3f.png",
+    "screenshotPixels": {
+      "formerMUN033": [
+        488,
+        160
+      ],
+      "CalicuchimaSouthCrossing": [
+        863,
+        361
+      ],
+      "redCircle": [
+        450,
+        255
+      ]
+    },
+    "imageEstimateUtm": [
+      759868.989309191,
+      9815614.225296054
+    ],
+    "roadAdjustmentM": 1.5539828361574723,
+    "metricCoordinates": [
+      759869.4158420708,
+      9815615.71959601
+    ],
+    "approximateFromScreenshot": true,
+    "onRequestedCarriageway": true,
+    "fieldVerified": false,
+    "protectedCamera": "MUN-036"
+  },
+  "previousUtm": [
+    759904.2970080491,
+    9815674.56311877
+  ],
+  "correctedUtm": [
+    759869.4158420708,
+    9815615.71959601
+  ],
+  "changes": [
+    {
+      "layer": "municipal",
+      "id": "MUN-033",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 68.40508687904483,
+      "note": "Avenida Unidad Nacional - calzada sur, frente a urbanizacion Sibambe (punto marcado por el usuario)"
+    }
+  ],
+  "applied": true,
+  "published": false
+}
