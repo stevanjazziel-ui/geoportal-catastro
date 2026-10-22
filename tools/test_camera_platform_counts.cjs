@@ -120,6 +120,9 @@ assert.equal(comparison.mappedCensusUrbanPopulation + comparison.urbanPopulation
 assert.ok(context.populationComparisonHtml().includes("73 cámaras"));
 assert.ok(context.populationComparisonHtml().includes("183 cámaras"));
 assert.ok(context.populationComparisonHtml().includes("Población adicional cubierta"));
+assert.ok(!context.populationComparisonHtml().includes("Total ampliado:"));
+assert.ok(!script.includes("El porcentaje urbano usa el total oficial"));
+assert.ok(!script.includes("El total ampliado incluye exteriores"));
 const percentageStart = script.indexOf("const coveredPopulationPct =");
 const percentageExpression = script.slice(percentageStart, script.indexOf(";", percentageStart) + 1);
 assert.ok(html.includes('id="populationButton"'));
