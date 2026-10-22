@@ -135,7 +135,21 @@ window.createRiobambaCameraProposal = function (api) {
       row.coveredPopulation, `de ${number(comparison.officialUrbanReferencePopulation)} habitantes · ${number(100 * row.coveredPopulation / comparison.officialUrbanReferencePopulation, 2)} %`
     ]);
     rows.push(["Población adicional cubierta", comparison.additionalPopulation, `+${number(100 * comparison.additionalPopulation / comparison.officialUrbanReferencePopulation, 2)} puntos porcentuales`]);
-    return `<section class="proposal-population-comparison" aria-label="Comparación de cobertura poblacional"><h2>Cobertura poblacional · 73 frente a 183 cámaras</h2><dl>${rows.map(([label, value, note]) => `<div><dt>${esc(label)}</dt><dd><strong>${esc(number(value))} habitantes</strong>${note ? `<small>${esc(note)}</small>` : ""}</dd></div>`).join("")}</dl><p>Porcentajes respecto a la referencia urbana INEC de ${number(comparison.officialUrbanReferencePopulation)} habitantes. La población cubierta total incluye áreas dentro y fuera de plataformas y cabeceras parroquiales · radio ${comparison.radiusM} m · sin duplicar solapes.</p></section>`;
+    return `<section class="proposal-population-comparison" aria-label="Comparación de cobertura poblacional"><h2>Cobertura poblacional · 73 frente a 183 cámaras</h2><dl>${rows.map(([label, value, note]) => `<div><dt>${esc(label)}</dt><dd><strong>${esc(number(value))} habitantes</strong>${note ? `<small>${esc(note)}</small>` : ""}</dd></div>`).join("")}</dl></section>`;
+  }
+  function platformCameraComparison() {
+    const values = (counts, changes) => [counts.existing - changes, counts.existing + counts.municipal + counts.police];
+    const rows = data.platformCounts.rows.map(row => ({
+      name: row.feature.properties.platform_name.replace(/^PLATAFORMA\s+/i, ""),
+      values: values(row.counts, row.changeCount)
+    }));
+    const inside = rows.reduce((total, row) => total.map((value, index) => value + row.values[index]), [0, 0]);
+    const outside = values(data.platformCounts.outside, data.platformCounts.outsideChanges);
+    return { rows, inside, outside, totals: inside.map((value, index) => value + outside[index]) };
+  }
+  function platformCameraComparisonHtml() {
+    const counts = platformCameraComparison();
+    return `<section class="proposal-platform-camera-counts" aria-label="Cámaras por plataforma"><h3>Cámaras dentro de plataformas</h3><dl class="proposal-population-metrics"><div><dt>Actuales · de 73</dt><dd>${number(counts.inside[0])}</dd></div><div><dt>Escenario completo · de 183</dt><dd>${number(counts.inside[1])}</dd></div></dl><div class="proposal-table-wrap"><table class="mini-table"><thead><tr><th scope="col">Plataforma</th><th scope="col">Actuales<br>73</th><th scope="col">Escenario<br>183</th></tr></thead><tbody>${counts.rows.map(row => `<tr><th scope="row">${esc(row.name)}</th>${row.values.map(value => `<td>${number(value)}</td>`).join("")}</tr>`).join("")}</tbody><tfoot>${[["Dentro de plataformas", counts.inside], ["Fuera de plataformas", counts.outside], ["Total", counts.totals]].map(([label, values]) => `<tr><th scope="row">${esc(label)}</th>${values.map(value => `<td>${number(value)}</td>`).join("")}</tr>`).join("")}</tfoot></table></div></section>`;
   }
   async function load() {
     if (data) return;
@@ -409,7 +423,7 @@ window.createRiobambaCameraProposal = function (api) {
     el.summary.innerHTML = [["Cámaras actuales", existingCount - changeCount, "existing"], ["Intervenciones · total agrupado", interventionCount(), "interventions"], ["Para cambio", changeCount, "change"], ["Municipales propuestas", groupEnabled("municipal") ? 50 : 0, "municipal"], ["Policía propuesta", groupEnabled("police") ? 30 : 0, "police"], ["Área urbana cubierta · potencial", `${number(area.AREA_CUBIERTA_URBANA_KM2, 2)} km²`]].map(([label, value, symbol]) => `<div class="card"><span>${symbol ? `<i class="proposal-key ${symbol}" aria-hidden="true"></i>` : ""}${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")
       ;
     document.getElementById("proposalPopulationContent").innerHTML = populationComparisonHtml()
-      + `<dl class="proposal-population-metrics">${[["Población urbana oficial · INEC 2022", number(comparison.officialUrbanReferencePopulation)], ["Porcentaje urbano · base INEC 177.213", `${number(fullPopulation.censusUrbanCoveredPct, 2)} %`], ["Población cubierta total · incluye exteriores", number(fullPopulation.coveredPopulation)], ["Cubierta dentro de plataformas", number(fullPopulation.insidePlatformPopulation)], ["Cubierta fuera de plataformas", number(fullPopulation.outsidePlatformPopulation)]].map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join("")}</dl>`;
+      + platformCameraComparisonHtml();
     syncToggles(); draw(); detail(); graphics(); renderLegend();
     map.invalidateSize(); if (fitNeeded) fit();
     el.status.textContent = `103 existentes (${changeCount} para cambio) + 50 Municipio + 30 Policía. Radio potencial 200 m; ${quality ? `${quality.pendingValidation} posiciones provisionales pendientes incluidas` : "ubicaciones estimadas documentadas"}. Propuestas, KDE y Gi* sin cambios.`;

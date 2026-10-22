@@ -126,6 +126,14 @@ assert.ok(context.populationComparisonHtml().includes("de 177.213 habitantes · 
 assert.ok(context.populationComparisonHtml().includes("de 177.213 habitantes · 52,84 %"));
 assert.ok(context.populationComparisonHtml().includes("+26,53 puntos porcentuales"));
 assert.ok(script.includes('document.getElementById("proposalPopulationContent").innerHTML = populationComparisonHtml()'));
+const platformComparison = context.platformCameraComparison();
+assert.deepEqual(Array.from(platformComparison.inside), [64, 140]);
+assert.deepEqual(Array.from(platformComparison.outside), [9, 43]);
+assert.deepEqual(Array.from(platformComparison.totals), [73, 183]);
+assert.equal(platformComparison.rows.length, 18);
+assert.ok(context.platformCameraComparisonHtml().includes("Fuera de plataformas"));
+assert.ok(!context.populationComparisonHtml().includes("Porcentajes respecto a la referencia"));
+assert.ok(!script.includes('["Población urbana oficial · INEC 2022", number(comparison.officialUrbanReferencePopulation)]'));
 assert.ok(!context.populationComparisonHtml().includes("Total ampliado:"));
 assert.ok(!script.includes("El porcentaje urbano usa el total oficial"));
 assert.ok(!script.includes("El total ampliado incluye exteriores"));

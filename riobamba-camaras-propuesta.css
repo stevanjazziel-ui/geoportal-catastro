@@ -37,6 +37,10 @@
 .proposal-population-body .proposal-population-comparison:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
 .proposal-population-comparison + .proposal-population-metrics { margin-top: 18px; padding-top: 14px; border-top: 1px solid #cbd8dd; }
 .proposal-population-body .proposal-population-comparison dl { grid-template-columns: minmax(0, 1fr); }
+.proposal-platform-camera-counts { margin-top: 18px; padding-top: 14px; border-top: 1px solid #cbd8dd; }
+.proposal-platform-camera-counts h3 { font-size: 14px; margin: 0 0 12px; }
+.proposal-platform-camera-counts .proposal-table-wrap { max-height: none; }
+.proposal-platform-camera-counts tfoot { font-weight: 700; }
 .proposal-population-comparison { grid-column: 1 / -1; min-width: 0; padding: 12px 0; border-top: 1px solid #cbd8dd; }
 .proposal-population-comparison h2 { margin: 0 0 12px; font-size: 15px; }
 .proposal-population-comparison dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 0; }
