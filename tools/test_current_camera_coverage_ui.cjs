@@ -7,6 +7,7 @@ const root = path.resolve(__dirname, "..");
 const release = JSON.parse(fs.readFileSync(path.join(root, "sig-bridge-active.json"))).root;
 const script = fs.readFileSync(path.join(root, "riobamba-cobertura-actual.js"), "utf8");
 const html = fs.readFileSync(path.join(root, "visor-seguridad-riobamba-v2.html"), "utf8");
+assert.ok(html.includes('new URLSearchParams(window.location.search).get("analysis")'));
 for (const [, body] of html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)) new vm.Script(body);
 const node = dataset => ({ dataset, hidden: true, handlers: {}, innerHTML: "", textContent: "", value: "",
   classList: { add() {}, remove() {}, toggle() {} }, setAttribute() {},

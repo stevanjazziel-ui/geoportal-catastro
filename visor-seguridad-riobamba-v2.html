@@ -1315,7 +1315,7 @@
   <script src="./riobamba-deficit-inventario.js?v=inventario-103-30-20261015"></script>
   <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=poblacion-junto-capas-20261021" />
   <link rel="stylesheet" href="./riobamba-cobertura-corredores.css?v=corredores-lasabras-20261007" />
-  <link rel="stylesheet" href="./riobamba-cobertura-actual.css?v=73-110-183-20261021" />
+  <link rel="stylesheet" href="./riobamba-cobertura-actual.css?v=73-110-183-directo-20261021" />
   <link rel="stylesheet" href="./riobamba-mobile.css?v=layers-sidebar-medium-20261015" />
   <script src="./sig-bridge-release.js?v=mun045-cruce-tren-20261019"></script>
   <script src="./riobamba-camaras-propuesta.js?v=poblacion-base-inec-177213-20261021"></script>
@@ -6468,7 +6468,8 @@
       elements.methodologyModal.addEventListener("click", (event) => {
         if (event.target === elements.methodologyModal) elements.methodologyModal.close();
       });
-      activateDiagnosisMetric("cameraProposal");
+      const requestedAnalysis = new URLSearchParams(window.location.search).get("analysis");
+      activateDiagnosisMetric(["cameraCoverage", "populationCoverage"].includes(requestedAnalysis) ? requestedAnalysis : "cameraProposal");
     })();
   </script>
 </body>

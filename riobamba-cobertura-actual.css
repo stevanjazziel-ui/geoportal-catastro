@@ -1,6 +1,6 @@
 [data-current-coverage-control] { display: none; }
 .current-coverage-active [data-current-coverage-control] { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
-.current-coverage-active .filter-bar > [data-filter-control="search"] { display: none; }
+.current-coverage-active .filter-bar [data-filter-control="search"] { display: none; }
 .current-coverage-active #contextLayersSection, .current-coverage-active #analysisLayersSection > h3,
 .current-coverage-active #analysisLayersSection .layer-toggle { display: none; }
 #currentCoverageLayerControls[hidden] { display: none; }
