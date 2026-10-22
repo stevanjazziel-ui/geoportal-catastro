@@ -104,10 +104,13 @@ source.results = results;
 const comparison = results.populationComparison;
 assert.deepEqual(comparison.scenarios.map(row => row.cameraCount), [73, 183]);
 const fullPopulation = results.population.find(row => row.ESCENARIO === "C");
-assert.ok(Math.abs(comparison.analyzedPopulation - fullPopulation.POBLACION_ANALIZADA) < .1);
-assert.ok(Math.abs(comparison.scenarios[1].coveredPopulation - fullPopulation.POBLACION_CUBIERTA) < .1);
+assert.ok(Math.abs(comparison.insidePlatformAnalyzedPopulation - fullPopulation.POBLACION_ANALIZADA) < .1);
+assert.ok(Math.abs(comparison.scenarios[1].insidePlatformPopulation - fullPopulation.POBLACION_CUBIERTA) < .1);
+assert.ok(comparison.analyzedPopulation > fullPopulation.POBLACION_ANALIZADA);
 assert.ok(Math.abs(comparison.additionalPopulation - (comparison.scenarios[1].coveredPopulation - comparison.scenarios[0].coveredPopulation)) < 1e-9);
 for (const row of comparison.scenarios) {
+  assert.ok(row.outsidePlatformPopulation > 0);
+  assert.ok(Math.abs(row.coveredPopulation - row.insidePlatformPopulation - row.outsidePlatformPopulation) < 1e-9);
   assert.ok(Math.abs(row.coveredPct - 100 * row.coveredPopulation / comparison.analyzedPopulation) < 1e-9);
 }
 assert.ok(context.populationComparisonHtml().includes("73 cámaras"));
@@ -120,11 +123,8 @@ assert.ok(html.includes('aria-controls="populationPopover"'));
 assert.ok(html.includes('id="proposalPopulationContent"'));
 assert.ok(!script.includes('<details id="proposalPopulationPanel"'));
 assert.ok(!script.includes('<p class="proposal-inventory-note">Intervenciones:'));
-for (const population of results.population) {
-  const calculated = vm.runInNewContext(percentageExpression + "; coveredPopulationPct;", { population });
-  assert.ok(Math.abs(calculated - population.PCT_CUBIERTO) < 1e-9);
-  assert.ok(population.POBLACION_CUBIERTA <= population.POBLACION_ANALIZADA);
-}
+const calculated = vm.runInNewContext(percentageExpression + "; coveredPopulationPct;", { comparison, fullPopulation: comparison.scenarios[1] });
+assert.ok(Math.abs(calculated - comparison.scenarios[1].coveredPct) < 1e-9);
 for (const area of results.territorial) {
   assert.ok(Math.abs(100 * area.AREA_CUBIERTA_URBANA_KM2 / area.AREA_TOTAL_URBANA_KM2 - area.PCT_URBANO) < 1e-9);
 }

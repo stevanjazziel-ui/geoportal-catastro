@@ -4169,23 +4169,31 @@
   "populationComparison": {
     "radiusM": 200,
     "crs": "EPSG:32717",
-    "scope": "18 plataformas",
+    "scope": "Todas las manzanas disponibles, dentro y fuera de plataformas",
+    "officialUrbanReferencePopulation": 177213,
+    "insidePlatformAnalyzedPopulation": 171998.29812102328,
     "method": "CPV2022, distribucion uniforme por area de manzana; buffers disueltos",
-    "analyzedPopulation": 171998.29812102328,
-    "blocksWithoutPopulation": 291,
+    "analyzedPopulation": 199971.0,
+    "blocksWithoutPopulation": 456,
     "scenarios": [
       {
         "cameraCount": 73,
-        "coveredPopulation": 44687.883811114225,
-        "coveredPct": 25.98158487572386
+        "coveredPopulation": 46630.26931199923,
+        "insidePlatformPopulation": 44687.883811114225,
+        "outsidePlatformPopulation": 1942.3855008850078,
+        "missingPopulationBlocksCovered": 60,
+        "coveredPct": 23.318515840796533
       },
       {
         "cameraCount": 183,
-        "coveredPopulation": 87565.31082825859,
-        "coveredPct": 50.910568177043785
+        "coveredPopulation": 93644.55372953138,
+        "insidePlatformPopulation": 87565.31082825859,
+        "outsidePlatformPopulation": 6079.242901272795,
+        "missingPopulationBlocksCovered": 151,
+        "coveredPct": 46.82906707949222
       }
     ],
-    "additionalPopulation": 42877.427017144364,
-    "percentagePointGain": 24.928983301319924
+    "additionalPopulation": 47014.28441753215,
+    "percentagePointGain": 23.510551238695687
   }
 }

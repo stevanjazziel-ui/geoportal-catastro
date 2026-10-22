@@ -13,20 +13,26 @@ def population_comparison(existing, municipal, police, blocks, urban):
     all_cameras = [g for g, _ in existing + municipal + police]
     if len(current) != 73 or len(all_cameras) != 183:
         raise ValueError("Expected 73 unchanged cameras and 183 total cameras")
-    urban_blocks = [(g, p) for g, p in blocks if g.intersection(urban).area > 0]
-    valid = [(g, p["POBLACION"]) for g, p in urban_blocks
+    valid = [(g, p["POBLACION"]) for g, p in blocks
              if p.get("POBLACION") is not None and math.isfinite(p["POBLACION"])]
-    total = sum(pop * geom.intersection(urban).area / geom.area for geom, pop in valid)
+    total = sum(pop for _, pop in valid)
+    platform_population = sum(pop * geom.intersection(urban).area / geom.area for geom, pop in valid)
     rows = []
     for count, cameras in ((73, current), (183, all_cameras)):
-        mask = unary_union([g.buffer(200, quad_segs=64) for g in cameras]).intersection(urban)
+        mask = unary_union([g.buffer(200, quad_segs=64) for g in cameras])
+        inside_mask = mask.intersection(urban)
         covered = sum(pop * geom.intersection(mask).area / geom.area for geom, pop in valid)
+        inside = sum(pop * geom.intersection(inside_mask).area / geom.area for geom, pop in valid)
         rows.append({"cameraCount": count, "coveredPopulation": covered,
+                     "insidePlatformPopulation": inside, "outsidePlatformPopulation": covered - inside,
+                     "missingPopulationBlocksCovered": sum(g.intersection(mask).area > 0 for g, p in blocks
+                         if p.get("POBLACION") is None or not math.isfinite(p["POBLACION"])),
                      "coveredPct": 100 * covered / total if total else None})
-    return {"radiusM": 200, "crs": "EPSG:32717", "scope": "18 plataformas",
+    return {"radiusM": 200, "crs": "EPSG:32717", "scope": "Todas las manzanas disponibles, dentro y fuera de plataformas",
+            "officialUrbanReferencePopulation": 177213, "insidePlatformAnalyzedPopulation": platform_population,
             "method": "CPV2022, distribucion uniforme por area de manzana; buffers disueltos",
             "analyzedPopulation": total,
-            "blocksWithoutPopulation": len(urban_blocks) - len(valid), "scenarios": rows,
+            "blocksWithoutPopulation": len(blocks) - len(valid), "scenarios": rows,
             "additionalPopulation": rows[1]["coveredPopulation"] - rows[0]["coveredPopulation"],
             "percentagePointGain": rows[1]["coveredPct"] - rows[0]["coveredPct"] if total else None}
 
@@ -49,8 +55,8 @@ def main():
     path = args.release / "RESULTADOS.json"
     results = json.loads(path.read_text(encoding="utf-8"))
     full = next(row for row in results["population"] if row["ESCENARIO"] == "C")
-    if abs(full["POBLACION_CUBIERTA"] - comparison["scenarios"][1]["coveredPopulation"]) > .1:
-        raise ValueError("183-camera comparison differs from the published calculation")
+    if abs(full["POBLACION_CUBIERTA"] - comparison["scenarios"][1]["insidePlatformPopulation"]) > .1:
+        raise ValueError("Inside-platform subtotal differs from the published calculation")
     results["populationComparison"] = comparison
     path.write_text(json.dumps(results, ensure_ascii=False, allow_nan=False, indent=2), encoding="utf-8")
     print(json.dumps(comparison, ensure_ascii=False, indent=2))

@@ -7,7 +7,7 @@ from build_camera_population_comparison import population_comparison
 
 
 class PopulationComparisonTest(unittest.TestCase):
-    def test_partitions_overlap_missing_population_and_urban_clip(self):
+    def test_partitions_overlap_missing_population_and_outside_platforms(self):
         existing = [(Point(0, 0), {"REQUIERE_CAMBIO": False})] * 73
         existing += [(Point(1000, 0), {"REQUIERE_CAMBIO": True})] * 30
         proposed = [(Point(1000, 0), {})]
@@ -18,11 +18,13 @@ class PopulationComparisonTest(unittest.TestCase):
                   (box(-5, -5, 5, 5), {"POBLACION": float("nan")}),
                   (box(2000, 0, 2010, 10), {"POBLACION": 900})]
         result = population_comparison(existing, proposed * 50, proposed * 30, blocks, urban)
-        self.assertAlmostEqual(result["analyzedPopulation"], 300)
-        self.assertAlmostEqual(result["scenarios"][0]["coveredPopulation"], 100)
-        self.assertAlmostEqual(result["scenarios"][1]["coveredPopulation"], 300)
+        self.assertAlmostEqual(result["analyzedPopulation"], 1300)
+        self.assertAlmostEqual(result["scenarios"][0]["coveredPopulation"], 200)
+        self.assertAlmostEqual(result["scenarios"][1]["coveredPopulation"], 400)
+        self.assertAlmostEqual(result["scenarios"][0]["outsidePlatformPopulation"], 100)
+        self.assertAlmostEqual(result["scenarios"][1]["insidePlatformPopulation"], 300)
         self.assertAlmostEqual(result["additionalPopulation"], 200)
-        self.assertAlmostEqual(result["percentagePointGain"], 200 / 3)
+        self.assertAlmostEqual(result["percentagePointGain"], 200 / 13)
         self.assertEqual(result["blocksWithoutPopulation"], 2)
 
     def test_rejects_wrong_camera_partition(self):
