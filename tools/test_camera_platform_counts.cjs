@@ -109,10 +109,14 @@ assert.ok(Math.abs(comparison.scenarios[1].insidePlatformPopulation - fullPopula
 assert.ok(comparison.analyzedPopulation > fullPopulation.POBLACION_ANALIZADA);
 assert.ok(Math.abs(comparison.additionalPopulation - (comparison.scenarios[1].coveredPopulation - comparison.scenarios[0].coveredPopulation)) < 1e-9);
 for (const row of comparison.scenarios) {
+  assert.equal(comparison.officialUrbanReferencePopulation, 177213);
+  assert.ok(row.censusUrbanCoveredPopulation <= row.coveredPopulation);
+  assert.ok(Math.abs(row.censusUrbanCoveredPct - 100 * row.censusUrbanCoveredPopulation / 177213) < 1e-9);
   assert.ok(row.outsidePlatformPopulation > 0);
   assert.ok(Math.abs(row.coveredPopulation - row.insidePlatformPopulation - row.outsidePlatformPopulation) < 1e-9);
   assert.ok(Math.abs(row.coveredPct - 100 * row.coveredPopulation / comparison.analyzedPopulation) < 1e-9);
 }
+assert.equal(comparison.mappedCensusUrbanPopulation + comparison.urbanPopulationPendingReconciliation, 177213);
 assert.ok(context.populationComparisonHtml().includes("73 cámaras"));
 assert.ok(context.populationComparisonHtml().includes("183 cámaras"));
 assert.ok(context.populationComparisonHtml().includes("Población adicional cubierta"));

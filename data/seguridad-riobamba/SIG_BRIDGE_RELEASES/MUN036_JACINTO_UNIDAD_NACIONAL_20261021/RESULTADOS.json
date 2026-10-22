@@ -4172,6 +4172,9 @@
     "scope": "Todas las manzanas disponibles, dentro y fuera de plataformas",
     "officialUrbanReferencePopulation": 177213,
     "insidePlatformAnalyzedPopulation": 171998.29812102328,
+    "mappedCensusUrbanPopulation": 177093.0,
+    "urbanPopulationPendingReconciliation": 120.0,
+    "urbanRule": "060150, zonas 001-899; periferia 901-999 y parroquias 51+ separadas",
     "method": "CPV2022, distribucion uniforme por area de manzana; buffers disueltos",
     "analyzedPopulation": 199971.0,
     "blocksWithoutPopulation": 456,
@@ -4179,6 +4182,8 @@
       {
         "cameraCount": 73,
         "coveredPopulation": 46630.26931199923,
+        "censusUrbanCoveredPopulation": 44718.8745216117,
+        "censusUrbanCoveredPct": 25.234533878220958,
         "insidePlatformPopulation": 44687.883811114225,
         "outsidePlatformPopulation": 1942.3855008850078,
         "missingPopulationBlocksCovered": 60,
@@ -4187,6 +4192,8 @@
       {
         "cameraCount": 183,
         "coveredPopulation": 93644.55372953138,
+        "censusUrbanCoveredPopulation": 88089.24169300936,
+        "censusUrbanCoveredPct": 49.708114919903934,
         "insidePlatformPopulation": 87565.31082825859,
         "outsidePlatformPopulation": 6079.242901272795,
         "missingPopulationBlocksCovered": 151,

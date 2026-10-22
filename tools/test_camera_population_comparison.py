@@ -3,7 +3,7 @@ import unittest
 from shapely.geometry import Point, box
 from shapely.ops import unary_union
 
-from build_camera_population_comparison import population_comparison
+from build_camera_population_comparison import is_census_urban, population_comparison
 
 
 class PopulationComparisonTest(unittest.TestCase):
@@ -12,8 +12,8 @@ class PopulationComparisonTest(unittest.TestCase):
         existing += [(Point(1000, 0), {"REQUIERE_CAMBIO": True})] * 30
         proposed = [(Point(1000, 0), {})]
         urban = unary_union([box(-10, -10, 10, 10), box(990, -10, 1010, 10)])
-        blocks = [(box(-20, -10, 20, 10), {"POBLACION": 200}),
-                  (box(990, -10, 1010, 10), {"POBLACION": 200}),
+        blocks = [(box(-20, -10, 20, 10), {"POBLACION": 200, "man": "060150001001001"}),
+                  (box(990, -10, 1010, 10), {"POBLACION": 200, "man": "060151001001001"}),
                   (box(-5, -5, 5, 5), {"POBLACION": None}),
                   (box(-5, -5, 5, 5), {"POBLACION": float("nan")}),
                   (box(2000, 0, 2010, 10), {"POBLACION": 900})]
@@ -26,6 +26,15 @@ class PopulationComparisonTest(unittest.TestCase):
         self.assertAlmostEqual(result["additionalPopulation"], 200)
         self.assertAlmostEqual(result["percentagePointGain"], 200 / 13)
         self.assertEqual(result["blocksWithoutPopulation"], 2)
+        self.assertEqual(result["mappedCensusUrbanPopulation"], 200)
+        self.assertAlmostEqual(result["scenarios"][1]["censusUrbanCoveredPopulation"], 200)
+        self.assertAlmostEqual(result["scenarios"][1]["censusUrbanCoveredPct"], 200 / 177213 * 100)
+
+    def test_census_urban_excludes_periphery_and_rural_parishes(self):
+        self.assertTrue(is_census_urban({"man": "060150001001001"}))
+        self.assertFalse(is_census_urban({"man": "060150901001001"}))
+        self.assertFalse(is_census_urban({"man": "060151001001001"}))
+        self.assertFalse(is_census_urban({}))
 
     def test_rejects_wrong_camera_partition(self):
         with self.assertRaises(ValueError):
