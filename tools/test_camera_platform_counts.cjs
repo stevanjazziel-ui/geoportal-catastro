@@ -45,8 +45,8 @@ context.esc = value => String(value);
 context.number = (value, digits = 0) => Number(value).toLocaleString("es-EC", { maximumFractionDigits: digits });
 assert.equal(result.rows.length, 18);
 for (const row of result.rows) {
-  const total = Object.values(row.counts).reduce((sum, value) => sum + value, 0);
-  assert.ok(context.platformLabel(row.feature).includes(`${total} ${total === 1 ? "cámara" : "cámaras"}`));
+  const letter = row.feature.properties.platform_name.replace(/^PLATAFORMA\s+/i, "");
+  assert.equal(context.platformLabel(row.feature), `<span class="proposal-platform-letter">${letter}</span>`);
 }
 for (const [group, expected] of Object.entries({ existing: 103, municipal: 50, police: 30 })) {
   assert.equal(result.rows.reduce((sum, row) => sum + row.counts[group], result.outside[group]), expected);

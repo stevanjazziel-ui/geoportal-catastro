@@ -122,10 +122,8 @@ window.createRiobambaCameraProposal = function (api) {
     return [...values, values.reduce((total, value) => total + value, 0)];
   }
   function platformLabel(feature) {
-    const entry = data.platformCounts.rows.find(row => row.feature === feature);
-    const total = platformCountValues(entry.counts, entry.changeCount)[2];
     const letter = feature.properties.platform_name.replace(/^PLATAFORMA\s+/i, "");
-    return `<span class="proposal-platform-letter">${esc(letter)}</span><span class="proposal-platform-total">${number(total)} ${total === 1 ? "cámara" : "cámaras"}</span>`;
+    return `<span class="proposal-platform-letter">${esc(letter)}</span>`;
   }
   function populationComparisonHtml() {
     const comparison = data.results.populationComparison;
