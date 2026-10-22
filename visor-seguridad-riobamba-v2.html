@@ -1169,6 +1169,14 @@
                 <button type="button" data-coverage-radius="200">200 m</button>
               </div>
               <span class="control-label" id="coverageUniverseSummary" data-camera-universe-label></span>
+              <div id="currentCoverageControls" data-current-coverage-control role="group" aria-label="Grupo de cámaras">
+                <div class="segmented">
+                  <button type="button" data-current-group="current" aria-pressed="false">73 actuales</button>
+                  <button type="button" data-current-group="interventions" aria-pressed="false">110 intervenciones</button>
+                  <button type="button" data-current-group="combined" aria-pressed="true">183 en conjunto</button>
+                </div>
+                <label>Vista <select id="currentCoverageExtent" aria-label="Extensión de cobertura"><option value="city">Ciudad y plataformas</option><option value="all">Todas las cámaras</option></select></label>
+              </div>
             </div>
             <div class="coverage-controls" id="cameraProposalControls" data-filter-control="cameraProposal" hidden>
               <label>Escenario<select id="proposalScenario" aria-label="Escenario de cámaras propuestas"><option value="actual">103 existentes</option><option value="municipal">103 + 50 municipales</option><option value="future" selected>103 + 50 municipales + 30 Policía</option></select></label>
@@ -1233,6 +1241,11 @@
                     <button class="layers-panel-close" id="closeLayersButton" type="button" aria-label="Cerrar capas" title="Cerrar capas">&times;</button>
                   </div>
                   <section id="analysisLayersSection">
+                    <div id="currentCoverageLayerControls" hidden>
+                      <label>Cámaras<input type="checkbox" data-current-layer="points" checked /></label>
+                      <label>Cobertura disuelta<input type="checkbox" data-current-layer="buffers" checked /></label>
+                      <label>Plataformas<input type="checkbox" data-current-layer="platforms" checked /></label>
+                    </div>
                     <h3>Capas del análisis</h3>
                     <div class="layer-toggles">
                     <div id="proposalLayerControls" hidden></div>
@@ -1302,10 +1315,12 @@
   <script src="./riobamba-deficit-inventario.js?v=inventario-103-30-20261015"></script>
   <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=poblacion-junto-capas-20261021" />
   <link rel="stylesheet" href="./riobamba-cobertura-corredores.css?v=corredores-lasabras-20261007" />
+  <link rel="stylesheet" href="./riobamba-cobertura-actual.css?v=73-110-183-20261021" />
   <link rel="stylesheet" href="./riobamba-mobile.css?v=layers-sidebar-medium-20261015" />
   <script src="./sig-bridge-release.js?v=mun045-cruce-tren-20261019"></script>
   <script src="./riobamba-camaras-propuesta.js?v=poblacion-base-inec-177213-20261021"></script>
   <script src="./riobamba-cobertura-corredores.js?v=inventario-103-30-20261015"></script>
+  <script src="./riobamba-cobertura-actual.js?v=73-110-183-20261021"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
   <script src="./riobamba-accesibilidad-policial-data.js?v=metodologia-20261001"></script>
   <script src="./riobamba-seguridad-diagnostico-data.js?v=metodologia-20261001"></script>
@@ -1705,6 +1720,7 @@
       `;
       const renderMethodologyPanel = () => {
         if (isCameraProposalMode()) { cameraProposal.renderMethodology(); return; }
+        if (isCameraCoverageMode()) { currentCoverage.renderMethodology(); return; }
         if (isCorridorCoverageMode()) {
           const panel = document.getElementById("methodologyPanel");
           if (panel) panel.innerHTML = `<h3>Cobertura de corredores</h3>${methodRowsHtml([["Unidad", "Ejes lineales completos"], ["Corredores", "Macají–Bellavista, Anillo Vial, Ciclovías y tramo cantonal de Quebrada Las Abras"], ["Radio", "200 m de influencia, calculado como radio"], ["CRS métrico", "WGS 84 / UTM zona 17S · EPSG:32717"], ["Cobertura", "Intersección del eje con la unión disuelta de buffers"], ["Escenarios", "103 existentes; 103 + 50 municipales; sistema completo con Policía"], ["Cámaras contribuyentes", "Solo cámaras cuyo buffer individual intersecta el corredor"]])}${crsHtml()}<p>Las longitudes cubiertas y sin cobertura provienen del recálculo métrico del paquete final. Los porcentajes no se obtienen sumando aportes individuales.</p>`;
@@ -2316,7 +2332,7 @@
           button.classList.toggle("is-active", Number(button.dataset.coverageRadius) === cameraCoverageScenario);
         });
         const universeSummary = document.getElementById("coverageUniverseSummary");
-        if (universeSummary) universeSummary.textContent = `Inventario completo: ${inventoryCameras.length} cámaras · ${changeCameras.length} para cambio y ${remainingCameras.length} restantes`;
+        if (universeSummary) universeSummary.textContent = "73 actuales + 110 intervenciones = 183 en conjunto · paquete SIG vigente";
       };
       const populationColor = (value) => {
         const n = Number(value || 0);
@@ -5058,6 +5074,10 @@
       }
 
       function activateDiagnosisMetric(metric) {
+        if (["cameraCoverage", "populationCoverage"].includes(metric) && !isCameraCoverageMode()) {
+          cameraCoverageScenario = 200;
+          currentCoverage.reset();
+        }
         if (metric === "cameraProposal" && !isCameraProposalMode()) {
           clearSelection();
           cantonalController?.setScope("URBANO");
@@ -5122,7 +5142,13 @@
         }
         syncKdeFilterOptions();
         syncCoverageControls();
-        document.getElementById("territorialScope").hidden = isCameraProposalMode() || isCorridorCoverageMode();
+        document.getElementById("territorialScope").hidden = isCameraProposalMode() || isCorridorCoverageMode() || isCameraCoverageMode();
+        if (isCameraCoverageMode()) {
+          cameraProposal.leave(); corridorCoverage.leave();
+          cantonalController?.clearAnalysis(); clearDetailMiniMap();
+          renderTopbar(); currentCoverage.render(); return;
+        }
+        currentCoverage.leave();
         if (isCameraProposalMode()) {
           corridorCoverage.leave();
           cantonalController?.clearAnalysis();
@@ -6199,6 +6225,10 @@
         },
         layers: () => [eventLayer, hotspotLayer, kdePointLayer, platformLabelLayer, platformMaskLayer, parishLayer, cameraLayer, cameraCoverageLayer, policeInfrastructureLayer, boulevardLayer, platformLayer, manzanaLayer].filter(Boolean),
       });
+      const currentCoverage = window.createRiobambaCurrentCoverage({
+        map, elements, esc, active: isCameraCoverageMode, radius: () => cameraCoverageScenario,
+        layers: () => [eventLayer, hotspotLayer, kdePointLayer, platformLabelLayer, platformMaskLayer, parishLayer, cameraLayer, cameraCoverageLayer, policeInfrastructureLayer, boulevardLayer, platformLayer, manzanaLayer].filter(Boolean),
+      });
       const corridorCoverage = window.createRiobambaCorridorCoverage({
         map, elements, esc, fmt, active: isCorridorCoverageMode,
         layers: () => [eventLayer, hotspotLayer, kdePointLayer, platformLabelLayer, platformMaskLayer, parishLayer, cameraLayer, cameraCoverageLayer, policeInfrastructureLayer, boulevardLayer, platformLayer, manzanaLayer].filter(Boolean),
@@ -6361,6 +6391,7 @@
         invalidateMapLayout();
         if (open) {
           if (isCameraProposalMode()) cameraProposal.renderLegend();
+          else if (isCameraCoverageMode()) currentCoverage.renderLegend();
           else if (isCorridorCoverageMode()) corridorCoverage.renderLegend();
           else renderLegend();
           closeLayersButton.focus({ preventScroll: true });

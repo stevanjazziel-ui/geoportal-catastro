@@ -21,6 +21,7 @@ from .store import ROOT, BridgeError, clean, digest, now, read_json, require, wr
 sys.path.insert(0, str(ROOT / "tools"))
 from build_police_camera_proposal import Context, CLASSES, UNPROJECT, dv_coincidences, geojson, pct, records, read_layer
 from build_camera_population_comparison import population_comparison
+from build_current_camera_coverage import build_coverage
 from apply_police_kde_intersections import incident_metrics, update_statistics, corridor_view, CORRIDORS, lines
 
 
@@ -312,6 +313,7 @@ def calculate(store, run, output, manual, receipt, existing_override=None, node_
     results.update({"generatedAt": now(), "status": "SIG_BRIDGE_LOCAL_REVISION", "bridge": validation,
                     "sourceHashes": receipt["baseHashes"], "giRecalculated": False})
     results["populationComparison"] = population_comparison(existing, municipal, police, blocks, urban)
+    write_json(output / "COBERTURA_73_110_183.json", clean(build_coverage(existing, municipal, police, blocks, data["PLATAFORMAS_TERRITORIALES"])))
     write_json(output / "RESULTADOS.json", clean(results))
     write_json(output / "VALIDACION.json", clean(validation))
     # Replace stale downloadable tables, rather than retaining historical final metrics.
