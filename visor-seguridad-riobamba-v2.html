@@ -4906,6 +4906,7 @@
 
       function syncMapLayerVisibility() {
         if (isCameraProposalMode()) { cameraProposal.clearLegacyLayers(); return; }
+        if (isCameraCoverageMode()) { currentCoverage.clearLegacyLayers(); return; }
         if (cantonalController && cantonalController.scope() !== "URBANO" && mode !== "cameras") { cantonalController.render(); return; }
         if (!map.hasLayer(platformLabelLayer)) platformLabelLayer.addTo(map);
         renderPlatformLabels();

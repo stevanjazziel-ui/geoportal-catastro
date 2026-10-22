@@ -16,6 +16,7 @@ window.createRiobambaCurrentCoverage = function (api) {
   const current = () => data.coverage.scenarios[String(api.radius())];
   const metrics = () => current().groups[group];
   function clear() { Object.values(layers).forEach(layer => api.map.removeLayer(layer)); }
+  function clearLegacyLayers() { (api.layers() || []).forEach(layer => api.map.removeLayer(layer)); }
   function reset() { group = "combined"; extent = "city"; selected = null; fitNeeded = true; }
   function leave() {
     version++;
@@ -64,7 +65,7 @@ window.createRiobambaCurrentCoverage = function (api) {
     el.detail.innerHTML = rowHtml(rows) + `<p class="current-coverage-note">110 intervenciones: 30 para cambio + 50 municipales + 30 policiales. Las 30 para cambio están incluidas en el inventario original, no son equipos adicionales. Cobertura potencial por proximidad, no visibilidad comprobada.</p>`;
   }
   function draw() {
-    (api.layers() || []).forEach(layer => api.map.removeLayer(layer)); clear();
+    clearLegacyLayers(); clear();
     const m = metrics();
     layers.buffers = L.geoJSON(m.coverage, { interactive: false, style: { color: colors[group], weight: 1.3, fillColor: colors[group], fillOpacity: .22 } });
     layers.platforms = L.geoJSON(data.platforms, { style: { color: "#385a52", weight: 1, fill: false }, onEachFeature(feature, layer) {
@@ -124,5 +125,5 @@ window.createRiobambaCurrentCoverage = function (api) {
   controls.querySelectorAll("[data-current-group]").forEach(button => button.addEventListener("click", () => { group = button.dataset.currentGroup; selected = null; render(); }));
   document.getElementById("currentCoverageExtent").addEventListener("change", event => { extent = event.target.value; fitNeeded = true; render(); });
   layerControls.querySelectorAll("[data-current-layer]").forEach(input => input.addEventListener("change", () => { toggles[input.dataset.currentLayer] = input.checked; if (active && data) draw(); }));
-  return { render, leave, reset, renderLegend, renderMethodology };
+  return { render, leave, reset, renderLegend, renderMethodology, clearLegacyLayers };
 };
