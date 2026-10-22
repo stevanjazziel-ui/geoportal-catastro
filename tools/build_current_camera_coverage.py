@@ -13,7 +13,7 @@ from shapely.ops import transform, unary_union
 from build_camera_population_comparison import population_comparison
 
 
-def build_coverage(existing, municipal, police, blocks, platforms, output=None):
+def build_coverage(existing, municipal, police, blocks, platforms, output=None, *, canton):
     urban = unary_union([g for g, _ in platforms])
     groups = {
         "current": [(g, p) for g, p in existing if not p["REQUIERE_CAMBIO"]],
@@ -43,8 +43,9 @@ def build_coverage(existing, municipal, police, blocks, platforms, output=None):
 
     write_features("MANZANAS_BASE_COBERTURA.geojson", [feature(g, {"ID_MANZANA": code,
         "AREA_M2": g.area, "POBLACION": population_value(p)}) for (g, p), code in zip(blocks, block_ids)])
-    result = {"schemaVersion": 2, "crsMetric": "EPSG:32717", "bufferQuadSegments": 64,
+    result = {"schemaVersion": 3, "crsMetric": "EPSG:32717", "bufferQuadSegments": 64,
               "mapSimplificationM": .5, "blockAreaToleranceM2": .01, "fullBlockFractionTolerance": 1e-6,
+              "cantonBoundary": feature(canton, {"scope": "Limite cantonal de Riobamba"}),
               "blocksFile": "MANZANAS_BASE_COBERTURA.geojson", "scenarios": {}}
     for radius in (100, 150, 200):
         comparison = population_comparison(existing, municipal, police, blocks, urban, radius, True)
@@ -69,8 +70,14 @@ def build_coverage(existing, municipal, police, blocks, platforms, output=None):
             clips_file = f"MANZANAS_CUBIERTAS_{key}_{radius}M.geojson"
             write_features(clips_file, clipped_features)
             scenario["groups"][key] = {**population, "platformAreaKm2": urban.area / 1e6,
+                "cantonAreaKm2": canton.area / 1e6,
+                "coveredCantonAreaKm2": mask.intersection(canton).area / 1e6,
+                "coveredCantonAreaPct": 100 * mask.intersection(canton).area / canton.area,
+                "outsideCantonAreaKm2": mask.difference(canton).area / 1e6,
                 "blockStats": {**counts, "total": len(blocks), "covered": counts["full"] + counts["partial"],
-                    "coveredAreaKm2": block_union.intersection(mask).area / 1e6, "totalAreaKm2": block_union.area / 1e6},
+                    "coveredAreaKm2": block_union.intersection(mask).area / 1e6,
+                    "coveredCantonAreaKm2": block_union.intersection(mask).intersection(canton).area / 1e6,
+                    "totalAreaKm2": block_union.area / 1e6},
                 "blockClipsFile": clips_file,
                 "coveredPlatformAreaKm2": mask.intersection(urban).area / 1e6,
                 "coveredPlatformAreaPct": 100 * mask.intersection(urban).area / urban.area,
@@ -98,7 +105,8 @@ def main():
         return [(row.geometry, row.drop("geometry").to_dict()) for _, row in frame.iterrows()]
 
     result = build_coverage(read("CAMARAS_EXISTENTES_103_FINAL"), read("PROPUESTA_MUNICIPAL_50_FINAL"),
-        read("PROPUESTA_POLICIA_30_FINAL"), read("MANZANAS_COBERTURA"), read("PLATAFORMAS_TERRITORIALES"), args.release)
+        read("PROPUESTA_POLICIA_30_FINAL"), read("MANZANAS_COBERTURA"), read("PLATAFORMAS_TERRITORIALES"), args.release,
+        canton=unary_union([g for g, _ in read("LIMITE_CANTONAL")]))
     result["sourcePackageSha256"] = hashlib.sha256(package.read_bytes()).hexdigest()
     (args.release / "COBERTURA_73_110_183.json").write_text(json.dumps(result, ensure_ascii=False, allow_nan=False,
         separators=(",", ":")), encoding="utf-8")

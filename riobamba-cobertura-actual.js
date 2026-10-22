@@ -14,7 +14,7 @@ window.createRiobambaCurrentCoverage = function (api) {
   const clipCache = new Map();
   let activeClipKey = "";
   const layers = {};
-  const toggles = { points: true, buffers: true, blocks: true, blockCoverage: true, platforms: true };
+  const toggles = { points: true, buffers: true, cantonBoundary: true, blocks: true, blockCoverage: true, platforms: true };
   const current = () => data.coverage.scenarios[String(api.radius())];
   const metrics = () => current().groups[group];
   function clear() { Object.values(layers).forEach(layer => api.map.removeLayer(layer)); }
@@ -40,7 +40,7 @@ window.createRiobambaCurrentCoverage = function (api) {
         return [key, await response.json()];
       }));
       const next = Object.fromEntries(entries);
-      if (next.coverage.schemaVersion !== 2) throw new Error("Falta el cálculo actualizado de manzanas");
+      if (next.coverage.schemaVersion !== 3) throw new Error("Falta el cálculo actualizado con límite cantonal");
       const current = next.existing.features.filter(f => f.properties.REQUIERE_CAMBIO !== true);
       const interventions = [...next.existing.features.filter(f => f.properties.REQUIERE_CAMBIO === true), ...next.municipal.features, ...next.police.features];
       next.groups = { current, interventions, combined: [...current, ...interventions] };
@@ -73,8 +73,10 @@ window.createRiobambaCurrentCoverage = function (api) {
       ["Población urbana cubierta", `${number(m.censusUrbanCoveredPopulation)} (${number(m.censusUrbanCoveredPct, 2)} % de 177.213)`],
       ["Población cubierta total", number(m.coveredPopulation)], ["Dentro de plataformas", number(m.insidePlatformPopulation)],
       ["Fuera de plataformas", number(m.outsidePlatformPopulation)],
-      ["Área total de radios unidos", `${number(m.dissolvedAreaKm2, 2)} km²`],
-      ["Área de manzanas cubierta", `${number(m.blockStats.coveredAreaKm2, 2)} km²`],
+      ["Área cubierta en Riobamba", `${number(m.coveredCantonAreaKm2, 2)} km²`],
+      ["Área fuera del cantón · excluida", `${number(m.outsideCantonAreaKm2, 2)} km²`],
+      ["Radios unidos · sin recorte cantonal", `${number(m.dissolvedAreaKm2, 2)} km²`],
+      ["Área de manzanas cubierta en Riobamba", `${number(m.blockStats.coveredCantonAreaKm2, 2)} km²`],
       ["Manzanas totalmente cubiertas", number(m.blockStats.full)],
       ["Manzanas parcialmente cubiertas", number(m.blockStats.partial)],
       ["Manzanas sin cobertura", number(m.blockStats.uncovered)], ["Total manzanas", number(m.blockStats.total)]];
@@ -84,6 +86,7 @@ window.createRiobambaCurrentCoverage = function (api) {
     clearLegacyLayers(); clear();
     const m = metrics();
     layers.buffers = L.geoJSON(m.coverage, { interactive: false, style: { color: colors[group], weight: 1.3, fillColor: colors[group], fillOpacity: toggles.blockCoverage ? .06 : .22 } });
+    layers.cantonBoundary = L.geoJSON(data.coverage.cantonBoundary, { interactive: false, style: { color: "#343a40", weight: 1.5, dashArray: "6 4", fill: false } });
     const covered = new Map(data.activeClips.features.map(f => [f.properties.ID_MANZANA, f.properties]));
     const selectBlock = feature => {
       const p = feature.properties;
@@ -126,7 +129,7 @@ window.createRiobambaCurrentCoverage = function (api) {
       layer.bindTooltip(esc(id));
       layer.on("click", () => { selected = { title: id, rows: [["Ubicación", p.DIRECCION || p.INTERSECCION_O_NODO || "Sin dirección documentada"], ["Radio potencial", `${api.radius()} m`]] }; detail(); });
     } });
-    for (const key of ["buffers", "platforms", "blocks", "blockCoverage", "points"]) if (toggles[key]) layers[key].addTo(api.map);
+    for (const key of ["buffers", "cantonBoundary", "platforms", "blocks", "blockCoverage", "points"]) if (toggles[key]) layers[key].addTo(api.map);
     api.map.invalidateSize();
     if (fitNeeded) {
       const bounds = (extent === "city" ? layers.platforms : layers.points).getBounds();
@@ -140,12 +143,14 @@ window.createRiobambaCurrentCoverage = function (api) {
     const gain = scenario.groups.combined.coveredPopulation - scenario.groups.current.coveredPopulation;
     const urbanGain = scenario.groups.combined.censusUrbanCoveredPopulation - scenario.groups.current.censusUrbanCoveredPopulation;
     el.graphicAnalysis.innerHTML = `<section class="proposal-report"><h3>Comparación · radio ${api.radius()} m</h3><div class="proposal-table-wrap"><table class="mini-table"><thead><tr><th>Grupo</th><th>Área en plataformas · km²</th><th>Población urbana cubierta</th><th>% de 177.213</th><th>Población cubierta total</th></tr></thead><tbody>${rows}</tbody></table></div><p>Aporte neto de las 110 intervenciones sobre las 73 actuales: ${number(gain)} personas en todas las manzanas disponibles; ${number(urbanGain)} en el ámbito urbano censal. No se suman las coberturas aisladas porque se solapan.</p><div class="current-coverage-bars">${Object.entries(scenario.groups).map(([key, m]) => `<label><span>${esc(labels[key])}</span><meter min="0" max="177213" value="${m.censusUrbanCoveredPopulation}" style="accent-color:${colors[key]}">${number(m.censusUrbanCoveredPopulation)}</meter><strong>${number(m.censusUrbanCoveredPct, 2)} %</strong></label>`).join("")}</div></section>`;
-    el.graphicAnalysis.innerHTML += `<section class="proposal-report"><h3>Áreas y manzanas · radio ${api.radius()} m</h3><div class="proposal-table-wrap"><table class="mini-table"><thead><tr><th>Grupo</th><th>Radios unidos · km²</th><th>Manzanas cubiertas · km²</th><th>Completas</th><th>Parciales</th><th>Sin cobertura</th><th>Total</th></tr></thead><tbody>${Object.entries(scenario.groups).map(([key, m]) => `<tr><td>${esc(labels[key])}</td><td>${number(m.dissolvedAreaKm2, 2)}</td><td>${number(m.blockStats.coveredAreaKm2, 2)}</td><td>${number(m.blockStats.full)}</td><td>${number(m.blockStats.partial)}</td><td>${number(m.blockStats.uncovered)}</td><td>${number(m.blockStats.total)}</td></tr>`).join("")}</tbody></table></div></section>`;
+    el.graphicAnalysis.innerHTML += `<section class="proposal-report"><h3>Áreas y manzanas · radio ${api.radius()} m</h3><div class="proposal-table-wrap"><table class="mini-table"><thead><tr><th>Grupo</th><th>Dentro de Riobamba · km²</th><th>Fuera del cantón · km²</th><th>Radios sin recorte · km²</th><th>Manzanas cubiertas en Riobamba · km²</th><th>Completas</th><th>Parciales</th><th>Sin cobertura</th><th>Total</th></tr></thead><tbody>${Object.entries(scenario.groups).map(([key, m]) => `<tr><td>${esc(labels[key])}</td><td>${number(m.coveredCantonAreaKm2, 2)}</td><td>${number(m.outsideCantonAreaKm2, 2)}</td><td>${number(m.dissolvedAreaKm2, 2)}</td><td>${number(m.blockStats.coveredCantonAreaKm2, 2)}</td><td>${number(m.blockStats.full)}</td><td>${number(m.blockStats.partial)}</td><td>${number(m.blockStats.uncovered)}</td><td>${number(m.blockStats.total)}</td></tr>`).join("")}</tbody></table></div></section>`;
   }
   function renderMethodology() {
     document.getElementById("methodologyPanel").innerHTML = `<h3>Cobertura potencial · 73 / 110 / 183</h3>` + rowHtml([["Cálculo", "Unión de buffers EPSG:32717; 64 segmentos por cuadrante"], ["Radios", "100, 150 y 200 m"], ["Área", "Intersección con la unión de 18 plataformas, sin duplicar solapes"], ["Población urbana", "Manzanas 060150, zonas 001–899; base oficial 177.213"], ["Población total", "Todas las manzanas disponibles dentro y fuera de plataformas"], ["Población estimada", "Distribución uniforme por área de manzana; datos faltantes no imputados"], ["Geometrías", "Cámaras actuales y propuestas del paquete SIG activo, sin moverlas"]]);
     document.getElementById("methodologyPanel").innerHTML += rowHtml([
       ["Área total de radios", "Unión completa de los radios, incluidas las áreas exteriores a las plataformas"],
+      ["Área cubierta en Riobamba", "Unión de radios recortada al límite cantonal original. Excluye la superficie exterior al cantón"],
+      ["Área de manzanas de Riobamba", "Intersección de radios, unión de manzanas censales y límite cantonal. No equivale al área de radios ni al área en plataformas"],
       ["Área cubierta en manzanas", "Intersección de la unión de manzanas censales con los radios unidos, sin duplicar superficies"],
       ["Manzanas", "Completas, parciales y sin cobertura sobre todas las geometrías censales disponibles, tengan o no dato poblacional"],
       ["Dibujo de parciales", "Solo la porción alcanzada; no se pinta toda la manzana como cubierta"],
@@ -170,7 +175,7 @@ window.createRiobambaCurrentCoverage = function (api) {
     document.getElementById("currentCoverageExtent").value = extent;
     el.overlayText.textContent = `${labels[group]} · radio ${api.radius()} m · paquete SIG vigente`;
     el.summary.innerHTML = [["Actuales sin cambio", "73"], ["Intervenciones", "110"], ["Sistema completo", "183"], ["Área cubierta en plataformas", `${number(m.coveredPlatformAreaKm2, 2)} km²`], ["Población urbana cubierta", number(m.censusUrbanCoveredPopulation)], ["Cobertura urbana · base 177.213", `${number(m.censusUrbanCoveredPct, 2)} %`], ["Población cubierta total", number(m.coveredPopulation)], ["Fuera de plataformas", number(m.outsidePlatformPopulation)]].map(([title, value]) => `<div class="card"><span>${esc(title)}</span><strong>${esc(value)}</strong></div>`).join("");
-    el.summary.innerHTML += [["Área total · radios unidos", `${number(m.dissolvedAreaKm2, 2)} km²`], ["Área de manzanas cubierta", `${number(m.blockStats.coveredAreaKm2, 2)} km²`], ["Manzanas alcanzadas · completas + parciales", `${number(m.blockStats.covered)} / ${number(m.blockStats.total)}`]].map(([title, value]) => `<div class="card"><span>${esc(title)}</span><strong>${esc(value)}</strong></div>`).join("");
+    el.summary.innerHTML += [["Área cubierta en Riobamba", `${number(m.coveredCantonAreaKm2, 2)} km²`], ["Área cubierta en manzanas de Riobamba", `${number(m.blockStats.coveredCantonAreaKm2, 2)} km²`], ["Manzanas alcanzadas · completas + parciales", `${number(m.blockStats.covered)} / ${number(m.blockStats.total)}`]].map(([title, value]) => `<div class="card"><span>${esc(title)}</span><strong>${esc(value)}</strong></div>`).join("");
     controls.querySelectorAll("[data-current-group]").forEach(button => { button.classList.toggle("is-active", button.dataset.currentGroup === group); button.setAttribute("aria-pressed", String(button.dataset.currentGroup === group)); });
     draw(); detail(); graphics(); renderLegend();
     el.status.textContent = `${labels[group]} · ${api.radius()} m · cobertura métrica sin solapes duplicados · ${number(current().population.blocksWithoutPopulation)} manzanas sin población disponible; ${number(current().population.urbanPopulationPendingReconciliation)} habitantes urbanos por conciliar.`;

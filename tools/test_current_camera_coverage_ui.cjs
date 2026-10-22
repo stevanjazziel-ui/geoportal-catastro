@@ -13,7 +13,7 @@ const node = dataset => ({ dataset, hidden: true, handlers: {}, innerHTML: "", t
   classList: { add() {}, remove() {}, toggle() {} }, setAttribute() {},
   addEventListener(event, fn) { this.handlers[event] = fn; } });
 const buttons = ["current", "interventions", "combined"].map(key => node({ currentGroup: key }));
-const checks = ["points", "buffers", "blocks", "blockCoverage", "platforms"].map(key => node({ currentLayer: key }));
+const checks = ["points", "buffers", "cantonBoundary", "blocks", "blockCoverage", "platforms"].map(key => node({ currentLayer: key }));
 const controls = { currentCoverageControls: { querySelectorAll: () => buttons },
   currentCoverageLayerControls: { querySelectorAll: () => checks }, currentCoverageExtent: node() };
 const elements = Object.fromEntries(["workspace", "overlayTitle", "overlayText", "status", "summary", "detailTitle", "detail", "graphicAnalysis", "legend"].map(key => [key, node()]));
@@ -38,12 +38,13 @@ const cameras = () => [...visible].reduce((sum, layer) => sum + layer.cameraCoun
   await controller.render();
   assert.equal(cameras(), 183);
   assert.ok(elements.summary.innerHTML.includes("93.645"));
-  assert.ok(elements.summary.innerHTML.includes("17,85 km²"));
-  assert.ok(elements.summary.innerHTML.includes("11,61 km²"));
+  assert.ok(elements.summary.innerHTML.includes("17,41 km²"));
+  assert.ok(elements.summary.innerHTML.includes("11,6 km²"));
+  assert.ok(elements.detail.innerHTML.includes("0,44 km²"));
   assert.ok(elements.summary.innerHTML.includes("1.972 / 3.757"));
   assert.ok([...visible].some(layer => layer.featureCount === 3757));
   assert.ok([...visible].some(layer => layer.featureCount === 1972));
-  assert.deepEqual([...visible].map(layer => layer.featureCount), [1, 18, 3757, 1972, 183]);
+  assert.deepEqual([...visible].map(layer => layer.featureCount), [1, 1, 18, 3757, 1972, 183]);
   buttons[0].handlers.click(); await controller.render();
   assert.equal(cameras(), 73);
   assert.ok(elements.summary.innerHTML.includes("46.630"));

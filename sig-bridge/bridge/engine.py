@@ -313,7 +313,7 @@ def calculate(store, run, output, manual, receipt, existing_override=None, node_
     results.update({"generatedAt": now(), "status": "SIG_BRIDGE_LOCAL_REVISION", "bridge": validation,
                     "sourceHashes": receipt["baseHashes"], "giRecalculated": False})
     results["populationComparison"] = population_comparison(existing, municipal, police, blocks, urban)
-    write_json(output / "COBERTURA_73_110_183.json", clean(build_coverage(existing, municipal, police, blocks, data["PLATAFORMAS_TERRITORIALES"], output)))
+    write_json(output / "COBERTURA_73_110_183.json", clean(build_coverage(existing, municipal, police, blocks, data["PLATAFORMAS_TERRITORIALES"], output, canton=canton)))
     write_json(output / "RESULTADOS.json", clean(results))
     write_json(output / "VALIDACION.json", clean(validation))
     # Replace stale downloadable tables, rather than retaining historical final metrics.

@@ -29,6 +29,8 @@ class CurrentCoverageTest(unittest.TestCase):
                   "interventions": list(existing[existing.REQUIERE_CAMBIO].geometry) + list(municipal.geometry) + list(police.geometry)}
         groups["combined"] = groups["current"] + groups["interventions"]
         urban = unary_union(pyogrio.read_dataframe(package, layer="PLATAFORMAS_TERRITORIALES").geometry)
+        canton = unary_union(pyogrio.read_dataframe(package, layer="LIMITE_CANTONAL").geometry)
+        self.assertEqual(data["schemaVersion"], 3)
         blocks = pyogrio.read_dataframe(package, layer="MANZANAS_COBERTURA")
         base = json.loads((release / data["blocksFile"]).read_text(encoding="utf-8"))
         self.assertEqual(len(base["features"]), len(blocks))
@@ -48,6 +50,12 @@ class CurrentCoverageTest(unittest.TestCase):
                 masks[key] = unary_union([p.buffer(radius, quad_segs=64) for p in points])
                 row = data["scenarios"][str(radius)]["groups"][key]
                 self.assertEqual(row["cameraCount"], len(points))
+                canton_area = masks[key].intersection(canton).area / 1e6
+                exterior_area = masks[key].difference(canton).area / 1e6
+                self.assertAlmostEqual(row["coveredCantonAreaKm2"], canton_area, places=8)
+                self.assertAlmostEqual(row["outsideCantonAreaKm2"], exterior_area, places=8)
+                self.assertAlmostEqual(row["dissolvedAreaKm2"], canton_area + exterior_area, places=8)
+                self.assertAlmostEqual(row["coveredCantonAreaPct"], 100 * canton_area / row["cantonAreaKm2"], places=8)
                 self.assertAlmostEqual(row["coveredPlatformAreaKm2"], masks[key].intersection(urban).area / 1e6, places=8)
                 actual = float(np.sum(populations * area(intersection(geometries, masks[key])) / block_areas))
                 self.assertAlmostEqual(row["coveredPopulation"], actual, places=5)
@@ -61,6 +69,7 @@ class CurrentCoverageTest(unittest.TestCase):
                 self.assertEqual(stats["partial"], len(blocks) - int(empty.sum()) - int(full.sum()))
                 self.assertEqual(stats["covered"], stats["full"] + stats["partial"])
                 self.assertAlmostEqual(stats["coveredAreaKm2"], block_union.intersection(masks[key]).area / 1e6, places=8)
+                self.assertAlmostEqual(stats["coveredCantonAreaKm2"], block_union.intersection(masks[key]).intersection(canton).area / 1e6, places=8)
                 clips = json.loads((release / row["blockClipsFile"]).read_text(encoding="utf-8"))
                 self.assertEqual(len(clips["features"]), stats["covered"])
                 self.assertEqual(len({f["properties"]["ID_MANZANA"] for f in clips["features"]}), stats["covered"])
