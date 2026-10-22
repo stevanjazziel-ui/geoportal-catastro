@@ -43,6 +43,7 @@ const cameras = () => [...visible].reduce((sum, layer) => sum + layer.cameraCoun
   assert.ok(elements.summary.innerHTML.includes("1.972 / 3.757"));
   assert.ok([...visible].some(layer => layer.featureCount === 3757));
   assert.ok([...visible].some(layer => layer.featureCount === 1972));
+  assert.deepEqual([...visible].map(layer => layer.featureCount), [1, 18, 3757, 1972, 183]);
   buttons[0].handlers.click(); await controller.render();
   assert.equal(cameras(), 73);
   assert.ok(elements.summary.innerHTML.includes("46.630"));

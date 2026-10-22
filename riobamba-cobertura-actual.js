@@ -126,7 +126,7 @@ window.createRiobambaCurrentCoverage = function (api) {
       layer.bindTooltip(esc(id));
       layer.on("click", () => { selected = { title: id, rows: [["Ubicación", p.DIRECCION || p.INTERSECCION_O_NODO || "Sin dirección documentada"], ["Radio potencial", `${api.radius()} m`]] }; detail(); });
     } });
-    for (const key of ["buffers", "blocks", "blockCoverage", "platforms", "points"]) if (toggles[key]) layers[key].addTo(api.map);
+    for (const key of ["buffers", "platforms", "blocks", "blockCoverage", "points"]) if (toggles[key]) layers[key].addTo(api.map);
     api.map.invalidateSize();
     if (fitNeeded) {
       const bounds = (extent === "city" ? layers.platforms : layers.points).getBounds();
