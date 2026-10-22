@@ -137,7 +137,8 @@
       pointer-events: auto;
     }
     .map-floating-buttons {
-      display: grid;
+      display: flex;
+      align-items: center;
       justify-items: end;
       gap: 8px;
     }
@@ -854,6 +855,8 @@
     }
     .detail-panel.layers-open { display: block; }
     .detail-panel.layers-open > :not(#layersPopover) { display: none; }
+    .detail-panel.population-open { display: block; }
+    .detail-panel.population-open > :not(#populationPopover) { display: none; }
     .detail-panel h2 {
       margin: 0;
       padding: 8px 12px;
@@ -1210,12 +1213,20 @@
               <div id="map"></div>
               <div class="map-layer-control" id="mapLayerControl">
                 <div class="map-floating-buttons">
+                  <button class="map-layer-button" id="populationButton" type="button" aria-expanded="false" aria-controls="populationPopover" hidden>Población</button>
                   <button class="map-layer-button" id="layersButton" type="button" aria-expanded="false" aria-controls="layersPopover">Capas</button>
                 </div>
               </div>
             </div>
           </section>
           <aside class="detail-panel">
+                <div class="map-layer-popover" id="populationPopover" role="region" aria-label="Población y cobertura" hidden>
+                  <div class="layers-panel-head">
+                    <h2>Población y cobertura</h2>
+                    <button class="layers-panel-close" id="closePopulationButton" type="button" aria-label="Cerrar población" title="Cerrar población">&times;</button>
+                  </div>
+                  <div id="proposalPopulationContent" class="proposal-population-body"></div>
+                </div>
                 <div class="map-layer-popover" id="layersPopover" role="region" aria-label="Capas del mapa" hidden>
                   <div class="layers-panel-head">
                     <h2>Capas</h2>
@@ -1289,11 +1300,11 @@
   <script src="./riobamba-camaras-cobertura-geometrias.js?v=cobertura-unificada-20261002"></script>
   <script src="./riobamba-camaras-inventario-cobertura-data.js?v=deficit-inventario-20261002"></script>
   <script src="./riobamba-deficit-inventario.js?v=inventario-103-30-20261015"></script>
-  <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=poblacion-desplegable-20261021" />
+  <link rel="stylesheet" href="./riobamba-camaras-propuesta.css?v=poblacion-junto-capas-20261021" />
   <link rel="stylesheet" href="./riobamba-cobertura-corredores.css?v=corredores-lasabras-20261007" />
   <link rel="stylesheet" href="./riobamba-mobile.css?v=layers-sidebar-medium-20261015" />
   <script src="./sig-bridge-release.js?v=mun045-cruce-tren-20261019"></script>
-  <script src="./riobamba-camaras-propuesta.js?v=poblacion-sin-bloque-externo-20261021"></script>
+  <script src="./riobamba-camaras-propuesta.js?v=poblacion-junto-capas-20261021"></script>
   <script src="./riobamba-cobertura-corredores.js?v=inventario-103-30-20261015"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
   <script src="./riobamba-accesibilidad-policial-data.js?v=metodologia-20261001"></script>
@@ -6324,6 +6335,15 @@
       elements.toggleBoulevards.addEventListener("change", syncMapLayerVisibility);
       const layersSidebar = elements.layersPopover.closest(".detail-panel");
       const closeLayersButton = document.getElementById("closeLayersButton");
+      const populationButton = document.getElementById("populationButton");
+      const populationPopover = document.getElementById("populationPopover");
+      const closePopulationButton = document.getElementById("closePopulationButton");
+      const closePopulationPanel = () => {
+        populationPopover.hidden = true;
+        populationButton.setAttribute("aria-expanded", "false");
+        layersSidebar.classList.remove("population-open");
+        invalidateMapLayout();
+      };
       const closeLayersPanel = () => {
         elements.layersPopover.hidden = true;
         elements.layersButton.setAttribute("aria-expanded", "false");
@@ -6334,6 +6354,7 @@
       elements.layersButton.addEventListener("click", (event) => {
         event.stopPropagation();
         const open = elements.layersPopover.hidden;
+        if (open) closePopulationPanel();
         elements.layersPopover.hidden = !open;
         elements.layersButton.setAttribute("aria-expanded", String(open));
         layersSidebar.classList.toggle("layers-open", open);
@@ -6350,7 +6371,28 @@
         closeLayersPanel();
         elements.layersButton.focus({ preventScroll: true });
       });
+      populationButton.addEventListener("click", event => {
+        event.stopPropagation();
+        const open = populationPopover.hidden;
+        if (open) closeLayersPanel();
+        populationPopover.hidden = !open;
+        populationButton.setAttribute("aria-expanded", String(open));
+        layersSidebar.classList.toggle("population-open", open);
+        invalidateMapLayout();
+        if (open) {
+          closePopulationButton.focus({ preventScroll: true });
+          if (window.matchMedia("(max-width: 1100px)").matches) populationPopover.scrollIntoView({ block: "nearest", behavior: "smooth" });
+        }
+      });
+      closePopulationButton.addEventListener("click", () => {
+        closePopulationPanel();
+        populationButton.focus({ preventScroll: true });
+      });
       document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && !populationPopover.hidden) {
+          closePopulationPanel();
+          populationButton.focus({ preventScroll: true });
+        }
         if (event.key === "Escape" && !elements.layersPopover.hidden) {
           closeLayersPanel();
           elements.layersButton.focus({ preventScroll: true });

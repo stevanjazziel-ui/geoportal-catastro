@@ -113,11 +113,13 @@ for (const row of comparison.scenarios) {
 assert.ok(context.populationComparisonHtml().includes("73 cámaras"));
 assert.ok(context.populationComparisonHtml().includes("183 cámaras"));
 assert.ok(context.populationComparisonHtml().includes("Población adicional cubierta"));
-const percentageExpression = script.slice(script.indexOf("const coveredPopulationPct ="), script.indexOf("const populationOpen ="));
-assert.ok(script.includes('<details id="proposalPopulationPanel"'));
-assert.ok(script.includes('<summary>Población y cobertura</summary>'));
+const percentageStart = script.indexOf("const coveredPopulationPct =");
+const percentageExpression = script.slice(percentageStart, script.indexOf(";", percentageStart) + 1);
+assert.ok(html.includes('id="populationButton"'));
+assert.ok(html.includes('aria-controls="populationPopover"'));
+assert.ok(html.includes('id="proposalPopulationContent"'));
+assert.ok(!script.includes('<details id="proposalPopulationPanel"'));
 assert.ok(!script.includes('<p class="proposal-inventory-note">Intervenciones:'));
-assert.ok(script.includes('populationOpen ? "open" : ""'));
 for (const population of results.population) {
   const calculated = vm.runInNewContext(percentageExpression + "; coveredPopulationPct;", { population });
   assert.ok(Math.abs(calculated - population.PCT_CUBIERTO) < 1e-9);
@@ -126,4 +128,37 @@ for (const population of results.population) {
 for (const area of results.territorial) {
   assert.ok(Math.abs(100 * area.AREA_CUBIERTA_URBANA_KM2 / area.AREA_TOTAL_URBANA_KM2 - area.PCT_URBANO) < 1e-9);
 }
-console.log("PASS: platform label totals; population and area denominators; original layers, unique colors, no duplicates, and scenarios intact.");
+const classes = new Set();
+const sidebar = { classList: { remove: key => classes.delete(key), toggle: (key, enabled) => enabled ? classes.add(key) : classes.delete(key) } };
+const node = () => ({ hidden: true, attributes: {}, handlers: {},
+  setAttribute(key, value) { this.attributes[key] = value; },
+  addEventListener(key, handler) { this.handlers[key] = handler; },
+  focus() {}, scrollIntoView() {}, closest() { return sidebar; } });
+const nodes = Object.fromEntries(["layersButton", "layersPopover", "closeLayersButton", "populationButton", "populationPopover", "closePopulationButton"].map(key => [key, node()]));
+const documentHandlers = {};
+const panelContext = vm.createContext({ elements: nodes,
+  document: { getElementById: id => nodes[id], addEventListener: (key, handler) => { documentHandlers[key] = handler; } },
+  invalidateMapLayout() {}, requestAnimationFrame: callback => callback(),
+  cameraProposal: { invalidateMiniMap() {}, renderLegend() {} },
+  isCameraProposalMode: () => true,
+  window: { matchMedia: () => ({ matches: true }) }
+});
+vm.runInContext(html.slice(html.indexOf("const layersSidebar ="), html.indexOf("[elements.baseCartographic, elements.baseSatellite].forEach")), panelContext);
+const clickPanel = key => nodes[key].handlers.click({ stopPropagation() {} });
+clickPanel("populationButton");
+assert.equal(nodes.populationPopover.hidden, false);
+assert.equal(nodes.layersPopover.hidden, true);
+assert.ok(classes.has("population-open"));
+clickPanel("layersButton");
+assert.equal(nodes.populationPopover.hidden, true);
+assert.equal(nodes.layersPopover.hidden, false);
+assert.ok(!classes.has("population-open"));
+clickPanel("populationButton");
+assert.equal(nodes.layersPopover.hidden, true);
+documentHandlers.keydown({ key: "Escape" });
+assert.equal(nodes.populationPopover.hidden, true);
+assert.equal(nodes.populationButton.attributes["aria-expanded"], "false");
+clickPanel("populationButton");
+clickPanel("closePopulationButton");
+assert.equal(nodes.populationPopover.hidden, true);
+console.log("PASS: population/layers panel switching, close and Escape; platform totals, denominators, original layers and scenarios intact.");

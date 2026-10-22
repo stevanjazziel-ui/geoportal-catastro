@@ -87,6 +87,10 @@ window.createRiobambaCameraProposal = function (api) {
     renderVersion++;
     if (!active) return;
     active = false; el.workspace.classList.remove("proposal-active");
+    document.getElementById("populationButton").hidden = true;
+    document.getElementById("populationButton").setAttribute("aria-expanded", "false");
+    document.getElementById("populationPopover").hidden = true;
+    document.getElementById("populationPopover").closest(".detail-panel").classList.remove("population-open");
     Object.values(layers).forEach(layer => map.removeLayer(layer));
     panes.forEach(id => { map.getPane(id).style.display = "none"; });
     selected = null; removeMini(); drawKey = "";
@@ -393,11 +397,12 @@ window.createRiobambaCameraProposal = function (api) {
     const existingCount = data.existing.features.length;
     const changeCount = data.existing.features.filter(change).length;
     const coveredPopulationPct = population.POBLACION_ANALIZADA > 0 && Number.isFinite(population.POBLACION_CUBIERTA) ? 100 * population.POBLACION_CUBIERTA / population.POBLACION_ANALIZADA : null;
-    const populationOpen = el.summary.querySelector("#proposalPopulationPanel")?.open === true;
+    document.getElementById("populationButton").hidden = false;
     el.summary.innerHTML = [["Cámaras actuales", existingCount - changeCount, "existing"], ["Intervenciones · total agrupado", interventionCount(), "interventions"], ["Para cambio", changeCount, "change"], ["Municipales propuestas", groupEnabled("municipal") ? 50 : 0, "municipal"], ["Policía propuesta", groupEnabled("police") ? 30 : 0, "police"], ["Área urbana cubierta · potencial", `${number(area.AREA_CUBIERTA_URBANA_KM2, 2)} km²`]].map(([label, value, symbol]) => `<div class="card"><span>${symbol ? `<i class="proposal-key ${symbol}" aria-hidden="true"></i>` : ""}${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")
-      + `<details id="proposalPopulationPanel" class="proposal-population-panel" ${populationOpen ? "open" : ""}><summary>Población y cobertura</summary><div class="proposal-population-body"><dl class="proposal-population-metrics">${[["Población urbana oficial de referencia · INEC 2022", number(window.RIOBAMBA_METHODOLOGY?.urbanReferencePopulation || 177213)], ["Población analizada en el recorte actual", number(population.POBLACION_ANALIZADA)], ["Población cubierta · estimada", number(population.POBLACION_CUBIERTA)], ["Porcentaje sobre población analizada", `${number(coveredPopulationPct, 2)} %`]].map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join("")}</dl>`
+      ;
+    document.getElementById("proposalPopulationContent").innerHTML = `<dl class="proposal-population-metrics">${[["Población urbana oficial de referencia · INEC 2022", number(window.RIOBAMBA_METHODOLOGY?.urbanReferencePopulation || 177213)], ["Población analizada en el recorte actual", number(population.POBLACION_ANALIZADA)], ["Población cubierta · estimada", number(population.POBLACION_CUBIERTA)], ["Porcentaje sobre población analizada", `${number(coveredPopulationPct, 2)} %`]].map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join("")}</dl>`
       + `<p class="proposal-inventory-note">Cálculo actual: unión de 18 plataformas (${number(area.AREA_TOTAL_URBANA_KM2, 2)} km²), no límite urbano legal. Estimación areal CPV2022; ${number(population.MANZANAS_SIN_POBLACION)} manzanas sin dato. Pendiente conciliar el ámbito censal con el total oficial antes de recalcular los porcentajes.</p>`
-      + populationComparisonHtml() + `</div></details>`;
+      + populationComparisonHtml();
     syncToggles(); draw(); detail(); graphics(); renderLegend();
     map.invalidateSize(); if (fitNeeded) fit();
     el.status.textContent = `103 existentes (${changeCount} para cambio) + 50 Municipio + 30 Policía. Radio potencial 200 m; ${quality ? `${quality.pendingValidation} posiciones provisionales pendientes incluidas` : "ubicaciones estimadas documentadas"}. Propuestas, KDE y Gi* sin cambios.`;
