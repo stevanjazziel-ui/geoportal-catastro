@@ -6,7 +6,9 @@ import unittest
 import numpy as np
 import pyogrio
 from shapely import intersection, area
-from shapely.ops import unary_union
+from shapely.geometry import shape
+from shapely.ops import transform, unary_union
+from pyproj import Transformer
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -28,6 +30,13 @@ class CurrentCoverageTest(unittest.TestCase):
         groups["combined"] = groups["current"] + groups["interventions"]
         urban = unary_union(pyogrio.read_dataframe(package, layer="PLATAFORMAS_TERRITORIALES").geometry)
         blocks = pyogrio.read_dataframe(package, layer="MANZANAS_COBERTURA")
+        base = json.loads((release / data["blocksFile"]).read_text(encoding="utf-8"))
+        self.assertEqual(len(base["features"]), len(blocks))
+        self.assertEqual(len({f["properties"]["ID_MANZANA"] for f in base["features"]}), len(blocks))
+        all_geometries = blocks.geometry.to_numpy()
+        all_areas = area(all_geometries)
+        block_union = unary_union(blocks.geometry)
+        project = Transformer.from_crs(4326, 32717, always_xy=True).transform
         valid = blocks[blocks.POBLACION.notna()]
         geometries = valid.geometry.to_numpy()
         populations = valid.POBLACION.to_numpy()
@@ -42,6 +51,31 @@ class CurrentCoverageTest(unittest.TestCase):
                 self.assertAlmostEqual(row["coveredPlatformAreaKm2"], masks[key].intersection(urban).area / 1e6, places=8)
                 actual = float(np.sum(populations * area(intersection(geometries, masks[key])) / block_areas))
                 self.assertAlmostEqual(row["coveredPopulation"], actual, places=5)
+                areas = area(intersection(all_geometries, masks[key]))
+                empty = areas <= .01
+                full = (~empty) & ((all_areas - areas) <= np.maximum(.01, all_areas * 1e-6))
+                stats = row["blockStats"]
+                self.assertEqual(stats["total"], len(blocks))
+                self.assertEqual(stats["full"], int(full.sum()))
+                self.assertEqual(stats["uncovered"], int(empty.sum()))
+                self.assertEqual(stats["partial"], len(blocks) - int(empty.sum()) - int(full.sum()))
+                self.assertEqual(stats["covered"], stats["full"] + stats["partial"])
+                self.assertAlmostEqual(stats["coveredAreaKm2"], block_union.intersection(masks[key]).area / 1e6, places=8)
+                clips = json.loads((release / row["blockClipsFile"]).read_text(encoding="utf-8"))
+                self.assertEqual(len(clips["features"]), stats["covered"])
+                self.assertEqual(len({f["properties"]["ID_MANZANA"] for f in clips["features"]}), stats["covered"])
+                self.assertEqual(sum(f["properties"]["ESTADO"] == "full" for f in clips["features"]), stats["full"])
+                sample = next(f for f in clips["features"] if 1 < f["properties"]["COBERTURA_PCT"] < 10)
+                drawn = transform(project, shape(sample["geometry"]))
+                self.assertLess(drawn.area, sample["properties"]["AREA_M2"] * .2)
+                self.assertLess(drawn.difference(masks[key].buffer(.51)).area, .01)
+                for f in clips["features"]:
+                    props = f["properties"]
+                    self.assertGreater(props["AREA_CUBIERTA_M2"], .01)
+                    self.assertLessEqual(props["AREA_CUBIERTA_M2"], props["AREA_M2"])
+                    self.assertAlmostEqual(props["COBERTURA_PCT"], 100 * props["AREA_CUBIERTA_M2"] / props["AREA_M2"])
+                    if props["POBLACION"] is None:
+                        self.assertIsNone(props["POBLACION_CUBIERTA"])
                 self.assertGreaterEqual(actual, previous[key])
                 previous[key] = actual
             self.assertLess(masks["combined"].area, masks["current"].area + masks["interventions"].area)

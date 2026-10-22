@@ -15,6 +15,9 @@
 .current-coverage-bars { display: grid; gap: 12px; margin-top: 18px; }
 .current-coverage-bars label { display: grid; grid-template-columns: 145px minmax(50px, 1fr) 70px; align-items: center; gap: 10px; font-size: 12px; }
 .current-coverage-bars meter { width: 100%; height: 18px; }
+.current-block-key { display: inline-block; width: 10px; height: 10px; margin-right: 5px; }
+.current-block-key.full { background: #16876c; }
+.current-block-key.partial { background: #e4bb43; }
 @media (max-width: 700px) {
   .current-coverage-active #summaryCards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .current-coverage-bars label { grid-template-columns: 105px minmax(40px, 1fr) 55px; gap: 5px; }
