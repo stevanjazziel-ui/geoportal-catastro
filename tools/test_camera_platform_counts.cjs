@@ -34,7 +34,7 @@ vm.runInContext(script.slice(script.indexOf("function displayFeatures("), script
 const result = context.countPlatformCameras(source);
 source.platformCounts = result;
 context.esc = value => String(value);
-context.number = value => Number(value).toLocaleString("es-EC");
+context.number = (value, digits = 0) => Number(value).toLocaleString("es-EC", { maximumFractionDigits: digits });
 assert.equal(result.rows.length, 18);
 for (const row of result.rows) {
   const total = Object.values(row.counts).reduce((sum, value) => sum + value, 0);
@@ -120,6 +120,11 @@ assert.equal(comparison.mappedCensusUrbanPopulation + comparison.urbanPopulation
 assert.ok(context.populationComparisonHtml().includes("73 cámaras"));
 assert.ok(context.populationComparisonHtml().includes("183 cámaras"));
 assert.ok(context.populationComparisonHtml().includes("Población adicional cubierta"));
+assert.ok(context.populationComparisonHtml().includes("46.630 habitantes"));
+assert.ok(context.populationComparisonHtml().includes("93.645 habitantes"));
+assert.ok(context.populationComparisonHtml().includes("de 177.213 habitantes · 26,31 %"));
+assert.ok(context.populationComparisonHtml().includes("de 177.213 habitantes · 52,84 %"));
+assert.ok(context.populationComparisonHtml().includes("+26,53 puntos porcentuales"));
 assert.ok(!context.populationComparisonHtml().includes("Total ampliado:"));
 assert.ok(!script.includes("El porcentaje urbano usa el total oficial"));
 assert.ok(!script.includes("El total ampliado incluye exteriores"));

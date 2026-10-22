@@ -132,10 +132,10 @@ window.createRiobambaCameraProposal = function (api) {
     if (!comparison) return "";
     const rows = comparison.scenarios.map(row => [
       `${row.cameraCount} cámaras · ${row.cameraCount === 73 ? "actuales sin cambio" : "escenario completo"}`,
-      row.coveredPopulation, ""
+      row.coveredPopulation, `de ${number(comparison.officialUrbanReferencePopulation)} habitantes · ${number(100 * row.coveredPopulation / comparison.officialUrbanReferencePopulation, 2)} %`
     ]);
-    rows.push(["Población adicional cubierta", comparison.additionalPopulation, `+${number(comparison.percentagePointGain, 2)} puntos porcentuales`]);
-    return `<section class="proposal-population-comparison" aria-label="Comparación de cobertura poblacional"><h2>Cobertura poblacional · 73 frente a 183 cámaras</h2><dl>${rows.map(([label, value, note]) => `<div><dt>${esc(label)}</dt><dd><strong>${esc(number(value))}</strong>${note ? `<small>${esc(note)}</small>` : ""}</dd></div>`).join("")}</dl><p>Todas las manzanas disponibles, dentro y fuera de plataformas, incluidas cabeceras parroquiales. Base: ${number(comparison.analyzedPopulation)} habitantes · radio ${comparison.radiusM} m · sin duplicar solapes. Estimación areal, no visibilidad real.</p></section>`;
+    rows.push(["Población adicional cubierta", comparison.additionalPopulation, `+${number(100 * comparison.additionalPopulation / comparison.officialUrbanReferencePopulation, 2)} puntos porcentuales`]);
+    return `<section class="proposal-population-comparison" aria-label="Comparación de cobertura poblacional"><h2>Cobertura poblacional · 73 frente a 183 cámaras</h2><dl>${rows.map(([label, value, note]) => `<div><dt>${esc(label)}</dt><dd><strong>${esc(number(value))} habitantes</strong>${note ? `<small>${esc(note)}</small>` : ""}</dd></div>`).join("")}</dl><p>Porcentajes respecto a la referencia urbana INEC de ${number(comparison.officialUrbanReferencePopulation)} habitantes. La población cubierta total incluye áreas dentro y fuera de plataformas y cabeceras parroquiales · radio ${comparison.radiusM} m · sin duplicar solapes.</p></section>`;
   }
   async function load() {
     if (data) return;
