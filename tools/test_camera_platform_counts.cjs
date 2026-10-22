@@ -22,6 +22,14 @@ context.groupEnabled = () => true;
 vm.runInContext(counting, context);
 const release = JSON.parse(fs.readFileSync(path.join(root, "sig-bridge-active.json"), "utf8"));
 const dataRoot = path.resolve(root, release.root);
+const results = JSON.parse(fs.readFileSync(path.join(dataRoot, "RESULTADOS.json"), "utf8"));
+const coverage = JSON.parse(fs.readFileSync(path.join(dataRoot, "COBERTURA_73_110_183.json"), "utf8"));
+const finalArea = results.territorial.find(row => row.ESCENARIO === "C");
+assert.ok(Math.abs(finalArea.AREA_CUBIERTA_CANTON_KM2 - coverage.scenarios["200"].groups.combined.coveredCantonAreaKm2) < 1e-8);
+const summaryCode = script.slice(script.indexOf("el.summary.innerHTML = [["), script.indexOf('document.getElementById("proposalPopulationContent").innerHTML'));
+assert.ok(summaryCode.includes('"Área cubierta · dentro del cantón"'));
+assert.ok(summaryCode.includes("number(area.AREA_CUBIERTA_CANTON_KM2, 2)"));
+assert.ok(!summaryCode.includes("AREA_CUBIERTA_URBANA_KM2"));
 const read = name => JSON.parse(fs.readFileSync(path.join(dataRoot, name + ".geojson"), "utf8"));
 const source = {
   platforms: read("PLATAFORMAS_TERRITORIALES"),
@@ -99,7 +107,6 @@ context.setLayerToggle("interventionsRadius", true);
 assert.equal(vm.runInContext("individualKeys.some(key => layerVisible(key + 'Radius'))", context), false);
 context.setLayerToggle("municipalRadius", true);
 assert.equal(vm.runInContext("layerVisible('interventionsRadius')", context), false);
-const results = JSON.parse(fs.readFileSync(path.join(dataRoot, "RESULTADOS.json"), "utf8"));
 source.results = results;
 const comparison = results.populationComparison;
 assert.deepEqual(comparison.scenarios.map(row => row.cameraCount), [73, 183]);

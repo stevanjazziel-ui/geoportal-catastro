@@ -318,13 +318,14 @@ window.createRiobambaCameraProposal = function (api) {
     removeMini();
     const a = metric("territorial"), p = metric("population"), f = selected?.feature, v = f?.properties;
     let title = "Escenario " + ({ A: "103 existentes", B: "153 equipos", C: "183 equipos" })[scenario()];
-    let rows = [["Radio", "200 m"], ["Área urbana cubierta", `${number(a.AREA_CUBIERTA_URBANA_KM2, 2)} km²`], ["Territorio urbano cubierto", pct(a.PCT_URBANO)], ["Población urbana cubierta estimada", number(p.POBLACION_CUBIERTA)], ["% población urbana cubierta", pct(p.PCT_CUBIERTO)], ["Población rural cubierta", "No disponible"]];
+    let rows = [["Radio", "200 m"], ["Área cubierta en plataformas", `${number(a.AREA_CUBIERTA_URBANA_KM2, 2)} km²`], ["Superficie de plataformas cubierta", pct(a.PCT_URBANO)], ["Población urbana cubierta estimada", number(p.POBLACION_CUBIERTA)], ["% población urbana cubierta", pct(p.PCT_CUBIERTO)], ["Población rural cubierta", "No disponible"]];
     const fullPopulation = data.results.populationComparison?.scenarios.find(row => row.cameraCount === 183);
     if (scenario() === "C" && fullPopulation) rows.splice(3, 3,
       ["Población cubierta total · manzanas disponibles", number(fullPopulation.coveredPopulation)],
       ["Dentro de plataformas", number(fullPopulation.insidePlatformPopulation)],
       ["Fuera de plataformas", number(fullPopulation.outsidePlatformPopulation)],
       ["% sobre población de manzanas disponibles", pct(fullPopulation.coveredPct)]);
+    rows.push(["Área cubierta dentro del cantón", `${number(a.AREA_CUBIERTA_CANTON_KM2, 2)} km²`]);
     const quality = data.results.inventoryGeolocation;
     if (quality) rows.push(["Coordenadas documentadas intactas", quality.documentedUnchanged], ["Cruces revisados / aprobados", quality.reviewedApprovedIntersections], ["Ubicaciones provisionales pendientes", quality.pendingValidation]);
     if (selected?.kind === "camera") {
@@ -357,8 +358,9 @@ window.createRiobambaCameraProposal = function (api) {
       return { label: category, value: Number(v.PCT_CUBIERTO.toFixed(1)), color: "#246db5" };
     }), 100, "#246db5");
     html += table("Comparación de escenarios · radio 200 m", ["Indicador", "103 existentes", "103 + 50", "103 + 50 + 30"], [
-      ["Área urbana cubierta · km²", ...codes.map(k => number(metric("territorial", k).AREA_CUBIERTA_URBANA_KM2, 2))],
-      ["Territorio urbano cubierto", ...codes.map(k => pct(metric("territorial", k).PCT_URBANO))],
+      ["Área cubierta dentro del cantón · km²", ...codes.map(k => number(metric("territorial", k).AREA_CUBIERTA_CANTON_KM2, 2))],
+      ["Área cubierta en plataformas · km²", ...codes.map(k => number(metric("territorial", k).AREA_CUBIERTA_URBANA_KM2, 2))],
+      ["Superficie de plataformas cubierta", ...codes.map(k => pct(metric("territorial", k).PCT_URBANO))],
       ["Población urbana cubierta estimada", ...codes.map(k => number(metric("population", k).POBLACION_CUBIERTA))],
       ["Población urbana cubierta · %", ...codes.map(k => pct(metric("population", k).PCT_CUBIERTO))],
       ...["DELINCUENCIA", "VIOLENCIA", "CONVIVENCIA"].map(category => [esc(category) + " · cubierto cantonal", ...codes.map(k => pct(r.incidents.find(x => x.ESCENARIO === k && x.AMBITO === "CANTONAL" && x.CATEGORIA === category).PCT_CUBIERTO))])
@@ -420,7 +422,7 @@ window.createRiobambaCameraProposal = function (api) {
     const fullPopulation = comparison.scenarios.find(row => row.cameraCount === 183);
     const coveredPopulationPct = comparison.analyzedPopulation > 0 ? 100 * fullPopulation.coveredPopulation / comparison.analyzedPopulation : null;
     document.getElementById("populationButton").hidden = false;
-    el.summary.innerHTML = [["Cámaras actuales", existingCount - changeCount, "existing"], ["Intervenciones · total agrupado", interventionCount(), "interventions"], ["Para cambio", changeCount, "change"], ["Municipales propuestas", groupEnabled("municipal") ? 50 : 0, "municipal"], ["Policía propuesta", groupEnabled("police") ? 30 : 0, "police"], ["Área urbana cubierta · potencial", `${number(area.AREA_CUBIERTA_URBANA_KM2, 2)} km²`]].map(([label, value, symbol]) => `<div class="card"><span>${symbol ? `<i class="proposal-key ${symbol}" aria-hidden="true"></i>` : ""}${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")
+    el.summary.innerHTML = [["Cámaras actuales", existingCount - changeCount, "existing"], ["Intervenciones · total agrupado", interventionCount(), "interventions"], ["Para cambio", changeCount, "change"], ["Municipales propuestas", groupEnabled("municipal") ? 50 : 0, "municipal"], ["Policía propuesta", groupEnabled("police") ? 30 : 0, "police"], ["Área cubierta · dentro del cantón", `${number(area.AREA_CUBIERTA_CANTON_KM2, 2)} km²`]].map(([label, value, symbol]) => `<div class="card"><span>${symbol ? `<i class="proposal-key ${symbol}" aria-hidden="true"></i>` : ""}${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")
       ;
     document.getElementById("proposalPopulationContent").innerHTML = populationComparisonHtml()
       + platformCameraComparisonHtml();
