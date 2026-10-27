@@ -4657,18 +4657,36 @@
         currentPlatform === ALL_PLATFORMS ? 0.18 : 0.1
       );
 
-      barriosLayer = L.geoJSON(
+      const barrioBoundaryHalo = L.geoJSON(
+        { type: "FeatureCollection", features: visibleFeatures },
+        {
+          pane: "barriosPane",
+          renderer: canvasRenderer,
+          interactive: false,
+          style: {
+            color: "#ffffff",
+            weight: currentPlatform === ALL_PLATFORMS ? 4 : 4.5,
+            opacity: 0.95,
+            lineCap: "round",
+            lineJoin: "round",
+            fill: false
+          }
+        }
+      );
+
+      const barrioBoundaries = L.geoJSON(
         { type: "FeatureCollection", features: visibleFeatures },
         {
           pane: "barriosPane",
           renderer: canvasRenderer,
           style: {
-            color: "#64748b",
-            weight: currentPlatform === ALL_PLATFORMS ? 1.05 : 1.25,
-            opacity: 0.92,
+            color: "#164e70",
+            weight: currentPlatform === ALL_PLATFORMS ? 2 : 2.4,
+            opacity: 1,
             lineCap: "round",
             lineJoin: "round",
             dashArray: "",
+            fill: false,
             fillOpacity: 0
           },
           onEachFeature: (feature, layer) => {
@@ -4690,6 +4708,8 @@
           }
         }
       );
+
+      barriosLayer = L.layerGroup([barrioBoundaryHalo, barrioBoundaries]);
 
       const labelFeatures = getVisibleBarrioLabelFeatures(visibleFeatures);
       barriosLabelLayer = L.layerGroup(
@@ -4718,6 +4738,10 @@
 
       syncSingleLayer(barriosLayer, true);
       syncSingleLayer(barriosLabelLayer, true);
+      // Keep platform outlines above the neighborhood casing in the shared canvas.
+      if (platformLayer && map.hasLayer(platformLayer)) {
+        platformLayer.bringToFront();
+      }
       if (barriosLabelLayer && typeof barriosLabelLayer.bringToFront === "function") {
         barriosLabelLayer.bringToFront();
       }
@@ -8210,5 +8234,6 @@
   </script>
 </body>
 </html>
+
 
 
