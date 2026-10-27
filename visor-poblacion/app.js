@@ -12,6 +12,7 @@ L.control.layers({'OpenStreetMap':base,'Base diagnóstico':diagnostic,'Google Ma
 map.createPane('platforms');map.getPane('platforms').style.zIndex=410;map.createPane('barrios');map.getPane('barrios').style.zIndex=420;
 map.createPane('cabeceras');map.getPane('cabeceras').style.zIndex=430;
 map.createPane('barrioLabels');map.getPane('barrioLabels').style.zIndex=680;map.getPane('barrioLabels').style.pointerEvents='none';
+map.createPane('cabeceraLabels');map.getPane('cabeceraLabels').style.zIndex=690;map.getPane('cabeceraLabels').style.pointerEvents='none';
 const fc=features=>({type:'FeatureCollection',features}),color=n=>n>=300?'#145954':n>=150?'#21877e':n>=50?'#59bba7':'#b9e5da';
 const bounds=L.geoJSON(fc(D.parishes),{style:{color:'#466370',weight:1.5,fillOpacity:0,dashArray:'6 5'},interactive:false}).addTo(map).getBounds();map.fitBounds(bounds);
 let groups=[],active=[];
@@ -28,7 +29,12 @@ for(const f of cabecerasPrincipales){const name=f.properties.name;if(!cabeceraCo
 for(const name of [...cabeceraCodes.keys()].sort((a,b)=>a.localeCompare(b,'es'))){const o=document.createElement('option');o.value=name;o.textContent=name;$('cabecera').append(o);}
 const cabeceraStyle=f=>({color:f.properties.is_cabecera?'#a04886':'#687787',weight:3,dashArray:f.properties.is_cabecera?'9 5':'3 7',fill:false});
 const cabecerasLayer=L.geoJSON(fc(cabeceras),{pane:'cabeceras',interactive:false,style:cabeceraStyle}).addTo(map);
-function updateCabeceras(){if($('showCabeceras').checked){if(!map.hasLayer(cabecerasLayer))cabecerasLayer.addTo(map)}else map.removeLayer(cabecerasLayer);}
+let cabeceraLabelLayers=[];
+function renderCabeceraLabels(){cabeceraLabelLayers.forEach(l=>map.removeLayer(l));cabeceraLabelLayers=[];if(!$('showCabeceras').checked)return;
+const placed=[],viewport=map.getBounds().pad(.12),selected=$('cabecera').value,labels=[...window.CABECERAS_LABELS].sort((a,b)=>Number(b.name===selected)-Number(a.name===selected)||a.name.localeCompare(b.name,'es'));
+for(const p of labels){if(!viewport.contains([p.lat,p.lon]))continue;const anchor=map.latLngToLayerPoint([p.lat,p.lon]),offsets=[[0,-20],[0,20],[65,0],[-65,0],[65,-32],[-65,-32],[65,32],[-65,32],[0,-54],[0,54],[120,0],[-120,0]];let position=anchor.add(offsets[0]);for(const offset of offsets){const candidate=anchor.add(offset);if(!placed.some(other=>Math.abs(candidate.x-other.x)<116&&Math.abs(candidate.y-other.y)<30)){position=candidate;break;}}placed.push(position);const ll=map.layerPointToLatLng(position);cabeceraLabelLayers.push(L.polyline([[p.lat,p.lon],ll],{pane:'cabeceraLabels',interactive:false,color:'#7d3569',weight:1,opacity:.75}).addTo(map));cabeceraLabelLayers.push(L.marker(ll,{pane:'cabeceraLabels',interactive:false,keyboard:false,icon:L.divIcon({className:'cabecera-label-icon',html:`<div class="cabecera-label">${esc(p.name)}</div>`,iconSize:[110,24],iconAnchor:[55,12]})}).addTo(map));}}
+map.on('zoomend moveend',renderCabeceraLabels);renderCabeceraLabels();
+function updateCabeceras(){if($('showCabeceras').checked){if(!map.hasLayer(cabecerasLayer))cabecerasLayer.addTo(map)}else map.removeLayer(cabecerasLayer);renderCabeceraLabels();}
 function focusCabeceras(){const name=$('cabecera').value;$('showCabeceras').checked=true;updateCabeceras();cabecerasLayer.setStyle(f=>({...cabeceraStyle(f),...(name&&f.properties.name===name&&f.properties.is_cabecera?{weight:5,dashArray:''}:{})}));render();$('selection').hidden=false;$('openStats').hidden=true;const selected=cabecerasPrincipales.filter(f=>!name||f.properties.name===name);map.fitBounds(L.geoJSON(fc(selected)).getBounds().pad(.12),{maxZoom:15});}
 $('showCabeceras').onchange=updateCabeceras;
 $('cabecera').onchange=focusCabeceras;
