@@ -11,7 +11,7 @@ const fc=features=>({type:'FeatureCollection',features}),color=n=>n>=300?'#14595
 const bounds=L.geoJSON(fc(D.parishes),{style:{color:'#466370',weight:1.5,fillOpacity:0,dashArray:'6 5'},interactive:false}).addTo(map).getBounds();map.fitBounds(bounds);
 let groups=[],active=[];
 let barrioLabelLayers=[],visibleBarrioKeys=new Set();
-function renderBarrioLabels(){barrioLabelLayers.forEach(l=>map.removeLayer(l));barrioLabelLayers=[];const zoom=map.getZoom();if(!$('showBarrios').checked||!$('showNames').checked||zoom<14)return;
+function renderBarrioLabels(){barrioLabelLayers.forEach(l=>map.removeLayer(l));barrioLabelLayers=[];const zoom=map.getZoom();if(!$('showBarrios').checked||zoom<14)return;
 const scoped=Boolean($('platform').value),distance=scoped?(zoom>=16?58:78):(zoom>=16?78:108),limit=scoped?(zoom>=16?90:55):(zoom>=16?150:90),placed=[];
 const viewport=map.getBounds().pad(scoped?.1:.18),candidates=window.BARRIOS_LABELS.filter(p=>p.area_m2>=1000&&p.source_keys.some(k=>visibleBarrioKeys.has(k))&&viewport.contains([p.lat,p.lon])).sort((a,b)=>b.area_m2-a.area_m2);
 for(const p of candidates){const point=map.latLngToLayerPoint([p.lat,p.lon]);if(placed.some(other=>point.distanceTo(other)<distance))continue;placed.push(point);barrioLabelLayers.push(L.marker([p.lat,p.lon],{pane:'barrioLabels',interactive:false,keyboard:false,icon:L.divIcon({className:'barrio-label-icon',html:`<div class="barrio-label">${esc(p.name)}</div>`,iconSize:[100,28],iconAnchor:[50,14]})}).addTo(map));if(placed.length>=limit)break;}}
@@ -52,7 +52,7 @@ for(const [id,key,area] of [['urbanPop','pop','URBANO'],['ruralPop','pop','RURAL
 const result=$('results');result.replaceChildren();if(q){active.slice(0,40).forEach(f=>{const b=document.createElement('button');b.textContent=f.properties.name+' · '+num(f.properties.pop)+' hab.';b.onclick=()=>{const g=L.geoJSON(f);map.fitBounds(g.getBounds().pad(.5),{maxZoom:17});L.popup().setLatLng(g.getBounds().getCenter()).setContent(popup(f.properties)).openOn(map)};result.append(b)});if(!active.length)result.textContent='No se encontraron coincidencias.';}
 if(fit&&active.length)map.fitBounds(L.geoJSON(fc(platform&&!zone&&!parish&&!q&&!cabecera?pf:active)).getBounds().pad(.08),{maxZoom:15});}
 for(const id of ['zone','parish','platform'])$(id).onchange=()=>render(true);
-for(const id of ['showPlatforms','showBarrios','showPopulation','showNames'])$(id).onchange=()=>render();
+for(const id of ['showPlatforms','showBarrios','showPopulation'])$(id).onchange=()=>render();
 let timer;$('search').oninput=()=>{clearTimeout(timer);timer=setTimeout(()=>render(true),250)};
 $('reset').onclick=()=>{for(const id of ['zone','parish','platform','search','cabecera'])$(id).value='';cabecerasLayer.setStyle(cabeceraStyle);render();map.fitBounds(bounds)};render();
 $('closeStats').onclick=()=>{$('selection').hidden=true;$('openStats').hidden=false};
