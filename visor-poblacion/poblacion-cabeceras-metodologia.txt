@@ -1,0 +1,4 @@
+Fuente: CPV 2022 / marco geoestadístico y límites urbanos PUGS 2025.
+Método: población completa de cada unidad censal cuyo punto interior representativo cae dentro de la cabecera. Asignación única, sin duplicar unidades.
+Cifras referenciales, no un conteo oficial publicado por cabecera. Las manzanas que cruzan el límite y las localidades representadas mediante puntos generan incertidumbre. crossing_pop indica población asignada en manzanas que cruzan el límite; no es una cifra de error.
+Los campos urban/rural conservan la clasificación censal AUR, independiente de la delimitación PUGS. El total cartográfico del cantón es 260.477 de 260.882 habitantes; 405 habitantes no están ubicados en las capas disponibles.
