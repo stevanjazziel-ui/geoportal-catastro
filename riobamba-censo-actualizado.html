@@ -736,7 +736,7 @@
       <section class="panel">
         <h2>Capas visibles</h2>
         <div class="layer-toggles">
-          <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox"></label>
           <label class="layer-toggle"><span>Manzanas solo contorno</span><input id="toggleManzanasOutlineOnly" type="checkbox"></label>
           <label class="layer-toggle" style="display:none;"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Barrios</span><input id="toggleBarrios" type="checkbox" checked></label>
@@ -1144,7 +1144,7 @@
     const exteriorBoundaryCache = new WeakMap();
     const featureBBoxCache = new WeakMap();
     const layerVisibility = {
-      manzanas: true,
+      manzanas: false,
       manzanasSoloContorno: false,
       plataformas: true,
       barrios: true,
@@ -8234,6 +8234,7 @@
   </script>
 </body>
 </html>
+
 
 
 
