@@ -528,6 +528,56 @@
       display: none !important;
     }
 
+    .analysis-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .analysis-card-header h3 {
+      flex: 1;
+      min-width: 0;
+      margin: 0;
+    }
+
+    .analysis-card-close {
+      display: grid;
+      place-items: center;
+      flex: 0 0 32px;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(36, 50, 38, 0.07);
+      color: var(--text);
+      font-size: 24px;
+      line-height: 1;
+      box-shadow: none;
+      transform: none !important;
+    }
+
+    .analysis-card-close:hover {
+      background: rgba(36, 50, 38, 0.16);
+    }
+
+    .analysis-restore {
+      position: absolute;
+      top: 72px;
+      right: 16px;
+      z-index: 500;
+      width: auto;
+      max-width: calc(100% - 32px);
+      padding: 9px 13px;
+      font-size: 0.82rem;
+      background: var(--panel);
+    }
+
+    .analysis-restore[hidden] {
+      display: none !important;
+    }
+
     .analysis-card h3 {
       margin: 0 0 4px;
       font-size: 0.95rem;
@@ -912,10 +962,14 @@
         <p id="overlayText">Haz clic en una manzana o plataforma para ver sus datos.</p>
       </div>
       <section class="analysis-card" id="focusedAnalysisCard" hidden>
-        <h3 id="focusedAnalysisTitle">Analisis de cobertura</h3>
+        <div class="analysis-card-header">
+          <h3 id="focusedAnalysisTitle">Analisis de cobertura</h3>
+          <button type="button" class="analysis-card-close" id="closeAnalysisCardButton" aria-label="Cerrar estad&iacute;sticas" title="Cerrar estad&iacute;sticas">&times;</button>
+        </div>
         <p id="focusedAnalysisSubtitle">Poblacion calculada desde manzanas censales.</p>
         <div class="analysis-grid" id="focusedAnalysisGrid"></div>
       </section>
+      <button type="button" class="analysis-restore" id="restoreAnalysisCardButton" aria-controls="focusedAnalysisCard" hidden>Ver estad&iacute;sticas</button>
     </main>
   </div>
 
@@ -1106,6 +1160,7 @@
     let isocronasStats = null;
     let focusedCoverageState = null;
     let focusedAnalysisExpandedKey = null;
+    let focusedAnalysisDismissed = false;
     let currentMetric = "population_total";
     let currentPlatform = ALL_PLATFORMS;
     let globalSummary = null;
@@ -1177,6 +1232,8 @@
     const summaryTitle = document.getElementById("summaryTitle");
     const coverageList = document.getElementById("coverageList");
     const focusedAnalysisCard = document.getElementById("focusedAnalysisCard");
+    const closeAnalysisCardButton = document.getElementById("closeAnalysisCardButton");
+    const restoreAnalysisCardButton = document.getElementById("restoreAnalysisCardButton");
     const focusedAnalysisTitle = document.getElementById("focusedAnalysisTitle");
     const focusedAnalysisSubtitle = document.getElementById("focusedAnalysisSubtitle");
     const focusedAnalysisGrid = document.getElementById("focusedAnalysisGrid");
@@ -4164,6 +4221,13 @@
 
     function updateFocusedAnalysisCard() {
       if (!focusedAnalysisCard || !focusedAnalysisGrid || !focusedAnalysisTitle || !focusedAnalysisSubtitle) {
+        return;
+      }
+
+      const analysisAvailable = currentPlatform === ALL_PLATFORMS || hasFocusedPlatformSelection();
+      restoreAnalysisCardButton.hidden = !focusedAnalysisDismissed || !analysisAvailable;
+      if (focusedAnalysisDismissed && analysisAvailable) {
+        focusedAnalysisCard.hidden = true;
         return;
       }
 
@@ -8057,6 +8121,18 @@
       applyPlatformSelection(platformSelect.value, true);
     });
 
+    closeAnalysisCardButton.addEventListener("click", () => {
+      focusedAnalysisDismissed = true;
+      updateFocusedAnalysisCard();
+      restoreAnalysisCardButton.focus();
+    });
+
+    restoreAnalysisCardButton.addEventListener("click", () => {
+      focusedAnalysisDismissed = false;
+      updateFocusedAnalysisCard();
+      closeAnalysisCardButton.focus();
+    });
+
     if (focusedAnalysisGrid) {
       focusedAnalysisGrid.addEventListener("click", (event) => {
         const card = event.target.closest(".analysis-item[data-expandable='true']");
@@ -8234,6 +8310,7 @@
   </script>
 </body>
 </html>
+
 
 
 
