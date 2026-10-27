@@ -732,7 +732,7 @@
       <section class="panel">
         <h2>Capas visibles</h2>
         <div class="layer-toggles">
-          <label class="layer-toggle" style="display:none;"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked></label>
+          <label class="layer-toggle"><span>Manzanas censales</span><input id="toggleManzanas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Manzanas solo contorno</span><input id="toggleManzanasOutlineOnly" type="checkbox"></label>
           <label class="layer-toggle" style="display:none;"><span>Plataformas</span><input id="togglePlataformas" type="checkbox" checked></label>
           <label class="layer-toggle"><span>Barrios</span><input id="toggleBarrios" type="checkbox" checked></label>
@@ -1291,7 +1291,6 @@
       saludIsocronasSummary.closest(".panel").querySelector("h2").textContent = "Salud 1000 m ciudad completa";
 
       [
-        toggleManzanas,
         togglePlataformas,
         toggleEquipamientos,
         toggleRedVial1000m,
@@ -3681,7 +3680,7 @@
     }
 
     function syncVisibleLayers() {
-      syncSingleLayer(manzanaLayer, layerVisibility.manzanas || hasFocusedPlatformSelection());
+      syncSingleLayer(manzanaLayer, layerVisibility.manzanas);
       syncSingleLayer(platformLayer, layerVisibility.plataformas);
       syncSingleLayer(barriosLayer, layerVisibility.barrios);
       syncSingleLayer(barriosLabelLayer, layerVisibility.barrios);
@@ -4436,16 +4435,13 @@
     }
 
     function updatePlatformFocusUi() {
-      const focused = hasFocusedPlatformSelection();
       const manzanaLabel = toggleManzanas.closest("label");
 
-      toggleManzanas.disabled = focused;
-      toggleManzanas.checked = focused ? true : layerVisibility.manzanas;
+      toggleManzanas.disabled = false;
+      toggleManzanas.checked = layerVisibility.manzanas;
       if (manzanaLabel) {
-        manzanaLabel.style.opacity = focused ? "0.45" : "";
-        manzanaLabel.title = focused
-          ? "Al elegir una plataforma, el mapa muestra la cobertura por manzana de las isocronas visibles."
-          : "";
+        manzanaLabel.style.opacity = "";
+        manzanaLabel.title = "Mostrar u ocultar las manzanas censales sin cambiar las estadisticas.";
       }
     }
 
@@ -5008,7 +5004,7 @@
           }
         }
       );
-      syncSingleLayer(manzanaLayer, layerVisibility.manzanas || hasFocusedPlatformSelection());
+      syncSingleLayer(manzanaLayer, layerVisibility.manzanas);
 
       renderLegend(breaks);
 
@@ -8209,3 +8205,4 @@
   </script>
 </body>
 </html>
+
