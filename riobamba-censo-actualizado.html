@@ -336,6 +336,41 @@
       flex: 0 0 auto;
     }
 
+    .platform-label-icon {
+      background: transparent;
+      border: 0;
+      pointer-events: none;
+    }
+
+    .platform-label {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #fff;
+      border-radius: 6px;
+      background: rgba(25, 48, 65, 0.95);
+      color: #fff;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .platform-label span {
+      font-size: 7px;
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: 0.04em;
+    }
+
+    .platform-label strong {
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
     .barrio-label-icon {
       background: transparent;
       border: 0;
@@ -1148,6 +1183,8 @@
 
     let manzanaLayer = null;
     let platformLayer = null;
+    let platformLabelLayer = null;
+    const platformLabelLocationCache = new WeakMap();
     let joinedFeatures = [];
     let platformFeatures = [];
     let barriosFeatures = [];
@@ -3744,6 +3781,7 @@
     function syncVisibleLayers() {
       syncSingleLayer(manzanaLayer, layerVisibility.manzanas);
       syncSingleLayer(platformLayer, layerVisibility.plataformas);
+      syncSingleLayer(platformLabelLayer, layerVisibility.plataformas);
       syncSingleLayer(barriosLayer, layerVisibility.barrios);
       syncSingleLayer(barriosLabelLayer, layerVisibility.barrios);
       syncSingleLayer(equipamientosLayer, layerVisibility.equipamientos);
@@ -4574,9 +4612,49 @@
       }
     }
 
+    function getPlatformLabelLocation(feature) {
+      if (!feature?.geometry) return null;
+      if (platformLabelLocationCache.has(feature)) {
+        return platformLabelLocationCache.get(feature);
+      }
+
+      try {
+        let labelPoint = turf.centerOfMass(feature);
+        if (!turf.booleanPointInPolygon(labelPoint, feature)) {
+          const [west, south, east, north] = turf.bbox(feature);
+          const [centerLon, centerLat] = labelPoint.geometry.coordinates;
+          let bestPoint = null;
+          let bestDistance = Infinity;
+          // Concave platforms can have centroids outside their boundary.
+          for (let row = 1; row < 16; row += 1) {
+            for (let column = 1; column < 16; column += 1) {
+              const lon = west + (east - west) * column / 16;
+              const lat = south + (north - south) * row / 16;
+              const candidate = turf.point([lon, lat]);
+              const distance = (lon - centerLon) ** 2 + (lat - centerLat) ** 2;
+              if (distance < bestDistance && turf.booleanPointInPolygon(candidate, feature)) {
+                bestPoint = candidate;
+                bestDistance = distance;
+              }
+            }
+          }
+          labelPoint = bestPoint || turf.pointOnFeature(feature);
+        }
+        const [lon, lat] = labelPoint.geometry.coordinates;
+        const location = Number.isFinite(lat) && Number.isFinite(lon) ? [lat, lon] : null;
+        platformLabelLocationCache.set(feature, location);
+        return location;
+      } catch (error) {
+        return null;
+      }
+    }
+
     function renderPlatformLayer() {
       if (platformLayer) {
         map.removeLayer(platformLayer);
+      }
+      if (platformLabelLayer) {
+        map.removeLayer(platformLabelLayer);
       }
 
       const visiblePlatformFeatures = getVisiblePlatformFeatures();
@@ -4584,6 +4662,11 @@
       if (!map.getPane("platformPane")) {
         map.createPane("platformPane");
         map.getPane("platformPane").style.zIndex = 645;
+      }
+      if (!map.getPane("platformLabelsPane")) {
+        map.createPane("platformLabelsPane");
+        map.getPane("platformLabelsPane").style.zIndex = 690;
+        map.getPane("platformLabelsPane").style.pointerEvents = "none";
       }
 
       platformLayer = L.geoJSON(
@@ -4609,7 +4692,28 @@
           }
         }
       );
+      platformLabelLayer = L.layerGroup(
+        visiblePlatformFeatures.map((feature) => {
+          const location = getPlatformLabelLocation(feature);
+          const name = displayPlatformName(feature.properties?.platform_name);
+          if (!location || !name) return null;
+          const code = name.replace(/^PLATAFORMA\s+/i, "");
+          return L.marker(location, {
+            pane: "platformLabelsPane",
+            interactive: false,
+            keyboard: false,
+            title: name,
+            icon: L.divIcon({
+              className: "platform-label-icon",
+              html: `<div class="platform-label"><span>PLATAFORMA</span><strong>${escapeHtml(code)}</strong></div>`,
+              iconSize: [64, 34],
+              iconAnchor: [32, 17]
+            })
+          });
+        }).filter(Boolean)
+      );
       syncSingleLayer(platformLayer, layerVisibility.plataformas);
+      syncSingleLayer(platformLabelLayer, layerVisibility.plataformas);
       if (platformLayer && typeof platformLayer.bringToFront === "function") {
         platformLayer.bringToFront();
       }
@@ -5647,6 +5751,7 @@
     function legacySyncVisibleLayers() {
       syncSingleLayer(manzanaLayer, layerVisibility.manzanas);
       syncSingleLayer(platformLayer, layerVisibility.plataformas);
+      syncSingleLayer(platformLabelLayer, layerVisibility.plataformas);
       syncSingleLayer(equipamientosLayer, layerVisibility.equipamientos);
       syncSingleLayer(isocronaPolygonLayer, layerVisibility.isocronasColindantes);
       syncSingleLayer(isocronaNetworkLayer, layerVisibility.redVial1000m);
@@ -8310,6 +8415,7 @@
   </script>
 </body>
 </html>
+
 
 
 
