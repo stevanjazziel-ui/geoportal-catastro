@@ -4569,8 +4569,10 @@
         : currentPlatform !== ALL_PLATFORMS && feature.properties.platform_name === currentPlatform;
       return {
         color: "#111827",
-        weight: isSelected ? 3.6 : 2.35,
-        opacity: isSelected ? 1 : 0.95,
+        weight: isSelected ? 4.6 : 3.4,
+        opacity: 1,
+        lineCap: "round",
+        lineJoin: "round",
         fillColor: "#111827",
         fill: false,
         fillOpacity: 0,
@@ -4669,7 +4671,20 @@
         map.getPane("platformLabelsPane").style.pointerEvents = "none";
       }
 
-      platformLayer = L.geoJSON(
+      const platformBoundaryHalo = L.geoJSON(
+        { type: "FeatureCollection", features: visiblePlatformFeatures },
+        {
+          pane: "platformPane",
+          renderer: canvasRenderer,
+          interactive: false,
+          style: (feature) => {
+            const style = platformStyle(feature);
+            return { ...style, color: "#ffffff", weight: style.weight + 3.2, opacity: 0.98 };
+          }
+        }
+      );
+
+      const platformBoundaries = L.geoJSON(
         { type: "FeatureCollection", features: visiblePlatformFeatures },
         {
           pane: "platformPane",
@@ -4692,6 +4707,7 @@
           }
         }
       );
+      platformLayer = L.featureGroup([platformBoundaryHalo, platformBoundaries]);
       platformLabelLayer = L.layerGroup(
         visiblePlatformFeatures.map((feature) => {
           const location = getPlatformLabelLocation(feature);
@@ -8415,6 +8431,7 @@
   </script>
 </body>
 </html>
+
 
 
 
