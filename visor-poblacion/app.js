@@ -5,9 +5,18 @@ const diagnostic=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{
 const satellite=L.tileLayer('https://mt{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{subdomains:'0123',maxZoom:20,opacity:.5,attribution:'Imagery © Google'}).addTo(map);
 L.control.layers({'OpenStreetMap':base,'Base diagnóstico':diagnostic,'Google Maps (satelital 50%)':satellite},null,{position:'topright'}).addTo(map);L.control.scale({imperial:false}).addTo(map);
 map.createPane('platforms');map.getPane('platforms').style.zIndex=410;map.createPane('barrios');map.getPane('barrios').style.zIndex=420;
+map.createPane('cabeceras');map.getPane('cabeceras').style.zIndex=430;
 const fc=features=>({type:'FeatureCollection',features}),color=n=>n>=300?'#145954':n>=150?'#21877e':n>=50?'#59bba7':'#b9e5da';
 const bounds=L.geoJSON(fc(D.parishes),{style:{color:'#466370',weight:1.5,fillOpacity:0,dashArray:'6 5'},interactive:false}).addTo(map).getBounds();map.fitBounds(bounds);
 let groups=[],active=[];
+const cabeceras=window.CABECERAS.features;
+for(const name of [...new Set(cabeceras.map(f=>f.properties.name))].sort((a,b)=>a.localeCompare(b,'es'))){const o=document.createElement('option');o.value=name;o.textContent=name;$('cabecera').append(o);}
+const cabecerasLayer=L.geoJSON(fc(cabeceras),{pane:'cabeceras',style:{color:'#a04886',weight:3,dashArray:'9 5',fill:false},onEachFeature:(f,l)=>l.bindTooltip('Cabecera urbana: '+esc(f.properties.name),{sticky:true}).bindPopup(`<b>Cabecera urbana: ${esc(f.properties.name)}</b><br>Superficie del polígono: ${num(f.properties.area_ha)} ha<br>Fuente: ${esc(f.properties.source)}<br>Delimitación de planificación; la clasificación censal AUR puede diferir.`)}).addTo(map);
+function updateCabeceras(){if($('showCabeceras').checked){if(!map.hasLayer(cabecerasLayer))cabecerasLayer.addTo(map)}else map.removeLayer(cabecerasLayer);}
+function focusCabeceras(){const name=$('cabecera').value;$('showCabeceras').checked=true;updateCabeceras();cabecerasLayer.setStyle(f=>({color:'#a04886',weight:name&&f.properties.name===name?5:3,dashArray:name&&f.properties.name===name?'':'9 5'}));const selected=cabeceras.filter(f=>!name||f.properties.name===name);map.fitBounds(L.geoJSON(fc(selected)).getBounds().pad(.12),{maxZoom:15});}
+$('showCabeceras').onchange=updateCabeceras;
+$('cabecera').onchange=focusCabeceras;
+$('focusCabeceras').onclick=focusCabeceras;
 function popup(p){return `<b>${esc(p.name)}</b><br><strong>${num(p.pop)}</strong> habitantes<br>${p.type?`${esc(p.zone)} · ${esc(p.type)}<br>Parroquia: ${esc(p.parish)}<br>Hombres: ${num(p.male)} · Mujeres: ${num(p.female)}<br>`:'Población asignada espacialmente<br>'}${p.platform?esc(p.platform)+'<br>':''}${p.barrio?'Barrio: '+esc(p.barrio):''}`;}
 for(const id of ['parish','platform']){const key=id==='parish'?'parish':'name';const source=id==='parish'?D.units:D.platforms;[...new Set(source.map(f=>f.properties[key]))].filter(Boolean).sort((a,b)=>a.localeCompare(b,'es')).forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;$(id).append(o)});}
 function render(fit=false){groups.forEach(g=>map.removeLayer(g));groups=[];const zone=$('zone').value,parish=$('parish').value,platform=$('platform').value,q=$('search').value.trim().toLocaleLowerCase('es');
@@ -28,6 +37,6 @@ if(fit&&active.length)map.fitBounds(L.geoJSON(fc(platform&&!zone&&!parish&&!q?pf
 for(const id of ['zone','parish','platform'])$(id).onchange=()=>render(true);
 for(const id of ['showPlatforms','showBarrios','showPopulation','showNames'])$(id).onchange=()=>render();
 let timer;$('search').oninput=()=>{clearTimeout(timer);timer=setTimeout(()=>render(true),250)};
-$('reset').onclick=()=>{for(const id of ['zone','parish','platform','search'])$(id).value='';render();map.fitBounds(bounds)};render();
+$('reset').onclick=()=>{for(const id of ['zone','parish','platform','search','cabecera'])$(id).value='';cabecerasLayer.setStyle({weight:3,dashArray:'9 5'});render();map.fitBounds(bounds)};render();
 $('closeStats').onclick=()=>{$('selection').hidden=true;$('openStats').hidden=false};
 $('openStats').onclick=()=>{$('selection').hidden=false;$('openStats').hidden=true};
