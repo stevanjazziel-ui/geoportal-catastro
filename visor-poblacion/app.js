@@ -1,8 +1,9 @@
 const D=window.TERRITORY,$=id=>document.getElementById(id),num=n=>new Intl.NumberFormat('es-EC').format(n),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const map=L.map('map',{preferCanvas:true}).setView([-1.66,-78.65],11);
-const base=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(map);
-const satellite=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Tiles © Esri'});
-L.control.layers({'Calles':base,'Satélite':satellite},null,{position:'topright'}).addTo(map);L.control.scale({imperial:false}).addTo(map);
+const base=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,className:'osm-base-tiles',attribution:'© OpenStreetMap contributors'});
+const diagnostic=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:20,className:'diagnostic-base-tiles',attribution:'© OpenStreetMap contributors © CARTO'});
+const satellite=L.tileLayer('https://mt{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{subdomains:'0123',maxZoom:20,opacity:.5,attribution:'Imagery © Google'}).addTo(map);
+L.control.layers({'OpenStreetMap':base,'Base diagnóstico':diagnostic,'Google Maps (satelital 50%)':satellite},null,{position:'topright'}).addTo(map);L.control.scale({imperial:false}).addTo(map);
 map.createPane('platforms');map.getPane('platforms').style.zIndex=410;map.createPane('barrios');map.getPane('barrios').style.zIndex=420;
 const fc=features=>({type:'FeatureCollection',features}),color=n=>n>=300?'#145954':n>=150?'#21877e':n>=50?'#59bba7':'#b9e5da';
 const bounds=L.geoJSON(fc(D.parishes),{style:{color:'#466370',weight:1.5,fillOpacity:0,dashArray:'6 5'},interactive:false}).addTo(map).getBounds();map.fitBounds(bounds);
@@ -16,13 +17,17 @@ const pf=D.platforms.filter(f=>(!platform||f.properties.name===platform)&&(!zone
 const bf=D.barrios.filter(f=>(!platform||f.properties.platform===platform)&&(!q||f.properties.name.toLocaleLowerCase('es').includes(q)||bs.has(f.properties.name))&&(!zone&&!parish||bs.has(f.properties.name)));
 const add=(features,options)=>{const g=L.geoJSON(fc(features),options).addTo(map);groups.push(g);return g};
 if($('showPopulation').checked)add(active,{style:f=>({color:'#285f59',weight:.35,fillColor:color(f.properties.pop),fillOpacity:.64}),pointToLayer:(f,ll)=>L.circleMarker(ll,{radius:Math.min(13,3+Math.sqrt(f.properties.pop)/4),color:'#145954',weight:1,fillColor:color(f.properties.pop),fillOpacity:.85}),onEachFeature:(f,l)=>l.bindPopup(popup(f.properties))});
-if($('showPlatforms').checked)add(pf,{pane:'platforms',style:{color:'#d19b33',weight:2.5,fillOpacity:.025},onEachFeature:(f,l)=>l.bindPopup(popup(f.properties)).bindTooltip(esc(f.properties.name),{sticky:true})});
-if($('showBarrios').checked)add(bf,{pane:'barrios',style:{color:'#615bbb',weight:1.2,fillOpacity:.02},onEachFeature:(f,l)=>{l.bindPopup(popup(f.properties));l.bindTooltip(esc(f.properties.name),{permanent:$('showNames').checked,direction:'center',className:'barrio-label'});}});
+if($('showPlatforms').checked){add(pf,{pane:'platforms',interactive:false,style:{color:'#fff',weight:7,fillOpacity:0}});const outlines=add(pf,{pane:'platforms',style:{color:'#193041',weight:3.5,fillOpacity:.015},onEachFeature:(f,l)=>l.bindPopup(popup(f.properties)).bindTooltip(esc(f.properties.name),{sticky:true})});outlines.eachLayer(l=>{const p=l.feature.properties,center=l.getBounds().getCenter(),code=p.name.replace('PLATAFORMA ','');const tag=L.marker(center,{interactive:false,icon:L.divIcon({className:'platform-tag',html:`<div><span>PLATAFORMA</span><strong>${esc(code)}</strong></div>`,iconSize:[64,37],iconAnchor:[32,18]})}).addTo(map);groups.push(tag)});}
+if($('showBarrios').checked)add(bf,{pane:'barrios',style:{color:'#4c91b3',weight:1.2,fillOpacity:.02},onEachFeature:(f,l)=>{l.bindPopup(popup(f.properties));l.bindTooltip(esc(f.properties.name),{permanent:$('showNames').checked,direction:'center',className:'barrio-label'});}});
 $('selectedPop').textContent=num(active.reduce((s,f)=>s+f.properties.pop,0))+' hab.';$('selectedCount').textContent=`${num(active.length)} unidades censales · ${bf.length} polígonos de barrio · población georreferenciada`;
 $('mapSubtitle').textContent=[zone,parish,platform].filter(Boolean).join(' · ')||'Cantón · Chimborazo';
+$('analysisTitle').textContent=platform?'Estadísticas de '+platform:zone||parish||q?'Estadísticas de la selección':'Estadísticas de todo el cantón';
+for(const [id,key,area] of [['urbanPop','pop','URBANO'],['ruralPop','pop','RURAL'],['malePop','male',''],['femalePop','female','']])$(id).textContent=num(active.filter(f=>!area||f.properties.zone===area).reduce((s,f)=>s+f.properties[key],0))+' hab.';
 const result=$('results');result.replaceChildren();if(q){active.slice(0,40).forEach(f=>{const b=document.createElement('button');b.textContent=f.properties.name+' · '+num(f.properties.pop)+' hab.';b.onclick=()=>{const g=L.geoJSON(f);map.fitBounds(g.getBounds().pad(.5),{maxZoom:17});L.popup().setLatLng(g.getBounds().getCenter()).setContent(popup(f.properties)).openOn(map)};result.append(b)});if(!active.length)result.textContent='No se encontraron coincidencias.';}
 if(fit&&active.length)map.fitBounds(L.geoJSON(fc(platform&&!zone&&!parish&&!q?pf:active)).getBounds().pad(.08),{maxZoom:15});}
 for(const id of ['zone','parish','platform'])$(id).onchange=()=>render(true);
 for(const id of ['showPlatforms','showBarrios','showPopulation','showNames'])$(id).onchange=()=>render();
 let timer;$('search').oninput=()=>{clearTimeout(timer);timer=setTimeout(()=>render(true),250)};
 $('reset').onclick=()=>{for(const id of ['zone','parish','platform','search'])$(id).value='';render();map.fitBounds(bounds)};render();
+$('closeStats').onclick=()=>{$('selection').hidden=true;$('openStats').hidden=false};
+$('openStats').onclick=()=>{$('selection').hidden=false;$('openStats').hidden=true};
