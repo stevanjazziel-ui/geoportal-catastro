@@ -343,20 +343,25 @@
     }
 
     .barrio-label {
-      transform: translate(-50%, -50%);
-      padding: 1px 4px;
-      border-radius: 6px;
-      background: rgba(248, 250, 244, 0.72);
-      border: 1px solid rgba(123, 97, 179, 0.18);
-      color: var(--text);
-      font-size: 8px;
-      font-weight: 600;
-      line-height: 1.05;
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 5px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid rgba(51, 65, 85, 0.62);
+      color: #1f2937;
+      font-size: 9px;
+      font-weight: 700;
+      line-height: 1.1;
       text-align: center;
       letter-spacing: 0;
       white-space: normal;
-      max-width: 82px;
-      box-shadow: 0 1px 5px rgba(62, 78, 59, 0.08);
+      width: 100%;
+      height: 100%;
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.18);
       pointer-events: none;
     }
 
@@ -4547,7 +4552,7 @@
 
     function shouldShowBarrioLabels() {
       const zoom = map.getZoom();
-      return currentPlatform === ALL_PLATFORMS ? zoom >= 15 : zoom >= 14;
+      return zoom >= 14;
     }
 
     function isBarrioLabelInsideVisibleGeometry(feature) {
@@ -4559,7 +4564,23 @@
       }
 
       try {
-        return turf.booleanPointInPolygon(turf.point([lon, lat]), feature);
+        const center = map.latLngToLayerPoint([lat, lon]);
+        const labelHalfWidth = 50;
+        const labelHalfHeight = 14;
+        const samplePoints = [
+          [0, 0],
+          [-labelHalfWidth, -labelHalfHeight],
+          [labelHalfWidth, -labelHalfHeight],
+          [-labelHalfWidth, labelHalfHeight],
+          [labelHalfWidth, labelHalfHeight]
+        ];
+        return samplePoints.every(([dx, dy]) => {
+          const point = map.layerPointToLatLng([center.x + dx, center.y + dy]);
+          return turf.booleanPointInPolygon(
+            turf.point([point.lng, point.lat]),
+            feature
+          );
+        });
       } catch (error) {
         return false;
       }
@@ -4572,11 +4593,11 @@
 
       const zoom = map.getZoom();
       const minDistance = currentPlatform === ALL_PLATFORMS
-        ? (zoom >= 16 ? 72 : 108)
-        : (zoom >= 16 ? 54 : 78);
+        ? (zoom >= 16 ? 78 : 108)
+        : (zoom >= 16 ? 58 : 78);
       const maxLabels = currentPlatform === ALL_PLATFORMS
-        ? (zoom >= 16 ? 140 : 70)
-        : (zoom >= 16 ? 80 : 45);
+        ? (zoom >= 16 ? 150 : 90)
+        : (zoom >= 16 ? 90 : 55);
       const placed = [];
       const labelCandidates = [...features]
         .filter((feature) => {
@@ -4641,7 +4662,7 @@
 
       if (!map.getPane("barriosLabelsPane")) {
         map.createPane("barriosLabelsPane");
-        map.getPane("barriosLabelsPane").style.zIndex = 466;
+        map.getPane("barriosLabelsPane").style.zIndex = 680;
       }
 
       const visibleFeatures = filterFeaturesByViewport(
@@ -4657,9 +4678,9 @@
           pane: "barriosPane",
           renderer: canvasRenderer,
           style: {
-            color: "rgba(79, 91, 105, 0.34)",
-            weight: currentPlatform === ALL_PLATFORMS ? 0.75 : 0.95,
-            opacity: 0.8,
+            color: "#64748b",
+            weight: currentPlatform === ALL_PLATFORMS ? 1.05 : 1.25,
+            opacity: 0.92,
             lineCap: "round",
             lineJoin: "round",
             dashArray: "",
@@ -4702,8 +4723,8 @@
               icon: L.divIcon({
                 className: "barrio-label-icon",
                 html: `<div class="barrio-label">${escapeHtml(repairText(props.barrio || "Barrio"))}</div>`,
-                iconSize: [82, 20],
-                iconAnchor: [41, 10]
+                iconSize: [100, 28],
+                iconAnchor: [50, 14]
               })
             });
           })
