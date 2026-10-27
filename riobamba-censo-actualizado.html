@@ -466,6 +466,10 @@
       background: linear-gradient(180deg, #faf7f2, #f1ede5);
     }
 
+    .leaflet-container.imagery-map {
+      background: #fff;
+    }
+
     .leaflet-container.diagnostic-map .leaflet-tile-pane {
       opacity: 0.9;
     }
@@ -1048,7 +1052,7 @@
         maxZoom: 20,
         className: "osm-base-tiles"
       }
-    ).addTo(map);
+    );
 
     const diagnosticBase = L.tileLayer(
       "https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png",
@@ -1067,14 +1071,15 @@
         attribution: "Imagery &copy; Google",
         subdomains: "0123",
         maxNativeZoom: 20,
-        maxZoom: 21
+        maxZoom: 21,
+        opacity: 0.5
       }
-    );
+    ).addTo(map);
 
     const baseLayerOptions = {
       OpenStreetMap: osmBase,
       "Base diagnostico": diagnosticBase,
-      "Google Maps": googleMapsBase
+      "Google Maps (satelital 50%)": googleMapsBase
     };
 
     function updateMapBaseTheme() {
@@ -8205,4 +8210,5 @@
   </script>
 </body>
 </html>
+
 
