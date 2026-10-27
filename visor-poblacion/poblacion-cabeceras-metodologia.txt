@@ -1,4 +1,5 @@
-Fuente: CPV 2022 / marco geoestadístico y límites urbanos PUGS 2025.
+Fuente: CPV 2022 / marco geoestadístico y límites urbanos PUGS 2025, contrastados con la capa específica de cabeceras suministrada por el usuario.
 Método: población completa de cada unidad censal cuyo punto interior representativo cae dentro de la cabecera. Asignación única, sin duplicar unidades.
-Cifras referenciales, no un conteo oficial publicado por cabecera. Las manzanas que cruzan el límite y las localidades representadas mediante puntos generan incertidumbre. crossing_pop indica población asignada en manzanas que cruzan el límite; no es una cifra de error.
-Los campos urban/rural conservan la clasificación censal AUR, independiente de la delimitación PUGS. El total cartográfico del cantón es 260.477 de 260.882 habitantes; 405 habitantes no están ubicados en las capas disponibles.
+Revisión: San Luis usa el polígono principal PUGS 12 (1.088 habitantes). Las áreas urbanas PUGS 13 y 14 (1.097 y 2.794 habitantes) permanecen como referencia cartográfica y se excluyen del total de la cabecera. El valor anterior 4.979 agrupaba indebidamente las tres áreas.
+Cifras referenciales, no un conteo oficial publicado por cabecera. Las manzanas que cruzan el límite y las localidades representadas mediante puntos generan incertidumbre. El método de intersección completa o ponderación por área produce otros resultados.
+Los campos urban/rural conservan la clasificación censal AUR, independiente de la delimitación PUGS. El total cartográfico del cantón es 260.477 de 260.882 habitantes; 405 habitantes no están ubicados en las capas disponibles. La auditoría contra el CSV original no encontró diferencias en los atributos poblacionales de las 4.518 unidades disponibles.
