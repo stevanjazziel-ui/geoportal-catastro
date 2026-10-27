@@ -4564,23 +4564,7 @@
       }
 
       try {
-        const center = map.latLngToLayerPoint([lat, lon]);
-        const labelHalfWidth = 50;
-        const labelHalfHeight = 14;
-        const samplePoints = [
-          [0, 0],
-          [-labelHalfWidth, -labelHalfHeight],
-          [labelHalfWidth, -labelHalfHeight],
-          [-labelHalfWidth, labelHalfHeight],
-          [labelHalfWidth, labelHalfHeight]
-        ];
-        return samplePoints.every(([dx, dy]) => {
-          const point = map.layerPointToLatLng([center.x + dx, center.y + dy]);
-          return turf.booleanPointInPolygon(
-            turf.point([point.lng, point.lat]),
-            feature
-          );
-        });
+        return turf.booleanPointInPolygon(turf.point([lon, lat]), feature);
       } catch (error) {
         return false;
       }
