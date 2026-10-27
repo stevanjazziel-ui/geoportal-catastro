@@ -1,4 +1,9 @@
 const D=window.TERRITORY,$=id=>document.getElementById(id),num=n=>new Intl.NumberFormat('es-EC').format(n),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+D.barrios=window.BARRIOS_POPULATION.features;
+const barrioById=new Map(D.barrios.map(f=>[f.properties.id,f])),unitBarrio=new Map();
+for(const f of D.barrios)for(const code of f.properties.unit_codes){if(unitBarrio.has(code))throw Error('Unidad censal duplicada entre barrios');unitBarrio.set(code,f.properties);}
+for(const f of D.units){const b=unitBarrio.get(f.properties.code);f.properties.barrio_id=b?.id||'';f.properties.barrio=b?.name||'';}
+function populateBarrioOptions(){const current=$('barrio').value,platform=$('platform').value;$('barrio').replaceChildren();const all=document.createElement('option');all.value='';all.textContent='Todos los barrios';$('barrio').append(all);for(const f of [...D.barrios].filter(f=>!platform||f.properties.platform===platform).sort((a,b)=>a.properties.name.localeCompare(b.properties.name,'es')||a.properties.platform.localeCompare(b.properties.platform,'es'))){const p=f.properties,o=document.createElement('option');o.value=p.id;o.textContent=p.name+' · '+p.platform;$('barrio').append(o);}if([...$('barrio').options].some(o=>o.value===current))$('barrio').value=current;}
 const map=L.map('map',{preferCanvas:true}).setView([-1.66,-78.65],11);
 const base=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,className:'osm-base-tiles',attribution:'© OpenStreetMap contributors'});
 const diagnostic=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:20,className:'diagnostic-base-tiles',attribution:'© OpenStreetMap contributors © CARTO'});
@@ -13,7 +18,7 @@ let groups=[],active=[];
 let barrioLabelLayers=[],visibleBarrioKeys=new Set();
 function renderBarrioLabels(){barrioLabelLayers.forEach(l=>map.removeLayer(l));barrioLabelLayers=[];const zoom=map.getZoom();if(!$('showBarrios').checked||zoom<14)return;
 const scoped=Boolean($('platform').value),distance=scoped?(zoom>=16?58:78):(zoom>=16?78:108),limit=scoped?(zoom>=16?90:55):(zoom>=16?150:90),placed=[];
-const viewport=map.getBounds().pad(scoped?.1:.18),candidates=window.BARRIOS_LABELS.filter(p=>p.area_m2>=1000&&p.source_keys.some(k=>visibleBarrioKeys.has(k))&&viewport.contains([p.lat,p.lon])).sort((a,b)=>b.area_m2-a.area_m2);
+const viewport=map.getBounds().pad(scoped?.1:.18),candidates=window.BARRIOS_LABELS.filter(p=>p.area_m2>=1000&&visibleBarrioKeys.has(p.name+'|'+p.platform)&&viewport.contains([p.lat,p.lon])).sort((a,b)=>b.area_m2-a.area_m2);
 for(const p of candidates){const point=map.latLngToLayerPoint([p.lat,p.lon]);if(placed.some(other=>point.distanceTo(other)<distance))continue;placed.push(point);barrioLabelLayers.push(L.marker([p.lat,p.lon],{pane:'barrioLabels',interactive:false,keyboard:false,icon:L.divIcon({className:'barrio-label-icon',html:`<div class="barrio-label">${esc(p.name)}</div>`,iconSize:[100,28],iconAnchor:[50,14]})}).addTo(map));if(placed.length>=limit)break;}}
 map.on('zoomend moveend',renderBarrioLabels);
 const cabeceras=window.CABECERAS.features;
@@ -33,27 +38,35 @@ for(const row of cabeceraRows){const tr=document.createElement('tr'),nameCell=do
 $('cabecerasTotal').textContent=num(cabeceraRows.reduce((s,row)=>s+row.pop,0))+' hab. referenciales';
 
 for(const id of ['parish','platform']){const key=id==='parish'?'parish':'name';const source=id==='parish'?D.units:D.platforms;[...new Set(source.map(f=>f.properties[key]))].filter(Boolean).sort((a,b)=>a.localeCompare(b,'es')).forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;$(id).append(o)});}
-function render(fit=false){groups.forEach(g=>map.removeLayer(g));groups=[];const zone=$('zone').value,parish=$('parish').value,platform=$('platform').value,q=$('search').value.trim().toLocaleLowerCase('es'),cabecera=$('cabecera').value,codes=cabeceraCodes.get(cabecera);
-active=D.units.filter(f=>{const p=f.properties;return(!codes||codes.has(p.code))&&(!zone||p.zone===zone)&&(!parish||p.parish===parish)&&(!platform||p.platform===platform)&&(!q||[p.name,p.barrio,p.parish].some(s=>s.toLocaleLowerCase('es').includes(q)))});
+function render(fit=false){groups.forEach(g=>map.removeLayer(g));groups=[];const zone=$('zone').value,parish=$('parish').value,platform=$('platform').value,q=$('search').value.trim().toLocaleLowerCase('es'),cabecera=$('cabecera').value,codes=cabeceraCodes.get(cabecera),barrio=$('barrio').value;
+active=D.units.filter(f=>{const p=f.properties;return(!barrio||p.barrio_id===barrio)&&(!codes||codes.has(p.code))&&(!zone||p.zone===zone)&&(!parish||p.parish===parish)&&(!platform||p.platform===platform)&&(!q||[p.name,p.barrio,p.parish].some(s=>s.toLocaleLowerCase('es').includes(q)))});
 const ps=new Set(active.map(f=>f.properties.platform)),bs=new Set(active.map(f=>f.properties.barrio));
-const pf=D.platforms.filter(f=>(!platform||f.properties.name===platform)&&(!zone&&!parish&&!q&&!cabecera||ps.has(f.properties.name)));
-const bf=D.barrios.filter(f=>(!platform||f.properties.platform===platform)&&(!q||f.properties.name.toLocaleLowerCase('es').includes(q)||bs.has(f.properties.name))&&(!zone&&!parish&&!cabecera||bs.has(f.properties.name)));
+const pf=D.platforms.filter(f=>(!platform||f.properties.name===platform)&&(!zone&&!parish&&!q&&!cabecera&&!barrio||ps.has(f.properties.name)));
+const bf=D.barrios.filter(f=>(!barrio||f.properties.id===barrio)&&(!platform||f.properties.platform===platform)&&(!q||f.properties.name.toLocaleLowerCase('es').includes(q)||bs.has(f.properties.name))&&(!zone&&!parish&&!cabecera||active.some(u=>u.properties.barrio_id===f.properties.id)));
 const add=(features,options)=>{const g=L.geoJSON(fc(features),options).addTo(map);groups.push(g);return g};
 if($('showPopulation').checked)add(active,{style:f=>({color:'#285f59',weight:.35,fillColor:color(f.properties.pop),fillOpacity:.64}),pointToLayer:(f,ll)=>L.circleMarker(ll,{interactive:false,radius:Math.min(13,3+Math.sqrt(f.properties.pop)/4),color:'#145954',weight:1,fillColor:color(f.properties.pop),fillOpacity:.85}),interactive:false});
 if($('showPlatforms').checked){add(pf,{pane:'platforms',interactive:false,style:{color:'#fff',weight:7,fillOpacity:0}});const outlines=add(pf,{pane:'platforms',style:{color:'#193041',weight:3.5,fillOpacity:.015},interactive:false});outlines.eachLayer(l=>{const p=l.feature.properties,center=l.getBounds().getCenter(),code=p.name.replace('PLATAFORMA ','');const tag=L.marker(center,{interactive:false,icon:L.divIcon({className:'platform-tag',html:`<div><span>PLATAFORMA</span><strong>${esc(code)}</strong></div>`,iconSize:[64,37],iconAnchor:[32,18]})}).addTo(map);groups.push(tag)});}
 if($('showBarrios').checked){add(bf,{pane:'barrios',interactive:false,style:{color:'#fff',weight:platform?4.5:4,opacity:.95,fill:false}});add(bf,{pane:'barrios',style:{color:'#164e70',weight:platform?2.4:2,opacity:1,fill:false},interactive:false});}
 visibleBarrioKeys=new Set(bf.map(f=>f.properties.name+'|'+f.properties.platform));renderBarrioLabels();
 $('selectedPop').textContent=num(active.reduce((s,f)=>s+f.properties.pop,0))+' hab.';$('selectedCount').textContent=`${num(active.length)} unidades censales · ${bf.length} polígonos de barrio · población georreferenciada`;
-$('mapSubtitle').textContent=[cabecera?'Cabecera '+cabecera:'',zone,parish,platform].filter(Boolean).join(' · ')||'Cantón · Chimborazo';
-$('analysisTitle').textContent=cabecera?'Población referencial · '+cabecera:platform?'Estadísticas de '+platform:zone||parish||q?'Estadísticas de la selección':'Estadísticas de todo el cantón';
+$('mapSubtitle').textContent=[barrio?barrioById.get(barrio).properties.name:'',cabecera?'Cabecera '+cabecera:'',zone,parish,platform].filter(Boolean).join(' · ')||'Cantón · Chimborazo';
+$('analysisTitle').textContent=barrio?'Población referencial · '+barrioById.get(barrio).properties.name:cabecera?'Población referencial · '+cabecera:platform?'Estadísticas de '+platform:zone||parish||q?'Estadísticas de la selección':'Estadísticas de todo el cantón';
+const barrioStats=new Map();let unassigned=0;
+for(const f of active){const p=f.properties;if(!p.barrio_id){unassigned+=p.pop;continue;}const row=barrioStats.get(p.barrio_id)||{pop:0,male:0,female:0};for(const k of ['pop','male','female'])row[k]+=p[k];barrioStats.set(p.barrio_id,row);}
+$('barrioTable').replaceChildren();for(const f of [...bf].sort((a,b)=>a.properties.name.localeCompare(b.properties.name,'es')||a.properties.platform.localeCompare(b.properties.platform,'es'))){const p=f.properties,stats=barrioStats.get(p.id)||{pop:0,male:0,female:0},tr=document.createElement('tr'),name=document.createElement('td'),pop=document.createElement('td'),button=document.createElement('button'),platformText=document.createElement('small');button.textContent=p.name;button.onclick=()=>{$('barrio').value=p.id;focusBarrio()};platformText.textContent=p.platform;name.append(button,platformText);pop.textContent=num(stats.pop);tr.append(name,pop);$('barrioTable').append(tr);}
+$('barriosTotal').textContent=num([...barrioStats.values()].reduce((s,r)=>s+r.pop,0))+' hab. asignados a barrios';$('barriosCoverage').textContent=bf.length+' áreas barriales en la selección. '+num(unassigned)+' habitantes de la selección quedan fuera de esta capa barrial. Los ceros indican que no se asignó población con este método.';
+const selectedBarrio=barrioById.get(barrio)?.properties;$('barrioMethodNote').textContent=selectedBarrio?num(selectedBarrio.units)+' unidades asignadas en el cálculo completo; '+num(selectedBarrio.crossing_units)+' manzanas cruzan el límite. Cifra referencial por punto interior.':'188 áreas barriales de la capa del visor de referencia. Los nombres repetidos se distinguen por plataforma. Cifras referenciales por punto interior.';
 const cabeceraFeatures=cabecerasPrincipales.filter(f=>!cabecera||f.properties.name===cabecera),assignedPop=cabeceraFeatures.reduce((s,f)=>s+f.properties.pop,0),crossing=cabeceraFeatures.reduce((s,f)=>s+f.properties.crossing_units,0);
 $('cabeceraSummary').textContent=(cabecera||'Todas las cabeceras')+': '+num(assignedPop)+' hab. asignados, antes de otros filtros. '+num(crossing)+' manzanas asignadas cruzan los límites.';
 for(const [id,key,area] of [['urbanPop','pop','URBANO'],['ruralPop','pop','RURAL'],['malePop','male',''],['femalePop','female','']])$(id).textContent=num(active.filter(f=>!area||f.properties.zone===area).reduce((s,f)=>s+f.properties[key],0))+' hab.';
 const result=$('results');result.replaceChildren();if(q){active.slice(0,40).forEach(f=>{const b=document.createElement('button');b.textContent=f.properties.name+' · '+num(f.properties.pop)+' hab.';b.onclick=()=>{const g=L.geoJSON(f);map.fitBounds(g.getBounds().pad(.5),{maxZoom:17})};result.append(b)});if(!active.length)result.textContent='No se encontraron coincidencias.';}
-if(fit&&active.length)map.fitBounds(L.geoJSON(fc(platform&&!zone&&!parish&&!q&&!cabecera?pf:active)).getBounds().pad(.08),{maxZoom:15});}
+if(fit&&active.length)map.fitBounds(L.geoJSON(fc(platform&&!zone&&!parish&&!q&&!cabecera&&!barrio?pf:active)).getBounds().pad(.08),{maxZoom:15});}
 for(const id of ['zone','parish','platform'])$(id).onchange=()=>render(true);
+$('platform').onchange=()=>{populateBarrioOptions();render(true)};
+function focusBarrio(){$('showBarrios').checked=true;render();$('selection').hidden=false;$('openStats').hidden=true;const feature=barrioById.get($('barrio').value);if(feature)map.fitBounds(L.geoJSON(feature).getBounds().pad(.18),{maxZoom:16});}
+$('barrio').onchange=focusBarrio;populateBarrioOptions();
 for(const id of ['showPlatforms','showBarrios','showPopulation'])$(id).onchange=()=>render();
 let timer;$('search').oninput=()=>{clearTimeout(timer);timer=setTimeout(()=>render(true),250)};
-$('reset').onclick=()=>{for(const id of ['zone','parish','platform','search','cabecera'])$(id).value='';cabecerasLayer.setStyle(cabeceraStyle);render();map.fitBounds(bounds)};render();
+$('reset').onclick=()=>{for(const id of ['zone','parish','platform','search','cabecera','barrio'])$(id).value='';populateBarrioOptions();cabecerasLayer.setStyle(cabeceraStyle);render();map.fitBounds(bounds)};render();
 $('closeStats').onclick=()=>{$('selection').hidden=true;$('openStats').hidden=false};
 $('openStats').onclick=()=>{$('selection').hidden=false;$('openStats').hidden=true};
