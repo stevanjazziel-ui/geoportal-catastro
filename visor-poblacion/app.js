@@ -13,8 +13,8 @@ const base=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{max
 const diagnostic=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:20,className:'diagnostic-base-tiles',attribution:'© OpenStreetMap contributors © CARTO'});
 const satellite=L.tileLayer('https://mt{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{subdomains:'0123',maxZoom:20,opacity:.5,attribution:'Imagery © Google'}).addTo(map);
 L.control.layers({'OpenStreetMap':base,'Base diagnóstico':diagnostic,'Google Maps (satelital 50%)':satellite},null,{position:'topright'}).addTo(map);L.control.scale({imperial:false}).addTo(map);
-map.createPane('platforms');map.getPane('platforms').style.zIndex=410;map.createPane('barrios');map.getPane('barrios').style.zIndex=420;
-map.createPane('cabeceras');map.getPane('cabeceras').style.zIndex=430;
+map.createPane('platforms');map.getPane('platforms').style.zIndex=410;map.createPane('barrios');map.getPane('barrios').style.zIndex=420;map.getPane('barrios').style.pointerEvents='none';
+map.createPane('cabeceras');map.getPane('cabeceras').style.zIndex=430;map.getPane('cabeceras').style.pointerEvents='none';
 map.createPane('barrioLabels');map.getPane('barrioLabels').style.zIndex=680;map.getPane('barrioLabels').style.pointerEvents='none';
 map.createPane('cabeceraLabels');map.getPane('cabeceraLabels').style.zIndex=690;map.getPane('cabeceraLabels').style.pointerEvents='none';
 const fc=features=>({type:'FeatureCollection',features}),color=n=>n>=300?'#145954':n>=150?'#21877e':n>=50?'#59bba7':'#b9e5da';
