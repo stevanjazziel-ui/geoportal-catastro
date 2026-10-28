@@ -30,6 +30,8 @@ const cabeceras=window.CABECERAS.features;
 const cabecerasPrincipales=cabeceras.filter(f=>f.properties.is_cabecera);
 const cabeceraCodes=new Map();
 for(const f of cabecerasPrincipales){const name=f.properties.name;if(!cabeceraCodes.has(name))cabeceraCodes.set(name,new Set());for(const code of f.properties.unit_codes)cabeceraCodes.get(name).add(code);}
+const urbanCabeceraCodes=new Set([...cabeceraCodes.values()].flatMap(c=>[...c]));
+for(const f of D.units){f.properties.census_zone=f.properties.zone;f.properties.zone=urbanCabeceraCodes.has(f.properties.code)?'URBANO':'RURAL';f.properties.parish=window.PARROQUIAS_POPULATION.assignments[f.properties.code]||f.properties.parish;}
 for(const name of [...cabeceraCodes.keys()].sort((a,b)=>a.localeCompare(b,'es'))){const o=document.createElement('option');o.value=name;o.textContent=name;$('cabecera').append(o);}
 const cabeceraStyle=f=>({color:f.properties.is_cabecera?'#a04886':'#687787',weight:3,dashArray:f.properties.is_cabecera?'9 5':'3 7',fill:false});
 const cabecerasLayer=L.geoJSON(fc(cabeceras),{pane:'cabeceras',interactive:false,style:cabeceraStyle}).addTo(map);
@@ -50,6 +52,7 @@ const cabeceraRows=[...cabeceraCodes.keys()].sort((a,b)=>a.localeCompare(b,'es')
 for(const row of cabeceraRows){const tr=document.createElement('tr'),nameCell=document.createElement('td'),popCell=document.createElement('td'),button=document.createElement('button');button.textContent=row.name;button.onclick=()=>selectCabeceraLabel(row.name);nameCell.append(button);popCell.textContent=num(row.pop);tr.append(nameCell,popCell);$('cabeceraTable').append(tr);}
 $('cabecerasTotal').textContent=num(cabeceraRows.reduce((s,row)=>s+row.pop,0))+' hab. referenciales';
 
+for(const row of window.PARROQUIAS_POPULATION.rows){const tr=document.createElement('tr');for(const value of [row.name,num(row.urban),num(row.rural),num(row.mapped)]){const td=document.createElement('td');td.textContent=value;tr.append(td);}tr.firstChild.replaceChildren();const button=document.createElement('button');button.textContent=row.name;button.onclick=()=>{clearLabelFilters();$('parish').value=row.name;render(true);$('selection').hidden=false;$('openStats').hidden=true;renderCabeceraLabels();};tr.firstChild.append(button);$('parishTable').append(tr);}
 for(const id of ['parish','platform']){const key=id==='parish'?'parish':'name';const source=id==='parish'?D.units:D.platforms;[...new Set(source.map(f=>f.properties[key]))].filter(Boolean).sort((a,b)=>a.localeCompare(b,'es')).forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;$(id).append(o)});}
 function render(fit=false){groups.forEach(g=>map.removeLayer(g));groups=[];const zone=$('zone').value,parish=$('parish').value,platform=$('platform').value,q=$('search').value.trim().toLocaleLowerCase('es'),cabecera=$('cabecera').value,codes=cabeceraCodes.get(cabecera),barrio=$('barrio').value;
 active=D.units.filter(f=>{const p=f.properties;return(!barrio||p.barrio_id===barrio)&&(!codes||codes.has(p.code))&&(!zone||p.zone===zone)&&(!parish||p.parish===parish)&&(!platform||cabecera||p.platform===platform)&&(!q||[p.name,p.barrio,p.parish].some(s=>s.toLocaleLowerCase('es').includes(q)))});
