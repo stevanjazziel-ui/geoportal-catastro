@@ -118,7 +118,7 @@ window.PLATFORM_DIRECTIVES_DATA = {
     {
       code: "K",
       label: "Plataforma K",
-      manager: "Fernanda Vasco y Sebastián López",
+      manager: "Paulo Caiza",
       assignedAt: "2026-08-27",
       status: "selected",
       committee: [
@@ -133,7 +133,7 @@ window.PLATFORM_DIRECTIVES_DATA = {
     {
       code: "L",
       label: "Plataforma L",
-      manager: "Alexis Pumagualli",
+      manager: "Angel Vallejo",
       assignedAt: "2026-08-14",
       status: "selected",
       committee: [
