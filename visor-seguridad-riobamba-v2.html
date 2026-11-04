@@ -1051,6 +1051,23 @@
       .detail-panel .mini-list { overflow: visible; }
       .analysis-workspace.layout-analytics .chart-panel .graphic-grid { grid-template-columns: 1fr; }
     }
+    .institutional-notice {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      z-index: 10000;
+      width: max-content;
+      max-width: calc(100vw - 32px);
+      transform: translateX(-50%);
+      padding: 14px 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--text);
+      box-shadow: var(--shadow);
+      pointer-events: none;
+    }
+    a[download], #coverageCsvButton { display: none !important; }
   </style>
 </head>
 <body>
@@ -1309,6 +1326,44 @@
     </dialog>
   </div>
 
+  <div id="institutionalNotice" class="institutional-notice" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+  <script id="institutionalControls">
+    (() => {
+      const notice = document.getElementById("institutionalNotice");
+      let hideTimer;
+      function showNotice(event) {
+        event.preventDefault();
+        window.clearTimeout(hideTimer);
+        notice.textContent = "Uso institucional. La reproducci\u00f3n de este contenido requiere autorizaci\u00f3n.";
+        notice.hidden = false;
+        hideTimer = window.setTimeout(() => {
+          notice.hidden = true;
+          notice.textContent = "";
+        }, 4200);
+      }
+      ["copy", "cut", "contextmenu"].forEach(type => document.addEventListener(type, showNotice, true));
+      document.addEventListener("dragstart", event => event.preventDefault(), true);
+      const isEditable = target => target instanceof Element &&
+        Boolean(target.closest("input, select, textarea, [contenteditable]:not([contenteditable=false])"));
+      document.addEventListener("selectstart", event => {
+        if (!isEditable(event.target)) event.preventDefault();
+      }, true);
+      document.addEventListener("keydown", event => {
+        const key = event.key.toLowerCase();
+        const command = event.ctrlKey || event.metaKey;
+        const blockedCommand = command && (["c", "p", "s", "u", "x"].includes(key) ||
+          (key === "a" && !isEditable(event.target)));
+        const clipboardShortcut = (event.ctrlKey && key === "insert") || (event.shiftKey && key === "delete");
+        const inspectionShortcut = key === "f12" ||
+          (command && event.shiftKey && ["i", "j", "c", "k"].includes(key)) ||
+          (event.metaKey && event.altKey && ["i", "j", "c", "u"].includes(key));
+        if (blockedCommand || clipboardShortcut || inspectionShortcut || key === "printscreen") {
+          event.stopImmediatePropagation();
+          showNotice(event);
+        }
+      }, true);
+    })();
+  </script>
   <script src="./vendor/leaflet/leaflet.js"></script>
   <script src="./visor-seguridad-riobamba-data.js?v=metodologia-20261001"></script>
   <script src="./riobamba-camaras-data.js?v=municipio-31"></script>

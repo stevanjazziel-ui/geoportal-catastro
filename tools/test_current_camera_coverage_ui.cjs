@@ -9,6 +9,37 @@ const script = fs.readFileSync(path.join(root, "riobamba-cobertura-actual.js"), 
 const html = fs.readFileSync(path.join(root, "visor-seguridad-riobamba-v2.html"), "utf8");
 assert.ok(html.includes('new URLSearchParams(window.location.search).get("analysis")'));
 for (const [, body] of html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)) new vm.Script(body);
+{
+  const notice = { hidden: true, textContent: "" };
+  const handlers = {};
+  let expire;
+  class Element {
+    closest() { return this.editable ? this : null; }
+  }
+  const target = new Element();
+  const input = Object.assign(new Element(), { editable: true });
+  vm.runInNewContext(html.match(/<script id="institutionalControls">([\s\S]*?)<\/script>/)[1], {
+    Element, document: { getElementById: () => notice, addEventListener: (type, handler) => { handlers[type] = handler; } },
+    window: { clearTimeout() {}, setTimeout: callback => { expire = callback; } }
+  });
+  const blocked = (type, props = {}) => {
+    let prevented = false;
+    handlers[type]({ target, preventDefault() { prevented = true; }, stopImmediatePropagation() {}, ...props });
+    return prevented;
+  };
+  assert.equal(notice.hidden, true);
+  for (const type of ["copy", "cut", "contextmenu", "dragstart", "selectstart"]) assert.equal(blocked(type), true);
+  for (const key of ["a", "c", "x", "s", "p", "u"]) assert.equal(blocked("keydown", { key, ctrlKey: true }), true);
+  assert.equal(blocked("keydown", { key: "F12" }), true);
+  assert.equal(blocked("keydown", { key: "PrintScreen" }), true);
+  assert.equal(blocked("keydown", { key: "v", ctrlKey: true, target: input }), false);
+  assert.equal(blocked("keydown", { key: "a", ctrlKey: true, target: input }), false);
+  assert.equal(blocked("selectstart", { target: input }), false);
+  assert.match(notice.textContent, /Uso institucional/);
+  expire();
+  assert.equal(notice.hidden, true);
+  assert.equal(notice.textContent, "");
+}
 const node = dataset => ({ dataset, hidden: true, handlers: {}, innerHTML: "", textContent: "", value: "",
   classList: { add() {}, remove() {}, toggle() {} }, setAttribute() {},
   addEventListener(event, fn) { this.handlers[event] = fn; } });
