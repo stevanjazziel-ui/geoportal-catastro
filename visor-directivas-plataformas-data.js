@@ -65,10 +65,10 @@ window.PLATFORM_DIRECTIVES_DATA = {
       assignedAt: "2026-08-21",
       status: "selected",
       committee: [
-        { role: "Presidenta", name: "María Fany Argos Soldado" },
+        { role: "Presidenta", name: "María Fany Argos Soldado", phone: "0999112584" },
         { role: "Secretario", name: "Pedro Yuquilema" },
-        { role: "Vocal", name: "Manuel Logroño" },
-        { role: "Vocal", name: "Rafael Huaraca" }
+        { role: "Vocal", name: "Manuel Logroño", phone: "0984713080" },
+        { role: "Vocal", name: "Rafael Huaraca", phone: "0962688641" }
       ]
     },
     { code: "E", label: "Plataforma E", manager: null, assignedAt: null, status: "unknown" },
