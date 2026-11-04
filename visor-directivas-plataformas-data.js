@@ -58,7 +58,19 @@ window.PLATFORM_DIRECTIVES_DATA = {
         { role: "Vocal 4. Eje Resiliencia", name: "Francisco Jaramillo", id: "1104547334", organization: "Primero de Mayo" }
       ]
     },
-    { code: "D", label: "Plataforma D", manager: "Juan Diego Remache", assignedAt: "2026-08-21", status: "selected" },
+    {
+      code: "D",
+      label: "Plataforma D",
+      manager: "Juan Diego Remache",
+      assignedAt: "2026-08-21",
+      status: "selected",
+      committee: [
+        { role: "Presidenta", name: "María Fany Argos Soldado" },
+        { role: "Secretario", name: "Pedro Yuquilema" },
+        { role: "Vocal", name: "Manuel Logroño" },
+        { role: "Vocal", name: "Rafael Huaraca" }
+      ]
+    },
     { code: "E", label: "Plataforma E", manager: null, assignedAt: null, status: "unknown" },
     {
       code: "F",
