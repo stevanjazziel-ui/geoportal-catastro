@@ -1,0 +1,46 @@
+{
+  "revision": "MUN002_CALPI_CENTRO_20261105",
+  "createdAt": "2026-11-05T17:02:54-05:00",
+  "priorRelease": "RURALES_COP_UNACH_20261105",
+  "authorization": "Usuario solicita mover MUN-002 a Calpi centro. Se reutiliza la posicion de MUN-004 anterior a su traslado a la UNACH; MUN-003 permanece en la entrada de Calpi.",
+  "baseHashes": {
+    "D:\\codex\\publish-macaji-compensacion-20261021\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\RURALES_COP_UNACH_20261105\\ESCENARIO_FINAL_183.gpkg": "4a0d21229fa0c2f3a263909433b148cbc48540d61c793a9e0f43f6d9e02ac369",
+    "D:\\codex\\entregas\\RIOBAMBA_CONSOLIDADO_PRIORIDAD_REUNION_20261017\\RIOBAMBA_CONSOLIDADO.gpkg": "6b7cc372208e48bef118bec62b05d84da6cda25ecb0d347747b478450ca0b6d7",
+    "D:\\codex\\publish-macaji-compensacion-20261021\\riobamba-kde-combinado-data.js": "3c45b3b26f0aa83f5a0f1d51b3a0d5ce2a3aac5a966511256410a3881a6c1756"
+  },
+  "crossingEvidence": {
+    "sourcePackage": "data/seguridad-riobamba/SIG_BRIDGE_RELEASES/MUN036_JACINTO_UNIDAD_NACIONAL_20261021/ESCENARIO_FINAL_183.gpkg",
+    "sourceSha256": "c00d8913aa8e247109b7e15dae656e76ca675ec02228ea88da4792e6d3fe6ea9",
+    "formerCamera": "MUN-004",
+    "fieldVerified": false,
+    "metricCoordinates": [
+      751117.8084911434,
+      9817907.079146223
+    ],
+    "sourceAddress": "Calpi - CENTRO (ubicacion de estudio, validar en campo)",
+    "roads": [
+      "Calpi - CENTRO (anterior ubicacion de MUN-004)"
+    ]
+  },
+  "previousUtm": [
+    755899.1602272955,
+    9812207.988002082
+  ],
+  "correctedUtm": [
+    751117.8084911434,
+    9817907.079146223
+  ],
+  "changes": [
+    {
+      "layer": "municipal",
+      "id": "MUN-002",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 7439.1507777453135,
+      "note": "Calpi - CENTRO (anterior ubicacion de MUN-004)"
+    }
+  ],
+  "applied": true,
+  "published": true,
+  "publicationRequested": true
+}

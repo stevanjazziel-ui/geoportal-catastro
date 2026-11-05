@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "changedMunicipal": [
+    "MUN-002"
+  ],
+  "otherMunicipal49Fixed": true,
+  "existing103Fixed": true,
+  "police30Fixed": true,
+  "upc18Fixed": true,
+  "displacementM": 7439.1507777453135,
+  "crossingEvidence": {
+    "sourcePackage": "data/seguridad-riobamba/SIG_BRIDGE_RELEASES/MUN036_JACINTO_UNIDAD_NACIONAL_20261021/ESCENARIO_FINAL_183.gpkg",
+    "sourceSha256": "c00d8913aa8e247109b7e15dae656e76ca675ec02228ea88da4792e6d3fe6ea9",
+    "formerCamera": "MUN-004",
+    "fieldVerified": false,
+    "metricCoordinates": [
+      751117.8084911434,
+      9817907.079146223
+    ],
+    "sourceAddress": "Calpi - CENTRO (ubicacion de estudio, validar en campo)",
+    "roads": [
+      "Calpi - CENTRO (anterior ubicacion de MUN-004)"
+    ]
+  },
+  "remainingReviewItems": [
+    "Restriccion municipal BOULEVARD_MACAJI_BELLAVISTA: 95.11902% < 100%"
+  ]
+}
