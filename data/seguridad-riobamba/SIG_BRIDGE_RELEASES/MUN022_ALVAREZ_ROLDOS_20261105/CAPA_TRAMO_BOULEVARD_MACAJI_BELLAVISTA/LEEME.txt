@@ -1,0 +1,12 @@
+Capa: Tramo Bulevar Macají-Bellavista
+
+TRAMO_BOULEVARD_MACAJI_BELLAVISTA.gpkg contiene una sola capa y un solo eje:
+BOULEVARD_MACAJI_BELLAVISTA
+
+Sistema de coordenadas: WGS 84 / UTM zona 17S (EPSG:32717).
+Longitud registrada: 9,541.70 m.
+Geometria: MultiLineString.
+
+Abrir el GeoPackage en QGIS y seleccionar la capa indicada. El GeoJSON incluido
+contiene la misma geometria en coordenadas geograficas (EPSG:4326).
+La fuente es el escenario publicado MUN041_PRIMERA_CONSTITUYENTE_BRASIL_20261018.

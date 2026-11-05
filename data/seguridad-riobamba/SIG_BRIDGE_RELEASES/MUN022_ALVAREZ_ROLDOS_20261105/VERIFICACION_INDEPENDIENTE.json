@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "changedMunicipal": [
+    "MUN-022"
+  ],
+  "otherMunicipal49Fixed": true,
+  "existing103Fixed": true,
+  "police30Fixed": true,
+  "upc18Fixed": true,
+  "displacementM": 68.09189896976822,
+  "crossingEvidence": {
+    "roads": [
+      "J. M. Alvarez",
+      "Jaime Roldos Aguilera"
+    ],
+    "source": "https://www.openstreetmap.org/node/3755176522",
+    "osmWays": [
+      "1071639015",
+      "327777492"
+    ],
+    "sourceSha256": "3987b33804eef2638a0ae2e70aa9e9f821fe854f55878c7ed477cd53e070f59a",
+    "fieldVerified": false,
+    "centerlineGapM": 0,
+    "metricCoordinates": [
+      762508.402830545,
+      9817185.17906707
+    ],
+    "geographicCoordinates": [
+      -78.6405987,
+      -1.6525676
+    ]
+  },
+  "remainingReviewItems": [
+    "Restriccion municipal BOULEVARD_MACAJI_BELLAVISTA: 95.11902% < 100%"
+  ]
+}

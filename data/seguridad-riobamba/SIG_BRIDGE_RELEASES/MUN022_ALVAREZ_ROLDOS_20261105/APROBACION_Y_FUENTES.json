@@ -1,0 +1,54 @@
+{
+  "revision": "MUN022_ALVAREZ_ROLDOS_20261105",
+  "createdAt": "2026-11-05T17:40:29-05:00",
+  "priorRelease": "MUN022_CRUCE_UNACH_20261105",
+  "authorization": "Usuario aclara que no se referia a la Y y confirma la union de J. M. Alvarez con Jaime Roldos Aguilera, abajo a la izquierda de la captura. Publicar la correccion conservando las otras posiciones.",
+  "baseHashes": {
+    "D:\\codex\\publish-macaji-compensacion-20261021\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\MUN022_CRUCE_UNACH_20261105\\ESCENARIO_FINAL_183.gpkg": "470234dfb5ad244c3efcb5dd644ebe68964443b2a1032c6963450303b3c541ea",
+    "D:\\codex\\entregas\\RIOBAMBA_CONSOLIDADO_PRIORIDAD_REUNION_20261017\\RIOBAMBA_CONSOLIDADO.gpkg": "6b7cc372208e48bef118bec62b05d84da6cda25ecb0d347747b478450ca0b6d7",
+    "D:\\codex\\publish-macaji-compensacion-20261021\\riobamba-kde-combinado-data.js": "3c45b3b26f0aa83f5a0f1d51b3a0d5ce2a3aac5a966511256410a3881a6c1756"
+  },
+  "crossingEvidence": {
+    "roads": [
+      "J. M. Alvarez",
+      "Jaime Roldos Aguilera"
+    ],
+    "source": "https://www.openstreetmap.org/node/3755176522",
+    "osmWays": [
+      "1071639015",
+      "327777492"
+    ],
+    "sourceSha256": "3987b33804eef2638a0ae2e70aa9e9f821fe854f55878c7ed477cd53e070f59a",
+    "fieldVerified": false,
+    "centerlineGapM": 0,
+    "metricCoordinates": [
+      762508.402830545,
+      9817185.17906707
+    ],
+    "geographicCoordinates": [
+      -78.6405987,
+      -1.6525676
+    ]
+  },
+  "previousUtm": [
+    762538.4661123327,
+    9817246.274940854
+  ],
+  "correctedUtm": [
+    762508.402830545,
+    9817185.17906707
+  ],
+  "changes": [
+    {
+      "layer": "municipal",
+      "id": "MUN-022",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 68.09189896976822,
+      "note": "J. M. Alvarez x Jaime Roldos Aguilera, costado oriental UNACH"
+    }
+  ],
+  "applied": true,
+  "published": true,
+  "publicationRequested": true
+}
