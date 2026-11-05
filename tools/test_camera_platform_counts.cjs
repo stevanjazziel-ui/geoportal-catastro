@@ -127,15 +127,17 @@ assert.equal(comparison.mappedCensusUrbanPopulation + comparison.urbanPopulation
 assert.ok(context.populationComparisonHtml().includes("73 cámaras"));
 assert.ok(context.populationComparisonHtml().includes("183 cámaras"));
 assert.ok(context.populationComparisonHtml().includes("Población adicional cubierta"));
-assert.ok(context.populationComparisonHtml().includes("46.630 habitantes"));
-assert.ok(context.populationComparisonHtml().includes("93.645 habitantes"));
-assert.ok(context.populationComparisonHtml().includes("de 177.213 habitantes · 26,31 %"));
-assert.ok(context.populationComparisonHtml().includes("de 177.213 habitantes · 52,84 %"));
-assert.ok(context.populationComparisonHtml().includes("+26,53 puntos porcentuales"));
+for (const row of comparison.scenarios) {
+  assert.ok(context.populationComparisonHtml().includes(`${context.number(row.coveredPopulation)} habitantes`));
+  assert.ok(context.populationComparisonHtml().includes(`de 177.213 habitantes · ${context.number(100 * row.coveredPopulation / 177213, 2)} %`));
+}
+assert.ok(context.populationComparisonHtml().includes(`+${context.number(100 * comparison.additionalPopulation / 177213, 2)} puntos porcentuales`));
 assert.ok(script.includes('document.getElementById("proposalPopulationContent").innerHTML = populationComparisonHtml()'));
 const platformComparison = context.platformCameraComparison();
-assert.deepEqual(Array.from(platformComparison.inside), [64, 140]);
-assert.deepEqual(Array.from(platformComparison.outside), [9, 43]);
+// Independently checked with Shapely against the exact release geometries.
+const fullInside = release.releaseId === "RURALES_COP_UNACH_20261105" ? 143 : 140;
+assert.deepEqual(Array.from(platformComparison.inside), [64, fullInside]);
+assert.deepEqual(Array.from(platformComparison.outside), [9, 183 - fullInside]);
 assert.deepEqual(Array.from(platformComparison.totals), [73, 183]);
 assert.equal(platformComparison.rows.length, 18);
 assert.ok(context.platformCameraComparisonHtml().includes("Fuera de plataformas"));

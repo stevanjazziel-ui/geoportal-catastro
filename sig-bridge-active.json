@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "root": "./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/MUN036_JACINTO_UNIDAD_NACIONAL_20261021/",
-  "releaseId": "MUN036_JACINTO_UNIDAD_NACIONAL_20261021",
+  "root": "./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/RURALES_COP_UNACH_20261105/",
+  "releaseId": "RURALES_COP_UNACH_20261105",
   "coverageData": "riobamba-brechas-actualizadas-data.js"
 }

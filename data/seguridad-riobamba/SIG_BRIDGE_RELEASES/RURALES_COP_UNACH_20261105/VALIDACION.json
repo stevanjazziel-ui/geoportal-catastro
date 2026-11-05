@@ -1,0 +1,145 @@
+{
+  "status": "REVIEW_REQUIRED",
+  "plan": {
+    "scenarios": [
+      "B",
+      "C"
+    ],
+    "jobs": [
+      "block_coverage",
+      "buffers",
+      "camera_attributes",
+      "corridor_coverage",
+      "exclusive_coverage",
+      "hotspot_coverage",
+      "incident_coverage",
+      "population",
+      "territorial"
+    ],
+    "pendingAdapters": [],
+    "recalculateKde": false,
+    "recalculateGi": false,
+    "optimizeCameras": false
+  },
+  "nodeAudit": [
+    {
+      "id": "MUN-003",
+      "passed": true,
+      "approvedCoordinates": true,
+      "fieldVerified": false,
+      "cartographicNodeValidated": false,
+      "roads": [
+        "Gasolinera PYS"
+      ],
+      "source": "https://www.openstreetmap.org/node/941418772",
+      "method": "Estacion de la Panamericana en la entrada de Calpi confirmada por el usuario. La cartografia OSM la registra como Primax; el Excel dice PYS. Referencia del establecimiento, no poste validado."
+    },
+    {
+      "id": "MUN-004",
+      "passed": true,
+      "approvedCoordinates": true,
+      "fieldVerified": false,
+      "cartographicNodeValidated": false,
+      "roads": [
+        "Costado occidental, via diagonal junto al area deportiva"
+      ],
+      "source": "https://www.openstreetmap.org/way/534675723",
+      "method": "Centro del circulo de la imagen del usuario, georreferenciado con cuatro controles y ajustado al eje vial OSM. Referencia cartografica, no poste verificado."
+    },
+    {
+      "id": "MUN-008",
+      "passed": true,
+      "approvedCoordinates": true,
+      "fieldVerified": false,
+      "cartographicNodeValidated": false,
+      "roads": [
+        "Iglesia de la merced"
+      ],
+      "source": "https://www.openstreetmap.org/node/6152886985",
+      "method": "Referencia del establecimiento en OpenStreetMap; punto interior, no poste ni acceso confirmado"
+    },
+    {
+      "id": "MUN-013",
+      "passed": true,
+      "approvedCoordinates": true,
+      "fieldVerified": false,
+      "cartographicNodeValidated": false,
+      "roads": [
+        "Parque central"
+      ],
+      "source": "https://www.openstreetmap.org/way/254709212",
+      "method": "Referencia del establecimiento en OpenStreetMap; punto interior, no poste ni acceso confirmado"
+    },
+    {
+      "id": "MUN-016",
+      "passed": true,
+      "approvedCoordinates": true,
+      "fieldVerified": false,
+      "cartographicNodeValidated": false,
+      "roads": [
+        "Costado norte de la UNACH, via perimetral"
+      ],
+      "source": "https://www.openstreetmap.org/way/254730971",
+      "method": "Centro del circulo de la imagen del usuario, georreferenciado con cuatro controles y ajustado al eje vial OSM. Referencia cartografica, no poste verificado."
+    },
+    {
+      "id": "MUN-017",
+      "passed": true,
+      "approvedCoordinates": true,
+      "fieldVerified": false,
+      "cartographicNodeValidated": false,
+      "roads": [
+        "Alfonso Chavez y Chimborazo vía Penipe Y"
+      ],
+      "source": "https://www.openstreetmap.org",
+      "method": "Cruce de calles de OpenStreetMap; punto cartografico no verificado en campo"
+    },
+    {
+      "id": "MUN-019",
+      "passed": true,
+      "approvedCoordinates": true,
+      "fieldVerified": false,
+      "cartographicNodeValidated": false,
+      "roads": [
+        "Colegio Milton Reyes"
+      ],
+      "source": "https://www.openstreetmap.org/way/1136822598",
+      "method": "Referencia del establecimiento en OpenStreetMap; punto interior, no poste ni acceso confirmado"
+    },
+    {
+      "id": "MUN-020",
+      "passed": true,
+      "approvedCoordinates": true,
+      "fieldVerified": false,
+      "cartographicNodeValidated": false,
+      "roads": [
+        "Parque Central"
+      ],
+      "source": "https://www.openstreetmap.org/way/825077670",
+      "method": "Referencia del establecimiento en OpenStreetMap; punto interior, no poste ni acceso confirmado"
+    },
+    {
+      "id": "MUN-022",
+      "passed": true,
+      "approvedCoordinates": true,
+      "fieldVerified": false,
+      "cartographicNodeValidated": false,
+      "roads": [
+        "Jaime Roldos Aguilera, costado oriental de la UNACH"
+      ],
+      "source": "https://www.openstreetmap.org/way/327777492",
+      "method": "Centro del circulo de la imagen del usuario, georreferenciado con cuatro controles y ajustado al eje vial OSM. Referencia cartografica, no poste verificado."
+    }
+  ],
+  "publishBlocks": [
+    "Restriccion municipal BOULEVARD_MACAJI_BELLAVISTA: 95.11902% < 100%"
+  ],
+  "sourcePreserved": true,
+  "existingCount": 103,
+  "municipalCount": 50,
+  "policeCount": 30,
+  "giRecalculated": false,
+  "kdeRecalculated": false,
+  "optimized": false,
+  "revision": "RURALES_COP_UNACH_20261105"
+}

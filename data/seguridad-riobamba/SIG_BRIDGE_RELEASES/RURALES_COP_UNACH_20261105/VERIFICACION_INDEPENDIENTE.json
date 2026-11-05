@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "changedMunicipal": [
+    "MUN-003",
+    "MUN-004",
+    "MUN-008",
+    "MUN-013",
+    "MUN-016",
+    "MUN-017",
+    "MUN-019",
+    "MUN-020",
+    "MUN-022"
+  ],
+  "ruralCOP": [
+    "MUN-003",
+    "MUN-008",
+    "MUN-013",
+    "MUN-017",
+    "MUN-019",
+    "MUN-020"
+  ],
+  "unach": [
+    "MUN-004",
+    "MUN-016",
+    "MUN-022"
+  ],
+  "municipalCount": 50,
+  "otherMunicipal41Fixed": true,
+  "existing103Fixed": true,
+  "police30Fixed": true,
+  "upc18Fixed": true,
+  "allTargetsExact": true,
+  "remainingPriorReviewItems": [
+    "Restriccion municipal BOULEVARD_MACAJI_BELLAVISTA: 95.11902% < 100%"
+  ]
+}
