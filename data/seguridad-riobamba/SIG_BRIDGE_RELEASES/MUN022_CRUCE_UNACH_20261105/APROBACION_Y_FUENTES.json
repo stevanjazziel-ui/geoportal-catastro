@@ -1,0 +1,54 @@
+{
+  "revision": "MUN022_CRUCE_UNACH_20261105",
+  "createdAt": "2026-11-05T17:21:28-05:00",
+  "priorRelease": "MUN002_CALPI_CENTRO_20261105",
+  "authorization": "Usuario solicita mover MUN-022 a la interseccion visible arriba y a la derecha de su posicion en la imagen. Cruce compartido de J.M. Alvarez y la via lateral sin nombre; desplazamiento aproximado de 32 m al noreste.",
+  "baseHashes": {
+    "D:\\codex\\publish-macaji-compensacion-20261021\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\MUN002_CALPI_CENTRO_20261105\\ESCENARIO_FINAL_183.gpkg": "1b2d06fa5d0a259e09f3e605badb2cc036688a323f2e4f5c7e9779e65c259fe9",
+    "D:\\codex\\entregas\\RIOBAMBA_CONSOLIDADO_PRIORIDAD_REUNION_20261017\\RIOBAMBA_CONSOLIDADO.gpkg": "6b7cc372208e48bef118bec62b05d84da6cda25ecb0d347747b478450ca0b6d7",
+    "D:\\codex\\publish-macaji-compensacion-20261021\\riobamba-kde-combinado-data.js": "3c45b3b26f0aa83f5a0f1d51b3a0d5ce2a3aac5a966511256410a3881a6c1756"
+  },
+  "crossingEvidence": {
+    "roads": [
+      "J. M. Alvarez",
+      "via lateral sin nombre"
+    ],
+    "source": "https://www.openstreetmap.org/node/7430992222",
+    "osmWays": [
+      "1071639015",
+      "794487008"
+    ],
+    "sourceSha256": "3987b33804eef2638a0ae2e70aa9e9f821fe854f55878c7ed477cd53e070f59a",
+    "fieldVerified": false,
+    "centerlineGapM": 0,
+    "metricCoordinates": [
+      762538.4661123327,
+      9817246.274940854
+    ],
+    "geographicCoordinates": [
+      -78.6403293,
+      -1.652015
+    ]
+  },
+  "previousUtm": [
+    762513.8284042429,
+    9817226.007496316
+  ],
+  "correctedUtm": [
+    762538.4661123327,
+    9817246.274940854
+  ],
+  "changes": [
+    {
+      "layer": "municipal",
+      "id": "MUN-022",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 31.90275800015096,
+      "note": "J. M. Alvarez x via lateral sin nombre, costado oriental UNACH"
+    }
+  ],
+  "applied": true,
+  "published": true,
+  "publicationRequested": true
+}

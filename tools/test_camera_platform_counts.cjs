@@ -135,7 +135,7 @@ assert.ok(context.populationComparisonHtml().includes(`+${context.number(100 * c
 assert.ok(script.includes('document.getElementById("proposalPopulationContent").innerHTML = populationComparisonHtml()'));
 const platformComparison = context.platformCameraComparison();
 // Independently checked with Shapely against the exact release geometries.
-const fullInside = ["RURALES_COP_UNACH_20261105", "MUN002_CALPI_CENTRO_20261105"].includes(release.releaseId) ? 143 : 140;
+const fullInside = ["RURALES_COP_UNACH_20261105", "MUN002_CALPI_CENTRO_20261105", "MUN022_CRUCE_UNACH_20261105"].includes(release.releaseId) ? 143 : 140;
 assert.deepEqual(Array.from(platformComparison.inside), [64, fullInside]);
 assert.deepEqual(Array.from(platformComparison.outside), [9, 183 - fullInside]);
 assert.deepEqual(Array.from(platformComparison.totals), [73, 183]);

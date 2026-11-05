@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "root": "./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/MUN002_CALPI_CENTRO_20261105/",
-  "releaseId": "MUN002_CALPI_CENTRO_20261105",
+  "root": "./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/MUN022_CRUCE_UNACH_20261105/",
+  "releaseId": "MUN022_CRUCE_UNACH_20261105",
   "coverageData": "riobamba-brechas-actualizadas-data.js"
 }

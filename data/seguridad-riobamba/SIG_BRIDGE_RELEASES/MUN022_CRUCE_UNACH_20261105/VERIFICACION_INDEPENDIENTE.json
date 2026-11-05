@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "changedMunicipal": [
+    "MUN-022"
+  ],
+  "otherMunicipal49Fixed": true,
+  "existing103Fixed": true,
+  "police30Fixed": true,
+  "upc18Fixed": true,
+  "displacementM": 31.90275800015096,
+  "crossingEvidence": {
+    "roads": [
+      "J. M. Alvarez",
+      "via lateral sin nombre"
+    ],
+    "source": "https://www.openstreetmap.org/node/7430992222",
+    "osmWays": [
+      "1071639015",
+      "794487008"
+    ],
+    "sourceSha256": "3987b33804eef2638a0ae2e70aa9e9f821fe854f55878c7ed477cd53e070f59a",
+    "fieldVerified": false,
+    "centerlineGapM": 0,
+    "metricCoordinates": [
+      762538.4661123327,
+      9817246.274940854
+    ],
+    "geographicCoordinates": [
+      -78.6403293,
+      -1.652015
+    ]
+  },
+  "remainingReviewItems": [
+    "Restriccion municipal BOULEVARD_MACAJI_BELLAVISTA: 95.11902% < 100%"
+  ]
+}
