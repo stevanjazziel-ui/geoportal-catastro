@@ -21,12 +21,12 @@ window.createRiobambaCameraProposal = function (api) {
   const platformStyle = { color: "#385a52", weight: 1.6, opacity: .6, fill: false };
   const defaults = { existing: true, change: true, municipal: true, police: true, interventions: false, existingRadius: true, changeRadius: true, municipalRadius: true, policeRadius: true, interventionsRadius: false, platforms: true, kde: true, corridorRing: false, corridorMacaji: false, corridorAbras: false, corridorCiclovias: false, macajiSegment: true, urbanAxes: true, voids: false };
   const toggles = { ...defaults };
-  Object.assign(defaults, { streetCoverage200: true, streetExtension50: true });
-  Object.assign(toggles, { streetCoverage200: true, streetExtension50: true });
+  Object.assign(defaults, { streetCoverage200: true, streetExtension50: true, voids: true });
+  Object.assign(toggles, { streetCoverage200: true, streetExtension50: true, voids: true });
   const labels = { existing: "Sin cambio requerido", change: "Requieren cambio", municipal: "Municipio · 50 propuestas", police: "Policía · 30 propuestas", existingRadius: "Radio sin cambio · 200 m", changeRadius: "Radio para cambio · 200 m", municipalRadius: "Radio Municipio · 200 m", policeRadius: "Radio Policía · 200 m", platforms: "18 Plataformas", kde: "Concentración de incidentes · KDE", corridorRing: "Anillo Vial", corridorMacaji: "Bulevares", corridorAbras: "Quebrada Las Abras", corridorCiclovias: "Ciclovías", macajiSegment: "Tramo Bulevar Macají–Bellavista", urbanAxes: "Ejes Urbanos prioritarios", voids: "Tramos sin cobertura · escenario 183" };
   const macajiSegmentStyle = { color: "#b46b16", weight: 5, opacity: 1 };
   const streetStyles = { streetCoverage200: { color: "#15803d", weight: 3, opacity: .95, dashArray: "8 6" }, streetExtension50: { color: "#92cfa2", weight: 3, opacity: .65, dashArray: "5 6" } };
-  Object.assign(labels, { streetCoverage200: "Rayos rectos · 200 m", streetExtension50: "Extensión visual · 50 m", voids: "Tramos sin cobertura · radios 200 m" });
+  Object.assign(labels, { streetCoverage200: "Rayos rectos · 200 m", streetExtension50: "Extensión visual · 50 m", voids: "Sin cobertura · Macají–Bellavista · 200 m" });
   Object.assign(labels, { existing: "Cámaras actuales", change: "Para cambio", municipal: "Municipales propuestas", police: "Policía propuesta", interventions: "Intervenciones propuestas", existingRadius: "Radio actuales · 200 m", interventionsRadius: "Radio intervenciones · 200 m" });
   const layers = {};
   const renderers = new Map();
@@ -188,12 +188,7 @@ window.createRiobambaCameraProposal = function (api) {
         }))) next[key] = value;
         if (next.directionalSummary.sourceRelease !== directionalSource || next.directionalSummary.extra50IncludedInGapCalculation !== false || next.directionalSummary.geometryMode !== "STRAIGHT_FROM_CAMERA") throw new Error("Metodología de rayos y brechas inconsistente");
       }
-      const voids = await Promise.all((useDirectional ? ["ANILLO", "CICLOVIAS", "LAS_ABRAS"] : ["MACAJI", "ANILLO", "CICLOVIAS", "LAS_ABRAS"]).map(async name => {
-        const response = await fetch(root + `BRECHA_${name}_FINAL.geojson`);
-        if (!response.ok) throw new Error(`Brecha ${name}: HTTP ${response.status}`);
-        return response.json();
-      }));
-      next.voids = fc([...voids.flatMap(r => r.features), ...(next.macajiGaps200?.features || [])]);
+      next.voids = fc((next.macajiGaps200?.features || []).filter(f => f.properties.CORREDOR === "TRAMO_MACAJI_BELLAVISTA_APROBADO"));
       next.platformCounts = countPlatformCameras(next); data = next;
       console.info("[Cierre videovigilancia]", { existentes: 103, paraCambio: changeIds.size, municipales: 50, policia: 30, radioM: 200, crs: "EPSG:32717", fuente: root });
     })().catch(error => { loading = null; throw error; });

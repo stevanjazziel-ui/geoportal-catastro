@@ -9,6 +9,10 @@ assert.equal(summary.geometryMode,'STRAIGHT_FROM_CAMERA');assert.equal(summary.e
 assert.ok(primary.features.every(f=>f.geometry.coordinates.length===2));assert.ok(extra.features.every(f=>f.geometry.coordinates.length===2));
 assert.ok(Math.abs(summary.uncoveredMacaji200M-251.99827650681033)<1e-7);
 assert.ok(Math.abs(gaps.features.reduce((a,f)=>a+f.properties.LONGITUD_M,0)-summary.uncoveredMacaji200M)<1e-7);
+const selection=source.match(/next\.voids = .*;/)[0];
+const mixed={next:{macajiGaps200:{features:[...gaps.features,{properties:{CORREDOR:'ANILLO_VIAL'}},{properties:{CORREDOR:'CICLOVIAS'}}]}},fc:features=>({type:'FeatureCollection',features})};
+vm.runInNewContext(selection,mixed);assert.deepEqual(mixed.next.voids.features,gaps.features);
+const missing={next:{},fc:mixed.fc};vm.runInNewContext(selection,missing);assert.equal(missing.next.voids.features.length,0);
 assert.ok(primary.features.every(f=>f.properties.LONGITUD_M<=200.000001));assert.ok(extra.features.every(f=>f.properties.LONGITUD_M<=50.000001&&f.properties.SOLO_VISUAL));
 const draw=source.slice(source.indexOf('  function draw() {'),source.indexOf('  function syncLayers() {'));
 const styles=source.match(/const streetStyles = (.*);/)[1];
