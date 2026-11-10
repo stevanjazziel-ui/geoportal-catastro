@@ -10,7 +10,7 @@
     "RIO-096-FIJA",
     "RIO-098-FIJA"
   ],
-  "primaryArms": 612,
+  "primaryArms": 614,
   "visualExtensions": 0,
   "totalMacajiM": 5688.168747975763,
   "coveredPct": 98.56924382797934,
@@ -19,10 +19,10 @@
   "radiusForGapM": 250,
   "maxStreetAssociationM": 30,
   "method": "Diferencia del eje aprobado y union disuelta de buffers de 250 m, EPSG:32717, 64 segmentos por cuadrante.",
-  "streetMethod": "Rayos rectos de 250 m desde cada camara, salvo el brazo de Puruhá de RIO-052-DOMO, extendido a 331,4 m por solicitud del usuario. Sin ampliar radios circulares ni poblacion.",
+  "streetMethod": "Rayos rectos de 250 m, con dos ajustes solicitados: RIO-052 por Puruhá hasta 331,4 m; RIO-023 sigue ambos ejes de Unidad Nacional y Duchicela, con recorridos totales de 250 m desde la camara. Area y poblacion conservan buffers de 250 m.",
   "sourceCameraGeometrySha256": "f72435394c364d9ab0e66e8fe2844d30a8384002f582da9b8bcf1800a194b5c9",
   "sourceRoadsSha256": "6b7cc372208e48bef118bec62b05d84da6cda25ecb0d347747b478450ca0b6d7",
-  "geometryMode": "STRAIGHT_FROM_CAMERA",
+  "geometryMode": "STRAIGHT_WITH_ROAD_AXIS_EXCEPTIONS",
   "exactCameraOrigin": true,
   "minimumBearingSeparationDegrees": 8,
   "scenarios": {
@@ -85,5 +85,18 @@
   "linearCoverageMethod": "Union de cobertura radial de 250m sobre el eje aprobado y tramo rojo autorizado para el brazo de RIO-052-DOMO. Area y poblacion conservan exclusivamente los buffers de 250m; no se supone un ancho de visibilidad.",
   "coveredMacajiWithExceptionsM": 5688.168747975763,
   "uncoveredMacajiWithExceptionsM": 0.0,
-  "coveredWithExceptionsPct": 100.00000000000001
+  "coveredWithExceptionsPct": 100.00000000000001,
+  "roadAxisExceptions": [
+    {
+      "cameraId": "RIO-023-DOMO",
+      "avenueCarriageways": 2,
+      "avenueArms": 4,
+      "crossStreetArms": 2,
+      "maxRouteM": 250,
+      "originUnchanged": true,
+      "source": "OSM local",
+      "sourceSha256": "4945f954c36d75aeaf92e4ea063aeaa55ba3f98064a02cfa88dddc80b9e37b4f",
+      "visibilityVerified": false
+    }
+  ]
 }

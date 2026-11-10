@@ -1,0 +1,62 @@
+{
+  "passed": true,
+  "cameraId": "RIO-023-DOMO",
+  "cameraPositionUnchanged": true,
+  "bothAvenueCarriageways": true,
+  "avenueArms": 4,
+  "crossStreetArms": 2,
+  "maximumRouteM": 250,
+  "other608PathsUnchanged": true,
+  "rio052ExtensionPreserved": true,
+  "areaPopulationAndGapCalculationsUnchanged": true,
+  "paths": [
+    {
+      "arm": 1,
+      "street": "Avenida Unidad Nacional",
+      "carriageway": "Calzada norte",
+      "lengthM": 250.0000000003274,
+      "connectorM": 19.12603479377971,
+      "vertices": 10
+    },
+    {
+      "arm": 2,
+      "street": "Avenida Unidad Nacional",
+      "carriageway": "Calzada norte",
+      "lengthM": 249.9999999995692,
+      "connectorM": 19.12603479377971,
+      "vertices": 10
+    },
+    {
+      "arm": 3,
+      "street": "Avenida Unidad Nacional",
+      "carriageway": "Calzada sur",
+      "lengthM": 250.00000000005303,
+      "connectorM": 20.46815065057915,
+      "vertices": 6
+    },
+    {
+      "arm": 4,
+      "street": "Avenida Unidad Nacional",
+      "carriageway": "Calzada sur",
+      "lengthM": 250.00000000019932,
+      "connectorM": 20.46815065057915,
+      "vertices": 12
+    },
+    {
+      "arm": 5,
+      "street": "Duchicela",
+      "carriageway": "Cruce Duchicela",
+      "lengthM": 250.00000000034888,
+      "connectorM": 7.977216453332357,
+      "vertices": 7
+    },
+    {
+      "arm": 6,
+      "street": "Duchicela",
+      "carriageway": "Cruce Duchicela",
+      "lengthM": 249.99999999965667,
+      "connectorM": 7.977216453332357,
+      "vertices": 7
+    }
+  ]
+}

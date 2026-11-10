@@ -5,7 +5,7 @@ const json=name=>JSON.parse(fs.readFileSync(path.join(folder,name),'utf8'));
 const source=fs.readFileSync(path.join(root,'riobamba-camaras-propuesta.js'),'utf8');new vm.Script(source);
 const summary=json('RESUMEN.json'),primary=json('LINEAS_PRINCIPALES_250M.geojson'),extra={features:[]},gaps=json('BRECHA_MACAJI_TRAMO_250M.geojson');
 assert.equal(summary.formerVisual50IncludedInCoverage,true);assert.equal(summary.radiusForGapM,250);
-assert.equal(summary.geometryMode,'STRAIGHT_FROM_CAMERA');assert.equal(summary.exactCameraOrigin,true);
+assert.ok(['STRAIGHT_FROM_CAMERA','STRAIGHT_WITH_ROAD_AXIS_EXCEPTIONS'].includes(summary.geometryMode));assert.equal(summary.exactCameraOrigin,true);
 assert.ok(primary.features.every(f=>f.geometry.coordinates.length===2));assert.ok(extra.features.every(f=>f.geometry.coordinates.length===2));
 assert.ok(Math.abs(summary.uncoveredMacaji250M-81.38382543661346)<1e-7);
 assert.ok(Math.abs(gaps.features.reduce((a,f)=>a+f.properties.LONGITUD_M,0)-summary.uncoveredMacaji250M)<1e-7);
