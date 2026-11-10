@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "camerasAudited": 183,
+  "correctedCameras": 149,
+  "sourceMatchedPaths": 721,
+  "totalDisplayedPaths": 831,
+  "maxRoadDeviationAfterConnectorM": 2.3138910607370187e-09,
+  "maxCameraOriginErrorM": 1.3969838619232178e-09,
+  "all183CameraPositionsUnchanged": true,
+  "maximumOrdinaryPathM": 250,
+  "rio052ExtensionUnchanged": true,
+  "approvedManualCorrectionsPreserved": true,
+  "unsupportedCamerasUnchanged": [
+    "RIO-073-DOMO",
+    "RIO-074-DOMO",
+    "RIO-080-DOMO",
+    "RIO-095-FIJA",
+    "RIO-096-FIJA",
+    "RIO-098-FIJA"
+  ],
+  "areaPopulationAndGapCalculationsUnchanged": true
+}

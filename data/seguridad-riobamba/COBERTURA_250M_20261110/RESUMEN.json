@@ -10,7 +10,7 @@
     "RIO-096-FIJA",
     "RIO-098-FIJA"
   ],
-  "primaryArms": 619,
+  "primaryArms": 831,
   "visualExtensions": 0,
   "totalMacajiM": 5688.168747975763,
   "coveredPct": 98.56924382797934,
@@ -19,10 +19,10 @@
   "radiusForGapM": 250,
   "maxStreetAssociationM": 30,
   "method": "Diferencia del eje aprobado y union disuelta de buffers de 250 m, EPSG:32717, 64 segmentos por cuadrante.",
-  "streetMethod": "Cobertura de 250 m con rayos rectos y ajustes viales solicitados: RIO-023 sobre ambas calzadas de Unidad Nacional y Duchicela; PN-21 sobre los brazos de Edelberto Bonilla, 9 de Octubre, Celso Augusto Rodríguez y Recife. Se conserva la extension de RIO-052 hasta 331,4 m. Area y poblacion mantienen radios de 250 m.",
+  "streetMethod": "Geometrías locales, vértices compartidos y nivel vial. Se priorizan vías vehiculares públicas; la red peatonal pública solo sirve de respaldo si no hay vía vehicular/municipal a 30 m. Se omiten accesos privados OSM. Un solo camino de continuación por brazo; sin ramificarse en cruces posteriores. Conector inicial desde la cámara a la vía, de hasta 30 m. No se certifica visibilidad física.",
   "sourceCameraGeometrySha256": "f72435394c364d9ab0e66e8fe2844d30a8384002f582da9b8bcf1800a194b5c9",
   "sourceRoadsSha256": "6b7cc372208e48bef118bec62b05d84da6cda25ecb0d347747b478450ca0b6d7",
-  "geometryMode": "STRAIGHT_WITH_ROAD_AXIS_EXCEPTIONS",
+  "geometryMode": "AUDITED_ROAD_AXIS_COVERAGE",
   "exactCameraOrigin": true,
   "minimumBearingSeparationDegrees": 8,
   "scenarios": {
@@ -107,5 +107,7 @@
       "sourceSha256": "4945f954c36d75aeaf92e4ea063aeaa55ba3f98064a02cfa88dddc80b9e37b4f",
       "visibilityVerified": false
     }
-  ]
+  ],
+  "auditedCameras": 183,
+  "correctedCameras": 149
 }

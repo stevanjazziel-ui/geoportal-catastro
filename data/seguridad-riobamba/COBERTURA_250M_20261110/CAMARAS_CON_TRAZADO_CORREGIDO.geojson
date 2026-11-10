@@ -1,0 +1,2091 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-001-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6391055555556,
+          -1.688277777777782
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-004-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6455583333333,
+          -1.674613888888885
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-006-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6493027777778,
+          -1.665408333333336
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-010-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65551111111111,
+          -1.668108333333322
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-011-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6587583333333,
+          -1.665247222222217
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-012-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66655555555562,
+          -1.665616666666673
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-013-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6589444444444,
+          -1.676683333333332
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-014-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.675075,
+          -1.661783333333324
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-015-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64480555555562,
+          -1.654055555555562
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-016-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6306166666667,
+          -1.691261111111104
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-017-FIJA",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6306166666667,
+          -1.691261111111104
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-020-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66297222222221,
+          -1.661775
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-021-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6485111111111,
+          -1.671147222222227
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-022-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6525111111111,
+          -1.666455555555559
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-024-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6635305555556,
+          -1.671605555555552
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-025-DOMO",
+        "MOTIVOS": "Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66895277777778,
+          -1.657269444444439
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-026-DOMO",
+        "MOTIVOS": "Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6674416666667,
+          -1.652608333333323
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-027-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce | Caso señalado por el usuario: redondel y ejes de las avenidas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6410166666667,
+          -1.663958333333332
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-028-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6953555555556,
+          -1.655938888888882
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-029-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6605333333333,
+          -1.678388888888886
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-030-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6500833333333,
+          -1.68835
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-031-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6433333333333,
+          -1.686002777777779
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-033-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6434138888889,
+          -1.66610555555556
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-034-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6326055555555,
+          -1.680216666666661
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-035-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64158611111114,
+          -1.661266666666668
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-037-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6528,
+          -1.669166666666666
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-038-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65494722222222,
+          -1.666558333333328
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-039-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6634194444444,
+          -1.664061111111111
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-040-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65009722222223,
+          -1.663041666666665
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-041-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6739277777778,
+          -1.644930555555566
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-042-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6649527777778,
+          -1.660475
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-043-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6638333333333,
+          -1.657336111111105
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-044-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67616388888891,
+          -1.689036111111104
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-045-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66274166666668,
+          -1.682327777777778
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-046-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63418611111112,
+          -1.686227777777782
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-047-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66671666666667,
+          -1.643908333333334
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-048-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64320555555557,
+          -1.68355
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-049-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.68110555555556,
+          -1.635838888888897
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-050-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.68022777777779,
+          -1.657025
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-051-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67886666666668,
+          -1.667008333333331
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-053-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65308055555556,
+          -1.66637777777778
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-055-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63826111111112,
+          -1.666677777777778
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-056-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63759722222223,
+          -1.68259444444444
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-057-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63759444444445,
+          -1.663775
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-060-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6378305555556,
+          -1.672477777777778
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-061-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.646925,
+          -1.659383333333325
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-062-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6450138888889,
+          -1.680013888888894
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-064-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65471944444445,
+          -1.66942777777778
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-065-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66994722222223,
+          -1.652275
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-066-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67847222222223,
+          -1.639247222222226
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-067-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.68819143365141,
+          -1.647858955335628
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-068-LA",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6546,
+          -1.6636
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-069-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67659722222224,
+          -1.635222222222225
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-070-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67973333333333,
+          -1.648263888888895
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-071-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64243888888889,
+          -1.658955555555554
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-072-DOMO",
+        "MOTIVOS": "Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6532791,
+          -1.6698559
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-075-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66322777777778,
+          -1.643213888888891
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-076-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65708333333333,
+          -1.656138888888887
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-077-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65527777777778,
+          -1.671055555555554
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-079-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64116666666668,
+          -1.683361111111108
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-081-FIJA",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6567596,
+          -1.6686608
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-082-FIJA",
+        "MOTIVOS": "Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6576474,
+          -1.6709836
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-083-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6434064,
+          -1.6577798
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-084-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.642538,
+          -1.6987729
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-085-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66069361557503,
+          -1.660296117566145
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-086-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.661017,
+          -1.6588025
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-087-FIJA",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6512989492781,
+          -1.668617469694432
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-088-FIJA",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65115505071668,
+          -1.668761930295394
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-089-FIJA",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6436844,
+          -1.6581033
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-090-FIJA",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65005469917486,
+          -1.666035997132163
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-091-FIJA",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64955834063286,
+          -1.666127918804151
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-092-FIJA",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6454981,
+          -1.6570063
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-093-FIJA",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.645331,
+          -1.6562947
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-094-FIJA",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.7832,
+          -1.6262
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-097-FIJA",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.798,
+          -1.605
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-099-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6563212,
+          -1.6606351
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-100-FIJA",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6563212,
+          -1.6606351
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-101-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6639469,
+          -1.6749413
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-102-DOMO",
+        "MOTIVOS": "Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6724431,
+          -1.6584337
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-103-DOMO",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67156220218284,
+          -1.656149574780957
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-001",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.7012063,
+          -1.7057875
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-002",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.7429291,
+          -1.6461612
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-004",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64502409788342,
+          -1.651346917724795
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-005",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.646545,
+          -1.814422
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-006",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6464204,
+          -1.8167388
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-007",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6036439,
+          -1.8050072
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-008",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6050182,
+          -1.8018856
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-009",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.5931246,
+          -1.8163705
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-010",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.5952809,
+          -1.8094559
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-011",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6562458,
+          -1.7661491
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-012",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6542844,
+          -1.7572259
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-013",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.56763449408717,
+          -1.658107550023684
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-014",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.5732775,
+          -1.6583211
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-015",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.7686656,
+          -1.6373613
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-016",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64125812221799,
+          -1.650716989086279
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-017",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.58929725803462,
+          -1.639876717049536
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-018",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.58697890000002,
+          -1.6459814
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-019",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64052770426373,
+          -1.70667090381988
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-020",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64627116532382,
+          -1.708243012187391
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-022",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6405987,
+          -1.6525676
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-023",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67214164931372,
+          -1.63896210923828
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-024",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.68052081270649,
+          -1.627174815769009
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-025",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67802117231848,
+          -1.631155810968884
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-026",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66849622843594,
+          -1.638558874302114
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-027",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67616239759334,
+          -1.651406959163726
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-028",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6555148,
+          -1.6809337
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-029",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65928329050575,
+          -1.668053279981931
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-030",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63597779909536,
+          -1.671385276830132
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-031",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6319897,
+          -1.689426
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-032",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.68152992723289,
+          -1.660115882587859
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-033",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66562463805437,
+          -1.666269687151837
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-034",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64547943611568,
+          -1.662112142568592
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-036",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66336461941121,
+          -1.665270099073834
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-037",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64136958575608,
+          -1.678386553452321
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-038",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64280928325267,
+          -1.679995332445605
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-039",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63034876200462,
+          -1.686198690339425
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-044",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6541936,
+          -1.6575212
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-045",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6680025,
+          -1.6672944
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-046",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65234563637382,
+          -1.66120533203541
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-047",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6628377,
+          -1.6697934
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-048",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66123,
+          -1.6744346
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-049",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6520706,
+          -1.6847775
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "MUN-050",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6301759,
+          -1.6764971
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-02",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67970858,
+          -1.66175357
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-03",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6714628,
+          -1.6518887
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-04",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67104657920925,
+          -1.663167958780062
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-05",
+        "MOTIVOS": "Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.67059913,
+          -1.65595502
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-06",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66760042,
+          -1.64686254
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-07",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.68656,
+          -1.658772
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-08",
+        "MOTIVOS": "Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66949391789834,
+          -1.660833869025872
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-09",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.68375268,
+          -1.62296663
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-10",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.705988,
+          -1.650379
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-12",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.789798,
+          -1.623638
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-14",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66041813,
+          -1.66368752
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-15",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65888391,
+          -1.6689889
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-16",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66492684423818,
+          -1.664484829470168
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-17",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.65923604015929,
+          -1.680069613944339
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-18",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6585252,
+          -1.67211944
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-19",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64278998,
+          -1.64973668
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-20",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64959207,
+          -1.64926838
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-22",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6202449,
+          -1.66651064
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-23",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.66961208,
+          -1.67279398
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-24",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6840974,
+          -1.6795996
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-25",
+        "MOTIVOS": "Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6449801,
+          -1.68196429
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-27",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.64076968292378,
+          -1.679927768802327
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-28",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.6206983,
+          -1.70372071
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-29",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.63966789,
+          -1.65678258
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-30",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.62871375,
+          -1.65563865
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "PN-31",
+        "MOTIVOS": "Línea fuera de la vía durante al menos 20 m | Brazos o calzadas del cruce sin representar | Conectores internos ocultaban salidas del cruce"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.658277,
+          -1.662605
+        ]
+      }
+    }
+  ]
+}

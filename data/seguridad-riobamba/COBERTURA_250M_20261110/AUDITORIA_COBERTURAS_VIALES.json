@@ -1,0 +1,2565 @@
+{
+  "camerasAudited": 183,
+  "correctedCameras": 149,
+  "manualPreviouslyCorrected": 3,
+  "unassociatedCameras": [
+    "RIO-073-DOMO",
+    "RIO-074-DOMO",
+    "RIO-080-DOMO",
+    "RIO-095-FIJA",
+    "RIO-096-FIJA",
+    "RIO-098-FIJA"
+  ],
+  "pathsBefore": 619,
+  "pathsAfter": 831,
+  "criteria": {
+    "associationM": 30,
+    "junctionRadiusM": 35,
+    "roadToleranceM": 12,
+    "minimumOffRoadLengthM": 20,
+    "maximumPathM": 250,
+    "maximumSameStreetTurnDegrees": 60,
+    "maximumChangedStreetTurnDegrees": 30
+  },
+  "method": "Geometrías locales, vértices compartidos y nivel vial. Se priorizan vías vehiculares públicas; la red peatonal pública solo sirve de respaldo si no hay vía vehicular/municipal a 30 m. Se omiten accesos privados OSM. Un solo camino de continuación por brazo; sin ramificarse en cruces posteriores. Conector inicial desde la cámara a la vía, de hasta 30 m. No se certifica visibilidad física.",
+  "cameraPositionsUnchanged": true,
+  "areaPopulationAndGapCalculationsUnchanged": true,
+  "rio052ExtensionPreserved": true,
+  "cases": [
+    {
+      "cameraId": "RIO-001-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 5,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 31.923868732147387,
+      "offRoadLengthM": 250.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-002-DOMO",
+      "group": "existing",
+      "status": "AJUSTE_MANUAL_CONSERVADO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Ajuste cartográfico ya validado"
+      ],
+      "maxOriginalOffRoadM": 0.0,
+      "offRoadLengthM": 0.0
+    },
+    {
+      "cameraId": "RIO-003-DOMO",
+      "group": "existing",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [],
+      "maxOriginalOffRoadM": 5.743046397862381,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-004-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m"
+      ],
+      "maxOriginalOffRoadM": 44.636990981651905,
+      "offRoadLengthM": 65.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-005-DOMO",
+      "group": "existing",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [],
+      "maxOriginalOffRoadM": 10.40063439693806,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-006-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 7,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 39.0630834057125,
+      "offRoadLengthM": 100.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-007-DOMO",
+      "group": "existing",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [],
+      "maxOriginalOffRoadM": 11.819535761370412,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-008-FIJA",
+      "group": "existing",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [],
+      "maxOriginalOffRoadM": 11.819535765080088,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-009-DOMO",
+      "group": "existing",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [],
+      "maxOriginalOffRoadM": 4.87728794751532,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-010-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 8,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 38.93225535273587,
+      "offRoadLengthM": 195.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-011-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 8,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 39.920504640563976,
+      "offRoadLengthM": 400.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-012-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 10,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 105.97793566017151,
+      "offRoadLengthM": 535.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-013-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 7,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 38.35912359810653,
+      "offRoadLengthM": 255.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-014-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 12,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 37.99117180454498,
+      "offRoadLengthM": 280.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-015-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 2,
+      "newPaths": 2,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 37.23687750952687,
+      "offRoadLengthM": 205.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-016-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 15.537154160323233,
+      "offRoadLengthM": 75.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-017-FIJA",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 15.537154160323233,
+      "offRoadLengthM": 75.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-018-DOMO",
+      "group": "existing",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [],
+      "maxOriginalOffRoadM": 6.83898880134541,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-019-DOMO",
+      "group": "existing",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [],
+      "maxOriginalOffRoadM": 8.799345305804914,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-020-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 61.965033741943,
+      "offRoadLengthM": 305.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-021-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 15.430095896685598,
+      "offRoadLengthM": 75.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-022-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 5,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 40.84073109478269,
+      "offRoadLengthM": 200.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-023-DOMO",
+      "group": "existing",
+      "status": "AJUSTE_MANUAL_CONSERVADO",
+      "oldPaths": 6,
+      "newPaths": 6,
+      "reasons": [
+        "Ajuste cartográfico ya validado"
+      ],
+      "maxOriginalOffRoadM": 0.0,
+      "offRoadLengthM": 0.0
+    },
+    {
+      "cameraId": "RIO-024-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 35.3186853031382,
+      "offRoadLengthM": 170.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-025-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 7,
+      "reasons": [
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 7.564489358788352,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-026-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 9,
+      "reasons": [
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 11.196501302248913,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-027-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 8,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce",
+        "Caso señalado por el usuario: redondel y ejes de las avenidas"
+      ],
+      "maxOriginalOffRoadM": 35.20988671965729,
+      "offRoadLengthM": 250.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-028-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 18.620912026933084,
+      "offRoadLengthM": 95.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-029-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 20.895314292471635,
+      "offRoadLengthM": 95.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-030-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 2,
+      "newPaths": 2,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 105.91602537035857,
+      "offRoadLengthM": 355.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-031-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 9,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 42.85210796781083,
+      "offRoadLengthM": 95.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-032-DOMO",
+      "group": "existing",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [],
+      "maxOriginalOffRoadM": 8.116157034027827,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-033-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 25.120529193434027,
+      "offRoadLengthM": 125.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-034-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 20.011961117279398,
+      "offRoadLengthM": 160.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-035-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 5,
+      "newPaths": 5,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 31.751004999412086,
+      "offRoadLengthM": 170.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-036-DOMO",
+      "group": "existing",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [],
+      "maxOriginalOffRoadM": 6.0091353141481365,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-037-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 21.481726892313652,
+      "offRoadLengthM": 115.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-038-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 13.533412547780701,
+      "offRoadLengthM": 70.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-039-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 30.61987978566879,
+      "offRoadLengthM": 160.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-040-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 26.186633892189384,
+      "offRoadLengthM": 100.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-041-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 9,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 13.288720957381765,
+      "offRoadLengthM": 90.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-042-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 38.88777528169465,
+      "offRoadLengthM": 165.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-043-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 8,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 38.83375087421643,
+      "offRoadLengthM": 255.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-044-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 25.184350810000954,
+      "offRoadLengthM": 85.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-045-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 5,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 68.5792489961669,
+      "offRoadLengthM": 590.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-046-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 5,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 37.279620782125725,
+      "offRoadLengthM": 155.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-047-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 12.921179969175158,
+      "offRoadLengthM": 25.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-048-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 21.57883534234977,
+      "offRoadLengthM": 90.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-049-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 30.450051882635066,
+      "offRoadLengthM": 405.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-050-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 37.86323469704785,
+      "offRoadLengthM": 110.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-051-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 2,
+      "newPaths": 2,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 106.7226788789772,
+      "offRoadLengthM": 390.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-052-DOMO",
+      "group": "existing",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [],
+      "maxOriginalOffRoadM": 11.21514615794491,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-053-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 2,
+      "newPaths": 2,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 29.557498618101405,
+      "offRoadLengthM": 320.0,
+      "source": "Cartografía vial municipal local"
+    },
+    {
+      "cameraId": "RIO-054-DOMO",
+      "group": "existing",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [],
+      "maxOriginalOffRoadM": 10.6947021230064,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-055-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 9,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 29.366819127193907,
+      "offRoadLengthM": 245.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-056-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 22.747601767809225,
+      "offRoadLengthM": 105.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-057-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 5,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 43.14529964944403,
+      "offRoadLengthM": 150.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-058-DOMO",
+      "group": "existing",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [],
+      "maxOriginalOffRoadM": 10.005452353444024,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-059-DOMO",
+      "group": "existing",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [],
+      "maxOriginalOffRoadM": 6.548088238313726,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-060-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 57.13359755646908,
+      "offRoadLengthM": 220.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-061-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 5,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 64.34478386885473,
+      "offRoadLengthM": 220.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-062-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 34.8893314509729,
+      "offRoadLengthM": 80.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-063-DOMO",
+      "group": "existing",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [],
+      "maxOriginalOffRoadM": 7.696295110508203,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-064-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 37.803266985944255,
+      "offRoadLengthM": 385.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-065-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m"
+      ],
+      "maxOriginalOffRoadM": 29.878134354985406,
+      "offRoadLengthM": 145.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-066-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 5,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 29.6150903516498,
+      "offRoadLengthM": 120.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-067-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 63.92285545423319,
+      "offRoadLengthM": 590.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-068-LA",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 2,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 42.043615221521634,
+      "offRoadLengthM": 300.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-069-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 43.320660925336504,
+      "offRoadLengthM": 180.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-070-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 33.346025190629476,
+      "offRoadLengthM": 120.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-071-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 30.753865506509545,
+      "offRoadLengthM": 110.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-072-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 5,
+      "reasons": [
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 9.08657244141914,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-073-DOMO",
+      "group": "existing",
+      "status": "SIN_ASOCIACION_LOCAL",
+      "oldPaths": 0,
+      "newPaths": 0,
+      "reasons": [
+        "No hay vía asociable a 30 m; no se inventa trazado"
+      ],
+      "maxOriginalOffRoadM": null,
+      "offRoadLengthM": null
+    },
+    {
+      "cameraId": "RIO-074-DOMO",
+      "group": "existing",
+      "status": "SIN_ASOCIACION_LOCAL",
+      "oldPaths": 0,
+      "newPaths": 0,
+      "reasons": [
+        "No hay vía asociable a 30 m; no se inventa trazado"
+      ],
+      "maxOriginalOffRoadM": null,
+      "offRoadLengthM": null
+    },
+    {
+      "cameraId": "RIO-075-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 5,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 116.74352549806781,
+      "offRoadLengthM": 385.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-076-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 8,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 37.53303833891495,
+      "offRoadLengthM": 355.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-077-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m"
+      ],
+      "maxOriginalOffRoadM": 35.735735296286066,
+      "offRoadLengthM": 50.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-078-DOMO",
+      "group": "existing",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [],
+      "maxOriginalOffRoadM": 7.380838356998065,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-079-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 30.495516315619994,
+      "offRoadLengthM": 325.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-080-DOMO",
+      "group": "existing",
+      "status": "SIN_ASOCIACION_LOCAL",
+      "oldPaths": 0,
+      "newPaths": 0,
+      "reasons": [
+        "No hay vía asociable a 30 m; no se inventa trazado"
+      ],
+      "maxOriginalOffRoadM": null,
+      "offRoadLengthM": null
+    },
+    {
+      "cameraId": "RIO-081-FIJA",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m"
+      ],
+      "maxOriginalOffRoadM": 23.063630615967032,
+      "offRoadLengthM": 125.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-082-FIJA",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 5,
+      "reasons": [
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 1.533110010165179,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-083-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 5,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 26.473620781759976,
+      "offRoadLengthM": 125.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-084-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 76.31710755615532,
+      "offRoadLengthM": 150.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-085-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 5,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 39.24308157642316,
+      "offRoadLengthM": 365.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-086-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 74.99253629599188,
+      "offRoadLengthM": 365.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-087-FIJA",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 14.13386142095526,
+      "offRoadLengthM": 60.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-088-FIJA",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 12.639387352955254,
+      "offRoadLengthM": 75.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-089-FIJA",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 5,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 20.584795857921065,
+      "offRoadLengthM": 145.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-090-FIJA",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 29.959313750391377,
+      "offRoadLengthM": 320.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-091-FIJA",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 29.943183809468593,
+      "offRoadLengthM": 145.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-092-FIJA",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 5,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 41.221108927028446,
+      "offRoadLengthM": 180.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-093-FIJA",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 5,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 28.500644286027576,
+      "offRoadLengthM": 145.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-094-FIJA",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 2,
+      "newPaths": 2,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 157.70286809508926,
+      "offRoadLengthM": 415.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-095-FIJA",
+      "group": "existing",
+      "status": "SIN_ASOCIACION_LOCAL",
+      "oldPaths": 0,
+      "newPaths": 0,
+      "reasons": [
+        "No hay vía asociable a 30 m; no se inventa trazado"
+      ],
+      "maxOriginalOffRoadM": null,
+      "offRoadLengthM": null
+    },
+    {
+      "cameraId": "RIO-096-FIJA",
+      "group": "existing",
+      "status": "SIN_ASOCIACION_LOCAL",
+      "oldPaths": 0,
+      "newPaths": 0,
+      "reasons": [
+        "No hay vía asociable a 30 m; no se inventa trazado"
+      ],
+      "maxOriginalOffRoadM": null,
+      "offRoadLengthM": null
+    },
+    {
+      "cameraId": "RIO-097-FIJA",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 2,
+      "newPaths": 2,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 58.70977218363832,
+      "offRoadLengthM": 370.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-098-FIJA",
+      "group": "existing",
+      "status": "SIN_ASOCIACION_LOCAL",
+      "oldPaths": 0,
+      "newPaths": 0,
+      "reasons": [
+        "No hay vía asociable a 30 m; no se inventa trazado"
+      ],
+      "maxOriginalOffRoadM": null,
+      "offRoadLengthM": null
+    },
+    {
+      "cameraId": "RIO-099-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 23.388252896511112,
+      "offRoadLengthM": 65.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-100-FIJA",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 23.388252896511112,
+      "offRoadLengthM": 65.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-101-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 85.84704966050468,
+      "offRoadLengthM": 280.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-102-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 8,
+      "reasons": [
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 5.042634156629636,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "RIO-103-DOMO",
+      "group": "existing",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 5,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 20.20331227181036,
+      "offRoadLengthM": 80.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-001",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 117.0193089483657,
+      "offRoadLengthM": 540.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-002",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m"
+      ],
+      "maxOriginalOffRoadM": 42.542136574774794,
+      "offRoadLengthM": 200.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-003",
+      "group": "municipal",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 2,
+      "newPaths": 2,
+      "reasons": [],
+      "maxOriginalOffRoadM": 4.110395316699638,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-004",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 53.75543548008439,
+      "offRoadLengthM": 255.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-005",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 82.84593019542586,
+      "offRoadLengthM": 205.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-006",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 7,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 79.39804286988316,
+      "offRoadLengthM": 370.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-007",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m"
+      ],
+      "maxOriginalOffRoadM": 29.114829513003052,
+      "offRoadLengthM": 20.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-008",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 2,
+      "newPaths": 2,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 143.89084827550045,
+      "offRoadLengthM": 315.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-009",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 121.76511660870662,
+      "offRoadLengthM": 275.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-010",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 88.88383433669956,
+      "offRoadLengthM": 340.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-011",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m"
+      ],
+      "maxOriginalOffRoadM": 45.32468729328534,
+      "offRoadLengthM": 135.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-012",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 46.45541416967651,
+      "offRoadLengthM": 200.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-013",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 58.78890988404312,
+      "offRoadLengthM": 430.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-014",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 120.46125234670559,
+      "offRoadLengthM": 345.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-015",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m"
+      ],
+      "maxOriginalOffRoadM": 44.09836226044232,
+      "offRoadLengthM": 75.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-016",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 2,
+      "newPaths": 2,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 62.95449022537999,
+      "offRoadLengthM": 195.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-017",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 64.91192555315966,
+      "offRoadLengthM": 300.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-018",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 179.51481646529612,
+      "offRoadLengthM": 435.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-019",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 125.03967469133137,
+      "offRoadLengthM": 230.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-020",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 64.47651750136427,
+      "offRoadLengthM": 155.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-021",
+      "group": "municipal",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [],
+      "maxOriginalOffRoadM": 5.649078807017271,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-022",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 31.936833386849493,
+      "offRoadLengthM": 275.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-023",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m"
+      ],
+      "maxOriginalOffRoadM": 45.534804260256074,
+      "offRoadLengthM": 130.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-024",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 2,
+      "newPaths": 2,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 38.16871618051131,
+      "offRoadLengthM": 105.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-025",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 2,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 17.18084705932912,
+      "offRoadLengthM": 20.0,
+      "source": "Cartografía vial municipal local"
+    },
+    {
+      "cameraId": "MUN-026",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 2,
+      "newPaths": 2,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 90.69626003363612,
+      "offRoadLengthM": 255.0,
+      "source": "Cartografía vial municipal local"
+    },
+    {
+      "cameraId": "MUN-027",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 41.0487345293851,
+      "offRoadLengthM": 210.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-028",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 31.01803279763281,
+      "offRoadLengthM": 195.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-029",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 2,
+      "newPaths": 2,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 14.843379370589375,
+      "offRoadLengthM": 120.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-030",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 8,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 27.004985416030607,
+      "offRoadLengthM": 100.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-031",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 8,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 51.34254575109834,
+      "offRoadLengthM": 150.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-032",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 38.51653536649245,
+      "offRoadLengthM": 115.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-033",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m"
+      ],
+      "maxOriginalOffRoadM": 31.801703003220513,
+      "offRoadLengthM": 120.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-034",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 5,
+      "newPaths": 7,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 51.03362805963967,
+      "offRoadLengthM": 270.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-035",
+      "group": "municipal",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [],
+      "maxOriginalOffRoadM": 3.239899061537374,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-036",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m"
+      ],
+      "maxOriginalOffRoadM": 49.96435915944063,
+      "offRoadLengthM": 85.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-037",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 5,
+      "newPaths": 9,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 32.437454362615895,
+      "offRoadLengthM": 385.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-038",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 34.63925108346888,
+      "offRoadLengthM": 205.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-039",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 33.1570016468006,
+      "offRoadLengthM": 220.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-040",
+      "group": "municipal",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [],
+      "maxOriginalOffRoadM": 12.633199021613283,
+      "offRoadLengthM": 10.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-041",
+      "group": "municipal",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [],
+      "maxOriginalOffRoadM": 5.3341680096123545,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-042",
+      "group": "municipal",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [],
+      "maxOriginalOffRoadM": 7.33128464337118,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-043",
+      "group": "municipal",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [],
+      "maxOriginalOffRoadM": 1.5688854314849783,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-044",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 65.3192612558391,
+      "offRoadLengthM": 200.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-045",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 7,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 82.07727259752933,
+      "offRoadLengthM": 550.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-046",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 52.19978138231219,
+      "offRoadLengthM": 100.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-047",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 5,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 35.9219784349603,
+      "offRoadLengthM": 55.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-048",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 53.595257103621286,
+      "offRoadLengthM": 185.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-049",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 30.746453856722894,
+      "offRoadLengthM": 65.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "MUN-050",
+      "group": "municipal",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 70.8349321022867,
+      "offRoadLengthM": 255.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-01",
+      "group": "police",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [],
+      "maxOriginalOffRoadM": 7.05147147819402,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-02",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 5,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 83.37116817931901,
+      "offRoadLengthM": 115.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-03",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 17.33428521241991,
+      "offRoadLengthM": 85.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-04",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 36.15582979259834,
+      "offRoadLengthM": 90.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-05",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 8,
+      "reasons": [
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 8.1909227451813,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-06",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 19.292745998657303,
+      "offRoadLengthM": 75.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-07",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 33.821730121847324,
+      "offRoadLengthM": 265.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-08",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 8,
+      "reasons": [
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 9.878823370312897,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-09",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 69.82796591499037,
+      "offRoadLengthM": 290.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-10",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 2,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 36.33837328654934,
+      "offRoadLengthM": 270.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-11",
+      "group": "police",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [],
+      "maxOriginalOffRoadM": 10.09861995441533,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-12",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 44.321870732483774,
+      "offRoadLengthM": 210.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-14",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 29.14207367569307,
+      "offRoadLengthM": 70.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-15",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 16.919736555215824,
+      "offRoadLengthM": 110.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-16",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 8,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 52.92752884598483,
+      "offRoadLengthM": 360.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-17",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 2,
+      "newPaths": 2,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 34.379918651237524,
+      "offRoadLengthM": 130.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-18",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 5,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 28.180881968932216,
+      "offRoadLengthM": 140.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-19",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 6,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 99.37645988658358,
+      "offRoadLengthM": 555.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-20",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 117.5545384739457,
+      "offRoadLengthM": 505.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-21",
+      "group": "police",
+      "status": "AJUSTE_MANUAL_CONSERVADO",
+      "oldPaths": 8,
+      "newPaths": 8,
+      "reasons": [
+        "Ajuste cartográfico ya validado"
+      ],
+      "maxOriginalOffRoadM": 0.0,
+      "offRoadLengthM": 0.0
+    },
+    {
+      "cameraId": "PN-22",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m"
+      ],
+      "maxOriginalOffRoadM": 19.87688443607703,
+      "offRoadLengthM": 70.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-23",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 5,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 59.57888208346589,
+      "offRoadLengthM": 195.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-24",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar"
+      ],
+      "maxOriginalOffRoadM": 34.933432864319464,
+      "offRoadLengthM": 180.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-25",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 4,
+      "reasons": [
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 3.2839778068627616,
+      "offRoadLengthM": 0.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-26",
+      "group": "police",
+      "status": "SIN_CAMBIO",
+      "oldPaths": 3,
+      "newPaths": 3,
+      "reasons": [],
+      "maxOriginalOffRoadM": 13.80703722224563,
+      "offRoadLengthM": 15.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-27",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 2,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m"
+      ],
+      "maxOriginalOffRoadM": 19.277391250674572,
+      "offRoadLengthM": 110.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-28",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 18.248281984441604,
+      "offRoadLengthM": 90.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-29",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 4,
+      "newPaths": 5,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 26.28564953546403,
+      "offRoadLengthM": 95.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-30",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 47.265385499997286,
+      "offRoadLengthM": 175.0,
+      "source": "OSM local consolidado"
+    },
+    {
+      "cameraId": "PN-31",
+      "group": "police",
+      "status": "CORREGIDO",
+      "oldPaths": 3,
+      "newPaths": 4,
+      "reasons": [
+        "Línea fuera de la vía durante al menos 20 m",
+        "Brazos o calzadas del cruce sin representar",
+        "Conectores internos ocultaban salidas del cruce"
+      ],
+      "maxOriginalOffRoadM": 25.74593979378189,
+      "offRoadLengthM": 60.0,
+      "source": "OSM local consolidado"
+    }
+  ],
+  "sourceConsolidatedRoadsSha256": "6b7cc372208e48bef118bec62b05d84da6cda25ecb0d347747b478450ca0b6d7",
+  "sourceOsmSha256": "4945f954c36d75aeaf92e4ea063aeaa55ba3f98064a02cfa88dddc80b9e37b4f",
+  "sourceMunicipalSha256": "533f6011fafe0810eb3bf5b5b71f6864d240c0dbc73926a183218da38bfc9c7a"
+}
