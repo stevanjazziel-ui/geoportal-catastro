@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "cameraId": "RIO-052-DOMO",
+  "arm": 4,
+  "lengthM": 331.35296449393707,
+  "endpointMatchesMarkedGap": true,
+  "straightFromUnmovedCamera": true,
+  "other611RaysUnchanged": true,
+  "areaAndPopulationRadiusM": 250,
+  "uncoveredApprovedAxisWithExceptionM": 0.0,
+  "uncoveredWithRadial250OnlyM": 81.38382543661346
+}

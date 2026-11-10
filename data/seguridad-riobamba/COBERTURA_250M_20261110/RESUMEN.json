@@ -1,1 +1,89 @@
-{"sourceRelease":"CAMARAS_AJUSTADAS_USUARIO_20261109","cameras":183,"associatedCameras":177,"unassociatedCameras":["RIO-073-DOMO","RIO-074-DOMO","RIO-080-DOMO","RIO-095-FIJA","RIO-096-FIJA","RIO-098-FIJA"],"primaryArms":612,"visualExtensions":0,"totalMacajiM":5688.168747975763,"coveredPct":98.56924382797934,"extra50IncludedInGapCalculation":true,"metricCrs":"EPSG:32717","radiusForGapM":250,"maxStreetAssociationM":30,"method":"Diferencia del eje aprobado y union disuelta de buffers de 250 m, EPSG:32717, 64 segmentos por cuadrante.","streetMethod":"Rayos rectos desde cada camara hasta 250 m. Sin extension adicional.","sourceCameraGeometrySha256":"f72435394c364d9ab0e66e8fe2844d30a8384002f582da9b8bcf1800a194b5c9","sourceRoadsSha256":"6b7cc372208e48bef118bec62b05d84da6cda25ecb0d347747b478450ca0b6d7","geometryMode":"STRAIGHT_FROM_CAMERA","exactCameraOrigin":true,"minimumBearingSeparationDegrees":8,"scenarios":{"A":{"totalMacajiM":5688.168747975763,"coveredMacaji250M":5213.923732331068,"uncoveredMacaji250M":474.2450156446954,"coveredPct":91.66260642648017},"B":{"totalMacajiM":5688.168747975763,"coveredMacaji250M":5606.784922539149,"uncoveredMacaji250M":81.38382543661346,"coveredPct":98.56924382797934},"C":{"totalMacajiM":5688.168747975763,"coveredMacaji250M":5606.784922539149,"uncoveredMacaji250M":81.38382543661346,"coveredPct":98.56924382797934}},"sourceAdditionalLocalOsmSha256":"4945f954c36d75aeaf92e4ea063aeaa55ba3f98064a02cfa88dddc80b9e37b4f","localMunicipalFallbackCameras":["RIO-053-DOMO","MUN-026"],"sourceMunicipalRoadsSha256":"533f6011fafe0810eb3bf5b5b71f6864d240c0dbc73926a183218da38bfc9c7a","primaryRadiusM":250,"formerVisual50IncludedInCoverage":true,"coveredMacaji250M":5606.784922539149,"uncoveredMacaji250M":81.38382543661346}
+{
+  "sourceRelease": "CAMARAS_AJUSTADAS_USUARIO_20261109",
+  "cameras": 183,
+  "associatedCameras": 177,
+  "unassociatedCameras": [
+    "RIO-073-DOMO",
+    "RIO-074-DOMO",
+    "RIO-080-DOMO",
+    "RIO-095-FIJA",
+    "RIO-096-FIJA",
+    "RIO-098-FIJA"
+  ],
+  "primaryArms": 612,
+  "visualExtensions": 0,
+  "totalMacajiM": 5688.168747975763,
+  "coveredPct": 98.56924382797934,
+  "extra50IncludedInGapCalculation": true,
+  "metricCrs": "EPSG:32717",
+  "radiusForGapM": 250,
+  "maxStreetAssociationM": 30,
+  "method": "Diferencia del eje aprobado y union disuelta de buffers de 250 m, EPSG:32717, 64 segmentos por cuadrante.",
+  "streetMethod": "Rayos rectos de 250 m desde cada camara, salvo el brazo de Puruhá de RIO-052-DOMO, extendido a 331,4 m por solicitud del usuario. Sin ampliar radios circulares ni poblacion.",
+  "sourceCameraGeometrySha256": "f72435394c364d9ab0e66e8fe2844d30a8384002f582da9b8bcf1800a194b5c9",
+  "sourceRoadsSha256": "6b7cc372208e48bef118bec62b05d84da6cda25ecb0d347747b478450ca0b6d7",
+  "geometryMode": "STRAIGHT_FROM_CAMERA",
+  "exactCameraOrigin": true,
+  "minimumBearingSeparationDegrees": 8,
+  "scenarios": {
+    "A": {
+      "totalMacajiM": 5688.168747975763,
+      "coveredMacaji250M": 5213.923732331068,
+      "uncoveredMacaji250M": 474.2450156446954,
+      "coveredPct": 91.66260642648017,
+      "coveredMacajiWithExceptionsM": 5295.308557766379,
+      "uncoveredMacajiWithExceptionsM": 392.86019020938454,
+      "coveredWithExceptionsPct": 93.09338017882838
+    },
+    "B": {
+      "totalMacajiM": 5688.168747975763,
+      "coveredMacaji250M": 5606.784922539149,
+      "uncoveredMacaji250M": 81.38382543661346,
+      "coveredPct": 98.56924382797934,
+      "coveredMacajiWithExceptionsM": 5688.168747975763,
+      "uncoveredMacajiWithExceptionsM": 0.0,
+      "coveredWithExceptionsPct": 100.00000000000001
+    },
+    "C": {
+      "totalMacajiM": 5688.168747975763,
+      "coveredMacaji250M": 5606.784922539149,
+      "uncoveredMacaji250M": 81.38382543661346,
+      "coveredPct": 98.56924382797934,
+      "coveredMacajiWithExceptionsM": 5688.168747975763,
+      "uncoveredMacajiWithExceptionsM": 0.0,
+      "coveredWithExceptionsPct": 100.00000000000001
+    }
+  },
+  "sourceAdditionalLocalOsmSha256": "4945f954c36d75aeaf92e4ea063aeaa55ba3f98064a02cfa88dddc80b9e37b4f",
+  "localMunicipalFallbackCameras": [
+    "RIO-053-DOMO",
+    "MUN-026"
+  ],
+  "sourceMunicipalRoadsSha256": "533f6011fafe0810eb3bf5b5b71f6864d240c0dbc73926a183218da38bfc9c7a",
+  "primaryRadiusM": 250,
+  "formerVisual50IncludedInCoverage": true,
+  "coveredMacaji250M": 5606.784922539149,
+  "uncoveredMacaji250M": 81.38382543661346,
+  "directionalExceptions": [
+    {
+      "cameraId": "RIO-052-DOMO",
+      "arm": 4,
+      "street": "Puruhá",
+      "lengthM": 331.35296449393707,
+      "previousLengthM": 250,
+      "addedLengthM": 81.35296449393707,
+      "markedGapLengthM": 81.38382543691512,
+      "targetWgs84": [
+        -78.64014363076744,
+        -1.676493317968577
+      ],
+      "authorization": "Usuario solicita extender RIO-052-DOMO hasta el extremo del tramo rojo de su captura.",
+      "visibilityVerified": false
+    }
+  ],
+  "linearOverlayToleranceM": 0.001,
+  "linearCoverageMethod": "Union de cobertura radial de 250m sobre el eje aprobado y tramo rojo autorizado para el brazo de RIO-052-DOMO. Area y poblacion conservan exclusivamente los buffers de 250m; no se supone un ancho de visibilidad.",
+  "coveredMacajiWithExceptionsM": 5688.168747975763,
+  "uncoveredMacajiWithExceptionsM": 0.0,
+  "coveredWithExceptionsPct": 100.00000000000001
+}
