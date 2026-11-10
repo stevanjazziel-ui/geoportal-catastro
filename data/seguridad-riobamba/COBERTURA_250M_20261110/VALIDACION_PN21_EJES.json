@@ -1,0 +1,104 @@
+{
+  "passed": true,
+  "cameraId": "PN-21",
+  "cameraPositionUnchanged": true,
+  "correctedRoadPaths": 8,
+  "maximumPathM": 250,
+  "other611PathsUnchanged": true,
+  "rio023AndRio052Preserved": true,
+  "areaPopulationAndGapsUnchanged": true,
+  "paths": [
+    {
+      "arm": 1,
+      "street": "Avenida Edelberto Bonilla Oleas",
+      "route": "Norte · calzada oriental",
+      "lengthM": 250.00000000052339,
+      "connectorM": 5.470163346221451,
+      "vertices": 8,
+      "osmWays": [
+        325474130
+      ]
+    },
+    {
+      "arm": 2,
+      "street": "Avenida Edelberto Bonilla Oleas",
+      "route": "Norte · calzada occidental",
+      "lengthM": 249.99999999979488,
+      "connectorM": 17.238147910550985,
+      "vertices": 7,
+      "osmWays": [
+        325474135
+      ]
+    },
+    {
+      "arm": 3,
+      "street": "Avenida 9 de Octubre",
+      "route": "Sur · calzada occidental",
+      "lengthM": 250.0000000007547,
+      "connectorM": 17.065385575122317,
+      "vertices": 7,
+      "osmWays": [
+        325474120
+      ]
+    },
+    {
+      "arm": 4,
+      "street": "Avenida 9 de Octubre",
+      "route": "Sur · calzada oriental",
+      "lengthM": 250.0000000000319,
+      "connectorM": 5.350948340037956,
+      "vertices": 6,
+      "osmWays": [
+        325474123
+      ]
+    },
+    {
+      "arm": 5,
+      "street": "Avenida Celso Augusto Rodriguez",
+      "route": "Occidente · calzada norte",
+      "lengthM": 249.9999999999178,
+      "connectorM": 18.160962731367704,
+      "vertices": 7,
+      "osmWays": [
+        552271037
+      ]
+    },
+    {
+      "arm": 6,
+      "street": "Avenida Celso Augusto Rodriguez",
+      "route": "Occidente · calzada sur",
+      "lengthM": 249.99999999979573,
+      "connectorM": 17.323748298936835,
+      "vertices": 5,
+      "osmWays": [
+        325474113
+      ]
+    },
+    {
+      "arm": 7,
+      "street": "Avenida Celso Augusto Rodriguez",
+      "route": "Oriente · Celso Augusto Rodríguez",
+      "lengthM": 249.99999999984297,
+      "connectorM": 4.150574900194586,
+      "vertices": 9,
+      "osmWays": [
+        559551366,
+        1181242575,
+        109974248
+      ]
+    },
+    {
+      "arm": 8,
+      "street": "Recife",
+      "route": "Oriente · bifurcación Recife",
+      "lengthM": 249.99999999985386,
+      "connectorM": 4.150574900194586,
+      "vertices": 7,
+      "osmWays": [
+        559551366,
+        1181242575,
+        112649782
+      ]
+    }
+  ]
+}

@@ -26,7 +26,7 @@ window.createRiobambaCameraProposal = function (api) {
   const labels = { macajiCameras: "Cámaras · Macají–Bellavista y entorno · 200 m", existing: "Sin cambio requerido", change: "Requieren cambio", municipal: "Municipio · 50 propuestas", police: "Policía · 30 propuestas", existingRadius: "Radio sin cambio · 250 m", changeRadius: "Radio para cambio · 250 m", municipalRadius: "Radio Municipio · 250 m", policeRadius: "Radio Policía · 250 m", platforms: "18 Plataformas", kde: "Concentración de incidentes · KDE", corridorRing: "Anillo Vial", corridorMacaji: "Bulevares", corridorAbras: "Quebrada Las Abras", corridorCiclovias: "Ciclovías", macajiSegment: "Tramo Bulevar Macají–Bellavista", urbanAxes: "Ejes Urbanos prioritarios", voids: "Tramos sin cobertura · escenario 183" };
   const macajiSegmentStyle = { color: "#b46b16", weight: 5, opacity: 1 };
   const streetStyles = { streetCoverage200: { color: "#15803d", weight: 3, opacity: .95, dashArray: "8 6" }, streetExtension50: { color: "#92cfa2", weight: 3, opacity: .65, dashArray: "5 6" } };
-  Object.assign(labels, { streetCoverage200: "Cobertura vial · 250 m · ajustes RIO-023/052", streetExtension50: "Extensión visual · 50 m", voids: "Sin cobertura · Macají–Bellavista · con extensión RIO-052" });
+  Object.assign(labels, { streetCoverage200: "Cobertura vial · 250 m y ajustes de ejes", streetExtension50: "Extensión visual · 50 m", voids: "Sin cobertura · Macají–Bellavista · con extensión RIO-052" });
   Object.assign(labels, { existing: "Cámaras actuales", change: "Para cambio", municipal: "Municipales propuestas", police: "Policía propuesta", interventions: "Intervenciones propuestas", existingRadius: "Radio actuales · 250 m", interventionsRadius: "Radio intervenciones · 250 m" });
   const layers = {};
   const renderers = new Map();
@@ -67,7 +67,7 @@ window.createRiobambaCameraProposal = function (api) {
   }
   const rowHtml = rows => rows.map(([label, value]) => `<div class="mini-row"><span>${esc(label)}</span><strong>${esc(value ?? "No disponible")}</strong></div>`).join("");
   const table = (title, headings, rows, note = "") => `<section class="proposal-report"><h3>${esc(title)}</h3><div class="proposal-table-wrap"><table class="mini-table"><thead><tr>${headings.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${rows.map(r => `<tr>${r.map(v => `<td>${v}</td>`).join("")}</tr>`).join("")}</tbody></table></div>${note ? `<p>${esc(note)}</p>` : ""}</section>`;
-  const links = () => `<div class="proposal-links"><a href="${root}ENTREGA_POLICIA_KDE.zip" download>Paquete GIS final ZIP</a><a href="${root}ESCENARIO_FINAL_183.gpkg" download>GeoPackage final</a><a href="${root}MOVIMIENTOS_POLICIA_30.csv" download>Movimientos de Policía</a><a href="${root}POLICIA_BENEFICIO_FINAL.csv" download>Beneficio y solapes finales</a><a href="${root}INFORME_COBERTURA_250M.md" target="_blank" rel="noopener">Informe y metodología</a><a href="${root}RESULTADOS.json" download>Resultados</a><a href="${directionalRoot}VALIDACION_EJES_RIO023.json" download>Validación GIS</a></div>`;
+  const links = () => `<div class="proposal-links"><a href="${root}ENTREGA_POLICIA_KDE.zip" download>Paquete GIS final ZIP</a><a href="${root}ESCENARIO_FINAL_183.gpkg" download>GeoPackage final</a><a href="${root}MOVIMIENTOS_POLICIA_30.csv" download>Movimientos de Policía</a><a href="${root}POLICIA_BENEFICIO_FINAL.csv" download>Beneficio y solapes finales</a><a href="${root}INFORME_COBERTURA_250M.md" target="_blank" rel="noopener">Informe y metodología</a><a href="${root}RESULTADOS.json" download>Resultados</a><a href="${directionalRoot}VALIDACION_PN21_EJES.json" download>Validación GIS</a></div>`;
   const metric = (kind, code = scenario()) => data.results[kind].find(r => r.ESCENARIO === code);
 
   const cameraLayerKeys = ["macajiCameras", ...cameraKeys, ...cameraKeys.map(key => key + "Radius"), "platforms"];
@@ -185,7 +185,7 @@ window.createRiobambaCameraProposal = function (api) {
       });
       const useDirectional = next.results.sourcePackage === directionalSource;
       if (useDirectional) {
-        const directionalFiles = { streetCoverage200: "LINEAS_AJUSTADAS_RIO023_RIO052.geojson", macajiGaps200: "BRECHA_MACAJI_CON_EXTENSION_RIO052.geojson", macajiCameras: "CAMARAS_MACAJI_BELLAVISTA.geojson", directionalSummary: "RESUMEN.json" };
+        const directionalFiles = { streetCoverage200: "LINEAS_AJUSTADAS_RIO023_RIO052_PN21.geojson", macajiGaps200: "BRECHA_MACAJI_CON_EXTENSION_RIO052.geojson", macajiCameras: "CAMARAS_MACAJI_BELLAVISTA.geojson", directionalSummary: "RESUMEN.json" };
         for (const [key, value] of await Promise.all(Object.entries(directionalFiles).map(async ([key, name]) => {
           const response = await fetch(directionalRoot + name, { cache: "no-store" });
           if (!response.ok) throw new Error(`Cobertura vial ${name}: HTTP ${response.status}`);
@@ -365,6 +365,7 @@ window.createRiobambaCameraProposal = function (api) {
     if (selected?.kind === "camera") {
       title = cameraId(f);
       rows = [["Grupo", groups[selected.group]], ["Estado", v.ESTADO || v.ESTADO_VALIDACION], ["Dirección / nodo", v.DIRECCION || v.INTERSECCION_O_NODO], ["Radio potencial", "250 m"], ["X / Y · EPSG:32717", `${number(v.X, 2)} / ${number(v.Y, 2)}`]];
+      if (cameraId(selected.feature) === "PN-21") rows.push(["Trazado corregido", "Edelberto Bonilla, 9 de Octubre, Celso Augusto Rodríguez y Recife"], ["Recorrido vial máximo", "250 m desde la cámara, siguiendo las calles"]);
       if (cameraId(selected.feature) === "RIO-023-DOMO") rows.push(["Unidad Nacional", "Ambas calzadas · dos sentidos por eje"], ["Recorrido vial máximo", "250 m desde la cámara, siguiendo el eje"]);
       if (cameraId(selected.feature) === "RIO-052-DOMO") rows.push(["Brazo extendido · Puruhá", "331,4 m · ajuste solicitado por el usuario"]);
       if (selected.group === "existing") rows.push(["Requiere cambio", change(f) ? "Sí" : "No"], ["Estado geográfico", v.ESTADO_GEO], ["Método geográfico", v.METODO_GEO], ["Confianza", v.CONFIANZA_GEO], ["Observación", v.OBSERVACION_GEO]);
