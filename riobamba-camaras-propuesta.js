@@ -23,7 +23,7 @@ window.createRiobambaCameraProposal = function (api) {
   const toggles = { ...defaults };
   Object.assign(defaults, { streetCoverage200: true, streetExtension50: true, voids: true, macajiCameras: false });
   Object.assign(toggles, { streetCoverage200: true, streetExtension50: true, voids: true, macajiCameras: false });
-  const labels = { macajiCameras: "Cámaras · Macají–Bellavista", existing: "Sin cambio requerido", change: "Requieren cambio", municipal: "Municipio · 50 propuestas", police: "Policía · 30 propuestas", existingRadius: "Radio sin cambio · 200 m", changeRadius: "Radio para cambio · 200 m", municipalRadius: "Radio Municipio · 200 m", policeRadius: "Radio Policía · 200 m", platforms: "18 Plataformas", kde: "Concentración de incidentes · KDE", corridorRing: "Anillo Vial", corridorMacaji: "Bulevares", corridorAbras: "Quebrada Las Abras", corridorCiclovias: "Ciclovías", macajiSegment: "Tramo Bulevar Macají–Bellavista", urbanAxes: "Ejes Urbanos prioritarios", voids: "Tramos sin cobertura · escenario 183" };
+  const labels = { macajiCameras: "Cámaras · Macají–Bellavista y entorno · 200 m", existing: "Sin cambio requerido", change: "Requieren cambio", municipal: "Municipio · 50 propuestas", police: "Policía · 30 propuestas", existingRadius: "Radio sin cambio · 200 m", changeRadius: "Radio para cambio · 200 m", municipalRadius: "Radio Municipio · 200 m", policeRadius: "Radio Policía · 200 m", platforms: "18 Plataformas", kde: "Concentración de incidentes · KDE", corridorRing: "Anillo Vial", corridorMacaji: "Bulevares", corridorAbras: "Quebrada Las Abras", corridorCiclovias: "Ciclovías", macajiSegment: "Tramo Bulevar Macají–Bellavista", urbanAxes: "Ejes Urbanos prioritarios", voids: "Tramos sin cobertura · escenario 183" };
   const macajiSegmentStyle = { color: "#b46b16", weight: 5, opacity: 1 };
   const streetStyles = { streetCoverage200: { color: "#15803d", weight: 3, opacity: .95, dashArray: "8 6" }, streetExtension50: { color: "#92cfa2", weight: 3, opacity: .65, dashArray: "5 6" } };
   Object.assign(labels, { streetCoverage200: "Rayos rectos · 200 m", streetExtension50: "Extensión visual · 50 m", voids: "Sin cobertura · Macají–Bellavista · 200 m" });
@@ -87,7 +87,7 @@ window.createRiobambaCameraProposal = function (api) {
       }
       if (data && n.dataset.proposalLayer === "macajiCameras") {
         n.previousElementSibling.textContent = `${labels.macajiCameras} · ${macajiCameraFeatures().features.length}`;
-        n.title = "Cámaras a un máximo de 30 m del eje aprobado; al activar se ocultan las cámaras de otros sectores.";
+        n.title = "Cámaras sobre el eje aprobado y hasta 200 m a su alrededor (aproximadamente dos cuadras); al activar se ocultan las cámaras de otros sectores.";
       }
       if (data?.directionalSummary && n.dataset.proposalLayer === "streetCoverage200") {
         n.previousElementSibling.innerHTML = `<i class="proposal-key corridor-line" style="background:transparent;height:0;border-top:3px dashed ${streetStyles.streetCoverage200.color}" aria-hidden="true"></i>${esc(labels.streetCoverage200)} · ${number(data.directionalSummary.associatedCameras)} cámaras`;

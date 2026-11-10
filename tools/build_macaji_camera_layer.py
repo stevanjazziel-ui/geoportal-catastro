@@ -1,4 +1,4 @@
-"""Select cameras on the approved axis using a 30 m road-position tolerance."""
+"""Select cameras within 200 m of the approved axis (approximately two blocks)."""
 import json
 from pathlib import Path
 import geopandas as gpd
@@ -12,8 +12,8 @@ for group, filename in [('existing', 'CAMARAS_EXISTENTES_103_FINAL'), ('municipa
     source = json.loads((BASE / (filename + '.geojson')).read_text(encoding='utf-8'))
     projected = gpd.GeoDataFrame.from_features(source['features'], crs=4326).to_crs(32717)
     for feature, distance in zip(source['features'], projected.distance(axis)):
-        if distance <= 30:
-            feature['properties'].update(GRUPO_ORIGEN_VISOR=group, DISTANCIA_EJE_M=float(distance), TOLERANCIA_EJE_M=30)
+        if distance <= 200:
+            feature['properties'].update(GRUPO_ORIGEN_VISOR=group, DISTANCIA_EJE_M=float(distance), TOLERANCIA_EJE_M=200)
             features.append(feature)
 out = ROOT / 'data/seguridad-riobamba/COBERTURA_RECTA_20261110/CAMARAS_MACAJI_BELLAVISTA.geojson'
 out.write_text(json.dumps({'type': 'FeatureCollection', 'features': features}, ensure_ascii=False, indent=2), encoding='utf-8')
