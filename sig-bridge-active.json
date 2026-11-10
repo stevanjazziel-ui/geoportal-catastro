@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "root": "./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/MUN022_ALVAREZ_ROLDOS_20261105/",
-  "releaseId": "MUN022_ALVAREZ_ROLDOS_20261105",
+  "root": "./data/seguridad-riobamba/SIG_BRIDGE_RELEASES/CAMARAS_AJUSTADAS_USUARIO_20261109/",
+  "releaseId": "CAMARAS_AJUSTADAS_USUARIO_20261109",
   "coverageData": "riobamba-brechas-actualizadas-data.js"
 }

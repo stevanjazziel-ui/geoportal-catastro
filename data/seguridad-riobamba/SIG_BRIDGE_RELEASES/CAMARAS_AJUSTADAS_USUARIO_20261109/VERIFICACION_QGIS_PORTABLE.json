@@ -1,0 +1,52 @@
+[
+  {
+    "nombre": "Actuales sin cambio - 73",
+    "valida": true,
+    "registros": 73
+  },
+  {
+    "nombre": "Ejes urbanos",
+    "valida": true,
+    "registros": 4
+  },
+  {
+    "nombre": "Infraestructura policial - 18 UPC",
+    "valida": true,
+    "registros": 18
+  },
+  {
+    "nombre": "Municipales - 50",
+    "valida": true,
+    "registros": 50
+  },
+  {
+    "nombre": "Plataformas",
+    "valida": true,
+    "registros": 18
+  },
+  {
+    "nombre": "Policia - 30",
+    "valida": true,
+    "registros": 30
+  },
+  {
+    "nombre": "Radios Policia 30",
+    "valida": true,
+    "registros": 30
+  },
+  {
+    "nombre": "Radios existentes 103",
+    "valida": true,
+    "registros": 103
+  },
+  {
+    "nombre": "Radios municipales 50",
+    "valida": true,
+    "registros": 50
+  },
+  {
+    "nombre": "Recambios del inventario - 30",
+    "valida": true,
+    "registros": 30
+  }
+]

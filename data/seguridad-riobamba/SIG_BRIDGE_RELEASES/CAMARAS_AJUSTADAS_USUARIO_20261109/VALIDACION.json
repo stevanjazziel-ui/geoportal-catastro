@@ -1,0 +1,43 @@
+{
+  "status": "PASS_USER_APPROVED_GEOMETRIES",
+  "plan": {
+    "scenarios": [
+      "A",
+      "B",
+      "C"
+    ],
+    "jobs": [
+      "block_coverage",
+      "buffers",
+      "camera_attributes",
+      "corridor_coverage",
+      "exclusive_coverage",
+      "hotspot_coverage",
+      "incident_coverage",
+      "population",
+      "territorial"
+    ],
+    "pendingAdapters": [],
+    "recalculateKde": false,
+    "recalculateGi": false,
+    "optimizeCameras": false,
+    "inventoryUpdated": true
+  },
+  "nodeAudit": [],
+  "publishBlocks": [],
+  "sourcePreserved": true,
+  "existingCount": 103,
+  "municipalCount": 50,
+  "policeCount": 30,
+  "giRecalculated": false,
+  "kdeRecalculated": false,
+  "optimized": false,
+  "revision": "CAMARAS_AJUSTADAS_USUARIO_20261109",
+  "approvedGeometryException": {
+    "warnings": [
+      "Restriccion municipal BOULEVARD_MACAJI_BELLAVISTA: 92.64447% < 100%"
+    ],
+    "authorization": "Usuario entrega camaras_ajustadas.rar como camaras ya ajustadas y solicita rehacer radios, ubicar y publicar. Se conservan las geometrias entregadas sin optimizacion ni ajuste automatico a vias.",
+    "reason": "Publicar las posiciones definitivas entregadas sin moverlas para alcanzar un objetivo historico de cobertura."
+  }
+}

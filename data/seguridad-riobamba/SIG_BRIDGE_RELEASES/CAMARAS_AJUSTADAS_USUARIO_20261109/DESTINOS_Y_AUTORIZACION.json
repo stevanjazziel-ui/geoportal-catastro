@@ -1,0 +1,176 @@
+{
+  "revision": "RURALES_COP_UNACH_20261105",
+  "createdAt": "2026-11-05T16:42:28-05:00",
+  "priorRelease": "MUN036_JACINTO_UNIDAD_NACIONAL_20261021",
+  "authorization": "Usuario solicita aplicar los movimientos rurales de Operaciones, trasladar tres municipales a los puntos marcados junto a la UNACH y publicar. MUN-022 sustituye MUN-019 para conservar la solicitud de Colegio Milton Reyes. Se acepta perdida de cobertura en los origenes rurales.",
+  "baseHashes": {
+    "D:\\codex\\publish-macaji-compensacion-20261021\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\MUN036_JACINTO_UNIDAD_NACIONAL_20261021\\ESCENARIO_FINAL_183.gpkg": "c00d8913aa8e247109b7e15dae656e76ca675ec02228ea88da4792e6d3fe6ea9",
+    "D:\\codex\\publish-macaji-compensacion-20261021\\riobamba-kde-combinado-data.js": "3c45b3b26f0aa83f5a0f1d51b3a0d5ce2a3aac5a966511256410a3881a6c1756"
+  },
+  "changes": [
+    {
+      "layer": "municipal",
+      "id": "MUN-003",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 873.4246701390035,
+      "note": "Destino autorizado por el usuario: Gasolinera PYS"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-008",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 176.05626873303368,
+      "note": "Destino autorizado por el usuario: Iglesia de la merced"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-013",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 227.63387728122143,
+      "note": "Destino autorizado por el usuario: Parque central"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-017",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 554.1106186383116,
+      "note": "Destino autorizado por el usuario: Alfonso Chavez y Chimborazo vía Penipe Y"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-019",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 144.8435535019482,
+      "note": "Destino autorizado por el usuario: Colegio Milton Reyes"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-020",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 271.1656693504242,
+      "note": "Destino autorizado por el usuario: Parque Central"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-004",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 10913.86130195798,
+      "note": "Destino autorizado por el usuario: Costado occidental, via diagonal junto al area deportiva"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-016",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 15797.41554484337,
+      "note": "Destino autorizado por el usuario: Costado norte de la UNACH, via perimetral"
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-022",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 7382.010666167343,
+      "note": "Destino autorizado por el usuario: Jaime Roldos Aguilera, costado oriental de la UNACH"
+    }
+  ],
+  "targets": {
+    "MUN-003": {
+      "coordinates": [
+        -78.730846,
+        -1.6509001
+      ],
+      "address": "Gasolinera PYS",
+      "method": "Estacion de la Panamericana en la entrada de Calpi confirmada por el usuario. La cartografia OSM la registra como Primax; el Excel dice PYS. Referencia del establecimiento, no poste validado.",
+      "source": "https://www.openstreetmap.org/node/941418772",
+      "role": "RURAL_COP"
+    },
+    "MUN-008": {
+      "coordinates": [
+        -78.6050182,
+        -1.8018855999999965
+      ],
+      "address": "Iglesia de la merced",
+      "method": "Referencia del establecimiento en OpenStreetMap; punto interior, no poste ni acceso confirmado",
+      "source": "https://www.openstreetmap.org/node/6152886985",
+      "role": "RURAL_COP"
+    },
+    "MUN-013": {
+      "coordinates": [
+        -78.567281299961,
+        -1.658015950009114
+      ],
+      "address": "Parque central",
+      "method": "Referencia del establecimiento en OpenStreetMap; punto interior, no poste ni acceso confirmado",
+      "source": "https://www.openstreetmap.org/way/254709212",
+      "role": "RURAL_COP"
+    },
+    "MUN-017": {
+      "coordinates": [
+        -78.5893971,
+        -1.639717300000008
+      ],
+      "address": "Alfonso Chavez y Chimborazo vía Penipe Y",
+      "method": "Cruce de calles de OpenStreetMap; punto cartografico no verificado en campo",
+      "source": "https://www.openstreetmap.org",
+      "role": "RURAL_COP"
+    },
+    "MUN-019": {
+      "coordinates": [
+        -78.6417233461902,
+        -1.7068820664660236
+      ],
+      "address": "Colegio Milton Reyes",
+      "method": "Referencia del establecimiento en OpenStreetMap; punto interior, no poste ni acceso confirmado",
+      "source": "https://www.openstreetmap.org/way/1136822598",
+      "role": "RURAL_COP"
+    },
+    "MUN-020": {
+      "coordinates": [
+        -78.64664719996001,
+        -1.7082024500337205
+      ],
+      "address": "Parque Central",
+      "method": "Referencia del establecimiento en OpenStreetMap; punto interior, no poste ni acceso confirmado",
+      "source": "https://www.openstreetmap.org/way/825077670",
+      "role": "RURAL_COP"
+    },
+    "MUN-004": {
+      "coordinates": [
+        -78.64502409788342,
+        -1.6513469177247955
+      ],
+      "address": "Costado occidental, via diagonal junto al area deportiva",
+      "method": "Centro del circulo de la imagen del usuario, georreferenciado con cuatro controles y ajustado al eje vial OSM. Referencia cartografica, no poste verificado.",
+      "source": "https://www.openstreetmap.org/way/534675723",
+      "role": "UNACH"
+    },
+    "MUN-016": {
+      "coordinates": [
+        -78.64125812221799,
+        -1.650716989086279
+      ],
+      "address": "Costado norte de la UNACH, via perimetral",
+      "method": "Centro del circulo de la imagen del usuario, georreferenciado con cuatro controles y ajustado al eje vial OSM. Referencia cartografica, no poste verificado.",
+      "source": "https://www.openstreetmap.org/way/254730971",
+      "role": "UNACH"
+    },
+    "MUN-022": {
+      "coordinates": [
+        -78.6405503989706,
+        -1.6521984724654488
+      ],
+      "address": "Jaime Roldos Aguilera, costado oriental de la UNACH",
+      "method": "Centro del circulo de la imagen del usuario, georreferenciado con cuatro controles y ajustado al eje vial OSM. Referencia cartografica, no poste verificado.",
+      "source": "https://www.openstreetmap.org/way/327777492",
+      "role": "UNACH"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "counts": {
+    "existing": 103,
+    "unchangedClass": 73,
+    "replacementClass": 30,
+    "municipal": 50,
+    "police": 30
+  },
+  "moved": {
+    "existing": 1,
+    "municipal": 17,
+    "police": 5
+  },
+  "all183GeometriesEqualApprovedSource": true,
+  "radiusM": 200,
+  "buffersRecomputed": true,
+  "coordinateAttributesUpdated": true,
+  "approvedGeometryExceptions": [
+    "Restriccion municipal BOULEVARD_MACAJI_BELLAVISTA: 92.64447% < 100%"
+  ],
+  "sourceArchiveSha256": "4ed547cb74f94d6de626550601d58cc901e7d6aeb4e383d7b31f120e359a4991"
+}

@@ -1,0 +1,24 @@
+{
+  "existing": {
+    "count": 103,
+    "coordinatesMatchSource": true,
+    "tableCoordinatesMatchGeometry": true,
+    "webPointsMatchGeometry": true,
+    "radiiMatch200m": true
+  },
+  "municipal": {
+    "count": 50,
+    "coordinatesMatchSource": true,
+    "tableCoordinatesMatchGeometry": true,
+    "webPointsMatchGeometry": true,
+    "radiiMatch200m": true
+  },
+  "police": {
+    "count": 30,
+    "coordinatesMatchSource": true,
+    "tableCoordinatesMatchGeometry": true,
+    "webPointsMatchGeometry": true,
+    "radiiMatch200m": true
+  },
+  "combined183CoverageExact": true
+}

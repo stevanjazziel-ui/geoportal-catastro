@@ -1,0 +1,219 @@
+{
+  "revision": "CAMARAS_AJUSTADAS_USUARIO_20261109",
+  "createdAt": "2026-11-10T09:05:05-05:00",
+  "priorRelease": "MUN022_ALVAREZ_ROLDOS_20261105",
+  "authorization": "Usuario entrega camaras_ajustadas.rar como camaras ya ajustadas y solicita rehacer radios, ubicar y publicar. Se conservan las geometrias entregadas sin optimizacion ni ajuste automatico a vias.",
+  "baseHashes": {
+    "D:\\codex\\publish-macaji-compensacion-20261021\\data\\seguridad-riobamba\\SIG_BRIDGE_RELEASES\\MUN022_ALVAREZ_ROLDOS_20261105\\ESCENARIO_FINAL_183.gpkg": "8fb0b69b59ca1822fb532d4e39c6ff9c5a76d0031ec77acb06416b2a62b2c9f9"
+  },
+  "sourceArchiveSha256": "4ed547cb74f94d6de626550601d58cc901e7d6aeb4e383d7b31f120e359a4991",
+  "sourceFiles": {
+    "existentes_73_sin_cambio_y_30_cambio_ajustado.cpg": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+    "existentes_73_sin_cambio_y_30_cambio_ajustado.dbf": "5848b8ad499dd538c7f661b615bcec3d2c260f52d9afb8012e523838b2f2ce68",
+    "existentes_73_sin_cambio_y_30_cambio_ajustado.prj": "d5c5de3bec971779a1f128faf9da32ac90902653587b053fabf52994c1c37dec",
+    "existentes_73_sin_cambio_y_30_cambio_ajustado.qmd": "1fe8aa78edc68581391083beb57aef5f56130953e8927b3dc045b482a9d0d3cd",
+    "existentes_73_sin_cambio_y_30_cambio_ajustado.shp": "65e53bbb2a53f12ef08199b5b3d37141a52cca42f43b08f3c00dd6beb454eb64",
+    "existentes_73_sin_cambio_y_30_cambio_ajustado.shx": "3c4382ee61eb509e82f07675f1c3d1359aa04dfaa2f35dfedb6eb08b4d9958d3",
+    "Municipales_50_ajustadas.cpg": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+    "Municipales_50_ajustadas.dbf": "301c386607b36ad375c1845b47f22a08e933209321117db5b796618f30b545aa",
+    "Municipales_50_ajustadas.prj": "d5c5de3bec971779a1f128faf9da32ac90902653587b053fabf52994c1c37dec",
+    "Municipales_50_ajustadas.qmd": "1fe8aa78edc68581391083beb57aef5f56130953e8927b3dc045b482a9d0d3cd",
+    "Municipales_50_ajustadas.shp": "e3c335ec25939aeb5d343af98458be7cb71863c65b52029526909c6dec19cbdb",
+    "Municipales_50_ajustadas.shx": "e1ef18e840e92e4eaf83fa81fefdd405642f656be3527add149373c694022156",
+    "policia_30_ajustada.cpg": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+    "policia_30_ajustada.dbf": "4a62a81c5521caff81055952dbf1d467f5cae77c97726e8f7de9e0efd880819c",
+    "policia_30_ajustada.prj": "d5c5de3bec971779a1f128faf9da32ac90902653587b053fabf52994c1c37dec",
+    "policia_30_ajustada.qmd": "1fe8aa78edc68581391083beb57aef5f56130953e8927b3dc045b482a9d0d3cd",
+    "policia_30_ajustada.shp": "4983002ddf315fca62b23b8035f93905c93056f0ff021dd36724d37b2050e3c9",
+    "policia_30_ajustada.shx": "2cd3f682ba484cf6a0027dbfd8ebfbf7a5b4f1480d2d6d5b68e7ad59c8e451b5"
+  },
+  "changes": [
+    {
+      "layer": "existing",
+      "id": "RIO-067-DOMO",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 497.43830332978354,
+      "note": "Geometria aprobada por usuario en existentes_73_sin_cambio_y_30_cambio_ajustado.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-003",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 76.1837971123479,
+      "note": "Geometria aprobada por usuario en Municipales_50_ajustadas.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-013",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 40.6058156413232,
+      "note": "Geometria aprobada por usuario en Municipales_50_ajustadas.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-017",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 20.8467216071735,
+      "note": "Geometria aprobada por usuario en Municipales_50_ajustadas.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-019",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 135.13419115749278,
+      "note": "Geometria aprobada por usuario en Municipales_50_ajustadas.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-020",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 42.10009971412802,
+      "note": "Geometria aprobada por usuario en Municipales_50_ajustadas.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-032",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 110.82106433273326,
+      "note": "Geometria aprobada por usuario en Municipales_50_ajustadas.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-033",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 159.301164568867,
+      "note": "Geometria aprobada por usuario en Municipales_50_ajustadas.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-034",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 205.27118508744698,
+      "note": "Geometria aprobada por usuario en Municipales_50_ajustadas.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-035",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 78.6053307215961,
+      "note": "Geometria aprobada por usuario en Municipales_50_ajustadas.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-036",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 128.02011006701366,
+      "note": "Geometria aprobada por usuario en Municipales_50_ajustadas.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-037",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 259.86320746319166,
+      "note": "Geometria aprobada por usuario en Municipales_50_ajustadas.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-038",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 180.397702142857,
+      "note": "Geometria aprobada por usuario en Municipales_50_ajustadas.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-039",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 141.0021316464771,
+      "note": "Geometria aprobada por usuario en Municipales_50_ajustadas.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-040",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 472.62197311005775,
+      "note": "Geometria aprobada por usuario en Municipales_50_ajustadas.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-041",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 248.66033197942497,
+      "note": "Geometria aprobada por usuario en Municipales_50_ajustadas.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-042",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 216.73232772117612,
+      "note": "Geometria aprobada por usuario en Municipales_50_ajustadas.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "municipal",
+      "id": "MUN-046",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 99.0690239574874,
+      "note": "Geometria aprobada por usuario en Municipales_50_ajustadas.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "police",
+      "id": "PN-01",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 545.0343191107215,
+      "note": "Geometria aprobada por usuario en policia_30_ajustada.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "police",
+      "id": "PN-04",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 312.5800386301173,
+      "note": "Geometria aprobada por usuario en policia_30_ajustada.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "police",
+      "id": "PN-08",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 821.0277530102222,
+      "note": "Geometria aprobada por usuario en policia_30_ajustada.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "police",
+      "id": "PN-16",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 122.29038861744866,
+      "note": "Geometria aprobada por usuario en policia_30_ajustada.shp; direccion nominal previa pendiente de cotejo."
+    },
+    {
+      "layer": "police",
+      "id": "PN-17",
+      "geometryChanged": true,
+      "fields": [],
+      "distanceM": 264.4724599348318,
+      "note": "Geometria aprobada por usuario en policia_30_ajustada.shp; direccion nominal previa pendiente de cotejo."
+    }
+  ],
+  "applied": true,
+  "publicationRequested": true,
+  "published": true
+}
