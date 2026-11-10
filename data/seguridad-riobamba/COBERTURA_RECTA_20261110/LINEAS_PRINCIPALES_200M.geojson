@@ -124,96 +124,6 @@
     {
       "type": "Feature",
       "properties": {
-        "ID_CAMARA": "RIO-002-DOMO",
-        "SOURCE_GROUP": "existing",
-        "REQUIERE_CAMBIO": false,
-        "BRAZO": 1,
-        "SEPARACION_CAMARA_RED_M": 9.760036665763128,
-        "VIA_INICIAL": "Avenida Eloy Alfaro",
-        "METODO_ANCLA": "Vertice compartido de interseccion hasta 30 m",
-        "FUENTE_RED": "OSM local",
-        "VISIBILIDAD_VERIFICADA": false,
-        "DESDE_M": 0,
-        "HASTA_M": 199.9999999997355,
-        "LONGITUD_M": 199.9999999997355
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
-            -78.6413861111111,
-            -1.679333333333329
-          ],
-          [
-            -78.64257822841415,
-            -1.6806858919343133
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "ID_CAMARA": "RIO-002-DOMO",
-        "SOURCE_GROUP": "existing",
-        "REQUIERE_CAMBIO": false,
-        "BRAZO": 2,
-        "SEPARACION_CAMARA_RED_M": 9.760036665763128,
-        "VIA_INICIAL": "Avenida Leopoldo Freire",
-        "METODO_ANCLA": "Vertice compartido de interseccion hasta 30 m",
-        "FUENTE_RED": "OSM local",
-        "VISIBILIDAD_VERIFICADA": false,
-        "DESDE_M": 0,
-        "HASTA_M": 199.99999999986213,
-        "LONGITUD_M": 199.99999999986213
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
-            -78.6413861111111,
-            -1.679333333333329
-          ],
-          [
-            -78.63998297357675,
-            -1.6804624187751487
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "ID_CAMARA": "RIO-002-DOMO",
-        "SOURCE_GROUP": "existing",
-        "REQUIERE_CAMBIO": false,
-        "BRAZO": 4,
-        "SEPARACION_CAMARA_RED_M": 9.760036665763128,
-        "VIA_INICIAL": "Avenida Eloy Alfaro",
-        "METODO_ANCLA": "Vertice compartido de interseccion hasta 30 m",
-        "FUENTE_RED": "OSM local",
-        "VISIBILIDAD_VERIFICADA": false,
-        "DESDE_M": 0,
-        "HASTA_M": 200.00000000005403,
-        "LONGITUD_M": 200.00000000005403
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
-            -78.6413861111111,
-            -1.679333333333329
-          ],
-          [
-            -78.64024227396767,
-            -1.6779391979654006
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "ID_CAMARA": "RIO-003-DOMO",
         "SOURCE_GROUP": "existing",
         "REQUIERE_CAMBIO": false,
@@ -18327,6 +18237,130 @@
           [
             -78.66669985284476,
             -1.6385315113678691
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-002-DOMO",
+        "SOURCE_GROUP": "existing",
+        "REQUIERE_CAMBIO": false,
+        "BRAZO": 1,
+        "SEPARACION_CAMARA_RED_M": 11.712965257968099,
+        "VIA_INICIAL": "Primera Constituyente",
+        "METODO_ANCLA": "Cuatro salidas del cruce; conectores de calzadas excluidos",
+        "FUENTE_RED": "OSM local",
+        "OSM_WAY_ID": "106857516",
+        "VISIBILIDAD_VERIFICADA": false,
+        "DESDE_M": 0,
+        "HASTA_M": 200,
+        "LONGITUD_M": 200
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.6413861111111,
+            -1.679333333333329
+          ],
+          [
+            -78.64275471733463,
+            -1.6781621116614303
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-002-DOMO",
+        "SOURCE_GROUP": "existing",
+        "REQUIERE_CAMBIO": false,
+        "BRAZO": 2,
+        "SEPARACION_CAMARA_RED_M": 11.712965257968099,
+        "VIA_INICIAL": "Avenida Eloy Alfaro",
+        "METODO_ANCLA": "Cuatro salidas del cruce; conectores de calzadas excluidos",
+        "FUENTE_RED": "OSM local",
+        "OSM_WAY_ID": "559919664",
+        "VISIBILIDAD_VERIFICADA": false,
+        "DESDE_M": 0,
+        "HASTA_M": 200,
+        "LONGITUD_M": 200
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.6413861111111,
+            -1.679333333333329
+          ],
+          [
+            -78.64021966765257,
+            -1.6779582965541648
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-002-DOMO",
+        "SOURCE_GROUP": "existing",
+        "REQUIERE_CAMBIO": false,
+        "BRAZO": 3,
+        "SEPARACION_CAMARA_RED_M": 11.712965257968099,
+        "VIA_INICIAL": "Avenida Eloy Alfaro",
+        "METODO_ANCLA": "Cuatro salidas del cruce; conectores de calzadas excluidos",
+        "FUENTE_RED": "OSM local",
+        "OSM_WAY_ID": "559919663",
+        "VISIBILIDAD_VERIFICADA": false,
+        "DESDE_M": 0,
+        "HASTA_M": 200,
+        "LONGITUD_M": 200
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.6413861111111,
+            -1.679333333333329
+          ],
+          [
+            -78.64257393927382,
+            -1.680689707812007
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-002-DOMO",
+        "SOURCE_GROUP": "existing",
+        "REQUIERE_CAMBIO": false,
+        "BRAZO": 4,
+        "SEPARACION_CAMARA_RED_M": 11.712965257968099,
+        "VIA_INICIAL": "Avenida Leopoldo Freire",
+        "METODO_ANCLA": "Cuatro salidas del cruce; conectores de calzadas excluidos",
+        "FUENTE_RED": "OSM local",
+        "OSM_WAY_ID": "553833246",
+        "VISIBILIDAD_VERIFICADA": false,
+        "DESDE_M": 0,
+        "HASTA_M": 200,
+        "LONGITUD_M": 200
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.6413861111111,
+            -1.679333333333329
+          ],
+          [
+            -78.64001422126559,
+            -1.6805006565289535
           ]
         ]
       }

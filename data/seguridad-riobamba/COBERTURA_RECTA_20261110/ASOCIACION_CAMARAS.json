@@ -9,9 +9,9 @@
   {
     "cameraId": "RIO-002-DOMO",
     "associated": true,
-    "arms": 3,
+    "arms": 4,
     "distanceToAnchorM": 9.760036665763128,
-    "method": "Vertice compartido de interseccion hasta 30 m"
+    "method": "Cuatro salidas verificadas en cartografia local; sin conectores internos"
   },
   {
     "cameraId": "RIO-003-DOMO",

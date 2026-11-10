@@ -1,5 +1,5 @@
 """Independent metric checks: exact camera origins, no bends, collinear 50m."""
-import json,pathlib
+import json,pathlib,math
 import geopandas as gpd
 from shapely.geometry import Point,LineString
 from shapely import union_all
@@ -16,6 +16,12 @@ def main():
   assert abs(line.length-200)<1e-6 and abs(e.length-50)<1e-6
   assert Point(line.coords[-1]).distance(Point(e.coords[0]))<1e-6
   assert LineString([line.coords[0],e.coords[-1]]).distance(Point(line.coords[-1]))<1e-6
+ rio2=a[a.ID_CAMARA=='RIO-002-DOMO'];assert len(rio2)==4
+ assert set(rio2.VIA_INICIAL)=={'Primera Constituyente','Avenida Eloy Alfaro','Avenida Leopoldo Freire'}
+ quadrants=set()
+ for line in rio2.geometry:
+  start,end=list(line.coords);angle=math.degrees(math.atan2(end[1]-start[1],end[0]-start[0]))%360;quadrants.add(int(angle//90))
+ assert len(quadrants)==4
  axis=union_all(gpd.read_file(B/'CAPA_TRAMO_BOULEVARD_MACAJI_BELLAVISTA/TRAMO_BOULEVARD_MACAJI_BELLAVISTA.geojson').to_crs(32717).geometry)
  expected=axis.difference(union_all([p.buffer(200,quad_segs=64) for p in cameras.values()]));gaps=union_all(gpd.read_file(O/'BRECHA_MACAJI_TRAMO_200M.geojson').to_crs(32717).geometry)
  assert expected.hausdorff_distance(gaps)<1e-6 and abs(expected.length-gaps.length)<1e-6

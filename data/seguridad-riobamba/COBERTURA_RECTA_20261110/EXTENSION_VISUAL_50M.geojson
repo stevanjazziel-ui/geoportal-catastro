@@ -128,99 +128,6 @@
     {
       "type": "Feature",
       "properties": {
-        "ID_CAMARA": "RIO-002-DOMO",
-        "SOURCE_GROUP": "existing",
-        "REQUIERE_CAMBIO": false,
-        "BRAZO": 1,
-        "SEPARACION_CAMARA_RED_M": 9.760036665763128,
-        "VIA_INICIAL": "Avenida Eloy Alfaro",
-        "METODO_ANCLA": "Vertice compartido de interseccion hasta 30 m",
-        "FUENTE_RED": "OSM local",
-        "VISIBILIDAD_VERIFICADA": false,
-        "DESDE_M": 200,
-        "HASTA_M": 250.0000000002432,
-        "LONGITUD_M": 50.000000000243205,
-        "SOLO_VISUAL": true
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
-            -78.64257822841415,
-            -1.6806858919343133
-          ],
-          [
-            -78.64287625795308,
-            -1.6810240318315384
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "ID_CAMARA": "RIO-002-DOMO",
-        "SOURCE_GROUP": "existing",
-        "REQUIERE_CAMBIO": false,
-        "BRAZO": 2,
-        "SEPARACION_CAMARA_RED_M": 9.760036665763128,
-        "VIA_INICIAL": "Avenida Leopoldo Freire",
-        "METODO_ANCLA": "Vertice compartido de interseccion hasta 30 m",
-        "FUENTE_RED": "OSM local",
-        "VISIBILIDAD_VERIFICADA": false,
-        "DESDE_M": 200,
-        "HASTA_M": 250.0000000002795,
-        "LONGITUD_M": 50.0000000002795,
-        "SOLO_VISUAL": true
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
-            -78.63998297357675,
-            -1.6804624187751487
-          ],
-          [
-            -78.63963218902119,
-            -1.68074468961689
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "ID_CAMARA": "RIO-002-DOMO",
-        "SOURCE_GROUP": "existing",
-        "REQUIERE_CAMBIO": false,
-        "BRAZO": 4,
-        "SEPARACION_CAMARA_RED_M": 9.760036665763128,
-        "VIA_INICIAL": "Avenida Eloy Alfaro",
-        "METODO_ANCLA": "Vertice compartido de interseccion hasta 30 m",
-        "FUENTE_RED": "OSM local",
-        "VISIBILIDAD_VERIFICADA": false,
-        "DESDE_M": 200,
-        "HASTA_M": 250.0000000000135,
-        "LONGITUD_M": 50.00000000001351,
-        "SOLO_VISUAL": true
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
-            -78.64024227396767,
-            -1.6779391979654006
-          ],
-          [
-            -78.63995631486634,
-            -1.6775906643757097
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "ID_CAMARA": "RIO-003-DOMO",
         "SOURCE_GROUP": "existing",
         "REQUIERE_CAMBIO": false,
@@ -18938,6 +18845,134 @@
           [
             -78.66625075931512,
             -1.6385246703916416
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-002-DOMO",
+        "SOURCE_GROUP": "existing",
+        "REQUIERE_CAMBIO": false,
+        "BRAZO": 1,
+        "SEPARACION_CAMARA_RED_M": 11.712965257968099,
+        "VIA_INICIAL": "Primera Constituyente",
+        "METODO_ANCLA": "Cuatro salidas del cruce; conectores de calzadas excluidos",
+        "FUENTE_RED": "OSM local",
+        "OSM_WAY_ID": "106857516",
+        "VISIBILIDAD_VERIFICADA": false,
+        "DESDE_M": 200,
+        "HASTA_M": 250,
+        "LONGITUD_M": 50,
+        "SOLO_VISUAL": true
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.64275471733463,
+            -1.6781621116614303
+          ],
+          [
+            -78.64309686869413,
+            -1.6778693057285552
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-002-DOMO",
+        "SOURCE_GROUP": "existing",
+        "REQUIERE_CAMBIO": false,
+        "BRAZO": 2,
+        "SEPARACION_CAMARA_RED_M": 11.712965257968099,
+        "VIA_INICIAL": "Avenida Eloy Alfaro",
+        "METODO_ANCLA": "Cuatro salidas del cruce; conectores de calzadas excluidos",
+        "FUENTE_RED": "OSM local",
+        "OSM_WAY_ID": "559919664",
+        "VISIBILIDAD_VERIFICADA": false,
+        "DESDE_M": 200,
+        "HASTA_M": 250,
+        "LONGITUD_M": 50,
+        "SOLO_VISUAL": true
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.64021966765257,
+            -1.6779582965541648
+          ],
+          [
+            -78.63992805698574,
+            -1.677614537609624
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-002-DOMO",
+        "SOURCE_GROUP": "existing",
+        "REQUIERE_CAMBIO": false,
+        "BRAZO": 3,
+        "SEPARACION_CAMARA_RED_M": 11.712965257968099,
+        "VIA_INICIAL": "Avenida Eloy Alfaro",
+        "METODO_ANCLA": "Cuatro salidas del cruce; conectores de calzadas excluidos",
+        "FUENTE_RED": "OSM local",
+        "OSM_WAY_ID": "559919663",
+        "VISIBILIDAD_VERIFICADA": false,
+        "DESDE_M": 200,
+        "HASTA_M": 250,
+        "LONGITUD_M": 50,
+        "SOLO_VISUAL": true
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.64257393927382,
+            -1.680689707812007
+          ],
+          [
+            -78.64287089652517,
+            -1.6810288016791688
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID_CAMARA": "RIO-002-DOMO",
+        "SOURCE_GROUP": "existing",
+        "REQUIERE_CAMBIO": false,
+        "BRAZO": 4,
+        "SEPARACION_CAMARA_RED_M": 11.712965257968099,
+        "VIA_INICIAL": "Avenida Leopoldo Freire",
+        "METODO_ANCLA": "Cuatro salidas del cruce; conectores de calzadas excluidos",
+        "FUENTE_RED": "OSM local",
+        "OSM_WAY_ID": "553833246",
+        "VISIBILIDAD_VERIFICADA": false,
+        "DESDE_M": 200,
+        "HASTA_M": 250,
+        "LONGITUD_M": 50,
+        "SOLO_VISUAL": true
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -78.64001422126559,
+            -1.6805006565289535
+          ],
+          [
+            -78.6396712486099,
+            -1.6807924868121122
           ]
         ]
       }

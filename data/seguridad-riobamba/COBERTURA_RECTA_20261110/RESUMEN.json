@@ -10,8 +10,8 @@
     "RIO-096-FIJA",
     "RIO-098-FIJA"
   ],
-  "primaryArms": 611,
-  "visualExtensions": 611,
+  "primaryArms": 612,
+  "visualExtensions": 612,
   "totalMacajiM": 5688.168747975763,
   "coveredMacaji200M": 5436.170471468953,
   "uncoveredMacaji200M": 251.99827650681033,
@@ -52,5 +52,5 @@
     "RIO-053-DOMO",
     "MUN-026"
   ],
-  "sourceMunicipalRoadsSha256": "1bf87a174d36d0e042dae789ee6ac080e31f30786c066ea35a71bff0055e61b4"
+  "sourceMunicipalRoadsSha256": "533f6011fafe0810eb3bf5b5b71f6864d240c0dbc73926a183218da38bfc9c7a"
 }

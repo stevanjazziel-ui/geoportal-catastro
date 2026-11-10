@@ -109,6 +109,26 @@ def main():
    if geom.length>200.01:
     b=substring(geom,200,min(250,geom.length));extra.append({**props,'DESDE_M':200,'HASTA_M':200+b.length,'LONGITUD_M':b.length,'SOLO_VISUAL':True,'geometry':b})
   auditrow.update(associated=True,arms=count,distanceToAnchorM=dist,method=method)
+ # RIO-002 sits beside several carriageway connectors. The nearest connector
+ # is a T node, not the whole intersection: retain the four documented exits.
+ cid='RIO-002-DOMO';origin=points[cid]
+ primary[:]=[r for r in primary if r['ID_CAMARA']!=cid]
+ extra[:]=[r for r in extra if r['ID_CAMARA']!=cid]
+ to_metric=Transformer.from_crs(4326,32717,always_xy=True).transform
+ for arm,way_id in enumerate([106857516,559919664,559919663,553833246],1):
+  way=next(w for w in raw['elements'] if w.get('type')=='way' and w['id']==way_id)
+  line=transform(to_metric,LineString([(p['lon'],p['lat']) for p in way['geometry']]))
+  coords=list(line.coords)
+  if Point(coords[-1]).distance(origin)<Point(coords[0]).distance(origin):coords.reverse()
+  start=Point(coords[0]);end=next(Point(c) for c in coords[1:] if Point(c).distance(origin)>30)
+  assert start.distance(origin)<=30
+  dx,dy=end.x-start.x,end.y-start.y;norm=math.hypot(dx,dy)
+  def along(m):return (origin.x+m*dx/norm,origin.y+m*dy/norm)
+  props={'ID_CAMARA':cid,**camera_meta[cid],'BRAZO':arm,'SEPARACION_CAMARA_RED_M':start.distance(origin),'VIA_INICIAL':way['tags']['name'],'METODO_ANCLA':'Cuatro salidas del cruce; conectores de calzadas excluidos','FUENTE_RED':'OSM local','OSM_WAY_ID':str(way_id),'VISIBILIDAD_VERIFICADA':False}
+  primary.append({**props,'DESDE_M':0,'HASTA_M':200,'LONGITUD_M':200,'geometry':LineString([along(0),along(200)])})
+  extra.append({**props,'DESDE_M':200,'HASTA_M':250,'LONGITUD_M':50,'SOLO_VISUAL':True,'geometry':LineString([along(200),along(250)])})
+ for row in audit:
+  if row['cameraId']==cid:row.update(arms=4,method='Cuatro salidas verificadas en cartografia local; sin conectores internos')
  assert len(cameras)==183
  assert all(r['geometry'].length<=200.000001 for r in primary) and all(r['geometry'].length<=50.000001 for r in extra)
  axis=union_all(gpd.read_file(BASE/'CAPA_TRAMO_BOULEVARD_MACAJI_BELLAVISTA/TRAMO_BOULEVARD_MACAJI_BELLAVISTA.geojson').to_crs(32717).geometry)

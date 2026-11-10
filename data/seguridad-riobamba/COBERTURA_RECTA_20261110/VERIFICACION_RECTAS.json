@@ -1,7 +1,7 @@
 {
   "passed": true,
-  "straightPrimaryRays": 611,
-  "collinearVisualExtensions": 611,
+  "straightPrimaryRays": 612,
+  "collinearVisualExtensions": 612,
   "twoVerticesPerLine": true,
   "exactCameraOrigins": true,
   "primaryLengthM": 200,
