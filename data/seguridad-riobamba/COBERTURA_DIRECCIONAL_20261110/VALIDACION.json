@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "cameras": 183,
+  "primaryAtMost200M": true,
+  "extensionAtMost50M": true,
+  "gapMethodUnchanged": true,
+  "extra50NotUsedForGap": true,
+  "axisLengthReconciled": true
+}

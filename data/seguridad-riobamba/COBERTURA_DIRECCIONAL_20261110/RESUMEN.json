@@ -1,0 +1,54 @@
+{
+  "sourceRelease": "CAMARAS_AJUSTADAS_USUARIO_20261109",
+  "cameras": 183,
+  "associatedCameras": 177,
+  "unassociatedCameras": [
+    "RIO-073-DOMO",
+    "RIO-074-DOMO",
+    "RIO-080-DOMO",
+    "RIO-095-FIJA",
+    "RIO-096-FIJA",
+    "RIO-098-FIJA"
+  ],
+  "primaryArms": 623,
+  "visualExtensions": 531,
+  "totalMacajiM": 5688.168747975763,
+  "coveredMacaji200M": 5436.170471468953,
+  "uncoveredMacaji200M": 251.99827650681033,
+  "coveredPct": 95.56978198657542,
+  "extra50IncludedInGapCalculation": false,
+  "metricCrs": "EPSG:32717",
+  "radiusForGapM": 200,
+  "maxStreetAssociationM": 30,
+  "continuationMaxTurnDegrees": 60,
+  "method": "Misma metodologia previa: diferencia del eje especifico aprobado y union disuelta de radios de 200 m, 64 segmentos por cuadrante. Los brazos viales y sus 50 m adicionales son representacion visual y no sustituyen ni amplian esos radios.",
+  "streetMethod": "Vertices compartidos OSM red consolidada; cada brazo continua por la direccion mas alineada, sin ramificarse en cruces posteriores; se detiene ante giro mayor a 60 grados, fin de via o 250 m. No visibilidad real.",
+  "sourceCameraGeometrySha256": "f72435394c364d9ab0e66e8fe2844d30a8384002f582da9b8bcf1800a194b5c9",
+  "sourceRoadsSha256": "6b7cc372208e48bef118bec62b05d84da6cda25ecb0d347747b478450ca0b6d7",
+  "scenarios": {
+    "A": {
+      "totalMacajiM": 5688.168747975763,
+      "coveredMacaji200M": 4540.809143833735,
+      "uncoveredMacaji200M": 1147.3596041420396,
+      "coveredPct": 79.82901606865414
+    },
+    "B": {
+      "totalMacajiM": 5688.168747975763,
+      "coveredMacaji200M": 5436.170471468953,
+      "uncoveredMacaji200M": 251.99827650681033,
+      "coveredPct": 95.56978198657542
+    },
+    "C": {
+      "totalMacajiM": 5688.168747975763,
+      "coveredMacaji200M": 5436.170471468953,
+      "uncoveredMacaji200M": 251.99827650681033,
+      "coveredPct": 95.56978198657542
+    }
+  },
+  "sourceAdditionalLocalOsmSha256": "4945f954c36d75aeaf92e4ea063aeaa55ba3f98064a02cfa88dddc80b9e37b4f",
+  "localMunicipalFallbackCameras": [
+    "RIO-053-DOMO",
+    "MUN-026"
+  ],
+  "sourceMunicipalRoadsSha256": "1bf87a174d36d0e042dae789ee6ac080e31f30786c066ea35a71bff0055e61b4"
+}

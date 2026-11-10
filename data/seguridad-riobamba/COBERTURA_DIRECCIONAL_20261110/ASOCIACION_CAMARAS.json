@@ -1,0 +1,1281 @@
+[
+  {
+    "cameraId": "RIO-001-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 20.159111440837243,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-002-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 9.760036665763128,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-003-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 5.675681234377572,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-004-DOMO",
+    "associated": true,
+    "arms": 5,
+    "distanceToAnchorM": 8.953656112882747,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-005-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 9.792971292557782,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-006-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 8.835614540413827,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-007-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 13.868471320234065,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-008-FIJA",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 13.86847132011634,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-009-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 5.541106830192395,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-010-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 0.4855657854927708,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-011-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 19.174339888893112,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-012-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 5.203351511253557,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-013-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 11.803205429310957,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-014-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 9.720812800129758,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-015-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 11.601993000025674,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-016-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 9.078238351126094,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-017-FIJA",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 9.078238351126094,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-018-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 5.572330084543758,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-019-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 8.179321130294653,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-020-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 8.554545713766512,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-021-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 11.584219685786797,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-022-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 10.996834580789146,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-023-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 20.179496353510537,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-024-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 4.730533885836292,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-025-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 7.252552946693659,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-026-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 11.401887371015627,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-027-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 7.2829256693449445,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-028-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 6.078583887974984,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-029-DOMO",
+    "associated": true,
+    "arms": 5,
+    "distanceToAnchorM": 5.578896541717844,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-030-DOMO",
+    "associated": true,
+    "arms": 2,
+    "distanceToAnchorM": 0.9382080576373466,
+    "method": "Proyeccion sobre segmento mas cercano hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-031-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 11.16698949125912,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-032-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 8.955379518245522,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-033-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 13.211700609547153,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-034-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 12.759545294011227,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-035-DOMO",
+    "associated": true,
+    "arms": 5,
+    "distanceToAnchorM": 6.4766442347804025,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-036-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 6.390610032135701,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-037-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 15.3889535968258,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-038-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 10.698102815374323,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-039-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 12.49592476229021,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-040-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 8.500367948811018,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-041-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 16.445136153347192,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-042-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 12.543892070518483,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-043-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 5.039084820400975,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-044-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 3.40300875209969,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-045-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 10.710719335689344,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-046-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 5.612308546177001,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-047-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 8.323348555780004,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-048-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 18.365025303309928,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-049-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 3.6098632574066984,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-050-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 3.9951876644437214,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-051-DOMO",
+    "associated": true,
+    "arms": 2,
+    "distanceToAnchorM": 0.8228569675105889,
+    "method": "Proyeccion sobre segmento mas cercano hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-052-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 10.831220957216653,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-053-DOMO",
+    "associated": true,
+    "distanceToStreetM": 31.22666385441739,
+    "reason": "Fuera de tolerancia de asociacion de 30 m; sin inventar brazos",
+    "arms": 2,
+    "distanceToAnchorM": 28.518891648439457,
+    "method": "Cartografia vial municipal local"
+  },
+  {
+    "cameraId": "RIO-054-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 13.797432362057375,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-055-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 9.527067127716407,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-056-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 8.802231675353816,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-057-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 14.698441197943259,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-058-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 10.074295449503321,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-059-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 6.795119621284088,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-060-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 9.466164003782744,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-061-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 10.552164408852756,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-062-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 7.971311621281418,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-063-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 7.805364187997166,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-064-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 17.81961540036435,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-065-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 9.439945599634369,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-066-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.9637054340124,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-067-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 12.17844189679288,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-068-LA",
+    "associated": true,
+    "arms": 2,
+    "distanceToAnchorM": 12.362504796155372,
+    "method": "Proyeccion sobre segmento mas cercano hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-069-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 6.1106415715224625,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-070-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 5.405147278760225,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-071-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 6.599641591718812,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-072-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-073-DOMO",
+    "associated": false,
+    "distanceToStreetM": 37.79488244420737,
+    "reason": "Fuera de tolerancia de asociacion de 30 m; sin inventar brazos"
+  },
+  {
+    "cameraId": "RIO-074-DOMO",
+    "associated": false,
+    "distanceToStreetM": 92.8210355746436,
+    "reason": "Fuera de tolerancia de asociacion de 30 m; sin inventar brazos"
+  },
+  {
+    "cameraId": "RIO-075-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 17.006993093918606,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-076-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 7.902542891721285,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-077-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 8.023575795854251,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-078-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 8.399068144962664,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-079-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 12.382428430702399,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-080-DOMO",
+    "associated": false,
+    "distanceToStreetM": 239.8743733782455,
+    "reason": "Fuera de tolerancia de asociacion de 30 m; sin inventar brazos"
+  },
+  {
+    "cameraId": "RIO-081-FIJA",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-082-FIJA",
+    "associated": true,
+    "arms": 5,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-083-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-084-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-085-DOMO",
+    "associated": true,
+    "arms": 5,
+    "distanceToAnchorM": 2.2644104576308797,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-086-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-087-FIJA",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 11.313708498984761,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-088-FIJA",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 11.313708498984761,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-089-FIJA",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-090-FIJA",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 28.899568262577123,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-091-FIJA",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 24.4455481503784,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-092-FIJA",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-093-FIJA",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-094-FIJA",
+    "associated": true,
+    "arms": 2,
+    "distanceToAnchorM": 28.196559848024158,
+    "method": "Proyeccion sobre segmento mas cercano hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-095-FIJA",
+    "associated": false,
+    "distanceToStreetM": 283.7440482643874,
+    "reason": "Fuera de tolerancia de asociacion de 30 m; sin inventar brazos"
+  },
+  {
+    "cameraId": "RIO-096-FIJA",
+    "associated": false,
+    "distanceToStreetM": 279.4587883129341,
+    "reason": "Fuera de tolerancia de asociacion de 30 m; sin inventar brazos"
+  },
+  {
+    "cameraId": "RIO-097-FIJA",
+    "associated": true,
+    "arms": 2,
+    "distanceToAnchorM": 23.295408102324917,
+    "method": "Proyeccion sobre segmento mas cercano hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-098-FIJA",
+    "associated": false,
+    "distanceToStreetM": 192.92152959745735,
+    "reason": "Fuera de tolerancia de asociacion de 30 m; sin inventar brazos"
+  },
+  {
+    "cameraId": "RIO-099-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-100-FIJA",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-101-DOMO",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-102-DOMO",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "RIO-103-DOMO",
+    "associated": true,
+    "arms": 5,
+    "distanceToAnchorM": 0.41812005290615584,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-001",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-002",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-003",
+    "associated": true,
+    "arms": 2,
+    "distanceToAnchorM": 4.110395316576948,
+    "method": "Proyeccion sobre segmento mas cercano hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-004",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 23.775156592394932,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-005",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-006",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-007",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-008",
+    "associated": true,
+    "arms": 2,
+    "distanceToAnchorM": 22.49055241721187,
+    "method": "Proyeccion sobre segmento mas cercano hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-009",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-010",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-011",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-012",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-013",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 11.153716189456578,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-014",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-015",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-016",
+    "associated": true,
+    "arms": 2,
+    "distanceToAnchorM": 2.3283064365386963e-10,
+    "method": "Proyeccion sobre segmento mas cercano hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-017",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 7.857010776907668,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-018",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-019",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 3.3690951360296,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-020",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 7.251673514123726,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-021",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-022",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-023",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 14.608826532168845,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-024",
+    "associated": true,
+    "arms": 2,
+    "distanceToAnchorM": 2.8425915988950736,
+    "method": "Proyeccion sobre segmento mas cercano hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-025",
+    "associated": true,
+    "arms": 2,
+    "distanceToAnchorM": 19.55303591315828,
+    "method": "Proyeccion sobre segmento mas cercano hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-026",
+    "associated": true,
+    "distanceToStreetM": 55.16288341173674,
+    "reason": "Fuera de tolerancia de asociacion de 30 m; sin inventar brazos",
+    "arms": 2,
+    "distanceToAnchorM": 0.0,
+    "method": "Cartografia vial municipal local"
+  },
+  {
+    "cameraId": "MUN-027",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 2.740784226501725,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-028",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-029",
+    "associated": true,
+    "arms": 2,
+    "distanceToAnchorM": 14.843379370140061,
+    "method": "Proyeccion sobre segmento mas cercano hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-030",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 5.2494735727327955,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-031",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-032",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 6.1463401403790305,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-033",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 4.352324380243566,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-034",
+    "associated": true,
+    "arms": 5,
+    "distanceToAnchorM": 3.841280319641411,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-035",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 1.826875332922276,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-036",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 5.751172863854915,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-037",
+    "associated": true,
+    "arms": 5,
+    "distanceToAnchorM": 5.743563345871085,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-038",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 1.3691961002224262,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-039",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 2.0200725408085236,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-040",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 5.116456407677577,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-041",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 2.586926718632676,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-042",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 5.816728076663994,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-043",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-044",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-045",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-046",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 4.496863904704803,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-047",
+    "associated": true,
+    "arms": 5,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-048",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-049",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "MUN-050",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.0,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-01",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 5.0925452705496035,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-02",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 1.2500952678496666,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-03",
+    "associated": true,
+    "arms": 5,
+    "distanceToAnchorM": 3.0696669857481007,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-04",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 1.5304605959255133,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-05",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 11.280642250479657,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-06",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 1.399161003063428,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-07",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 4.933960103505419,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-08",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 3.94235261410031,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-09",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 8.826506563810382,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-10",
+    "associated": true,
+    "arms": 2,
+    "distanceToAnchorM": 6.572618906624292,
+    "method": "Proyeccion sobre segmento mas cercano hasta 30 m"
+  },
+  {
+    "cameraId": "PN-11",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 10.20229196696002,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-12",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 14.49572925422151,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-14",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 6.514272374984603,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-15",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 1.6288136435687048,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-16",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 13.502971071883692,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-17",
+    "associated": true,
+    "arms": 2,
+    "distanceToAnchorM": 0.1042765897895789,
+    "method": "Proyeccion sobre segmento mas cercano hasta 30 m"
+  },
+  {
+    "cameraId": "PN-18",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 1.2770576135832827,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-19",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 9.698917088353497,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-20",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 23.42558753264609,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-21",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 6.1857596021993,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-22",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 0.9081058070270982,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-23",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 4.167714278305351,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-24",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 8.154532891622608,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-25",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 3.279486516744383,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-26",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 1.1869710061074819,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-27",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 12.574330351344637,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-28",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 15.360200566863439,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-29",
+    "associated": true,
+    "arms": 4,
+    "distanceToAnchorM": 1.2084604970514723,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-30",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 3.859745749507529,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  },
+  {
+    "cameraId": "PN-31",
+    "associated": true,
+    "arms": 3,
+    "distanceToAnchorM": 0.21971626687421694,
+    "method": "Vertice compartido de interseccion hasta 30 m"
+  }
+]
