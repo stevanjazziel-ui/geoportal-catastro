@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "straightPrimaryRays": 611,
+  "collinearVisualExtensions": 611,
+  "twoVerticesPerLine": true,
+  "exactCameraOrigins": true,
+  "primaryLengthM": 200,
+  "visualExtensionLengthM": 50,
+  "cameraCoordinatesUnchanged": true,
+  "gapMethodUnchanged": true,
+  "extra50NotIncluded": true,
+  "macajiUncoveredM": 251.99827650681033
+}

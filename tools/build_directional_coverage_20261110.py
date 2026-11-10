@@ -1,4 +1,4 @@
-"""Visual street arms 200+50m; uncovered Macaji retains dissolved 200m disks."""
+"""Straight rays from camera coordinates; gaps retain dissolved 200m disks."""
 import json,math,hashlib
 from pathlib import Path
 from collections import defaultdict
@@ -13,7 +13,7 @@ from pyproj import Transformer
 ROOT=Path(__file__).resolve().parents[1]
 RELEASE='CAMARAS_AJUSTADAS_USUARIO_20261109'
 BASE=ROOT/'data/seguridad-riobamba/SIG_BRIDGE_RELEASES'/RELEASE
-OUT=ROOT/'data/seguridad-riobamba/COBERTURA_DIRECCIONAL_20261110'
+OUT=ROOT/'data/seguridad-riobamba/COBERTURA_RECTA_20261110'
 ROADS=ROOT.parent/'entregas/RIOBAMBA_CONSOLIDADO_PRIORIDAD_REUNION_20261017/RIOBAMBA_CONSOLIDADO.gpkg'
 TO_LL=Transformer.from_crs(32717,4326,always_xy=True).transform
 def dump(name,value):(OUT/name).write_text(json.dumps(value,ensure_ascii=False,allow_nan=False,indent=2),encoding='utf-8')
@@ -45,23 +45,19 @@ def main():
     eid=len(edges);edges.append({'u':u,'v':v,'geometry':geom,'way':str(r.osm_id),'name':str(r.name) if r.name else ''});adj[u].append(eid);adj[v].append(eid)
  tree=STRtree([e['geometry'] for e in edges]);junctions=[u for u in adj if len(adj[u])>=3];jt=cKDTree([xy[u] for u in junctions])
  primary=[];extra=[];audit=[];cameras=[];camera_meta={}
- def trace(start,first,eid):
-  path=[start];distance=0.;visited={eid};current=first;prev=start
-  if math.dist(start,xy[current])>.001:path.append(xy[current]);distance+=math.dist(start,xy[current])
-  else:prev=xy[edges[eid]['v'] if edges[eid]['u']==current else edges[eid]['u']]
-  while distance<250-1e-8:
-   incoming=np.array(xy[current])-np.array(prev);norm=np.linalg.norm(incoming)
-   candidates=[]
-   for j in adj[current]:
-    if j in visited:continue
-    e=edges[j];other=e['v'] if e['u']==current else e['u'];vec=np.array(xy[other])-np.array(xy[current]);cos=float(np.dot(incoming,vec)/max(norm*np.linalg.norm(vec),1e-12))
-    if cos<.5:continue
-    previous=edges[eid];bonus=.10*(e['way']==previous['way'])+.06*bool(e['name'] and e['name']==previous['name'])
-    candidates.append((cos+bonus,j,other))
-   if not candidates:break
-   _,j,other=max(candidates);prev=xy[current];current=other;path.append(xy[current]);distance+=edges[j]['geometry'].length;visited.add(j);eid=j
-  if len(path)<2:return None
-  line=LineString(path);return substring(line,0,min(250,line.length))
+ def trace(origin,start,first,eid):
+  direction=np.array(xy[first])-np.array(start)
+  if np.linalg.norm(direction)<.001:
+   other=edges[eid]['v'] if edges[eid]['u']==first else edges[eid]['u'];direction=np.array(xy[first])-np.array(xy[other])
+  norm=np.linalg.norm(direction)
+  if norm<.001:return None
+  direction=direction/norm
+  # Only a bearing is read from the initial street arm. No network traversal.
+  return LineString([(origin.x,origin.y),(origin.x+250*direction[0],origin.y+250*direction[1])])
+ def repeated_direction(geometry,angles):
+  a,b=geometry.coords;angle=math.atan2(b[1]-a[1],b[0]-a[0])
+  if any(abs(math.atan2(math.sin(angle-v),math.cos(angle-v)))<math.radians(8) for v in angles):return True
+  angles.append(angle);return False
  for group,layer,idfield in [('existing','CAMARAS_EXISTENTES_103_FINAL','ID_CAMARA'),('municipal','PROPUESTA_MUNICIPAL_50_FINAL','ID_PROPUESTA'),('police','PROPUESTA_POLICIA_30_FINAL','ID_POLICIA')]:
   frame=gpd.read_file(BASE/'ESCENARIO_FINAL_183.gpkg',layer=layer).to_crs(32717)
   for r in frame.to_dict('records'):
@@ -73,10 +69,11 @@ def main():
    else:
     anchor=(near.x,near.y);method='Proyeccion sobre segmento mas cercano hasta 30 m'
     anchors=[(anchor,edge['u'],eid),(anchor,edge['v'],eid)]
-   count=0
-   for arm,(start,first,j) in enumerate(anchors,1):
-    geom=trace(start,first,j)
+   count=0;angles=[]
+   for arm,(start,first,j) in enumerate(sorted(anchors,key=lambda a:math.dist(a[0],xy[a[1]]),reverse=True),1):
+    geom=trace(point,start,first,j)
     if geom is None or geom.length<=.01:continue
+    if repeated_direction(geom,angles):continue
     props={'ID_CAMARA':cid,'SOURCE_GROUP':group,'REQUIERE_CAMBIO':bool(r.get('REQUIERE_CAMBIO',False)),'BRAZO':arm,'SEPARACION_CAMARA_RED_M':dist,'VIA_INICIAL':edges[j]['name'],'METODO_ANCLA':method,'FUENTE_RED':'OSM local','VISIBILIDAD_VERIFICADA':False}
     a=substring(geom,0,min(200,geom.length));primary.append({**props,'DESDE_M':0,'HASTA_M':a.length,'LONGITUD_M':a.length,'geometry':a});count+=1
     if geom.length>200.01:
@@ -103,10 +100,11 @@ def main():
   if jd<=30:
    u=lj[int(ji)];dist=float(jd);anchors=[(xy[u],edges[k]['v'] if edges[k]['u']==u else edges[k]['u'],k) for k in adj[u]]
   else:anchors=[((near.x,near.y),edge['u'],j),((near.x,near.y),edge['v'],j)]
-  count=0
-  for arm,(start,first,j) in enumerate(anchors,1):
-   geom=trace(start,first,j)
+  count=0;angles=[]
+  for arm,(start,first,j) in enumerate(sorted(anchors,key=lambda a:math.dist(a[0],xy[a[1]]),reverse=True),1):
+   geom=trace(point,start,first,j)
    if geom is None or geom.length<=.01:continue
+   if repeated_direction(geom,angles):continue
    props={'ID_CAMARA':cid,**camera_meta[cid],'BRAZO':arm,'SEPARACION_CAMARA_RED_M':dist,'VIA_INICIAL':edges[j]['name'],'METODO_ANCLA':method,'FUENTE_RED':'Cartografia vial municipal local','VISIBILIDAD_VERIFICADA':False};a=substring(geom,0,min(200,geom.length));primary.append({**props,'DESDE_M':0,'HASTA_M':a.length,'LONGITUD_M':a.length,'geometry':a});count+=1
    if geom.length>200.01:
     b=substring(geom,200,min(250,geom.length));extra.append({**props,'DESDE_M':200,'HASTA_M':200+b.length,'LONGITUD_M':b.length,'SOLO_VISUAL':True,'geometry':b})
@@ -131,9 +129,13 @@ def main():
  package=OUT/'COBERTURA_LINEAL_Y_BRECHAS.gpkg'
  for name,rows in [('LINEAS_200M',primary),('EXTENSION_VISUAL_50M',extra),('BRECHAS_MACAJI_200M',gaps)]:gpd.GeoDataFrame(rows,crs=32717).to_file(package,layer=name,driver='GPKG')
  summary={'sourceRelease':RELEASE,'cameras':183,'associatedCameras':sum(r['associated'] for r in audit),'unassociatedCameras':[r['cameraId'] for r in audit if not r['associated']],'primaryArms':len(primary),'visualExtensions':len(extra),'totalMacajiM':axis.length,'coveredMacaji200M':covered.length,'uncoveredMacaji200M':gap.length,'coveredPct':100*covered.length/axis.length,'extra50IncludedInGapCalculation':False,'metricCrs':'EPSG:32717','radiusForGapM':200,'maxStreetAssociationM':30,'continuationMaxTurnDegrees':60,'method':'Misma metodologia previa: diferencia del eje especifico aprobado y union disuelta de radios de 200 m, 64 segmentos por cuadrante. Los brazos viales y sus 50 m adicionales son representacion visual y no sustituyen ni amplian esos radios.','streetMethod':'Vertices compartidos OSM red consolidada; cada brazo continua por la direccion mas alineada, sin ramificarse en cruces posteriores; se detiene ante giro mayor a 60 grados, fin de via o 250 m. No visibilidad real.','sourceCameraGeometrySha256':hashlib.sha256(''.join(cid+p.wkb_hex for cid,p in sorted(cameras)).encode()).hexdigest(),'sourceRoadsSha256':hashlib.sha256(ROADS.read_bytes()).hexdigest()}
+ summary.pop('continuationMaxTurnDegrees',None)
+ summary.update(geometryMode='STRAIGHT_FROM_CAMERA',exactCameraOrigin=True,minimumBearingSeparationDegrees=8,streetMethod='Rayos rectos desde la coordenada exacta de la camara, orientados por los brazos iniciales del cruce o segmento asociado. Cada rayo tiene 200 m y una extension colineal de 50 m. Sin recorridos, giros, ramificaciones ni origen desplazado al nodo vial. No certifica visibilidad real ni ausencia de obstaculos.')
  summary['scenarios']=scenarios;summary['sourceAdditionalLocalOsmSha256']=hashlib.sha256(rawpath.read_bytes()).hexdigest()
  summary['localMunicipalFallbackCameras']=[r['cameraId'] for r in audit if r.get('method')=='Cartografia vial municipal local'];summary['sourceMunicipalRoadsSha256']=hashlib.sha256(official_path.read_bytes()).hexdigest()
- dump('RESUMEN.json',summary);dump('ASOCIACION_CAMARAS.json',audit);dump('VALIDACION.json',{'passed':True,'cameras':183,'primaryAtMost200M':True,'extensionAtMost50M':True,'gapMethodUnchanged':True,'extra50NotUsedForGap':True,'axisLengthReconciled':True})
+ for row in primary:
+  assert len(row['geometry'].coords)==2 and Point(row['geometry'].coords[0]).distance(points[row['ID_CAMARA']])<1e-8
+ dump('RESUMEN.json',summary);dump('ASOCIACION_CAMARAS.json',audit);dump('VALIDACION.json',{'passed':True,'cameras':183,'primaryAtMost200M':True,'extensionAtMost50M':True,'straightRaysOnly':True,'allOriginsMatchCameraCoordinates':True,'gapMethodUnchanged':True,'extra50NotUsedForGap':True,'axisLengthReconciled':True})
  (OUT/'METODOLOGIA.md').write_text('# Cobertura visual por brazos de via\n\n'+summary['streetMethod']+'\n\n'+summary['method']+'\n\nLas ubicaciones de camaras no se mueven para asociarlas a una via. Las separaciones y las camaras sin asociacion se conservan en ASOCIACION_CAMARAS.json. Los cruces se forman solo con vertices compartidos; no se conectan cruces geometricos interiores automaticamente. Se complementa OSM con la cartografia vial municipal local cuando no hay una via OSM a 30 m. Las dos redes no se conectan artificialmente entre si. Seis camaras quedan sin brazos por falta de asociacion local; sus radios de 200 m siguen participando en el calculo anterior de brechas.\n',encoding='utf-8')
  print(json.dumps(summary,ensure_ascii=False,indent=2))
 if __name__=='__main__':main()
