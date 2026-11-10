@@ -6,7 +6,7 @@ const assert = require("node:assert/strict");
 const root = path.resolve(__dirname, "..");
 const release = JSON.parse(fs.readFileSync(path.join(root, "sig-bridge-active.json"))).root;
 const coverage = JSON.parse(fs.readFileSync(path.join(root, release, "COBERTURA_73_110_183.json"), "utf8"));
-const expected = (group, radius = 200) => coverage.scenarios[radius].groups[group];
+const expected = (group, radius = 250) => coverage.scenarios[radius].groups[group];
 const number = (value, digits = 0) => Number(value).toLocaleString("es-EC", { maximumFractionDigits: digits });
 const script = fs.readFileSync(path.join(root, "riobamba-cobertura-actual.js"), "utf8");
 const html = fs.readFileSync(path.join(root, "visor-seguridad-riobamba-v2.html"), "utf8");
@@ -51,7 +51,7 @@ const checks = ["points", "buffers", "cantonBoundary", "blocks", "blockCoverage"
 const controls = { currentCoverageControls: { querySelectorAll: () => buttons },
   currentCoverageLayerControls: { querySelectorAll: () => checks }, currentCoverageExtent: node() };
 const elements = Object.fromEntries(["workspace", "overlayTitle", "overlayText", "status", "summary", "detailTitle", "detail", "graphicAnalysis", "legend"].map(key => [key, node()]));
-let active = true, radius = 200;
+let active = true, radius = 250;
 const visible = new Set();
 const map = { removeLayer: layer => visible.delete(layer), invalidateSize() {}, fitBounds() {} };
 const context = vm.createContext({ window: { RIOBAMBA_SIG_RELEASE_ROOT: "release/" },

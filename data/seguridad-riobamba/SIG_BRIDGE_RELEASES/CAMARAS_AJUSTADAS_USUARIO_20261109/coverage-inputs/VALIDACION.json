@@ -112,6 +112,42 @@
       "MEDIA": 125,
       "BAJA": 2546,
       "SIN EVIDENCIA": 0
+    },
+    {
+      "radius": 250,
+      "scenario": "REEMPLAZO_30",
+      "cameras": 30,
+      "ALTA": 411,
+      "MEDIA": 148,
+      "BAJA": 2266,
+      "SIN EVIDENCIA": 0
+    },
+    {
+      "radius": 250,
+      "scenario": "A",
+      "cameras": 103,
+      "ALTA": 137,
+      "MEDIA": 129,
+      "BAJA": 2559,
+      "SIN EVIDENCIA": 0
+    },
+    {
+      "radius": 250,
+      "scenario": "B",
+      "cameras": 153,
+      "ALTA": 104,
+      "MEDIA": 101,
+      "BAJA": 2620,
+      "SIN EVIDENCIA": 0
+    },
+    {
+      "radius": 250,
+      "scenario": "C",
+      "cameras": 183,
+      "ALTA": 82,
+      "MEDIA": 86,
+      "BAJA": 2657,
+      "SIN EVIDENCIA": 0
     }
   ],
   "populationP33": 43.0,

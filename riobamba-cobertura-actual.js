@@ -46,7 +46,7 @@ window.createRiobambaCurrentCoverage = function (api) {
       next.groups = { current, interventions, combined: [...current, ...interventions] };
       for (const [key, expected] of Object.entries({ current: 73, interventions: 110, combined: 183 })) {
         if (next.groups[key].length !== expected) throw new Error("Partición de cámaras incorrecta");
-        for (const radius of [100, 150, 200]) if (next.coverage.scenarios[radius].groups[key].cameraCount !== expected) throw new Error("Cobertura desactualizada");
+        for (const radius of [250]) if (next.coverage.scenarios[radius].groups[key].cameraCount !== expected) throw new Error("Cobertura desactualizada");
       }
       const ids = next.groups.combined.map(f => f.properties.ID_CAMARA || f.properties.ID_PROPUESTA || f.properties.ID_POLICIA);
       if (new Set(ids).size !== 183) throw new Error("Cámaras duplicadas");
@@ -146,7 +146,7 @@ window.createRiobambaCurrentCoverage = function (api) {
     el.graphicAnalysis.innerHTML += `<section class="proposal-report"><h3>Áreas y manzanas · radio ${api.radius()} m</h3><div class="proposal-table-wrap"><table class="mini-table"><thead><tr><th>Grupo</th><th>Dentro de Riobamba · km²</th><th>Fuera del cantón · km²</th><th>Radios sin recorte · km²</th><th>Manzanas cubiertas en Riobamba · km²</th><th>Completas</th><th>Parciales</th><th>Sin cobertura</th><th>Total</th></tr></thead><tbody>${Object.entries(scenario.groups).map(([key, m]) => `<tr><td>${esc(labels[key])}</td><td>${number(m.coveredCantonAreaKm2, 2)}</td><td>${number(m.outsideCantonAreaKm2, 2)}</td><td>${number(m.dissolvedAreaKm2, 2)}</td><td>${number(m.blockStats.coveredCantonAreaKm2, 2)}</td><td>${number(m.blockStats.full)}</td><td>${number(m.blockStats.partial)}</td><td>${number(m.blockStats.uncovered)}</td><td>${number(m.blockStats.total)}</td></tr>`).join("")}</tbody></table></div></section>`;
   }
   function renderMethodology() {
-    document.getElementById("methodologyPanel").innerHTML = `<h3>Cobertura potencial · 73 / 110 / 183</h3>` + rowHtml([["Cálculo", "Unión de buffers EPSG:32717; 64 segmentos por cuadrante"], ["Radios", "100, 150 y 200 m"], ["Área", "Intersección con la unión de 18 plataformas, sin duplicar solapes"], ["Población urbana", "Manzanas 060150, zonas 001–899; base oficial 177.213"], ["Población total", "Todas las manzanas disponibles dentro y fuera de plataformas"], ["Población estimada", "Distribución uniforme por área de manzana; datos faltantes no imputados"], ["Geometrías", "Cámaras actuales y propuestas del paquete SIG activo, sin moverlas"]]);
+    document.getElementById("methodologyPanel").innerHTML = `<h3>Cobertura potencial · 73 / 110 / 183</h3>` + rowHtml([["Cálculo", "Unión de buffers EPSG:32717; 64 segmentos por cuadrante"], ["Radios", "250 m"], ["Área", "Intersección con la unión de 18 plataformas, sin duplicar solapes"], ["Población urbana", "Manzanas 060150, zonas 001–899; base oficial 177.213"], ["Población total", "Todas las manzanas disponibles dentro y fuera de plataformas"], ["Población estimada", "Distribución uniforme por área de manzana; datos faltantes no imputados"], ["Geometrías", "Cámaras actuales y propuestas del paquete SIG activo, sin moverlas"]]);
     document.getElementById("methodologyPanel").innerHTML += rowHtml([
       ["Área total de radios", "Unión completa de los radios, incluidas las áreas exteriores a las plataformas"],
       ["Área cubierta en Riobamba", "Unión de radios recortada al límite cantonal original. Excluye la superficie exterior al cantón"],

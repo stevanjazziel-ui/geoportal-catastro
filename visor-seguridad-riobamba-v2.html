@@ -1181,9 +1181,7 @@
             <div class="coverage-controls" id="cameraCoverageControls" data-filter-control="cameraCoverage" hidden>
               <span class="control-label">Escenario</span>
               <div class="segmented" role="group" aria-label="Escenario de cobertura">
-                <button type="button" data-coverage-radius="100">100 m</button>
-                <button type="button" data-coverage-radius="150">150 m</button>
-                <button type="button" data-coverage-radius="200">200 m</button>
+                <button type="button" data-coverage-radius="250">250 m</button>
               </div>
               <span class="control-label" id="coverageUniverseSummary" data-camera-universe-label></span>
               <div id="currentCoverageControls" data-current-coverage-control role="group" aria-label="Grupo de cámaras">
@@ -1197,7 +1195,7 @@
             </div>
             <div class="coverage-controls" id="cameraProposalControls" data-filter-control="cameraProposal" hidden>
               <label>Escenario<select id="proposalScenario" aria-label="Escenario de cámaras propuestas"><option value="actual">103 existentes</option><option value="municipal">103 + 50 municipales</option><option value="future" selected>103 + 50 municipales + 30 Policía</option></select></label>
-              <label>Radio de evaluación<select id="proposalRadius" aria-label="Radio de evaluación de propuesta"><option value="200" selected>200 m</option></select></label>
+              <label>Radio de evaluación<select id="proposalRadius" aria-label="Radio de evaluación de propuesta"><option value="250" selected>250 m</option></select></label>
               <label>Vista territorial<select id="proposalExtent" aria-label="Vista territorial de propuesta"><option value="all">Cantón y propuesta completa</option><option value="ring">Anillo vial</option><option value="urban" selected>18 Plataformas</option><option value="rural">Propuestas rurales</option><option value="abras">Las Abras · dentro del cantón</option></select></label>
             </div>
             <div class="coverage-controls" id="corridorCoverageControls" data-filter-control="corridorCoverage" hidden>
@@ -1376,9 +1374,9 @@
   <link rel="stylesheet" href="./riobamba-cobertura-actual.css?v=manzanas-areas-20261021" />
   <link rel="stylesheet" href="./riobamba-mobile.css?v=layers-sidebar-medium-20261015" />
   <script src="./sig-bridge-release.js?v=mun045-cruce-tren-20261019"></script>
-  <script src="./riobamba-camaras-propuesta.js?v=macaji-entorno-200m-20261110"></script>
-  <script src="./riobamba-cobertura-corredores.js?v=inventario-103-30-20261015"></script>
-  <script src="./riobamba-cobertura-actual.js?v=areas-limite-cantonal-20261021"></script>
+  <script src="./riobamba-camaras-propuesta.js?v=coberturas-250m-20261110"></script>
+  <script src="./riobamba-cobertura-corredores.js?v=cobertura250m-20261110"></script>
+  <script src="./riobamba-cobertura-actual.js?v=250m-areas-limite-cantonal-20261021"></script>
   <script src="./policia-06d01-data.js?v=1"></script>
   <script src="./riobamba-accesibilidad-policial-data.js?v=metodologia-20261001"></script>
   <script src="./riobamba-seguridad-diagnostico-data.js?v=metodologia-20261001"></script>
@@ -1623,7 +1621,7 @@
       let mode = "diagnosis";
       let diagnosisMetric = "cameraProposal";
       let incidentMenuView = "incidents";
-      let cameraCoverageScenario = 150;
+      let cameraCoverageScenario = 250;
       let cameraCoverageSet = "inventory";
       let cameraCoverageCacheKey = "";
       let cameraCoverageCache = null;
@@ -5134,7 +5132,7 @@
 
       function activateDiagnosisMetric(metric) {
         if (["cameraCoverage", "populationCoverage"].includes(metric) && !isCameraCoverageMode()) {
-          cameraCoverageScenario = 200;
+          cameraCoverageScenario = 250;
           currentCoverage.reset();
         }
         if (metric === "cameraProposal" && !isCameraProposalMode()) {

@@ -13,7 +13,7 @@ from shapely.ops import transform, unary_union
 from build_camera_population_comparison import population_comparison
 
 
-def build_coverage(existing, municipal, police, blocks, platforms, output=None, *, canton):
+def build_coverage(existing, municipal, police, blocks, platforms, output=None, *, canton, radii=(100, 150, 200, 250)):
     urban = unary_union([g for g, _ in platforms])
     groups = {
         "current": [(g, p) for g, p in existing if not p["REQUIERE_CAMBIO"]],
@@ -47,7 +47,7 @@ def build_coverage(existing, municipal, police, blocks, platforms, output=None, 
               "mapSimplificationM": .5, "blockAreaToleranceM2": .01, "fullBlockFractionTolerance": 1e-6,
               "cantonBoundary": feature(canton, {"scope": "Limite cantonal de Riobamba"}),
               "blocksFile": "MANZANAS_BASE_COBERTURA.geojson", "scenarios": {}}
-    for radius in (100, 150, 200):
+    for radius in radii:
         comparison = population_comparison(existing, municipal, police, blocks, urban, radius, True)
         scenario = {"population": comparison, "groups": {}}
         for (key, cameras), population in zip(groups.items(), comparison["scenarios"]):

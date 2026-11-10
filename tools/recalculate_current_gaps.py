@@ -155,7 +155,7 @@ def main(final=None, out=None, js_output=None, expected_replacements=31):
         FIXED_INPUT.write_text(json.dumps(clean({'method': method, 'rows': export.drop(columns='geometry').to_dict(orient='records'),
             'sourceSha256': sha(PREVIOUS), 'assignment': 'INTERSECCION ESTRICTA'}), ensure_ascii=False, allow_nan=False), encoding='utf-8')
     comparisons, masks = [], {}
-    for radius in (100, 150, 200):
+    for radius in (100, 150, 200, 250):
         scenarios[str(radius)] = {}
         for key, points in frames.items():
             mask = unary_union([p.buffer(radius, quad_segs=64) for p in {p.wkb: p for p in points}.values()])
@@ -238,7 +238,7 @@ def main(final=None, out=None, js_output=None, expected_replacements=31):
                 (inventory_scenarios if key == 'A' else replacement_scenarios)[str(radius)] = coverage
                 clips['inventory' if key == 'A' else 'municipal'][str(radius)] = {'type': 'FeatureCollection', 'features': clip_features}
             print(json.dumps(comparisons[-1]), flush=True)
-    for radius in (100, 150, 200):
+    for radius in (100, 150, 200, 250):
         for first, second in (('A', 'B'), ('B', 'C')):
             assert masks[(first, radius)].difference(masks[(second, radius)]).area < .001
         for code in scenarios[str(radius)]['A']['byMan']:
@@ -263,7 +263,7 @@ def main(final=None, out=None, js_output=None, expected_replacements=31):
     metadata = {'generatedAt': datetime.now(ZoneInfo('America/Guayaquil')).isoformat(timespec='seconds'),
         'crs': 'EPSG:32717', 'inventoried': 103, 'located': 103, 'uniqueSites': unique_sites,
         'replacementCount': expected_replacements,
-        'municipalProposals': 50, 'policeProposals': 30, 'radii': [100, 150, 200],
+        'municipalProposals': 50, 'policeProposals': 30, 'radii': [100, 150, 200, 250],
         'method': method, 'sourceHashes': hashes, 'urbanHotspotCellM': 100, 'urbanHotspotDistanceM': 200,
         'blockIncidentScopeAudit': {'previousUrbanBlockCount': previous_urban_assignments, 'urbanStrictlyAssigned': strictly_assigned,
             'rule': 'Solo eventos dentro del ambito urbano operativo. Empates de interseccion: menor ID_MANZANA; sin proximidad. Los atributos rurales no se modifican.'},
@@ -292,7 +292,7 @@ def main(final=None, out=None, js_output=None, expected_replacements=31):
         'Recalculo con camaras del cierre final, sin reoptimizar 50 municipales ni 30 policiales.',
         f'Escenarios A=103, B=153, C=183; {replacement_key}: subconjunto confirmado para cambio.',
         f'103 equipos existentes en {unique_sites} emplazamientos; la union evita doble conteo.',
-        'EPSG:32717; radios 100/150/200 m, buffer quad_segs=64 y union disuelta antes de intersectar.',
+        'EPSG:32717; radios 100/150/200/250 m, buffer quad_segs=64 y union disuelta antes de intersectar.',
         'COB = porcentaje de area completa de la manzana: baja <33%, parcial 33-66%, buena >66%.',
         f'P33 poblacion={method["populationP33"]}; P66={method["populationP66"]}; incidencia P33={method["incidenceP33"]}; P66={method["incidenceP66"]}. Valores y problematicas congelados entre escenarios/radios.',
         'Problematica ALTA: Hot Spot D/V95% o99%; MEDIA: D/V90% o tasa D/V superior a P66 sin Hot Spot>=95%. Convivencia>=95% con eventos observados en la manzana puede aportar MEDIA, nunca ALTA por si sola. BAJA: otras situaciones con datos validos.',
@@ -303,7 +303,7 @@ def main(final=None, out=None, js_output=None, expected_replacements=31):
         metadata['eventAssignment'] + ' Los no asignados NO se usan para clasificar manzanas; si conservan su uso original en Gi* y cobertura puntual.',
         'Brechas provisionales: P66 de incidencia0 refleja atribucion incompleta, no ausencia de problematica.',
         'Esta clasificacion constituye una herramienta operativa de priorizacion territorial para el presente estudio. No representa por si sola una medida de peligrosidad, riesgo delictivo ni una metodologia universal de brecha de videovigilancia.',
-        'BRECHAS_ACTUALIZADAS.gpkg, capa BRECHAS_POR_MANZANA, y CSV: geometrias originales y campos COB_A/B/C_100/150/200, BRECHA_A/B/C_100/150/200, REGLA y alias COB_100/150/200,BRECHA_100/150/200 del escenario A.',
+        'BRECHAS_ACTUALIZADAS.gpkg, capa BRECHAS_POR_MANZANA, y CSV: geometrias originales y campos COB_A/B/C_100/150/200/250, BRECHA_A/B/C_100/150/200/250, REGLA y alias COB_100/150/200/250,BRECHA_100/150/200/250 del escenario A.',
         'INSUMOS_FIJOS_BRECHAS.json: atributos y percentiles congelados para reproducir con geometrias censales originales. Ejecutar tools/recalculate_current_gaps.py con GeoPandas, Pyogrio, Shapely2 y PyProj.',
         'RESULTADOS.json: fuentes SHA256, coberturas, estadisticas, reglas, clips visuales y datos del visor. VALIDACION.json y COMPARACION_ESCENARIOS.csv: controles y conteos.', ''])
     (OUT / 'METODOLOGIA_BRECHAS.md').write_text(documentation, encoding='utf-8')

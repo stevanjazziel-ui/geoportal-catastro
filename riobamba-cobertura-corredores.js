@@ -1,4 +1,4 @@
-/* Corridor coverage view backed by metric 200 m calculations. */
+/* Corridor coverage view backed by metric 250 m calculations. */
 (function () {
   "use strict";
 
@@ -81,7 +81,7 @@
 
     function cameraPopup(camera, corridor) {
       const referenceOnly = corridor?.status === "REFERENCIA_SIN_INTERSECCION";
-      return `<strong>${esc(camera.id)}</strong><br>Origen: ${esc(camera.origin)}<br>Tipo: ${esc(camera.type)}<br>Radio: 200 m<br>Corredor: ${esc(corridorLabels[selectedCorridor])}<br>Estado: ${referenceOnly ? "Referencia sin intersección con el tramo cantonal" : "Contribuye a la cobertura"}<br>Longitud cubierta por esta cámara: ${meters(corridor?.lengthM)}<br>Corredores atendidos: ${camera.corridors.map((item) => esc(item.name)).join(", ")}`;
+      return `<strong>${esc(camera.id)}</strong><br>Origen: ${esc(camera.origin)}<br>Tipo: ${esc(camera.type)}<br>Radio: 250 m<br>Corredor: ${esc(corridorLabels[selectedCorridor])}<br>Estado: ${referenceOnly ? "Referencia sin intersección con el tramo cantonal" : "Contribuye a la cobertura"}<br>Longitud cubierta por esta cámara: ${meters(corridor?.lengthM)}<br>Corredores atendidos: ${camera.corridors.map((item) => esc(item.name)).join(", ")}`;
     }
 
     function drawSegments() {
@@ -109,7 +109,7 @@
       cameras.forEach((camera) => {
         const corridor = camera.corridors.find((item) => item.key === selectedCorridor);
         const color = cameraColors[camera.group === "existing" && camera.requiresChange ? "change" : camera.group] || "#246db5";
-        if (el.toggleCorridorBuffers?.checked) L.circle([camera.lat, camera.lng], { radius: 200, color, weight: 1.5, opacity: 0.75, fillColor: color, fillOpacity: 0.13, interactive: false }).addTo(bufferLayer);
+        if (el.toggleCorridorBuffers?.checked) L.circle([camera.lat, camera.lng], { radius: 250, color, weight: 1.5, opacity: 0.75, fillColor: color, fillOpacity: 0.13, interactive: false }).addTo(bufferLayer);
         L.marker([camera.lat, camera.lng], { icon: icon(camera), title: camera.id }).addTo(cameraLayer)
           .bindPopup(cameraPopup(camera, corridor))
           .bindTooltip(esc(camera.id), { direction: "top", opacity: 0.95 })
@@ -141,24 +141,24 @@
       if (selected?.kind === "camera") {
         const camera = selected.camera;
         const rows = [
-          ["ID", camera.id], ["Origen", camera.origin], ["Tipo", camera.type], ["Radio", "200 m"],
+          ["ID", camera.id], ["Origen", camera.origin], ["Tipo", camera.type], ["Radio", "250 m"],
           ["Corredor seleccionado", corridorLabels[selectedCorridor]], ["Longitud cubierta por esta cámara", meters(selected.corridor?.lengthM)],
           ["Estado", selected.corridor?.status === "REFERENCIA_SIN_INTERSECCION" ? "Referencia sin intersección con el tramo cantonal" : "Contribuye a la cobertura"],
           ["Corredores atendidos", camera.corridors.map((item) => item.name).join(", ")],
         ];
         el.detailTitle.textContent = "Detalle de cámara";
-        el.detail.innerHTML = `<section class="corridor-detail"><h3>${esc(camera.id)}</h3>${rowHtml(rows)}<p>La longitud individual se informa por intersección del buffer métrico de 200 m con el eje; no se suma para obtener la cobertura total.</p></section>`;
+        el.detail.innerHTML = `<section class="corridor-detail"><h3>${esc(camera.id)}</h3>${rowHtml(rows)}<p>La longitud individual se informa por intersección del buffer métrico de 250 m con el eje; no se suma para obtener la cobertura total.</p></section>`;
         return;
       }
       if (selected?.kind === "segment") {
         const p = selected.feature.properties || {};
         el.detailTitle.textContent = p.TIPO === "SIN_COBERTURA" ? "Detalle de tramo sin cobertura" : "Detalle de tramo";
-        el.detail.innerHTML = `<section class="corridor-detail"><h3>${esc(corridorLabels[p.CORREDOR] || p.CORREDOR)}</h3>${rowHtml([["Estado", p.TIPO === "SIN_COBERTURA" ? "Sin cobertura" : "Cubierto"], ["Longitud", meters(p.LONGITUD_M)], ["ID de tramo", p.ID], ["Cámara más cercana", p.CAMARA_MAS_CERCANA || "No disponible"], ["Distancia a cámara", meters(p.DISTANCIA_CAMARA_M)]])}<p>El segmento es resultado de la diferencia entre el eje del corredor y la unión disuelta de buffers de 200 m.</p></section>`;
+        el.detail.innerHTML = `<section class="corridor-detail"><h3>${esc(corridorLabels[p.CORREDOR] || p.CORREDOR)}</h3>${rowHtml([["Estado", p.TIPO === "SIN_COBERTURA" ? "Sin cobertura" : "Cubierto"], ["Longitud", meters(p.LONGITUD_M)], ["ID de tramo", p.ID], ["Cámara más cercana", p.CAMARA_MAS_CERCANA || "No disponible"], ["Distancia a cámara", meters(p.DISTANCIA_CAMARA_M)]])}<p>El segmento es resultado de la diferencia entre el eje del corredor y la unión disuelta de buffers de 250 m.</p></section>`;
         return;
       }
       const current = corridorData();
       el.detailTitle.textContent = "Detalle de corredor";
-      el.detail.innerHTML = `<section class="corridor-detail"><h3>${esc(corridorLabels[selectedCorridor])}</h3>${rowHtml([["Escenario", scenarioLabels[scenario]], ["Radio", "200 m"], ["Longitud total", km(current.totalM)], ["Longitud cubierta", km(current.coveredM)], ["Longitud sin cobertura", meters(current.uncoveredM)], ["Cobertura", pct(current.coveredPct)], ["Cámaras que contribuyen", String((current.cameras || []).length)], ["Cámaras de referencia", String((current.referenceCameras || []).length)]])}<p>Las cámaras de referencia se muestran por su asociación operativa al corredor; solo cuentan como cobertura cuando su buffer intersecta el eje cantonal.</p></section>`;
+      el.detail.innerHTML = `<section class="corridor-detail"><h3>${esc(corridorLabels[selectedCorridor])}</h3>${rowHtml([["Escenario", scenarioLabels[scenario]], ["Radio", "250 m"], ["Longitud total", km(current.totalM)], ["Longitud cubierta", km(current.coveredM)], ["Longitud sin cobertura", meters(current.uncoveredM)], ["Cobertura", pct(current.coveredPct)], ["Cámaras que contribuyen", String((current.cameras || []).length)], ["Cámaras de referencia", String((current.referenceCameras || []).length)]])}<p>Las cámaras de referencia se muestran por su asociación operativa al corredor; solo cuentan como cobertura cuando su buffer intersecta el eje cantonal.</p></section>`;
     }
 
     function renderGraphics() {
@@ -171,12 +171,12 @@
         return `<div class="corridor-bar-row"><span>${esc(corridorLabels[key])}</span><div><i style="width:${Math.max(0, Math.min(100, current.coveredPct))}%;background:#18815b"></i></div><strong>${pct(current.coveredPct)}</strong></div>`;
       }).join("");
       const comparison = Object.keys(corridorLabels).map((key) => `<tr><td>${esc(corridorLabels[key])}</td>${["A", "B", "C"].map((code) => `<td>${pct(corridorData(key, code).coveredPct)}</td>`).join("")}</tr>`).join("");
-      el.graphicAnalysis.innerHTML = `<section class="graphic-card corridor-graphic-card"><h3>Cobertura de corredores · ${esc(scenarioLabels[scenario])}</h3>${bars}</section><section class="graphic-card corridor-graphic-card"><h3>Indicadores de corredores</h3><div class="table-scroll"><table class="mini-table"><thead><tr><th>Corredor</th><th>Total</th><th>Cubierto</th><th>Sin cobertura</th><th>% cubierto</th><th>Cámaras</th></tr></thead><tbody>${rows}</tbody></table></div></section><section class="graphic-card corridor-graphic-card"><h3>Comparación de escenarios · radio 200 m</h3><div class="table-scroll"><table class="mini-table"><thead><tr><th>Corredor</th><th>103</th><th>153</th><th>183</th></tr></thead><tbody>${comparison}</tbody></table></div></section>`;
+      el.graphicAnalysis.innerHTML = `<section class="graphic-card corridor-graphic-card"><h3>Cobertura de corredores · ${esc(scenarioLabels[scenario])}</h3>${bars}</section><section class="graphic-card corridor-graphic-card"><h3>Indicadores de corredores</h3><div class="table-scroll"><table class="mini-table"><thead><tr><th>Corredor</th><th>Total</th><th>Cubierto</th><th>Sin cobertura</th><th>% cubierto</th><th>Cámaras</th></tr></thead><tbody>${rows}</tbody></table></div></section><section class="graphic-card corridor-graphic-card"><h3>Comparación de escenarios · radio 250 m</h3><div class="table-scroll"><table class="mini-table"><thead><tr><th>Corredor</th><th>103</th><th>153</th><th>183</th></tr></thead><tbody>${comparison}</tbody></table></div></section>`;
       el.graphicAnalysis.querySelectorAll("[data-corridor-row]").forEach((node) => node.addEventListener("click", () => { selectedCorridor = node.dataset.corridorRow; selected = null; fitNeeded = true; syncControls(); render(); }));
     }
 
     function renderLegend() {
-      el.legend.innerHTML = `<div><span class="corridor-key covered"></span>Tramo cubierto · buffer 200 m</div><div><span class="corridor-key uncovered"></span>Tramo sin cobertura</div><div><span class="corridor-key existing"></span>Cámara existente</div><div><span class="corridor-key change"></span>Existente para cambio</div><div><span class="corridor-key municipal"></span>Municipal propuesta</div><div><span class="corridor-key police"></span>Policía propuesta</div>${compare ? `<div><span class="corridor-key scenario-a"></span>103 existentes · comparación</div><div><span class="corridor-key scenario-b"></span>153 equipos · comparación</div><div><span class="corridor-key scenario-c"></span>183 equipos · comparación</div>` : ""}<div>Radio de influencia: 200 m (radio, no diámetro).</div>`;
+      el.legend.innerHTML = `<div><span class="corridor-key covered"></span>Tramo cubierto · buffer 250 m</div><div><span class="corridor-key uncovered"></span>Tramo sin cobertura</div><div><span class="corridor-key existing"></span>Cámara existente</div><div><span class="corridor-key change"></span>Existente para cambio</div><div><span class="corridor-key municipal"></span>Municipal propuesta</div><div><span class="corridor-key police"></span>Policía propuesta</div>${compare ? `<div><span class="corridor-key scenario-a"></span>103 existentes · comparación</div><div><span class="corridor-key scenario-b"></span>153 equipos · comparación</div><div><span class="corridor-key scenario-c"></span>183 equipos · comparación</div>` : ""}<div>Radio de influencia: 250 m (radio, no diámetro).</div>`;
     }
 
     function syncControls() {
@@ -190,7 +190,7 @@
 
     async function load() {
       if (loadedPromise) return loadedPromise;
-      loadedPromise = fetch((window.RIOBAMBA_SIG_RELEASE_ROOT || "./data/seguridad-riobamba/POLICIA_KDE_INTERSECCIONES_20261015/") + "CORRIDOR_COVERAGE_200M.json?v=policia-kde-intersecciones-20261015")
+      loadedPromise = fetch((window.RIOBAMBA_SIG_RELEASE_ROOT || "./data/seguridad-riobamba/POLICIA_KDE_INTERSECCIONES_20261015/") + "CORRIDOR_COVERAGE_250M.json?v=policia-kde-intersecciones-20261015")
         .then((response) => { if (!response.ok) throw new Error("No se pudo cargar la cobertura de corredores"); return response.json(); })
         .then((value) => { data = value; return value; });
       return loadedPromise;
@@ -214,7 +214,7 @@
       active = true;
       el.workspace.classList.add("corridor-active");
       el.overlayTitle.textContent = "Cobertura de corredores";
-      el.overlayText.textContent = "Cobertura real de ejes estratégicos mediante unión de buffers métricos de 200 m.";
+      el.overlayText.textContent = "Cobertura real de ejes estratégicos mediante unión de buffers métricos de 250 m.";
       el.status.textContent = "Cargando cobertura de corredores…";
       syncControls();
       try { await load(); } catch (error) { el.status.textContent = error.message; return; }
@@ -225,7 +225,7 @@
       renderGraphics();
       renderLegend();
       syncControls();
-      el.status.textContent = `${scenarioLabels[scenario]} · ${corridorLabels[selectedCorridor]} · radio 200 m · cobertura calculada en ${data.metadata.metricCrs}.`;
+      el.status.textContent = `${scenarioLabels[scenario]} · ${corridorLabels[selectedCorridor]} · radio 250 m · cobertura calculada en ${data.metadata.metricCrs}.`;
       api.map.invalidateSize();
     }
 

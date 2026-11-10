@@ -1,19 +1,19 @@
 "use strict";
 const fs=require('node:fs'),vm=require('node:vm'),path=require('node:path'),assert=require('node:assert/strict');
-const root=path.resolve(__dirname,'..'),folder=path.join(root,'data/seguridad-riobamba/COBERTURA_RECTA_20261110');
+const root=path.resolve(__dirname,'..'),folder=path.join(root,'data/seguridad-riobamba/COBERTURA_250M_20261110');
 const json=name=>JSON.parse(fs.readFileSync(path.join(folder,name),'utf8'));
 const source=fs.readFileSync(path.join(root,'riobamba-camaras-propuesta.js'),'utf8');new vm.Script(source);
-const summary=json('RESUMEN.json'),primary=json('LINEAS_PRINCIPALES_200M.geojson'),extra=json('EXTENSION_VISUAL_50M.geojson'),gaps=json('BRECHA_MACAJI_TRAMO_200M.geojson');
-assert.equal(summary.extra50IncludedInGapCalculation,false);assert.equal(summary.radiusForGapM,200);
+const summary=json('RESUMEN.json'),primary=json('LINEAS_PRINCIPALES_250M.geojson'),extra={features:[]},gaps=json('BRECHA_MACAJI_TRAMO_250M.geojson');
+assert.equal(summary.formerVisual50IncludedInCoverage,true);assert.equal(summary.radiusForGapM,250);
 assert.equal(summary.geometryMode,'STRAIGHT_FROM_CAMERA');assert.equal(summary.exactCameraOrigin,true);
 assert.ok(primary.features.every(f=>f.geometry.coordinates.length===2));assert.ok(extra.features.every(f=>f.geometry.coordinates.length===2));
-assert.ok(Math.abs(summary.uncoveredMacaji200M-251.99827650681033)<1e-7);
-assert.ok(Math.abs(gaps.features.reduce((a,f)=>a+f.properties.LONGITUD_M,0)-summary.uncoveredMacaji200M)<1e-7);
+assert.ok(Math.abs(summary.uncoveredMacaji250M-81.38382543661346)<1e-7);
+assert.ok(Math.abs(gaps.features.reduce((a,f)=>a+f.properties.LONGITUD_M,0)-summary.uncoveredMacaji250M)<1e-7);
 const selection=source.match(/next\.voids = .*;/)[0];
 const mixed={next:{macajiGaps200:{features:[...gaps.features,{properties:{CORREDOR:'ANILLO_VIAL'}},{properties:{CORREDOR:'CICLOVIAS'}}]}},fc:features=>({type:'FeatureCollection',features})};
 vm.runInNewContext(selection,mixed);assert.deepEqual(mixed.next.voids.features,gaps.features);
 const missing={next:{},fc:mixed.fc};vm.runInNewContext(selection,missing);assert.equal(missing.next.voids.features.length,0);
-assert.ok(primary.features.every(f=>f.properties.LONGITUD_M<=200.000001));assert.ok(extra.features.every(f=>f.properties.LONGITUD_M<=50.000001&&f.properties.SOLO_VISUAL));
+assert.ok(primary.features.every(f=>f.properties.LONGITUD_M<=250.000001));assert.ok(extra.features.every(f=>f.properties.LONGITUD_M<=50.000001&&f.properties.SOLO_VISUAL));
 const draw=source.slice(source.indexOf('  function draw() {'),source.indexOf('  function syncLayers() {'));
 const styles=source.match(/const streetStyles = (.*);/)[1];
 for(const scenarioCode of ['A','B','C']){
@@ -26,6 +26,6 @@ for(const scenarioCode of ['A','B','C']){
  context.drawKey='';context.layerVisible=key=>key==='municipal';vm.runInNewContext('draw();',context);
  assert.ok(output.streetCoverage200.data.features.every(f=>f.properties.SOURCE_GROUP==='municipal'));
 }
-assert.ok(source.includes('Extensión clara de 50 m'));
-assert.ok(source.includes('Solo visual; excluida del cálculo'));
-console.log('PASS: green dashed 200m arms, lighter 50m visual-only extensions, scenario filtering and unchanged 200m gap calculation.');
+assert.ok(source.includes('Últimos 50 m'));
+assert.ok(source.includes('Incluidos en la cobertura de 250 m'));
+console.log('PASS: green dashed 250m rays, scenario filtering and recalculated 250m gaps.');

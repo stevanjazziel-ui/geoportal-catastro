@@ -1,6 +1,15 @@
-# Camaras ajustadas por usuario
+# Cobertura potencial de 250 m
 
-103 existentes, 50 municipales y 30 policiales. Se importan exactamente las geometrias recibidas, se actualizan coordenadas y se recalculan radios metricos de 200 m, coberturas, poblacion y brechas. No se optimizan posiciones. Los nombres viales previos requieren cotejo donde se movieron puntos. Los radios no certifican visibilidad.
+Cambio de radio autorizado por el usuario. Se mantienen las 183 posiciones. Buffers disueltos EPSG:32717; 64 segmentos por cuadrante. Area y poblacion sin duplicar solapes. Rayos rectos hasta 250 m; los ultimos 50 m ahora forman parte del analisis. Gi* y KDE no recalculados; se actualiza su cobertura.
 
-Movimientos: {'existing': 1, 'municipal': 17, 'police': 5}
-
+{
+  "passed": true,
+  "cameraPositionsUnchanged": true,
+  "cameras": 183,
+  "radiusM": 250,
+  "rayCount": 612,
+  "gapLengthM": 81.38382543661346,
+  "gapSegments": 1,
+  "population73": 65387.770782086984,
+  "population183": 123391.34650914102
+}
