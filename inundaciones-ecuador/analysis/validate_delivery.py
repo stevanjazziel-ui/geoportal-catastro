@@ -8,7 +8,7 @@ class CheckAssets(HTMLParser):
         if tag in ('script','link'):
             ref=attrs.get('src') or attrs.get('href')
             if ref and not ref.startswith('http'):
-                assert (ROOT/'dist'/ref).is_file(),ref
+                assert (ROOT/'dist'/ref.split('?',1)[0]).is_file(),ref
 for page in ('index.html','datos-hidraulicos.html'):
     CheckAssets().feed((ROOT/'dist'/page).read_text(encoding='utf-8'))
 cat=json.loads((DATA/'cities.json').read_text(encoding='utf-8'));assert len(cat['cities'])==38
