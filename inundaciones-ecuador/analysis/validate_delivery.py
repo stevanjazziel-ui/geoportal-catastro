@@ -1,6 +1,16 @@
 import gzip,json,pathlib
+from html.parser import HTMLParser
 import numpy as np
 ROOT=pathlib.Path(__file__).parent;DATA=ROOT/'dist/data'
+class CheckAssets(HTMLParser):
+    def handle_starttag(self,tag,attrs):
+        attrs=dict(attrs)
+        if tag in ('script','link'):
+            ref=attrs.get('src') or attrs.get('href')
+            if ref and not ref.startswith('http'):
+                assert (ROOT/'dist'/ref).is_file(),ref
+for page in ('index.html','datos-hidraulicos.html'):
+    CheckAssets().feed((ROOT/'dist'/page).read_text(encoding='utf-8'))
 cat=json.loads((DATA/'cities.json').read_text(encoding='utf-8'));assert len(cat['cities'])==38
 ids=[c['id'] for c in cat['cities']];assert len(set(ids))==38
 checks=[]

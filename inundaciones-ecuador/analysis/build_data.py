@@ -12,7 +12,7 @@ CACHE=ROOT/'raw'; OUT=ROOT/'dist'/'data'
 CACHE.mkdir(exist_ok=True); OUT.mkdir(parents=True,exist_ok=True)
 ZOOM=11; N=192; CORE=128
 PROV={'01':'Galápagos','02':'Azuay','03':'Bolívar','04':'Cañar','05':'Carchi','06':'Chimborazo','07':'Cotopaxi','08':'El Oro','09':'Esmeraldas','10':'Guayas','11':'Imbabura','12':'Loja','13':'Los Ríos','14':'Manabí','15':'Morona Santiago','17':'Pastaza','18':'Pichincha','19':'Tungurahua','20':'Zamora Chinchipe','22':'Sucumbíos','23':'Napo','24':'Orellana','25':'Santa Elena','26':'Santo Domingo de los Tsáchilas'}
-COSTA={'08','09','10','13','14','25'}; AMAZON={'15','17','20','22','23','24'}
+COSTA={'08','09','10','13','14','25','26'}; AMAZON={'15','17','20','22','23','24'}
 
 def download(url,path):
     if path.exists(): return path.read_bytes()
