@@ -1,0 +1,1939 @@
+{
+ "created": "2026-11-11T22:27:09.544677+00:00",
+ "method_version": "terrain-screening-v1",
+ "selection": "30 localidades continentales con mayor población GeoNames más capitales provinciales/nacional (PPLA/PPLC). No es un ranking censal INEC.",
+ "cities": [
+  {
+   "id": "3652462",
+   "name": "Quito",
+   "lat": -0.22985,
+   "lon": -78.52495,
+   "code": "18",
+   "population": 2781641,
+   "feature": "PPLC",
+   "geonames_date": "2025-12-15",
+   "province": "Pichincha",
+   "region": "Sierra",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Localizada",
+   "high_pct": 9.1,
+   "moderate_pct": 11.4,
+   "coverage_pct": 100.0,
+   "window_km2": 95.72,
+   "land_km2": 95.72,
+   "high_km2": 8.69,
+   "resolution_m": 76.4,
+   "elevation_median": 2923.0,
+   "slope_median": 11.1,
+   "bbox": [
+    -78.5687255859375,
+    -0.2739705135764643,
+    -78.4808349609375,
+    -0.18608060549653663
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/576/1024.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/577/1024.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/576/1025.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/577/1025.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3657509",
+   "name": "Guayaquil",
+   "lat": -2.19616,
+   "lon": -79.88621,
+   "code": "10",
+   "population": 2723665,
+   "feature": "PPLA",
+   "geonames_date": "2024-11-09",
+   "province": "Guayas",
+   "region": "Costa",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Alta",
+   "high_pct": 77.3,
+   "moderate_pct": 13.5,
+   "coverage_pct": 100.0,
+   "window_km2": 95.58,
+   "land_km2": 80.67,
+   "high_km2": 62.33,
+   "resolution_m": 76.4,
+   "elevation_median": 7.0,
+   "slope_median": 1.1,
+   "bbox": [
+    -79.93034362792969,
+    -2.2399534886981027,
+    -79.84245300292969,
+    -2.1521274221063993
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/569/1036.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3658666",
+   "name": "Cuenca",
+   "lat": -2.8953,
+   "lon": -78.9963,
+   "code": "02",
+   "population": 636996,
+   "feature": "PPLA",
+   "geonames_date": "2025-07-07",
+   "province": "Azuay",
+   "region": "Sierra",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Media",
+   "high_pct": 14.1,
+   "moderate_pct": 17.7,
+   "coverage_pct": 100.0,
+   "window_km2": 95.48,
+   "land_km2": 95.48,
+   "high_km2": 13.49,
+   "resolution_m": 76.3,
+   "elevation_median": 2569.0,
+   "slope_median": 5.5,
+   "bbox": [
+    -79.04045104980469,
+    -2.938926463242258,
+    -78.95256042480469,
+    -2.8511480185444924
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/574/1040.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3651297",
+   "name": "Santo Domingo",
+   "lat": -0.25368,
+   "lon": -79.17628,
+   "code": "26",
+   "population": 458580,
+   "feature": "PPLA",
+   "geonames_date": "2026-04-13",
+   "province": "Santo Domingo de los Tsáchilas",
+   "region": "Sierra",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Media",
+   "high_pct": 20.9,
+   "moderate_pct": 33.9,
+   "coverage_pct": 100.0,
+   "window_km2": 95.72,
+   "land_km2": 95.72,
+   "high_km2": 19.97,
+   "resolution_m": 76.4,
+   "elevation_median": 518.0,
+   "slope_median": 2.3,
+   "bbox": [
+    -79.22035217285156,
+    -0.2973161705566553,
+    -79.13246154785156,
+    -0.20942641354642758
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/573/1025.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "unavailable",
+    "features": [],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   },
+   "geonames_original_name": "Santo Domingo de los Colorados"
+  },
+  {
+   "id": "3660689",
+   "name": "Ambato",
+   "lat": -1.24908,
+   "lon": -78.61675,
+   "code": "19",
+   "population": 387309,
+   "feature": "PPLA",
+   "geonames_date": "2022-09-19",
+   "province": "Tungurahua",
+   "region": "Sierra",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Localizada",
+   "high_pct": 8.3,
+   "moderate_pct": 12.3,
+   "coverage_pct": 100.0,
+   "window_km2": 95.68,
+   "land_km2": 95.68,
+   "high_km2": 7.97,
+   "resolution_m": 76.4,
+   "elevation_median": 2649.0,
+   "slope_median": 6.0,
+   "bbox": [
+    -78.66073608398438,
+    -1.2928437684040124,
+    -78.57284545898438,
+    -1.2049740311158104
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/576/1030.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/577/1030.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/576/1031.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/577/1031.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3652941",
+   "name": "Portoviejo",
+   "lat": -1.05764,
+   "lon": -80.45145,
+   "code": "14",
+   "population": 321800,
+   "feature": "PPLA",
+   "geonames_date": "2026-04-13",
+   "province": "Manabí",
+   "region": "Costa",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Alta",
+   "high_pct": 33.9,
+   "moderate_pct": 13.0,
+   "coverage_pct": 100.0,
+   "window_km2": 95.69,
+   "land_km2": 95.69,
+   "high_km2": 32.39,
+   "resolution_m": 76.4,
+   "elevation_median": 80.0,
+   "slope_median": 6.0,
+   "bbox": [
+    -80.49545288085938,
+    -1.1013115719664321,
+    -80.40756225585938,
+    -1.0134359218013393
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/565/1029.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/566/1029.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/565/1030.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/566/1030.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3658192",
+   "name": "Durán (Eloy Alfaro)",
+   "lat": -2.16919,
+   "lon": -79.83987,
+   "code": "10",
+   "population": 315724,
+   "feature": "PPLA2",
+   "geonames_date": "2026-09-14",
+   "province": "Guayas",
+   "region": "Costa",
+   "selection": "Entre las 30 localidades continentales con mayor población en GeoNames",
+   "status": "ok",
+   "priority": "Alta",
+   "high_pct": 86.5,
+   "moderate_pct": 10.2,
+   "coverage_pct": 100.0,
+   "window_km2": 95.59,
+   "land_km2": 87.78,
+   "high_km2": 75.9,
+   "resolution_m": 76.4,
+   "elevation_median": 4.0,
+   "slope_median": 0.8,
+   "bbox": [
+    -79.88365173339844,
+    -2.2131945322934166,
+    -79.79576110839844,
+    -2.1253669023368573
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/569/1035.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/570/1035.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/569/1036.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/570/1036.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   },
+   "geonames_original_name": "Eloy Alfaro"
+  },
+  {
+   "id": "3654533",
+   "name": "Machala",
+   "lat": -3.25886,
+   "lon": -79.95876,
+   "code": "08",
+   "population": 289141,
+   "feature": "PPLA",
+   "geonames_date": "2026-04-13",
+   "province": "El Oro",
+   "region": "Costa",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Alta",
+   "high_pct": 89.0,
+   "moderate_pct": 10.7,
+   "coverage_pct": 100.0,
+   "window_km2": 95.42,
+   "land_km2": 92.93,
+   "high_km2": 82.7,
+   "resolution_m": 76.3,
+   "elevation_median": 6.0,
+   "slope_median": 0.8,
+   "bbox": [
+    -80.00244140625,
+    -3.302993831419392,
+    -79.91455078125,
+    -3.2152453663338183
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/568/1042.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/569/1042.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3654667",
+   "name": "Loja",
+   "lat": -3.99313,
+   "lon": -79.20422,
+   "code": "12",
+   "population": 274112,
+   "feature": "PPLA",
+   "geonames_date": "2026-04-13",
+   "province": "Loja",
+   "region": "Sierra",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Localizada",
+   "high_pct": 6.3,
+   "moderate_pct": 9.6,
+   "coverage_pct": 100.0,
+   "window_km2": 95.26,
+   "land_km2": 95.26,
+   "high_km2": 6.03,
+   "resolution_m": 76.3,
+   "elevation_median": 2212.0,
+   "slope_median": 10.3,
+   "bbox": [
+    -79.24850463867188,
+    -4.036878063781356,
+    -79.16061401367188,
+    -3.949200800395344
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/573/1046.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/573/1047.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3654410",
+   "name": "Manta",
+   "lat": -0.94937,
+   "lon": -80.73137,
+   "code": "14",
+   "population": 264281,
+   "feature": "PPLA2",
+   "geonames_date": "2024-05-15",
+   "province": "Manabí",
+   "region": "Costa",
+   "selection": "Entre las 30 localidades continentales con mayor población en GeoNames",
+   "status": "ok",
+   "priority": "Media",
+   "high_pct": 20.3,
+   "moderate_pct": 20.8,
+   "coverage_pct": 93.9,
+   "window_km2": 95.7,
+   "land_km2": 61.69,
+   "high_km2": 12.49,
+   "resolution_m": 76.4,
+   "elevation_median": 40.0,
+   "slope_median": 2.0,
+   "bbox": [
+    -80.77560424804688,
+    -0.993526256129801,
+    -80.68771362304688,
+    -0.9056477102926531
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/564/1029.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/565/1029.png"
+   ],
+   "unknown_pct": 6.1,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3652350",
+   "name": "Riobamba",
+   "lat": -1.66506,
+   "lon": -78.65887,
+   "code": "06",
+   "population": 264048,
+   "feature": "PPLA",
+   "geonames_date": "2026-04-13",
+   "province": "Chimborazo",
+   "region": "Sierra",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Media",
+   "high_pct": 20.3,
+   "moderate_pct": 23.4,
+   "coverage_pct": 100.0,
+   "window_km2": 95.64,
+   "land_km2": 95.64,
+   "high_km2": 19.38,
+   "resolution_m": 76.4,
+   "elevation_median": 2791.0,
+   "slope_median": 3.1,
+   "bbox": [
+    -78.70262145996094,
+    -1.7088072848596814,
+    -78.61473083496094,
+    -1.6209537709556878
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/576/1033.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3655673",
+   "name": "Ibarra",
+   "lat": 0.34881,
+   "lon": -78.12462,
+   "code": "11",
+   "population": 221149,
+   "feature": "PPLA",
+   "geonames_date": "2026-04-13",
+   "province": "Imbabura",
+   "region": "Sierra",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Media",
+   "high_pct": 15.4,
+   "moderate_pct": 14.3,
+   "coverage_pct": 100.0,
+   "window_km2": 95.72,
+   "land_km2": 95.72,
+   "high_km2": 14.78,
+   "resolution_m": 76.4,
+   "elevation_median": 2246.0,
+   "slope_median": 5.4,
+   "bbox": [
+    -78.16841125488281,
+    0.30486916684551396,
+    -78.08052062988281,
+    0.39275815448371165
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/579/1021.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/579/1022.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3657990",
+   "name": "Esmeraldas",
+   "lat": 0.9592,
+   "lon": -79.65397,
+   "code": "09",
+   "population": 218727,
+   "feature": "PPLA",
+   "geonames_date": "2026-09-14",
+   "province": "Esmeraldas",
+   "region": "Costa",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Alta",
+   "high_pct": 38.2,
+   "moderate_pct": 16.1,
+   "coverage_pct": 100.0,
+   "window_km2": 95.7,
+   "land_km2": 86.92,
+   "high_km2": 33.18,
+   "resolution_m": 76.4,
+   "elevation_median": 23.0,
+   "slope_median": 3.3,
+   "bbox": [
+    -79.69825744628906,
+    0.915259533745179,
+    -79.61036682128906,
+    1.0031378339957349
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/570/1018.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/571/1018.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3652567",
+   "name": "Quevedo",
+   "lat": -1.02881,
+   "lon": -79.46264,
+   "code": "13",
+   "population": 213842,
+   "feature": "PPLA2",
+   "geonames_date": "2024-09-12",
+   "province": "Los Ríos",
+   "region": "Costa",
+   "selection": "Entre las 30 localidades continentales con mayor población en GeoNames",
+   "status": "ok",
+   "priority": "Alta",
+   "high_pct": 43.7,
+   "moderate_pct": 34.8,
+   "coverage_pct": 100.0,
+   "window_km2": 95.69,
+   "land_km2": 95.69,
+   "high_km2": 41.77,
+   "resolution_m": 76.4,
+   "elevation_median": 74.0,
+   "slope_median": 1.7,
+   "bbox": [
+    -79.50668334960938,
+    -1.0724776497610593,
+    -79.41879272460938,
+    -0.984601194496836
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/571/1029.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/572/1029.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/571/1030.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/572/1030.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3654870",
+   "name": "Latacunga",
+   "lat": -0.93424,
+   "lon": -78.6152,
+   "code": "07",
+   "population": 205624,
+   "feature": "PPLA",
+   "geonames_date": "2026-04-13",
+   "province": "Cotopaxi",
+   "region": "Sierra",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Media",
+   "high_pct": 15.3,
+   "moderate_pct": 19.3,
+   "coverage_pct": 100.0,
+   "window_km2": 95.7,
+   "land_km2": 95.7,
+   "high_km2": 14.63,
+   "resolution_m": 76.4,
+   "elevation_median": 2844.0,
+   "slope_median": 4.5,
+   "bbox": [
+    -78.65936279296875,
+    -0.9784222916641679,
+    -78.57147216796875,
+    -0.8905433649005174
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/576/1028.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/577/1028.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/576/1029.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/577/1029.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3658501",
+   "name": "Daule",
+   "lat": -1.86032,
+   "lon": -79.97683,
+   "code": "10",
+   "population": 173684,
+   "feature": "PPLA2",
+   "geonames_date": "2026-09-14",
+   "province": "Guayas",
+   "region": "Costa",
+   "selection": "Entre las 30 localidades continentales con mayor población en GeoNames",
+   "status": "ok",
+   "priority": "Alta",
+   "high_pct": 95.2,
+   "moderate_pct": 4.7,
+   "coverage_pct": 100.0,
+   "window_km2": 95.62,
+   "land_km2": 93.93,
+   "high_km2": 89.44,
+   "resolution_m": 76.4,
+   "elevation_median": 5.0,
+   "slope_median": 1.1,
+   "bbox": [
+    -80.02098083496094,
+    -1.9044038862866357,
+    -79.93309020996094,
+    -1.816559601792186
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/568/1034.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/569/1034.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3654215",
+   "name": "Milagro",
+   "lat": -2.13396,
+   "lon": -79.59337,
+   "code": "10",
+   "population": 133508,
+   "feature": "PPLA2",
+   "geonames_date": "2024-09-12",
+   "province": "Guayas",
+   "region": "Costa",
+   "selection": "Entre las 30 localidades continentales con mayor población en GeoNames",
+   "status": "ok",
+   "priority": "Alta",
+   "high_pct": 89.3,
+   "moderate_pct": 10.6,
+   "coverage_pct": 100.0,
+   "window_km2": 95.59,
+   "land_km2": 95.59,
+   "high_km2": 85.38,
+   "resolution_m": 76.4,
+   "elevation_median": 12.0,
+   "slope_median": 0.8,
+   "bbox": [
+    -79.63714599609375,
+    -2.178201322973823,
+    -79.54925537109375,
+    -2.090371677483373
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/570/1035.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/571/1035.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/570/1036.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/571/1036.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3650472",
+   "name": "Tulcán",
+   "lat": 0.8124,
+   "lon": -77.71709,
+   "code": "05",
+   "population": 86498,
+   "feature": "PPLA",
+   "geonames_date": "2026-04-13",
+   "province": "Carchi",
+   "region": "Sierra",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Localizada",
+   "high_pct": 7.3,
+   "moderate_pct": 14.5,
+   "coverage_pct": 100.0,
+   "window_km2": 95.71,
+   "land_km2": 95.71,
+   "high_km2": 7.03,
+   "resolution_m": 76.4,
+   "elevation_median": 2946.0,
+   "slope_median": 8.0,
+   "bbox": [
+    -77.76123046875,
+    0.7683332944071497,
+    -77.67333984375,
+    0.8562150786616409
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/581/1019.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/582/1019.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "SIN",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3660418",
+   "name": "Babahoyo",
+   "lat": -1.80493,
+   "lon": -79.52492,
+   "code": "13",
+   "population": 76279,
+   "feature": "PPLA",
+   "geonames_date": "2025-05-15",
+   "province": "Los Ríos",
+   "region": "Costa",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Alta",
+   "high_pct": 97.8,
+   "moderate_pct": 2.2,
+   "coverage_pct": 100.0,
+   "window_km2": 95.63,
+   "land_km2": 95.18,
+   "high_km2": 93.07,
+   "resolution_m": 76.4,
+   "elevation_median": 6.0,
+   "slope_median": 0.8,
+   "bbox": [
+    -79.56916809082031,
+    -1.8488154322121984,
+    -79.48127746582031,
+    -1.760968420581954
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/571/1033.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/571/1034.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3655131",
+   "name": "La Libertad",
+   "lat": -2.233,
+   "lon": -80.91039,
+   "code": "25",
+   "population": 75881,
+   "feature": "PPL",
+   "geonames_date": "2013-01-11",
+   "province": "Santa Elena",
+   "region": "Costa",
+   "selection": "Entre las 30 localidades continentales con mayor población en GeoNames",
+   "status": "ok",
+   "priority": "Alta",
+   "high_pct": 46.7,
+   "moderate_pct": 30.0,
+   "coverage_pct": 95.9,
+   "window_km2": 95.58,
+   "land_km2": 67.9,
+   "high_km2": 31.74,
+   "resolution_m": 76.4,
+   "elevation_median": 14.0,
+   "slope_median": 1.2,
+   "bbox": [
+    -80.95413208007812,
+    -2.2770035431985383,
+    -80.86624145507812,
+    -2.1891796728455333
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/563/1036.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/564/1036.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/563/1037.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/564/1037.png"
+   ],
+   "unknown_pct": 4.1,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   },
+   "geonames_original_province": "Guayas",
+   "province_note": "Corrección administrativa: La Libertad pertenece a Santa Elena; GeoNames mantiene el código anterior."
+  },
+  {
+   "id": "3650273",
+   "name": "El Empalme",
+   "lat": -1.04491,
+   "lon": -79.6384,
+   "code": "10",
+   "population": 48754,
+   "feature": "PPLA2",
+   "geonames_date": "2024-09-12",
+   "province": "Guayas",
+   "region": "Costa",
+   "selection": "Entre las 30 localidades continentales con mayor población en GeoNames",
+   "status": "ok",
+   "priority": "Media",
+   "high_pct": 19.7,
+   "moderate_pct": 40.5,
+   "coverage_pct": 100.0,
+   "window_km2": 95.69,
+   "land_km2": 95.69,
+   "high_km2": 18.87,
+   "resolution_m": 76.4,
+   "elevation_median": 65.0,
+   "slope_median": 3.2,
+   "bbox": [
+    -79.68246459960938,
+    -1.088954210466696,
+    -79.59457397460938,
+    -1.0010782125348143
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/570/1029.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/571/1029.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/570/1030.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/571/1030.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3652743",
+   "name": "Puerto Francisco de Orellana",
+   "lat": -0.44967,
+   "lon": -76.99724,
+   "code": "24",
+   "population": 48144,
+   "feature": "PPLA",
+   "geonames_date": "2026-04-13",
+   "province": "Orellana",
+   "region": "Amazonía",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Alta",
+   "high_pct": 44.8,
+   "moderate_pct": 34.2,
+   "coverage_pct": 100.0,
+   "window_km2": 95.72,
+   "land_km2": 95.72,
+   "high_km2": 42.84,
+   "resolution_m": 76.4,
+   "elevation_median": 266.0,
+   "slope_median": 1.9,
+   "bbox": [
+    -77.04093933105469,
+    -0.493692010980472,
+    -76.95304870605469,
+    -0.40580410231741426
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/585/1026.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/586/1026.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3653403",
+   "name": "Pasaje",
+   "lat": -3.32561,
+   "lon": -79.80697,
+   "code": "08",
+   "population": 44860,
+   "feature": "PPL",
+   "geonames_date": "2017-02-07",
+   "province": "El Oro",
+   "region": "Costa",
+   "selection": "Entre las 30 localidades continentales con mayor población en GeoNames",
+   "status": "ok",
+   "priority": "Alta",
+   "high_pct": 71.9,
+   "moderate_pct": 13.7,
+   "coverage_pct": 100.0,
+   "window_km2": 95.4,
+   "land_km2": 95.4,
+   "high_km2": 68.59,
+   "resolution_m": 76.3,
+   "elevation_median": 27.0,
+   "slope_median": 0.8,
+   "bbox": [
+    -79.85069274902344,
+    -3.369485560923652,
+    -79.76280212402344,
+    -3.281742953890675
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/569/1042.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/570/1042.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/569/1043.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/570/1043.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3659139",
+   "name": "Chone",
+   "lat": -0.6985,
+   "lon": -80.0925,
+   "code": "14",
+   "population": 44751,
+   "feature": "PPLA2",
+   "geonames_date": "2024-05-15",
+   "province": "Manabí",
+   "region": "Costa",
+   "selection": "Entre las 30 localidades continentales con mayor población en GeoNames",
+   "status": "ok",
+   "priority": "Alta",
+   "high_pct": 42.0,
+   "moderate_pct": 15.6,
+   "coverage_pct": 100.0,
+   "window_km2": 95.71,
+   "land_km2": 95.71,
+   "high_km2": 40.19,
+   "resolution_m": 76.4,
+   "elevation_median": 29.0,
+   "slope_median": 3.9,
+   "bbox": [
+    -80.13633728027344,
+    -0.7422430323799659,
+    -80.04844665527344,
+    -0.6543589435031483
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/567/1027.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/568/1027.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/567/1028.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/568/1028.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3652100",
+   "name": "Salinas",
+   "lat": -2.21452,
+   "lon": -80.95151,
+   "code": "25",
+   "population": 43862,
+   "feature": "PPL",
+   "geonames_date": "2017-02-07",
+   "province": "Santa Elena",
+   "region": "Costa",
+   "selection": "Entre las 30 localidades continentales con mayor población en GeoNames",
+   "status": "ok",
+   "priority": "Alta",
+   "high_pct": 65.9,
+   "moderate_pct": 26.3,
+   "coverage_pct": 97.8,
+   "window_km2": 95.58,
+   "land_km2": 43.0,
+   "high_km2": 28.33,
+   "resolution_m": 76.4,
+   "elevation_median": 7.0,
+   "slope_median": 0.8,
+   "bbox": [
+    -80.99533081054688,
+    -2.2584786340574436,
+    -80.90744018554688,
+    -2.1706536610011766
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/563/1036.png"
+   ],
+   "unknown_pct": 2.2,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3651438",
+   "name": "Santa Elena",
+   "lat": -2.22652,
+   "lon": -80.85807,
+   "code": "25",
+   "population": 42214,
+   "feature": "PPLA",
+   "geonames_date": "2026-04-13",
+   "province": "Santa Elena",
+   "region": "Costa",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Alta",
+   "high_pct": 32.3,
+   "moderate_pct": 34.8,
+   "coverage_pct": 96.8,
+   "window_km2": 95.58,
+   "land_km2": 83.24,
+   "high_km2": 26.86,
+   "resolution_m": 76.4,
+   "elevation_median": 29.0,
+   "slope_median": 1.7,
+   "bbox": [
+    -80.90194702148438,
+    -2.270142493403932,
+    -80.81405639648438,
+    -2.1823182135733976
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/563/1036.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/564/1036.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/563/1037.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/564/1037.png"
+   ],
+   "unknown_pct": 3.2,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3652257",
+   "name": "Rosa Zarate",
+   "lat": 0.32779,
+   "lon": -79.47407,
+   "code": "09",
+   "population": 42121,
+   "feature": "PPL",
+   "geonames_date": "2017-02-07",
+   "province": "Esmeraldas",
+   "region": "Costa",
+   "selection": "Entre las 30 localidades continentales con mayor población en GeoNames",
+   "status": "ok",
+   "priority": "Alta",
+   "high_pct": 33.6,
+   "moderate_pct": 28.2,
+   "coverage_pct": 100.0,
+   "window_km2": 95.72,
+   "land_km2": 95.72,
+   "high_km2": 32.14,
+   "resolution_m": 76.4,
+   "elevation_median": 106.0,
+   "slope_median": 2.9,
+   "bbox": [
+    -79.51835632324219,
+    0.2835834368860817,
+    -79.43046569824219,
+    0.3714726172401804
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/571/1021.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/572/1021.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/571/1022.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/572/1022.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3651356",
+   "name": "Santa Rosa",
+   "lat": -3.45571,
+   "lon": -79.9637,
+   "code": "08",
+   "population": 41816,
+   "feature": "PPLA2",
+   "geonames_date": "2024-09-12",
+   "province": "El Oro",
+   "region": "Costa",
+   "selection": "Entre las 30 localidades continentales con mayor población en GeoNames",
+   "status": "ok",
+   "priority": "Alta",
+   "high_pct": 82.2,
+   "moderate_pct": 12.6,
+   "coverage_pct": 100.0,
+   "window_km2": 95.38,
+   "land_km2": 93.67,
+   "high_km2": 77.04,
+   "resolution_m": 76.3,
+   "elevation_median": 10.0,
+   "slope_median": 0.8,
+   "bbox": [
+    -80.0079345703125,
+    -3.499713846349887,
+    -79.9200439453125,
+    -3.4119830550892734
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/568/1043.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/569/1043.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/568/1044.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/569/1044.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3660361",
+   "name": "Balzar",
+   "lat": -1.36553,
+   "lon": -79.90507,
+   "code": "10",
+   "population": 40115,
+   "feature": "PPLA2",
+   "geonames_date": "2024-05-15",
+   "province": "Guayas",
+   "region": "Costa",
+   "selection": "Entre las 30 localidades continentales con mayor población en GeoNames",
+   "status": "ok",
+   "priority": "Alta",
+   "high_pct": 61.3,
+   "moderate_pct": 35.3,
+   "coverage_pct": 100.0,
+   "window_km2": 95.67,
+   "land_km2": 95.67,
+   "high_km2": 58.61,
+   "resolution_m": 76.4,
+   "elevation_median": 33.0,
+   "slope_median": 1.9,
+   "bbox": [
+    -79.94888305664062,
+    -1.4095410266324662,
+    -79.86099243164062,
+    -1.3216753733779698
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/569/1031.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/569/1032.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3655720",
+   "name": "Huaquillas",
+   "lat": -3.47523,
+   "lon": -80.23084,
+   "code": "08",
+   "population": 39757,
+   "feature": "PPL",
+   "geonames_date": "2017-02-07",
+   "province": "El Oro",
+   "region": "Costa",
+   "selection": "Entre las 30 localidades continentales con mayor población en GeoNames",
+   "status": "ok",
+   "priority": "Alta",
+   "high_pct": 76.6,
+   "moderate_pct": 21.2,
+   "coverage_pct": 100.0,
+   "window_km2": 95.37,
+   "land_km2": 91.13,
+   "high_km2": 69.81,
+   "resolution_m": 76.3,
+   "elevation_median": 8.0,
+   "slope_median": 0.8,
+   "bbox": [
+    -80.27503967285156,
+    -3.518903869025864,
+    -80.18714904785156,
+    -3.4311748572202108
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/567/1043.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/567/1044.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3660434",
+   "name": "Azogues",
+   "lat": -2.73982,
+   "lon": -78.84561,
+   "code": "04",
+   "population": 34877,
+   "feature": "PPLA",
+   "geonames_date": "2025-05-15",
+   "province": "Cañar",
+   "region": "Sierra",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Localizada",
+   "high_pct": 3.0,
+   "moderate_pct": 7.4,
+   "coverage_pct": 100.0,
+   "window_km2": 95.51,
+   "land_km2": 95.51,
+   "high_km2": 2.87,
+   "resolution_m": 76.3,
+   "elevation_median": 2717.0,
+   "slope_median": 11.8,
+   "bbox": [
+    -78.88938903808594,
+    -2.7839381088009736,
+    -78.80149841308594,
+    -2.6961479769778887
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/575/1039.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3652584",
+   "name": "Puyo",
+   "lat": -1.49156,
+   "lon": -78.00337,
+   "code": "17",
+   "population": 24881,
+   "feature": "PPLA",
+   "geonames_date": "2026-04-13",
+   "province": "Pastaza",
+   "region": "Amazonía",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Media",
+   "high_pct": 26.0,
+   "moderate_pct": 31.3,
+   "coverage_pct": 100.0,
+   "window_km2": 95.66,
+   "land_km2": 95.66,
+   "high_km2": 24.92,
+   "resolution_m": 76.4,
+   "elevation_median": 954.0,
+   "slope_median": 3.1,
+   "bbox": [
+    -78.04756164550781,
+    -1.5351556429809736,
+    -77.95967102050781,
+    -1.4472947932028188
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/579/1032.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/580/1032.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3655185",
+   "name": "Nueva Loja",
+   "lat": 0.086,
+   "lon": -76.89528,
+   "code": "22",
+   "population": 24211,
+   "feature": "PPLA",
+   "geonames_date": "2026-04-13",
+   "province": "Sucumbíos",
+   "region": "Amazonía",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Alta",
+   "high_pct": 60.1,
+   "moderate_pct": 34.0,
+   "coverage_pct": 100.0,
+   "window_km2": 95.73,
+   "land_km2": 95.73,
+   "high_km2": 57.57,
+   "resolution_m": 76.4,
+   "elevation_median": 306.0,
+   "slope_median": 1.9,
+   "bbox": [
+    -76.93931579589844,
+    0.04188537224585946,
+    -76.85142517089844,
+    0.12977589001154402
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/586/1023.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3654541",
+   "name": "Macas",
+   "lat": -2.30741,
+   "lon": -78.12026,
+   "code": "15",
+   "population": 23687,
+   "feature": "PPLA",
+   "geonames_date": "2026-04-13",
+   "province": "Morona Santiago",
+   "region": "Amazonía",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Media",
+   "high_pct": 15.7,
+   "moderate_pct": 20.6,
+   "coverage_pct": 100.0,
+   "window_km2": 95.57,
+   "land_km2": 95.57,
+   "high_km2": 14.99,
+   "resolution_m": 76.4,
+   "elevation_median": 1005.0,
+   "slope_median": 3.5,
+   "bbox": [
+    -78.16429138183594,
+    -2.3511007789125697,
+    -78.07640075683594,
+    -2.2632814110392774
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/579/1036.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/579/1037.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3657571",
+   "name": "Guaranda",
+   "lat": -1.59106,
+   "lon": -78.99903,
+   "code": "03",
+   "population": 22199,
+   "feature": "PPLA",
+   "geonames_date": "2025-05-15",
+   "province": "Bolívar",
+   "region": "Sierra",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Localizada",
+   "high_pct": 2.4,
+   "moderate_pct": 7.1,
+   "coverage_pct": 100.0,
+   "window_km2": 95.65,
+   "land_km2": 95.65,
+   "high_km2": 2.32,
+   "resolution_m": 76.4,
+   "elevation_median": 2868.0,
+   "slope_median": 13.0,
+   "bbox": [
+    -79.04319763183594,
+    -1.6346811390409437,
+    -78.95530700683594,
+    -1.5468243949679767
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/574/1032.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/574/1033.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3650721",
+   "name": "Tena",
+   "lat": -0.9961,
+   "lon": -77.81315,
+   "code": "23",
+   "population": 17172,
+   "feature": "PPLA",
+   "geonames_date": "2026-04-13",
+   "province": "Napo",
+   "region": "Amazonía",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Media",
+   "high_pct": 22.3,
+   "moderate_pct": 16.2,
+   "coverage_pct": 100.0,
+   "window_km2": 95.7,
+   "land_km2": 95.7,
+   "high_km2": 21.33,
+   "resolution_m": 76.4,
+   "elevation_median": 567.0,
+   "slope_median": 4.8,
+   "bbox": [
+    -77.85736083984375,
+    -1.0402107960322287,
+    -77.76947021484375,
+    -0.9523334662035037
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/580/1029.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/581/1029.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/580/1030.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/581/1030.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3649959",
+   "name": "Zamora",
+   "lat": -4.06446,
+   "lon": -78.95123,
+   "code": "20",
+   "population": 15276,
+   "feature": "PPLA",
+   "geonames_date": "2026-04-13",
+   "province": "Zamora Chinchipe",
+   "region": "Amazonía",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Localizada",
+   "high_pct": 3.3,
+   "moderate_pct": 5.2,
+   "coverage_pct": 100.0,
+   "window_km2": 95.24,
+   "land_km2": 95.24,
+   "high_km2": 3.11,
+   "resolution_m": 76.2,
+   "elevation_median": 1225.0,
+   "slope_median": 22.6,
+   "bbox": [
+    -78.99513244628906,
+    -4.108108878310178,
+    -78.90724182128906,
+    -4.020439291914031
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/574/1046.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/575/1046.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/574/1047.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/575/1047.png"
+   ],
+   "unknown_pct": 0.0,
+   "sngr_point": {
+    "status": "ok",
+    "features": [
+     {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    ],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  },
+  {
+   "id": "3652758",
+   "name": "Puerto Baquerizo Moreno",
+   "lat": -0.90172,
+   "lon": -89.61021,
+   "code": "01",
+   "population": 7290,
+   "feature": "PPLA",
+   "geonames_date": "2026-04-13",
+   "province": "Galápagos",
+   "region": "Insular",
+   "selection": "Capital provincial / nacional",
+   "status": "ok",
+   "priority": "Localizada",
+   "high_pct": 8.8,
+   "moderate_pct": 12.5,
+   "coverage_pct": 95.7,
+   "window_km2": 95.7,
+   "land_km2": 45.04,
+   "high_km2": 3.94,
+   "resolution_m": 76.4,
+   "elevation_median": 65.0,
+   "slope_median": 3.4,
+   "bbox": [
+    -89.6539306640625,
+    -0.9454679527782482,
+    -89.5660400390625,
+    -0.8575882160949291
+   ],
+   "terrain_urls": [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/513/1028.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/514/1028.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/513/1029.png",
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/11/514/1029.png"
+   ],
+   "unknown_pct": 4.3,
+   "sngr_point": {
+    "status": "ok",
+    "features": [],
+    "note": "Intersección únicamente en el punto de referencia; no representa toda la ciudad. Sin coincidencia no significa sin amenaza.",
+    "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0",
+    "checked": "2026-11-11"
+   }
+  }
+ ],
+ "sources": [
+  {
+   "name": "GeoNames · Ecuador",
+   "url": "https://download.geonames.org/export/dump/",
+   "license": "CC BY 4.0; población de referencia, fechas por registro"
+  },
+  {
+   "name": "Mapzen / Tilezen Terrain Tiles · AWS",
+   "url": "https://registry.opendata.aws/terrain-tiles/",
+   "license": "Atribuciones por fuente: https://github.com/tilezen/joerd/blob/master/docs/attribution.md"
+  },
+  {
+   "name": "SNGR · informes oficiales de lluvias",
+   "url": "https://www.gestionderiesgos.gob.ec/sitrep-afectaciones-por-lluvias-2025-2026/",
+   "use": "Referencia externa; no se usó como etiqueta ni validación del modelo"
+  }
+ ]
+}

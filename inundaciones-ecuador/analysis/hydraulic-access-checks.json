@@ -1,0 +1,749 @@
+{
+ "services": [
+  {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer?f=pjson",
+   "status": 200,
+   "bytes": 2624,
+   "local": "sngr-service.json",
+   "checked_utc": "2026-11-11T22:36:15.077788+00:00"
+  },
+  {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0?f=pjson",
+   "status": 200,
+   "bytes": 13313,
+   "local": "sngr-layer.json",
+   "checked_utc": "2026-11-11T22:36:15.078786+00:00"
+  },
+  {
+   "url": "https://services.inamhi.gob.ec/",
+   "error": "<urlopen error [Errno 11001] getaddrinfo failed>",
+   "local": "inamhi-services.html"
+  },
+  {
+   "url": "https://servicios.inamhi.gob.ec/aplicaciones-web/",
+   "status": 200,
+   "bytes": 419609,
+   "local": "inamhi-apps.html",
+   "checked_utc": "2026-11-11T22:36:15.110545+00:00"
+  },
+  {
+   "url": "https://www.inocar.mil.ec/web/index.php/productos",
+   "status": 200,
+   "bytes": 39716,
+   "local": "inocar-products.html",
+   "checked_utc": "2026-11-11T22:36:15.194945+00:00"
+  },
+  {
+   "url": "https://www.hydrosheds.org/products/hydrorivers",
+   "status": 200,
+   "bytes": 31468,
+   "local": "hydrorivers.html",
+   "checked_utc": "2026-11-11T22:36:15.341094+00:00"
+  },
+  {
+   "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard/",
+   "error": "The read operation timed out",
+   "local": "jrc-index.html"
+  }
+ ],
+ "point_queries": {
+  "3652462": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-78.52495%2C-0.22985&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3652462.json",
+   "checked_utc": "2026-11-11T22:37:15.805683+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3657509": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-79.88621%2C-2.19616&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3657509.json",
+   "checked_utc": "2026-11-11T22:37:04.798595+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3658666": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-78.9963%2C-2.8953&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3658666.json",
+   "checked_utc": "2026-11-11T22:37:12.071036+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3651297": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-79.17628%2C-0.25368&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "error": "The read operation timed out",
+   "local": "sngr-point-3651297.json"
+  },
+  "3660689": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-78.61675%2C-1.24908&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3660689.json",
+   "checked_utc": "2026-11-11T22:37:18.721895+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3652941": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-80.45145%2C-1.05764&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3652941.json",
+   "checked_utc": "2026-11-11T22:37:21.983725+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3658192": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-79.83987%2C-2.16919&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3658192.json",
+   "checked_utc": "2026-11-11T22:37:24.693935+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3654533": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-79.95876%2C-3.25886&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3654533.json",
+   "checked_utc": "2026-11-11T22:37:26.856597+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3654667": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-79.20422%2C-3.99313&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3654667.json",
+   "checked_utc": "2026-11-11T22:37:29.873080+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3654410": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-80.73137%2C-0.94937&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3654410.json",
+   "checked_utc": "2026-11-11T22:37:32.598283+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3652350": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-78.65887%2C-1.66506&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3652350.json",
+   "checked_utc": "2026-11-11T22:37:35.895399+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3655673": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-78.12462%2C0.34881&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3655673.json",
+   "checked_utc": "2026-11-11T22:37:37.771552+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3657990": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-79.65397%2C0.9592&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3657990.json",
+   "checked_utc": "2026-11-11T22:37:40.574305+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3652567": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-79.46264%2C-1.02881&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3652567.json",
+   "checked_utc": "2026-11-11T22:37:42.718681+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3654870": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-78.6152%2C-0.93424&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3654870.json",
+   "checked_utc": "2026-11-11T22:37:44.516102+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3658501": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-79.97683%2C-1.86032&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3658501.json",
+   "checked_utc": "2026-11-11T22:37:45.901120+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3654215": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-79.59337%2C-2.13396&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3654215.json",
+   "checked_utc": "2026-11-11T22:37:49.446593+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3650472": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-77.71709%2C0.8124&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 756,
+   "local": "sngr-point-3650472.json",
+   "checked_utc": "2026-11-11T22:37:48.616879+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "SIN",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3660418": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-79.52492%2C-1.80493&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3660418.json",
+   "checked_utc": "2026-11-11T22:37:51.769390+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3655131": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-80.91039%2C-2.233&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3655131.json",
+   "checked_utc": "2026-11-11T22:37:54.313175+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3650273": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-79.6384%2C-1.04491&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3650273.json",
+   "checked_utc": "2026-11-11T22:37:56.219898+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3652743": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-76.99724%2C-0.44967&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3652743.json",
+   "checked_utc": "2026-11-11T22:37:57.987788+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3653403": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-79.80697%2C-3.32561&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3653403.json",
+   "checked_utc": "2026-11-11T22:38:01.307279+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3659139": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-80.0925%2C-0.6985&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3659139.json",
+   "checked_utc": "2026-11-11T22:38:02.797744+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3652100": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-80.95151%2C-2.21452&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3652100.json",
+   "checked_utc": "2026-11-11T22:38:04.112649+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3651438": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-80.85807%2C-2.22652&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3651438.json",
+   "checked_utc": "2026-11-11T22:38:04.757230+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3652257": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-79.47407%2C0.32779&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3652257.json",
+   "checked_utc": "2026-11-11T22:38:05.928834+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3651356": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-79.9637%2C-3.45571&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3651356.json",
+   "checked_utc": "2026-11-11T22:38:06.567583+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3660361": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-79.90507%2C-1.36553&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3660361.json",
+   "checked_utc": "2026-11-11T22:38:08.639950+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3655720": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-80.23084%2C-3.47523&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3655720.json",
+   "checked_utc": "2026-11-11T22:38:09.968474+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3660434": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-78.84561%2C-2.73982&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3660434.json",
+   "checked_utc": "2026-11-11T22:38:10.660744+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3652584": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-78.00337%2C-1.49156&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3652584.json",
+   "checked_utc": "2026-11-11T22:38:12.048107+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3655185": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-76.89528%2C0.086&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3655185.json",
+   "checked_utc": "2026-11-11T22:38:13.122184+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3654541": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-78.12026%2C-2.30741&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3654541.json",
+   "checked_utc": "2026-11-11T22:38:15.039931+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3657571": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-78.99903%2C-1.59106&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3657571.json",
+   "checked_utc": "2026-11-11T22:38:16.349431+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3650721": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-77.81315%2C-0.9961&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3650721.json",
+   "checked_utc": "2026-11-11T22:38:18.425161+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3649959": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-78.95123%2C-4.06446&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 765,
+   "local": "sngr-point-3649959.json",
+   "checked_utc": "2026-11-11T22:38:19.031075+00:00",
+   "features": [
+    {
+     "attributes": {
+      "dpa_descan": "N/A",
+      "dpa_despro": "N/A",
+      "sui": "NO APLICABLE",
+      "descr": "AREA QUE PRESENTA CONDICIONES POTENCIALES PARA LA OCURRENCIA O NO DE UNA AMENAZA A INUNDACION",
+      "dpa_anio": " "
+     }
+    }
+   ],
+   "service_error": null
+  },
+  "3652758": {
+   "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0/query?f=json&where=1%3D1&geometry=-89.61021%2C-0.90172&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=dpa_descan%2Cdpa_despro%2Csui%2Cdescr%2Cdpa_anio&returnGeometry=false",
+   "status": 200,
+   "bytes": 571,
+   "local": "sngr-point-3652758.json",
+   "checked_utc": "2026-11-11T22:38:18.427157+00:00",
+   "features": [],
+   "service_error": null
+  }
+ }
+}

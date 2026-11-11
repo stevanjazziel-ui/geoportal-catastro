@@ -1,0 +1,690 @@
+{
+ "cities": 38,
+ "simulations": 76,
+ "all_checks_passed": true,
+ "worst_mass_relative_error": 3.215061878836324e-14,
+ "runs_with_max_depth_over_10m": [
+  {
+   "city": "Quito",
+   "scenario": "rain50",
+   "mass_relative_error": 1.264816840996591e-15,
+   "max_depth_m": 13.359009828181213,
+   "froude_limited_fraction": 0.25841880154839714
+  },
+  {
+   "city": "Quito",
+   "scenario": "rain100",
+   "mass_relative_error": 9.729360315358403e-16,
+   "max_depth_m": 16.84010924743001,
+   "froude_limited_fraction": 0.30238591473634097
+  },
+  {
+   "city": "Cuenca",
+   "scenario": "rain100",
+   "mass_relative_error": 1.2680331571579926e-15,
+   "max_depth_m": 10.526434838193072,
+   "froude_limited_fraction": 0.1397337181086312
+  },
+  {
+   "city": "Ambato",
+   "scenario": "rain50",
+   "mass_relative_error": 5.353529247195475e-15,
+   "max_depth_m": 11.327939437723838,
+   "froude_limited_fraction": 0.17902551931645633
+  },
+  {
+   "city": "Ambato",
+   "scenario": "rain100",
+   "mass_relative_error": 2.6280961758959327e-15,
+   "max_depth_m": 16.526132123336854,
+   "froude_limited_fraction": 0.20796980945581006
+  },
+  {
+   "city": "Loja",
+   "scenario": "rain100",
+   "mass_relative_error": 1.2709616776528007e-15,
+   "max_depth_m": 12.075907956640423,
+   "froude_limited_fraction": 0.28239449885346296
+  },
+  {
+   "city": "Riobamba",
+   "scenario": "rain100",
+   "mass_relative_error": 4.187020490429466e-15,
+   "max_depth_m": 10.296155965957842,
+   "froude_limited_fraction": 0.08896742349768098
+  },
+  {
+   "city": "Ibarra",
+   "scenario": "rain50",
+   "mass_relative_error": 3.697156919836177e-15,
+   "max_depth_m": 15.711718138160748,
+   "froude_limited_fraction": 0.1573515761651382
+  },
+  {
+   "city": "Ibarra",
+   "scenario": "rain100",
+   "mass_relative_error": 5.83761618921505e-16,
+   "max_depth_m": 31.09022376996504,
+   "froude_limited_fraction": 0.17356634176135544
+  },
+  {
+   "city": "Esmeraldas",
+   "scenario": "rain100",
+   "mass_relative_error": 2.0447513412013457e-15,
+   "max_depth_m": 10.53011408601369,
+   "froude_limited_fraction": 0.11547649519654728
+  },
+  {
+   "city": "Latacunga",
+   "scenario": "rain100",
+   "mass_relative_error": 6.812156328697465e-16,
+   "max_depth_m": 14.892500995580217,
+   "froude_limited_fraction": 0.0936671101718119
+  },
+  {
+   "city": "Tulcán",
+   "scenario": "rain100",
+   "mass_relative_error": 5.838685552535873e-16,
+   "max_depth_m": 11.15081901050533,
+   "froude_limited_fraction": 0.1791341706490713
+  },
+  {
+   "city": "Azogues",
+   "scenario": "rain50",
+   "mass_relative_error": 4.875645399684788e-16,
+   "max_depth_m": 14.56821002270579,
+   "froude_limited_fraction": 0.26093808539391994
+  },
+  {
+   "city": "Azogues",
+   "scenario": "rain100",
+   "mass_relative_error": 7.801032639495672e-16,
+   "max_depth_m": 27.096333023006,
+   "froude_limited_fraction": 0.2971818016422255
+  },
+  {
+   "city": "Puyo",
+   "scenario": "rain50",
+   "mass_relative_error": 4.867863911304923e-16,
+   "max_depth_m": 11.58760201592528,
+   "froude_limited_fraction": 0.0640773105548624
+  },
+  {
+   "city": "Puyo",
+   "scenario": "rain100",
+   "mass_relative_error": 3.5048620161395304e-15,
+   "max_depth_m": 12.537281918852809,
+   "froude_limited_fraction": 0.08211256196948968
+  },
+  {
+   "city": "Macas",
+   "scenario": "rain100",
+   "mass_relative_error": 7.795926416337069e-16,
+   "max_depth_m": 11.607378097830646,
+   "froude_limited_fraction": 0.1347672566833751
+  },
+  {
+   "city": "Guaranda",
+   "scenario": "rain50",
+   "mass_relative_error": 6.815544640463925e-16,
+   "max_depth_m": 11.973226488465707,
+   "froude_limited_fraction": 0.28547249008995274
+  },
+  {
+   "city": "Guaranda",
+   "scenario": "rain100",
+   "mass_relative_error": 2.920947703055966e-16,
+   "max_depth_m": 20.866874728998834,
+   "froude_limited_fraction": 0.3151164249224594
+  },
+  {
+   "city": "Zamora",
+   "scenario": "rain50",
+   "mass_relative_error": 4.4979568512759825e-15,
+   "max_depth_m": 14.110662868420537,
+   "froude_limited_fraction": 0.3870750079118476
+  },
+  {
+   "city": "Zamora",
+   "scenario": "rain100",
+   "mass_relative_error": 2.5423234376777336e-15,
+   "max_depth_m": 22.80241885933083,
+   "froude_limited_fraction": 0.4260277755067435
+  }
+ ],
+ "note": "Numerical integrity only, not local field validation. Deep isolated accumulations require terrain and drainage inspection.",
+ "checks": [
+  {
+   "city": "Quito",
+   "scenario": "rain50",
+   "mass_relative_error": 1.264816840996591e-15,
+   "max_depth_m": 13.359009828181213,
+   "froude_limited_fraction": 0.25841880154839714
+  },
+  {
+   "city": "Quito",
+   "scenario": "rain100",
+   "mass_relative_error": 9.729360315358403e-16,
+   "max_depth_m": 16.84010924743001,
+   "froude_limited_fraction": 0.30238591473634097
+  },
+  {
+   "city": "Guayaquil",
+   "scenario": "rain50",
+   "mass_relative_error": 2.6298332196749997e-14,
+   "max_depth_m": 2.2390630902198394,
+   "froude_limited_fraction": 0.022109151096781306
+  },
+  {
+   "city": "Guayaquil",
+   "scenario": "rain100",
+   "mass_relative_error": 9.688859230381578e-15,
+   "max_depth_m": 3.828063042377678,
+   "froude_limited_fraction": 0.024853515625
+  },
+  {
+   "city": "Cuenca",
+   "scenario": "rain50",
+   "mass_relative_error": 7.80328096712604e-15,
+   "max_depth_m": 6.909889975741618,
+   "froude_limited_fraction": 0.11796839108748441
+  },
+  {
+   "city": "Cuenca",
+   "scenario": "rain100",
+   "mass_relative_error": 1.2680331571579926e-15,
+   "max_depth_m": 10.526434838193072,
+   "froude_limited_fraction": 0.1397337181086312
+  },
+  {
+   "city": "Santo Domingo",
+   "scenario": "rain50",
+   "mass_relative_error": 7.102433030211539e-15,
+   "max_depth_m": 3.9176261990855337,
+   "froude_limited_fraction": 0.02854068493716931
+  },
+  {
+   "city": "Santo Domingo",
+   "scenario": "rain100",
+   "mass_relative_error": 2.0431656662252552e-15,
+   "max_depth_m": 9.106613690474058,
+   "froude_limited_fraction": 0.030383050423811293
+  },
+  {
+   "city": "Ambato",
+   "scenario": "rain50",
+   "mass_relative_error": 5.353529247195475e-15,
+   "max_depth_m": 11.327939437723838,
+   "froude_limited_fraction": 0.17902551931645633
+  },
+  {
+   "city": "Ambato",
+   "scenario": "rain100",
+   "mass_relative_error": 2.6280961758959327e-15,
+   "max_depth_m": 16.526132123336854,
+   "froude_limited_fraction": 0.20796980945581006
+  },
+  {
+   "city": "Portoviejo",
+   "scenario": "rain50",
+   "mass_relative_error": 4.866207969491361e-15,
+   "max_depth_m": 5.706514516423596,
+   "froude_limited_fraction": 0.13991868658627507
+  },
+  {
+   "city": "Portoviejo",
+   "scenario": "rain100",
+   "mass_relative_error": 0.0,
+   "max_depth_m": 9.15382121958779,
+   "froude_limited_fraction": 0.15042093031032638
+  },
+  {
+   "city": "Durán (Eloy Alfaro)",
+   "scenario": "rain50",
+   "mass_relative_error": 6.108878329524769e-15,
+   "max_depth_m": 1.3530760183711055,
+   "froude_limited_fraction": 0.008273740630511464
+  },
+  {
+   "city": "Durán (Eloy Alfaro)",
+   "scenario": "rain100",
+   "mass_relative_error": 1.1375152751528882e-14,
+   "max_depth_m": 2.64078709747217,
+   "froude_limited_fraction": 0.009122764412477955
+  },
+  {
+   "city": "Machala",
+   "scenario": "rain50",
+   "mass_relative_error": 1.608334841208467e-14,
+   "max_depth_m": 2.764620811463355,
+   "froude_limited_fraction": 0.0011830701609347443
+  },
+  {
+   "city": "Machala",
+   "scenario": "rain100",
+   "mass_relative_error": 5.261836208891898e-15,
+   "max_depth_m": 4.491401322306873,
+   "froude_limited_fraction": 0.0014834449404761904
+  },
+  {
+   "city": "Loja",
+   "scenario": "rain50",
+   "mass_relative_error": 2.4441570724092415e-15,
+   "max_depth_m": 9.915334392747738,
+   "froude_limited_fraction": 0.2312585203169661
+  },
+  {
+   "city": "Loja",
+   "scenario": "rain100",
+   "mass_relative_error": 1.2709616776528007e-15,
+   "max_depth_m": 12.075907956640423,
+   "froude_limited_fraction": 0.28239449885346296
+  },
+  {
+   "city": "Manta",
+   "scenario": "rain50",
+   "mass_relative_error": 2.114633749325098e-15,
+   "max_depth_m": 3.945388430189352,
+   "froude_limited_fraction": 0.013598589754188713
+  },
+  {
+   "city": "Manta",
+   "scenario": "rain100",
+   "mass_relative_error": 3.625086427414485e-15,
+   "max_depth_m": 8.261519872736846,
+   "froude_limited_fraction": 0.016110959294449584
+  },
+  {
+   "city": "Riobamba",
+   "scenario": "rain50",
+   "mass_relative_error": 1.5579611127179453e-15,
+   "max_depth_m": 9.435198757040597,
+   "froude_limited_fraction": 0.07115435290085616
+  },
+  {
+   "city": "Riobamba",
+   "scenario": "rain100",
+   "mass_relative_error": 4.187020490429466e-15,
+   "max_depth_m": 10.296155965957842,
+   "froude_limited_fraction": 0.08896742349768098
+  },
+  {
+   "city": "Ibarra",
+   "scenario": "rain50",
+   "mass_relative_error": 3.697156919836177e-15,
+   "max_depth_m": 15.711718138160748,
+   "froude_limited_fraction": 0.1573515761651382
+  },
+  {
+   "city": "Ibarra",
+   "scenario": "rain100",
+   "mass_relative_error": 5.83761618921505e-16,
+   "max_depth_m": 31.09022376996504,
+   "froude_limited_fraction": 0.17356634176135544
+  },
+  {
+   "city": "Esmeraldas",
+   "scenario": "rain50",
+   "mass_relative_error": 3.9818841907604855e-15,
+   "max_depth_m": 6.649900660605482,
+   "froude_limited_fraction": 0.10601137409373315
+  },
+  {
+   "city": "Esmeraldas",
+   "scenario": "rain100",
+   "mass_relative_error": 2.0447513412013457e-15,
+   "max_depth_m": 10.53011408601369,
+   "froude_limited_fraction": 0.11547649519654728
+  },
+  {
+   "city": "Quevedo",
+   "scenario": "rain50",
+   "mass_relative_error": 5.4500102992744e-15,
+   "max_depth_m": 2.5632677589367825,
+   "froude_limited_fraction": 0.0076078007881393295
+  },
+  {
+   "city": "Quevedo",
+   "scenario": "rain100",
+   "mass_relative_error": 3.4062564370464997e-15,
+   "max_depth_m": 4.047637975611995,
+   "froude_limited_fraction": 0.010188629850088183
+  },
+  {
+   "city": "Latacunga",
+   "scenario": "rain50",
+   "mass_relative_error": 1.5084060442115594e-14,
+   "max_depth_m": 6.346966660119353,
+   "froude_limited_fraction": 0.08853659175441354
+  },
+  {
+   "city": "Latacunga",
+   "scenario": "rain100",
+   "mass_relative_error": 6.812156328697465e-16,
+   "max_depth_m": 14.892500995580217,
+   "froude_limited_fraction": 0.0936671101718119
+  },
+  {
+   "city": "Daule",
+   "scenario": "rain50",
+   "mass_relative_error": 1.1577163378887076e-14,
+   "max_depth_m": 1.5818769511314912,
+   "froude_limited_fraction": 0.0010404610339506172
+  },
+  {
+   "city": "Daule",
+   "scenario": "rain100",
+   "mass_relative_error": 3.1395697298676815e-15,
+   "max_depth_m": 3.0960685906636938,
+   "froude_limited_fraction": 0.0012298314869929453
+  },
+  {
+   "city": "Milagro",
+   "scenario": "rain50",
+   "mass_relative_error": 3.215061878836324e-14,
+   "max_depth_m": 1.9001963122029166,
+   "froude_limited_fraction": 0.0007904644786155203
+  },
+  {
+   "city": "Milagro",
+   "scenario": "rain100",
+   "mass_relative_error": 1.7439275039748543e-14,
+   "max_depth_m": 4.501758358287621,
+   "froude_limited_fraction": 0.0007620459931657848
+  },
+  {
+   "city": "Tulcán",
+   "scenario": "rain50",
+   "mass_relative_error": 1.751605665760765e-15,
+   "max_depth_m": 8.491053921978535,
+   "froude_limited_fraction": 0.15149531024531024
+  },
+  {
+   "city": "Tulcán",
+   "scenario": "rain100",
+   "mass_relative_error": 5.838685552535873e-16,
+   "max_depth_m": 11.15081901050533,
+   "froude_limited_fraction": 0.1791341706490713
+  },
+  {
+   "city": "Babahoyo",
+   "scenario": "rain50",
+   "mass_relative_error": 1.765306244662985e-14,
+   "max_depth_m": 2.337292903252113,
+   "froude_limited_fraction": 0.0007259631283068783
+  },
+  {
+   "city": "Babahoyo",
+   "scenario": "rain100",
+   "mass_relative_error": 4.486413660469464e-15,
+   "max_depth_m": 3.3076091727599133,
+   "froude_limited_fraction": 0.0007244130291005291
+  },
+  {
+   "city": "La Libertad",
+   "scenario": "rain50",
+   "mass_relative_error": 8.40956379814993e-15,
+   "max_depth_m": 2.212855023065946,
+   "froude_limited_fraction": 0.0018875902502204585
+  },
+  {
+   "city": "La Libertad",
+   "scenario": "rain100",
+   "mass_relative_error": 8.823148902976976e-15,
+   "max_depth_m": 3.947968448340947,
+   "froude_limited_fraction": 0.0020989204420194005
+  },
+  {
+   "city": "El Empalme",
+   "scenario": "rain50",
+   "mass_relative_error": 1.1678899126779265e-15,
+   "max_depth_m": 2.281918270197355,
+   "froude_limited_fraction": 0.016013558201058202
+  },
+  {
+   "city": "El Empalme",
+   "scenario": "rain100",
+   "mass_relative_error": 3.990290534982916e-15,
+   "max_depth_m": 4.128409105009945,
+   "froude_limited_fraction": 0.020198998291446207
+  },
+  {
+   "city": "Puerto Francisco de Orellana",
+   "scenario": "rain50",
+   "mass_relative_error": 1.3426868556056907e-14,
+   "max_depth_m": 2.145645134556514,
+   "froude_limited_fraction": 0.005587246472663139
+  },
+  {
+   "city": "Puerto Francisco de Orellana",
+   "scenario": "rain100",
+   "mass_relative_error": 1.6637641471635734e-14,
+   "max_depth_m": 3.561393874137864,
+   "froude_limited_fraction": 0.006660517939814815
+  },
+  {
+   "city": "Pasaje",
+   "scenario": "rain50",
+   "mass_relative_error": 2.3136006345728682e-14,
+   "max_depth_m": 4.329577073241698,
+   "froude_limited_fraction": 0.019478977210097
+  },
+  {
+   "city": "Pasaje",
+   "scenario": "rain100",
+   "mass_relative_error": 5.07625455686872e-15,
+   "max_depth_m": 6.877849855602105,
+   "froude_limited_fraction": 0.021610843411438648
+  },
+  {
+   "city": "Chone",
+   "scenario": "rain50",
+   "mass_relative_error": 1.46932563086125e-14,
+   "max_depth_m": 3.481665147487487,
+   "froude_limited_fraction": 0.07790144124779541
+  },
+  {
+   "city": "Chone",
+   "scenario": "rain100",
+   "mass_relative_error": 8.660263652096093e-15,
+   "max_depth_m": 5.812335476299084,
+   "froude_limited_fraction": 0.08748624087199312
+  },
+  {
+   "city": "Salinas",
+   "scenario": "rain50",
+   "mass_relative_error": 1.2080602453336423e-15,
+   "max_depth_m": 2.9781367444629043,
+   "froude_limited_fraction": 0.0017586736662257496
+  },
+  {
+   "city": "Salinas",
+   "scenario": "rain100",
+   "mass_relative_error": 8.78589269333558e-16,
+   "max_depth_m": 4.184395747727898,
+   "froude_limited_fraction": 0.0020372609402557317
+  },
+  {
+   "city": "Santa Elena",
+   "scenario": "rain50",
+   "mass_relative_error": 1.3221486773344985e-14,
+   "max_depth_m": 4.191665572187947,
+   "froude_limited_fraction": 0.005161658123897708
+  },
+  {
+   "city": "Santa Elena",
+   "scenario": "rain100",
+   "mass_relative_error": 6.162557394355759e-15,
+   "max_depth_m": 6.172918039160143,
+   "froude_limited_fraction": 0.0062334404036004645
+  },
+  {
+   "city": "Rosa Zarate",
+   "scenario": "rain50",
+   "mass_relative_error": 1.07022963468941e-15,
+   "max_depth_m": 3.4066381797860816,
+   "froude_limited_fraction": 0.026698305913800704
+  },
+  {
+   "city": "Rosa Zarate",
+   "scenario": "rain100",
+   "mass_relative_error": 3.5998633166825846e-15,
+   "max_depth_m": 6.004976000318938,
+   "froude_limited_fraction": 0.03242479041837486
+  },
+  {
+   "city": "Santa Rosa",
+   "scenario": "rain50",
+   "mass_relative_error": 1.9953423649207255e-14,
+   "max_depth_m": 2.1452498931607145,
+   "froude_limited_fraction": 0.0058819375551146386
+  },
+  {
+   "city": "Santa Rosa",
+   "scenario": "rain100",
+   "mass_relative_error": 7.803566674689966e-15,
+   "max_depth_m": 3.1510428397634342,
+   "froude_limited_fraction": 0.007868389688051147
+  },
+  {
+   "city": "Balzar",
+   "scenario": "rain50",
+   "mass_relative_error": 2.0442888063068375e-14,
+   "max_depth_m": 1.9867382328110519,
+   "froude_limited_fraction": 0.0019116167879188713
+  },
+  {
+   "city": "Balzar",
+   "scenario": "rain100",
+   "mass_relative_error": 7.49572562312507e-15,
+   "max_depth_m": 3.0516326336263653,
+   "froude_limited_fraction": 0.0018760506227954144
+  },
+  {
+   "city": "Huaquillas",
+   "scenario": "rain50",
+   "mass_relative_error": 2.1595794957895578e-14,
+   "max_depth_m": 1.8624304397295477,
+   "froude_limited_fraction": 0.008444423776455027
+  },
+  {
+   "city": "Huaquillas",
+   "scenario": "rain100",
+   "mass_relative_error": 1.2470811172869278e-14,
+   "max_depth_m": 3.0156259196546555,
+   "froude_limited_fraction": 0.008865361827601411
+  },
+  {
+   "city": "Azogues",
+   "scenario": "rain50",
+   "mass_relative_error": 4.875645399684788e-16,
+   "max_depth_m": 14.56821002270579,
+   "froude_limited_fraction": 0.26093808539391994
+  },
+  {
+   "city": "Azogues",
+   "scenario": "rain100",
+   "mass_relative_error": 7.801032639495672e-16,
+   "max_depth_m": 27.096333023006,
+   "froude_limited_fraction": 0.2971818016422255
+  },
+  {
+   "city": "Puyo",
+   "scenario": "rain50",
+   "mass_relative_error": 4.867863911304923e-16,
+   "max_depth_m": 11.58760201592528,
+   "froude_limited_fraction": 0.0640773105548624
+  },
+  {
+   "city": "Puyo",
+   "scenario": "rain100",
+   "mass_relative_error": 3.5048620161395304e-15,
+   "max_depth_m": 12.537281918852809,
+   "froude_limited_fraction": 0.08211256196948968
+  },
+  {
+   "city": "Nueva Loja",
+   "scenario": "rain50",
+   "mass_relative_error": 2.4225473305087562e-14,
+   "max_depth_m": 2.292230751376329,
+   "froude_limited_fraction": 0.002933734981261023
+  },
+  {
+   "city": "Nueva Loja",
+   "scenario": "rain100",
+   "mass_relative_error": 1.809613668572806e-14,
+   "max_depth_m": 3.9540689334425356,
+   "froude_limited_fraction": 0.0036627983079805995
+  },
+  {
+   "city": "Macas",
+   "scenario": "rain50",
+   "mass_relative_error": 9.64745894021722e-15,
+   "max_depth_m": 7.553937176932034,
+   "froude_limited_fraction": 0.12497500441712987
+  },
+  {
+   "city": "Macas",
+   "scenario": "rain100",
+   "mass_relative_error": 7.795926416337069e-16,
+   "max_depth_m": 11.607378097830646,
+   "froude_limited_fraction": 0.1347672566833751
+  },
+  {
+   "city": "Guaranda",
+   "scenario": "rain50",
+   "mass_relative_error": 6.815544640463925e-16,
+   "max_depth_m": 11.973226488465707,
+   "froude_limited_fraction": 0.28547249008995274
+  },
+  {
+   "city": "Guaranda",
+   "scenario": "rain100",
+   "mass_relative_error": 2.920947703055966e-16,
+   "max_depth_m": 20.866874728998834,
+   "froude_limited_fraction": 0.3151164249224594
+  },
+  {
+   "city": "Tena",
+   "scenario": "rain50",
+   "mass_relative_error": 3.114291599585378e-15,
+   "max_depth_m": 5.406333207453595,
+   "froude_limited_fraction": 0.10148255410284347
+  },
+  {
+   "city": "Tena",
+   "scenario": "rain100",
+   "mass_relative_error": 1.7517890247667746e-15,
+   "max_depth_m": 8.211487767632859,
+   "froude_limited_fraction": 0.11682973952655695
+  },
+  {
+   "city": "Zamora",
+   "scenario": "rain50",
+   "mass_relative_error": 4.4979568512759825e-15,
+   "max_depth_m": 14.110662868420537,
+   "froude_limited_fraction": 0.3870750079118476
+  },
+  {
+   "city": "Zamora",
+   "scenario": "rain100",
+   "mass_relative_error": 2.5423234376777336e-15,
+   "max_depth_m": 22.80241885933083,
+   "froude_limited_fraction": 0.4260277755067435
+  },
+  {
+   "city": "Puerto Baquerizo Moreno",
+   "scenario": "rain50",
+   "mass_relative_error": 3.970410073043462e-15,
+   "max_depth_m": 5.125636916824557,
+   "froude_limited_fraction": 0.021467757936507938
+  },
+  {
+   "city": "Puerto Baquerizo Moreno",
+   "scenario": "rain100",
+   "mass_relative_error": 2.2317337665472925e-15,
+   "max_depth_m": 8.850726406828185,
+   "froude_limited_fraction": 0.030837347004438843
+  }
+ ]
+}

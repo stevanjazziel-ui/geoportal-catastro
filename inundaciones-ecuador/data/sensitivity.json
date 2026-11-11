@@ -1,0 +1,72 @@
+{
+ "calibrated": false,
+ "note": "Mesh and roughness changes alter results; this is diagnostic sensitivity, not measured accuracy or uncertainty bounds.",
+ "comparisons": [
+  {
+   "city": "Quito",
+   "factor": 2,
+   "dx_m": 152.872,
+   "manning": 0.05,
+   "rain_mm_h": 50,
+   "max_depth_m": 13.359009828181213,
+   "max_wet_km2": 18.321961133056003,
+   "p95_max_wet_depth_m": 2.382490300811147,
+   "mass_relative_error": 1.264816840996591e-15
+  },
+  {
+   "city": "Quito",
+   "factor": 1,
+   "dx_m": 76.436,
+   "manning": 0.05,
+   "rain_mm_h": 50,
+   "max_depth_m": 17.014538801608772,
+   "max_wet_km2": 15.692853189856002,
+   "p95_max_wet_depth_m": 2.784603641066349,
+   "mass_relative_error": 3.8917441261433613e-16
+  },
+  {
+   "city": "Quito",
+   "factor": 2,
+   "dx_m": 152.872,
+   "manning": 0.03,
+   "rain_mm_h": 50,
+   "max_depth_m": 13.323000746796332,
+   "max_wet_km2": 16.335524020416003,
+   "p95_max_wet_depth_m": 2.5529192532127785,
+   "mass_relative_error": 2.821514491453928e-15
+  },
+  {
+   "city": "Babahoyo",
+   "factor": 2,
+   "dx_m": 152.798,
+   "manning": 0.05,
+   "rain_mm_h": 50,
+   "max_depth_m": 2.337292903252113,
+   "max_wet_km2": 23.907562295296003,
+   "p95_max_wet_depth_m": 0.8414197017704566,
+   "mass_relative_error": 1.765306244662985e-14
+  },
+  {
+   "city": "Babahoyo",
+   "factor": 1,
+   "dx_m": 76.399,
+   "manning": 0.05,
+   "rain_mm_h": 50,
+   "max_depth_m": 2.5317042662517095,
+   "max_wet_km2": 22.127336098991,
+   "p95_max_wet_depth_m": 1.1075859083441553,
+   "mass_relative_error": 1.7612589615223238e-15
+  },
+  {
+   "city": "Babahoyo",
+   "factor": 2,
+   "dx_m": 152.798,
+   "manning": 0.03,
+   "rain_mm_h": 50,
+   "max_depth_m": 2.442022051598117,
+   "max_wet_km2": 21.502797728484,
+   "p95_max_wet_depth_m": 0.8996375182080018,
+   "mass_relative_error": 1.9798738545115244e-14
+  }
+ ]
+}
