@@ -25,7 +25,7 @@ function drawCesiumTerrain(){
   if(y<n-1&&x<n-1){const k=i;indices.push(k,k+n,k+1,k+1,k+n,k+n+1);}
  }
  const geometry=new C.Geometry({attributes:{position:new C.GeometryAttribute({componentDatatype:C.ComponentDatatype.DOUBLE,componentsPerAttribute:3,values:points}),color:new C.GeometryAttribute({componentDatatype:C.ComponentDatatype.UNSIGNED_BYTE,componentsPerAttribute:4,normalize:true,values:rgba})},indices:new Uint32Array(indices),primitiveType:C.PrimitiveType.TRIANGLES,boundingSphere:C.BoundingSphere.fromVertices(points)});
- const appearance=new C.Appearance({translucent:false,closed:false,renderState:{depthTest:{enabled:true},cull:{enabled:false}},vertexShaderSource:'attribute vec3 position3DHigh; attribute vec3 position3DLow; attribute vec4 color; varying vec4 v_color; void main(){vec4 p=czm_computePosition();v_color=color;gl_Position=czm_modelViewProjectionRelativeToEye*p;}',fragmentShaderSource:'varying vec4 v_color; void main(){gl_FragColor=v_color;}'});
+ const appearance=new C.PerInstanceColorAppearance({flat:true,translucent:false,closed:false,renderState:{depthTest:{enabled:true},cull:{enabled:false}},vertexShaderSource:'in vec3 position3DHigh; in vec3 position3DLow; in vec4 color; out vec4 v_color; void main(){vec4 p=czm_computePosition();v_color=color;gl_Position=czm_modelViewProjectionRelativeToEye*p;}'});
  if(cesiumMesh)v.scene.primitives.remove(cesiumMesh);
  cesiumMesh=v.scene.primitives.add(new C.Primitive({geometryInstances:new C.GeometryInstance({geometry}),appearance,asynchronous:false,allowPicking:false}));
  if(cesiumCity!==selected.id){
