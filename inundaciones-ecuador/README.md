@@ -42,7 +42,7 @@ python -m http.server 8000 --directory dist
 
 `build_data.py` descarga GeoNames y teselas reales. Las fallas no se convierten en elevación cero. `run_simulations.py` reutiliza archivos existentes; para parámetros o versiones distintas usar una nueva carpeta de ejecución o retirar explícitamente sólo los resultados que se vayan a regenerar. No reutilizar resultados anteriores tras cambiar el solver sin versionar y recalcular.
 
-El despliegue estático no ejecuta cálculos en el servidor ni llama APIs con secretos. Mapas base remotos requieren conexión; Leaflet, Plotly y resultados se incluyen localmente. El código y las salidas de esta entrega se publican en la carpeta `inundaciones-ecuador` del repositorio.
+El despliegue estático no ejecuta cálculos en el servidor ni llama APIs con secretos. La vista 3D utiliza CesiumJS 1.105.2 desde jsDelivr, con imagen satelital Esri y una malla georreferenciada de las cotas locales y de la lámina calculada. El globo de contexto usa el elipsoide; el relieve detallado está en la ventana descargada. La vista 2D conserva Leaflet. Cesium y los mapas base requieren conexión; los resultados se incluyen localmente. El código y las salidas de esta entrega se publican en la carpeta `inundaciones-ecuador` del repositorio.
 
 ## Comprobaciones
 
@@ -58,7 +58,7 @@ Implementación original; no se copió código de los artículos ni de otros sol
 - GeoNames: https://download.geonames.org/export/dump/ · CC BY 4.0.
 - Mapzen / Tilezen Terrain Tiles: https://registry.opendata.aws/terrain-tiles/ · atribución por fuentes: https://github.com/tilezen/joerd/blob/master/docs/attribution.md
 - SNGR: https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Susceptibilidad_de_Inundaciones/MapServer/0 · no se redistribuyen los polígonos completos; se conservan respuestas puntuales con fuente.
-- Leaflet 1.x: BSD-2-Clause (cabecera de la librería). Plotly.js 2.35.2 gl3d: MIT (cabecera de la librería).
+- Leaflet 1.x: BSD-2-Clause (cabecera de la librería). CesiumJS: Apache-2.0. Plotly ya no se carga ni se utiliza en el visor.
 - Bases cartográficas: OpenStreetMap / CARTO, Esri y proveedores, OpenTopoMap / SRTM según la base seleccionada.
 
 ## Siguiente fase hidráulica
