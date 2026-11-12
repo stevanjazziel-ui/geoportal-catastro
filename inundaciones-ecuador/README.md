@@ -63,6 +63,8 @@ Implementación original; no se copió código de los artículos ni de otros sol
 
 ## Siguiente fase hidráulica
 
+Ampliación del 12 de noviembre: el motor acepta hidrogramas fluviales, niveles exteriores variables e intercambios prescritos de alcantarillado. `run_compound.py` ejecuta nuevos escenarios con dominio explícito y registra su procedencia. **Esto no añade todavía escenarios reales al visor ni calcula tuberías o estructuras.** Las 76 salidas publicadas siguen siendo de lluvia. Consultar [estado, requisitos y uso](analysis/COMPONENTES_COMPUESTOS.md). Se verificaron 12 pruebas numéricas; no hay calibración de campo.
+
 Preparar un piloto por cuenca o tramo con terreno de precisión adecuada y referencia vertical conocida, secciones de cauces y estructuras, hidrogramas o lluvia de evento y pérdidas justificadas, niveles aguas abajo, mareas cuando proceda y observaciones para calibración/validación. Comparar mallas, rugosidades y condiciones de borde; revisar balance y estabilidad. Consultar el inventario publicado en `datos-hidraulicos.html`.
 
 JRC ofrece profundidades modeladas regionales LISFLOOD/LISFLOOD-FP; el catálogo se verificó, pero el servidor de descarga no respondió durante esta sesión. No se presentan como datos integrados ni como simulación propia. INAMHI, INOCAR y las fuentes municipales deben verificarse por estación, producto y tramo antes de alimentar un modelo local.
