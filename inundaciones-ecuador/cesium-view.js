@@ -28,8 +28,8 @@ function drawCesiumTerrain(){
  const appearance=new C.PerInstanceColorAppearance({flat:true,translucent:true,closed:false,renderState:{depthTest:{enabled:true},depthMask:false,cull:{enabled:false}},vertexShaderSource:'in float batchId; in vec3 position3DHigh; in vec3 position3DLow; in vec4 color; out vec4 v_color; void main(){vec4 p=czm_computePosition();v_color=color;gl_Position=czm_modelViewProjectionRelativeToEye*p;}'});
  if(cesiumMesh)v.scene.primitives.remove(cesiumMesh);
  cesiumMesh=v.scene.primitives.add(new C.Primitive({geometryInstances:new C.GeometryInstance({geometry}),appearance,asynchronous:false,allowPicking:false}));
- if(cesiumCity!==selected.id){
-  const scheme=new C.GeographicTilingScheme(),heights=d.dem,box=b.slice(),size=n;
+ if(cesiumCity!==selected.id||v.__terrainGrid!==n){
+  v.__terrainGrid=n; const scheme=new C.GeographicTilingScheme(),heights=d.dem,box=b.slice(),size=n;
   v.terrainProvider=new C.CustomHeightmapTerrainProvider({width:32,height:32,tilingScheme:scheme,credit:'Relieve local Mapzen · resolución de simulación ~153 m',callback:(tx,ty,level)=>{
    const rect=scheme.tileXYToRectangle(tx,ty,level),out=new Float32Array(1024);
    for(let iy=0;iy<32;iy++)for(let ix=0;ix<32;ix++){
