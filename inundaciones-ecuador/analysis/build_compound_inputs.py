@@ -44,6 +44,15 @@ def main():
                      'pending':['verified_inlet_assignment','channel_sections_and_structures','terrain_vertical_reference','local_network_geometry_and_capacities','validation_observations'],
                      'coastal_requirement':'If tidal boundary applies: bathymetry, MLWS-to-terrain leveling, time-zone verification and initial water state.'})
     swmm=json.loads((ROOT/'swmm-verification/verified-export/summary.json').read_text())
+    rio_audit=ROOT/'riobamba-inputs/prepared/audit.json'
+    if rio_audit.exists():
+        rio=json.loads(rio_audit.read_text(encoding='utf-8'))
+        c=next(c for c in rows if c['name']=='Riobamba')
+        c['local_inputs']={'network_segments':rio['network']['segments'],'network_nodes':rio['network']['nodes'],'missing_diameters':rio['network']['missing_diameters'],
+                           'questioned_directions':rio['network']['questioned_directions'],'terrain_resolution_m':rio['terrain']['resolution_m'],
+                           'nodes_over_valid_local_terrain':rio['network']['nodes_over_valid_local_terrain'],'audit_url':'data/compound/riobamba-audit.json'}
+        c['pending']=['verified_invert_and_cover_elevations','diameter_gaps','network_connections_and_flow_directions','outfalls_and_inlets','roughness_and_structures','vertical_reference','series_provenance_and_event','validation_observations']
+        shutil.copyfile(rio_audit,out/'riobamba-audit.json')
     swmm['input']='EPA-Example2.inp';swmm['source_url']='https://github.com/USEPA/swmm-nrtestsuite/blob/dev/public/examples/Example2.inp'
     shutil.copyfile(ROOT/'swmm-verification/verified-export/network.rpt',out/'swmm-epa-network.rpt')
     doc={'date':'2026-11-12','cities':rows,'flows':flows,'swmm_verification':swmm,

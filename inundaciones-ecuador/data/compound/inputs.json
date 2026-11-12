@@ -433,13 +433,28 @@
       "river_assignment_verified": false,
       "compound_model_ready": false,
       "pending": [
-        "verified_inlet_assignment",
-        "channel_sections_and_structures",
-        "terrain_vertical_reference",
-        "local_network_geometry_and_capacities",
+        "verified_invert_and_cover_elevations",
+        "diameter_gaps",
+        "network_connections_and_flow_directions",
+        "outfalls_and_inlets",
+        "roughness_and_structures",
+        "vertical_reference",
+        "series_provenance_and_event",
         "validation_observations"
       ],
-      "coastal_requirement": "If tidal boundary applies: bathymetry, MLWS-to-terrain leveling, time-zone verification and initial water state."
+      "coastal_requirement": "If tidal boundary applies: bathymetry, MLWS-to-terrain leveling, time-zone verification and initial water state.",
+      "local_inputs": {
+        "network_segments": 6359,
+        "network_nodes": 4933,
+        "missing_diameters": 417,
+        "questioned_directions": 724,
+        "terrain_resolution_m": [
+          2.999448320000091,
+          2.999700020867264
+        ],
+        "nodes_over_valid_local_terrain": 4622,
+        "audit_url": "data/compound/riobamba-audit.json"
+      }
     },
     {
       "id": "3655673",

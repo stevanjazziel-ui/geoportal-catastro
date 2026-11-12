@@ -1,0 +1,148 @@
+{
+  "city": "Riobamba",
+  "date": "2026-11-12",
+  "source_urls": [
+    "https://alva-piva-ayuda.vercel.app/alcantarillado/",
+    "https://drive.google.com/drive/folders/1f5qi1zbSJl6g9J0IG5x0AOOkJef4ZPcO",
+    "https://drive.google.com/drive/folders/1GCHBInV71GKNds_kdjOS1FIEFK30fXuT"
+  ],
+  "network": {
+    "segments": 6359,
+    "nodes": 4933,
+    "system_counts": {
+      "combinado": 3903,
+      "pluvial": 1803,
+      "colector": 653
+    },
+    "missing_diameters": 417,
+    "questioned_directions": 724,
+    "nodes_with_endpoint_spread_over_0_2m": 86,
+    "cota_annotations_unassigned": 1620,
+    "hydraulic_annotations_unassigned": 483,
+    "crs_interpretation": "EPSG:32717 inferred from the portal projection formula; compare against original CAD/geodetic metadata.",
+    "visualization_fallback": "Portal uses r[4] || 800 for rendering. Missing diameters remain NULL here; 800 mm is not adopted as a measured value.",
+    "missing": [
+      "verified invert and cover elevations",
+      "node types and outfalls",
+      "roughness and material definitions",
+      "inlet capacities and connections",
+      "verified operating direction and geometry",
+      "source dates and asset status"
+    ],
+    "nodes_over_valid_local_terrain": 4622,
+    "nodes_outside_valid_local_terrain": 311,
+    "nodes_with_cota_candidate_within_5m": 358,
+    "candidate_assignment": "Nearest CAD annotation within 5m; not assigned as invert or cover; review ambiguity and reference."
+  },
+  "cartographic_culverts": {
+    "features": 264,
+    "fields": [
+      "OBJECTID",
+      "fcode",
+      "descripcio",
+      "ctc",
+      "txt",
+      "SHAPE_Leng"
+    ],
+    "meaning": "AQ065 cartographic crossing/evacuation structures; not the 6359-segment sewer network."
+  },
+  "terrain": {
+    "file": "terreno/MDT.TIF",
+    "shape": [
+      3840,
+      3750
+    ],
+    "crs": "EPSG:31977",
+    "resolution_m": [
+      2.999448320000091,
+      2.999700020867264
+    ],
+    "bounds": [
+      754302.3748000081,
+      9810320.595665993,
+      765550.3060000085,
+      9821839.443746123
+    ],
+    "nodata": -32767.0,
+    "valid_percent": 46.143375,
+    "elevation_min": 2573.878173828125,
+    "elevation_max": 3096.02099609375,
+    "vertical_datum": "Not specified in inspected TIFF or XML. SIRGAS 2000 / UTM 17S identifies horizontal reference only.",
+    "lineage": "Metadata creation/synchronization date is not a verified survey/acquisition date."
+  },
+  "anegamiento": {
+    "features": 725658,
+    "crs": "EPSG:31977",
+    "bounds": [
+      754302.3748000081,
+      9810320.595665993,
+      765550.3060000085,
+      9821838.477214793
+    ],
+    "classes": {
+      "BAJO": 257255,
+      "MEDIO": 228947,
+      "ALTO": 156420,
+      "MUY ALTO": 83036
+    },
+    "interpretation": "Classified anegamiento layer. Event date, depth and method are not established by the inspected fields; not a measured flood footprint."
+  },
+  "chibunga": {
+    "sheet": "Caudal_Chibunga",
+    "rows": 11322,
+    "start": "1985-01-01",
+    "end": "2015-12-31",
+    "missing_values": 568,
+    "negative_values": 0,
+    "origin_counts": {
+      "H": 9679,
+      "PDM": 1643
+    },
+    "min": 0.509999990463257,
+    "max": 42.4799995422363,
+    "duplicate_dates": 0,
+    "units": "Not explicit in inspected header; verify m3/s and origin-code definitions before using as boundary or calibration.",
+    "origin_handling": "H and PDM preserved separately. Do not assume all rows are gauge observations."
+  },
+  "precipitation": {
+    "sheet": "Sheet1",
+    "rows": 77,
+    "first_year": 1950,
+    "last_year": 2026,
+    "kind": "Annual maxima of accumulated 24h and 1h precipitation; not a storm hyetograph.",
+    "limitations": "Station/grid source, observation versus reanalysis and annual completeness need verification. Do not infer subhourly intensities from these maxima alone."
+  },
+  "other_flow_csv": {
+    "rows": 31314,
+    "start": "1940-01-01",
+    "end": "2025-09-24",
+    "duplicate_dates": 0,
+    "provenance": "CSV lacks station identity/units in inspected header. Do not assume the same support or provenance as H0789."
+  },
+  "ready_for": "GIS integration, terrain visualization and engineering-data reconciliation",
+  "ready_for_calibrated_swmm": false,
+  "sha256": {
+    "ANEGAMIENTO2.zip": "444b433d2da997209820b80be51a6703765aa549836d7d9e7fb40f70e3fb92b3",
+    "cartografia\\Alcantarillado.cpg": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+    "cartografia\\Alcantarillado.dbf": "c75cc2e790c6c16faa6504c1f1d57b36d1e1701191fc1718c8f2d3f6377a16f6",
+    "cartografia\\Alcantarillado.prj": "d5c5de3bec971779a1f128faf9da32ac90902653587b053fabf52994c1c37dec",
+    "cartografia\\Alcantarillado.shp": "4201d5fcbcfc9dc71c0417eb03d4446f3b1eeae734a27a30f0e535b96858d896",
+    "cartografia\\Alcantarillado.shx": "82f85d507cfe859ddf845395d35330bf848f3168af1ace4dba669bfe9b7ac6b7",
+    "cartografia\\manifest.json": "29612a0c17fcbda00f0cf54a34416d714d6eb9ada3942620bf5b73ecca4bdf42",
+    "caudales\\caudales_H789 Chibunga.xlsx": "9c5c2968df425402e0d124fdd9bee2eab2daf22996922875b37c9dcde4ff3ebd",
+    "caudales\\CuencasHidrologicas.cpg": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+    "caudales\\CuencasHidrologicas.dbf": "bad55e7e99ab4ccba1ff15de036ca3da2299e6a20e37359b873773f78f2867c7",
+    "caudales\\CuencasHidrologicas.prj": "d5c5de3bec971779a1f128faf9da32ac90902653587b053fabf52994c1c37dec",
+    "caudales\\CuencasHidrologicas.shp": "5ef8b67f3f82e4c01e9c907d4684b1882efaa4732132eb0dcc368ead37e6309d",
+    "caudales\\CuencasHidrologicas.shx": "7a6fe3921f953818577f955e0a91ab64eae492d201110e68b4adb62813c733e0",
+    "caudales\\download-manifest.json": "3543f3e24e6a4fe917cf2a6b9c81186d75f00865258b37d3816d90cfc48cf694",
+    "caudales\\retr0620828722.csv": "37ef7540a14297b338ee76d449bce271495edfd41845a05aa5ae752179f285b2",
+    "clima\\PrecipitacionMax.xlsx": "51fe4aa97a2924e8bb3e01f78e96ee96fac0dbdd9baadd785844925004ef30d7",
+    "portal-alcantarillado.html": "0c02161e872bc0f25c10cc0600ff59d871d6e6700e8973676c20c0bf14c78abc",
+    "portal-network-original.json": "d35fec6065a2f9dedd720b65f1aecbaaa12628327c2d1878c87f7b553ad9b64d",
+    "terreno\\MDT.tfw": "205283451ba2fd3fcfaaf849263b5c7ad26ee3a751a1cb634ef4032bc577fe9f",
+    "terreno\\MDT.TIF": "db6e73debad496be25141b1edad17821a7e376743abcfa5e5436da3360272f6e",
+    "terreno\\MDT.TIF.aux.xml": "0e54b917b9fd8807acc375b32f85cda396ca14549dd5f45123bf99fd36dbdacc",
+    "terreno\\MDT.TIF.xml": "594b96095b2d9716bfb0cbe69faee42b22ed423b5ce70c7fdb61775e201c68af"
+  }
+}
