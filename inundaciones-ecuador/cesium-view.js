@@ -1,0 +1,43 @@
+'use strict';
+let cesiumView=null,cesiumMesh=null,cesiumCity=null;
+function cesiumStart(){
+ if(cesiumView)return cesiumView;
+ const C=Cesium;C.Ion.defaultAccessToken='';
+ cesiumView=new C.Viewer('plot',{imageryProvider:new C.UrlTemplateImageryProvider({url:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',credit:'Imagery © Esri y proveedores'}),terrainProvider:new C.EllipsoidTerrainProvider(),baseLayerPicker:false,geocoder:false,timeline:false,animation:false,homeButton:true,sceneModePicker:true,navigationHelpButton:true,fullscreenButton:false,infoBox:false,selectionIndicator:false,requestRenderMode:true});
+ cesiumView.scene.globe.depthTestAgainstTerrain=true;
+ cesiumView.scene.screenSpaceCameraController.minimumZoomDistance=100;
+ cesiumView.homeButton.viewModel.command.beforeExecute.addEventListener(e=>{e.cancel=true;cesiumCity=null;drawCesiumTerrain();});
+ cesiumView.screenSpaceEventHandler.setInputAction(ev=>{const p=cesiumView.scene.pick(ev.position);if(p?.id?.cityId)selectCity(p.id.cityId,true);},C.ScreenSpaceEventType.LEFT_CLICK);
+ return cesiumView;
+}
+function drawCesiumTerrain(){
+ if(!detailData||!selected)return;
+ if(typeof Cesium==='undefined'){toast('No se pudo cargar Cesium. Comprueba la conexión.');return;}
+ const C=Cesium,v=cesiumStart(),sim=activeSimulation,d=sim||detailData,n=d.n,b=d.bbox,depth=sim?sim.frames[simFrame]:null;
+ const points=new Float64Array(n*n*3),rgba=new Uint8Array(n*n*4),indices=[];
+ const palette=[[80,140,160],[105,150,113],[221,181,102],[203,125,92],[153,161,151]];
+ for(let y=0;y<n;y++)for(let x=0;x<n;x++){
+  const i=y*n+x,z=d.dem[y][x],h=depth?depth[y][x]:simMode==='hand'&&d.hand[y][x]!==null?Math.max(0,water-d.hand[y][x]):0;
+  const p=C.Cartesian3.fromDegrees(b[0]+(x+.5)*(b[2]-b[0])/n,b[3]-(y+.5)*(b[3]-b[1])/n,z+(h>=.05?h:0));
+  points.set([p.x,p.y,p.z],i*3);
+  const c=h>=.05?[25,Math.round(165-65*Math.min(h/2,1)),Math.round(215-55*Math.min(h/2,1))]:sim?[140,164,116]:palette[d.class[y][x]];
+  rgba.set([...c,255],i*4);
+  if(y<n-1&&x<n-1){const k=i;indices.push(k,k+n,k+1,k+1,k+n,k+n+1);}
+ }
+ const geometry=new C.Geometry({attributes:{position:new C.GeometryAttribute({componentDatatype:C.ComponentDatatype.DOUBLE,componentsPerAttribute:3,values:points}),color:new C.GeometryAttribute({componentDatatype:C.ComponentDatatype.UNSIGNED_BYTE,componentsPerAttribute:4,normalize:true,values:rgba})},indices:new Uint32Array(indices),primitiveType:C.PrimitiveType.TRIANGLES,boundingSphere:C.BoundingSphere.fromVertices(points)});
+ const appearance=new C.Appearance({translucent:false,closed:false,renderState:{depthTest:{enabled:true},cull:{enabled:false}},vertexShaderSource:'attribute vec3 position3DHigh; attribute vec3 position3DLow; attribute vec4 color; varying vec4 v_color; void main(){vec4 p=czm_computePosition();v_color=color;gl_Position=czm_modelViewProjectionRelativeToEye*p;}',fragmentShaderSource:'varying vec4 v_color; void main(){gl_FragColor=v_color;}'});
+ if(cesiumMesh)v.scene.primitives.remove(cesiumMesh);
+ cesiumMesh=v.scene.primitives.add(new C.Primitive({geometryInstances:new C.GeometryInstance({geometry}),appearance,asynchronous:false,allowPicking:false}));
+ if(cesiumCity!==selected.id){
+  v.entities.removeAll();
+  for(const c of catalog)v.entities.add({cityId:c.id,name:c.name,position:C.Cartesian3.fromDegrees(c.lon,c.lat,(c.elevation_median||0)+30),point:{pixelSize:c.id===selected.id?9:6,color:C.Color.fromCssColorString(colors[c.priority]),outlineColor:C.Color.WHITE,outlineWidth:2,disableDepthTestDistance:Number.POSITIVE_INFINITY},label:{text:c.name,font:'12px sans-serif',pixelOffset:new C.Cartesian2(0,-17),showBackground:true,distanceDisplayCondition:new C.DistanceDisplayCondition(0,200000)}});
+  v.camera.flyToBoundingSphere(geometry.boundingSphere,{duration:0,offset:new C.HeadingPitchRange(0,-.75,geometry.boundingSphere.radius*2.8)});cesiumCity=selected.id;
+ }
+ v.resize();v.scene.requestRender();
+ const hint=document.querySelector('.terrainhint');hint.textContent='Cesium · arrastra para mover · Ctrl + arrastrar para inclinar · rueda para acercar';
+}
+renderTerrain=drawCesiumTerrain;
+window.drawCesiumTerrain=drawCesiumTerrain;
+window.addEventListener('resize',()=>{if(cesiumView){cesiumView.resize();cesiumView.scene.requestRender();}});
+document.addEventListener('fullscreenchange',()=>{if(cesiumView)cesiumView.resize();});
+if(view==='terrain'&&detailData)drawCesiumTerrain();
