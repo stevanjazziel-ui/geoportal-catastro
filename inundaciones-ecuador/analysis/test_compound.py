@@ -32,4 +32,9 @@ class CompoundTests(unittest.TestCase):
   f=CompoundForcing(c,(5,5),'test',60)
   r=simulate(np.ones((5,5))*10,20,rain_mm_h=0,infiltration_mm_h=0,duration_hours=1/60,boundary='closed',snapshot_minutes=1,external=f)
   self.assertAlmostEqual(r['stats']['final_storage_m3'],60,places=7)
+ def test_interval_end_exchange_preserves_step_volume(self):
+  c={'surface_exchange':[{'id':'s','kind':'swmm_prescribed_exchange','cells':[[2,2]],'seconds':[0,7,60],'m3_s':[0,2,1],'interpolation':'interval_end','source':'synthetic exported step rates'}]}
+  f=CompoundForcing(c,(5,5),'test',60)
+  r=simulate(np.ones((5,5))*10,20,rain_mm_h=0,infiltration_mm_h=0,duration_hours=1/60,boundary='closed',snapshot_minutes=1,external=f)
+  self.assertAlmostEqual(r['stats']['final_storage_m3'],67,places=7)
 if __name__=='__main__':unittest.main()

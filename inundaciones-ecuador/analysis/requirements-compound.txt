@@ -1,0 +1,5 @@
+# Install into the project's .deps or an explicitly selected environment.
+swmm-toolkit==0.17.0
+pyarrow==26.0.1
+aenum==3.1.17
+# Existing project environment supplies NumPy and pandas.

@@ -21,8 +21,10 @@ class CompoundForcing:
                 if not(0<=y<shape[0] and 0<=x<shape[1]):raise ValueError('Exchange outside domain')
             if len(set(map(tuple,cells)))!=len(cells):raise ValueError('Repeated exchange cell')
             t,v=self._series(item,'m3_s')
+            interpolation=item.get('interpolation','linear')
+            if interpolation not in ('linear','interval_end'):raise ValueError('Unknown interpolation mode')
             if kind=='river_inflow' and np.any(v<0):raise ValueError('River inflow cannot be negative')
-            self.ports.append((item['id'],cells,weights/weights.sum(),t,v));self.volumes[item['id']]=0.;self.requested_volumes[item['id']]=0.
+            self.ports.append((item['id'],cells,weights/weights.sum(),t,v,interpolation));self.volumes[item['id']]=0.;self.requested_volumes[item['id']]=0.
         for item in config.get('stage_boundaries',[]):
             if not terrain_datum or item.get('vertical_reference')!=terrain_datum:raise ValueError('Stage and terrain vertical references differ or are missing')
             if not item.get('datum_evidence'):raise ValueError('Datum linkage evidence is required')
@@ -38,8 +40,10 @@ class CompoundForcing:
         return t,v
     def apply(self,h,active,area,dt,t):
         net=0.
-        for ident,cells,w,ts,vs in self.ports:
-            volume=float(np.interp(t+dt/2,ts,vs))*dt
+        for ident,cells,w,ts,vs,mode in self.ports:
+            at=t+dt/2
+            rate=np.interp(at,ts,vs) if mode=='linear' else vs[min(np.searchsorted(ts,at,side='left'),len(vs)-1)]
+            volume=float(rate)*dt
             self.requested_volumes[ident]+=volume
             for (y,x),weight in zip(cells,w):
                 if not active[y,x]:raise ValueError('Exchange cannot target an excluded terrain cell')
@@ -49,7 +53,7 @@ class CompoundForcing:
         return net
     def next_event(self,t):
         events=[self.coverage]
-        for _,_,_,ts,_ in self.ports:events.extend(ts[ts>t+1e-7])
+        for _,_,_,ts,_,_ in self.ports:events.extend(ts[ts>t+1e-7])
         for _,ts,_ in self.stages:events.extend(ts[ts>t+1e-7])
         return min(events)
     def boundary(self,qx,qy,z,h,dt,dx,t,active):
