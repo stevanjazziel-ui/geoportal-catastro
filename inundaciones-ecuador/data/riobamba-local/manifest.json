@@ -1,0 +1,550 @@
+{
+  "version": "riobamba-local-20261112-v1",
+  "calibrated": false,
+  "rows": 480,
+  "cols": 469,
+  "cell_count": 225120,
+  "dx_m": 24,
+  "valid_km2": 59.170176,
+  "bounds": [
+    -78.71425326406641,
+    -1.7146119274841958,
+    -78.61323412154054,
+    -1.6105717754477658
+  ],
+  "grid": {
+    "file": "grid.f32.gz",
+    "bytes": 712096,
+    "sha256": "719f30ff24ea026df0418f8935ef14900e2f3fc09378da42835045b775e2ca34"
+  },
+  "grid_layers": [
+    "longitude",
+    "latitude",
+    "dem_m",
+    "valid_mask",
+    "landcover",
+    "anegamiento_class",
+    "channel"
+  ],
+  "terrain": {
+    "file": "terrain.f32.gz",
+    "bytes": 362290,
+    "sha256": "702906c58e74efdb589873d404902fee70a0648d6ff9de6ca1d4d3ad4ceece1b",
+    "size": 512,
+    "nodata": -9999
+  },
+  "cases": [
+    {
+      "file": "rain-1h-no-drainage.u16.gz",
+      "bytes": 404635,
+      "sha256": "ef5968d3fe34b34bef86fe77d2ba70dbeff15cad6fa72c137ff4de859d24f613",
+      "id": "rain-1h-no-drainage",
+      "label": "Lluvia 1 h · sin drenaje",
+      "frame_count": 9,
+      "times_minutes": [
+        0.0,
+        15.0,
+        30.0,
+        45.0,
+        60.0,
+        75.0,
+        90.0,
+        105.0,
+        120.0
+      ],
+      "max_frame_index": 9,
+      "stats": {
+        "initial_m3": 0.0,
+        "direct_rain_m3": 420157.08332322247,
+        "prescribed_overflow_m3": 0.0,
+        "infiltration_m3": 201735.80442717517,
+        "boundary_outflow_m3": 10608.796287570294,
+        "final_m3": 207812.4826086656,
+        "mass_residual_m3": -1.885928213596344e-07,
+        "mass_relative_error": 4.48862648864477e-13,
+        "max_depth_m": 0.9902616613534735,
+        "max_footprint_km2": 1.176192,
+        "froude_limited_fraction": 0.06787895157555471,
+        "steps": 1556
+      },
+      "rain_mm_h": 7.100825309753418,
+      "rain_hours": 1,
+      "duration_hours": 2,
+      "context_comparison": {
+        "wet_km2_5cm": 1.176192,
+        "interior_wet_km2_5cm": 1.16928,
+        "wet_area_in_given_high_classes_km2": 0.171648,
+        "interpretation": "Spatial overlap with a supplied classification, not validation with an observed flood."
+      },
+      "report": "rain-1h-no-drainage-report.json"
+    },
+    {
+      "file": "rain-1h-inferred-drainage.u16.gz",
+      "bytes": 290631,
+      "sha256": "54ef0fcf97b391974a06ac88c5c6fbd24b9227826098abbc256785f3be3a7ceb",
+      "id": "rain-1h-inferred-drainage",
+      "label": "Lluvia 1 h · red estimada",
+      "frame_count": 9,
+      "times_minutes": [
+        0.0,
+        15.0,
+        30.0,
+        45.0,
+        60.0,
+        75.0,
+        90.0,
+        105.0,
+        120.0
+      ],
+      "max_frame_index": 9,
+      "stats": {
+        "initial_m3": 0.0,
+        "direct_rain_m3": 253809.627607701,
+        "prescribed_overflow_m3": 115092.9545280382,
+        "infiltration_m3": 164656.87976970722,
+        "boundary_outflow_m3": 12948.807777302743,
+        "final_m3": 191296.8945887715,
+        "mass_residual_m3": -4.225876182317734e-08,
+        "mass_relative_error": 1.1455263223836166e-13,
+        "max_depth_m": 2.439880145646611,
+        "max_footprint_km2": 0.88992,
+        "froude_limited_fraction": 0.01401030708271878,
+        "steps": 2808
+      },
+      "rain_mm_h": 7.100825309753418,
+      "rain_hours": 1,
+      "duration_hours": 2,
+      "context_comparison": {
+        "wet_km2_5cm": 0.88992,
+        "interior_wet_km2_5cm": 0.883584,
+        "wet_area_in_given_high_classes_km2": 0.145728,
+        "interpretation": "Spatial overlap with a supplied classification, not validation with an observed flood."
+      },
+      "report": "rain-1h-inferred-drainage-report.json"
+    },
+    {
+      "file": "rain-24h-no-drainage.u16.gz",
+      "bytes": 4111513,
+      "sha256": "a92d252a0cde4045e6bfcbdaba0e1748dfebe2b49fb48a9164ab0a51a5818fd1",
+      "id": "rain-24h-no-drainage",
+      "label": "Lluvia 24 h · sin drenaje",
+      "frame_count": 105,
+      "times_minutes": [
+        0.0,
+        15.0,
+        30.0,
+        45.0,
+        60.0,
+        75.0,
+        90.0,
+        105.0,
+        120.0,
+        135.0,
+        150.0,
+        165.0,
+        180.0,
+        195.0,
+        210.0,
+        225.0,
+        240.0,
+        255.0,
+        270.0,
+        285.0,
+        300.0,
+        315.0,
+        330.0,
+        345.0,
+        360.0,
+        375.0,
+        390.0,
+        405.0,
+        420.0,
+        435.0,
+        450.0,
+        465.0,
+        480.0,
+        495.0,
+        510.0,
+        525.0,
+        540.0,
+        555.0,
+        570.0,
+        585.0,
+        600.0,
+        615.0,
+        630.0,
+        645.0,
+        660.0,
+        675.0,
+        690.0,
+        705.0,
+        720.0,
+        735.0,
+        750.0,
+        765.0,
+        780.0,
+        795.0,
+        810.0,
+        825.0,
+        840.0,
+        855.0,
+        870.0,
+        885.0,
+        900.0,
+        915.0,
+        930.0,
+        945.0,
+        960.0,
+        975.0,
+        990.0,
+        1005.0,
+        1020.0,
+        1035.0,
+        1050.0,
+        1065.0,
+        1080.0,
+        1095.0,
+        1110.0,
+        1125.0,
+        1140.0,
+        1155.0,
+        1170.0,
+        1185.0,
+        1200.0,
+        1215.0,
+        1230.0,
+        1245.0,
+        1260.0,
+        1275.0,
+        1290.0,
+        1305.0,
+        1320.0,
+        1335.0,
+        1350.0,
+        1365.0,
+        1380.0,
+        1395.0,
+        1410.0,
+        1425.0,
+        1440.0,
+        1455.0,
+        1470.0,
+        1485.0,
+        1500.0,
+        1515.0,
+        1530.0,
+        1545.0,
+        1560.0
+      ],
+      "max_frame_index": 105,
+      "stats": {
+        "initial_m3": 0.0,
+        "direct_rain_m3": 3365776.63566673,
+        "prescribed_overflow_m3": 0.0,
+        "infiltration_m3": 2264855.9461985957,
+        "boundary_outflow_m3": 143717.13375967252,
+        "final_m3": 957203.5557083923,
+        "mass_residual_m3": 6.938353180885315e-08,
+        "mass_relative_error": 2.0614419588514642e-14,
+        "max_depth_m": 6.465825491333703,
+        "max_footprint_km2": 3.361536,
+        "froude_limited_fraction": 0.002870443907961972,
+        "steps": 56965
+      },
+      "rain_mm_h": 2.370124657948812,
+      "rain_hours": 24,
+      "duration_hours": 26,
+      "context_comparison": {
+        "wet_km2_5cm": 3.361536,
+        "interior_wet_km2_5cm": 3.351744,
+        "wet_area_in_given_high_classes_km2": 0.50112,
+        "interpretation": "Spatial overlap with a supplied classification, not validation with an observed flood."
+      },
+      "report": "rain-24h-no-drainage-report.json"
+    }
+  ],
+  "metadata": {
+    "dx_m": 24.0,
+    "shape": [
+      480,
+      469
+    ],
+    "crs": "EPSG:31977",
+    "transform": [
+      24.0,
+      0.0,
+      754302.3748000081,
+      0.0,
+      -24.0,
+      9821839.443746123
+    ],
+    "valid_km2": 59.170176,
+    "source_dem_resolution_m": 3,
+    "minimum_valid_fraction_per_cell": 0.95,
+    "landcover_source_year": 2018,
+    "estimated_parameters_by_class": {
+      "1": {
+        "name": "Urbano y equipamientos",
+        "n": 0.08,
+        "infiltration_mm_h": 0.5,
+        "impervious_fraction": 0.8
+      },
+      "2": {
+        "name": "Agricultura y pastos",
+        "n": 0.05,
+        "infiltration_mm_h": 5.0,
+        "impervious_fraction": 0.1
+      },
+      "3": {
+        "name": "Forestal",
+        "n": 0.12,
+        "infiltration_mm_h": 8.0,
+        "impervious_fraction": 0.05
+      },
+      "4": {
+        "name": "Herbaceo y arbustivo",
+        "n": 0.06,
+        "infiltration_mm_h": 5.0,
+        "impervious_fraction": 0.05
+      },
+      "5": {
+        "name": "Suelo descubierto",
+        "n": 0.03,
+        "infiltration_mm_h": 3.0,
+        "impervious_fraction": 0.1
+      },
+      "6": {
+        "name": "Agua y cauce cartografiado",
+        "n": 0.035,
+        "infiltration_mm_h": 0.0,
+        "impervious_fraction": 1.0
+      },
+      "7": {
+        "name": "Invernaderos e infraestructura agropecuaria",
+        "n": 0.05,
+        "infiltration_mm_h": 1.0,
+        "impervious_fraction": 0.7
+      },
+      "8": {
+        "name": "Cobertura no clasificada: supuesto",
+        "n": 0.06,
+        "infiltration_mm_h": 3.0,
+        "impervious_fraction": 0.2
+      }
+    },
+    "landcover_km2": {
+      "Urbano y equipamientos": 29.441664,
+      "Agricultura y pastos": 14.164992,
+      "Forestal": 1.870848,
+      "Herbaceo y arbustivo": 2.928384,
+      "Suelo descubierto": 0.525888,
+      "Agua y cauce cartografiado": 0.070272,
+      "Invernaderos e infraestructura agropecuaria": 0.095616,
+      "Cobertura no clasificada: supuesto": 10.072512
+    },
+    "rain_input": {
+      "years": [
+        1950,
+        2025
+      ],
+      "max_1h_mm": 7.100825309753418,
+      "max_24h_mm": 56.882991790771484,
+      "median_1h_mm": 3.9680840969085693,
+      "source_status": "supplied annual-maxima series; station/grid provenance not verified; 2026 excluded as incomplete year"
+    },
+    "basin_codes": [
+      "H0791",
+      "H0788",
+      "B0787",
+      "H0789",
+      "H0800"
+    ],
+    "vertical_reference": "local source elevation frame; geodetic vertical datum unspecified; no sea-level boundary",
+    "boundary_assumption": "Critical free outflow along valid-domain edges and NoData boundaries; no external catchment inflow. Interpretation near boundary is uncertain.",
+    "limitations": [
+      "Parameters are estimates by 2018 land cover, not soil tests or measured impervious fractions.",
+      "Native 3m DEM averaged to calculation grid; streets and inlet details below that grid are unresolved.",
+      "No bathymetric adjustment or invented river cross-section.",
+      "Anegamiento classification is only a contextual comparison; it is not calibration with an observed event.",
+      "Daily river series are retained for hydrological context; no subhourly flood hydrograph is manufactured from them."
+    ],
+    "references": [
+      "https://www.hec.usace.army.mil/confluence/rasdocs/rmum/6.1/land-classification-layers",
+      "https://www.epa.gov/water-research/storm-water-management-model-swmm"
+    ],
+    "source_sha256": {
+      "terreno\\MDT.TIF": "db6e73debad496be25141b1edad17821a7e376743abcfa5e5436da3360272f6e",
+      "cobertura\\cob_uso_riobamba_a.shp": "9655a917dca04f48df92212171d9880eff6815c5ce484ab3aaed38d0bb229131",
+      "cobertura\\cob_uso_riobamba_a.dbf": "cfc802cececc51398ede813be2f5ee5bd4c2367685a0694486127922ee00f29e",
+      "ANEGAMIENTO2.zip": "444b433d2da997209820b80be51a6703765aa549836d7d9e7fb40f70e3fb92b3",
+      "prepared\\precipitation_annual_maxima_preserved.csv": "abcb870016228ccc9126be8c92329ee11bb1676eeeb58fa0950e530170d1f017"
+    }
+  },
+  "source_audit": {
+    "city": "Riobamba",
+    "date": "2026-11-12",
+    "source_urls": [
+      "https://alva-piva-ayuda.vercel.app/alcantarillado/",
+      "https://drive.google.com/drive/folders/1f5qi1zbSJl6g9J0IG5x0AOOkJef4ZPcO",
+      "https://drive.google.com/drive/folders/1GCHBInV71GKNds_kdjOS1FIEFK30fXuT"
+    ],
+    "network": {
+      "segments": 6359,
+      "nodes": 4933,
+      "system_counts": {
+        "combinado": 3903,
+        "pluvial": 1803,
+        "colector": 653
+      },
+      "missing_diameters": 417,
+      "questioned_directions": 724,
+      "nodes_with_endpoint_spread_over_0_2m": 86,
+      "cota_annotations_unassigned": 1620,
+      "hydraulic_annotations_unassigned": 483,
+      "crs_interpretation": "EPSG:32717 inferred from the portal projection formula; compare against original CAD/geodetic metadata.",
+      "visualization_fallback": "Portal uses r[4] || 800 for rendering. Missing diameters remain NULL here; 800 mm is not adopted as a measured value.",
+      "missing": [
+        "verified invert and cover elevations",
+        "node types and outfalls",
+        "roughness and material definitions",
+        "inlet capacities and connections",
+        "verified operating direction and geometry",
+        "source dates and asset status"
+      ],
+      "nodes_over_valid_local_terrain": 4622,
+      "nodes_outside_valid_local_terrain": 311,
+      "nodes_with_cota_candidate_within_5m": 358,
+      "candidate_assignment": "Nearest CAD annotation within 5m; not assigned as invert or cover; review ambiguity and reference."
+    },
+    "cartographic_culverts": {
+      "features": 264,
+      "fields": [
+        "OBJECTID",
+        "fcode",
+        "descripcio",
+        "ctc",
+        "txt",
+        "SHAPE_Leng"
+      ],
+      "meaning": "AQ065 cartographic crossing/evacuation structures; not the 6359-segment sewer network."
+    },
+    "terrain": {
+      "file": "terreno/MDT.TIF",
+      "shape": [
+        3840,
+        3750
+      ],
+      "crs": "EPSG:31977",
+      "resolution_m": [
+        2.999448320000091,
+        2.999700020867264
+      ],
+      "bounds": [
+        754302.3748000081,
+        9810320.595665993,
+        765550.3060000085,
+        9821839.443746123
+      ],
+      "nodata": -32767.0,
+      "valid_percent": 46.143375,
+      "elevation_min": 2573.878173828125,
+      "elevation_max": 3096.02099609375,
+      "vertical_datum": "Not specified in inspected TIFF or XML. SIRGAS 2000 / UTM 17S identifies horizontal reference only.",
+      "lineage": "Metadata creation/synchronization date is not a verified survey/acquisition date."
+    },
+    "anegamiento": {
+      "features": 725658,
+      "crs": "EPSG:31977",
+      "bounds": [
+        754302.3748000081,
+        9810320.595665993,
+        765550.3060000085,
+        9821838.477214793
+      ],
+      "classes": {
+        "BAJO": 257255,
+        "MEDIO": 228947,
+        "ALTO": 156420,
+        "MUY ALTO": 83036
+      },
+      "interpretation": "Classified anegamiento layer. Event date, depth and method are not established by the inspected fields; not a measured flood footprint."
+    },
+    "chibunga": {
+      "sheet": "Caudal_Chibunga",
+      "rows": 11322,
+      "start": "1985-01-01",
+      "end": "2015-12-31",
+      "missing_values": 568,
+      "negative_values": 0,
+      "origin_counts": {
+        "H": 9679,
+        "PDM": 1643
+      },
+      "min": 0.509999990463257,
+      "max": 42.4799995422363,
+      "duplicate_dates": 0,
+      "units": "Not explicit in inspected header; verify m3/s and origin-code definitions before using as boundary or calibration.",
+      "origin_handling": "H and PDM preserved separately. Do not assume all rows are gauge observations."
+    },
+    "precipitation": {
+      "sheet": "Sheet1",
+      "rows": 77,
+      "first_year": 1950,
+      "last_year": 2026,
+      "kind": "Annual maxima of accumulated 24h and 1h precipitation; not a storm hyetograph.",
+      "limitations": "Station/grid source, observation versus reanalysis and annual completeness need verification. Do not infer subhourly intensities from these maxima alone."
+    },
+    "other_flow_csv": {
+      "rows": 31314,
+      "start": "1940-01-01",
+      "end": "2025-09-24",
+      "duplicate_dates": 0,
+      "provenance": "CSV lacks station identity/units in inspected header. Do not assume the same support or provenance as H0789."
+    },
+    "ready_for": "GIS integration, terrain visualization and engineering-data reconciliation",
+    "ready_for_calibrated_swmm": false,
+    "sha256": {
+      "ANEGAMIENTO2.zip": "444b433d2da997209820b80be51a6703765aa549836d7d9e7fb40f70e3fb92b3",
+      "cartografia\\Alcantarillado.cpg": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+      "cartografia\\Alcantarillado.dbf": "c75cc2e790c6c16faa6504c1f1d57b36d1e1701191fc1718c8f2d3f6377a16f6",
+      "cartografia\\Alcantarillado.prj": "d5c5de3bec971779a1f128faf9da32ac90902653587b053fabf52994c1c37dec",
+      "cartografia\\Alcantarillado.shp": "4201d5fcbcfc9dc71c0417eb03d4446f3b1eeae734a27a30f0e535b96858d896",
+      "cartografia\\Alcantarillado.shx": "82f85d507cfe859ddf845395d35330bf848f3168af1ace4dba669bfe9b7ac6b7",
+      "cartografia\\manifest.json": "29612a0c17fcbda00f0cf54a34416d714d6eb9ada3942620bf5b73ecca4bdf42",
+      "caudales\\caudales_H789 Chibunga.xlsx": "9c5c2968df425402e0d124fdd9bee2eab2daf22996922875b37c9dcde4ff3ebd",
+      "caudales\\CuencasHidrologicas.cpg": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+      "caudales\\CuencasHidrologicas.dbf": "bad55e7e99ab4ccba1ff15de036ca3da2299e6a20e37359b873773f78f2867c7",
+      "caudales\\CuencasHidrologicas.prj": "d5c5de3bec971779a1f128faf9da32ac90902653587b053fabf52994c1c37dec",
+      "caudales\\CuencasHidrologicas.shp": "5ef8b67f3f82e4c01e9c907d4684b1882efaa4732132eb0dcc368ead37e6309d",
+      "caudales\\CuencasHidrologicas.shx": "7a6fe3921f953818577f955e0a91ab64eae492d201110e68b4adb62813c733e0",
+      "caudales\\download-manifest.json": "3543f3e24e6a4fe917cf2a6b9c81186d75f00865258b37d3816d90cfc48cf694",
+      "caudales\\retr0620828722.csv": "37ef7540a14297b338ee76d449bce271495edfd41845a05aa5ae752179f285b2",
+      "clima\\PrecipitacionMax.xlsx": "51fe4aa97a2924e8bb3e01f78e96ee96fac0dbdd9baadd785844925004ef30d7",
+      "portal-alcantarillado.html": "0c02161e872bc0f25c10cc0600ff59d871d6e6700e8973676c20c0bf14c78abc",
+      "portal-network-original.json": "d35fec6065a2f9dedd720b65f1aecbaaa12628327c2d1878c87f7b553ad9b64d",
+      "terreno\\MDT.tfw": "205283451ba2fd3fcfaaf849263b5c7ad26ee3a751a1cb634ef4032bc577fe9f",
+      "terreno\\MDT.TIF": "db6e73debad496be25141b1edad17821a7e376743abcfa5e5436da3360272f6e",
+      "terreno\\MDT.TIF.aux.xml": "0e54b917b9fd8807acc375b32f85cda396ca14549dd5f45123bf99fd36dbdacc",
+      "terreno\\MDT.TIF.xml": "594b96095b2d9716bfb0cbe69faee42b22ed423b5ce70c7fdb61775e201c68af"
+    }
+  },
+  "network": "network.json.gz",
+  "sensitivity": {
+    "comparison": "Same 1h synthetic rain, same parameter rules, 24m vs 48m; valid masks differ at boundaries.",
+    "area_5cm_24m_km2": 1.176192,
+    "area_5cm_48m_km2": 0.751104,
+    "area_relative_change_percent": -36.14103819784524,
+    "interpretation": "Material grid sensitivity. Spatial extent has not converged; not suitable for parcel or street decisions."
+  },
+  "notes_es": [
+    "Aproximación exploratoria: no calibrada con eventos observados.",
+    "Relieve original de 3 m, cálculo a 24 m. Celdas sin terreno válido excluidas.",
+    "Lluvias uniformes sintéticas tomadas de máximos anuales suministrados (1950–2025); no representan un período de retorno.",
+    "Rugosidad e infiltración estimadas por cobertura 2018; faltan mediciones locales.",
+    "Red SWMM con cotas, salidas, captación y diámetros faltantes estimados. Acoplamiento de reboses hacia superficie en un sentido.",
+    "Caudales diarios del Chibunga, cuencas y anotaciones CAD revisados; faltan batimetría e hidrogramas de crecida para incorporarlos como frontera hidráulica.",
+    "ANEGAMIENTO2 se utiliza como clasificación de contexto; no como una inundación observada.",
+    "Sensibilidad a la malla significativa: la extensión inundada aún no converge.",
+    "Datum vertical del MDT no documentado; las alturas 3D son relativas al marco local suministrado."
+  ]
+}

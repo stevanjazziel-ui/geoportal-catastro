@@ -3,16 +3,17 @@ let cesiumView=null,cesiumMesh=null,cesiumCity=null;
 function cesiumStart(){
  if(cesiumView)return cesiumView;
  const C=Cesium;C.Ion.defaultAccessToken='';
- cesiumView=new C.Viewer('plot',{imageryProvider:new C.UrlTemplateImageryProvider({url:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',credit:'Imagery © Esri y proveedores'}),terrainProvider:new C.EllipsoidTerrainProvider(),baseLayerPicker:false,geocoder:false,timeline:false,animation:false,homeButton:true,sceneModePicker:true,navigationHelpButton:true,fullscreenButton:false,infoBox:false,selectionIndicator:false,requestRenderMode:true});
+ cesiumView=new C.Viewer('plot',{imageryProvider:window.EcuadorImagery.fallback(C),terrainProvider:new C.EllipsoidTerrainProvider(),baseLayerPicker:false,geocoder:false,timeline:false,animation:false,homeButton:true,sceneModePicker:true,navigationHelpButton:true,fullscreenButton:false,infoBox:false,selectionIndicator:false,requestRenderMode:true});
  cesiumView.scene.globe.depthTestAgainstTerrain=true;
- cesiumView.scene.screenSpaceCameraController.minimumZoomDistance=100;
+ window.EcuadorImagery.connect(cesiumView,C);
+ cesiumView.scene.screenSpaceCameraController.minimumZoomDistance=10;
  cesiumView.homeButton.viewModel.command.beforeExecute.addEventListener(e=>{e.cancel=true;cesiumCity=null;drawCesiumTerrain();});
  cesiumView.screenSpaceEventHandler.setInputAction(ev=>{const p=cesiumView.scene.pick(ev.position);if(p?.id?.cityId)selectCity(p.id.cityId,true);},C.ScreenSpaceEventType.LEFT_CLICK);
  return cesiumView;
 }
 function drawCesiumTerrain(){
  if(!detailData||!selected)return;
- if(typeof Cesium==='undefined'){toast('No se pudo cargar Cesium. Comprueba la conexión.');return;}
+ if(typeof Cesium==='undefined'){toast('No se pudo cargar Cesium. Comprueba la conexiÃ³n.');return;}
  const C=Cesium,v=cesiumStart(),sim=activeSimulation,d=sim||detailData,n=d.n,b=d.bbox,depth=sim?sim.frames[simFrame]:null;
  const points=new Float64Array(n*n*3),rgba=new Uint8Array(n*n*4),indices=[];
  const palette=[[80,140,160],[105,150,113],[221,181,102],[203,125,92],[153,161,151]];
@@ -30,7 +31,7 @@ function drawCesiumTerrain(){
  cesiumMesh=v.scene.primitives.add(new C.Primitive({geometryInstances:new C.GeometryInstance({geometry}),appearance,asynchronous:false,allowPicking:false}));
  if(cesiumCity!==selected.id||v.__terrainGrid!==n){
   v.__terrainGrid=n; const scheme=new C.GeographicTilingScheme(),heights=d.dem,box=b.slice(),size=n;
-  v.terrainProvider=new C.CustomHeightmapTerrainProvider({width:32,height:32,tilingScheme:scheme,credit:'Relieve local Mapzen · resolución de simulación ~153 m',callback:(tx,ty,level)=>{
+  v.terrainProvider=new C.CustomHeightmapTerrainProvider({width:32,height:32,tilingScheme:scheme,credit:'Relieve local Mapzen Â· resoluciÃ³n de simulaciÃ³n ~153 m',callback:(tx,ty,level)=>{
    const rect=scheme.tileXYToRectangle(tx,ty,level),out=new Float32Array(1024);
    for(let iy=0;iy<32;iy++)for(let ix=0;ix<32;ix++){
     const lon=C.Math.toDegrees(rect.west+(rect.east-rect.west)*ix/31),lat=C.Math.toDegrees(rect.north-(rect.north-rect.south)*iy/31);
@@ -45,7 +46,7 @@ function drawCesiumTerrain(){
   v.camera.flyToBoundingSphere(geometry.boundingSphere,{duration:0,offset:new C.HeadingPitchRange(0,-.75,geometry.boundingSphere.radius*2.8)});cesiumCity=selected.id;
  }
  v.resize();v.scene.requestRender();
- const hint=document.querySelector('.terrainhint');hint.textContent='Agua azul semitransparente · celdas simuladas ~153 m · terreno regional sin calibración';
+ const hint=document.querySelector('.terrainhint');hint.textContent='Agua azul semitransparente Â· celdas simuladas ~153 m Â· terreno regional sin calibraciÃ³n';
 }
 renderTerrain=drawCesiumTerrain;
 window.drawCesiumTerrain=drawCesiumTerrain;
