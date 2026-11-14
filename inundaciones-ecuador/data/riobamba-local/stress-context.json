@@ -1,0 +1,11 @@
+{
+  "retrieved": "2026-11-14",
+  "source_url": "https://alertasecuador.gob.ec/el_nino/wp-content/uploads/2026/11/erfen_20261105.pdf",
+  "report_date": "2026-11-05",
+  "report_id": "ERFEN 012-2026",
+  "enso_status": "Active in consulted report",
+  "regional_outlook": "November: normal monthly precipitation in inter-Andean valley; western slopes above normal; eastern slopes below normal. This does not determine hourly extremes in Riobamba.",
+  "multipliers_are_assumed": true,
+  "note": "+25%, +50%, +100% are chosen sensitivity levels, not forecast changes, statistical upper bounds or assigned return periods.",
+  "downloaded_erfen_pdf_sha256": "5fb847f739c289fa353209fa7fde5a4dfd0858237ac495ea27c727d77c1537b9"
+}

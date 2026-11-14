@@ -77,3 +77,18 @@ Nuevos cálculos sin drenaje: ESPOCH 1 h, T10=28,1; T25=34,0; T50=39,2; T100=45,
 La lluvia de estación se aplica uniformemente al dominio sin reducción areal ni distribución temporal observada. El retorno de la lluvia no establece el retorno de la inundación. La comparación de resolución anterior se refiere exclusivamente al caso de 7,10 mm/h; los escenarios IDF no tienen una nueva prueba de convergencia.
 
 Los casos de 7,10 mm/h permanecen como referencias claramente identificadas de origen pendiente. El caso de 24 h previo se conserva localmente y en el historial Git, retirándose su descarga del sitio activo para mantener el límite de GitHub Pages. Ejecutar el integrador después del empaquetador base para reproducir la publicación IDF.
+
+
+## Ampliación de estrés por preparación ante El Niño · 14/11/2026
+
+El informe ERFEN 012-2026, del 5/11/2026, indica evento activo. La perspectiva mensual de noviembre para el callejón interandino es normal; las estribaciones occidentales y orientales difieren. El informe no determina un factor horario para Riobamba. No se traduce una anomalía oceánica en porcentaje de lluvia local. Se publica el contexto, URL y hash del PDF consultado.
+
+`enlarge_riobamba_stress.py` utiliza la IDF histórica de referencia ESPOCH T100 de 45,2 mm/h en 1h y 24,2 mm/h en 2h. Multiplicadores ELEGIDOS de sensibilidad, sin soporte como pronóstico climático local: +25 %=56,5; +50 %=67,8; +100 %=90,4 mm/h durante 1h. Para 2h, +50 %=36,3 mm/h, acumulado 72,6 mm. Son tormentas uniformes hipotéticas, sin retorno asignado, y no máximos físicamente posibles ni intervalos estadísticos de confianza.
+
+Se añaden dos comparaciones: 67,8 mm/h en 1h con infiltración nula y sin drenaje, como supuesto límite de pérdidas; 90,4 mm/h en 1h con nueva ejecución de SWMM y sus reboses hacia 2D. Infiltración nula no equivale a una medición de suelo saturado ni describe la humedad antecedente real. Todas las simulaciones arrancan con superficie seca y omiten aportes fluviales exteriores. Se recalcula la física completa; no se multiplican profundidades ni áreas de resultados anteriores.
+
+La red mantiene su geometría inferida, salidas y captación supuestas. La comparación con red no es un límite garantizado de seguridad. No hay validación de campo ni nueva prueba de convergencia espacial para estas lluvias ampliadas.
+
+Para mantener el límite de GitHub Pages, la animación se publica cada 30 minutos y con profundidad gráfica en centímetros enteros redondeados hacia abajo; error de representación menor de 1 cm. Los máximos se calculan en TODOS los pasos del solver, no solo en los fotogramas. Las áreas, profundidades máximas y balances del panel proceden de los resultados sin esta cuantización. Los NPZ originales y los paquetes gráficos anteriores se conservan localmente; las revisiones anteriores también están en Git. No se interpreta la animación como una serie de observaciones de 30 min.
+
+Reproducción: preparar los escenarios base/IDF y ejecutar `python enlarge_riobamba_stress.py` como última fase antes de publicar. El manifiesto incluye unidades gráficas explícitas por caso, metadatos separados `stress` e `idf`, fuente base y factor supuesto.
