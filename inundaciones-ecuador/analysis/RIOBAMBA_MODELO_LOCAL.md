@@ -92,3 +92,26 @@ La red mantiene su geometría inferida, salidas y captación supuestas. La compa
 Para mantener el límite de GitHub Pages, la animación se publica cada 30 minutos y con profundidad gráfica en centímetros enteros redondeados hacia abajo; error de representación menor de 1 cm. Los máximos se calculan en TODOS los pasos del solver, no solo en los fotogramas. Las áreas, profundidades máximas y balances del panel proceden de los resultados sin esta cuantización. Los NPZ originales y los paquetes gráficos anteriores se conservan localmente; las revisiones anteriores también están en Git. No se interpreta la animación como una serie de observaciones de 30 min.
 
 Reproducción: preparar los escenarios base/IDF y ejecutar `python enlarge_riobamba_stress.py` como última fase antes de publicar. El manifiesto incluye unidades gráficas explícitas por caso, metadatos separados `stress` e `idf`, fuente base y factor supuesto.
+
+
+## Lluvia variable de seis horas y recesión · 14/11/2026
+
+`variable_riobamba.py` genera eventos de diseño ESPOCH T25/T50/T100 de seis horas, con bloques de diez minutos y pico central entre 180 y 190 min. Acumulados: 42,6 / 48,6 / 55,2 mm. Picos durante un bloque de diez minutos: 103,4 / 119,6 / 138,4 mm/h; no son intensidades constantes de una o seis horas. `rain_mm_h` en los informes de estos eventos es la MEDIA; el hietograma completo define la lluvia efectiva.
+
+Fuente: cuadro 72, p.100 del estudio INAMHI histórico ya archivado. Se convierten intensidades a profundidades para cada duración; interpolación log-log de profundidad/duración a múltiplos de 10 min; diferencias sucesivas y bloques alternos descendentes alrededor del centro. Referencia metodológica: https://www.hec.usace.army.mil/confluence/hmsdocs/hmstrm/meteorology/precipitation/frequency-storm . No se ejecuta HEC-HMS ni se presenta el resultado como su salida. El ordenamiento conserva el volumen total. Las ventanas máximas de la tormenta se comprueban frente a las duraciones de referencia: T25/T50 coinciden a precisión numérica; T100 tiene una diferencia máxima aproximada del 0,11 % en duraciones intermedias por el ordenamiento de incrementos tabulados. Se conserva el diagnóstico, sin modificar la tabla original.
+
+Se aplica la lluvia de estación uniformemente, factor areal 1 sin reducción local verificada: es una hipótesis de cobertura espacial, no un período de retorno demostrado para la lluvia media de todo el dominio. Los METAR de SERB permiten documentar secuencias de reportes, no duración continua exacta ni acumulados horarios fiables. Las fechas de esos reportes no se asignan a los eventos sintéticos.
+
+Tres casos sin drenaje y tres con la red inferida. Se recalculan por separado todas las entradas y reboses. Para la red, cada bloque produce exceso de lluvia según las mismas pérdidas por clase que en la superficie. En las transiciones se utiliza una rampa lineal de un segundo y una normalización por nodo que conserva la integral original de aportación; se publica la magnitud de esa corrección. El exportador transfiere reboses por volumen acumulado, no interpola picos instantáneos sin control. Las celdas captadas no reciben lluvia duplicada en 2D. Se conserva la limitación de intercambio en un solo sentido.
+
+Cada cálculo dura doce horas: seis de lluvia y seis de recesión. Se publican el volumen al terminar la lluvia, el volumen final y la fracción restante respecto al máximo almacenado. No se afirma vaciado completo si permanece agua en depresiones. Los máximos se obtienen en todos los pasos, las series numéricas se guardan cada 30 min y la animación publicada cada 60 min para limitar descarga; la gráfica de lluvia conserva sus bloques de 10 min.
+
+Verificación adicional: volumen de los tres hietogramas, posición y duración del pico, coherencia con IDF y conservación temporal de entradas por nodo. Las pruebas del motor, incluido el ejemplo EPA, permanecen activas. Persiste falta de calibración de campo y de convergencia espacial comprobada para estos eventos.
+
+Reproducción: ejecutar `python variable_riobamba.py --return-years 25`, repetir para 50 y 100, luego `python variable_riobamba.py --pack`. Las ejecuciones de cada retorno usan carpetas independientes; SWMM se ejecuta en procesos separados, nunca en hilos que compartan su estado global. Empaquetar después de los escenarios base y de estrés.
+
+Los INP y reportes SWMM completos de doce horas se conservan comprimidos en `model-archives/` del repositorio, con enlaces directos de descarga desde el visor. El preparador de Pages excluye exclusivamente ese directorio propio del artefacto del sitio para mantener el límite de 1 GB; siguen disponibles en GitHub. Los informes JSON y las animaciones permanecen servidos por Pages.
+
+Diagnósticos del mismo evento variable T25: se calcula además sin infiltración y se repite sin red en la malla de 48 m. La comparación incluye la diferencia de máscara válida al agregar el MDT; es una sensibilidad de dos mallas, no una demostración de convergencia. Se publica `variable-grid-sensitivity.json`. Para reproducir esos diagnósticos: `python variable_riobamba.py --diagnostics` antes de empaquetar.
+
+La fracción remanente se refiere al volumen máximo de la serie guardada cada 30 min; se identifica esa frecuencia en el informe. Los máximos de profundidad y huella siguen acumulados en todos los pasos internos.

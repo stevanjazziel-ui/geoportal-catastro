@@ -1,0 +1,47 @@
+{
+  "station": "SERB · Riobamba/Chimborazo airport",
+  "source_url": "https://mesonet.agron.iastate.edu/cgi-bin/request/asos.py?station=SERB&network=EC__ASOS&data=wxcodes&data=metar&sts=2026-01-01T00%3A00%3A00Z&ets=2026-11-14T00%3A00%3A00Z&tz=UTC&format=onlycomma&missing=M&report_type=3&report_type=4",
+  "retrieved": "2026-11-14",
+  "raw_sha256": "d09c853a30ee6e67e3d435b39182605bdb120a967628c1cb1c007666f8fc7fe5",
+  "observations": 1845,
+  "utc_coverage": [
+    "2026-01-05 13:00",
+    "2026-11-13 21:00"
+  ],
+  "timezone": "America/Guayaquil (UTC-5)",
+  "examples": [
+    {
+      "date_local": "2026-02-25",
+      "first_positive": "10:00",
+      "last_positive": "15:00",
+      "positive_reports": 6,
+      "span_hours": 5,
+      "weather": "Light drizzle and light rain"
+    },
+    {
+      "date_local": "2026-03-12",
+      "first_positive": "09:00",
+      "last_positive": "12:00",
+      "positive_reports": 4,
+      "span_hours": 3,
+      "weather": "Light drizzle"
+    },
+    {
+      "date_local": "2026-04-22",
+      "first_positive": "14:00",
+      "last_positive": "16:00",
+      "positive_reports": 3,
+      "span_hours": 2,
+      "weather": "Light rain"
+    }
+  ],
+  "interpretation": "Elapsed spans between consecutive positive weather reports separated by <=90 minutes. Not a measured continuous duration or exact start/end. Drizzle and rain distinguished; vicinity showers excluded. Missing/absent codes do not prove no rain.",
+  "limitations": [
+    "No reliable rainfall amounts in downloaded METAR sample; do not infer mm/h from weather codes.",
+    "Hourly sampling and overnight/weekend gaps censor storm duration.",
+    "Airport records are not the same sensor or necessarily the same location/time history as the ESPOCH IDF station.",
+    "ESPOCH public monthly bulletin contains daily rain totals; hours shown are sunshine duration, not rain duration.",
+    "INAMHI hourly public application metadata request returned HTTP403; no access restrictions bypassed.",
+    "No simulations or calibration changed from these records."
+  ]
+}

@@ -79,3 +79,6 @@ Actualización IDF: el visor local incluye ESPOCH T25/1h (34 mm/h), desde los cu
 
 
 Ampliación de preparación ante El Niño: escenarios hipotéticos de estrés de 56,5 / 67,8 / 90,4 mm/h (1h), 36,3 mm/h (2h), una prueba sin infiltración y una nueva comparación SWMM de 90,4 mm/h. Los aumentos son supuestos de sensibilidad sobre la IDF histórica T100; NO constituyen predicción de El Niño, máximos físicos ni tienen retorno asignado. Consultar stress-context.json y analysis/RIOBAMBA_MODELO_LOCAL.md.
+
+
+Lluvias variables: el visor incorpora eventos de 6h ESPOCH T25/T50/T100 por bloques alternos de 10min y pico central, con 6h posteriores de recesión. Incluye seis cálculos nuevos con/sin red y una gráfica de intensidad temporal. Son eventos de diseño desde IDF histórica; los registros METAR se conservan como evidencia contextual y no como intensidades observadas.

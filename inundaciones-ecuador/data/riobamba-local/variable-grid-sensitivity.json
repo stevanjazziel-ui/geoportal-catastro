@@ -1,0 +1,11 @@
+{
+  "scenario": "Variable 6h ESPOCH T25, no sewer",
+  "area_24m_km2": 11.2464,
+  "area_48m_km2": 12.022272,
+  "area_change_percent": 6.898847631242,
+  "max_depth_24m_m": 6.674669663798719,
+  "max_depth_48m_m": 4.34597968144749,
+  "valid_24m_km2": 59.170176,
+  "valid_48m_km2": 58.563072,
+  "interpretation": "Two-grid sensitivity of this event only; valid masks also differ. No demonstrated spatial convergence or field validation."
+}

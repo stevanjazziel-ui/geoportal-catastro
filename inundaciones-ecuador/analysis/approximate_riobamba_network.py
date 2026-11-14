@@ -87,7 +87,7 @@ def build(rain_mm_h=None,scenario_name='network-inferred-1h-v2'):
 
 
 def execute(out):
-    data=np.load(out/'network-data.npz');nodes=data['nodes'];duration=7200
+    data=np.load(out/'network-data.npz');nodes=data['nodes'];duration=json.loads((out/'assumptions.json').read_text()).get('model_end_seconds',7200)
     solver.swmm_open(str(out/'network.inp'),str(out/'network.rpt'),str(out/'network.out'))
     try:
         engine_ids=[i for i in range(solver.project_get_count(ObjectType.NODE.value)) if solver.project_get_id(ObjectType.NODE.value,i).startswith('N')]

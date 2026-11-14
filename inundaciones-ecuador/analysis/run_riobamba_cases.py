@@ -9,7 +9,7 @@ from local_flood_solver import simulate
 ROOT=Path(__file__).resolve().parent
 
 
-def run(grid_folder,name,rain_hours,rain_mm_h,duration_hours,network=None,infiltration_factor=1.):
+def run(grid_folder,name,rain_hours,rain_mm_h,duration_hours,network=None,infiltration_factor=1.,rain_profile=None,snapshot_minutes=15):
     grid_folder=Path(grid_folder);meta=json.loads((grid_folder/'metadata.json').read_text(encoding='utf-8'))
     out=grid_folder/name
     if out.exists():raise FileExistsError('Preserve previous runs; select a new scenario name')
@@ -25,7 +25,8 @@ def run(grid_folder,name,rain_hours,rain_mm_h,duration_hours,network=None,infilt
     out.mkdir()
     started=time.time()
     def progress(frac,steps):print(name,round(frac*100,1),'%',steps,'steps',round(time.time()-started,1),'seconds',flush=True)
-    result=simulate(g['dem'],g['mask'],meta['dx_m'],g['manning'],infil,[[0,rain_mm_h],[rain_hours*3600,0]],duration_hours,progress=progress,**kwargs)
+    profile=[[0,rain_mm_h],[rain_hours*3600,0]] if rain_profile is None else rain_profile
+    result=simulate(g['dem'],g['mask'],meta['dx_m'],g['manning'],infil,profile,duration_hours,progress=progress,snapshot_minutes=snapshot_minutes,**kwargs)
     np.savez_compressed(out/'result.npz',frames=result['frames'],times_minutes=result['times_minutes'],max_depth=result['max_depth'])
     wet=(result['max_depth']>=.05)&g['mask'];interior=g['boundary_distance_m']>=meta['dx_m']*3
     report={'id':name,'city':'Riobamba','method':'local-inertial-spatial-fields-v2-exploratory','calibrated':False,'synthetic_event':True,
