@@ -1,0 +1,233 @@
+{
+  "id": "idf-m1036-120min-t25",
+  "city": "Riobamba",
+  "method": "local-inertial-spatial-fields-v2-exploratory",
+  "calibrated": false,
+  "synthetic_event": true,
+  "rain_mm_h": 18.8,
+  "rain_hours": 2.0,
+  "total_rain_mm": 37.6,
+  "duration_hours": 3.0,
+  "infiltration_multiplier": 1.0,
+  "network": "Not represented; conservative no-drainage comparison",
+  "metadata": {
+    "dx_m": 24.0,
+    "shape": [
+      480,
+      469
+    ],
+    "crs": "EPSG:31977",
+    "transform": [
+      24.0,
+      0.0,
+      754302.3748000081,
+      0.0,
+      -24.0,
+      9821839.443746123
+    ],
+    "valid_km2": 59.170176,
+    "source_dem_resolution_m": 3,
+    "minimum_valid_fraction_per_cell": 0.95,
+    "landcover_source_year": 2018,
+    "estimated_parameters_by_class": {
+      "1": {
+        "name": "Urbano y equipamientos",
+        "n": 0.08,
+        "infiltration_mm_h": 0.5,
+        "impervious_fraction": 0.8
+      },
+      "2": {
+        "name": "Agricultura y pastos",
+        "n": 0.05,
+        "infiltration_mm_h": 5.0,
+        "impervious_fraction": 0.1
+      },
+      "3": {
+        "name": "Forestal",
+        "n": 0.12,
+        "infiltration_mm_h": 8.0,
+        "impervious_fraction": 0.05
+      },
+      "4": {
+        "name": "Herbaceo y arbustivo",
+        "n": 0.06,
+        "infiltration_mm_h": 5.0,
+        "impervious_fraction": 0.05
+      },
+      "5": {
+        "name": "Suelo descubierto",
+        "n": 0.03,
+        "infiltration_mm_h": 3.0,
+        "impervious_fraction": 0.1
+      },
+      "6": {
+        "name": "Agua y cauce cartografiado",
+        "n": 0.035,
+        "infiltration_mm_h": 0.0,
+        "impervious_fraction": 1.0
+      },
+      "7": {
+        "name": "Invernaderos e infraestructura agropecuaria",
+        "n": 0.05,
+        "infiltration_mm_h": 1.0,
+        "impervious_fraction": 0.7
+      },
+      "8": {
+        "name": "Cobertura no clasificada: supuesto",
+        "n": 0.06,
+        "infiltration_mm_h": 3.0,
+        "impervious_fraction": 0.2
+      }
+    },
+    "landcover_km2": {
+      "Urbano y equipamientos": 29.441664,
+      "Agricultura y pastos": 14.164992,
+      "Forestal": 1.870848,
+      "Herbaceo y arbustivo": 2.928384,
+      "Suelo descubierto": 0.525888,
+      "Agua y cauce cartografiado": 0.070272,
+      "Invernaderos e infraestructura agropecuaria": 0.095616,
+      "Cobertura no clasificada: supuesto": 10.072512
+    },
+    "rain_input": {
+      "station": "M1036",
+      "station_name": "Riobamba–ESPOCH",
+      "duration_minutes": 120,
+      "return_period_years": 25,
+      "intensity_mm_h": 18.8,
+      "total_mm": 37.6,
+      "source_url": "https://www.inamhi.gob.ec/Publicaciones/Hidrologia/estudui_de_intensidades_v1_2018_1",
+      "source_table": 72,
+      "source_printed_page": 100,
+      "temporal_distribution": "Uniform block design storm, not observed rainfall"
+    },
+    "basin_codes": [
+      "H0791",
+      "H0788",
+      "B0787",
+      "H0789",
+      "H0800"
+    ],
+    "vertical_reference": "local source elevation frame; geodetic vertical datum unspecified; no sea-level boundary",
+    "boundary_assumption": "Critical free outflow along valid-domain edges and NoData boundaries; no external catchment inflow. Interpretation near boundary is uncertain.",
+    "limitations": [
+      "Parameters are estimates by 2018 land cover, not soil tests or measured impervious fractions.",
+      "Native 3m DEM averaged to calculation grid; streets and inlet details below that grid are unresolved.",
+      "No bathymetric adjustment or invented river cross-section.",
+      "Anegamiento classification is only a contextual comparison; it is not calibration with an observed event.",
+      "Daily river series are retained for hydrological context; no subhourly flood hydrograph is manufactured from them."
+    ],
+    "references": [
+      "https://www.hec.usace.army.mil/confluence/rasdocs/rmum/6.1/land-classification-layers",
+      "https://www.epa.gov/water-research/storm-water-management-model-swmm"
+    ],
+    "source_sha256": {
+      "terreno\\MDT.TIF": "db6e73debad496be25141b1edad17821a7e376743abcfa5e5436da3360272f6e",
+      "cobertura\\cob_uso_riobamba_a.shp": "9655a917dca04f48df92212171d9880eff6815c5ce484ab3aaed38d0bb229131",
+      "cobertura\\cob_uso_riobamba_a.dbf": "cfc802cececc51398ede813be2f5ee5bd4c2367685a0694486127922ee00f29e",
+      "ANEGAMIENTO2.zip": "444b433d2da997209820b80be51a6703765aa549836d7d9e7fb40f70e3fb92b3",
+      "prepared\\precipitation_annual_maxima_preserved.csv": "abcb870016228ccc9126be8c92329ee11bb1676eeeb58fa0950e530170d1f017"
+    }
+  },
+  "stats": {
+    "initial_m3": 0.0,
+    "direct_rain_m3": 2224798.6175996154,
+    "prescribed_overflow_m3": 0.0,
+    "infiltration_m3": 377230.63096521836,
+    "boundary_outflow_m3": 256134.38987153786,
+    "final_m3": 1591433.596763264,
+    "mass_residual_m3": -4.048924893140793e-07,
+    "mass_relative_error": 1.8199062427993e-13,
+    "max_depth_m": 6.615245648653972,
+    "max_footprint_km2": 7.281216,
+    "froude_limited_fraction": 0.019902618758329757,
+    "steps": 7121
+  },
+  "hydrograph": [
+    {
+      "minutes": 15.0,
+      "volume_m3": 236378.14192493452,
+      "wet_km2": 0.0144
+    },
+    {
+      "minutes": 30.0,
+      "volume_m3": 465480.660785037,
+      "wet_km2": 1.206144
+    },
+    {
+      "minutes": 45.0,
+      "volume_m3": 688206.2503745558,
+      "wet_km2": 2.330496
+    },
+    {
+      "minutes": 60.0,
+      "volume_m3": 905521.4848921783,
+      "wet_km2": 3.242304
+    },
+    {
+      "minutes": 75.0,
+      "volume_m3": 1118961.3421488502,
+      "wet_km2": 4.05792
+    },
+    {
+      "minutes": 90.0,
+      "volume_m3": 1330197.912933292,
+      "wet_km2": 4.813632
+    },
+    {
+      "minutes": 105.0,
+      "volume_m3": 1538989.4881015855,
+      "wet_km2": 5.616576
+    },
+    {
+      "minutes": 120.0,
+      "volume_m3": 1745817.6290629688,
+      "wet_km2": 6.411456
+    },
+    {
+      "minutes": 135.0,
+      "volume_m3": 1683273.2824344244,
+      "wet_km2": 6.316416
+    },
+    {
+      "minutes": 150.0,
+      "volume_m3": 1642935.4996750834,
+      "wet_km2": 6.057216
+    },
+    {
+      "minutes": 165.0,
+      "volume_m3": 1614033.2689607348,
+      "wet_km2": 5.819328
+    },
+    {
+      "minutes": 180.0,
+      "volume_m3": 1591433.5967632723,
+      "wet_km2": 5.577984
+    }
+  ],
+  "context_comparison": {
+    "wet_km2_5cm": 7.281216,
+    "interior_wet_km2_5cm": 7.213248,
+    "wet_area_in_given_high_classes_km2": 1.3104,
+    "interpretation": "Spatial overlap with a supplied classification, not validation with an observed flood."
+  },
+  "limitations": [
+    "Historical station IDF fits, not recent event measurements or a verified newest revision.",
+    "Station point intensity applied uniformly across the local domain without areal reduction.",
+    "Uniform hyetograph is an assumption; storm temporal distribution remains unverified.",
+    "Rainfall return period does not establish the return period of simulated inundation.",
+    "Uncalibrated terrain, infiltration, boundary and network assumptions remain."
+  ],
+  "idf": {
+    "station": "M1036",
+    "station_name": "Riobamba–ESPOCH",
+    "duration_minutes": 120,
+    "return_period_years": 25,
+    "intensity_mm_h": 18.8,
+    "total_mm": 37.6,
+    "source_url": "https://www.inamhi.gob.ec/Publicaciones/Hidrologia/estudui_de_intensidades_v1_2018_1",
+    "source_table": 72,
+    "source_printed_page": 100,
+    "temporal_distribution": "Uniform block design storm, not observed rainfall"
+  }
+}

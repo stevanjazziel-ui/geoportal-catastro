@@ -73,3 +73,6 @@ JRC ofrece profundidades modeladas regionales LISFLOOD/LISFLOOD-FP; el catálogo
 
 
 Verificación local ampliada: 18 pruebas aprobadas; balances superficiales conservativos y continuidad de SWMM 0,4333 %. La integración de Bing Aerial está preparada, pero crear y guardar el token limitado de Cesium ion sigue pendiente de autorización; mientras tanto se utiliza Esri con solicitudes limitadas al nivel 18.
+
+
+Actualización IDF: el visor local usa por defecto ESPOCH T25/1h (34 mm/h), desde los cuadros 27 y 72 del estudio histórico INAMHI 2015. Incluye comparación de estaciones, duración y retorno de lluvia, y recalcula SWMM para ese evento. No son tormentas observadas ni retornos de inundación. Los escenarios previos de 7,10 mm/h quedan como referencias; el de 24h se conserva en el archivo local y el historial. Detalle y reproducción en analysis/RIOBAMBA_MODELO_LOCAL.md.

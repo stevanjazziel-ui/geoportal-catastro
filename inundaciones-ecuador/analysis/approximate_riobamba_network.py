@@ -18,8 +18,8 @@ from swmm.toolkit import solver
 from swmm.toolkit.shared_enum import ObjectType
 
 
-def build():
-    folder=ROOT/'riobamba-runs/grid-24m';out=folder/'network-inferred-1h-v2'
+def build(rain_mm_h=None,scenario_name='network-inferred-1h-v2'):
+    folder=ROOT/'riobamba-runs/grid-24m';out=folder/scenario_name
     out.mkdir(exist_ok=False)
     meta=json.loads((folder/'metadata.json').read_text())
     with np.load(folder/'grid.npz') as f:g={k:f[k] for k in f.files}
@@ -55,7 +55,8 @@ def build():
     distance,nearest=cKDTree(nodes[:,:2]).query(np.c_[xx,yy])
     captured=np.zeros_like(g['mask']);use=(distance<=75)&(g['channel'][rr,cc]==0)
     captured[rr[use],cc[use]]=True
-    rain=meta['rain_input']['max_1h_mm']
+    rain=meta['rain_input']['max_1h_mm'] if rain_mm_h is None else float(rain_mm_h)
+    if not np.isfinite(rain) or rain<=0:raise ValueError('Invalid rainfall intensity')
     # Capture excess rain once; captured cells receive neither direct 2D rainfall
     # nor 2D infiltration. Losses are accounted for before injecting the network.
     runoff=np.maximum(0,rain-g['infiltration_mm_h'][rr[use],cc[use]])/3600000*meta['dx_m']**2

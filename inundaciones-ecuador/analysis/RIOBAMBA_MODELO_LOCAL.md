@@ -66,3 +66,14 @@ Referencias metodológicas: [EPA SWMM](https://www.epa.gov/water-research/storm-
 Actualización visual 14/11/2026: `build_riobamba_context.py` descarga nueve teselas Terrarium Mapzen (zoom 10) para el contexto regional. Se conserva su procedencia y SHA-256 en `regional-context.json.gz`. Su interpolación afecta exclusivamente la visualización fuera del MDT válido, sin ampliar el dominio ni recalcular resultados. Ejecutar este script antes de servir o publicar el visor.
 
 La lámina se dibuja sobre el terreno interpolado de visualización con separación gráfica de 0,15 m para evitar ocultamiento entre mallas. Las profundidades, áreas y balances consultados provienen de los resultados originales; la posición de la malla gráfica no es un levantamiento de cota de lámina. Las áreas del panel usan valores sin cuantización de los informes.
+
+
+## Escenarios IDF de estación · 14/11/2026
+
+`integrate_riobamba_idf.py` añade lluvias uniformes de diseño desde las tablas históricas de INAMHI (estudio 2015), cuadros 27 (Aeropuerto M0057, p.55) y 72 (ESPOCH M1036, p.100). Se conserva URL, tabla, unidades, valores tabulados y SHA-256 del PDF oficial descargado en `inamhi-idf.json`. No se afirma haber verificado una revisión más reciente.
+
+Nuevos cálculos sin drenaje: ESPOCH 1 h, T10=28,1; T25=34,0; T50=39,2; T100=45,2 mm/h; Aeropuerto 1 h T25=22,9; ESPOCH 2 h T25=18,8 mm/h. Cada evento tiene una hora adicional de recesión. Se vuelve a ejecutar la red y el intercambio de reboses para ESPOCH 1 h T25=34 mm/h, sin escalar salidas hidráulicas antiguas.
+
+La lluvia de estación se aplica uniformemente al dominio sin reducción areal ni distribución temporal observada. El retorno de la lluvia no establece el retorno de la inundación. La comparación de resolución anterior se refiere exclusivamente al caso de 7,10 mm/h; los escenarios IDF no tienen una nueva prueba de convergencia.
+
+Los casos de 7,10 mm/h permanecen como referencias claramente identificadas de origen pendiente. El caso de 24 h previo se conserva localmente y en el historial Git, retirándose su descarga del sitio activo para mantener el límite de GitHub Pages. Ejecutar el integrador después del empaquetador base para reproducir la publicación IDF.
