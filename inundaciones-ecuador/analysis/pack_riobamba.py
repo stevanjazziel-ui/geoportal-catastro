@@ -50,6 +50,7 @@ def main():
         # Publish complete report excluding machine-specific local path.
         report['network']='Inferred SWMM network, assumptions.json' if 'inferred' in name else report['network']
         (OUT/(name+'-report.json')).write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
+        item['wet_km2_by_frame']=[0.]+[h['wet_km2'] for h in report['hydrograph']]
         item['report']=name+'-report.json';cases.append(item)
     nd=np.load(FOLDER/'network-inferred-1h-v2/network-data.npz');nodes=nd['nodes'];edges=nd['edges']
     project_network=Transformer.from_crs(meta['crs'],4326,always_xy=True)

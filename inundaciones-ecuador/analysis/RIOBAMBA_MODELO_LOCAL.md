@@ -61,3 +61,8 @@ Ejecutar con Python del entorno GeoAI y dependencias de `requirements-riobamba.t
 6. `python pack_riobamba.py`; servir `dist/` mediante HTTP. Los escenarios reservan sus nombres y rechazan sobrescribir resultados.
 
 Referencias metodológicas: [EPA SWMM](https://www.epa.gov/water-research/storm-water-management-model-swmm), [HEC-RAS: capas de cobertura y rugosidad](https://www.hec.usace.army.mil/confluence/rasdocs/rmum/6.1/land-classification-layers). Estas referencias no sustituyen las mediciones locales ni acreditan los valores de infiltración supuestos.
+
+
+Actualización visual 14/11/2026: `build_riobamba_context.py` descarga nueve teselas Terrarium Mapzen (zoom 10) para el contexto regional. Se conserva su procedencia y SHA-256 en `regional-context.json.gz`. Su interpolación afecta exclusivamente la visualización fuera del MDT válido, sin ampliar el dominio ni recalcular resultados. Ejecutar este script antes de servir o publicar el visor.
+
+La lámina se dibuja sobre el terreno interpolado de visualización con separación gráfica de 0,15 m para evitar ocultamiento entre mallas. Las profundidades, áreas y balances consultados provienen de los resultados originales; la posición de la malla gráfica no es un levantamiento de cota de lámina. Las áreas del panel usan valores sin cuantización de los informes.
