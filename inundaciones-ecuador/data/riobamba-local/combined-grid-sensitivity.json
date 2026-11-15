@@ -1,0 +1,9 @@
+{
+  "scenario": "Combined high reference, 6h, no sewer",
+  "area_24m_km2": 12.43584,
+  "area_48m_km2": 13.485312,
+  "area_change_percent": 8.439092172301986,
+  "max_depth_24m_m": 6.705478724906792,
+  "max_depth_48m_m": 4.426542373378488,
+  "interpretation": "Sensitivity for this reference only; not convergence or field validation."
+}

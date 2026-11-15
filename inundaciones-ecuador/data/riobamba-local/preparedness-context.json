@@ -1,0 +1,11 @@
+{
+  "source_url": "https://www.inocar.mil.ec/boletin/ERFEN/erfen_20261105.pdf",
+  "report_date": "2026-11-05",
+  "checked": "2026-11-15",
+  "report_id": "ERFEN 012-2026",
+  "status_in_report": "ACTIVO",
+  "regional_outlook": "November: normal monthly precipitation in inter-Andean valley; not a forecast of hourly Riobamba extremes.",
+  "local_enso_rainfall_multiplier_established": false,
+  "assumptions": "Doubling intensity and repeating storms are chosen sensitivity tests, not forecasts or physical maxima.",
+  "pdf_sha256": "5fb847f739c289fa353209fa7fde5a4dfd0858237ac495ea27c727d77c1537b9"
+}

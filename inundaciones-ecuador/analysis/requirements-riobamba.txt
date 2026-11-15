@@ -10,3 +10,5 @@ rasterio
 scipy
 pyproj
 affine
+
+pypdf

@@ -3,6 +3,21 @@ import argparse,json,pathlib,re,shutil,subprocess
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 PREFIX='data/seguridad-riobamba/SIG_BRIDGE_RELEASES/'
 SECURITY_PREFIX='data/seguridad-riobamba/'
+RIO_PREFIX='inundaciones-ecuador/data/riobamba-local/'
+
+def archived_rain_assets():
+ manifest_path=ROOT/RIO_PREFIX/'manifest.json'
+ if not manifest_path.exists():return set()
+ manifest=json.loads(manifest_path.read_text(encoding='utf-8'))
+ previous=manifest.get('previous_scenarios')
+ if not previous:return set()
+ assert pathlib.PurePosixPath(previous).name==previous,'Archivo historico fuera del directorio local'
+ old=json.loads((ROOT/RIO_PREFIX/previous).read_text(encoding='utf-8'))
+ def assets(cases):
+  return {RIO_PREFIX+value for case in cases for key in ('file','report','network_input_file','network_report_file')
+          if isinstance(value:=case.get(key),str) and pathlib.PurePosixPath(value).name==value}
+ return assets(old['cases'])-assets(manifest['cases'])
+
 def plan():
  active=json.loads((ROOT/'sig-bridge-active.json').read_text(encoding='utf-8'))['releaseId'];keep={active}
  tracked=subprocess.check_output(['git','ls-files','-z'],cwd=ROOT).decode().split('\0');tracked=[p for p in tracked if p]
@@ -14,11 +29,13 @@ def plan():
  runtime='\n'.join(runtime)
  scene_names={name[len(SECURITY_PREFIX):].split('/')[0] for name in tracked if name.startswith(SECURITY_PREFIX) and '/' in name[len(SECURITY_PREFIX):]}
  archived_scenes={name for name in scene_names if name!='SIG_BRIDGE_RELEASES' and name not in runtime}
+ archived_rain=archived_rain_assets()
  included=[];excluded=[]
  for name in tracked:
   if name.startswith(PREFIX) and name[len(PREFIX):].split('/')[0] not in keep:excluded.append(name)
   elif name.startswith(SECURITY_PREFIX) and name[len(SECURITY_PREFIX):].split('/')[0] in archived_scenes:excluded.append(name)
   elif name.startswith(('.github/','sig-bridge/workspace/','inundaciones-ecuador/model-archives/')):excluded.append(name)
+  elif name in archived_rain:excluded.append(name)
   else:included.append(name)
  for name in ['visor-seguridad-riobamba-v2.html','sig-bridge-active.json',PREFIX+active+'/ESCENARIO_FINAL_183.gpkg',PREFIX+active+'/ENTREGA_POLICIA_KDE.zip']:
   assert name in included,'Falta dependencia publicada: '+name

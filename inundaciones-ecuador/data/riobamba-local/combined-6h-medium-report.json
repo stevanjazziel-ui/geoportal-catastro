@@ -1,0 +1,579 @@
+{
+  "id": "combined-6h-medium",
+  "city": "Riobamba",
+  "method": "local-inertial-spatial-fields-v2-exploratory",
+  "calibrated": false,
+  "synthetic_event": true,
+  "rain_mm_h": 6.949999999999999,
+  "rain_hours": 6.0,
+  "total_rain_mm": 41.699999999999996,
+  "duration_hours": 12.0,
+  "infiltration_multiplier": 1.0,
+  "network": "Not represented; conservative no-drainage comparison",
+  "metadata": {
+    "dx_m": 24.0,
+    "shape": [
+      480,
+      469
+    ],
+    "crs": "EPSG:31977",
+    "transform": [
+      24.0,
+      0.0,
+      754302.3748000081,
+      0.0,
+      -24.0,
+      9821839.443746123
+    ],
+    "valid_km2": 59.170176,
+    "source_dem_resolution_m": 3,
+    "minimum_valid_fraction_per_cell": 0.95,
+    "landcover_source_year": 2018,
+    "estimated_parameters_by_class": {
+      "1": {
+        "name": "Urbano y equipamientos",
+        "n": 0.08,
+        "infiltration_mm_h": 0.5,
+        "impervious_fraction": 0.8
+      },
+      "2": {
+        "name": "Agricultura y pastos",
+        "n": 0.05,
+        "infiltration_mm_h": 5.0,
+        "impervious_fraction": 0.1
+      },
+      "3": {
+        "name": "Forestal",
+        "n": 0.12,
+        "infiltration_mm_h": 8.0,
+        "impervious_fraction": 0.05
+      },
+      "4": {
+        "name": "Herbaceo y arbustivo",
+        "n": 0.06,
+        "infiltration_mm_h": 5.0,
+        "impervious_fraction": 0.05
+      },
+      "5": {
+        "name": "Suelo descubierto",
+        "n": 0.03,
+        "infiltration_mm_h": 3.0,
+        "impervious_fraction": 0.1
+      },
+      "6": {
+        "name": "Agua y cauce cartografiado",
+        "n": 0.035,
+        "infiltration_mm_h": 0.0,
+        "impervious_fraction": 1.0
+      },
+      "7": {
+        "name": "Invernaderos e infraestructura agropecuaria",
+        "n": 0.05,
+        "infiltration_mm_h": 1.0,
+        "impervious_fraction": 0.7
+      },
+      "8": {
+        "name": "Cobertura no clasificada: supuesto",
+        "n": 0.06,
+        "infiltration_mm_h": 3.0,
+        "impervious_fraction": 0.2
+      }
+    },
+    "landcover_km2": {
+      "Urbano y equipamientos": 29.441664,
+      "Agricultura y pastos": 14.164992,
+      "Forestal": 1.870848,
+      "Herbaceo y arbustivo": 2.928384,
+      "Suelo descubierto": 0.525888,
+      "Agua y cauce cartografiado": 0.070272,
+      "Invernaderos e infraestructura agropecuaria": 0.095616,
+      "Cobertura no clasificada: supuesto": 10.072512
+    },
+    "rain_input": {
+      "station": "Promedio 50/50 ESPOCH y Aeropuerto",
+      "source_url": "https://www.inamhi.gob.ec/Publicaciones/Hidrologia/estudui_de_intensidades_v1_2018_1",
+      "source_return_period_years": 50,
+      "return_period_years": null,
+      "station_weights": {
+        "M1036": 0.5,
+        "M0057": 0.5
+      },
+      "duration_minutes": 360,
+      "interval_minutes": 10,
+      "seconds": [
+        0,
+        600,
+        1200,
+        1800,
+        2400,
+        3000,
+        3600,
+        4200,
+        4800,
+        5400,
+        6000,
+        6600,
+        7200,
+        7800,
+        8400,
+        9000,
+        9600,
+        10200,
+        10800,
+        11400,
+        12000,
+        12600,
+        13200,
+        13800,
+        14400,
+        15000,
+        15600,
+        16200,
+        16800,
+        17400,
+        18000,
+        18600,
+        19200,
+        19800,
+        20400,
+        21000,
+        21600
+      ],
+      "intensities_mm_h": [
+        0.8530406847701215,
+        0.8976418893557252,
+        0.9475448152872588,
+        1.0037804838609645,
+        1.06766968527414,
+        1.140933437540454,
+        1.2258584949993292,
+        1.3255529911579202,
+        1.4443555360695086,
+        1.588517855836784,
+        1.7674025778260898,
+        1.9957183732484793,
+        3.0430400885573476,
+        3.5730328144804844,
+        4.358905729141284,
+        6.70683351167294,
+        9.696349172337975,
+        42.300000000000026,
+        102.29999999999998,
+        27.0,
+        7.896817315989111,
+        4.916956910731216,
+        3.923294775648401,
+        3.2847696814412757,
+        2.135493412841228,
+        1.874155247697459,
+        1.6728630083466385,
+        1.5127737129260197,
+        1.3822305393547794,
+        1.2736234946774658,
+        1.1817671301262749,
+        1.1030025212394463,
+        1.0346718155216195,
+        0.9747963851711603,
+        0.9218719690111357,
+        0.8747339378599293,
+        0.0
+      ],
+      "total_mm": 41.699999999999996,
+      "peak_mm_h": 102.29999999999998,
+      "peak_start_minutes": 180,
+      "peak_end_minutes": 190,
+      "duration_checks": [
+        {
+          "minutes": 10,
+          "reference_depth_mm": 17.05,
+          "arranged_depth_mm": 17.049999999999997,
+          "relative_difference": -2.220446049250313e-16
+        },
+        {
+          "minutes": 20,
+          "reference_depth_mm": 24.1,
+          "arranged_depth_mm": 24.1,
+          "relative_difference": 0.0
+        },
+        {
+          "minutes": 30,
+          "reference_depth_mm": 28.599999999999998,
+          "arranged_depth_mm": 28.6,
+          "relative_difference": 2.220446049250313e-16
+        },
+        {
+          "minutes": 60,
+          "reference_depth_mm": 32.650000000000006,
+          "arranged_depth_mm": 32.650000000000006,
+          "relative_difference": 0.0
+        },
+        {
+          "minutes": 120,
+          "reference_depth_mm": 36.5,
+          "arranged_depth_mm": 36.50000000000001,
+          "relative_difference": 2.220446049250313e-16
+        },
+        {
+          "minutes": 360,
+          "reference_depth_mm": 41.699999999999996,
+          "arranged_depth_mm": 41.699999999999996,
+          "relative_difference": 0.0
+        }
+      ],
+      "rainfall_multiplier": 1.0,
+      "repetitions": 1,
+      "preparedness_test": false,
+      "scenario_basis": "Equal-weight station reference",
+      "method": "Log-log depth interpolation and alternating 10min blocks; repeat or multiply only when explicitly declared",
+      "areal_reduction_factor": 1.0,
+      "limitations": [
+        "Equal-weight mean of historical point-station IDF values; not an observed storm.",
+        "Averaging station quantiles does not establish an areal return period or joint exceedance probability.",
+        "Uniform spatial rain with areal factor 1; no locally verified areal correction.",
+        "Uncalibrated soil losses, roughness, boundaries and inferred sewer geometry remain.",
+        "Zero infiltration is a limiting assumption, not measured saturation or an antecedent soil simulation.",
+        "No upstream river flood hydrograph, bathymetry or bidirectional sewer feedback.",
+        "ENSO context does not prescribe an hourly rainfall multiplier for Riobamba."
+      ]
+    },
+    "basin_codes": [
+      "H0791",
+      "H0788",
+      "B0787",
+      "H0789",
+      "H0800"
+    ],
+    "vertical_reference": "local source elevation frame; geodetic vertical datum unspecified; no sea-level boundary",
+    "boundary_assumption": "Critical free outflow along valid-domain edges and NoData boundaries; no external catchment inflow. Interpretation near boundary is uncertain.",
+    "limitations": [
+      "Parameters are estimates by 2018 land cover, not soil tests or measured impervious fractions.",
+      "Native 3m DEM averaged to calculation grid; streets and inlet details below that grid are unresolved.",
+      "No bathymetric adjustment or invented river cross-section.",
+      "Anegamiento classification is only a contextual comparison; it is not calibration with an observed event.",
+      "Daily river series are retained for hydrological context; no subhourly flood hydrograph is manufactured from them."
+    ],
+    "references": [
+      "https://www.hec.usace.army.mil/confluence/rasdocs/rmum/6.1/land-classification-layers",
+      "https://www.epa.gov/water-research/storm-water-management-model-swmm"
+    ],
+    "source_sha256": {
+      "terreno\\MDT.TIF": "db6e73debad496be25141b1edad17821a7e376743abcfa5e5436da3360272f6e",
+      "cobertura\\cob_uso_riobamba_a.shp": "9655a917dca04f48df92212171d9880eff6815c5ce484ab3aaed38d0bb229131",
+      "cobertura\\cob_uso_riobamba_a.dbf": "cfc802cececc51398ede813be2f5ee5bd4c2367685a0694486127922ee00f29e",
+      "ANEGAMIENTO2.zip": "444b433d2da997209820b80be51a6703765aa549836d7d9e7fb40f70e3fb92b3",
+      "prepared\\precipitation_annual_maxima_preserved.csv": "abcb870016228ccc9126be8c92329ee11bb1676eeeb58fa0950e530170d1f017"
+    }
+  },
+  "stats": {
+    "initial_m3": 0.0,
+    "direct_rain_m3": 2467396.33919998,
+    "prescribed_overflow_m3": 0.0,
+    "infiltration_m3": 659729.7102399882,
+    "boundary_outflow_m3": 633115.3193148385,
+    "final_m3": 1174551.309645269,
+    "mass_residual_m3": -1.1594966053962708e-07,
+    "mass_relative_error": 4.6992718071885524e-14,
+    "max_depth_m": 6.662427101494037,
+    "max_footprint_km2": 10.885824,
+    "froude_limited_fraction": 0.007790752974465602,
+    "steps": 30127
+  },
+  "hydrograph": [
+    {
+      "minutes": 30.0,
+      "volume_m3": 5739.678059662642,
+      "wet_km2": 0.0
+    },
+    {
+      "minutes": 60.0,
+      "volume_m3": 13572.526955603322,
+      "wet_km2": 0.0
+    },
+    {
+      "minutes": 90.0,
+      "volume_m3": 24683.51316147853,
+      "wet_km2": 0.0
+    },
+    {
+      "minutes": 120.0,
+      "volume_m3": 41831.09580031148,
+      "wet_km2": 0.001728
+    },
+    {
+      "minutes": 150.0,
+      "volume_m3": 89900.22188054652,
+      "wet_km2": 0.067392
+    },
+    {
+      "minutes": 180.0,
+      "volume_m3": 583461.8312526316,
+      "wet_km2": 1.389888
+    },
+    {
+      "minutes": 210.0,
+      "volume_m3": 1709611.1685670568,
+      "wet_km2": 6.833664
+    },
+    {
+      "minutes": 240.0,
+      "volume_m3": 1696845.4022117055,
+      "wet_km2": 6.41088
+    },
+    {
+      "minutes": 270.0,
+      "volume_m3": 1668950.725725423,
+      "wet_km2": 6.077376
+    },
+    {
+      "minutes": 300.0,
+      "volume_m3": 1649079.4551535242,
+      "wet_km2": 5.560704
+    },
+    {
+      "minutes": 330.0,
+      "volume_m3": 1633674.1062697282,
+      "wet_km2": 5.191488
+    },
+    {
+      "minutes": 360.0,
+      "volume_m3": 1589553.82863711,
+      "wet_km2": 4.924224
+    },
+    {
+      "minutes": 390.0,
+      "volume_m3": 1504695.7350613328,
+      "wet_km2": 4.629888
+    },
+    {
+      "minutes": 420.0,
+      "volume_m3": 1438467.1587463105,
+      "wet_km2": 4.405824
+    },
+    {
+      "minutes": 450.0,
+      "volume_m3": 1383346.3714598666,
+      "wet_km2": 4.2192
+    },
+    {
+      "minutes": 480.0,
+      "volume_m3": 1339928.222946545,
+      "wet_km2": 4.093056
+    },
+    {
+      "minutes": 510.0,
+      "volume_m3": 1304991.1536248524,
+      "wet_km2": 3.989952
+    },
+    {
+      "minutes": 540.0,
+      "volume_m3": 1276244.6191996117,
+      "wet_km2": 3.881088
+    },
+    {
+      "minutes": 570.0,
+      "volume_m3": 1252227.327918273,
+      "wet_km2": 3.803904
+    },
+    {
+      "minutes": 600.0,
+      "volume_m3": 1231896.9435754346,
+      "wet_km2": 3.719232
+    },
+    {
+      "minutes": 630.0,
+      "volume_m3": 1214490.2351012714,
+      "wet_km2": 3.635136
+    },
+    {
+      "minutes": 660.0,
+      "volume_m3": 1199410.6895622956,
+      "wet_km2": 3.575232
+    },
+    {
+      "minutes": 690.0,
+      "volume_m3": 1186225.3042984079,
+      "wet_km2": 3.529728
+    },
+    {
+      "minutes": 720.0,
+      "volume_m3": 1174551.3096452737,
+      "wet_km2": 3.491136
+    }
+  ],
+  "context_comparison": {
+    "wet_km2_5cm": 10.885824,
+    "interior_wet_km2_5cm": 10.74816,
+    "wet_area_in_given_high_classes_km2": 1.952064,
+    "interpretation": "Spatial overlap with a supplied classification, not validation with an observed flood."
+  },
+  "limitations": [
+    "Equal-weight mean of historical point-station IDF values; not an observed storm.",
+    "Averaging station quantiles does not establish an areal return period or joint exceedance probability.",
+    "Uniform spatial rain with areal factor 1; no locally verified areal correction.",
+    "Uncalibrated soil losses, roughness, boundaries and inferred sewer geometry remain.",
+    "Zero infiltration is a limiting assumption, not measured saturation or an antecedent soil simulation.",
+    "No upstream river flood hydrograph, bathymetry or bidirectional sewer feedback.",
+    "ENSO context does not prescribe an hourly rainfall multiplier for Riobamba."
+  ],
+  "hyetograph": {
+    "station": "Promedio 50/50 ESPOCH y Aeropuerto",
+    "source_url": "https://www.inamhi.gob.ec/Publicaciones/Hidrologia/estudui_de_intensidades_v1_2018_1",
+    "source_return_period_years": 50,
+    "return_period_years": null,
+    "station_weights": {
+      "M1036": 0.5,
+      "M0057": 0.5
+    },
+    "duration_minutes": 360,
+    "interval_minutes": 10,
+    "seconds": [
+      0,
+      600,
+      1200,
+      1800,
+      2400,
+      3000,
+      3600,
+      4200,
+      4800,
+      5400,
+      6000,
+      6600,
+      7200,
+      7800,
+      8400,
+      9000,
+      9600,
+      10200,
+      10800,
+      11400,
+      12000,
+      12600,
+      13200,
+      13800,
+      14400,
+      15000,
+      15600,
+      16200,
+      16800,
+      17400,
+      18000,
+      18600,
+      19200,
+      19800,
+      20400,
+      21000,
+      21600
+    ],
+    "intensities_mm_h": [
+      0.8530406847701215,
+      0.8976418893557252,
+      0.9475448152872588,
+      1.0037804838609645,
+      1.06766968527414,
+      1.140933437540454,
+      1.2258584949993292,
+      1.3255529911579202,
+      1.4443555360695086,
+      1.588517855836784,
+      1.7674025778260898,
+      1.9957183732484793,
+      3.0430400885573476,
+      3.5730328144804844,
+      4.358905729141284,
+      6.70683351167294,
+      9.696349172337975,
+      42.300000000000026,
+      102.29999999999998,
+      27.0,
+      7.896817315989111,
+      4.916956910731216,
+      3.923294775648401,
+      3.2847696814412757,
+      2.135493412841228,
+      1.874155247697459,
+      1.6728630083466385,
+      1.5127737129260197,
+      1.3822305393547794,
+      1.2736234946774658,
+      1.1817671301262749,
+      1.1030025212394463,
+      1.0346718155216195,
+      0.9747963851711603,
+      0.9218719690111357,
+      0.8747339378599293,
+      0.0
+    ],
+    "total_mm": 41.699999999999996,
+    "peak_mm_h": 102.29999999999998,
+    "peak_start_minutes": 180,
+    "peak_end_minutes": 190,
+    "duration_checks": [
+      {
+        "minutes": 10,
+        "reference_depth_mm": 17.05,
+        "arranged_depth_mm": 17.049999999999997,
+        "relative_difference": -2.220446049250313e-16
+      },
+      {
+        "minutes": 20,
+        "reference_depth_mm": 24.1,
+        "arranged_depth_mm": 24.1,
+        "relative_difference": 0.0
+      },
+      {
+        "minutes": 30,
+        "reference_depth_mm": 28.599999999999998,
+        "arranged_depth_mm": 28.6,
+        "relative_difference": 2.220446049250313e-16
+      },
+      {
+        "minutes": 60,
+        "reference_depth_mm": 32.650000000000006,
+        "arranged_depth_mm": 32.650000000000006,
+        "relative_difference": 0.0
+      },
+      {
+        "minutes": 120,
+        "reference_depth_mm": 36.5,
+        "arranged_depth_mm": 36.50000000000001,
+        "relative_difference": 2.220446049250313e-16
+      },
+      {
+        "minutes": 360,
+        "reference_depth_mm": 41.699999999999996,
+        "arranged_depth_mm": 41.699999999999996,
+        "relative_difference": 0.0
+      }
+    ],
+    "rainfall_multiplier": 1.0,
+    "repetitions": 1,
+    "preparedness_test": false,
+    "scenario_basis": "Equal-weight station reference",
+    "method": "Log-log depth interpolation and alternating 10min blocks; repeat or multiply only when explicitly declared",
+    "areal_reduction_factor": 1.0,
+    "limitations": [
+      "Equal-weight mean of historical point-station IDF values; not an observed storm.",
+      "Averaging station quantiles does not establish an areal return period or joint exceedance probability.",
+      "Uniform spatial rain with areal factor 1; no locally verified areal correction.",
+      "Uncalibrated soil losses, roughness, boundaries and inferred sewer geometry remain.",
+      "Zero infiltration is a limiting assumption, not measured saturation or an antecedent soil simulation.",
+      "No upstream river flood hydrograph, bathymetry or bidirectional sewer feedback.",
+      "ENSO context does not prescribe an hourly rainfall multiplier for Riobamba."
+    ]
+  },
+  "rain_mm_h_is_mean": true,
+  "recession": {
+    "rain_end_hours": 6.0,
+    "simulation_end_hours": 12.0,
+    "recession_hours": 6.0,
+    "final_fraction_of_peak_volume": 0.6870283320795958,
+    "peak_volume_sampling_minutes": 30,
+    "interpretation": "Finite calculation window; residual water is not proof of complete drainage."
+  },
+  "rain_partition": {
+    "uniform_domain_rain_m3": 2467396.3391999993,
+    "direct_rain_2d_m3": 2467396.33919998,
+    "rain_partition_residual_m3": 1.955777406692505e-08
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "source_url": "https://www.inamhi.gob.ec/Publicaciones/Hidrologia/estudui_de_intensidades_v1_2018_1",
+  "study_year": 2015,
+  "source_retrieved": "2026-11-14",
+  "combined_on": "2026-11-15",
+  "source_pdf_sha256": "fa873e655f524ed351a970a3d855411da59898fc21be04592c2d1edc2744ef49",
+  "return_years_of_source_tables": [
+    2,
+    5,
+    10,
+    25,
+    50,
+    100
+  ],
+  "stations": {
+    "M1036": {
+      "name": "Riobamba–ESPOCH",
+      "source_table_code": "M01036",
+      "printed_page": 100,
+      "pdf_page": 101,
+      "table": 72,
+      "weight": 0.5,
+      "intensities_mm_h": {
+        "10": [
+          60.8,
+          73.7,
+          85.3,
+          103.4,
+          119.6,
+          138.4
+        ],
+        "15": [
+          50.2,
+          60.8,
+          70.4,
+          85.3,
+          98.7,
+          114.2
+        ],
+        "20": [
+          43.8,
+          53.1,
+          61.4,
+          74.5,
+          86.2,
+          99.7
+        ],
+        "30": [
+          36.1,
+          43.6,
+          50.3,
+          60.8,
+          70.1,
+          80.9
+        ],
+        "60": [
+          20.2,
+          24.4,
+          28.1,
+          34.0,
+          39.2,
+          45.2
+        ],
+        "120": [
+          11.8,
+          13.9,
+          15.8,
+          18.8,
+          21.3,
+          24.2
+        ],
+        "360": [
+          4.5,
+          5.3,
+          6.0,
+          7.1,
+          8.1,
+          9.2
+        ]
+      }
+    },
+    "M0057": {
+      "name": "Riobamba Aeropuerto",
+      "source_table_code": "M0057",
+      "printed_page": 55,
+      "pdf_page": 56,
+      "table": 27,
+      "weight": 0.5,
+      "intensities_mm_h": {
+        "10": [
+          43.6,
+          52.8,
+          60.9,
+          73.6,
+          85.0,
+          98.1
+        ],
+        "15": [
+          35.0,
+          42.4,
+          48.9,
+          59.1,
+          68.2,
+          78.8
+        ],
+        "20": [
+          30.0,
+          36.3,
+          41.8,
+          50.6,
+          58.4,
+          67.4
+        ],
+        "30": [
+          24.1,
+          28.6,
+          32.6,
+          38.8,
+          44.3,
+          50.5
+        ],
+        "60": [
+          14.2,
+          16.9,
+          19.3,
+          22.9,
+          26.1,
+          29.8
+        ],
+        "120": [
+          9.2,
+          10.6,
+          11.9,
+          13.7,
+          15.2,
+          17.0
+        ],
+        "360": [
+          3.5,
+          4.0,
+          4.5,
+          5.2,
+          5.8,
+          6.4
+        ]
+      }
+    }
+  },
+  "mean_intensities_mm_h": {
+    "10": [
+      52.2,
+      63.25,
+      73.1,
+      88.5,
+      102.3,
+      118.25
+    ],
+    "15": [
+      42.6,
+      51.599999999999994,
+      59.650000000000006,
+      72.2,
+      83.45,
+      96.5
+    ],
+    "20": [
+      36.9,
+      44.7,
+      51.599999999999994,
+      62.55,
+      72.3,
+      83.55000000000001
+    ],
+    "30": [
+      30.1,
+      36.1,
+      41.45,
+      49.8,
+      57.199999999999996,
+      65.7
+    ],
+    "60": [
+      17.2,
+      20.65,
+      23.700000000000003,
+      28.45,
+      32.650000000000006,
+      37.5
+    ],
+    "120": [
+      10.5,
+      12.25,
+      13.850000000000001,
+      16.25,
+      18.25,
+      20.6
+    ],
+    "360": [
+      4.0,
+      4.65,
+      5.25,
+      6.15,
+      6.949999999999999,
+      7.8
+    ]
+  },
+  "method": "(ESPOCH + Aeropuerto) / 2 for matching duration and source return level",
+  "assigned_combined_return_period_years": null,
+  "limitations": [
+    "Equal-weight mean of historical point-station IDF values; not an observed storm.",
+    "Averaging station quantiles does not establish an areal return period or joint exceedance probability.",
+    "Uniform spatial rain with areal factor 1; no locally verified areal correction.",
+    "Uncalibrated soil losses, roughness, boundaries and inferred sewer geometry remain.",
+    "Zero infiltration is a limiting assumption, not measured saturation or an antecedent soil simulation.",
+    "No upstream river flood hydrograph, bathymetry or bidirectional sewer feedback.",
+    "ENSO context does not prescribe an hourly rainfall multiplier for Riobamba."
+  ]
+}

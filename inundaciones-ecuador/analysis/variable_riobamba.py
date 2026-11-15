@@ -45,8 +45,8 @@ def conservative_series(q,block_seconds=600,duration=43200):
     if not np.allclose(integral,target,atol=1e-7,rtol=1e-10):raise ValueError('Input hydrograph volume mismatch')
     return np.array(times),values,float(np.max(abs(factors-1)))
 
-def network_for(ret,h):
-    folder=GRID/f'network-variable-t{ret}'
+def network_for(ret,h,folder_name=None,duration_hours=12):
+    folder=GRID/(folder_name or f'network-variable-t{ret}')
     if (folder/'surface-forcing.npz').exists():return folder
     if folder.exists():raise RuntimeError('Inspect incomplete network before resuming')
     build(h['peak_mm_h'],folder.name)
@@ -56,8 +56,8 @@ def network_for(ret,h):
     rr,cc=np.nonzero(captured);xx,yy=Affine(*meta['transform'])*(cc+.5,rr+.5)
     nearest=cKDTree(nodes[:,:2]).query(np.c_[xx,yy])[1]
     q=np.array([np.bincount(nearest,weights=np.maximum(0,r-loss[rr,cc])/3600000*meta['dx_m']**2,minlength=len(nodes)) for r in h['intensities_mm_h'][:-1]])
-    times,values,correction=conservative_series(q)
-    inp=(folder/'network.inp').read_text();head=inp.split('[TIMESERIES]')[0].replace('END_TIME 02:00:00','END_TIME 12:00:00')
+    times,values,correction=conservative_series(q,duration=duration_hours*3600)
+    inp=(folder/'network.inp').read_text();head=inp.split('[TIMESERIES]')[0].replace('END_TIME 02:00:00',f'END_TIME {int(duration_hours):02d}:00:00')
     lines=[head,'[TIMESERIES]']
     for i in range(len(nodes)):
         if not q[:,i].any():continue
@@ -66,7 +66,7 @@ def network_for(ret,h):
             lines.append(f'R{i} 01/01/2020 {clock} {v:.12g}')
     lines+=['[REPORT]','NODES NONE','LINKS NONE']
     (folder/'network.inp').write_text('\n'.join(lines)+'\n')
-    assumptions=json.loads((folder/'assumptions.json').read_text());assumptions.update(rainfall_mm_h=None,rain_profile=h,model_end_seconds=43200,input_runoff_m3=float(q.sum()*600),max_input_normalization_fraction=correction)
+    assumptions=json.loads((folder/'assumptions.json').read_text());assumptions.update(rainfall_mm_h=None,rain_profile=h,model_end_seconds=duration_hours*3600,input_runoff_m3=float(q.sum()*600),max_input_normalization_fraction=correction)
     assumptions['assumptions']=[a for a in assumptions['assumptions'] if 'One-minute rainfall-input ramp' not in a]
     assumptions['assumptions'].append('Runoff from each 10min rain block; 1s linear transitions, nodewise volume normalization. The same block rain and losses are used on captured and uncaptured cells.')
     (folder/'assumptions.json').write_text(json.dumps(assumptions,indent=2));execute(folder)
