@@ -1,0 +1,1149 @@
+{
+  "id": "uniform-7p8-network",
+  "city": "Riobamba",
+  "method": "local-inertial-spatial-fields-v2-exploratory",
+  "calibrated": false,
+  "synthetic_event": true,
+  "rain_mm_h": 7.8,
+  "rain_hours": 12,
+  "total_rain_mm": 93.6,
+  "duration_hours": 12,
+  "infiltration_multiplier": 1.0,
+  "network": "D:\\codex\\ecuador-inundaciones-20261111\\riobamba-runs\\grid-24m\\network-uniform-7p8",
+  "metadata": {
+    "dx_m": 24.0,
+    "shape": [
+      480,
+      469
+    ],
+    "crs": "EPSG:31977",
+    "transform": [
+      24.0,
+      0.0,
+      754302.3748000081,
+      0.0,
+      -24.0,
+      9821839.443746123
+    ],
+    "valid_km2": 59.170176,
+    "source_dem_resolution_m": 3,
+    "minimum_valid_fraction_per_cell": 0.95,
+    "landcover_source_year": 2018,
+    "estimated_parameters_by_class": {
+      "1": {
+        "name": "Urbano y equipamientos",
+        "n": 0.08,
+        "infiltration_mm_h": 0.5,
+        "impervious_fraction": 0.8
+      },
+      "2": {
+        "name": "Agricultura y pastos",
+        "n": 0.05,
+        "infiltration_mm_h": 5.0,
+        "impervious_fraction": 0.1
+      },
+      "3": {
+        "name": "Forestal",
+        "n": 0.12,
+        "infiltration_mm_h": 8.0,
+        "impervious_fraction": 0.05
+      },
+      "4": {
+        "name": "Herbaceo y arbustivo",
+        "n": 0.06,
+        "infiltration_mm_h": 5.0,
+        "impervious_fraction": 0.05
+      },
+      "5": {
+        "name": "Suelo descubierto",
+        "n": 0.03,
+        "infiltration_mm_h": 3.0,
+        "impervious_fraction": 0.1
+      },
+      "6": {
+        "name": "Agua y cauce cartografiado",
+        "n": 0.035,
+        "infiltration_mm_h": 0.0,
+        "impervious_fraction": 1.0
+      },
+      "7": {
+        "name": "Invernaderos e infraestructura agropecuaria",
+        "n": 0.05,
+        "infiltration_mm_h": 1.0,
+        "impervious_fraction": 0.7
+      },
+      "8": {
+        "name": "Cobertura no clasificada: supuesto",
+        "n": 0.06,
+        "infiltration_mm_h": 3.0,
+        "impervious_fraction": 0.2
+      }
+    },
+    "landcover_km2": {
+      "Urbano y equipamientos": 29.441664,
+      "Agricultura y pastos": 14.164992,
+      "Forestal": 1.870848,
+      "Herbaceo y arbustivo": 2.928384,
+      "Suelo descubierto": 0.525888,
+      "Agua y cauce cartografiado": 0.070272,
+      "Invernaderos e infraestructura agropecuaria": 0.095616,
+      "Cobertura no clasificada: supuesto": 10.072512
+    },
+    "rain_input": {
+      "mode": "constant selected intensity",
+      "mm_h": 7.8,
+      "master_minutes": 720,
+      "selectable_minutes": [
+        15,
+        30,
+        45,
+        60,
+        75,
+        90,
+        105,
+        120,
+        135,
+        150,
+        165,
+        180,
+        195,
+        210,
+        225,
+        240,
+        255,
+        270,
+        285,
+        300,
+        315,
+        330,
+        345,
+        360,
+        375,
+        390,
+        405,
+        420,
+        435,
+        450,
+        465,
+        480,
+        495,
+        510,
+        525,
+        540,
+        555,
+        570,
+        585,
+        600,
+        615,
+        630,
+        645,
+        660,
+        675,
+        690,
+        705,
+        720
+      ],
+      "return_period_years": null,
+      "forecast": false
+    },
+    "basin_codes": [
+      "H0791",
+      "H0788",
+      "B0787",
+      "H0789",
+      "H0800"
+    ],
+    "vertical_reference": "local source elevation frame; geodetic vertical datum unspecified; no sea-level boundary",
+    "boundary_assumption": "Critical free outflow along valid-domain edges and NoData boundaries; no external catchment inflow. Interpretation near boundary is uncertain.",
+    "limitations": [
+      "Parameters are estimates by 2018 land cover, not soil tests or measured impervious fractions.",
+      "Native 3m DEM averaged to calculation grid; streets and inlet details below that grid are unresolved.",
+      "No bathymetric adjustment or invented river cross-section.",
+      "Anegamiento classification is only a contextual comparison; it is not calibration with an observed event.",
+      "Daily river series are retained for hydrological context; no subhourly flood hydrograph is manufactured from them."
+    ],
+    "references": [
+      "https://www.hec.usace.army.mil/confluence/rasdocs/rmum/6.1/land-classification-layers",
+      "https://www.epa.gov/water-research/storm-water-management-model-swmm"
+    ],
+    "source_sha256": {
+      "terreno\\MDT.TIF": "db6e73debad496be25141b1edad17821a7e376743abcfa5e5436da3360272f6e",
+      "cobertura\\cob_uso_riobamba_a.shp": "9655a917dca04f48df92212171d9880eff6815c5ce484ab3aaed38d0bb229131",
+      "cobertura\\cob_uso_riobamba_a.dbf": "cfc802cececc51398ede813be2f5ee5bd4c2367685a0694486127922ee00f29e",
+      "ANEGAMIENTO2.zip": "444b433d2da997209820b80be51a6703765aa549836d7d9e7fb40f70e3fb92b3",
+      "prepared\\precipitation_annual_maxima_preserved.csv": "abcb870016228ccc9126be8c92329ee11bb1676eeeb58fa0950e530170d1f017"
+    }
+  },
+  "stats": {
+    "initial_m3": 0.0,
+    "direct_rain_m3": 3345608.448000018,
+    "prescribed_overflow_m3": 1729771.8066676813,
+    "infiltration_m3": 1479467.7594702037,
+    "boundary_outflow_m3": 1328630.8521267062,
+    "final_m3": 2267281.6430708207,
+    "mass_residual_m3": -3.166496753692627e-08,
+    "mass_relative_error": 6.238935005471717e-15,
+    "max_depth_m": 7.312129196808127,
+    "max_footprint_km2": 6.211584,
+    "froude_limited_fraction": 0.011562909376190303,
+    "steps": 36470
+  },
+  "hydrograph": [
+    {
+      "minutes": 15.0,
+      "volume_m3": 45459.51003114482,
+      "wet_km2": 0.024768
+    },
+    {
+      "minutes": 30.0,
+      "volume_m3": 110568.55700138172,
+      "wet_km2": 0.166464
+    },
+    {
+      "minutes": 45.0,
+      "volume_m3": 181807.9706431051,
+      "wet_km2": 0.426816
+    },
+    {
+      "minutes": 60.0,
+      "volume_m3": 252721.17831554217,
+      "wet_km2": 0.71712
+    },
+    {
+      "minutes": 75.0,
+      "volume_m3": 323230.19898303796,
+      "wet_km2": 0.997632
+    },
+    {
+      "minutes": 90.0,
+      "volume_m3": 393212.4291277035,
+      "wet_km2": 1.271808
+    },
+    {
+      "minutes": 105.0,
+      "volume_m3": 462702.8689399064,
+      "wet_km2": 1.5264
+    },
+    {
+      "minutes": 120.0,
+      "volume_m3": 531796.3390398684,
+      "wet_km2": 1.752192
+    },
+    {
+      "minutes": 135.0,
+      "volume_m3": 600485.4039430516,
+      "wet_km2": 1.974528
+    },
+    {
+      "minutes": 150.0,
+      "volume_m3": 668898.9808833684,
+      "wet_km2": 2.202624
+    },
+    {
+      "minutes": 165.0,
+      "volume_m3": 737057.1588963743,
+      "wet_km2": 2.4192
+    },
+    {
+      "minutes": 180.0,
+      "volume_m3": 804858.7418844246,
+      "wet_km2": 2.63232
+    },
+    {
+      "minutes": 195.0,
+      "volume_m3": 872349.4981004279,
+      "wet_km2": 2.802816
+    },
+    {
+      "minutes": 210.0,
+      "volume_m3": 939623.9097163044,
+      "wet_km2": 2.981376
+    },
+    {
+      "minutes": 225.0,
+      "volume_m3": 1006661.7131488891,
+      "wet_km2": 3.169152
+    },
+    {
+      "minutes": 240.0,
+      "volume_m3": 1073326.8225422008,
+      "wet_km2": 3.382848
+    },
+    {
+      "minutes": 255.0,
+      "volume_m3": 1139169.763812727,
+      "wet_km2": 3.5712
+    },
+    {
+      "minutes": 270.0,
+      "volume_m3": 1204265.5198236182,
+      "wet_km2": 3.757824
+    },
+    {
+      "minutes": 285.0,
+      "volume_m3": 1268685.3257899953,
+      "wet_km2": 3.958272
+    },
+    {
+      "minutes": 300.0,
+      "volume_m3": 1331341.0016919142,
+      "wet_km2": 4.12128
+    },
+    {
+      "minutes": 315.0,
+      "volume_m3": 1387146.0667962227,
+      "wet_km2": 4.272768
+    },
+    {
+      "minutes": 330.0,
+      "volume_m3": 1439049.392565222,
+      "wet_km2": 4.419648
+    },
+    {
+      "minutes": 345.0,
+      "volume_m3": 1486978.401773734,
+      "wet_km2": 4.549824
+    },
+    {
+      "minutes": 360.0,
+      "volume_m3": 1531690.6985273398,
+      "wet_km2": 4.659264
+    },
+    {
+      "minutes": 375.0,
+      "volume_m3": 1575056.4086420746,
+      "wet_km2": 4.774464
+    },
+    {
+      "minutes": 390.0,
+      "volume_m3": 1617513.1804221924,
+      "wet_km2": 4.909824
+    },
+    {
+      "minutes": 405.0,
+      "volume_m3": 1659071.8968000254,
+      "wet_km2": 5.012928
+    },
+    {
+      "minutes": 420.0,
+      "volume_m3": 1699544.0228072386,
+      "wet_km2": 5.106816
+    },
+    {
+      "minutes": 435.0,
+      "volume_m3": 1739027.08620757,
+      "wet_km2": 5.198976
+    },
+    {
+      "minutes": 450.0,
+      "volume_m3": 1777545.6037340793,
+      "wet_km2": 5.294592
+    },
+    {
+      "minutes": 465.0,
+      "volume_m3": 1815126.4691524096,
+      "wet_km2": 5.369472
+    },
+    {
+      "minutes": 480.0,
+      "volume_m3": 1852055.8774305366,
+      "wet_km2": 5.45184
+    },
+    {
+      "minutes": 495.0,
+      "volume_m3": 1888281.3447012152,
+      "wet_km2": 5.521536
+    },
+    {
+      "minutes": 510.0,
+      "volume_m3": 1922529.9872636504,
+      "wet_km2": 5.579136
+    },
+    {
+      "minutes": 525.0,
+      "volume_m3": 1955478.8199873436,
+      "wet_km2": 5.63616
+    },
+    {
+      "minutes": 540.0,
+      "volume_m3": 1987221.3412942719,
+      "wet_km2": 5.69664
+    },
+    {
+      "minutes": 555.0,
+      "volume_m3": 2014021.595466099,
+      "wet_km2": 5.746176
+    },
+    {
+      "minutes": 570.0,
+      "volume_m3": 2039678.7302006555,
+      "wet_km2": 5.79744
+    },
+    {
+      "minutes": 585.0,
+      "volume_m3": 2064770.9551653732,
+      "wet_km2": 5.841792
+    },
+    {
+      "minutes": 600.0,
+      "volume_m3": 2089354.323586002,
+      "wet_km2": 5.894208
+    },
+    {
+      "minutes": 615.0,
+      "volume_m3": 2113474.981073509,
+      "wet_km2": 5.956992
+    },
+    {
+      "minutes": 630.0,
+      "volume_m3": 2137254.7822162905,
+      "wet_km2": 6.004224
+    },
+    {
+      "minutes": 645.0,
+      "volume_m3": 2160695.5952420356,
+      "wet_km2": 6.038208
+    },
+    {
+      "minutes": 660.0,
+      "volume_m3": 2183740.230526527,
+      "wet_km2": 6.077952
+    },
+    {
+      "minutes": 675.0,
+      "volume_m3": 2205876.8149407217,
+      "wet_km2": 6.11136
+    },
+    {
+      "minutes": 690.0,
+      "volume_m3": 2227042.1105016167,
+      "wet_km2": 6.137856
+    },
+    {
+      "minutes": 705.0,
+      "volume_m3": 2247517.4713090295,
+      "wet_km2": 6.175296
+    },
+    {
+      "minutes": 720.0,
+      "volume_m3": 2267281.6430708277,
+      "wet_km2": 6.208704
+    }
+  ],
+  "context_comparison": {
+    "wet_km2_5cm": 6.211584,
+    "interior_wet_km2_5cm": 6.141312,
+    "wet_area_in_given_high_classes_km2": 1.22688,
+    "interpretation": "Spatial overlap with a supplied classification, not validation with an observed flood."
+  },
+  "limitations": [
+    "Fixed intensities chosen for sensitivity, not station quantiles for each selected duration or an ENSO forecast.",
+    "7.8 mm/h originated as the 6h combined high-reference mean; 15.6 is twice that; 75 is twice the combined 1h high-reference mean.",
+    "Those former variable-rain means are deliberately used as constant forcing here; this is a new hypothetical experiment.",
+    "Rain is spatially uniform across the valid local domain; no locally verified areal reduction or radar field is used.",
+    "Each duration is the causal prefix of the same continuous-rain calculation; no post-stop drainage is simulated.",
+    "Cumulative maxima and water budgets are recorded at each 15min cutoff; future water is excluded.",
+    "Terrain, soil losses, open boundaries, inferred sewer and one-way overflow remain uncalibrated.",
+    "No upstream river flood hydrograph or bathymetry is included; these are rain and inferred-sewer experiments.",
+    "75 mm/h for 12h is 900mm: a stress assumption, not a probable or physically established local event."
+  ],
+  "prefix_stats": [
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 0.0,
+      "prescribed_overflow_m3": 0.0,
+      "infiltration_m3": 0.0,
+      "boundary_outflow_m3": 0.0,
+      "final_m3": 0.0,
+      "mass_residual_m3": 0.0,
+      "mass_relative_error": 0.0,
+      "max_depth_m": 0.0,
+      "max_footprint_km2": 0.0,
+      "froude_limited_fraction": 0.0,
+      "steps": 0
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 69700.1759999596,
+      "prescribed_overflow_m3": 7352.384495805716,
+      "infiltration_m3": 30800.45543994969,
+      "boundary_outflow_m3": 792.5950247244049,
+      "final_m3": 45459.51003114419,
+      "mass_residual_m3": -5.296897143125534e-08,
+      "mass_relative_error": 6.874394710629562e-13,
+      "max_depth_m": 0.15774802309533129,
+      "max_footprint_km2": 0.024768,
+      "froude_limited_fraction": 0.09912146552034011,
+      "steps": 126
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 139400.35199996378,
+      "prescribed_overflow_m3": 35669.41673735752,
+      "infiltration_m3": 61614.04162990232,
+      "boundary_outflow_m3": 2887.1701060870632,
+      "final_m3": 110568.55700138102,
+      "mass_residual_m3": -4.909816198050976e-08,
+      "mass_relative_error": 2.8044911657007877e-13,
+      "max_depth_m": 0.7439384132471687,
+      "max_footprint_km2": 0.167616,
+      "froude_limited_fraction": 0.06903271289811815,
+      "steps": 361
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 209100.52799996824,
+      "prescribed_overflow_m3": 71340.94249371682,
+      "infiltration_m3": 92431.22308547901,
+      "boundary_outflow_m3": 6202.2767651485865,
+      "final_m3": 181807.97064310318,
+      "mass_residual_m3": -4.572211764752865e-08,
+      "mass_relative_error": 1.6303622130863921e-13,
+      "max_depth_m": 1.1424717628105614,
+      "max_footprint_km2": 0.429696,
+      "froude_limited_fraction": 0.04962759783043052,
+      "steps": 683
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 278800.70399997145,
+      "prescribed_overflow_m3": 107733.63036539317,
+      "infiltration_m3": 123250.4348008162,
+      "boundary_outflow_m3": 10562.721249050539,
+      "final_m3": 252721.17831554014,
+      "mass_residual_m3": -4.228786565363407e-08,
+      "mass_relative_error": 1.0940261160257559e-13,
+      "max_depth_m": 1.9558068056086253,
+      "max_footprint_km2": 0.719424,
+      "froude_limited_fraction": 0.03762334001949494,
+      "steps": 1058
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 348500.8799999709,
+      "prescribed_overflow_m3": 144436.50618996448,
+      "infiltration_m3": 154070.67735275687,
+      "boundary_outflow_m3": 15636.509854186244,
+      "final_m3": 323230.1989830362,
+      "mass_residual_m3": -4.394678398966789e-08,
+      "mass_relative_error": 8.915287259776764e-14,
+      "max_depth_m": 2.413503934092359,
+      "max_footprint_km2": 1.001664,
+      "froude_limited_fraction": 0.029598532112135194,
+      "steps": 1507
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 418201.0559999704,
+      "prescribed_overflow_m3": 181210.95603250482,
+      "infiltration_m3": 184891.93535296607,
+      "boundary_outflow_m3": 21307.647551849248,
+      "final_m3": 393212.4291277046,
+      "mass_residual_m3": -4.470348358154297e-08,
+      "mass_relative_error": 7.457889178757566e-14,
+      "max_depth_m": 2.5038524459910314,
+      "max_footprint_km2": 1.276416,
+      "froude_limited_fraction": 0.02512803534821142,
+      "steps": 1983
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 487901.2319999664,
+      "prescribed_overflow_m3": 218042.43452512566,
+      "infiltration_m3": 215713.8537851907,
+      "boundary_outflow_m3": 27526.943800045956,
+      "final_m3": 462702.8689399043,
+      "mass_residual_m3": -4.901085048913956e-08,
+      "mass_relative_error": 6.942600778669571e-14,
+      "max_depth_m": 2.5046436851427982,
+      "max_footprint_km2": 1.530432,
+      "froude_limited_fraction": 0.0223562215997135,
+      "steps": 2471
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 557601.4079999685,
+      "prescribed_overflow_m3": 254889.69166132144,
+      "infiltration_m3": 246536.17879852487,
+      "boundary_outflow_m3": 34158.58182294597,
+      "final_m3": 531796.3390398655,
+      "mass_residual_m3": -4.644971340894699e-08,
+      "mass_relative_error": 5.716950429156809e-14,
+      "max_depth_m": 2.504843510341514,
+      "max_footprint_km2": 1.756224,
+      "froude_limited_fraction": 0.020484868354961504,
+      "steps": 2966
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 627301.5839999687,
+      "prescribed_overflow_m3": 291744.1550777757,
+      "infiltration_m3": 277358.79492577683,
+      "boundary_outflow_m3": 41201.54020897087,
+      "final_m3": 600485.4039430432,
+      "mass_residual_m3": -4.6566128730773926e-08,
+      "mass_relative_error": 5.0667912107946544e-14,
+      "max_depth_m": 2.81030251159684,
+      "max_footprint_km2": 1.97856,
+      "froude_limited_fraction": 0.019156168983368197,
+      "steps": 3466
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 697001.759999963,
+      "prescribed_overflow_m3": 328621.17299858516,
+      "infiltration_m3": 308181.5781970066,
+      "boundary_outflow_m3": 48542.373918236735,
+      "final_m3": 668898.9808833573,
+      "mass_residual_m3": -5.25033101439476e-08,
+      "mass_relative_error": 5.1191630427419395e-14,
+      "max_depth_m": 3.6703244778842574,
+      "max_footprint_km2": 2.205504,
+      "froude_limited_fraction": 0.01797756870882171,
+      "steps": 4021
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 766701.9359999596,
+      "prescribed_overflow_m3": 365496.5157117767,
+      "infiltration_m3": 339004.47188039037,
+      "boundary_outflow_m3": 56136.8209350259,
+      "final_m3": 737057.1588963759,
+      "mass_residual_m3": -5.5995769798755646e-08,
+      "mass_relative_error": 4.945755729845537e-14,
+      "max_depth_m": 4.451728985827606,
+      "max_footprint_km2": 2.421504,
+      "froude_limited_fraction": 0.01698623981389245,
+      "steps": 4634
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 836402.1119999653,
+      "prescribed_overflow_m3": 402373.6359648879,
+      "infiltration_m3": 369827.4474047317,
+      "boundary_outflow_m3": 64089.55867574503,
+      "final_m3": 804858.7418844273,
+      "mass_residual_m3": -5.0873495638370514e-08,
+      "mass_relative_error": 4.106755861337213e-14,
+      "max_depth_m": 5.155917982197547,
+      "max_footprint_km2": 2.6352,
+      "froude_limited_fraction": 0.01617366240872471,
+      "steps": 5291
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 906102.2879999628,
+      "prescribed_overflow_m3": 439271.05656533304,
+      "infiltration_m3": 400650.5123461555,
+      "boundary_outflow_m3": 72373.33411876146,
+      "final_m3": 872349.4981004335,
+      "mass_residual_m3": -5.459878593683243e-08,
+      "mass_relative_error": 4.0582627980097124e-14,
+      "max_depth_m": 5.683800999620016,
+      "max_footprint_km2": 2.80512,
+      "froude_limited_fraction": 0.015500709397171235,
+      "steps": 5999
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 975802.4639999581,
+      "prescribed_overflow_m3": 476115.479773931,
+      "infiltration_m3": 431473.6452917926,
+      "boundary_outflow_m3": 80820.38876585773,
+      "final_m3": 939623.9097162979,
+      "mass_residual_m3": -5.9138983488082886e-08,
+      "mass_relative_error": 4.073162931946845e-14,
+      "max_depth_m": 6.194931459427133,
+      "max_footprint_km2": 2.983104,
+      "froude_limited_fraction": 0.01494152179342487,
+      "steps": 6759
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 1045502.6399999592,
+      "prescribed_overflow_m3": 512982.31973878713,
+      "infiltration_m3": 462296.8190473193,
+      "boundary_outflow_m3": 89526.42754261632,
+      "final_m3": 1006661.7131488693,
+      "mass_residual_m3": -5.8673322200775146e-08,
+      "mass_relative_error": 3.764766662272489e-14,
+      "max_depth_m": 6.6198677099183625,
+      "max_footprint_km2": 3.17088,
+      "froude_limited_fraction": 0.014475149749812273,
+      "steps": 7560
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 1115202.8159999547,
+      "prescribed_overflow_m3": 549844.0024036715,
+      "infiltration_m3": 493120.0474009092,
+      "boundary_outflow_m3": 98599.94846057831,
+      "final_m3": 1073326.8225422017,
+      "mass_residual_m3": -6.28642737865448e-08,
+      "mass_relative_error": 3.775525894630176e-14,
+      "max_depth_m": 7.029273447889002,
+      "max_footprint_km2": 3.385728,
+      "froude_limited_fraction": 0.014094592000420519,
+      "steps": 8379
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 1184902.9919999551,
+      "prescribed_overflow_m3": 586684.422629881,
+      "infiltration_m3": 523943.30752408644,
+      "boundary_outflow_m3": 108474.34329308194,
+      "final_m3": 1139169.763812729,
+      "mass_residual_m3": -6.123445928096771e-08,
+      "mass_relative_error": 3.4564740511978817e-14,
+      "max_depth_m": 7.200448691933597,
+      "max_footprint_km2": 3.574656,
+      "froude_limited_fraction": 0.013773397609510692,
+      "steps": 9219
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 1254603.1679999554,
+      "prescribed_overflow_m3": 623548.345137435,
+      "infiltration_m3": 554766.5863108304,
+      "boundary_outflow_m3": 119119.40700300114,
+      "final_m3": 1204265.5198236173,
+      "mass_residual_m3": -5.844049155712128e-08,
+      "mass_relative_error": 3.111596223645363e-14,
+      "max_depth_m": 7.220150161747075,
+      "max_footprint_km2": 3.76128,
+      "froude_limited_fraction": 0.013508826179000889,
+      "steps": 10062
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 1324303.3439999535,
+      "prescribed_overflow_m3": 660443.2405465404,
+      "infiltration_m3": 585589.8834011569,
+      "boundary_outflow_m3": 130471.37535539597,
+      "final_m3": 1268685.325790002,
+      "mass_residual_m3": -6.100162863731384e-08,
+      "mass_relative_error": 3.073522288048298e-14,
+      "max_depth_m": 7.222411316704793,
+      "max_footprint_km2": 3.961152,
+      "froude_limited_fraction": 0.013285377226701396,
+      "steps": 10917
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 1394003.5199999542,
+      "prescribed_overflow_m3": 697347.1877316048,
+      "infiltration_m3": 616413.1939274155,
+      "boundary_outflow_m3": 143596.51211230463,
+      "final_m3": 1331341.0016919044,
+      "mass_residual_m3": -6.565824151039124e-08,
+      "mass_relative_error": 3.1395136773405766e-14,
+      "max_depth_m": 7.223055108033743,
+      "max_footprint_km2": 4.123584,
+      "froude_limited_fraction": 0.013095855443898118,
+      "steps": 11772
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 1463703.6959999534,
+      "prescribed_overflow_m3": 734228.7389332738,
+      "infiltration_m3": 647236.5130767517,
+      "boundary_outflow_m3": 163549.85506031653,
+      "final_m3": 1387146.0667962253,
+      "mass_residual_m3": -6.612390279769897e-08,
+      "mass_relative_error": 3.0084593023310016e-14,
+      "max_depth_m": 7.2244960773088165,
+      "max_footprint_km2": 4.27392,
+      "froude_limited_fraction": 0.012933934971607523,
+      "steps": 12627
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 1533403.8719999474,
+      "prescribed_overflow_m3": 771112.5014953022,
+      "infiltration_m3": 678059.8380365551,
+      "boundary_outflow_m3": 187407.14289352886,
+      "final_m3": 1439049.3925652301,
+      "mass_residual_m3": -6.449408829212189e-08,
+      "mass_relative_error": 2.798595359698139e-14,
+      "max_depth_m": 7.22844377706712,
+      "max_footprint_km2": 4.4208,
+      "froude_limited_fraction": 0.01279422894828343,
+      "steps": 13482
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 1603104.047999953,
+      "prescribed_overflow_m3": 807976.9663378008,
+      "infiltration_m3": 708883.1700241413,
+      "boundary_outflow_m3": 215219.4425399281,
+      "final_m3": 1486978.4017737443,
+      "mass_residual_m3": -5.960464477539063e-08,
+      "mass_relative_error": 2.4721128996058267e-14,
+      "max_depth_m": 7.232873166613106,
+      "max_footprint_km2": 4.550976,
+      "froude_limited_fraction": 0.01267059137547587,
+      "steps": 14337
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 1672804.22399996,
+      "prescribed_overflow_m3": 844850.9219011501,
+      "infiltration_m3": 739706.519994027,
+      "boundary_outflow_m3": 246257.9273798172,
+      "final_m3": 1531690.6985273212,
+      "mass_residual_m3": -5.541369318962097e-08,
+      "mass_relative_error": 2.2010041081217062e-14,
+      "max_depth_m": 7.2358636794537965,
+      "max_footprint_km2": 4.660416,
+      "froude_limited_fraction": 0.012560334939882262,
+      "steps": 15195
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 1742504.3999999575,
+      "prescribed_overflow_m3": 881732.6848661462,
+      "infiltration_m3": 770529.878487547,
+      "boundary_outflow_m3": 278650.79773653625,
+      "final_m3": 1575056.4086420778,
+      "mass_residual_m3": -5.727633833885193e-08,
+      "mass_relative_error": 2.1825900818627574e-14,
+      "max_depth_m": 7.237471151969846,
+      "max_footprint_km2": 4.775616,
+      "froude_limited_fraction": 0.012460855845710057,
+      "steps": 16065
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 1812204.5759999668,
+      "prescribed_overflow_m3": 918588.7517755197,
+      "infiltration_m3": 801353.2375512113,
+      "boundary_outflow_m3": 311926.909802129,
+      "final_m3": 1617513.1804221962,
+      "mass_residual_m3": -4.98257577419281e-08,
+      "mass_relative_error": 1.8245891124436108e-14,
+      "max_depth_m": 7.238433693218314,
+      "max_footprint_km2": 4.910976,
+      "froude_limited_fraction": 0.012372165396905714,
+      "steps": 16935
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 1881904.7519999659,
+      "prescribed_overflow_m3": 955439.0533865342,
+      "infiltration_m3": 832176.5970197154,
+      "boundary_outflow_m3": 346095.3115667995,
+      "final_m3": 1659071.896800037,
+      "mass_residual_m3": -5.168840289115906e-08,
+      "mass_relative_error": 1.8217180023454406e-14,
+      "max_depth_m": 7.239213993805739,
+      "max_footprint_km2": 5.015232,
+      "froude_limited_fraction": 0.012292740194330673,
+      "steps": 17805
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 1951604.9279999668,
+      "prescribed_overflow_m3": 992304.5450606325,
+      "infiltration_m3": 862999.9605343482,
+      "boundary_outflow_m3": 381365.48971906013,
+      "final_m3": 1699544.0228072442,
+      "mass_residual_m3": -5.3085386753082275e-08,
+      "mass_relative_error": 1.8032275529822152e-14,
+      "max_depth_m": 7.239864860421657,
+      "max_footprint_km2": 5.109696,
+      "froude_limited_fraction": 0.012221797414774367,
+      "steps": 18675
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 2021305.1039999686,
+      "prescribed_overflow_m3": 1029171.5626774483,
+      "infiltration_m3": 893823.349264455,
+      "boundary_outflow_m3": 417626.23120545264,
+      "final_m3": 1739027.0862075642,
+      "mass_residual_m3": -5.51808625459671e-08,
+      "mass_relative_error": 1.8089259016057374e-14,
+      "max_depth_m": 7.240277186334186,
+      "max_footprint_km2": 5.20128,
+      "froude_limited_fraction": 0.012157879062282663,
+      "steps": 19545
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 2091005.2799999728,
+      "prescribed_overflow_m3": 1066054.0370481322,
+      "infiltration_m3": 924646.7381307327,
+      "boundary_outflow_m3": 454866.9751833391,
+      "final_m3": 1777545.6037340832,
+      "mass_residual_m3": -5.029141902923584e-08,
+      "mass_relative_error": 1.5929830256169853e-14,
+      "max_depth_m": 7.241537890672581,
+      "max_footprint_km2": 5.296896,
+      "froude_limited_fraction": 0.012099305560952785,
+      "steps": 20415
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 2160705.455999971,
+      "prescribed_overflow_m3": 1102938.8250756643,
+      "infiltration_m3": 955470.1271164395,
+      "boundary_outflow_m3": 493047.68480684794,
+      "final_m3": 1815126.4691524021,
+      "mass_residual_m3": -5.448237061500549e-08,
+      "mass_relative_error": 1.6693722085744326e-14,
+      "max_depth_m": 7.245754720873543,
+      "max_footprint_km2": 5.371776,
+      "froude_limited_fraction": 0.012045365327139651,
+      "steps": 21285
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 2230405.631999972,
+      "prescribed_overflow_m3": 1139837.3369749426,
+      "infiltration_m3": 986293.5163515204,
+      "boundary_outflow_m3": 531893.5751929114,
+      "final_m3": 1852055.8774305368,
+      "mass_residual_m3": -5.448237061500549e-08,
+      "mass_relative_error": 1.6165710044215813e-14,
+      "max_depth_m": 7.2519545159137735,
+      "max_footprint_km2": 5.452992,
+      "froude_limited_fraction": 0.011995795280173542,
+      "steps": 22155
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 2300105.8079999764,
+      "prescribed_overflow_m3": 1176725.885097411,
+      "infiltration_m3": 1017116.9063480281,
+      "boundary_outflow_m3": 571433.442048182,
+      "final_m3": 1888281.3447012291,
+      "mass_residual_m3": -5.192123353481293e-08,
+      "mass_relative_error": 1.4933490636861437e-14,
+      "max_depth_m": 7.260664752603948,
+      "max_footprint_km2": 5.522688,
+      "froude_limited_fraction": 0.011950391323226183,
+      "steps": 23040
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 2369805.98399997,
+      "prescribed_overflow_m3": 1213587.9430753207,
+      "infiltration_m3": 1047940.2959705271,
+      "boundary_outflow_m3": 612923.6438411762,
+      "final_m3": 1922529.9872636423,
+      "mass_residual_m3": -5.494803190231323e-08,
+      "mass_relative_error": 1.5334075186972522e-14,
+      "max_depth_m": 7.266831834913147,
+      "max_footprint_km2": 5.580864,
+      "froude_limited_fraction": 0.011908392092132018,
+      "steps": 23925
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 2439506.159999973,
+      "prescribed_overflow_m3": 1250455.745287256,
+      "infiltration_m3": 1078763.6857886685,
+      "boundary_outflow_m3": 655719.3995112674,
+      "final_m3": 1955478.8199873436,
+      "mass_residual_m3": -5.029141902923584e-08,
+      "mass_relative_error": 1.3629251553295134e-14,
+      "max_depth_m": 7.2702849933977705,
+      "max_footprint_km2": 5.637888,
+      "froude_limited_fraction": 0.011869563432249298,
+      "steps": 24810
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 2509206.3359999713,
+      "prescribed_overflow_m3": 1287316.2778497757,
+      "infiltration_m3": 1109587.0757643664,
+      "boundary_outflow_m3": 699714.1967911541,
+      "final_m3": 1987221.3412942812,
+      "mass_residual_m3": -5.471520125865936e-08,
+      "mass_relative_error": 1.441192554972749e-14,
+      "max_depth_m": 7.272811695154206,
+      "max_footprint_km2": 5.697792,
+      "froude_limited_fraction": 0.011833931408768457,
+      "steps": 25695
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 2578906.5119999703,
+      "prescribed_overflow_m3": 1324182.2515541858,
+      "infiltration_m3": 1140410.4658226876,
+      "boundary_outflow_m3": 748656.7022654132,
+      "final_m3": 2014021.5954661116,
+      "mass_residual_m3": -5.634501576423645e-08,
+      "mass_relative_error": 1.443600675710194e-14,
+      "max_depth_m": 7.275014975401004,
+      "max_footprint_km2": 5.747904,
+      "froude_limited_fraction": 0.011800900472291612,
+      "steps": 26580
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 2648606.6879999777,
+      "prescribed_overflow_m3": 1361048.2873150453,
+      "infiltration_m3": 1171233.8559542655,
+      "boundary_outflow_m3": 798742.3891601521,
+      "final_m3": 2039678.730200657,
+      "mass_residual_m3": -5.098991096019745e-08,
+      "mass_relative_error": 1.2716782684323447e-14,
+      "max_depth_m": 7.278164618424922,
+      "max_footprint_km2": 5.799744,
+      "froude_limited_fraction": 0.011770736562905101,
+      "steps": 27470
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 2718306.8639999866,
+      "prescribed_overflow_m3": 1397912.6479395158,
+      "infiltration_m3": 1202057.246200696,
+      "boundary_outflow_m3": 849391.310573477,
+      "final_m3": 2064770.9551653746,
+      "mass_residual_m3": -4.516914486885071e-08,
+      "mass_relative_error": 1.097345385440041e-14,
+      "max_depth_m": 7.283770554520552,
+      "max_footprint_km2": 5.844096,
+      "froude_limited_fraction": 0.01174296376482543,
+      "steps": 28370
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 2788007.0400000075,
+      "prescribed_overflow_m3": 1434789.8409281697,
+      "infiltration_m3": 1232880.6364888302,
+      "boundary_outflow_m3": 900561.9208533989,
+      "final_m3": 2089354.3235859827,
+      "mass_residual_m3": -3.4226104617118835e-08,
+      "mass_relative_error": 8.105079543772867e-15,
+      "max_depth_m": 7.28744965834335,
+      "max_footprint_km2": 5.897088,
+      "froude_limited_fraction": 0.011717216905292937,
+      "steps": 29270
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 2857707.2160000163,
+      "prescribed_overflow_m3": 1471673.2893840042,
+      "infiltration_m3": 1263704.0268005808,
+      "boundary_outflow_m3": 952201.4975099554,
+      "final_m3": 2113474.9810735127,
+      "mass_residual_m3": -2.8405338525772095e-08,
+      "mass_relative_error": 6.561063064437786e-15,
+      "max_depth_m": 7.289693523948746,
+      "max_footprint_km2": 5.959296,
+      "froude_limited_fraction": 0.011693200138126704,
+      "steps": 30170
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 2927407.3920000135,
+      "prescribed_overflow_m3": 1508564.0766453603,
+      "infiltration_m3": 1294527.4171318242,
+      "boundary_outflow_m3": 1004189.2692972706,
+      "final_m3": 2137254.7822163077,
+      "mass_residual_m3": -2.9336661100387573e-08,
+      "mass_relative_error": 6.613356579893919e-15,
+      "max_depth_m": 7.291644014327527,
+      "max_footprint_km2": 6.006528,
+      "froude_limited_fraction": 0.011670613875748047,
+      "steps": 31070
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 2997107.568000014,
+      "prescribed_overflow_m3": 1545452.5512651189,
+      "infiltration_m3": 1325350.807481008,
+      "boundary_outflow_m3": 1056513.716542123,
+      "final_m3": 2160695.5952420356,
+      "mass_residual_m3": -3.3993273973464966e-08,
+      "mass_relative_error": 7.483285433977743e-15,
+      "max_depth_m": 7.293885810178254,
+      "max_footprint_km2": 6.038784,
+      "froude_limited_fraction": 0.011649380542153021,
+      "steps": 31970
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 3066807.7440000107,
+      "prescribed_overflow_m3": 1582342.9906610616,
+      "infiltration_m3": 1356174.1978473277,
+      "boundary_outflow_m3": 1109236.3062872193,
+      "final_m3": 2183740.230526562,
+      "mass_residual_m3": -3.632158041000366e-08,
+      "mass_relative_error": 7.812519421926538e-15,
+      "max_depth_m": 7.296557164340573,
+      "max_footprint_km2": 6.079104,
+      "froude_limited_fraction": 0.0116294559609388,
+      "steps": 32870
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 3136507.920000009,
+      "prescribed_overflow_m3": 1619217.7869388817,
+      "infiltration_m3": 1386997.5882299677,
+      "boundary_outflow_m3": 1162851.3037682627,
+      "final_m3": 2205876.8149407017,
+      "mass_residual_m3": -4.1443854570388794e-08,
+      "mass_relative_error": 8.714517431045216e-15,
+      "max_depth_m": 7.299820617096581,
+      "max_footprint_km2": 6.112512,
+      "froude_limited_fraction": 0.011611074993462783,
+      "steps": 33770
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 3206208.0960000036,
+      "prescribed_overflow_m3": 1656064.1232051668,
+      "infiltration_m3": 1417820.978632169,
+      "boundary_outflow_m3": 1217409.130071414,
+      "final_m3": 2227042.110501628,
+      "mass_residual_m3": -3.958120942115784e-08,
+      "mass_relative_error": 8.140475818038037e-15,
+      "max_depth_m": 7.303848349515349,
+      "max_footprint_km2": 6.139584,
+      "froude_limited_fraction": 0.011593896875630526,
+      "steps": 34670
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 3275908.272000015,
+      "prescribed_overflow_m3": 1692933.5328345618,
+      "infiltration_m3": 1448644.369053916,
+      "boundary_outflow_m3": 1272679.9644716787,
+      "final_m3": 2247517.4713090146,
+      "mass_residual_m3": -3.306195139884949e-08,
+      "mass_relative_error": 6.6538547004416436e-15,
+      "max_depth_m": 7.308035583965286,
+      "max_footprint_km2": 6.176448,
+      "froude_limited_fraction": 0.011577871368196385,
+      "steps": 35570
+    },
+    {
+      "initial_m3": 0.0,
+      "direct_rain_m3": 3345608.448000018,
+      "prescribed_overflow_m3": 1729771.8066676813,
+      "infiltration_m3": 1479467.7594702037,
+      "boundary_outflow_m3": 1328630.8521267062,
+      "final_m3": 2267281.6430708207,
+      "mass_residual_m3": -3.166496753692627e-08,
+      "mass_relative_error": 6.238935005471717e-15,
+      "max_depth_m": 7.312129196808127,
+      "max_footprint_km2": 6.211584,
+      "froude_limited_fraction": 0.011562909376190303,
+      "steps": 36470
+    }
+  ],
+  "uniform_rainfall": true,
+  "duration_semantics": "Snapshot prefix until chosen rain end; no post-rain calculation",
+  "intensity_origin": "Mean of combined 6h high reference",
+  "network_diagnostics": {
+    "routing_continuity_error_percent": -0.000697427021805197,
+    "runoff_continuity_error_percent": 0.0,
+    "flood_volume_m3": 1729771.8066676634,
+    "export_matches_cumulative_stats": true,
+    "accepted_continuity": true,
+    "calibrated": false
+  }
+}

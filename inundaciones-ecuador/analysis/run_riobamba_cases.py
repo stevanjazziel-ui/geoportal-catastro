@@ -9,7 +9,7 @@ from local_flood_solver import simulate
 ROOT=Path(__file__).resolve().parent
 
 
-def run(grid_folder,name,rain_hours,rain_mm_h,duration_hours,network=None,infiltration_factor=1.,rain_profile=None,snapshot_minutes=15):
+def run(grid_folder,name,rain_hours,rain_mm_h,duration_hours,network=None,infiltration_factor=1.,rain_profile=None,snapshot_minutes=15,record_prefixes=False):
     grid_folder=Path(grid_folder);meta=json.loads((grid_folder/'metadata.json').read_text(encoding='utf-8'))
     out=grid_folder/name
     if out.exists():raise FileExistsError('Preserve previous runs; select a new scenario name')
@@ -26,8 +26,10 @@ def run(grid_folder,name,rain_hours,rain_mm_h,duration_hours,network=None,infilt
     started=time.time()
     def progress(frac,steps):print(name,round(frac*100,1),'%',steps,'steps',round(time.time()-started,1),'seconds',flush=True)
     profile=[[0,rain_mm_h],[rain_hours*3600,0]] if rain_profile is None else rain_profile
-    result=simulate(g['dem'],g['mask'],meta['dx_m'],g['manning'],infil,profile,duration_hours,progress=progress,snapshot_minutes=snapshot_minutes,**kwargs)
-    np.savez_compressed(out/'result.npz',frames=result['frames'],times_minutes=result['times_minutes'],max_depth=result['max_depth'])
+    result=simulate(g['dem'],g['mask'],meta['dx_m'],g['manning'],infil,profile,duration_hours,progress=progress,snapshot_minutes=snapshot_minutes,record_prefixes=record_prefixes,**kwargs)
+    arrays={'frames':result['frames'],'times_minutes':result['times_minutes'],'max_depth':result['max_depth']}
+    if record_prefixes:arrays['max_frames']=result['max_frames']
+    np.savez_compressed(out/'result.npz',**arrays)
     wet=(result['max_depth']>=.05)&g['mask'];interior=g['boundary_distance_m']>=meta['dx_m']*3
     report={'id':name,'city':'Riobamba','method':'local-inertial-spatial-fields-v2-exploratory','calibrated':False,'synthetic_event':True,
             'rain_mm_h':rain_mm_h,'rain_hours':rain_hours,'total_rain_mm':rain_mm_h*rain_hours,'duration_hours':duration_hours,'infiltration_multiplier':infiltration_factor,
@@ -36,6 +38,7 @@ def run(grid_folder,name,rain_hours,rain_mm_h,duration_hours,network=None,infilt
                                   'wet_area_in_given_high_classes_km2':float((wet&(g['anegamiento']>=3)).sum()*meta['dx_m']**2/1e6),
                                   'interpretation':'Spatial overlap with a supplied classification, not validation with an observed flood.'},
             'limitations':['Synthetic uniform hyetograph; maxima do not establish a return period or observed event.','Annual-maxima source provenance still requires confirmation.','Boundary conditions, infiltration and roughness are assumptions. No calibrated flood prediction.','Daily Chibunga series do not provide the missing subhourly event inflow or river bathymetry.']}
+    if record_prefixes:report['prefix_stats']=result['prefix_stats']
     (out/'report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8');print(json.dumps(report['stats'],indent=2),flush=True)
     return out
 

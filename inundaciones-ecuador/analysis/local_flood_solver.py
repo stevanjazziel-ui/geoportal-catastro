@@ -88,7 +88,7 @@ def step(z,mask,h,qx,qy,n,loss,rf,rate,dx,dt,opened):
 
 
 def simulate(z,mask,dx,manning,infiltration_mm_h,rain_profile,duration_hours,initial=None,rain_factor=None,
-             source_times=None,source_rates=None,source_cells=None,snapshot_minutes=15,max_dt=8,boundary='open',progress=None):
+             source_times=None,source_rates=None,source_cells=None,snapshot_minutes=15,max_dt=8,boundary='open',progress=None,record_prefixes=False):
     z=np.asarray(z,np.float64);mask=np.asarray(mask,bool);n=np.broadcast_to(manning,z.shape).astype(float).copy()
     loss=np.broadcast_to(infiltration_mm_h,z.shape).astype(float).copy()/3600000
     rf=np.ones(z.shape) if rain_factor is None else np.asarray(rain_factor,float)
@@ -107,6 +107,13 @@ def simulate(z,mask,dx,manning,infiltration_mm_h,rain_profile,duration_hours,ini
         if np.any(source_cells<0) or np.any(source_cells[:,0]>=z.shape[0]) or np.any(source_cells[:,1]>=z.shape[1]) or not mask[source_cells[:,0],source_cells[:,1]].all():raise ValueError('Invalid overflow cells')
     initial_volume=float(h.sum()*dx*dx);rain=lossvol=outflow=external=0.;vmax=0.;hmax=float(h.max());t=0.;next_snap=snapshot_minutes*60;lim=faces=steps=0
     frames=[h.astype(np.float32).copy()];times=[0.];max_depth=h.copy();hydro=[]
+    def budget():
+        final=float(h.sum()*dx*dx);residual=initial_volume+rain+external-lossvol-outflow-final
+        return {'initial_m3':initial_volume,'direct_rain_m3':rain,'prescribed_overflow_m3':external,'infiltration_m3':lossvol,'boundary_outflow_m3':outflow,'final_m3':final,
+                'mass_residual_m3':residual,'mass_relative_error':abs(residual)/max(1,initial_volume+rain+external),'max_depth_m':float(max_depth.max()),
+                'max_footprint_km2':float((max_depth>=.05).sum()*dx*dx/1e6),'froude_limited_fraction':lim/max(1,faces),'steps':steps}
+    max_frames=[max_depth.astype(np.float32).copy()] if record_prefixes else None
+    prefix_stats=[budget()] if record_prefixes else None
     while t<end-1e-7:
         dt=min(max_dt,.45*dx/(np.sqrt(9.81*max(hmax,.001))+vmax+1e-9),end-t,next_snap-t)
         future=profile[:,0][profile[:,0]>t+1e-7]
@@ -123,11 +130,12 @@ def simulate(z,mask,dx,manning,infiltration_mm_h,rain_profile,duration_hours,ini
         if not np.isfinite(volume) or vmax>100:raise RuntimeError('Unstable run')
         if t>=next_snap-1e-7 or t>=end-1e-7:
             frames.append(h.astype(np.float32).copy());times.append(t/60);hydro.append({'minutes':t/60,'volume_m3':volume,'wet_km2':float((h>=.05).sum()*dx*dx/1e6)})
+            if record_prefixes:
+                max_frames.append(max_depth.astype(np.float32).copy());prefix_stats.append(budget())
             next_snap+=snapshot_minutes*60
             if progress:progress(t/end,steps)
-    final=float(h.sum()*dx*dx);residual=initial_volume+rain+external-lossvol-outflow-final
-    stats={'initial_m3':initial_volume,'direct_rain_m3':rain,'prescribed_overflow_m3':external,'infiltration_m3':lossvol,'boundary_outflow_m3':outflow,'final_m3':final,
-           'mass_residual_m3':residual,'mass_relative_error':abs(residual)/max(1,initial_volume+rain+external),'max_depth_m':float(max_depth.max()),
-           'max_footprint_km2':float((max_depth>=.05).sum()*dx*dx/1e6),'froude_limited_fraction':lim/max(1,faces),'steps':steps}
+    stats=budget()
     if stats['mass_relative_error']>1e-8:raise RuntimeError('Mass balance failed')
-    return {'frames':np.asarray(frames),'times_minutes':times,'max_depth':max_depth,'hydrograph':hydro,'stats':stats}
+    result={'frames':np.asarray(frames),'times_minutes':times,'max_depth':max_depth,'hydrograph':hydro,'stats':stats}
+    if record_prefixes:result.update(max_frames=np.asarray(max_frames),prefix_stats=prefix_stats)
+    return result
