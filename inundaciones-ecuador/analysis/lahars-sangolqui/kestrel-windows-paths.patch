@@ -1,0 +1,22 @@
+diff --git a/src/RasterData.cpp b/src/RasterData.cpp
+index ae0ea58..9a246e1 100644
+--- a/src/RasterData.cpp
++++ b/src/RasterData.cpp
+@@ -545,7 +545,7 @@ void BuildDEMVRT_raster(const char *path,
+ 	    std::string vrt_dem_name = fs::path(DEMfile).stem().string() + std::string(".vrt");
+         fs::path vrt_dem_path = OutputDir / fs::path(vrt_dem_name);
+ 	    std::vector<std::string> dem_list = {std::string(DEMfile)};
+-	    BuildVRT(vrt_dem_path.c_str(), dem_list,
++	    BuildVRT(vrt_dem_path.string().c_str(), dem_list,
+ 	    	input_dem.SW[0], input_dem.SW[1], input_dem.NE[0], input_dem.NE[1],
+ 	    	NULL, NULL
+ 	    );
+@@ -555,7 +555,7 @@ void BuildDEMVRT_raster(const char *path,
+         std::string vrt_combined_name = std::string("DEM_EPSG_") + std::to_string(input_dem.EPSG_code) + std::string(".vrt");
+ 	    fs::path vrt_combined_path = OutputDir / fs::path(vrt_combined_name);
+ 	    std::vector<std::string> vrt_list = {vrt_srtm_path.string(), vrt_dem_path.string()};
+-	    BuildVRT(vrt_combined_path.c_str(), vrt_list,
++	    BuildVRT(vrt_combined_path.string().c_str(), vrt_list,
+ 		    *minE, *minN, *maxE, *maxN,
+ 		    NULL, NULL
+ 	    );

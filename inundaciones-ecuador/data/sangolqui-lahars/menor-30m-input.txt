@@ -1,0 +1,49 @@
+# Exploratory mixture inflow at upper Pita. Not a forecast or calibrated eruption scenario.
+Domain:
+Lat = -0.2598436756
+Lon = -78.4144714800
+nXtiles = 82
+nYtiles = 185
+nXpertile = 10
+nYpertile = 10
+Xtilesize = 300
+Boundary conditions = halt
+Source:
+sourceLat = -0.4858467798
+sourceLon = -78.4325858053
+sourceRadius = 100
+sourceTime = (0,150,900)
+sourceFlux = (0,22222.222222222223,0)
+sourceConc = (0.4,0.4,0.4)
+Solver:
+T end = 9000
+cfl = 0.25
+Output:
+N out = 50
+directory = runs/menor-30m
+format = nc
+Topog:
+Type = DEM
+raster file = pita_domain_30m.tif
+dem directory = prepared
+embed raster = off
+Parameters:
+Drag = variable
+Chezy co = 0.01
+Pouliquen min = 0.1
+Pouliquen max = 0.35
+Pouliquen beta = 0.136
+voellmy switch value = 0.4
+voellmy switch rate = 3.0
+Erosion = mixed
+Erosion rate = 1e-4
+Granular erosion rate = 0.1
+Erosion depth = 10
+Erosion critical height = 0.01
+Bed porosity = 0.35
+maxPack = 0.65
+Deposition = Spearman Manning
+rhow = 1000
+rhos = 2000
+Solid diameter = 0.0015
+Eddy Viscosity = 1e-2

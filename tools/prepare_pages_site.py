@@ -39,6 +39,7 @@ def plan():
   elif name.startswith(('.github/','sig-bridge/workspace/','inundaciones-ecuador/model-archives/')):excluded.append(name)
   elif name in archived_rain:excluded.append(name)
   elif name.startswith(RIO_PREFIX) and name.endswith('.u16.gz') and name not in page_payloads:excluded.append(name)
+  elif re.fullmatch(r'inundaciones-ecuador/data/\d+\.json',name) and name+'.gz' in tracked:excluded.append(name)
   else:included.append(name)
  for name in ['visor-seguridad-riobamba-v2.html','sig-bridge-active.json',PREFIX+active+'/ESCENARIO_FINAL_183.gpkg',PREFIX+active+'/ENTREGA_POLICIA_KDE.zip']:
   assert name in included,'Falta dependencia publicada: '+name

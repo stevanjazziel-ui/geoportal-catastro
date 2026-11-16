@@ -1,0 +1,10 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const path=require('path');
+const source=fs.readFileSync(path.join(__dirname,'../dist/lahars.js'),'utf8');
+const ctx={};vm.createContext(ctx);
+vm.runInContext(source.slice(source.indexOf(' function decodeFrames'),source.indexOf(' function elevation'))+';this.decode=decodeFrames;',ctx);
+const original=new Int32Array([0,0,0,0,0,0,0,0,0,0,120,500,9,20,-35,150,4000,6000,100,490,100,450,8,25,-40,180,3800,6100,90,440]);
+const delta=Int32Array.from(original,(v,i)=>v-(i>=10?original[i-10]:0));
+assert.deepEqual(Array.from(ctx.decode(delta,2,3)),Array.from(original));
+assert.throws(()=>ctx.decode(new Int32Array(5),2,3));
+console.log('Actual browser decoder: signed surface changes, five fields, frame order and truncated payload checks passed.');
