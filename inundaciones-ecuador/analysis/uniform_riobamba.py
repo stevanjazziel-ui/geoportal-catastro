@@ -195,6 +195,8 @@ def pack():
     if spatial_note not in m['notes_es']:m['notes_es'].append(spatial_note)
     geometry_file.write_bytes(gzip.compress(json.dumps(geometry, separators=(',', ':')).encode(), mtime=0))
     (OUT / 'manifest.json').write_text(json.dumps(m, ensure_ascii=False, indent=2), encoding='utf-8')
+    from uniform_payload_codec import publish_encoded
+    publish_encoded()
     print('PACKED', len(items), 'constant-rain masters; 48 durations each; 432 selections', flush=True)
 
 

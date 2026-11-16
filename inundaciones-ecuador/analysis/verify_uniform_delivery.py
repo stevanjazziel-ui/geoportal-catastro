@@ -4,6 +4,7 @@ import hashlib
 import json
 import numpy as np
 from uniform_riobamba import ROOT, GRID, OUT, RATES, MODES, case_id
+from uniform_payload_codec import ENCODING, decode
 
 
 def main():
@@ -14,6 +15,8 @@ def main():
         blob = (OUT / c['file']).read_bytes()
         assert hashlib.sha256(blob).hexdigest() == c['sha256'] and len(blob) == c['bytes']
         encoded = np.frombuffer(gzip.decompress(blob), '<u2').reshape(98, m['cell_count'])
+        if c.get('payload_encoding') == ENCODING:
+            encoded = decode(encoded, c['frame_count'])
         assert c['cumulative_max_offset'] == 49
         assert c['times_minutes'] == list(range(0, 721, 15))
         with np.load(GRID / c['id'] / 'result.npz') as f:

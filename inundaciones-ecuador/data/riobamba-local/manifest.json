@@ -1,5 +1,5 @@
 {
-  "version": "riobamba-constant-quarterhour-v1",
+  "version": "riobamba-constant-quarterhour-v2",
   "calibrated": false,
   "rows": 480,
   "cols": 469,
@@ -40,10 +40,10 @@
       "rain_hours": 12,
       "duration_hours": 12,
       "uniform_rainfall": true,
-      "file": "uniform-7p8.prefix15.u16.gz",
-      "download_url": "https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/data/riobamba-local/uniform-7p8.prefix15.u16.gz",
-      "bytes": 2728813,
-      "sha256": "fb9be980792f60e52951275efb9337e3e1bb5bb39be83f6b2a78edddaa1d05d0",
+      "file": "uniform-7p8.delta15.u16.gz",
+      "download_url": "https://stevanjazziel-ui.github.io/geoportal-catastro/inundaciones-ecuador/data/riobamba-local/uniform-7p8.delta15.u16.gz",
+      "bytes": 328524,
+      "sha256": "d29803bc03795c295d443f2a9aeb892cab42ce60816e818cdf649aec560141a9",
       "frame_count": 49,
       "cumulative_max_offset": 49,
       "depth_scale_m": 0.01,
@@ -854,7 +854,9 @@
       },
       "report": "uniform-7p8-report.json",
       "infiltration_multiplier": 1.0,
-      "network_diagnostics": null
+      "network_diagnostics": null,
+      "payload_encoding": "water-time-zigzag-max-residual-u16-v1",
+      "payload_delivery": "pages"
     },
     {
       "id": "uniform-7p8-network",
@@ -862,10 +864,10 @@
       "rain_hours": 12,
       "duration_hours": 12,
       "uniform_rainfall": true,
-      "file": "uniform-7p8-network.prefix15.u16.gz",
-      "download_url": "https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/data/riobamba-local/uniform-7p8-network.prefix15.u16.gz",
-      "bytes": 2311813,
-      "sha256": "b3384ab67f5328999262bdf0767d6ff305f141e6ce0e8bb8db8f8d4af01d9e2d",
+      "file": "uniform-7p8-network.delta15.u16.gz",
+      "download_url": "https://stevanjazziel-ui.github.io/geoportal-catastro/inundaciones-ecuador/data/riobamba-local/uniform-7p8-network.delta15.u16.gz",
+      "bytes": 275415,
+      "sha256": "d30ac5c5432914efff65f06d0d64b06ed4dc8f1f83424b51d924544d2fd6e2ee",
       "frame_count": 49,
       "cumulative_max_offset": 49,
       "depth_scale_m": 0.01,
@@ -1685,7 +1687,9 @@
         "calibrated": false
       },
       "network_input_file": "https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/model-archives/uniform-7p8-network.inp.gz",
-      "network_report_file": "https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/model-archives/uniform-7p8-network.rpt.gz"
+      "network_report_file": "https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/model-archives/uniform-7p8-network.rpt.gz",
+      "payload_encoding": "water-time-zigzag-max-residual-u16-v1",
+      "payload_delivery": "pages"
     },
     {
       "id": "uniform-7p8-zero-loss",
@@ -1693,10 +1697,10 @@
       "rain_hours": 12,
       "duration_hours": 12,
       "uniform_rainfall": true,
-      "file": "uniform-7p8-zero-loss.prefix15.u16.gz",
-      "download_url": "https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/data/riobamba-local/uniform-7p8-zero-loss.prefix15.u16.gz",
-      "bytes": 3188458,
-      "sha256": "aca3ab5f7bb5d457e594b2f896babd748e103c6eadefc27a50874a45bd5dbeca",
+      "file": "uniform-7p8-zero-loss.delta15.u16.gz",
+      "download_url": "https://stevanjazziel-ui.github.io/geoportal-catastro/inundaciones-ecuador/data/riobamba-local/uniform-7p8-zero-loss.delta15.u16.gz",
+      "bytes": 348342,
+      "sha256": "b6654d4ec9efe832b899143273199bd754f8d353df76b0b2f3484ea1dd5bb22f",
       "frame_count": 49,
       "cumulative_max_offset": 49,
       "depth_scale_m": 0.01,
@@ -2507,7 +2511,9 @@
       },
       "report": "uniform-7p8-zero-loss-report.json",
       "infiltration_multiplier": 0.0,
-      "network_diagnostics": null
+      "network_diagnostics": null,
+      "payload_encoding": "water-time-zigzag-max-residual-u16-v1",
+      "payload_delivery": "pages"
     },
     {
       "id": "uniform-15p6",
@@ -2515,10 +2521,10 @@
       "rain_hours": 12,
       "duration_hours": 12,
       "uniform_rainfall": true,
-      "file": "uniform-15p6.prefix15.u16.gz",
-      "download_url": "https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/data/riobamba-local/uniform-15p6.prefix15.u16.gz",
-      "bytes": 3944057,
-      "sha256": "5e89e6431332633781073913762d469f760fbc04850f8b523146280d3f7f4873",
+      "file": "uniform-15p6.delta15.u16.gz",
+      "download_url": "https://stevanjazziel-ui.github.io/geoportal-catastro/inundaciones-ecuador/data/riobamba-local/uniform-15p6.delta15.u16.gz",
+      "bytes": 380345,
+      "sha256": "e8ef722f5e008348fb89cbd70002bcceb5db938944081f3165925936a9460bc2",
       "frame_count": 49,
       "cumulative_max_offset": 49,
       "depth_scale_m": 0.01,
@@ -3329,7 +3335,9 @@
       },
       "report": "uniform-15p6-report.json",
       "infiltration_multiplier": 1.0,
-      "network_diagnostics": null
+      "network_diagnostics": null,
+      "payload_encoding": "water-time-zigzag-max-residual-u16-v1",
+      "payload_delivery": "pages"
     },
     {
       "id": "uniform-15p6-network",
@@ -3337,10 +3345,10 @@
       "rain_hours": 12,
       "duration_hours": 12,
       "uniform_rainfall": true,
-      "file": "uniform-15p6-network.prefix15.u16.gz",
-      "download_url": "https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/data/riobamba-local/uniform-15p6-network.prefix15.u16.gz",
-      "bytes": 3507420,
-      "sha256": "f71b905138b7c896d5705c98c5b9d88aa55ca60c97451d226b32dee9a7c7dd64",
+      "file": "uniform-15p6-network.delta15.u16.gz",
+      "download_url": "https://stevanjazziel-ui.github.io/geoportal-catastro/inundaciones-ecuador/data/riobamba-local/uniform-15p6-network.delta15.u16.gz",
+      "bytes": 341437,
+      "sha256": "20f24add56b3fe02455924af2912911df95f1b1d3e3dcab328a20085507743d0",
       "frame_count": 49,
       "cumulative_max_offset": 49,
       "depth_scale_m": 0.01,
@@ -4160,7 +4168,9 @@
         "calibrated": false
       },
       "network_input_file": "https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/model-archives/uniform-15p6-network.inp.gz",
-      "network_report_file": "https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/model-archives/uniform-15p6-network.rpt.gz"
+      "network_report_file": "https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/model-archives/uniform-15p6-network.rpt.gz",
+      "payload_encoding": "water-time-zigzag-max-residual-u16-v1",
+      "payload_delivery": "pages"
     },
     {
       "id": "uniform-15p6-zero-loss",
@@ -4168,10 +4178,10 @@
       "rain_hours": 12,
       "duration_hours": 12,
       "uniform_rainfall": true,
-      "file": "uniform-15p6-zero-loss.prefix15.u16.gz",
-      "download_url": "https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/data/riobamba-local/uniform-15p6-zero-loss.prefix15.u16.gz",
-      "bytes": 4174492,
-      "sha256": "0a43ab0f229b6a2a3c628d0249c44aa2ecc1ef4ac8e0316d712bad768f4c635b",
+      "file": "uniform-15p6-zero-loss.delta15.u16.gz",
+      "download_url": "https://stevanjazziel-ui.github.io/geoportal-catastro/inundaciones-ecuador/data/riobamba-local/uniform-15p6-zero-loss.delta15.u16.gz",
+      "bytes": 384668,
+      "sha256": "4d0f36fb3b57fd0119e9da0a767a3df9d3d0b0762ac5c5fb67ec7e1459a66938",
       "frame_count": 49,
       "cumulative_max_offset": 49,
       "depth_scale_m": 0.01,
@@ -4982,7 +4992,9 @@
       },
       "report": "uniform-15p6-zero-loss-report.json",
       "infiltration_multiplier": 0.0,
-      "network_diagnostics": null
+      "network_diagnostics": null,
+      "payload_encoding": "water-time-zigzag-max-residual-u16-v1",
+      "payload_delivery": "pages"
     },
     {
       "id": "uniform-75",
@@ -4990,10 +5002,10 @@
       "rain_hours": 12,
       "duration_hours": 12,
       "uniform_rainfall": true,
-      "file": "uniform-75.prefix15.u16.gz",
-      "download_url": "https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/data/riobamba-local/uniform-75.prefix15.u16.gz",
-      "bytes": 6536644,
-      "sha256": "794b0097520505eab4b78a1ddd945b58c2a017e7de140b2941b428b87c0523ed",
+      "file": "uniform-75.delta15.u16.gz",
+      "download_url": "https://stevanjazziel-ui.github.io/geoportal-catastro/inundaciones-ecuador/data/riobamba-local/uniform-75.delta15.u16.gz",
+      "bytes": 386130,
+      "sha256": "ff3a5d50f0aa34ada05fa678c68afb0194a0f7fef7d4e01750b4c701c2dfd306",
       "frame_count": 49,
       "cumulative_max_offset": 49,
       "depth_scale_m": 0.01,
@@ -5804,7 +5816,9 @@
       },
       "report": "uniform-75-report.json",
       "infiltration_multiplier": 1.0,
-      "network_diagnostics": null
+      "network_diagnostics": null,
+      "payload_encoding": "water-time-zigzag-max-residual-u16-v1",
+      "payload_delivery": "pages"
     },
     {
       "id": "uniform-75-network",
@@ -5812,10 +5826,10 @@
       "rain_hours": 12,
       "duration_hours": 12,
       "uniform_rainfall": true,
-      "file": "uniform-75-network.prefix15.u16.gz",
-      "download_url": "https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/data/riobamba-local/uniform-75-network.prefix15.u16.gz",
-      "bytes": 6247945,
-      "sha256": "873cca64f796ffc05b560866ef81ed2e2809eef7c2723266845dcc9b3a87ac5b",
+      "file": "uniform-75-network.delta15.u16.gz",
+      "download_url": "https://stevanjazziel-ui.github.io/geoportal-catastro/inundaciones-ecuador/data/riobamba-local/uniform-75-network.delta15.u16.gz",
+      "bytes": 385566,
+      "sha256": "1115e09e2ad7271ba5ea58e541daa06fadff71cb909a4ef4261baa0322a728c9",
       "frame_count": 49,
       "cumulative_max_offset": 49,
       "depth_scale_m": 0.01,
@@ -6635,7 +6649,9 @@
         "calibrated": false
       },
       "network_input_file": "https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/model-archives/uniform-75-network.inp.gz",
-      "network_report_file": "https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/model-archives/uniform-75-network.rpt.gz"
+      "network_report_file": "https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/model-archives/uniform-75-network.rpt.gz",
+      "payload_encoding": "water-time-zigzag-max-residual-u16-v1",
+      "payload_delivery": "pages"
     },
     {
       "id": "uniform-75-zero-loss",
@@ -6643,10 +6659,10 @@
       "rain_hours": 12,
       "duration_hours": 12,
       "uniform_rainfall": true,
-      "file": "uniform-75-zero-loss.prefix15.u16.gz",
-      "download_url": "https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/data/riobamba-local/uniform-75-zero-loss.prefix15.u16.gz",
-      "bytes": 6594099,
-      "sha256": "d563b910c36076b64c0f4f50ceb65dc22ac6001e607427a3bc840daa6920edf9",
+      "file": "uniform-75-zero-loss.delta15.u16.gz",
+      "download_url": "https://stevanjazziel-ui.github.io/geoportal-catastro/inundaciones-ecuador/data/riobamba-local/uniform-75-zero-loss.delta15.u16.gz",
+      "bytes": 387214,
+      "sha256": "894793d4a96e7157ca87c7a6c27f71afb96624c6785ef9ded5f08ddf2449d039",
       "frame_count": 49,
       "cumulative_max_offset": 49,
       "depth_scale_m": 0.01,
@@ -7457,7 +7473,9 @@
       },
       "report": "uniform-75-zero-loss-report.json",
       "infiltration_multiplier": 0.0,
-      "network_diagnostics": null
+      "network_diagnostics": null,
+      "payload_encoding": "water-time-zigzag-max-residual-u16-v1",
+      "payload_delivery": "pages"
     }
   ],
   "metadata": {
@@ -7824,5 +7842,5 @@
     720
   ],
   "duration_semantics": "Rain until cutoff; no after-rain recession shown",
-  "binary_delivery": "GitHub raw; SHA256 and byte counts refer to original compressed bytes"
+  "binary_delivery": "Pages; lossless time-delta and maximum-residual coding of the same centimetre display depths"
 }

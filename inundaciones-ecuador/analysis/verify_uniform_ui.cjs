@@ -27,3 +27,14 @@ for(const c of meta.cases){
  }
 }
 console.log('Verified 432 UI selections: fixed rates, quarter-hour cutoffs, correct cumulative frames, no future statistics.');
+
+const zlib=require('zlib');
+vm.runInContext(source.slice(source.indexOf(' function decodePayload'),source.indexOf(' async function compressedJson'))+';this.decodePayload=decodePayload;',ctx);
+for(const c of meta.cases){
+ const bytes=zlib.gunzipSync(fs.readFileSync(path.join(root,'data/riobamba-local',c.file)));
+ const data=new Uint16Array(bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength));
+ ctx.decodePayload(data,c);
+ const original=zlib.gunzipSync(fs.readFileSync(path.join(root,'data/riobamba-local',c.id+'.prefix15.u16.gz')));
+ assert(Buffer.from(data.buffer).equals(original),c.id+' browser decoding must preserve every display depth');
+}
+console.log('Verified browser lossless decoding against all nine original 98-frame display arrays.');

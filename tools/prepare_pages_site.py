@@ -19,6 +19,8 @@ def archived_rain_assets():
  return assets(old['cases'])-assets(manifest['cases'])
 
 def plan():
+ rio=json.loads((ROOT/RIO_PREFIX/'manifest.json').read_text(encoding='utf-8'))
+ page_payloads={RIO_PREFIX+c['file'] for c in rio['cases'] if c.get('payload_delivery')=='pages'}
  active=json.loads((ROOT/'sig-bridge-active.json').read_text(encoding='utf-8'))['releaseId'];keep={active}
  tracked=subprocess.check_output(['git','ls-files','-z'],cwd=ROOT).decode().split('\0');tracked=[p for p in tracked if p]
  runtime=[]
@@ -36,7 +38,7 @@ def plan():
   elif name.startswith(SECURITY_PREFIX) and name[len(SECURITY_PREFIX):].split('/')[0] in archived_scenes:excluded.append(name)
   elif name.startswith(('.github/','sig-bridge/workspace/','inundaciones-ecuador/model-archives/')):excluded.append(name)
   elif name in archived_rain:excluded.append(name)
-  elif name.startswith(RIO_PREFIX) and name.endswith('.u16.gz'):excluded.append(name)
+  elif name.startswith(RIO_PREFIX) and name.endswith('.u16.gz') and name not in page_payloads:excluded.append(name)
   else:included.append(name)
  for name in ['visor-seguridad-riobamba-v2.html','sig-bridge-active.json',PREFIX+active+'/ESCENARIO_FINAL_183.gpkg',PREFIX+active+'/ENTREGA_POLICIA_KDE.zip']:
   assert name in included,'Falta dependencia publicada: '+name
