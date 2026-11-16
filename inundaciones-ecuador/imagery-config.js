@@ -1,1 +1,1 @@
-window.ECUADOR_IMAGERY_CONFIG={"provider":"bing-ion","assetId":2,"accessToken":""};
+window.ECUADOR_IMAGERY_CONFIG={"provider":"google-ion","assetId":3830182,"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6ImcyOTdjZG14TzFRdUdoNkkiLCJqdGkiOiI0NzVkZmIwNi01N2YxLTQyMzAtYWNhNi03ZmNkMmI5OTI2M2IiLCJpZCI6NTQ3OTk0LCJzdWIiOiJKenppZWwiLCJpc3MiOiJodHRwczovL2FwaS5jZXNpdW0uY29tIiwiYXVkIjoiUmlvYmFtYmEtR29vZ2xlLVNhdGVsbGl0ZSIsImlhdCI6MTc5NDg0NTk3Nn0._8sC1kVTTZWz30kjbgrbBPtOShKA2IXEJjprjtmd9SE"};
