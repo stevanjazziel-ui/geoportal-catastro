@@ -66,6 +66,11 @@ def render(output):
     <p><a href="municipal-terrain-comparison.json">Comprobación del terreno municipal</a> · <a href="municipal-terrain-samples.csv.gz">Muestras de cota (CSV comprimido)</a></p>
     <h2>Contraste con evidencia histórica</h2><p>También se revisaron 14 polígonos de depósitos y 170 puntos de trabajo de campo publicados por <a href="https://zenodo.org/records/5866730">Andrade y colaboradores (2022), CC BY 4.0</a>. Cubren el tramo cercano al volcán. Los depósitos de 1877 no son la misma magnitud que el espesor máximo de un flujo hipotético con otra geometría del glaciar. Esta comparación espacial no es una puntuación de exactitud ni valida llegadas o velocidades en la ciudad.</p><img src="historical-deposits-comparison.png" alt="Recorrido calculado cerca del volcán comparado con límites de depósitos históricos y puntos de campo de 1877."><p><a href="historical-deposits-comparison.json">Datos del contraste histórico</a></p>
     <p><a href="section-hydrograph.csv">Descargar caudal por tiempo (CSV)</a> · <a href="study-report.json">Datos y comprobaciones (JSON)</a> · <a href="source-terrain-audit.json">Entradas y terreno</a> · <a href="../../analysis/lahars-sangolqui/METODOLOGIA.md">Metodología completa</a></p><small>Las construcciones son referencias visuales; no actúan como obstáculos ni se calculan daños estructurales.</small></html>'''
+    audit_path=output/'pita-propagation-audit.json'
+    if audit_path.exists():
+        audit=json.loads(audit_path.read_text(encoding='utf-8'))
+        if audit.get('case_input_sha256')==a['scenario']['input_sha256']:
+            html=html.replace('<h1>Qué calculó este escenario</h1>','<h1>Qué calculó este escenario</h1><p style="background:#fcf1da;padding:16px;border-left:4px solid #a34d28"><strong>Limitación pendiente: falta continuidad por el Pita.</strong> La corrida no presenta flujo en el corredor cartográfico del tramo intermedio Pita3. No es una representación completa del sistema Pita–Santa Clara. Un resultado sin flujo no demuestra ausencia de peligro. <a href="pita-propagation-audit.png">Ver diagnóstico espacial</a> · <a href="pita-propagation-audit.json">Datos de auditoría</a>.</p>')
     (output/'study-summary.html').write_text(html,encoding='utf-8')
     print('Human-readable results and scientific charts rendered.',flush=True)
 

@@ -1,0 +1,46 @@
+{
+  "status": "unresolved_pita_propagation_gap",
+  "scope": "Completed Copernicus30m adaptation only",
+  "case_input_sha256": "3e331ce20eff41ed33ddc0f5e8510b88bcfbac82028067d26379f0dc9e186bd4",
+  "route_source": "© OpenStreetMap contributors, ODbL",
+  "route_sha256": "4a0b2821930f01e64f01450f5a895b3a73dec0406cdd4a7698fec89de187d499",
+  "method": "At each existing route vertex, maximum H within a5x5 neighborhood of30m native cells (75m square half-width); H>=5cm. Sample fractions are vertex fractions, not length percentages.",
+  "segments": [
+    {
+      "id": "pita1",
+      "sample_count": 781,
+      "samples_with_flow_within75m": 781,
+      "wet_sample_fraction": 1.0,
+      "maximum_depth_in_corridor_m": 30.271535112778302,
+      "municipal_terrain_samples_within100m": 0
+    },
+    {
+      "id": "pita2",
+      "sample_count": 581,
+      "samples_with_flow_within75m": 405,
+      "wet_sample_fraction": 0.6970740103270223,
+      "maximum_depth_in_corridor_m": 60.271478881715936,
+      "municipal_terrain_samples_within100m": 531
+    },
+    {
+      "id": "pita3",
+      "sample_count": 440,
+      "samples_with_flow_within75m": 0,
+      "wet_sample_fraction": 0.0,
+      "maximum_depth_in_corridor_m": 0.0,
+      "municipal_terrain_samples_within100m": 440
+    },
+    {
+      "id": "pita4",
+      "sample_count": 713,
+      "samples_with_flow_within75m": 191,
+      "wet_sample_fraction": 0.26788218793828894,
+      "maximum_depth_in_corridor_m": 7.485697741573917,
+      "municipal_terrain_samples_within100m": 4
+    }
+  ],
+  "predictive_validation_passed": false,
+  "conclusion": "Pita3 has no flow within the sampled corridor; downstream wetting near the San Pedro confluence does not establish continuity through Pita3.",
+  "cause_status": "Under investigation. Global30m terrain and channel alignment are limitations, not a proven single cause.",
+  "not_corrected_by_visual_interpolation": true
+}

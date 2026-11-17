@@ -1,0 +1,122 @@
+[
+  {
+    "file": "cotogchoa-metadata.json",
+    "cloud": "mos_lidar_cotogchoa_2024",
+    "points": 143181642,
+    "ground_class2": 114591692,
+    "unclassified_class1": 28589950,
+    "declared_projection": "",
+    "actual_position_bounds": [
+      [
+        781949.7703000004,
+        9954674.6001,
+        2495.348
+      ],
+      [
+        785528.5503000005,
+        9960556.130099999,
+        2896.368
+      ]
+    ]
+  },
+  {
+    "file": "fajardo-metadata.json",
+    "cloud": "mos_lidar_fajardo_2024",
+    "points": 53849205,
+    "ground_class2": 37821333,
+    "unclassified_class1": 16027872,
+    "declared_projection": "",
+    "actual_position_bounds": [
+      [
+        780636.9595000005,
+        9961795.9203,
+        2442.893
+      ],
+      [
+        782763.4495000005,
+        9963938.610299999,
+        2530.594
+      ]
+    ]
+  },
+  {
+    "file": "rumipamba_2024-metadata.json",
+    "cloud": "mos_lidar_rumipamba_2024",
+    "points": 8123711,
+    "ground_class2": 7135669,
+    "unclassified_class1": 988042,
+    "declared_projection": "",
+    "actual_position_bounds": [
+      [
+        787149.4804999998,
+        9951985.190499999,
+        2893.255
+      ],
+      [
+        787770.4604999999,
+        9952567.7895,
+        2989.1710000000003
+      ]
+    ]
+  },
+  {
+    "file": "sangolqui-metadata.json",
+    "cloud": "mos_lidar_sangolqui_2024",
+    "points": 1119222344,
+    "ground_class2": 797330100,
+    "unclassified_class1": 321892244,
+    "declared_projection": "",
+    "actual_position_bounds": [
+      [
+        781002.1098000003,
+        9955662.0095,
+        2427.446
+      ],
+      [
+        789420.5898000003,
+        9965726.4195,
+        2924.998
+      ]
+    ]
+  },
+  {
+    "file": "san_pedro_boada-metadata.json",
+    "cloud": "mos_lidar_san_pedro_de_boada",
+    "points": 42207921,
+    "ground_class2": 25897706,
+    "unclassified_class1": 16310215,
+    "declared_projection": "",
+    "actual_position_bounds": [
+      [
+        781872.9398999998,
+        9963691.010000002,
+        2419.556
+      ],
+      [
+        783194.4798999997,
+        9966305.14,
+        2498.63
+      ]
+    ]
+  },
+  {
+    "file": "san_rafael_2024-metadata.json",
+    "cloud": "mos_lidar_san_rafael_2024",
+    "points": 69211547,
+    "ground_class2": 44843755,
+    "unclassified_class1": 24367792,
+    "declared_projection": "",
+    "actual_position_bounds": [
+      [
+        782386.2899,
+        9965171.2497,
+        2402.843
+      ],
+      [
+        784780.6198999999,
+        9967821.3697,
+        2512.381
+      ]
+    ]
+  }
+]

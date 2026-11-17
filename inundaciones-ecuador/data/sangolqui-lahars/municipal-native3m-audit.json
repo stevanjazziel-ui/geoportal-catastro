@@ -1,0 +1,32 @@
+{
+  "request": "https://geoservicios.ruminahui.gob.ec/dac/dtm/wcs?service=WCS&version=1.0.0&request=GetCoverage&coverage=dtm%3Adtm_ruminahui_pasochoa_lloa_tambillo_2023&crs=EPSG%3A32717&response_crs=EPSG%3A32717&bbox=779586.0865346495%2C9943057.18234953%2C790992.0865346495%2C9968461.18234953&resx=3&resy=3&format=GeoTIFF",
+  "bytes": 71304661,
+  "sha256": "cb971c9ce67db8e43125c92414be282a15c8322f2612b68f31857b3116817177",
+  "crs": "EPSG:32717",
+  "resolution_m": [
+    3.0,
+    3.0
+  ],
+  "shape": [
+    8468,
+    3802
+  ],
+  "dtype": "int16",
+  "valid_pixels": 32195336,
+  "total_pixels": 32195336,
+  "nodata": -32767.0,
+  "range_m": [
+    2419.0,
+    4196.0
+  ],
+  "bounds": [
+    779586.0865346494,
+    9943057.18234953,
+    790992.0865346494,
+    9968461.18234953
+  ],
+  "vertical_datum_confirmed": false,
+  "source_native_resolution_confirmed": true,
+  "year_from_layer_name": 2023,
+  "applied_to_hydraulic_model": false
+}

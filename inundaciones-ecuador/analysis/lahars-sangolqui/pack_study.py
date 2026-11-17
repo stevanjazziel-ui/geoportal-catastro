@@ -56,6 +56,13 @@ def main():
     center=[sum(p[k] for p in section['endpoints'])/2 for k in range(2)]
     manifest['adaptation']['view_targets']={'caldera':geo.transform(*center)}
     manifest['cases'][0]['title']=setup['cases'][0]['title']
+    pita_audit=output/'pita-propagation-audit.json'
+    if pita_audit.exists():
+        audit=json.loads(pita_audit.read_text(encoding='utf-8'))
+        if audit.get('case_input_sha256')==original['input_sha256']:
+            manifest['known_pita_gap']={'status':'unresolved','audit':pita_audit.name,
+                'map':'pita-propagation-audit.png','case':'reference-cop30',
+                'notice':'Pita intermediate corridor is not represented. No-flow is not a safety result.'}
     # Hash-addressed public payloads retain full precision without filling Pages.
     assets=[manifest[k] for k in ('geometry','terrain','buildings')]
     assets += [a for c in manifest['cases'] for a in (c,c['max_asset'])]
