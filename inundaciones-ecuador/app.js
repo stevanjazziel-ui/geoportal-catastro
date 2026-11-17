@@ -7,7 +7,7 @@ let catalog=[],selected=null,detailData=null,view='map',loadToken=0,water=0,mapO
 const dataCache=new Map(),markers=new Map();
 const map=L.map('map',{zoomControl:false,minZoom:4,maxZoom:18}).setView([-1.75,-78.6],6);
 L.control.zoom({position:'topright'}).addTo(map);
-const bases={light:L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> · © <a href="https://carto.com/attributions">CARTO</a>',maxZoom:19}),satellite:L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{attribution:'Imagery © Esri, Maxar, Earthstar Geographics y proveedores',maxZoom:19}),topo:L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap · SRTM · © OpenTopoMap (CC-BY-SA)',maxZoom:17})};
+const bases={light:L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',maxZoom:19}),satellite:L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{attribution:'Imagery © Esri, Maxar, Earthstar Geographics y proveedores',maxZoom:19}),topo:L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap · SRTM · © OpenTopoMap (CC-BY-SA)',maxZoom:17})};
 bases.light.addTo(map);
 map.on('mousemove',e=>{$('coordinate').textContent=`${fmt(e.latlng.lat,4)}°, ${fmt(e.latlng.lng,4)}° · WGS84`;});
 function toast(text){$('toast').textContent=text;$('toast').hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').hidden=true,4500);}
