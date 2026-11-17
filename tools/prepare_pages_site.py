@@ -4,6 +4,17 @@ ROOT=pathlib.Path(__file__).resolve().parents[1]
 PREFIX='data/seguridad-riobamba/SIG_BRIDGE_RELEASES/'
 SECURITY_PREFIX='data/seguridad-riobamba/'
 RIO_PREFIX='inundaciones-ecuador/data/riobamba-local/'
+LAHAR_PREFIX='inundaciones-ecuador/data/sangolqui-lahars/'
+
+def lahar_page_payloads():
+ path=ROOT/LAHAR_PREFIX/'manifest.json'
+ if not path.exists():return None
+ m=json.loads(path.read_text(encoding='utf-8'))
+ assets=[m[k] for k in ('geometry','terrain','regional','buildings') if k in m]
+ assets += [a for c in m['cases'] for a in (c,c['max_asset'])]
+ for a in assets:
+  assert pathlib.PurePosixPath(a['file']).name==a['file'],'Ruta de payload fuera del directorio'
+ return {LAHAR_PREFIX+a['file'] for a in assets if a.get('payload_delivery')!='github_raw'} | {LAHAR_PREFIX+'municipal-terrain-samples.csv.gz'}
 
 def archived_rain_assets():
  manifest_path=ROOT/RIO_PREFIX/'manifest.json'
@@ -32,12 +43,14 @@ def plan():
  scene_names={name[len(SECURITY_PREFIX):].split('/')[0] for name in tracked if name.startswith(SECURITY_PREFIX) and '/' in name[len(SECURITY_PREFIX):]}
  archived_scenes={name for name in scene_names if name!='SIG_BRIDGE_RELEASES' and name not in runtime}
  archived_rain=archived_rain_assets()
+ lahar_payloads=lahar_page_payloads()
  included=[];excluded=[]
  for name in tracked:
   if name.startswith(PREFIX) and name[len(PREFIX):].split('/')[0] not in keep:excluded.append(name)
   elif name.startswith(SECURITY_PREFIX) and name[len(SECURITY_PREFIX):].split('/')[0] in archived_scenes:excluded.append(name)
   elif name.startswith(('.github/','sig-bridge/workspace/','inundaciones-ecuador/model-archives/')):excluded.append(name)
   elif name in archived_rain:excluded.append(name)
+  elif name.startswith(LAHAR_PREFIX) and name.endswith('.gz') and lahar_payloads is not None and name not in lahar_payloads:excluded.append(name)
   elif name.startswith(RIO_PREFIX) and name.endswith('.u16.gz') and name not in page_payloads:excluded.append(name)
   elif re.fullmatch(r'inundaciones-ecuador/data/\d+\.json',name) and name+'.gz' in tracked:excluded.append(name)
   else:included.append(name)

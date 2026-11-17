@@ -1,0 +1,234 @@
+{
+  "id": "reference-cop30",
+  "status": "completed_numerically_checked",
+  "calibrated": false,
+  "exact_reproduction": false,
+  "primary_study": "https://doi.org/10.3389/feart.2025.1611579",
+  "source_method_study": "https://doi.org/10.3389/feart.2024.1426088",
+  "comparison_only_study": "https://doi.org/10.1002/esp.5056",
+  "source_coordinate_method": {
+    "figure": "2025 Figure 1B",
+    "crs": "EPSG:32717 assumed from UTM map grid",
+    "image_sha256": "c3d69f055c1faedd719da738cae07b69ac02ba9b9ce9c58a3e193b25ce07d2b8",
+    "image_size": [
+      1644,
+      1237
+    ],
+    "control_pixels": {
+      "780000E": 720,
+      "790000E": 1394,
+      "9930000N": 275,
+      "9920000N": 948
+    },
+    "assumed_digitization_tolerance_m": 80,
+    "ground_accuracy_validated": false,
+    "original_author_gis_coordinates": false,
+    "snapping": false
+  },
+  "sources": [
+    {
+      "id": 12,
+      "pixel": [
+        1023,
+        553
+      ],
+      "easting": 784495.5489614244,
+      "northing": 9925869.242199108,
+      "lon": -78.44399037990698,
+      "lat": -0.6700122146253643,
+      "terrain_m": 5116.16748046875,
+      "peak_water_m3_s": 2019,
+      "water_volume_m3": 908550
+    },
+    {
+      "id": 13,
+      "pixel": [
+        1056,
+        541
+      ],
+      "easting": 784985.1632047477,
+      "northing": 9926047.548291232,
+      "lon": -78.43959529255423,
+      "lat": -0.6683983349865653,
+      "terrain_m": 5078.23583984375,
+      "peak_water_m3_s": 577,
+      "water_volume_m3": 259650
+    },
+    {
+      "id": 14,
+      "pixel": [
+        1087,
+        535
+      ],
+      "easting": 785445.1038575667,
+      "northing": 9926136.701337297,
+      "lon": -78.43546622183925,
+      "lat": -0.6675903835092311,
+      "terrain_m": 4973.7451171875,
+      "peak_water_m3_s": 6058,
+      "water_volume_m3": 2726100
+    },
+    {
+      "id": 15,
+      "pixel": [
+        1121,
+        530
+      ],
+      "easting": 785949.5548961425,
+      "northing": 9926210.995542347,
+      "lon": -78.43093746992182,
+      "lat": -0.6669165201262818,
+      "terrain_m": 4829.37255859375,
+      "peak_water_m3_s": 3750,
+      "water_volume_m3": 1687500
+    },
+    {
+      "id": 16,
+      "pixel": [
+        1154,
+        532
+      ],
+      "easting": 786439.1691394659,
+      "northing": 9926181.277860327,
+      "lon": -78.42654145475045,
+      "lat": -0.6671827988802373,
+      "terrain_m": 4819.64111328125,
+      "peak_water_m3_s": 12981,
+      "water_volume_m3": 5841450
+    },
+    {
+      "id": 17,
+      "pixel": [
+        1184,
+        546
+      ],
+      "easting": 786884.2729970326,
+      "northing": 9925973.254086182,
+      "lon": -78.42254423689447,
+      "lat": -0.669060828744119,
+      "terrain_m": 4753.52197265625,
+      "peak_water_m3_s": 3462,
+      "water_volume_m3": 1557900
+    },
+    {
+      "id": 18,
+      "pixel": [
+        1207,
+        572
+      ],
+      "easting": 787225.5192878338,
+      "northing": 9925586.92421991,
+      "lon": -78.41947863203332,
+      "lat": -0.6725508809329787,
+      "terrain_m": 4833.521484375,
+      "peak_water_m3_s": 16154,
+      "water_volume_m3": 7269300
+    },
+    {
+      "id": 19,
+      "pixel": [
+        1218,
+        603
+      ],
+      "easting": 787388.7240356083,
+      "northing": 9925126.300148588,
+      "lon": -78.41801115424373,
+      "lat": -0.6767132456895867,
+      "terrain_m": 4775.8486328125,
+      "peak_water_m3_s": 16154,
+      "water_volume_m3": 7269300
+    },
+    {
+      "id": 20,
+      "pixel": [
+        1227,
+        635
+      ],
+      "easting": 787522.2551928783,
+      "northing": 9924650.817236256,
+      "lon": -78.41681000549653,
+      "lat": -0.6810100389268213,
+      "terrain_m": 4739.51025390625,
+      "peak_water_m3_s": 16154,
+      "water_volume_m3": 7269300
+    }
+  ],
+  "source_neighbor_gaps_m": [
+    521.0711753242219,
+    468.50151519293155,
+    509.89261538512335,
+    490.5152881306344,
+    491.31592140940757,
+    515.4607614153693,
+    488.6822329262152,
+    493.87707972875484
+  ],
+  "water_input_m3": 34789050,
+  "sum_rounded_peaks_m3_s": 77309,
+  "published_rounded_total_peak_m3_s": 77308,
+  "rounding_note": "Per-source integer peaks sum to 77309; paper total rounds to 77308. No artificial redistribution.",
+  "initial_solid_fraction": 0,
+  "source_radius_m": 100,
+  "hydrograph_s": [
+    0,
+    150,
+    900
+  ],
+  "glacier_geometry_reference_years": [
+    2020,
+    2021,
+    2022
+  ],
+  "glacier_remeasured_in_2026": false,
+  "time_origin": "Simultaneous water release at nine upper-flank sources; not eruption warning time",
+  "domain_utm17s": [
+    769800.0,
+    9900000.0,
+    829800.0,
+    9996000.0
+  ],
+  "dx_m": 30,
+  "duration_s": 9000,
+  "native_output_step_s": 15,
+  "terrain_halo_m": 1200,
+  "tile_size_m": 600,
+  "cells_per_tile": [
+    20,
+    20
+  ],
+  "terrain": {
+    "source": "https://registry.opendata.aws/copernicus-dem/",
+    "coverage": "GLO-30 S01W079",
+    "native_pixel_m_approx": 30,
+    "paper_dem": false,
+    "source_sha256": "09dca8c4e872a804cacdc87084f32510aec30b6ac18da9e4d1f9d358d1488d4b",
+    "conditioned_sha256": "7492908b47bbd4cf3b6751e8122305d4be822dc4ee959fa7a7b443422a99284c",
+    "conditioning": "Priority flood only for depressions requiring at most 2 m. Deeper basins retained. This is an explicit sensitivity assumption, different from the paper.",
+    "deep_depression_cells_retained": 40381,
+    "full_fill_max_raise_m_NOT_applied": 110.11767578125,
+    "raised_cells": 45493,
+    "raised_area_km2": 40.9437,
+    "max_raise_m": 2.0,
+    "fill_volume_m3": 27061809.9609375,
+    "native_vrt_audit": {
+      "shape": [
+        3241,
+        2041
+      ],
+      "nodata_cells": 0,
+      "resampling": "Cubic",
+      "coverage": "Full solver VRT including required border checked before continuing"
+    }
+  },
+  "engine_commit": "e0965b438b763d94f0236ca31911bb43e6b82f49",
+  "engine_sha256": "8da78ab6e6591db137822b2cd7cec75ae27c3d88917c5f2d79a802480a2a9aa8",
+  "compiler_options": "O3, native CPU, LTO; no fast-math; independent conservation benchmark passed",
+  "input_sha256": "3e331ce20eff41ed33ddc0f5e8510b88bcfbac82028067d26379f0dc9e186bd4",
+  "limitations": [
+    "Independent 30m global surface model, not the fine photogrammetric DEM in the study. Vegetation, buildings and narrow canyons are unresolved.",
+    "Digitized source coordinates; require original GIS coordinates for exact reproduction.",
+    "Buildings and bridges are not hydraulic obstacles.",
+    "No tuning to force published city arrivals.",
+    "Published RAMMS volumes and arrival times are comparisons, not imposed outputs."
+  ]
+}

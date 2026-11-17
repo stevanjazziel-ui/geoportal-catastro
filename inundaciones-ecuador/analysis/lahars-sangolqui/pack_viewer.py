@@ -39,7 +39,7 @@ def benchmark():
 
 def main(cases=None):
     OUT.mkdir(parents=True,exist_ok=True)
-    setup=json.loads((ROOT/'inputs/scenario-manifest.json').read_text())
+    setup=json.loads((ROOT/'inputs/scenario-manifest.json').read_text(encoding='utf-8'))
     selected=[c for c in setup['cases'] if c['id'] in cases] if cases else [c for c in setup['cases'] if c['dx_m']==30]
     assert selected and len({c['dx_m'] for c in selected})==1
     dx=selected[0]['dx_m'];west,south,east,north=setup['domain_utm17s'];nx=round((east-west)/dx);ny=round((north-south)/dx)
@@ -155,7 +155,7 @@ def main(cases=None):
                   'report':name,'mixture_balance_relative_error':budget})
         print(c['id'],n,'display cells',asset['bytes'],'bytes', 'volume error',budget,flush=True)
     # Public building geometry and floors only. No cadastral key or owner attributes.
-    original=json.loads((ROOT/'sources/municipal-buildings.geojson').read_text())
+    original=json.loads((ROOT/'sources/municipal-buildings.geojson').read_text(encoding='utf-8'))
     buildings=[];missing=0
     to_utm=Transformer.from_crs(4326,32717,always_xy=True)
     with rasterio.open(ROOT/'prepared/pita_domain_30m.tif') as dem:

@@ -1,0 +1,20 @@
+{
+  "source_doi": "10.5281/zenodo.5866730",
+  "license": "CC-BY-4.0",
+  "attribution": "Andrade, Saltos, Nogales, Cruz, Lee and Barclay (2022)",
+  "original_shapefile_sha256": "cdaebe977e299f4ff552d2af70e4c89b4f64bd846b835a8cf7b30168d033c548",
+  "valid_deposit_polygons": 14,
+  "fieldwork_points": 170,
+  "comparison_crs": "EPSG:32717",
+  "deposit_area_vector_m2": 12697260.269507995,
+  "deposit_area_on30m_cell_centers_m2": 12682800,
+  "mapped_deposit_area_with_simulated_wetting_on30m_grid_m2": 11712600,
+  "wet_threshold_m": 0.05,
+  "not_an_accuracy_score": true,
+  "predictive_validation_passed": false,
+  "limitations": [
+    "Historical deposited material differs from transient maximum flow thickness.",
+    "Different glacier/source scenario; proximal coverage does not validate city arrivals, velocities or volumes.",
+    "Cell-center rasterization at30m is approximate; no agreement threshold imposed."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "service": "https://geoide.ruminahui.gob.ec/image/rest/services/mdt/mdt_gadmur_2024/MapServer",
+  "layer": 7,
+  "crs": "EPSG:32717",
+  "requested_points": 14893,
+  "valid_numeric_samples": 9127,
+  "sampling": "120m regional grid plus five 5m cross-sections; not an original raster or proof of native resolution",
+  "difference_m": {
+    "median": -2.171142578125,
+    "p05": -19.7906005859375,
+    "p95": 2.489062499999993,
+    "rmse": 10.29730546125816,
+    "max_absolute": 123.117431640625
+  },
+  "vertical_datum_confirmed": false,
+  "merged_into_simulation": false,
+  "warning": "Spatially variable surface differences and undocumented vertical reference prohibit automatic substitution or assumed bias correction.",
+  "samples_sha256": "1df06228ee689109861fd7a07fe12ca631c3cfc423ee89d40d1f5743f66dd7be"
+}

@@ -2,7 +2,7 @@
   "calibrated": false,
   "cases": [
     {
-      "case": "menor-30m",
+      "case": "reference-cop30",
       "frames": 51,
       "all_fields_exact": true,
       "native_georeferencing_verified": true

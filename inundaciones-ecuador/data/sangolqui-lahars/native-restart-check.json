@@ -1,0 +1,19 @@
+{
+  "engine_sha256": "8da78ab6e6591db137822b2cd7cec75ae27c3d88917c5f2d79a802480a2a9aa8",
+  "official_test_source": "jakelangham/kestrel/tests/Input_netcdf_restart1.txt",
+  "scope": "Synthetic inclined eroding bed with ongoing source; continuation at5s to10s, same2.5s output spacing",
+  "passed": true,
+  "comparisons": {
+    "000004.nc": {
+      "bitwise_identical_numeric_fields": true,
+      "nonzero_differences": {},
+      "variables_checked": 21
+    },
+    "Maximums.nc": {
+      "bitwise_identical_numeric_fields": true,
+      "nonzero_differences": {},
+      "variables_checked": 14
+    }
+  },
+  "predictive_validation": false
+}

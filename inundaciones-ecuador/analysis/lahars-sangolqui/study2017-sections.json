@@ -1,0 +1,13 @@
+{
+  "source": "https://bibdigital.epn.edu.ec/handle/15000/17595",
+  "coordinates_source": "Torres y Vásquez2017, tablas3.5 y3.7, páginas impresas88 y92 / PDF113 y117",
+  "velocity_source": "Tabla4.2, página impresa114 / PDF139; scenario3",
+  "crs": "EPSG:32717",
+  "not_identical_physical_quantities": "The published FLOW-3D section maximum is not necessarily identical to Kestrel's slope-aligned depth-averaged velocity. Different source, terrain and fluid assumptions; comparison is contextual, not calibration.",
+  "sections": [
+    {"id":"caldera-pita","name":"La Caldera · Pita","endpoints":[[786815.4,9949261.5],[786973.3,9949760.0]],"published_scenario3_max_speed_m_s":22},
+    {"id":"caldera-santaclara","name":"La Caldera · Santa Clara","endpoints":[[786495.4,9949911.4],[786973.3,9949760.0]],"published_scenario3_max_speed_m_s":20},
+    {"id":"sangolqui-ejido","name":"Sangolquí · El Ejido","endpoints":[[784400.4,9963181.4],[784996.1,9963639.3]],"published_scenario3_max_speed_m_s":9},
+    {"id":"megamaxi-pita","name":"Hacienda Megamaxi · Pita","endpoints":[[783206.5,9965690.7],[784625.9,9966038.3]],"published_scenario3_max_speed_m_s":10}
+  ]
+}

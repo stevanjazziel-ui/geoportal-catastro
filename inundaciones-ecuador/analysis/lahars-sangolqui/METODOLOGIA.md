@@ -1,31 +1,59 @@
-# Lahares en Sangolquí: cálculo exploratorio y edificios 3D
+# Lahares del Cotopaxi hacia Sangolquí: adaptación de un escenario publicado
 
-El visor representa un **modelo de capa somera de mezcla agua–sedimentos calculado con Kestrel**, sobre terreno real. Se visualiza en 3D mediante Cesium y Google Satellite. No es un modelo volumétrico 3D, un pronóstico de erupción, un mapa oficial de amenaza ni una evaluación de daños estructurales. **No está calibrado para Sangolquí.**
+Esta entrega calcula un flujo de agua y sedimentos con Kestrel y lo representa en Cesium. **Es una adaptación exploratoria, no una reproducción exacta del estudio, una predicción de erupción o un modelo validado para decidir evacuaciones.** Las limitaciones del terreno y de las ubicaciones de las fuentes permanecen explícitas. Las pruebas anteriores de inyección de 10, 30 y 60 millones de m³ en el Pita no son los escenarios de erupción de esta entrega; se conservan en el historial del proyecto.
 
-## Escenarios y punto de entrada
+## Referencia principal y entradas
 
-Se comparan entradas hipotéticas de **10, 30 y 60 millones de m³ de mezcla**, con fracción volumétrica inicial de sólidos de 0,4. Cada liberación tiene hidrograma triangular, pico a 150 s y fin a 900 s. El caudal pico es `2 × volumen / 900`. La simulación continúa hasta 9.000 s, con salidas cada 180 s.
+Se toman los hidrogramas y parámetros físicos de [Vasconez, Phillips, Andrade y Woodhouse (2025)](https://doi.org/10.3389/feart.2025.1611579), tablas 1 y 2. El método de generación de las fuentes se describe en [Vasconez et al. (2024), sección 4.1](https://doi.org/10.3389/feart.2024.1426088). Se modela un escenario tipo 1877 con las condiciones del glaciar utilizadas por esos autores, basadas en imágenes de 2020–2022; no se midió de nuevo el glaciar de 2026.
 
-Estos volúmenes y su concentración son **supuestos de comparación**, no una estimación validada de la próxima erupción ni una reproducción de 1877. No se asignan probabilidades ni periodos de retorno. Tampoco se confunden con los 34,8 millones de m³ de **agua** que el estudio de 2025 distribuye entre nueve fuentes sobre el glaciar.
+| Fuente norte | Caudal máximo de agua (m³/s) | Agua liberada (m³) |
+|---|---:|---:|
+| 12 | 2.019 | 908.550 |
+| 13 | 577 | 259.650 |
+| 14 | 6.058 | 2.726.100 |
+| 15 | 3.750 | 1.687.500 |
+| 16 | 12.981 | 5.841.450 |
+| 17 | 3.462 | 1.557.900 |
+| 18 | 16.154 | 7.269.300 |
+| 19 | 16.154 | 7.269.300 |
+| 20 | 16.154 | 7.269.300 |
 
-El punto geográfico de referencia proviene de la tabla 1, punto 4, del [estudio de muestreo del río Pita de 2019](https://doi.org/10.26807/ia.v7i2.104): aporte de la quebrada Chorro al Pita, 78°25′57,86″ O; 0°29′9,73″ S. Solo se reutiliza su ubicación del cauce, **no datos de caudales de lahares**. Para la entrada numérica se eligió la menor cota del DEM dentro de 120 m; el desplazamiento fue de unos 27 m. El radio de la fuente numérica es 100 m. La mezcla se libera en ese punto aguas arriba de la ciudad; no se modela el deshielo ni la generación de lahar en el glaciar, ni se impone una trayectoria dibujada hacia Sangolquí.
+Los nueve aportes empiezan simultáneamente. Cada hidrograma es triangular, con máximo a los 150 s y final a los 900 s. Su integral es `Qmáx × 900 / 2`. La suma de los caudales individuales publicados, redondeados a enteros, es 77.309 m³/s y la integral 34.789.050 m³, aproximadamente 34,8 millones de m³. El total de la tabla del artículo figura como 77.308 m³/s; se registra esa diferencia de redondeo y no se redistribuye artificialmente.
 
-El tiempo del visor comienza en la entrada de mezcla al Pita, **no en el inicio de una erupción**. No sirve como tiempo de evacuación.
+**Es volumen de agua de entrada, no volumen de mezcla que llega a Sangolquí.** La concentración inicial de sólidos es cero; la mezcla evoluciona por erosión y depósito. No se impone la trayectoria hacia una calle ni la llegada a los 52 minutos.
 
-## Motor y parámetros
+## Ubicación de las fuentes y recorrido
 
-Se utilizó [Kestrel](https://github.com/jakelangham/kestrel), University of Bristol, versión v1.2.1, commit `e0965b438b763d94f0236ca31911bb43e6b82f49`. Resuelve conservación y cantidad de movimiento de una mezcla, con fricción y cambios del lecho por erosión y depósito. Se compiló localmente con GCC/GFortran, GDAL, PROJ, NetCDF y OpenMP mediante MSYS2. El parche de Windows solo adapta dos conversiones de rutas de archivos en C++; no modifica ecuaciones ni esquema numérico. Se conserva su GPL-3.0 y se enlaza el código original.
+Las nueve ubicaciones se digitalizaron de la figura 1B original, de 1.644 × 1.237 píxeles. Se usaron los controles de su rejilla UTM: 780.000 E en x=720, 790.000 E en x=1.394, 9.930.000 N en y=275 y 9.920.000 N en y=948. Se interpretó como UTM 17 Sur, WGS84. El manifiesto conserva las coordenadas de píxel y de terreno y el hash de la figura. La separación entre fuentes se verificó en torno a los 500 m descritos por los autores. No se movieron hacia el cauce más bajo.
 
-Las leyes y valores de referencia se revisaron en la [documentación oficial](https://kestrel-unibristol.readthedocs.io/en/latest/) y el [estudio de resolución del Cotopaxi](https://doi.org/10.3389/feart.2025.1611579). Reutilizar valores de ese estudio **no equivale a calibrar este modelo**.
+Estas **no son las coordenadas GIS originales** de los autores. La tolerancia de digitalización de 80 m es una hipótesis conservadora de trabajo, no una exactitud de campo validada. El radio de cada fuente es de 100 m, conforme al diámetro de 200 m del estudio. El dominio proyectado es EPSG:32717, de 60 × 96 km, `[769800, 9900000, 829800, 9996000]`, y contiene el flanco norte, Salto, Pita, el corredor de Santa Clara y el valle, con margen lateral para trayectorias alternativas. El ráster de entrada incluye una franja de elevaciones reales de 1.200 m fuera de cada borde para la interpolación y celdas auxiliares del motor. Una primera corrida con dominio oriental más estrecho se interrumpió por falta de ese margen y no se aceptó para publicación; la corrida corregida comienza de nuevo desde cero. Agrupar las celdas en bloques de 600 m mejora el cálculo sin cambiar su resolución física de 30 m. La condición exterior detiene la corrida si el flujo alcanza el límite; no se oculta una salida fuera del dominio.
 
-| Parámetro | Valor utilizado |
+## Terreno: diferencia crucial frente al estudio
+
+Se descargó el [Copernicus DEM GLO-30 público](https://registry.opendata.aws/copernicus-dem/), tesela S01W079, y se reproyectó a una rejilla de 30 m con interpolación bilineal. Se comprobó cobertura numérica completa, incluyendo el VRT interno generado por Kestrel y sus márgenes. La preparación del ráster usa interpolación bilineal y el VRT interno aplica la interpolación cúbica nativa de esta versión del motor; las alturas efectivas permanecen en `base_elevation` de cada NetCDF. Es un **modelo global de superficie**, que puede incluir vegetación y construcciones, no un MDT fino de suelo desnudo. No se sustituyeron huecos por altura cero.
+
+El estudio empleó un MDT fotogramétrico local de 3 m remuestreado, y recomienda 10 m para trabajos futuros. Su sección 6.4 demuestra que un SRTM de 30 m puede detener artificialmente los lahares antes de zonas residenciales. Copernicus tampoco garantiza representar los cañones estrechos o las divisorias de La Caldera. **Cambiar de producto global no resuelve esa limitación ni reproduce el terreno original.**
+
+También se adquirió un terreno numérico oficial del IGM a partir de cartografía 1:50.000, con píxel de 30 m. Un relleno automático completo de sus depresiones habría levantado puntos más de 200 m; no se usó ese terreno alterado en la corrida. El MDT parcial municipal del centro histórico no cubre el recorrido completo y no se integró mezclando referencias altimétricas sin control. La descarga del MDT de SIGTIERRAS conduce a un portal con cuenta de usuario; disponer de su ficha pública no equivale a disponer de sus elevaciones originales.
+
+En Copernicus se aplicó un relleno de mínima cota de salida con ocho vecinos **solo donde la elevación necesaria no superaba 2 m**. Las depresiones más profundas se conservaron; podrían representar relieve real, incluido el cráter. No se levantó un cañón para forzar la llegada del flujo. Este límite de 2 m es una hipótesis explícita de acondicionamiento y difiere del procesamiento del artículo. El manifiesto informa superficie modificada, volumen geométrico de modificación, máxima elevación y número de celdas profundas conservadas. No se realizó todavía un conjunto de corridas para validar la sensibilidad a ese umbral.
+
+Atribución del terreno: Copernicus DEM, producto GLO-30; DLR/Airbus, suministrado bajo COPERNICUS por la Unión Europea y ESA. [Información y licencia del producto](https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM).
+
+## Motor y parámetros físicos
+
+Se usa el código oficial [Kestrel](https://github.com/jakelangham/kestrel), versión 1.2.1, commit `e0965b438b763d94f0236ca31911bb43e6b82f49`, con licencia GPL-3.0. En Windows se adaptaron dos conversiones de rutas en `RasterData.cpp`, sin cambiar las ecuaciones. La compilación de cálculo usa O3 y LTO, sin fast-math; su hash está en el manifiesto. La prueba independiente de conservación se ejecutó con este binario.
+
+El modelo resuelve ecuaciones de capa somera para agua y sedimentos, incluyendo cambios del lecho. **La representación en 3D no convierte el cálculo en un CFD volumétrico 3D.**
+
+| Parámetro | Valor |
 |---|---:|
-| Fricción | Variable entre Chézy y granular |
-| Chézy, coeficiente adimensional | 0,01 |
-| Pouliquen mínimo / máximo / beta | 0,1 / 0,35 / 0,136 |
-| Cambio de régimen: concentración / tasa | 0,4 / 3 |
-| Erosión | Mixta |
-| Tasa de erosión fluida / granular | 0,0001 / 0,1 |
+| Fricción | Variable, Chézy/Pouliquen |
+| Coeficiente de Chézy | 0,01 |
+| Pouliquen mínimo / máximo | 0,1 / 0,35 |
+| Beta de Pouliquen | 0,136 |
+| Cambio de fricción: concentración / tasa | 0,4 / 3 |
+| Erosión fluida / granular | 0,0001 / 0,1 |
 | Profundidad erosionable máxima | 10 m |
 | Espesor mínimo para erosión | 0,01 m |
 | Porosidad / empaquetamiento máximo | 0,35 / 0,65 |
@@ -34,58 +62,68 @@ Las leyes y valores de referencia se revisaron en la [documentación oficial](ht
 | Diámetro de sólido | 1,5 mm |
 | Viscosidad turbulenta | 0,01 |
 | CFL | 0,25 |
-| Condición de borde | Detener si el flujo alcanza el límite |
+| Duración / salida nativa | 9.000 s / cada 15 s |
 
-La geometría, el tamaño de grano representativo y la reología no caracterizan rocas individuales, puentes, taponamientos ni derrumbes discretos.
+Los parámetros de la tabla 2 del artículo se conservan; otros ajustes del motor se especifican en el archivo de entrada. No equivalen a una calibración local nueva ni resuelven rocas individuales, taponamientos o fallas de puentes.
 
-## Terreno y resolución
+## Qué se mide en Sangolquí y San Rafael
 
-El terreno completo deriva del [HGT público S01W079, Mapzen/Skadi](https://s3.amazonaws.com/elevation-tiles-prod/skadi/S01/S01W079.hgt.gz), con una muestra por segundo de arco, aproximadamente 30 m. Se reproyectó a EPSG:32717. El dominio ampliado al norte es de 24,6 × 55,5 km. La malla de publicación es 30 m. La cobertura se verifica sin sustituir huecos por alturas cero. La rejilla del visor se reproyecta para mostrar el terreno; no alimenta el solver. El relieve radar puede incluir vegetación y construcciones; no equivale a un levantamiento LiDAR del suelo desnudo. Falta verificar época y compatibilidad del datum vertical para usos de ingeniería.
+Las métricas de área, espesor y velocidad se calculan dentro del rectángulo geográfico `[-78,49; -0,375; -78,395; -0,285]`. **No es un límite administrativo ni coincide con todos los puntos de control de los estudios.** La primera presencia de al menos 5 cm se informa como un intervalo entre dos salidas nativas de 15 s. Que una corrida no alcance ese rectángulo no demuestra seguridad del lugar.
 
-**Los cauces estrechos y La Caldera pueden estar mal representados a esta resolución.** No se puede interpretar cada edificio o parcela como afectado/no afectado a partir de esta malla. Remuestrear a píxeles menores no agregaría topografía real. Se requiere terreno fino del corredor, inspección de cauces y contraste con evidencias para mejorar el cálculo.
+Se añadió una sección de comparación a norte UTM 9.958.500 m, al sur del rectángulo, abarcando los corredores de Pita y Santa Clara. Para cada estado se estima el transporte por unidad de ancho como `H × gamma × v_norte`, donde `gamma = sqrt(1 + bx² + by²)`, consistente con la forma del flujo convectivo de Kestrel. Se interpolan los flujos de las dos filas de celdas adyacentes y se integran en el ancho de la sección. La integral temporal se obtiene por trapecios cada 15 s.
 
-También se localizó un ImageServer municipal del centro histórico con píxel de origen de 0,5 m, datum vertical declarado EGM96. Se descargó una copia F32 a unos 5 m y se verificaron cotas numéricas; tiene cobertura parcial y huecos. **No se incorporó a la hidráulica de esta entrega**, pues no cubre el corredor y su integración requiere controlar compatibilidad altimétrica. El MDT cantonal de 5 m anunciado en el catálogo mantiene una descarga pendiente.
+**Es una estimación desde resultados de centros de celda, no el flujo conservativo de caras interno del solver.** Se entregan caudal, transporte positivo, inverso y neto, así como fases de agua y sólidos. El transporte positivo puede contar material que cruza más de una vez. La diferencia al usar salidas cada 30 s examina el muestreo temporal; no acota el error espacial, del terreno o predictivo. Esa integral no equivale a todo el material que entra en la ciudad ni al volumen depositado en las calles.
 
-## Construcciones
+La velocidad máxima dentro del rectángulo procede de `flow_speed`, en m/s; el visor la muestra en km/h. No se impone una velocidad uniforme ni se divide una distancia aproximada por un tiempo publicado para asignar velocidades a toda la ciudad.
 
-Se descargaron 20.463 huellas de bloques constructivos del [servicio público municipal](https://geoide.ruminahui.gob.ec/server/rest/services/BDD_CATASTRO/catastro/MapServer/1), consultando únicamente geometría, identificador técnico y número de pisos. El visor descarta ese identificador y publica solo huellas, pisos, altura estimada y cota de apoyo. No contiene claves catastrales, propietarios, valores ni domicilios personales.
+## Comparación con otros estudios
 
-Se estima la altura como **3 m por piso**. Cuando no hay pisos válidos se asume un piso y se marca esa limitación. No son alturas medidas. Se simplifica la geometría para visualización conservando su topología; geometrías vacías/no válidas o fuera del dominio se omiten y el manifiesto informa el número efectivamente incluido.
+[Frimberger et al. (2021), tabla 2](https://doi.org/10.1002/esp.5056), utilizaron RAMMS, un MDT fotogramétrico diferente y fuentes, erosión y fricción propias. Sus escenarios norte de VEI 2–3, 3–4 y >4 tienen volúmenes iniciales de 7,8; 18,9 y 46 millones de m³, y totales con erosión de 19,4; 34,6 y 70,7 millones de m³. Reportan viajes a San Rafael por Pita de 84, 71 y 60 minutos, y a Sangolquí por Santa Clara de 52 minutos en el escenario mayor.
 
-Los edificios se dibujan en Cesium como extrusiones del catastro, **no con Cesium OSM Buildings**. Actúan como referencia visual y no como obstáculos dentro del cálculo. No se estima resistencia, colapso, daño, población expuesta ni seguridad de rutas.
+**Esos números no son entradas ni resultados impuestos a esta adaptación de Kestrel.** El total de un drenaje no se convierte en volumen que atraviesa el centro de Sangolquí. El origen temporal y la ubicación de comparación deben coincidir antes de evaluar una diferencia de llegada. Las velocidades iniciales de RAMMS tampoco equivalen a velocidades locales de llegada. La revisión y tabla de comparación se conservan en `REVISION_ESTUDIOS.md`.
 
-## Resultados y representación
+Los servicios municipales publican mapas de espesor, velocidad y llegada en su [visor de lahares](https://geoide.ruminahui.gob.ec/visor_lahar/). Los metadatos consultados no documentan suficientemente escenario y unidades para una comparación cuantitativa automática. Se enlazan como referencia externa: no se colorearon ni interpolaron para simular un movimiento nuevo.
 
-Solo se empaquetan corridas terminadas en 9.000 s con los 51 fotogramas. Los NetCDF originales quedan en el proyecto local. Los informes públicos contienen los parámetros, métricas por fotograma, controles y hashes de esos originales. La descarga gráfica conserva profundidades, velocidades, concentración y altura de superficie por celda; no se obtiene interpolando mapas municipales.
+## Comprobaciones de cálculo y entrega
 
-El espesor se toma de `flow_depth` [m], la velocidad de `flow_speed` [m/s] y la concentración de `solids_fraction`. La descarga conserva el desplazamiento de superficie calculado como cambio del lecho más `H / sqrt(1 + bx² + by²)`, coherente con los factores geométricos del modelo. No se utilizan los vértices internos de reinicio como si fueran coordenadas geográficas.
+- Prueba plana independiente de 1.000 m³, 40 % de sólidos y sin erosión: volumen y masas se comparan con las integrales conocidas de entrada.
+- Pruebas analíticas de integración de los nueve hidrogramas y de unidades, partición por fases y flujo inverso en una sección uniforme.
+- Balance del volumen de mezcla y cambio del lecho frente al aporte de agua en todos los cortes; se rechazan diferencias superiores al 0,1 % del aporte.
+- Verificación de 601 estados, tiempos, CRS, espesores no negativos, valores finitos y fracción de sólidos.
+- El visor exporta cada duodécimo estado nativo: 51 fotogramas cada tres minutos. La llegada y el caudal se calculan con los 601 estados, no con la frecuencia de animación.
+- La envolvente combina una copia del agregado de máximos del motor con los 601 estados nativos: las diferencias por orden de actualización se registran, no se ocultan descartando una comprobación.
+- Verificación independiente de georreferenciación y de los cinco campos cuantizados de todos los fotogramas. Compresión temporal reversible y hashes de archivos originales.
 
-El relieve visible permanece fijo. Para evitar ocultar debajo de ese relieve un cauce erosionado durante el cálculo, el visor dibuja el espesor vertical `H / sqrt(1 + bx² + by²)` sobre su terreno de referencia. Es una representación visual del espesor, **no la cota absoluta de la superficie del modelo**. Los máximos se muestran como una cobertura sobre el terreno. Las cotas modeladas y los cambios de lecho siguen conservados en las descargas; no se debe medir una cota hidráulica sobre la imagen 3D.
+Estos controles comprueban el cálculo numérico y su transporte al navegador. **No certifican exactitud predictiva en Sangolquí.** La validación sigue pendiente de terreno fino, fuentes GIS originales y contraste en puntos equivalentes con evidencia de campo y resultados de los autores.
 
-La profundidad y velocidad gráficas se cuantizan hacia abajo a centésimas de sus unidades; concentración a 0,0001 y alturas al centímetro más próximo. Las métricas proceden de los números originales. La compresión por diferencias temporales es reversible y su decodificación se comprueba. La envolvente combina el archivo agregado de Kestrel con todos sus estados exportados: en la primera corrida se detectaron diferencias finales de hasta 0,0171 m de espesor y 0,074 m/s entre ambos; sus magnitudes y celdas se registran en el informe. No se ocultan descartando la comprobación. Los instantes de primera humectación proceden del archivo agregado; los ausentes se conservan desconocidos y no equivalen a llegada de un frente de 5 cm. «Todo el recorrido» muestra un alcance acumulado, no una superficie simultánea.
+## Representación 3D y construcciones
 
-Las métricas urbanas corresponden a un rectángulo de comparación Sangolquí–San Rafael (`[-78,49; -0,375; -78,395; -0,285]`), **no a un límite administrativo ni a todo el cantón**. El máximo en el dominio puede ser mucho mayor cerca de la entrada; no se presenta como profundidad de la ciudad.
+La rejilla del relieve visible se reproyecta y reduce a 1.850 × 820 muestras para el navegador; no es la malla física de 30 m. El relieve visible permanece fijo; se representa el espesor vertical sobre ese terreno para no ocultarlo bajo el lecho erosionado. La cota absoluta modelada permanece en los datos, pero no se debe medir una cota hidráulica sobre la imagen. La envolvente de todo el recorrido reúne instantes diferentes, no una superficie simultánea.
 
-## Comprobaciones y límites de validación
+El cambio de construcciones quedó aplazado por indicación del usuario hasta terminar la simulación. Se mantiene la referencia municipal anterior, con alturas estimadas de 3 m por piso, mientras se prepara Cesium como fuente principal y catastro como complemento. No se usan edificios como barreras dentro del solver ni se estiman daños estructurales.
 
-- Prueba independiente sobre dominio plano: liberación triangular de 1.000 m³, 40 % de sólidos, sin erosión ni salida; se verifica volumen, masa de sólidos y masa de mezcla contra sus integrales de entrada.
-- Balance de volumen de mezcla y cambio del lecho en cada corte de los escenarios, contra la integral del hidrograma. El empaquetador rechaza discrepancias superiores al 0,1 % del volumen de entrada.
-- Verificación de terminación, tiempos, CRS, no negatividad del espesor, fracción de sólidos y consistencia entre máximos de todos los pasos y fotogramas.
-- Comparación exacta de los enteros gráficos antes y después de comprimir; el decodificador real del navegador tiene controles de orden, valores con signo y descargas truncadas.
+## Reproducir y auditar
 
-Estas pruebas comprueban el cálculo y la entrega; **no prueban precisión predictiva en Sangolquí**. Falta contraste local con espesores, velocidades, tiempos y depósitos observados de escenarios definidos.
+Usar el Python existente de GeoAI y las dependencias del proyecto, sin QGIS. No hay entrenamiento de IA: la propagación se calcula mediante ecuaciones físicas.
 
-El municipio publica mapas de espesor máximo, velocidad máxima y llegada en su [visor de lahares](https://geoide.ruminahui.gob.ec/visor_lahar/). Sus metadatos consultados no detallan unidades ni escenario; se enlazan como referencia externa y no se presentan como una validación cuantitativa del cálculo nuevo. Los anexos del estudio científico incluyen perfiles de cauces, pero no se han tratado como un MDT georreferenciado completo.
+1. `acquire_public_inputs.py` conserva las fuentes de contexto y edificios sin atributos personales. `acquire_study_inputs.py` recupera la figura y terreno exactos por sus hashes.
+2. Compilar el commit indicado de Kestrel, guardar su licencia y adaptación de rutas y verificar la prueba plana. No instalar compiladores globales.
+3. `study_reference.py --setup` prepara un directorio independiente `study2025-cop30-v2`, sin sobrescribir las corridas antiguas.
+4. `study_reference.py --run` ejecuta la corrida. Los reinicios autorizados por rendimiento usan estados nativos completos, parámetros físicos idénticos y una historia de ejecución explícita; no se reinicia desde archivos gráficos cuantizados.
+5. `analyze_study.py` rechaza una corrida incompleta y genera informe y CSV de sección.
+6. `pack_study.py` prepara las descargas y ejecuta la verificación independiente contra NetCDF. `node verify_decoder.cjs` comprueba el decodificador real del navegador.
+7. Verificar la interfaz y el despliegue de GitHub Pages. Conservar los NetCDF originales localmente y sus hashes en el informe público.
 
-## Reproducir
+Los paquetes binarios grandes se conservan completos en el mismo repositorio público y se descargan desde GitHub Raw con nombres que contienen su hash. El navegador comprueba SHA-256 antes de descomprimir. GitHub Pages aloja la interfaz, informes y metadatos; excluye estos paquetes de su compilación para respetar su límite de tamaño. La vista local lee los mismos archivos desde el proyecto. Esta separación no reduce la resolución ni los campos exportados.
 
-Los scripts usan el Python GeoAI existente y dependencias locales del proyecto (`numpy`, `rasterio`, `pyproj`, `shapely`, `scipy`, `netCDF4`, `cftime`). En la copia de GitHub, los scripts están en `analysis/lahars-sangolqui`; debe conservarse la estructura indicada en cada script o ajustar el directorio de salida al regenerar un sitio separado.
+## Revisión adicional del MDT municipal y recuperación
 
-1. `acquire_public_inputs.py`: descarga pública y auditoría de hashes; edificios sin atributos personales.
-2. `prepare_inputs.py`: contexto de terreno y referencias del estudio, sin ejecutar un lahar.
-3. Compilar el commit de Kestrel indicado, con la adaptación de Windows si corresponde. Conservar el binario y bibliotecas en `tools/`; la instalación de compiladores no se publica como parte del sitio.
-4. `run_kestrel.py --setup`, seguido por `--run menor-30m`, `--run grande-30m`, `--run mayor-30m`. La variable `LAHAR_THREADS` permite de 1 a 4 hilos.
-5. Ejecutar `--run benchmark` y después `pack_viewer.py`; este último verifica terminación y balances antes de crear las descargas del visor.
-6. `node verify_decoder.cjs` y comprobación de la interfaz publicada. No usar los paquetes gráficos cuantizados para reiniciar una simulación.
+`audit_municipal_terrain.py` consulta y conserva respuestas públicas Identify/MultiPoint: 14.893 coordenadas, 9.127 cotas válidas. `render_terrain_audit.py` compara cinco perfiles; no modifica el terreno físico. El RMSE de 10,30 m es una diferencia entre productos, no precisión medida en campo. La referencia vertical y resolución nativa del servicio rural no se confirmaron. No se fusionaron productos ni se aplicó un desplazamiento vertical supuesto.
 
-El cálculo preliminar de 60 m iniciado antes de ampliar el dominio es una prueba interna: no se presenta como comparación controlada de resolución con las corridas ampliadas de 30 m.
+La ejecución se interrumpió durante la sesión del equipo después de guardar el estado 245 (3.675 s). `resume_study.py` verifica hashes, conserva RunInfo, Volume y Maximums anteriores y usa el reinicio oficial de Kestrel, con parámetros físicos idénticos. Los registros de recuperación se incorporan al historial. El análisis final debe comprobar continuidad del balance y los 601 estados antes de publicar.
+
+## Ubicación de los máximos y secciones de estudios
+
+El informe físico conserva la posición y el instante de los máximos muestreados dentro del rectángulo de comparación; incluye cañones y no representa una profundidad uniforme de la ciudad. El espesor de Kestrel es normal a la pendiente; se informa además su componente vertical en la celda del máximo. Los extremos muestreados cada15s no garantizan capturar un pico entre muestras.
+
+Se consultan las secciones con coordenadas de las tablas3.5 y3.7 de Torres y Vásquez (EPN2017), muestreando centros de celdas cercanas a sus líneas y eliminando duplicados. Las velocidades máximas de la tabla4.2 de FLOW-3D se presentan solo como contexto: no son necesariamente la misma magnitud que la velocidad promediada en profundidad y alineada con la pendiente de Kestrel. Entradas y relojes diferentes impiden convertir esa comparación en una calibración directa. La reconstrucción temporal del visor de estudios se conserva separada en `METODOLOGIA_TIEMPOS.md`.
