@@ -1,0 +1,24 @@
+{
+  "study_segments_checked": 11,
+  "published_endpoint_times_checked": 44,
+  "scenario_max_s": 5985,
+  "calibration_max_s": 5010,
+  "asset_hashes_passed": true,
+  "geometry_length_difference_percent": {
+    "pita1": 1.3709848484848353,
+    "salto1": -0.3582905982906004,
+    "pita2": -1.6037864077669939,
+    "salto2": 6.143333333333345,
+    "santaclara2": -8.657142857142851,
+    "pita3": -1.7305747126436732,
+    "santaclara3": 8.805781249999999,
+    "pita4": -5.2846616541353475,
+    "santaclara4": 21.70400000000001,
+    "sanpedro4": -25.571746031746034,
+    "sanpedro5": 5.410563380281674
+  },
+  "geometry_length_difference_is_not_predictive_accuracy": true,
+  "original_study_gis_geometry_acquired": false,
+  "predictive_validation": false,
+  "warning": "Different mapped lengths are retained and reported. No flow velocity or new hydraulic quantities are derived from the animation."
+}

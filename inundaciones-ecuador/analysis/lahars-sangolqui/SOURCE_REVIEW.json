@@ -1,0 +1,88 @@
+{
+  "review_date": "2026-11-17",
+  "sources": [
+    {
+      "url": "https://doi.org/10.3389/feart.2025.1611579",
+      "used_for": "Nine northern water hydrographs; listed physical Kestrel parameters; digitized Figure 1B source positions",
+      "not_available": "Original 2015 3m DEM and original author GIS source coordinates"
+    },
+    {
+      "url": "https://doi.org/10.3389/feart.2024.1426088",
+      "used_for": "Source timing, diameter, initial water phase, glacier geometry years and distinction between water, mixture and deposits"
+    },
+    {
+      "url": "https://doi.org/10.1002/esp.5056",
+      "used_for": "Independent contextual comparison; Table 2 volumes and times, not mixed into Kestrel inputs",
+      "not_available": "Underlying data are available from author upon reasonable request; not direct public downloads",
+      "historical_1877_calibration_targets_figure6_m_s": {
+        "Jatabamba": 18,
+        "Proano": 20,
+        "Hacienda San Rafael": 20
+      },
+      "velocity_limitation": "Historical local calibration targets; no uniform future city velocity or original GIS point coordinates acquired."
+    },
+    {
+      "url": "https://geoide.ruminahui.gob.ec/image/rest/services/LAHAR/lahar_cotopaxi_zona_norte/MapServer",
+      "status": "Public metadata and maximum-depth, maximum-speed, arrival raster display layers available",
+      "limitation": "Scenario and numeric units insufficiently documented for quantitative automatic validation; no animation derived by interpolating those maps"
+    },
+    {
+      "url": "https://www.geoportaligm.gob.ec/dtm/wcs",
+      "status": "Numeric float32 elevation subset downloaded, EPSG32717, 30m cells, 100% valid coverage",
+      "limitation": "Official cartographic 1:50000 product, not study 3m photogrammetric DEM. Full sink filling would raise parts of corridor over 200m; altered product not used in simulation"
+    },
+    {
+      "url": "https://www.datosabiertos.gob.ec/dataset/modelo-digital-del-terreno-mdt-de-ecuador",
+      "status": "Public SIGTIERRAS metadata states 10m online resample and full-resolution office request",
+      "download_destination": "http://181.112.155.237/sinat_web_descarga/login",
+      "limitation": "Requires user account for download; original pixels not acquired through an authenticated account"
+    },
+    {
+      "url": "https://geoide.ruminahui.gob.ec/server/rest/services/dem_prj_centro_historico_2026_a/ImageServer",
+      "status": "Numeric municipal central DEM acquired, original half-meter product exported at 5m",
+      "limitation": "Partial central-city coverage, about 66% nodata in requested window; not the full volcanic route; not merged across unchecked vertical references"
+    },
+    {
+      "url": "https://registry.opendata.aws/copernicus-dem/",
+      "used_for": "Actual full-route surface used by adaptation, GLO30 S01W079; all numeric pixels valid after reprojection",
+      "limitation": "Global DSM about 30m, not bare-earth fine local DEM. Deep depressions retained, minor conditioning at most2m; sensitivity not fully evaluated"
+    },
+    {
+      "url": "https://geoide.ruminahui.gob.ec/image/rest/services/mdt/mdt_gadmur_2024/MapServer",
+      "status": "Public numeric raster Identify/MultiPoint samples acquired; 14893 requests for coordinates, 9127 valid elevations",
+      "audit": {
+        "service": "https://geoide.ruminahui.gob.ec/image/rest/services/mdt/mdt_gadmur_2024/MapServer",
+        "layer": 7,
+        "crs": "EPSG:32717",
+        "requested_points": 14893,
+        "valid_numeric_samples": 9127,
+        "sampling": "120m regional grid plus five 5m cross-sections; not an original raster or proof of native resolution",
+        "difference_m": {
+          "median": -2.171142578125,
+          "p05": -19.7906005859375,
+          "p95": 2.489062499999993,
+          "rmse": 10.29730546125816,
+          "max_absolute": 123.117431640625
+        },
+        "vertical_datum_confirmed": false,
+        "merged_into_simulation": false,
+        "warning": "Spatially variable surface differences and undocumented vertical reference prohibit automatic substitution or assumed bias correction.",
+        "samples_sha256": "1df06228ee689109861fd7a07fe12ca631c3cfc423ee89d40d1f5743f66dd7be"
+      },
+      "limitation": "Native resolution and vertical datum not confirmed. Identify spacing is not native DEM resolution. Not merged into running Copernicus simulation."
+    },
+    {
+      "url": "https://zenodo.org/records/5866730",
+      "paper": "https://doi.org/10.3390/rs14030631",
+      "status": "Verified CC-BY-4.0 vector downloads:14 valid deposit polygons,170 field points,243 contacts; all EPSG32717; individual publisher MD5 checksums passed",
+      "used_for": "Proximal spatial diagnostic, not a future-flow accuracy score; not model boundary or volume input",
+      "limitation": "Historical deposits and maximum transient thickness differ; modern glacier sources differ; no city arrival or velocity validation from these proximal polygons"
+    },
+    {
+      "url": "https://bibdigital.epn.edu.ec/handle/15000/17595",
+      "status": "Full original47.59MB PDF acquired;297PDF pages. Tables4.3 and4.4 visually checked.44 cumulative endpoint seconds transcribed across11 reaches and two scenarios.",
+      "used_for": "Separate kinematic reconstruction with published endpoint clocks. Not a new hydraulic simulation or calibration of Kestrel.",
+      "limitations": "Intermediate travel is interpolated. Some prose/coordinates in the source are inconsistent. Cartographic lengths differ and one display-only Santa Clara join differs191.12m. Geometry and predictive accuracy not validated."
+    }
+  ]
+}

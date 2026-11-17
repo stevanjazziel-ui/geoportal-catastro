@@ -1,0 +1,34 @@
+{
+  "id": "epn-torres-vasquez-2017",
+  "title": "Recorrido con tiempos del estudio EPN de 2017",
+  "authors": "Cristina Alexandra Torres Jacobowitz y Eduardo Mauricio Vásquez Falcones",
+  "source": "https://bibdigital.epn.edu.ec/handle/15000/17595",
+  "pdf": "https://bibdigital.epn.edu.ec/bitstream/15000/17595/1/CD-8076.pdf",
+  "arrival_tables": {"calibration1877": "Tabla 4.3, página impresa115 / PDF140", "scenario3": "Tabla4.4, página impresa116 / PDF141"},
+  "units": "seconds",
+  "scenarios": [
+    {"id": "scenario3", "title": "Escenario del estudio de 2017", "description": "Escenario 3 denominado más probable por sus autores en 2017. No representa una probabilidad eruptiva actualizada a 2026."},
+    {"id": "calibration1877", "title": "Reconstrucción del evento de 1877", "description": "Tiempos del ensayo de calibración de FLOW-3D; no son mediciones directas de todos los puntos en 1877."}
+  ],
+  "segments": [
+    {"id":"pita1","river":"Pita","stage":1,"length_in_study_km":13.2,"calibration1877":[0,960],"scenario3":[0,1060]},
+    {"id":"salto1","river":"El Salto","stage":1,"length_in_study_km":11.7,"calibration1877":[0,1350],"scenario3":[0,1550]},
+    {"id":"pita2","river":"Pita","stage":2,"length_in_study_km":10.3,"calibration1877":[960,1900],"scenario3":[1060,2030]},
+    {"id":"salto2","river":"El Salto","stage":2,"length_in_study_km":1.5,"calibration1877":[960,1210],"scenario3":[1060,1310],"note":"El tramo2 comienza antes de que el frente propio de El Salto termine el tramo1. Los autores explican la conexión anticipada por desbordamiento del Pita; no se fuerza continuidad temporal artificial."},
+    {"id":"santaclara2","river":"Santa Clara","stage":2,"length_in_study_km":4.9,"calibration1877":[1440,1775],"scenario3":[1576,2055]},
+    {"id":"pita3","river":"Pita","stage":3,"length_in_study_km":8.7,"calibration1877":[1900,3050],"scenario3":[2030,3190]},
+    {"id":"santaclara3","river":"Santa Clara","stage":3,"length_in_study_km":6.4,"calibration1877":[1775,2155],"scenario3":[2055,2705]},
+    {"id":"pita4","river":"Pita","stage":4,"length_in_study_km":13.3,"calibration1877":[3050,5010],"scenario3":[3190,4785]},
+    {"id":"santaclara4","river":"Santa Clara","stage":4,"length_in_study_km":8.5,"calibration1877":[2155,2945],"scenario3":[2705,4010]},
+    {"id":"sanpedro4","river":"San Pedro","stage":4,"length_in_study_km":6.3,"calibration1877":[2945,3775],"scenario3":[4010,4955]},
+    {"id":"sanpedro5","river":"San Pedro","stage":5,"length_in_study_km":7.1,"calibration1877":[3775,4645],"scenario3":[4955,5985]}
+  ],
+  "method": "Reconstruct front progression along mapped river centerlines, linearly in distance between each segment's published cumulative arrival endpoints. Intermediate times are interpolation assumptions, not additional values published by the authors. No hydrodynamic equations, instantaneous depth, erosion or mass balance are computed by this reconstruction.",
+  "time_origin": "Published table clock, with zero at upper model boundaries. The reconstruction begins at the study inlet sections, not at the crater. The source observations describe some cumulative values relative to eruption, but an additional crater-to-inlet travel time is not independently resolved here.",
+  "source_inconsistencies": [
+    "Some prose observations in tables4.3/4.4 differ from their cumulative numeric columns. Numeric cumulative seconds are preserved; no silent averaging or repair.",
+    "Santa Clara endpoint coordinates in section3.1.1 repeat or interchange northings. River topology and documented stage boundary northings are used with an explicit geometry audit; no ambiguous printed coordinate is copied blindly.",
+    "El Salto lower reach has a separate earlier inflow due to Pita overflow, as noted by the authors."
+  ],
+  "other_study_context": {"source":"https://doi.org/10.1002/esp.5056","scenario":"Frimberger et al., RAMMS, Table2, VEI>4", "sangolqui_arrival_min":52,"san_rafael_pita_arrival_min":60,"used_to_warp_this_timeline":false,"note":"Independent scenario and input geometry; not substituted into the EPN2017 reach timings."}
+}
