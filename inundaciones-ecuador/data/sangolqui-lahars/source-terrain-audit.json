@@ -1,5 +1,5 @@
 {
-  "id": "reference-cop30",
+  "id": "reference-mdt30",
   "status": "completed_numerically_checked",
   "calibrated": false,
   "exact_reproduction": false,
@@ -197,38 +197,42 @@
     20
   ],
   "terrain": {
-    "source": "https://registry.opendata.aws/copernicus-dem/",
-    "coverage": "GLO-30 S01W079",
-    "native_pixel_m_approx": 30,
-    "paper_dem": false,
-    "source_sha256": "09dca8c4e872a804cacdc87084f32510aec30b6ac18da9e4d1f9d358d1488d4b",
-    "conditioned_sha256": "7492908b47bbd4cf3b6751e8122305d4be822dc4ee959fa7a7b443422a99284c",
-    "conditioning": "Priority flood only for depressions requiring at most 2 m. Deeper basins retained. This is an explicit sensitivity assumption, different from the paper.",
-    "deep_depression_cells_retained": 40381,
-    "full_fill_max_raise_m_NOT_applied": 110.11767578125,
-    "raised_cells": 45493,
-    "raised_area_km2": 40.9437,
-    "max_raise_m": 2.0,
-    "fill_volume_m3": 27061809.9609375,
-    "native_vrt_audit": {
-      "shape": [
-        3241,
-        2041
+    "source": "https://geoservicios.ruminahui.gob.ec/dac/dtm/wcs?service=WCS&version=1.0.0&request=GetCoverage&coverage=dtm%3Adtm_ruminahui_pasochoa_lloa_tambillo_2023&crs=EPSG%3A32717&response_crs=EPSG%3A32717&bbox=779586.0865346495%2C9943057.18234953%2C790992.0865346495%2C9968461.18234953&resx=3&resy=3&format=GeoTIFF",
+    "source_sha256": "cb971c9ce67db8e43125c92414be282a15c8322f2612b68f31857b3116817177",
+    "native_pixel_m": 3,
+    "native_dtype": "int16; one-metre elevation quantization",
+    "model_file": "municipal_hybrid_30m.tif",
+    "conditioned_sha256": "fc68b5db93d19a1a67685b27be4e60070fb5ec376a80cf422f51c3d5ded7110e",
+    "background_source_sha256": "7492908b47bbd4cf3b6751e8122305d4be822dc4ee959fa7a7b443422a99284c",
+    "model_resampling": "Bilinear from native3m to unchanged30m computational grid",
+    "transition": {
+      "full_municipal_cells": 282111,
+      "transition_cells": 39749,
+      "transition_width_m": 500,
+      "difference_median_m": -1.211181640625,
+      "difference_p05_p95_m": [
+        -10.90087890625,
+        2.1082763671875
       ],
-      "nodata_cells": 0,
-      "resampling": "Cubic",
-      "coverage": "Full solver VRT including required border checked before continuing"
-    }
+      "maximum_absolute_difference_m": 144.159423828125,
+      "added_slope_from_blending_p95": 0.01902802661061287
+    },
+    "vertical_datum_confirmed": false,
+    "vertical_offset_applied_m": 0,
+    "paper_dem": false,
+    "conditioning": "No channel excavation or additional depression filling. Municipal terrain replaces the global surface in its interior;500m weighted boundary transition is an explicit uncertain assumption."
   },
   "engine_commit": "e0965b438b763d94f0236ca31911bb43e6b82f49",
   "engine_sha256": "8da78ab6e6591db137822b2cd7cec75ae27c3d88917c5f2d79a802480a2a9aa8",
   "compiler_options": "O3, native CPU, LTO; no fast-math; independent conservation benchmark passed",
-  "input_sha256": "3e331ce20eff41ed33ddc0f5e8510b88bcfbac82028067d26379f0dc9e186bd4",
+  "input_sha256": "82ec5873c2035eb3a3d2d2bd9fa1de95aa349e6a9eea7795b681578297e3ebf5",
   "limitations": [
-    "Independent 30m global surface model, not the fine photogrammetric DEM in the study. Vegetation, buildings and narrow canyons are unresolved.",
-    "Digitized source coordinates; require original GIS coordinates for exact reproduction.",
-    "Buildings and bridges are not hydraulic obstacles.",
-    "No tuning to force published city arrivals.",
-    "Published RAMMS volumes and arrival times are comparisons, not imposed outputs."
-  ]
+    "Computational cells remain30m; narrow channels may still be unresolved despite native3m municipal input.",
+    "Municipal vertical datum is not documented; zero offset and500m transition are explicit sensitivity assumptions, not surveyed alignment.",
+    "No local predictive calibration; the layer year2023 is not a verified acquisition date.",
+    "Source positions remain digitized and glacier geometry is not updated to2026.",
+    "LiDAR metadata/classification reviewed; unverified cloud projection prevents silently replacing terrain with unregistered points.",
+    "Buildings remain visual references, not hydraulic obstacles."
+  ],
+  "parent_scenario": "reference-cop30"
 }

@@ -1,0 +1,21 @@
+{
+  "engine_sha256": "8da78ab6e6591db137822b2cd7cec75ae27c3d88917c5f2d79a802480a2a9aa8",
+  "benchmarks": [
+    {
+      "threads": 4,
+      "wall_seconds": 55.811952899966855
+    },
+    {
+      "threads": 8,
+      "wall_seconds": 45.481090100016445
+    }
+  ],
+  "maximum_field_differences": {
+    "flow_depth": 0.0,
+    "x_velocity": 0.0,
+    "y_velocity": 0.0,
+    "elevation_change": 0.0
+  },
+  "chosen_threads": 8,
+  "scope": "Only threading throughput; same physical state and terrain; not predictive validation."
+}

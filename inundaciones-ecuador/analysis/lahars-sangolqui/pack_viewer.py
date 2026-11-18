@@ -69,8 +69,9 @@ def main(cases=None):
             geometry[:,j,0]=lo;geometry[:,j,1]=la;geometry[:,j,2]=zz
         center_z=np.array([p[0] for p in dem.sample(zip(xs,ys))],np.float32)
         bounds=transform_bounds(dem.crs,4326,*dem.bounds)
-        terrain=np.full((1850,820),-9999,np.float32)
-        tr=from_bounds(*bounds,820,1850)
+        terrain_rows,terrain_cols=setup.get('display_grid',[1850,820])
+        terrain=np.full((terrain_rows,terrain_cols),-9999,np.float32)
+        tr=from_bounds(*bounds,terrain_cols,terrain_rows)
         reproject(rasterio.band(dem,1),terrain,src_transform=dem.transform,src_crs=dem.crs,
                   dst_transform=tr,dst_crs=4326,dst_nodata=-9999,resampling=Resampling.bilinear)
     if (terrain==-9999).any():
@@ -80,7 +81,7 @@ def main(cases=None):
         terrain[bad]=terrain[tuple(inds[:,bad])]
     assert terrain.min()>=0 and terrain.max()<6553.5
     terrain_meta=blob(OUT/'terrain.u16.gz',np.floor(terrain*10).astype('<u2'))
-    terrain_meta.update(rows=1850,cols=820,bbox=list(bounds),scale=.1,purpose='Display grid only; physics uses projected DEM')
+    terrain_meta.update(rows=terrain_rows,cols=terrain_cols,bbox=list(bounds),scale=.1,purpose='Display grid only; physics uses projected DEM')
     regional=np.frombuffer(gzip.decompress((ROOT/'sources/S01W079.hgt.gz').read_bytes()),'>i2').reshape(3601,3601)[::12,::12]
     assert (regional!=-32768).all()
     regional_meta=blob(OUT/'regional.i16.gz',regional.astype('<i2'))

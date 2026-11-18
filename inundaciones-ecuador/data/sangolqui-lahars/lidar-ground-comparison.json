@@ -1,0 +1,87 @@
+{
+  "comparisons": [
+    {
+      "cloud": "sangolqui",
+      "source": "https://ide.ruminahui.gob.ec/lidar/pointclouds/sangolqui/metadata.json",
+      "metadata_sha256": "8c29b63af31fe1a483064f46bbf6d2a9eea2551fe77e7816e69c339af479d6d2",
+      "hierarchy_sha256": "0369cf224d5d7900159b9ad5cfeb10fc2d2369445e7a001e13d52be0a06f37b0",
+      "root_node_sha256": "0e7dfd23038830a8cbec77aaec4d798ad6e954afea13b00d1b467b65c92b4bac",
+      "root_node_points": 3814,
+      "paired_class2_points": 907,
+      "lidar_minus_mdt_m": {
+        "median": -28.55099999999993,
+        "p05_p95": [
+          -30.160600000000066,
+          2.140500000000019
+        ],
+        "rmse": 25.019189430420006
+      },
+      "declared_cloud_projection": "",
+      "coordinate_interpretation_for_check": "EPSG32717; consistent coordinate magnitudes/location but not declared in cloud metadata",
+      "absolute_vertical_datum_confirmed": false,
+      "random_sample": false,
+      "predictive_validation": false
+    },
+    {
+      "cloud": "san_rafael_2024",
+      "source": "https://ide.ruminahui.gob.ec/lidar/pointclouds/san_rafael_2024/metadata.json",
+      "metadata_sha256": "608e1fb0136ce4a305aa4d99e020e5c923779c0b61cb8d088a03004492a842de",
+      "hierarchy_sha256": "3fbdcb4f633abe674cee4f3340690dd894f68167a2b36b63eab9e545f5f78855",
+      "root_node_sha256": "fc26da2d019c8ca9c0978d7d148ba7cd63d410252cef5598c1a5c0176d97ca77",
+      "root_node_points": 4059,
+      "paired_class2_points": 836,
+      "lidar_minus_mdt_m": {
+        "median": -29.11350000000016,
+        "p05_p95": [
+          -31.58325000000025,
+          -22.862250000000245
+        ],
+        "rmse": 28.696118443046924
+      },
+      "declared_cloud_projection": "",
+      "coordinate_interpretation_for_check": "EPSG32717; consistent coordinate magnitudes/location but not declared in cloud metadata",
+      "absolute_vertical_datum_confirmed": false,
+      "random_sample": false,
+      "predictive_validation": false
+    },
+    {
+      "cloud": "rumipamba_2024",
+      "source": "https://ide.ruminahui.gob.ec/lidar/pointclouds/rumipamba_2024/metadata.json",
+      "metadata_sha256": "994233c6fd940e97835dc475d1b913f722e2effc316a1373339941fe3e186b76",
+      "hierarchy_sha256": "e3a3821409bbac9257b441298a344469b77dab4d1fb61dcd391a88b91a75988d",
+      "root_node_sha256": "ed5c24df9aea4b303ab345b98e253edf933a0f7f3b896453aad9de753abc8adf",
+      "root_node_points": 10525,
+      "paired_class2_points": 6285,
+      "lidar_minus_mdt_m": {
+        "median": -27.509999999999764,
+        "p05_p95": [
+          -28.442999999999756,
+          -24.38139999999985
+        ],
+        "rmse": 27.213731868684857
+      },
+      "declared_cloud_projection": "",
+      "coordinate_interpretation_for_check": "EPSG32717; consistent coordinate magnitudes/location but not declared in cloud metadata",
+      "absolute_vertical_datum_confirmed": false,
+      "random_sample": false,
+      "predictive_validation": false
+    }
+  ],
+  "additional_product_check": {
+    "product": "Previously acquired partial central municipal DEM; source ImageServer metadata declares vertical CRS5773",
+    "sha256": "c146f8d26373067cd9017516d9e76ec0d02a6d72b1c04421a60e59931b59fd07",
+    "paired_samples": 41,
+    "lidar_minus_central_m_p05_median_p95": [
+      -52.32495703125005,
+      -51.534238281250055,
+      -50.949210937500084
+    ],
+    "wcs_mdt_minus_central_m_p05_median_p95": [
+      -28.38671875,
+      -22.122314453125,
+      -20.800537109375
+    ],
+    "warning": "Different products, partial coverage and sparse root samples. Metadata alone does not resolve these differences; no datum correction or terrain substitution inferred."
+  },
+  "method": "Nearest native3m MDT pixel at class2 ground points from root nodes; no outlier removal or datum shift. This compares products, not independent field truth."
+}

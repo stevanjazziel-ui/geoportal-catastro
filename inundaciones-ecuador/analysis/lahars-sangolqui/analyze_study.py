@@ -33,7 +33,7 @@ def main():
     assert execution['engine_sha256']==manifest['engine_sha256']
     restart_test=json.loads((ROOT/'runs/benchmark-native-restart-v2/report.json').read_text(encoding='utf-8'))
     assert restart_test['passed'] and restart_test['engine_sha256']==execution['engine_sha256']
-    assert 'FATAL ERROR' not in (WORK/'runs/reference-cop30.log').read_text(encoding='utf-8',errors='replace').upper()
+    assert 'FATAL ERROR' not in (FOLDER.parent/(FOLDER.name+'.log')).read_text(encoding='utf-8',errors='replace').upper()
     budget=np.genfromtxt(FOLDER/'Volume.txt',delimiter=',',names=True)
     assert abs(float(budget['time'][-1])-9000)<1e-6,'Refuse incomplete run'
     assert len(budget)==601 and np.allclose(budget['time'],np.arange(601)*15,atol=1e-6)

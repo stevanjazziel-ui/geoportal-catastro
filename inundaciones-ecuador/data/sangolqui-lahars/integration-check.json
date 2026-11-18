@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "same_nine_source_hydrographs": true,
+  "same_physical_parameters": true,
+  "same_grid_and_source_disks": true,
+  "outside_coverage_unchanged": true,
+  "physical_grid_m": 30,
+  "native_municipal_grid_m": 3,
+  "model_terrain_sha256": "fc68b5db93d19a1a67685b27be4e60070fb5ec376a80cf422f51c3d5ded7110e",
+  "municipal_source_sha256": "cb971c9ce67db8e43125c92414be282a15c8322f2612b68f31857b3116817177",
+  "input_sha256": "82ec5873c2035eb3a3d2d2bd9fa1de95aa349e6a9eea7795b681578297e3ebf5",
+  "predictive_validation": false,
+  "vertical_datum_confirmed": false
+}

@@ -1,0 +1,41 @@
+{
+  "engine_sha256": "8da78ab6e6591db137822b2cd7cec75ae27c3d88917c5f2d79a802480a2a9aa8",
+  "seed_native_sha256": "ccbcc6aa436cfe59c16234dea84e11fed55393c1e1178331e77c6eda5046da82",
+  "seed_time_s": 4530.0,
+  "benchmarks": [
+    {
+      "threads": 4,
+      "wall_seconds": 78.60018750000745
+    },
+    {
+      "threads": 8,
+      "wall_seconds": 60.35413619998144
+    },
+    {
+      "threads": 16,
+      "wall_seconds": 50.58880750002572
+    }
+  ],
+  "maximum_field_differences_against8": {
+    "4": {
+      "flow_depth": 0.0,
+      "x_velocity": 0.0,
+      "y_velocity": 0.0,
+      "elevation_change": 0.0,
+      "solids_fraction": 0.0,
+      "Hnpsi": 0.0
+    },
+    "16": {
+      "flow_depth": 0.0,
+      "x_velocity": 0.0,
+      "y_velocity": 0.0,
+      "elevation_change": 0.0,
+      "solids_fraction": 0.0,
+      "Hnpsi": 0.0
+    }
+  },
+  "chosen_threads": 16,
+  "selection_rule": "Change from8 only with at least10percent measured gain and all6state fields matching within1e-8.",
+  "main_temporarily_suspended": true,
+  "predictive_validation": false
+}

@@ -28,5 +28,9 @@
   "vertical_datum_confirmed": false,
   "source_native_resolution_confirmed": true,
   "year_from_layer_name": 2023,
-  "applied_to_hydraulic_model": false
+  "applied_to_hydraulic_model": true,
+  "applied_to_model_at_download": false,
+  "applied_case_id": "reference-mdt30",
+  "computational_grid_m": 30,
+  "model_terrain_sha256": "fc68b5db93d19a1a67685b27be4e60070fb5ec376a80cf422f51c3d5ded7110e"
 }

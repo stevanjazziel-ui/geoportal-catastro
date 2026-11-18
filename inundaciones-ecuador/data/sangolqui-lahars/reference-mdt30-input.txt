@@ -1,0 +1,105 @@
+# Literature-based ADAPTATION, not exact reproduction or locally validated prediction.
+Domain:
+Lat = -0.4699370371
+Lon = -78.3066820741
+nXtiles = 100
+nYtiles = 160
+nXpertile = 20
+nYpertile = 20
+Xtilesize = 600
+Boundary conditions = halt
+Source:
+sourceLat = -0.6700122146
+sourceLon = -78.4439903799
+sourceRadius = 100
+sourceTime = (0,150,900)
+sourceFlux = (0,2019,0)
+sourceConc = (0,0,0)
+Source:
+sourceLat = -0.6683983350
+sourceLon = -78.4395952926
+sourceRadius = 100
+sourceTime = (0,150,900)
+sourceFlux = (0,577,0)
+sourceConc = (0,0,0)
+Source:
+sourceLat = -0.6675903835
+sourceLon = -78.4354662218
+sourceRadius = 100
+sourceTime = (0,150,900)
+sourceFlux = (0,6058,0)
+sourceConc = (0,0,0)
+Source:
+sourceLat = -0.6669165201
+sourceLon = -78.4309374699
+sourceRadius = 100
+sourceTime = (0,150,900)
+sourceFlux = (0,3750,0)
+sourceConc = (0,0,0)
+Source:
+sourceLat = -0.6671827989
+sourceLon = -78.4265414548
+sourceRadius = 100
+sourceTime = (0,150,900)
+sourceFlux = (0,12981,0)
+sourceConc = (0,0,0)
+Source:
+sourceLat = -0.6690608287
+sourceLon = -78.4225442369
+sourceRadius = 100
+sourceTime = (0,150,900)
+sourceFlux = (0,3462,0)
+sourceConc = (0,0,0)
+Source:
+sourceLat = -0.6725508809
+sourceLon = -78.4194786320
+sourceRadius = 100
+sourceTime = (0,150,900)
+sourceFlux = (0,16154,0)
+sourceConc = (0,0,0)
+Source:
+sourceLat = -0.6767132457
+sourceLon = -78.4180111542
+sourceRadius = 100
+sourceTime = (0,150,900)
+sourceFlux = (0,16154,0)
+sourceConc = (0,0,0)
+Source:
+sourceLat = -0.6810100389
+sourceLon = -78.4168100055
+sourceRadius = 100
+sourceTime = (0,150,900)
+sourceFlux = (0,16154,0)
+sourceConc = (0,0,0)
+Solver:
+T end = 9000
+cfl = 0.25
+Output:
+N out = 600
+directory = runs/reference-mdt30
+format = nc
+Topog:
+Type = DEM
+raster file = municipal_hybrid_30m.tif
+dem directory = prepared
+embed raster = off
+Parameters:
+Drag = variable
+Chezy co = 0.01
+Pouliquen min = 0.1
+Pouliquen max = 0.35
+Pouliquen beta = 0.136
+voellmy switch value = 0.4
+voellmy switch rate = 3.0
+Erosion = mixed
+Erosion rate = 1e-4
+Granular erosion rate = 0.1
+Erosion depth = 10
+Erosion critical height = 0.01
+Bed porosity = 0.35
+maxPack = 0.65
+Deposition = Spearman Manning
+rhow = 1000
+rhos = 2000
+Solid diameter = 0.0015
+Eddy Viscosity = 1e-2

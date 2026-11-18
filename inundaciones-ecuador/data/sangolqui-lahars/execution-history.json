@@ -1,41 +1,27 @@
 {
-  "initial_threads": 4,
-  "schedule": "static",
-  "wait_policy": "ACTIVE",
-  "restarts": [
+  "recoveries": [
     {
-      "checkpoint": "000245.nc",
-      "checkpoint_sha256": "8a0bf0fc09f6a83020808afd1db05a6ff588b6ecd1fbb17c0db165a841953755",
-      "checkpoint_time_s": 3675.0,
-      "restart_input_sha256": "5f9f4051f5b848de914c5959082851125b8bd88034943d11befbeecd0b3fe0bf",
-      "original_input_sha256": "3e331ce20eff41ed33ddc0f5e8510b88bcfbac82028067d26379f0dc9e186bd4",
+      "checkpoint": "000294.nc",
+      "time_s": 4410.0,
+      "checkpoint_sha256": "02a20f3e30525622620152e9607f7678aa112db5efedf36c6cbaae10cd6d4e09",
       "engine_sha256": "8da78ab6e6591db137822b2cd7cec75ae27c3d88917c5f2d79a802480a2a9aa8",
-      "reason": "Process absent after interrupted desktop session; no fatal error in previous log",
+      "original_input_sha256": "82ec5873c2035eb3a3d2d2bd9fa1de95aa349e6a9eea7795b681578297e3ebf5",
+      "reason": "Native process and driver absent after supervisory session disconnected; no fatal solver error in log.",
       "physical_inputs_changed": false,
-      "utc": "20261117T135742Z"
-    }
-  ],
-  "fresh_start": true,
-  "previous_attempt": "study2025-cop30",
-  "previous_attempt_status": "failed and excluded; no states reused",
-  "correction": "Larger physical domain plus 1200m real-terrain halo; grid resolution remains30m; full native VRT has0nodata cells",
-  "independent_checkpoint_test": {
-    "engine_sha256": "8da78ab6e6591db137822b2cd7cec75ae27c3d88917c5f2d79a802480a2a9aa8",
-    "official_test_source": "jakelangham/kestrel/tests/Input_netcdf_restart1.txt",
-    "scope": "Synthetic inclined eroding bed with ongoing source; continuation at5s to10s, same2.5s output spacing",
-    "passed": true,
-    "comparisons": {
-      "000004.nc": {
-        "bitwise_identical_numeric_fields": true,
-        "nonzero_differences": {},
-        "variables_checked": 21
-      },
-      "Maximums.nc": {
-        "bitwise_identical_numeric_fields": true,
-        "nonzero_differences": {},
-        "variables_checked": 14
-      }
+      "utc": "20261118T015505Z",
+      "restart_input_sha256": "e14695e518180ad8534637c823e6e658f0cba4d21221f8fbacbcefc1ab8cc464"
     },
-    "predictive_validation": false
-  }
+    {
+      "checkpoint": "000313.nc",
+      "time_s": 4695.0,
+      "checkpoint_sha256": "e289d8e65ade396011f4461841ca2672fc9b44a2c685641d6880b52ed016390c",
+      "engine_sha256": "8da78ab6e6591db137822b2cd7cec75ae27c3d88917c5f2d79a802480a2a9aa8",
+      "original_input_sha256": "82ec5873c2035eb3a3d2d2bd9fa1de95aa349e6a9eea7795b681578297e3ebf5",
+      "reason": "Controlled checkpoint continuation after the representative benchmark showed faster execution with16threads and matching six physical fields.",
+      "threads": 16,
+      "physical_inputs_changed": false,
+      "utc": "20261118T020910Z",
+      "restart_input_sha256": "e14695e518180ad8534637c823e6e658f0cba4d21221f8fbacbcefc1ab8cc464"
+    }
+  ]
 }
