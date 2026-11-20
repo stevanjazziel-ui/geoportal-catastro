@@ -8,6 +8,7 @@
  const focusPita=!joint&&!archive&&params.get('rio')==='pita';
  const campusCenter=[-78.445069,-.315230];
  let meta,viewer,corners,terrain,regional,current,data,maxima,secondary,combinedGrid,frame=0,timer,waterMesh,buildingMesh,request=0;
+ let osmBuildings;
  let coverageLayer, coveragePending=false, coverageUnavailable=false, guided=false, activeView=-1;
  const riverViews=[
   {name:'Pita',button:'pita',reference:'pitaReference',color:'#9ae8ec',entities:[]},
@@ -539,6 +540,98 @@
   }};
  }
 
+ function censusFootprintIndex(){
+  const boxes=new Map(),step=.001,margin=.000017;
+  const key=(i,j)=>`${i},${j}`;
+  const grid=v=>Math.floor(v/step);
+  function inside(lon,lat,ring){
+   let hit=false;
+   for(let i=0,j=ring.length-1;i<ring.length;j=i++){
+    const [a,b]=ring[i],[c,d]=ring[j];
+    if((b>lat)!==(d>lat)&&lon<(c-a)*(lat-b)/(d-b)+a)hit=!hit;
+   }
+   return hit;
+  }
+  function onEdge(x,y,ring){
+   for(let i=1;i<ring.length;i++){
+    const [a,b]=ring[i-1],[c,d]=ring[i];
+    const dx=c-a,dy=d-b;
+    const length=dx*dx+dy*dy;
+    if(!length)continue;
+    const t=Math.max(0,Math.min(1,((x-a)*dx+(y-b)*dy)/length));
+    if(Math.hypot(x-a-t*dx,y-b-t*dy)<margin)return true;
+   }
+   return false;
+  }
+  return {
+   add(polygons,west,south,east,north){
+    const feature={polygons,west,south,east,north};
+    for(let j=grid(south-margin);j<=grid(north+margin);j++)for(let i=grid(west-margin);i<=grid(east+margin);i++){
+     const bin=key(i,j);
+     if(!boxes.has(bin))boxes.set(bin,[]);
+     boxes.get(bin).push(feature);
+    }
+   },
+   has(lon,lat){
+    return (boxes.get(key(grid(lon),grid(lat)))||[]).some(({polygons,west,south,east,north})=>
+     lon>=west-margin&&lon<=east+margin&&lat>=south-margin&&lat<=north+margin&&polygons.some(([outer,...holes])=>
+      inside(lon,lat,outer)?!holes.some(hole=>inside(lon,lat,hole)):onEdge(lon,lat,outer)));
+   }
+  };
+ }
+
+ function updateBuildingVisibility(){
+  const shown=$('buildings').checked;
+  const source=$('buildingSource').value;
+  if(buildingMesh)buildingMesh.show=shown&&source!=='cesium';
+  if(osmBuildings)osmBuildings.show=shown&&source!=='municipal';
+  viewer.scene.requestRender();
+ }
+
+ async function addCesiumBuildings(footprints){
+  const controls=$('buildingSource'),status=$('buildingCesiumStatus');
+  const accessToken=String(window.ECUADOR_IMAGERY_CONFIG?.accessToken||'').trim();
+  if(!accessToken){status.textContent='Capa de Cesium pendiente de configurar.';return;}
+  try{
+   const resource=await C.IonResource.fromAssetId(96188,{accessToken});
+   const tiles=await C.Cesium3DTileset.fromUrl(resource,{enableShowOutline:false,
+    maximumScreenSpaceError:10,shadows:C.ShadowMode.DISABLED});
+   // Compare the reference elevations of the two datasets in the urban corridor.
+   // The observed median difference was about 25 m across the four urban samples.
+   const center=C.Cartesian3.fromDegrees(-78.44,-.33);
+   const lowered=C.Cartesian3.fromDegrees(-78.44,-.33,-25);
+   tiles.modelMatrix=C.Matrix4.fromTranslation(C.Cartesian3.subtract(lowered,center,new C.Cartesian3()));
+   tiles.style=new C.Cesium3DTileStyle({color:`Boolean(\${feature['cesium#color']}) ? color(\${feature['cesium#color']}) : color('#c1b9ac')`});
+   const urban=[-78.508,-.402,-78.392,-.271],settings=new WeakMap();
+   const matches=new WeakMap();
+   tiles.tileVisible.addEventListener(tile=>{
+    const content=tile.content,source=controls.value;
+    if(!content.featuresLength||settings.get(content)===source)return;
+    if(!matches.has(content)){
+     const mask=new Uint8Array(content.featuresLength);
+     for(let i=0;i<mask.length;i++){
+      const feature=content.getFeature(i);
+      const lon=feature.getProperty('cesium#longitude'),lat=feature.getProperty('cesium#latitude');
+      if(lon>=urban[0]&&lon<=urban[2]&&lat>=urban[1]&&lat<=urban[3])mask[i]=footprints.has(lon,lat)?2:1;
+     }
+     matches.set(content,mask);
+    }
+    const mask=matches.get(content);
+    for(let i=0;i<mask.length;i++)content.getFeature(i).show=source==='cesium'?mask[i]>0:mask[i]===1;
+    settings.set(content,source);
+   });
+   tiles.initialTilesLoaded.addEventListener(()=>{
+    status.textContent='Cesium OSM Buildings disponible para Sangolquí y alrededores.';
+   });
+   tiles.tileFailed.addEventListener(()=>{
+    status.textContent='Algunos bloques de Cesium tardaron en cargar. El catastro está disponible.';
+   });
+   osmBuildings=viewer.scene.primitives.add(tiles);
+   controls.disabled=false;
+   updateBuildingVisibility();
+  }catch(_){status.textContent='No respondió la capa de Cesium. Se muestran las construcciones municipales.';}
+ }
+
  async function buildings(){
   const supportedFootprints=['c0ffe6b158443f76','46986134ccf2e9ea'];
   const hasSurfaceData=supportedFootprints.includes(meta.buildings.sha256?.slice(0,16));
@@ -546,9 +639,10 @@
    url:'https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/'+root+file},Uint8Array).catch(()=>null):null;
   const [json,materials,roofBytes]=await Promise.all([compressed(meta.buildings),
    readSurface('building-materials-v1.bin.gz','fe7dfc426d1527db3cc0a74fd8104b7995adef018ade9b2281620f7de59cbe8d'),
-   readSurface('building-roof-atlas-v1.bin.gz','8d0c397a55f08961c30fe3af47cbfc56f39652346a188ccd3bdcc1008282d2de')]);
+   readSurface('building-roof-atlas-v2.bin.gz','4e240643a81ca5cc0be53fc6cb2bb01e92442435a7e9bc41bae492c586dc9dbc')]);
   const styles=materials?.length===json.features.length*5?materials:null;
   const atlas=roofAtlas(roofBytes,json.features.length);
+  const footprints=censusFootprintIndex();
   const origin=C.Cartesian3.fromDegrees(-78.44,-.33);
   const axes=C.Transforms.eastNorthUpToFixedFrame(origin);
   const local=C.Matrix4.inverseTransformation(axes,new C.Matrix4());
@@ -571,12 +665,21 @@
    const region=atlas.index?.(index)??[0,0,0];
    const roofRegion=attr(region);
    const attributes={color,surfaceStyle,roofRegion,roofBox:attr([0,0,1,1])};
+   let west=Infinity,east=-Infinity,north=-Infinity,south=Infinity,low=Infinity,high=-Infinity;
+   for(const polygon of polygons)for(const [lon,lat] of polygon[0]){
+    west=Math.min(west,lon);east=Math.max(east,lon);south=Math.min(south,lat);north=Math.max(north,lat);
+    const z=elevation(lon,lat);low=Math.min(low,z);high=Math.max(high,z);
+   }
+   if(!Number.isFinite(west+east+south+north))continue;
+   footprints.add(polygons,west,south,east,north);
+   const needsAnchor=p.base_m+p.height_m<=low+.25||p.base_m>high+1.5;
+   const anchor=needsAnchor?elevation((west+east)/2,(south+north)/2):p.base_m;
+   const base=needsAnchor?Math.min(low-.20,anchor):p.base_m;
+   const top=anchor+p.height_m;
+   if(needsAnchor)attributes.surfaceStyle=attr([anchor,style,seed]);
    if(region[2]){
-    const points=polygons.flatMap(poly=>poly[0]);
-    let west=Infinity,east=-Infinity,north=-Infinity,south=Infinity;
-    for(const [lon,lat] of points){west=Math.min(west,lon);east=Math.max(east,lon);south=Math.min(south,lat);north=Math.max(north,lat);}
-    const lower=C.Matrix4.multiplyByPoint(local,C.Cartesian3.fromDegrees(west,south,p.base_m+p.height_m),new C.Cartesian3());
-    const upper=C.Matrix4.multiplyByPoint(local,C.Cartesian3.fromDegrees(east,north,p.base_m+p.height_m),new C.Cartesian3());
+    const lower=C.Matrix4.multiplyByPoint(local,C.Cartesian3.fromDegrees(west,south,top),new C.Cartesian3());
+    const upper=C.Matrix4.multiplyByPoint(local,C.Cartesian3.fromDegrees(east,north,top),new C.Cartesian3());
     attributes.roofBox=attr([lower.x,lower.y,1/Math.max(.05,upper.x-lower.x),1/Math.max(.05,upper.y-lower.y)]);
     detailed++;
    }
@@ -587,19 +690,20 @@
    const id={building:true,text:floors+' · '+fmt(p.height_m,1)+' m de altura estimada. '+roofSource+' Fachada aproximada.'};
    for(const coords of polygons){
     if(coords[0].length<4)continue;
-    const polygon=new C.PolygonGeometry({polygonHierarchy:hierarchy(coords),height:p.base_m,
-     extrudedHeight:p.base_m+p.height_m,vertexFormat:C.PerInstanceColorAppearance.VERTEX_FORMAT});
+    const polygon=new C.PolygonGeometry({polygonHierarchy:hierarchy(coords),height:base,
+     extrudedHeight:top,vertexFormat:C.PerInstanceColorAppearance.VERTEX_FORMAT});
     instances.push(new C.GeometryInstance({geometry:polygon,id,attributes}));
    }
   }
   buildingMesh=viewer.scene.primitives.add(new C.Primitive({geometryInstances:instances,
    appearance:buildingAppearance(atlas,axes,origin),asynchronous:true}));
-  buildingMesh.show=$('buildings').checked;
+  updateBuildingVisibility();
   const roofStatus=sampled?' '+fmt(sampled,0)+' con color de techo tomado de la ortofoto municipal.':'';
   $('buildingStatus').textContent=fmt(json.features.length,0)+' construcciones municipales.'+roofStatus+
    (detailed?' '+fmt(detailed,0)+' con textura de cubierta aérea.':'')+' Fachadas y alturas aproximadas. '+
    fmt(meta.buildings.unknown_floors,0)+' sin dato de pisos usan un piso supuesto.';
   viewer.scene.requestRender();
+  void addCesiumBuildings(footprints);
  }
  try{
   $(joint?'switchJoint':archive?'switchSantaClara':'switchPita').setAttribute('aria-current','page');
@@ -670,14 +774,21 @@
   $('time').oninput=()=>{stop();frame=Number($('time').value);update();};
   $('maximum').onchange=()=>{stop();update();};
   $('flow').onchange=draw;
-  $('buildings').onchange=()=>{
-   if(buildingMesh)buildingMesh.show=$('buildings').checked;
-   viewer.scene.requestRender();
-  };
+  $('buildings').onchange=updateBuildingVisibility;
+  $('buildingSource').onchange=updateBuildingVisibility;
   $('play').onclick=()=>{if(timer)stop();else play(false);};
   $('follow').onclick=()=>{if(guided)stop();else{stop();play(true);}};
   for(const [i,source] of (meta.setup.source_references||[meta.setup.source_reference]).entries()){viewer.entities.add({position:C.Cartesian3.fromDegrees(source.model_lon,source.model_lat,elevation(source.model_lon,source.model_lat)+8),point:{pixelSize:7,color:C.Color.ORANGE,outlineColor:C.Color.WHITE,outlineWidth:1},label:i===0&&!meta.adaptation?{text:'Entrada hipotética · río Pita',font:'12px sans-serif',pixelOffset:new C.Cartesian2(0,-20),showBackground:true}:undefined});}
-  viewer.screenSpaceEventHandler.setInputAction(e=>{const p=viewer.scene.pick(e.position);$('picked').hidden=!p?.id?.building;if(p?.id?.building)$('picked').textContent=p.id.text;},C.ScreenSpaceEventType.LEFT_CLICK);
+  viewer.screenSpaceEventHandler.setInputAction(e=>{
+   const p=viewer.scene.pick(e.position);
+   const osm=osmBuildings&&p?.primitive===osmBuildings;
+   $('picked').hidden=!p?.id?.building&&!osm;
+   if(p?.id?.building)$('picked').textContent=p.id.text;
+   else if(osm){
+    const height=p.getProperty('cesium#estimatedHeight');
+    $('picked').textContent='Cesium OSM Buildings'+(Number.isFinite(height)?' · '+fmt(height,1)+' m de altura estimada.':'.');
+   }
+  },C.ScreenSpaceEventType.LEFT_CLICK);
   await loadCase();
   showCampus().catch(()=>{$('espeStatus').textContent='Consulta el informe para ver el perímetro y el minuto de llegada.';});
   addRiverReferences().catch(()=>{
