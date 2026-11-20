@@ -13,3 +13,24 @@
 }
 .river-reference input { margin: 0 2px 0 0; accent-color: #276879; }
 #timeLabel { font-weight: 700; }
+
+@media (max-width: 760px) {
+  .map {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  #viewer {
+    order: 1;
+    height: clamp(280px, 58dvh, 620px);
+  }
+  .maptop, .legend, .timebar {
+    position: static;
+    padding: 10px 12px;
+    border-radius: 0;
+  }
+  .maptop { order: 0; }
+  .legend { order: 2; max-width: none; }
+  .timebar { order: 3; border-bottom: 1px solid #d9ded5; }
+  #loading, #picked { top: 145px; z-index: 1; }
+}
