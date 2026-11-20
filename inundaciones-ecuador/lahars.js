@@ -488,9 +488,12 @@
  async function buildings(){
   const supportedFootprints=['c0ffe6b158443f76','46986134ccf2e9ea'];
   const materialFile='building-materials-v1.bin.gz';
+  const materialAsset={file:materialFile,
+   sha256:'fe7dfc426d1527db3cc0a74fd8104b7995adef018ade9b2281620f7de59cbe8d',
+   url:'https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/'+root+materialFile};
   const [json,materials]=await Promise.all([compressed(meta.buildings),
    supportedFootprints.includes(meta.buildings.sha256?.slice(0,16))?
-    compressed({file:materialFile},Uint8Array).catch(()=>null):null]);
+    compressed(materialAsset,Uint8Array).catch(()=>null):null]);
   const styles=materials?.length===json.features.length*5?materials:null;
   const roofs=[[164,166,160],[151,119,104],[178,180,176],[126,136,137],[172,139,121]];
   const instances=[];
