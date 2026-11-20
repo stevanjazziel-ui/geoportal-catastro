@@ -59,6 +59,12 @@
   outline: 2px solid #a36530;
   outline-offset: 2px;
 }
+.legend-scale {
+  display: flex;
+  gap: 10px 13px;
+  flex-wrap: wrap;
+}
+.legend-scale b { width: 100%; }
 #timeLabel { font-weight: 700; }
 
 @media (max-width: 760px) {

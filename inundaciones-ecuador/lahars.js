@@ -3,16 +3,18 @@
  const $=id=>document.getElementById(id),root='data/sangolqui-lahars/';
  let C;
  const params=new URLSearchParams(location.search);
- const archive=params.get('escenario')==='espe';
- const focusPita=!archive&&params.get('rio')==='pita';
+ const joint=params.get('vista')==='conjunta';
+ const archive=!joint&&params.get('escenario')==='espe';
+ const focusPita=!joint&&!archive&&params.get('rio')==='pita';
  const campusCenter=[-78.445069,-.315230];
- let meta,viewer,corners,terrain,regional,current,data,maxima,frame=0,timer,waterMesh,buildingMesh,request=0;
+ let meta,viewer,corners,terrain,regional,current,data,maxima,secondary,frame=0,timer,waterMesh,buildingMesh,request=0;
  let coverageLayer, coveragePending=false, coverageUnavailable=false, guided=false, activeView=-1;
  const riverViews=[
   {name:'Pita',button:'pita',reference:'pitaReference',color:'#9ae8ec',entities:[]},
   {name:'Santa Clara',button:'santaClara',reference:'santaReference',color:'#e2bbff',entities:[]},
  ];
  const flowColors=[[255,212,123,240],[242,150,76,245],[185,80,46,250]];
+ const municipalBlue=[50,191,243,215], copernicusOrange=[248,146,70,215];
  const guideViews=archive?[
   {minute:0,name:'Cotopaxi',lon:-78.429,lat:-.566,range:23700,pitch:-55},
   {minute:50,name:'La Caldera',lon:-78.4225,lat:-.446,range:8000,pitch:-54},
@@ -22,6 +24,7 @@
   {minute:0,name:'Cotopaxi',lon:-78.43,lat:-.586,range:25500,pitch:-56},
   {minute:48,name:'La Caldera',lon:-78.417,lat:-.420,range:15700,pitch:-62},
   {minute:75,name:'Sangolquí y San Rafael',lon:-78.426,lat:-.347,range:14400,pitch:-62},
+  ...(joint?[{minute:120,name:'Río San Pedro',lon:-78.451,lat:-.276,range:12400,pitch:-66}]:[]),
  ];
  const fmt=(v,n=2)=>Number(v).toLocaleString('es-EC',{maximumFractionDigits:n});
  function stop(){
@@ -73,17 +76,32 @@
    classificationType:C.ClassificationType.TERRAIN,
    material:new C.PolylineOutlineMaterialProperty({color:C.Color.WHITE,outlineColor:C.Color.fromCssColorString('#202a36'),outlineWidth:1}),
   }});
-  const contact=cases[current.id]?.campus_first_5cm;
-  if(contact){
+  const contacts=joint?['reference-mdt30','reference-cop30']:[current.id];
+  for(const id of contacts){
+   const contact=cases[id]?.campus_first_5cm;
+   if(!contact)continue;
    const text_minutes=Math.floor(contact.seconds/60)+':'+String(contact.seconds%60).padStart(2,'0');
-   const side=archive?'junto a Santa Clara':'en el extremo cercano al Pita';
-   $('espeStatus').textContent='Primer flujo detectado '+side+', al minuto '+text_minutes+' del escenario.';
+   const santa=id==='reference-cop30';
+   const side=santa?'junto a Santa Clara':'en el extremo cercano al Pita';
+   if(!joint)$('espeStatus').textContent='Primer flujo detectado '+side+', al minuto '+text_minutes+' del escenario.';
    viewer.entities.add({name:'Primer contacto calculado en el perímetro ESPE',
     position:C.Cartesian3.fromDegrees(contact.lon,contact.lat,elevation(contact.lon,contact.lat)+7),
     point:{pixelSize:8,color:C.Color.WHITE,outlineColor:C.Color.fromCssColorString('#203239'),outlineWidth:2,disableDepthTestDistance:Infinity},
-    label:{text:'Primer contacto ESPE · '+text_minutes,font:'bold 14px Arial',showBackground:true,
+    label:{text:(joint?(santa?'Santa Clara · ':'Pita · '):'Primer contacto ESPE · ')+text_minutes,font:'bold 14px Arial',showBackground:true,
      backgroundColor:C.Color.BLACK.withAlpha(.75),pixelOffset:new C.Cartesian2(0,-19),disableDepthTestDistance:Infinity,
      distanceDisplayCondition:new C.DistanceDisplayCondition(0,7500)}});
+   const downstream=cases[id].segments.sanpedro5?.samples.findLast(sample=>sample[3]>=0);
+   if(downstream){
+    const [,lon,lat]=downstream;
+    const color=C.Color.fromBytes(...(santa?copernicusOrange:municipalBlue));
+    viewer.entities.add({name:'Alcance en el San Pedro durante 150 minutos',show:$('maximum').checked,
+     position:C.Cartesian3.fromDegrees(lon,lat,elevation(lon,lat)+8),
+     point:{pixelSize:8,color,outlineColor:C.Color.WHITE,outlineWidth:1.5,disableDepthTestDistance:Infinity},
+     label:{text:santa?'Límite de la corrida inicial':'Límite de la corrida municipal',
+      font:'bold 13px Arial',showBackground:true,backgroundColor:C.Color.BLACK.withAlpha(.72),
+      pixelOffset:new C.Cartesian2(0,-16),disableDepthTestDistance:Infinity,
+      distanceDisplayCondition:new C.DistanceDisplayCondition(0,24000)}});
+   }
   }
   viewer.cesiumWidget.creditDisplay.addStaticCredit(new C.Credit('Perímetro ESPE © OpenStreetMap contributors · ODbL',true));
   viewer.scene.requestRender();
@@ -158,6 +176,10 @@
   const [west,south,east,north]=flowBounds();
   flyOver([west-.025,south-.025,east+.025,north+.045]);
  }
+ function sanPedro(){
+  showCoverage();
+  flyOver([-78.491,-.315,-78.414,-.225]);
+ }
  function guideCamera(view,duration=1.4){
   const {lon,lat,range,pitch}=guideViews[view];
   const center=C.Cartesian3.fromDegrees(lon,lat,elevation(lon,lat));
@@ -197,13 +219,19 @@
   },guided?850:1100);
  }
  function depthClass(cm){return cm<50?0:cm<200?1:2;}
+ function layers(){
+  const primary={corners,data,maxima,n:meta.cell_count,palette:joint?[municipalBlue]:flowColors};
+  return secondary?[primary,secondary]:[primary];
+ }
  function flowBounds(){
   let west=Infinity,south=Infinity,east=-Infinity,north=-Infinity;
-  for(let i=0;i<corners.length;i+=3){
-   west=Math.min(west,corners[i]);
-   east=Math.max(east,corners[i]);
-   south=Math.min(south,corners[i+1]);
-   north=Math.max(north,corners[i+1]);
+  for(const {corners:cells} of layers()){
+   for(let i=0;i<cells.length;i+=3){
+    west=Math.min(west,cells[i]);
+    east=Math.max(east,cells[i]);
+    south=Math.min(south,cells[i+1]);
+    north=Math.max(north,cells[i+1]);
+   }
   }
   return [west,south,east,north];
  }
@@ -218,21 +246,24 @@
   const ctx=canvas.getContext('2d');
   const scaleX=canvas.width/(east-west);
   const scaleY=canvas.height/(north-south);
-  for(let category=0;category<flowColors.length;category++){
-   const [r,g,b]=flowColors[category];
-   ctx.fillStyle=`rgb(${r},${g},${b})`;
-   ctx.beginPath();
-   for(let i=0;i<meta.cell_count;i++){
-    if(maxima[i]<5||depthClass(maxima[i])!==category)continue;
-    const start=i*12;
-    ctx.moveTo((corners[start]-west)*scaleX,(north-corners[start+1])*scaleY);
-    for(let j=1;j<4;j++){
-     const k=start+j*3;
-     ctx.lineTo((corners[k]-west)*scaleX,(north-corners[k+1])*scaleY);
+  for(const layer of layers()){
+   const {corners:cells,maxima:depth,n,palette}=layer;
+   for(let category=0;category<palette.length;category++){
+    const [r,g,b,a]=palette[category];
+    ctx.fillStyle=`rgba(${r},${g},${b},${joint?a/255:1})`;
+    ctx.beginPath();
+    for(let i=0;i<n;i++){
+     if(depth[i]<5||(palette.length>1&&depthClass(depth[i])!==category))continue;
+     const start=i*12;
+     ctx.moveTo((cells[start]-west)*scaleX,(north-cells[start+1])*scaleY);
+     for(let j=1;j<4;j++){
+      const k=start+j*3;
+      ctx.lineTo((cells[k]-west)*scaleX,(north-cells[k+1])*scaleY);
+     }
+     ctx.closePath();
     }
-    ctx.closePath();
+    ctx.fill();
    }
-   ctx.fill();
   }
   return {canvas,rectangle:C.Rectangle.fromDegrees(west,south,east,north)};
  }
@@ -261,15 +292,26 @@
   if(waterMesh){viewer.scene.primitives.remove(waterMesh);waterMesh=null;}
   const visible=Boolean(data)&&$('flow').checked;
   const all=$('maximum').checked;
+  for(const entity of viewer.entities.values){
+   if(entity.name==='Alcance en el San Pedro durante 150 minutos')entity.show=all&&$('flow').checked;
+  }
   if(coverageLayer)coverageLayer.show=visible&&all;
   if(!visible||(all&&coverageLayer)){viewer.scene.requestRender();return;}
   if(all&&!coveragePending&&!coverageUnavailable)void ensureCoverageLayer();
-  const n=meta.cell_count,offset=frame*5*n,indices=[],positions=[],colors=[];
-  for(let i=0;i<n;i++){
-   const depth=all?maxima[i]:data[offset+i];if(depth<5)continue;
-   const zOffset=all?2:data[offset+4*n+i]/100+1.5,rgba=flowColors[depthClass(depth)],k=positions.length/3;
-   for(let j=0;j<4;j++){const g=(i*4+j)*3;const p=C.Cartesian3.fromDegrees(corners[g],corners[g+1],elevation(corners[g],corners[g+1])+zOffset);positions.push(p.x,p.y,p.z);colors.push(...rgba);}
-   indices.push(k,k+1,k+2,k,k+2,k+3);
+  const indices=[],positions=[],colors=[];
+  for(const {corners:cells,data:frames,maxima:envelope,n,palette} of layers()){
+   const offset=frame*5*n;
+   for(let i=0;i<n;i++){
+    const depth=all?envelope[i]:frames[offset+i];if(depth<5)continue;
+    const zOffset=all||joint?2:frames[offset+4*n+i]/100+1.5;
+    const rgba=palette.length===1?palette[0]:palette[depthClass(depth)],k=positions.length/3;
+    for(let j=0;j<4;j++){
+     const g=(i*4+j)*3, lon=cells[g],lat=cells[g+1];
+     const p=C.Cartesian3.fromDegrees(lon,lat,elevation(lon,lat)+zOffset);
+     positions.push(p.x,p.y,p.z);colors.push(...rgba);
+    }
+    indices.push(k,k+1,k+2,k,k+2,k+3);
+   }
   }
   if(positions.length){const p=new Float64Array(positions);const geometry=new C.Geometry({attributes:{position:new C.GeometryAttribute({componentDatatype:C.ComponentDatatype.DOUBLE,componentsPerAttribute:3,values:p}),color:new C.GeometryAttribute({componentDatatype:C.ComponentDatatype.UNSIGNED_BYTE,componentsPerAttribute:4,normalize:true,values:new Uint8Array(colors)})},indices:new Uint32Array(indices),primitiveType:C.PrimitiveType.TRIANGLES,boundingSphere:C.BoundingSphere.fromVertices(p)});
    const appearance=new C.PerInstanceColorAppearance({flat:true,translucent:true,closed:false,renderState:{depthTest:{enabled:true},depthMask:false,cull:{enabled:false}},vertexShaderSource:'in float batchId; in vec3 position3DHigh; in vec3 position3DLow; in vec4 color; out vec4 v_color; void main(){vec4 p=czm_computePosition();v_color=color;gl_Position=czm_modelViewProjectionRelativeToEye*p;}'});
@@ -290,7 +332,9 @@
   $('area').textContent=fmt(metrics.urban_wet_km2);
   $('depth').textContent=fmt(metrics.urban_depth_max_m)+' m';
   $('speed').textContent=fmt(metrics.urban_speed_max_m_s*3.6,1)+' km/h';
-  if(all){
+  if(joint){
+   $('phase').textContent=all?'Cada color reúne lugares alcanzados en algún momento de su corrida.':'Ambas corridas avanzan con el mismo reloj desde los aportes del Cotopaxi.';
+  }else if(all){
    $('phase').textContent='El color muestra el mayor espesor alcanzado en cada lugar durante los 150 minutos.';
   }else if(frame<5){
    $('phase').textContent=meta.adaptation?'Durante los primeros 15 minutos entra agua en las nueve fuentes del Cotopaxi.':'La mezcla sigue entrando al río Pita durante los primeros 15 minutos.';
@@ -323,16 +367,41 @@
    $('noticeText').textContent='Usa terreno Copernicus de 30 m. Reproduce el recorrido por Santa Clara cerca de la ESPE y deja una interrupción en el Pita intermedio. Es un escenario exploratorio.';
   }
   $('branchComparison').hidden=current.id!=='reference-mdt30';
+  if(joint){
+   $('maximum').checked=true;
+   $('intro').textContent='Compara en el mismo mapa los recorridos por el Pita y Santa Clara. Pulsa reproducir para ver cómo avanzan desde las fuentes.';
+   $('noticeTitle').textContent='Dos simulaciones en un mapa';
+   $('noticeText').textContent='El azul corresponde a la corrida con terreno municipal y el naranja a la corrida inicial. Ambos resultados usan el mismo reloj. Esta comparación muestra el alcance de cada corrida.';
+   $('story').textContent='Se dibujan las celdas con 5 cm de flujo o más. Usa la vista de cada corrida para consultar su espesor y velocidad.';
+   $('branchComparison').hidden=true;
+   $('studyResults').hidden=true;
+   $('singleMetrics').hidden=true;
+   $('singleResults').hidden=true;
+   $('ordinaryLegend').hidden=true;
+   $('jointLegend').hidden=false;
+   $('espeStatus').textContent='Santa Clara toca el campus al minuto 95:45 en la corrida inicial. La municipal toca el lado cercano al Pita al 102:15.';
+   route();
+  }
   update();}
  function hierarchy(coords){return new C.PolygonHierarchy(C.Cartesian3.fromDegreesArray(coords[0].slice(0,-1).flatMap(p=>[p[0],p[1]])),coords.slice(1).map(r=>new C.PolygonHierarchy(C.Cartesian3.fromDegreesArray(r.slice(0,-1).flatMap(p=>[p[0],p[1]])))));}
  async function buildings(){const json=await compressed(meta.buildings);const instances=[];for(const f of json.features){const p=f.properties,polygons=f.geometry.type==='MultiPolygon'?f.geometry.coordinates:[f.geometry.coordinates];for(const coords of polygons){if(coords[0].length<4)continue;const g=new C.PolygonGeometry({polygonHierarchy:hierarchy(coords),height:p.base_m,extrudedHeight:p.base_m+p.height_m,vertexFormat:C.PerInstanceColorAppearance.VERTEX_FORMAT});instances.push(new C.GeometryInstance({geometry:g,id:{building:true,text:fmt(p.floors,0)+' pisos · '+fmt(p.height_m,1)+' m de altura estimada. '+p.height_origin+'. No es una evaluación de daño.'},attributes:{color:C.ColorGeometryInstanceAttribute.fromColor(C.Color.fromCssColorString('#d4cfc3'))}}));}}
   buildingMesh=viewer.scene.primitives.add(new C.Primitive({geometryInstances:instances,appearance:new C.PerInstanceColorAppearance({translucent:false,closed:true}),asynchronous:true}));buildingMesh.show=$('buildings').checked;$('buildingStatus').textContent=fmt(json.features.length,0)+' construcciones municipales. Alturas aproximadas: 3 m por piso; '+fmt(meta.buildings.unknown_floors,0)+' sin dato de pisos usan un piso supuesto.';viewer.scene.requestRender();}
  try{
-  $(archive?'switchSantaClara':'switchPita').setAttribute('aria-current','page');
+  $(joint?'switchJoint':archive?'switchSantaClara':'switchPita').setAttribute('aria-current','page');
   C=await window.laharCesiumReady;
   const manifest=await fetch(root+(archive?'manifest-cop30.json':'manifest.json'),{cache:'no-store'});
   if(!manifest.ok)throw Error('No se encontró la ficha del escenario');
   meta=await manifest.json();[corners,terrain,regional]=await Promise.all([compressed(meta.geometry,Float32Array),compressed(meta.terrain,Uint16Array),compressed(meta.regional,Int16Array)]);if(corners.length!==meta.cell_count*12||terrain.length!==meta.terrain.rows*meta.terrain.cols)throw Error('Geometría incompleta');
+  if(joint){
+   const response=await fetch(root+'manifest-cop30.json');
+   if(!response.ok)throw Error('No se encontró la corrida de Santa Clara');
+   const other=await response.json(),caseData=other.cases[0],n=other.cell_count;
+   if(meta.times_s.length!==other.times_s.length||meta.times_s.some((time,i)=>time!==other.times_s[i]))throw Error('Los relojes de las corridas difieren');
+   const [cells,states,peak]=await Promise.all([compressed(other.geometry,Float32Array),
+    compressed(caseData,Int32Array),compressed(caseData.max_asset,Float32Array)]);
+   if(cells.length!==n*12||peak.length!==n*3)throw Error('Datos incompletos de Santa Clara');
+   secondary={corners:cells,data:decodeFrames(states,n,caseData.frame_count),maxima:peak,n,palette:[copernicusOrange]};
+  }
   const scheme=new C.GeographicTilingScheme(),provider=new C.CustomHeightmapTerrainProvider({width:64,height:64,tilingScheme:scheme,credit:meta.adaptation?.terrain?.model_file==='municipal_hybrid_30m.tif'?'MDT GAD Rumiñahui · Copernicus GLO-30 © DLR/Airbus · UE/ESA · SRTM/Mapzen':meta.adaptation?'Copernicus GLO-30 © DLR/Airbus · UE/ESA · contexto Mapzen · Kestrel sin calibración local':'Contexto SRTM/Mapzen · cálculo regional Kestrel sin calibrar',callback:(x,y,level)=>{const r=scheme.tileXYToRectangle(x,y,level),a=new Float32Array(4096);for(let j=0;j<64;j++)for(let i=0;i<64;i++)a[j*64+i]=elevation(C.Math.toDegrees(r.west+(r.east-r.west)*i/63),C.Math.toDegrees(r.north-(r.north-r.south)*j/63));return a;}});
   C.Ion.defaultAccessToken='';viewer=new C.Viewer('viewer',{baseLayer:new C.ImageryLayer(window.EcuadorImagery.fallback(C)),terrainProvider:provider,baseLayerPicker:false,geocoder:false,timeline:false,animation:false,homeButton:false,sceneModePicker:false,navigationHelpButton:false,fullscreenButton:false,infoBox:false,selectionIndicator:false,requestRenderMode:true});viewer.scene.globe.depthTestAgainstTerrain=true;window.EcuadorImagery.connect(viewer,C).then(()=>{
    if(coverageLayer)viewer.imageryLayers.raiseToTop(coverageLayer);
@@ -365,17 +434,20 @@
    viewer.scene.requestRender();
   };
   referenceSelect.disabled=false;
-  $('scenario').value=meta.cases[0].id;
+  $('scenario').value=joint?'joint':meta.cases[0].id;
   $('scenario').disabled=false;
   $('scenario').onchange=()=>{
    const url=new URL(location.href);
    url.searchParams.delete('rio');
+   url.searchParams.delete('vista');
+   if($('scenario').value==='joint')url.searchParams.set('vista','conjunta');
    if($('scenario').value==='reference-cop30')url.searchParams.set('escenario','espe');
    else url.searchParams.delete('escenario');
    location.assign(url.href);
   };
   $('home').onclick=()=>{stop();city();};
   $('espe').onclick=()=>{stop();espe();};
+  $('sanPedro').onclick=sanPedro;
   $('caldera').onclick=()=>{stop();caldera();};
   $('route').onclick=()=>{showCoverage();route();};
   $('time').max=meta.times_s.length-1;
