@@ -409,8 +409,124 @@
   }
   update();}
  function hierarchy(coords){return new C.PolygonHierarchy(C.Cartesian3.fromDegreesArray(coords[0].slice(0,-1).flatMap(p=>[p[0],p[1]])),coords.slice(1).map(r=>new C.PolygonHierarchy(C.Cartesian3.fromDegreesArray(r.slice(0,-1).flatMap(p=>[p[0],p[1]])))));}
- async function buildings(){const json=await compressed(meta.buildings);const instances=[];for(const f of json.features){const p=f.properties,polygons=f.geometry.type==='MultiPolygon'?f.geometry.coordinates:[f.geometry.coordinates];for(const coords of polygons){if(coords[0].length<4)continue;const g=new C.PolygonGeometry({polygonHierarchy:hierarchy(coords),height:p.base_m,extrudedHeight:p.base_m+p.height_m,vertexFormat:C.PerInstanceColorAppearance.VERTEX_FORMAT});instances.push(new C.GeometryInstance({geometry:g,id:{building:true,text:fmt(p.floors,0)+' pisos · '+fmt(p.height_m,1)+' m de altura estimada. '+p.height_origin+'. No es una evaluación de daño.'},attributes:{color:C.ColorGeometryInstanceAttribute.fromColor(C.Color.fromCssColorString('#d4cfc3'))}}));}}
-  buildingMesh=viewer.scene.primitives.add(new C.Primitive({geometryInstances:instances,appearance:new C.PerInstanceColorAppearance({translucent:false,closed:true}),asynchronous:true}));buildingMesh.show=$('buildings').checked;$('buildingStatus').textContent=fmt(json.features.length,0)+' construcciones municipales. Alturas aproximadas: 3 m por piso; '+fmt(meta.buildings.unknown_floors,0)+' sin dato de pisos usan un piso supuesto.';viewer.scene.requestRender();}
+ function buildingAppearance(){
+  // Use a local reference in meters so windows retain their size across the city.
+  const origin=C.Cartesian3.fromDegrees(-78.44,-.33);
+  const axes=C.Transforms.eastNorthUpToFixedFrame(origin);
+  const encoded=C.EncodedCartesian3.fromCartesian(origin);
+  const vec=({x,y,z})=>`vec3(${x.toFixed(8)},${y.toFixed(8)},${z.toFixed(8)})`;
+  const axis=i=>vec(C.Cartesian3.fromElements(axes[i*4],axes[i*4+1],axes[i*4+2]));
+  return new C.PerInstanceColorAppearance({translucent:false,closed:true,vertexShaderSource:`
+   in vec3 position3DHigh;
+   in vec3 position3DLow;
+   in vec3 normal;
+   in vec4 color;
+   in float batchId;
+   out vec3 v_surface;
+   out vec3 v_normal;
+   flat out vec3 v_roof;
+   flat out vec2 v_style;
+   const vec3 east=${axis(0)}, north=${axis(1)}, up=${axis(2)};
+
+   void main(){
+    vec3 local=(position3DHigh-${vec(encoded.high)})+(position3DLow-${vec(encoded.low)});
+    vec2 horizontal=vec2(dot(local,east),dot(local,north));
+    vec3 style=czm_batchTable_surfaceStyle(batchId);
+    float curvature=dot(horizontal,horizontal)/(2.0*6378137.0);
+    v_surface=vec3(horizontal,dot(local,up)+curvature-style.x);
+    v_normal=vec3(dot(normal,east),dot(normal,north),dot(normal,up));
+    v_roof=color.rgb;
+    v_style=style.yz;
+    gl_Position=czm_modelViewProjectionRelativeToEye*czm_computePosition();
+   }
+  `,fragmentShaderSource:`
+   in vec3 v_surface;
+   in vec3 v_normal;
+   flat in vec3 v_roof;
+   flat in vec2 v_style;
+
+   // Fade repeated details at a distance to keep oblique drone views stable.
+   float band(float x,float halfWidth,float aa){
+    return 1.0-smoothstep(halfWidth-aa,halfWidth+aa,abs(fract(x)-0.5));
+   }
+
+   void main(){
+    vec3 n=normalize(v_normal);
+    float light=0.74+0.26*max(dot(n,normalize(vec3(-0.42,-0.52,0.74))),0.0);
+    float style=v_style.x, seed=v_style.y;
+    vec2 tangent=vec2(-n.y,n.x)/max(length(n.xy),0.01);
+    vec2 wall=vec2(dot(tangent,v_surface.xy),v_surface.z);
+    float spacing=style==1.0?3.3:(style==2.0?5.4:mix(2.25,3.35,seed));
+    vec2 panel=vec2(wall.x/spacing+seed,wall.y/3.0-0.055);
+    vec2 aa=clamp(fwidth(panel),vec2(0.008),vec2(0.16));
+    float detail=1.0-smoothstep(0.13,0.52,max(fwidth(panel.x),fwidth(panel.y)));
+    float width=style==1.0?0.42:mix(0.22,0.35,seed);
+    float windows=band(panel.x,width,aa.x)*band(panel.y,0.22,aa.y)*detail;
+    float windowFrame=band(panel.x,0.017,aa.x)*windows;
+    float floorEdge=band(panel.y+0.49,0.035,aa.y)*detail;
+    vec3 plaster=mix(vec3(0.72,0.66,0.58),vec3(0.87,0.85,0.80),seed);
+    if(seed>0.86)plaster=mix(plaster,vec3(0.74,0.54,0.43),0.48);
+    vec3 glass=vec3(0.34,0.44,0.48);
+    if(style==1.0){plaster=vec3(0.83,0.82,0.77);glass=vec3(0.30,0.45,0.52);}
+    if(style==2.0){plaster=vec3(0.79,0.72,0.61);windows*=1.0-smoothstep(4.5,5.0,wall.y);floorEdge*=0.35;}
+    if(style==3.0){plaster=mix(vec3(0.64,0.65,0.63),vec3(0.83,0.80,0.73),seed);windows*=0.23;}
+    glass*=mix(1.15,0.80,smoothstep(0.25,0.75,fract(panel.y)));
+    vec3 facade=mix(plaster*(1.0-0.08*floorEdge),glass,windows*(0.93-0.58*windowFrame));
+    facade*=mix(0.91,1.0,smoothstep(0.0,1.1,wall.y));
+
+    float seams=v_surface.x/(style>=2.0?1.65:1.05)+seed;
+    float seamAA=clamp(fwidth(seams),0.008,0.14);
+    float seam=band(seams,0.064,seamAA)*(1.0-smoothstep(0.10,0.58,fwidth(seams)));
+    vec2 panels=v_surface.xy*0.33+vec2(seed*7.0);
+    float variation=sin(panels.x)*sin(panels.y)*(1.0-smoothstep(0.35,0.85,length(fwidth(panels))));
+    vec3 roof=v_roof*(1.0-0.12*seam+0.07*variation);
+    out_FragColor=czm_gammaCorrect(vec4((n.z>0.6?roof:facade)*light,1.0));
+   }
+  `});
+ }
+
+ async function buildings(){
+  const supportedFootprints=['c0ffe6b158443f76','46986134ccf2e9ea'];
+  const materialFile='building-materials-v1.bin.gz';
+  const [json,materials]=await Promise.all([compressed(meta.buildings),
+   supportedFootprints.includes(meta.buildings.sha256?.slice(0,16))?
+    compressed({file:materialFile},Uint8Array).catch(()=>null):null]);
+  const styles=materials?.length===json.features.length*5?materials:null;
+  const roofs=[[164,166,160],[151,119,104],[178,180,176],[126,136,137],[172,139,121]];
+  const instances=[];
+  let sampled=0;
+  for(const [index,feature] of json.features.entries()){
+   const p=feature.properties,geometry=feature.geometry;
+   const polygons=geometry.type==='MultiPolygon'?geometry.coordinates:[geometry.coordinates];
+   const offset=index*5;
+   const source=styles?.[offset+3]??0;
+   const style=styles?.[offset+4]??0;
+   const seed=((Math.imul(index+1,2654435761)>>>0)%997)/997;
+   const rgb=source?Array.from(styles.subarray(offset,offset+3)):roofs[Math.floor(seed*roofs.length)];
+   const color=C.ColorGeometryInstanceAttribute.fromColor(C.Color.fromBytes(...rgb));
+   if(source)sampled++;
+   const surfaceStyle=new C.GeometryInstanceAttribute({componentDatatype:C.ComponentDatatype.FLOAT,
+    componentsPerAttribute:3,value:[p.base_m,style,seed]});
+   const roofSource=['Color de cubierta aproximado.','Color de cubierta tomado de la ortofoto municipal.',
+    'Color de cubierta tomado de la ortofoto preliminar municipal de 2026.'][source];
+   const floors=p.height_origin==='sin pisos: un piso supuesto'?'1 piso supuesto':
+    fmt(p.floors,0)+(p.floors===1?' piso':' pisos');
+   const id={building:true,text:floors+' · '+fmt(p.height_m,1)+' m de altura estimada. '+roofSource+' Fachada aproximada.'};
+   for(const coords of polygons){
+    if(coords[0].length<4)continue;
+    const polygon=new C.PolygonGeometry({polygonHierarchy:hierarchy(coords),height:p.base_m,
+     extrudedHeight:p.base_m+p.height_m,vertexFormat:C.PerInstanceColorAppearance.VERTEX_FORMAT});
+    instances.push(new C.GeometryInstance({geometry:polygon,id,attributes:{color,surfaceStyle}}));
+   }
+  }
+  buildingMesh=viewer.scene.primitives.add(new C.Primitive({geometryInstances:instances,
+   appearance:buildingAppearance(),asynchronous:true}));
+  buildingMesh.show=$('buildings').checked;
+  const roofStatus=sampled?' '+fmt(sampled,0)+' con color de techo tomado de la ortofoto municipal.':'';
+  $('buildingStatus').textContent=fmt(json.features.length,0)+' construcciones municipales.'+roofStatus+
+   ' Fachadas y alturas aproximadas. '+fmt(meta.buildings.unknown_floors,0)+' sin dato de pisos usan un piso supuesto.';
+  viewer.scene.requestRender();
+ }
  try{
   $(joint?'switchJoint':archive?'switchSantaClara':'switchPita').setAttribute('aria-current','page');
   C=await window.laharCesiumReady;
