@@ -2,7 +2,9 @@
 (async()=>{
  const $=id=>document.getElementById(id),root='data/sangolqui-lahars/';
  let C;
- const archive=new URLSearchParams(location.search).get('escenario')==='espe';
+ const params=new URLSearchParams(location.search);
+ const archive=params.get('escenario')==='espe';
+ const focusPita=!archive&&params.get('rio')==='pita';
  const campusCenter=[-78.445069,-.315230];
  let meta,viewer,corners,terrain,regional,current,data,maxima,frame=0,timer,waterMesh,buildingMesh,request=0;
  let coverageLayer, coveragePending=false, coverageUnavailable=false, guided=false, activeView=-1;
@@ -117,18 +119,20 @@
    const lat=coordinates.map(point=>point[1]);
    const latPadding=Math.max(.025,(Math.max(...lat)-Math.min(...lat))*.19);
    const bounds=[Math.min(...lon)-.028,Math.min(...lat)-latPadding,Math.max(...lon)+.028,Math.max(...lat)+latPadding];
-   $(river.button).onclick=()=>{
+   const focus=()=>{
     reference.checked=true;
     reference.onchange();
     showCoverage();
     flyOver(bounds);
    };
+   $(river.button).onclick=focus;
    reference.onchange=()=>{
     for(const entity of river.entities)entity.show=reference.checked;
     viewer.scene.requestRender();
    };
    reference.disabled=false;
    $(river.button).disabled=false;
+   if(focusPita&&river.name==='Pita')focus();
   }
   viewer.cesiumWidget.creditDisplay.addStaticCredit(new C.Credit('Cauces © OpenStreetMap contributors · ODbL',true));
   viewer.scene.requestRender();
@@ -306,7 +310,7 @@
   data=null;
   draw();
   const id=++request;$('loading').hidden=false;$('loading').textContent='Cargando el cálculo elegido…';$('play').disabled=true;$('time').disabled=true;$('maximum').disabled=true;current=meta.cases[0];const [encoded,max]=await Promise.all([compressed(current,Int32Array),compressed(current.max_asset,Float32Array)]);if(id!==request)return;data=decodeFrames(encoded,meta.cell_count,current.frame_count);maxima=max;if(maxima.length!==3*meta.cell_count)throw Error('Máximos incompletos');frame=archive?meta.times_s.length-1:30;$('maximum').checked=archive;$('play').disabled=false;$('maximum').disabled=false;$('follow').disabled=false;$('loading').hidden=true;$('story').textContent='Entrada hipotética de '+fmt(current.mixture_input_m3/1e6,0)+' millones de m³ de mezcla en 15 minutos. El cálculo sigue el flujo durante 150 minutos; no representa una erupción pronosticada.';$('balance').textContent='Diferencia en el balance del flujo y del lecho: '+(current.mixture_balance_relative_error*100<.001?'menor del 0,001 %':fmt(current.mixture_balance_relative_error*100,5)+' %')+'. Este control numérico no valida el escenario real.';$('report').href=root+current.report;$('input').href=root+current.id+'-input.txt';
-  if(meta.adaptation){$('intro').textContent='Pulsa «Seguir el lahar» para ver el avance desde el Cotopaxi. Con «Ver río Pita» o «Ver Santa Clara» puedes explorar el alcance en cada cauce.';const a=meta.adaptation;$('story').textContent='Aporte inicial de '+fmt(a.water_input_m3/1e6,2)+' millones de m³ de agua en nueve puntos del flanco norte. El modelo calcula el arrastre y depósito de sedimentos durante 150 minutos.';$('noticeTitle').textContent='Adaptación de un estudio';$('noticeText').textContent='No está validada para predecir una erupción. Usa un terreno global de 30 m y ubicaciones aproximadas de las fuentes; difiere del modelo original.';$('inputMethod').textContent='Se aplican los nueve hidrogramas de agua del estudio de 2025: liberación simultánea, pico a los 2,5 minutos y fin a los 15 minutos. La concentración inicial de sólidos es cero; aumenta por erosión. No son las antiguas entradas hipotéticas de mezcla de 10, 30 y 60 millones de m³.';$('terrainMethod').textContent='Terreno Copernicus GLO-30, de unos 30 m, que puede incluir vegetación y edificios. Se corrigieron solo depresiones que requerían elevar el terreno hasta 2 m. No es el MDT fotogramétrico fino del estudio. Las fuentes se digitalizaron de su mapa y no son sus coordenadas GIS originales. No se modificó la animación para imponer una llegada publicada.';$('studyResults').hidden=false;const b=a.city_arrival_bracket_s;$('arrival').textContent=b?fmt(b[0]/60,2)+'–'+fmt(b[1]/60,2)+' min':'No alcanzó el área en 150 min';const section=a.section;const passage=section.integrated_m3.north_m3;$('transport').textContent=passage>0&&passage<10000?fmt(passage,0)+' m³':fmt(passage/1e6,2)+' millones de m³';$('scientificReport').href=root+a.scientific_report;$('hydrograph').href=root+a.section_hydrograph;}
+  if(meta.adaptation){$('intro').textContent='Pulsa «Seguir el lahar» para ver el avance desde el Cotopaxi. Con «Enfocar Pita» o «Enfocar Santa Clara» puedes explorar el alcance en cada cauce.';const a=meta.adaptation;$('story').textContent='Aporte inicial de '+fmt(a.water_input_m3/1e6,2)+' millones de m³ de agua en nueve puntos del flanco norte. El modelo calcula el arrastre y depósito de sedimentos durante 150 minutos.';$('noticeTitle').textContent='Adaptación de un estudio';$('noticeText').textContent='No está validada para predecir una erupción. Usa un terreno global de 30 m y ubicaciones aproximadas de las fuentes; difiere del modelo original.';$('inputMethod').textContent='Se aplican los nueve hidrogramas de agua del estudio de 2025: liberación simultánea, pico a los 2,5 minutos y fin a los 15 minutos. La concentración inicial de sólidos es cero; aumenta por erosión. No son las antiguas entradas hipotéticas de mezcla de 10, 30 y 60 millones de m³.';$('terrainMethod').textContent='Terreno Copernicus GLO-30, de unos 30 m, que puede incluir vegetación y edificios. Se corrigieron solo depresiones que requerían elevar el terreno hasta 2 m. No es el MDT fotogramétrico fino del estudio. Las fuentes se digitalizaron de su mapa y no son sus coordenadas GIS originales. No se modificó la animación para imponer una llegada publicada.';$('studyResults').hidden=false;const b=a.city_arrival_bracket_s;$('arrival').textContent=b?fmt(b[0]/60,2)+'–'+fmt(b[1]/60,2)+' min':'No alcanzó el área en 150 min';const section=a.section;const passage=section.integrated_m3.north_m3;$('transport').textContent=passage>0&&passage<10000?fmt(passage,0)+' m³':fmt(passage/1e6,2)+' millones de m³';$('scientificReport').href=root+a.scientific_report;$('hydrograph').href=root+a.section_hydrograph;}
   if(meta.adaptation)$('terrainMethod').textContent+=' En pantalla, el espesor se dibuja sobre un terreno fijo para que la erosión no oculte el flujo. Las cotas exactas permanecen en los resultados numéricos. Los máximos del área pueden estar dentro de cañones; no son profundidades uniformes en las calles.';
   if(meta.adaptation?.terrain?.model_file==='municipal_hybrid_30m.tif'){
    $('noticeTitle').textContent='Terreno municipal incorporado';
@@ -324,6 +328,7 @@
  async function buildings(){const json=await compressed(meta.buildings);const instances=[];for(const f of json.features){const p=f.properties,polygons=f.geometry.type==='MultiPolygon'?f.geometry.coordinates:[f.geometry.coordinates];for(const coords of polygons){if(coords[0].length<4)continue;const g=new C.PolygonGeometry({polygonHierarchy:hierarchy(coords),height:p.base_m,extrudedHeight:p.base_m+p.height_m,vertexFormat:C.PerInstanceColorAppearance.VERTEX_FORMAT});instances.push(new C.GeometryInstance({geometry:g,id:{building:true,text:fmt(p.floors,0)+' pisos · '+fmt(p.height_m,1)+' m de altura estimada. '+p.height_origin+'. No es una evaluación de daño.'},attributes:{color:C.ColorGeometryInstanceAttribute.fromColor(C.Color.fromCssColorString('#d4cfc3'))}}));}}
   buildingMesh=viewer.scene.primitives.add(new C.Primitive({geometryInstances:instances,appearance:new C.PerInstanceColorAppearance({translucent:false,closed:true}),asynchronous:true}));buildingMesh.show=$('buildings').checked;$('buildingStatus').textContent=fmt(json.features.length,0)+' construcciones municipales. Alturas aproximadas: 3 m por piso; '+fmt(meta.buildings.unknown_floors,0)+' sin dato de pisos usan un piso supuesto.';viewer.scene.requestRender();}
  try{
+  $(archive?'switchSantaClara':'switchPita').setAttribute('aria-current','page');
   C=await window.laharCesiumReady;
   const manifest=await fetch(root+(archive?'manifest-cop30.json':'manifest.json'),{cache:'no-store'});
   if(!manifest.ok)throw Error('No se encontró la ficha del escenario');
@@ -364,6 +369,7 @@
   $('scenario').disabled=false;
   $('scenario').onchange=()=>{
    const url=new URL(location.href);
+   url.searchParams.delete('rio');
    if($('scenario').value==='reference-cop30')url.searchParams.set('escenario','espe');
    else url.searchParams.delete('escenario');
    location.assign(url.href);

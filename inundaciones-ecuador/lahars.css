@@ -35,6 +35,30 @@
   font-size: 13px;
 }
 .branch-comparison p { margin: 4px 0 6px; }
+.river-scenarios {
+  flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.river-scenarios a {
+  background: #fff;
+  border: 1px solid #b6c3bc;
+  border-radius: 5px;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.river-scenarios a[aria-current="page"] {
+  background: #25483f;
+  border-color: #25483f;
+  color: #fff;
+}
+.river-scenarios a:focus-visible {
+  outline: 2px solid #a36530;
+  outline-offset: 2px;
+}
 #timeLabel { font-weight: 700; }
 
 @media (max-width: 760px) {
