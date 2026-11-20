@@ -409,14 +409,11 @@
   }
   update();}
  function hierarchy(coords){return new C.PolygonHierarchy(C.Cartesian3.fromDegreesArray(coords[0].slice(0,-1).flatMap(p=>[p[0],p[1]])),coords.slice(1).map(r=>new C.PolygonHierarchy(C.Cartesian3.fromDegreesArray(r.slice(0,-1).flatMap(p=>[p[0],p[1]])))));}
- function buildingAppearance(){
-  // Use a local reference in meters so windows retain their size across the city.
-  const origin=C.Cartesian3.fromDegrees(-78.44,-.33);
-  const axes=C.Transforms.eastNorthUpToFixedFrame(origin);
+ function buildingAppearance(atlas,axes,origin){
   const encoded=C.EncodedCartesian3.fromCartesian(origin);
   const vec=({x,y,z})=>`vec3(${x.toFixed(8)},${y.toFixed(8)},${z.toFixed(8)})`;
   const axis=i=>vec(C.Cartesian3.fromElements(axes[i*4],axes[i*4+1],axes[i*4+2]));
-  return new C.PerInstanceColorAppearance({translucent:false,closed:true,vertexShaderSource:`
+  const appearance=new C.PerInstanceColorAppearance({translucent:false,closed:true,vertexShaderSource:`
    in vec3 position3DHigh;
    in vec3 position3DLow;
    in vec3 normal;
@@ -426,6 +423,8 @@
    out vec3 v_normal;
    flat out vec3 v_roof;
    flat out vec2 v_style;
+   out vec2 v_roofPosition;
+   flat out vec3 v_roofRegion;
    const vec3 east=${axis(0)}, north=${axis(1)}, up=${axis(2)};
 
    void main(){
@@ -437,6 +436,9 @@
     v_normal=vec3(dot(normal,east),dot(normal,north),dot(normal,up));
     v_roof=color.rgb;
     v_style=style.yz;
+    vec4 box=czm_batchTable_roofBox(batchId);
+    v_roofPosition=(horizontal-box.xy)*box.zw;
+    v_roofRegion=czm_batchTable_roofRegion(batchId);
     gl_Position=czm_modelViewProjectionRelativeToEye*czm_computePosition();
    }
   `,fragmentShaderSource:`
@@ -444,15 +446,39 @@
    in vec3 v_normal;
    flat in vec3 v_roof;
    flat in vec2 v_style;
+   in vec2 v_roofPosition;
+   flat in vec3 v_roofRegion;
+   const vec2 atlasSize=vec2(${atlas.canvas.width}.0,${atlas.canvas.height}.0);
 
    // Fade repeated details at a distance to keep oblique drone views stable.
    float band(float x,float halfWidth,float aa){
     return 1.0-smoothstep(halfWidth-aa,halfWidth+aa,abs(fract(x)-0.5));
    }
 
+   float noise(vec2 p){
+    vec2 i=floor(p), f=fract(p);
+    vec4 phases=vec4(0.0,1.0,19.0,20.0)+dot(i,vec2(1.0,19.0));
+    vec4 samples=fract(sin(phases*12.9898)*43758.5453);
+    vec2 w=f*f*(3.0-2.0*f);
+    return mix(mix(samples.x,samples.y,w.x),mix(samples.z,samples.w,w.x),w.y);
+   }
+
    void main(){
     vec3 n=normalize(v_normal);
-    float light=0.74+0.26*max(dot(n,normalize(vec3(-0.42,-0.52,0.74))),0.0);
+    float light=0.60+0.40*max(dot(n,normalize(vec3(-0.52,-0.37,0.77))),0.0);
+    if(n.z>0.60){
+     vec2 uv=clamp(v_roofPosition,0.0,1.0);
+     vec2 pixel=v_roofRegion.xy+vec2(uv.x,1.0-uv.y)*max(0.0,v_roofRegion.z-1.0)+0.5;
+     czm_materialInput roofInput;
+     roofInput.st=vec2(pixel.x/atlasSize.x,1.0-pixel.y/atlasSize.y);
+     roofInput.normalEC=vec3(0.0,0.0,1.0);
+     vec3 aerial=czm_getMaterial(roofInput).diffuse;
+     float detail=1.0-smoothstep(0.12,0.35,length(fwidth(v_roofPosition)));
+     float grain=(noise(v_surface.xy*0.73)-0.5)*0.09;
+     vec3 roof=mix(v_roof*(0.92+grain),aerial,step(1.0,v_roofRegion.z)*detail*0.95);
+     out_FragColor=czm_gammaCorrect(vec4(roof*(0.93+0.07*light),1.0));
+     return;
+    }
     float style=v_style.x, seed=v_style.y;
     vec2 tangent=vec2(-n.y,n.x)/max(length(n.xy),0.01);
     vec2 wall=vec2(dot(tangent,v_surface.xy),v_surface.z);
@@ -463,41 +489,74 @@
     float width=style==1.0?0.42:mix(0.22,0.35,seed);
     float windows=band(panel.x,width,aa.x)*band(panel.y,0.22,aa.y)*detail;
     float windowFrame=band(panel.x,0.017,aa.x)*windows;
-    float floorEdge=band(panel.y+0.49,0.035,aa.y)*detail;
-    vec3 plaster=mix(vec3(0.72,0.66,0.58),vec3(0.87,0.85,0.80),seed);
-    if(seed>0.86)plaster=mix(plaster,vec3(0.74,0.54,0.43),0.48);
-    vec3 glass=vec3(0.34,0.44,0.48);
-    if(style==1.0){plaster=vec3(0.83,0.82,0.77);glass=vec3(0.30,0.45,0.52);}
-    if(style==2.0){plaster=vec3(0.79,0.72,0.61);windows*=1.0-smoothstep(4.5,5.0,wall.y);floorEdge*=0.35;}
-    if(style==3.0){plaster=mix(vec3(0.64,0.65,0.63),vec3(0.83,0.80,0.73),seed);windows*=0.23;}
-    glass*=mix(1.15,0.80,smoothstep(0.25,0.75,fract(panel.y)));
-    vec3 facade=mix(plaster*(1.0-0.08*floorEdge),glass,windows*(0.93-0.58*windowFrame));
-    facade*=mix(0.91,1.0,smoothstep(0.0,1.1,wall.y));
-
-    float seams=v_surface.x/(style>=2.0?1.65:1.05)+seed;
-    float seamAA=clamp(fwidth(seams),0.008,0.14);
-    float seam=band(seams,0.064,seamAA)*(1.0-smoothstep(0.10,0.58,fwidth(seams)));
-    vec2 panels=v_surface.xy*0.33+vec2(seed*7.0);
-    float variation=sin(panels.x)*sin(panels.y)*(1.0-smoothstep(0.35,0.85,length(fwidth(panels))));
-    vec3 roof=v_roof*(1.0-0.12*seam+0.07*variation);
-    out_FragColor=czm_gammaCorrect(vec4((n.z>0.6?roof:facade)*light,1.0));
+    float floorEdge=band(panel.y+0.49,0.027,aa.y)*detail;
+    vec3 plaster=mix(vec3(0.62,0.57,0.50),vec3(0.80,0.77,0.71),seed);
+    float brick=step(0.83,seed)*(1.0-step(0.5,style));
+    plaster=mix(plaster,vec3(0.57,0.36,0.28),brick*0.76);
+    vec3 glass=mix(vec3(0.25,0.28,0.28),vec3(0.35,0.41,0.43),seed);
+    if(style==1.0){plaster=mix(vec3(0.70,0.68,0.62),vec3(0.82,0.81,0.77),seed);glass=vec3(0.23,0.34,0.38);}
+    if(style==2.0){
+     plaster=mix(vec3(0.72,0.64,0.53),vec3(0.59,0.48,0.38),band(wall.y/9.0,0.084,0.022));
+     windows*=1.0-smoothstep(4.0,5.0,wall.y);floorEdge*=0.30;
+    }
+    if(style==3.0){plaster=mix(vec3(0.54,0.57,0.55),vec3(0.75,0.72,0.65),seed);windows*=0.30;}
+    float openings=noise(floor(panel)+vec2(seed*15.0,floor(n.x*4.5)));
+    float reflection=smoothstep(0.24,0.75,fract(panel.y));
+    glass*=mix(0.75,1.31,reflection)*mix(0.83,1.11,openings);
+    vec2 masonry=vec2(wall.x/0.38+0.5*mod(floor(wall.y/0.135),2.0),wall.y/0.135);
+    float mortar=band(masonry.x+0.5,0.029,0.04)+band(masonry.y+0.5,0.040,0.04);
+    float closeDetail=1.0-smoothstep(0.22,0.8,length(fwidth(masonry)));
+    plaster=mix(plaster,vec3(0.62,0.55,0.46),min(1.0,mortar)*brick*closeDetail*0.62);
+    float weather=0.94+0.12*noise(wall*vec2(0.42,0.19)+seed*8.0);
+    vec3 facade=mix(plaster*weather*(1.0-0.075*floorEdge),glass,windows*(0.97-0.58*windowFrame));
+    facade*=mix(0.77,1.0,smoothstep(0.0,1.12,wall.y));
+    out_FragColor=czm_gammaCorrect(vec4(facade*light,1.0));
    }
   `});
+  appearance.material=new C.Material({translucent:false,fabric:{uniforms:{roofImage:atlas.canvas},
+   components:{diffuse:'texture(roofImage, materialInput.st).rgb'}}});
+  return appearance;
+ }
+
+ function roofAtlas(bytes,featureCount){
+  const canvas=document.createElement('canvas');
+  canvas.width=canvas.height=1;
+  if(!bytes||bytes.length<4)return {canvas};
+  const data=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);
+  const width=data.getUint16(0,true),height=data.getUint16(2,true);
+  const indexLength=featureCount*6;
+  if(!width||!height||width>4096||height>4096||bytes.length!==4+indexLength+3*width*height)return {canvas};
+  canvas.width=width;canvas.height=height;
+  const context=canvas.getContext('2d');
+  const image=context.createImageData(width,height);
+  for(let src=4+indexLength,dst=0;dst<image.data.length;src+=3,dst+=4){
+   image.data[dst]=bytes[src];image.data[dst+1]=bytes[src+1];image.data[dst+2]=bytes[src+2];image.data[dst+3]=255;
+  }
+  context.putImageData(image,0,0);
+  return {canvas,index:feature=>{
+   const p=4+feature*6;
+   return [data.getUint16(p,true),data.getUint16(p+2,true),data.getUint16(p+4,true)];
+  }};
  }
 
  async function buildings(){
   const supportedFootprints=['c0ffe6b158443f76','46986134ccf2e9ea'];
-  const materialFile='building-materials-v1.bin.gz';
-  const materialAsset={file:materialFile,
-   sha256:'fe7dfc426d1527db3cc0a74fd8104b7995adef018ade9b2281620f7de59cbe8d',
-   url:'https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/'+root+materialFile};
-  const [json,materials]=await Promise.all([compressed(meta.buildings),
-   supportedFootprints.includes(meta.buildings.sha256?.slice(0,16))?
-    compressed(materialAsset,Uint8Array).catch(()=>null):null]);
+  const hasSurfaceData=supportedFootprints.includes(meta.buildings.sha256?.slice(0,16));
+  const readSurface=(file,sha256)=>hasSurfaceData?compressed({file,sha256,
+   url:'https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/'+root+file},Uint8Array).catch(()=>null):null;
+  const [json,materials,roofBytes]=await Promise.all([compressed(meta.buildings),
+   readSurface('building-materials-v1.bin.gz','fe7dfc426d1527db3cc0a74fd8104b7995adef018ade9b2281620f7de59cbe8d'),
+   readSurface('building-roof-atlas-v1.bin.gz','8d0c397a55f08961c30fe3af47cbfc56f39652346a188ccd3bdcc1008282d2de')]);
   const styles=materials?.length===json.features.length*5?materials:null;
+  const atlas=roofAtlas(roofBytes,json.features.length);
+  const origin=C.Cartesian3.fromDegrees(-78.44,-.33);
+  const axes=C.Transforms.eastNorthUpToFixedFrame(origin);
+  const local=C.Matrix4.inverseTransformation(axes,new C.Matrix4());
+  const attr=value=>new C.GeometryInstanceAttribute({componentDatatype:C.ComponentDatatype.FLOAT,
+   componentsPerAttribute:value.length,value});
   const roofs=[[164,166,160],[151,119,104],[178,180,176],[126,136,137],[172,139,121]];
   const instances=[];
-  let sampled=0;
+  let sampled=0,detailed=0;
   for(const [index,feature] of json.features.entries()){
    const p=feature.properties,geometry=feature.geometry;
    const polygons=geometry.type==='MultiPolygon'?geometry.coordinates:[geometry.coordinates];
@@ -508,9 +567,20 @@
    const rgb=source?Array.from(styles.subarray(offset,offset+3)):roofs[Math.floor(seed*roofs.length)];
    const color=C.ColorGeometryInstanceAttribute.fromColor(C.Color.fromBytes(...rgb));
    if(source)sampled++;
-   const surfaceStyle=new C.GeometryInstanceAttribute({componentDatatype:C.ComponentDatatype.FLOAT,
-    componentsPerAttribute:3,value:[p.base_m,style,seed]});
-   const roofSource=['Color de cubierta aproximado.','Color de cubierta tomado de la ortofoto municipal.',
+   const surfaceStyle=attr([p.base_m,style,seed]);
+   const region=atlas.index?.(index)??[0,0,0];
+   const roofRegion=attr(region);
+   const attributes={color,surfaceStyle,roofRegion,roofBox:attr([0,0,1,1])};
+   if(region[2]){
+    const points=polygons.flatMap(poly=>poly[0]);
+    let west=Infinity,east=-Infinity,north=-Infinity,south=Infinity;
+    for(const [lon,lat] of points){west=Math.min(west,lon);east=Math.max(east,lon);south=Math.min(south,lat);north=Math.max(north,lat);}
+    const lower=C.Matrix4.multiplyByPoint(local,C.Cartesian3.fromDegrees(west,south,p.base_m+p.height_m),new C.Cartesian3());
+    const upper=C.Matrix4.multiplyByPoint(local,C.Cartesian3.fromDegrees(east,north,p.base_m+p.height_m),new C.Cartesian3());
+    attributes.roofBox=attr([lower.x,lower.y,1/Math.max(.05,upper.x-lower.x),1/Math.max(.05,upper.y-lower.y)]);
+    detailed++;
+   }
+   const roofSource=region[2]?'Textura de cubierta derivada de la ortofoto municipal.':['Color de cubierta aproximado.','Color de cubierta tomado de la ortofoto municipal.',
     'Color de cubierta tomado de la ortofoto preliminar municipal de 2026.'][source];
    const floors=p.height_origin==='sin pisos: un piso supuesto'?'1 piso supuesto':
     fmt(p.floors,0)+(p.floors===1?' piso':' pisos');
@@ -519,15 +589,16 @@
     if(coords[0].length<4)continue;
     const polygon=new C.PolygonGeometry({polygonHierarchy:hierarchy(coords),height:p.base_m,
      extrudedHeight:p.base_m+p.height_m,vertexFormat:C.PerInstanceColorAppearance.VERTEX_FORMAT});
-    instances.push(new C.GeometryInstance({geometry:polygon,id,attributes:{color,surfaceStyle}}));
+    instances.push(new C.GeometryInstance({geometry:polygon,id,attributes}));
    }
   }
   buildingMesh=viewer.scene.primitives.add(new C.Primitive({geometryInstances:instances,
-   appearance:buildingAppearance(),asynchronous:true}));
+   appearance:buildingAppearance(atlas,axes,origin),asynchronous:true}));
   buildingMesh.show=$('buildings').checked;
   const roofStatus=sampled?' '+fmt(sampled,0)+' con color de techo tomado de la ortofoto municipal.':'';
   $('buildingStatus').textContent=fmt(json.features.length,0)+' construcciones municipales.'+roofStatus+
-   ' Fachadas y alturas aproximadas. '+fmt(meta.buildings.unknown_floors,0)+' sin dato de pisos usan un piso supuesto.';
+   (detailed?' '+fmt(detailed,0)+' con textura de cubierta aérea.':'')+' Fachadas y alturas aproximadas. '+
+   fmt(meta.buildings.unknown_floors,0)+' sin dato de pisos usan un piso supuesto.';
   viewer.scene.requestRender();
  }
  try{
