@@ -14,7 +14,7 @@
   {name:'Santa Clara',button:'santaClara',reference:'santaReference',color:'#e2bbff',entities:[]},
  ];
  const flowColors=[[255,212,123,240],[242,150,76,245],[185,80,46,250]];
- const municipalBlue=[50,191,243,215], copernicusOrange=[248,146,70,215];
+ const municipalBlue=[50,191,243,165], copernicusOrange=[248,146,70,165];
  const guideViews=archive?[
   {minute:0,name:'Cotopaxi',lon:-78.429,lat:-.566,range:23700,pitch:-55},
   {minute:50,name:'La Caldera',lon:-78.4225,lat:-.446,range:8000,pitch:-54},
@@ -372,7 +372,7 @@
    $('intro').textContent='Compara en el mismo mapa los recorridos por el Pita y Santa Clara. Pulsa reproducir para ver cómo avanzan desde las fuentes.';
    $('noticeTitle').textContent='Dos simulaciones en un mapa';
    $('noticeText').textContent='El azul corresponde a la corrida con terreno municipal y el naranja a la corrida inicial. Ambos resultados usan el mismo reloj. Esta comparación muestra el alcance de cada corrida.';
-   $('story').textContent='Se dibujan las celdas con 5 cm de flujo o más. Usa la vista de cada corrida para consultar su espesor y velocidad.';
+   $('story').textContent='Se dibujan las celdas con 5 cm de flujo o más. El tono claro indica que ambas corridas se superponen. Usa las vistas individuales para consultar espesor y velocidad.';
    $('branchComparison').hidden=true;
    $('studyResults').hidden=true;
    $('singleMetrics').hidden=true;
