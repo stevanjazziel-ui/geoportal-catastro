@@ -28,9 +28,20 @@
  function error(e){stop();$('loading').hidden=false;$('loading').textContent='No se pudo cargar el visor: '+e.message;}
  async function compressed(asset,Type){
   const local=['localhost','127.0.0.1','[::1]'].includes(location.hostname);
-  const url=(!local&&asset.url)||root+asset.file;
-  const response=await fetch(url+(asset.sha256?'?sha='+asset.sha256.slice(0,16):''));if(!response.ok)throw Error('No se pudo descargar '+asset.file);
-  const bytes=await response.arrayBuffer();
+  const url=(!local&&asset.url)||root+asset.file,suffix=asset.sha256?'?sha='+asset.sha256.slice(0,16):'';
+  const rawRoot='https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/';
+  const mirror='https://cdn.jsdelivr.net/gh/stevanjazziel-ui/geoportal-catastro@main/';
+  async function read(location){
+   const response=await fetch(location+suffix);
+   if(!response.ok)throw Error('No se pudo descargar '+asset.file+' (HTTP '+response.status+')');
+   return response.arrayBuffer();
+  }
+  let bytes;
+  try{bytes=await read(url);}
+  catch(error){
+   if(!asset.sha256||!url.startsWith(rawRoot))throw error;
+   bytes=await read(mirror+url.slice(rawRoot.length));
+  }
   if(asset.sha256){const digest=await crypto.subtle.digest('SHA-256',bytes);const hex=[...new Uint8Array(digest)].map(x=>x.toString(16).padStart(2,'0')).join('');if(hex!==asset.sha256)throw Error('Descarga incompleta o diferente a la publicada');}
   const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
   const buffer=await new Response(stream).arrayBuffer();return Type?new Type(buffer):JSON.parse(new TextDecoder().decode(buffer));
