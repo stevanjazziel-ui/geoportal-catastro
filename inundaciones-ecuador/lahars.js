@@ -3,12 +3,15 @@
  const C=window.Cesium,$=id=>document.getElementById(id),root='data/sangolqui-lahars/';
  let meta,viewer,corners,terrain,regional,current,data,maxima,frame=0,timer,waterMesh,buildingMesh,request=0;
  let coverageLayer, coveragePending=false, coverageUnavailable=false, guided=false, activeView=-1;
- const riverEntities=[];
+ const riverViews=[
+  {name:'Pita',button:'pita',reference:'pitaReference',color:'#9ae8ec',entities:[]},
+  {name:'Santa Clara',button:'santaClara',reference:'santaReference',color:'#e2bbff',entities:[]},
+ ];
  const flowColors=[[255,212,123,240],[242,150,76,245],[185,80,46,250]];
  const guideViews=[
-  {minute:0,name:'Cotopaxi',bounds:[-78.55,-.70,-78.30,-.46]},
-  {minute:48,name:'La Caldera',bounds:[-78.50,-.525,-78.32,-.35]},
-  {minute:93,name:'Sangolquí y San Rafael',bounds:[-78.50,-.412,-78.34,-.255]},
+  {minute:0,name:'Cotopaxi',lon:-78.43,lat:-.586,range:25500,pitch:-56},
+  {minute:48,name:'La Caldera',lon:-78.417,lat:-.420,range:15700,pitch:-62},
+  {minute:75,name:'Sangolquí y San Rafael',lon:-78.426,lat:-.347,range:14400,pitch:-62},
  ];
  const fmt=(v,n=2)=>Number(v).toLocaleString('es-EC',{maximumFractionDigits:n});
  const names={menor:'Flujo menor · 10 millones de m³',grande:'Flujo grande · 30 millones de m³',mayor:'Flujo muy grande · 60 millones de m³'};
@@ -46,33 +49,41 @@
   $('maximum').checked=true;
   update();
  }
- async function pitaRoute(){
+ async function addRiverReferences(){
   const response=await fetch('data/lahar-study-times/timeline.json');
-  if(!response.ok)throw Error('No respondió el trazado del Pita');
-  const rivers=await response.json();
-  const pitaSegments=rivers.segments.filter(segment=>segment.river==='Pita');
-  if(!pitaSegments.length)throw Error('El trazado del Pita está vacío');
-  for(const {coordinates} of pitaSegments){
-   const positions=C.Cartesian3.fromDegreesArray(coordinates.flat());
-   const river=viewer.entities.add({
-    name:'Río Pita · referencia cartográfica',show:$('pitaReference').checked,
-    polyline:{positions,width:2,clampToGround:true,classificationType:C.ClassificationType.TERRAIN,
-     material:new C.PolylineDashMaterialProperty({color:C.Color.fromCssColorString('#9ae8ec'),dashLength:15})},
-   });
-   riverEntities.push(river);
+  if(!response.ok)throw Error('No respondieron los trazados de los ríos');
+  const {segments}=await response.json();
+  for(const river of riverViews){
+   const reaches=segments.filter(segment=>segment.river===river.name);
+   if(!reaches.length)continue;
+   const reference=$(river.reference);
+   const material=new C.PolylineDashMaterialProperty({color:C.Color.fromCssColorString(river.color),dashLength:15});
+   for(const {coordinates} of reaches){
+    river.entities.push(viewer.entities.add({
+     name:`Río ${river.name} · cauce de referencia`,show:reference.checked,
+     polyline:{positions:C.Cartesian3.fromDegreesArray(coordinates.flat()),width:2.5,clampToGround:true,
+      classificationType:C.ClassificationType.TERRAIN,material},
+    }));
+   }
+   const coordinates=reaches.flatMap(segment=>segment.coordinates);
+   const lon=coordinates.map(point=>point[0]);
+   const lat=coordinates.map(point=>point[1]);
+   const latPadding=Math.max(.025,(Math.max(...lat)-Math.min(...lat))*.19);
+   const bounds=[Math.min(...lon)-.028,Math.min(...lat)-latPadding,Math.max(...lon)+.028,Math.max(...lat)+latPadding];
+   $(river.button).onclick=()=>{
+    reference.checked=true;
+    reference.onchange();
+    showCoverage();
+    flyOver(bounds);
+   };
+   reference.onchange=()=>{
+    for(const entity of river.entities)entity.show=reference.checked;
+    viewer.scene.requestRender();
+   };
+   reference.disabled=false;
+   $(river.button).disabled=false;
   }
-  viewer.cesiumWidget.creditDisplay.addStaticCredit(new C.Credit('Cauce Pita © OpenStreetMap contributors · ODbL',true));
-  const coordinates=pitaSegments.flatMap(segment=>segment.coordinates);
-  const lon=coordinates.map(point=>point[0]);
-  const lat=coordinates.map(point=>point[1]);
-  // Keep both ends visible above the timeline and below the map controls.
-  const bounds=[Math.min(...lon)-.018,Math.min(...lat)-.054,Math.max(...lon)+.018,Math.max(...lat)+.058];
-  $('pita').onclick=()=>{
-   showCoverage();
-   flyOver(bounds);
-  };
-  $('pitaReference').disabled=false;
-  $('pita').disabled=false;
+  viewer.cesiumWidget.creditDisplay.addStaticCredit(new C.Credit('Cauces © OpenStreetMap contributors · ODbL',true));
   viewer.scene.requestRender();
  }
  function placeLabels(){
@@ -96,12 +107,22 @@
   const [west,south,east,north]=flowBounds();
   flyOver([west-.025,south-.025,east+.025,north+.045]);
  }
+ function guideCamera(view,duration=1.4){
+  const {lon,lat,range,pitch}=guideViews[view];
+  const center=C.Cartesian3.fromDegrees(lon,lat,elevation(lon,lat));
+  // Cesium's vertical field of view is limited by width in portrait layout.
+  const map=viewer.scene.canvas;
+  const portraitScale=Math.max(1,Math.min(1.18,map.clientHeight/map.clientWidth));
+  viewer.camera.flyToBoundingSphere(new C.BoundingSphere(center,1200),{
+   offset:new C.HeadingPitchRange(0,C.Math.toRadians(pitch),range*portraitScale),duration,
+  });
+ }
  function followCamera(){
   const minutes=meta.times_s[frame]/60;
   const view=guideViews.findLastIndex(stage=>minutes>=stage.minute);
   if(view!==activeView){
    activeView=view;
-   flyOver(guideViews[view].bounds);
+   guideCamera(view);
   }
   $('timeLabel').textContent+=` · ${guideViews[view].name}`;
  }
@@ -238,7 +259,7 @@
   data=null;
   draw();
   const id=++request;$('loading').hidden=false;$('loading').textContent='Cargando el cálculo elegido…';$('play').disabled=true;$('time').disabled=true;$('maximum').disabled=true;current=meta.cases.find(c=>c.id===$('scenario').value);const [encoded,max]=await Promise.all([compressed(current,Int32Array),compressed(current.max_asset,Float32Array)]);if(id!==request)return;data=decodeFrames(encoded,meta.cell_count,current.frame_count);maxima=max;if(maxima.length!==3*meta.cell_count)throw Error('Máximos incompletos');frame=meta.adaptation?30:10;$('maximum').checked=false;$('play').disabled=false;$('maximum').disabled=false;$('follow').disabled=current.id!=='reference-mdt30';$('loading').hidden=true;$('story').textContent='Entrada hipotética de '+fmt(current.mixture_input_m3/1e6,0)+' millones de m³ de mezcla en 15 minutos. El cálculo sigue el flujo durante 150 minutos; no representa una erupción pronosticada.';$('balance').textContent='Diferencia en el balance del flujo y del lecho: '+(current.mixture_balance_relative_error*100<.001?'menor del 0,001 %':fmt(current.mixture_balance_relative_error*100,5)+' %')+'. Este control numérico no valida el escenario real.';$('report').href=root+current.report;$('input').href=root+current.id+'-input.txt';
-  if(meta.adaptation){$('intro').textContent='Pulsa «Seguir el lahar» para ver el avance desde el Cotopaxi. «Ver río Pita» muestra el alcance máximo a lo largo del cauce.';const a=meta.adaptation;$('story').textContent='Aporte inicial de '+fmt(a.water_input_m3/1e6,2)+' millones de m³ de agua en nueve puntos del flanco norte. El modelo calcula el arrastre y depósito de sedimentos durante 150 minutos.';$('noticeTitle').textContent='Adaptación de un estudio';$('noticeText').textContent='No está validada para predecir una erupción. Usa un terreno global de 30 m y ubicaciones aproximadas de las fuentes; difiere del modelo original.';$('inputMethod').textContent='Se aplican los nueve hidrogramas de agua del estudio de 2025: liberación simultánea, pico a los 2,5 minutos y fin a los 15 minutos. La concentración inicial de sólidos es cero; aumenta por erosión. No son las antiguas entradas hipotéticas de mezcla de 10, 30 y 60 millones de m³.';$('terrainMethod').textContent='Terreno Copernicus GLO-30, de unos 30 m, que puede incluir vegetación y edificios. Se corrigieron solo depresiones que requerían elevar el terreno hasta 2 m. No es el MDT fotogramétrico fino del estudio. Las fuentes se digitalizaron de su mapa y no son sus coordenadas GIS originales. No se modificó la animación para imponer una llegada publicada.';$('studyResults').hidden=false;const b=a.city_arrival_bracket_s;$('arrival').textContent=b?fmt(b[0]/60,2)+'–'+fmt(b[1]/60,2)+' min':'No alcanzó el área en 150 min';const section=a.section;const passage=section.integrated_m3.north_m3;$('transport').textContent=passage>0&&passage<10000?fmt(passage,0)+' m³':fmt(passage/1e6,2)+' millones de m³';$('scientificReport').href=root+a.scientific_report;$('hydrograph').href=root+a.section_hydrograph;}
+  if(meta.adaptation){$('intro').textContent='Pulsa «Seguir el lahar» para ver el avance desde el Cotopaxi. Con «Ver río Pita» o «Ver Santa Clara» puedes explorar el alcance en cada cauce.';const a=meta.adaptation;$('story').textContent='Aporte inicial de '+fmt(a.water_input_m3/1e6,2)+' millones de m³ de agua en nueve puntos del flanco norte. El modelo calcula el arrastre y depósito de sedimentos durante 150 minutos.';$('noticeTitle').textContent='Adaptación de un estudio';$('noticeText').textContent='No está validada para predecir una erupción. Usa un terreno global de 30 m y ubicaciones aproximadas de las fuentes; difiere del modelo original.';$('inputMethod').textContent='Se aplican los nueve hidrogramas de agua del estudio de 2025: liberación simultánea, pico a los 2,5 minutos y fin a los 15 minutos. La concentración inicial de sólidos es cero; aumenta por erosión. No son las antiguas entradas hipotéticas de mezcla de 10, 30 y 60 millones de m³.';$('terrainMethod').textContent='Terreno Copernicus GLO-30, de unos 30 m, que puede incluir vegetación y edificios. Se corrigieron solo depresiones que requerían elevar el terreno hasta 2 m. No es el MDT fotogramétrico fino del estudio. Las fuentes se digitalizaron de su mapa y no son sus coordenadas GIS originales. No se modificó la animación para imponer una llegada publicada.';$('studyResults').hidden=false;const b=a.city_arrival_bracket_s;$('arrival').textContent=b?fmt(b[0]/60,2)+'–'+fmt(b[1]/60,2)+' min':'No alcanzó el área en 150 min';const section=a.section;const passage=section.integrated_m3.north_m3;$('transport').textContent=passage>0&&passage<10000?fmt(passage,0)+' m³':fmt(passage/1e6,2)+' millones de m³';$('scientificReport').href=root+a.scientific_report;$('hydrograph').href=root+a.section_hydrograph;}
   if(meta.adaptation)$('terrainMethod').textContent+=' En pantalla, el espesor se dibuja sobre un terreno fijo para que la erosión no oculte el flujo. Las cotas exactas permanecen en los resultados numéricos. Los máximos del área pueden estar dentro de cañones; no son profundidades uniformes en las calles.';
   if(meta.adaptation?.terrain?.model_file==='municipal_hybrid_30m.tif'){
    $('noticeTitle').textContent='Terreno municipal incorporado';
@@ -246,6 +267,7 @@
    $('terrainMethod').textContent='Se incorporó el MDT municipal de la capa 2023, nativo de 3 m, remuestreado a la malla física de 30 m. Fuera de su cobertura se conserva Copernicus; una transición de 500 m evita un salto brusco, sin aplicar una corrección vertical supuesta. No se excavó el río ni se impusieron tiempos de llegada. Las muestras LiDAR presentan diferencias de altura cercanas a 27–29 m frente al MDT y no se fusionaron sin resolver su referencia. El terreno visual permanece fijo; los resultados numéricos conservan erosión y depósito. Los máximos pueden estar dentro de cañones y no equivalen a una altura uniforme en las calles.';
   }
   if(meta.known_pita_gap){$('noticeTitle').textContent='Falta resolver el tramo del Pita';$('noticeText').textContent='Esta corrida no reproduce la continuidad del lahar por el tramo intermedio del Pita. Su ausencia de flujo no significa ausencia de peligro. El trazo celeste es el río, no una zona inundada. La corrección física sigue pendiente.';}
+  $('branchComparison').hidden=current.id!=='reference-mdt30';
   update();}
  function hierarchy(coords){return new C.PolygonHierarchy(C.Cartesian3.fromDegreesArray(coords[0].slice(0,-1).flatMap(p=>[p[0],p[1]])),coords.slice(1).map(r=>new C.PolygonHierarchy(C.Cartesian3.fromDegreesArray(r.slice(0,-1).flatMap(p=>[p[0],p[1]])))));}
  async function buildings(){const json=await compressed(meta.buildings);const instances=[];for(const f of json.features){const p=f.properties,polygons=f.geometry.type==='MultiPolygon'?f.geometry.coordinates:[f.geometry.coordinates];for(const coords of polygons){if(coords[0].length<4)continue;const g=new C.PolygonGeometry({polygonHierarchy:hierarchy(coords),height:p.base_m,extrudedHeight:p.base_m+p.height_m,vertexFormat:C.PerInstanceColorAppearance.VERTEX_FORMAT});instances.push(new C.GeometryInstance({geometry:g,id:{building:true,text:fmt(p.floors,0)+' pisos · '+fmt(p.height_m,1)+' m de altura estimada. '+p.height_origin+'. No es una evaluación de daño.'},attributes:{color:C.ColorGeometryInstanceAttribute.fromColor(C.Color.fromCssColorString('#d4cfc3'))}}));}}
@@ -270,10 +292,6 @@
   $('time').oninput=()=>{stop();frame=Number($('time').value);update();};
   $('maximum').onchange=()=>{stop();update();};
   $('flow').onchange=draw;
-  $('pitaReference').onchange=()=>{
-   for(const entity of riverEntities)entity.show=$('pitaReference').checked;
-   viewer.scene.requestRender();
-  };
   $('buildings').onchange=()=>{
    if(buildingMesh)buildingMesh.show=$('buildings').checked;
    viewer.scene.requestRender();
@@ -282,6 +300,11 @@
   $('follow').onclick=()=>{if(guided)stop();else{stop();play(true);}};
   for(const [i,source] of (meta.setup.source_references||[meta.setup.source_reference]).entries()){viewer.entities.add({position:C.Cartesian3.fromDegrees(source.model_lon,source.model_lat,elevation(source.model_lon,source.model_lat)+8),point:{pixelSize:7,color:C.Color.ORANGE,outlineColor:C.Color.WHITE,outlineWidth:1},label:i===0&&!meta.adaptation?{text:'Entrada hipotética · río Pita',font:'12px sans-serif',pixelOffset:new C.Cartesian2(0,-20),showBackground:true}:undefined});}
   viewer.screenSpaceEventHandler.setInputAction(e=>{const p=viewer.scene.pick(e.position);$('picked').hidden=!p?.id?.building;if(p?.id?.building)$('picked').textContent=p.id.text;},C.ScreenSpaceEventType.LEFT_CLICK);
-  await loadCase();pitaRoute().catch(()=>{$('pita').textContent='Pita: no respondió el trazado';});buildings().catch(()=>{$('buildingStatus').textContent='No se pudieron cargar los edificios. El cálculo del flujo sigue disponible.';});
+  await loadCase();
+  addRiverReferences().catch(()=>{
+   $('pita').title='No respondió el trazado del Pita';
+   $('santaClara').title='No respondió el trazado de Santa Clara';
+  });
+  buildings().catch(()=>{$('buildingStatus').textContent='No se pudieron cargar los edificios. El cálculo del flujo sigue disponible.';});
  }catch(e){error(e);}
 })();

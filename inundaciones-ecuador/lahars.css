@@ -12,6 +12,29 @@
   white-space: nowrap;
 }
 .river-reference input { margin: 0 2px 0 0; accent-color: #276879; }
+.river-legend {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  border-top: 1px solid #d9ded5;
+  padding-top: 8px;
+}
+.river-reference::before {
+  content: '';
+  width: 15px;
+  border-top: 3px dashed #268597;
+}
+.santa-reference::before { border-color: #7e43a1; }
+.santa-reference input { accent-color: #7e43a1; }
+.branch-comparison {
+  background: #f1edf6;
+  border-left: 3px solid #7e43a1;
+  padding: 12px 14px;
+  font-size: 13px;
+}
+.branch-comparison p { margin: 4px 0 6px; }
 #timeLabel { font-weight: 700; }
 
 @media (max-width: 760px) {
