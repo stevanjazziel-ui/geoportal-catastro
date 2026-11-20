@@ -7,14 +7,13 @@
  const archive=!joint&&params.get('escenario')==='espe';
  const focusPita=!joint&&!archive&&params.get('rio')==='pita';
  const campusCenter=[-78.445069,-.315230];
- let meta,viewer,corners,terrain,regional,current,data,maxima,secondary,frame=0,timer,waterMesh,buildingMesh,request=0;
+ let meta,viewer,corners,terrain,regional,current,data,maxima,secondary,combinedGrid,frame=0,timer,waterMesh,buildingMesh,request=0;
  let coverageLayer, coveragePending=false, coverageUnavailable=false, guided=false, activeView=-1;
  const riverViews=[
   {name:'Pita',button:'pita',reference:'pitaReference',color:'#9ae8ec',entities:[]},
   {name:'Santa Clara',button:'santaClara',reference:'santaReference',color:'#e2bbff',entities:[]},
  ];
  const flowColors=[[255,212,123,240],[242,150,76,245],[185,80,46,250]];
- const municipalBlue=[50,191,243,165], copernicusOrange=[248,146,70,165];
  const guideViews=archive?[
   {minute:0,name:'Cotopaxi',lon:-78.429,lat:-.566,range:23700,pitch:-55},
   {minute:50,name:'La Caldera',lon:-78.4225,lat:-.446,range:8000,pitch:-54},
@@ -93,7 +92,7 @@
    const downstream=cases[id].segments.sanpedro5?.samples.findLast(sample=>sample[3]>=0);
    if(downstream){
     const [,lon,lat]=downstream;
-    const color=C.Color.fromBytes(...(santa?copernicusOrange:municipalBlue));
+    const color=C.Color.fromCssColorString(santa?riverViews[1].color:riverViews[0].color);
     viewer.entities.add({name:'Alcance en el San Pedro durante 150 minutos',show:$('maximum').checked,
      position:C.Cartesian3.fromDegrees(lon,lat,elevation(lon,lat)+8),
      point:{pixelSize:8,color,outlineColor:C.Color.WHITE,outlineWidth:1.5,disableDepthTestDistance:Infinity},
@@ -219,19 +218,50 @@
   },guided?850:1100);
  }
  function depthClass(cm){return cm<50?0:cm<200?1:2;}
- function layers(){
-  const primary={corners,data,maxima,n:meta.cell_count,palette:joint?[municipalBlue]:flowColors};
-  return secondary?[primary,secondary]:[primary];
+ function alignGrids(){
+  const archived=new Map();
+  const key=(cells,offset)=>`${cells[offset]},${cells[offset+1]}`;
+  for(let i=0;i<secondary.n;i++)archived.set(key(secondary.corners,i*12),i);
+  const matched=new Int32Array(meta.cell_count).fill(-1);
+  for(let i=0;i<meta.cell_count;i++){
+   const first=i*12, id=key(corners,first), other=archived.get(id);
+   if(other===undefined)continue;
+   for(let offset=0;offset<12;offset+=3){
+    if(corners[first+offset]!==secondary.corners[other*12+offset]||
+       corners[first+offset+1]!==secondary.corners[other*12+offset+1])throw Error('Las cuadrículas de los escenarios difieren');
+   }
+   matched[i]=other;
+   archived.delete(id);
+  }
+  const cells=new Float32Array(corners.length+12*archived.size);
+  cells.set(corners);
+  let offset=corners.length;
+  for(const id of archived.values()){
+   cells.set(secondary.corners.subarray(id*12,id*12+12),offset);
+   offset+=12;
+  }
+  return {cells,matched,remaining:Int32Array.from(archived.values())};
+ }
+ function depths(all){
+  const offset=frame*5*meta.cell_count;
+  const primary=all?maxima:data.subarray(offset,offset+meta.cell_count);
+  if(!joint)return primary;
+  const archivedOffset=frame*5*secondary.n;
+  const other=all?secondary.maxima:secondary.data.subarray(archivedOffset,archivedOffset+secondary.n);
+  const values=new Float32Array(meta.cell_count+combinedGrid.remaining.length);
+  values.set(primary.subarray(0,meta.cell_count));
+  combinedGrid.matched.forEach((id,i)=>{if(id>=0)values[i]=Math.max(values[i],other[id]);});
+  combinedGrid.remaining.forEach((id,i)=>{values[meta.cell_count+i]=other[id];});
+  return values;
  }
  function flowBounds(){
   let west=Infinity,south=Infinity,east=-Infinity,north=-Infinity;
-  for(const {corners:cells} of layers()){
-   for(let i=0;i<cells.length;i+=3){
-    west=Math.min(west,cells[i]);
-    east=Math.max(east,cells[i]);
-    south=Math.min(south,cells[i+1]);
-    north=Math.max(north,cells[i+1]);
-   }
+  const cells=combinedGrid?.cells||corners;
+  for(let i=0;i<cells.length;i+=3){
+   west=Math.min(west,cells[i]);
+   east=Math.max(east,cells[i]);
+   south=Math.min(south,cells[i+1]);
+   north=Math.max(north,cells[i+1]);
   }
   return [west,south,east,north];
  }
@@ -246,14 +276,13 @@
   const ctx=canvas.getContext('2d');
   const scaleX=canvas.width/(east-west);
   const scaleY=canvas.height/(north-south);
-  for(const layer of layers()){
-   const {corners:cells,maxima:depth,n,palette}=layer;
-   for(let category=0;category<palette.length;category++){
-    const [r,g,b,a]=palette[category];
-    ctx.fillStyle=`rgba(${r},${g},${b},${joint?a/255:1})`;
+  const cells=combinedGrid?.cells||corners, depth=depths(true);
+  for(let category=0;category<flowColors.length;category++){
+    const [r,g,b]=flowColors[category];
+    ctx.fillStyle=`rgb(${r},${g},${b})`;
     ctx.beginPath();
-    for(let i=0;i<n;i++){
-     if(depth[i]<5||(palette.length>1&&depthClass(depth[i])!==category))continue;
+    for(let i=0;i<cells.length/12;i++){
+     if(depth[i]<5||depthClass(depth[i])!==category)continue;
      const start=i*12;
      ctx.moveTo((cells[start]-west)*scaleX,(north-cells[start+1])*scaleY);
      for(let j=1;j<4;j++){
@@ -263,7 +292,6 @@
      ctx.closePath();
     }
     ctx.fill();
-   }
   }
   return {canvas,rectangle:C.Rectangle.fromDegrees(west,south,east,north)};
  }
@@ -299,19 +327,18 @@
   if(!visible||(all&&coverageLayer)){viewer.scene.requestRender();return;}
   if(all&&!coveragePending&&!coverageUnavailable)void ensureCoverageLayer();
   const indices=[],positions=[],colors=[];
-  for(const {corners:cells,data:frames,maxima:envelope,n,palette} of layers()){
-   const offset=frame*5*n;
-   for(let i=0;i<n;i++){
-    const depth=all?envelope[i]:frames[offset+i];if(depth<5)continue;
-    const zOffset=all||joint?2:frames[offset+4*n+i]/100+1.5;
-    const rgba=palette.length===1?palette[0]:palette[depthClass(depth)],k=positions.length/3;
+  const cells=combinedGrid?.cells||corners, depth=depths(all);
+  const n=meta.cell_count, offset=frame*5*n;
+  for(let i=0;i<cells.length/12;i++){
+    if(depth[i]<5)continue;
+    const zOffset=all||joint?2:data[offset+4*n+i]/100+1.5;
+    const rgba=flowColors[depthClass(depth[i])],k=positions.length/3;
     for(let j=0;j<4;j++){
      const g=(i*4+j)*3, lon=cells[g],lat=cells[g+1];
      const p=C.Cartesian3.fromDegrees(lon,lat,elevation(lon,lat)+zOffset);
      positions.push(p.x,p.y,p.z);colors.push(...rgba);
     }
     indices.push(k,k+1,k+2,k,k+2,k+3);
-   }
   }
   if(positions.length){const p=new Float64Array(positions);const geometry=new C.Geometry({attributes:{position:new C.GeometryAttribute({componentDatatype:C.ComponentDatatype.DOUBLE,componentsPerAttribute:3,values:p}),color:new C.GeometryAttribute({componentDatatype:C.ComponentDatatype.UNSIGNED_BYTE,componentsPerAttribute:4,normalize:true,values:new Uint8Array(colors)})},indices:new Uint32Array(indices),primitiveType:C.PrimitiveType.TRIANGLES,boundingSphere:C.BoundingSphere.fromVertices(p)});
    const appearance=new C.PerInstanceColorAppearance({flat:true,translucent:true,closed:false,renderState:{depthTest:{enabled:true},depthMask:false,cull:{enabled:false}},vertexShaderSource:'in float batchId; in vec3 position3DHigh; in vec3 position3DLow; in vec4 color; out vec4 v_color; void main(){vec4 p=czm_computePosition();v_color=color;gl_Position=czm_modelViewProjectionRelativeToEye*p;}'});
@@ -371,14 +398,12 @@
    $('maximum').checked=true;
    $('intro').textContent='Compara en el mismo mapa los recorridos por el Pita y Santa Clara. Pulsa reproducir para ver cómo avanzan desde las fuentes.';
    $('noticeTitle').textContent='Dos simulaciones en un mapa';
-   $('noticeText').textContent='El azul corresponde a la corrida con terreno municipal y el naranja a la corrida inicial. Ambos resultados usan el mismo reloj. Esta comparación muestra el alcance de cada corrida.';
-   $('story').textContent='Se dibujan las celdas con 5 cm de flujo o más. El tono claro indica que ambas corridas se superponen. Usa las vistas individuales para consultar espesor y velocidad.';
+   $('noticeText').textContent='Ambas corridas usan el mismo reloj y la misma escala de espesores. En las celdas donde coinciden se muestra el mayor espesor calculado de las dos.';
+   $('story').textContent='Las líneas discontinuas identifican los cauces del Pita y Santa Clara. Las vistas individuales muestran los resultados completos de cada corrida.';
    $('branchComparison').hidden=true;
    $('studyResults').hidden=true;
    $('singleMetrics').hidden=true;
    $('singleResults').hidden=true;
-   $('ordinaryLegend').hidden=true;
-   $('jointLegend').hidden=false;
    $('espeStatus').textContent='Santa Clara toca el campus al minuto 95:45 en la corrida inicial. La municipal toca el lado cercano al Pita al 102:15.';
    route();
   }
@@ -400,7 +425,8 @@
    const [cells,states,peak]=await Promise.all([compressed(other.geometry,Float32Array),
     compressed(caseData,Int32Array),compressed(caseData.max_asset,Float32Array)]);
    if(cells.length!==n*12||peak.length!==n*3)throw Error('Datos incompletos de Santa Clara');
-   secondary={corners:cells,data:decodeFrames(states,n,caseData.frame_count),maxima:peak,n,palette:[copernicusOrange]};
+   secondary={corners:cells,data:decodeFrames(states,n,caseData.frame_count),maxima:peak,n};
+   combinedGrid=alignGrids();
   }
   const scheme=new C.GeographicTilingScheme(),provider=new C.CustomHeightmapTerrainProvider({width:64,height:64,tilingScheme:scheme,credit:meta.adaptation?.terrain?.model_file==='municipal_hybrid_30m.tif'?'MDT GAD Rumiñahui · Copernicus GLO-30 © DLR/Airbus · UE/ESA · SRTM/Mapzen':meta.adaptation?'Copernicus GLO-30 © DLR/Airbus · UE/ESA · contexto Mapzen · Kestrel sin calibración local':'Contexto SRTM/Mapzen · cálculo regional Kestrel sin calibrar',callback:(x,y,level)=>{const r=scheme.tileXYToRectangle(x,y,level),a=new Float32Array(4096);for(let j=0;j<64;j++)for(let i=0;i<64;i++)a[j*64+i]=elevation(C.Math.toDegrees(r.west+(r.east-r.west)*i/63),C.Math.toDegrees(r.north-(r.north-r.south)*j/63));return a;}});
   C.Ion.defaultAccessToken='';viewer=new C.Viewer('viewer',{baseLayer:new C.ImageryLayer(window.EcuadorImagery.fallback(C)),terrainProvider:provider,baseLayerPicker:false,geocoder:false,timeline:false,animation:false,homeButton:false,sceneModePicker:false,navigationHelpButton:false,fullscreenButton:false,infoBox:false,selectionIndicator:false,requestRenderMode:true});viewer.scene.globe.depthTestAgainstTerrain=true;window.EcuadorImagery.connect(viewer,C).then(()=>{
