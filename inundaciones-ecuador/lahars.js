@@ -588,6 +588,117 @@
   viewer.scene.requestRender();
  }
 
+ function cesiumBuildingMaterials(tiles,urban,status){
+  const blank=new C.TextureUniform({typedArray:new Uint8Array(4),width:1,height:1,repeat:false});
+  const shader=new C.CustomShader({lightingModel:C.LightingModel.UNLIT,uniforms:{
+   u_photo:{type:C.UniformType.SAMPLER_2D,value:blank},
+   u_region:{type:C.UniformType.VEC4,value:new C.Cartesian4(-1,-1,1,1)},
+   u_anchor:{type:C.UniformType.VEC3,value:C.Cartesian3.fromDegrees(-78.44,-.33)}
+  },fragmentShaderText:`
+   void fragmentMain(FragmentInput fsInput,inout czm_modelMaterial material){
+    vec3 p=fsInput.attributes.positionWC;
+    vec3 n=normalize(czm_inverseViewRotation*fsInput.attributes.normalEC);
+    vec3 up=normalize(p), east=normalize(vec3(-p.y,p.x,0.0)), north=cross(up,east);
+    float roof=dot(n,up);
+    float sun=0.68+0.32*max(0.0,dot(n,-0.52*east-0.37*north+0.77*up));
+    float id=float(fsInput.featureIds.featureId_0);
+    float hue=fract(sin(id*13.6531+1.71)*4311.531);
+    vec3 finish=mix(vec3(0.60,0.55,0.49),vec3(0.80,0.77,0.70),hue);
+    if(roof>0.65){
+     vec2 lonlat=degrees(vec2(atan(p.y,p.x),atan(p.z,length(p.xy)*0.99330562)));
+     vec2 uv=(lonlat-u_region.xy)/(u_region.zw-u_region.xy);
+     if(all(greaterThanEqual(uv,vec2(0.0)))&&all(lessThanEqual(uv,vec2(1.0)))){
+      vec4 photo=texture(u_photo,vec2(uv.x,1.0-uv.y));
+      finish=mix(finish,photo.rgb,smoothstep(0.22,0.93,photo.a));
+     }
+    }else{
+     vec3 wallDirection=normalize(cross(n,up));
+     // Finish patterns are visual and fade as their projected size approaches one pixel.
+     vec3 local=p-u_anchor;
+     vec2 panel=vec2(dot(local,wallDirection)/mix(2.1,3.3,hue),dot(local,up)/3.0+hue);
+     vec2 density=fwidth(panel);
+     vec2 soft=clamp(density,vec2(.015),vec2(.16));
+     vec2 vf=abs(fract(panel)-0.5);
+     vec2 mask=1.0-smoothstep(vec2(.27,.18)-soft,vec2(.27,.18)+soft,vf);
+     float nearDetail=1.0-smoothstep(.17,.51,max(density.x,density.y));
+     if(hue<.24)finish=mix(finish,vec3(.52,.36,.30),.45);
+     vec3 glass=mix(vec3(.23,.27,.28),vec3(.40,.43,.42),1.0-fract(panel.y));
+     finish=mix(finish,glass,mask.x*mask.y*nearDetail*.68);
+    }
+    material.diffuse=pow(clamp(finish*sun,0.0,1.0),vec3(2.2));
+   }`});
+  tiles.customShader=shader;
+
+  const base='https://geoide.ruminahui.gob.ec/image/rest/services/';
+  const sources=['ortofoto_urbano_gadmur','otf/ortofotos_2026_preliminar_ws'];
+  const cache=new Map();
+  let flight,active,credited=false;
+  async function capturePhoto(bounds,size,signal){
+   const query=new URLSearchParams({bbox:bounds.join(','),bboxSR:'4326',imageSR:'4326',
+    size:`${size},${size}`,format:'png32',transparent:'true',f:'image'});
+   for(const source of sources){
+    const url=base+source+'/MapServer/export?'+query;
+    const response=await fetch(url,{signal});
+    if(!response.ok||!response.headers.get('content-type')?.startsWith('image/'))continue;
+    const photo=await createImageBitmap(await response.blob());
+    const canvas=document.createElement('canvas');
+    canvas.width=photo.width;canvas.height=photo.height;
+    const ctx=canvas.getContext('2d',{willReadFrequently:true});
+    ctx.drawImage(photo,0,0);
+    photo.close();
+    const data=ctx.getImageData(0,0,canvas.width,canvas.height);
+    canvas.width=canvas.height=1;
+    let count=0,total=0;
+    for(let i=3;i<data.data.length;i+=509*4){count+=data.data[i]>200?1:0;total++;}
+    if(count/total<.12)continue;
+    return new C.TextureUniform({typedArray:new Uint8Array(data.data.buffer),width:data.width,height:data.height,repeat:false});
+   }
+   return null;
+  }
+  async function update(){
+   if(!tiles.show)return;
+   const camera=viewer.camera;
+   const ray=camera.getPickRay(new C.Cartesian2(viewer.canvas.clientWidth*.5,viewer.canvas.clientHeight*.5));
+   const point=ray&&viewer.scene.globe.pick(ray,viewer.scene);
+   const target=point?C.Cartographic.fromCartesian(point):camera.positionCartographic;
+   const lon=C.Math.toDegrees(target.longitude),lat=C.Math.toDegrees(target.latitude);
+   const height=camera.positionCartographic.height-elevation(lon,lat);
+   if(lon<urban[0]||lon>urban[2]||lat<urban[1]||lat>urban[3]||height>5800)return;
+   const step=height<650?.007:.016,size=height<650?1792:1408;
+   const x=Math.round(lon/step)*step,y=Math.round(lat/step)*step;
+   const key=`${size}/${x.toFixed(4)}/${y.toFixed(4)}`;
+   if(active===key||flight?.key===key)return;
+   flight?.controller.abort();
+   const controller=new AbortController(),request={key,controller};
+   flight=request;
+   try{
+    const bounds=[x-step,y-step,x+step,y+step].map(v=>Number(v.toFixed(5)));
+    let photo=cache.get(key);
+    if(!photo){
+     photo=await capturePhoto(bounds,size,controller.signal);
+     if(!photo||flight!==request)return;
+     cache.set(key,photo);
+     if(cache.size>3)cache.delete(cache.keys().next().value);
+    }
+    shader.setUniform('u_photo',photo);
+    shader.setUniform('u_region',new C.Cartesian4(...bounds));
+    active=key;
+    status.dataset.roofPhoto='ready';
+    if(!credited){
+     viewer.cesiumWidget.creditDisplay.addStaticCredit(new C.Credit('<a href="https://geoide.ruminahui.gob.ec/catastro/" target="_blank" rel="noopener">Ortofoto GAD Rumiñahui</a>',true));
+     credited=true;
+    }
+    viewer.scene.requestRender();
+   }catch(_){
+    // A photo that cannot be read leaves the visual finish available.
+   }finally{if(flight===request)flight=null;}
+  }
+  viewer.camera.moveEnd.addEventListener(update);
+  $('buildingSource').addEventListener('change',update);
+  $('buildings').addEventListener('change',update);
+  void update();
+ }
+
  async function addCesiumBuildings(footprints){
   const controls=$('buildingSource'),status=$('buildingCesiumStatus');
   const accessToken=String(window.ECUADOR_IMAGERY_CONFIG?.accessToken||'').trim();
@@ -629,6 +740,7 @@
    osmBuildings=viewer.scene.primitives.add(tiles);
    controls.disabled=false;
    updateBuildingVisibility();
+   if(!window.laharReel)cesiumBuildingMaterials(tiles,urban,status);
   }catch(_){status.textContent='No respondió la capa de Cesium. Se muestran las construcciones municipales.';}
  }
 
