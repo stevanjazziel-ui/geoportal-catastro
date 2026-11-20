@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lahares del Cotopaxi por Pita y Santa Clara</title>
+<style>
+body{background:#f8f9f6;color:#183634;font:1rem/1.6 system-ui,sans-serif;margin:0 auto;max-width:67rem;padding:2rem 1.2rem 3.5rem}
+a{color:#085d67;text-underline-offset:.16em}h1{font-size:clamp(2rem,5vw,3rem);line-height:1.06;margin:1rem 0}
+h2{line-height:1.2;margin-top:2rem}figure{margin:1.5rem 0}img{display:block;width:100%;height:auto}
+figcaption,small{color:#47605a}table{border-collapse:collapse;width:100%}
+th,td{padding:.55rem;text-align:left;vertical-align:top;border-bottom:1px solid #cbd7d0}th{background:#e5ede7}
+.table{overflow:auto}.summary{background:#e8f0eb;padding:.15rem 1rem;border-left:4px solid #14766e}
+li{margin:.55rem 0}
+</style>
+</head>
+<body>
+<nav><a href="lahars.html">Volver al visor 3D</a></nav>
+<h1>Lahares del Cotopaxi por Pita y Santa Clara</h1>
+<div class="summary">
+<p><strong>Nuestra estimación para el escenario calculado.</strong> El Pita mantiene continuidad hasta San Rafael y llega a la sección de Hacienda Megamaxi alrededor del minuto 102 desde los aportes simulados. En esa sección se calcularon máximos de 6,3 m/s (23 km/h) y 7,2 m de espesor. Son valores puntuales dentro de una sección del río y pueden ocurrir en momentos distintos.</p>
+<p><strong>Santa Clara sí puede afectar a Sangolquí.</strong> La corrida reproduce el desborde en La Caldera y parte del recorrido por Santa Clara. En el tramo urbano, el cálculo deja una brecha de 4,5 km a los 150 minutos. El mapa municipal, los mapas de la ESPE difundidos por GK y los antecedentes de 1877 muestran afectación en ese corredor. La evidencia disponible indica que el orden de llegada por los dos ríos puede cambiar según el escenario. <a href="https://gk.city/2024/08/27/antes-de-la-gran-erupcion-del-cotopaxi/">Mapas de Oswaldo Padilla y la ESPE</a> · <a href="https://doi.org/10.3389/feart.2024.1426088">Reconstrucción de 1877</a></p>
+</div>
+
+<figure><img src="data/sangolqui-lahars/revision-tramos-lahares.png" width="1485" height="1350" alt="Mapa de las nueve secciones revisadas. El Pita aparece continuo. Santa Clara presenta una brecha en Sangolquí. El último tramo de San Pedro queda incompleto."><figcaption>El color indica dónde el cálculo llegó al corredor de cada río. Las líneas siguen los cauces y no representan el ancho inundado. Consulta la mancha de amenaza activando el espesor máximo del escenario municipal en el visor.</figcaption></figure>
+
+<h2>Los tramos, uno por uno</h2>
+<p>Se midió cada cauce con muestras separadas unos 30 m y se verificó si alguna celda próxima alcanzó 5 cm de espesor. El porcentaje mide la longitud cubierta durante la corrida. Cerca de una unión, otra rama también puede mojar el extremo del tramo.</p>
+<div class="table" tabindex="0">
+<table>
+<thead><tr><th scope="col">Tramo</th><th scope="col">Longitud con flujo</th><th scope="col">Primera llegada al final<br><small>Nuestra corrida</small></th><th scope="col">Fin del tramo<br><small>EPN 2017, escenario 3</small></th><th scope="col">Contraste cartográfico</th></tr></thead>
+<tbody>
+<tr><th scope="row">Pita 1</th><td>100 %</td><td>36,5 min</td><td>17,7 min</td><td>Continuo en el cálculo y en el anexo EPN.</td></tr>
+<tr><th scope="row">Pita 2</th><td>100 %</td><td>58,5 min</td><td>33,8 min</td><td>El cálculo y el anexo EPN muestran desborde en La Caldera.</td></tr>
+<tr><th scope="row">Santa Clara 2</th><td>83 %</td><td>Sin llegada al final</td><td>34,3 min</td><td>El cálculo deja interrupciones, incluida una de 418 m. El anexo EPN muestra continuidad en el sector.</td></tr>
+<tr><th scope="row">Pita 3</th><td>100 %</td><td>76,0 min</td><td>53,2 min</td><td>Continuidad hacia el valle en el cálculo y en el anexo EPN.</td></tr>
+<tr><th scope="row">Santa Clara 3</th><td>96,8 %</td><td>105,0 min</td><td>45,1 min</td><td>El cálculo presenta 224 m sin flujo al inicio. El anexo muestra un corredor más continuo.</td></tr>
+<tr><th scope="row">Pita 4</th><td>100 %</td><td>112,5 min</td><td>79,8 min</td><td>El GAD y el anexo EPN también muestran un ensanchamiento cerca de San Rafael. Su coincidencia general no determina el borde exacto en calles.</td></tr>
+<tr><th scope="row">Santa Clara 4</th><td>53,9 %</td><td>115,8 min, desde la zona de unión</td><td>66,8 min</td><td>GAD, Padilla y anexo EPN cubren la brecha urbana de 4,5 km. La aparición de flujo cerca de la unión no demuestra que cruzara esa brecha.</td></tr>
+<tr><th scope="row">San Pedro 4</th><td>100 %</td><td>120,8 min</td><td>82,6 min</td><td>Ambos cálculos muestran continuidad aguas abajo de la unión.</td></tr>
+<tr><th scope="row">San Pedro 5</th><td>77 %</td><td>Sin llegada al final</td><td>99,8 min</td><td>El anexo EPN continúa por San Pedro. En esta corrida quedan 1,7 km finales sin flujo de 5 cm hasta el minuto 150.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Los tiempos propios parten de nueve aportes simultáneos en el flanco norte. Los del EPN usan sus propias entradas, geometría y condiciones de flujo. Sirven para reconocer diferencias entre escenarios. <a href="https://bibdigital.epn.edu.ec/bitstream/15000/17595/1/CD-8076.pdf#page=141">Torres y Vásquez, tabla 4.4</a> · <a href="https://bibdigital.epn.edu.ec/bitstream/15000/17595/1/CD-8076.pdf#page=293">Mapas de los tramos 1–5</a></p>
+
+<h2>La brecha en Santa Clara</h2>
+<p>Se continuó el cálculo desde el minuto 150 hasta el 160 con las mismas fuentes, terreno y parámetros. El frente del lado sur avanzó unos 330 m y apareció flujo adicional desde el lado de la unión. La brecha bajó de 4,50 a 3,81 km con el umbral de 5 cm. Entre los kilómetros 5 y 7,5 del tramo urbano, el espesor máximo calculado siguió en cero. La prueba muestra que diez minutos adicionales no bastan para reproducir la continuidad que muestran los mapas. La causa del desacuerdo aún requiere comprobar el caudal desviado en La Caldera y la geometría local del cauce.</p>
+<p>En la sección de El Ejido, el cálculo de 150 minutos quedó seco. El estudio local de Rivera (EPN, 2016) sí reproduce un flujo en la zona de esa sección en su escenario de calibración. En un punto cercano del escenario municipal, en UTM 17S 784698 E y 9963410 N, el servicio reporta cerca de 1,24 m de espesor máximo. Cada resultado corresponde a su propio escenario y ubicación. <a href="https://bibdigital.epn.edu.ec/bitstream/15000/16488/1/CD-7170.pdf">Rivera, 2016</a> · <a href="https://geoide.ruminahui.gob.ec/image/rest/services/LAHAR/lahar_cotopaxi_zona_norte/MapServer">Capas del GAD Rumiñahui</a></p>
+
+<h2>Por qué cambian el alcance y los tiempos</h2>
+<ul>
+<li><strong>El desborde en La Caldera es un factor decisivo.</strong> Vásconez y colaboradores documentaron depósitos de lahar en campo y probaron el mismo escenario con distintos terrenos. Cambiaron tanto los lugares de desborde como el avance por Santa Clara. Las mallas de 15 y 20 m se detuvieron antes de zonas residenciales; las de 10 y 30 m produjeron un alcance distinto usando otro modelo de terreno. <a href="https://doi.org/10.3389/feart.2025.1611579">Vásconez y colaboradores, 2025, figuras 5, 8 y 10</a></li>
+<li><strong>La intensidad modifica cuál río llega primero.</strong> En los cálculos de Frimberger y colaboradores, el Pita alcanza San Rafael a los 84, 71 y 60 min en los escenarios 2, 3 y 4. El escenario mayor alcanza Sangolquí por Santa Clara a los 52 min, con menor desborde en el escenario 3. Esos minutos pertenecen al reloj del estudio. <a href="https://onlinelibrary.wiley.com/doi/10.1002/esp.5056">Frimberger y colaboradores, 2021, tabla 2</a></li>
+<li><strong>Los mapas cubren ambos corredores.</strong> El mapa de amenaza del IG-EPN y los mapas elaborados por el equipo de Padilla muestran exposición por Santa Clara y Pita. Coinciden con los antecedentes que documentan afectación por ambos ríos en 1877. El catálogo del visor distingue el mapa oficial de los resultados numéricos municipales y propios. <a href="https://www.igepn.edu.ec/cotopaxi-mapa-de-amenza-volcanica/25031-mapa-amenaza-volcanica-cotopaxi-norte-2016/file">Mapa IG-EPN de la zona norte</a> · <a href="https://gk.city/2024/08/27/antes-de-la-gran-erupcion-del-cotopaxi/">Cartografía ESPE en GK</a> · <a href="https://doi.org/10.3389/feart.2024.1426088">Estudio de 1877</a></li>
+</ul>
+<p>La entrada consiste en 34,79 millones de m³ de agua liberados en 15 minutos. Kestrel calcula además el arrastre y depósito de sedimentos. Por una línea al sur de Sangolquí y San Rafael que cruza los dos corredores se estimaron 22,04 millones de m³ de mezcla en dirección norte durante 150 min. Ese volumen es el transporte a través de la línea y no mide cuánto material entra a las calles. El terreno municipal de 3 m se remuestreó a la malla de cálculo de 30 m. El cauce sumergido, las obras y la cantidad de flujo que se desvía hacia Santa Clara conservan incertidumbre.</p>
+<p>Se trata de una estimación de escenario sin validación predictiva para una erupción futura. El mapa oficial y los avisos de las autoridades son las referencias para decisiones de emergencia.</p>
+<p><a href="data/sangolqui-lahars/full-route-audit.json">Descargar muestras y verificación de la corrida</a> · <a href="data/sangolqui-lahars/study-summary.html">Consultar el informe del cálculo de 150 minutos</a></p>
+</body>
+</html>

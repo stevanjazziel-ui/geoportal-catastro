@@ -280,7 +280,31 @@
   });
   if(meta.adaptation){city();placeLabels();}else route();
   let referenceLayer;
-  $('municipalReference').onchange=()=>{if(!referenceLayer&&$('municipalReference').checked){const provider=new C.WebMapServiceImageryProvider({url:'https://geoide.ruminahui.gob.ec/image/services/LAHAR/lahar_cotopaxi_zona_norte/MapServer/WMSServer',layers:'0',parameters:{transparent:true,format:'image/png',version:'1.1.1'},rectangle:C.Rectangle.fromDegrees(-78.577,-.712,-78.246,-.217),tileWidth:512,tileHeight:512,maximumLevel:15,credit:'Referencia de máximos · GAD Rumiñahui',enablePickFeatures:false});provider.errorEvent.addEventListener(()=>{$('municipalStatus').textContent='La referencia municipal no respondió. La simulación calculada sigue disponible.';});referenceLayer=viewer.imageryLayers.addImageryProvider(provider);referenceLayer.alpha=.55;}if(referenceLayer)referenceLayer.show=$('municipalReference').checked;viewer.scene.requestRender();};
+  const referenceSelect=$('municipalReference');
+  const referenceStatus=$('municipalStatus');
+  referenceSelect.onchange=()=>{
+   if(referenceLayer)viewer.imageryLayers.remove(referenceLayer);
+   referenceLayer=null;
+   const layer=referenceSelect.value;
+   referenceStatus.textContent=layer===''?'Activa una capa para consultar el escenario del GAD Rumiñahui.':
+    referenceSelect.selectedOptions[0].text+' del escenario municipal. El reloj de la animación controla nuestro cálculo.';
+   if(layer!==''){
+    const provider=new C.WebMapServiceImageryProvider({
+     url:'https://geoide.ruminahui.gob.ec/image/services/LAHAR/lahar_cotopaxi_zona_norte/MapServer/WMSServer',
+     layers:layer,parameters:{transparent:true,format:'image/png',version:'1.1.1'},
+     rectangle:C.Rectangle.fromDegrees(-78.577,-.712,-78.246,-.217),tileWidth:512,tileHeight:512,
+     maximumLevel:15,credit:'Mapa de lahares · GAD Rumiñahui',enablePickFeatures:false
+    });
+    provider.errorEvent.addEventListener(()=>{
+     if(referenceLayer?.imageryProvider===provider)referenceStatus.textContent='El servicio municipal no respondió. Puedes consultar el contraste por tramos.';
+    });
+    referenceLayer=viewer.imageryLayers.addImageryProvider(provider);
+    referenceLayer.alpha=.65;
+    if(coverageLayer)viewer.imageryLayers.raiseToTop(coverageLayer);
+   }
+   viewer.scene.requestRender();
+  };
+  referenceSelect.disabled=false;
   $('scenario').replaceChildren(...meta.cases.map(c=>new Option(c.title||names[c.id.split('-')[0]]||c.id,c.id)));
   $('scenario').value=(meta.cases.find(c=>c.id.startsWith('grande-'))||meta.cases[0]).id;
   $('scenario').disabled=false;
