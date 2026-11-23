@@ -8,7 +8,7 @@
  const focusPita=!joint&&!archive&&params.get('rio')==='pita';
  const campusCenter=[-78.445069,-.315230];
  let meta,viewer,corners,terrain,regional,current,data,maxima,secondary,combinedGrid,frame=0,timer,waterMesh,buildingMesh,request=0;
- let osmBuildings;
+ let osmBuildings,supplementalBuildings;
  let coverageLayer, coveragePending=false, coverageUnavailable=false, guided=false, activeView=-1;
  const riverViews=[
   {name:'Pita',button:'pita',reference:'pitaReference',color:'#9ae8ec',entities:[]},
@@ -540,51 +540,12 @@
   }};
  }
 
- function censusFootprintIndex(){
-  const boxes=new Map(),step=.001,margin=.000017;
-  const key=(i,j)=>`${i},${j}`;
-  const grid=v=>Math.floor(v/step);
-  function inside(lon,lat,ring){
-   let hit=false;
-   for(let i=0,j=ring.length-1;i<ring.length;j=i++){
-    const [a,b]=ring[i],[c,d]=ring[j];
-    if((b>lat)!==(d>lat)&&lon<(c-a)*(lat-b)/(d-b)+a)hit=!hit;
-   }
-   return hit;
-  }
-  function onEdge(x,y,ring){
-   for(let i=1;i<ring.length;i++){
-    const [a,b]=ring[i-1],[c,d]=ring[i];
-    const dx=c-a,dy=d-b;
-    const length=dx*dx+dy*dy;
-    if(!length)continue;
-    const t=Math.max(0,Math.min(1,((x-a)*dx+(y-b)*dy)/length));
-    if(Math.hypot(x-a-t*dx,y-b-t*dy)<margin)return true;
-   }
-   return false;
-  }
-  return {
-   add(polygons,west,south,east,north){
-    const feature={polygons,west,south,east,north};
-    for(let j=grid(south-margin);j<=grid(north+margin);j++)for(let i=grid(west-margin);i<=grid(east+margin);i++){
-     const bin=key(i,j);
-     if(!boxes.has(bin))boxes.set(bin,[]);
-     boxes.get(bin).push(feature);
-    }
-   },
-   has(lon,lat){
-    return (boxes.get(key(grid(lon),grid(lat)))||[]).some(({polygons,west,south,east,north})=>
-     lon>=west-margin&&lon<=east+margin&&lat>=south-margin&&lat<=north+margin&&polygons.some(([outer,...holes])=>
-      inside(lon,lat,outer)?!holes.some(hole=>inside(lon,lat,hole)):onEdge(lon,lat,outer)));
-   }
-  };
- }
-
  function updateBuildingVisibility(){
   const shown=$('buildings').checked;
   const source=$('buildingSource').value;
   if(buildingMesh)buildingMesh.show=shown&&source!=='cesium';
-  if(osmBuildings)osmBuildings.show=shown&&source!=='municipal';
+  if(supplementalBuildings)supplementalBuildings.show=shown&&source==='combined';
+  if(osmBuildings)osmBuildings.show=shown&&source==='cesium';
   viewer.scene.requestRender();
  }
 
@@ -699,7 +660,7 @@
   void update();
  }
 
- async function addCesiumBuildings(footprints){
+ async function addCesiumBuildings(){
   const controls=$('buildingSource'),status=$('buildingCesiumStatus');
   const accessToken=String(window.ECUADOR_IMAGERY_CONFIG?.accessToken||'').trim();
   if(!accessToken){status.textContent='Capa de Cesium pendiente de configurar.';return;}
@@ -713,23 +674,16 @@
    const lowered=C.Cartesian3.fromDegrees(-78.44,-.33,-25);
    tiles.modelMatrix=C.Matrix4.fromTranslation(C.Cartesian3.subtract(lowered,center,new C.Cartesian3()));
    tiles.style=new C.Cesium3DTileStyle({color:`Boolean(\${feature['cesium#color']}) ? color(\${feature['cesium#color']}) : color('#c1b9ac')`});
-   const urban=[-78.508,-.402,-78.392,-.271],settings=new WeakMap();
-   const matches=new WeakMap();
+   const urban=[-78.508,-.402,-78.392,-.271],configured=new WeakSet();
    tiles.tileVisible.addEventListener(tile=>{
-    const content=tile.content,source=controls.value;
-    if(!content.featuresLength||settings.get(content)===source)return;
-    if(!matches.has(content)){
-     const mask=new Uint8Array(content.featuresLength);
-     for(let i=0;i<mask.length;i++){
-      const feature=content.getFeature(i);
-      const lon=feature.getProperty('cesium#longitude'),lat=feature.getProperty('cesium#latitude');
-      if(lon>=urban[0]&&lon<=urban[2]&&lat>=urban[1]&&lat<=urban[3])mask[i]=footprints.has(lon,lat)?2:1;
-     }
-     matches.set(content,mask);
+    const content=tile.content;
+    if(!content.featuresLength||configured.has(content))return;
+    for(let i=0;i<content.featuresLength;i++){
+     const feature=content.getFeature(i);
+     const lon=feature.getProperty('cesium#longitude'),lat=feature.getProperty('cesium#latitude');
+     feature.show=Number.isFinite(lon)&&Number.isFinite(lat)&&lon>=urban[0]&&lon<=urban[2]&&lat>=urban[1]&&lat<=urban[3];
     }
-    const mask=matches.get(content);
-    for(let i=0;i<mask.length;i++)content.getFeature(i).show=source==='cesium'?mask[i]>0:mask[i]===1;
-    settings.set(content,source);
+    configured.add(content);
    });
    tiles.initialTilesLoaded.addEventListener(()=>{
     status.textContent='Cesium OSM Buildings disponible para Sangolquí y alrededores.';
@@ -738,10 +692,19 @@
     status.textContent='Algunos bloques de Cesium tardaron en cargar. El catastro está disponible.';
    });
    osmBuildings=viewer.scene.primitives.add(tiles);
-   controls.disabled=false;
+   controls.querySelector('[value=cesium]').disabled=false;
+   status.textContent='Capa de Cesium disponible para comparar.';
    updateBuildingVisibility();
    if(!window.laharReel)cesiumBuildingMaterials(tiles,urban,status);
-  }catch(_){status.textContent='No respondió la capa de Cesium. Se muestran las construcciones municipales.';}
+  }catch(_){status.textContent='No respondió la capa de Cesium. La vista combinada sigue disponible.';}
+ }
+
+ function floorLabel(levels,source){
+  if(source==='review')return 'Pisos por verificar';
+  if(!Number.isFinite(levels))return 'Pisos sin dato';
+  const label=fmt(levels,0)+(levels===1?' piso':' pisos');
+  if(source==='unverified')return label+' registrados en el catastro · por verificar';
+  return label+(source==='osm'?' según OpenStreetMap':' según el catastro');
  }
 
  async function buildings(){
@@ -749,46 +712,55 @@
   const hasSurfaceData=supportedFootprints.includes(meta.buildings.sha256?.slice(0,16));
   const readSurface=(file,sha256)=>hasSurfaceData?compressed({file,sha256,
    url:'https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/'+root+file},Uint8Array).catch(()=>null):null;
-  const [json,materials,roofBytes]=await Promise.all([compressed(meta.buildings),
+  const revisionFile='building-revision-20261123.json.gz';
+  const revisionsAsset={file:revisionFile,sha256:'7f134bb7c18a5d05496806e9bbfa1f01901ddcffc7828e2fab31a7c5e967fbd3',
+   url:'https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/'+root+revisionFile};
+  const [json,materials,roofBytes,revision]=await Promise.all([compressed(meta.buildings),
    readSurface('building-materials-v1.bin.gz','fe7dfc426d1527db3cc0a74fd8104b7995adef018ade9b2281620f7de59cbe8d'),
-   readSurface('building-roof-atlas-v2.bin.gz','4e240643a81ca5cc0be53fc6cb2bb01e92442435a7e9bc41bae492c586dc9dbc')]);
+   readSurface('building-roof-atlas-v2.bin.gz','4e240643a81ca5cc0be53fc6cb2bb01e92442435a7e9bc41bae492c586dc9dbc'),
+   hasSurfaceData?compressed(revisionsAsset).catch(()=>null):null]);
+  const verified=revision?.schema===1&&revision.cadastre.includes(meta.buildings.sha256)?revision:null;
   const styles=materials?.length===json.features.length*5?materials:null;
   const atlas=roofAtlas(roofBytes,json.features.length);
-  const footprints=censusFootprintIndex();
   const origin=C.Cartesian3.fromDegrees(-78.44,-.33);
   const axes=C.Transforms.eastNorthUpToFixedFrame(origin);
   const local=C.Matrix4.inverseTransformation(axes,new C.Matrix4());
   const attr=value=>new C.GeometryInstanceAttribute({componentDatatype:C.ComponentDatatype.FLOAT,
    componentsPerAttribute:value.length,value});
   const roofs=[[164,166,160],[151,119,104],[178,180,176],[126,136,137],[172,139,121]];
-  const instances=[];
-  let sampled=0,detailed=0;
-  for(const [index,feature] of json.features.entries()){
+  const instances=[],extraInstances=[];
+  const extras=verified?.extras||[];
+  const features=json.features.concat(extras.map(row=>({geometry:row.geometry,osmId:row.osmId,roofColor:row.color,
+   properties:{floors:row.levels,height_m:row.height,height_origin:row.heightSource}})));
+  const heightSource={'lidar':'estimada con LiDAR municipal','osm-height':'registrada en OpenStreetMap',
+   'osm-levels':'estimada con los pisos de OpenStreetMap','catastro':'estimada con los pisos del catastro',approx:'aproximada para visualización'};
+  let detailed=0;
+  for(const [index,feature] of features.entries()){
    const p=feature.properties,geometry=feature.geometry;
+   const external=Boolean(feature.osmId),change=verified?.revisions[index];
+   const height=change?.[0]??p.height_m;
+   const levelSource=change?.[3]??(external?'osm':p.floors>=5?'unverified':'catastro');
+   const levels=change?change[1]:p.height_origin.includes('supuesto')?null:p.floors;
    const polygons=geometry.type==='MultiPolygon'?geometry.coordinates:[geometry.coordinates];
    const offset=index*5;
    const source=styles?.[offset+3]??0;
    const style=styles?.[offset+4]??0;
    const seed=((Math.imul(index+1,2654435761)>>>0)%997)/997;
-   const rgb=source?Array.from(styles.subarray(offset,offset+3)):roofs[Math.floor(seed*roofs.length)];
+   const rgb=feature.roofColor??(source?Array.from(styles.subarray(offset,offset+3)):roofs[Math.floor(seed*roofs.length)]);
    const color=C.ColorGeometryInstanceAttribute.fromColor(C.Color.fromBytes(...rgb));
-   if(source)sampled++;
-   const surfaceStyle=attr([p.base_m,style,seed]);
-   const region=atlas.index?.(index)??[0,0,0];
+   const region=(!external&&atlas.index?.(index))||[0,0,0];
    const roofRegion=attr(region);
-   const attributes={color,surfaceStyle,roofRegion,roofBox:attr([0,0,1,1])};
    let west=Infinity,east=-Infinity,north=-Infinity,south=Infinity,low=Infinity,high=-Infinity;
    for(const polygon of polygons)for(const [lon,lat] of polygon[0]){
     west=Math.min(west,lon);east=Math.max(east,lon);south=Math.min(south,lat);north=Math.max(north,lat);
     const z=elevation(lon,lat);low=Math.min(low,z);high=Math.max(high,z);
    }
    if(!Number.isFinite(west+east+south+north))continue;
-   footprints.add(polygons,west,south,east,north);
-   const needsAnchor=p.base_m+p.height_m<=low+.25||p.base_m>high+1.5;
+   const needsAnchor=external||p.base_m+height<=low+.25||p.base_m>high+1.5;
    const anchor=needsAnchor?elevation((west+east)/2,(south+north)/2):p.base_m;
    const base=needsAnchor?Math.min(low-.20,anchor):p.base_m;
-   const top=anchor+p.height_m;
-   if(needsAnchor)attributes.surfaceStyle=attr([anchor,style,seed]);
+   const top=anchor+height;
+   const attributes={color,surfaceStyle:attr([anchor,style,seed]),roofRegion,roofBox:attr([0,0,1,1])};
    if(region[2]){
     const lower=C.Matrix4.multiplyByPoint(local,C.Cartesian3.fromDegrees(west,south,top),new C.Cartesian3());
     const upper=C.Matrix4.multiplyByPoint(local,C.Cartesian3.fromDegrees(east,north,top),new C.Cartesian3());
@@ -797,25 +769,31 @@
    }
    const roofSource=region[2]?'Textura de cubierta derivada de la ortofoto municipal.':['Color de cubierta aproximado.','Color de cubierta tomado de la ortofoto municipal.',
     'Color de cubierta tomado de la ortofoto preliminar municipal de 2026.'][source];
-   const floors=p.height_origin==='sin pisos: un piso supuesto'?'1 piso supuesto':
-    fmt(p.floors,0)+(p.floors===1?' piso':' pisos');
-   const id={building:true,text:floors+' · '+fmt(p.height_m,1)+' m de altura estimada. '+roofSource+' Fachada aproximada.'};
+   const reference=change?.[2]??(external?p.height_origin:levels===null?'approx':'catastro');
+   const id={building:true,text:floorLabel(levels,levelSource)+' · '+fmt(height,1)+' m de altura '+heightSource[reference]+
+    '. '+(external?'Huella de OpenStreetMap. '+(feature.roofColor?'Color de cubierta de la ortofoto municipal. ':''):roofSource+' ')+'Fachada aproximada.'};
    for(const coords of polygons){
     if(coords[0].length<4)continue;
     const polygon=new C.PolygonGeometry({polygonHierarchy:hierarchy(coords),height:base,
      extrudedHeight:top,vertexFormat:C.PerInstanceColorAppearance.VERTEX_FORMAT});
-    instances.push(new C.GeometryInstance({geometry:polygon,id,attributes}));
+    (external?extraInstances:instances).push(new C.GeometryInstance({geometry:polygon,id,attributes}));
    }
   }
   buildingMesh=viewer.scene.primitives.add(new C.Primitive({geometryInstances:instances,
    appearance:buildingAppearance(atlas,axes,origin),asynchronous:true}));
+  if(extraInstances.length){
+   supplementalBuildings=viewer.scene.primitives.add(new C.Primitive({geometryInstances:extraInstances,
+    appearance:buildingAppearance(roofAtlas(null,0),axes,origin),asynchronous:true,show:false}));
+   viewer.cesiumWidget.creditDisplay.addStaticCredit(new C.Credit('<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap colaboradores · ODbL</a>',true));
+  }
+  $('buildingSource').disabled=false;
   updateBuildingVisibility();
-  const roofStatus=sampled?' '+fmt(sampled,0)+' con color de techo tomado de la ortofoto municipal.':'';
-  $('buildingStatus').textContent=fmt(json.features.length,0)+' construcciones municipales.'+roofStatus+
-   (detailed?' '+fmt(detailed,0)+' con textura de cubierta aérea.':'')+' Fachadas y alturas aproximadas. '+
-   fmt(meta.buildings.unknown_floors,0)+' sin dato de pisos usan un piso supuesto.';
+  const revisionCount=Object.keys(verified?.revisions||{}).length;
+  $('buildingStatus').textContent=fmt(json.features.length,0)+' bloques municipales.'+
+   (revisionCount?' '+fmt(revisionCount,0)+' con altura o pisos revisados.':'')+(detailed?' '+fmt(detailed,0)+' con textura de cubierta aérea.':'')+
+   (extras.length?' '+fmt(extras.length,0)+' huellas complementarias de OpenStreetMap.':'');
   viewer.scene.requestRender();
-  void addCesiumBuildings(footprints);
+  void addCesiumBuildings();
  }
  try{
   $(joint?'switchJoint':archive?'switchSantaClara':'switchPita').setAttribute('aria-current','page');
@@ -898,7 +876,9 @@
    if(p?.id?.building)$('picked').textContent=p.id.text;
    else if(osm){
     const height=p.getProperty('cesium#estimatedHeight');
-    $('picked').textContent='Cesium OSM Buildings'+(Number.isFinite(height)?' · '+fmt(height,1)+' m de altura estimada.':'.');
+    const tagged=p.getProperty('building:levels');
+    const levels=/^[1-9]\d*$/.test(String(tagged))?Number(tagged):null;
+    $('picked').textContent=floorLabel(levels,'osm')+(Number.isFinite(height)?' · '+fmt(height,1)+' m de altura estimada por Cesium.':'.');
    }
   },C.ScreenSpaceEventType.LEFT_CLICK);
   await loadCase();
