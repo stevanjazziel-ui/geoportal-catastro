@@ -712,8 +712,8 @@
   const hasSurfaceData=supportedFootprints.includes(meta.buildings.sha256?.slice(0,16));
   const readSurface=(file,sha256)=>hasSurfaceData?compressed({file,sha256,
    url:'https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/'+root+file},Uint8Array).catch(()=>null):null;
-  const revisionFile='building-revision-20261123.json.gz';
-  const revisionsAsset={file:revisionFile,sha256:'7f134bb7c18a5d05496806e9bbfa1f01901ddcffc7828e2fab31a7c5e967fbd3',
+  const revisionFile='building-revision-20261123-v2.json.gz';
+  const revisionsAsset={file:revisionFile,sha256:'2dd0d6a31396c1da197e8a1114cd8280ee47454800b775507067496dc8c396bf',
    url:'https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/'+root+revisionFile};
   const [json,materials,roofBytes,revision]=await Promise.all([compressed(meta.buildings),
    readSurface('building-materials-v1.bin.gz','fe7dfc426d1527db3cc0a74fd8104b7995adef018ade9b2281620f7de59cbe8d'),
