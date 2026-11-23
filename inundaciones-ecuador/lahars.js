@@ -712,8 +712,8 @@
   const hasSurfaceData=supportedFootprints.includes(meta.buildings.sha256?.slice(0,16));
   const readSurface=(file,sha256)=>hasSurfaceData?compressed({file,sha256,
    url:'https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/'+root+file},Uint8Array).catch(()=>null):null;
-  const revisionFile='building-revision-20261123-v2.json.gz';
-  const revisionsAsset={file:revisionFile,sha256:'2dd0d6a31396c1da197e8a1114cd8280ee47454800b775507067496dc8c396bf',
+  const revisionFile='building-revision-20261123-v3.json.gz';
+  const revisionsAsset={file:revisionFile,sha256:'fa8dad57692b218c597278d1b53a2ba0ee0fb7a1667a8e8e07b987c8ccd54c7c',
    url:'https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/'+root+revisionFile};
   const [json,materials,roofBytes,revision]=await Promise.all([compressed(meta.buildings),
    readSurface('building-materials-v1.bin.gz','fe7dfc426d1527db3cc0a74fd8104b7995adef018ade9b2281620f7de59cbe8d'),
@@ -730,16 +730,19 @@
   const roofs=[[164,166,160],[151,119,104],[178,180,176],[126,136,137],[172,139,121]];
   const instances=[],extraInstances=[];
   const extras=verified?.extras||[];
-  const features=json.features.concat(extras.map(row=>({geometry:row.geometry,osmId:row.osmId,roofColor:row.color,
+  const duplicates=new Set(verified?.duplicateIndices||[]);
+  const overlaps=new Set(verified?.overlappingMunicipal||[]);
+  const features=json.features.concat(extras.map(row=>({geometry:row.geometry,osmId:row.osmId,roofColor:row.color,levelState:row.levelState,
    properties:{floors:row.levels,height_m:row.height,height_origin:row.heightSource}})));
   const heightSource={'lidar':'estimada con LiDAR municipal','osm-height':'registrada en OpenStreetMap',
    'osm-levels':'estimada con los pisos de OpenStreetMap','catastro':'estimada con los pisos del catastro',approx:'aproximada para visualización'};
   let detailed=0;
   for(const [index,feature] of features.entries()){
+   if(duplicates.has(index))continue;
    const p=feature.properties,geometry=feature.geometry;
    const external=Boolean(feature.osmId),change=verified?.revisions[index];
    const height=change?.[0]??p.height_m;
-   const levelSource=change?.[3]??(external?'osm':p.floors>=5?'unverified':'catastro');
+   const levelSource=change?.[3]??feature.levelState??(external?'osm':p.floors>=5?'unverified':'catastro');
    const levels=change?change[1]:p.height_origin.includes('supuesto')?null:p.floors;
    const polygons=geometry.type==='MultiPolygon'?geometry.coordinates:[geometry.coordinates];
    const offset=index*5;
@@ -771,7 +774,8 @@
     'Color de cubierta tomado de la ortofoto preliminar municipal de 2026.'][source];
    const reference=change?.[2]??(external?p.height_origin:levels===null?'approx':'catastro');
    const id={building:true,text:floorLabel(levels,levelSource)+' · '+fmt(height,1)+' m de altura '+heightSource[reference]+
-    '. '+(external?'Huella de OpenStreetMap. '+(feature.roofColor?'Color de cubierta de la ortofoto municipal. ':''):roofSource+' ')+'Fachada aproximada.'};
+    '. '+(external?'Huella de OpenStreetMap. '+(feature.roofColor?'Color de cubierta de la ortofoto municipal. ':''):roofSource+' ')+
+    (overlaps.has(index)?'Cruce con otra huella municipal por revisar. ':'')+'Fachada aproximada.'};
    for(const coords of polygons){
     if(coords[0].length<4)continue;
     const polygon=new C.PolygonGeometry({polygonHierarchy:hierarchy(coords),height:base,
@@ -788,9 +792,11 @@
   }
   $('buildingSource').disabled=false;
   updateBuildingVisibility();
-  const revisionCount=Object.keys(verified?.revisions||{}).length;
+  const revisionCount=Object.keys(verified?.revisions||{}).filter(index=>!duplicates.has(Number(index))).length;
   $('buildingStatus').textContent=fmt(json.features.length,0)+' bloques municipales.'+
-   (revisionCount?' '+fmt(revisionCount,0)+' con altura o pisos revisados.':'')+(detailed?' '+fmt(detailed,0)+' con textura de cubierta aérea.':'')+
+   (revisionCount?' '+fmt(revisionCount,0)+' con altura o pisos revisados.':'')+
+   (duplicates.size?' '+fmt(duplicates.size,0)+' huellas municipales repetidas representadas una sola vez.':'')+
+   (detailed?' '+fmt(detailed,0)+' con textura de cubierta aérea.':'')+
    (extras.length?' '+fmt(extras.length,0)+' huellas complementarias de OpenStreetMap.':'');
   viewer.scene.requestRender();
   void addCesiumBuildings();
