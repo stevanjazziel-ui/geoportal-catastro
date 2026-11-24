@@ -5,8 +5,8 @@
  const root='data/shobol/';
  const published=location.hostname==='stevanjazziel-ui.github.io';
  const repository='https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/shobol-llinllin/';
- const largeAssets=new Set(['drenaje_d8.geojson','tileset.json','superficie-relieve.glb']);
- const assetUrl=file=>(published&&largeAssets.has(file)?repository:'')+root+file;
+ const largeAssets=new Set(['drenaje_d8.geojson','nube-sfm.json','tileset.json','superficie-fotogrametrica-parcial.glb']);
+ const assetUrl=file=>(published&&(file.startsWith('photos/')||largeAssets.has(file))?repository:'')+root+file;
  const number=(n,d=1)=>Number(n).toLocaleString('es-EC',{maximumFractionDigits:d});
  const colors={capturas:'#f5d97e','orientacion-laser':'#8d8dc9',huellas_foto:'#e9cc8a',evidencias:'#f6954d',
   microcuencas:'#8cd7ba',drenaje_d8:'#78c9eb',referencias:'#ccbaf1',edificios_osm:'#d3c7a8',
@@ -382,7 +382,7 @@
   byId('profiles').textContent='El drenaje derivado reúne '+number(basin.km2,2)+' km² en el sector bajo.';
   home();
   await Promise.all(initialLayers);
-  if(photoRecords.size)byId('photoCount').textContent=photoRecords.size;
+  byId('photoCount').textContent=photoRecords.size;
   if(new URLSearchParams(location.search).has('qa')){
    window.shobolQA={viewer,ready:!layerError,case:()=>active?.meta.id,frame:()=>frame,
                    tour:flyTour,tourFrame,home,show:look,overlay:()=>overlay?.rectangle,photoRecords,

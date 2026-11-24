@@ -11,8 +11,8 @@ SHOBOL_PREFIX='shobol-llinllin/data/shobol/'
 def shobol_raw_asset(name):
  if not name.startswith(SHOBOL_PREFIX):return False
  asset=name.removeprefix(SHOBOL_PREFIX)
- return asset in {
-  'drenaje_d8.geojson','tileset.json','superficie-relieve.glb',
+ return asset.startswith('photos/') or asset in {
+  'drenaje_d8.geojson','nube-sfm.json','tileset.json','superficie-fotogrametrica-parcial.glb',
  }
 
 def lahar_page_payloads():
