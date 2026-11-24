@@ -14,9 +14,24 @@
   perfiles:'#c5eca6'};
  const depthScale=[[.05,'#eac17e','5–20 cm'],[.2,'#cf8846','20–50 cm'],[.5,'#91492e','50 cm o más']];
  const speedScale=[[.01,'#cce8d4','< 0,3 m/s'],[.3,'#58aa9c','0,3–1 m/s'],[1,'#225d67','1 m/s o más']];
- const defaultLayers=new Set(['capturas','evidencias','areas_interpretadas','edificios_osm','hidrografia_osm']);
+ const defaultLayers=new Set(['areas_interpretadas','edificios_osm','hidrografia_osm']);
+ const photoLayers=new Set(['capturas','evidencias']);
+ const routeStops=[
+  {photo:'0003',label:'Quebrada',heading:255,range:740,
+   summary:'Se distingue una franja oscura en el fondo de la quebrada.'},
+  {photo:'0007',label:'Parcelas',heading:250,range:700,
+   summary:'La franja se ensancha al salir de la quebrada y llega a terrenos agrícolas.'},
+  {photo:'0028',label:'Vías y viviendas',heading:265,range:650,
+   summary:'La huella pasa cerca de caminos y viviendas. El cruce de la foto está por identificar.'},
+  {photo:'0033',label:'Tramo bajo',heading:285,range:800,
+   summary:'Una superficie más ancha en las parcelas podría corresponder a material depositado.'},
+ ];
+ const routeSegments=[
+  ['0043','0003','0002','0005','0006','0007','0008'],
+  ['0025','0027','0029','0036','0030','0031','0034','0032','0033'],
+ ];
  const cache=new Map();
- let caseToken=0,active=null,frame=0,player=null,tourId=0,selectedPhoto=null,layerError=false;
+ let caseToken=0,active=null,frame=0,player=null,tourTimer=null,selectedPhoto=null,layerError=false;
  const layerObjects=new Map();
  const evidenceByPhoto=new Map();
 
@@ -88,6 +103,8 @@
   const overlayCanvas=document.createElement('canvas');
   const paint=overlayCanvas.getContext('2d');
   let overlay;
+  let routeLayer;
+  const routeButtons=[];
 
   function look(lon,lat,heading,pitch,range){
    const center=C.Cartesian3.fromDegrees(lon,lat,elevation(lon,lat)+15);
@@ -96,11 +113,18 @@
    viewer.scene.requestRender();
   }
   function haltTour(){
-   tourId++;
-   byId('tour').textContent='Recorrido 3D';
+   clearTimeout(tourTimer);
+   tourTimer=null;
+   byId('tour').textContent='Reproducir recorrido';
+   if(viewer.camera.cancelFlight)viewer.camera.cancelFlight();
+  }
+  function clearRouteStop(){
+   byId('routeFrame').hidden=true;
+   for(const button of routeButtons)button.setAttribute('aria-pressed','false');
   }
   function home(){
    haltTour();
+   clearRouteStop();
    look(-78.8025,-1.598,255,-47,3850);
   }
   const tourPath=[
@@ -115,26 +139,46 @@
    const t=u*u*(3-2*u);
    look(...tourPath[i].map((from,j)=>from+(tourPath[i+1][j]-from)*t));
   }
-  function flyTour(duration=90000){
-   const id=++tourId,started=performance.now();
+  function showRouteStop(index){
+   if(byId('case').value){
+    byId('case').value='';
+    void chooseCase();
+   }
+   const stop=routeStops[index];
+   const [lon,lat]=evidenceByPhoto.get(stop.photo);
+   const item=photoRecords.get(stop.photo);
+   selectPhoto(stop.photo);
+   byId('routePhoto').src=assetUrl(item.thumbnail);
+   byId('routePhoto').alt=item.interpretation;
+   byId('routePlace').textContent=(index+1)+' de '+routeStops.length+' · '+stop.label;
+   byId('routeSummary').textContent=stop.summary;
+   byId('routeFrame').hidden=false;
+   routeButtons.forEach((button,i)=>button.setAttribute('aria-pressed',String(i===index)));
+   const target=C.Cartesian3.fromDegrees(lon,lat,elevation(lon,lat)+14);
+   viewer.camera.flyToBoundingSphere(new C.BoundingSphere(target,1),{
+    offset:new C.HeadingPitchRange(C.Math.toRadians(stop.heading),C.Math.toRadians(-51),stop.range),
+    duration:1.5,
+   });
+  }
+  function flyTour(){
+   showRouteStop(0);
    byId('tour').textContent='Detener recorrido';
-   const animate=now=>{
-    if(id!==tourId)return;
-    const progress=Math.min(1,(now-started)/duration);
-    tourFrame(progress);
-    if(progress<1)requestAnimationFrame(animate);
-    else haltTour();
+   let index=0;
+   const advance=()=>{
+    if(++index===routeStops.length){haltTour();return;}
+    showRouteStop(index);
+    tourTimer=setTimeout(advance,6500);
    };
-   requestAnimationFrame(animate);
+   tourTimer=setTimeout(advance,6500);
   }
   byId('home').onclick=home;
-  byId('tour').onclick=()=>byId('tour').textContent.startsWith('Detener')?haltTour():flyTour();
+  byId('tour').onclick=()=>tourTimer?haltTour():flyTour();
   home();
   byId('loading').hidden=true;
 
-  async function activateLayer(key,on){
+  async function activateLayer(key,on,preload=false){
    let object=layerObjects.get(key);
-   if(on&&!object){
+   if((on||preload)&&!object){
     const item=manifest.layers[key];
     const data=await payload(item.file);
     const tint=color(colors[key]);
@@ -159,6 +203,13 @@
     }else{
      object=await C.GeoJsonDataSource.load(data,{clampToGround:true,stroke:tint,strokeWidth:key==='puentes_osm'?4:2,
       fill:tint.withAlpha(key==='edificios_osm'?.9:.15)});
+     if(key==='areas_interpretadas'){
+      for(const e of object.entities.values){
+       if(!e.polygon)continue;
+       const soil=e.properties.label.getValue()==='Sector de suelo desnudo con bancos';
+       e.polygon.material=color(soil?'#a9aaa1':'#e58251').withAlpha(soil?.16:.45);
+      }
+     }
      if(key==='edificios_osm'){
       for(const e of object.entities.values){
        if(!e.polygon)continue;
@@ -187,11 +238,11 @@
    input.checked=defaultLayers.has(key);
    label.append(input,item.label);
    byId('layers').append(label);
-   const update=()=>activateLayer(key,input.checked).catch(error=>{
+   const update=(preload=false)=>activateLayer(key,input.checked,preload).catch(error=>{
     layerError=true;input.checked=false;console.warn(error);label.title=error.message;
    });
-   input.onchange=update;
-   if(input.checked)initialLayers.push(update());
+   input.onchange=()=>update();
+   if(input.checked||photoLayers.has(key))initialLayers.push(update(true));
   }
   let surveyMesh;
   if(manifest.mesh){
@@ -265,6 +316,18 @@
    const index={depth:frame,speed:steps+frame,maxDepth:2*steps,maxSpeed:2*steps+1}[variable];
    return active.data.subarray(index*area,(index+1)*area);
   }
+  function depthFrames(item,data){
+   const area=item.rows*item.cols;
+   const counts=item.times.map((_,step)=>{
+    let count=0;
+    const start=step*area;
+    for(let i=start;i<start+area;i++)if(data[i]>=5)count++;
+    return count;
+   });
+   const peak=counts.indexOf(Math.max(...counts));
+   const first=counts.findIndex(count=>count>0);
+   return {counts,peak,first};
+  }
   function draw(){
    if(!active)return;
    const tag=byId('variable').value;
@@ -283,8 +346,10 @@
    }
    paint.putImageData(image,0,0);
    overlay.rectangle.material=new C.ImageMaterialProperty({image:overlayCanvas.toDataURL(),transparent:true});
-   byId('timeLabel').textContent=(tag.startsWith('max')?'Máximo de la corrida · ':'Hora Ecuador · ')+
-    timeText(active.meta,active.meta.times[frame]);
+   const maximum=tag.startsWith('max');
+   const empty=!maximum&&!speed&&active.depth.counts[frame]===0;
+   byId('timeLabel').textContent=maximum?'Máximo de la corrida':
+    timeText(active.meta,active.meta.times[frame])+(empty?' · Sin agua de 5 cm o más':'');
    byId('time').value=frame;
    byId('legendTitle').textContent=speed?'Velocidad calculada':'Profundidad calculada';
    byId('scale').replaceChildren(...scale.map(([,tint,text])=>{
@@ -299,6 +364,9 @@
   async function chooseCase(){
    stop();
    const id=byId('case').value,token=++caseToken;
+   if(routeLayer)routeLayer.show=!id;
+   byId('routeKey').hidden=Boolean(id)||!routeLayer;
+   if(id){haltTour();clearRouteStop();}
    active=null;
    if(overlay)viewer.entities.remove(overlay);
    overlay=null;
@@ -307,7 +375,8 @@
    byId('picked').hidden=true;
    byId('variable').disabled=true;
    if(!id){
-    byId('result').textContent='Vista de evidencia. Selecciona un ensayo para consultar los cálculos de agua.';
+    byId('result').textContent='El mapa muestra las huellas interpretadas de las fotos.';
+    viewer.scene.requestRender();
     return;
    }
    const item=manifest.cases.find(row=>row.id===id);
@@ -317,11 +386,12 @@
     if(caseToken!==token)return;
     const data=cache.get(id);
     if(data.length!==(2*item.times.length+2)*item.cols*item.rows)throw Error('Trama incompleta');
-    active={meta:item,data};
+    const depth=depthFrames(item,data);
+    active={meta:item,data,depth,preview:true};
     overlay=viewer.entities.add({rectangle:{coordinates:C.Rectangle.fromDegrees(...item.bbox),
      material:new C.ImageMaterialProperty({transparent:true}),heightReference:C.HeightReference.CLAMP_TO_GROUND,
      classificationType:C.ClassificationType.TERRAIN,zIndex:3}});
-    frame=0;
+    frame=depth.peak;
     byId('time').max=item.times.length-1;
     byId('variable').disabled=false;
     byId('timeline').hidden=false;
@@ -337,12 +407,19 @@
   }
   byId('case').onchange=chooseCase;
   byId('variable').onchange=draw;
-  byId('time').oninput=()=>{frame=Number(byId('time').value);draw();};
-  byId('reset').onclick=()=>{stop();frame=0;draw();};
+  byId('time').oninput=()=>{active.preview=false;frame=Number(byId('time').value);draw();};
+  byId('reset').onclick=()=>{stop();active.preview=false;frame=0;draw();};
   byId('play').onclick=()=>{
    if(player){stop();return;}
    if(!active)return;
-   if(frame>=active.meta.times.length-1)frame=0;
+   if(active.preview){
+    frame=Math.max(0,active.depth.first-1);
+    active.preview=false;
+   }else if(frame>=active.meta.times.length-1)frame=0;
+   const variable=byId('variable');
+   if(variable.value==='maxDepth')variable.value='depth';
+   if(variable.value==='maxSpeed')variable.value='speed';
+   draw();
    byId('play').textContent='Pausar';
    player=setInterval(()=>{
     frame++;
@@ -353,6 +430,12 @@
   byId('speed').onchange=()=>{if(player){stop();byId('play').click();}};
   viewer.screenSpaceEventHandler.setInputAction(event=>{
    const chosen=viewer.scene.pick(event.position);
+   const routeStop=chosen?.id?.properties?.routeStop?.getValue();
+   if(Number.isInteger(routeStop)){
+    haltTour();
+    showRouteStop(routeStop);
+    return;
+   }
    const photo=chosen?.id?.properties?.photo?.getValue();
    if(photo)selectPhoto(photo);
    const ray=viewer.camera.getPickRay(event.position);
@@ -383,6 +466,39 @@
   home();
   await Promise.all(initialLayers);
   byId('photoCount').textContent=photoRecords.size;
+  if(routeStops.every(({photo})=>photoRecords.has(photo)&&evidenceByPhoto.has(photo))){
+   routeLayer=await viewer.dataSources.add(new C.CustomDataSource('Recorrido aproximado entre fotos'));
+   for(const segment of routeSegments){
+    const points=segment.map(id=>evidenceByPhoto.get(id));
+    if(points.some(point=>!point))continue;
+    routeLayer.entities.add({polyline:{positions:C.Cartesian3.fromDegreesArray(points.flat()),
+     clampToGround:true,classificationType:C.ClassificationType.TERRAIN,width:6,zIndex:5,
+     material:new C.PolylineDashMaterialProperty({color:color('#ffd36b'),gapColor:color('#172820').withAlpha(.65),
+      dashLength:22})}});
+   }
+   routeStops.forEach(({photo,label},index)=>{
+    const [lon,lat]=evidenceByPhoto.get(photo);
+    routeLayer.entities.add({position:C.Cartesian3.fromDegrees(lon,lat,elevation(lon,lat)+24),
+     properties:{routeStop:index},
+     point:{pixelSize:14,color:color('#ffd36b'),outlineColor:color('#172820'),outlineWidth:2,
+      disableDepthTestDistance:Infinity},
+     label:{text:(index+1)+' · '+label,font:'bold 14px system-ui',showBackground:true,
+      backgroundColor:color('#172820').withAlpha(.92),pixelOffset:new C.Cartesian2(0,-15),
+      verticalOrigin:C.VerticalOrigin.BOTTOM,disableDepthTestDistance:Infinity}});
+    const button=document.createElement('button');
+    button.type='button';
+    button.textContent=label;
+    button.setAttribute('aria-pressed','false');
+    button.onclick=()=>{haltTour();showRouteStop(index);};
+    routeButtons.push(button);
+    byId('routeStops').append(button);
+   });
+   routeLayer.show=!byId('case').value;
+   byId('routeKey').hidden=!routeLayer.show;
+   byId('routeStops').hidden=false;
+   byId('tour').disabled=false;
+   viewer.scene.requestRender();
+  }
   if(new URLSearchParams(location.search).has('qa')){
    window.shobolQA={viewer,ready:!layerError,case:()=>active?.meta.id,frame:()=>frame,
                    tour:flyTour,tourFrame,home,show:look,overlay:()=>overlay?.rectangle,photoRecords,

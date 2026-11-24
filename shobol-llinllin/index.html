@@ -7,7 +7,7 @@
 <title>Shobol Llinllín · Reconstrucción del aluvión</title>
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cesium@1.145.0/Build/Cesium/Widgets/widgets.css">
-<link rel="stylesheet" href="shobol.css?v=1">
+<link rel="stylesheet" href="shobol.css?v=2">
 </head>
 <body>
 <header class="masthead"><a href="../inundaciones-ecuador/">← Atlas Ecuador</a><span>GeoRaga · Reconstrucción territorial</span><a href="data/shobol/informe-tecnico.html">Informe técnico ↗</a></header>
@@ -15,11 +15,19 @@
  <section class="map" aria-label="Mapa 3D de Shobol Llinllín">
   <div id="viewer"></div>
   <nav class="map-tools" aria-label="Controles de cámara">
+   <button id="tour" class="primary" type="button" disabled>Reproducir recorrido</button>
    <button id="home" type="button">Ver todo</button>
-   <button id="tour" type="button">Recorrido 3D</button>
    <span id="imageryStatus" role="status">Cargando mapa satelital…</span>
   </nav>
   <p id="loading" role="status">Cargando el relieve de Copernicus…</p>
+  <div id="routeKey" class="route-key" hidden>
+   <span><i aria-hidden="true"></i> Recorrido aproximado entre fotos</span>
+   <span><i class="footprint-key" aria-hidden="true"></i> Áreas interpretadas en fotos</span>
+  </div>
+  <figure id="routeFrame" hidden>
+   <img id="routePhoto" alt="">
+   <figcaption><strong id="routePlace"></strong><span id="routeSummary"></span></figcaption>
+  </figure>
   <section id="legend" class="legend" hidden aria-label="Leyenda del escenario">
    <strong id="legendTitle">Profundidad del agua</strong>
    <div id="scale"></div>
@@ -33,24 +41,26 @@
  </section>
  <aside aria-label="Evidencia y simulaciones">
   <p class="date">San Juan, Riobamba · 22 de noviembre de 2026</p>
-  <h1>Shobol Llinllín</h1>
-  <p>Reconstrucción preliminar del corredor observado tras el desbordamiento del canal de riego.</p>
-  <div class="key-facts"><div><b>18:18</b><span>llamada al ECU 911</span></div><div><b id="photoCount">42</b><span>fotos de inspección</span></div></div>
+  <h1>El aluvión de Shobol Llinllín</h1>
+  <p>La tarde del 22 de noviembre se desbordó un canal de riego. Se reportaron viviendas afectadas y el colapso de un puente. El ECU 911 recibió la llamada a las 18:18.</p>
+  <p class="note">Las fotos del día siguiente muestran huellas en la quebrada, las parcelas y el poblado. El punto exacto de inicio y la ubicación del puente colapsado siguen por confirmar.</p>
   <section>
-   <h2>Escenarios de agua</h2>
+   <h2>Qué se vio en el terreno</h2>
+   <div id="routeStops" class="route-stops" role="group" aria-label="Tramos del recorrido" hidden></div>
+   <label for="photo">Ver las <span id="photoCount">42</span> fotos de inspección</label>
+   <select id="photo" disabled><option value="">Elegir una foto</option></select>
+   <figure id="photoDetail" hidden><img id="photoImage" alt=""><figcaption id="photoText"></figcaption><button id="focusPhoto" type="button">Ver ubicación en 3D</button></figure>
+  </section>
+  <details id="scenarios">
+   <summary>Simulaciones de lluvia</summary>
+   <p class="note">Pruebas de escorrentía con lluvia regional. Los resultados no reproducen la huella documentada del aluvión.</p>
    <label for="case">Condición de la simulación</label>
-   <select id="case" disabled><option value="">Ver solo la evidencia</option></select>
+   <select id="case" disabled><option value="">Mostrar el recorrido observado</option></select>
    <label for="variable">Qué mostrar</label>
    <select id="variable" disabled><option value="depth">Profundidad en el momento</option><option value="speed">Velocidad en el momento</option><option value="maxDepth">Profundidad máxima</option><option value="maxSpeed">Velocidad máxima</option></select>
    <p id="result" class="note" aria-live="polite">Ensayos con lluvia regional y terreno de 30 m. El canal y el puente requieren levantamiento local.</p>
    <p id="picked" class="sample" aria-live="polite" hidden></p>
-  </section>
-  <section>
-   <h2>Fotos del recorrido</h2>
-   <label for="photo">Foto tomada el 23 de noviembre</label><select id="photo" disabled><option value="">Elegir una foto</option></select>
-   <figure id="photoDetail" hidden><img id="photoImage" alt=""><figcaption id="photoText"></figcaption><button id="focusPhoto" type="button">Ver ubicación en 3D</button></figure>
-   <p class="note">Puntos amarillos: cámara. Puntos naranjas: evidencia aproximada sobre el terreno.</p>
-  </section>
+  </details>
   <details><summary>Capas del mapa</summary><div id="layers" class="layers"></div></details>
   <details><summary>Lluvia y humedad antecedente</summary><p id="weatherSummary"></p><a href="data/shobol/hietograma-y-humedad.png">Ver hietograma y humedad ↗</a></details>
   <details><summary>Comparación satelital</summary><p id="satelliteSummary"></p><a id="satelliteLink" href="data/shobol/sentinel-comparacion.png" hidden>Ver imágenes de Sentinel-2 ↗</a></details>
@@ -62,6 +72,6 @@
 <script src="https://cdn.jsdelivr.net/npm/cesium@1.145.0/Build/Cesium/Cesium.js"></script>
 <script src="../inundaciones-ecuador/imagery-config.js"></script>
 <script src="../inundaciones-ecuador/cesium-imagery.js"></script>
-<script src="shobol.js?v=1"></script>
+<script src="shobol.js?v=2"></script>
 </body>
 </html>
