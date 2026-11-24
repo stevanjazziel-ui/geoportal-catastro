@@ -423,7 +423,7 @@
    out vec3 v_surface;
    out vec3 v_normal;
    flat out vec3 v_roof;
-   flat out vec2 v_style;
+   flat out vec3 v_style;
    out vec2 v_roofPosition;
    flat out vec3 v_roofRegion;
    const vec3 east=${axis(0)}, north=${axis(1)}, up=${axis(2)};
@@ -431,12 +431,12 @@
    void main(){
     vec3 local=(position3DHigh-${vec(encoded.high)})+(position3DLow-${vec(encoded.low)});
     vec2 horizontal=vec2(dot(local,east),dot(local,north));
-    vec3 style=czm_batchTable_surfaceStyle(batchId);
+    vec4 style=czm_batchTable_surfaceStyle(batchId);
     float curvature=dot(horizontal,horizontal)/(2.0*6378137.0);
     v_surface=vec3(horizontal,dot(local,up)+curvature-style.x);
     v_normal=vec3(dot(normal,east),dot(normal,north),dot(normal,up));
     v_roof=color.rgb;
-    v_style=style.yz;
+    v_style=style.yzw;
     vec4 box=czm_batchTable_roofBox(batchId);
     v_roofPosition=(horizontal-box.xy)*box.zw;
     v_roofRegion=czm_batchTable_roofRegion(batchId);
@@ -446,7 +446,7 @@
    in vec3 v_surface;
    in vec3 v_normal;
    flat in vec3 v_roof;
-   flat in vec2 v_style;
+   flat in vec3 v_style;
    in vec2 v_roofPosition;
    flat in vec3 v_roofRegion;
    const vec2 atlasSize=vec2(${atlas.canvas.width}.0,${atlas.canvas.height}.0);
@@ -484,7 +484,7 @@
     vec2 tangent=vec2(-n.y,n.x)/max(length(n.xy),0.01);
     vec2 wall=vec2(dot(tangent,v_surface.xy),v_surface.z);
     float spacing=style==1.0?3.3:(style==2.0?5.4:mix(2.25,3.35,seed));
-    vec2 panel=vec2(wall.x/spacing+seed,wall.y/3.0-0.055);
+    vec2 panel=vec2(wall.x/spacing+seed,wall.y/v_style.z-0.055);
     vec2 aa=clamp(fwidth(panel),vec2(0.008),vec2(0.16));
     float detail=1.0-smoothstep(0.13,0.52,max(fwidth(panel.x),fwidth(panel.y)));
     float width=style==1.0?0.42:mix(0.22,0.35,seed);
@@ -703,6 +703,7 @@
   if(source==='review')return 'Pisos por verificar';
   if(!Number.isFinite(levels))return 'Pisos sin dato';
   const label=fmt(levels,0)+(levels===1?' piso':' pisos');
+  if(source==='espe')return label+' según el estudio de la ESPE';
   if(source==='unverified')return label+' registrados en el catastro · por verificar';
   return label+(source==='osm'?' según OpenStreetMap':' según el catastro');
  }
@@ -712,8 +713,8 @@
   const hasSurfaceData=supportedFootprints.includes(meta.buildings.sha256?.slice(0,16));
   const readSurface=(file,sha256)=>hasSurfaceData?compressed({file,sha256,
    url:'https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/'+root+file},Uint8Array).catch(()=>null):null;
-  const revisionFile='building-revision-20261123-v3.json.gz';
-  const revisionsAsset={file:revisionFile,sha256:'fa8dad57692b218c597278d1b53a2ba0ee0fb7a1667a8e8e07b987c8ccd54c7c',
+  const revisionFile='building-revision-20261124-v4.json.gz';
+  const revisionsAsset={file:revisionFile,sha256:'ec7d036e62bca23ed23c420cee4b6a32aa176e960a81cef3820a03da571976a8',
    url:'https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/'+root+revisionFile};
   const [json,materials,roofBytes,revision]=await Promise.all([compressed(meta.buildings),
    readSurface('building-materials-v1.bin.gz','fe7dfc426d1527db3cc0a74fd8104b7995adef018ade9b2281620f7de59cbe8d'),
@@ -732,7 +733,7 @@
   const extras=verified?.extras||[];
   const duplicates=new Set(verified?.duplicateIndices||[]);
   const overlaps=new Set(verified?.overlappingMunicipal||[]);
-  const features=json.features.concat(extras.map(row=>({geometry:row.geometry,osmId:row.osmId,roofColor:row.color,levelState:row.levelState,
+  const features=json.features.concat(extras.map(row=>({geometry:row.geometry,osmId:row.osmId,roofColor:row.color,levelState:row.levelState,campusReview:row.campusReview,
    properties:{floors:row.levels,height_m:row.height,height_origin:row.heightSource}})));
   const heightSource={'lidar':'estimada con LiDAR municipal','osm-height':'registrada en OpenStreetMap',
    'osm-levels':'estimada con los pisos de OpenStreetMap','catastro':'estimada con los pisos del catastro',approx:'aproximada para visualización'};
@@ -747,7 +748,8 @@
    const polygons=geometry.type==='MultiPolygon'?geometry.coordinates:[geometry.coordinates];
    const offset=index*5;
    const source=styles?.[offset+3]??0;
-   const style=styles?.[offset+4]??0;
+   const style=feature.campusReview?1:styles?.[offset+4]??0;
+   const floorHeight=levelSource==='espe'?height/levels:3;
    const seed=((Math.imul(index+1,2654435761)>>>0)%997)/997;
    const rgb=feature.roofColor??(source?Array.from(styles.subarray(offset,offset+3)):roofs[Math.floor(seed*roofs.length)]);
    const color=C.ColorGeometryInstanceAttribute.fromColor(C.Color.fromBytes(...rgb));
@@ -763,7 +765,7 @@
    const anchor=needsAnchor?elevation((west+east)/2,(south+north)/2):p.base_m;
    const base=needsAnchor?Math.min(low-.20,anchor):p.base_m;
    const top=anchor+height;
-   const attributes={color,surfaceStyle:attr([anchor,style,seed]),roofRegion,roofBox:attr([0,0,1,1])};
+   const attributes={color,surfaceStyle:attr([anchor,style,seed,floorHeight]),roofRegion,roofBox:attr([0,0,1,1])};
    if(region[2]){
     const lower=C.Matrix4.multiplyByPoint(local,C.Cartesian3.fromDegrees(west,south,top),new C.Cartesian3());
     const upper=C.Matrix4.multiplyByPoint(local,C.Cartesian3.fromDegrees(east,north,top),new C.Cartesian3());
@@ -773,8 +775,11 @@
    const roofSource=region[2]?'Textura de cubierta derivada de la ortofoto municipal.':['Color de cubierta aproximado.','Color de cubierta tomado de la ortofoto municipal.',
     'Color de cubierta tomado de la ortofoto preliminar municipal de 2026.'][source];
    const reference=change?.[2]??(external?p.height_origin:levels===null?'approx':'catastro');
-   const id={building:true,text:floorLabel(levels,levelSource)+' · '+fmt(height,1)+' m de altura '+heightSource[reference]+
-    '. '+(external?'Huella de OpenStreetMap. '+(feature.roofColor?'Color de cubierta de la ortofoto municipal. ':''):roofSource+' ')+
+   const name=feature.campusReview?feature.campusReview+' · ':'';
+   const footprintSource=feature.campusReview?'Huella revisada con LiDAR, ortofoto y plano del campus. ':
+    external?'Huella de OpenStreetMap. '+(feature.roofColor?'Color de cubierta de la ortofoto municipal. ':''):roofSource+' ';
+   const id={building:true,text:name+floorLabel(levels,levelSource)+' · '+fmt(height,1)+' m de altura '+heightSource[reference]+
+    '. '+footprintSource+
     (overlaps.has(index)?'Cruce con otra huella municipal por revisar. ':'')+'Fachada aproximada.'};
    for(const coords of polygons){
     if(coords[0].length<4)continue;
