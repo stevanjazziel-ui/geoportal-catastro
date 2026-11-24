@@ -5,6 +5,15 @@ PREFIX='data/seguridad-riobamba/SIG_BRIDGE_RELEASES/'
 SECURITY_PREFIX='data/seguridad-riobamba/'
 RIO_PREFIX='inundaciones-ecuador/data/riobamba-local/'
 LAHAR_PREFIX='inundaciones-ecuador/data/sangolqui-lahars/'
+SHOBOL_PREFIX='shobol-llinllin/data/shobol/'
+
+
+def shobol_raw_asset(name):
+ if not name.startswith(SHOBOL_PREFIX):return False
+ asset=name.removeprefix(SHOBOL_PREFIX)
+ return asset in {
+  'drenaje_d8.geojson','tileset.json','superficie-relieve.glb',
+ }
 
 def lahar_page_payloads():
  path=ROOT/LAHAR_PREFIX/'manifest.json'
@@ -52,6 +61,7 @@ def plan():
   elif name in archived_rain:excluded.append(name)
   elif name.startswith(LAHAR_PREFIX) and name.endswith('.gz') and lahar_payloads is not None and name not in lahar_payloads:excluded.append(name)
   elif name.startswith(RIO_PREFIX) and name.endswith('.u16.gz') and name not in page_payloads:excluded.append(name)
+  elif shobol_raw_asset(name):excluded.append(name)
   elif re.fullmatch(r'inundaciones-ecuador/data/\d+\.json',name) and name+'.gz' in tracked:excluded.append(name)
   else:included.append(name)
  for name in ['visor-seguridad-riobamba-v2.html','sig-bridge-active.json',PREFIX+active+'/ESCENARIO_FINAL_183.gpkg',PREFIX+active+'/ENTREGA_POLICIA_KDE.zip']:
