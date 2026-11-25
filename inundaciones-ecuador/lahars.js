@@ -9,7 +9,8 @@
  const campusCenter=[-78.445069,-.315230];
  let meta,viewer,corners,terrain,regional,current,data,maxima,secondary,combinedGrid,frame=0,timer,waterMesh,buildingMesh,request=0;
  let osmBuildings,supplementalBuildings;
- let coverageLayer, coveragePending=false, coverageUnavailable=false, guided=false, activeView=-1;
+ let coverageLayer, reliefLayer, shadowLayer, referenceLayer;
+ let coverageUnavailable=false, guided=false, activeView=-1;
  const riverViews=[
   {name:'Pita',button:'pita',reference:'pitaReference',color:'#9ae8ec',entities:[]},
   {name:'Santa Clara',button:'santaClara',reference:'santaReference',color:'#e2bbff',entities:[]},
@@ -27,6 +28,20 @@
   ...(joint?[{minute:120,name:'Río San Pedro',lon:-78.451,lat:-.276,range:12400,pitch:-66}]:[]),
  ];
  const fmt=(v,n=2)=>Number(v).toLocaleString('es-EC',{maximumFractionDigits:n});
+ function orderSurfaceLayers(){
+  for(const layer of [reliefLayer,shadowLayer,referenceLayer,coverageLayer]){
+   if(layer)viewer.imageryLayers.raiseToTop(layer);
+  }
+ }
+ function gradeImagery(layer){
+  layer.saturation=.94;
+  layer.contrast=1.045;
+  layer.brightness=1.025;
+ }
+ function addVisualSurface({canvas,bbox}){
+  const provider=LaharVisual.canvasProvider(C,canvas,C.Rectangle.fromDegrees(...bbox));
+  return viewer.imageryLayers.addImageryProvider(provider);
+ }
  function stop(){
   clearInterval(timer);
   timer=null;
@@ -294,27 +309,18 @@
     }
     ctx.fill();
   }
+  LaharVisual.paintDeposits(ctx,[west,south,east,north]);
   return {canvas,rectangle:C.Rectangle.fromDegrees(west,south,east,north)};
  }
- async function ensureCoverageLayer(){
-  coveragePending=true;
-  const id=request;
-  let url;
+ function ensureCoverageLayer(){
   try{
    const {canvas,rectangle}=coverageImage();
-   const image=await new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(Error('Sin imagen de cobertura'))));
-   if(id!==request)return;
-   url=URL.createObjectURL(image);
-   const provider=await C.SingleTileImageryProvider.fromUrl(url,{rectangle});
-   if(id!==request)return;
+   const provider=LaharVisual.canvasProvider(C,canvas,rectangle);
    coverageLayer=viewer.imageryLayers.addImageryProvider(provider);
    coverageLayer.alpha=.95;
-   draw();
+   orderSurfaceLayers();
   }catch(_){
-   if(id===request)coverageUnavailable=true;
-  }finally{
-   if(url)URL.revokeObjectURL(url);
-   if(id===request)coveragePending=false;
+   coverageUnavailable=true;
   }
  }
  function draw(){
@@ -324,12 +330,13 @@
   for(const entity of viewer.entities.values){
    if(entity.name==='Alcance en el San Pedro durante 150 minutos')entity.show=all&&$('flow').checked;
   }
+  if(visible&&all&&!coverageLayer&&!coverageUnavailable)ensureCoverageLayer();
   if(coverageLayer)coverageLayer.show=visible&&all;
   if(!visible||(all&&coverageLayer)){viewer.scene.requestRender();return;}
-  if(all&&!coveragePending&&!coverageUnavailable)void ensureCoverageLayer();
-  const indices=[],positions=[],colors=[];
+  const indices=[],positions=[],colors=[],surface=[];
   const cells=combinedGrid?.cells||corners, depth=depths(all);
   const n=meta.cell_count, offset=frame*5*n;
+  const textureOffset=all?0:frame*2.4;
   for(let i=0;i<cells.length/12;i++){
     if(depth[i]<5)continue;
     const zOffset=all||joint?2:data[offset+4*n+i]/100+1.5;
@@ -338,12 +345,22 @@
      const g=(i*4+j)*3, lon=cells[g],lat=cells[g+1];
      const p=C.Cartesian3.fromDegrees(lon,lat,elevation(lon,lat)+zOffset);
      positions.push(p.x,p.y,p.z);colors.push(...rgba);
+     surface.push((lon+78.44)*111300,(lat+.33)*111130+textureOffset);
     }
     indices.push(k,k+1,k+2,k,k+2,k+3);
   }
-  if(positions.length){const p=new Float64Array(positions);const geometry=new C.Geometry({attributes:{position:new C.GeometryAttribute({componentDatatype:C.ComponentDatatype.DOUBLE,componentsPerAttribute:3,values:p}),color:new C.GeometryAttribute({componentDatatype:C.ComponentDatatype.UNSIGNED_BYTE,componentsPerAttribute:4,normalize:true,values:new Uint8Array(colors)})},indices:new Uint32Array(indices),primitiveType:C.PrimitiveType.TRIANGLES,boundingSphere:C.BoundingSphere.fromVertices(p)});
-   const appearance=new C.PerInstanceColorAppearance({flat:true,translucent:true,closed:false,renderState:{depthTest:{enabled:true},depthMask:false,cull:{enabled:false}},vertexShaderSource:'in float batchId; in vec3 position3DHigh; in vec3 position3DLow; in vec4 color; out vec4 v_color; void main(){vec4 p=czm_computePosition();v_color=color;gl_Position=czm_modelViewProjectionRelativeToEye*p;}'});
-   waterMesh=viewer.scene.primitives.add(new C.Primitive({geometryInstances:new C.GeometryInstance({geometry}),appearance,asynchronous:false,allowPicking:false}));
+  if(positions.length){
+   const p=new Float64Array(positions);
+   const geometry=new C.Geometry({attributes:{
+    position:new C.GeometryAttribute({componentDatatype:C.ComponentDatatype.DOUBLE,componentsPerAttribute:3,values:p}),
+    color:new C.GeometryAttribute({componentDatatype:C.ComponentDatatype.UNSIGNED_BYTE,componentsPerAttribute:4,
+     normalize:true,values:new Uint8Array(colors)}),
+    flowPosition:new C.GeometryAttribute({componentDatatype:C.ComponentDatatype.FLOAT,componentsPerAttribute:2,
+     values:new Float32Array(surface)})
+   },indices:new Uint32Array(indices),primitiveType:C.PrimitiveType.TRIANGLES,
+   boundingSphere:C.BoundingSphere.fromVertices(p)});
+   waterMesh=viewer.scene.primitives.add(new C.Primitive({geometryInstances:new C.GeometryInstance({geometry}),
+    appearance:LaharVisual.flowAppearance(C),asynchronous:false,allowPicking:false}));
   }viewer.scene.requestRender();
  }
  function update(){
@@ -376,7 +393,6 @@
   stop();
   if(coverageLayer)viewer.imageryLayers.remove(coverageLayer);
   coverageLayer=null;
-  coveragePending=false;
   coverageUnavailable=false;
   $('follow').disabled=true;
   data=null;
@@ -475,8 +491,11 @@
      roofInput.normalEC=vec3(0.0,0.0,1.0);
      vec3 aerial=czm_getMaterial(roofInput).diffuse;
      float detail=1.0-smoothstep(0.12,0.35,length(fwidth(v_roofPosition)));
-     float grain=(noise(v_surface.xy*0.73)-0.5)*0.09;
-     vec3 roof=mix(v_roof*(0.92+grain),aerial,step(1.0,v_roofRegion.z)*detail*0.95);
+     float nearRoof=1.0-smoothstep(0.42,2.2,length(fwidth(v_surface.xy)));
+     float grain=(noise(v_surface.xy*0.92)-0.5)*0.15*nearRoof;
+     float wear=(noise(v_surface.xy*0.24+v_style.y*13.0)-0.5)*0.20;
+     float seam=band(v_surface.y/.83,.042,.025)*nearRoof*.11;
+     vec3 roof=mix(v_roof*(0.95+grain+wear-seam),aerial,step(1.0,v_roofRegion.z)*detail*0.97);
      out_FragColor=czm_gammaCorrect(vec4(roof*(0.93+0.07*light),1.0));
      return;
     }
@@ -489,7 +508,9 @@
     float detail=1.0-smoothstep(0.13,0.52,max(fwidth(panel.x),fwidth(panel.y)));
     float width=style==1.0?0.42:mix(0.22,0.35,seed);
     float windows=band(panel.x,width,aa.x)*band(panel.y,0.22,aa.y)*detail;
-    float windowFrame=band(panel.x,0.017,aa.x)*windows;
+    float windowFrame=max(band(panel.x,0.014,aa.x),band(panel.y-.058,0.012,aa.y)*.64)*windows;
+    float sill=band(panel.x,width+.051,aa.x)*band(panel.y+.235,0.018,aa.y)*detail;
+    float trim=band(panel.x,width+.027,aa.x)*band(panel.y,0.244,aa.y)*detail;
     float floorEdge=band(panel.y+0.49,0.027,aa.y)*detail;
     vec3 plaster=mix(vec3(0.62,0.57,0.50),vec3(0.80,0.77,0.71),seed);
     float brick=step(0.83,seed)*(1.0-step(0.5,style));
@@ -502,15 +523,19 @@
     }
     if(style==3.0){plaster=mix(vec3(0.54,0.57,0.55),vec3(0.75,0.72,0.65),seed);windows*=0.30;}
     float openings=noise(floor(panel)+vec2(seed*15.0,floor(n.x*4.5)));
-    float reflection=smoothstep(0.24,0.75,fract(panel.y));
-    glass*=mix(0.75,1.31,reflection)*mix(0.83,1.11,openings);
+    float reflection=smoothstep(0.20,0.78,fract(panel.y));
+    glass*=mix(0.67,1.39,reflection)*mix(0.78,1.14,openings);
     vec2 masonry=vec2(wall.x/0.38+0.5*mod(floor(wall.y/0.135),2.0),wall.y/0.135);
     float mortar=band(masonry.x+0.5,0.029,0.04)+band(masonry.y+0.5,0.040,0.04);
     float closeDetail=1.0-smoothstep(0.22,0.8,length(fwidth(masonry)));
     plaster=mix(plaster,vec3(0.62,0.55,0.46),min(1.0,mortar)*brick*closeDetail*0.62);
-    float weather=0.94+0.12*noise(wall*vec2(0.42,0.19)+seed*8.0);
-    vec3 facade=mix(plaster*weather*(1.0-0.075*floorEdge),glass,windows*(0.97-0.58*windowFrame));
-    facade*=mix(0.77,1.0,smoothstep(0.0,1.12,wall.y));
+    float weather=0.88+0.19*noise(wall*vec2(0.42,0.23)+seed*8.0);
+    float stain=(noise(wall*vec2(1.4,0.34)+seed*23.0)-0.5)*.13;
+    vec3 facade=plaster*(weather+stain)*(1.0-0.075*floorEdge);
+    facade=mix(facade,vec3(.44,.40,.36),trim*.68);
+    facade=mix(facade,glass,windows*(0.97-0.58*windowFrame));
+    facade=mix(facade,plaster*.63,sill*.81);
+    facade*=mix(0.72,1.0,smoothstep(0.0,1.12,wall.y));
     out_FragColor=czm_gammaCorrect(vec4(facade*light,1.0));
    }
   `});
@@ -546,6 +571,7 @@
   if(buildingMesh)buildingMesh.show=shown&&source!=='cesium';
   if(supplementalBuildings)supplementalBuildings.show=shown&&source==='combined';
   if(osmBuildings)osmBuildings.show=shown&&source==='cesium';
+  if(shadowLayer)shadowLayer.show=shown&&source!=='cesium';
   viewer.scene.requestRender();
  }
 
@@ -583,8 +609,12 @@
      vec2 mask=1.0-smoothstep(vec2(.27,.18)-soft,vec2(.27,.18)+soft,vf);
      float nearDetail=1.0-smoothstep(.17,.51,max(density.x,density.y));
      if(hue<.24)finish=mix(finish,vec3(.52,.36,.30),.45);
-     vec3 glass=mix(vec3(.23,.27,.28),vec3(.40,.43,.42),1.0-fract(panel.y));
-     finish=mix(finish,glass,mask.x*mask.y*nearDetail*.68);
+     float patina=.93+.09*sin(local.x*.66+local.y*.48)*sin(local.z*.7+hue*5.0);
+     float frame=1.0-smoothstep(.014-soft.x,.014+soft.x,vf.x);
+     float sill=1.0-smoothstep(.022-soft.y,.022+soft.y,abs(fract(panel.y+.21)-.5));
+     vec3 glass=mix(vec3(.19,.25,.27),vec3(.42,.47,.45),smoothstep(.18,.78,fract(panel.y)));
+     finish=mix(finish*patina,glass,mask.x*mask.y*nearDetail*(.83-frame*.30));
+     finish=mix(finish,vec3(.43,.41,.36),mask.x*sill*nearDetail*.61);
     }
     material.diffuse=pow(clamp(finish*sun,0.0,1.0),vec3(2.2));
    }`});
@@ -729,7 +759,7 @@
   const attr=value=>new C.GeometryInstanceAttribute({componentDatatype:C.ComponentDatatype.FLOAT,
    componentsPerAttribute:value.length,value});
   const roofs=[[164,166,160],[151,119,104],[178,180,176],[126,136,137],[172,139,121]];
-  const instances=[],extraInstances=[];
+  const instances=[],extraInstances=[],shadowFootprints=[];
   const extras=verified?.extras||[];
   const duplicates=new Set(verified?.duplicateIndices||[]);
   const overlaps=new Set(verified?.overlappingMunicipal||[]);
@@ -786,6 +816,7 @@
     const polygon=new C.PolygonGeometry({polygonHierarchy:hierarchy(coords),height:base,
      extrudedHeight:top,vertexFormat:C.PerInstanceColorAppearance.VERTEX_FORMAT});
     (external?extraInstances:instances).push(new C.GeometryInstance({geometry:polygon,id,attributes}));
+    if(!external&&Number.isFinite(height)&&height>0)shadowFootprints.push({outline:coords[0],height});
    }
   }
   buildingMesh=viewer.scene.primitives.add(new C.Primitive({geometryInstances:instances,
@@ -794,6 +825,11 @@
    supplementalBuildings=viewer.scene.primitives.add(new C.Primitive({geometryInstances:extraInstances,
     appearance:buildingAppearance(roofAtlas(null,0),axes,origin),asynchronous:true,show:false}));
    viewer.cesiumWidget.creditDisplay.addStaticCredit(new C.Credit('<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap colaboradores · ODbL</a>',true));
+  }
+  const shadowImage=LaharVisual.buildingShadows(shadowFootprints);
+  if(shadowImage){
+   shadowLayer=addVisualSurface(shadowImage);
+   orderSurfaceLayers();
   }
   $('buildingSource').disabled=false;
   updateBuildingVisibility();
@@ -824,12 +860,16 @@
    combinedGrid=alignGrids();
   }
   const scheme=new C.GeographicTilingScheme(),provider=new C.CustomHeightmapTerrainProvider({width:64,height:64,tilingScheme:scheme,credit:meta.adaptation?.terrain?.model_file==='municipal_hybrid_30m.tif'?'MDT GAD Rumiñahui · Copernicus GLO-30 © DLR/Airbus · UE/ESA · SRTM/Mapzen':meta.adaptation?'Copernicus GLO-30 © DLR/Airbus · UE/ESA · contexto Mapzen · Kestrel sin calibración local':'Contexto SRTM/Mapzen · cálculo regional Kestrel sin calibrar',callback:(x,y,level)=>{const r=scheme.tileXYToRectangle(x,y,level),a=new Float32Array(4096);for(let j=0;j<64;j++)for(let i=0;i<64;i++)a[j*64+i]=elevation(C.Math.toDegrees(r.west+(r.east-r.west)*i/63),C.Math.toDegrees(r.north-(r.north-r.south)*j/63));return a;}});
-  C.Ion.defaultAccessToken='';viewer=new C.Viewer('viewer',{baseLayer:new C.ImageryLayer(window.EcuadorImagery.fallback(C)),terrainProvider:provider,baseLayerPicker:false,geocoder:false,timeline:false,animation:false,homeButton:false,sceneModePicker:false,navigationHelpButton:false,fullscreenButton:false,infoBox:false,selectionIndicator:false,requestRenderMode:true});viewer.scene.globe.depthTestAgainstTerrain=true;window.EcuadorImagery.connect(viewer,C).then(()=>{
-   if(coverageLayer)viewer.imageryLayers.raiseToTop(coverageLayer);
+  C.Ion.defaultAccessToken='';viewer=new C.Viewer('viewer',{baseLayer:new C.ImageryLayer(window.EcuadorImagery.fallback(C)),terrainProvider:provider,baseLayerPicker:false,geocoder:false,timeline:false,animation:false,homeButton:false,sceneModePicker:false,navigationHelpButton:false,fullscreenButton:false,infoBox:false,selectionIndicator:false,requestRenderMode:true});viewer.scene.globe.depthTestAgainstTerrain=true;
+  gradeImagery(viewer.imageryLayers.get(0));
+  void window.EcuadorImagery.connect(viewer,C).then(layer=>{
+   if(layer)gradeImagery(layer);
+   orderSurfaceLayers();
   });
+  reliefLayer=addVisualSurface(LaharVisual.hillshade(meta.terrain,terrain));
+  orderSurfaceLayers();
   if(archive)espe();else city();
   placeLabels();
-  let referenceLayer;
   const referenceSelect=$('municipalReference');
   const referenceStatus=$('municipalStatus');
   referenceSelect.onchange=()=>{
@@ -850,7 +890,7 @@
     });
     referenceLayer=viewer.imageryLayers.addImageryProvider(provider);
     referenceLayer.alpha=.65;
-    if(coverageLayer)viewer.imageryLayers.raiseToTop(coverageLayer);
+    orderSurfaceLayers();
    }
    viewer.scene.requestRender();
   };
