@@ -120,6 +120,7 @@
   const overlayCanvas=document.createElement('canvas');
   const paint=overlayCanvas.getContext('2d');
   let overlay;
+  let reconstruction;
   let routeLayer;
   const routeButtons=[];
 
@@ -177,6 +178,7 @@
    look(...tourPath[i].map((from,j)=>from+(tourPath[i+1][j]-from)*t));
   }
   function showRouteStop(index){
+   reconstruction?.stopReconstruction();
    if(requestedCase){
     byId('case').value='';
     void chooseCase();
@@ -411,7 +413,8 @@
     image.data.set([...rgb,active.debris?248:213],i*4);
    }
    paint.putImageData(image,0,0);
-   overlay.rectangle.material=new C.ImageMaterialProperty({image:overlayCanvas.toDataURL(),transparent:true});
+   const texture=active.debris&&reconstruction?reconstruction.clipModel(overlayCanvas,active.meta.bbox):overlayCanvas;
+   overlay.rectangle.material=new C.ImageMaterialProperty({image:texture.toDataURL(),transparent:true});
    if(active.debris){
     byId('timeLabel').textContent=byId('debrisExtent').checked?'Alcance máximo del escenario':
      elapsed(active.meta.times_s[frame])+' desde el inicio simulado';
@@ -434,6 +437,7 @@
    viewer.scene.requestRender();
   }
   async function chooseCase(id=byId('case').value){
+   if(id)reconstruction?.stopReconstruction();
    stop();
    const token=++caseToken;
    const debris=id==='aluvion';
@@ -459,7 +463,8 @@
    byId('picked').hidden=true;
    byId('debrisProbe').hidden=true;
    byId('debrisPanel').hidden=!debris;
-   byId('simulateDebris').textContent=debris?'Repetir aluvión':'Simular aluvión';
+   byId('simulateDebris').textContent=reconstruction?(debris?'Repetir escenario':'Escenario hidráulico'):
+    debris?'Repetir aluvión':'Simular aluvión';
    byId('variable').disabled=true;
    if(!id){
     byId('result').textContent='El mapa muestra las huellas interpretadas de las fotos.';
@@ -488,8 +493,9 @@
     byId('timeline').hidden=false;
     byId('legend').hidden=false;
     if(debris){
-     result.textContent='Volumen supuesto de '+number(item.volume_m3,0)+' m³. Espesor máximo en el mapa de '+
-      number(item.max_map_m,1)+' m.';
+     result.textContent='Volumen supuesto de '+number(item.volume_m3,0)+' m³. '+
+      (reconstruction?'La capa de espesores está recortada al perímetro levantado. '+
+        'Máximo del cálculo completo: ':'Espesor máximo en el mapa: ')+number(item.max_map_m,1)+' m.';
      byId('debrisExtent').checked=false;
     }else{
      const area=number(item.max_footprint_km2*100,2);
@@ -565,7 +571,12 @@
    const hit=ray&&viewer.scene.globe.pick(ray,viewer.scene);
    if(!hit||!active)return;
    const p=C.Cartographic.fromCartesian(hit);
-   const [xc,yc]=coordinateIndex(active.meta,C.Math.toDegrees(p.longitude),C.Math.toDegrees(p.latitude));
+   const lon=C.Math.toDegrees(p.longitude),lat=C.Math.toDegrees(p.latitude);
+   if(active.debris&&reconstruction&&!reconstruction.contains(lon,lat)){
+    byId('debrisProbe').hidden=true;
+    return;
+   }
+   const [xc,yc]=coordinateIndex(active.meta,lon,lat);
    const x=Math.round(xc),y=Math.round(yc);
    if(x<0||y<0||x>=active.meta.cols||y>=active.meta.rows)return;
    const value=mapSlice()[y*active.meta.cols+x]/100;
@@ -593,7 +604,6 @@
   byId('profiles').textContent='El drenaje derivado reúne '+number(basin.km2,2)+' km² en el sector bajo.';
   home();
   await Promise.all(initialLayers);
-  byId('simulateDebris').disabled=false;
   byId('photoCount').textContent=photoRecords.size;
   if(routeStops.every(({photo})=>photoRecords.has(photo)&&evidenceByPhoto.has(photo))){
    routeLayer=await viewer.dataSources.add(new C.CustomDataSource('Recorrido aproximado entre fotos'));
@@ -629,6 +639,34 @@
    viewer.scene.requestRender();
   }
   const options=new URLSearchParams(location.search);
+  if(window.createShobolReconstruction){
+   reconstruction=await window.createShobolReconstruction({C,viewer,
+    focus:(lon,lat,range)=>{
+     haltTour();
+     clearRouteStop();
+     look(lon,lat,252,-54,range);
+    },
+    leaveModel:async()=>{
+     byId('case').value='';
+     await chooseCase('');
+    },
+    showReconstruction:visible=>{
+     if(routeLayer)routeLayer.show=!visible&&!requestedCase;
+     byId('routeKey').hidden=!routeLayer?.show;
+     const interpreted=layerObjects.get('areas_interpretadas');
+     const toggle=byId('layers').querySelector('[data-layer="areas_interpretadas"]');
+     if(interpreted&&toggle)interpreted.show=!visible&&toggle.checked;
+     viewer.scene.requestRender();
+    },
+   }).catch(error=>{console.warn(error);return null;});
+   if(reconstruction){
+    byId('mapReconstruct').hidden=false;
+    byId('simulateDebris').classList.remove('primary');
+    byId('simulateDebris').textContent='Escenario hidráulico';
+   }
+   if(options.get('vista')==='huella')void reconstruction?.startReconstruction();
+  }
+  byId('simulateDebris').disabled=false;
   if(options.has('qa')){
    window.shobolQA={viewer,ready:!layerError,case:()=>active?.meta.id,frame:()=>frame,
                    tour:flyTour,tourFrame,home,show:look,overlay:()=>overlay?.rectangle,photoRecords,

@@ -7,7 +7,7 @@
 <title>Shobol Llinllín · Reconstrucción del aluvión</title>
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cesium@1.145.0/Build/Cesium/Widgets/widgets.css">
-<link rel="stylesheet" href="shobol.css?v=3">
+<link rel="stylesheet" href="shobol.css?v=6">
 </head>
 <body>
 <header class="masthead"><a href="../inundaciones-ecuador/">← Atlas Ecuador</a><span>GeoRaga · Reconstrucción territorial</span><a href="data/shobol/informe-tecnico.html">Informe técnico ↗</a></header>
@@ -15,6 +15,7 @@
  <section class="map" aria-label="Mapa 3D de Shobol Llinllín">
   <div id="viewer"></div>
   <nav class="map-tools" aria-label="Controles de cámara">
+   <button id="mapReconstruct" class="primary" type="button" hidden>Ver avance del aluvión</button>
    <button id="simulateDebris" class="primary" type="button" disabled>Simular aluvión</button>
    <button id="tour" type="button" disabled>Recorrido con fotos</button>
    <button id="home" type="button">Ver todo</button>
@@ -39,12 +40,25 @@
    <div class="time-slider"><label for="time" id="timeLabel">Hora Ecuador</label><input id="time" type="range" min="0" value="0" aria-labelledby="timeLabel"></div>
    <label>Velocidad <select id="speed"><option value="1">1×</option><option value="2">2×</option><option value="4">4×</option></select></label>
   </section>
+  <section id="reconstructionTimeline" class="timeline" hidden aria-label="Avance dentro del área levantada">
+   <button id="reconstructionPlay" type="button">Reproducir</button>
+   <div class="time-slider">
+    <label for="reconstructionStep" id="reconstructionProgress">Avance ilustrativo</label>
+    <input id="reconstructionStep" type="range" min="0" value="0">
+   </div>
+   <button id="reconstructionFull" type="button">Ver toda el área</button>
+   <button id="reconstructionClose" type="button">Cerrar</button>
+  </section>
  </section>
  <aside aria-label="Evidencia y simulaciones">
   <p class="date">San Juan, Riobamba · 22 de noviembre de 2026</p>
   <h1>El aluvión de Shobol Llinllín</h1>
   <p>La tarde del 22 de noviembre se desbordó un canal de riego. Se reportaron viviendas afectadas y el colapso de un puente. El ECU 911 recibió la llamada a las 18:18.</p>
-  <p class="note">Las fotos del día siguiente muestran huellas en la quebrada, las parcelas y el poblado. El punto exacto de inicio y la ubicación del puente colapsado siguen por confirmar.</p>
+  <p class="note">Las fotos del día siguiente muestran huellas en la quebrada, las parcelas y el poblado. La hora de inicio y el espesor real del aluvión siguen por determinar.</p>
+  <section id="reconstructionSummary" hidden aria-label="Área del aluvión">
+   <p id="reconstructionStatus" class="note" aria-live="polite"></p>
+   <label><input id="reconstructionArea" type="checkbox"> Mostrar el perímetro levantado</label>
+  </section>
   <section id="debrisPanel" hidden aria-label="Simulación del aluvión">
    <h2>Escenario hipotético</h2>
    <p id="debrisResult" aria-live="polite"></p>
@@ -88,6 +102,7 @@
 <script src="https://cdn.jsdelivr.net/npm/cesium@1.145.0/Build/Cesium/Cesium.js"></script>
 <script src="../inundaciones-ecuador/imagery-config.js"></script>
 <script src="../inundaciones-ecuador/cesium-imagery.js"></script>
-<script src="shobol.js?v=4"></script>
+<script src="reconstruccion.js?v=1"></script>
+<script src="shobol.js?v=10"></script>
 </body>
 </html>

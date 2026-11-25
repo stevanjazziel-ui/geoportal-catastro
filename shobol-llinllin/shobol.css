@@ -60,3 +60,7 @@ summary{cursor:pointer;font-weight:700}
 .layers{display:grid;gap:.42rem;padding:.65rem 0 0;font-size:.86rem}
 .layers label{display:flex;gap:.45rem;align-items:center}
 @media(max-width:730px){main{height:auto;display:flex;flex-direction:column}.map{height:63dvh;min-height:26rem}.masthead span{display:none}.timeline{gap:.4rem}.timeline button{font-size:.75rem;padding:.39rem}.timeline>label{font-size:0}.timeline>label select{font-size:.8rem}.legend{bottom:6.65rem}aside{overflow:visible;border-left:0}}
+
+#reconstructionTimeline .time-slider{min-width:6rem}
+#reconstructionSummary{margin:.8rem 0;font-size:.88rem}
+@media(max-width:470px){#reconstructionTimeline{flex-wrap:wrap}#reconstructionTimeline .time-slider{min-width:48%}}
