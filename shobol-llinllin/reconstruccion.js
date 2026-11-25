@@ -19,9 +19,14 @@ window.createShobolReconstruction = async ({C,viewer,focus,leaveModel,showRecons
   outer.map(([lon,lat])=>C.Cartographic.fromDegrees(lon,lat))
  );
  const center=C.Rectangle.center(C.Rectangle.fromCartographicArray(locations));
- const phaseMaterials=palette.map(tint=>new C.ColorMaterialProperty(
-  C.Color.fromCssColorString(tint).withAlpha(.91)
- ));
+ const sediment=window.createShobolSediment();
+ const textured=C.GroundPrimitive.supportsMaterials(viewer.scene);
+ const phaseColors=palette.map(tint=>C.Color.fromCssColorString(tint).withAlpha(.93));
+ const phaseMaterials=palette.map((tint,index)=>textured?
+  new C.ImageMaterialProperty({image:sediment.image(tint),transparent:true,
+   color:C.Color.WHITE.withAlpha(.93)}):
+  new C.ColorMaterialProperty(phaseColors[index])
+ );
  let clip;
  function clipModel(canvas,bbox){
   if(clip?.bbox!==bbox){
@@ -51,6 +56,7 @@ window.createShobolReconstruction = async ({C,viewer,focus,leaveModel,showRecons
   paint.globalCompositeOperation='destination-in';
   paint.drawImage(mask,0,0);
   paint.globalCompositeOperation='source-over';
+  sediment.paint(paint,bbox);
   return output;
  }
  function contains(lon,lat){
@@ -66,7 +72,7 @@ window.createShobolReconstruction = async ({C,viewer,focus,leaveModel,showRecons
  async function loadReconstruction(){
   const footprint=await load('avance-area-campo.geojson');
   const layer=await C.GeoJsonDataSource.load(footprint,{
-   clampToGround:true,fill:phaseMaterials[0].color.getValue(),
+   clampToGround:true,fill:phaseColors[0],
    stroke:C.Color.TRANSPARENT,
   });
   layer.name='Avance ilustrativo del área levantada';
