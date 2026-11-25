@@ -74,6 +74,36 @@
     return heights;
    }});
  }
+ function reliefLighting(meta,heights){
+  const {rows,cols,bbox}=meta;
+  const [west,south,east,north]=bbox;
+  const latitude=C.Math.toRadians((south+north)/2);
+  const dx=111320*Math.cos(latitude)*(east-west)/cols;
+  const dy=111130*(north-south)/rows;
+  const sun=C.Cartesian3.normalize(new C.Cartesian3(-.55,.28,.79),new C.Cartesian3());
+  const canvas=document.createElement('canvas');
+  canvas.width=cols;canvas.height=rows;
+  const paint=canvas.getContext('2d');
+  const pixels=paint.createImageData(cols,rows);
+  for(let y=1;y<rows-1;y++){
+   for(let x=1;x<cols-1;x++){
+    const i=y*cols+x;
+    const slopeX=(heights[i+1]-heights[i-1])/(2*dx);
+    const slopeY=(heights[i-cols]-heights[i+cols])/(2*dy);
+    const incidence=(-sun.x*slopeX-sun.y*slopeY+sun.z)/Math.hypot(slopeX,slopeY,1)-sun.z;
+    const fade=Math.min(1,Math.min(x,y,cols-1-x,rows-1-y)/12);
+    const shadow=incidence<0;
+    const opacity=fade*Math.min(.30,Math.abs(incidence)*(shadow?.62:.65));
+    const offset=i*4;
+    pixels.data[offset]=shadow?28:244;
+    pixels.data[offset+1]=shadow?35:232;
+    pixels.data[offset+2]=shadow?36:196;
+    pixels.data[offset+3]=Math.round(255*opacity);
+   }
+  }
+  paint.putImageData(pixels,0,0);
+  return canvas;
+ }
  function color(str){return C.Color.fromCssColorString(str);}
  function hexRgb(value){return [1,3,5].map(i=>parseInt(value.slice(i,i+2),16));}
  function timeText(caseData,minute){
@@ -104,19 +134,52 @@
    rectangle:C.Rectangle.fromDegrees(...context.bbox),
    credit:'Contiene datos modificados de Copernicus Sentinel-2 (2020)',
   }).catch(()=>null):null;
+  let globeBase=satelliteFallback;
+  if(contextProvider){
+   // A global base prevents a local context image from stretching at its borders.
+   const baseCanvas=document.createElement('canvas');
+   baseCanvas.width=baseCanvas.height=2;
+   const basePaint=baseCanvas.getContext('2d');
+   basePaint.fillStyle='#465044';
+   basePaint.fillRect(0,0,2,2);
+   globeBase=await C.SingleTileImageryProvider.fromUrl(baseCanvas.toDataURL());
+  }
   const viewer=new C.Viewer('viewer',{terrainProvider:localTerrain(manifest.terrain,elevation),
-   baseLayer:new C.ImageryLayer(contextProvider||satelliteFallback),animation:false,timeline:false,
+   baseLayer:new C.ImageryLayer(globeBase),animation:false,timeline:false,
    geocoder:false,homeButton:false,sceneModePicker:false,navigationHelpButton:false,
    baseLayerPicker:false,selectionIndicator:false,infoBox:false,fullscreenButton:false,
    requestRenderMode:true,maximumRenderTimeChange:Infinity});
-  if(contextProvider)viewer.imageryLayers.addImageryProvider(satelliteFallback);
+  if(contextProvider)viewer.imageryLayers.addImageryProvider(contextProvider);
+  const satellite=contextProvider?viewer.imageryLayers.addImageryProvider(satelliteFallback):viewer.imageryLayers.get(0);
+  const gradeImagery=layer=>{
+   layer.saturation=.94;
+   layer.contrast=1.045;
+   layer.brightness=1.025;
+  };
+  gradeImagery(satellite);
   viewer.scene.globe.depthTestAgainstTerrain=true;
   viewer.scene.globe.maximumScreenSpaceError=2;
   viewer.scene.backgroundColor=color('#384a43');
   viewer.scene.screenSpaceCameraController.minimumZoomDistance=25;
   viewer.cesiumWidget.creditDisplay.addStaticCredit(new C.Credit(
    '<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap colaboradores · ODbL</a>',true));
-  void EcuadorImagery.connect(viewer,C);
+  let reliefLayer,buildingShadows;
+  const orderSurfaceLayers=()=>{
+   if(reliefLayer)viewer.imageryLayers.raiseToTop(reliefLayer);
+   if(buildingShadows)viewer.imageryLayers.raiseToTop(buildingShadows);
+  };
+  void EcuadorImagery.connect(viewer,C).then(layer=>{
+   if(layer)gradeImagery(layer);
+   orderSurfaceLayers();
+  });
+  const shading=reliefLighting(manifest.terrain,elevations);
+  void C.SingleTileImageryProvider.fromUrl(shading.toDataURL(),{
+   rectangle:C.Rectangle.fromDegrees(...manifest.terrain.bbox)
+  }).then(provider=>{
+   reliefLayer=viewer.imageryLayers.addImageryProvider(provider);
+   orderSurfaceLayers();
+   viewer.scene.requestRender();
+  }).catch(error=>console.warn('Sombreado del relieve',error));
   const overlayCanvas=document.createElement('canvas');
   const paint=overlayCanvas.getContext('2d');
   let overlay;
@@ -159,7 +222,7 @@
    byId('buildingFocus').onclick=()=>{
     haltTour();
     clearRouteStop();
-    look(-78.7985,-1.5991,250,-36,660);
+    look(-78.7985,-1.5991,250,-36,490);
    };
    viewer.cesiumWidget.creditDisplay.addStaticCredit(new C.Credit(
     '<a href="https://github.com/microsoft/GlobalMLBuildingFootprints" target="_blank" rel="noopener">Microsoft Global ML Building Footprints</a>',true));
@@ -242,6 +305,16 @@
      if(key==='capturas')byId('photo').disabled=false;
     }else if(key==='construcciones_3d'){
      object=viewer.scene.primitives.add(window.createShobolBuildings(C,data,elevation));
+     const projection=window.projectShobolBuildingShadows(data);
+     if(projection){
+      const provider=await C.SingleTileImageryProvider.fromUrl(projection.canvas.toDataURL(),{
+       rectangle:C.Rectangle.fromDegrees(...projection.bounds)
+      }).catch(()=>null);
+      if(provider){
+       buildingShadows=viewer.imageryLayers.addImageryProvider(provider);
+       orderSurfaceLayers();
+      }
+     }
     }else{
      object=await C.GeoJsonDataSource.load(data,{clampToGround:true,stroke:tint,strokeWidth:key==='puentes_osm'?4:2,
       fill:tint.withAlpha(key==='edificios_osm'?.9:.15)});
@@ -268,6 +341,7 @@
    }
    if(object){
     object.show=on;
+    if(key==='construcciones_3d'&&buildingShadows)buildingShadows.show=on;
     viewer.scene.requestRender();
    }
   }
@@ -536,7 +610,7 @@
     byId('buildingsDetails').open=true;
     byId('buildingInfo').hidden=false;
     byId('buildingInfo').textContent=number(building.height_m,1)+' m · '+building.height_source+
-     '. Huella de '+building.footprint_source+'. Acabado aproximado.';
+     '. Huella de '+building.footprint_source+'. Acabado y forma de cubierta aproximados.';
     return;
    }
    const routeStop=chosen?.id?.properties?.routeStop?.getValue();

@@ -9,7 +9,57 @@ window.createShobolBuildings = (C, data, elevation) => {
  const styleAttribute=values=>new C.GeometryInstanceAttribute({
   componentDatatype:C.ComponentDatatype.FLOAT,componentsPerAttribute:4,value:values
  });
+ const vector=(from,to)=>C.Cartesian3.subtract(to,from,new C.Cartesian3());
+ const unit=value=>C.Cartesian3.normalize(value,new C.Cartesian3());
+ const pitchedRoof=(shell,top,rise)=>{
+  const edges=shell.map((p,i)=>vector(p,shell[(i+1)%4]));
+  const length=edges.map(edge=>C.Cartesian3.magnitude(edge));
+  if(Math.min(...length)<2)return null;
+  if(edges.some((edge,i)=>Math.abs(C.Cartesian3.dot(unit(edge),unit(edges[(i+1)%4])))>.26))return null;
+  const start=length[0]+length[2]>=length[1]+length[3]?0:1;
+  const roofRise=Math.min(rise,.18*Math.min(length[(start+1)%4],length[(start+3)%4]));
+  if(roofRise<.32)return null;
+  const corners=shell.map((_,i)=>C.Cartographic.fromCartesian(shell[(start+i)%4]));
+  const at=(p,height)=>C.Cartesian3.fromRadians(p.longitude,p.latitude,height);
+  const middle=(p,q)=>C.Cartesian3.fromRadians(
+   (p.longitude+q.longitude)/2,(p.latitude+q.latitude)/2,top
+  );
+  const eave=top-roofRise;
+  const [a,b,c,d]=corners.map(p=>at(p,eave));
+  const near=middle(corners[0],corners[3]),far=middle(corners[1],corners[2]);
+  const vertices=[],normals=[];
+  const triangle=(first,second,third,outward)=>{
+   let normal=unit(C.Cartesian3.cross(vector(first,second),vector(first,third),new C.Cartesian3()));
+   if(C.Cartesian3.dot(normal,outward)<0){
+    [second,third]=[third,second];
+    normal=C.Cartesian3.negate(normal,new C.Cartesian3());
+   }
+   for(const p of [first,second,third]){
+    vertices.push(p.x,p.y,p.z);
+    normals.push(normal.x,normal.y,normal.z);
+   }
+  };
+  triangle(a,b,far,up);
+  triangle(a,far,near,up);
+  triangle(near,far,c,up);
+  triangle(near,c,d,up);
+  triangle(a,near,d,vector(far,near));
+  triangle(b,c,far,vector(near,far));
+  const geometry=new C.Geometry({
+   attributes:{
+    position:new C.GeometryAttribute({componentDatatype:C.ComponentDatatype.DOUBLE,
+     componentsPerAttribute:3,values:new Float64Array(vertices)}),
+    normal:new C.GeometryAttribute({componentDatatype:C.ComponentDatatype.FLOAT,
+     componentsPerAttribute:3,values:new Float32Array(normals)})
+   },
+   primitiveType:C.PrimitiveType.TRIANGLES,
+   indices:Uint16Array.from({length:vertices.length/3},(_,i)=>i),
+   boundingSphere:C.BoundingSphere.fromVertices(vertices)
+  });
+  return {eave,geometry};
+ };
  const instances=[];
+ const roofInstances=[];
  for(const {geometry,properties} of data.features){
   const height=Number(properties.height_m);
   if(!Number.isFinite(height)||height<=0)continue;
@@ -34,15 +84,21 @@ window.createShobolBuildings = (C, data, elevation) => {
     angle=Math.atan2(C.Cartesian3.dot(edge,north),C.Cartesian3.dot(edge,east));
    }
    const floorModule=height/Math.max(1,Math.round(height/2.85));
+   const ruralRoof=paint.red-paint.blue>.12||seed<.36;
+   const rise=Math.min(height*.27,top-heights.at(-1)-.27,1.45);
+   const roof=shell.length===4&&!holes.length&&height<=7.8&&ruralRoof?pitchedRoof(shell,top,rise):null;
+   const id={building:properties};
+   const attributes={color:C.ColorGeometryInstanceAttribute.fromColor(paint),
+    surfaceStyle:styleAttribute([anchor,seed,floorModule,angle])};
+   if(roof)roofInstances.push(new C.GeometryInstance({id,geometry:roof.geometry,attributes}));
    instances.push(new C.GeometryInstance({
-    id:{building:properties},
+    id,
     geometry:new C.PolygonGeometry({
      polygonHierarchy:new C.PolygonHierarchy(shell,holes.map(ring=>new C.PolygonHierarchy(positions(ring)))),
-     height:base,extrudedHeight:top,closeBottom:false,
+     height:base,extrudedHeight:roof?.eave??top,closeTop:!roof,closeBottom:false,
      vertexFormat:C.PerInstanceColorAppearance.VERTEX_FORMAT
     }),
-    attributes:{color:C.ColorGeometryInstanceAttribute.fromColor(paint),
-     surfaceStyle:styleAttribute([anchor,seed,floorModule,angle])}
+    attributes
    }));
   }
  }
@@ -155,5 +211,65 @@ window.createShobolBuildings = (C, data, elevation) => {
    }
   `
  });
- return new C.Primitive({geometryInstances:instances,appearance,asynchronous:true});
+ const collection=new C.PrimitiveCollection();
+ collection.add(new C.Primitive({geometryInstances:instances,appearance,asynchronous:true}));
+ if(roofInstances.length)collection.add(new C.Primitive({
+  geometryInstances:roofInstances,appearance,asynchronous:false
+ }));
+ return collection;
+};
+
+window.projectShobolBuildingShadows = data => {
+ const footprints=data.features.flatMap(({geometry,properties})=>{
+  const rings=geometry.type==='MultiPolygon'?geometry.coordinates:[geometry.coordinates];
+  const height=Number(properties.height_m);
+  return rings.map(([outline])=>({outline,height})).filter(
+   footprint=>footprint.outline.length>=4&&Number.isFinite(footprint.height)&&footprint.height>0
+  );
+ });
+ if(!footprints.length)return null;
+ let west=Infinity,south=Infinity,east=-Infinity,north=-Infinity;
+ for(const {outline} of footprints){
+  for(const [lon,lat] of outline){
+   west=Math.min(west,lon);south=Math.min(south,lat);
+   east=Math.max(east,lon);north=Math.max(north,lat);
+  }
+ }
+ const margin=.00025;
+ const bounds=[west-margin,south-margin,east+margin,north+margin];
+ const spanX=bounds[2]-bounds[0],spanY=bounds[3]-bounds[1];
+ const metersPerLongitude=111320*Math.cos((south+north)*Math.PI/360);
+ const pixelScale=Math.min(111000,3072/Math.max(spanX,spanY));
+ const canvas=document.createElement('canvas');
+ canvas.width=Math.ceil(spanX*pixelScale);
+ canvas.height=Math.ceil(spanY*pixelScale);
+ const project=([lon,lat])=>[(lon-bounds[0])*pixelScale,(bounds[3]-lat)*pixelScale];
+ const mask=new Path2D();
+ function addFace(points){
+  const area=points.reduce((total,[x,y],i)=>{
+   const [nextX,nextY]=points[(i+1)%points.length];
+   return total+x*nextY-y*nextX;
+  },0);
+  if(area<0)points.reverse();
+  mask.moveTo(...points[0]);
+  for(let i=1;i<points.length;i++)mask.lineTo(...points[i]);
+  mask.closePath();
+ }
+ for(const {outline,height} of footprints){
+  const points=outline.slice(0,-1).map(project);
+  // Project the wall tops away from the same morning light that shades the terrain.
+  const dx=height*.55/.79/metersPerLongitude*pixelScale;
+  const dy=height*.28/.79/111130*pixelScale;
+  const cast=points.map(([x,y])=>[x+dx,y+dy]);
+  addFace(cast.slice());
+  for(let i=0;i<points.length;i++){
+   const next=(i+1)%points.length;
+   addFace([points[i],points[next],cast[next],cast[i]]);
+  }
+ }
+ const paint=canvas.getContext('2d');
+ paint.filter='blur(0.85px)';
+ paint.fillStyle='rgba(20,25,23,.26)';
+ paint.fill(mask);
+ return {canvas,bounds};
 };

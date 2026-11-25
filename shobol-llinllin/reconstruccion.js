@@ -23,7 +23,7 @@ window.createShobolReconstruction = async ({C,viewer,focus,leaveModel,showRecons
  const textured=C.GroundPrimitive.supportsMaterials(viewer.scene);
  const phaseColors=palette.map(tint=>C.Color.fromCssColorString(tint).withAlpha(.93));
  const phaseMaterials=palette.map((tint,index)=>textured?
-  new C.ImageMaterialProperty({image:sediment.image(tint),transparent:true,
+  new C.ImageMaterialProperty({image:sediment.image(tint,index),transparent:true,
    color:C.Color.WHITE.withAlpha(.93)}):
   new C.ColorMaterialProperty(phaseColors[index])
  );
