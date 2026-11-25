@@ -861,6 +861,7 @@
   }
   const scheme=new C.GeographicTilingScheme(),provider=new C.CustomHeightmapTerrainProvider({width:64,height:64,tilingScheme:scheme,credit:meta.adaptation?.terrain?.model_file==='municipal_hybrid_30m.tif'?'MDT GAD Rumiñahui · Copernicus GLO-30 © DLR/Airbus · UE/ESA · SRTM/Mapzen':meta.adaptation?'Copernicus GLO-30 © DLR/Airbus · UE/ESA · contexto Mapzen · Kestrel sin calibración local':'Contexto SRTM/Mapzen · cálculo regional Kestrel sin calibrar',callback:(x,y,level)=>{const r=scheme.tileXYToRectangle(x,y,level),a=new Float32Array(4096);for(let j=0;j<64;j++)for(let i=0;i<64;i++)a[j*64+i]=elevation(C.Math.toDegrees(r.west+(r.east-r.west)*i/63),C.Math.toDegrees(r.north-(r.north-r.south)*j/63));return a;}});
   C.Ion.defaultAccessToken='';viewer=new C.Viewer('viewer',{baseLayer:new C.ImageryLayer(window.EcuadorImagery.fallback(C)),terrainProvider:provider,baseLayerPicker:false,geocoder:false,timeline:false,animation:false,homeButton:false,sceneModePicker:false,navigationHelpButton:false,fullscreenButton:false,infoBox:false,selectionIndicator:false,requestRenderMode:true});viewer.scene.globe.depthTestAgainstTerrain=true;
+  viewer.scene.globe.baseColor=C.Color.fromCssColorString('#59604f');
   gradeImagery(viewer.imageryLayers.get(0));
   void window.EcuadorImagery.connect(viewer,C).then(layer=>{
    if(layer)gradeImagery(layer);
