@@ -154,7 +154,8 @@
    byId('buildingSummary').textContent=number(summary.total,0)+' construcciones en el corredor. '+
     (measured?number(measured,0)+' alturas estimadas con el levantamiento. ':'')+
     (satellite?number(satellite,0)+' estimaciones satelitales. ':'')+
-    (indicative?number(indicative,0)+' volúmenes con altura referencial de 3,2 m.':'');
+    (indicative?number(indicative,0)+' volúmenes con altura referencial de 3,2 m. ':'')+
+    'Los acabados de fachada y cubierta son aproximados.';
    byId('buildingFocus').onclick=()=>{
     haltTour();
     clearRouteStop();
@@ -239,6 +240,8 @@
      }
      await viewer.dataSources.add(object);
      if(key==='capturas')byId('photo').disabled=false;
+    }else if(key==='construcciones_3d'){
+     object=viewer.scene.primitives.add(window.createShobolBuildings(C,data,elevation));
     }else{
      object=await C.GeoJsonDataSource.load(data,{clampToGround:true,stroke:tint,strokeWidth:key==='puentes_osm'?4:2,
       fill:tint.withAlpha(key==='edificios_osm'?.9:.15)});
@@ -249,36 +252,14 @@
        e.polygon.material=color(soil?'#a9aaa1':'#e58251').withAlpha(soil?.16:.45);
       }
      }
-     if(key==='edificios_osm'||key==='construcciones_3d'){
-      for(const e of object.entities.values.slice()){
+     if(key==='edificios_osm'){
+      for(const e of object.entities.values){
        if(!e.polygon)continue;
        const levels=Number(e.properties?.levels?.getValue());
-       const model=key==='construcciones_3d';
-       const height=model?Number(e.properties.height_m.getValue()):levels>0&&levels<15?3*levels:3;
-       if(!Number.isFinite(height)||height<=0){e.show=false;continue;}
-       if(model){
-        const outline=e.polygon.hierarchy.getValue(C.JulianDate.now()).positions;
-        const samples=outline.map(position=>{
-         const point=C.Cartographic.fromCartesian(position);
-         return elevation(C.Math.toDegrees(point.longitude),C.Math.toDegrees(point.latitude));
-        }).sort((a,b)=>a-b);
-        const base=samples[0]-.35;
-        const top=Math.max(samples.at(-1)+.7,samples[Math.floor(samples.length/2)]+height);
-        e.polygon.height=base;
-        e.polygon.extrudedHeight=top;
-        e.polygon.material=color('#d1c5ab');
-        const properties=e.properties;
-        const roof=properties.roof_color?.getValue()||'#888d87';
-        object.entities.add({
-         id:'tejado-'+e.id,properties,
-         polygon:{hierarchy:e.polygon.hierarchy,height:top+.09,material:color(roof)},
-        });
-       }else{
-        e.polygon.height=0;
-        e.polygon.heightReference=C.HeightReference.CLAMP_TO_GROUND;
-        e.polygon.extrudedHeight=height;
-        e.polygon.extrudedHeightReference=C.HeightReference.RELATIVE_TO_GROUND;
-       }
+       e.polygon.height=0;
+       e.polygon.heightReference=C.HeightReference.CLAMP_TO_GROUND;
+       e.polygon.extrudedHeight=levels>0&&levels<15?3*levels:3;
+       e.polygon.extrudedHeightReference=C.HeightReference.RELATIVE_TO_GROUND;
       }
      }
      await viewer.dataSources.add(object);
@@ -550,13 +531,12 @@
   byId('speed').onchange=()=>{if(player){stop();byId('play').click();}};
   viewer.screenSpaceEventHandler.setInputAction(event=>{
    const chosen=viewer.scene.pick(event.position);
-   const building=chosen?.id?.properties;
-   if(building?.footprint_source){
+   const building=chosen?.id?.building;
+   if(building){
     byId('buildingsDetails').open=true;
     byId('buildingInfo').hidden=false;
-    const source=building.height_source.getValue();
-    byId('buildingInfo').textContent=number(building.height_m.getValue(),1)+' m · '+source+
-     '. Huella de '+building.footprint_source.getValue()+'.';
+    byId('buildingInfo').textContent=number(building.height_m,1)+' m · '+building.height_source+
+     '. Huella de '+building.footprint_source+'. Acabado aproximado.';
     return;
    }
    const routeStop=chosen?.id?.properties?.routeStop?.getValue();
@@ -640,7 +620,7 @@
   }
   const options=new URLSearchParams(location.search);
   if(window.createShobolReconstruction){
-   reconstruction=await window.createShobolReconstruction({C,viewer,
+   reconstruction=await window.createShobolReconstruction({C,viewer,palette:debrisScale.map(([,tint])=>tint),
     focus:(lon,lat,range)=>{
      haltTour();
      clearRouteStop();

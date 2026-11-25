@@ -1,6 +1,6 @@
 'use strict';
 
-window.createShobolReconstruction = async ({C,viewer,focus,leaveModel,showReconstruction}) => {
+window.createShobolReconstruction = async ({C,viewer,focus,leaveModel,showReconstruction,palette}) => {
  const byId=id=>document.getElementById(id);
  const root='data/shobol/avance/';
  const load=async file=>{
@@ -12,30 +12,16 @@ window.createShobolReconstruction = async ({C,viewer,focus,leaveModel,showRecons
   load('area-recorte.geojson'),load('avance-area-campo.json')
  ]);
  const number=(value,maximumFractionDigits=2)=>Number(value).toLocaleString('es-EC',{maximumFractionDigits});
- const area=await C.GeoJsonDataSource.load(areaData,{
-  clampToGround:true,stroke:C.Color.fromCssColorString('#54f5df'),strokeWidth:4,
-  fill:C.Color.TRANSPARENT
- });
- area.name='Área delimitada en campo';
- const borderColor=C.Color.fromCssColorString('#54f5df');
- const mappedPolygons=[];
- const extent=C.Rectangle.fromCartesianArray(area.entities.values.flatMap(entity=>
-  entity.polygon.hierarchy.getValue(C.JulianDate.now()).positions
+ const mappedPolygons=areaData.features.flatMap(({geometry})=>
+  geometry.type==='MultiPolygon'?geometry.coordinates:[geometry.coordinates]
+ );
+ const locations=mappedPolygons.flatMap(([outer])=>
+  outer.map(([lon,lat])=>C.Cartographic.fromDegrees(lon,lat))
+ );
+ const center=C.Rectangle.center(C.Rectangle.fromCartographicArray(locations));
+ const phaseMaterials=palette.map(tint=>new C.ColorMaterialProperty(
+  C.Color.fromCssColorString(tint).withAlpha(.91)
  ));
- for(const feature of areaData.features){
-  const geometry=feature.geometry;
-  const polygons=geometry.type==='MultiPolygon'?geometry.coordinates:[geometry.coordinates];
-  mappedPolygons.push(...polygons);
-  for(const rings of polygons){
-   for(const ring of rings){
-    area.entities.add({polyline:{
-     positions:C.Cartesian3.fromDegreesArray(ring.flatMap(point=>point.slice(0,2))),
-     clampToGround:true,classificationType:C.ClassificationType.TERRAIN,
-     width:3.5,material:borderColor,zIndex:8,
-    }});
-   }
-  }
- }
  let clip;
  function clipModel(canvas,bbox){
   if(clip?.bbox!==bbox){
@@ -70,14 +56,6 @@ window.createShobolReconstruction = async ({C,viewer,focus,leaveModel,showRecons
  function contains(lon,lat){
   return clip?.context.isPointInPath(clip.path,...clip.project(lon,lat),'evenodd');
  }
- area.show=false;
- await viewer.dataSources.add(area);
- const showArea=value=>{
-  byId('reconstructionArea').checked=value;
-  area.show=value;
-  viewer.scene.requestRender();
- };
- byId('reconstructionArea').onchange=e=>showArea(e.currentTarget.checked);
  const play=byId('reconstructionPlay');
  const slider=byId('reconstructionStep');
  const timeline=byId('reconstructionTimeline');
@@ -88,16 +66,23 @@ window.createShobolReconstruction = async ({C,viewer,focus,leaveModel,showRecons
  async function loadReconstruction(){
   const footprint=await load('avance-area-campo.geojson');
   const layer=await C.GeoJsonDataSource.load(footprint,{
-   clampToGround:true,fill:C.Color.fromCssColorString('#c97945').withAlpha(.86),
+   clampToGround:true,fill:phaseMaterials[0].color.getValue(),
    stroke:C.Color.TRANSPARENT,
   });
   layer.name='Avance ilustrativo del área levantada';
   layer.show=false;
   const time=C.JulianDate.now();
-  const shapes=layer.entities.values.map(entity=>{
+  const shapes=layer.entities.values.slice().map(entity=>{
    entity.show=false;
+   entity.polygon.outline=false;
    entity.polygon.zIndex=5;
-   return [entity,Number(entity.properties.stage.getValue(time))];
+   const arrivals=Number(entity.properties.stage.getValue(time));
+   const phases=phaseMaterials.map((material,index)=>{
+    const phase=index===0?entity:layer.entities.add({show:false,polygon:entity.polygon.clone()});
+    phase.polygon.material=material;
+    return phase;
+   });
+   return {arrival:arrivals,phases};
   });
   await viewer.dataSources.add(layer);
   return {layer,shapes,specification};
@@ -105,7 +90,11 @@ window.createShobolReconstruction = async ({C,viewer,focus,leaveModel,showRecons
  function drawStage(next){
   const {shapes,specification}=reconstruction;
   stage=Math.max(0,Math.min(next,specification.steps));
-  for(const [entity,arrival] of shapes)entity.show=arrival<=stage;
+  for(const {arrival,phases} of shapes){
+   const elapsed=stage-arrival;
+   const phase=elapsed<0?-1:elapsed<2?0:elapsed<7?1:2;
+   phases.forEach((entity,index)=>{entity.show=index===phase;});
+  }
   slider.value=stage;
   byId('reconstructionProgress').textContent=number(specification.covered_percent[stage],1)+
    ' % de la huella mostrada';
@@ -148,15 +137,13 @@ window.createShobolReconstruction = async ({C,viewer,focus,leaveModel,showRecons
    await leaveModel();
    if(token!==generation)return;
    pause();
-   showArea(true);
-   const center=C.Rectangle.center(extent);
    focus(C.Math.toDegrees(center.longitude),C.Math.toDegrees(center.latitude),4850);
    showReconstruction(true);
    timeline.hidden=false;
    reconstruction.layer.show=true;
    slider.max=reconstruction.specification.steps;
    status.textContent='Los dos ramales se unen y siguen aguas abajo dentro del perímetro de '+
-    number(reconstruction.specification.mapped_ha)+' ha. El ritmo de la animación es ilustrativo.';
+    number(reconstruction.specification.mapped_ha)+' ha. El tono claro señala el frente. El ritmo es ilustrativo.';
    drawStage(1);
    playback();
   }catch(error){
