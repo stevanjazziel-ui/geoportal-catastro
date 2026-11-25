@@ -7,7 +7,7 @@
 <title>Shobol Llinllín · Reconstrucción del aluvión</title>
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cesium@1.145.0/Build/Cesium/Widgets/widgets.css">
-<link rel="stylesheet" href="shobol.css?v=2">
+<link rel="stylesheet" href="shobol.css?v=3">
 </head>
 <body>
 <header class="masthead"><a href="../inundaciones-ecuador/">← Atlas Ecuador</a><span>GeoRaga · Reconstrucción territorial</span><a href="data/shobol/informe-tecnico.html">Informe técnico ↗</a></header>
@@ -15,7 +15,8 @@
  <section class="map" aria-label="Mapa 3D de Shobol Llinllín">
   <div id="viewer"></div>
   <nav class="map-tools" aria-label="Controles de cámara">
-   <button id="tour" class="primary" type="button" disabled>Reproducir recorrido</button>
+   <button id="simulateDebris" class="primary" type="button" disabled>Simular aluvión</button>
+   <button id="tour" type="button" disabled>Recorrido con fotos</button>
    <button id="home" type="button">Ver todo</button>
    <span id="imageryStatus" role="status">Cargando mapa satelital…</span>
   </nav>
@@ -44,6 +45,14 @@
   <h1>El aluvión de Shobol Llinllín</h1>
   <p>La tarde del 22 de noviembre se desbordó un canal de riego. Se reportaron viviendas afectadas y el colapso de un puente. El ECU 911 recibió la llamada a las 18:18.</p>
   <p class="note">Las fotos del día siguiente muestran huellas en la quebrada, las parcelas y el poblado. El punto exacto de inicio y la ubicación del puente colapsado siguen por confirmar.</p>
+  <section id="debrisPanel" hidden aria-label="Simulación del aluvión">
+   <h2>Escenario hipotético</h2>
+   <p id="debrisResult" aria-live="polite"></p>
+   <p class="note">Los espesores corresponden al material en movimiento. El espesor real del flujo y el del depósito quedaron sin medir en las fuentes revisadas.</p>
+   <p id="debrisProbe" class="sample" hidden></p>
+   <label class="extent-toggle"><input id="debrisExtent" type="checkbox"> Ver todo el alcance simulado</label>
+   <a href="data/shobol/informe-tecnico.html#modelo-aluvion">Fuentes y método del escenario ↗</a>
+  </section>
   <section>
    <h2>Qué se vio en el terreno</h2>
    <div id="routeStops" class="route-stops" role="group" aria-label="Tramos del recorrido" hidden></div>
@@ -72,6 +81,6 @@
 <script src="https://cdn.jsdelivr.net/npm/cesium@1.145.0/Build/Cesium/Cesium.js"></script>
 <script src="../inundaciones-ecuador/imagery-config.js"></script>
 <script src="../inundaciones-ecuador/cesium-imagery.js"></script>
-<script src="shobol.js?v=2"></script>
+<script src="shobol.js?v=3"></script>
 </body>
 </html>

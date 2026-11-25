@@ -14,6 +14,7 @@
   perfiles:'#c5eca6'};
  const depthScale=[[.05,'#eac17e','5–20 cm'],[.2,'#cf8846','20–50 cm'],[.5,'#91492e','50 cm o más']];
  const speedScale=[[.01,'#cce8d4','< 0,3 m/s'],[.3,'#58aa9c','0,3–1 m/s'],[1,'#225d67','1 m/s o más']];
+ const debrisScale=[[.15,'#f5c483','15–50 cm'],[.5,'#e27642','50 cm–1 m'],[1,'#a43921','1 m o más']];
  const defaultLayers=new Set(['areas_interpretadas','edificios_osm','hidrografia_osm']);
  const photoLayers=new Set(['capturas','evidencias']);
  const routeStops=[
@@ -31,7 +32,8 @@
   ['0025','0027','0029','0036','0030','0031','0034','0032','0033'],
  ];
  const cache=new Map();
- let caseToken=0,active=null,frame=0,player=null,tourTimer=null,selectedPhoto=null,layerError=false;
+ let caseToken=0,requestedCase='',active=null,frame=0,player=null,tourTimer=null,selectedPhoto=null,layerError=false;
+ let debrisMeta, priorFootprintVisibility;
  const layerObjects=new Map();
  const evidenceByPhoto=new Map();
 
@@ -79,6 +81,10 @@
   return new Intl.DateTimeFormat('es-EC',{timeZone:'America/Guayaquil',hour:'2-digit',minute:'2-digit',
    hourCycle:'h23',day:'numeric',month:'short'}).format(date);
  }
+ function elapsed(seconds){
+  const minutes=Math.floor(seconds/60);
+  return minutes+' min '+String(seconds%60).padStart(2,'0')+' s';
+ }
 
  try{
   const manifest=await payload('manifest.json');
@@ -88,11 +94,17 @@
   const satelliteFallback=new C.UrlTemplateImageryProvider({
    url:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
    maximumLevel:16,credit:'Imagen de respaldo © Esri y proveedores'});
+  const context=manifest.context_imagery;
+  const contextProvider=context?await C.SingleTileImageryProvider.fromUrl(assetUrl(context.file),{
+   rectangle:C.Rectangle.fromDegrees(...context.bbox),
+   credit:'Contiene datos modificados de Copernicus Sentinel-2 (2020)',
+  }).catch(()=>null):null;
   const viewer=new C.Viewer('viewer',{terrainProvider:localTerrain(manifest.terrain,elevation),
-   baseLayer:new C.ImageryLayer(satelliteFallback),animation:false,timeline:false,
+   baseLayer:new C.ImageryLayer(contextProvider||satelliteFallback),animation:false,timeline:false,
    geocoder:false,homeButton:false,sceneModePicker:false,navigationHelpButton:false,
    baseLayerPicker:false,selectionIndicator:false,infoBox:false,fullscreenButton:false,
    requestRenderMode:true,maximumRenderTimeChange:Infinity});
+  if(contextProvider)viewer.imageryLayers.addImageryProvider(satelliteFallback);
   viewer.scene.globe.depthTestAgainstTerrain=true;
   viewer.scene.globe.maximumScreenSpaceError=2;
   viewer.scene.backgroundColor=color('#384a43');
@@ -115,7 +127,7 @@
   function haltTour(){
    clearTimeout(tourTimer);
    tourTimer=null;
-   byId('tour').textContent='Reproducir recorrido';
+   byId('tour').textContent='Recorrido con fotos';
    if(viewer.camera.cancelFlight)viewer.camera.cancelFlight();
   }
   function clearRouteStop(){
@@ -140,7 +152,7 @@
    look(...tourPath[i].map((from,j)=>from+(tourPath[i+1][j]-from)*t));
   }
   function showRouteStop(index){
-   if(byId('case').value){
+   if(requestedCase){
     byId('case').value='';
     void chooseCase();
    }
@@ -235,6 +247,7 @@
    const label=document.createElement('label');
    const input=document.createElement('input');
    input.type='checkbox';
+   input.dataset.layer=key;
    input.checked=defaultLayers.has(key);
    label.append(input,item.label);
    byId('layers').append(label);
@@ -311,6 +324,11 @@
    byId('play').textContent='Reproducir';
   }
   function mapSlice(){
+   if(active.debris){
+    const area=active.meta.rows*active.meta.cols;
+    const selected=byId('debrisExtent').checked?active.meta.times_s.length:frame;
+    return active.data.subarray(selected*area,(selected+1)*area);
+   }
    const variable=byId('variable').value;
    const area=active.meta.rows*active.meta.cols,steps=active.meta.times.length;
    const index={depth:frame,speed:steps+frame,maxDepth:2*steps,maxSpeed:2*steps+1}[variable];
@@ -332,7 +350,7 @@
    if(!active)return;
    const tag=byId('variable').value;
    const speed=tag==='speed'||tag==='maxSpeed';
-   const scale=speed?speedScale:depthScale;
+   const scale=active.debris?debrisScale:speed?speedScale:depthScale;
    const width=active.meta.cols,height=active.meta.rows;
    overlayCanvas.width=width;overlayCanvas.height=height;
    const image=paint.createImageData(width,height);
@@ -342,16 +360,22 @@
     const value=values[i];
     if(value<thresholds[0][0])continue;
     const rgb=value>=thresholds[2][0]?thresholds[2][1]:value>=thresholds[1][0]?thresholds[1][1]:thresholds[0][1];
-    image.data.set([...rgb,213],i*4);
+    image.data.set([...rgb,active.debris?248:213],i*4);
    }
    paint.putImageData(image,0,0);
    overlay.rectangle.material=new C.ImageMaterialProperty({image:overlayCanvas.toDataURL(),transparent:true});
-   const maximum=tag.startsWith('max');
-   const empty=!maximum&&!speed&&active.depth.counts[frame]===0;
-   byId('timeLabel').textContent=maximum?'Máximo de la corrida':
-    timeText(active.meta,active.meta.times[frame])+(empty?' · Sin agua de 5 cm o más':'');
+   if(active.debris){
+    byId('timeLabel').textContent=byId('debrisExtent').checked?'Alcance máximo del escenario':
+     elapsed(active.meta.times_s[frame])+' desde el inicio simulado';
+   }else{
+    const maximum=tag.startsWith('max');
+    const empty=!maximum&&!speed&&active.depth.counts[frame]===0;
+    byId('timeLabel').textContent=maximum?'Máximo de la corrida':
+     timeText(active.meta,active.meta.times[frame])+(empty?' · Sin agua de 5 cm o más':'');
+   }
    byId('time').value=frame;
-   byId('legendTitle').textContent=speed?'Velocidad calculada':'Profundidad calculada';
+   byId('legendTitle').textContent=active.debris?'Espesor simulado del aluvión':
+    speed?'Velocidad calculada':'Profundidad calculada';
    byId('scale').replaceChildren(...scale.map(([,tint,text])=>{
     const label=document.createElement('span');
     const mark=document.createElement('i');
@@ -361,9 +385,21 @@
    }));
    viewer.scene.requestRender();
   }
-  async function chooseCase(){
+  async function chooseCase(id=byId('case').value){
    stop();
-   const id=byId('case').value,token=++caseToken;
+   const token=++caseToken;
+   const debris=id==='aluvion';
+   requestedCase=id;
+   const footprint=byId('layers').querySelector('[data-layer="areas_interpretadas"]');
+   if(footprint){
+    if(debris&&priorFootprintVisibility===undefined)priorFootprintVisibility=footprint.checked;
+    if(debris||priorFootprintVisibility!==undefined){
+     footprint.checked=debris?false:priorFootprintVisibility;
+     const area=layerObjects.get('areas_interpretadas');
+     if(area)area.show=footprint.checked;
+     if(!debris)priorFootprintVisibility=undefined;
+    }
+   }
    if(routeLayer)routeLayer.show=!id;
    byId('routeKey').hidden=Boolean(id)||!routeLayer;
    if(id){haltTour();clearRouteStop();}
@@ -373,49 +409,79 @@
    byId('timeline').hidden=true;
    byId('legend').hidden=true;
    byId('picked').hidden=true;
+   byId('debrisProbe').hidden=true;
+   byId('debrisPanel').hidden=!debris;
+   byId('simulateDebris').textContent=debris?'Repetir aluvión':'Simular aluvión';
    byId('variable').disabled=true;
    if(!id){
     byId('result').textContent='El mapa muestra las huellas interpretadas de las fotos.';
     viewer.scene.requestRender();
     return;
    }
-   const item=manifest.cases.find(row=>row.id===id);
-   byId('result').textContent='Cargando resultados calculados…';
+   const result=byId(debris?'debrisResult':'result');
+   result.textContent='Cargando resultados calculados…';
    try{
+    const item=debris?(debrisMeta??=await payload('aluvion-escenario-v1.json')):
+     manifest.cases.find(row=>row.id===id);
+    const steps=debris?item.times_s.length:item.times.length;
     if(!cache.has(id))cache.set(id,await payload(item.file,Uint16Array));
     if(caseToken!==token)return;
     const data=cache.get(id);
-    if(data.length!==(2*item.times.length+2)*item.cols*item.rows)throw Error('Trama incompleta');
-    const depth=depthFrames(item,data);
-    active={meta:item,data,depth,preview:true};
+    const grids=debris?steps+1:2*steps+2;
+    if(data.length!==grids*item.cols*item.rows)throw Error('Trama incompleta');
+    const depth=debris?null:depthFrames(item,data);
+    active={meta:item,data,depth,debris,preview:!debris};
     overlay=viewer.entities.add({rectangle:{coordinates:C.Rectangle.fromDegrees(...item.bbox),
      material:new C.ImageMaterialProperty({transparent:true}),heightReference:C.HeightReference.CLAMP_TO_GROUND,
      classificationType:C.ClassificationType.TERRAIN,zIndex:3}});
-    frame=depth.peak;
-    byId('time').max=item.times.length-1;
-    byId('variable').disabled=false;
+    frame=debris?item.first_frame:depth.peak;
+    byId('time').max=steps-1;
+    byId('variable').disabled=debris;
     byId('timeline').hidden=false;
     byId('legend').hidden=false;
-    const area=number(item.max_footprint_km2*100,2);
-    byId('result').textContent=item.max_footprint_km2>0?
-     'Máximo de la corrida: '+number(item.max_depth_m,2)+' m · '+area+' ha con al menos 5 cm. Ensayo sin calibración de campo.':
-     'Con esta lluvia y estas pérdidas, la corrida queda por debajo de 5 cm.';
+    if(debris){
+     result.textContent='Volumen supuesto de '+number(item.volume_m3,0)+' m³. Espesor máximo en el mapa de '+
+      number(item.max_map_m,1)+' m.';
+     byId('debrisExtent').checked=false;
+    }else{
+     const area=number(item.max_footprint_km2*100,2);
+     result.textContent=item.max_footprint_km2>0?
+      'Máximo de la corrida: '+number(item.max_depth_m,2)+' m · '+area+' ha con al menos 5 cm. Ensayo sin calibración de campo.':
+      'Con esta lluvia y estas pérdidas, la corrida queda por debajo de 5 cm.';
+    }
     draw();
    }catch(error){
-    if(caseToken===token)byId('result').textContent=error.message;
+    if(caseToken===token)result.textContent=error.message;
    }
   }
-  byId('case').onchange=chooseCase;
+  byId('case').onchange=()=>chooseCase();
+  byId('simulateDebris').onclick=async()=>{
+   const button=byId('simulateDebris');
+   button.disabled=true;
+   try{
+    byId('case').value='';
+    await chooseCase('aluvion');
+    if(!active?.debris)return;
+    home();
+    byId('play').click();
+   }finally{button.disabled=false;}
+  };
+  byId('debrisExtent').onchange=()=>{stop();draw();};
   byId('variable').onchange=draw;
-  byId('time').oninput=()=>{active.preview=false;frame=Number(byId('time').value);draw();};
-  byId('reset').onclick=()=>{stop();active.preview=false;frame=0;draw();};
+  byId('time').oninput=()=>{
+   active.preview=false;byId('debrisExtent').checked=false;frame=Number(byId('time').value);draw();
+  };
+  byId('reset').onclick=()=>{stop();active.preview=false;byId('debrisExtent').checked=false;frame=0;draw();};
   byId('play').onclick=()=>{
    if(player){stop();return;}
    if(!active)return;
    if(active.preview){
     frame=Math.max(0,active.depth.first-1);
     active.preview=false;
-   }else if(frame>=active.meta.times.length-1)frame=0;
+   }
+   const last=Number(byId('time').max);
+   if(frame>=last)frame=active.debris?active.meta.first_frame:0;
+   byId('debrisExtent').checked=false;
    const variable=byId('variable');
    if(variable.value==='maxDepth')variable.value='depth';
    if(variable.value==='maxSpeed')variable.value='speed';
@@ -423,9 +489,9 @@
    byId('play').textContent='Pausar';
    player=setInterval(()=>{
     frame++;
-    if(frame>=active.meta.times.length-1)stop();
+    if(frame>=last)stop();
     draw();
-   },330/Number(byId('speed').value));
+   },(active.debris?220:330)/Number(byId('speed').value));
   };
   byId('speed').onchange=()=>{if(player){stop();byId('play').click();}};
   viewer.screenSpaceEventHandler.setInputAction(event=>{
@@ -446,6 +512,11 @@
    const x=Math.round(xc),y=Math.round(yc);
    if(x<0||y<0||x>=active.meta.cols||y>=active.meta.rows)return;
    const value=mapSlice()[y*active.meta.cols+x]/100;
+   if(active.debris){
+    byId('debrisProbe').hidden=false;
+    byId('debrisProbe').textContent='Espesor simulado en el punto · '+number(value,2)+' m · '+byId('timeLabel').textContent+'.';
+    return;
+   }
    const variable=byId('variable').value;
    byId('picked').hidden=false;
    byId('picked').textContent='Celda del escenario · '+number(value,2)+
@@ -465,6 +536,7 @@
   byId('profiles').textContent='El drenaje derivado reúne '+number(basin.km2,2)+' km² en el sector bajo.';
   home();
   await Promise.all(initialLayers);
+  byId('simulateDebris').disabled=false;
   byId('photoCount').textContent=photoRecords.size;
   if(routeStops.every(({photo})=>photoRecords.has(photo)&&evidenceByPhoto.has(photo))){
    routeLayer=await viewer.dataSources.add(new C.CustomDataSource('Recorrido aproximado entre fotos'));
@@ -493,17 +565,19 @@
     routeButtons.push(button);
     byId('routeStops').append(button);
    });
-   routeLayer.show=!byId('case').value;
+   routeLayer.show=!requestedCase;
    byId('routeKey').hidden=!routeLayer.show;
    byId('routeStops').hidden=false;
    byId('tour').disabled=false;
    viewer.scene.requestRender();
   }
-  if(new URLSearchParams(location.search).has('qa')){
+  const options=new URLSearchParams(location.search);
+  if(options.has('qa')){
    window.shobolQA={viewer,ready:!layerError,case:()=>active?.meta.id,frame:()=>frame,
                    tour:flyTour,tourFrame,home,show:look,overlay:()=>overlay?.rectangle,photoRecords,
-                   mesh:()=>surveyMesh};
+                   mesh:()=>surveyMesh,values:()=>active?mapSlice():null};
   }
+  if(options.get('sim')==='aluvion')byId('simulateDebris').click();
  }catch(error){
   console.error(error);
   byId('loading').hidden=false;
