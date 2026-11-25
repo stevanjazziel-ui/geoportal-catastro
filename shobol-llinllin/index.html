@@ -70,6 +70,13 @@
    <p id="result" class="note" aria-live="polite">Ensayos con lluvia regional y terreno de 30 m. El canal y el puente requieren levantamiento local.</p>
    <p id="picked" class="sample" aria-live="polite" hidden></p>
   </details>
+  <details id="buildingsDetails" hidden>
+   <summary>Construcciones 3D</summary>
+   <p id="buildingSummary" class="note"></p>
+   <button id="buildingFocus" type="button">Acercar a las construcciones</button>
+   <p id="buildingInfo" class="sample" aria-live="polite" hidden></p>
+   <p class="note"><a href="data/shobol/informe-tecnico.html#construcciones">Cómo se estimaron las alturas ↗</a></p>
+  </details>
   <details><summary>Capas del mapa</summary><div id="layers" class="layers"></div></details>
   <details><summary>Lluvia y humedad antecedente</summary><p id="weatherSummary"></p><a href="data/shobol/hietograma-y-humedad.png">Ver hietograma y humedad ↗</a></details>
   <details><summary>Comparación satelital</summary><p id="satelliteSummary"></p><a id="satelliteLink" href="data/shobol/sentinel-comparacion.png" hidden>Ver imágenes de Sentinel-2 ↗</a></details>
@@ -81,6 +88,6 @@
 <script src="https://cdn.jsdelivr.net/npm/cesium@1.145.0/Build/Cesium/Cesium.js"></script>
 <script src="../inundaciones-ecuador/imagery-config.js"></script>
 <script src="../inundaciones-ecuador/cesium-imagery.js"></script>
-<script src="shobol.js?v=3"></script>
+<script src="shobol.js?v=4"></script>
 </body>
 </html>

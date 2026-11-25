@@ -9,7 +9,7 @@
  const assetUrl=file=>(published&&(file.startsWith('photos/')||largeAssets.has(file))?repository:'')+root+file;
  const number=(n,d=1)=>Number(n).toLocaleString('es-EC',{maximumFractionDigits:d});
  const colors={capturas:'#f5d97e','orientacion-laser':'#8d8dc9',huellas_foto:'#e9cc8a',evidencias:'#f6954d',
-  microcuencas:'#8cd7ba',drenaje_d8:'#78c9eb',referencias:'#ccbaf1',edificios_osm:'#d3c7a8',
+  microcuencas:'#8cd7ba',drenaje_d8:'#78c9eb',referencias:'#ccbaf1',edificios_osm:'#d3c7a8',construcciones_3d:'#d8c9af',
   hidrografia_osm:'#4db4f0',vias_osm:'#d7cb99',puentes_osm:'#e9ac80',areas_interpretadas:'#e6a259',
   perfiles:'#c5eca6'};
  const depthScale=[[.05,'#eac17e','5–20 cm'],[.2,'#cf8846','20–50 cm'],[.5,'#91492e','50 cm o más']];
@@ -88,6 +88,11 @@
 
  try{
   const manifest=await payload('manifest.json');
+  const buildings=manifest.layers.construcciones_3d;
+  if(buildings){
+   defaultLayers.delete('edificios_osm');
+   defaultLayers.add('construcciones_3d');
+  }
   const elevations=await payload(manifest.terrain.file,Float32Array);
   if(elevations.length!==manifest.terrain.rows*manifest.terrain.cols)throw Error('Terreno incompleto');
   const elevation=sampler(manifest.terrain,elevations);
@@ -138,6 +143,26 @@
    haltTour();
    clearRouteStop();
    look(-78.8025,-1.598,255,-47,3850);
+  }
+  if(buildings){
+   byId('buildingsDetails').hidden=false;
+   const summary=buildings.summary;
+   const measured=summary.height_sources['Relieve de inspección']||0;
+   const satellite=summary.height_sources['Google Open Buildings 2.5D de 2023']||0;
+   const indicative=summary.height_sources['Altura de referencia']||0;
+   byId('buildingSummary').textContent=number(summary.total,0)+' construcciones en el corredor. '+
+    (measured?number(measured,0)+' alturas estimadas con el levantamiento. ':'')+
+    (satellite?number(satellite,0)+' estimaciones satelitales. ':'')+
+    (indicative?number(indicative,0)+' volúmenes con altura referencial de 3,2 m.':'');
+   byId('buildingFocus').onclick=()=>{
+    haltTour();
+    clearRouteStop();
+    look(-78.7985,-1.5991,250,-36,660);
+   };
+   viewer.cesiumWidget.creditDisplay.addStaticCredit(new C.Credit(
+    '<a href="https://github.com/microsoft/GlobalMLBuildingFootprints" target="_blank" rel="noopener">Microsoft Global ML Building Footprints</a>',true));
+   if(satellite)viewer.cesiumWidget.creditDisplay.addStaticCredit(new C.Credit(
+    '<a href="https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_Research_open-buildings-temporal_v1" target="_blank" rel="noopener">Google Open Buildings 2.5D (CC BY 4.0)</a>',true));
   }
   const tourPath=[
     [-78.805,-1.5977,254,-51,3800],[-78.8117,-1.5976,270,-40,1250],
@@ -222,14 +247,36 @@
        e.polygon.material=color(soil?'#a9aaa1':'#e58251').withAlpha(soil?.16:.45);
       }
      }
-     if(key==='edificios_osm'){
-      for(const e of object.entities.values){
+     if(key==='edificios_osm'||key==='construcciones_3d'){
+      for(const e of object.entities.values.slice()){
        if(!e.polygon)continue;
        const levels=Number(e.properties?.levels?.getValue());
-       e.polygon.height=0;
-       e.polygon.heightReference=C.HeightReference.CLAMP_TO_GROUND;
-       e.polygon.extrudedHeight=levels>0&&levels<15?3*levels:3;
-       e.polygon.extrudedHeightReference=C.HeightReference.RELATIVE_TO_GROUND;
+       const model=key==='construcciones_3d';
+       const height=model?Number(e.properties.height_m.getValue()):levels>0&&levels<15?3*levels:3;
+       if(!Number.isFinite(height)||height<=0){e.show=false;continue;}
+       if(model){
+        const outline=e.polygon.hierarchy.getValue(C.JulianDate.now()).positions;
+        const samples=outline.map(position=>{
+         const point=C.Cartographic.fromCartesian(position);
+         return elevation(C.Math.toDegrees(point.longitude),C.Math.toDegrees(point.latitude));
+        }).sort((a,b)=>a-b);
+        const base=samples[0]-.35;
+        const top=Math.max(samples.at(-1)+.7,samples[Math.floor(samples.length/2)]+height);
+        e.polygon.height=base;
+        e.polygon.extrudedHeight=top;
+        e.polygon.material=color('#d1c5ab');
+        const properties=e.properties;
+        const roof=properties.roof_color?.getValue()||'#888d87';
+        object.entities.add({
+         id:'tejado-'+e.id,properties,
+         polygon:{hierarchy:e.polygon.hierarchy,height:top+.09,material:color(roof)},
+        });
+       }else{
+        e.polygon.height=0;
+        e.polygon.heightReference=C.HeightReference.CLAMP_TO_GROUND;
+        e.polygon.extrudedHeight=height;
+        e.polygon.extrudedHeightReference=C.HeightReference.RELATIVE_TO_GROUND;
+       }
       }
      }
      await viewer.dataSources.add(object);
@@ -244,6 +291,7 @@
   const photoRecords=new Map();
   const initialLayers=[];
   for(const [key,item] of Object.entries(manifest.layers)){
+   if(buildings&&key==='edificios_osm')continue;
    const label=document.createElement('label');
    const input=document.createElement('input');
    input.type='checkbox';
@@ -496,6 +544,15 @@
   byId('speed').onchange=()=>{if(player){stop();byId('play').click();}};
   viewer.screenSpaceEventHandler.setInputAction(event=>{
    const chosen=viewer.scene.pick(event.position);
+   const building=chosen?.id?.properties;
+   if(building?.footprint_source){
+    byId('buildingsDetails').open=true;
+    byId('buildingInfo').hidden=false;
+    const source=building.height_source.getValue();
+    byId('buildingInfo').textContent=number(building.height_m.getValue(),1)+' m · '+source+
+     '. Huella de '+building.footprint_source.getValue()+'.';
+    return;
+   }
    const routeStop=chosen?.id?.properties?.routeStop?.getValue();
    if(Number.isInteger(routeStop)){
     haltTour();
@@ -578,6 +635,10 @@
                    mesh:()=>surveyMesh,values:()=>active?mapSlice():null};
   }
   if(options.get('sim')==='aluvion')byId('simulateDebris').click();
+  if(buildings&&options.get('vista')==='construcciones'){
+   byId('buildingsDetails').open=true;
+   byId('buildingFocus').click();
+  }
  }catch(error){
   console.error(error);
   byId('loading').hidden=false;
