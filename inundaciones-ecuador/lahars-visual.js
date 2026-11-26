@@ -134,6 +134,55 @@ window.LaharVisual=(()=>{
   context.restore();
  }
 
+ function flowTopology(cells){
+  const corners=new Int32Array(cells.length/3);
+  const vertices=new Map();
+  for(let i=0;i<corners.length;i++){
+   const key=cells[i*3]+','+cells[i*3+1];
+   if(!vertices.has(key))vertices.set(key,vertices.size);
+   corners[i]=vertices.get(key);
+  }
+  const neighbors=new Int32Array(corners.length).fill(-1);
+  const edges=new Map();
+  for(let i=0;i<corners.length;i++){
+   const cell=i>>2,edge=i%4;
+   const a=corners[i],b=corners[cell*4+(edge+1)%4];
+   const key=Math.min(a,b)*vertices.size+Math.max(a,b);
+   const paired=edges.get(key);
+   if(paired===undefined)edges.set(key,i);
+   else{
+    neighbors[i]=paired>>2;
+    neighbors[paired]=cell;
+    edges.delete(key);
+   }
+  }
+  return {corners,neighbors,vertexCount:vertices.size};
+ }
+
+ function flowCornerColors(topology,depth,palette,classify){
+  const {corners,vertexCount}=topology;
+  const sums=new Uint16Array(vertexCount*3),counts=new Uint8Array(vertexCount);
+  for(let i=0;i<corners.length/4;i++){
+   if(depth[i]<5)continue;
+   const rgb=palette[classify(depth[i])];
+   for(let edge=0;edge<4;edge++){
+    const vertex=corners[i*4+edge],p=vertex*3;
+    sums[p]+=rgb[0];sums[p+1]+=rgb[1];sums[p+2]+=rgb[2];
+    counts[vertex]++;
+   }
+  }
+  const colors=new Uint8Array(sums.length);
+  for(let vertex=0;vertex<vertexCount;vertex++){
+   const count=counts[vertex];
+   if(!count)continue;
+   const p=vertex*3;
+   colors[p]=Math.round(sums[p]/count);
+   colors[p+1]=Math.round(sums[p+1]/count);
+   colors[p+2]=Math.round(sums[p+2]/count);
+  }
+  return colors;
+ }
+
  function flowAppearance(C){
   return new C.PerInstanceColorAppearance({
    flat:true,translucent:true,closed:false,
@@ -144,16 +193,24 @@ window.LaharVisual=(()=>{
     in vec3 position3DLow;
     in vec4 color;
     in vec2 flowPosition;
+    in vec2 cellPosition;
+    in vec4 dryEdges;
     out vec4 v_color;
     out vec2 v_mud;
+    out vec2 v_cell;
+    flat out vec4 v_dryEdges;
     void main(){
      v_color=color;
      v_mud=flowPosition;
+     v_cell=cellPosition;
+     v_dryEdges=dryEdges;
      gl_Position=czm_modelViewProjectionRelativeToEye*czm_computePosition();
     }`,
    fragmentShaderSource:`
     in vec4 v_color;
     in vec2 v_mud;
+    in vec2 v_cell;
+    flat in vec4 v_dryEdges;
     float soilNoise(vec2 point){
      vec2 p=floor(point), f=fract(point);
      float cell=dot(p,vec2(1.0,57.0));
@@ -171,9 +228,12 @@ window.LaharVisual=(()=>{
      float sheen=pow(max(0.0,ribs-.36),2.0)*sharp;
      vec3 material=v_color.rgb*(.96+variation*.21+(ribs-.5)*.29*sharp+grains*.20);
      material+=vec3(.19,.21,.23)*sheen;
-     out_FragColor=czm_gammaCorrect(vec4(material,v_color.a));
+     vec4 distanceToEdge=vec4(v_cell.y,1.0-v_cell.x,1.0-v_cell.y,v_cell.x);
+     vec4 fade=mix(vec4(1.0),smoothstep(vec4(0.0),vec4(.35),distanceToEdge),v_dryEdges);
+     float bank=fade.x*fade.y*fade.z*fade.w;
+     out_FragColor=czm_gammaCorrect(vec4(material,v_color.a*bank));
     }`
   });
  }
- return {canvasProvider,hillshade,buildingShadows,paintDeposits,flowAppearance};
+ return {canvasProvider,hillshade,buildingShadows,paintDeposits,flowTopology,flowCornerColors,flowAppearance};
 })();
