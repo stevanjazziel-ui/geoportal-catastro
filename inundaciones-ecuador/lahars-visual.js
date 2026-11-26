@@ -97,7 +97,7 @@ window.LaharVisual=(()=>{
   return {canvas,bbox};
  }
 
- let groundGrain;
+ let groundGrain, fineGrain;
  function grainNoise(u,v,columns,rows){
   const x=u*columns,y=v*rows,ix=Math.floor(x),iy=Math.floor(y);
   const fx=x-ix,fy=y-iy;
@@ -139,18 +139,173 @@ window.LaharVisual=(()=>{
    }
    tile.putImageData(field,0,0);
   }
+  if(!fineGrain){
+   const size=160;
+   fineGrain=document.createElement('canvas');
+   fineGrain.width=fineGrain.height=size;
+   const tile=fineGrain.getContext('2d');
+   const field=tile.createImageData(size,size);
+   for(let y=0;y<size;y++){
+    for(let x=0;x<size;x++){
+     const u=x/size,v=y/size;
+     const warp=(grainNoise(u,v,6,6)-.5)*.17;
+     const strand=grainNoise(u+warp,v+u,40,12)-.5;
+     const stone=grainNoise(u,v,92,92)-.5;
+     const tone=.72*strand+.48*stone;
+     const glint=Math.max(0,strand-.21)*Math.max(0,stone+.16);
+     const shade=tone<0,i=(y*size+x)*4;
+     field.data[i]=shade?49:238;
+     field.data[i+1]=shade?33:201;
+     field.data[i+2]=shade?21:158;
+     field.data[i+3]=Math.min(104,Math.abs(tone)*(shade?165:117)+glint*118);
+    }
+   }
+   tile.putImageData(field,0,0);
+  }
   const [west,south,east,north]=bbox;
-  const pattern=context.createPattern(groundGrain,'repeat');
-  const size=.012;
-  const sx=context.canvas.width*size/(east-west)/groundGrain.width;
-  const sy=context.canvas.height*size/(north-south)/groundGrain.height;
-  pattern.setTransform(new DOMMatrix([sx,0,0,sy,-(west%size)*sx*groundGrain.width/size,
-   (north%size)*sy*groundGrain.height/size]));
   context.save();
   context.globalCompositeOperation='source-atop';
-  context.fillStyle=pattern;
-  context.fillRect(0,0,context.canvas.width,context.canvas.height);
+  const degreesPerPixel=Math.max((east-west)/context.canvas.width,(north-south)/context.canvas.height);
+  for(const [grain,size] of [[groundGrain,.012],[fineGrain,.0013]]){
+   const pattern=context.createPattern(grain,'repeat');
+   const sx=context.canvas.width*size/(east-west)/grain.width;
+   const sy=context.canvas.height*size/(north-south)/grain.height;
+   pattern.setTransform(new DOMMatrix([sx,0,0,sy,-(west%size)*sx*grain.width/size,
+    (north%size)*sy*grain.height/size]));
+   context.globalAlpha=grain===fineGrain?.70*Math.min(1,.000027/degreesPerPixel):1;
+   context.fillStyle=pattern;
+   context.fillRect(0,0,context.canvas.width,context.canvas.height);
+  }
   context.restore();
+ }
+
+ const cornerCut=.39;
+
+ function exteriorSides(topology,depth,cell){
+  const first=cell*4;
+  return Array.from({length:4},(_,corner)=>{
+   const neighbor=topology.neighbors[first+corner];
+   return neighbor<0||depth[neighbor]<5?1:0;
+  });
+ }
+
+ function roundedCorners(topology,counts,cell,exterior){
+  return exterior.map((side,corner)=>
+   side&&exterior[(corner+3)%4]&&counts[topology.corners[cell*4+corner]]===1?1:0
+  );
+ }
+
+ function cellBounds(cells,index){
+  let west=Infinity,south=Infinity,east=-Infinity,north=-Infinity;
+  for(let j=index*12;j<index*12+12;j+=3){
+   const lon=cells[j],lat=cells[j+1];
+   west=Math.min(west,lon);east=Math.max(east,lon);
+   south=Math.min(south,lat);north=Math.max(north,lat);
+  }
+  return [west,south,east,north];
+ }
+
+ function traceCell(path,points,turns){
+  for(let corner=0;corner<4;corner++){
+   const [x,y]=points[corner];
+   const [px,py]=points[(corner+3)%4];
+   const cut=turns[corner]*cornerCut;
+   const startX=x+(px-x)*cut,startY=y+(py-y)*cut;
+   if(corner===0)path.moveTo(startX,startY);
+   else path.lineTo(startX,startY);
+   if(cut){
+    const [nx,ny]=points[(corner+1)%4];
+    path.quadraticCurveTo(x,y,x+(nx-x)*cut,y+(ny-y)*cut);
+   }
+  }
+  path.closePath();
+ }
+
+ function coverageProvider(C,bbox,cells,topology,depth,colors,classify){
+  const rectangle=C.Rectangle.fromDegrees(...bbox);
+  const tilingScheme=new C.GeographicTilingScheme({
+   rectangle,numberOfLevelZeroTilesX:1,numberOfLevelZeroTilesY:1
+  });
+  const size=512,padding=22,buckets=64;
+  const index=new Map();
+  const reference=new Uint8Array(topology.vertexCount);
+  const wet=[];
+  for(let i=0;i<cells.length/12;i++){
+   if(depth[i]<5)continue;
+   wet.push(i);
+   for(let j=0;j<4;j++)reference[topology.corners[i*4+j]]++;
+  }
+  const bucket=(value,start,end)=>
+   Math.min(buckets-1,Math.max(0,Math.floor((value-start)/(end-start)*buckets)));
+  const forBuckets=([w,s,e,n],visit)=>{
+   const left=bucket(w,bbox[0],bbox[2]),right=bucket(e,bbox[0],bbox[2]);
+   const bottom=bucket(s,bbox[1],bbox[3]),top=bucket(n,bbox[1],bbox[3]);
+   for(let y=bottom;y<=top;y++){
+    for(let x=left;x<=right;x++)visit(y*buckets+x);
+   }
+  };
+  for(const i of wet){
+   const bounds=cellBounds(cells,i);
+   const feature={i,bounds,tone:classify(depth[i]),
+    turns:roundedCorners(topology,reference,i,exteriorSides(topology,depth,i))};
+   forBuckets(bounds,id=>{
+    if(!index.has(id))index.set(id,[]);
+    index.get(id).push(feature);
+   });
+  }
+  const layer=document.createElement('canvas'),buffer=document.createElement('canvas');
+  layer.width=layer.height=buffer.width=buffer.height=size+2*padding;
+  const ink=layer.getContext('2d'),paint=buffer.getContext('2d');
+  const empty=document.createElement('canvas');
+  empty.width=empty.height=size;
+  function tile(x,y,level){
+   const {west,south,east,north}=tilingScheme.tileXYToNativeRectangle(x,y,level);
+   const dx=(east-west)/size,dy=(north-south)/size;
+   const padded=[west-padding*dx,south-padding*dy,east+padding*dx,north+padding*dy];
+   const paths=colors.map(()=>new Path2D()),seen=new Set();
+   forBuckets(padded,id=>{
+    for(const feature of index.get(id)||[]){
+     if(seen.has(feature.i))continue;
+     const [w,s,e,n]=feature.bounds;
+     if(w>padded[2]||e<padded[0]||s>padded[3]||n<padded[1])continue;
+     seen.add(feature.i);
+     const points=Array.from({length:4},(_,j)=>{
+      const p=feature.i*12+j*3;
+      return [(cells[p]-padded[0])/dx,(padded[3]-cells[p+1])/dy];
+     });
+     traceCell(paths[feature.tone],points,feature.turns);
+    }
+   });
+   if(!seen.size)return Promise.resolve(empty);
+   ink.clearRect(0,0,layer.width,layer.height);
+   paint.clearRect(0,0,buffer.width,buffer.height);
+   const envelope=new Path2D();
+   for(const [i,path] of paths.entries()){
+    ink.fillStyle=`rgb(${colors[i].slice(0,3).join(',')})`;
+    ink.fill(path);
+    envelope.addPath(path);
+   }
+   // Blend adjacent colors slightly and clip the result to the rounded wet footprint.
+   const radius=Math.min(7.2,Math.max(.25,.000046/Math.max(dx,dy)));
+   paint.filter=`blur(${radius}px)`;
+   paint.drawImage(layer,0,0);
+   paint.filter='none';
+   ink.clearRect(0,0,layer.width,layer.height);
+   ink.fill(envelope);
+   paint.globalCompositeOperation='destination-in';
+   paint.drawImage(layer,0,0);
+   paint.globalCompositeOperation='source-over';
+   paintDeposits(paint,padded);
+   const result=document.createElement('canvas');
+   result.width=result.height=size;
+   result.getContext('2d').drawImage(buffer,padding,padding,size,size,0,0,size,size);
+   return Promise.resolve(result);
+  }
+  return {
+   tilingScheme,rectangle,minimumLevel:0,maximumLevel:7,tileWidth:size,tileHeight:size,
+   hasAlphaChannel:true,errorEvent:new C.Event(),requestImage:tile,
+   getTileCredits:()=>undefined,pickFeatures:()=>undefined
+  };
  }
 
  function flowTopology(cells){
@@ -199,7 +354,7 @@ window.LaharVisual=(()=>{
    colors[p+1]=Math.round(sums[p+1]/count);
    colors[p+2]=Math.round(sums[p+2]/count);
   }
-  return colors;
+  return {colors,counts};
  }
 
  function flowAppearance(C){
@@ -215,16 +370,19 @@ window.LaharVisual=(()=>{
     in vec2 flowPosition;
     in vec2 cellPosition;
     in vec4 dryEdges;
+    in vec4 cutCorners;
     out vec4 v_color;
     out vec2 v_mud;
     out vec2 v_cell;
     flat out vec4 v_dryEdges;
+    flat out vec4 v_cutCorners;
     flat out vec3 v_cellColor;
     void main(){
      v_color=color;
      v_mud=flowPosition;
      v_cell=cellPosition;
      v_dryEdges=dryEdges;
+     v_cutCorners=cutCorners;
      v_cellColor=cellColor;
      gl_Position=czm_modelViewProjectionRelativeToEye*czm_computePosition();
     }`,
@@ -233,6 +391,7 @@ window.LaharVisual=(()=>{
     in vec2 v_mud;
     in vec2 v_cell;
     flat in vec4 v_dryEdges;
+    flat in vec4 v_cutCorners;
     flat in vec3 v_cellColor;
     float soilNoise(vec2 point){
      vec2 p=floor(point), f=fract(point);
@@ -240,6 +399,11 @@ window.LaharVisual=(()=>{
      vec4 h=fract(sin(vec4(cell,cell+1.0,cell+57.0,cell+58.0)*12.9898)*43758.5453);
      vec2 w=f*f*(3.0-2.0*f);
      return mix(mix(h.x,h.y,w.x),mix(h.z,h.w,w.x),w.y);
+    }
+    float roundBank(vec2 distances){
+     const float radius=${cornerCut.toFixed(2)};
+     float d=length(max(vec2(radius)-distances,vec2(0.0)));
+     return 1.0-smoothstep(radius-.035,radius+.012,d);
     }
     void main(){
      vec2 flow=vec2(v_mud.x+0.34*v_mud.y,0.28*v_mud.y-0.21*v_mud.x);
@@ -256,11 +420,16 @@ window.LaharVisual=(()=>{
      float sheen=pow(max(0.0,ribs-.47),2.0)*sharp;
      vec3 material=sediment*(.94+variation*.25+streak*.28+(ribs-.5)*.23*sharp+grains*.24);
      material+=vec3(.23,.24,.25)*sheen;
-     vec4 fade=mix(vec4(1.0),smoothstep(vec4(0.0),vec4(.25),distanceToEdge),v_dryEdges);
+     vec4 fade=mix(vec4(1.0),smoothstep(vec4(0.0),vec4(.12),distanceToEdge),v_dryEdges);
+     vec4 rounded=vec4(roundBank(distanceToEdge.wx),roundBank(distanceToEdge.xy),
+      roundBank(distanceToEdge.yz),roundBank(distanceToEdge.zw));
      float bank=fade.x*fade.y*fade.z*fade.w;
+     rounded=mix(vec4(1.0),rounded,v_cutCorners);
+     bank*=rounded.x*rounded.y*rounded.z*rounded.w;
      out_FragColor=czm_gammaCorrect(vec4(material,v_color.a*bank));
     }`
   });
  }
- return {canvasProvider,hillshade,buildingShadows,paintDeposits,flowTopology,flowCornerColors,flowAppearance};
+ return {canvasProvider,hillshade,buildingShadows,coverageProvider,flowTopology,flowCornerColors,
+  exteriorSides,roundedCorners,flowAppearance};
 })();
