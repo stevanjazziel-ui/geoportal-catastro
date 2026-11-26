@@ -8,7 +8,7 @@
  const focusPita=!joint&&!archive&&params.get('rio')==='pita';
  const campusCenter=[-78.445069,-.315230];
  let meta,viewer,corners,terrain,regional,current,data,maxima,secondary,combinedGrid,frame=0,timer,waterMesh,buildingMesh,request=0;
- let osmBuildings,supplementalBuildings,windowDetail;
+ let osmBuildings,supplementalBuildings,portraitBuilding,windowDetail;
  let coverageLayer, reliefLayer, shadowLayer, referenceLayer, visualGrid;
  let coverageUnavailable=false, guided=false, activeView=-1;
  const riverViews=[
@@ -451,7 +451,7 @@
    duration:1.35
   });
  }
- function buildingAppearance(atlas,axes,origin){
+ function buildingAppearance(atlas,axes,origin,windowPortrait){
   const encoded=C.EncodedCartesian3.fromCartesian(origin);
   const vec=({x,y,z})=>`vec3(${x.toFixed(8)},${y.toFixed(8)},${z.toFixed(8)})`;
   const axis=i=>vec(C.Cartesian3.fromElements(axes[i*4],axes[i*4+1],axes[i*4+2]));
@@ -506,24 +506,6 @@
     vec4 samples=fract(sin(phases*12.9898)*43758.5453);
     vec2 w=f*f*(3.0-2.0*f);
     return mix(mix(samples.x,samples.y,w.x),mix(samples.z,samples.w,w.x),w.y);
-   }
-
-   float capsule(vec2 p,vec2 a,vec2 b,float radius){
-    vec2 ab=b-a;
-    float along=clamp(dot(p-a,ab)/dot(ab,ab),0.0,1.0);
-    return length(p-a-ab*along)-radius;
-   }
-   float figure(vec2 p){
-    float coat=capsule(vec2(p.x*.87,p.y),vec2(.095,-.04),vec2(.095,.38),.226);
-    float neck=capsule(p,vec2(.105,.40),vec2(.125,.63),.080);
-    float head=(length((p-vec2(.125,.755))/vec2(.157,.195))-1.0)*.16;
-    float profile=capsule(p,vec2(.03,.66),vec2(-.034,.775),.044);
-    float shoulder=capsule(p,vec2(-.062,.405),vec2(-.353,.497),.081);
-    float sleeve=capsule(p,vec2(-.353,.497),vec2(-.266,.745),.068);
-    float hand=capsule(p,vec2(-.266,.745),vec2(-.153,.82),.052);
-    float cup=capsule(p,vec2(-.196,.858),vec2(-.043,.80),.046);
-    float silhouette=min(min(min(coat,neck),min(head,profile)),min(min(shoulder,sleeve),min(hand,cup)));
-    return 1.0-smoothstep(-.012,.014,silhouette);
    }
 
    void main(){
@@ -585,18 +567,35 @@
     vec2 paneNormal=vec2(cos(v_window.w),sin(v_window.w));
     if(v_window.z>0.0&&dot(n.xy,paneNormal)>.97&&abs(dot(v_surface.xy-v_window.xy,paneNormal))<.34){
      float center=floor(dot(tangent,v_window.xy)/spacing+seed)+.5;
-     vec2 p=vec2((panel.x-center)*spacing/1.14,(wall.y-v_window.z+.57)/1.18);
+     vec2 p=vec2((panel.x-center)*spacing/1.58+.5,(wall.y-v_window.z+.59)/1.13);
      float windowDetail=1.0-smoothstep(.065,.16,length(fwidth(p)));
      float panelInterior=windows*windowDetail*step(abs(panel.x-center),.48)*step(abs(wall.y-v_window.z),.65);
      float interior=(.75+.25*smoothstep(.0,.8,p.y))*panelInterior;
      facade=mix(facade,vec3(.45,.39,.28),interior*.46);
-     facade=mix(facade,vec3(.085,.084,.079),figure(p)*panelInterior*.91);
+     if(p.x>0.0&&p.x<1.0&&p.y>0.0&&p.y<1.0){
+      czm_materialInput portraitInput;
+      portraitInput.st=vec2(-p.x,p.y);
+      portraitInput.normalEC=vec3(0.0,0.0,1.0);
+      czm_material portrait=czm_getMaterial(portraitInput);
+      vec3 behindGlass=portrait.diffuse*vec3(.74,.77,.79)+vec3(.028,.041,.044);
+      facade=mix(facade,behindGlass,portrait.alpha*panelInterior*.96);
+     }
     }
     out_FragColor=czm_gammaCorrect(vec4(facade*light,1.0));
    }
   `});
-  appearance.material=new C.Material({translucent:false,fabric:{uniforms:{roofImage:atlas.canvas},
-   components:{diffuse:'texture(roofImage, materialInput.st).rgb'}}});
+  appearance.material=new C.Material({translucent:false,fabric:{
+   uniforms:{roofImage:atlas.canvas,windowImage:windowPortrait||roofAtlas(null,0).canvas},
+   source:`
+    czm_material czm_getMaterial(czm_materialInput materialInput){
+     czm_material material=czm_getDefaultMaterial(materialInput);
+     vec2 st=materialInput.st;
+     vec4 pixel=st.x<0.0?texture(windowImage,vec2(-st.x,st.y)):texture(roofImage,st);
+     material.diffuse=pixel.rgb;
+     material.alpha=pixel.a;
+     return material;
+    }`
+  }});
   return appearance;
  }
 
@@ -626,6 +625,7 @@
   const source=$('buildingSource').value;
   if(buildingMesh)buildingMesh.show=shown&&source!=='cesium';
   if(supplementalBuildings)supplementalBuildings.show=shown&&source==='combined';
+  if(portraitBuilding)portraitBuilding.show=shown&&source==='combined';
   if(osmBuildings)osmBuildings.show=shown&&source==='cesium';
   if(shadowLayer)shadowLayer.show=shown&&source!=='cesium';
   viewer.scene.requestRender();
@@ -802,10 +802,11 @@
   const revisionFile='building-revision-20261124-v4.json.gz';
   const revisionsAsset={file:revisionFile,sha256:'ec7d036e62bca23ed23c420cee4b6a32aa176e960a81cef3820a03da571976a8',
    url:'https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/'+root+revisionFile};
-  const [json,materials,roofBytes,revision]=await Promise.all([compressed(meta.buildings),
+  const [json,materials,roofBytes,revision,windowPortrait]=await Promise.all([compressed(meta.buildings),
    readSurface('building-materials-v1.bin.gz','fe7dfc426d1527db3cc0a74fd8104b7995adef018ade9b2281620f7de59cbe8d'),
    readSurface('building-roof-atlas-v2.bin.gz','4e240643a81ca5cc0be53fc6cb2bb01e92442435a7e9bc41bae492c586dc9dbc'),
-   hasSurfaceData?compressed(revisionsAsset).catch(()=>null):null]);
+   hasSurfaceData?compressed(revisionsAsset).catch(()=>null):null,
+   C.Resource.fetchImage({url:root+'persona-ventana-espe.webp?v=1'}).catch(()=>null)]);
   const verified=revision?.schema===1&&revision.cadastre.includes(meta.buildings.sha256)?revision:null;
   const styles=materials?.length===json.features.length*5?materials:null;
   const atlas=roofAtlas(roofBytes,json.features.length);
@@ -815,7 +816,7 @@
   const attr=value=>new C.GeometryInstanceAttribute({componentDatatype:C.ComponentDatatype.FLOAT,
    componentsPerAttribute:value.length,value});
   const roofs=[[164,166,160],[151,119,104],[178,180,176],[126,136,137],[172,139,121]];
-  const instances=[],extraInstances=[],shadowFootprints=[];
+  const instances=[],extraInstances=[],portraitInstances=[],shadowFootprints=[];
   const extras=verified?.extras||[];
   const duplicates=new Set(verified?.duplicateIndices||[]);
   const overlaps=new Set(verified?.overlappingMunicipal||[]);
@@ -874,7 +875,8 @@
     if(coords[0].length<4)continue;
     const polygon=new C.PolygonGeometry({polygonHierarchy:hierarchy(coords),height:base,
      extrudedHeight:top,vertexFormat:C.PerInstanceColorAppearance.VERTEX_FORMAT});
-    (external?extraInstances:instances).push(new C.GeometryInstance({geometry:polygon,id,attributes}));
+    const destination=illustration?portraitInstances:external?extraInstances:instances;
+    destination.push(new C.GeometryInstance({geometry:polygon,id,attributes}));
     if(!external&&Number.isFinite(height)&&height>0)shadowFootprints.push({outline:coords[0],height});
    }
   }
@@ -884,6 +886,10 @@
    supplementalBuildings=viewer.scene.primitives.add(new C.Primitive({geometryInstances:extraInstances,
     appearance:buildingAppearance(roofAtlas(null,0),axes,origin),asynchronous:true,show:false}));
    viewer.cesiumWidget.creditDisplay.addStaticCredit(new C.Credit('<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap colaboradores · ODbL</a>',true));
+  }
+  if(portraitInstances.length){
+   portraitBuilding=viewer.scene.primitives.add(new C.Primitive({geometryInstances:portraitInstances,
+    appearance:buildingAppearance(roofAtlas(null,0),axes,origin,windowPortrait),asynchronous:false,show:false}));
   }
   const shadowImage=LaharVisual.buildingShadows(shadowFootprints);
   if(shadowImage){
