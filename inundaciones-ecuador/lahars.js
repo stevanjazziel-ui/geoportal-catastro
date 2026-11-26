@@ -314,7 +314,7 @@
   smooth.width=canvas.width;smooth.height=canvas.height;
   const paint=smooth.getContext('2d');
   const cellPixels=Math.hypot(cells[3]-cells[0],cells[4]-cells[1])/degreesPerPixel;
-  paint.filter=`blur(${Math.max(1,Math.min(2.7,cellPixels*.48))}px)`;
+  paint.filter=`blur(${Math.max(.5,Math.min(1.35,cellPixels*.22))}px)`;
   paint.drawImage(canvas,0,0);
   paint.filter='none';
   // The blurred colors stay inside the union of the cells that reached 5 cm.
@@ -347,7 +347,7 @@
   if(visible&&all&&!coverageLayer&&!coverageUnavailable)ensureCoverageLayer();
   if(coverageLayer)coverageLayer.show=visible&&all;
   if(!visible||(all&&coverageLayer)){viewer.scene.requestRender();return;}
-  const indices=[],positions=[],colors=[],surface=[],uv=[],dryEdges=[];
+  const indices=[],positions=[],colors=[],cellColors=[],surface=[],uv=[],dryEdges=[];
   const cells=combinedGrid?.cells||corners, depth=depths(all);
   visualGrid??=LaharVisual.flowTopology(cells);
   const cornerColors=LaharVisual.flowCornerColors(visualGrid,depth,flowColors,depthClass);
@@ -357,6 +357,7 @@
     if(depth[i]<5)continue;
     const zOffset=all||joint?2:data[offset+4*n+i]/100+1.5;
     const rgba=flowColors[depthClass(depth[i])],k=positions.length/3;
+    const [red,green,blue]=rgba;
     const first=i*4;
     const dry=[];
     for(let j=0;j<4;j++){
@@ -370,11 +371,13 @@
      const colorIndex=visualGrid.corners[first+j]*3;
      positions.push(p.x,p.y,p.z);
      colors.push(cornerColors[colorIndex],cornerColors[colorIndex+1],cornerColors[colorIndex+2],rgba[3]);
+     cellColors.push(red,green,blue);
      const x=(lon+78.44)*111300,y=(lat+.33)*111130+textureOffset;
      surface.push(x,y);uv.push(...cellCoordinates[j]);dryEdges.push(...dry);
      cx+=p.x;cy+=p.y;cz+=p.z;mx+=x;my+=y;
     }
     positions.push(cx/4,cy/4,cz/4);colors.push(...rgba);
+    cellColors.push(red,green,blue);
     surface.push(mx/4,my/4);uv.push(.5,.5);dryEdges.push(...dry);
     indices.push(k,k+1,k+4,k+1,k+2,k+4,k+2,k+3,k+4,k+3,k,k+4);
   }
@@ -384,6 +387,8 @@
     position:new C.GeometryAttribute({componentDatatype:C.ComponentDatatype.DOUBLE,componentsPerAttribute:3,values:p}),
     color:new C.GeometryAttribute({componentDatatype:C.ComponentDatatype.UNSIGNED_BYTE,componentsPerAttribute:4,
      normalize:true,values:new Uint8Array(colors)}),
+    cellColor:new C.GeometryAttribute({componentDatatype:C.ComponentDatatype.UNSIGNED_BYTE,componentsPerAttribute:3,
+     normalize:true,values:new Uint8Array(cellColors)}),
     cellPosition:new C.GeometryAttribute({componentDatatype:C.ComponentDatatype.FLOAT,componentsPerAttribute:2,
      values:new Float32Array(uv)}),
     dryEdges:new C.GeometryAttribute({componentDatatype:C.ComponentDatatype.UNSIGNED_BYTE,componentsPerAttribute:4,

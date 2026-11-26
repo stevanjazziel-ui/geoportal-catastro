@@ -98,31 +98,50 @@ window.LaharVisual=(()=>{
  }
 
  let groundGrain;
+ function grainNoise(u,v,columns,rows){
+  const x=u*columns,y=v*rows,ix=Math.floor(x),iy=Math.floor(y);
+  const fx=x-ix,fy=y-iy;
+  const sx=fx*fx*(3-2*fx),sy=fy*fy*(3-2*fy);
+  const sample=(a,b)=>{
+   const px=(a%columns+columns)%columns,py=(b%rows+rows)%rows;
+   let hash=Math.imul(px+983,374761393)^Math.imul(py+173,668265263)^Math.imul(columns,1274126177);
+   hash=Math.imul(hash^(hash>>>13),1442695041);
+   return ((hash^(hash>>>16))>>>0)/4294967295;
+  };
+  const near=sample(ix,iy)*(1-sx)+sample(ix+1,iy)*sx;
+  const far=sample(ix,iy+1)*(1-sx)+sample(ix+1,iy+1)*sx;
+  return near*(1-sy)+far*sy;
+ }
  function paintDeposits(context,bbox){
   if(!groundGrain){
-   const size=192;
+   const size=256;
    groundGrain=document.createElement('canvas');
    groundGrain.width=groundGrain.height=size;
    const tile=groundGrain.getContext('2d');
    const field=tile.createImageData(size,size);
-   let seed=61417;
    for(let y=0;y<size;y++){
     for(let x=0;x<size;x++){
-     seed=(Math.imul(seed,1664525)+1013904223)>>>0;
-     const eta=seed/4294967296-.5;
-     const u=2*Math.PI*x/size,v=2*Math.PI*y/size;
-     const veins=Math.sin(8*u+3*v+1.8*Math.sin(3*v))*.24+
-      Math.sin(3*u-5*v+.5*Math.sin(7*u))*.30+eta*.21;
+     const u=x/size,v=y/size;
+     const warp=(grainNoise(u,v,6,6)-.5)*.22;
+     const bed=grainNoise(u+warp,v+u,20,9)-.5;
+     const ripples=grainNoise(u+warp,v+u,46,19)-.5;
+     const patches=grainNoise(u,v,8,8)-.5;
+     const grit=grainNoise(u,v,102,102)-.5;
+     const tone=1.1*bed+.53*ripples+.39*patches+.23*grit;
+     const wet=Math.max(0,bed-.17)*Math.max(0,ripples+.1)*2.1;
      const i=(y*size+x)*4;
-     field.data[i]=145+68*veins;field.data[i+1]=83+56*veins;
-     field.data[i+2]=51+47*veins;field.data[i+3]=61+58*veins;
+     const shadow=tone<0;
+     field.data[i]=shadow?70:234;
+     field.data[i+1]=shadow?36:181;
+     field.data[i+2]=shadow?24:122;
+     field.data[i+3]=Math.min(105,Math.abs(tone)*(shadow?136:78)+wet*71);
     }
    }
    tile.putImageData(field,0,0);
   }
   const [west,south,east,north]=bbox;
   const pattern=context.createPattern(groundGrain,'repeat');
-  const size=.017;
+  const size=.012;
   const sx=context.canvas.width*size/(east-west)/groundGrain.width;
   const sy=context.canvas.height*size/(north-south)/groundGrain.height;
   pattern.setTransform(new DOMMatrix([sx,0,0,sy,-(west%size)*sx*groundGrain.width/size,
@@ -192,6 +211,7 @@ window.LaharVisual=(()=>{
     in vec3 position3DHigh;
     in vec3 position3DLow;
     in vec4 color;
+    in vec3 cellColor;
     in vec2 flowPosition;
     in vec2 cellPosition;
     in vec4 dryEdges;
@@ -199,11 +219,13 @@ window.LaharVisual=(()=>{
     out vec2 v_mud;
     out vec2 v_cell;
     flat out vec4 v_dryEdges;
+    flat out vec3 v_cellColor;
     void main(){
      v_color=color;
      v_mud=flowPosition;
      v_cell=cellPosition;
      v_dryEdges=dryEdges;
+     v_cellColor=cellColor;
      gl_Position=czm_modelViewProjectionRelativeToEye*czm_computePosition();
     }`,
    fragmentShaderSource:`
@@ -211,6 +233,7 @@ window.LaharVisual=(()=>{
     in vec2 v_mud;
     in vec2 v_cell;
     flat in vec4 v_dryEdges;
+    flat in vec3 v_cellColor;
     float soilNoise(vec2 point){
      vec2 p=floor(point), f=fract(point);
      float cell=dot(p,vec2(1.0,57.0));
@@ -225,11 +248,15 @@ window.LaharVisual=(()=>{
      float sharp=1.0-smoothstep(2.0,12.0,breadth);
      float ribs=soilNoise(vec2(flow.x*.12,flow.y*.64)+variation*1.85);
      float grains=(soilNoise(v_mud*.42)-0.5)*sharp;
-     float sheen=pow(max(0.0,ribs-.36),2.0)*sharp;
-     vec3 material=v_color.rgb*(.96+variation*.21+(ribs-.5)*.29*sharp+grains*.20);
-     material+=vec3(.19,.21,.23)*sheen;
      vec4 distanceToEdge=vec4(v_cell.y,1.0-v_cell.x,1.0-v_cell.y,v_cell.x);
-     vec4 fade=mix(vec4(1.0),smoothstep(vec4(0.0),vec4(.35),distanceToEdge),v_dryEdges);
+     float nearestEdge=min(min(distanceToEdge.x,distanceToEdge.y),min(distanceToEdge.z,distanceToEdge.w));
+     float transition=1.0-smoothstep(.06,.25,nearestEdge);
+     vec3 sediment=mix(v_cellColor,v_color.rgb,transition);
+     float streak=soilNoise(vec2(flow.x*.046,flow.y*.38)+variation*1.4)-0.5;
+     float sheen=pow(max(0.0,ribs-.47),2.0)*sharp;
+     vec3 material=sediment*(.94+variation*.25+streak*.28+(ribs-.5)*.23*sharp+grains*.24);
+     material+=vec3(.23,.24,.25)*sheen;
+     vec4 fade=mix(vec4(1.0),smoothstep(vec4(0.0),vec4(.25),distanceToEdge),v_dryEdges);
      float bank=fade.x*fade.y*fade.z*fade.w;
      out_FragColor=czm_gammaCorrect(vec4(material,v_color.a*bank));
     }`
