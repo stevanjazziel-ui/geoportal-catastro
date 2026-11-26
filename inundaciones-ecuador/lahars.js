@@ -567,10 +567,13 @@
     vec2 paneNormal=vec2(cos(v_window.w),sin(v_window.w));
     if(v_window.z>0.0&&dot(n.xy,paneNormal)>.97&&abs(dot(v_surface.xy-v_window.xy,paneNormal))<.34){
      float center=floor(dot(tangent,v_window.xy)/spacing+seed)+.5;
-     vec2 p=vec2((panel.x-center)*spacing/1.58+.5,(wall.y-v_window.z+.59)/1.13);
-     float windowDetail=1.0-smoothstep(.065,.16,length(fwidth(p)));
+     const float portraitHeight=.82;
+     const float portraitWidth=portraitHeight*1.40;
+     float aboveSill=wall.y-v_window.z+.59;
+     vec2 p=vec2((panel.x-center)*spacing/portraitWidth+.5,aboveSill/portraitHeight);
+     float windowDetail=1.0-smoothstep(.065,.16,length(fwidth(vec2(wall.x/1.58,wall.y/1.13))));
      float panelInterior=windows*windowDetail*step(abs(panel.x-center),.48)*step(abs(wall.y-v_window.z),.65);
-     float interior=(.75+.25*smoothstep(.0,.8,p.y))*panelInterior;
+     float interior=(.75+.25*smoothstep(.0,.9,aboveSill))*panelInterior;
      facade=mix(facade,vec3(.45,.39,.28),interior*.46);
      if(p.x>0.0&&p.x<1.0&&p.y>0.0&&p.y<1.0){
       czm_materialInput portraitInput;
