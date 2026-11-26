@@ -8,7 +8,7 @@
  const focusPita=!joint&&!archive&&params.get('rio')==='pita';
  const campusCenter=[-78.445069,-.315230];
  let meta,viewer,corners,terrain,regional,current,data,maxima,secondary,combinedGrid,frame=0,timer,waterMesh,buildingMesh,request=0;
- let osmBuildings,supplementalBuildings;
+ let osmBuildings,supplementalBuildings,windowDetail;
  let coverageLayer, reliefLayer, shadowLayer, referenceLayer, visualGrid;
  let coverageUnavailable=false, guided=false, activeView=-1;
  const riverViews=[
@@ -93,6 +93,8 @@
    material:new C.PolylineOutlineMaterialProperty({color:C.Color.WHITE,outlineColor:C.Color.fromCssColorString('#202a36'),outlineWidth:1}),
   }});
   const contacts=joint?['reference-mdt30','reference-cop30']:[current.id];
+  const contactVisible=new C.CallbackProperty(()=>!windowDetail||
+   C.Cartesian3.distanceSquared(viewer.camera.positionWC,windowDetail.aim)>34*34,false);
   for(const id of contacts){
    const contact=cases[id]?.campus_first_5cm;
    if(!contact)continue;
@@ -102,8 +104,8 @@
    if(!joint)$('espeStatus').textContent='Primer flujo detectado '+side+', al minuto '+text_minutes+' del escenario.';
    viewer.entities.add({name:'Primer contacto calculado en el perímetro ESPE',
     position:C.Cartesian3.fromDegrees(contact.lon,contact.lat,elevation(contact.lon,contact.lat)+7),
-    point:{pixelSize:8,color:C.Color.WHITE,outlineColor:C.Color.fromCssColorString('#203239'),outlineWidth:2,disableDepthTestDistance:Infinity},
-    label:{text:(joint?(santa?'Santa Clara · ':'Pita · '):'Primer contacto ESPE · ')+text_minutes,font:'bold 14px Arial',showBackground:true,
+    point:{show:contactVisible,pixelSize:8,color:C.Color.WHITE,outlineColor:C.Color.fromCssColorString('#203239'),outlineWidth:2,disableDepthTestDistance:Infinity},
+    label:{show:contactVisible,text:(joint?(santa?'Santa Clara · ':'Pita · '):'Primer contacto ESPE · ')+text_minutes,font:'bold 14px Arial',showBackground:true,
      backgroundColor:C.Color.BLACK.withAlpha(.75),pixelOffset:new C.Cartesian2(0,-19),disableDepthTestDistance:Infinity,
      distanceDisplayCondition:new C.DistanceDisplayCondition(0,7500)}});
    const downstream=cases[id].segments.sanpedro5?.samples.findLast(sample=>sample[3]>=0);
@@ -420,6 +422,35 @@
   }
   update();}
  function hierarchy(coords){return new C.PolygonHierarchy(C.Cartesian3.fromDegreesArray(coords[0].slice(0,-1).flatMap(p=>[p[0],p[1]])),coords.slice(1).map(r=>new C.PolygonHierarchy(C.Cartesian3.fromDegreesArray(r.slice(0,-1).flatMap(p=>[p[0],p[1]])))));}
+ function illustratedWindow(feature,local,axes,seed,anchor,floorHeight){
+  if(feature.osmId!=='w832825964')return null;
+  // The marked pane is near the south end of the east facade.
+  const [north,south]=feature.geometry.coordinates[0].slice(0,2).map(([lon,lat])=>
+   C.Matrix4.multiplyByPoint(local,C.Cartesian3.fromDegrees(lon,lat),new C.Cartesian3())
+  );
+  const length=Math.hypot(north.x-south.x,north.y-south.y);
+  const tx=(north.x-south.x)/length,ty=(north.y-south.y)/length;
+  const spacing=3.3;
+  const panel=(south.x*tx+south.y*ty+.13*length)/spacing+seed;
+  const center=(Math.floor(panel)+.5-seed)*spacing;
+  const along=center-(south.x*tx+south.y*ty);
+  const x=south.x+tx*along,y=south.y+ty*along;
+  const z=2.555*floorHeight;
+  const facing=Math.atan2(-tx,ty);
+  const ground=C.Matrix4.multiplyByPoint(axes,new C.Cartesian3(x,y,0),new C.Cartesian3());
+  const location=C.Cartographic.fromCartesian(ground);
+  return {
+   shader:[x,y,z,facing],
+   aim:C.Cartesian3.fromRadians(location.longitude,location.latitude,anchor+z),
+   heading:C.Math.zeroToTwoPi(Math.atan2(-ty,tx))
+  };
+ }
+ function focusIllustratedWindow(window){
+  viewer.camera.flyToBoundingSphere(new C.BoundingSphere(window.aim,.55),{
+   offset:new C.HeadingPitchRange(window.heading+.10,C.Math.toRadians(-4),9.5),
+   duration:1.35
+  });
+ }
  function buildingAppearance(atlas,axes,origin){
   const encoded=C.EncodedCartesian3.fromCartesian(origin);
   const vec=({x,y,z})=>`vec3(${x.toFixed(8)},${y.toFixed(8)},${z.toFixed(8)})`;
@@ -436,6 +467,7 @@
    flat out vec3 v_style;
    out vec2 v_roofPosition;
    flat out vec3 v_roofRegion;
+   flat out vec4 v_window;
    const vec3 east=${axis(0)}, north=${axis(1)}, up=${axis(2)};
 
    void main(){
@@ -450,6 +482,7 @@
     vec4 box=czm_batchTable_roofBox(batchId);
     v_roofPosition=(horizontal-box.xy)*box.zw;
     v_roofRegion=czm_batchTable_roofRegion(batchId);
+    v_window=czm_batchTable_illustratedWindow(batchId);
     gl_Position=czm_modelViewProjectionRelativeToEye*czm_computePosition();
    }
   `,fragmentShaderSource:`
@@ -459,6 +492,7 @@
    flat in vec3 v_style;
    in vec2 v_roofPosition;
    flat in vec3 v_roofRegion;
+   flat in vec4 v_window;
    const vec2 atlasSize=vec2(${atlas.canvas.width}.0,${atlas.canvas.height}.0);
 
    // Fade repeated details at a distance to keep oblique drone views stable.
@@ -472,6 +506,24 @@
     vec4 samples=fract(sin(phases*12.9898)*43758.5453);
     vec2 w=f*f*(3.0-2.0*f);
     return mix(mix(samples.x,samples.y,w.x),mix(samples.z,samples.w,w.x),w.y);
+   }
+
+   float capsule(vec2 p,vec2 a,vec2 b,float radius){
+    vec2 ab=b-a;
+    float along=clamp(dot(p-a,ab)/dot(ab,ab),0.0,1.0);
+    return length(p-a-ab*along)-radius;
+   }
+   float figure(vec2 p){
+    float coat=capsule(vec2(p.x*.87,p.y),vec2(.095,-.04),vec2(.095,.38),.226);
+    float neck=capsule(p,vec2(.105,.40),vec2(.125,.63),.080);
+    float head=(length((p-vec2(.125,.755))/vec2(.157,.195))-1.0)*.16;
+    float profile=capsule(p,vec2(.03,.66),vec2(-.034,.775),.044);
+    float shoulder=capsule(p,vec2(-.062,.405),vec2(-.353,.497),.081);
+    float sleeve=capsule(p,vec2(-.353,.497),vec2(-.266,.745),.068);
+    float hand=capsule(p,vec2(-.266,.745),vec2(-.153,.82),.052);
+    float cup=capsule(p,vec2(-.196,.858),vec2(-.043,.80),.046);
+    float silhouette=min(min(min(coat,neck),min(head,profile)),min(min(shoulder,sleeve),min(hand,cup)));
+    return 1.0-smoothstep(-.012,.014,silhouette);
    }
 
    void main(){
@@ -530,6 +582,16 @@
     facade=mix(facade,glass,windows*(0.97-0.58*windowFrame));
     facade=mix(facade,plaster*.63,sill*.81);
     facade*=mix(0.72,1.0,smoothstep(0.0,1.12,wall.y));
+    vec2 paneNormal=vec2(cos(v_window.w),sin(v_window.w));
+    if(v_window.z>0.0&&dot(n.xy,paneNormal)>.97&&abs(dot(v_surface.xy-v_window.xy,paneNormal))<.34){
+     float center=floor(dot(tangent,v_window.xy)/spacing+seed)+.5;
+     vec2 p=vec2((panel.x-center)*spacing/1.14,(wall.y-v_window.z+.57)/1.18);
+     float windowDetail=1.0-smoothstep(.065,.16,length(fwidth(p)));
+     float panelInterior=windows*windowDetail*step(abs(panel.x-center),.48)*step(abs(wall.y-v_window.z),.65);
+     float interior=(.75+.25*smoothstep(.0,.8,p.y))*panelInterior;
+     facade=mix(facade,vec3(.45,.39,.28),interior*.46);
+     facade=mix(facade,vec3(.085,.084,.079),figure(p)*panelInterior*.91);
+    }
     out_FragColor=czm_gammaCorrect(vec4(facade*light,1.0));
    }
   `});
@@ -789,7 +851,10 @@
    const anchor=needsAnchor?elevation((west+east)/2,(south+north)/2):p.base_m;
    const base=needsAnchor?Math.min(low-.20,anchor):p.base_m;
    const top=anchor+height;
-   const attributes={color,surfaceStyle:attr([anchor,style,seed,floorHeight]),roofRegion,roofBox:attr([0,0,1,1])};
+   const illustration=illustratedWindow(feature,local,axes,seed,anchor,floorHeight);
+   if(illustration)windowDetail=illustration;
+   const attributes={color,surfaceStyle:attr([anchor,style,seed,floorHeight]),roofRegion,roofBox:attr([0,0,1,1]),
+    illustratedWindow:attr(illustration?.shader||[0,0,0,0])};
    if(region[2]){
     const lower=C.Matrix4.multiplyByPoint(local,C.Cartesian3.fromDegrees(west,south,top),new C.Cartesian3());
     const upper=C.Matrix4.multiplyByPoint(local,C.Cartesian3.fromDegrees(east,north,top),new C.Cartesian3());
@@ -834,6 +899,7 @@
    (detailed?' '+fmt(detailed,0)+' con textura de cubierta aérea.':'')+
    (extras.length?' '+fmt(extras.length,0)+' huellas complementarias de OpenStreetMap.':'');
   viewer.scene.requestRender();
+  if(windowDetail&&params.get('detalle')==='ventana')focusIllustratedWindow(windowDetail);
   void addCesiumBuildings();
  }
  try{
