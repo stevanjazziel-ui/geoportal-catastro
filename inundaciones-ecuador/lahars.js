@@ -7,6 +7,7 @@
  const archive=!joint&&params.get('escenario')==='espe';
  const focusPita=!joint&&!archive&&params.get('rio')==='pita';
  const campusCenter=[-78.445069,-.315230];
+ const sangolquiExtent=[-78.480,-.418,-78.389,-.305];
  let meta,viewer,corners,terrain,regional,current,data,maxima,secondary,combinedGrid,frame=0,timer,waterMesh,buildingMesh,request=0;
  let osmBuildings,supplementalBuildings,portraitBuilding,windowDetail;
  let coverageLayer, reliefLayer, shadowLayer, referenceLayer, visualGrid;
@@ -77,7 +78,13 @@
  function decodeFrames(a,n,frames){if(a.length!==n*5*frames)throw Error('Número de resultados incorrecto');const stride=5*n;for(let t=1;t<frames;t++)for(let i=0;i<stride;i++)a[t*stride+i]+=a[(t-1)*stride+i];return a;}
  function sampleTerrain(a,m,lon,lat){const [w,s,e,n]=m.bbox;if(lon<w||lon>e||lat<s||lat>n)return null;const x=Math.max(0,Math.min(m.cols-1,(lon-w)/(e-w)*(m.posts?m.cols-1:m.cols)-(m.posts?0:.5))),y=Math.max(0,Math.min(m.rows-1,(n-lat)/(n-s)*(m.posts?m.rows-1:m.rows)-(m.posts?0:.5))),ix=Math.min(m.cols-2,Math.floor(x)),iy=Math.min(m.rows-2,Math.floor(y)),fx=x-ix,fy=y-iy;const z=(r,c)=>a[r*m.cols+c]*m.scale;return (z(iy,ix)*(1-fx)+z(iy,ix+1)*fx)*(1-fy)+(z(iy+1,ix)*(1-fx)+z(iy+1,ix+1)*fx)*fy;}
  function elevation(lon,lat){const bg=sampleTerrain(regional,meta.regional,lon,lat)??0,fine=sampleTerrain(terrain,meta.terrain,lon,lat);if(fine===null)return bg;const [w,s,e,n]=meta.terrain.bbox,margin=Math.min(lon-w,e-lon,lat-s,n-lat)*111000,blend=Math.min(1,Math.max(0,margin/500));return bg*(1-blend)+fine*blend;}
- function city(){const municipal=meta?.adaptation?.terrain?.model_file==='municipal_hybrid_30m.tif',lon=municipal?-78.435:-78.447,lat=municipal?-.344:-.333;viewer.camera.flyToBoundingSphere(new C.BoundingSphere(C.Cartesian3.fromDegrees(lon,lat,elevation(lon,lat)),municipal?2100:1500),{offset:new C.HeadingPitchRange(0,C.Math.toRadians(-50),municipal?9000:5500)});}
+ function city(duration=1.25){
+  const [west,south,east,north]=sangolquiExtent;
+  const corners=[[west,south],[west,north],[east,south],[east,north]].map(
+   ([lon,lat])=>C.Cartesian3.fromDegrees(lon,lat,elevation(lon,lat)));
+  viewer.camera.flyToBoundingSphere(C.BoundingSphere.fromPoints(corners),
+   {offset:new C.HeadingPitchRange(0,C.Math.toRadians(-70),0),duration});
+ }
  function espe(){
   const [lon,lat]=campusCenter;
   viewer.camera.flyToBoundingSphere(new C.BoundingSphere(C.Cartesian3.fromDegrees(lon,lat,elevation(lon,lat)),850),
@@ -951,7 +958,7 @@
   });
   reliefLayer=addVisualSurface(LaharVisual.hillshade(meta.terrain,terrain));
   orderSurfaceLayers();
-  if(archive)espe();else city();
+  if(archive)espe();else city(0);
   placeLabels();
   const referenceSelect=$('municipalReference');
   const referenceStatus=$('municipalStatus');
