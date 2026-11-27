@@ -425,7 +425,6 @@
    $('singleMetrics').hidden=true;
    $('singleResults').hidden=true;
    $('espeStatus').textContent='Santa Clara toca el campus al minuto 95:45 en la corrida inicial. La municipal toca el lado cercano al Pita al 102:15.';
-   route();
   }
   update();}
  function hierarchy(coords){return new C.PolygonHierarchy(C.Cartesian3.fromDegreesArray(coords[0].slice(0,-1).flatMap(p=>[p[0],p[1]])),coords.slice(1).map(r=>new C.PolygonHierarchy(C.Cartesian3.fromDegreesArray(r.slice(0,-1).flatMap(p=>[p[0],p[1]])))));}
