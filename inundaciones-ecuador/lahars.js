@@ -808,12 +808,13 @@
   const lidarFile='building-lidar-sangolqui-20261127-v1.json.gz';
   const lidarAsset={file:lidarFile,sha256:'e0f52ddd17dc9f668f8c8c6c177a6b8677d628324380b51aaf3e238e413a939b',
    url:'https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/'+root+lidarFile};
-  const [json,materials,roofBytes,revision,windowPortrait,lidar]=await Promise.all([compressed(meta.buildings),
+  const [json,materials,roofBytes,revision,windowPortrait,lidar,roofModels]=await Promise.all([compressed(meta.buildings),
    readSurface('building-materials-v1.bin.gz','fe7dfc426d1527db3cc0a74fd8104b7995adef018ade9b2281620f7de59cbe8d'),
    readSurface('building-roof-atlas-v2.bin.gz','4e240643a81ca5cc0be53fc6cb2bb01e92442435a7e9bc41bae492c586dc9dbc'),
    hasSurfaceData?compressed(revisionsAsset).catch(()=>null):null,
    C.Resource.fetchImage({url:root+'persona-ventana-espe.webp?v=1'}).catch(()=>null),
-   hasSurfaceData?compressed(lidarAsset).catch(()=>null):null]);
+   hasSurfaceData?compressed(lidarAsset).catch(()=>null):null,
+   hasSurfaceData?compressed({file:'cubiertas-lidar-3d-20261127-v1.json.gz',sha256:'5f84037566b3e84fd3eacfb6a4cabfc2e9a9b980702cef4d99617c710b787589',url:'https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/'+root+'cubiertas-lidar-3d-20261127-v1.json.gz'}).catch(()=>null):null]);
   const verified=revision?.schema===1&&revision.cadastre.includes(meta.buildings.sha256)?revision:null;
   const lidarHeights=verified&&lidar?.schema===1&&lidar.revisionSha256===revisionsAsset.sha256?lidar:null;
   const styles=materials?.length===json.features.length*5?materials:null;
@@ -833,7 +834,7 @@
   const heightSource={'lidar-2024':'estimada con LiDAR municipal de 2024','lidar':'estimada con LiDAR municipal',
    'osm-height':'registrada en OpenStreetMap',
    'osm-levels':'estimada con los pisos de OpenStreetMap','catastro':'estimada con los pisos del catastro',approx:'aproximada para visualización'};
-  let detailed=0,lidarCount=0;
+  let detailed=0,lidarCount=0,roofCount=0;
   for(const [index,feature] of features.entries()){
    if(duplicates.has(index))continue;
    const p=feature.properties,geometry=feature.geometry;
@@ -886,13 +887,30 @@
     '. '+footprintSource+
     heightReview+(overlaps.has(index)?'Cruce con otra huella municipal por revisar. ':'')+'Fachada aproximada.'};
    if(measuredHeight!==undefined&&polygons.some(coords=>coords[0].length>=4))lidarCount++;
-   for(const coords of polygons){
-    if(coords[0].length<4)continue;
-    const polygon=new C.PolygonGeometry({polygonHierarchy:hierarchy(coords),height:base,
-     extrudedHeight:top,vertexFormat:C.PerInstanceColorAppearance.VERTEX_FORMAT});
-    const destination=illustration?portraitInstances:external?extraInstances:instances;
-    destination.push(new C.GeometryInstance({geometry:polygon,id,attributes}));
-    if(!external&&Number.isFinite(height)&&height>0)shadowFootprints.push({outline:coords[0],height});
+   const roof=verified&&roofModels?.[external?feature.osmId:'cat-'+index];
+   const destination=illustration?portraitInstances:external?extraInstances:instances;
+   if(roof?.length){
+    const positions=ring=>C.Cartesian3.fromDegreesArrayHeights(ring.slice(0,-1).flatMap(
+     ([lon,lat,z])=>[lon,lat,anchor+z]));
+    for(const [outer,...holes] of roof){
+     const polygonHierarchy=new C.PolygonHierarchy(positions(outer),holes.map(
+      ring=>new C.PolygonHierarchy(positions(ring))));
+     const polygon=new C.PolygonGeometry({polygonHierarchy,perPositionHeight:true,
+      extrudedHeight:base,vertexFormat:C.PerInstanceColorAppearance.VERTEX_FORMAT});
+     destination.push(new C.GeometryInstance({geometry:polygon,id,attributes}));
+    }
+    id.text+=' Cubierta modelada con LiDAR.';
+    roofCount++;
+   }else{
+    for(const coords of polygons){
+     if(coords[0].length<4)continue;
+     const polygon=new C.PolygonGeometry({polygonHierarchy:hierarchy(coords),height:base,
+      extrudedHeight:top,vertexFormat:C.PerInstanceColorAppearance.VERTEX_FORMAT});
+     destination.push(new C.GeometryInstance({geometry:polygon,id,attributes}));
+    }
+   }
+   if(!external&&Number.isFinite(height)&&height>0){
+    for(const coords of polygons)if(coords[0].length>=4)shadowFootprints.push({outline:coords[0],height});
    }
   }
   buildingMesh=viewer.scene.primitives.add(new C.Primitive({geometryInstances:instances,
@@ -918,6 +936,7 @@
    (lidarCount?' '+fmt(lidarCount,0)+' alturas LiDAR de 2024 aplicadas en Sangolquí.':
     revisionCount?' '+fmt(revisionCount,0)+' con altura o pisos revisados.':'')+
    (duplicates.size?' '+fmt(duplicates.size,0)+' huellas municipales repetidas representadas una sola vez.':'')+
+   (roofCount?' '+fmt(roofCount,0)+' cubiertas 3D modeladas con LiDAR.':'')+
    (detailed?' '+fmt(detailed,0)+' con textura de cubierta aérea.':'')+
    (extras.length?' '+fmt(extras.length,0)+' huellas complementarias de OpenStreetMap.':'');
   viewer.scene.requestRender();
