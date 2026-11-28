@@ -37,7 +37,7 @@ def terrain(source, output):
     image = np.zeros((height, width, 4), dtype=np.uint8)
     image[:, :, :3] = (dark + intensity[..., None] * (light - dark)).astype(np.uint8)
     image[:, :, 3] = np.where(np.isfinite(elevations), 255, 0)
-    Image.fromarray(image).save(output / "relieve.webp", lossless=True, method=4)
+    Image.fromarray(image).save(output / "relieve.webp", quality=82, method=6, alpha_quality=100)
     return {"bounds": list(bounds), "display_pixel_m": round(grid.a * 111319, 2)}
 
 

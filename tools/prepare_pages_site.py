@@ -59,6 +59,7 @@ def plan():
   elif name.startswith(SECURITY_PREFIX) and name[len(SECURITY_PREFIX):].split('/')[0] in archived_scenes:excluded.append(name)
   elif name.startswith(('.github/','sig-bridge/workspace/','inundaciones-ecuador/model-archives/')):excluded.append(name)
   elif name in archived_rain:excluded.append(name)
+  elif name==LAHAR_PREFIX+'referencia-lidar/terreno-lidar-1m.tif':excluded.append(name)
   elif name.startswith(LAHAR_PREFIX) and name.endswith('.gz') and lahar_payloads is not None and name not in lahar_payloads:excluded.append(name)
   elif name.startswith(RIO_PREFIX) and name.endswith('.u16.gz') and name not in page_payloads:excluded.append(name)
   elif shobol_raw_asset(name):excluded.append(name)
