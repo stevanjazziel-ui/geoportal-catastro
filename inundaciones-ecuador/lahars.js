@@ -469,6 +469,7 @@
    out vec3 v_normal;
    flat out vec3 v_roof;
    flat out vec3 v_style;
+   flat out float v_floorRows;
    out vec2 v_roofPosition;
    flat out vec3 v_roofRegion;
    flat out vec4 v_window;
@@ -483,6 +484,7 @@
     v_normal=vec3(dot(normal,east),dot(normal,north),dot(normal,up));
     v_roof=color.rgb;
     v_style=style.yzw;
+    v_floorRows=czm_batchTable_floorRows(batchId);
     vec4 box=czm_batchTable_roofBox(batchId);
     v_roofPosition=(horizontal-box.xy)*box.zw;
     v_roofRegion=czm_batchTable_roofRegion(batchId);
@@ -494,6 +496,7 @@
    in vec3 v_normal;
    flat in vec3 v_roof;
    flat in vec3 v_style;
+   flat in float v_floorRows;
    in vec2 v_roofPosition;
    flat in vec3 v_roofRegion;
    flat in vec4 v_window;
@@ -544,6 +547,12 @@
     float sill=band(panel.x,width+.051,aa.x)*band(panel.y+.235,0.018,aa.y)*detail;
     float trim=band(panel.x,width+.027,aa.x)*band(panel.y,0.244,aa.y)*detail;
     float floorEdge=band(panel.y+0.49,0.027,aa.y)*detail;
+    float permitted=step(0.0,wall.y)*(1.0-step(v_floorRows,wall.y/v_style.z));
+    windows*=permitted;
+    windowFrame*=permitted;
+    sill*=permitted;
+    trim*=permitted;
+    floorEdge*=permitted;
     vec3 plaster=mix(vec3(0.62,0.57,0.50),vec3(0.80,0.77,0.71),seed);
     float brick=step(0.83,seed)*(1.0-step(0.5,style));
     plaster=mix(plaster,vec3(0.57,0.36,0.28),brick*0.76);
@@ -812,16 +821,22 @@
   const lidarFile='building-lidar-sangolqui-20261127-v1.json.gz';
   const lidarAsset={file:lidarFile,sha256:'e0f52ddd17dc9f668f8c8c6c177a6b8677d628324380b51aaf3e238e413a939b',
    url:'https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/'+root+lidarFile};
-  const [json,materials,roofBytes,revision,windowPortrait,lidar,roofModels,campusCorrections]=await Promise.all([compressed(meta.buildings),
+  const auditFile='revision-integral-edificios-20261128.json.gz';
+  const auditAsset={file:auditFile,sha256:'d2efe74e69cefc689bf57b8df36fee0f91ff413172d4a45282b089d9562b8661',
+   url:'https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/'+root+auditFile};
+  const [json,materials,roofBytes,revision,windowPortrait,lidar,roofModels,campusCorrections,fullAudit]=await Promise.all([compressed(meta.buildings),
    readSurface('building-materials-v1.bin.gz','fe7dfc426d1527db3cc0a74fd8104b7995adef018ade9b2281620f7de59cbe8d'),
    readSurface('building-roof-atlas-v2.bin.gz','4e240643a81ca5cc0be53fc6cb2bb01e92442435a7e9bc41bae492c586dc9dbc'),
    hasSurfaceData?compressed(revisionsAsset).catch(()=>null):null,
    C.Resource.fetchImage({url:root+'persona-ventana-espe.webp?v=1'}).catch(()=>null),
    hasSurfaceData?compressed(lidarAsset).catch(()=>null):null,
    hasSurfaceData?compressed({file:'cubiertas-lidar-3d-20261127-v1.json.gz',sha256:'5f84037566b3e84fd3eacfb6a4cabfc2e9a9b980702cef4d99617c710b787589',url:'https://raw.githubusercontent.com/stevanjazziel-ui/geoportal-catastro/main/inundaciones-ecuador/'+root+'cubiertas-lidar-3d-20261127-v1.json.gz'}).catch(()=>null):null,
-   hasSurfaceData?fetch(root+'referencia-lidar/ajustes-espe.json').then(r=>r.ok?r.json():null).catch(()=>null):null]);
+   hasSurfaceData?fetch(root+'referencia-lidar/ajustes-espe.json').then(r=>r.ok?r.json():null).catch(()=>null):null,
+   hasSurfaceData?compressed(auditAsset).catch(()=>null):null]);
   const verified=revision?.schema===1&&revision.cadastre.includes(meta.buildings.sha256)?revision:null;
   const lidarHeights=verified&&lidar?.schema===1&&lidar.revisionSha256===revisionsAsset.sha256?lidar:null;
+  const audit=verified&&fullAudit?.schema===1&&fullAudit.revisionSha256===revisionsAsset.sha256&&
+   fullAudit.cadastre.includes(meta.buildings.sha256)?fullAudit:null;
   const styles=materials?.length===json.features.length*5?materials:null;
   const atlas=roofAtlas(roofBytes,json.features.length);
   const origin=C.Cartesian3.fromDegrees(-78.44,-.33);
@@ -834,8 +849,11 @@
   const extras=verified?.extras||[];
   const duplicates=new Set(verified?.duplicateIndices||[]);
   const overlaps=new Set(verified?.overlappingMunicipal||[]);
+  const auditedOverlaps=new Set(audit?.overlap||[]);
   const features=json.features.concat(extras.map(row=>({geometry:row.geometry,osmId:row.osmId,roofColor:row.color,levelState:row.levelState,campusReview:row.campusReview,
-   properties:{floors:row.levels,height_m:row.height,height_origin:row.heightSource}})));
+   properties:{floors:row.levels,height_m:row.height,height_origin:row.heightSource}})),
+   (audit?.new||[]).map(row=>({geometry:row.geometry,osmId:row.id,roofColor:row.color,observedRoof:true,
+    properties:{floors:null,height_m:row.height,height_origin:'lidar-2024'}})));
   const heightSource={'lidar-2024':'estimada con LiDAR municipal de 2024','lidar':'estimada con LiDAR municipal',
    'osm-height':'registrada en OpenStreetMap',
    'osm-levels':'estimada con los pisos de OpenStreetMap','catastro':'estimada con los pisos del catastro',approx:'aproximada para visualización'};
@@ -844,18 +862,29 @@
    if(duplicates.has(index))continue;
    const p=feature.properties,external=Boolean(feature.osmId),change=verified?.revisions[index];
    const buildingKey=external?feature.osmId:'cat-'+index;
+   if(audit?.hide[buildingKey])continue;
    const corrected=campusCorrections?.[buildingKey];
    const geometry=corrected?.geometry??feature.geometry;
    const previousHeight=change?.[0]??p.height_m;
    const measuredHeight=external?lidarHeights?.complementary[feature.osmId]:lidarHeights?.municipal[index];
    const height=corrected?.height??measuredHeight??previousHeight;
-   const levelSource=corrected?'espe':change?.[3]??feature.levelState??(external?'osm':p.floors>=5?'unverified':'catastro');
-   const levels=corrected?.levels??(change?change[1]:p.height_origin.includes('supuesto')?null:p.floors);
+   const auditedLevels=!corrected&&Boolean(audit?.review[buildingKey]);
+   const levelSource=corrected?'espe':auditedLevels?'review':
+    change?.[3]??feature.levelState??(external?'osm':p.floors>=5?'unverified':'catastro');
+   const levels=corrected?.levels??(auditedLevels?null:change?change[1]:p.height_origin.includes('supuesto')?null:p.floors);
+   const roof=verified&&roofModels?.[buildingKey];
    const polygons=geometry.type==='MultiPolygon'?geometry.coordinates:[geometry.coordinates];
    const offset=index*5;
    const source=styles?.[offset+3]??0;
    const style=corrected?3:feature.campusReview?1:styles?.[offset+4]??0;
-   const floorHeight=levelSource==='espe'?height/levels:3;
+   let wallHeight=height;
+   if(roof?.length&&!corrected?.parts){
+    const heights=roof.flatMap(([outer])=>outer.slice(0,-1).map(point=>point[2])).sort((a,b)=>a-b);
+    wallHeight=Math.min(height,heights[Math.floor(heights.length*.25)]??height);
+   }
+   const hasIllustratedWindow=feature.osmId==='w832825964';
+   const floorRows=corrected?.parts?0:hasIllustratedWindow?4:Number.isFinite(levels)?levels:0;
+   const floorHeight=hasIllustratedWindow?3:floorRows>0?Math.max(.95,wallHeight/floorRows):3;
    const seed=((Math.imul(index+1,2654435761)>>>0)%997)/997;
    const rgb=feature.roofColor??(source?Array.from(styles.subarray(offset,offset+3)):roofs[Math.floor(seed*roofs.length)]);
    const color=C.ColorGeometryInstanceAttribute.fromColor(C.Color.fromBytes(...rgb));
@@ -869,11 +898,11 @@
    if(!Number.isFinite(west+east+south+north))continue;
    const needsAnchor=external||p.base_m+height<=low+.25||p.base_m>high+1.5;
    const anchor=needsAnchor?elevation((west+east)/2,(south+north)/2):p.base_m;
-   const base=needsAnchor?Math.min(low-.20,anchor):p.base_m;
+   const base=Math.min(low-.20,anchor);
    const top=anchor+height;
    const illustration=illustratedWindow(feature,local,axes,seed,anchor,floorHeight);
    if(illustration)windowDetail=illustration;
-   const attributes={color,surfaceStyle:attr([anchor,style,seed,floorHeight]),roofRegion,roofBox:attr([0,0,1,1]),
+   const attributes={color,surfaceStyle:attr([anchor,style,seed,floorHeight]),floorRows:attr([floorRows]),roofRegion,roofBox:attr([0,0,1,1]),
     illustratedWindow:attr(illustration?.shader||[0,0,0,0])};
    if(region[2]){
     const lower=C.Matrix4.multiplyByPoint(local,C.Cartesian3.fromDegrees(west,south,top),new C.Cartesian3());
@@ -888,14 +917,15 @@
    const campusName=corrected?.name??feature.campusReview;
    const name=campusName?campusName+' · ':'';
    const footprintSource=campusName?'Huella revisada con LiDAR, ortofoto y documentación del campus. ':
+    feature.observedRoof?'Huella de Microsoft cotejada con cubierta LiDAR y ortofoto municipal. ':
     external?'Huella de OpenStreetMap. '+(feature.roofColor?'Color de cubierta de la ortofoto municipal. ':''):roofSource+' ';
    const heightReview=!corrected&&measuredHeight!==undefined&&Math.abs(height-previousHeight)>=2-1e-6?
     'Altura anterior del visor '+fmt(previousHeight,1)+' m. Diferencia por revisar. ':'';
    const id={building:true,text:name+floorLabel(levels,levelSource)+' · '+fmt(height,1)+' m de altura '+heightSource[reference]+
     '. '+footprintSource+
-    heightReview+(overlaps.has(index)?'Cruce con otra huella municipal por revisar. ':'')+(corrected?.note??'Fachada aproximada.')};
+    (auditedLevels?'La altura medida difiere del número de pisos registrado. ':'')+heightReview+
+    ((audit?auditedOverlaps.has(buildingKey):overlaps.has(index))?'Cruce con otra huella por revisar. ':'')+(corrected?.note??'Fachada aproximada.')};
    if(measuredHeight!==undefined&&polygons.some(coords=>coords[0].length>=4))lidarCount++;
-   const roof=verified&&roofModels?.[buildingKey];
    const destination=illustration?portraitInstances:external?extraInstances:instances;
    if(corrected?.parts){
     for(const part of corrected.parts){
@@ -937,6 +967,8 @@
     appearance:buildingAppearance(roofAtlas(null,0),axes,origin),asynchronous:true,show:false}));
    viewer.cesiumWidget.creditDisplay.addStaticCredit(new C.Credit('<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap colaboradores · ODbL</a>',true));
   }
+  if(audit?.new.length)viewer.cesiumWidget.creditDisplay.addStaticCredit(new C.Credit(
+   '<a href="https://github.com/microsoft/GlobalMLBuildingFootprints" target="_blank" rel="noopener">Microsoft Building Footprints · CDLA Permissive 2.0</a>',true));
   if(portraitInstances.length){
    portraitBuilding=viewer.scene.primitives.add(new C.Primitive({geometryInstances:portraitInstances,
     appearance:buildingAppearance(roofAtlas(null,0),axes,origin,windowPortrait),asynchronous:false,show:false}));
@@ -955,7 +987,9 @@
    (duplicates.size?' '+fmt(duplicates.size,0)+' huellas municipales repetidas representadas una sola vez.':'')+
    (roofCount?' '+fmt(roofCount,0)+' cubiertas 3D modeladas con LiDAR.':'')+
    (detailed?' '+fmt(detailed,0)+' con textura de cubierta aérea.':'')+
-   (extras.length?' '+fmt(extras.length,0)+' huellas complementarias de OpenStreetMap.':'');
+   (extras.length?' '+fmt(extras.length,0)+' huellas complementarias de OpenStreetMap.':'')+
+   (audit?.summary.duplicados_nuevos?' '+fmt(audit.summary.duplicados_nuevos,0)+' superposiciones repetidas corregidas en Sangolquí.':'')+
+   (audit?.new.length?' '+fmt(audit.new.length,0)+' edificios adicionales contrastados con LiDAR y ortofoto.':'');
   viewer.scene.requestRender();
   if(windowDetail&&params.get('detalle')==='ventana')focusIllustratedWindow(windowDetail);
   void addCesiumBuildings();
