@@ -4,13 +4,13 @@ window.attachLidarReferences = (viewer, C, orderSurfaceLayers) => {
  const path = 'data/sangolqui-lahars/referencia-lidar/';
  const controls = {relief: $('lidarRelief'), profiles: $('lidarProfiles'), bridges: $('lidarBridges')};
  const entries = new Map();
- let data, imagery;
+ let dataRequest, imagery, inspectedLayer;
 
  const format = n => n.toLocaleString('es-EC', {maximumFractionDigits: 2});
  const color = hex => C.Color.fromCssColorString(hex);
  const riverColor = name => color(name === 'Pita' ? '#66e9fb' : '#f9ace9');
  const layers = {
-  async relief() {
+  async relief(data) {
    const provider = await C.SingleTileImageryProvider.fromUrl(path + 'relieve.webp', {
     rectangle: C.Rectangle.fromDegrees(...data.relief.bounds),
     credit: 'Relieve derivado del LiDAR municipal de Rumiñahui, 2024'
@@ -20,26 +20,41 @@ window.attachLidarReferences = (viewer, C, orderSurfaceLayers) => {
    orderSurfaceLayers();
    return imagery;
   },
-  async profiles() {
+  async profiles(data) {
    const group = new C.CustomDataSource('Perfiles LiDAR');
    for (const row of data.profiles) {
+    const [start, end] = [row.line[0], row.line.at(-1)];
     group.entities.add({name: row.id, properties: {lidarRecord: row},
-     polyline: {positions: C.Cartesian3.fromDegreesArray(row.line.flat()), width: 3,
-      material: riverColor(row.river), clampToGround: true, classificationType: C.ClassificationType.TERRAIN}});
+     polyline: {positions: C.Cartesian3.fromDegreesArray([...start, ...end]), width: 2.5,
+      material: riverColor(row.river).withAlpha(.76), clampToGround: true, classificationType: C.ClassificationType.TERRAIN}});
    }
    return viewer.dataSources.add(group);
   },
-  async bridges() {
+  async bridges(data) {
    const group = new C.CustomDataSource('Puentes revisados');
    for (const row of data.bridges) {
     group.entities.add({name: row.name, position: C.Cartesian3.fromDegrees(...row.point),
      properties: {lidarRecord: row}, point: {heightReference: C.HeightReference.CLAMP_TO_GROUND,
-      pixelSize: 10, color: color('#fff0b3'), outlineColor: color('#4a330e'),
+      pixelSize: 8, color: color('#fff0b3'), outlineColor: color('#4a330e'),
       outlineWidth: 2, disableDepthTestDistance: Infinity}});
    }
    return viewer.dataSources.add(group);
   }
  };
+
+ function loadData() {
+  dataRequest ??= fetch(path + 'capas.json').then(response => {
+   if (!response.ok) throw new Error('Datos LiDAR indisponibles');
+   return response.json();
+  }).catch(error => { dataRequest = undefined; throw error; });
+  return dataRequest;
+ }
+
+ function closeInfo() {
+  $('lidarInfo').hidden = true;
+  inspectedLayer = undefined;
+ }
+ $('lidarClose').addEventListener('click', closeInfo);
 
  function plot(row, canvas) {
   const values = row.levels.filter(z => z !== null);
@@ -83,13 +98,9 @@ window.attachLidarReferences = (viewer, C, orderSurfaceLayers) => {
   if (!control.checked && !entries.has(key)) return;
   control.disabled = true;
   try {
-   if (!data) {
-    const response = await fetch(path + 'capas.json');
-    if (!response.ok) throw new Error('Datos LiDAR indisponibles');
-    data = await response.json();
-   }
-   if (!entries.has(key)) entries.set(key, await layers[key]());
+   if (!entries.has(key)) entries.set(key, await layers[key](await loadData()));
    entries.get(key).show = control.checked;
+   if (!control.checked && inspectedLayer === key) closeInfo();
    const status = controls.profiles.checked || controls.bridges.checked
     ? 'Selecciona un perfil o un puente en el mapa para consultar sus datos.'
     : controls.relief.checked ? 'Los vacíos muestran zonas sin suelo observado en el LiDAR.'
@@ -107,13 +118,14 @@ window.attachLidarReferences = (viewer, C, orderSurfaceLayers) => {
  for (const key of Object.keys(controls)) {
   controls[key].disabled = false;
   controls[key].addEventListener('change', () => { void sync(key); });
+  if (controls[key].checked) void sync(key);
  }
  return {
   raiseRelief() { if (imagery) viewer.imageryLayers.raiseToTop(imagery); },
   pick(entity) {
    const row = entity?.properties?.lidarRecord?.getValue(viewer.clock.currentTime);
    if (!row) return;
-   $('lidarReference').open = true;
+   inspectedLayer = row.levels ? 'profiles' : 'bridges';
    $('lidarInfo').hidden = false;
    const canvas = $('lidarProfileChart');
    canvas.hidden = !row.levels;

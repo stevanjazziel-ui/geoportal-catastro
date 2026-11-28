@@ -67,6 +67,27 @@
 .legend-scale b { width: 100%; }
 #timeLabel { font-weight: 700; }
 
+.lidar-tools {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  border-top: 1px solid #d9ded5;
+  padding-top: 8px;
+}
+.lidar-tools label { display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; }
+.lidar-tools input { margin: 0; accent-color: #276879; }
+.lidar-tools i { margin: 0; }
+.lidar-profile-key { background: linear-gradient(90deg, #268597 50%, #7e43a1 50%); border-radius: 2px; }
+.lidar-bridge-key { background: #ffe4a2; border: 1px solid #73531d; border-radius: 50%; }
+.lidar-status { width: 100%; color: #425651; }
+.lidar-info { width: 100%; border-top: 1px solid #d9ded5; padding-top: 8px; }
+.lidar-info-header { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13px; }
+.lidar-info-header button { min-width: 28px; min-height: 28px; padding: 0; font-size: 18px; }
+.lidar-info p { margin: 4px 0 8px; }
+.lidar-info canvas { display: block; width: 100%; max-height: 135px; object-fit: contain; }
+
 @media (max-width: 760px) {
   .map {
     height: auto;
